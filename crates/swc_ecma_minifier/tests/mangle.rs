@@ -360,3 +360,267 @@ class s {
         },
     )
 }
+
+#[test]
+fn issue_11027_inherited_class_property_collision() {
+    // The property mangler must not produce a name that collides with a
+    // property already used in the program. In particular, `someField`
+    // must not be mangled to `e`, since `e` is already a property on the
+    // base class.
+    let src = "class Class1 {
+    e = 1;
+}
+class Class2 extends Class1 {
+    someField = 2;
+}
+console.log(new Class2().e);";
+    let expected = "class e {
+    e = 1;
+}
+class s extends e {
+    s = 2;
+}
+console.log(new s().e);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn issue_11027_deep_inheritance_chain() {
+    // Multi-level inheritance with multiple potentially-colliding fields.
+    // None of the mangled names for `len`, `fieldA`, `fieldB`, `fieldC` may
+    // collide with the inherited `e`, `len`, or with each other.
+    let src = "class Class1 {
+    e = 1;
+}
+class Class2 extends Class1 {
+    len = 2;
+}
+class Class3 extends Class2 {
+    fieldA = 3;
+    fieldB = 4;
+    fieldC = 5;
+}
+console.log(new Class3().e, new Class3().len, new Class3().fieldA, new Class3().fieldB, new \
+               Class3().fieldC);";
+    let expected = "class e {
+    e = 1;
+}
+class l extends e {
+    l = 2;
+}
+class n extends l {
+    n = 3;
+    d = 4;
+    s = 5;
+}
+console.log(new n().e, new n().l, new n().n, new n().d, new n().s);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn issue_11027_object_literal_and_class_share_names() {
+    // Object literal properties go through the same mangler as class fields.
+    // Mangled names for `someField`, `otherField`, `thirdField` must not
+    // collide with `e` or `valueOf` already used in the program.
+    let src = "const cfg = { e: 1, valueOf: 2 };
+class Wrapper {
+    someField = 10;
+    otherField = 20;
+    thirdField = 30;
+}
+console.log(cfg.e, cfg.valueOf, new Wrapper().someField, new Wrapper().otherField, new \
+               Wrapper().thirdField);";
+    let expected = "const e = {
+    e: 1,
+    valueOf: 2
+};
+class l {
+    l = 10;
+    d = 20;
+    i = 30;
+}
+console.log(e.e, e.valueOf, new l().l, new l().d, new l().i);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn issue_11027_methods_and_getters_do_not_collide() {
+    // Mix of getter on the base, field on the derived, plus methods on both.
+    // The mangled names for `aField`, `bField`, `extra` must not collide
+    // with the inherited `e` (getter) or `method`.
+    let src = "class Base {
+    get e() { return 1; }
+    method() { return 2; }
+}
+class Derived extends Base {
+    aField = 3;
+    bField = 4;
+    extra() { return 5; }
+}
+console.log(new Derived().e, new Derived().method(), new Derived().extra(), new Derived().aField, \
+               new Derived().bField);";
+    let expected = "class e {
+    get e() {
+        return 1;
+    }
+    method() {
+        return 2;
+    }
+}
+class n extends e {
+    n = 3;
+    t = 4;
+    r() {
+        return 5;
+    }
+}
+console.log(new n().e, new n().method(), new n().r(), new n().n, new n().t);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn issue_11027_many_properties_stress_test() {
+    // Stress test: a base class declares one-letter properties which are also
+    // present in the DOM/JS property lists, followed by a subclass declaring
+    // 25 fresh fields. Those base properties are preserved and recorded as
+    // unmangleable because they appear in this program, so generating many
+    // fresh names repeatedly exercises the collision-avoidance loop in
+    // `gen_name`.
+    let src = "class Base {
+    a = 1;
+    b = 2;
+    c = 3;
+    d = 4;
+    e = 5;
+    f = 6;
+}
+class Derived extends Base {
+    fieldAlpha = 10;
+    fieldBeta = 11;
+    fieldGamma = 12;
+    fieldDelta = 13;
+    fieldEpsilon = 14;
+    fieldZeta = 15;
+    fieldEta = 16;
+    fieldTheta = 17;
+    fieldIota = 18;
+    fieldKappa = 19;
+    fieldLambda = 20;
+    fieldMu = 21;
+    fieldNu = 22;
+    fieldXi = 23;
+    fieldOmicron = 24;
+    fieldPi = 25;
+    fieldRho = 26;
+    fieldSigma = 27;
+    fieldTau = 28;
+    fieldUpsilon = 29;
+    fieldPhi = 30;
+    fieldChi = 31;
+    fieldPsi = 32;
+    fieldOmega = 33;
+    fieldFinal = 34;
+}
+const obj = new Derived();
+console.log(obj.a, obj.b, obj.c, obj.d, obj.e, obj.f);
+console.log(obj.fieldAlpha, obj.fieldBeta, obj.fieldGamma, obj.fieldDelta);
+console.log(obj.fieldEpsilon, obj.fieldZeta, obj.fieldEta, obj.fieldTheta);
+console.log(obj.fieldIota, obj.fieldKappa, obj.fieldLambda, obj.fieldMu);
+console.log(obj.fieldNu, obj.fieldXi, obj.fieldOmicron, obj.fieldPi);
+console.log(obj.fieldRho, obj.fieldSigma, obj.fieldTau, obj.fieldUpsilon);
+console.log(obj.fieldPhi, obj.fieldChi, obj.fieldPsi, obj.fieldOmega, obj.fieldFinal);";
+    let expected = "class i {
+    a = 1;
+    b = 2;
+    c = 3;
+    d = 4;
+    e = 5;
+    f = 6;
+}
+class l extends i {
+    i = 10;
+    l = 11;
+    o = 12;
+    t = 13;
+    m = 14;
+    s = 15;
+    g = 16;
+    n = 17;
+    h = 18;
+    p = 19;
+    u = 20;
+    P = 21;
+    E = 22;
+    O = 23;
+    T = 24;
+    r = 25;
+    A = 26;
+    B = 27;
+    C = 28;
+    D = 29;
+    F = 30;
+    G = 31;
+    I = 32;
+    K = 33;
+    L = 34;
+}
+const e = new l();
+console.log(e.a, e.b, e.c, e.d, e.e, e.f);
+console.log(e.i, e.l, e.o, e.t);
+console.log(e.m, e.s, e.g, e.n);
+console.log(e.h, e.p, e.u, e.P);
+console.log(e.E, e.O, e.T, e.r);
+console.log(e.A, e.B, e.C, e.D);
+console.log(e.F, e.G, e.I, e.K, e.L);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}

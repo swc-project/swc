@@ -20,7 +20,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{
         terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MangleOptions,
-        MinifyOptions,
+        ManglePropertiesOptions, MinifyOptions,
     },
 };
 use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
@@ -235,6 +235,52 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
         })
         .unwrap();
     }
+}
+
+fn run_mangle_props_exec_test(input_src: &str) {
+    let expected_output = stdout_of(input_src).unwrap();
+
+    eprintln!(
+        "---- {} -----\n{}",
+        Color::Green.paint("Expected"),
+        expected_output
+    );
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "mangle-props").entered();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            input_src,
+            None,
+            Some(MangleOptions {
+                top_level: Some(true),
+                props: Some(ManglePropertiesOptions::default()),
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
 }
 
 fn run_default_exec_test(input_src: &str) {
@@ -8865,6 +8911,127 @@ for (const tmp of test) {
 }"#;
 
     run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11027_many_mangle_props_runtime_collision() {
+    let src = r#"class Base {
+    a = "base-a";
+    b = "base-b";
+    c = "base-c";
+    d = "base-d";
+    e = "base-e";
+    f = "base-f";
+    n = "base-n";
+    r = "base-r";
+    s = "base-s";
+    w = "base-w";
+    x = "base-x";
+    y = "base-y";
+    z = "base-z";
+    E = "base-E";
+}
+Object.defineProperty(Base.prototype, "Q", {
+    get() {
+        return "base-Q:" + this.a + ":" + this.z;
+    }
+});
+class Derived extends Base {
+    fieldAlpha = "derived-alpha";
+    fieldBeta = "derived-beta";
+    fieldGamma = "derived-gamma";
+    fieldDelta = "derived-delta";
+    fieldEpsilon = "derived-epsilon";
+    fieldZeta = "derived-zeta";
+    fieldEta = "derived-eta";
+    fieldTheta = "derived-theta";
+    fieldIota = "derived-iota";
+    fieldKappa = "derived-kappa";
+    fieldLambda = "derived-lambda";
+    fieldMu = "derived-mu";
+    fieldNu = "derived-nu";
+    fieldXi = "derived-xi";
+    fieldOmicron = "derived-omicron";
+    fieldPi = "derived-pi";
+    fieldRho = "derived-rho";
+    fieldSigma = "derived-sigma";
+    fieldTau = "derived-tau";
+    fieldUpsilon = "derived-upsilon";
+    fieldPhi = "derived-phi";
+    fieldChi = "derived-chi";
+    fieldPsi = "derived-psi";
+    fieldOmega = "derived-omega";
+    fieldFinal = "derived-final";
+
+    methodAlpha() {
+        return this.fieldAlpha + ":" + this.fieldBeta;
+    }
+
+    methodBeta() {
+        return this.fieldGamma + ":" + this.fieldDelta;
+    }
+
+    methodGamma() {
+        return this.fieldEpsilon + ":" + this.fieldZeta;
+    }
+
+    methodDelta() {
+        return this.fieldEta + ":" + this.fieldTheta;
+    }
+
+    methodEpsilon() {
+        return this.fieldIota + ":" + this.fieldKappa;
+    }
+
+    methodZeta() {
+        return this.fieldLambda + ":" + this.fieldMu;
+    }
+
+    readQ() {
+        return super.Q + ":" + this.fieldNu;
+    }
+}
+const d = new Derived();
+const baseKeys = ["a", "b", "c", "d", "e", "f", "n", "r", "s", "w", "x", "y", "z", "E", "Q"];
+console.log(baseKeys.map((key) => d[key]).join("|"));
+console.log(
+    d.fieldAlpha,
+    d.fieldBeta,
+    d.fieldGamma,
+    d.fieldDelta,
+    d.fieldEpsilon,
+    d.fieldZeta,
+    d.fieldEta,
+    d.fieldTheta,
+    d.fieldIota,
+    d.fieldKappa,
+    d.fieldLambda,
+    d.fieldMu,
+    d.fieldNu,
+    d.fieldXi,
+    d.fieldOmicron,
+    d.fieldPi,
+    d.fieldRho,
+    d.fieldSigma,
+    d.fieldTau,
+    d.fieldUpsilon,
+    d.fieldPhi,
+    d.fieldChi,
+    d.fieldPsi,
+    d.fieldOmega,
+    d.fieldFinal
+);
+console.log(
+    d.methodAlpha(),
+    d.methodBeta(),
+    d.methodGamma(),
+    d.methodDelta(),
+    d.methodEpsilon(),
+    d.methodZeta(),
+    d.readQ()
+);"#;
+
+    run_mangle_props_exec_test(src);
 }
 
 #[test]
