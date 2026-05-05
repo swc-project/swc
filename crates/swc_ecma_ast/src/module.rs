@@ -2,7 +2,7 @@ use is_macro::Is;
 use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
-use crate::{module_decl::ModuleDecl, stmt::Stmt};
+use crate::{module_decl::ModuleDecl, stmt::Stmt, NodeId};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -27,6 +27,9 @@ impl Take for Program {
 pub struct Module {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub body: Vec<ModuleItem>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "interpreter"))]
@@ -45,6 +48,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Module {
         let body = u.arbitrary()?;
         Ok(Self {
             span,
+            node_id: Default::default(),
             body,
             shebang: None,
         })
@@ -55,6 +59,7 @@ impl Take for Module {
     fn dummy() -> Self {
         Module {
             span: DUMMY_SP,
+            node_id: Default::default(),
             body: Take::dummy(),
             shebang: Take::dummy(),
         }
@@ -66,6 +71,9 @@ impl Take for Module {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Script {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub body: Vec<Stmt>,
 
@@ -85,6 +93,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Script {
         let body = u.arbitrary()?;
         Ok(Self {
             span,
+            node_id: Default::default(),
             body,
             shebang: None,
         })
@@ -95,6 +104,7 @@ impl Take for Script {
     fn dummy() -> Self {
         Script {
             span: DUMMY_SP,
+            node_id: Default::default(),
             body: Take::dummy(),
             shebang: Take::dummy(),
         }

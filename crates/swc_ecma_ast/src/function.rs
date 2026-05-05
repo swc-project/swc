@@ -6,6 +6,7 @@ use crate::{
     pat::Pat,
     stmt::BlockStmt,
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
+    NodeId,
 };
 
 /// Common parts of function and method.
@@ -22,6 +23,9 @@ pub struct Function {
     pub span: Span,
 
     pub ctxt: SyntaxContext,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(

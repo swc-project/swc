@@ -224,6 +224,7 @@ impl<I: Tokens> Parser<I> {
 
         let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
             span: self.span(start),
+            node_id: Default::default(),
             body,
             shebang,
         })?;
@@ -248,6 +249,7 @@ impl<I: Tokens> Parser<I> {
 
         let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
             span: self.span(start),
+            node_id: Default::default(),
             body,
             shebang,
         })?;
@@ -275,6 +277,7 @@ impl<I: Tokens> Parser<I> {
             .parse_module_item_block_body(true, None)
             .map(|body| Module {
                 span: self.span(start),
+                node_id: Default::default(),
                 body,
                 shebang,
             })?;
@@ -318,6 +321,7 @@ impl<I: Tokens> Parser<I> {
             }
             Program::Module(Module {
                 span: self.span(start),
+                node_id: Default::default(),
                 body,
                 shebang,
             })
@@ -333,6 +337,7 @@ impl<I: Tokens> Parser<I> {
                 .collect();
             Program::Script(Script {
                 span: self.span(start),
+                node_id: Default::default(),
                 body,
                 shebang,
             })
@@ -360,6 +365,7 @@ impl<I: Tokens> Parser<I> {
             .parse_module_item_block_body(true, None)
             .map(|body| Module {
                 span: self.span(start),
+                node_id: Default::default(),
                 body,
                 shebang,
             })?;

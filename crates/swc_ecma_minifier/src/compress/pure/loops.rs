@@ -72,6 +72,7 @@ impl Pure<'_> {
                 report_change!("loops: Converting a while loop to a for loop");
                 *s = ForStmt {
                     span: stmt.span,
+                    node_id: Default::default(),
                     init: None,
                     test: Some(stmt.test.take()),
                     update: None,
@@ -87,6 +88,7 @@ impl Pure<'_> {
 
                     *s = ForStmt {
                         span: stmt.span,
+                        node_id: Default::default(),
                         init: None,
                         test: Some(stmt.test.take()),
                         update: None,

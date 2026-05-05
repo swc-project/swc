@@ -45,6 +45,7 @@ impl Modules {
 
         let module = Module {
             span: DUMMY_SP,
+            node_id: Default::default(),
             body: buf,
             shebang: None,
         };

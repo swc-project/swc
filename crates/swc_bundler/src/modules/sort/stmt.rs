@@ -841,6 +841,7 @@ mod tests {
                         "first item",
                         &t.cm,
                         &Module {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             body: vec![module.body[dep].clone()],
                             shebang: None,
@@ -850,6 +851,7 @@ mod tests {
                         "second item",
                         &t.cm,
                         &Module {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             body: vec![module.body[i].clone()],
                             shebang: None,

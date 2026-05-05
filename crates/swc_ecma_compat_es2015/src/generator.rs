@@ -1858,6 +1858,7 @@ impl Generator {
             self.emit_stmt(
                 ForInStmt {
                     span: DUMMY_SP,
+                    node_id: Default::default(),
                     left: ForHead::Pat(key.clone().into()),
                     right: Box::new(obj.clone().into()),
                     body: Box::new(Stmt::Expr(ExprStmt {
@@ -2104,6 +2105,7 @@ impl Generator {
                     self.emit_stmt(
                         SwitchStmt {
                             span: DUMMY_SP,
+                            node_id: Default::default(),
                             discriminant: expression.clone().into(),
                             cases: take(&mut pending_clauses),
                         }
@@ -2973,6 +2975,7 @@ impl Generator {
             let label_expr = self.state.clone().make_member(quote_ident!("label"));
             let switch_stmt = SwitchStmt {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 discriminant: label_expr.into(),
                 cases: clauses,
             };

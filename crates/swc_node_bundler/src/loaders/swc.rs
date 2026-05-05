@@ -95,6 +95,7 @@ impl SwcLoader {
                 return Ok(ModuleData {
                     fm,
                     module: Module {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         body: Default::default(),
                         shebang: Default::default(),

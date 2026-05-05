@@ -12,6 +12,7 @@
 pub use num_bigint::BigInt as BigIntValue;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+use swc_atoms::Atom;
 use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
 
 pub use self::{
@@ -73,6 +74,112 @@ pub use self::{
         TsUnionOrIntersectionType, TsUnionType,
     },
 };
+
+/// A stable identifier assigned to AST nodes by analysis passes.
+///
+/// `0` means the node has not been assigned an id yet. Parsers and AST
+/// builders should leave this as the default value; passes that need node
+/// identity are responsible for assigning deterministic ids.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde-impl", serde(transparent))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
+pub struct NodeId(pub u32);
+
+impl NodeId {
+    pub const INVALID: Self = Self(0);
+
+    #[inline]
+    pub const fn as_u32(self) -> u32 {
+        self.0
+    }
+
+    #[inline]
+    pub const fn is_invalid(self) -> bool {
+        self.0 == Self::INVALID.0
+    }
+}
+
+/// A stable identifier for lexical/function scopes.
+///
+/// `0` means unassigned, while [`ScopeId::UNRESOLVED`] is used for references
+/// that do not resolve to a binding in the current AST.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde-impl", serde(transparent))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
+pub struct ScopeId(pub u32);
+
+impl ScopeId {
+    pub const INVALID: Self = Self(0);
+    pub const UNRESOLVED: Self = Self(u32::MAX);
+
+    #[inline]
+    pub const fn from_node_id(node_id: NodeId) -> Self {
+        Self(node_id.0)
+    }
+
+    #[inline]
+    pub const fn as_node_id(self) -> NodeId {
+        NodeId(self.0)
+    }
+
+    #[inline]
+    pub const fn as_u32(self) -> u32 {
+        self.0
+    }
+
+    #[inline]
+    pub const fn is_invalid(self) -> bool {
+        self.0 == Self::INVALID.0
+    }
+
+    #[inline]
+    pub const fn is_unresolved(self) -> bool {
+        self.0 == Self::UNRESOLVED.0
+    }
+}
+
+/// Identifier key based on the resolver-assigned scope id.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
+pub struct BindingId {
+    pub sym: Atom,
+    pub scope_id: ScopeId,
+}
 
 #[macro_use]
 mod macros;
@@ -508,14 +615,14 @@ mod rkyv_layout_assert {
         };
     }
 
-    assert_size!(ArchivedProgram, 32);
-    assert_size!(ArchivedModule, 28);
-    assert_size!(ArchivedScript, 28);
-    assert_size!(ArchivedModuleItem, 52);
+    assert_size!(ArchivedProgram, 36);
+    assert_size!(ArchivedModule, 32);
+    assert_size!(ArchivedScript, 32);
+    assert_size!(ArchivedModuleItem, 56);
 
     // Class types
     assert_size!(ArchivedAutoAccessor, 96);
-    assert_size!(ArchivedClass, 64);
+    assert_size!(ArchivedClass, 68);
     assert_size!(ArchivedClassMember, 104);
     assert_size!(ArchivedClassMethod, 64);
     assert_size!(ArchivedClassProp, 88);
@@ -525,32 +632,32 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedMethodKind, 1);
     assert_size!(ArchivedPrivateMethod, 36);
     assert_size!(ArchivedPrivateProp, 64);
-    assert_size!(ArchivedStaticBlock, 28);
+    assert_size!(ArchivedStaticBlock, 32);
 
     // Declaration types
-    assert_size!(ArchivedClassDecl, 32);
-    assert_size!(ArchivedDecl, 36);
-    assert_size!(ArchivedFnDecl, 32);
+    assert_size!(ArchivedClassDecl, 36);
+    assert_size!(ArchivedDecl, 40);
+    assert_size!(ArchivedFnDecl, 36);
     assert_size!(ArchivedUsingDecl, 20);
     assert_size!(ArchivedVarDecl, 24);
     assert_size!(ArchivedVarDeclKind, 1);
-    assert_size!(ArchivedVarDeclarator, 56);
+    assert_size!(ArchivedVarDeclarator, 60);
 
     // Expression types
     assert_size!(ArchivedArrayLit, 16);
-    assert_size!(ArchivedArrowExpr, 44);
+    assert_size!(ArchivedArrowExpr, 48);
     assert_size!(ArchivedAssignExpr, 60);
     assert_size!(ArchivedAssignTarget, 44);
     assert_size!(ArchivedAwaitExpr, 12);
     assert_size!(ArchivedBinExpr, 20);
-    assert_size!(ArchivedBlockStmtOrExpr, 24);
+    assert_size!(ArchivedBlockStmtOrExpr, 28);
     assert_size!(ArchivedCallExpr, 44);
     assert_size!(ArchivedCallee, 16);
-    assert_size!(ArchivedClassExpr, 32);
+    assert_size!(ArchivedClassExpr, 36);
     assert_size!(ArchivedCondExpr, 20);
     assert_size!(ArchivedExpr, 64);
     assert_size!(ArchivedExprOrSpread, 16);
-    assert_size!(ArchivedFnExpr, 32);
+    assert_size!(ArchivedFnExpr, 36);
     assert_size!(ArchivedImport, 12);
     assert_size!(ArchivedMemberExpr, 32);
     assert_size!(ArchivedMemberProp, 20);
@@ -577,13 +684,13 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedYieldExpr, 20);
 
     // Function types
-    assert_size!(ArchivedFunction, 72);
-    assert_size!(ArchivedParam, 52);
-    assert_size!(ArchivedParamOrTsParamProp, 60);
+    assert_size!(ArchivedFunction, 80);
+    assert_size!(ArchivedParam, 56);
+    assert_size!(ArchivedParamOrTsParamProp, 64);
 
     // Identifier types
-    assert_size!(ArchivedBindingIdent, 32);
-    assert_size!(ArchivedIdent, 24);
+    assert_size!(ArchivedBindingIdent, 36);
+    assert_size!(ArchivedIdent, 28);
     assert_size!(ArchivedIdentName, 16);
     assert_size!(ArchivedPrivateName, 16);
 
@@ -592,19 +699,19 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedJSXAttrName, 44);
     assert_size!(ArchivedJSXAttrOrSpread, 96);
     assert_size!(ArchivedJSXAttrValue, 36);
-    assert_size!(ArchivedJSXClosingElement, 64);
+    assert_size!(ArchivedJSXClosingElement, 68);
     assert_size!(ArchivedJSXClosingFragment, 8);
-    assert_size!(ArchivedJSXElement, 168);
+    assert_size!(ArchivedJSXElement, 176);
     assert_size!(ArchivedJSXElementChild, 36);
-    assert_size!(ArchivedJSXElementName, 56);
+    assert_size!(ArchivedJSXElementName, 60);
     assert_size!(ArchivedJSXEmptyExpr, 8);
     assert_size!(ArchivedJSXExpr, 12);
     assert_size!(ArchivedJSXExprContainer, 20);
     assert_size!(ArchivedJSXFragment, 32);
-    assert_size!(ArchivedJSXMemberExpr, 52);
+    assert_size!(ArchivedJSXMemberExpr, 56);
     assert_size!(ArchivedJSXNamespacedName, 40);
-    assert_size!(ArchivedJSXObject, 28);
-    assert_size!(ArchivedJSXOpeningElement, 84);
+    assert_size!(ArchivedJSXObject, 32);
+    assert_size!(ArchivedJSXOpeningElement, 88);
     assert_size!(ArchivedJSXOpeningFragment, 8);
     assert_size!(ArchivedJSXSpreadChild, 12);
     assert_size!(ArchivedJSXText, 24);
@@ -619,21 +726,21 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedStr, 28);
 
     // Module declaration types
-    assert_size!(ArchivedDefaultDecl, 36);
+    assert_size!(ArchivedDefaultDecl, 40);
     assert_size!(ArchivedExportAll, 24);
-    assert_size!(ArchivedExportDecl, 44);
-    assert_size!(ArchivedExportDefaultDecl, 44);
+    assert_size!(ArchivedExportDecl, 48);
+    assert_size!(ArchivedExportDefaultDecl, 48);
     assert_size!(ArchivedExportDefaultExpr, 12);
-    assert_size!(ArchivedExportDefaultSpecifier, 24);
+    assert_size!(ArchivedExportDefaultSpecifier, 28);
     assert_size!(ArchivedExportNamedSpecifier, 80);
     assert_size!(ArchivedExportNamespaceSpecifier, 40);
     assert_size!(ArchivedExportSpecifier, 84);
     assert_size!(ArchivedImportDecl, 36);
-    assert_size!(ArchivedImportDefaultSpecifier, 32);
-    assert_size!(ArchivedImportNamedSpecifier, 72);
-    assert_size!(ArchivedImportSpecifier, 76);
-    assert_size!(ArchivedImportStarAsSpecifier, 32);
-    assert_size!(ArchivedModuleDecl, 48);
+    assert_size!(ArchivedImportDefaultSpecifier, 36);
+    assert_size!(ArchivedImportNamedSpecifier, 76);
+    assert_size!(ArchivedImportSpecifier, 80);
+    assert_size!(ArchivedImportStarAsSpecifier, 36);
+    assert_size!(ArchivedModuleDecl, 52);
     assert_size!(ArchivedModuleExportName, 32);
     assert_size!(ArchivedNamedExport, 36);
 
@@ -646,44 +753,44 @@ mod rkyv_layout_assert {
     // Pattern types
     assert_size!(ArchivedArrayPat, 28);
     assert_size!(ArchivedAssignPat, 16);
-    assert_size!(ArchivedAssignPatProp, 48);
+    assert_size!(ArchivedAssignPatProp, 52);
     assert_size!(ArchivedKeyValuePatProp, 48);
     assert_size!(ArchivedObjectPat, 28);
     assert_size!(ArchivedObjectPatProp, 56);
-    assert_size!(ArchivedPat, 36);
+    assert_size!(ArchivedPat, 40);
     assert_size!(ArchivedRestPat, 28);
 
     // Property types
-    assert_size!(ArchivedAssignProp, 36);
+    assert_size!(ArchivedAssignProp, 40);
     assert_size!(ArchivedComputedPropName, 12);
-    assert_size!(ArchivedGetterProp, 80);
+    assert_size!(ArchivedGetterProp, 88);
     assert_size!(ArchivedKeyValueProp, 48);
     assert_size!(ArchivedMethodProp, 48);
-    assert_size!(ArchivedProp, 128);
+    assert_size!(ArchivedProp, 136);
     assert_size!(ArchivedPropName, 40);
-    assert_size!(ArchivedSetterProp, 120);
+    assert_size!(ArchivedSetterProp, 128);
 
     // Statement types
-    assert_size!(ArchivedBlockStmt, 20);
-    assert_size!(ArchivedBreakStmt, 36);
-    assert_size!(ArchivedCatchClause, 68);
-    assert_size!(ArchivedContinueStmt, 36);
+    assert_size!(ArchivedBlockStmt, 24);
+    assert_size!(ArchivedBreakStmt, 40);
+    assert_size!(ArchivedCatchClause, 80);
+    assert_size!(ArchivedContinueStmt, 40);
     assert_size!(ArchivedDebuggerStmt, 8);
     assert_size!(ArchivedDoWhileStmt, 16);
     assert_size!(ArchivedEmptyStmt, 8);
     assert_size!(ArchivedExprStmt, 12);
     assert_size!(ArchivedForHead, 8);
-    assert_size!(ArchivedForInStmt, 24);
-    assert_size!(ArchivedForOfStmt, 28);
-    assert_size!(ArchivedForStmt, 40);
+    assert_size!(ArchivedForInStmt, 28);
+    assert_size!(ArchivedForOfStmt, 32);
+    assert_size!(ArchivedForStmt, 44);
     assert_size!(ArchivedIfStmt, 24);
-    assert_size!(ArchivedLabeledStmt, 36);
+    assert_size!(ArchivedLabeledStmt, 40);
     assert_size!(ArchivedReturnStmt, 16);
-    assert_size!(ArchivedStmt, 44);
+    assert_size!(ArchivedStmt, 48);
     assert_size!(ArchivedSwitchCase, 24);
-    assert_size!(ArchivedSwitchStmt, 20);
+    assert_size!(ArchivedSwitchStmt, 24);
     assert_size!(ArchivedThrowStmt, 12);
-    assert_size!(ArchivedTryStmt, 124);
+    assert_size!(ArchivedTryStmt, 144);
     assert_size!(ArchivedVarDeclOrExpr, 8);
     assert_size!(ArchivedWhileStmt, 16);
     assert_size!(ArchivedWithStmt, 16);
@@ -698,69 +805,69 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedTsConstAssertion, 12);
     assert_size!(ArchivedTsConstructSignatureDecl, 32);
     assert_size!(ArchivedTsConstructorType, 32);
-    assert_size!(ArchivedTsEntityName, 28);
-    assert_size!(ArchivedTsEnumDecl, 44);
+    assert_size!(ArchivedTsEntityName, 32);
+    assert_size!(ArchivedTsEnumDecl, 48);
     assert_size!(ArchivedTsEnumMember, 48);
     assert_size!(ArchivedTsEnumMemberId, 32);
     assert_size!(ArchivedTsExportAssignment, 12);
     assert_size!(ArchivedTsExprWithTypeArgs, 20);
     assert_size!(ArchivedTsExternalModuleRef, 36);
     assert_size!(ArchivedTsFnOrConstructorType, 36);
-    assert_size!(ArchivedTsFnParam, 36);
+    assert_size!(ArchivedTsFnParam, 40);
     assert_size!(ArchivedTsFnType, 28);
     assert_size!(ArchivedTsGetterSignature, 24);
-    assert_size!(ArchivedTsImportEqualsDecl, 76);
-    assert_size!(ArchivedTsImportType, 92);
+    assert_size!(ArchivedTsImportEqualsDecl, 80);
+    assert_size!(ArchivedTsImportType, 96);
     assert_size!(ArchivedTsIndexSignature, 28);
     assert_size!(ArchivedTsIndexedAccessType, 20);
-    assert_size!(ArchivedTsInferType, 60);
+    assert_size!(ArchivedTsInferType, 64);
     assert_size!(ArchivedTsInstantiation, 16);
     assert_size!(ArchivedTsInterfaceBody, 16);
-    assert_size!(ArchivedTsInterfaceDecl, 68);
+    assert_size!(ArchivedTsInterfaceDecl, 72);
     assert_size!(ArchivedTsIntersectionType, 16);
     assert_size!(ArchivedTsKeywordType, 12);
     assert_size!(ArchivedTsKeywordTypeKind, 1);
     assert_size!(ArchivedTsLit, 40);
     assert_size!(ArchivedTsLitType, 48);
-    assert_size!(ArchivedTsMappedType, 84);
+    assert_size!(ArchivedTsMappedType, 88);
     assert_size!(ArchivedTsMethodSignature, 40);
     assert_size!(ArchivedTsModuleBlock, 16);
-    assert_size!(ArchivedTsModuleDecl, 92);
+    assert_size!(ArchivedTsModuleDecl, 96);
     assert_size!(ArchivedTsModuleName, 32);
     assert_size!(ArchivedTsModuleRef, 40);
-    assert_size!(ArchivedTsNamespaceBody, 44);
-    assert_size!(ArchivedTsNamespaceDecl, 40);
-    assert_size!(ArchivedTsNamespaceExportDecl, 32);
+    assert_size!(ArchivedTsNamespaceBody, 48);
+    assert_size!(ArchivedTsNamespaceDecl, 44);
+    assert_size!(ArchivedTsNamespaceExportDecl, 36);
     assert_size!(ArchivedTsNonNullExpr, 12);
     assert_size!(ArchivedTsOptionalType, 12);
-    assert_size!(ArchivedTsParamProp, 56);
-    assert_size!(ArchivedTsParamPropParam, 36);
+    assert_size!(ArchivedTsParamProp, 60);
+    assert_size!(ArchivedTsParamPropParam, 40);
     assert_size!(ArchivedTsParenthesizedType, 12);
     assert_size!(ArchivedTsPropertySignature, 28);
-    assert_size!(ArchivedTsQualifiedName, 52);
+    assert_size!(ArchivedTsQualifiedName, 56);
     assert_size!(ArchivedTsRestType, 12);
     assert_size!(ArchivedTsSatisfiesExpr, 16);
-    assert_size!(ArchivedTsSetterSignature, 52);
+    assert_size!(ArchivedTsSetterSignature, 56);
     assert_size!(ArchivedTsThisType, 8);
-    assert_size!(ArchivedTsThisTypeOrIdent, 28);
+    assert_size!(ArchivedTsThisTypeOrIdent, 32);
     assert_size!(ArchivedTsTplLitType, 24);
-    assert_size!(ArchivedTsTupleElement, 52);
+    assert_size!(ArchivedTsTupleElement, 56);
     assert_size!(ArchivedTsTupleType, 16);
     assert_size!(ArchivedTsType, 120);
-    assert_size!(ArchivedTsTypeAliasDecl, 48);
+    assert_size!(ArchivedTsTypeAliasDecl, 52);
     assert_size!(ArchivedTsTypeAnn, 12);
     assert_size!(ArchivedTsTypeAssertion, 16);
-    assert_size!(ArchivedTsTypeElement, 56);
+    assert_size!(ArchivedTsTypeElement, 60);
     assert_size!(ArchivedTsTypeLit, 16);
     assert_size!(ArchivedTsTypeOperator, 16);
     assert_size!(ArchivedTsTypeOperatorOp, 1);
-    assert_size!(ArchivedTsTypeParam, 52);
+    assert_size!(ArchivedTsTypeParam, 56);
     assert_size!(ArchivedTsTypeParamDecl, 16);
     assert_size!(ArchivedTsTypeParamInstantiation, 16);
-    assert_size!(ArchivedTsTypePredicate, 48);
-    assert_size!(ArchivedTsTypeQuery, 112);
-    assert_size!(ArchivedTsTypeQueryExpr, 96);
-    assert_size!(ArchivedTsTypeRef, 44);
+    assert_size!(ArchivedTsTypePredicate, 52);
+    assert_size!(ArchivedTsTypeQuery, 116);
+    assert_size!(ArchivedTsTypeQueryExpr, 100);
+    assert_size!(ArchivedTsTypeRef, 48);
     assert_size!(ArchivedTsUnionOrIntersectionType, 20);
     assert_size!(ArchivedTsUnionType, 16);
 }

@@ -70,6 +70,7 @@ impl_struct!(FnExpr, [ident, function]);
 impl_struct!(
     ArrowExpr,
     [
+        node_id,
         span,
         ctxt,
         params,
@@ -112,6 +113,7 @@ impl_struct!(ParenExpr, [span, expr]);
 impl_struct!(
     Function,
     [
+        node_id,
         ctxt,
         params,
         decorators,

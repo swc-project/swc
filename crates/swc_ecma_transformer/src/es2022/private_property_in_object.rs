@@ -307,6 +307,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 span: DUMMY_SP,
                 callee: ArrowExpr {
                     span: DUMMY_SP,
+                    node_id: Default::default(),
                     params: Default::default(),
                     body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
                     is_async: false,

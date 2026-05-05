@@ -159,6 +159,7 @@ impl Swcify for ForInStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ForInStmt {
             span: ctx.span(&self.base),
+            node_id: Default::default(),
             left: self.left.swcify(ctx),
             right: self.right.swcify(ctx),
             body: Box::new(self.body.swcify(ctx).expect_stmt()),
@@ -183,6 +184,7 @@ impl Swcify for ForStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ForStmt {
             span: ctx.span(&self.base),
+            node_id: Default::default(),
             init: self.init.swcify(ctx),
             test: self.test.swcify(ctx),
             update: self.update.swcify(ctx),
@@ -269,6 +271,7 @@ impl Swcify for SwitchStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         SwitchStmt {
             span: ctx.span(&self.base),
+            node_id: Default::default(),
             discriminant: self.discriminant.swcify(ctx),
             cases: self.cases.swcify(ctx),
         }
@@ -322,6 +325,7 @@ impl Swcify for swc_estree_ast::CatchClause {
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::CatchClause {
             span: ctx.span(&self.base),
+            node_id: Default::default(),
             param: self.param.swcify(ctx),
             body: self.body.swcify(ctx),
         }
@@ -595,6 +599,7 @@ impl Swcify for ForOfStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ForOfStmt {
             span: ctx.span(&self.base),
+            node_id: Default::default(),
             is_await: false,
             left: self.left.swcify(ctx),
             right: self.right.swcify(ctx),

@@ -148,9 +148,11 @@ impl ClassStaticBlock {
     fn wrap_in_iife(&self, stmts: Vec<Stmt>) -> Expr {
         let arrow = ArrowExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             params: vec![],
             body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 stmts,
                 ctxt: Default::default(),
             })),

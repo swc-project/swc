@@ -310,6 +310,7 @@ impl Params {
                     unpack_rest = Some(
                         ForStmt {
                             span,
+                            node_id: Default::default(),
                             init: Some(
                                 VarDecl {
                                     kind: VarDeclKind::Var,

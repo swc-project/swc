@@ -63,7 +63,7 @@ fn test_mark_for() {
         let mark4 = Mark::fresh(mark3);
 
         let folder1 = Resolver::new(
-            Scope::new(ScopeKind::Block, mark1, None),
+            Scope::new(ScopeKind::Block, mark1, ScopeId(1), Some(NodeId(1)), None),
             InnerConfig {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
@@ -71,47 +71,65 @@ fn test_mark_for() {
             },
         );
         let mut folder2 = Resolver::new(
-            Scope::new(ScopeKind::Block, mark2, Some(&folder1.current)),
+            Scope::new(
+                ScopeKind::Block,
+                mark2,
+                ScopeId(2),
+                Some(NodeId(2)),
+                Some(&folder1.current),
+            ),
             InnerConfig {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
                 top_level_mark: mark2,
             },
         );
-        folder2
-            .current
-            .declared_symbols
-            .insert(atom!("foo"), DeclKind::Var);
+        folder2.declare_symbol(atom!("foo"), DeclKind::Var);
 
         let mut folder3 = Resolver::new(
-            Scope::new(ScopeKind::Block, mark3, Some(&folder2.current)),
+            Scope::new(
+                ScopeKind::Block,
+                mark3,
+                ScopeId(3),
+                Some(NodeId(3)),
+                Some(&folder2.current),
+            ),
             InnerConfig {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
                 top_level_mark: mark3,
             },
         );
-        folder3
-            .current
-            .declared_symbols
-            .insert(atom!("bar"), DeclKind::Var);
-        assert_eq!(folder3.mark_for_ref(&atom!("bar")), Some(mark3));
+        folder3.declare_symbol(atom!("bar"), DeclKind::Var);
+        assert_eq!(
+            folder3.mark_for_ref(&atom!("bar")).map(|v| v.legacy_mark),
+            Some(mark3)
+        );
 
         let mut folder4 = Resolver::new(
-            Scope::new(ScopeKind::Block, mark4, Some(&folder3.current)),
+            Scope::new(
+                ScopeKind::Block,
+                mark4,
+                ScopeId(4),
+                Some(NodeId(4)),
+                Some(&folder3.current),
+            ),
             InnerConfig {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
                 top_level_mark: mark4,
             },
         );
-        folder4
-            .current
-            .declared_symbols
-            .insert(atom!("foo"), DeclKind::Var);
+        folder4.declare_symbol(atom!("foo"), DeclKind::Var);
 
-        assert_eq!(folder4.mark_for_ref(&atom!("foo")), Some(mark4));
-        assert_eq!(folder4.mark_for_ref(&atom!("bar")), Some(mark3));
+        assert_eq!(
+            folder4.mark_for_ref(&atom!("foo")).map(|v| v.legacy_mark),
+            Some(mark4)
+        );
+        assert_eq!(
+            folder4.mark_for_ref(&atom!("bar")).map(|v| v.legacy_mark),
+            Some(mark3)
+        );
         Ok(())
     })
     .unwrap();

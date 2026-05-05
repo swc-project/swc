@@ -466,6 +466,7 @@ impl<I: Tokens> Parser<I> {
                 is_generator: false,
                 return_type,
                 ctxt: Default::default(),
+                node_id: Default::default(),
             }),
         }))
     }
@@ -5239,6 +5240,7 @@ mod tests {
         );
 
         let expected = Module {
+            node_id: Default::default(),
             span: DUMMY_SP,
             shebang: None,
             body: {
@@ -5273,6 +5275,7 @@ mod tests {
         );
 
         let expected = Module {
+            node_id: Default::default(),
             span: DUMMY_SP,
             shebang: None,
             body: {

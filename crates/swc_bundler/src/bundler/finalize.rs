@@ -385,6 +385,7 @@ where
 
         Module {
             span: DUMMY_SP,
+            node_id: Default::default(),
             shebang: None,
             body: vec![ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,

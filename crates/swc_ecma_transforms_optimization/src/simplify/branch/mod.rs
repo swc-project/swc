@@ -522,7 +522,12 @@ impl VisitMut for Remover {
                     }
                 }
 
-                Stmt::Block(BlockStmt { span, stmts, ctxt }) => {
+                Stmt::Block(BlockStmt {
+                    span,
+                    stmts,
+                    ctxt,
+                    node_id,
+                }) => {
                     if stmts.is_empty() {
                         if cfg!(feature = "debug") {
                             debug!("Drooping an empty block statement");
@@ -541,7 +546,13 @@ impl VisitMut for Remover {
                         v.visit_mut_with(self);
                         v
                     } else {
-                        BlockStmt { span, stmts, ctxt }.into()
+                        BlockStmt {
+                            span,
+                            stmts,
+                            ctxt,
+                            node_id,
+                        }
+                        .into()
                     }
                 }
                 Stmt::Try(s) => {
@@ -1146,6 +1157,7 @@ impl VisitMut for Remover {
                             // `for(;;);` is shorter than `do ; while(true);`
                             ForStmt {
                                 span: s.span,
+                                node_id: Default::default(),
                                 init: None,
                                 test: None,
                                 update: None,
@@ -1349,7 +1361,7 @@ impl Remover {
                             span,
                             mut stmts,
                             ctxt,
-                            ..
+                            node_id,
                         }) => {
                             if stmts.is_empty() {
                                 continue;
@@ -1357,7 +1369,13 @@ impl Remover {
 
                             if !is_ok_to_inline_block(&stmts) {
                                 stmts.visit_mut_with(self);
-                                BlockStmt { span, stmts, ctxt }.into()
+                                BlockStmt {
+                                    span,
+                                    stmts,
+                                    ctxt,
+                                    node_id,
+                                }
+                                .into()
                             } else {
                                 new_stmts.extend(
                                     stmts

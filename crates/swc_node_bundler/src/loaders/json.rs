@@ -34,6 +34,7 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
     .into();
 
     Ok(Module {
+        node_id: Default::default(),
         span: DUMMY_SP,
         body: vec![export],
         shebang: None,
