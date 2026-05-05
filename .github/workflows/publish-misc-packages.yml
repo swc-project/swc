@@ -1,8 +1,6 @@
 name: "Publish misc packages"
 run-name: "Publish misc packages (${{ inputs.npmTag }})"
 
-env:
-
 permissions:
   contents: read
   id-token: write
