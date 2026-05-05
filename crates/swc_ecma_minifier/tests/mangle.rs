@@ -520,14 +520,12 @@ console.log(new n().e, new n().method(), new n().r(), new n().n, new n().t);";
 
 #[test]
 fn issue_11027_many_properties_stress_test() {
-    // Stress test: a base class with several reserved DOM property names
-    // followed by a subclass declaring 25 fresh fields. Roughly half of the
-    // single-character base54 alphabet is reserved (DOM props like `a`,
-    // `b`, `c`, `d`, `e`, `f`, `n`, `r`, `s`, `w`, `x`, `y`, `z`, plus
-    // language reserved words), so generating 25 mangled names forces the
-    // collision-avoidance loop in `gen_name` to be exercised many times.
-    // None of the resulting mangled names may collide with any property
-    // already in the program (DOM-reserved or inherited from Base).
+    // Stress test: a base class declares one-letter properties which are also
+    // present in the DOM/JS property lists, followed by a subclass declaring
+    // 25 fresh fields. Those base properties are preserved and recorded as
+    // unmangleable because they appear in this program, so generating many
+    // fresh names repeatedly exercises the collision-avoidance loop in
+    // `gen_name`.
     let src = "class Base {
     a = 1;
     b = 2;
