@@ -1,0 +1,1 @@
+effect("decl:extends"), effect("decl:method"), effect("decl:static-key"), effect("decl:instance-key"), effect("decl:static-value"), effect("decl:private-value"), effect("decl:block"), effect("expr:extends"), effect("expr:method"), effect("expr:static-key"), effect("expr:instance-key"), effect("expr:static-value"), effect("expr:private-value"), effect("expr:block");

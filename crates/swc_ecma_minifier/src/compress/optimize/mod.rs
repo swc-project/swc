@@ -10,8 +10,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
-    prepend_stmts, prop_name_from_ident, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, IsEmpty,
-    ModuleItemLike, StmtLike, Type, Value,
+    prepend_stmts, prop_name_from_ident, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike,
+    StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
@@ -677,26 +677,11 @@ impl Optimizer<'_> {
             }
 
             Expr::Class(cls) => {
-                // Do not remove class if it's self-referencing
-                if let Some(id) = &cls.ident {
-                    if IdentUsageFinder::find(id, &cls.class.body) {
-                        return Some(cls.take().into());
-                    }
-                }
-
-                if cls
-                    .class
-                    .body
-                    .iter()
-                    .any(|m| m.as_static_block().iter().any(|s| !s.body.is_empty()))
-                {
-                    // there's nothing we can do about it
-                    return Some(cls.take().into());
-                }
-
-                let Some(side_effects) =
-                    extract_class_side_effect(self.ctx.expr_ctx, &mut cls.class)
-                else {
+                let Some(side_effects) = extract_class_side_effect(
+                    self.ctx.expr_ctx,
+                    cls.ident.as_ref(),
+                    &mut cls.class,
+                ) else {
                     return Some(cls.take().into());
                 };
 
@@ -1193,7 +1178,11 @@ impl Optimizer<'_> {
             }) => {
                 report_change!("ignore_return_value: Reducing binary ({})", *op);
 
-                let left = self.ignore_return_value(left).map(Box::new);
+                let left = if let Expr::PrivateName(_) = &**left {
+                    None
+                } else {
+                    self.ignore_return_value(left).map(Box::new)
+                };
                 let right = self.ignore_return_value(right).map(Box::new);
 
                 let mut seq = SeqExpr {

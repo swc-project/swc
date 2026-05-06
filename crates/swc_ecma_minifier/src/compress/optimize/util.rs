@@ -1,6 +1,6 @@
 use std::{
     borrow::Borrow,
-    mem::take,
+    mem::{self, take},
     ops::{Deref, DerefMut},
 };
 
@@ -10,9 +10,11 @@ use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{
-    collect_decls, contains_this_expr, prop_name_from_ident, ExprCtx, ExprExt, Remapper,
+    collect_decls, prop_name_from_ident, ExprCtx, ExprExt, IdentUsageFinder, Remapper,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
@@ -164,14 +166,29 @@ impl Drop for WithCtx<'_, '_> {
     }
 }
 
-pub(crate) fn extract_class_side_effect(
+pub(crate) fn extract_class_side_effect<'a>(
     expr_ctx: ExprCtx,
-    c: &mut Class,
-) -> Option<Vec<&mut Box<Expr>>> {
+    ident: Option<&'a Ident>,
+    c: &'a mut Class,
+) -> Option<Vec<&'a mut Box<Expr>>> {
     let mut res = Vec::new();
+    let mut value = Vec::new();
     if let Some(e) = &mut c.super_class {
         if e.may_have_side_effects(expr_ctx) {
             res.push(e);
+        }
+    }
+
+    let mut visitor = ClassEffectVisitor {
+        found: false,
+        private_ident: FxHashSet::default(),
+    };
+
+    for m in &mut c.body {
+        if let ClassMember::PrivateProp(PrivateProp { key, .. })
+        | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = m
+        {
+            visitor.private_ident.insert(key.name.clone());
         }
     }
 
@@ -195,10 +212,18 @@ pub(crate) fn extract_class_side_effect(
 
                 if let Some(v) = &mut p.value {
                     if p.is_static && v.may_have_side_effects(expr_ctx) {
-                        if contains_this_expr(v) {
+                        v.visit_with(&mut visitor);
+                        if visitor.found {
                             return None;
                         }
-                        res.push(v);
+
+                        if let Some(id) = ident {
+                            if IdentUsageFinder::find(id, v) {
+                                return None;
+                            }
+                        }
+
+                        value.push(v);
                     }
                 }
             }
@@ -208,10 +233,44 @@ pub(crate) fn extract_class_side_effect(
                 ..
             }) => {
                 if v.may_have_side_effects(expr_ctx) {
-                    if contains_this_expr(v) {
+                    v.visit_with(&mut visitor);
+                    if visitor.found {
                         return None;
                     }
-                    res.push(v);
+
+                    if let Some(id) = ident {
+                        if IdentUsageFinder::find(id, v) {
+                            return None;
+                        }
+                    }
+
+                    value.push(v);
+                }
+            }
+            ClassMember::StaticBlock(s) => {
+                if s.body.stmts.len() > 1 {
+                    return None;
+                }
+
+                let first = if let Some(stmt) = s.body.stmts.get_mut(0) {
+                    &mut stmt.as_mut_expr()?.expr
+                } else {
+                    continue;
+                };
+
+                if first.may_have_side_effects(expr_ctx) {
+                    first.visit_with(&mut visitor);
+                    if visitor.found {
+                        return None;
+                    }
+
+                    if let Some(id) = ident {
+                        if IdentUsageFinder::find(id, first) {
+                            return None;
+                        }
+                    }
+
+                    value.push(first);
                 }
             }
 
@@ -219,7 +278,87 @@ pub(crate) fn extract_class_side_effect(
         }
     }
 
+    res.append(&mut value);
+
     Some(res)
+}
+
+struct ClassEffectVisitor {
+    found: bool,
+    private_ident: FxHashSet<Atom>,
+}
+
+impl Visit for ClassEffectVisitor {
+    noop_visit_type!();
+
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_decl(&mut self, _: &FnDecl) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_expr(&mut self, _: &FnExpr) {}
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function) {}
+
+    /// Don't recurse into fn
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        n.key.visit_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_method_prop(&mut self, n: &MethodProp) {
+        n.key.visit_with(self);
+        n.function.visit_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
+        n.key.visit_with(self);
+        n.param.visit_with(self);
+    }
+
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
+        self.found = true;
+    }
+
+    fn visit_prop(&mut self, n: &Prop) {
+        n.visit_children_with(self);
+
+        if let Prop::Shorthand(Ident { sym, .. }) = n {
+            if &**sym == "arguments" {
+                self.found = true;
+            }
+        }
+    }
+
+    fn visit_super(&mut self, _: &Super) {
+        self.found = true;
+    }
+
+    fn visit_private_name(&mut self, n: &PrivateName) {
+        if self.private_ident.contains(&n.name) {
+            self.found = true
+        }
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        let mut new_set = FxHashSet::default();
+
+        for m in &n.body {
+            if let ClassMember::PrivateProp(PrivateProp { key, .. })
+            | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = m
+            {
+                new_set.insert(key.name.clone());
+            }
+        }
+
+        let old_set = mem::replace(&mut self.private_ident, new_set);
+        n.visit_children_with(self);
+        self.private_ident = old_set;
+    }
 }
 
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {

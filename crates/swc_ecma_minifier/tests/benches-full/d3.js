@@ -3820,157 +3820,6 @@ function(global, factory) {
     function pointY(p) {
         return p[1];
     }
-    class Delaunay {
-        static from(points, fx = pointX, fy = pointY, that) {
-            return new Delaunay("length" in points ? function(points, fx, fy, that) {
-                let n = points.length, array = new Float64Array(2 * n);
-                for(let i = 0; i < n; ++i){
-                    let p = points[i];
-                    array[2 * i] = fx.call(that, p, i, points), array[2 * i + 1] = fy.call(that, p, i, points);
-                }
-                return array;
-            }(points, fx, fy, that) : Float64Array.from(function*(points, fx, fy, that) {
-                let i = 0;
-                for (let p of points)yield fx.call(that, p, i, points), yield fy.call(that, p, i, points), ++i;
-            }(points, fx, fy, that)));
-        }
-        constructor(points){
-            this._delaunator = new Delaunator(points), this.inedges = new Int32Array(points.length / 2), this._hullIndex = new Int32Array(points.length / 2), this.points = this._delaunator.coords, this._init();
-        }
-        update() {
-            return this._delaunator.update(), this._init(), this;
-        }
-        _init() {
-            let d = this._delaunator, points = this.points;
-            // check for collinear
-            if (d.hull && d.hull.length > 2 && // A triangulation is collinear if all its triangles have a non-null area
-            function(d) {
-                let { triangles, coords } = d;
-                for(let i = 0; i < triangles.length; i += 3){
-                    let a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2];
-                    if ((coords[c] - coords[a]) * (coords[b + 1] - coords[a + 1]) - (coords[b] - coords[a]) * (coords[c + 1] - coords[a + 1]) > 1e-10) return !1;
-                }
-                return !0;
-            }(d)) {
-                this.collinear = Int32Array.from({
-                    length: points.length / 2
-                }, (_, i)=>i).sort((i, j)=>points[2 * i] - points[2 * j] || points[2 * i + 1] - points[2 * j + 1]); // for exact neighbors
-                let e = this.collinear[0], f = this.collinear[this.collinear.length - 1], bounds = [
-                    points[2 * e],
-                    points[2 * e + 1],
-                    points[2 * f],
-                    points[2 * f + 1]
-                ], r = 1e-8 * Math.hypot(bounds[3] - bounds[1], bounds[2] - bounds[0]);
-                for(let i = 0, n = points.length / 2; i < n; ++i){
-                    var x, y;
-                    let p = [
-                        (x = points[2 * i]) + Math.sin(x + (y = points[2 * i + 1])) * r,
-                        y + Math.cos(x - y) * r
-                    ];
-                    points[2 * i] = p[0], points[2 * i + 1] = p[1];
-                }
-                this._delaunator = new Delaunator(points);
-            } else delete this.collinear;
-            let halfedges = this.halfedges = this._delaunator.halfedges, hull = this.hull = this._delaunator.hull, triangles = this.triangles = this._delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1);
-            // Compute an index from each point to an (arbitrary) incoming halfedge
-            // Used to give the first neighbor of each point; for this reason,
-            // on the hull we give priority to exterior halfedges
-            for(let e = 0, n = halfedges.length; e < n; ++e){
-                let p = triangles[e % 3 == 2 ? e - 2 : e + 1];
-                (-1 === halfedges[e] || -1 === inedges[p]) && (inedges[p] = e);
-            }
-            for(let i = 0, n = hull.length; i < n; ++i)hullIndex[hull[i]] = i;
-            // degenerate case: 1 or 2 (distinct) points
-            hull.length <= 2 && hull.length > 0 && (this.triangles = new Int32Array(3).fill(-1), this.halfedges = new Int32Array(3).fill(-1), this.triangles[0] = hull[0], this.triangles[1] = hull[1], this.triangles[2] = hull[1], inedges[hull[0]] = 1, 2 === hull.length && (inedges[hull[1]] = 0));
-        }
-        voronoi(bounds) {
-            return new Voronoi(this, bounds);
-        }
-        *neighbors(i) {
-            let { inedges, hull, _hullIndex, halfedges, triangles, collinear } = this;
-            // degenerate case with several collinear points
-            if (collinear) {
-                let l = collinear.indexOf(i);
-                l > 0 && (yield collinear[l - 1]), l < collinear.length - 1 && (yield collinear[l + 1]);
-                return;
-            }
-            let e0 = inedges[i];
-            if (-1 === e0) return; // coincident point
-            let e = e0, p0 = -1;
-            do {
-                if (yield p0 = triangles[e], triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) return; // bad triangulation
-                if (-1 === (e = halfedges[e])) {
-                    let p = hull[(_hullIndex[i] + 1) % hull.length];
-                    p !== p0 && (yield p);
-                    return;
-                }
-            }while (e !== e0)
-        }
-        find(x, y, i = 0) {
-            let c;
-            if ((x *= 1) != x || (y *= 1) != y) return -1;
-            let i0 = i;
-            for(; (c = this._step(i, x, y)) >= 0 && c !== i && c !== i0;)i = c;
-            return c;
-        }
-        _step(i, x, y) {
-            let { inedges, hull, _hullIndex, halfedges, triangles, points } = this;
-            if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
-            let c = i, dc = pow(x - points[2 * i], 2) + pow(y - points[2 * i + 1], 2), e0 = inedges[i], e = e0;
-            do {
-                let t = triangles[e], dt = pow(x - points[2 * t], 2) + pow(y - points[2 * t + 1], 2);
-                if (dt < dc && (dc = dt, c = t), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
-                if (-1 === (e = halfedges[e])) {
-                    if ((e = hull[(_hullIndex[i] + 1) % hull.length]) !== t && pow(x - points[2 * e], 2) + pow(y - points[2 * e + 1], 2) < dc) return e;
-                    break;
-                }
-            }while (e !== e0)
-            return c;
-        }
-        render(context) {
-            let buffer = null == context ? context = new Path$1 : void 0, { points, halfedges, triangles } = this;
-            for(let i = 0, n = halfedges.length; i < n; ++i){
-                let j = halfedges[i];
-                if (j < i) continue;
-                let ti = 2 * triangles[i], tj = 2 * triangles[j];
-                context.moveTo(points[ti], points[ti + 1]), context.lineTo(points[tj], points[tj + 1]);
-            }
-            return this.renderHull(context), buffer && buffer.value();
-        }
-        renderPoints(context, r = 2) {
-            let buffer = null == context ? context = new Path$1 : void 0, { points } = this;
-            for(let i = 0, n = points.length; i < n; i += 2){
-                let x = points[i], y = points[i + 1];
-                context.moveTo(x + r, y), context.arc(x, y, r, 0, tau$3);
-            }
-            return buffer && buffer.value();
-        }
-        renderHull(context) {
-            let buffer = null == context ? context = new Path$1 : void 0, { hull, points } = this, h = 2 * hull[0], n = hull.length;
-            context.moveTo(points[h], points[h + 1]);
-            for(let i = 1; i < n; ++i){
-                let h = 2 * hull[i];
-                context.lineTo(points[h], points[h + 1]);
-            }
-            return context.closePath(), buffer && buffer.value();
-        }
-        hullPolygon() {
-            let polygon = new Polygon;
-            return this.renderHull(polygon), polygon.value();
-        }
-        renderTriangle(i, context) {
-            let buffer = null == context ? context = new Path$1 : void 0, { points, triangles } = this, t0 = 2 * triangles[i *= 3], t1 = 2 * triangles[i + 1], t2 = 2 * triangles[i + 2];
-            return context.moveTo(points[t0], points[t0 + 1]), context.lineTo(points[t1], points[t1 + 1]), context.lineTo(points[t2], points[t2 + 1]), context.closePath(), buffer && buffer.value();
-        }
-        *trianglePolygons() {
-            let { triangles } = this;
-            for(let i = 0, n = triangles.length / 3; i < n; ++i)yield this.trianglePolygon(i);
-        }
-        trianglePolygon(i) {
-            let polygon = new Polygon;
-            return this.renderTriangle(i, polygon), polygon.value();
-        }
-    }
     var EOL = {}, EOF = {};
     function objectConverter(columns) {
         return Function("d", "return {" + columns.map(function(name, i) {
@@ -9145,7 +8994,157 @@ function(global, factory) {
         var dx0 = transform.invertX(extent[0][0]) - translateExtent[0][0], dx1 = transform.invertX(extent[1][0]) - translateExtent[1][0], dy0 = transform.invertY(extent[0][1]) - translateExtent[0][1], dy1 = transform.invertY(extent[1][1]) - translateExtent[1][1];
         return transform.translate(dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1), dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1));
     }
-    transform$1.prototype = Transform.prototype, exports1.Adder = Adder, exports1.Delaunay = Delaunay, exports1.FormatSpecifier = FormatSpecifier, exports1.Voronoi = Voronoi, exports1.active = function(node, name) {
+    transform$1.prototype = Transform.prototype, exports1.Adder = Adder, exports1.Delaunay = class Delaunay {
+        static from(points, fx = pointX, fy = pointY, that) {
+            return new Delaunay("length" in points ? function(points, fx, fy, that) {
+                let n = points.length, array = new Float64Array(2 * n);
+                for(let i = 0; i < n; ++i){
+                    let p = points[i];
+                    array[2 * i] = fx.call(that, p, i, points), array[2 * i + 1] = fy.call(that, p, i, points);
+                }
+                return array;
+            }(points, fx, fy, that) : Float64Array.from(function*(points, fx, fy, that) {
+                let i = 0;
+                for (let p of points)yield fx.call(that, p, i, points), yield fy.call(that, p, i, points), ++i;
+            }(points, fx, fy, that)));
+        }
+        constructor(points){
+            this._delaunator = new Delaunator(points), this.inedges = new Int32Array(points.length / 2), this._hullIndex = new Int32Array(points.length / 2), this.points = this._delaunator.coords, this._init();
+        }
+        update() {
+            return this._delaunator.update(), this._init(), this;
+        }
+        _init() {
+            let d = this._delaunator, points = this.points;
+            // check for collinear
+            if (d.hull && d.hull.length > 2 && // A triangulation is collinear if all its triangles have a non-null area
+            function(d) {
+                let { triangles, coords } = d;
+                for(let i = 0; i < triangles.length; i += 3){
+                    let a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2];
+                    if ((coords[c] - coords[a]) * (coords[b + 1] - coords[a + 1]) - (coords[b] - coords[a]) * (coords[c + 1] - coords[a + 1]) > 1e-10) return !1;
+                }
+                return !0;
+            }(d)) {
+                this.collinear = Int32Array.from({
+                    length: points.length / 2
+                }, (_, i)=>i).sort((i, j)=>points[2 * i] - points[2 * j] || points[2 * i + 1] - points[2 * j + 1]); // for exact neighbors
+                let e = this.collinear[0], f = this.collinear[this.collinear.length - 1], bounds = [
+                    points[2 * e],
+                    points[2 * e + 1],
+                    points[2 * f],
+                    points[2 * f + 1]
+                ], r = 1e-8 * Math.hypot(bounds[3] - bounds[1], bounds[2] - bounds[0]);
+                for(let i = 0, n = points.length / 2; i < n; ++i){
+                    var x, y;
+                    let p = [
+                        (x = points[2 * i]) + Math.sin(x + (y = points[2 * i + 1])) * r,
+                        y + Math.cos(x - y) * r
+                    ];
+                    points[2 * i] = p[0], points[2 * i + 1] = p[1];
+                }
+                this._delaunator = new Delaunator(points);
+            } else delete this.collinear;
+            let halfedges = this.halfedges = this._delaunator.halfedges, hull = this.hull = this._delaunator.hull, triangles = this.triangles = this._delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1);
+            // Compute an index from each point to an (arbitrary) incoming halfedge
+            // Used to give the first neighbor of each point; for this reason,
+            // on the hull we give priority to exterior halfedges
+            for(let e = 0, n = halfedges.length; e < n; ++e){
+                let p = triangles[e % 3 == 2 ? e - 2 : e + 1];
+                (-1 === halfedges[e] || -1 === inedges[p]) && (inedges[p] = e);
+            }
+            for(let i = 0, n = hull.length; i < n; ++i)hullIndex[hull[i]] = i;
+            // degenerate case: 1 or 2 (distinct) points
+            hull.length <= 2 && hull.length > 0 && (this.triangles = new Int32Array(3).fill(-1), this.halfedges = new Int32Array(3).fill(-1), this.triangles[0] = hull[0], this.triangles[1] = hull[1], this.triangles[2] = hull[1], inedges[hull[0]] = 1, 2 === hull.length && (inedges[hull[1]] = 0));
+        }
+        voronoi(bounds) {
+            return new Voronoi(this, bounds);
+        }
+        *neighbors(i) {
+            let { inedges, hull, _hullIndex, halfedges, triangles, collinear } = this;
+            // degenerate case with several collinear points
+            if (collinear) {
+                let l = collinear.indexOf(i);
+                l > 0 && (yield collinear[l - 1]), l < collinear.length - 1 && (yield collinear[l + 1]);
+                return;
+            }
+            let e0 = inedges[i];
+            if (-1 === e0) return; // coincident point
+            let e = e0, p0 = -1;
+            do {
+                if (yield p0 = triangles[e], triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) return; // bad triangulation
+                if (-1 === (e = halfedges[e])) {
+                    let p = hull[(_hullIndex[i] + 1) % hull.length];
+                    p !== p0 && (yield p);
+                    return;
+                }
+            }while (e !== e0)
+        }
+        find(x, y, i = 0) {
+            let c;
+            if ((x *= 1) != x || (y *= 1) != y) return -1;
+            let i0 = i;
+            for(; (c = this._step(i, x, y)) >= 0 && c !== i && c !== i0;)i = c;
+            return c;
+        }
+        _step(i, x, y) {
+            let { inedges, hull, _hullIndex, halfedges, triangles, points } = this;
+            if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
+            let c = i, dc = pow(x - points[2 * i], 2) + pow(y - points[2 * i + 1], 2), e0 = inedges[i], e = e0;
+            do {
+                let t = triangles[e], dt = pow(x - points[2 * t], 2) + pow(y - points[2 * t + 1], 2);
+                if (dt < dc && (dc = dt, c = t), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
+                if (-1 === (e = halfedges[e])) {
+                    if ((e = hull[(_hullIndex[i] + 1) % hull.length]) !== t && pow(x - points[2 * e], 2) + pow(y - points[2 * e + 1], 2) < dc) return e;
+                    break;
+                }
+            }while (e !== e0)
+            return c;
+        }
+        render(context) {
+            let buffer = null == context ? context = new Path$1 : void 0, { points, halfedges, triangles } = this;
+            for(let i = 0, n = halfedges.length; i < n; ++i){
+                let j = halfedges[i];
+                if (j < i) continue;
+                let ti = 2 * triangles[i], tj = 2 * triangles[j];
+                context.moveTo(points[ti], points[ti + 1]), context.lineTo(points[tj], points[tj + 1]);
+            }
+            return this.renderHull(context), buffer && buffer.value();
+        }
+        renderPoints(context, r = 2) {
+            let buffer = null == context ? context = new Path$1 : void 0, { points } = this;
+            for(let i = 0, n = points.length; i < n; i += 2){
+                let x = points[i], y = points[i + 1];
+                context.moveTo(x + r, y), context.arc(x, y, r, 0, tau$3);
+            }
+            return buffer && buffer.value();
+        }
+        renderHull(context) {
+            let buffer = null == context ? context = new Path$1 : void 0, { hull, points } = this, h = 2 * hull[0], n = hull.length;
+            context.moveTo(points[h], points[h + 1]);
+            for(let i = 1; i < n; ++i){
+                let h = 2 * hull[i];
+                context.lineTo(points[h], points[h + 1]);
+            }
+            return context.closePath(), buffer && buffer.value();
+        }
+        hullPolygon() {
+            let polygon = new Polygon;
+            return this.renderHull(polygon), polygon.value();
+        }
+        renderTriangle(i, context) {
+            let buffer = null == context ? context = new Path$1 : void 0, { points, triangles } = this, t0 = 2 * triangles[i *= 3], t1 = 2 * triangles[i + 1], t2 = 2 * triangles[i + 2];
+            return context.moveTo(points[t0], points[t0 + 1]), context.lineTo(points[t1], points[t1 + 1]), context.lineTo(points[t2], points[t2 + 1]), context.closePath(), buffer && buffer.value();
+        }
+        *trianglePolygons() {
+            let { triangles } = this;
+            for(let i = 0, n = triangles.length / 3; i < n; ++i)yield this.trianglePolygon(i);
+        }
+        trianglePolygon(i) {
+            let polygon = new Polygon;
+            return this.renderTriangle(i, polygon), polygon.value();
+        }
+    }, exports1.FormatSpecifier = FormatSpecifier, exports1.Voronoi = Voronoi, exports1.active = function(node, name) {
         var schedule, i, schedules = node.__transition;
         if (schedules) {
             for(i in name = null == name ? null : name + "", schedules)if ((schedule = schedules[i]).state > 1 && schedule.name === name) return new Transition([
