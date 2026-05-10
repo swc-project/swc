@@ -71,8 +71,14 @@ fn init_helpers() -> Arc<PathBuf> {
             } else {
                 Command::new(&pnpm)
             };
-            cmd.current_dir(&helper_dir).arg("install");
-            let status = cmd.status().expect("failed to update swc core");
+            // Installing from `packages/helpers` can still run workspace
+            // lifecycle scripts. In a clean checkout `@swc/core` has not been
+            // built yet, so its postinstall validation would fail while trying
+            // to resolve generated files such as `index.js`.
+            cmd.current_dir(&helper_dir)
+                .env("SWC_SKIP_VALIDATION", "1")
+                .arg("install");
+            let status = cmd.status().expect("failed to install helper dependencies");
             assert!(status.success());
         }
 
