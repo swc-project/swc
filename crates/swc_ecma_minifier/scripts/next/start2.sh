@@ -9,10 +9,10 @@
 # This script will
 #
 #  - build native binary (`next-swc`)
-#  - install dependnecies using `yarn``
+#  - install dependencies for the Next.js checkout
 #  - remove some dependencies (`next`, `react`, `react-dom`)
-#  - yarn next build examples/foo
-#  - yarn next start examples/foo
+#  - npx next build examples/foo
+#  - npx next start examples/foo
 set -eu
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"

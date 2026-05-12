@@ -62,27 +62,33 @@ fn init_helpers() -> Arc<PathBuf> {
             return Arc::new(helper_dir);
         }
 
-        let yarn = find_executable("yarn").expect("failed to find yarn");
+        let pnpm = find_executable("pnpm").expect("failed to find pnpm");
         {
             let mut cmd = if cfg!(target_os = "windows") {
                 let mut c = Command::new("cmd");
-                c.arg("/C").arg(&yarn);
+                c.arg("/C").arg(&pnpm);
                 c
             } else {
-                Command::new(&yarn)
+                Command::new(&pnpm)
             };
-            cmd.current_dir(&helper_dir);
-            let status = cmd.status().expect("failed to update swc core");
+            // Installing from `packages/helpers` can still run workspace
+            // lifecycle scripts. In a clean checkout `@swc/core` has not been
+            // built yet, so its postinstall validation would fail while trying
+            // to resolve generated files such as `index.js`.
+            cmd.current_dir(&helper_dir)
+                .env("SWC_SKIP_VALIDATION", "1")
+                .arg("install");
+            let status = cmd.status().expect("failed to install helper dependencies");
             assert!(status.success());
         }
 
         {
             let mut cmd = if cfg!(target_os = "windows") {
                 let mut c = Command::new("cmd");
-                c.arg("/C").arg(&yarn);
+                c.arg("/C").arg(&pnpm);
                 c
             } else {
-                Command::new(&yarn)
+                Command::new(&pnpm)
             };
             cmd.current_dir(&helper_dir).arg("build");
             let status = cmd.status().expect("failed to compile helper package");

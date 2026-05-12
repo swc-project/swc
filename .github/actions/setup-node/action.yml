@@ -9,11 +9,19 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Enable corepack shims
+      shell: bash
+      run: |
+        mkdir -p "$HOME/.local/bin"
+        corepack enable --install-directory "$HOME/.local/bin"
+        echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
     - name: Install Node.js
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
-        cache: "yarn"
+        cache: "pnpm"
+        cache-dependency-path: pnpm-lock.yaml
 
     - name: Enable corepack
       shell: bash
@@ -21,4 +29,4 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      run: yarn
+      run: pnpm install --frozen-lockfile

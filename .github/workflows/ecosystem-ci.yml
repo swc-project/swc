@@ -7,8 +7,6 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
   FNM_COREPACK_ENABLED: true
   FNM_RESOLVE_ENGINES: true
-  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
-  SKIP_YARN_COREPACK_CHECK: 1
 
 on:
   workflow_call:
@@ -47,7 +45,7 @@ jobs:
       - uses: ./.github/actions/setup-node
 
       - id: list-tests
-        run: yarn tsx run-all.ts
+        run: pnpm exec tsx run-all.ts
         working-directory: .github/swc-ecosystem-ci
         env:
           CI_MODE: ${{ github.event.inputs.mode || 'passing' }}
@@ -68,8 +66,8 @@ jobs:
       - uses: ./.github/actions/setup-node
 
       - run: corepack enable
-      - run: yarn
-      - run: yarn tsc
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec tsc
         working-directory: .github/swc-ecosystem-ci
 
       - id: ecosystem-ci-run

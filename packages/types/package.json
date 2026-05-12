@@ -6,7 +6,7 @@
     "sideEffects": false,
     "scripts": {
         "build": "tsc",
-        "prepublishOnly": "yarn build"
+        "prepublishOnly": "pnpm build"
     },
     "repository": {
         "type": "git",
