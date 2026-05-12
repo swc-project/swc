@@ -56,6 +56,12 @@ impl CommentsBuffer {
 
     #[inline(always)]
     pub fn pending_to_comment(&mut self, kind: BufferedCommentKind, pos: BytePos) {
+        // Most tokens have no pending comments; avoid creating an empty drain on
+        // this lexer hot path.
+        if self.pending_leading.is_empty() {
+            return;
+        }
+
         for comment in self.pending_leading.drain(..) {
             let comment = BufferedComment { kind, pos, comment };
             self.comments.push(comment);
