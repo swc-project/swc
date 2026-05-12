@@ -27,27 +27,25 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Enable corepack shims
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          corepack enable --install-directory "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: ./.github/actions/setup-node
+        id: setup-node
         with:
           node-version: "20"
-          cache: "pnpm"
-          cache-dependency-path: pnpm-lock.yaml
-
-      - name: Enable corepack
-        run: corepack enable
+          install-dependencies: "false"
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Save pnpm cache
+        uses: actions/cache/save@v4
+        if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
+        with:
+          path: ${{ steps.setup-node.outputs.pnpm-store-path }}
+          key: ${{ steps.setup-node.outputs.pnpm-cache-primary-key }}
 
       - name: Build
         run: pnpm build
