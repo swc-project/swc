@@ -121,19 +121,9 @@ jobs:
           # toolchain: stable
           # override: true
 
-      - run: corepack enable
-
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node
         with:
           node-version: "20"
-          cache: "pnpm"
-          cache-dependency-path: pnpm-lock.yaml
-
-      - name: Install node dependencies
-        shell: bash
-        run: |
-          corepack enable
-          pnpm install --frozen-lockfile
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --all --all-targets
@@ -154,9 +144,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - shell: bash
-        run: corepack enable
-
       # We explicitly do this to cache properly.
       - uses: actions-rs/toolchain@v1
         with:
@@ -165,17 +152,10 @@ jobs:
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node
         with:
           node-version: "20"
-          cache: "pnpm"
-          cache-dependency-path: pnpm-lock.yaml
 
-      - name: Install node dependencies
-        shell: bash
-        run: |
-          corepack enable
-          pnpm install --frozen-lockfile
       - name: Test
         run: |
           (cd bindings/${{ matrix.pkg }} && ./scripts/test.sh)
@@ -230,16 +210,13 @@ jobs:
         with:
           submodules: true
 
-      - run: corepack enable
-        if: matrix.settings.crate != '__noop__'
-
       # Source map format
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node
+        id: setup-node
         if: matrix.settings.crate != '__noop__'
         with:
           node-version: "20"
-          cache: "pnpm"
-          cache-dependency-path: pnpm-lock.yaml
+          install-dependencies: "false"
 
       # We explicitly do this to cache properly.
       - name: Install Rust
@@ -269,6 +246,13 @@ jobs:
           npm install -g jest@27 mocha || \
           npm install -g jest@27 mocha || true
 
+      - name: Save pnpm cache
+        uses: actions/cache/save@v4
+        if: github.ref == 'refs/heads/main' && matrix.settings.crate != '__noop__' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
+        with:
+          path: ${{ steps.setup-node.outputs.pnpm-store-path }}
+          key: ${{ steps.setup-node.outputs.pnpm-cache-primary-key }}
+
       - name: Configure path (windows)
         shell: bash
         if: runner.os == 'Windows' && matrix.settings.crate != '__noop__'
@@ -288,8 +272,9 @@ jobs:
           mkdir -p .swc-exec-cache
           echo "SWC_ECMA_TESTING_CACHE_DIR=$(pwd)/.swc-exec-cache" >> $GITHUB_ENV
 
-      - name: Cache execution results
-        uses: actions/cache@v3
+      - name: Restore execution cache
+        id: restore-execution-cache
+        uses: actions/cache/restore@v4
         if: matrix.settings.crate != '__noop__' && (matrix.settings.crate == 'swc' || startsWith(matrix.settings.crate, 'swc_ecma_transforms_'))
         with:
           path: |
@@ -370,6 +355,14 @@ jobs:
         run: |
           env RUSTFLAGS="--cfg swc_ast_unknown" cargo check -p ${{ matrix.settings.crate }} --features typescript,react,proposal,optimization,module,compat
 
+      - name: Save execution cache
+        uses: actions/cache/save@v4
+        if: github.ref == 'refs/heads/main' && matrix.settings.crate != '__noop__' && (matrix.settings.crate == 'swc' || startsWith(matrix.settings.crate, 'swc_ecma_transforms_')) && steps.restore-execution-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            .swc-exec-cache
+          key: ${{ steps.restore-execution-cache.outputs.cache-primary-key }}
+
   node-test:
     name: Test node bindings - ${{ matrix.os }}
     if: >-
@@ -385,18 +378,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - shell: bash
-        run: corepack enable
-
       # We explicitly do this to cache properly.
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node
+        id: setup-node
         with:
           node-version: 18
-          cache: "pnpm"
-          cache-dependency-path: pnpm-lock.yaml
+          install-dependencies: "false"
 
       - name: Set platform name
         run: |
@@ -412,6 +402,12 @@ jobs:
           rustup target add wasm32-wasip1
           corepack enable
           pnpm install --frozen-lockfile
+      - name: Save pnpm cache
+        uses: actions/cache/save@v4
+        if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
+        with:
+          path: ${{ steps.setup-node.outputs.pnpm-store-path }}
+          key: ${{ steps.setup-node.outputs.pnpm-cache-primary-key }}
       - name: Build
         working-directory: packages/core
         run: |
@@ -430,14 +426,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - shell: bash
-        run: corepack enable
-
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node
+        id: setup-node
         with:
           node-version: 20
-          cache: "pnpm"
-          cache-dependency-path: pnpm-lock.yaml
+          install-dependencies: "false"
 
       - name: Set platform name
         run: |
@@ -462,6 +455,13 @@ jobs:
           npm install -g @swc/cli@0.1.56
           npm link
           npm install -g file:$PWD
+
+      - name: Save pnpm cache
+        uses: actions/cache/save@v4
+        if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
+        with:
+          path: ${{ steps.setup-node.outputs.pnpm-store-path }}
+          key: ${{ steps.setup-node.outputs.pnpm-cache-primary-key }}
 
       - name: Print info
         run: |

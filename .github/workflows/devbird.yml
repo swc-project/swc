@@ -69,11 +69,10 @@ jobs:
       - run: corepack enable
 
       # Source map format
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node
         with:
           node-version: "20"
-          cache: "pnpm"
-          cache-dependency-path: pnpm-lock.yaml
+          install-dependencies: "false"
 
       # We explicitly do this to cache properly.
       - name: Install Rust
