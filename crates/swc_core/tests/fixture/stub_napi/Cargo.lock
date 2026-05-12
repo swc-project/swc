@@ -1435,6 +1435,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "hashbrown"
+version = "0.17.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
+
+[[package]]
 name = "heapless"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2875,13 +2881,13 @@ checksum = "51743d3e274e2b18df81c4dc6caf8a5b8e15dbe799e0dca05c7617380094e884"
 
 [[package]]
 name = "rkyv"
-version = "0.8.10"
+version = "0.8.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e147371c75553e1e2fcdb483944a8540b8438c31426279553b9a8182a9b7b65"
+checksum = "73389e0c99e664f919275ab5b5b0471391fe9a8de61e1dff9b1eaf56a90f16e3"
 dependencies = [
  "bytecheck 0.8.1",
  "bytes",
- "hashbrown 0.15.4",
+ "hashbrown 0.17.1",
  "indexmap",
  "munge",
  "ptr_meta 0.3.0",
@@ -2894,9 +2900,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv_derive"
-version = "0.8.10"
+version = "0.8.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "246b40ac189af6c675d124b802e8ef6d5246c53e17367ce9501f8f66a81abb7a"
+checksum = "5d2ed0b54125315fb36bd021e82d314d1c126548f871634b483f46b31d13cac6"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3537,7 +3543,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "65.0.0"
+version = "65.0.4"
 dependencies = [
  "swc",
  "swc_allocator",
@@ -3819,7 +3825,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "52.0.1"
+version = "52.0.5"
 dependencies = [
  "arrayvec",
  "bitflags 2.9.1",
@@ -3853,7 +3859,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "39.0.1"
+version = "39.0.2"
 dependencies = [
  "bitflags 2.9.1",
  "either",
@@ -4100,7 +4106,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "46.0.0"
+version = "46.0.1"
 dependencies = [
  "base64",
  "bytes-str",

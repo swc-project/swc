@@ -495,6 +495,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5971ac85611da7067dbfcabef3c70ebb5606018acd9e2a3903a0da507521e0d5"
 
 [[package]]
+name = "hashbrown"
+version = "0.17.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
+
+[[package]]
 name = "heck"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1095,13 +1101,13 @@ dependencies = [
 
 [[package]]
 name = "rkyv"
-version = "0.8.10"
+version = "0.8.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e147371c75553e1e2fcdb483944a8540b8438c31426279553b9a8182a9b7b65"
+checksum = "73389e0c99e664f919275ab5b5b0471391fe9a8de61e1dff9b1eaf56a90f16e3"
 dependencies = [
  "bytecheck",
  "bytes",
- "hashbrown 0.15.4",
+ "hashbrown 0.17.1",
  "indexmap",
  "munge",
  "ptr_meta",
@@ -1114,9 +1120,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv_derive"
-version = "0.8.10"
+version = "0.8.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "246b40ac189af6c675d124b802e8ef6d5246c53e17367ce9501f8f66a81abb7a"
+checksum = "5d2ed0b54125315fb36bd021e82d314d1c126548f871634b483f46b31d13cac6"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1379,7 +1385,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "63.1.1"
+version = "65.0.4"
 dependencies = [
  "swc_allocator",
  "swc_atoms",
@@ -1446,7 +1452,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "38.0.1"
+version = "39.0.2"
 dependencies = [
  "bitflags",
  "either",
@@ -1465,7 +1471,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "38.0.0"
+version = "39.0.0"
 dependencies = [
  "anyhow",
  "proc-macro2",
@@ -1492,7 +1498,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "41.0.1"
+version = "42.0.0"
 dependencies = [
  "better_scoped_tls",
  "indexmap",
@@ -1512,7 +1518,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "45.0.0"
+version = "46.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
