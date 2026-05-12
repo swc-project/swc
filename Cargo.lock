@@ -384,7 +384,7 @@ dependencies = [
  "napi-build",
  "napi-derive",
  "par-core",
- "path-clean 1.0.1",
+ "path-clean",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -4187,12 +4187,6 @@ dependencies = [
 
 [[package]]
 name = "path-clean"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ecba01bf2678719532c5e3059e0b5f0811273d94b397088b82e3bd0a78c78fdd"
-
-[[package]]
-name = "path-clean"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "17359afc20d7ab31fdb42bb844c8b3bb1dabd7dcf7e68428492da7f16966fcef"
@@ -5769,7 +5763,7 @@ dependencies = [
  "ntest",
  "once_cell",
  "par-core",
- "path-clean 1.0.1",
+ "path-clean",
  "petgraph",
  "radix_fmt",
  "rayon",
@@ -6470,7 +6464,7 @@ dependencies = [
  "normpath",
  "once_cell",
  "parking_lot",
- "path-clean 0.1.0",
+ "path-clean",
  "pathdiff",
  "rustc-hash 2.1.1",
  "serde",
@@ -6794,7 +6788,7 @@ dependencies = [
  "bitflags 2.10.0",
  "indexmap 2.12.0",
  "is-macro",
- "path-clean 1.0.1",
+ "path-clean",
  "pathdiff",
  "regex",
  "rustc-hash 2.1.1",
@@ -9306,7 +9300,7 @@ dependencies = [
  "lexical-sort",
  "libc",
  "once_cell",
- "path-clean 1.0.1",
+ "path-clean",
  "rand 0.8.6",
  "serde",
  "serde_json",
