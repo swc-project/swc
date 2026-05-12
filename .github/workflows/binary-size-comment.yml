@@ -18,8 +18,14 @@ jobs:
     permissions:
       pull-requests: write
       contents: read
-    # Only run on successful builds
-    if: github.event.workflow_run.conclusion == 'success'
+    # Only comment for successful PR builds. Do not trust PR-provided artifacts
+    # to choose the target issue number.
+    if: >-
+      ${{
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'pull_request' &&
+        github.event.workflow_run.pull_requests[0] != null
+      }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -28,17 +34,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
 
-      - name: Read PR number
-        id: pr
-        run: |
-          PR_NUMBER=$(cat pr_number.txt)
-          echo "number=$PR_NUMBER" >> $GITHUB_OUTPUT
-
       - name: Find existing comment
         uses: peter-evans/find-comment@v3
         id: find-comment
         with:
-          issue-number: ${{ steps.pr.outputs.number }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
           comment-author: "github-actions[bot]"
           body-includes: "## Binary Sizes"
 
@@ -46,6 +46,6 @@ jobs:
         uses: peter-evans/create-or-update-comment@v4
         with:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
-          issue-number: ${{ steps.pr.outputs.number }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
           body-path: size_report.md
           edit-mode: replace

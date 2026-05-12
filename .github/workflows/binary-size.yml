@@ -23,6 +23,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
@@ -72,15 +74,9 @@ jobs:
           echo "" >> size_report.md
           echo "*Commit: ${{ github.sha }}*" >> size_report.md
 
-      - name: Save PR number
-        run: |
-          echo "${{ github.event.pull_request.number }}" > pr_number.txt
-
-      - name: Upload size report and PR info
+      - name: Upload size report
         uses: actions/upload-artifact@v4
         with:
           name: size-report
-          path: |
-            size_report.md
-            pr_number.txt
+          path: size_report.md
           retention-days: 1

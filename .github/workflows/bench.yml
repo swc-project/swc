@@ -24,6 +24,9 @@ env:
   CARGO_PROFILE_RELEASE_LTO: false
   CARGO_PROFILE_BENCH_LTO: false
 
+permissions:
+  contents: read
+
 jobs:
   list-crates:
     if: >-
@@ -34,6 +37,8 @@ jobs:
       crates: ${{ steps.list-crates.outputs.crates }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: List crates
         id: list-crates
@@ -48,6 +53,8 @@ jobs:
         crate: ${{fromJson(needs.list-crates.outputs.crates)}}
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1

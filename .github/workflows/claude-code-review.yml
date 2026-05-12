@@ -6,20 +6,24 @@ on:
 
 jobs:
   claude-review:
-    if: github.event.pull_request.draft == false
+    if: >-
+      ${{
+        github.event.pull_request.draft == false &&
+        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.pull_request.author_association)
+      }}
 
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
-      issues: read
-      id-token: write
+      issues: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Dismiss old Claude bot comments
         env:
@@ -53,8 +57,8 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           use_sticky_comment: true
-          allowed_bots: '*'
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}

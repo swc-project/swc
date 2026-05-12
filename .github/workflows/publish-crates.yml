@@ -10,6 +10,9 @@ env:
   GIT_COMMITTER_NAME: "SWC Bot"
   GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:

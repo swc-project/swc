@@ -32,6 +32,9 @@ on:
         type: string
         description: "Passing is a regular proces, and ignored is about ignored tests"
 
+permissions:
+  contents: read
+
 jobs:
   list-tests:
     name: "List tests"
@@ -41,6 +44,8 @@ jobs:
       suites: ${{ steps.list-tests.outputs.suites }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: ./.github/actions/setup-node
 
@@ -62,6 +67,8 @@ jobs:
         suite: ${{ fromJSON(needs.list-tests.outputs.suites) }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: ./.github/actions/setup-node
 
