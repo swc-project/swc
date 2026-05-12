@@ -68,6 +68,7 @@ jobs:
           shared-key: "bench-${{ matrix.crate }}"
           key: "bench-${{ matrix.crate }}"
           cache-all-crates: true
+          save-if: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Install cargo-codspeed
         uses: taiki-e/install-action@v2
