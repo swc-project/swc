@@ -182,6 +182,10 @@ impl<I: Tokens> Parser<I> {
 
         return_if_arrow!(self, cond);
 
+        if !self.input().cur().is_assign_op() {
+            return Ok(cond);
+        }
+
         match *cond {
             // if cond is conditional expression but not left-hand-side expression,
             // just return it.
@@ -189,12 +193,8 @@ impl<I: Tokens> Parser<I> {
             _ => {}
         }
 
-        if self.input().cur().is_assign_op() {
-            let start = cond.span_lo();
-            self.finish_assignment_expr(start, cond)
-        } else {
-            Ok(cond)
-        }
+        let start = cond.span_lo();
+        self.finish_assignment_expr(start, cond)
     }
 
     #[allow(dead_code)]
