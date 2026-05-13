@@ -1916,7 +1916,7 @@ impl VisitMut for Optimizer<'_> {
         }
 
         // This is not accurate check but avoid some trivial cases.
-        if self.changed {
+        if self.changed && matches!(e, Expr::Bin(..)) {
             self.remove_invalid_bin(e);
         }
 
