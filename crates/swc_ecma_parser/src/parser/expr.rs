@@ -970,6 +970,11 @@ impl<I: Tokens> Parser<I> {
             let start = p.cur_pos();
             expect!(p, Token::LParen);
 
+            if p.input().is(Token::RParen) {
+                expect!(p, Token::RParen);
+                return Ok(Vec::new());
+            }
+
             let mut first = true;
             let mut expr_or_spreads = Vec::with_capacity(2);
 
