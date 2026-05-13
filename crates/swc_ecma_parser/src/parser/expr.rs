@@ -535,6 +535,15 @@ impl<I: Tokens> Parser<I> {
 
         self.assert_and_bump(Token::LBracket);
 
+        if self.input().is(Token::RBracket) {
+            expect!(self, Token::RBracket);
+            return Ok(ArrayLit {
+                span: self.span(start),
+                elems: Vec::new(),
+            }
+            .into());
+        }
+
         let mut elems = Vec::with_capacity(8);
 
         while !self.input().is(Token::RBracket) {
