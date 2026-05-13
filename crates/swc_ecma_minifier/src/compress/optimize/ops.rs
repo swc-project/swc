@@ -178,14 +178,12 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        match bin.op {
-            op!("&&") | op!("||") => {
-                self.compress_logical_exprs_as_bang_bang(&mut bin.left, true);
-                self.compress_logical_exprs_as_bang_bang(&mut bin.right, true);
-            }
-
-            _ => {}
+        if !matches!(bin.op, op!("&&") | op!("||")) {
+            return;
         }
+
+        self.compress_logical_exprs_as_bang_bang(&mut bin.left, true);
+        self.compress_logical_exprs_as_bang_bang(&mut bin.right, true);
 
         let lt = bin.left.get_type(self.ctx.expr_ctx);
         match lt {
