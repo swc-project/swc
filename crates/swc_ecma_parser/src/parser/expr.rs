@@ -2822,8 +2822,10 @@ impl<I: Tokens> Parser<I> {
         }
 
         let try_parse_arrow_expr = |p: &mut Self, id: Ident, id_is_async| -> PResult<Box<Expr>> {
-            if !p.input().had_line_break_before_cur() {
-                if id_is_async && p.is_ident_ref() {
+            let cur = p.input().cur();
+
+            if id_is_async && cur.is_word() && !cur.is_reserved(p.ctx()) {
+                if !p.input().had_line_break_before_cur() {
                     // see https://github.com/tc39/ecma262/issues/2034
                     // ```js
                     // for(async of
@@ -2847,7 +2849,7 @@ impl<I: Tokens> Parser<I> {
                         return Ok(id.into());
                     }
 
-                    let token = p.input().cur();
+                    let token = cur;
                     let ident = p.parse_binding_ident(false)?;
                     if p.input().syntax().typescript()
                         && token == Token::As
@@ -2883,11 +2885,14 @@ impl<I: Tokens> Parser<I> {
                         ..Default::default()
                     }
                     .into());
-                } else if p.input_mut().eat(Token::Arrow) {
+                }
+            } else if cur == Token::Arrow {
+                if !p.input().had_line_break_before_cur() {
                     if p.ctx().contains(Context::Strict) && id.is_reserved_in_strict_bind() {
                         p.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
                     }
                     let params = vec![id.into()];
+                    p.bump();
                     let body = p.parse_fn_block_or_expr_body(
                         false,
                         false,
