@@ -304,12 +304,14 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn bump(&mut self) {
-        let next = match self.next.take() {
-            Some(next) => {
-                self.iter.set_token_value(next.value);
-                next.token_and_span
-            }
-            None => self.iter.next_token(),
+        let next = if self.next.is_none() {
+            self.iter.next_token()
+        } else {
+            let Some(next) = self.next.take() else {
+                unreachable!();
+            };
+            self.iter.set_token_value(next.value);
+            next.token_and_span
         };
         self.prev_span = self.cur.span;
         self.set_cur(next);
