@@ -2383,7 +2383,7 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn read_keyword_with(&mut self, convert: &dyn Fn(&str) -> Option<Token>) -> LexResult<Token> {
+    fn read_keyword_with(&mut self, convert: fn(&str) -> Option<Token>) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
