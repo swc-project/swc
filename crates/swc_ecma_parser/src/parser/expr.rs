@@ -1152,6 +1152,22 @@ impl<I: Tokens> Parser<I> {
         mut expr: Box<Expr>,
         no_call: bool,
     ) -> PResult<Box<Expr>> {
+        let cur = self.input().cur();
+        if !matches!(
+            cur,
+            Token::QuestionMark
+                | Token::LBracket
+                | Token::LParen
+                | Token::Dot
+                | Token::TemplateHead
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::BackQuote
+                | Token::Bang
+                | Token::Lt
+        ) {
+            return Ok(expr);
+        }
+
         let syntax = self.input().syntax();
 
         if !syntax.typescript() {
