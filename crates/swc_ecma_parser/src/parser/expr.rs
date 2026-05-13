@@ -172,7 +172,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
         self.state_mut().potential_arrow_start =
-            if cur.is_known_ident() || matches!(cur, Token::Ident | Token::Yield | Token::LParen) {
+            if matches!(cur, Token::Ident | Token::Yield | Token::LParen) || cur.is_known_ident() {
                 start
             } else {
                 BytePos::SYNTHESIZED
