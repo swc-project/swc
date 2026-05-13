@@ -1896,7 +1896,7 @@ impl<I: Tokens> Parser<I> {
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
 
-        let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) {
+        let type_args = if self.input().is(Token::Lt) && self.syntax().typescript() {
             self.try_parse_ts_type_args()
         } else {
             None
