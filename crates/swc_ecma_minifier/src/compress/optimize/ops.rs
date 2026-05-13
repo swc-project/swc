@@ -182,8 +182,24 @@ impl Optimizer<'_> {
             return;
         }
 
-        self.compress_logical_exprs_as_bang_bang(&mut bin.left, true);
-        self.compress_logical_exprs_as_bang_bang(&mut bin.right, true);
+        if matches!(
+            &*bin.left,
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                ..
+            })
+        ) {
+            self.compress_logical_exprs_as_bang_bang(&mut bin.left, true);
+        }
+        if matches!(
+            &*bin.right,
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                ..
+            })
+        ) {
+            self.compress_logical_exprs_as_bang_bang(&mut bin.right, true);
+        }
 
         let lt = bin.left.get_type(self.ctx.expr_ctx);
         match lt {

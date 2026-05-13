@@ -1960,7 +1960,15 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
-        self.compress_logical_exprs_as_bang_bang(e, false);
+        if matches!(
+            &*e,
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                ..
+            })
+        ) {
+            self.compress_logical_exprs_as_bang_bang(e, false);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
