@@ -518,6 +518,10 @@ impl VisitMut for Finalizer<'_> {
                 if let Some(expr) = self.lits.get(&i.to_id()) {
                     *n = *expr.clone();
                     return;
+                if !self.lits.is_empty() {
+                    if let Some(expr) = self.lits.get(&i.to_id()) {
+                        *n = *expr.clone();
+                    }
                 }
 
                 return;
