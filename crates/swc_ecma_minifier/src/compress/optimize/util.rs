@@ -499,11 +499,14 @@ impl VisitMut for Finalizer<'_> {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
-            Expr::Ident(i) if !self.lits.is_empty() => {
-                if let Some(expr) = self.lits.get(&i.to_id()) {
-                    *n = *expr.clone();
-                    return;
+            Expr::Ident(i) => {
+                if !self.lits.is_empty() {
+                    if let Some(expr) = self.lits.get(&i.to_id()) {
+                        *n = *expr.clone();
+                    }
                 }
+
+                return;
             }
             Expr::Member(e) if !self.hoisted_props.is_empty() => 'a: {
                 if let Expr::Ident(obj) = &*e.obj {
