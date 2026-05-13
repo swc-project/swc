@@ -519,7 +519,7 @@ impl<I: Tokens> Parser<I> {
                 .into(),
             };
 
-            return self.parse_subscripts_expr(call_expr, false, false);
+            return self.parse_subscripts_expr::<false>(call_expr, false);
         }
         if type_args.is_some() {
             // This fails
@@ -1130,31 +1130,35 @@ impl<I: Tokens> Parser<I> {
                 self.parse_subscript_super(start, s, no_call)?
             }
             Callee::Expr(expr) => {
-                return self.parse_subscripts_expr(expr, no_call, no_computed_member);
+                return if no_computed_member {
+                    self.parse_subscripts_expr::<true>(expr, no_call)
+                } else {
+                    self.parse_subscripts_expr::<false>(expr, no_call)
+                };
             }
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
         };
 
-        self.parse_subscripts_expr(expr, no_call, no_computed_member)
+        if no_computed_member {
+            self.parse_subscripts_expr::<true>(expr, no_call)
+        } else {
+            self.parse_subscripts_expr::<false>(expr, no_call)
+        }
     }
 
-    fn parse_subscripts_expr(
+    fn parse_subscripts_expr<const NO_COMPUTED: bool>(
         &mut self,
         mut expr: Box<Expr>,
         no_call: bool,
-        no_computed_member: bool,
     ) -> PResult<Box<Expr>> {
         let syntax = self.input().syntax();
 
         if !syntax.typescript() {
             loop {
-                expr = match self.parse_subscript_without_type_args(
-                    expr,
-                    no_call,
-                    no_computed_member,
-                    syntax,
-                )? {
+                expr = match self
+                    .parse_subscript_without_type_args::<NO_COMPUTED>(expr, no_call, syntax)?
+                {
                     (expr, false) => return Ok(expr),
                     (expr, true) => expr,
                 }
@@ -1162,7 +1166,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             let start = expr.span_lo();
             loop {
-                expr = match self.parse_subscript(start, expr, no_call, no_computed_member)? {
+                expr = match self.parse_subscript::<NO_COMPUTED>(start, expr, no_call)? {
                     (expr, false) => return Ok(expr),
                     (expr, true) => expr,
                 }
@@ -1172,24 +1176,18 @@ impl<I: Tokens> Parser<I> {
 
     /// returned bool is true if this method should be called again.
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    fn parse_subscript(
+    fn parse_subscript<const NO_COMPUTED: bool>(
         &mut self,
         start: BytePos,
         mut callee: Box<Expr>,
         no_call: bool,
-        no_computed_member: bool,
     ) -> PResult<(Box<Expr>, bool)> {
         trace_cur!(self, parse_subscript);
 
         let syntax = self.input().syntax();
 
         if !syntax.typescript() {
-            return self.parse_subscript_without_type_args(
-                callee,
-                no_call,
-                no_computed_member,
-                syntax,
-            );
+            return self.parse_subscript_without_type_args::<NO_COMPUTED>(callee, no_call, syntax);
         }
 
         if syntax.typescript() {
@@ -1302,7 +1300,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         // $obj[name()]
-        if !no_computed_member && self.input_mut().eat(Token::LBracket) {
+        if !NO_COMPUTED && self.input_mut().eat(Token::LBracket) {
             let bracket_lo = self.input().prev_span().lo;
             let prop = self.allow_in_expr(|p| p.parse_expr())?;
             expect!(self, Token::RBracket);
@@ -1462,11 +1460,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[inline(always)]
-    fn parse_subscript_without_type_args(
+    fn parse_subscript_without_type_args<const NO_COMPUTED: bool>(
         &mut self,
         callee: Box<Expr>,
         no_call: bool,
-        no_computed_member: bool,
         syntax: SyntaxFlags,
     ) -> PResult<(Box<Expr>, bool)> {
         let mut cur = self.input().cur();
@@ -1522,7 +1519,7 @@ impl<I: Tokens> Parser<I> {
             return Ok((Box::new(expr), true));
         }
 
-        if !no_computed_member && cur == Token::LBracket {
+        if !NO_COMPUTED && cur == Token::LBracket {
             self.bump();
             let bracket_lo = self.input().prev_span().lo;
             let prop = self.allow_in_expr(|p| p.parse_expr())?;
@@ -1770,7 +1767,7 @@ impl<I: Tokens> Parser<I> {
                         span,
                         kind: MetaPropKind::ImportMeta,
                     };
-                    self.parse_subscripts_expr(expr.into(), no_call, false)
+                    self.parse_subscripts_expr::<false>(expr.into(), no_call)
                 }
                 "defer" => self.parse_dynamic_import_call(start, ImportPhase::Defer),
                 "source" => self.parse_dynamic_import_call(start, ImportPhase::Source),
@@ -1832,7 +1829,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(span, SyntaxError::InvalidNewTarget);
                     }
 
-                    return self.parse_subscripts_expr(expr, true, false);
+                    return self.parse_subscripts_expr::<false>(expr, true);
                 }
 
                 unexpected!(self, "target")
@@ -1905,7 +1902,7 @@ impl<I: Tokens> Parser<I> {
 
                 // We should parse subscripts for MemberExpression.
                 // Because it's left recursive.
-                return self.parse_subscripts_expr(new_expr, true, false);
+                return self.parse_subscripts_expr::<false>(new_expr, true);
             }
 
             // Parsed with 'NewExpression' production.
@@ -1953,7 +1950,7 @@ impl<I: Tokens> Parser<I> {
             obj
         };
 
-        self.parse_subscripts_expr(obj, true, false)
+        self.parse_subscripts_expr::<false>(obj, true)
     }
 
     /// Parse `NewExpression`.
