@@ -37,9 +37,11 @@ impl SafeByteMatchTable {
     #[inline]
     pub const fn use_table(&self) {}
 
-    #[inline]
-    pub const fn matches(&self, b: u8) -> bool {
-        self.0[b as usize]
+    #[inline(always)]
+    pub fn matches(&self, b: u8) -> bool {
+        // Safety: `b` is a byte, so `b as usize` is always within the 256-byte
+        // lookup table.
+        unsafe { *self.0.get_unchecked(b as usize) }
     }
 }
 
