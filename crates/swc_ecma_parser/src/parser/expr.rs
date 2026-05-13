@@ -190,7 +190,11 @@ impl<I: Tokens> Parser<I> {
             _ => {}
         }
 
-        self.finish_assignment_expr(start, cond)
+        if self.input().cur().is_assign_op() {
+            self.finish_assignment_expr(start, cond)
+        } else {
+            Ok(cond)
+        }
     }
 
     #[allow(dead_code)]
