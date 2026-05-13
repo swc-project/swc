@@ -525,6 +525,17 @@ impl Token {
             || (t >= Token::Plus as u8 && t <= Token::Ampersand as u8)
     }
 
+    #[inline(always)]
+    pub const fn needs_unary_expr_prefix_parse(self) -> bool {
+        let t = self as u8;
+        (t >= Token::Bang as u8 && t <= Token::Minus as u8)
+            || (t >= Token::PlusPlus as u8 && t <= Token::MinusMinus as u8)
+            || matches!(
+                self,
+                Token::Lt | Token::Await | Token::Delete | Token::TypeOf | Token::Void
+            )
+    }
+
     pub const fn as_bin_op(self) -> Option<swc_ecma_ast::BinaryOp> {
         match self {
             Token::EqEq => Some(swc_ecma_ast::BinaryOp::EqEq),

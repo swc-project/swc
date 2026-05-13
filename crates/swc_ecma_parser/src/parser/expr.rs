@@ -207,126 +207,131 @@ impl<I: Tokens> Parser<I> {
 
         let cur = self.input().cur();
 
-        if cur == Token::Lt && self.input().syntax().typescript() && !self.input().syntax().jsx() {
-            let start = self.input().cur_pos();
-            self.bump(); // consume `<`
-            return if self.input_mut().eat(Token::Const) {
-                self.expect(Token::Gt)?;
-                let expr = self.parse_unary_expr()?;
-                Ok(TsConstAssertion {
-                    span: self.span(start),
-                    expr,
-                }
-                .into())
-            } else {
-                self.parse_ts_type_assertion(start)
-                    .map(Expr::from)
-                    .map(Box::new)
-            };
-        } else if cur == Token::Lt
-            && self.input().syntax().jsx()
-            && self.input_mut().peek().is_some_and(|peek| {
-                peek.is_word() || peek == Token::Gt || peek.should_rescan_into_gt_in_jsx()
-            })
-        {
-            fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
-                match e {
-                    Either::Left(l) => l.into(),
-                    Either::Right(r) => r.into(),
-                }
-            }
-            return self.parse_jsx_element(true).map(into_expr);
-        } else if matches!(cur, Token::PlusPlus | Token::MinusMinus) {
-            let start = self.input().cur_pos();
-            // Parse update expression
-            let op = if cur == Token::PlusPlus {
-                op!("++")
-            } else {
-                op!("--")
-            };
-            self.bump();
-
-            let arg = self.parse_unary_expr()?;
-            let span = Span::new_with_checked(start, arg.span_hi());
-            self.check_assign_target(&arg, false);
-
-            return Ok(UpdateExpr {
-                span,
-                prefix: true,
-                op,
-                arg,
-            }
-            .into());
-        } else if cur == Token::Delete
-            || cur == Token::Void
-            || cur == Token::TypeOf
-            || cur == Token::Plus
-            || cur == Token::Minus
-            || cur == Token::Tilde
-            || cur == Token::Bang
-        {
-            let start = self.input().cur_pos();
-            // Parse unary expression
-            let op = if cur == Token::Delete {
-                op!("delete")
-            } else if cur == Token::Void {
-                op!("void")
-            } else if cur == Token::TypeOf {
-                op!("typeof")
-            } else if cur == Token::Plus {
-                op!(unary, "+")
-            } else if cur == Token::Minus {
-                op!(unary, "-")
-            } else if cur == Token::Tilde {
-                op!("~")
-            } else {
-                debug_assert!(cur == Token::Bang);
-                op!("!")
-            };
-            self.bump();
-            let arg_start = self.cur_pos() - BytePos(1);
-            let arg = match self.parse_unary_expr() {
-                Ok(expr) => expr,
-                Err(err) => {
-                    self.emit_error(err);
-                    Invalid {
-                        span: Span::new_with_checked(arg_start, arg_start),
+        if cur.needs_unary_expr_prefix_parse() {
+            if cur == Token::Lt
+                && self.input().syntax().typescript()
+                && !self.input().syntax().jsx()
+            {
+                let start = self.input().cur_pos();
+                self.bump(); // consume `<`
+                return if self.input_mut().eat(Token::Const) {
+                    self.expect(Token::Gt)?;
+                    let expr = self.parse_unary_expr()?;
+                    Ok(TsConstAssertion {
+                        span: self.span(start),
+                        expr,
                     }
-                    .into()
-                }
-            };
-
-            if op == op!("delete") {
-                if self.input().syntax().flow()
-                    && matches!(
-                        arg.as_ref(),
-                        Expr::Member(MemberExpr {
-                            prop: MemberProp::PrivateName(..),
-                            ..
-                        })
-                    )
-                {
-                    self.emit_err(arg.span(), SyntaxError::TS1003);
-                }
-
-                // Skip emitting TS1102 in TypeScript mode because it's a semantic error
-                // that should be handled by the type checker, not the parser.
-                // See: https://github.com/swc-project/swc/issues/10558
-                if !self.input().syntax().typescript() {
-                    if let Expr::Ident(ref i) = *arg {
-                        self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                    .into())
+                } else {
+                    self.parse_ts_type_assertion(start)
+                        .map(Expr::from)
+                        .map(Box::new)
+                };
+            } else if cur == Token::Lt
+                && self.input().syntax().jsx()
+                && self.input_mut().peek().is_some_and(|peek| {
+                    peek.is_word() || peek == Token::Gt || peek.should_rescan_into_gt_in_jsx()
+                })
+            {
+                fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
+                    match e {
+                        Either::Left(l) => l.into(),
+                        Either::Right(r) => r.into(),
                     }
                 }
-            }
+                return self.parse_jsx_element(true).map(into_expr);
+            } else if matches!(cur, Token::PlusPlus | Token::MinusMinus) {
+                let start = self.input().cur_pos();
+                // Parse update expression
+                let op = if cur == Token::PlusPlus {
+                    op!("++")
+                } else {
+                    op!("--")
+                };
+                self.bump();
 
-            return Ok(UnaryExpr {
-                span: Span::new_with_checked(start, arg.span_hi()),
-                op,
-                arg,
+                let arg = self.parse_unary_expr()?;
+                let span = Span::new_with_checked(start, arg.span_hi());
+                self.check_assign_target(&arg, false);
+
+                return Ok(UpdateExpr {
+                    span,
+                    prefix: true,
+                    op,
+                    arg,
+                }
+                .into());
+            } else if cur == Token::Delete
+                || cur == Token::Void
+                || cur == Token::TypeOf
+                || cur == Token::Plus
+                || cur == Token::Minus
+                || cur == Token::Tilde
+                || cur == Token::Bang
+            {
+                let start = self.input().cur_pos();
+                // Parse unary expression
+                let op = if cur == Token::Delete {
+                    op!("delete")
+                } else if cur == Token::Void {
+                    op!("void")
+                } else if cur == Token::TypeOf {
+                    op!("typeof")
+                } else if cur == Token::Plus {
+                    op!(unary, "+")
+                } else if cur == Token::Minus {
+                    op!(unary, "-")
+                } else if cur == Token::Tilde {
+                    op!("~")
+                } else {
+                    debug_assert!(cur == Token::Bang);
+                    op!("!")
+                };
+                self.bump();
+                let arg_start = self.cur_pos() - BytePos(1);
+                let arg = match self.parse_unary_expr() {
+                    Ok(expr) => expr,
+                    Err(err) => {
+                        self.emit_error(err);
+                        Invalid {
+                            span: Span::new_with_checked(arg_start, arg_start),
+                        }
+                        .into()
+                    }
+                };
+
+                if op == op!("delete") {
+                    if self.input().syntax().flow()
+                        && matches!(
+                            arg.as_ref(),
+                            Expr::Member(MemberExpr {
+                                prop: MemberProp::PrivateName(..),
+                                ..
+                            })
+                        )
+                    {
+                        self.emit_err(arg.span(), SyntaxError::TS1003);
+                    }
+
+                    // Skip emitting TS1102 in TypeScript mode because it's a semantic error
+                    // that should be handled by the type checker, not the parser.
+                    // See: https://github.com/swc-project/swc/issues/10558
+                    if !self.input().syntax().typescript() {
+                        if let Expr::Ident(ref i) = *arg {
+                            self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                        }
+                    }
+                }
+
+                return Ok(UnaryExpr {
+                    span: Span::new_with_checked(start, arg.span_hi()),
+                    op,
+                    arg,
+                }
+                .into());
+            } else if cur == Token::Await {
+                return self.parse_await_expr(None);
             }
-            .into());
-        } else if cur == Token::Await {
-            return self.parse_await_expr(None);
         }
 
         // UpdateExpression
