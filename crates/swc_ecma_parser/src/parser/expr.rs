@@ -1947,8 +1947,14 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<(Box<Expr>, Option<u8>)> {
         const PREC_OF_IN: u8 = 7;
 
-        if self.input().syntax().typescript() && !self.input().had_line_break_before_cur() {
-            if PREC_OF_IN > min_prec && self.input().is(Token::As) {
+        // Return left on eof
+        let cur = self.input().cur();
+
+        if (cur == Token::As || cur == Token::Satisfies)
+            && self.input().syntax().typescript()
+            && !self.input().had_line_break_before_cur()
+        {
+            if PREC_OF_IN > min_prec && cur == Token::As {
                 let start = left.span_lo();
                 let expr = left;
                 let node = if peek!(self).is_some_and(|cur| cur == Token::Const) {
@@ -1970,7 +1976,7 @@ impl<I: Tokens> Parser<I> {
                 };
 
                 return self.parse_bin_op_recursively_inner(node, min_prec);
-            } else if self.input().is(Token::Satisfies) {
+            } else if cur == Token::Satisfies {
                 let start = left.span_lo();
                 let expr = left;
                 let node = {
@@ -1987,8 +1993,6 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        // Return left on eof
-        let cur = self.input().cur();
         let op = if cur == Token::In && self.ctx().contains(Context::IncludeInExpr) {
             op!("in")
         } else if cur == Token::InstanceOf {
