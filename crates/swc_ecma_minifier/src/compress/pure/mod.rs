@@ -439,7 +439,7 @@ impl VisitMut for Pure<'_> {
 
         self.eval_str_addition(e);
 
-        if self.changed {
+        if self.changed && matches!(e, Expr::Seq(..) | Expr::Bin(..)) {
             self.remove_invalid(e);
         }
 
