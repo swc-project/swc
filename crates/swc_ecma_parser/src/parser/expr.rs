@@ -1991,14 +1991,15 @@ impl<I: Tokens> Parser<I> {
             return Ok((left, None));
         };
 
-        if op.precedence() <= min_prec {
+        let op_prec = op.precedence();
+        if op_prec <= min_prec {
             if cfg!(feature = "debug") {
                 tracing::trace!(
                     "returning {:?} without parsing {:?} because min_prec={}, prec={}",
                     left,
                     op,
                     min_prec,
-                    op.precedence()
+                    op_prec
                 );
             }
 
@@ -2022,7 +2023,7 @@ impl<I: Tokens> Parser<I> {
                 "parsing binary op {:?} min_prec={}, prec={}",
                 op,
                 min_prec,
-                op.precedence()
+                op_prec
             );
         }
         match *left {
@@ -2050,9 +2051,9 @@ impl<I: Tokens> Parser<I> {
                 left_of_right,
                 if op == op!("**") {
                     // exponential operator is right associative
-                    op.precedence() - 1
+                    op_prec - 1
                 } else {
-                    op.precedence()
+                    op_prec
                 },
             )?
         };
