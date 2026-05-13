@@ -97,7 +97,10 @@ impl Repeated for Pure<'_> {
 impl Pure<'_> {
     #[inline(always)]
     fn is_expr_leaf(e: &Expr) -> bool {
-        matches!(e, Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..))
+        matches!(
+            e,
+            Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..) | Expr::This(..)
+        )
     }
 
     #[inline(always)]
