@@ -2914,21 +2914,19 @@ impl<I: Tokens> Parser<I> {
             }
             .into())
         } else if cur == Token::Ident {
-            let token_start = self.input().cur_pos();
             let word = self.input_mut().expect_word_token_and_bump();
             if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
                 self.emit_err(self.input().prev_span(), SyntaxError::ArgumentsInClassField)
             };
-            let id = Ident::new_no_ctxt(word, self.span(token_start));
+            let id = Ident::new_no_ctxt(word, self.span(start));
             if !can_be_arrow {
                 return Ok(id.into());
             }
             try_parse_arrow_expr(self, id, false)
         } else if self.is_ident_ref() {
             let cur = self.input().cur();
-            let token_start = self.input().cur_pos();
             let word = self.input_mut().expect_word_token_and_bump();
-            let id = Ident::new_no_ctxt(word, self.span(token_start));
+            let id = Ident::new_no_ctxt(word, self.span(start));
             if !can_be_arrow {
                 return Ok(id.into());
             }
