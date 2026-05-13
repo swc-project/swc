@@ -25,6 +25,10 @@ impl Optimizer<'_> {
         self.eval_known_static_method_call(e);
     }
 
+    pub(super) fn evaluate_ident(&mut self, e: &mut Expr) {
+        self.eval_global_vars(e);
+    }
+
     fn eval_fn_props(&mut self, e: &mut Expr) -> Option<()> {
         if self
             .ctx

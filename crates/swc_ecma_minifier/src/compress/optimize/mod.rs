@@ -1858,7 +1858,7 @@ impl VisitMut for Optimizer<'_> {
             self.inline(e);
 
             if matches!(e, Expr::Ident(..)) {
-                self.evaluate(e);
+                self.evaluate_ident(e);
 
                 #[cfg(feature = "trace-ast")]
                 tracing::debug!("Output: {}", dump(e, true));
