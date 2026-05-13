@@ -373,7 +373,7 @@ impl<'a> Token {
         buffer.expect_error_token_value()
     }
 
-    #[inline]
+    #[inline(always)]
     pub fn take_word<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
         if self == Token::Ident {
             let value = buffer.get_token_value();
