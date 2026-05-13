@@ -98,20 +98,17 @@ macro_rules! byte_search {
         let $byte = 'outer: loop {
             let batch_end = $pos + $crate::lexer::search::SEARCH_BATCH_SIZE;
             let $byte = if batch_end < len {
-                // Safety: `batch_end < len`
-                let batch = unsafe {
-                    std::slice::from_raw_parts(
-                        bytes.add($pos),
-                        $crate::lexer::search::SEARCH_BATCH_SIZE,
-                    )
-                };
                 'inner: loop {
-                    for (i, &byte) in batch.iter().enumerate() {
+                    let mut i = 0;
+                    while i < $crate::lexer::search::SEARCH_BATCH_SIZE {
+                        // Safety: `batch_end < len` and `i < SEARCH_BATCH_SIZE`.
+                        let byte = unsafe { *bytes.add($pos + i) };
                         if $table.matches(byte) {
                             // We find a matched byte, jump out to check with continue_if
                             $pos += i;
                             break 'inner byte;
                         }
+                        i += 1;
                     }
 
                     // We don't find a matched byte in this batch,
@@ -122,14 +119,17 @@ macro_rules! byte_search {
             } else {
                 'inner: loop {
                     // The remaining is shorter than batch size.
-                    let remaining =
-                        unsafe { std::slice::from_raw_parts(bytes.add($pos), len - $pos) };
-                    for (i, &byte) in remaining.iter().enumerate() {
+                    let remaining_len = len - $pos;
+                    let mut i = 0;
+                    while i < remaining_len {
+                        // Safety: `i < remaining_len`.
+                        let byte = unsafe { *bytes.add($pos + i) };
                         if $table.matches(byte) {
                             // We find a matched byte, jump out to check with continue_if
                             $pos += i;
                             break 'inner byte;
                         }
+                        i += 1;
                     }
 
                     // We don't find a matched byte in the remaining,
