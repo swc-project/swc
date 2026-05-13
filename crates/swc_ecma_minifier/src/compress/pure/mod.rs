@@ -605,7 +605,13 @@ impl VisitMut for Pure<'_> {
             self.eval_str_addition(e);
         self.eval_str_addition(e);
 
-        if self.changed && matches!(e, Expr::Seq(..) | Expr::Bin(..)) {
+        let should_remove_invalid = match e {
+            Expr::Seq(seq) => seq.exprs.iter().any(|expr| expr.is_invalid()),
+            Expr::Bin(BinExpr { left, right, .. }) => left.is_invalid() || right.is_invalid(),
+            _ => false,
+        };
+
+        if should_remove_invalid {
             self.remove_invalid(e);
         }
 
