@@ -2015,6 +2015,71 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
+        // This is not accurate check but avoid some trivial cases.
+        if self.changed {
+            self.remove_invalid_bin(e);
+        }
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.optimize_str_access_to_arguments(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.replace_props(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.drop_unused_assignments(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.compress_lits(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.compress_typeofs(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.drop_console(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        if matches!(
+            &*e,
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                ..
+            })
+        ) {
+            self.compress_logical_exprs_as_bang_bang(e, false);
+        }
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.inline(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.handle_property_access(e);
 
         if e.is_seq() {
