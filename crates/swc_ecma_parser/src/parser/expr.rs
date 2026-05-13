@@ -2025,26 +2025,6 @@ impl<I: Tokens> Parser<I> {
                 return Ok(next_left);
             };
 
-            match &*next_left {
-                Expr::Bin(BinExpr {
-                    span,
-                    left,
-                    op: op!("&&"),
-                    ..
-                })
-                | Expr::Bin(BinExpr {
-                    span,
-                    left,
-                    op: op!("||"),
-                    ..
-                }) => {
-                    if let Expr::Bin(BinExpr { op: op!("??"), .. }) = &**left {
-                        self.emit_err(*span, SyntaxError::NullishCoalescingWithLogicalOp);
-                    }
-                }
-                _ => {}
-            }
-
             min_prec = next_prec;
             left = next_left;
         }
@@ -2211,8 +2191,15 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
+        let span = Span::new_with_checked(left.span_lo(), right.span_hi());
+        if (op == op!("&&") || op == op!("||"))
+            && matches!(left.as_ref(), Expr::Bin(BinExpr { op: op!("??"), .. }))
+        {
+            self.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
+        }
+
         let node = BinExpr {
-            span: Span::new_with_checked(left.span_lo(), right.span_hi()),
+            span,
             op,
             left,
             right,
