@@ -1495,12 +1495,13 @@ impl<I: Tokens> Parser<I> {
             debug_assert_eq!(callee.span_lo(), span.lo());
             debug_assert_eq!(prop.span_hi(), span.hi());
 
+            let is_opt_chain = unwrap_ts_non_null(&callee).is_opt_chain();
             let expr = MemberExpr {
                 span,
                 obj: callee,
                 prop,
             };
-            let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain() {
+            let expr = if is_opt_chain {
                 OptChainExpr {
                     span: self.span(start),
                     optional: false,
@@ -1592,16 +1593,12 @@ impl<I: Tokens> Parser<I> {
                 obj: callee,
                 prop,
             };
-            let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain() || question_dot {
-                OptChainExpr {
-                    span: self.span(start),
-                    optional: question_dot,
-                    base: Box::new(OptChainBase::Member(expr)),
-                }
-                .into()
-            } else {
-                expr.into()
-            };
+            let expr = OptChainExpr {
+                span: self.span(start),
+                optional: true,
+                base: Box::new(OptChainBase::Member(expr)),
+            }
+            .into();
 
             return Ok((Box::new(expr), true));
         }
