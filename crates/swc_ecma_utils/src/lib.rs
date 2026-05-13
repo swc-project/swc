@@ -3404,60 +3404,59 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
     }
 }
 
-fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
-    if expr.is_global_ref_to(ctx, "Date") {
-        return true;
-    }
+#[inline(always)]
+fn is_pure_str_method(method: &str) -> bool {
+    matches!(
+        method,
+        "charAt"
+            | "charCodeAt"
+            | "concat"
+            | "endsWith"
+            | "includes"
+            | "indexOf"
+            | "lastIndexOf"
+            | "localeCompare"
+            | "slice"
+            | "split"
+            | "startsWith"
+            | "substr"
+            | "substring"
+            | "toLocaleLowerCase"
+            | "toLocaleUpperCase"
+            | "toLowerCase"
+            | "toString"
+            | "toUpperCase"
+            | "trim"
+            | "trimEnd"
+            | "trimStart"
+    )
+}
 
-    match expr {
-        Expr::Member(MemberExpr {
-            obj,
-            prop: MemberProp::Ident(prop),
-            ..
+#[inline(always)]
+fn is_pure_member_callee(obj: &Expr, prop: &MemberProp, ctx: ExprCtx) -> bool {
+    let MemberProp::Ident(prop) = prop else {
+        return false;
+    };
+
+    match obj {
+        Expr::Ident(Ident {
+            ctxt, sym: math, ..
         }) => {
-            // Some methods of string are pure
-            fn is_pure_str_method(method: &str) -> bool {
-                matches!(
-                    method,
-                    "charAt"
-                        | "charCodeAt"
-                        | "concat"
-                        | "endsWith"
-                        | "includes"
-                        | "indexOf"
-                        | "lastIndexOf"
-                        | "localeCompare"
-                        | "slice"
-                        | "split"
-                        | "startsWith"
-                        | "substr"
-                        | "substring"
-                        | "toLocaleLowerCase"
-                        | "toLocaleUpperCase"
-                        | "toLowerCase"
-                        | "toString"
-                        | "toUpperCase"
-                        | "trim"
-                        | "trimEnd"
-                        | "trimStart"
-                )
-            }
-
-            obj.is_global_ref_to(ctx, "Math")
-                || match &**obj {
-                    // Allow dummy span
-                    Expr::Ident(Ident {
-                        ctxt, sym: math, ..
-                    }) => &**math == "Math" && *ctxt == SyntaxContext::empty(),
-
-                    Expr::Lit(Lit::Str(..)) => is_pure_str_method(&prop.sym),
-                    Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty() => {
-                        is_pure_str_method(&prop.sym)
-                    }
-
-                    _ => false,
-                }
+            &**math == "Math" && (*ctxt == ctx.unresolved_ctxt || *ctxt == SyntaxContext::empty())
         }
+
+        Expr::Lit(Lit::Str(..)) => is_pure_str_method(&prop.sym),
+        Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty() => is_pure_str_method(&prop.sym),
+
+        _ => false,
+    }
+}
+
+fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
+    match expr {
+        Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == "Date",
+
+        Expr::Member(MemberExpr { obj, prop, .. }) => is_pure_member_callee(obj, prop, ctx),
 
         Expr::Fn(FnExpr { function: f, .. })
             if f.params.iter().all(|p| p.pat.is_ident())
@@ -3591,7 +3590,9 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
         }
 
-        Expr::Member(..) if expr.is_pure_callee(ctx) => false,
+        Expr::Member(MemberExpr { obj, prop, .. }) if is_pure_member_callee(obj, prop, ctx) => {
+            false
+        }
 
         Expr::Member(MemberExpr { obj, prop, .. })
             if obj.is_object() || obj.is_fn_expr() || obj.is_arrow() || obj.is_class() =>
