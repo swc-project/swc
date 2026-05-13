@@ -84,15 +84,48 @@ macro_rules! byte_search {
         }
     };
 
+    // Variant for callers that know an initial prefix cannot match and want to
+    // advance the input only once at the end of the search.
+    (
+        lexer: $lexer:ident,
+        table: $table:ident,
+        start_at: $start_at:expr,
+        handle_eof: $eof_handler:expr $(,)?
+    ) => {
+        byte_search! {
+            lexer: $lexer,
+            table: $table,
+            start_at: $start_at,
+            continue_if: (_byte, _pos) false,
+            handle_eof: $eof_handler,
+        }
+    };
+
     // Full version with continue_if support
     (
         lexer: $lexer:ident,
         table: $table:ident,
         continue_if: ($byte:ident, $pos:ident) $should_continue:expr,
         handle_eof: $eof_handler:expr $(,)?
+    ) => {
+        byte_search! {
+            lexer: $lexer,
+            table: $table,
+            start_at: 0,
+            continue_if: ($byte, $pos) $should_continue,
+            handle_eof: $eof_handler,
+        }
+    };
+
+    (
+        lexer: $lexer:ident,
+        table: $table:ident,
+        start_at: $start_at:expr,
+        continue_if: ($byte:ident, $pos:ident) $should_continue:expr,
+        handle_eof: $eof_handler:expr $(,)?
     ) => {{
         $table.use_table();
-        let mut $pos = 0;
+        let mut $pos = $start_at;
         let bytes = $lexer.input().as_str().as_bytes();
         let len = bytes.len();
         let bytes = bytes.as_ptr();
