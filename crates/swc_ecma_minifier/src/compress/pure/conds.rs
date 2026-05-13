@@ -294,7 +294,6 @@ impl Pure<'_> {
         let lt = bin.left.get_type(self.expr_ctx);
         let rt = bin.right.get_type(self.expr_ctx);
 
-        let _lb = bin.left.as_pure_bool(self.expr_ctx);
         let rb = bin.right.as_pure_bool(self.expr_ctx);
 
         if bin.op == op!("||") {
