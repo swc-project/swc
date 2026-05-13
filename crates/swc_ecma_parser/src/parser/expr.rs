@@ -1447,17 +1447,33 @@ impl<I: Tokens> Parser<I> {
         no_computed_member: bool,
         syntax: SyntaxFlags,
     ) -> PResult<(Box<Expr>, bool)> {
-        let question_dot = if self.input().is(Token::QuestionMark)
-            && peek!(self).is_some_and(|peek| peek == Token::Dot)
-        {
-            self.bump();
-            self.bump();
-            true
-        } else {
-            false
-        };
+        let mut cur = self.input().cur();
+        let question_dot =
+            if cur == Token::QuestionMark && peek!(self).is_some_and(|peek| peek == Token::Dot) {
+                self.bump();
+                self.bump();
+                cur = self.input().cur();
+                true
+            } else {
+                false
+            };
 
-        if !no_computed_member && self.input_mut().eat(Token::LBracket) {
+        if !question_dot
+            && !matches!(
+                cur,
+                Token::LBracket
+                    | Token::LParen
+                    | Token::Dot
+                    | Token::TemplateHead
+                    | Token::NoSubstitutionTemplateLiteral
+                    | Token::BackQuote
+            )
+        {
+            return Ok((callee, false));
+        }
+
+        if !no_computed_member && cur == Token::LBracket {
+            self.bump();
             let bracket_lo = self.input().prev_span().lo;
             let prop = self.allow_in_expr(|p| p.parse_expr())?;
             expect!(self, Token::RBracket);
@@ -1488,7 +1504,7 @@ impl<I: Tokens> Parser<I> {
             return Ok((Box::new(expr), true));
         }
 
-        if self.input.is(Token::LParen) && (!no_call || question_dot) {
+        if cur == Token::LParen && (!no_call || question_dot) {
             let args = self.parse_args(false)?;
             let span = self.span(start);
             return if question_dot || unwrap_ts_non_null(&callee).is_opt_chain() {
@@ -1514,7 +1530,10 @@ impl<I: Tokens> Parser<I> {
             };
         }
 
-        if question_dot || self.input_mut().eat(Token::Dot) {
+        if question_dot || cur == Token::Dot {
+            if !question_dot {
+                self.bump();
+            }
             let prop = self.parse_maybe_private_name().map(|e| match e {
                 Either::Left(p) => MemberProp::PrivateName(p),
                 Either::Right(i) => MemberProp::Ident(i),
@@ -1548,7 +1567,6 @@ impl<I: Tokens> Parser<I> {
             return Ok((Box::new(expr), true));
         }
 
-        let cur = self.input().cur();
         if matches!(
             cur,
             Token::TemplateHead | Token::NoSubstitutionTemplateLiteral | Token::BackQuote
