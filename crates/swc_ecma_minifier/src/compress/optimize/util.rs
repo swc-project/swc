@@ -692,11 +692,6 @@ impl VisitMut for NormalMultiReplacer<'_> {
         if self.vars.is_empty() {
             return;
         }
-        e.visit_mut_children_with(self);
-
-        if self.vars.is_empty() {
-            return;
-        }
 
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id()) {
@@ -705,7 +700,11 @@ impl VisitMut for NormalMultiReplacer<'_> {
 
                 *e = *new;
             }
+
+            return;
         }
+
+        e.visit_mut_children_with(self);
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
