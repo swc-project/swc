@@ -1907,12 +1907,13 @@ impl<I: Tokens> Parser<I> {
                 .map(Stmt::from);
         }
 
+        let top_level = self.ctx().contains(Context::TopLevel);
+
         let cur = self.input().cur();
-        if cur == Token::Ident && self.is_flow_match_keyword() {
+        if self.is_flow_match_keyword() {
             return self.parse_flow_match_stmt(start);
         }
 
-        let top_level = self.ctx().contains(Context::TopLevel);
         if cur == Token::Await && (include_decl || top_level) {
             if top_level {
                 self.mark_found_module_item();
@@ -1937,7 +1938,7 @@ impl<I: Tokens> Parser<I> {
                 return Ok(ExprStmt { span, expr }.into());
             }
         } else if cur == Token::Break || cur == Token::Continue {
-            let is_break = cur == Token::Break;
+            let is_break = self.input().is(Token::Break);
             self.bump();
             let label = if self.eat_general_semi() {
                 None
@@ -2083,7 +2084,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         // Handle async function foo() {}
-        if cur == Token::Async
+        if self.input().is(Token::Async)
             && peek!(self).is_some_and(|peek| peek == Token::Function)
             && !self.input_mut().has_linebreak_between_cur_and_peeked()
         {
@@ -2095,7 +2096,7 @@ impl<I: Tokens> Parser<I> {
         // simply start parsing an expression, and afterwards, if the
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
-        let expr_token = cur;
+        let expr_token = self.input().cur();
         let expr = self.allow_in_expr(|p| p.parse_expr())?;
 
         let expr = match *expr {
