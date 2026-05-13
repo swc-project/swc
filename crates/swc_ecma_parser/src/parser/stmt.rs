@@ -97,9 +97,8 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_return_stmt(&mut self) -> PResult<Stmt> {
-        let start = self.cur_pos();
-
         self.assert_and_bump(Token::Return);
+        let start = self.input().prev_span().lo;
 
         let arg = if self.is_general_semi() {
             None
