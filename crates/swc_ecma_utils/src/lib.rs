@@ -2782,11 +2782,49 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         return (MayBeImpure, Unknown);
     };
 
-    if expr.is_global_ref_to(ctx, "undefined") {
-        return (Pure, Known(false));
+    if let Expr::Ident(i) = expr {
+        if &*i.sym == "NaN" {
+            return (Pure, Known(false));
+        }
+
+        if i.ctxt != ctx.unresolved_ctxt {
+            return (Pure, Unknown);
+        }
+
+        if &*i.sym == "undefined" {
+            return (Pure, Known(false));
+        }
+
+        return if ctx.is_unresolved_ref_safe
+            || matches!(
+                &*i.sym,
+                "Infinity"
+                    | "Math"
+                    | "Object"
+                    | "Array"
+                    | "Date"
+                    | "Promise"
+                    | "Boolean"
+                    | "Number"
+                    | "String"
+                    | "BigInt"
+                    | "Error"
+                    | "RegExp"
+                    | "Function"
+                    | "document"
+            ) {
+            (Pure, Unknown)
+        } else {
+            (MayBeImpure, Unknown)
+        };
     }
-    if expr.is_nan() {
-        return (Pure, Known(false));
+
+    if matches!(expr, Expr::This(..)) {
+        return (Pure, Unknown);
+    }
+
+    if matches!(expr, Expr::Fn(..)) {
+        return (Pure, Known(true));
     }
 
     let val = match expr {
