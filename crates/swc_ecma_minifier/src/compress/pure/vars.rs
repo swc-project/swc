@@ -225,7 +225,7 @@ impl Pure<'_> {
             });
 
             // Check for nested variable declartions.
-            let visitor_need_work = if target == VarDeclKind::Var {
+            let visitor_need_work = if !if_need_work && target == VarDeclKind::Var {
                 let mut v = VarWithOutInitCounter {
                     target,
                     need_work: Default::default(),
@@ -313,16 +313,26 @@ impl Visit for VarWithOutInitCounter {
     fn visit_setter_prop(&mut self, _: &SetterProp) {}
 
     fn visit_var_decl(&mut self, v: &VarDecl) {
+        if self.need_work {
+            return;
+        }
+
         v.visit_children_with(self);
+
+        if self.need_work {
+            return;
+        }
 
         if v.kind != self.target {
             return;
         }
 
         let mut found_init = false;
+        let mut all_without_init = true;
         for d in &v.decls {
             if d.init.is_some() {
                 found_init = true;
+                all_without_init = false;
             } else {
                 if found_init {
                     self.need_work = true;
@@ -331,7 +341,7 @@ impl Visit for VarWithOutInitCounter {
             }
         }
 
-        if v.decls.iter().all(|v| v.init.is_none()) {
+        if all_without_init {
             if self.found_var_without_init || self.found_var_with_init {
                 self.need_work = true;
             }
@@ -342,12 +352,30 @@ impl Visit for VarWithOutInitCounter {
     }
 
     fn visit_module_item(&mut self, s: &ModuleItem) {
+        if self.need_work {
+            return;
+        }
+
         if let ModuleItem::Stmt(_) = s {
             s.visit_children_with(self);
         }
     }
 
+    fn visit_module_items(&mut self, items: &[ModuleItem]) {
+        for item in items {
+            if self.need_work {
+                return;
+            }
+
+            item.visit_with(self);
+        }
+    }
+
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
+        if self.need_work {
+            return;
+        }
+
         if self.target != VarDeclKind::Var {
             // noop
             return;
@@ -357,6 +385,16 @@ impl Visit for VarWithOutInitCounter {
     }
 
     fn visit_for_head(&mut self, _: &ForHead) {}
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        for stmt in stmts {
+            if self.need_work {
+                return;
+            }
+
+            stmt.visit_with(self);
+        }
+    }
 }
 
 /// Moves all variable without initializer.
