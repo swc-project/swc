@@ -2128,15 +2128,17 @@ impl<I: Tokens> Parser<I> {
             return Ok((left, None));
         }
 
-        let left_is_jsx = match left.as_ref() {
-            Expr::JSXElement(..) | Expr::JSXFragment(..) => true,
-            Expr::Paren(ParenExpr { expr, .. }) => {
-                matches!(expr.as_ref(), Expr::JSXElement(..) | Expr::JSXFragment(..))
+        if op == op!("<") && self.syntax().flow() && self.syntax().jsx() {
+            let left_is_jsx = match left.as_ref() {
+                Expr::JSXElement(..) | Expr::JSXFragment(..) => true,
+                Expr::Paren(ParenExpr { expr, .. }) => {
+                    matches!(expr.as_ref(), Expr::JSXElement(..) | Expr::JSXFragment(..))
+                }
+                _ => false,
+            };
+            if left_is_jsx {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
             }
-            _ => false,
-        };
-        if self.syntax().flow() && self.syntax().jsx() && op == op!("<") && left_is_jsx {
-            self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
         }
 
         self.bump();
@@ -2148,23 +2150,25 @@ impl<I: Tokens> Parser<I> {
                 op_prec
             );
         }
-        match *left {
-            // This is invalid syntax.
-            Expr::Unary { .. } | Expr::Await(..) if op == op!("**") => {
-                // Correct implementation would be returning Ok(left) and
-                // returning "unexpected token '**'" on next.
-                // But it's not useful error message.
+        if op == op!("**") {
+            match *left {
+                // This is invalid syntax.
+                Expr::Unary { .. } | Expr::Await(..) => {
+                    // Correct implementation would be returning Ok(left) and
+                    // returning "unexpected token '**'" on next.
+                    // But it's not useful error message.
 
-                syntax_error!(
-                    self,
-                    SyntaxError::UnaryInExp {
-                        // FIXME: Use display
-                        left: format!("{left:?}"),
-                        left_span: left.span(),
-                    }
-                )
+                    syntax_error!(
+                        self,
+                        SyntaxError::UnaryInExp {
+                            // FIXME: Use display
+                            left: format!("{left:?}"),
+                            left_span: left.span(),
+                        }
+                    )
+                }
+                _ => {}
             }
-            _ => {}
         }
 
         let right = {
