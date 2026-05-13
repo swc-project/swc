@@ -157,6 +157,9 @@ impl<'a> Lexer<'a> {
                 Some(v) => v,
                 None => return,
             };
+            if byte > b' ' && byte != b'/' && byte < 0x80 {
+                break;
+            }
 
             let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
             if !handler(self) {
