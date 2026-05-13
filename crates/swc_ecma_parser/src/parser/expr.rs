@@ -420,17 +420,18 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_lhs_expr);
 
-        let start = self.input().cur_pos();
         let cur = self.input().cur();
 
         // `super()` can't be handled from parse_new_expr()
         if cur == Token::Super {
+            let start = self.input().cur_pos();
             self.bump(); // eat `super`
             let obj = Callee::Super(Super {
                 span: self.span(start),
             });
             return self.parse_subscripts(obj, false, false);
         } else if cur == Token::Import {
+            let start = self.input().cur_pos();
             self.bump(); // eat `import`
             return self.parse_dynamic_import_or_import_meta(start, false);
         }
@@ -474,6 +475,7 @@ impl<I: Tokens> Parser<I> {
         if self.input().is(Token::LParen) {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
+            let start = callee.span_lo();
             let (callee, is_import) = match callee {
                 _ if callee.is_ident_ref_to("import") => (
                     Callee::Import(Import {
