@@ -346,12 +346,6 @@ impl Visit for VarWithOutInitCounter {
             return;
         }
 
-        v.visit_children_with(self);
-
-        if self.need_work {
-            return;
-        }
-
         if v.kind != self.target {
             return;
         }

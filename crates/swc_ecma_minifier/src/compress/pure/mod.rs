@@ -101,6 +101,7 @@ impl Pure<'_> {
             e,
             Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..) | Expr::This(..)
         )
+        matches!(e, Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..))
     }
 
     #[inline(always)]
@@ -482,6 +483,8 @@ impl VisitMut for Pure<'_> {
             return;
         }
 
+        self.handle_known_delete(e);
+
         e.visit_mut_children_with(self);
 
         // Expression simplifier
@@ -605,11 +608,11 @@ impl VisitMut for Pure<'_> {
             self.eval_str_addition(e);
         self.eval_str_addition(e);
 
-        let should_remove_invalid = match e {
-            Expr::Seq(seq) => seq.exprs.iter().any(|expr| expr.is_invalid()),
-            Expr::Bin(BinExpr { left, right, .. }) => left.is_invalid() || right.is_invalid(),
-            _ => false,
-        };
+        match e {
+            Expr::Seq(seq) => {
+                if seq.exprs.iter().any(|expr| expr.is_invalid()) {
+                    self.remove_invalid(e);
+                }
 
         if should_remove_invalid {
             self.remove_invalid(e);
