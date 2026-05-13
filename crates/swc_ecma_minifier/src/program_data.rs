@@ -234,56 +234,52 @@ impl Storage for ProgramData {
             let inited = self.initialized_vars.contains(&id);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
+                    let e = e.get_mut();
+
                     if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
-                        e.get_mut()
-                            .flags
-                            .insert(VarUsageInfoFlags::INLINE_PREVENTED);
+                        e.flags.insert(VarUsageInfoFlags::INLINE_PREVENTED);
                     }
                     let var_assigned = var_info.assign_count > 0
                         || (var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
-                            && !e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED));
+                            && !e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED));
 
-                    if var_info.assign_count > 0 {
-                        if e.get().initialized() {
-                            e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
-                        }
+                    if var_info.assign_count > 0 && e.initialized() {
+                        e.flags.insert(VarUsageInfoFlags::REASSIGNED);
                     }
 
                     if var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
                         // If it is inited in some other child scope and also inited in current
                         // scope
-                        if e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
-                            || e.get().ref_count > 0
-                        {
-                            e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+                        if e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) || e.ref_count > 0 {
+                            e.flags.insert(VarUsageInfoFlags::REASSIGNED);
                         } else {
                             // If it is referred outside child scope, it will
                             // be marked as var_initialized false
-                            e.get_mut().flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
+                            e.flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
                         }
                     } else {
                         // If it is inited in some other child scope, but referenced in
                         // current child scope
                         if !inited
-                            && e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+                            && e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
                             && var_info.ref_count > 0
                         {
-                            e.get_mut().flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
-                            e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+                            e.flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
+                            e.flags.insert(VarUsageInfoFlags::REASSIGNED);
                         }
                     }
 
-                    e.get_mut().merged_var_type.merge(var_info.merged_var_type);
+                    e.merged_var_type.merge(var_info.merged_var_type);
 
-                    e.get_mut().ref_count += var_info.ref_count;
-                    e.get_mut().property_mutation_count |= var_info.property_mutation_count;
-                    e.get_mut().declared_count += var_info.declared_count;
-                    e.get_mut().assign_count += var_info.assign_count;
-                    e.get_mut().usage_count += var_info.usage_count;
-                    e.get_mut().infects_to.extend(var_info.infects_to);
-                    e.get_mut().callee_count += var_info.callee_count;
+                    e.ref_count += var_info.ref_count;
+                    e.property_mutation_count |= var_info.property_mutation_count;
+                    e.declared_count += var_info.declared_count;
+                    e.assign_count += var_info.assign_count;
+                    e.usage_count += var_info.usage_count;
+                    e.infects_to.extend(var_info.infects_to);
+                    e.callee_count += var_info.callee_count;
 
-                    e.get_mut().param_count = match (e.get().param_count, var_info.param_count) {
+                    e.param_count = match (e.param_count, var_info.param_count) {
                         (Some(Value::Known(v1)), Some(Value::Known(v2))) if v1 == v2 => {
                             Some(Value::Known(v1))
                         }
@@ -297,11 +293,11 @@ impl Storage for ProgramData {
                     };
 
                     for (k, v) in var_info.accessed_props {
-                        *e.get_mut().accessed_props.entry(k).or_default() += v;
+                        *e.accessed_props.entry(k).or_default() += v;
                     }
 
                     let var_info_flags = var_info.flags;
-                    let e_flags = &mut e.get_mut().flags;
+                    let e_flags = &mut e.flags;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
