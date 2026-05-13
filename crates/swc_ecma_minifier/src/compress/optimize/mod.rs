@@ -629,6 +629,13 @@ impl Optimizer<'_> {
         }
     }
 
+    fn bin_has_direct_invalid_child(e: &Expr) -> bool {
+        matches!(
+            e,
+            Expr::Bin(BinExpr { left, right, .. }) if left.is_invalid() || right.is_invalid()
+        )
+    }
+
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
@@ -1929,8 +1936,21 @@ impl VisitMut for Optimizer<'_> {
                 debug_assert_valid(e);
             }
 
-            // This is not accurate check but avoid some trivial cases.
-            if self.changed && matches!(e, Expr::Bin(..)) {
+            let should_remove_invalid = match e {
+                Expr::Bin(BinExpr {
+                    op, left, right, ..
+                }) => {
+                    left.is_invalid()
+                        || right.is_invalid()
+                        || self.changed
+                            && matches!(op, op!("&&") | op!("||"))
+                            && (Self::bin_has_direct_invalid_child(left)
+                                || Self::bin_has_direct_invalid_child(right))
+                }
+                _ => false,
+            };
+
+            if should_remove_invalid {
                 self.remove_invalid_bin(e);
             }
 

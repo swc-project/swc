@@ -186,6 +186,10 @@ impl Pure<'_> {
             return;
         }
 
+        if stmts.is_empty() || (target != VarDeclKind::Var && stmts.len() < 2) {
+            return;
+        }
+
         {
             let mut need_work = false;
             let mut found_vars_without_init = false;
@@ -304,6 +308,8 @@ impl Visit for VarWithOutInitCounter {
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
+    fn visit_class(&mut self, _: &Class) {}
+
     fn visit_constructor(&mut self, _: &Constructor) {}
 
     fn visit_function(&mut self, _: &Function) {}
@@ -312,16 +318,7 @@ impl Visit for VarWithOutInitCounter {
 
     fn visit_setter_prop(&mut self, _: &SetterProp) {}
 
-    fn visit_expr(&mut self, e: &Expr) {
-        if self.need_work {
-            return;
-        }
-
-        match e {
-            Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..) | Expr::This(..) => {}
-            _ => e.visit_children_with(self),
-        }
-    }
+    fn visit_expr(&mut self, _: &Expr) {}
 
     fn visit_pat(&mut self, n: &Pat) {
         if self.need_work {
@@ -335,12 +332,6 @@ impl Visit for VarWithOutInitCounter {
     }
 
     fn visit_var_decl(&mut self, v: &VarDecl) {
-        if self.need_work {
-            return;
-        }
-
-        v.visit_children_with(self);
-
         if self.need_work {
             return;
         }
@@ -433,6 +424,10 @@ impl VisitMut for VarMover {
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
 
+    fn visit_mut_class(&mut self, _: &mut Class) {}
+
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
+
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         if self.target != VarDeclKind::Var {
             // noop
@@ -497,8 +492,6 @@ impl VisitMut for VarMover {
     }
 
     fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
-        d.visit_mut_children_with(self);
-
         if self.var_decl_kind != Some(self.target) {
             return;
         }
@@ -556,6 +549,10 @@ impl VisitMut for VarPrepender {
 
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_class(&mut self, _: &mut Class) {}
+
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
     /// Noop
     fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
