@@ -1121,11 +1121,27 @@ impl<I: Tokens> Parser<I> {
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
         };
+        let syntax = self.input().syntax();
 
-        loop {
-            expr = match self.parse_subscript(start, expr, no_call, no_computed_member)? {
-                (expr, false) => return Ok(expr),
-                (expr, true) => expr,
+        if !syntax.typescript() {
+            loop {
+                expr = match self.parse_subscript_without_type_args(
+                    start,
+                    expr,
+                    no_call,
+                    no_computed_member,
+                    syntax,
+                )? {
+                    (expr, false) => return Ok(expr),
+                    (expr, true) => expr,
+                }
+            }
+        } else {
+            loop {
+                expr = match self.parse_subscript(start, expr, no_call, no_computed_member)? {
+                    (expr, false) => return Ok(expr),
+                    (expr, true) => expr,
+                }
             }
         }
     }
