@@ -201,11 +201,10 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_unary_expr);
 
-        let token_and_span = self.input().get_cur();
-        let start = token_and_span.span.lo;
-        let cur = token_and_span.token;
+        let cur = self.input().cur();
 
         if cur == Token::Lt && self.input().syntax().typescript() && !self.input().syntax().jsx() {
+            let start = self.input().cur_pos();
             self.bump(); // consume `<`
             return if self.input_mut().eat(Token::Const) {
                 self.expect(Token::Gt)?;
@@ -234,6 +233,7 @@ impl<I: Tokens> Parser<I> {
             }
             return self.parse_jsx_element(true).map(into_expr);
         } else if matches!(cur, Token::PlusPlus | Token::MinusMinus) {
+            let start = self.input().cur_pos();
             // Parse update expression
             let op = if cur == Token::PlusPlus {
                 op!("++")
@@ -261,6 +261,7 @@ impl<I: Tokens> Parser<I> {
             || cur == Token::Tilde
             || cur == Token::Bang
         {
+            let start = self.input().cur_pos();
             // Parse unary expression
             let op = if cur == Token::Delete {
                 op!("delete")
@@ -415,9 +416,8 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_lhs_expr);
 
-        let token_and_span = self.input().get_cur();
-        let start = token_and_span.span.lo;
-        let cur = token_and_span.token;
+        let start = self.input().cur_pos();
+        let cur = self.input().cur();
 
         // `super()` can't be handled from parse_new_expr()
         if cur == Token::Super {
