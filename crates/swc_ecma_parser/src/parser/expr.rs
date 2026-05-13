@@ -161,7 +161,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if self.ctx().contains(Context::InGenerator) && cur == Token::Yield {
+        if cur == Token::Yield && self.ctx().contains(Context::InGenerator) {
             return self.parse_yield_expr();
         }
 
