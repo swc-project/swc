@@ -544,12 +544,11 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.eval_array_method_call(e);
+        self.eval_array_or_fn_method_call(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
-        self.eval_fn_method_call(e);
 
         if e.is_seq() {
             debug_assert_valid(e);

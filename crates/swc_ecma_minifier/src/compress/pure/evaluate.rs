@@ -197,7 +197,7 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
+    pub(super) fn eval_array_or_fn_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
         }
@@ -230,211 +230,169 @@ impl Pure<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
 
-        if let Expr::Member(MemberExpr {
+        let (span, obj, method_name) = if let Expr::Member(MemberExpr {
             span,
             obj,
             prop: MemberProp::Ident(method_name),
         }) = callee
         {
-            if obj.may_have_side_effects(self.expr_ctx) {
-                return;
-            }
+            (*span, obj, method_name)
+        } else {
+            return;
+        };
 
-            let arr = match &mut **obj {
-                Expr::Array(arr) => arr,
-                _ => return,
-            };
+        if obj.may_have_side_effects(self.expr_ctx) {
+            return;
+        }
 
-            let has_spread_elem = arr.elems.iter().any(|s| {
-                matches!(
-                    s,
-                    Some(ExprOrSpread {
-                        spread: Some(..),
-                        ..
-                    })
-                )
-            });
+        match &mut **obj {
+            Expr::Array(arr) => {
+                let has_spread_elem = arr.elems.iter().any(|s| {
+                    matches!(
+                        s,
+                        Some(ExprOrSpread {
+                            spread: Some(..),
+                            ..
+                        })
+                    )
+                });
 
-            // Ignore array
+                // Ignore array
 
-            if &*method_name.sym == "slice" {
-                if has_spread || has_spread_elem {
-                    return;
-                }
-
-                match call.args.len() {
-                    0 => {
-                        self.changed = true;
-                        report_change!("evaluate: Dropping array.slice call");
-                        *e = *obj.take();
+                if &*method_name.sym == "slice" {
+                    if has_spread || has_spread_elem {
+                        return;
                     }
-                    1 => {
-                        if let Value::Known(start) = call.args[0].expr.as_pure_number(self.expr_ctx)
-                        {
-                            if start.is_sign_negative() {
-                                return;
-                            }
 
-                            let start = start.floor() as usize;
-
+                    match call.args.len() {
+                        0 => {
                             self.changed = true;
-                            report_change!("evaluate: Reducing array.slice({}) call", start);
-
-                            if start >= arr.elems.len() {
-                                *e = ArrayLit {
-                                    span: *span,
-                                    elems: Default::default(),
-                                }
-                                .into();
-                                return;
-                            }
-
-                            let elems = arr.elems.drain(start..).collect();
-
-                            *e = ArrayLit { span: *span, elems }.into();
+                            report_change!("evaluate: Dropping array.slice call");
+                            *e = *obj.take();
                         }
-                    }
-                    _ => {
-                        let start = call.args[0].expr.as_pure_number(self.expr_ctx);
-                        let end = call.args[1].expr.as_pure_number(self.expr_ctx);
-                        if let Value::Known(start) = start {
-                            if start.is_sign_negative() {
-                                return;
-                            }
-
-                            let start = start.floor() as usize;
-
-                            if let Value::Known(end) = end {
-                                if end.is_sign_negative() {
+                        1 => {
+                            if let Value::Known(start) =
+                                call.args[0].expr.as_pure_number(self.expr_ctx)
+                            {
+                                if start.is_sign_negative() {
                                     return;
                                 }
 
-                                let end = end.floor() as usize;
-                                let end = end.min(arr.elems.len());
-
-                                if start >= end {
-                                    return;
-                                }
+                                let start = start.floor() as usize;
 
                                 self.changed = true;
-                                report_change!(
-                                    "evaluate: Reducing array.slice({}, {}) call",
-                                    start,
-                                    end
-                                );
+                                report_change!("evaluate: Reducing array.slice({}) call", start);
+
                                 if start >= arr.elems.len() {
                                     *e = ArrayLit {
-                                        span: *span,
+                                        span,
                                         elems: Default::default(),
                                     }
                                     .into();
                                     return;
                                 }
 
-                                let elems = arr.elems.drain(start..end).collect();
+                                let elems = arr.elems.drain(start..).collect();
 
-                                *e = ArrayLit { span: *span, elems }.into();
+                                *e = ArrayLit { span, elems }.into();
+                            }
+                        }
+                        _ => {
+                            let start = call.args[0].expr.as_pure_number(self.expr_ctx);
+                            let end = call.args[1].expr.as_pure_number(self.expr_ctx);
+                            if let Value::Known(start) = start {
+                                if start.is_sign_negative() {
+                                    return;
+                                }
+
+                                let start = start.floor() as usize;
+
+                                if let Value::Known(end) = end {
+                                    if end.is_sign_negative() {
+                                        return;
+                                    }
+
+                                    let end = end.floor() as usize;
+                                    let end = end.min(arr.elems.len());
+
+                                    if start >= end {
+                                        return;
+                                    }
+
+                                    self.changed = true;
+                                    report_change!(
+                                        "evaluate: Reducing array.slice({}, {}) call",
+                                        start,
+                                        end
+                                    );
+                                    if start >= arr.elems.len() {
+                                        *e = ArrayLit {
+                                            span,
+                                            elems: Default::default(),
+                                        }
+                                        .into();
+                                        return;
+                                    }
+
+                                    let elems = arr.elems.drain(start..end).collect();
+
+                                    *e = ArrayLit { span, elems }.into();
+                                }
                             }
                         }
                     }
-                }
-                return;
-            }
-
-            if self.options.unsafe_passes
-                && &*method_name.sym == "toString"
-                && arr.elems.len() == 1
-                && arr.elems[0].is_some()
-            {
-                report_change!("evaluate: Reducing array.toString() call");
-                self.changed = true;
-                *obj = arr.elems[0]
-                    .take()
-                    .map(|elem| elem.expr)
-                    .unwrap_or_else(|| Expr::undefined(*span));
-            }
-        }
-    }
-
-    pub(super) fn eval_fn_method_call(&mut self, e: &mut Expr) {
-        if !self.options.evaluate {
-            return;
-        }
-
-        if self.ctx.intersects(
-            Ctx::IN_DELETE
-                .union(Ctx::IS_UPDATE_ARG)
-                .union(Ctx::IS_LHS_OF_ASSIGN),
-        ) {
-            return;
-        }
-
-        let call = match e {
-            Expr::Call(e) => e,
-            _ => return,
-        };
-
-        let has_spread = call.args.iter().any(|arg| arg.spread.is_some());
-
-        for arg in &call.args {
-            if arg.expr.may_have_side_effects(self.expr_ctx) {
-                return;
-            }
-        }
-
-        let callee = match &mut call.callee {
-            Callee::Super(_) | Callee::Import(_) => return,
-            Callee::Expr(e) => &mut **e,
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        };
-
-        if let Expr::Member(MemberExpr {
-            obj,
-            prop: MemberProp::Ident(method_name),
-            ..
-        }) = callee
-        {
-            if obj.may_have_side_effects(self.expr_ctx) {
-                return;
-            }
-
-            let f = match &mut **obj {
-                Expr::Fn(v) => v,
-                _ => return,
-            };
-
-            if &*method_name.sym == "valueOf" {
-                if has_spread {
                     return;
                 }
 
-                self.changed = true;
-                report_change!("evaluate: Reduced `function.valueOf()` into a function expression");
-
-                *e = *obj.take();
-                return;
+                if self.options.unsafe_passes
+                    && &*method_name.sym == "toString"
+                    && arr.elems.len() == 1
+                    && arr.elems[0].is_some()
+                {
+                    report_change!("evaluate: Reducing array.toString() call");
+                    self.changed = true;
+                    *obj = arr.elems[0]
+                        .take()
+                        .map(|elem| elem.expr)
+                        .unwrap_or_else(|| Expr::undefined(span));
+                }
             }
+            Expr::Fn(f) => {
+                if &*method_name.sym == "valueOf" {
+                    if has_spread {
+                        return;
+                    }
 
-            if self.options.unsafe_passes
-                && &*method_name.sym == "toString"
-                && f.function.params.is_empty()
-                && f.function.body.is_empty()
-            {
-                if has_spread {
+                    self.changed = true;
+                    report_change!(
+                        "evaluate: Reduced `function.valueOf()` into a function expression"
+                    );
+
+                    *e = *obj.take();
                     return;
                 }
 
-                self.changed = true;
-                report_change!("evaluate: Reduced `function.toString()` into a string");
+                if self.options.unsafe_passes
+                    && &*method_name.sym == "toString"
+                    && f.function.params.is_empty()
+                    && f.function.body.is_empty()
+                {
+                    if has_spread {
+                        return;
+                    }
 
-                *e = Str {
-                    span: call.span,
-                    value: atom!("function(){}").into(),
-                    raw: None,
+                    self.changed = true;
+                    report_change!("evaluate: Reduced `function.toString()` into a string");
+
+                    *e = Str {
+                        span: call.span,
+                        value: atom!("function(){}").into(),
+                        raw: None,
+                    }
+                    .into();
                 }
-                .into();
             }
+            _ => {}
         }
     }
 
