@@ -498,9 +498,19 @@ impl VisitMut for Finalizer<'_> {
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
+        let can_replace_lit = !self.lits.is_empty();
+        let can_replace_hoisted_prop = !self.hoisted_props.is_empty();
+
+        if !can_replace_lit && !can_replace_hoisted_prop {
+            if !matches!(n, Expr::Ident(..)) {
+                n.visit_mut_children_with(self);
+            }
+            return;
+        }
+
         match n {
             Expr::Ident(i) => {
-                if !self.lits.is_empty() {
+                if can_replace_lit {
                     if let Some(expr) = self.lits.get(&i.to_id()) {
                         *n = *expr.clone();
                     }
@@ -508,7 +518,7 @@ impl VisitMut for Finalizer<'_> {
 
                 return;
             }
-            Expr::Member(e) if !self.hoisted_props.is_empty() => 'a: {
+            Expr::Member(e) if can_replace_hoisted_prop => 'a: {
                 if let Expr::Ident(obj) = &*e.obj {
                     let sym = match &e.prop {
                         MemberProp::Ident(i) => i.sym.borrow(),

@@ -539,7 +539,9 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.simplify_assign_expr(e);
+        if matches!(e, Expr::Assign(..)) {
+            self.simplify_assign_expr(e);
+        }
 
         if self.options.unused {
             if let Expr::Unary(UnaryExpr {
@@ -592,7 +594,9 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.eval_str_addition(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.eval_str_addition(e);
+        }
 
         match e {
             Expr::Seq(seq) => {
@@ -629,7 +633,9 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.unsafe_optimize_fn_as_arrow(e);
+        if matches!(e, Expr::Fn(..)) {
+            self.unsafe_optimize_fn_as_arrow(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -667,22 +673,32 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.swap_bin_operands(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.swap_bin_operands(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.drop_logical_operands(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.drop_logical_operands(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.optimize_negate_eq(e);
+        if matches!(e, Expr::Unary(..)) {
+            self.optimize_negate_eq(e);
+        }
 
-        self.lift_minus(e);
-        self.optimize_to_number(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.lift_minus(e);
+        }
+        if matches!(e, Expr::Assign(..) | Expr::Bin(..)) {
+            self.optimize_to_number(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -695,7 +711,9 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.drop_useless_addition_of_str(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.drop_useless_addition_of_str(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -709,19 +727,25 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.remove_useless_logical_rhs(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.remove_useless_logical_rhs(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.handle_negated_seq(e);
+        if matches!(e, Expr::Unary(..)) {
+            self.handle_negated_seq(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.concat_str(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.concat_str(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -747,59 +771,87 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.optimize_const_cond(e);
+        if matches!(e, Expr::Cond(..)) {
+            self.optimize_const_cond(e);
+        }
 
-        self.compress_conds_as_logical(e);
+        if matches!(e, Expr::Cond(..)) {
+            self.compress_conds_as_logical(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.compress_cond_with_logical_as_logical(e);
+        if matches!(e, Expr::Cond(..)) {
+            self.compress_cond_with_logical_as_logical(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.compress_conds_as_arithmetic(e);
+        if matches!(e, Expr::Cond(..)) {
+            self.compress_conds_as_arithmetic(e);
+        }
 
-        self.eval_logical_expr(e);
+        if matches!(
+            e,
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                ..
+            })
+        ) {
+            self.eval_logical_expr(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.lift_seqs_of_bin(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.lift_seqs_of_bin(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.lift_seqs_of_cond_assign(e);
+        if matches!(e, Expr::Assign(..)) {
+            self.lift_seqs_of_cond_assign(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.optimize_nullish_coalescing(e);
+        if matches!(e, Expr::Bin(BinExpr { op: op!("??"), .. })) {
+            self.optimize_nullish_coalescing(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.compress_negated_bin_eq(e);
+        if matches!(e, Expr::Unary(..)) {
+            self.compress_negated_bin_eq(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.compress_useless_cond_expr(e);
+        if matches!(e, Expr::Cond(..)) {
+            self.compress_useless_cond_expr(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.optimize_builtin_object(e);
+        if matches!(e, Expr::Call(..) | Expr::New(..)) {
+            self.optimize_builtin_object(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -817,7 +869,9 @@ impl VisitMut for Pure<'_> {
             self.eval_member_expr(e);
         }
 
-        self.optimize_to_int(e);
+        if matches!(e, Expr::Assign(..) | Expr::Bin(..)) {
+            self.optimize_to_int(e);
+        }
     }
 
     fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
