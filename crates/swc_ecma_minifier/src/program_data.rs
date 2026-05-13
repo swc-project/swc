@@ -427,6 +427,10 @@ impl Storage for ProgramData {
             e.usage_count = e.usage_count.saturating_sub(1);
         }
 
+        if e.infects_to.is_empty() {
+            return;
+        }
+
         let mut to_visit: IndexSet<Id, FxBuildHasher> =
             IndexSet::from_iter(e.infects_to.iter().cloned().map(|i| i.0));
 
@@ -542,6 +546,10 @@ impl Storage for ProgramData {
     fn mark_property_mutation(&mut self, id: Id) {
         let e = self.vars.entry(id).or_default();
         e.property_mutation_count += 1;
+
+        if e.infects_to.is_empty() {
+            return;
+        }
 
         let to_mark_mutate = e
             .infects_to
