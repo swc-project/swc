@@ -1715,8 +1715,8 @@ impl<I: Tokens> Parser<I> {
     fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
-        let start = self.cur_pos();
         if self.input_mut().eat(Token::New) {
+            let start = self.input().prev_span().lo;
             if self.input_mut().eat(Token::Dot) {
                 if self.input_mut().eat(Token::Target) {
                     let span = self.span(start);
@@ -1825,11 +1825,13 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input_mut().eat(Token::Super) {
+            let start = self.input().prev_span().lo;
             let base = Callee::Super(Super {
                 span: self.span(start),
             });
             return self.parse_subscripts(base, true, false);
         } else if self.input_mut().eat(Token::Import) {
+            let start = self.input().prev_span().lo;
             return self.parse_dynamic_import_or_import_meta(start, true);
         }
         let obj = self.parse_primary_expr()?;
@@ -1842,6 +1844,7 @@ impl<I: Tokens> Parser<I> {
         };
         let obj = if let Some(type_args) = type_args {
             trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
+            let start = obj.span_lo();
             TsInstantiation {
                 expr: obj,
                 type_args,
