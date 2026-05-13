@@ -1906,6 +1906,10 @@ impl<I: Tokens> Parser<I> {
         loop {
             let (next_left, next_prec) = self.parse_bin_op_recursively_inner(left, min_prec)?;
 
+            let Some(next_prec) = next_prec else {
+                return Ok(next_left);
+            };
+
             match &*next_left {
                 Expr::Bin(BinExpr {
                     span,
@@ -1926,11 +1930,7 @@ impl<I: Tokens> Parser<I> {
                 _ => {}
             }
 
-            min_prec = match next_prec {
-                Some(v) => v,
-                None => return Ok(next_left),
-            };
-
+            min_prec = next_prec;
             left = next_left;
         }
     }
