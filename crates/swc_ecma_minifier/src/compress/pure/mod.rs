@@ -699,7 +699,10 @@ impl VisitMut for Pure<'_> {
         if matches!(e, Expr::Bin(..)) {
             self.lift_minus(e);
         }
-        if matches!(e, Expr::Assign(..) | Expr::Bin(..)) {
+        if matches!(
+            e,
+            Expr::Assign(AssignExpr { op: op!("="), .. }) | Expr::Bin(BinExpr { op: op!("*"), .. })
+        ) {
             self.optimize_to_number(e);
         }
 
@@ -872,7 +875,16 @@ impl VisitMut for Pure<'_> {
             self.eval_member_expr(e);
         }
 
-        if matches!(e, Expr::Assign(..) | Expr::Bin(..)) {
+        if matches!(
+            e,
+            Expr::Assign(AssignExpr {
+                op: op!("<<=") | op!(">>=") | op!(">>>=") | op!("|=") | op!("^=") | op!("&="),
+                ..
+            }) | Expr::Bin(BinExpr {
+                op: op!("<<") | op!(">>") | op!(">>>") | op!("|") | op!("^") | op!("&"),
+                ..
+            })
+        ) {
             self.optimize_to_int(e);
         }
     }
