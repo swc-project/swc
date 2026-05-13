@@ -1058,12 +1058,11 @@ impl<I: Tokens> Parser<I> {
     fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_cond_expr);
 
-        let start = self.cur_pos();
-
         let test = self.parse_bin_expr()?;
         return_if_arrow!(self, test);
 
         if self.input_mut().eat(Token::QuestionMark) {
+            let start = test.span_lo();
             let cons = self.do_inside_of_context(
                 Context::InCondExpr
                     .union(Context::WillExpectColonForCond)
