@@ -1479,6 +1479,41 @@ impl<I: Tokens> Parser<I> {
             return Ok((callee, false));
         }
 
+        if !question_dot && cur == Token::Dot {
+            self.bump();
+            let prop = self.parse_maybe_private_name().map(|e| match e {
+                Either::Left(p) => MemberProp::PrivateName(p),
+                Either::Right(i) => MemberProp::Ident(i),
+            })?;
+            if syntax.flow()
+                && matches!(prop, MemberProp::PrivateName(..))
+                && !self.ctx().contains(Context::InClass)
+            {
+                self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
+            }
+            let span = self.span(callee.span_lo());
+            debug_assert_eq!(callee.span_lo(), span.lo());
+            debug_assert_eq!(prop.span_hi(), span.hi());
+
+            let expr = MemberExpr {
+                span,
+                obj: callee,
+                prop,
+            };
+            let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain() {
+                OptChainExpr {
+                    span: self.span(start),
+                    optional: false,
+                    base: Box::new(OptChainBase::Member(expr)),
+                }
+                .into()
+            } else {
+                expr.into()
+            };
+
+            return Ok((Box::new(expr), true));
+        }
+
         if !no_computed_member && cur == Token::LBracket {
             self.bump();
             let bracket_lo = self.input().prev_span().lo;
@@ -1537,10 +1572,7 @@ impl<I: Tokens> Parser<I> {
             };
         }
 
-        if question_dot || cur == Token::Dot {
-            if !question_dot {
-                self.bump();
-            }
+        if question_dot {
             let prop = self.parse_maybe_private_name().map(|e| match e {
                 Either::Left(p) => MemberProp::PrivateName(p),
                 Either::Right(i) => MemberProp::Ident(i),
