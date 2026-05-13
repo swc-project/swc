@@ -366,13 +366,16 @@ impl Visit for InfectionCollector {
     }
 
     fn visit_pat(&mut self, node: &Pat) {
-        node.visit_children_with(self);
-
-        if self.ctx.contains(Ctx::IsPatDecl) {
-            if let Pat::Ident(i) = node {
-                self.add_binding(i)
+        if let Pat::Ident(i) = node {
+            if self.ctx.contains(Ctx::IsPatDecl) {
+                self.add_binding(i);
+            } else {
+                self.add_usage(i.to_id());
             }
+            return;
         }
+
+        node.visit_children_with(self);
     }
 
     fn visit_prop_name(&mut self, n: &PropName) {
