@@ -2796,7 +2796,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let try_parse_arrow_expr = |p: &mut Self, id: Ident, id_is_async| -> PResult<Box<Expr>> {
-            if can_be_arrow && !p.input().had_line_break_before_cur() {
+            if !p.input().had_line_break_before_cur() {
                 if id_is_async && p.is_ident_ref() {
                     // see https://github.com/tc39/ecma262/issues/2034
                     // ```js
@@ -2890,6 +2890,9 @@ impl<I: Tokens> Parser<I> {
                 !ctx.contains(Context::InGenerator),
                 !ctx.contains(Context::InAsync),
             )?;
+            if !can_be_arrow {
+                return Ok(id.into());
+            }
             try_parse_arrow_expr(self, id, false)
         } else if cur == Token::Hash {
             self.bump(); // consume `#`
@@ -2909,13 +2912,19 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(self.input().prev_span(), SyntaxError::ArgumentsInClassField)
             };
             let id = Ident::new_no_ctxt(word, self.span(token_start));
+            if !can_be_arrow {
+                return Ok(id.into());
+            }
             try_parse_arrow_expr(self, id, false)
         } else if self.is_ident_ref() {
-            let id_is_async = self.input().cur() == Token::Async;
+            let cur = self.input().cur();
             let token_start = self.input().cur_pos();
             let word = self.input_mut().expect_word_token_and_bump();
             let id = Ident::new_no_ctxt(word, self.span(token_start));
-            try_parse_arrow_expr(self, id, id_is_async)
+            if !can_be_arrow {
+                return Ok(id.into());
+            }
+            try_parse_arrow_expr(self, id, cur == Token::Async)
         } else {
             syntax_error!(self, self.input().cur_span(), SyntaxError::TS1109)
         }
