@@ -759,6 +759,10 @@ impl VisitMut for Pure<'_> {
 
         if matches!(e, Expr::Call(..)) {
             self.eval_array_or_fn_method_call(e);
+        self.eval_array_or_fn_method_call(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
         }
 
         if e.is_seq() {
