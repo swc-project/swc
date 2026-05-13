@@ -1124,6 +1124,16 @@ impl<I: Tokens> Parser<I> {
 
         let syntax = self.input().syntax();
 
+        if !syntax.typescript() {
+            return self.parse_subscript_without_type_args(
+                start,
+                callee,
+                no_call,
+                no_computed_member,
+                syntax,
+            );
+        }
+
         if syntax.typescript() {
             if !self.input().had_line_break_before_cur() && self.input().is(Token::Bang) {
                 self.input_mut().set_expr_allowed(false);
@@ -1223,22 +1233,15 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        let question_dot_token = if self.input().is(Token::QuestionMark)
+        let question_dot = if self.input().is(Token::QuestionMark)
             && peek!(self).is_some_and(|peek| peek == Token::Dot)
         {
-            let start = self.cur_pos();
             self.bump();
-
-            let span = Some(self.span(start));
             self.bump();
-
-            span
+            true
         } else {
-            None
+            false
         };
-
-        // If question_dot_token is Some, then `self.cur == Token::Dot`
-        let question_dot = question_dot_token.is_some();
 
         // $obj[name()]
         if !no_computed_member && self.input_mut().eat(Token::LBracket) {
@@ -1398,6 +1401,130 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok((expr, false))
+    }
+
+    #[inline(always)]
+    fn parse_subscript_without_type_args(
+        &mut self,
+        start: BytePos,
+        callee: Box<Expr>,
+        no_call: bool,
+        no_computed_member: bool,
+        syntax: SyntaxFlags,
+    ) -> PResult<(Box<Expr>, bool)> {
+        let question_dot = if self.input().is(Token::QuestionMark)
+            && peek!(self).is_some_and(|peek| peek == Token::Dot)
+        {
+            self.bump();
+            self.bump();
+            true
+        } else {
+            false
+        };
+
+        if !no_computed_member && self.input_mut().eat(Token::LBracket) {
+            let bracket_lo = self.input().prev_span().lo;
+            let prop = self.allow_in_expr(|p| p.parse_expr())?;
+            expect!(self, Token::RBracket);
+            let span = Span::new_with_checked(callee.span_lo(), self.input().last_pos());
+            debug_assert_eq!(callee.span_lo(), span.lo());
+            let prop = ComputedPropName {
+                span: Span::new_with_checked(bracket_lo, self.input().last_pos()),
+                expr: prop,
+            };
+
+            let is_opt_chain = unwrap_ts_non_null(&callee).is_opt_chain();
+            let expr = MemberExpr {
+                span,
+                obj: callee,
+                prop: MemberProp::Computed(prop),
+            };
+            let expr = if is_opt_chain || question_dot {
+                OptChainExpr {
+                    span,
+                    optional: question_dot,
+                    base: Box::new(OptChainBase::Member(expr)),
+                }
+                .into()
+            } else {
+                expr.into()
+            };
+
+            return Ok((Box::new(expr), true));
+        }
+
+        if self.input.is(Token::LParen) && (!no_call || question_dot) {
+            let args = self.parse_args(false)?;
+            let span = self.span(start);
+            return if question_dot || unwrap_ts_non_null(&callee).is_opt_chain() {
+                let expr = OptChainExpr {
+                    span,
+                    optional: question_dot,
+                    base: Box::new(OptChainBase::Call(OptCall {
+                        span: self.span(start),
+                        callee,
+                        args,
+                        ..Default::default()
+                    })),
+                };
+                Ok((Box::new(Expr::OptChain(expr)), true))
+            } else {
+                let expr = CallExpr {
+                    span: self.span(start),
+                    callee: Callee::Expr(callee),
+                    args,
+                    ..Default::default()
+                };
+                Ok((Box::new(Expr::Call(expr)), true))
+            };
+        }
+
+        if question_dot || self.input_mut().eat(Token::Dot) {
+            let prop = self.parse_maybe_private_name().map(|e| match e {
+                Either::Left(p) => MemberProp::PrivateName(p),
+                Either::Right(i) => MemberProp::Ident(i),
+            })?;
+            if syntax.flow()
+                && matches!(prop, MemberProp::PrivateName(..))
+                && !self.ctx().contains(Context::InClass)
+            {
+                self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
+            }
+            let span = self.span(callee.span_lo());
+            debug_assert_eq!(callee.span_lo(), span.lo());
+            debug_assert_eq!(prop.span_hi(), span.hi());
+
+            let expr = MemberExpr {
+                span,
+                obj: callee,
+                prop,
+            };
+            let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain() || question_dot {
+                OptChainExpr {
+                    span: self.span(start),
+                    optional: question_dot,
+                    base: Box::new(OptChainBase::Member(expr)),
+                }
+                .into()
+            } else {
+                expr.into()
+            };
+
+            return Ok((Box::new(expr), true));
+        }
+
+        let cur = self.input().cur();
+        if matches!(
+            cur,
+            Token::TemplateHead | Token::NoSubstitutionTemplateLiteral | Token::BackQuote
+        ) {
+            let tpl = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+                p.parse_tagged_tpl(callee, None)
+            })?;
+            return Ok((tpl.into(), true));
+        }
+
+        Ok((callee, false))
     }
 
     /// Section 13.3 ImportCall
