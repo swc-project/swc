@@ -170,10 +170,9 @@ impl<I: Tokens> Parser<I> {
             return Err(err);
         }
 
-        let start = self.cur_pos();
         self.state_mut().potential_arrow_start =
             if matches!(cur, Token::Ident | Token::Yield | Token::LParen) || cur.is_known_ident() {
-                start
+                self.cur_pos()
             } else {
                 BytePos::SYNTHESIZED
             };
@@ -191,6 +190,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input().cur().is_assign_op() {
+            let start = cond.span_lo();
             self.finish_assignment_expr(start, cond)
         } else {
             Ok(cond)
