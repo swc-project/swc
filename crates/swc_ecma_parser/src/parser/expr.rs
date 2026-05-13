@@ -2974,30 +2974,28 @@ impl<I: Tokens> Parser<I> {
                     }
                     .into());
                 }
-            } else if cur == Token::Arrow {
-                if !p.input().had_line_break_before_cur() {
-                    if p.ctx().contains(Context::Strict) && id.is_reserved_in_strict_bind() {
-                        p.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
-                    }
-                    let params = vec![id.into()];
-                    p.bump();
-                    let body = p.parse_fn_block_or_expr_body(
-                        false,
-                        false,
-                        true,
-                        params.is_simple_parameter_list(),
-                    )?;
-
-                    return Ok(ArrowExpr {
-                        span: p.span(start),
-                        body,
-                        params,
-                        is_async: false,
-                        is_generator: false,
-                        ..Default::default()
-                    }
-                    .into());
+            } else if cur == Token::Arrow && !p.input().had_line_break_before_cur() {
+                if p.ctx().contains(Context::Strict) && id.is_reserved_in_strict_bind() {
+                    p.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
                 }
+                let params = vec![id.into()];
+                p.bump();
+                let body = p.parse_fn_block_or_expr_body(
+                    false,
+                    false,
+                    true,
+                    params.is_simple_parameter_list(),
+                )?;
+
+                return Ok(ArrowExpr {
+                    span: p.span(start),
+                    body,
+                    params,
+                    is_async: false,
+                    is_generator: false,
+                    ..Default::default()
+                }
+                .into());
             }
 
             Ok(id.into())
