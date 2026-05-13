@@ -915,7 +915,15 @@ impl<I: Tokens> Parser<I> {
             let span = self.span(start);
             Lit::Bool(swc_ecma_ast::Bool { span, value })
         } else if cur == Token::Str {
-            Lit::Str(self.parse_str_lit())
+            let raw = Atom::new(self.input.cur_string());
+            let value = self.input.expect_string_token_value();
+            self.bump();
+
+            Lit::Str(swc_ecma_ast::Str {
+                span: self.span(start),
+                value,
+                raw: Some(raw),
+            })
         } else if cur == Token::Num {
             let raw = Atom::new(self.input.cur_string());
             let value = self.input_mut().expect_number_token_value();
