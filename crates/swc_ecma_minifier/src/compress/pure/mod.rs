@@ -607,6 +607,7 @@ impl VisitMut for Pure<'_> {
         if matches!(e, Expr::Bin(..)) {
             self.eval_str_addition(e);
         self.eval_str_addition(e);
+        }
 
         match e {
             Expr::Seq(seq) => {
@@ -720,6 +721,7 @@ impl VisitMut for Pure<'_> {
             e,
             Expr::Assign(AssignExpr { op: op!("="), .. }) | Expr::Bin(BinExpr { op: op!("*"), .. })
         ) {
+        if matches!(e, Expr::Assign(..) | Expr::Bin(..)) {
             self.optimize_to_number(e);
         }
 
@@ -907,6 +909,7 @@ impl VisitMut for Pure<'_> {
                 ..
             })
         ) {
+        if matches!(e, Expr::Assign(..) | Expr::Bin(..)) {
             self.optimize_to_int(e);
         }
     }
