@@ -1120,10 +1120,15 @@ impl<I: Tokens> Parser<I> {
         no_call: bool,
         no_computed_member: bool,
     ) -> PResult<Box<Expr>> {
-        let start = obj.span().lo;
         let mut expr = match obj {
-            Callee::Import(import) => self.parse_subscript_import_call(start, import)?,
-            Callee::Super(s) => self.parse_subscript_super(start, s, no_call)?,
+            Callee::Import(import) => {
+                let start = import.span.lo;
+                self.parse_subscript_import_call(start, import)?
+            }
+            Callee::Super(s) => {
+                let start = s.span.lo;
+                self.parse_subscript_super(start, s, no_call)?
+            }
             Callee::Expr(expr) => expr,
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
@@ -1133,7 +1138,6 @@ impl<I: Tokens> Parser<I> {
         if !syntax.typescript() {
             loop {
                 expr = match self.parse_subscript_without_type_args(
-                    start,
                     expr,
                     no_call,
                     no_computed_member,
@@ -1144,6 +1148,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
         } else {
+            let start = expr.span_lo();
             loop {
                 expr = match self.parse_subscript(start, expr, no_call, no_computed_member)? {
                     (expr, false) => return Ok(expr),
@@ -1168,7 +1173,6 @@ impl<I: Tokens> Parser<I> {
 
         if !syntax.typescript() {
             return self.parse_subscript_without_type_args(
-                start,
                 callee,
                 no_call,
                 no_computed_member,
@@ -1448,7 +1452,6 @@ impl<I: Tokens> Parser<I> {
     #[inline(always)]
     fn parse_subscript_without_type_args(
         &mut self,
-        start: BytePos,
         callee: Box<Expr>,
         no_call: bool,
         no_computed_member: bool,
@@ -1495,7 +1498,7 @@ impl<I: Tokens> Parser<I> {
             };
             let expr = if is_opt_chain {
                 OptChainExpr {
-                    span: self.span(start),
+                    span,
                     optional: false,
                     base: Box::new(OptChainBase::Member(expr)),
                 }
@@ -1541,6 +1544,7 @@ impl<I: Tokens> Parser<I> {
 
         if cur == Token::LParen && (!no_call || question_dot) {
             let args = self.parse_args(false)?;
+            let start = callee.span_lo();
             let span = self.span(start);
             return if question_dot || unwrap_ts_non_null(&callee).is_opt_chain() {
                 let expr = OptChainExpr {
@@ -1586,7 +1590,7 @@ impl<I: Tokens> Parser<I> {
                 prop,
             };
             let expr = OptChainExpr {
-                span: self.span(start),
+                span,
                 optional: true,
                 base: Box::new(OptChainBase::Member(expr)),
             }
