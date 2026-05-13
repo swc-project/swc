@@ -157,7 +157,7 @@ impl<'a> Lexer<'a> {
                 Some(v) => v,
                 None => return,
             };
-            if byte > b' ' && byte != b'/' && byte < 0x80 {
+            if byte.wrapping_sub(b'!') < 0x5f && byte != b'/' {
                 break;
             }
 
