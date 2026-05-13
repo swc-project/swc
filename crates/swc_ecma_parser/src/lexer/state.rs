@@ -41,7 +41,7 @@ pub struct State {
     pub prev_hi: BytePos,
 
     pub(super) token_value: Option<TokenValue>,
-    token_type: Option<Token>,
+    token_type: Token,
 }
 
 pub struct LexerCheckpoint {
@@ -264,7 +264,7 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
-        let token = self.state.token_type.unwrap();
+        let token = self.state.token_type;
         debug_assert!(token.is_word());
         let prefix_end = self.cur_pos();
         let mut v = String::with_capacity(16);
@@ -416,14 +416,19 @@ impl Lexer<'_> {
 
     #[inline(always)]
     fn finish_next_token(&mut self, span: Span, token: Token) -> TokenAndSpan {
-        if token == Token::Eof {
-            self.consume_pending_comments();
-        } else if let Some(comments) = self.comments_buffer.as_mut() {
-            comments.pending_to_comment(BufferedCommentKind::Leading, span.lo);
+        if self.comments_buffer.is_some() {
+            if token == Token::Eof {
+                self.consume_pending_comments();
+            } else {
+                self.comments_buffer
+                    .as_mut()
+                    .unwrap()
+                    .pending_to_comment(BufferedCommentKind::Leading, span.lo);
+            }
         }
 
         self.state.set_token_type(token);
-        self.state.prev_hi = self.last_pos();
+        self.state.prev_hi = span.hi;
         TokenAndSpan {
             token,
             had_line_break: self.state.had_line_break,
@@ -671,7 +676,7 @@ impl State {
             next_regexp: None,
             prev_hi: start_pos,
             token_value: None,
-            token_type: None,
+            token_type: Token::Eof,
         }
     }
 
@@ -683,27 +688,24 @@ impl State {
 impl State {
     #[inline(always)]
     pub fn set_token_type(&mut self, token_type: Token) {
-        self.token_type = Some(token_type);
+        self.token_type = token_type;
     }
 
     #[inline(always)]
-    pub fn token_type(&self) -> Option<Token> {
+    pub fn token_type(&self) -> Token {
         self.token_type
     }
 
     pub fn can_have_trailing_line_comment(&self) -> bool {
-        let Some(t) = self.token_type() else {
-            return true;
-        };
+        let t = self.token_type();
         !t.is_bin_op()
     }
 
     pub fn can_have_trailing_comment(&self) -> bool {
-        self.token_type().is_some_and(|t| {
-            !t.is_keyword()
-                && (t == Token::Semi
-                    || t == Token::LBrace
-                    || t.is_other_and_can_have_trailing_comment())
-        })
+        let t = self.token_type();
+        !t.is_keyword()
+            && (t == Token::Semi
+                || t == Token::LBrace
+                || t.is_other_and_can_have_trailing_comment())
     }
 }
