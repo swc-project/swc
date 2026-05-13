@@ -428,7 +428,7 @@ impl Storage for ProgramData {
         }
 
         let mut to_visit: IndexSet<Id, FxBuildHasher> =
-            IndexSet::from_iter(e.infects_to.iter().cloned().map(|i| i.0));
+            IndexSet::from_iter(e.infects_to.iter().map(|(id, _)| id.clone()));
 
         let mut idx = 0;
 
@@ -452,7 +452,7 @@ impl Storage for ProgramData {
                     usage.usage_count += 1;
                 }
 
-                to_visit.extend(usage.infects_to.iter().cloned().map(|i| i.0))
+                to_visit.extend(usage.infects_to.iter().map(|(id, _)| id.clone()))
             }
 
             idx += 1;
