@@ -3537,10 +3537,6 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         return true;
     };
 
-    if expr.is_pure_callee(ctx) {
-        return false;
-    }
-
     match expr {
         Expr::Ident(i) => {
             if ctx.is_unresolved_ref_safe {
@@ -3556,6 +3552,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                         | "undefined"
                         | "Object"
                         | "Array"
+                        | "Date"
                         | "Promise"
                         | "Boolean"
                         | "Number"
@@ -3593,6 +3590,8 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Bin(BinExpr { left, right, .. }) => {
             left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
         }
+
+        Expr::Member(..) if expr.is_pure_callee(ctx) => false,
 
         Expr::Member(MemberExpr { obj, prop, .. })
             if obj.is_object() || obj.is_fn_expr() || obj.is_arrow() || obj.is_class() =>
