@@ -478,6 +478,10 @@ impl VisitMut for Pure<'_> {
 
         self.handle_known_delete(e);
 
+        if matches!(e, Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..)) {
+            return;
+        }
+
         e.visit_mut_children_with(self);
 
         // Expression simplifier
