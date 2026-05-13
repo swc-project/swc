@@ -130,9 +130,11 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
 
         let is_let_or_const = matches!(kind, VarDeclKind::Let | VarDeclKind::Const);
-        let is_typescript = self.input().syntax().typescript();
 
         let mut name = self.parse_binding_pat_or_ident(is_let_or_const)?;
+        let cur = self.input().cur();
+        let is_typescript =
+            matches!(cur, Token::Bang | Token::Colon) && self.input().syntax().typescript();
 
         let definite = if is_typescript {
             match name {
