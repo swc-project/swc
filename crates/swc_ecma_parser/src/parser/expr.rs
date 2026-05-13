@@ -335,13 +335,13 @@ impl<I: Tokens> Parser<I> {
             return Ok(expr);
         }
 
-        // Line terminator isn't allowed here.
-        if self.input_mut().had_line_break_before_cur() {
-            return Ok(expr);
-        }
-
         let cur = self.input().cur();
         if cur == Token::PlusPlus || cur == Token::MinusMinus {
+            // Line terminator isn't allowed here.
+            if self.input_mut().had_line_break_before_cur() {
+                return Ok(expr);
+            }
+
             let op = if cur == Token::PlusPlus {
                 op!("++")
             } else {
