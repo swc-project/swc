@@ -21,9 +21,9 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_expr);
         debug_tracing!(self, "parse_expr");
         let expr = self.parse_assignment_expr()?;
-        let start = expr.span_lo();
 
         if self.input_mut().is(Token::Comma) {
+            let start = expr.span_lo();
             let mut exprs = vec![expr];
 
             while self.input_mut().eat(Token::Comma) {
