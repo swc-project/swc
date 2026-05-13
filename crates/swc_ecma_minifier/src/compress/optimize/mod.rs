@@ -1866,6 +1866,7 @@ impl VisitMut for Optimizer<'_> {
 
             if matches!(e, Expr::Ident(..)) {
                 self.evaluate_ident(e);
+                self.evaluate(e);
 
                 #[cfg(feature = "trace-ast")]
                 tracing::debug!("Output: {}", dump(e, true));
@@ -1951,6 +1952,8 @@ impl VisitMut for Optimizer<'_> {
             };
 
             if should_remove_invalid {
+            // This is not accurate check but avoid some trivial cases.
+            if self.changed && matches!(e, Expr::Bin(..)) {
                 self.remove_invalid_bin(e);
             }
 
@@ -2010,71 +2013,6 @@ impl VisitMut for Optimizer<'_> {
 
             self.inline(e);
         }
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        // This is not accurate check but avoid some trivial cases.
-        if self.changed && matches!(e, Expr::Bin(..)) {
-            self.remove_invalid_bin(e);
-        }
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.optimize_str_access_to_arguments(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.replace_props(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.drop_unused_assignments(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.compress_lits(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.compress_typeofs(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.drop_console(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        if matches!(
-            &*e,
-            Expr::Bin(BinExpr {
-                op: op!("&&") | op!("||"),
-                ..
-            })
-        ) {
-            self.compress_logical_exprs_as_bang_bang(e, false);
-        }
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.inline(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
