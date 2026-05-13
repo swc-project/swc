@@ -341,7 +341,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         let cur = self.input().cur();
-        if cur == Token::PlusPlus || cur == Token::MinusMinus {
+        let cur_kind = cur as u8;
+        if cur_kind >= Token::PlusPlus as u8 && cur_kind <= Token::MinusMinus as u8 {
             // Line terminator isn't allowed here.
             if self.input_mut().had_line_break_before_cur() {
                 return Ok(expr);
