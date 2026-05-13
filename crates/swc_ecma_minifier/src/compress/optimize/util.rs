@@ -462,6 +462,10 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
 
+        if self.lits_for_cmp.is_empty() {
+            return;
+        }
+
         match e.op {
             op!("===") | op!("!==") | op!("==") | op!("!=") => {
                 //
@@ -478,6 +482,10 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_callee(&mut self, e: &mut Callee) {
         e.visit_mut_children_with(self);
 
+        if self.simple_functions.is_empty() {
+            return;
+        }
+
         if let Callee::Expr(e) = e {
             self.check(e, FinalizerMode::Callee);
         }
@@ -491,13 +499,13 @@ impl VisitMut for Finalizer<'_> {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
-            Expr::Ident(i) => {
+            Expr::Ident(i) if !self.lits.is_empty() => {
                 if let Some(expr) = self.lits.get(&i.to_id()) {
                     *n = *expr.clone();
                     return;
                 }
             }
-            Expr::Member(e) => 'a: {
+            Expr::Member(e) if !self.hoisted_props.is_empty() => 'a: {
                 if let Expr::Ident(obj) = &*e.obj {
                     let sym = match &e.prop {
                         MemberProp::Ident(i) => i.sym.borrow(),
@@ -536,6 +544,10 @@ impl VisitMut for Finalizer<'_> {
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.visit_mut_children_with(self);
+
+        if self.lits_for_array_access.is_empty() {
+            return;
+        }
 
         if let MemberProp::Computed(prop) = &mut e.prop {
             if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
@@ -591,6 +603,10 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
         n.visit_mut_children_with(self);
 
+        if self.vars_to_remove.is_empty() {
+            return;
+        }
+
         if n.init.is_none() {
             if let Pat::Ident(i) = &n.name {
                 if self.vars_to_remove.contains(&i.to_id()) {
@@ -608,6 +624,10 @@ impl VisitMut for Finalizer<'_> {
 
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         n.visit_mut_children_with(self);
+
+        if self.lits.is_empty() {
+            return;
+        }
 
         if let Prop::Shorthand(i) = n {
             if let Some(expr) = self.lits.get(&i.to_id()) {
