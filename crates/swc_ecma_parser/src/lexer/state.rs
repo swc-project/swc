@@ -205,7 +205,9 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn next_token(&mut self) -> TokenAndSpan {
-        let mut start = self.cur_pos();
+        // `read_next_token` always overwrites this out-parameter before
+        // returning, including the regexp path.
+        let mut start = BytePos(0);
         let token = match self.read_next_token(&mut start) {
             Ok(res) => res,
             Err(error) => {
