@@ -42,6 +42,7 @@ impl<I: Tokens> Parser<I> {
 
     /// AssignmentExpression[+In, ?Yield, ?Await]
     /// ...AssignmentExpression[+In, ?Yield, ?Await]
+    #[inline(always)]
     fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
         trace_cur!(self, parse_expr_or_spread);
         if self.input().cur() == Token::DotDotDot {
