@@ -1455,29 +1455,21 @@ impl<I: Tokens> Parser<I> {
         syntax: SyntaxFlags,
     ) -> PResult<(Box<Expr>, bool)> {
         let mut cur = self.input().cur();
-        let question_dot =
-            if cur == Token::QuestionMark && peek!(self).is_some_and(|peek| peek == Token::Dot) {
+        let question_dot = match cur {
+            Token::QuestionMark if peek!(self).is_some_and(|peek| peek == Token::Dot) => {
                 self.bump();
                 self.bump();
                 cur = self.input().cur();
                 true
-            } else {
-                false
-            };
-
-        if !question_dot
-            && !matches!(
-                cur,
-                Token::LBracket
-                    | Token::LParen
-                    | Token::Dot
-                    | Token::TemplateHead
-                    | Token::NoSubstitutionTemplateLiteral
-                    | Token::BackQuote
-            )
-        {
-            return Ok((callee, false));
-        }
+            }
+            Token::LBracket
+            | Token::LParen
+            | Token::Dot
+            | Token::TemplateHead
+            | Token::NoSubstitutionTemplateLiteral
+            | Token::BackQuote => false,
+            _ => return Ok((callee, false)),
+        };
 
         if !question_dot && cur == Token::Dot {
             self.bump();
