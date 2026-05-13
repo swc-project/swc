@@ -170,14 +170,13 @@ impl<I: Tokens> Parser<I> {
             return Err(err);
         }
 
+        let start = self.cur_pos();
         self.state_mut().potential_arrow_start =
             if cur.is_known_ident() || matches!(cur, Token::Ident | Token::Yield | Token::LParen) {
-                self.cur_pos()
+                start
             } else {
                 BytePos::SYNTHESIZED
             };
-
-        let start = self.cur_pos();
 
         // Try to parse conditional expression.
         let cond = self.parse_cond_expr()?;
@@ -1115,7 +1114,9 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<(Box<Expr>, bool)> {
         trace_cur!(self, parse_subscript);
 
-        if self.input().syntax().typescript() {
+        let syntax = self.input().syntax();
+
+        if syntax.typescript() {
             if !self.input().had_line_break_before_cur() && self.input().is(Token::Bang) {
                 self.input_mut().set_expr_allowed(false);
                 self.assert_and_bump(Token::Bang);
@@ -1208,7 +1209,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let ts_instantiation = if self.syntax().typescript() && self.input().is(Token::Lt) {
+        let ts_instantiation = if syntax.typescript() && self.input().is(Token::Lt) {
             self.try_parse_ts_type_args()
         } else {
             None
@@ -1243,7 +1244,7 @@ impl<I: Tokens> Parser<I> {
                 expr: prop,
             };
 
-            let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) {
+            let type_args = if syntax.typescript() && self.input().is(Token::Lt) {
                 self.try_parse_ts_type_args()
             } else {
                 None
@@ -1278,8 +1279,7 @@ impl<I: Tokens> Parser<I> {
             return Ok((Box::new(expr), true));
         }
 
-        let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) && question_dot
-        {
+        let type_args = if syntax.typescript() && self.input().is(Token::Lt) && question_dot {
             let ret = self.parse_ts_type_args()?;
             self.assert_and_bump(Token::Gt);
             Some(ret)
@@ -1321,7 +1321,7 @@ impl<I: Tokens> Parser<I> {
                 Either::Left(p) => MemberProp::PrivateName(p),
                 Either::Right(i) => MemberProp::Ident(i),
             })?;
-            if self.syntax().flow()
+            if syntax.flow()
                 && matches!(prop, MemberProp::PrivateName(..))
                 && !self.ctx().contains(Context::InClass)
             {
@@ -1331,7 +1331,7 @@ impl<I: Tokens> Parser<I> {
             debug_assert_eq!(callee.span_lo(), span.lo());
             debug_assert_eq!(prop.span_hi(), span.hi());
 
-            let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) {
+            let type_args = if syntax.typescript() && self.input().is(Token::Lt) {
                 self.try_parse_ts_type_args()
             } else {
                 None
