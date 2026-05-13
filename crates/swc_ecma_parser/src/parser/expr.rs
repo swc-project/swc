@@ -1762,9 +1762,13 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
-        self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
-            p.parse_member_expr_or_new_expr_inner(is_new_expr)
-        })
+        if self.ctx().contains(Context::InType) {
+            self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+                p.parse_member_expr_or_new_expr_inner(is_new_expr)
+            })
+        } else {
+            self.parse_member_expr_or_new_expr_inner(is_new_expr)
+        }
     }
 
     fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
