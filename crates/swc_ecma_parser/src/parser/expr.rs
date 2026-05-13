@@ -1729,7 +1729,9 @@ impl<I: Tokens> Parser<I> {
     fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
-        if self.input_mut().eat(Token::New) {
+        let cur = self.input().cur();
+        if cur == Token::New {
+            self.bump();
             let start = self.input().prev_span().lo;
             if self.input_mut().eat(Token::Dot) {
                 if self.input_mut().eat(Token::Target) {
@@ -1838,13 +1840,15 @@ impl<I: Tokens> Parser<I> {
             .into());
         }
 
-        if self.input_mut().eat(Token::Super) {
+        if cur == Token::Super {
+            self.bump();
             let start = self.input().prev_span().lo;
             let base = Callee::Super(Super {
                 span: self.span(start),
             });
             return self.parse_subscripts(base, true, false);
-        } else if self.input_mut().eat(Token::Import) {
+        } else if cur == Token::Import {
+            self.bump();
             let start = self.input().prev_span().lo;
             return self.parse_dynamic_import_or_import_meta(start, true);
         }
