@@ -416,19 +416,17 @@ impl Lexer<'_> {
 
     #[inline(always)]
     fn finish_next_token(&mut self, span: Span, token: Token) -> TokenAndSpan {
-        if token == Token::Eof {
-            if self.comments_buffer.is_some() {
+        if self.comments_buffer.is_some() {
+            if token == Token::Eof {
                 self.consume_pending_comments();
+            } else {
+                let Some(comments_buffer) = self.comments_buffer.as_mut() else {
+                    unreachable!();
+                };
+                if comments_buffer.has_pending() {
+                    comments_buffer.pending_to_comment(BufferedCommentKind::Leading, span.lo);
+                }
             }
-        } else if self
-            .comments_buffer
-            .as_ref()
-            .is_some_and(|comments| comments.has_pending())
-        {
-            self.comments_buffer
-                .as_mut()
-                .unwrap()
-                .pending_to_comment(BufferedCommentKind::Leading, span.lo);
         }
 
         self.state.set_token_type(token);
