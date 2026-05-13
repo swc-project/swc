@@ -2016,26 +2016,27 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_bin_op_recursively(
         &mut self,
         mut left: Box<Expr>,
-        mut min_prec: u8,
+        min_prec: u8,
     ) -> PResult<Box<Expr>> {
         loop {
-            let (next_left, next_prec) = self.parse_bin_op_recursively_inner(left, min_prec)?;
+            let (next_left, should_continue) =
+                self.parse_bin_op_recursively_inner(left, min_prec)?;
 
-            let Some(next_prec) = next_prec else {
+            if !should_continue {
                 return Ok(next_left);
-            };
+            }
 
-            min_prec = next_prec;
             left = next_left;
         }
     }
 
-    /// Returns `(left, Some(next_prec))` or `(expr, None)`.
+    /// Returns `(expr, true)` if binary parsing should continue, or `(expr,
+    /// false)`.
     fn parse_bin_op_recursively_inner(
         &mut self,
         left: Box<Expr>,
         min_prec: u8,
-    ) -> PResult<(Box<Expr>, Option<u8>)> {
+    ) -> PResult<(Box<Expr>, bool)> {
         const PREC_OF_IN: u8 = 7;
 
         // Return left on eof
@@ -2090,7 +2091,7 @@ impl<I: Tokens> Parser<I> {
                     return self.parse_bin_op_recursively_inner(node, min_prec);
                 }
             }
-            return Ok((left, None));
+            return Ok((left, false));
         };
 
         let op_prec = op.precedence();
@@ -2105,7 +2106,7 @@ impl<I: Tokens> Parser<I> {
                 );
             }
 
-            return Ok((left, None));
+            return Ok((left, false));
         }
 
         if op == op!("<") && self.syntax().flow() && self.syntax().jsx() {
@@ -2206,7 +2207,7 @@ impl<I: Tokens> Parser<I> {
         }
         .into();
 
-        Ok((node, Some(min_prec)))
+        Ok((node, true))
     }
 
     pub(crate) fn parse_await_expr(
