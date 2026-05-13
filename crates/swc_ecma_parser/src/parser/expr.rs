@@ -44,8 +44,8 @@ impl<I: Tokens> Parser<I> {
     /// ...AssignmentExpression[+In, ?Yield, ?Await]
     fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
         trace_cur!(self, parse_expr_or_spread);
-        let start = self.input().cur_pos();
         if self.input_mut().eat(Token::DotDotDot) {
+            let start = self.input().prev_span().lo;
             let spread_span = self.span(start);
             let spread = Some(spread_span);
             self.allow_in_expr(Self::parse_assignment_expr)
