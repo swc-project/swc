@@ -519,7 +519,7 @@ impl<I: Tokens> Parser<I> {
                 .into(),
             };
 
-            return self.parse_subscripts(Callee::Expr(call_expr), false, false);
+            return self.parse_subscripts_expr(call_expr, false, false);
         }
         if type_args.is_some() {
             // This fails
@@ -1120,7 +1120,7 @@ impl<I: Tokens> Parser<I> {
         no_call: bool,
         no_computed_member: bool,
     ) -> PResult<Box<Expr>> {
-        let mut expr = match obj {
+        let expr = match obj {
             Callee::Import(import) => {
                 let start = import.span.lo;
                 self.parse_subscript_import_call(start, import)?
@@ -1129,10 +1129,22 @@ impl<I: Tokens> Parser<I> {
                 let start = s.span.lo;
                 self.parse_subscript_super(start, s, no_call)?
             }
-            Callee::Expr(expr) => expr,
+            Callee::Expr(expr) => {
+                return self.parse_subscripts_expr(expr, no_call, no_computed_member);
+            }
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
         };
+
+        self.parse_subscripts_expr(expr, no_call, no_computed_member)
+    }
+
+    fn parse_subscripts_expr(
+        &mut self,
+        mut expr: Box<Expr>,
+        no_call: bool,
+        no_computed_member: bool,
+    ) -> PResult<Box<Expr>> {
         let syntax = self.input().syntax();
 
         if !syntax.typescript() {
@@ -1758,7 +1770,7 @@ impl<I: Tokens> Parser<I> {
                         span,
                         kind: MetaPropKind::ImportMeta,
                     };
-                    self.parse_subscripts(Callee::Expr(expr.into()), no_call, false)
+                    self.parse_subscripts_expr(expr.into(), no_call, false)
                 }
                 "defer" => self.parse_dynamic_import_call(start, ImportPhase::Defer),
                 "source" => self.parse_dynamic_import_call(start, ImportPhase::Source),
@@ -1820,7 +1832,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(span, SyntaxError::InvalidNewTarget);
                     }
 
-                    return self.parse_subscripts(Callee::Expr(expr), true, false);
+                    return self.parse_subscripts_expr(expr, true, false);
                 }
 
                 unexpected!(self, "target")
@@ -1882,20 +1894,18 @@ impl<I: Tokens> Parser<I> {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args(false).map(Some)?;
 
-                let new_expr = Callee::Expr(
-                    NewExpr {
-                        span: self.span(start),
-                        callee,
-                        args,
-                        type_args,
-                        ..Default::default()
-                    }
-                    .into(),
-                );
+                let new_expr = NewExpr {
+                    span: self.span(start),
+                    callee,
+                    args,
+                    type_args,
+                    ..Default::default()
+                }
+                .into();
 
                 // We should parse subscripts for MemberExpression.
                 // Because it's left recursive.
-                return self.parse_subscripts(new_expr, true, false);
+                return self.parse_subscripts_expr(new_expr, true, false);
             }
 
             // Parsed with 'NewExpression' production.
@@ -1943,7 +1953,7 @@ impl<I: Tokens> Parser<I> {
             obj
         };
 
-        self.parse_subscripts(Callee::Expr(obj), true, false)
+        self.parse_subscripts_expr(obj, true, false)
     }
 
     /// Parse `NewExpression`.
