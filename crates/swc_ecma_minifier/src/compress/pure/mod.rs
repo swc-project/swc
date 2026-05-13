@@ -421,13 +421,17 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.eval_nested_tpl(e);
+        if matches!(e, Expr::Tpl(..)) {
+            self.eval_nested_tpl(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_tpl_as_str(e);
+        if matches!(e, Expr::Tpl(..)) {
+            self.eval_tpl_as_str(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -450,9 +454,13 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        self.eval_array_spread(e);
+        if matches!(e, Expr::Array(..)) {
+            self.eval_array_spread(e);
+        }
 
-        self.compress_array_join(e);
+        if matches!(e, Expr::Call(..)) {
+            self.compress_array_join(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -464,25 +472,33 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.eval_opt_chain(e);
+        if matches!(e, Expr::OptChain(..)) {
+            self.eval_opt_chain(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_number_call(e);
+        if matches!(e, Expr::Call(..)) {
+            self.eval_number_call(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_arguments_member_access(e);
+        if matches!(e, Expr::Member(..)) {
+            self.eval_arguments_member_access(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_number_method_call(e);
+        if matches!(e, Expr::Call(..)) {
+            self.eval_number_method_call(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -508,7 +524,9 @@ impl VisitMut for Pure<'_> {
         if e.is_seq() {
             debug_assert_valid(e);
         }
-        self.convert_tpl_to_str(e);
+        if matches!(e, Expr::Tpl(..)) {
+            self.convert_tpl_to_str(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -520,7 +538,9 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.compress_useless_deletes(e);
+        if matches!(e, Expr::Unary(..)) {
+            self.compress_useless_deletes(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -544,17 +564,21 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.eval_array_or_fn_method_call(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
+        if matches!(e, Expr::Call(..)) {
+            self.eval_array_or_fn_method_call(e);
         }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_str_method_call(e);
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        if matches!(e, Expr::Call(..)) {
+            self.eval_str_method_call(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -618,13 +642,17 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.optimize_opt_chain(e);
+        if matches!(e, Expr::OptChain(..)) {
+            self.optimize_opt_chain(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_member_expr(e);
+        if matches!(e, Expr::Member(..)) {
+            self.eval_member_expr(e);
+        }
 
         self.optimize_to_int(e);
     }
