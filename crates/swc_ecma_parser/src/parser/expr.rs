@@ -74,7 +74,7 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
-        if self.input().syntax().typescript() && self.input().is(Token::JSXTagStart) {
+        if self.input().is(Token::JSXTagStart) && self.input().syntax().typescript() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
             let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
@@ -93,12 +93,14 @@ impl<I: Tokens> Parser<I> {
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_base);
-        let start = self.input().cur_span();
+        let cur = self.input().cur();
+        let syntax = self.input().syntax();
 
-        if self.input().syntax().typescript()
-            && (self.input().cur() == Token::Lt || self.input().cur() == Token::JSXTagStart)
+        if syntax.typescript()
+            && (cur == Token::Lt || cur == Token::JSXTagStart)
             && (peek!(self).is_some_and(|peek| peek.is_word() || peek == Token::JSXName))
         {
+            let start = self.input().cur_span();
             let res = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
                 p.try_parse_ts(|p| {
                     let type_parameters = p.parse_ts_type_params(false, true)?;
@@ -152,18 +154,16 @@ impl<I: Tokens> Parser<I> {
                 })
             });
             if let Some(res) = res {
-                if self.input().syntax().disallow_ambiguous_jsx_like() {
+                if syntax.disallow_ambiguous_jsx_like() {
                     self.emit_err(start, SyntaxError::ReservedArrowTypeParam);
                 }
                 return Ok(res);
             }
         }
 
-        if self.ctx().contains(Context::InGenerator) && self.input().is(Token::Yield) {
+        if self.ctx().contains(Context::InGenerator) && cur == Token::Yield {
             return self.parse_yield_expr();
         }
-
-        let cur = self.input().cur();
 
         if cur == Token::Error {
             let err = self.input_mut().expect_error_token_and_bump();
@@ -172,9 +172,9 @@ impl<I: Tokens> Parser<I> {
 
         self.state_mut().potential_arrow_start =
             if cur.is_known_ident() || matches!(cur, Token::Ident | Token::Yield | Token::LParen) {
-                Some(self.cur_pos())
+                self.cur_pos()
             } else {
-                None
+                BytePos::SYNTHESIZED
             };
 
         let start = self.cur_pos();
@@ -362,11 +362,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
         let start = self.input().cur_pos();
-        let can_be_arrow = self
-            .state
-            .potential_arrow_start
-            .map(|s| s == start)
-            .unwrap_or(false);
+        let can_be_arrow = self.state.potential_arrow_start == start;
         let tok = self.input.cur();
         match tok {
             Token::This => return self.parse_this_expr(start),
@@ -562,7 +558,7 @@ impl<I: Tokens> Parser<I> {
 
     fn at_possible_async(&mut self, expr: &Expr) -> bool {
         // TODO(kdy1): !this.state.containsEsc &&
-        self.state().potential_arrow_start == Some(expr.span_lo()) && expr.is_ident_ref_to("async")
+        self.state().potential_arrow_start == expr.span_lo() && expr.is_ident_ref_to("async")
     }
 
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
@@ -2057,7 +2053,7 @@ impl<I: Tokens> Parser<I> {
                     .is_some_and(|t| t == Token::LParen || t == Token::Function || t.is_word());
 
             let start = self.cur_pos();
-            self.state_mut().potential_arrow_start = Some(start);
+            self.state_mut().potential_arrow_start = start;
             let modifier_start = start;
 
             let has_modifier = self.eat_any_ts_modifier()?;
@@ -2654,7 +2650,6 @@ impl<I: Tokens> Parser<I> {
         };
 
         let cur = self.input().cur();
-        let token_start = self.input().cur_pos();
 
         if self.is_flow_match_keyword() {
             return self.parse_flow_match_expr(start);
@@ -2753,7 +2748,7 @@ impl<I: Tokens> Parser<I> {
             Ok(id.into())
         };
 
-        if cur == Token::Let || (self.input().syntax().typescript() && cur == Token::Await) {
+        if cur == Token::Let || (cur == Token::Await && self.input().syntax().typescript()) {
             let ctx = self.ctx();
             let id = self.parse_ident(
                 !ctx.contains(Context::InGenerator),
@@ -2772,6 +2767,7 @@ impl<I: Tokens> Parser<I> {
             }
             .into())
         } else if cur == Token::Ident {
+            let token_start = self.input().cur_pos();
             let word = self.input_mut().expect_word_token_and_bump();
             if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
                 self.emit_err(self.input().prev_span(), SyntaxError::ArgumentsInClassField)
@@ -2780,6 +2776,7 @@ impl<I: Tokens> Parser<I> {
             try_parse_arrow_expr(self, id, false)
         } else if self.is_ident_ref() {
             let id_is_async = self.input().cur() == Token::Async;
+            let token_start = self.input().cur_pos();
             let word = self.input_mut().expect_word_token_and_bump();
             let id = Ident::new_no_ctxt(word, self.span(token_start));
             try_parse_arrow_expr(self, id, id_is_async)
