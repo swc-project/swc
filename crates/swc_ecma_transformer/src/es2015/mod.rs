@@ -5,12 +5,12 @@ use crate::{
     TraverseCtx,
 };
 
-mod duplicate_keys;
-mod function_name;
-mod instanceof;
-mod shorthand;
+pub(crate) mod duplicate_keys;
+pub(crate) mod function_name;
+pub(crate) mod instanceof;
+pub(crate) mod shorthand;
 mod sticky_regex;
-mod typeof_symbol;
+pub(crate) mod typeof_symbol;
 
 #[derive(Debug, Default)]
 #[non_exhaustive]

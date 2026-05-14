@@ -7,7 +7,5 @@ use swc_ecma_ast::Pass;
 /// - ES2020 nullish coalescing (to transform the ?? operator generated from
 ///   ??=)
 pub fn logical_assignments() -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-    options.env.es2021.logical_assignment_operators = true;
-    options.into_pass()
+    swc_ecma_transformer::es2021_logical_assignments()
 }

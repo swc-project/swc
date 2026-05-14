@@ -26,9 +26,7 @@ use swc_ecma_ast::Pass;
 /// _instanceof(foo, Bar);
 /// ```
 pub fn instance_of() -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-    options.env.es2015.instanceof = true;
-    options.into_pass()
+    swc_ecma_transformer::es2015_instanceof()
 }
 
 #[cfg(test)]

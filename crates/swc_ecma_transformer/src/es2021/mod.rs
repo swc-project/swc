@@ -1,4 +1,4 @@
-mod logical_assignment_operators;
+pub(crate) mod logical_assignment_operators;
 
 use swc_ecma_hooks::VisitMutHook;
 

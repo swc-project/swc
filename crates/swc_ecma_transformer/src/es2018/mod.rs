@@ -3,7 +3,7 @@ use swc_ecma_transforms_base::assumptions::Assumptions;
 
 use crate::TraverseCtx;
 
-mod object_rest_spread;
+pub(crate) mod object_rest_spread;
 
 #[derive(Debug, Default)]
 #[non_exhaustive]
