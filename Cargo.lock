@@ -384,7 +384,7 @@ dependencies = [
  "napi-build",
  "napi-derive",
  "par-core",
- "path-clean 1.0.1",
+ "path-clean",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -742,7 +742,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c02af038c863b51d496dd4a2eabdf781f8f7ab68025e13b984b7f2c525560454"
 dependencies = [
  "bytes",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "serde",
 ]
 
@@ -2571,6 +2571,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "hashbrown"
+version = "0.17.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
+
+[[package]]
 name = "heapless"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2635,7 +2641,7 @@ dependencies = [
  "once_cell",
  "par-iter",
  "rand 0.8.6",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -3176,7 +3182,7 @@ name = "jsdoc"
 version = "21.0.0"
 dependencies = [
  "cbor4ii",
- "dashmap 5.5.3",
+ "dashmap 6.1.0",
  "nom 7.1.3",
  "serde",
  "swc_atoms",
@@ -4187,12 +4193,6 @@ dependencies = [
 
 [[package]]
 name = "path-clean"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ecba01bf2678719532c5e3059e0b5f0811273d94b397088b82e3bd0a78c78fdd"
-
-[[package]]
-name = "path-clean"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "17359afc20d7ab31fdb42bb844c8b3bb1dabd7dcf7e68428492da7f16966fcef"
@@ -4436,7 +4436,7 @@ version = "7.0.0"
 dependencies = [
  "anyhow",
  "browserslist-rs",
- "dashmap 5.5.3",
+ "dashmap 6.1.0",
  "from_variant",
  "once_cell",
  "rustc-hash 2.1.1",
@@ -4940,19 +4940,19 @@ dependencies = [
 
 [[package]]
 name = "rkyv"
-version = "0.8.13"
+version = "0.8.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8b2e88acca7157d83d789836a3987dafc12bc3d88a050e54b8fe9ea4aaa29d20"
+checksum = "73389e0c99e664f919275ab5b5b0471391fe9a8de61e1dff9b1eaf56a90f16e3"
 dependencies = [
  "bytecheck 0.8.1",
  "bytes",
- "hashbrown 0.16.0",
+ "hashbrown 0.17.1",
  "indexmap 2.12.0",
  "munge",
  "ptr_meta 0.3.0",
  "rancor",
  "rend 0.5.2",
- "rkyv_derive 0.8.13",
+ "rkyv_derive 0.8.16",
  "tinyvec",
  "uuid",
 ]
@@ -4970,9 +4970,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv_derive"
-version = "0.8.13"
+version = "0.8.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f6dffea3c91fa91a3c0fc8a061b0e27fef25c6304728038a6d6bcb1c58ba9bd"
+checksum = "5d2ed0b54125315fb36bd021e82d314d1c126548f871634b483f46b31d13cac6"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5639,7 +5639,7 @@ dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
  "criterion",
- "dashmap 5.5.3",
+ "dashmap 6.1.0",
  "either",
  "indexmap 2.12.0",
  "jsonc-parser",
@@ -5751,7 +5751,7 @@ dependencies = [
  "hstr",
  "once_cell",
  "rancor",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "serde",
  "shrink-to-fit",
 ]
@@ -5762,14 +5762,14 @@ version = "48.0.0"
 dependencies = [
  "anyhow",
  "crc",
- "dashmap 5.5.3",
+ "dashmap 6.1.0",
  "hex",
  "indexmap 2.12.0",
  "is-macro",
  "ntest",
  "once_cell",
  "par-core",
- "path-clean 1.0.1",
+ "path-clean",
  "petgraph",
  "radix_fmt",
  "rayon",
@@ -5847,7 +5847,7 @@ dependencies = [
  "par-iter",
  "parking_lot",
  "rancor",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -5895,7 +5895,7 @@ version = "4.0.1"
 dependencies = [
  "anyhow",
  "bytes-str",
- "dashmap 5.5.3",
+ "dashmap 6.1.0",
  "globset",
  "indexmap 2.12.0",
  "once_cell",
@@ -5995,7 +5995,7 @@ dependencies = [
  "bytecheck 0.8.1",
  "cbor4ii",
  "is-macro",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -6170,7 +6170,7 @@ dependencies = [
  "once_cell",
  "phf",
  "rancor",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -6441,7 +6441,7 @@ version = "30.0.0"
 dependencies = [
  "auto_impl",
  "codspeed-criterion-compat",
- "dashmap 5.5.3",
+ "dashmap 6.1.0",
  "par-core",
  "parking_lot",
  "regex",
@@ -6464,13 +6464,13 @@ name = "swc_ecma_loader"
 version = "21.0.0"
 dependencies = [
  "anyhow",
- "dashmap 5.5.3",
+ "dashmap 6.1.0",
  "lazy_static",
  "lru",
  "normpath",
  "once_cell",
  "parking_lot",
- "path-clean 0.1.0",
+ "path-clean",
  "pathdiff",
  "rustc-hash 2.1.1",
  "serde",
@@ -6794,7 +6794,7 @@ dependencies = [
  "bitflags 2.10.0",
  "indexmap 2.12.0",
  "is-macro",
- "path-clean 1.0.1",
+ "path-clean",
  "pathdiff",
  "regex",
  "rustc-hash 2.1.1",
@@ -6822,7 +6822,7 @@ name = "swc_ecma_transforms_optimization"
 version = "44.0.1"
 dependencies = [
  "bytes-str",
- "dashmap 5.5.3",
+ "dashmap 6.1.0",
  "indexmap 2.12.0",
  "once_cell",
  "par-core",
@@ -7183,7 +7183,7 @@ dependencies = [
  "bytecheck 0.8.1",
  "cbor4ii",
  "is-macro",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -7330,7 +7330,7 @@ dependencies = [
 name = "swc_node_comments"
 version = "21.0.0"
 dependencies = [
- "dashmap 5.5.3",
+ "dashmap 6.1.0",
  "rustc-hash 2.1.1",
  "swc_atoms",
  "swc_common",
@@ -8421,7 +8421,7 @@ dependencies = [
  "ipnet",
  "iprange",
  "pin-project-lite",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "serde",
  "smoltcp",
  "thiserror 1.0.69",
@@ -8734,7 +8734,7 @@ dependencies = [
  "more-asserts",
  "object 0.32.2",
  "region",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "self_cell",
  "shared-buffer",
  "smallvec",
@@ -8817,7 +8817,7 @@ dependencies = [
  "derive_more 2.0.1",
  "lz4_flex",
  "num_enum",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "serde",
  "serde_json",
  "thiserror 1.0.69",
@@ -8871,7 +8871,7 @@ dependencies = [
  "hex",
  "indexmap 2.12.0",
  "more-asserts",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "serde",
  "sha2",
  "target-lexicon 0.12.16",
@@ -8943,7 +8943,7 @@ dependencies = [
  "pin-project",
  "pin-utils",
  "rand 0.8.6",
- "rkyv 0.8.13",
+ "rkyv 0.8.16",
  "rusty_pool",
  "semver",
  "serde",
@@ -9306,7 +9306,7 @@ dependencies = [
  "lexical-sort",
  "libc",
  "once_cell",
- "path-clean 1.0.1",
+ "path-clean",
  "rand 0.8.6",
  "serde",
  "serde_json",
