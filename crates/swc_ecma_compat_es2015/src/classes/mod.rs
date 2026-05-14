@@ -14,7 +14,7 @@ use swc_ecma_utils::{
     ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -976,6 +976,30 @@ struct ClassFinder {
 
 impl Visit for ClassFinder {
     noop_visit_type!(fail);
+
+    fn visit_module_item(&mut self, node: &ModuleItem) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_stmt(&mut self, node: &Stmt) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_expr(&mut self, node: &Expr) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
 
     fn visit_class(&mut self, _: &Class) {
         self.found = true

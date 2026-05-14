@@ -1098,6 +1098,38 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!(fail);
 
+    fn visit_module_item(&mut self, node: &ModuleItem) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_stmt(&mut self, node: &Stmt) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_expr(&mut self, node: &Expr) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_class_member(&mut self, node: &ClassMember) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
     fn visit_class_method(&mut self, _: &ClassMethod) {
         self.found = true;
     }

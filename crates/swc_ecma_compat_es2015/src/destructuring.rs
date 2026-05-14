@@ -1348,15 +1348,46 @@ struct DestructuringVisitor {
 impl Visit for DestructuringVisitor {
     noop_visit_type!(fail);
 
+    fn visit_module_item(&mut self, node: &ModuleItem) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_stmt(&mut self, node: &Stmt) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_expr(&mut self, node: &Expr) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
     fn visit_assign_target_pat(&mut self, _: &AssignTargetPat) {
         self.found = true;
     }
 
     fn visit_pat(&mut self, node: &Pat) {
-        node.visit_children_with(self);
+        if self.found {
+            return;
+        }
+
         match *node {
             Pat::Ident(..) => {}
             _ => self.found = true,
+        }
+
+        if !self.found {
+            node.visit_children_with(self);
         }
     }
 }
