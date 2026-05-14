@@ -43,7 +43,7 @@ jobs:
     outputs:
       suites: ${{ steps.list-tests.outputs.suites }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
 
@@ -66,7 +66,7 @@ jobs:
       matrix:
         suite: ${{ fromJSON(needs.list-tests.outputs.suites) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
 

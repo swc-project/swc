@@ -64,7 +64,7 @@ jobs:
       actions: read # Required for Claude to read CI results on PRs
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
       - run: corepack enable
 
@@ -76,14 +76,14 @@ jobs:
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           profile: minimal
           target: wasm32-wasip1
           components: rustfmt
 
       - name: Run DevBird
-        uses: delinoio/devbird-action@main
+        uses: delinoio/devbird-action@1a00faaf30734c914c4066d64d86527edc6bcd85 # main
         with:
           agent: ${{ inputs.agent }}
           agent_model: ${{ inputs.agent_model }}

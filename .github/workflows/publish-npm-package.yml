@@ -55,7 +55,7 @@ jobs:
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
       # TODO: Check for existing artifacts
       - id: check
         if: ${{ !inputs.skipBuild }}
@@ -236,7 +236,7 @@ jobs:
     name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }} - node@20"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           ref: "v${{ inputs.version }}"
 
@@ -244,7 +244,7 @@ jobs:
         shell: bash
         run: corepack enable
       - name: Setup node x64
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
           architecture: x64
@@ -256,7 +256,7 @@ jobs:
           echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Restore pnpm cache
         id: restore-pnpm-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.pnpm-store.outputs.path }}
           key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-20-${{ matrix.settings.target }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -265,25 +265,25 @@ jobs:
         shell: bash
         run: echo "version=$(cat ./rust-toolchain)" >> "$GITHUB_OUTPUT"
       - name: Install
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         if: ${{ !matrix.settings.docker }}
         with:
           targets: ${{ matrix.settings.target }}
           toolchain: ${{ steps.toolchain.outputs.version }}
       # `pnpm exec napi build ... -x` invokes `cargo-zigbuild`, which requires zig on the runner.
-      - uses: mlugg/setup-zig@v2
+      - uses: mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29 # v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' || matrix.settings.target == 'powerpc64le-unknown-linux-gnu' || matrix.settings.target == 's390x-unknown-linux-gnu' }}
         with:
           version: 0.15.1
       - name: Restore cargo registry
         id: restore-cargo-registry
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.cargo/registry
           key: ${{ matrix.settings.target }}-node@20-cargo-registry-trimmed
       - name: Restore cargo index
         id: restore-cargo-index
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.cargo/git
           key: ${{ matrix.settings.target }}-node@20-cargo-index-trimmed
@@ -305,18 +305,18 @@ jobs:
           echo '/usr/local/cargo/bin' >> $GITHUB_PATH
       - name: Save pnpm cache
         if: github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.pnpm-store.outputs.path }}
           key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}
       - name: Setup node x86
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 20
           architecture: x86
       - name: Build in docker
-        uses: addnab/docker-run-action@v3
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185 # v3
         if: ${{ matrix.settings.docker }}
         with:
           image: ${{ matrix.settings.docker }}
@@ -335,18 +335,18 @@ jobs:
         shell: bash
       - name: Save cargo registry
         if: github.ref == 'refs/heads/main' && steps.restore-cargo-registry.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.cargo/registry
           key: ${{ steps.restore-cargo-registry.outputs.cache-primary-key }}
       - name: Save cargo index
         if: github.ref == 'refs/heads/main' && matrix.settings.docker && steps.restore-cargo-index.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.cargo/git
           key: ${{ steps.restore-cargo-index.outputs.cache-primary-key }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: |
@@ -370,14 +370,14 @@ jobs:
           - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: ${{ matrix.node }}
           architecture: x64
@@ -389,7 +389,7 @@ jobs:
           echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Restore pnpm cache
         id: restore-pnpm-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.pnpm-store.outputs.path }}
           key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-${{ matrix.node }}-${{ matrix.settings.target }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -397,12 +397,12 @@ jobs:
         run: corepack enable && pnpm install --frozen-lockfile
       - name: Save pnpm cache
         if: github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.pnpm-store.outputs.path }}
           key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
@@ -427,14 +427,14 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           ref: "v${{ inputs.version }}"
 
       - name: Corepack
         run: corepack enable
       - name: Setup node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: ${{ matrix.node }}
       - name: Get pnpm store path
@@ -445,7 +445,7 @@ jobs:
           echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Restore pnpm cache
         id: restore-pnpm-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.pnpm-store.outputs.path }}
           key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-${{ matrix.node }}-x86_64-unknown-linux-gnu-${{ hashFiles('pnpm-lock.yaml') }}
@@ -453,12 +453,12 @@ jobs:
         run: corepack enable && pnpm install --frozen-lockfile
       - name: Save pnpm cache
         if: github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.pnpm-store.outputs.path }}
           key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
@@ -482,14 +482,14 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: ${{ matrix.node }}
       - name: Get pnpm store path
@@ -500,7 +500,7 @@ jobs:
           echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Restore pnpm cache
         id: restore-pnpm-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.pnpm-store.outputs.path }}
           key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-${{ matrix.node }}-x86_64-unknown-linux-musl-${{ hashFiles('pnpm-lock.yaml') }}
@@ -510,12 +510,12 @@ jobs:
           pnpm install --frozen-lockfile --ignore-scripts --libc=musl
       - name: Save pnpm cache
         if: github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.pnpm-store.outputs.path }}
           key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
@@ -638,7 +638,7 @@ jobs:
       - test-macOS-windows-binding
       # - test-linux-aarch64-musl-binding
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           ref: "v${{ inputs.version }}"
 
@@ -662,7 +662,7 @@ jobs:
         run: corepack enable && pnpm install --frozen-lockfile
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           pattern: "bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-*"
           path: ./packages/${{ inputs.package }}/artifacts
@@ -749,7 +749,7 @@ jobs:
           #   out: "pkg"
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           ref: "v${{ inputs.version }}"
 
@@ -765,13 +765,13 @@ jobs:
           fi
 
       - name: Setup node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
 
       - name: Restore cargo cache
         id: restore-cargo-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: |
             ~/.cargo/
@@ -798,7 +798,7 @@ jobs:
 
       - name: Save cargo cache
         if: github.ref == 'refs/heads/main' && steps.restore-cargo-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: |
             ~/.cargo/
