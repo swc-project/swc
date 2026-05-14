@@ -50,8 +50,8 @@ enum ScopeKind {
     Loop {
         lexical_var: Vec<Id>,
         args: Vec<Id>,
-        /// Produced by identifier reference and consumed by for-of/in loop.
-        used: Vec<Id>,
+        /// Set by identifier references and consumed by for-of/in loop.
+        has_used: bool,
         /// Map of original identifier to modified syntax context
         mutated: FxHashMap<Id, SyntaxContext>,
     },
@@ -64,7 +64,7 @@ impl ScopeKind {
         ScopeKind::Loop {
             lexical_var: Vec::new(),
             args: Vec::new(),
-            used: Vec::new(),
+            has_used: false,
             mutated: Default::default(),
         }
     }
@@ -94,7 +94,7 @@ impl BlockScoping {
         }
     }
 
-    fn mark_as_used(&mut self, i: Id) {
+    fn mark_as_used(&mut self, i: &Ident) {
         // Only consider the variable used in a non-ScopeKind::Loop, which means it is
         // captured in a closure
         for scope in self
@@ -104,11 +104,16 @@ impl BlockScoping {
             .skip_while(|scope| matches!(scope, ScopeKind::Loop { .. }))
         {
             if let ScopeKind::Loop {
-                lexical_var, used, ..
+                lexical_var,
+                has_used,
+                ..
             } = scope
             {
-                if lexical_var.contains(&i) {
-                    used.push(i);
+                if lexical_var
+                    .iter()
+                    .any(|(sym, ctxt)| sym == &i.sym && *ctxt == i.ctxt)
+                {
+                    *has_used = true;
                     return;
                 }
             }
@@ -127,12 +132,12 @@ impl BlockScoping {
 
         if let Some(ScopeKind::Loop {
             args,
-            used,
+            has_used,
             mutated,
             ..
         }) = self.scope.pop()
         {
-            if used.is_empty() {
+            if !has_used {
                 return;
             }
 
@@ -470,7 +475,7 @@ impl VisitMut for BlockScoping {
         let kind = ScopeKind::Loop {
             lexical_var,
             args,
-            used: Vec::new(),
+            has_used: false,
             mutated: Default::default(),
         };
 
@@ -496,7 +501,7 @@ impl VisitMut for BlockScoping {
         let kind = ScopeKind::Loop {
             lexical_var: vars,
             args,
-            used: Vec::new(),
+            has_used: false,
             mutated: Default::default(),
         };
 
@@ -522,7 +527,7 @@ impl VisitMut for BlockScoping {
         let kind = ScopeKind::Loop {
             lexical_var,
             args,
-            used: Vec::new(),
+            has_used: false,
             mutated: Default::default(),
         };
         self.visit_mut_with_scope(kind, &mut node.body);
@@ -542,8 +547,7 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_ident(&mut self, node: &mut Ident) {
-        let id = node.to_id();
-        self.mark_as_used(id);
+        self.mark_as_used(node);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
