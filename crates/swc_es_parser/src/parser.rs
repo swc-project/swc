@@ -2591,7 +2591,7 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_conditional_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_nullish_expr()?;
+        let mut expr = self.parse_binary_expr(0)?;
 
         if self.cur.kind == TokenKind::Question {
             let start = self.cur.span.lo;
@@ -2604,24 +2604,6 @@ impl<'a> Parser<'a> {
                 test: expr,
                 cons,
                 alt,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_nullish_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_logical_or_expr()?;
-
-        while self.cur.kind == TokenKind::Nullish {
-            let start = self.cur.span.lo;
-            self.bump();
-            let right = self.parse_logical_or_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op: BinaryOp::NullishCoalescing,
-                left: expr,
-                right,
             }));
         }
 
@@ -2678,264 +2660,63 @@ impl<'a> Parser<'a> {
         })))
     }
 
-    fn parse_logical_or_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_logical_and_expr()?;
+    fn parse_binary_expr(&mut self, min_prec: u8) -> PResult<swc_es_ast::ExprId> {
+        let mut left = self.parse_unary_expr()?;
 
-        while self.cur.kind == TokenKind::OrOr {
+        while let Some((op, prec, right_assoc)) = self.current_binary_op() {
+            if prec < min_prec {
+                break;
+            }
+
             let start = self.cur.span.lo;
             self.bump();
-            let right = self.parse_logical_and_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op: BinaryOp::LogicalOr,
-                left: expr,
-                right,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_logical_and_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_bitwise_or_expr()?;
-
-        while self.cur.kind == TokenKind::AndAnd {
-            let start = self.cur.span.lo;
-            self.bump();
-            let right = self.parse_bitwise_or_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op: BinaryOp::LogicalAnd,
-                left: expr,
-                right,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_bitwise_or_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_bitwise_xor_expr()?;
-
-        while self.cur.kind == TokenKind::Pipe {
-            let start = self.cur.span.lo;
-            self.bump();
-            let right = self.parse_bitwise_xor_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op: BinaryOp::BitOr,
-                left: expr,
-                right,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_bitwise_xor_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_bitwise_and_expr()?;
-
-        while self.cur.kind == TokenKind::Caret {
-            let start = self.cur.span.lo;
-            self.bump();
-            let right = self.parse_bitwise_and_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op: BinaryOp::BitXor,
-                left: expr,
-                right,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_bitwise_and_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_equality_expr()?;
-
-        while self.cur.kind == TokenKind::Amp {
-            let start = self.cur.span.lo;
-            self.bump();
-            let right = self.parse_equality_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op: BinaryOp::BitAnd,
-                left: expr,
-                right,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_equality_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_relational_expr()?;
-
-        while matches!(
-            self.cur.kind,
-            TokenKind::EqEq | TokenKind::EqEqEq | TokenKind::NotEq | TokenKind::NotEqEq
-        ) {
-            let start = self.cur.span.lo;
-            let op = match self.cur.kind {
-                TokenKind::EqEq => BinaryOp::EqEq,
-                TokenKind::EqEqEq => BinaryOp::EqEqEq,
-                TokenKind::NotEq => BinaryOp::NotEq,
-                TokenKind::NotEqEq => BinaryOp::NotEqEq,
-                _ => unreachable!(),
-            };
-            self.bump();
-            let right = self.parse_relational_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
+            let right_min_prec = if right_assoc { prec } else { prec + 1 };
+            let right = self.parse_binary_expr(right_min_prec)?;
+            left = self.store.alloc_expr(Expr::Binary(BinaryExpr {
                 span: Span::new_with_checked(start, self.last_pos()),
                 op,
-                left: expr,
+                left,
                 right,
             }));
         }
 
-        Ok(expr)
+        Ok(left)
     }
 
-    fn parse_relational_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_shift_expr()?;
+    #[inline]
+    fn current_binary_op(&self) -> Option<(BinaryOp, u8, bool)> {
+        let op = match self.cur.kind {
+            TokenKind::Nullish => (BinaryOp::NullishCoalescing, 1, false),
+            TokenKind::OrOr => (BinaryOp::LogicalOr, 2, false),
+            TokenKind::AndAnd => (BinaryOp::LogicalAnd, 3, false),
+            TokenKind::Pipe => (BinaryOp::BitOr, 4, false),
+            TokenKind::Caret => (BinaryOp::BitXor, 5, false),
+            TokenKind::Amp => (BinaryOp::BitAnd, 6, false),
+            TokenKind::EqEq => (BinaryOp::EqEq, 7, false),
+            TokenKind::EqEqEq => (BinaryOp::EqEqEq, 7, false),
+            TokenKind::NotEq => (BinaryOp::NotEq, 7, false),
+            TokenKind::NotEqEq => (BinaryOp::NotEqEq, 7, false),
+            TokenKind::Lt => (BinaryOp::Lt, 8, false),
+            TokenKind::Gt => (BinaryOp::Gt, 8, false),
+            TokenKind::LtEq => (BinaryOp::LtEq, 8, false),
+            TokenKind::GtEq => (BinaryOp::GtEq, 8, false),
+            TokenKind::Keyword(Keyword::In) if !self.ctx.contains(Context::IN_FOR_HEAD) => {
+                (BinaryOp::In, 8, false)
+            }
+            TokenKind::Keyword(Keyword::InstanceOf) => (BinaryOp::InstanceOf, 8, false),
+            TokenKind::LtLt => (BinaryOp::LShift, 9, false),
+            TokenKind::GtGt => (BinaryOp::RShift, 9, false),
+            TokenKind::GtGtGt => (BinaryOp::ZeroFillRShift, 9, false),
+            TokenKind::Plus => (BinaryOp::Add, 10, false),
+            TokenKind::Minus => (BinaryOp::Sub, 10, false),
+            TokenKind::Star => (BinaryOp::Mul, 11, false),
+            TokenKind::Slash => (BinaryOp::Div, 11, false),
+            TokenKind::Percent => (BinaryOp::Mod, 11, false),
+            TokenKind::StarStar => (BinaryOp::Exp, 12, true),
+            _ => return None,
+        };
 
-        while matches!(
-            self.cur.kind,
-            TokenKind::Lt | TokenKind::Gt | TokenKind::LtEq | TokenKind::GtEq
-        ) {
-            let start = self.cur.span.lo;
-            let op = match self.cur.kind {
-                TokenKind::Lt => BinaryOp::Lt,
-                TokenKind::Gt => BinaryOp::Gt,
-                TokenKind::LtEq => BinaryOp::LtEq,
-                TokenKind::GtEq => BinaryOp::GtEq,
-                _ => unreachable!(),
-            };
-            self.bump();
-            let right = self.parse_shift_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op,
-                left: expr,
-                right,
-            }));
-        }
-
-        while (!self.ctx.contains(Context::IN_FOR_HEAD)
-            && self.cur.kind == TokenKind::Keyword(Keyword::In))
-            || self.cur.kind == TokenKind::Keyword(Keyword::InstanceOf)
-        {
-            let start = self.cur.span.lo;
-            let op = if self.cur.kind == TokenKind::Keyword(Keyword::In) {
-                BinaryOp::In
-            } else {
-                BinaryOp::InstanceOf
-            };
-            self.bump();
-            let right = self.parse_shift_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op,
-                left: expr,
-                right,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_shift_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_additive_expr()?;
-
-        while matches!(
-            self.cur.kind,
-            TokenKind::LtLt | TokenKind::GtGt | TokenKind::GtGtGt
-        ) {
-            let start = self.cur.span.lo;
-            let op = match self.cur.kind {
-                TokenKind::LtLt => BinaryOp::LShift,
-                TokenKind::GtGt => BinaryOp::RShift,
-                TokenKind::GtGtGt => BinaryOp::ZeroFillRShift,
-                _ => unreachable!(),
-            };
-            self.bump();
-            let right = self.parse_additive_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op,
-                left: expr,
-                right,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_additive_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_multiplicative_expr()?;
-
-        while self.cur.kind == TokenKind::Plus || self.cur.kind == TokenKind::Minus {
-            let start = self.cur.span.lo;
-            let op = if self.cur.kind == TokenKind::Plus {
-                BinaryOp::Add
-            } else {
-                BinaryOp::Sub
-            };
-            self.bump();
-            let right = self.parse_multiplicative_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op,
-                left: expr,
-                right,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_multiplicative_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let mut expr = self.parse_exponent_expr()?;
-
-        while matches!(
-            self.cur.kind,
-            TokenKind::Star | TokenKind::Slash | TokenKind::Percent
-        ) {
-            let start = self.cur.span.lo;
-            let op = match self.cur.kind {
-                TokenKind::Star => BinaryOp::Mul,
-                TokenKind::Slash => BinaryOp::Div,
-                TokenKind::Percent => BinaryOp::Mod,
-                _ => unreachable!(),
-            };
-            self.bump();
-            let right = self.parse_exponent_expr()?;
-            expr = self.store.alloc_expr(Expr::Binary(BinaryExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                op,
-                left: expr,
-                right,
-            }));
-        }
-
-        Ok(expr)
-    }
-
-    fn parse_exponent_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let left = self.parse_unary_expr()?;
-        if self.cur.kind != TokenKind::StarStar {
-            return Ok(left);
-        }
-
-        let start = self.cur.span.lo;
-        self.bump();
-        let right = self.parse_exponent_expr()?;
-        Ok(self.store.alloc_expr(Expr::Binary(BinaryExpr {
-            span: Span::new_with_checked(start, self.last_pos()),
-            op: BinaryOp::Exp,
-            left,
-            right,
-        })))
+        Some(op)
     }
 
     fn parse_unary_expr(&mut self) -> PResult<swc_es_ast::ExprId> {

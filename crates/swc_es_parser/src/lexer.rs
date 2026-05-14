@@ -305,6 +305,7 @@ impl<'a> Lexer<'a> {
             b'>' => self.gt_like(had_line_break_before),
             b'\'' | b'"' => self.read_string(had_line_break_before),
             b'0'..=b'9' => self.read_number(had_line_break_before),
+            b'$' | b'_' | b'a'..=b'z' | b'A'..=b'Z' => self.read_word(had_line_break_before),
             _ => {
                 if self.is_ident_start()
                     || (self.input.cur_as_ascii() == Some(b'\\') && self.input.peek() == Some(b'u'))
