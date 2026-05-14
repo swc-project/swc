@@ -53,7 +53,7 @@ jobs:
     outputs:
       version: ${{ steps.determine-nightly-version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - uses: ./.github/actions/setup-node
       - name: Determine nightly version
         id: determine-nightly-version
@@ -66,7 +66,7 @@ jobs:
     needs:
       - determine-nightly-version
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - uses: ./.github/actions/tag-git-release
         if: inputs.skipBuild == false
         with:
@@ -118,7 +118,7 @@ jobs:
       - git-tag-nightly
       - run-ecosystem-ci-with-nightly
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - uses: ./.github/actions/tag-git-release
         if: inputs.skipBuild == false
         with:
@@ -133,7 +133,7 @@ jobs:
       - git-tag-stable
       - publish-npm-stable
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - uses: ./.github/actions/setup-node
       - name: Manage milestone
         env:

@@ -24,6 +24,9 @@ env:
   CARGO_PROFILE_RELEASE_LTO: false
   CARGO_PROFILE_BENCH_LTO: false
 
+permissions:
+  contents: read
+
 jobs:
   list-crates:
     if: >-
@@ -33,7 +36,9 @@ jobs:
     outputs:
       crates: ${{ steps.list-crates.outputs.crates }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
 
       - name: List crates
         id: list-crates
@@ -47,14 +52,16 @@ jobs:
       matrix:
         crate: ${{fromJson(needs.list-crates.outputs.crates)}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
 
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           profile: minimal
 
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
         # Some crates are too slow to build
         if: matrix.crate == 'swc'
         with:
@@ -64,7 +71,7 @@ jobs:
           save-if: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Install cargo-codspeed
-        uses: taiki-e/install-action@v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
         with:
           tool: cargo-codspeed@3.0.2
 
@@ -72,7 +79,7 @@ jobs:
         run: ./scripts/bench/build-crate.sh ${{ matrix.crate }}
 
       - name: Run the benchmarks
-        uses: CodSpeedHQ/action@v3
+        uses: CodSpeedHQ/action@76578c2a7ddd928664caa737f0e962e3085d4e7c # v3
         with:
           run: cargo codspeed run
           token: ${{ secrets.CODSPEED_TOKEN }}
