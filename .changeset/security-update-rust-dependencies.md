@@ -1,6 +1,5 @@
 ---
 hstr: patch
-jsdoc: major
 preset_env_base: major
 swc: major
 swc_atoms: patch
@@ -17,4 +16,4 @@ swc_html_ast: patch
 swc_node_comments: major
 ---
 
-fix: Update Rust dependency versions
+fix: update Rust dependency versions
