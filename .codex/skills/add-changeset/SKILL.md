@@ -24,7 +24,7 @@ Add one Markdown file under `.changeset/` whose front matter lists every changed
 3. Classify every changed publishable Rust crate.
    - Use `major` for every crate whose public API, behavior contract, feature semantics, serialized output, CLI-visible behavior, or documented compatibility is breaking.
    - Use `major` for a crate when one of its runtime dependencies changed in a breaking way. Check that crate's `[dependencies]`, target-specific runtime dependencies, and relevant `Cargo.lock` changes; do not apply this rule to dev-only or build-only dependencies.
-   - Do not expand `major` through SWC's reverse internal dependency graph just because another crate depends on a breaking crate.
+   - Do not expand `major` through SWC's reverse internal dependency graph just because another crate depends on a breaking crate; SWC's bump command handles that internal propagation after reading the changeset.
    - Use `minor` for non-breaking new public functionality, new supported syntax, new options, new public exports, or meaningful user-visible capability.
    - Use `patch` for bug fixes, performance work, refactors, internal-only changes, tests, fixtures, documentation, or dependency bumps that do not add a non-breaking capability.
    - If a crate has both breaking and non-breaking changes, list it once as `major`.
