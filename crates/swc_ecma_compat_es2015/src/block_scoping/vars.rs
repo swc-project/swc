@@ -38,9 +38,14 @@ struct ParentScope<'a> {
 
 #[swc_trace]
 impl BlockScopedVars {
-    fn add_usage(&mut self, id: Id) {
-        if !self.scope.usages.contains(&id) {
-            self.scope.usages.push(id);
+    fn add_usage(&mut self, ident: &Ident) {
+        if !self
+            .scope
+            .usages
+            .iter()
+            .any(|(sym, ctxt)| sym == &ident.sym && *ctxt == ident.ctxt)
+        {
+            self.scope.usages.push(ident.to_id());
         }
     }
 
@@ -264,7 +269,7 @@ impl VisitMut for BlockScopedVars {
         if let Some(kind) = self.var_decl_kind {
             self.scope.vars.insert(n.key.to_id(), kind);
         } else if !self.is_param {
-            self.add_usage(n.key.to_id())
+            self.add_usage(&n.key.id)
         }
     }
 
@@ -272,7 +277,7 @@ impl VisitMut for BlockScopedVars {
         if let Some(kind) = self.var_decl_kind {
             self.scope.vars.insert(i.to_id(), kind);
         } else if !self.is_param {
-            self.add_usage(i.to_id())
+            self.add_usage(&i.id)
         }
     }
 
@@ -312,7 +317,7 @@ impl VisitMut for BlockScopedVars {
         n.visit_mut_children_with(self);
 
         if let Expr::Ident(i) = n {
-            self.add_usage(i.to_id());
+            self.add_usage(i);
         }
 
         self.var_decl_kind = old_var_decl_kind;
@@ -430,7 +435,7 @@ impl VisitMut for BlockScopedVars {
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            self.add_usage(i.to_id());
+            self.add_usage(i);
         }
     }
 
