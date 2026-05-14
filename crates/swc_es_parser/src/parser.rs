@@ -2431,21 +2431,24 @@ impl<'a> Parser<'a> {
 
     fn parse_sequence_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
         let start = self.cur.span.lo;
-        let mut exprs = vec![self.parse_assignment_expr()?];
+        let first = self.parse_assignment_expr()?;
+
+        if self.cur.kind != TokenKind::Comma {
+            return Ok(first);
+        }
+
+        let mut exprs = Vec::with_capacity(2);
+        exprs.push(first);
 
         while self.cur.kind == TokenKind::Comma {
             self.bump();
             exprs.push(self.parse_assignment_expr()?);
         }
 
-        if exprs.len() == 1 {
-            Ok(exprs[0])
-        } else {
-            Ok(self.store.alloc_expr(Expr::Seq(swc_es_ast::SeqExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                exprs,
-            })))
-        }
+        Ok(self.store.alloc_expr(Expr::Seq(swc_es_ast::SeqExpr {
+            span: Span::new_with_checked(start, self.last_pos()),
+            exprs,
+        })))
     }
 
     fn parse_assignment_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
