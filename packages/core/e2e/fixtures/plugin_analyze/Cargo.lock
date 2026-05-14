@@ -1406,7 +1406,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "65.0.4"
+version = "65.1.0"
 dependencies = [
  "swc_allocator",
  "swc_atoms",
@@ -1472,7 +1472,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "39.0.2"
+version = "39.1.0"
 dependencies = [
  "bitflags",
  "either",
@@ -1502,7 +1502,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "42.0.0"
+version = "42.0.1"
 dependencies = [
  "better_scoped_tls",
  "indexmap",
@@ -1546,7 +1546,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "29.1.0"
+version = "29.1.1"
 dependencies = [
  "dragonbox_ecma",
  "indexmap",
