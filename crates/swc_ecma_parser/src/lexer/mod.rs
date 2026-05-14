@@ -1918,13 +1918,11 @@ impl<'a> Lexer<'a> {
         // Fast path: try to scan ASCII identifier using byte_search
         if let Some(c) = self.input().cur_as_ascii() {
             if Ident::is_valid_ascii_start(c) {
-                // Advance past first byte
-                self.bump(1); // c is a valid ascii
-
                 // Use byte_search to quickly scan to end of ASCII identifier
                 let next_byte = byte_search! {
                     lexer: self,
                     table: NOT_ASCII_ID_CONTINUE_TABLE,
+                    start_at: 1,
                     handle_eof: {
                         // Reached EOF, entire remainder is identifier
                         let s = unsafe {
@@ -2383,7 +2381,7 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn read_keyword_with(&mut self, convert: &dyn Fn(&str) -> Option<Token>) -> LexResult<Token> {
+    fn read_keyword_with(&mut self, convert: fn(&str) -> Option<Token>) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
@@ -2415,13 +2413,11 @@ impl<'a> Lexer<'a> {
 
         // Fast path: try to scan ASCII identifier using byte_search
         // Performance optimization: check if first char disqualifies as keyword
-        // Advance past first byte
-        self.bump(1);
-
         // Use byte_search to quickly scan to end of ASCII identifier
         let next_byte = byte_search! {
             lexer: self,
             table: NOT_ASCII_ID_CONTINUE_TABLE,
+            start_at: 1,
             handle_eof: {
                 // Reached EOF, entire remainder is identifier
                 let s = unsafe {

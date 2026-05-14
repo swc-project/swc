@@ -186,6 +186,10 @@ impl Pure<'_> {
             return;
         }
 
+        if stmts.is_empty() || (target != VarDeclKind::Var && stmts.len() < 2) {
+            return;
+        }
+
         {
             let mut need_work = false;
             let mut found_vars_without_init = false;
@@ -225,7 +229,7 @@ impl Pure<'_> {
             });
 
             // Check for nested variable declartions.
-            let visitor_need_work = if target == VarDeclKind::Var {
+            let visitor_need_work = if !if_need_work && target == VarDeclKind::Var {
                 let mut v = VarWithOutInitCounter {
                     target,
                     need_work: Default::default(),
@@ -304,6 +308,8 @@ impl Visit for VarWithOutInitCounter {
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
+    fn visit_class(&mut self, _: &Class) {}
+
     fn visit_constructor(&mut self, _: &Constructor) {}
 
     fn visit_function(&mut self, _: &Function) {}
@@ -312,17 +318,34 @@ impl Visit for VarWithOutInitCounter {
 
     fn visit_setter_prop(&mut self, _: &SetterProp) {}
 
+    fn visit_expr(&mut self, _: &Expr) {}
+
+    fn visit_pat(&mut self, n: &Pat) {
+        if self.need_work {
+            return;
+        }
+
+        match n {
+            Pat::Ident(..) => {}
+            _ => n.visit_children_with(self),
+        }
+    }
+
     fn visit_var_decl(&mut self, v: &VarDecl) {
-        v.visit_children_with(self);
+        if self.need_work {
+            return;
+        }
 
         if v.kind != self.target {
             return;
         }
 
         let mut found_init = false;
+        let mut all_without_init = true;
         for d in &v.decls {
             if d.init.is_some() {
                 found_init = true;
+                all_without_init = false;
             } else {
                 if found_init {
                     self.need_work = true;
@@ -331,7 +354,7 @@ impl Visit for VarWithOutInitCounter {
             }
         }
 
-        if v.decls.iter().all(|v| v.init.is_none()) {
+        if all_without_init {
             if self.found_var_without_init || self.found_var_with_init {
                 self.need_work = true;
             }
@@ -342,12 +365,30 @@ impl Visit for VarWithOutInitCounter {
     }
 
     fn visit_module_item(&mut self, s: &ModuleItem) {
+        if self.need_work {
+            return;
+        }
+
         if let ModuleItem::Stmt(_) = s {
             s.visit_children_with(self);
         }
     }
 
+    fn visit_module_items(&mut self, items: &[ModuleItem]) {
+        for item in items {
+            if self.need_work {
+                return;
+            }
+
+            item.visit_with(self);
+        }
+    }
+
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
+        if self.need_work {
+            return;
+        }
+
         if self.target != VarDeclKind::Var {
             // noop
             return;
@@ -357,6 +398,16 @@ impl Visit for VarWithOutInitCounter {
     }
 
     fn visit_for_head(&mut self, _: &ForHead) {}
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        for stmt in stmts {
+            if self.need_work {
+                return;
+            }
+
+            stmt.visit_with(self);
+        }
+    }
 }
 
 /// Moves all variable without initializer.
@@ -372,6 +423,10 @@ impl VisitMut for VarMover {
 
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_class(&mut self, _: &mut Class) {}
+
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         if self.target != VarDeclKind::Var {
@@ -437,8 +492,6 @@ impl VisitMut for VarMover {
     }
 
     fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
-        d.visit_mut_children_with(self);
-
         if self.var_decl_kind != Some(self.target) {
             return;
         }
@@ -496,6 +549,10 @@ impl VisitMut for VarPrepender {
 
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_class(&mut self, _: &mut Class) {}
+
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
     /// Noop
     fn visit_mut_constructor(&mut self, _: &mut Constructor) {}

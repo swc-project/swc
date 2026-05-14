@@ -239,9 +239,10 @@ impl Scope {
 
             let iter = iter
                 .map(|child| {
-                    use std::collections::HashMap;
-
-                    let mut new_map = HashMap::default();
+                    let mut new_map = FxHashMap::with_capacity_and_hasher(
+                        child.rename_cost(),
+                        Default::default(),
+                    );
                     child.rename_in_mangle_mode(
                         renamer,
                         &mut new_map,

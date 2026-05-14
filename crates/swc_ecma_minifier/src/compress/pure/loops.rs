@@ -21,7 +21,9 @@ impl Pure<'_> {
         }
 
         if let Some(VarDeclOrExpr::Expr(e)) = init {
-            self.make_bool_short(e, false, true);
+            if super::bools::may_make_bool_short(e) {
+                self.make_bool_short(e, false, true);
+            }
         }
     }
 
@@ -38,7 +40,9 @@ impl Pure<'_> {
                 return;
             }
 
-            self.make_bool_short(e, false, true);
+            if super::bools::may_make_bool_short(e) {
+                self.make_bool_short(e, false, true);
+            }
         }
     }
 

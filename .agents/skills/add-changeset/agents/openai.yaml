@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Changeset"
+  short_description: "Create complete SWC crate changesets"
+  default_prompt: "Use $add-changeset to add a complete SWC changeset for the current PR."

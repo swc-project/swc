@@ -1099,6 +1099,7 @@ impl Optimizer<'_> {
                 Mergable::Drop => return false,
             }
 
+            let e_id = e.to_id();
             let ids_used_by_a_init = match a {
                 Mergable::Var(a) => a.init.as_ref().map(|init| {
                     try_collect_infects_from(
@@ -1140,14 +1141,14 @@ impl Optimizer<'_> {
                     return false;
                 };
 
-                if deps.contains(&(e.to_id(), AccessKind::Reference))
-                    || deps.contains(&(e.to_id(), AccessKind::Call))
-                {
+                if deps.iter().any(|(id, kind)| {
+                    id == &e_id && matches!(kind, AccessKind::Reference | AccessKind::Call)
+                }) {
                     return false;
                 }
             }
 
-            if !self.assignee_skippable_for_seq(a, e) {
+            if !self.assignee_skippable_for_seq(a, &e_id) {
                 return false;
             }
         }
@@ -1461,8 +1462,8 @@ impl Optimizer<'_> {
         }
     }
 
-    fn assignee_skippable_for_seq(&self, a: &Mergable, assignee: &Ident) -> bool {
-        let usgae = if let Some(usage) = self.data.vars.get(&assignee.to_id()) {
+    fn assignee_skippable_for_seq(&self, a: &Mergable, assignee: &Id) -> bool {
+        let usgae = if let Some(usage) = self.data.vars.get(assignee) {
             usage
         } else {
             return false;

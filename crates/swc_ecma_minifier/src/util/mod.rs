@@ -352,6 +352,15 @@ impl Visit for IdentUsageCollector {
 
     visit_obj_and_computed!();
 
+    fn visit_expr(&mut self, n: &Expr) {
+        if let Expr::Ident(i) = n {
+            self.ids.insert(i.to_id());
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
         if self.ignore_nested {
             return;
@@ -413,6 +422,17 @@ impl Visit for CapturedIdCollector {
     noop_visit_type!(fail);
 
     visit_obj_and_computed!();
+
+    fn visit_expr(&mut self, n: &Expr) {
+        if let Expr::Ident(i) = n {
+            if self.is_nested {
+                self.ids.insert(i.to_id());
+            }
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
 
     fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
         let old = self.is_nested;
