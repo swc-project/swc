@@ -38,14 +38,34 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
 use swc_ecma_utils::{default_constructor_with_span, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use crate::TraverseCtx;
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
     PrivatePropertyInObjectPass::default()
+}
+
+pub(crate) fn pass() -> impl Pass {
+    PrivatePropertyInObjectFastPass
+}
+
+struct PrivatePropertyInObjectFastPass;
+
+impl Pass for PrivatePropertyInObjectFastPass {
+    fn process(&mut self, program: &mut Program) {
+        let mut finder = PrivateInFinder { found: false };
+        program.visit_with(&mut finder);
+
+        if finder.found {
+            program.visit_mut_with(&mut VisitMutWithHook {
+                hook: PrivatePropertyInObjectPass::default(),
+                context: TraverseCtx::default(),
+            });
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -551,6 +571,35 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
             }
             .into(),
         );
+    }
+}
+
+struct PrivateInFinder {
+    found: bool,
+}
+
+impl Visit for PrivateInFinder {
+    noop_visit_type!(fail);
+
+    fn visit_expr(&mut self, node: &Expr) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_bin_expr(&mut self, node: &BinExpr) {
+        if self.found {
+            return;
+        }
+
+        if node.op == op!("in") && node.left.is_private_name() {
+            self.found = true;
+            return;
+        }
+
+        node.visit_children_with(self);
     }
 }
 
