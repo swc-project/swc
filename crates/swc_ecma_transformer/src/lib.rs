@@ -199,10 +199,10 @@ pub fn es2015_duplicate_keys() -> impl Pass {
 }
 
 pub fn es2015_sticky_regex() -> impl Pass {
-    let mut regexp_options = crate::regexp::RegExpOptions::default();
-    regexp_options.sticky_regex = true;
-
-    regexp_pass(regexp_options)
+    regexp_pass(crate::regexp::RegExpOptions {
+        sticky_regex: true,
+        ..Default::default()
+    })
 }
 
 pub fn es2015_instanceof() -> impl Pass {
@@ -214,16 +214,16 @@ pub fn es2015_typeof_symbol() -> impl Pass {
 }
 
 pub fn es2015_runtime_transforms() -> impl Pass {
-    let mut regexp_options = crate::regexp::RegExpOptions::default();
-    regexp_options.sticky_regex = true;
-
     hook_pass(
         HookBuilder::new(NoopHook)
             .chain(crate::es2015::shorthand::hook())
             .chain(crate::es2015::duplicate_keys::hook())
             .chain(crate::es2015::instanceof::hook())
             .chain(crate::es2015::typeof_symbol::hook())
-            .chain_optional(crate::regexp::hook(regexp_options))
+            .chain_optional(crate::regexp::hook(crate::regexp::RegExpOptions {
+                sticky_regex: true,
+                ..Default::default()
+            }))
             .build(),
     )
 }
