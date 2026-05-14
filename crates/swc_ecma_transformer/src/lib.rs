@@ -95,6 +95,22 @@ fn hook_pass_with_var_declarations<H: VisitMutHook<TraverseCtx>>(hook: H) -> imp
     )
 }
 
+struct OptionalPass<P> {
+    pass: P,
+    enabled: bool,
+}
+
+impl<P> Pass for OptionalPass<P>
+where
+    P: Pass,
+{
+    fn process(&mut self, program: &mut Program) {
+        if self.enabled {
+            self.pass.process(program);
+        }
+    }
+}
+
 pub fn es2022_static_blocks() -> impl Pass {
     hook_pass(crate::es2022::class_static_block::hook())
 }
@@ -118,7 +134,7 @@ pub fn es2021_logical_assignments() -> impl Pass {
 }
 
 pub fn es2020_export_namespace_from() -> impl Pass {
-    hook_pass(crate::es2020::export_namespace_from::hook())
+    crate::es2020::export_namespace_from::pass()
 }
 
 pub fn es2020_nullish_coalescing(no_document_all: bool) -> impl Pass {
@@ -135,7 +151,7 @@ pub fn es2020_runtime_transforms(no_document_all: bool) -> impl Pass {
 }
 
 pub fn es2019_optional_catch_binding() -> impl Pass {
-    hook_pass(crate::es2019::optional_catch_binding::hook())
+    crate::es2019::optional_catch_binding::pass()
 }
 
 pub fn es2018_object_rest_spread(assumptions: Assumptions) -> impl Pass {
@@ -211,7 +227,12 @@ pub fn es2015_runtime_transforms() -> impl Pass {
 }
 
 pub fn regexp_pass(options: crate::regexp::RegExpOptions) -> impl Pass {
-    hook_pass(crate::regexp::hook(options))
+    let enabled = options.is_enabled();
+
+    OptionalPass {
+        pass: crate::regexp::pass(options),
+        enabled,
+    }
 }
 
 impl Options {
