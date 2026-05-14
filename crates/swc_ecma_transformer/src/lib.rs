@@ -37,6 +37,11 @@ pub struct TraverseCtx {
 }
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
+    let needs_var_declarations = options.env.es2021.logical_assignment_operators
+        || options.env.es2020.nullish_coalescing
+        || options.env.es2018.object_rest_spread
+        || options.env.es2016.exponentiation_operator;
+
     let hook = HookBuilder::new(NoopHook);
 
     let hook = hook.chain_optional(options.typescript.map(crate::typescript::hook));
@@ -63,13 +68,14 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     #[cfg(feature = "es3")]
     let hook = hook.chain(crate::es3::hook(options.env.es3));
 
-    // VarDeclarations must run after all other transforms to collect all variable
-    // declarations
-    let hook = hook.chain(common::VarDeclarations);
-
-    // Statement injector must be the last to process all injected statements
-    // because exit_stmts must be called after all statements are injected
-    let hook = hook.chain(common::StmtInjector::default());
+    // VarDeclarations must run after all transforms that may queue generated
+    // declarations. Most transformer passes do not need it, and keeping it in
+    // the hook chain for those passes only pushes/pops empty declaration scopes.
+    let hook = hook.chain(if needs_var_declarations {
+        Some(common::VarDeclarations)
+    } else {
+        None
+    });
 
     hook.build()
 }
