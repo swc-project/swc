@@ -242,6 +242,7 @@ where
 
         if R::MANGLE {
             let cost = scope.rename_cost();
+            map.reserve(cost);
             scope.rename_in_mangle_mode(
                 &self.renamer,
                 &mut map,

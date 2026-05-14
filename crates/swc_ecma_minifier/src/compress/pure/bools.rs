@@ -10,6 +10,20 @@ use crate::{
     util::make_bool,
 };
 
+#[inline(always)]
+pub(super) fn may_make_bool_short(e: &Expr) -> bool {
+    matches!(
+        e,
+        Expr::Cond(..)
+            | Expr::Bin(..)
+            | Expr::Unary(UnaryExpr { op: op!("!"), .. })
+            | Expr::Array(..)
+            | Expr::Call(..)
+            | Expr::Seq(..)
+            | Expr::Assign(..)
+    )
+}
+
 impl Pure<'_> {
     pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
         if !self.options.conditionals && !self.options.bools {
@@ -48,9 +62,15 @@ impl Pure<'_> {
     ) {
         match e {
             Expr::Cond(cond) => {
-                self.make_bool_short(&mut cond.test, true, false);
-                self.make_bool_short(&mut cond.cons, in_bool_ctx, ignore_return_value);
-                self.make_bool_short(&mut cond.alt, in_bool_ctx, ignore_return_value);
+                if may_make_bool_short(&cond.test) {
+                    self.make_bool_short(&mut cond.test, true, false);
+                }
+                if may_make_bool_short(&cond.cons) {
+                    self.make_bool_short(&mut cond.cons, in_bool_ctx, ignore_return_value);
+                }
+                if may_make_bool_short(&cond.alt) {
+                    self.make_bool_short(&mut cond.alt, in_bool_ctx, ignore_return_value);
+                }
 
                 if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
                     return;
@@ -66,8 +86,12 @@ impl Pure<'_> {
                 right,
                 ..
             }) => {
-                self.make_bool_short(left, in_bool_ctx, false);
-                self.make_bool_short(right, in_bool_ctx, ignore_return_value);
+                if may_make_bool_short(left) {
+                    self.make_bool_short(left, in_bool_ctx, false);
+                }
+                if may_make_bool_short(right) {
+                    self.make_bool_short(right, in_bool_ctx, ignore_return_value);
+                }
 
                 if in_bool_ctx {
                     match *op {
@@ -103,32 +127,44 @@ impl Pure<'_> {
             }
 
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.make_bool_short(left, false, false);
-                self.make_bool_short(right, false, false);
+                if may_make_bool_short(left) {
+                    self.make_bool_short(left, false, false);
+                }
+                if may_make_bool_short(right) {
+                    self.make_bool_short(right, false, false);
+                }
                 return;
             }
 
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => {
-                self.make_bool_short(arg, true, ignore_return_value);
+                if may_make_bool_short(arg) {
+                    self.make_bool_short(arg, true, ignore_return_value);
+                }
                 return;
             }
 
             Expr::Array(ArrayLit { elems, .. }) => {
                 for elem in elems.iter_mut().flatten() {
-                    self.make_bool_short(&mut elem.expr, false, false);
+                    if may_make_bool_short(&elem.expr) {
+                        self.make_bool_short(&mut elem.expr, false, false);
+                    }
                 }
                 return;
             }
 
             Expr::Call(CallExpr { callee, args, .. }) => {
                 if let Callee::Expr(callee) = callee {
-                    self.make_bool_short(callee, false, false);
+                    if may_make_bool_short(callee) {
+                        self.make_bool_short(callee, false, false);
+                    }
                 }
 
                 for arg in args {
-                    self.make_bool_short(&mut arg.expr, false, false);
+                    if may_make_bool_short(&arg.expr) {
+                        self.make_bool_short(&mut arg.expr, false, false);
+                    }
                 }
                 return;
             }
@@ -138,13 +174,17 @@ impl Pure<'_> {
                 for (idx, expr) in exprs.iter_mut().enumerate() {
                     let is_last = idx == len - 1;
 
-                    self.make_bool_short(expr, false, !is_last || ignore_return_value);
+                    if may_make_bool_short(expr) {
+                        self.make_bool_short(expr, false, !is_last || ignore_return_value);
+                    }
                 }
                 return;
             }
 
             Expr::Assign(AssignExpr { right, .. }) => {
-                self.make_bool_short(right, false, false);
+                if may_make_bool_short(right) {
+                    self.make_bool_short(right, false, false);
+                }
                 return;
             }
 

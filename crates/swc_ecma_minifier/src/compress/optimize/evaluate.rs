@@ -25,6 +25,19 @@ impl Optimizer<'_> {
         self.eval_known_static_method_call(e);
     }
 
+    pub(super) fn evaluate_ident(&mut self, e: &mut Expr) {
+        self.eval_global_vars(e);
+    }
+
+    #[inline]
+    fn is_declared_ident(&self, i: &Ident) -> bool {
+        self.data
+            .vars
+            .get(&i.to_id())
+            .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
+            .unwrap_or(false)
+    }
+
     fn eval_fn_props(&mut self, e: &mut Expr) -> Option<()> {
         if self
             .ctx
@@ -96,48 +109,55 @@ impl Optimizer<'_> {
             return;
         }
 
-        // We should not convert used-defined `undefined` to `void 0`.
-        if let Expr::Ident(i) = e {
-            if self
-                .data
-                .vars
-                .get(&i.to_id())
-                .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
-                .unwrap_or(false)
-            {
-                return;
+        enum IdentGlobal {
+            Undefined,
+            Infinity,
+        }
+
+        let ident_global = match e {
+            // We should not convert used-defined `undefined` to `void 0`.
+            Expr::Ident(i) if &*i.sym == "undefined" && !self.is_declared_ident(i) => {
+                Some((i.span, IdentGlobal::Undefined))
             }
+            Expr::Ident(i) if &*i.sym == "Infinity" && !self.is_declared_ident(i) => {
+                Some((i.span, IdentGlobal::Infinity))
+            }
+            _ => None,
+        };
+
+        if let Some((span, kind)) = ident_global {
+            match kind {
+                IdentGlobal::Undefined => {
+                    report_change!("evaluate: `undefined` -> `void 0`");
+                    self.changed = true;
+                    *e = *Expr::undefined(span);
+                }
+                IdentGlobal::Infinity => {
+                    report_change!("evaluate: `Infinity` -> `1 / 0`");
+                    self.changed = true;
+                    *e = BinExpr {
+                        span,
+                        op: op!("/"),
+                        left: Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 1.0,
+                            raw: None,
+                        })
+                        .into(),
+                        right: Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 0.0,
+                            raw: None,
+                        })
+                        .into(),
+                    }
+                    .into();
+                }
+            }
+            return;
         }
 
         match e {
-            Expr::Ident(Ident { span, sym, .. }) if &**sym == "undefined" => {
-                report_change!("evaluate: `undefined` -> `void 0`");
-                self.changed = true;
-                *e = *Expr::undefined(*span);
-            }
-
-            Expr::Ident(Ident { span, sym, .. }) if &**sym == "Infinity" => {
-                report_change!("evaluate: `Infinity` -> `1 / 0`");
-                self.changed = true;
-                *e = BinExpr {
-                    span: *span,
-                    op: op!("/"),
-                    left: Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: 1.0,
-                        raw: None,
-                    })
-                    .into(),
-                    right: Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: 0.0,
-                        raw: None,
-                    })
-                    .into(),
-                }
-                .into();
-            }
-
             Expr::Member(MemberExpr {
                 obj,
                 prop: MemberProp::Ident(prop),
