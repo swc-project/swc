@@ -73,7 +73,7 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     // declarations. Most transformer passes do not need it, and keeping it in
     // the hook chain for those passes only pushes/pops empty declaration scopes.
     let hook = hook.chain(if needs_var_declarations {
-        Some(common::VarDeclarations)
+        Some(common::VarDeclarations::default())
     } else {
         None
     });
@@ -90,7 +90,7 @@ pub fn hook_pass<H: VisitMutHook<TraverseCtx>>(hook: H) -> impl Pass {
 fn hook_pass_with_var_declarations<H: VisitMutHook<TraverseCtx>>(hook: H) -> impl Pass {
     hook_pass(
         HookBuilder::new(hook)
-            .chain(common::VarDeclarations)
+            .chain(common::VarDeclarations::default())
             .build(),
     )
 }
