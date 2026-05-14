@@ -37,9 +37,11 @@ impl SafeByteMatchTable {
     #[inline]
     pub const fn use_table(&self) {}
 
-    #[inline]
-    pub const fn matches(&self, b: u8) -> bool {
-        self.0[b as usize]
+    #[inline(always)]
+    pub fn matches(&self, b: u8) -> bool {
+        // Safety: `b` is a byte, so `b as usize` is always within the 256-byte
+        // lookup table.
+        unsafe { *self.0.get_unchecked(b as usize) }
     }
 }
 
@@ -82,15 +84,48 @@ macro_rules! byte_search {
         }
     };
 
+    // Variant for callers that know an initial prefix cannot match and want to
+    // advance the input only once at the end of the search.
+    (
+        lexer: $lexer:ident,
+        table: $table:ident,
+        start_at: $start_at:expr,
+        handle_eof: $eof_handler:expr $(,)?
+    ) => {
+        byte_search! {
+            lexer: $lexer,
+            table: $table,
+            start_at: $start_at,
+            continue_if: (_byte, _pos) false,
+            handle_eof: $eof_handler,
+        }
+    };
+
     // Full version with continue_if support
     (
         lexer: $lexer:ident,
         table: $table:ident,
         continue_if: ($byte:ident, $pos:ident) $should_continue:expr,
         handle_eof: $eof_handler:expr $(,)?
+    ) => {
+        byte_search! {
+            lexer: $lexer,
+            table: $table,
+            start_at: 0,
+            continue_if: ($byte, $pos) $should_continue,
+            handle_eof: $eof_handler,
+        }
+    };
+
+    (
+        lexer: $lexer:ident,
+        table: $table:ident,
+        start_at: $start_at:expr,
+        continue_if: ($byte:ident, $pos:ident) $should_continue:expr,
+        handle_eof: $eof_handler:expr $(,)?
     ) => {{
         $table.use_table();
-        let mut $pos = 0;
+        let mut $pos = $start_at;
         let bytes = $lexer.input().as_str().as_bytes();
         let len = bytes.len();
         let bytes = bytes.as_ptr();
@@ -98,20 +133,17 @@ macro_rules! byte_search {
         let $byte = 'outer: loop {
             let batch_end = $pos + $crate::lexer::search::SEARCH_BATCH_SIZE;
             let $byte = if batch_end < len {
-                // Safety: `batch_end < len`
-                let batch = unsafe {
-                    std::slice::from_raw_parts(
-                        bytes.add($pos),
-                        $crate::lexer::search::SEARCH_BATCH_SIZE,
-                    )
-                };
                 'inner: loop {
-                    for (i, &byte) in batch.iter().enumerate() {
+                    let mut i = 0;
+                    while i < $crate::lexer::search::SEARCH_BATCH_SIZE {
+                        // Safety: `batch_end < len` and `i < SEARCH_BATCH_SIZE`.
+                        let byte = unsafe { *bytes.add($pos + i) };
                         if $table.matches(byte) {
                             // We find a matched byte, jump out to check with continue_if
                             $pos += i;
                             break 'inner byte;
                         }
+                        i += 1;
                     }
 
                     // We don't find a matched byte in this batch,
@@ -122,14 +154,17 @@ macro_rules! byte_search {
             } else {
                 'inner: loop {
                     // The remaining is shorter than batch size.
-                    let remaining =
-                        unsafe { std::slice::from_raw_parts(bytes.add($pos), len - $pos) };
-                    for (i, &byte) in remaining.iter().enumerate() {
+                    let remaining_len = len - $pos;
+                    let mut i = 0;
+                    while i < remaining_len {
+                        // Safety: `i < remaining_len`.
+                        let byte = unsafe { *bytes.add($pos + i) };
                         if $table.matches(byte) {
                             // We find a matched byte, jump out to check with continue_if
                             $pos += i;
                             break 'inner byte;
                         }
+                        i += 1;
                     }
 
                     // We don't find a matched byte in the remaining,

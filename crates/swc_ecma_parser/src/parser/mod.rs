@@ -742,83 +742,81 @@ impl<I: Tokens> Parser<I> {
     /// spec: 'PropertyName'
     pub fn parse_prop_name(&mut self) -> PResult<PropName> {
         trace_cur!(self, parse_prop_name);
-        self.do_inside_of_context(Context::InPropertyName, |p| {
-            let start = p.input().cur_pos();
-            let cur = p.input().cur();
-            let v = if cur == Token::Str {
-                PropName::Str(p.parse_str_lit())
-            } else if cur == Token::Num {
-                let token_span = p.input.cur_span();
-                let value = p.input_mut().expect_number_token_value();
-                p.bump();
+        let start = self.input().cur_pos();
+        let cur = self.input().cur();
+        let v = if cur == Token::Str {
+            PropName::Str(self.parse_str_lit())
+        } else if cur == Token::Num {
+            let token_span = self.input.cur_span();
+            let value = self.input_mut().expect_number_token_value();
+            self.bump();
 
-                let raw = p.input.iter.read_string(token_span);
-                PropName::Num(Number {
-                    span: p.span(start),
-                    value,
-                    raw: Some(Atom::new(raw)),
-                })
-            } else if cur == Token::BigInt {
-                let token_span = p.input.cur_span();
-                let value = p.input_mut().expect_bigint_token_value();
-                p.bump();
+            let raw = self.input.iter.read_string(token_span);
+            PropName::Num(Number {
+                span: self.span(start),
+                value,
+                raw: Some(Atom::new(raw)),
+            })
+        } else if cur == Token::BigInt {
+            let token_span = self.input.cur_span();
+            let value = self.input_mut().expect_bigint_token_value();
+            self.bump();
 
-                let raw = p.input.iter.read_string(token_span);
-                PropName::BigInt(BigInt {
-                    span: p.span(start),
-                    value,
-                    raw: Some(Atom::new(raw)),
-                })
-            } else if p.syntax().flow()
-                && cur == Token::At
-                && peek!(p).is_some_and(|peek| peek == Token::At)
-            {
-                p.assert_and_bump(Token::At);
-                p.assert_and_bump(Token::At);
-                if !p.input().cur().is_word() {
-                    unexpected!(p, "identifier");
+            let raw = self.input.iter.read_string(token_span);
+            PropName::BigInt(BigInt {
+                span: self.span(start),
+                value,
+                raw: Some(Atom::new(raw)),
+            })
+        } else if self.syntax().flow()
+            && cur == Token::At
+            && peek!(self).is_some_and(|peek| peek == Token::At)
+        {
+            self.assert_and_bump(Token::At);
+            self.assert_and_bump(Token::At);
+            if !self.input().cur().is_word() {
+                unexpected!(self, "identifier");
+            }
+            let key = self.input_mut().expect_word_token_and_bump();
+            PropName::Str(Str {
+                span: self.span(start),
+                value: format!("@@{key}").into(),
+                raw: None,
+            })
+        } else if cur.is_word() {
+            let w = self.input_mut().expect_word_token_and_bump();
+            PropName::Ident(IdentName::new(w, self.span(start)))
+        } else if cur == Token::LBracket {
+            self.bump();
+            let inner_start = self.input().cur_pos();
+            let mut expr = self.allow_in_expr(Self::parse_assignment_expr)?;
+            if self.syntax().typescript() && self.input().is(Token::Comma) {
+                let mut exprs = vec![expr];
+                while self.input_mut().eat(Token::Comma) {
+                    //
+                    exprs.push(self.allow_in_expr(Self::parse_assignment_expr)?);
                 }
-                let key = p.input_mut().expect_word_token_and_bump();
-                PropName::Str(Str {
-                    span: p.span(start),
-                    value: format!("@@{key}").into(),
-                    raw: None,
-                })
-            } else if cur.is_word() {
-                let w = p.input_mut().expect_word_token_and_bump();
-                PropName::Ident(IdentName::new(w, p.span(start)))
-            } else if cur == Token::LBracket {
-                p.bump();
-                let inner_start = p.input().cur_pos();
-                let mut expr = p.allow_in_expr(Self::parse_assignment_expr)?;
-                if p.syntax().typescript() && p.input().is(Token::Comma) {
-                    let mut exprs = vec![expr];
-                    while p.input_mut().eat(Token::Comma) {
-                        //
-                        exprs.push(p.allow_in_expr(Self::parse_assignment_expr)?);
+                self.emit_err(self.span(inner_start), SyntaxError::TS1171);
+                expr = Box::new(
+                    SeqExpr {
+                        span: self.span(inner_start),
+                        exprs,
                     }
-                    p.emit_err(p.span(inner_start), SyntaxError::TS1171);
-                    expr = Box::new(
-                        SeqExpr {
-                            span: p.span(inner_start),
-                            exprs,
-                        }
-                        .into(),
-                    );
-                }
-                expect!(p, Token::RBracket);
-                PropName::Computed(ComputedPropName {
-                    span: p.span(start),
-                    expr,
-                })
-            } else {
-                unexpected!(
-                    p,
-                    "identifier, string literal, numeric literal or [ for the computed key"
-                )
-            };
-            Ok(v)
-        })
+                    .into(),
+                );
+            }
+            expect!(self, Token::RBracket);
+            PropName::Computed(ComputedPropName {
+                span: self.span(start),
+                expr,
+            })
+        } else {
+            unexpected!(
+                self,
+                "identifier, string literal, numeric literal or [ for the computed key"
+            )
+        };
+        Ok(v)
     }
 
     #[inline]

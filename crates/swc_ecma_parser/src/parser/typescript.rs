@@ -1717,7 +1717,7 @@ impl<I: Tokens> Parser<I> {
                     | Token::NoSubstitutionTemplateLiteral
                     | Token::TemplateHead
                     | Token::BackQuote
-            )
+            ) || cur.is_assign_op()
             // these should be type
             // arguments in function
             // call or template, not
