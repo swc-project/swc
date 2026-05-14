@@ -17,7 +17,7 @@
 //! ctx.var_declarations.insert_let(ident, Some(init), ctx);
 //! ```
 
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -32,6 +32,20 @@ use crate::TraverseCtx;
 pub struct VarDeclarations;
 
 impl VisitMutHook<TraverseCtx> for VarDeclarations {
+    fn enter_arrow_expr(&mut self, node: &mut ArrowExpr, ctx: &mut TraverseCtx) {
+        if matches!(&*node.body, BlockStmtOrExpr::Expr(_)) {
+            ctx.var_declarations.record_entering_stmts();
+        }
+    }
+
+    fn exit_arrow_expr(&mut self, node: &mut ArrowExpr, ctx: &mut TraverseCtx) {
+        if let BlockStmtOrExpr::Expr(expr) = &mut *node.body {
+            if let Some(block) = ctx.var_declarations.take_arrow_expr_block(expr) {
+                *node.body = BlockStmtOrExpr::BlockStmt(block);
+            }
+        }
+    }
+
     fn enter_stmts(&mut self, _stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
         ctx.var_declarations.record_entering_stmts();
     }
@@ -188,6 +202,36 @@ impl VarDeclarationsStore {
             new_items.append(items);
             *items = new_items;
         }
+    }
+
+    fn take_arrow_expr_block(&mut self, expr: &mut Box<Expr>) -> Option<BlockStmt> {
+        if let Some((var_statement, let_statement)) = self.get_var_statement() {
+            let mut stmts = Vec::with_capacity(3);
+
+            match (var_statement, let_statement) {
+                (Some(var_statement), Some(let_statement)) => {
+                    stmts.push(var_statement);
+                    stmts.push(let_statement);
+                }
+                (Some(statement), None) | (None, Some(statement)) => {
+                    stmts.push(statement);
+                }
+                (None, None) => return None,
+            }
+
+            stmts.push(Stmt::Return(ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(expr.take()),
+            }));
+
+            return Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts,
+                ..Default::default()
+            });
+        }
+
+        None
     }
 
     #[inline]
