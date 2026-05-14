@@ -54,6 +54,8 @@ impl VisitMutHook<TraverseCtx> for VarDeclarations {
                 declarations: None,
             }),
             BlockStmtOrExpr::BlockStmt(_) => None,
+            #[cfg(swc_ast_unknown)]
+            _ => None,
         });
     }
 
@@ -84,6 +86,8 @@ impl VisitMutHook<TraverseCtx> for VarDeclarations {
                 });
             }
             BlockStmtOrExpr::BlockStmt(block) => Self::insert_arrow_declarations(block, stmts),
+            #[cfg(swc_ast_unknown)]
+            _ => {}
         }
     }
 
