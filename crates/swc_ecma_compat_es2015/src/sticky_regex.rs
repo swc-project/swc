@@ -15,7 +15,5 @@ use swc_ecma_ast::Pass;
 /// new RegExp("o+", "y")
 /// ```
 pub fn sticky_regex() -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-    options.env.regexp.sticky_regex = true;
-    options.into_pass()
+    swc_ecma_transformer::es2015_sticky_regex()
 }

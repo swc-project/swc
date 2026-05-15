@@ -17,7 +17,9 @@
 //! ctx.var_declarations.insert_let(ident, Some(init), ctx);
 //! ```
 
-use swc_common::DUMMY_SP;
+use std::{mem, ptr};
+
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -28,10 +30,89 @@ use crate::TraverseCtx;
 /// requested that.
 ///
 /// Must run after all other transforms.
+#[derive(Debug, Default)]
+pub struct VarDeclarations {
+    arrow_exprs: Vec<Option<ArrowExprScope>>,
+}
+
 #[derive(Debug)]
-pub struct VarDeclarations;
+struct ArrowExprScope {
+    /// The `BlockStmtOrExpr` for an expression-bodied arrow. Starting the scope
+    /// here keeps generated temps out of params while still catching body
+    /// transforms that queue declarations in `enter_expr`.
+    body: *const BlockStmtOrExpr,
+    started: bool,
+    declarations: Option<(Option<Stmt>, Option<Stmt>)>,
+}
 
 impl VisitMutHook<TraverseCtx> for VarDeclarations {
+    fn enter_arrow_expr(&mut self, node: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
+        self.arrow_exprs.push(match &mut *node.body {
+            BlockStmtOrExpr::Expr(_) => Some(ArrowExprScope {
+                body: &*node.body,
+                started: false,
+                declarations: None,
+            }),
+            BlockStmtOrExpr::BlockStmt(_) => None,
+            #[cfg(swc_ast_unknown)]
+            _ => None,
+        });
+    }
+
+    fn exit_arrow_expr(&mut self, node: &mut ArrowExpr, ctx: &mut TraverseCtx) {
+        let Some(mut scope) = self.arrow_exprs.pop().flatten() else {
+            return;
+        };
+
+        if scope.started {
+            scope.declarations = ctx.var_declarations.get_var_statement();
+        }
+
+        let Some(mut stmts) = Self::declaration_stmts(scope.declarations) else {
+            return;
+        };
+
+        match &mut *node.body {
+            BlockStmtOrExpr::Expr(expr) => {
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(expr.take()),
+                }));
+
+                *node.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                    ..Default::default()
+                });
+            }
+            BlockStmtOrExpr::BlockStmt(block) => Self::insert_arrow_declarations(block, stmts),
+            #[cfg(swc_ast_unknown)]
+            _ => {}
+        }
+    }
+
+    fn enter_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut TraverseCtx) {
+        let Some(Some(scope)) = self.arrow_exprs.last_mut() else {
+            return;
+        };
+
+        if !scope.started && ptr::eq(scope.body, node) {
+            ctx.var_declarations.record_entering_stmts();
+            scope.started = true;
+        }
+    }
+
+    fn exit_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut TraverseCtx) {
+        let Some(Some(scope)) = self.arrow_exprs.last_mut() else {
+            return;
+        };
+
+        if scope.started && ptr::eq(scope.body, node) {
+            scope.declarations = ctx.var_declarations.get_var_statement();
+            scope.started = false;
+        }
+    }
+
     fn enter_stmts(&mut self, _stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
         ctx.var_declarations.record_entering_stmts();
     }
@@ -46,6 +127,48 @@ impl VisitMutHook<TraverseCtx> for VarDeclarations {
 
     fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
         ctx.var_declarations.insert_into_module_items(items);
+    }
+}
+
+impl VarDeclarations {
+    fn declaration_stmts(declarations: Option<(Option<Stmt>, Option<Stmt>)>) -> Option<Vec<Stmt>> {
+        let (var_statement, let_statement) = declarations?;
+        let mut stmts = Vec::with_capacity(2);
+
+        match (var_statement, let_statement) {
+            (Some(var_statement), Some(let_statement)) => {
+                stmts.push(var_statement);
+                stmts.push(let_statement);
+            }
+            (Some(statement), None) | (None, Some(statement)) => {
+                stmts.push(statement);
+            }
+            (None, None) => return None,
+        }
+
+        Some(stmts)
+    }
+
+    fn insert_arrow_declarations(block: &mut BlockStmt, declarations: Vec<Stmt>) {
+        if declarations.is_empty() {
+            return;
+        }
+
+        if matches!(
+            block.stmts.last(),
+            Some(Stmt::Return(ReturnStmt { span: DUMMY_SP, .. }))
+        ) {
+            let return_stmt = block.stmts.pop().unwrap();
+            block.stmts.extend(declarations);
+            block.stmts.push(return_stmt);
+            return;
+        }
+
+        let original = mem::take(&mut block.stmts);
+        let mut stmts = Vec::with_capacity(declarations.len() + original.len());
+        stmts.extend(declarations);
+        stmts.extend(original);
+        block.stmts = stmts;
     }
 }
 

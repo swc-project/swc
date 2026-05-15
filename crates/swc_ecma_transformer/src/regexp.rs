@@ -9,6 +9,7 @@ use swc_ecma_regexp::{
 };
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::TraverseCtx;
 
@@ -62,6 +63,10 @@ pub(crate) fn hook(options: RegExpOptions) -> Option<impl VisitMutHook<TraverseC
     } else {
         None
     }
+}
+
+pub(crate) fn pass(options: RegExpOptions) -> impl Pass {
+    visit_mut_pass(RegexpPass { options })
 }
 
 struct RegexpPass {
@@ -216,6 +221,21 @@ impl RegexpPass {
 
 impl VisitMutHook<TraverseCtx> for RegexpPass {
     fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
+        self.transform_expr(expr);
+    }
+}
+
+impl VisitMut for RegexpPass {
+    noop_visit_mut_type!(fail);
+
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
+        self.transform_expr(expr);
+    }
+}
+
+impl RegexpPass {
+    fn transform_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Lit(Lit::Regex(regex)) => {
                 // Try named groups transform first

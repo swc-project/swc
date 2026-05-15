@@ -14,22 +14,15 @@ pub mod private_in_object;
 pub mod static_blocks;
 
 pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-
-    {
-        let t = &mut options.env.regexp;
-        t.dot_all_regex = true;
-        t.has_indices = true;
-        t.lookbehind_assertion = true;
-        t.named_capturing_groups_regex = true;
-        t.unicode_property_regex = true;
-    }
-
-    options.env.es2022.class_static_block = true;
-    options.env.es2022.private_property_in_object = true;
+    let mut regexp_options = swc_ecma_transformer::RegExpOptions::default();
+    regexp_options.dot_all_regex = true;
+    regexp_options.has_indices = true;
+    regexp_options.lookbehind_assertion = true;
+    regexp_options.named_capturing_groups_regex = true;
+    regexp_options.unicode_property_regex = true;
 
     (
-        options.into_pass(),
+        swc_ecma_transformer::es2022_runtime_transforms(regexp_options),
         class_properties(config.class_properties, unresolved_mark),
     )
 }

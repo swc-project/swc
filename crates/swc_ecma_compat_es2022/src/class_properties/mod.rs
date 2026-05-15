@@ -427,74 +427,71 @@ impl ClassProperties {
         mut class: Box<Class>,
     ) -> (ClassDecl, ClassExtra) {
         // Create one mark per class
-        let private = Private {
-            mark: Mark::fresh(Mark::root()),
-            class_name: class_ident.clone(),
-            ident: {
-                let mut private_map = FxHashMap::default();
+        let mut private_map = FxHashMap::default();
 
-                for member in class.body.iter() {
-                    match member {
-                        ClassMember::PrivateMethod(method) => {
-                            if let Some(kind) = private_map.get_mut(&method.key.name) {
-                                if dup_private_method(kind, method) {
-                                    let error =
-                                        format!("duplicate private name #{}.", method.key.name);
-                                    HANDLER.with(|handler| {
-                                        handler.struct_span_err(method.key.span, &error).emit()
-                                    });
-                                } else {
-                                    match method.kind {
-                                        MethodKind::Getter => kind.has_getter = true,
-                                        MethodKind::Setter => kind.has_setter = true,
-                                        MethodKind::Method => unreachable!(),
-                                        #[cfg(swc_ast_unknown)]
-                                        _ => panic!("unable to access unknown nodes"),
-                                    }
-                                }
-                            } else {
-                                private_map.insert(
-                                    method.key.name.clone(),
-                                    PrivateKind {
-                                        is_method: true,
-                                        is_static: method.is_static,
-                                        has_getter: method.kind == MethodKind::Getter,
-                                        has_setter: method.kind == MethodKind::Setter,
-                                    },
-                                );
+        for member in class.body.iter() {
+            match member {
+                ClassMember::PrivateMethod(method) => {
+                    if let Some(kind) = private_map.get_mut(&method.key.name) {
+                        if dup_private_method(kind, method) {
+                            let error = format!("duplicate private name #{}.", method.key.name);
+                            HANDLER.with(|handler| {
+                                handler.struct_span_err(method.key.span, &error).emit()
+                            });
+                        } else {
+                            match method.kind {
+                                MethodKind::Getter => kind.has_getter = true,
+                                MethodKind::Setter => kind.has_setter = true,
+                                MethodKind::Method => unreachable!(),
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             }
                         }
+                    } else {
+                        private_map.insert(
+                            method.key.name.clone(),
+                            PrivateKind {
+                                is_method: true,
+                                is_static: method.is_static,
+                                has_getter: method.kind == MethodKind::Getter,
+                                has_setter: method.kind == MethodKind::Setter,
+                            },
+                        );
+                    }
+                }
 
-                        ClassMember::PrivateProp(prop) => {
-                            if private_map.contains_key(&prop.key.name) {
-                                let error = format!("duplicate private name #{}.", prop.key.name);
-                                HANDLER.with(|handler| {
-                                    handler.struct_span_err(prop.key.span, &error).emit()
-                                });
-                            } else {
-                                private_map.insert(
-                                    prop.key.name.clone(),
-                                    PrivateKind {
-                                        is_method: false,
-                                        is_static: prop.is_static,
-                                        has_getter: false,
-                                        has_setter: false,
-                                    },
-                                );
-                            };
-                        }
-
-                        ClassMember::AutoAccessor(_) => {
-                            // AutoAccessor is preserved as-is, no private field
-                            // registration needed
-                        }
-
-                        _ => (),
+                ClassMember::PrivateProp(prop) => {
+                    if private_map.contains_key(&prop.key.name) {
+                        let error = format!("duplicate private name #{}.", prop.key.name);
+                        HANDLER
+                            .with(|handler| handler.struct_span_err(prop.key.span, &error).emit());
+                    } else {
+                        private_map.insert(
+                            prop.key.name.clone(),
+                            PrivateKind {
+                                is_method: false,
+                                is_static: prop.is_static,
+                                has_getter: false,
+                                has_setter: false,
+                            },
+                        );
                     };
                 }
 
-                private_map
-            },
+                ClassMember::AutoAccessor(_) => {
+                    // AutoAccessor is preserved as-is, no private field
+                    // registration needed
+                }
+
+                _ => (),
+            };
+        }
+
+        let has_private_bindings = !private_map.is_empty();
+        let private = Private {
+            mark: Mark::fresh(Mark::root()),
+            class_name: class_ident.clone(),
+            ident: private_map,
         };
 
         self.private.push(private);
@@ -515,9 +512,13 @@ impl ClassProperties {
         let mut used_key_names = Vec::new();
         let mut super_ident = None;
 
-        class.body.visit_mut_with(&mut BrandCheckHandler {
-            private: &self.private,
-        });
+        let should_visit_private = has_private_bindings || contains_private_name(&class.body);
+
+        if should_visit_private {
+            class.body.visit_mut_with(&mut BrandCheckHandler {
+                private: &self.private,
+            });
+        }
 
         let should_create_vars_for_method_names = class.body.iter().any(|m| match m {
             ClassMember::Constructor(_)
@@ -967,25 +968,29 @@ impl ClassProperties {
             members.push(ClassMember::Constructor(c));
         }
 
-        private_method_fn_decls.visit_mut_with(&mut PrivateAccessVisitor {
-            private: &self.private,
-            vars: Vec::new(),
-            private_access_type: Default::default(),
-            c: self.c,
-            unresolved_mark: self.unresolved_mark,
-        });
+        if should_visit_private {
+            private_method_fn_decls.visit_mut_with(&mut PrivateAccessVisitor {
+                private: &self.private,
+                vars: Vec::new(),
+                private_access_type: Default::default(),
+                c: self.c,
+                unresolved_mark: self.unresolved_mark,
+            });
+        }
 
         let mut extra_stmts = extra_inits.into_init_static(class_ident.clone());
 
         extra_stmts.extend(private_method_fn_decls);
 
-        members.visit_mut_with(&mut PrivateAccessVisitor {
-            private: &self.private,
-            vars: Vec::new(),
-            private_access_type: Default::default(),
-            c: self.c,
-            unresolved_mark: self.unresolved_mark,
-        });
+        if should_visit_private {
+            members.visit_mut_with(&mut PrivateAccessVisitor {
+                private: &self.private,
+                vars: Vec::new(),
+                private_access_type: Default::default(),
+                c: self.c,
+                unresolved_mark: self.unresolved_mark,
+            });
+        }
 
         self.private.pop();
 
@@ -1063,6 +1068,27 @@ impl ClassProperties {
     }
 }
 
+fn contains_private_name<N>(node: &N) -> bool
+where
+    N: VisitWith<PrivateNameFinder>,
+{
+    let mut finder = PrivateNameFinder { found: false };
+    node.visit_with(&mut finder);
+    finder.found
+}
+
+struct PrivateNameFinder {
+    found: bool,
+}
+
+impl Visit for PrivateNameFinder {
+    noop_visit_type!(fail);
+
+    fn visit_private_name(&mut self, _: &PrivateName) {
+        self.found = true;
+    }
+}
+
 #[derive(Default)]
 struct ShouldWork {
     found: bool,
@@ -1071,6 +1097,38 @@ struct ShouldWork {
 #[swc_trace]
 impl Visit for ShouldWork {
     noop_visit_type!(fail);
+
+    fn visit_module_item(&mut self, node: &ModuleItem) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_stmt(&mut self, node: &Stmt) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_expr(&mut self, node: &Expr) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_class_member(&mut self, node: &ClassMember) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
 
     fn visit_class_method(&mut self, _: &ClassMethod) {
         self.found = true;
