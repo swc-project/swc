@@ -21,9 +21,9 @@ debug = []
 [dependencies]
 rustc-hash = { workspace = true }
 
-swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
-swc_common     = { version = "21.0.1", path = "../swc_common" }
-swc_html_ast   = { version = "21.0.0", path = "../swc_html_ast" }
+swc_atoms      = { version = "9.0.1", path = "../swc_atoms" }
+swc_common     = { version = "21.0.2", path = "../swc_common" }
+swc_html_ast   = { version = "21.0.1", path = "../swc_html_ast" }
 swc_html_utils = { version = "16.0.0", path = "../swc_html_utils" }
 
 [dev-dependencies]
@@ -31,7 +31,7 @@ codspeed-criterion-compat = { workspace = true }
 serde                     = { workspace = true }
 serde_json                = { workspace = true }
 
-swc_html_ast = { version = "21.0.0", path = "../swc_html_ast", features = [
+swc_html_ast = { version = "21.0.1", path = "../swc_html_ast", features = [
   "serde-impl",
 ] }
 swc_html_visit = { version = "21.0.0", path = "../swc_html_visit" }

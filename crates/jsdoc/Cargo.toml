@@ -30,8 +30,8 @@ cbor4ii = { workspace = true, features = ["use_std"], optional = true }
 nom     = { workspace = true }
 serde   = { workspace = true, features = ["derive"], optional = true }
 
-swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "21.0.1", path = "../swc_common" }
+swc_atoms  = { version = "9.0.1", path = "../swc_atoms" }
+swc_common = { version = "21.0.2", path = "../swc_common" }
 
 [dev-dependencies]
 dashmap         = { workspace = true }

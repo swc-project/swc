@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_minifier"
 repository    = { workspace = true }
-version       = "52.0.6"
+version       = "53.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -51,14 +51,14 @@ rustc-hash = { workspace = true }
 ryu-js = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
-swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "21.0.1", path = "../swc_common" }
-swc_config = { version = "4.0.1", path = "../swc_config", features = [
+swc_atoms = { version = "9.0.1", path = "../swc_atoms" }
+swc_common = { version = "21.0.2", path = "../swc_common" }
+swc_config = { version = "5.0.0", path = "../swc_config", features = [
   "sourcemap",
   "file_pattern",
   "regex_js",
 ] }
-swc_ecma_ast = { version = "23.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "23.0.1", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
 swc_ecma_codegen = { version = "26.0.1", path = "../swc_ecma_codegen" }
@@ -67,7 +67,7 @@ swc_ecma_parser = { version = "39.1.0", path = "../swc_ecma_parser", default-fea
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "42.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "44.0.1", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "45.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "29.1.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "23.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
