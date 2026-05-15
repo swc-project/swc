@@ -10,7 +10,10 @@ use swc_ecma_ast::{
 
 use super::{
     type_ann,
-    util::types::{any_type_ann, ts_keyword_type},
+    util::{
+        formal_parameter_binding_pattern::FormalParameterBindingPattern,
+        types::{any_type_ann, ts_keyword_type},
+    },
     FastDts,
 };
 
@@ -114,6 +117,7 @@ impl FastDts {
             Pat::Assign(assign_pat) => *assign_pat.left,
             _ => pat,
         };
+        FormalParameterBindingPattern::remove_assignments_from_pat(&mut param.pat);
     }
 
     pub(crate) fn transform_assign_pat(
