@@ -239,14 +239,14 @@ impl FastDts {
                         .is_some_and(|accessibility| accessibility == Accessibility::Private)
                     {
                         auto_accessor.decorators.clear();
-                        auto_accessor.definite = false;
                         auto_accessor.type_ann = None;
-                        auto_accessor.accessibility =
-                            self.transform_accessibility(auto_accessor.accessibility);
                     }
 
+                    auto_accessor.definite = false;
                     auto_accessor.is_override = false;
                     auto_accessor.value = None;
+                    auto_accessor.accessibility =
+                        self.transform_accessibility(auto_accessor.accessibility);
                     class.body.push(member);
                 }
                 ClassMember::Empty(_) | ClassMember::StaticBlock(_) => {}
@@ -475,6 +475,7 @@ impl FastDts {
         }
 
         prop.declare = false;
+        prop.definite = false;
         prop.decorators.clear();
         prop.accessibility = self.transform_accessibility(prop.accessibility);
     }
