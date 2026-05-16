@@ -378,6 +378,18 @@ impl<I: Tokens> Parser<I> {
         let tok = self.input.cur();
         match tok {
             Token::This => return self.parse_this_expr(start),
+            Token::Ident if !self.input().syntax().flow_pattern_matching() => {
+                let word = self.input_mut().expect_word_token_value();
+                self.bump();
+                if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
+                    self.emit_err(self.input().prev_span(), SyntaxError::ArgumentsInClassField)
+                };
+                let id = Ident::new_no_ctxt(word, self.span(start));
+                if !can_be_arrow || self.input().cur() != Token::Arrow {
+                    return Ok(id.into());
+                }
+                return self.parse_arrow_expr_from_ident(start, id, false);
+            }
             Token::Async => {
                 if let Some(res) = self.try_parse_async_start(can_be_arrow) {
                     return res;
