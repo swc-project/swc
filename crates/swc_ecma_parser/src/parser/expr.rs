@@ -1173,14 +1173,14 @@ impl<I: Tokens> Parser<I> {
         no_call: bool,
     ) -> PResult<Box<Expr>> {
         let cur = self.input().cur();
-        if no_call && cur == Token::LParen {
-            return Ok(expr);
-        }
-        if !matches!(
+        if cur == Token::LParen {
+            if no_call {
+                return Ok(expr);
+            }
+        } else if !matches!(
             cur,
             Token::QuestionMark
                 | Token::LBracket
-                | Token::LParen
                 | Token::Dot
                 | Token::TemplateHead
                 | Token::NoSubstitutionTemplateLiteral
