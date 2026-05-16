@@ -1,1 +1,1 @@
-console.log((console.log("REQUIRE"),1));
+console.log(function(){return console.log("REQUIRE"),1}());

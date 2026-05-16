@@ -1,6 +1,7 @@
 export var fn = function() {
+    var varA;
     return objCreator({
-        varA: condCheck ? // a bad comment
-        "a" : "b"
+        varA: // a bad comment
+        varA = condCheck ? "a" : "b"
     });
 };

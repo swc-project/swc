@@ -109,19 +109,20 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
                 modularAPIs: o
             }
         };
+        r.default = r, Object.defineProperty(r, "apps", {
+            get: function() {
+                return Object.keys(n).map(function(e) {
+                    return n[e];
+                });
+            }
+        });
         function i(e) {
             if (e = e || o._DEFAULT_ENTRY_NAME, !t.contains(n, e)) throw c.create("no-app", {
                 appName: e
             });
             return n[e];
         }
-        return r.default = r, Object.defineProperty(r, "apps", {
-            get: function() {
-                return Object.keys(n).map(function(e) {
-                    return n[e];
-                });
-            }
-        }), i.App = e, r;
+        return i.App = e, r;
     }(p);
     return r.INTERNAL = n.__assign(n.__assign({}, r.INTERNAL), {
         createFirebaseNamespace: e,

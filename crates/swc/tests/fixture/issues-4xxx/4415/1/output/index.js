@@ -1,1 +1,1 @@
-console.log("aaaa");
+let a="aaaa";console.log(a);

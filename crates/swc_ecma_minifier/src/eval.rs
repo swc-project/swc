@@ -85,6 +85,9 @@ impl Evaluator {
             self.program.mutate(&mut compressor(
                 marks,
                 &CompressOptions {
+                    // Evaluator caches can depend on a second pass for chained
+                    // constants like `const result = high + low`.
+                    passes: 2,
                     // We should not drop unused variables.
                     unused: false,
                     top_level: Some(TopLevelOptions { functions: true }),

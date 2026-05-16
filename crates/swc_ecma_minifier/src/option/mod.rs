@@ -347,7 +347,7 @@ pub struct CompressOptions {
     pub negate_iife: bool,
 
     /// If this value is zero, the minifier will repeat work until the ast node
-    /// is settled.
+    /// is settled. Defaults to one pass.
     #[cfg_attr(feature = "extra-serde", serde(default = "default_passes"))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "passes"))]
     pub passes: usize,
@@ -490,7 +490,7 @@ const fn true_by_default() -> bool {
 }
 
 const fn default_passes() -> usize {
-    2
+    1
 }
 
 const fn three_by_default() -> u8 {

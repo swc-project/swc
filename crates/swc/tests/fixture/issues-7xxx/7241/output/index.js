@@ -1,1 +1,2 @@
-console.log(something());
+let o;
+o = something(), console.log(o);

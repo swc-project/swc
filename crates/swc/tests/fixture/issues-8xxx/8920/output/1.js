@@ -1,5 +1,5 @@
 "use strict";
 const k = function() {
-    (class {
+    (class x {
     })();
 };
