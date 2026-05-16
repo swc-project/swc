@@ -201,9 +201,6 @@ impl Optimizer<'_> {
             self.compress_logical_exprs_as_bang_bang(&mut bin.right, true);
         }
 
-        self.compress_logical_exprs_as_bang_bang(&mut bin.left, true);
-        self.compress_logical_exprs_as_bang_bang(&mut bin.right, true);
-
         let lt = bin.left.get_type(self.ctx.expr_ctx);
         match lt {
             // Don't change type

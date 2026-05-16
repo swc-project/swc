@@ -3631,7 +3631,6 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Member(MemberExpr { obj, prop, .. }) if is_pure_member_callee(obj, prop, ctx) => {
             false
         }
-        Expr::Member(..) if expr.is_pure_callee(ctx) => false,
 
         Expr::Member(MemberExpr { obj, prop, .. })
             if obj.is_object() || obj.is_fn_expr() || obj.is_arrow() || obj.is_class() =>

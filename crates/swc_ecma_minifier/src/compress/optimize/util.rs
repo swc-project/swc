@@ -514,20 +514,11 @@ impl VisitMut for Finalizer<'_> {
                     if let Some(expr) = self.lits.get(&i.to_id()) {
                         *n = *expr.clone();
                     }
-            Expr::Ident(i) if !self.lits.is_empty() => {
-                if let Some(expr) = self.lits.get(&i.to_id()) {
-                    *n = *expr.clone();
-                    return;
-                if !self.lits.is_empty() {
-                    if let Some(expr) = self.lits.get(&i.to_id()) {
-                        *n = *expr.clone();
-                    }
                 }
 
                 return;
             }
             Expr::Member(e) if can_replace_hoisted_prop => 'a: {
-            Expr::Member(e) if !self.hoisted_props.is_empty() => 'a: {
                 if let Expr::Ident(obj) = &*e.obj {
                     let sym = match &e.prop {
                         MemberProp::Ident(i) => i.sym.borrow(),

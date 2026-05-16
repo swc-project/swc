@@ -101,7 +101,6 @@ impl Pure<'_> {
             e,
             Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..) | Expr::This(..)
         )
-        matches!(e, Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..))
     }
 
     #[inline(always)]
@@ -479,12 +478,6 @@ impl VisitMut for Pure<'_> {
 
         self.handle_known_delete(e);
 
-        if matches!(e, Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..)) {
-            return;
-        }
-
-        self.handle_known_delete(e);
-
         e.visit_mut_children_with(self);
 
         // Expression simplifier
@@ -606,17 +599,6 @@ impl VisitMut for Pure<'_> {
 
         if matches!(e, Expr::Bin(..)) {
             self.eval_str_addition(e);
-        self.eval_str_addition(e);
-        }
-
-        match e {
-            Expr::Seq(seq) => {
-                if seq.exprs.iter().any(|expr| expr.is_invalid()) {
-                    self.remove_invalid(e);
-                }
-
-        if should_remove_invalid {
-            self.remove_invalid(e);
         }
 
         match e {
@@ -721,7 +703,6 @@ impl VisitMut for Pure<'_> {
             e,
             Expr::Assign(AssignExpr { op: op!("="), .. }) | Expr::Bin(BinExpr { op: op!("*"), .. })
         ) {
-        if matches!(e, Expr::Assign(..) | Expr::Bin(..)) {
             self.optimize_to_number(e);
         }
 
@@ -778,11 +759,6 @@ impl VisitMut for Pure<'_> {
 
         if matches!(e, Expr::Call(..)) {
             self.eval_array_or_fn_method_call(e);
-        self.eval_array_or_fn_method_call(e);
-        }
-
-        if e.is_seq() {
-            debug_assert_valid(e);
         }
 
         if e.is_seq() {
@@ -909,7 +885,6 @@ impl VisitMut for Pure<'_> {
                 ..
             })
         ) {
-        if matches!(e, Expr::Assign(..) | Expr::Bin(..)) {
             self.optimize_to_int(e);
         }
     }

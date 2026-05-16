@@ -1866,7 +1866,6 @@ impl VisitMut for Optimizer<'_> {
 
             if matches!(e, Expr::Ident(..)) {
                 self.evaluate_ident(e);
-                self.evaluate(e);
 
                 #[cfg(feature = "trace-ast")]
                 tracing::debug!("Output: {}", dump(e, true));
@@ -1952,8 +1951,6 @@ impl VisitMut for Optimizer<'_> {
             };
 
             if should_remove_invalid {
-            // This is not accurate check but avoid some trivial cases.
-            if self.changed && matches!(e, Expr::Bin(..)) {
                 self.remove_invalid_bin(e);
             }
 

@@ -319,16 +319,6 @@ impl Visit for VarWithOutInitCounter {
     fn visit_setter_prop(&mut self, _: &SetterProp) {}
 
     fn visit_expr(&mut self, _: &Expr) {}
-    fn visit_expr(&mut self, e: &Expr) {
-        if self.need_work {
-            return;
-        }
-
-        match e {
-            Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..) | Expr::This(..) => {}
-            _ => e.visit_children_with(self),
-        }
-    }
 
     fn visit_pat(&mut self, n: &Pat) {
         if self.need_work {
