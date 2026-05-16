@@ -89,29 +89,29 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 }
 
 impl<'a> Input<'a> for StringInput<'a> {
-    #[inline]
+    #[inline(always)]
     fn cur(&self) -> Option<u8> {
         self.remaining.as_bytes().first().copied()
     }
 
-    #[inline]
+    #[inline(always)]
     fn peek(&self) -> Option<u8> {
         self.remaining.as_bytes().get(1).copied()
     }
 
-    #[inline]
+    #[inline(always)]
     fn peek_ahead(&self) -> Option<u8> {
         self.remaining.as_bytes().get(2).copied()
     }
 
-    #[inline]
+    #[inline(always)]
     unsafe fn bump_bytes(&mut self, n: usize) {
         debug_assert!(n <= self.remaining.len());
         self.remaining = unsafe { self.remaining.get_unchecked(n..) };
         self.last_pos.0 += n as u32;
     }
 
-    #[inline]
+    #[inline(always)]
     fn cur_as_ascii(&self) -> Option<u8> {
         let first_byte = *self.remaining.as_bytes().first()?;
         if first_byte <= 0x7f {
@@ -121,28 +121,28 @@ impl<'a> Input<'a> for StringInput<'a> {
         }
     }
 
-    #[inline]
+    #[inline(always)]
     fn cur_as_char(&self) -> Option<char> {
         self.remaining.chars().next()
     }
 
-    #[inline]
+    #[inline(always)]
     fn is_at_start(&self) -> bool {
         self.orig_start == self.last_pos
     }
 
     /// TODO(kdy1): Remove this?
-    #[inline]
+    #[inline(always)]
     fn cur_pos(&self) -> BytePos {
         self.last_pos
     }
 
-    #[inline]
+    #[inline(always)]
     fn last_pos(&self) -> BytePos {
         self.last_pos
     }
 
-    #[inline]
+    #[inline(always)]
     unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
         debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
         let s = self.orig;
@@ -186,7 +186,7 @@ impl<'a> Input<'a> for StringInput<'a> {
         ret
     }
 
-    #[inline]
+    #[inline(always)]
     unsafe fn reset_to(&mut self, to: BytePos) {
         if self.last_pos == to {
             // No need to reset.
@@ -201,7 +201,7 @@ impl<'a> Input<'a> for StringInput<'a> {
         self.last_pos = to;
     }
 
-    #[inline]
+    #[inline(always)]
     fn is_byte(&self, c: u8) -> bool {
         self.remaining
             .as_bytes()
@@ -210,12 +210,12 @@ impl<'a> Input<'a> for StringInput<'a> {
             .unwrap_or(false)
     }
 
-    #[inline]
+    #[inline(always)]
     fn is_str(&self, s: &str) -> bool {
         self.remaining.starts_with(s)
     }
 
-    #[inline]
+    #[inline(always)]
     unsafe fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
             self.remaining = unsafe { self.remaining.get_unchecked(1..) };

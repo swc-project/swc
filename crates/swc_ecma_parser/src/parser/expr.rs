@@ -430,18 +430,22 @@ impl<I: Tokens> Parser<I> {
 
         let cur = self.input().cur();
 
-        // `super()` can't be handled from parse_new_expr()
-        if cur == Token::Super {
-            let start = self.input().cur_pos();
-            self.bump(); // eat `super`
-            let obj = Callee::Super(Super {
-                span: self.span(start),
-            });
-            return self.parse_subscripts(obj, false, false);
-        } else if cur == Token::Import {
-            let start = self.input().cur_pos();
-            self.bump(); // eat `import`
-            return self.parse_dynamic_import_or_import_meta(start, false);
+        match cur {
+            // `super()` can't be handled from parse_new_expr()
+            Token::Super => {
+                let start = self.input().cur_pos();
+                self.bump(); // eat `super`
+                let obj = Callee::Super(Super {
+                    span: self.span(start),
+                });
+                return self.parse_subscripts(obj, false, false);
+            }
+            Token::Import => {
+                let start = self.input().cur_pos();
+                self.bump(); // eat `import`
+                return self.parse_dynamic_import_or_import_meta(start, false);
+            }
+            _ => {}
         }
 
         let callee = self.parse_new_expr()?;
@@ -2888,129 +2892,145 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_primary_expr_rest(
+    #[inline(never)]
+    fn parse_arrow_expr_from_ident(
         &mut self,
         start: BytePos,
-        can_be_arrow: bool,
+        id: Ident,
+        id_is_async: bool,
     ) -> PResult<Box<Expr>> {
-        let decorators = if self.input().is(Token::At) {
-            Some(self.parse_decorators(false)?)
-        } else {
-            None
-        };
-
         let cur = self.input().cur();
 
-        if self.is_flow_match_keyword() {
-            return self.parse_flow_match_expr(start);
-        }
-
-        if cur == Token::Class {
-            return self.parse_class_expr(start, decorators.unwrap_or_default());
-        }
-
-        let try_parse_arrow_expr = |p: &mut Self, id: Ident, id_is_async| -> PResult<Box<Expr>> {
-            let cur = p.input().cur();
-
-            if id_is_async && cur.is_word() && !cur.is_reserved(p.ctx()) {
-                if !p.input().had_line_break_before_cur() {
-                    // see https://github.com/tc39/ecma262/issues/2034
-                    // ```js
-                    // for(async of
-                    // for(async of x);
-                    // for(async of =>{};;);
+        if id_is_async && cur.is_word() && !cur.is_reserved(self.ctx()) {
+            if !self.input().had_line_break_before_cur() {
+                // see https://github.com/tc39/ecma262/issues/2034
+                // ```js
+                // for(async of
+                // for(async of x);
+                // for(async of =>{};;);
+                // ```
+                let ctx = self.ctx();
+                if ctx.contains(Context::ForLoopInit)
+                    && self.input().is(Token::Of)
+                    && !peek!(self).is_some_and(|peek| peek == Token::Arrow)
+                {
+                    // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
+                    // for ( [lookahead not in { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+                    // [+Await] for await ( [lookahead != let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
                     // ```
-                    let ctx = p.ctx();
-                    if ctx.contains(Context::ForLoopInit)
-                        && p.input().is(Token::Of)
-                        && !peek!(p).is_some_and(|peek| peek == Token::Arrow)
-                    {
-                        // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
-                        // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-                        // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-                        // ```
 
-                        if !ctx.contains(Context::ForAwaitLoopInit) {
-                            p.emit_err(p.input().prev_span(), SyntaxError::TS1106);
-                        }
-
-                        return Ok(id.into());
+                    if !ctx.contains(Context::ForAwaitLoopInit) {
+                        self.emit_err(self.input().prev_span(), SyntaxError::TS1106);
                     }
 
-                    let token = cur;
-                    let ident = p.parse_binding_ident(false)?;
-                    if p.input().syntax().typescript()
-                        && token == Token::As
-                        && !p.input().is(Token::Arrow)
-                    {
-                        // async as type
-                        let type_ann = p.in_type(Self::parse_ts_type)?;
-                        return Ok(TsAsExpr {
-                            span: p.span(start),
-                            expr: Box::new(id.into()),
-                            type_ann,
-                        }
-                        .into());
-                    }
+                    return Ok(id.into());
+                }
 
-                    // async a => body
-                    let arg = ident.into();
-                    let params = vec![arg];
-                    expect!(p, Token::Arrow);
-                    let body = p.parse_fn_block_or_expr_body(
-                        true,
-                        false,
-                        true,
-                        params.is_simple_parameter_list(),
-                    )?;
-
-                    return Ok(ArrowExpr {
-                        span: p.span(start),
-                        body,
-                        params,
-                        is_async: true,
-                        is_generator: false,
-                        ..Default::default()
+                let token = cur;
+                let ident = self.parse_binding_ident(false)?;
+                if self.input().syntax().typescript()
+                    && token == Token::As
+                    && !self.input().is(Token::Arrow)
+                {
+                    // async as type
+                    let type_ann = self.in_type(Self::parse_ts_type)?;
+                    return Ok(TsAsExpr {
+                        span: self.span(start),
+                        expr: Box::new(id.into()),
+                        type_ann,
                     }
                     .into());
                 }
-            } else if cur == Token::Arrow && !p.input().had_line_break_before_cur() {
-                if p.ctx().contains(Context::Strict) && id.is_reserved_in_strict_bind() {
-                    p.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
-                }
-                let params = vec![id.into()];
-                p.bump();
-                let body = p.parse_fn_block_or_expr_body(
-                    false,
+
+                // async a => body
+                let arg = ident.into();
+                let params = vec![arg];
+                expect!(self, Token::Arrow);
+                let body = self.parse_fn_block_or_expr_body(
+                    true,
                     false,
                     true,
                     params.is_simple_parameter_list(),
                 )?;
 
                 return Ok(ArrowExpr {
-                    span: p.span(start),
+                    span: self.span(start),
                     body,
                     params,
-                    is_async: false,
+                    is_async: true,
                     is_generator: false,
                     ..Default::default()
                 }
                 .into());
             }
+        } else if cur == Token::Arrow && !self.input().had_line_break_before_cur() {
+            if self.ctx().contains(Context::Strict) && id.is_reserved_in_strict_bind() {
+                self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
+            }
+            let params = vec![id.into()];
+            self.bump();
+            let body = self.parse_fn_block_or_expr_body(
+                false,
+                false,
+                true,
+                params.is_simple_parameter_list(),
+            )?;
 
-            Ok(id.into())
-        };
+            return Ok(ArrowExpr {
+                span: self.span(start),
+                body,
+                params,
+                is_async: false,
+                is_generator: false,
+                ..Default::default()
+            }
+            .into());
+        }
 
-        if cur == Token::Let || (cur == Token::Await && self.input().syntax().typescript()) {
+        Ok(id.into())
+    }
+
+    fn parse_primary_expr_rest(
+        &mut self,
+        start: BytePos,
+        can_be_arrow: bool,
+    ) -> PResult<Box<Expr>> {
+        let mut cur = self.input().cur();
+        if cur == Token::At {
+            let decorators = self.parse_decorators(false)?;
+            cur = self.input().cur();
+            if cur == Token::Class {
+                return self.parse_class_expr(start, decorators);
+            }
+        }
+
+        if self.input().syntax().flow_pattern_matching() && self.is_flow_match_keyword() {
+            return self.parse_flow_match_expr(start);
+        }
+
+        if cur == Token::Class {
+            self.parse_class_expr(start, Vec::new())
+        } else if cur == Token::Ident {
+            let word = self.input_mut().expect_word_token_value();
+            self.bump();
+            if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
+                self.emit_err(self.input().prev_span(), SyntaxError::ArgumentsInClassField)
+            };
+            let id = Ident::new_no_ctxt(word, self.span(start));
+            if !can_be_arrow || self.input().cur() != Token::Arrow {
+                return Ok(id.into());
+            }
+            self.parse_arrow_expr_from_ident(start, id, false)
+        } else if cur == Token::Let || (cur == Token::Await && self.input().syntax().typescript()) {
             let ctx = self.ctx();
             let id = self.parse_ident(
                 !ctx.contains(Context::InGenerator),
                 !ctx.contains(Context::InAsync),
             )?;
-            if !can_be_arrow {
+            if !can_be_arrow || self.input().cur() != Token::Arrow {
                 return Ok(id.into());
             }
-            try_parse_arrow_expr(self, id, false)
+            self.parse_arrow_expr_from_ident(start, id, false)
         } else if cur == Token::Hash {
             self.bump(); // consume `#`
             let id = self.parse_ident_name()?;
@@ -3022,24 +3042,20 @@ impl<I: Tokens> Parser<I> {
                 name: id.sym,
             }
             .into())
-        } else if cur == Token::Ident {
-            let word = self.input_mut().expect_word_token_and_bump();
-            if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
-                self.emit_err(self.input().prev_span(), SyntaxError::ArgumentsInClassField)
-            };
-            let id = Ident::new_no_ctxt(word, self.span(start));
-            if !can_be_arrow {
-                return Ok(id.into());
-            }
-            try_parse_arrow_expr(self, id, false)
         } else if self.is_ident_ref() {
             let cur = self.input().cur();
-            let word = self.input_mut().expect_word_token_and_bump();
+            let word = cur.take_word(&self.input);
+            self.bump();
             let id = Ident::new_no_ctxt(word, self.span(start));
-            if !can_be_arrow {
+            let id_is_async = cur == Token::Async;
+            let next = self.input().cur();
+            if !can_be_arrow || (!id_is_async && next != Token::Arrow) {
                 return Ok(id.into());
             }
-            try_parse_arrow_expr(self, id, cur == Token::Async)
+            if id_is_async && next != Token::Arrow && !next.is_word() {
+                return Ok(id.into());
+            }
+            self.parse_arrow_expr_from_ident(start, id, id_is_async)
         } else {
             syntax_error!(self, self.input().cur_span(), SyntaxError::TS1109)
         }

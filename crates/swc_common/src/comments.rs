@@ -29,6 +29,12 @@ use crate::{
 /// We use [Option] instead of no-op Comments implementation to avoid allocation
 /// unless required.
 pub trait Comments {
+    /// Reserve storage for comments that will be inserted soon.
+    ///
+    /// Implementations may use this to avoid repeated map growth when a parser
+    /// has already buffered comments before publishing them.
+    fn reserve_comments(&self, _leading: usize, _trailing: usize) {}
+
     fn add_leading(&self, pos: BytePos, cmt: Comment);
     fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>);
     fn has_leading(&self, pos: BytePos) -> bool;
@@ -129,6 +135,10 @@ pub trait Comments {
 
 macro_rules! delegate {
     () => {
+        fn reserve_comments(&self, leading: usize, trailing: usize) {
+            (**self).reserve_comments(leading, trailing)
+        }
+
         fn add_leading(&self, pos: BytePos, cmt: Comment) {
             (**self).add_leading(pos, cmt)
         }
@@ -282,6 +292,12 @@ impl<C> Comments for Option<C>
 where
     C: Comments,
 {
+    fn reserve_comments(&self, leading: usize, trailing: usize) {
+        if let Some(c) = self {
+            c.reserve_comments(leading, trailing)
+        }
+    }
+
     fn add_leading(&self, pos: BytePos, cmt: Comment) {
         if let Some(c) = self {
             c.add_leading(pos, cmt)
@@ -419,8 +435,22 @@ pub struct SingleThreadedComments {
 }
 
 impl Comments for SingleThreadedComments {
+    fn reserve_comments(&self, leading: usize, trailing: usize) {
+        if leading != 0 {
+            self.leading.borrow_mut().reserve(leading);
+        }
+
+        if trailing != 0 {
+            self.trailing.borrow_mut().reserve(trailing);
+        }
+    }
+
     fn add_leading(&self, pos: BytePos, cmt: Comment) {
-        self.leading.borrow_mut().entry(pos).or_default().push(cmt);
+        self.leading
+            .borrow_mut()
+            .entry(pos)
+            .or_insert_with(|| Vec::with_capacity(1))
+            .push(cmt);
     }
 
     fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
@@ -460,7 +490,11 @@ impl Comments for SingleThreadedComments {
     }
 
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
-        self.trailing.borrow_mut().entry(pos).or_default().push(cmt);
+        self.trailing
+            .borrow_mut()
+            .entry(pos)
+            .or_insert_with(|| Vec::with_capacity(1))
+            .push(cmt);
     }
 
     fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
