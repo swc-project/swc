@@ -20,4 +20,48 @@ if (!fs.existsSync(bindingEntry)) {
     });
 }
 
-module.exports = require(bindingEntry);
+const wasmBinding = require(bindingEntry);
+
+module.exports.minify = (content, options) => {
+    return wasmBinding.minify(toString(content), toOptions(options));
+};
+
+module.exports.minifyFragment = (content, options) => {
+    return wasmBinding.minifyFragment(toString(content), toOptions(options));
+};
+
+module.exports.minifySync = (content, options) => {
+    return wasmBinding.minifySync(toString(content), toOptions(options));
+};
+
+module.exports.minifyFragmentSync = (content, options) => {
+    return wasmBinding.minifyFragmentSync(toString(content), toOptions(options));
+};
+
+function toString(content) {
+    return Buffer.isBuffer(content) ? content.toString("utf8") : content;
+}
+
+function toOptions(options) {
+    if (options == null) {
+        return {};
+    }
+
+    if (Buffer.isBuffer(options)) {
+        if (options.length === 0) {
+            return {};
+        }
+
+        return JSON.parse(options.toString("utf8"));
+    }
+
+    if (typeof options === "string") {
+        if (options.length === 0) {
+            return {};
+        }
+
+        return JSON.parse(options);
+    }
+
+    return options;
+}
