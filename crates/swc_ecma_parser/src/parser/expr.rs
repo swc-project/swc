@@ -188,7 +188,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(cond);
         }
 
-        match *cond {
+        match &*cond {
             // if cond is conditional expression but not left-hand-side expression,
             // just return it.
             Expr::Cond(..) | Expr::Bin(..) | Expr::Unary(..) | Expr::Update(..) => return Ok(cond),
@@ -338,7 +338,7 @@ impl<I: Tokens> Parser<I> {
 
         // UpdateExpression
         let expr = self.parse_lhs_expr()?;
-        if let Expr::Arrow { .. } = *expr {
+        if let Expr::Arrow { .. } = &*expr {
             return Ok(expr);
         }
 
@@ -468,7 +468,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        if let Expr::New(ne @ NewExpr { args: None, .. }) = *callee {
+        if let Expr::New(NewExpr { args: None, .. }) = &*callee {
             // If this is parsed using 'NewExpression' rule, just return it.
             // Because it's not left-recursive.
             if type_args.is_some() {
@@ -479,6 +479,9 @@ impl<I: Tokens> Parser<I> {
                 self.input().cur() != Token::LParen,
                 "parse_new_expr() should eat paren if it exists"
             );
+            let Expr::New(ne) = *callee else {
+                unreachable!()
+            };
             return Ok(NewExpr { type_args, ..ne }.into());
         }
         // 'CallExpr' rule contains 'MemberExpr (...)',
