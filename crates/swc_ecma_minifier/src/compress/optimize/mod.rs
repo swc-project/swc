@@ -285,7 +285,7 @@ impl Vars {
         // Inline candidates scale with the analyzed binding count, but only a
         // subset becomes replaceable. This avoids repeated growth on large
         // modules without over-reserving for typical files.
-        let cap = (var_count / 4).min(16384);
+        let cap = var_count.min(65536);
 
         Self {
             lits: FxHashMap::with_capacity_and_hasher(cap, Default::default()),
