@@ -341,17 +341,15 @@ enum ScopeKind {
 }
 
 impl Analyzer<'_> {
-    fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
+    fn with_ast_path<F>(&mut self, id: Id, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
-        let prev_len = self.scope.ast_path.len();
-
-        self.scope.ast_path.extend(ids);
+        self.scope.ast_path.push(id);
 
         op(self);
 
-        self.scope.ast_path.truncate(prev_len);
+        self.scope.ast_path.pop();
     }
 
     fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
@@ -471,16 +469,17 @@ impl Visit for Analyzer<'_> {
             super_class.visit_with(self);
         }
 
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        let id = n.ident.to_id();
+        self.with_ast_path(id.clone(), |v| {
             let old = v.cur_class_id.take();
-            v.cur_class_id = Some(n.ident.to_id());
+            v.cur_class_id = Some(id.clone());
             n.ident.visit_with(v);
             n.class.decorators.visit_with(v);
             n.class.body.visit_with(v);
             v.cur_class_id = old;
 
             if !n.class.decorators.is_empty() {
-                v.add(n.ident.to_id(), false);
+                v.add(id, false);
             }
         })
     }
@@ -599,14 +598,15 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        let id = n.ident.to_id();
+        self.with_ast_path(id.clone(), |v| {
             let old = v.cur_fn_id.take();
-            v.cur_fn_id = Some(n.ident.to_id());
+            v.cur_fn_id = Some(id.clone());
             n.visit_children_with(v);
             v.cur_fn_id = old;
 
             if !n.function.decorators.is_empty() {
-                v.add(n.ident.to_id(), false);
+                v.add(id, false);
             }
         })
     }

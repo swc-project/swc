@@ -367,9 +367,7 @@ impl Storage for ProgramData {
     }
 
     fn report_usage(&mut self, ctx: Ctx, i: Id) {
-        let inited = self.initialized_vars.contains(&i);
-
-        let e = self.vars.entry(i).or_insert_with(|| {
+        let e = self.vars.entry(i.clone()).or_insert_with(|| {
             let mut default = VarUsageInfo::default();
             default.flags.insert(VarUsageInfoFlags::USED_ABOVE_DECL);
             Box::new(default)
@@ -381,7 +379,9 @@ impl Storage for ProgramData {
         e.ref_count += 1;
         e.usage_count += 1;
         // If it is inited in some child scope, but referenced in current scope
-        if !inited && e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
+        if e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+            && !self.initialized_vars.contains(&i)
+        {
             e.flags.insert(VarUsageInfoFlags::REASSIGNED);
             e.flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
         }
@@ -399,8 +399,6 @@ impl Storage for ProgramData {
     fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>) {
         let e = self.vars.entry(i.clone()).or_default();
 
-        let inited = self.initialized_vars.contains(&i);
-
         if e.assign_count > 0 || e.initialized() {
             e.flags.insert(VarUsageInfoFlags::REASSIGNED);
         }
@@ -409,8 +407,12 @@ impl Storage for ProgramData {
         e.assign_count += 1;
 
         if !is_op {
+            let should_mark_initialized =
+                e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const);
+            let inited = should_mark_initialized && self.initialized_vars.contains(&i);
+
             self.initialized_vars.insert(i.clone());
-            if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
+            if should_mark_initialized && !inited {
                 e.flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
             } else {
                 e.flags.insert(VarUsageInfoFlags::REASSIGNED);
@@ -540,25 +542,26 @@ impl Storage for ProgramData {
     }
 
     fn mark_property_mutation(&mut self, id: Id) {
-        let e = self.vars.entry(id).or_default();
-        e.property_mutation_count += 1;
+        let infects_to = {
+            let e = self.vars.entry(id.clone()).or_default();
+            e.property_mutation_count += 1;
 
-        if e.infects_to.is_empty() {
-            return;
+            if e.infects_to.is_empty() {
+                return;
+            }
+
+            std::mem::take(&mut e.infects_to)
+        };
+
+        for (other, kind) in &infects_to {
+            if *kind == AccessKind::Reference {
+                let other = self.vars.entry(other.clone()).or_default();
+
+                other.property_mutation_count += 1;
+            }
         }
 
-        let to_mark_mutate = e
-            .infects_to
-            .iter()
-            .filter(|(_, kind)| *kind == AccessKind::Reference)
-            .map(|(id, _)| id.clone())
-            .collect::<Vec<_>>();
-
-        for other in to_mark_mutate {
-            let other = self.vars.entry(other).or_default();
-
-            other.property_mutation_count += 1;
-        }
+        self.vars.entry(id).or_default().infects_to = infects_to;
     }
 
     fn add_property_atom(&mut self, atom: Wtf8Atom) {
