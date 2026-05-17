@@ -113,6 +113,15 @@ struct Data {
 }
 
 impl Data {
+    fn reserve_for_large_module(&mut self) {
+        // Large modules can produce tens of thousands of bindings and graph
+        // nodes. Reserve the top-level DCE storage up front to avoid repeated
+        // rehashing while the analyzer records usage and dependency edges.
+        self.used_names.reserve(65536);
+        self.entries.reserve(16384);
+        self.graph_ix.reserve(65536);
+    }
+
     fn drop_usage(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
@@ -1022,6 +1031,7 @@ impl VisitMut for TreeShaker {
                 initialized: true,
                 ..Default::default()
             };
+            data.reserve_for_large_module();
 
             {
                 let mut analyzer = Analyzer {
@@ -1086,6 +1096,7 @@ impl VisitMut for TreeShaker {
                 initialized: true,
                 ..Default::default()
             };
+            data.reserve_for_large_module();
 
             {
                 let mut analyzer = Analyzer {
