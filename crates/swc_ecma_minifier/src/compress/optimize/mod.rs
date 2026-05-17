@@ -352,6 +352,10 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
+        if id.ctxt != self.marks.top_level_ctxt {
+            return true;
+        }
+
         if self
             .data
             .vars
@@ -359,10 +363,6 @@ impl Optimizer<'_> {
             .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
         {
             return false;
-        }
-
-        if id.ctxt != self.marks.top_level_ctxt {
-            return true;
         }
 
         if self.options.top_level() {
