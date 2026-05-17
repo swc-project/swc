@@ -320,6 +320,7 @@ struct Analyzer<'a> {
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     kind: ScopeKind,
+    parent_has_ast_path: bool,
 
     bindings_affected_by_eval: FxHashSet<Id>,
     found_direct_eval: bool,
@@ -359,6 +360,7 @@ impl Analyzer<'_> {
         let child_scope = {
             let child = Scope {
                 parent: Some(&self.scope),
+                parent_has_ast_path: !self.scope.is_ast_path_empty(),
                 ..Default::default()
             };
 
@@ -1244,12 +1246,6 @@ impl VisitMut for TreeShaker {
 impl Scope<'_> {
     /// Returns true if it's not in a function or class.
     fn is_ast_path_empty(&self) -> bool {
-        if !self.ast_path.is_empty() {
-            return false;
-        }
-        match &self.parent {
-            Some(p) => p.is_ast_path_empty(),
-            None => true,
-        }
+        !self.parent_has_ast_path && self.ast_path.is_empty()
     }
 }
