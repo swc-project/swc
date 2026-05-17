@@ -157,13 +157,15 @@ where
 
         let i = i.to_id();
 
-        if let Some(recr) = self.used_recursively.get(&i) {
-            if let RecursiveUsage::Var { can_ignore: false } = recr {
-                self.data.report_usage(self.ctx, i.clone());
-                self.data.var_or_default(i.clone()).mark_used_above_decl()
+        if !self.used_recursively.is_empty() {
+            if let Some(recr) = self.used_recursively.get(&i) {
+                if let RecursiveUsage::Var { can_ignore: false } = recr {
+                    self.data.report_usage(self.ctx, i.clone());
+                    self.data.var_or_default(i.clone()).mark_used_above_decl()
+                }
+                self.data.var_or_default(i.clone()).mark_used_recursively();
+                return;
             }
-            self.data.var_or_default(i.clone()).mark_used_recursively();
-            return;
         }
 
         self.data.report_usage(self.ctx, i)
