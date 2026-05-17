@@ -508,6 +508,19 @@ impl VisitMut for Finalizer<'_> {
             return;
         }
 
+        if can_replace_lit && !can_replace_hoisted_prop {
+            if let Expr::Ident(i) = n {
+                if let Some(expr) = self.lits.get(&i.to_id()) {
+                    *n = *expr.clone();
+                }
+
+                return;
+            }
+
+            n.visit_mut_children_with(self);
+            return;
+        }
+
         match n {
             Expr::Ident(i) => {
                 if can_replace_lit {
