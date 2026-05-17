@@ -216,9 +216,12 @@ impl Pure<'_> {
 
     #[inline(always)]
     fn same_ident(left: &Expr, right: &Expr) -> bool {
-        left.as_ident()
-            .zip(right.as_ident())
-            .is_some_and(|(left, right)| left.to_id() == right.to_id())
+        match (left, right) {
+            (Expr::Ident(left), Expr::Ident(right)) => {
+                left.ctxt == right.ctxt && left.sym == right.sym
+            }
+            _ => false,
+        }
     }
 
     #[inline(always)]
@@ -484,13 +487,13 @@ impl VisitMut for Pure<'_> {
 
         // Expression simplifier
         match e {
-            Expr::Member(..)
+            Expr::Member(member)
                 if !self.ctx.intersects(
                     Ctx::IN_DELETE
                         .union(Ctx::IS_UPDATE_ARG)
                         .union(Ctx::IS_LHS_OF_ASSIGN)
                         .union(Ctx::IN_OPT_CHAIN),
-                ) && e.as_member().is_some_and(Self::can_simplify_member_expr) =>
+                ) && Self::can_simplify_member_expr(member) =>
             {
                 let mut changed = false;
                 simplify::expr::optimize_member_expr(
