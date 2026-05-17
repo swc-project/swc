@@ -1,4 +1,4 @@
-use std::{borrow::Cow, collections::hash_map::Entry};
+use std::borrow::Cow;
 
 use analyer_and_collector::AnalyzerAndCollector;
 use rustc_hash::{FxHashMap, FxHashSet};
@@ -266,21 +266,21 @@ where
         if let Some(total_map) = &mut self.total_map {
             total_map.reserve(map.len());
 
-            for (k, v) in &map {
-                match total_map.entry(k.clone()) {
-                    Entry::Occupied(old) => {
-                        let old = old.get().to_id();
+            #[cfg(debug_assertions)]
+            {
+                for (k, v) in &map {
+                    if let Some(old) = total_map.get(k) {
+                        let old = old.to_id();
                         let new = v.to_id();
                         unreachable!(
                             "{} is already renamed to {}, but it's renamed as {}",
                             k.0, old.0, new.0
                         );
                     }
-                    Entry::Vacant(e) => {
-                        e.insert(v.clone());
-                    }
                 }
             }
+
+            total_map.extend(map.iter().map(|(k, v)| (k.clone(), v.clone())));
         }
 
         map
