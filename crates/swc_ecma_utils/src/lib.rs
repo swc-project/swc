@@ -3069,11 +3069,17 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
 
             return (Pure, num_from_str(&s));
         }
-        Expr::Ident(Ident { sym, ctxt, .. }) => match &**sym {
-            "undefined" | "NaN" if *ctxt == ctx.unresolved_ctxt => f64::NAN,
-            "Infinity" if *ctxt == ctx.unresolved_ctxt => f64::INFINITY,
-            _ => return (Pure, Unknown),
-        },
+        Expr::Ident(Ident { sym, ctxt, .. }) => {
+            if *ctxt != ctx.unresolved_ctxt {
+                return (Pure, Unknown);
+            }
+
+            match &**sym {
+                "undefined" | "NaN" => f64::NAN,
+                "Infinity" => f64::INFINITY,
+                _ => return (Pure, Unknown),
+            }
+        }
         Expr::Unary(UnaryExpr {
             op: op!(unary, "-"),
             arg,
@@ -3193,12 +3199,16 @@ fn as_pure_wtf8(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, Wtf8>> {
             // can be converted.
             // unimplemented!("TplLit. as_string()")
         }
-        Expr::Ident(Ident { ref sym, ctxt, .. }) => match &**sym {
-            "undefined" | "Infinity" | "NaN" if ctxt == ctx.unresolved_ctxt => {
-                Known(Cow::Borrowed(Wtf8::from_str(sym)))
+        Expr::Ident(Ident { ref sym, ctxt, .. }) => {
+            if ctxt != ctx.unresolved_ctxt {
+                return Unknown;
             }
-            _ => Unknown,
-        },
+
+            match &**sym {
+                "undefined" | "Infinity" | "NaN" => Known(Cow::Borrowed(Wtf8::from_str(sym))),
+                _ => Unknown,
+            }
+        }
         Expr::Unary(UnaryExpr {
             op: op!("void"), ..
         }) => Known(Cow::Borrowed("undefined".into())),
