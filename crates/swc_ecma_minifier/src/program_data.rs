@@ -43,7 +43,7 @@ where
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
+    pub(crate) vars: FxHashMap<Id, VarUsageInfo>,
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 
@@ -375,7 +375,7 @@ impl Storage for ProgramData {
         let e = self.vars.entry(i.clone()).or_insert_with(|| {
             let mut default = VarUsageInfo::default();
             default.flags.insert(VarUsageInfoFlags::USED_ABOVE_DECL);
-            Box::new(default)
+            default
         });
 
         if ctx.is_id_ref() {
@@ -576,7 +576,7 @@ impl Storage for ProgramData {
     }
 
     fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
-        self.vars.get(&id).map(|v| v.as_ref())
+        self.vars.get(&id)
     }
 }
 

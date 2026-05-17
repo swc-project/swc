@@ -316,7 +316,7 @@ impl Optimizer<'_> {
                     property_mutation_count,
                     flags,
                     ..
-                } = **usage;
+                } = *usage;
                 let mut inc_usage = || {
                     for (i, _) in collect_infects_from(
                         &*init,
