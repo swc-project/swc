@@ -3633,8 +3633,8 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                 Expr::Ident(Ident {
                     ctxt, sym: math, ..
                 }) if matches!(prop, MemberProp::Ident(..))
-                    && &**math == "Math"
-                    && (*ctxt == ctx.unresolved_ctxt || *ctxt == SyntaxContext::empty()) =>
+                    && (*ctxt == ctx.unresolved_ctxt || *ctxt == SyntaxContext::empty())
+                    && &**math == "Math" =>
                 {
                     return false;
                 }
