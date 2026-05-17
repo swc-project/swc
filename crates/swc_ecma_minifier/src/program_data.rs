@@ -236,9 +236,15 @@ impl Storage for ProgramData {
         self.vars.reserve(child.vars.len());
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
-            let inited = self.initialized_vars.contains(&id);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
+                    let inited = if !var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+                        && var_info.ref_count > 0
+                    {
+                        self.initialized_vars.contains(e.key())
+                    } else {
+                        false
+                    };
                     let e = e.get_mut();
 
                     if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
@@ -265,9 +271,9 @@ impl Storage for ProgramData {
                     } else {
                         // If it is inited in some other child scope, but referenced in
                         // current child scope
-                        if !inited
-                            && e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+                        if e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
                             && var_info.ref_count > 0
+                            && !inited
                         {
                             e.flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
                             e.flags.insert(VarUsageInfoFlags::REASSIGNED);
