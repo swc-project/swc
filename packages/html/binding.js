@@ -341,6 +341,14 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
     }
 }
 
+if (!nativeBinding && globalThis.process?.versions?.["webcontainer"]) {
+    try {
+        nativeBinding = require("./webcontainer-fallback.cjs");
+    } catch (err) {
+        loadErrors.push(err);
+    }
+}
+
 if (!nativeBinding) {
     if (loadErrors.length > 0) {
         // TODO Link to documentation with potential fixes
