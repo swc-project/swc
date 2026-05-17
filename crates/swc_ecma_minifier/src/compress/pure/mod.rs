@@ -476,7 +476,9 @@ impl VisitMut for Pure<'_> {
             return;
         }
 
-        self.handle_known_delete(e);
+        if matches!(e, Expr::Unary(..)) {
+            self.handle_known_delete(e);
+        }
 
         e.visit_mut_children_with(self);
 
