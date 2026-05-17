@@ -1,6 +1,5 @@
 use std::borrow::Cow;
 
-use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::Atom;
@@ -109,7 +108,9 @@ struct Data {
     /// Entrypoints.
     entries: FxHashSet<u32>,
 
-    graph_ix: IndexSet<Id, FxBuildHasher>,
+    graph_ix: FxHashMap<Id, u32>,
+    /// Reverse lookup for graph node ids used while subtracting cycles.
+    graph_ids: Vec<Id>,
 }
 
 impl Data {
@@ -120,6 +121,7 @@ impl Data {
         self.used_names.reserve(65536);
         self.entries.reserve(16384);
         self.graph_ix.reserve(65536);
+        self.graph_ids.reserve(65536);
     }
 
     fn drop_usage(&mut self, id: &Id) {
@@ -157,15 +159,18 @@ impl Data {
     }
 
     fn get_node(&self, id: &Id) -> Option<u32> {
-        self.graph_ix.get_index_of(id).map(|ix| ix as _)
+        self.graph_ix.get(id).copied()
     }
 
     fn node(&mut self, id: &Id) -> u32 {
-        self.graph_ix.get_index_of(id).unwrap_or_else(|| {
-            let ix = self.graph_ix.len();
-            self.graph_ix.insert_full(id.clone());
-            ix
-        }) as _
+        if let Some(&ix) = self.graph_ix.get(id) {
+            return ix;
+        }
+
+        let ix = self.graph_ids.len() as u32;
+        self.graph_ids.push(id.clone());
+        self.graph_ix.insert(id.clone(), ix);
+        ix
     }
 
     /// Add an edge to dependency graph
@@ -227,7 +232,7 @@ impl Data {
                         continue;
                     }
 
-                    let id = self.graph_ix.get_index(j as _);
+                    let id = self.graph_ids.get(j as usize);
                     let id = match id {
                         Some(id) => id,
                         None => continue,
@@ -735,9 +740,9 @@ impl TreeShaker {
             }
 
             // Abort if the variable is declared on top level scope.
-            let ix = self.data.graph_ix.get_index_of(&name);
-            if let Some(ix) = ix {
-                if self.data.entries.contains(&(ix as u32)) {
+            let ix = self.data.graph_ix.get(&name);
+            if let Some(&ix) = ix {
+                if self.data.entries.contains(&ix) {
                     return false;
                 }
             }

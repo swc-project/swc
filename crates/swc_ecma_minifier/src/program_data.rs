@@ -34,8 +34,8 @@ where
     // Large modules commonly have tens of thousands of bindings. Reserving the
     // top-level storage avoids repeated rehashing while usage data from child
     // scopes is merged back into the program data.
-    data.vars.reserve(65536);
-    data.initialized_vars.reserve(16384);
+    data.vars.reserve(131072);
+    data.initialized_vars.reserve(18432);
 
     analyze_with_custom_storage(data, n, marks)
 }
@@ -280,51 +280,58 @@ impl Storage for ProgramData {
                         }
                     }
 
-                    e.merged_var_type.merge(var_info.merged_var_type);
+                    if let Some(ty) = var_info.merged_var_type {
+                        e.merged_var_type.merge(Some(ty));
+                    }
 
                     e.ref_count += var_info.ref_count;
                     e.property_mutation_count |= var_info.property_mutation_count;
                     e.declared_count += var_info.declared_count;
                     e.assign_count += var_info.assign_count;
                     e.usage_count += var_info.usage_count;
-                    e.infects_to.extend(var_info.infects_to);
+                    if !var_info.infects_to.is_empty() {
+                        e.infects_to.extend(var_info.infects_to);
+                    }
                     e.callee_count += var_info.callee_count;
 
-                    e.param_count = match (e.param_count, var_info.param_count) {
-                        (Some(Value::Known(v1)), Some(Value::Known(v2))) if v1 == v2 => {
-                            Some(Value::Known(v1))
-                        }
-                        (Some(Value::Known(v)), None) | (None, Some(Value::Known(v))) => {
-                            Some(Value::Known(v))
-                        }
-                        (Some(Value::Known(_)), Some(Value::Known(_)))
-                        | (Some(Value::Unknown), _)
-                        | (_, Some(Value::Unknown)) => Some(Value::Unknown),
-                        (None, None) => None,
-                    };
-
-                    for (k, v) in var_info.accessed_props {
-                        *e.accessed_props.entry(k).or_default() += v;
+                    if let Some(param_count) = var_info.param_count {
+                        e.param_count = match (e.param_count, param_count) {
+                            (Some(Value::Known(v1)), Value::Known(v2)) if v1 == v2 => {
+                                Some(Value::Known(v1))
+                            }
+                            (None, Value::Known(v)) => Some(Value::Known(v)),
+                            (Some(Value::Known(_)), Value::Known(_))
+                            | (Some(Value::Unknown), _)
+                            | (_, Value::Unknown) => Some(Value::Unknown),
+                        };
                     }
+
+                    if !var_info.accessed_props.is_empty() {
+                        for (k, v) in var_info.accessed_props {
+                            *e.accessed_props.entry(k).or_default() += v;
+                        }
+                    }
+
+                    const MERGED_FLAGS: VarUsageInfoFlags = VarUsageInfoFlags::REASSIGNED
+                        .union(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
+                        .union(VarUsageInfoFlags::EXPORTED)
+                        .union(VarUsageInfoFlags::DECLARED)
+                        .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                        .union(VarUsageInfoFlags::DECLARED_AS_FN_DECL)
+                        .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
+                        .union(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
+                        .union(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
+                        .union(VarUsageInfoFlags::USED_IN_COND)
+                        .union(VarUsageInfoFlags::USED_AS_ARG)
+                        .union(VarUsageInfoFlags::USED_AS_REF)
+                        .union(VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY)
+                        .union(VarUsageInfoFlags::PURE_FN)
+                        .union(VarUsageInfoFlags::USED_RECURSIVELY)
+                        .union(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
 
                     let var_info_flags = var_info.flags;
                     let e_flags = &mut e.flags;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_PARAM;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_EXPR;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_COND;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_ARG;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_REF;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::PURE_FN;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_RECURSIVELY;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_NON_CHILD_FN;
+                    *e_flags |= var_info_flags & MERGED_FLAGS;
 
                     // If a var is registered at a parent scope, it means that it's delcared before
                     // usages.
@@ -527,8 +534,8 @@ impl Storage for ProgramData {
 
         if ctx.in_pat_of_param() {
             v.merged_var_type = Some(Value::Unknown);
-        } else {
-            v.merged_var_type.merge(init_type);
+        } else if let Some(init_type) = init_type {
+            v.merged_var_type.merge(Some(init_type));
         }
 
         v.declared_count += 1;
@@ -579,6 +586,10 @@ impl Storage for ProgramData {
         if let Some(atoms) = self.property_atoms.as_mut() {
             atoms.push(atom);
         }
+    }
+
+    fn should_collect_property_atoms(&self) -> bool {
+        self.property_atoms.is_some()
     }
 
     fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {

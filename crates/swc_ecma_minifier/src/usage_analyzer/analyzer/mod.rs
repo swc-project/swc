@@ -1149,7 +1149,9 @@ where
             }
         }
 
-        if is_root_of_member_expr_declared(e, &self.data) {
+        if self.data.should_collect_property_atoms()
+            && is_root_of_member_expr_declared(e, &self.data)
+        {
             if let MemberProp::Ident(ident) = &e.prop {
                 self.data.add_property_atom(ident.sym.clone().into());
             }

@@ -14,6 +14,10 @@ pub trait Storage: Sized {
 
     fn add_property_atom(&mut self, atom: Wtf8Atom);
 
+    /// Returns true when member property names should be collected for property
+    /// mangling.
+    fn should_collect_property_atoms(&self) -> bool;
+
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
 
     fn scopes(&self) -> &[Self::ScopeData];
