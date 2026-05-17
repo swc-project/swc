@@ -3,7 +3,7 @@ use std::borrow::Cow;
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
-use swc_atoms::{atom, Atom};
+use swc_atoms::Atom;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -402,17 +402,17 @@ impl Analyzer<'_> {
 
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
-        if id.0 == atom!("arguments") {
+        if &*id.0 == "arguments" {
             self.scope.found_arguemnts = true;
         }
 
         if let Some(f) = &self.cur_fn_id {
-            if id == *f {
+            if id.1 == f.1 && id.0 == f.0 {
                 return;
             }
         }
         if let Some(f) = &self.cur_class_id {
-            if id == *f {
+            if id.1 == f.1 && id.0 == f.0 {
                 return;
             }
         }

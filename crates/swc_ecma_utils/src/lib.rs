@@ -3628,13 +3628,38 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
         }
 
-        Expr::Member(MemberExpr { obj, prop, .. }) if is_pure_member_callee(obj, prop, ctx) => {
-            false
-        }
+        Expr::Member(MemberExpr { obj, prop, .. }) => {
+            match &**obj {
+                Expr::Ident(Ident {
+                    ctxt, sym: math, ..
+                }) if matches!(prop, MemberProp::Ident(..))
+                    && &**math == "Math"
+                    && (*ctxt == ctx.unresolved_ctxt || *ctxt == SyntaxContext::empty()) =>
+                {
+                    return false;
+                }
+                Expr::Lit(Lit::Str(..)) => {
+                    if let MemberProp::Ident(prop) = prop {
+                        if is_pure_str_method(&prop.sym) {
+                            return false;
+                        }
+                    }
 
-        Expr::Member(MemberExpr { obj, prop, .. })
-            if obj.is_object() || obj.is_fn_expr() || obj.is_arrow() || obj.is_class() =>
-        {
+                    return true;
+                }
+                Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty() => {
+                    if let MemberProp::Ident(prop) = prop {
+                        if is_pure_str_method(&prop.sym) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+                Expr::Object(_) | Expr::Fn(_) | Expr::Arrow(_) | Expr::Class(_) => {}
+                _ => return true,
+            }
+
             if obj.may_have_side_effects(ctx) {
                 return true;
             }
@@ -3701,7 +3726,6 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
 
         Expr::Await(_)
         | Expr::Yield(_)
-        | Expr::Member(_)
         | Expr::SuperProp(_)
         | Expr::Update(_)
         | Expr::Assign(_) => true,
