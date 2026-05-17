@@ -23,7 +23,7 @@ pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>, collect_property_atoms: bo
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
-    let data = if collect_property_atoms {
+    let mut data = if collect_property_atoms {
         ProgramData {
             property_atoms: Some(Vec::with_capacity(128)),
             ..Default::default()
@@ -31,6 +31,11 @@ where
     } else {
         ProgramData::default()
     };
+    // Large modules commonly have tens of thousands of bindings. Reserving the
+    // top-level storage avoids repeated rehashing while usage data from child
+    // scopes is merged back into the program data.
+    data.vars.reserve(65536);
+    data.initialized_vars.reserve(16384);
 
     analyze_with_custom_storage(data, n, marks)
 }
