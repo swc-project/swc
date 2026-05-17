@@ -677,6 +677,10 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn add_accessed_property(&mut self, name: swc_atoms::Wtf8Atom) {
+        if self.accessed_props.is_empty() {
+            self.accessed_props.reserve(8);
+        }
+
         *self.accessed_props.entry(name).or_default() += 1;
     }
 

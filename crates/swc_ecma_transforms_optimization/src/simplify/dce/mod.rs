@@ -556,8 +556,9 @@ impl Visit for Analyzer<'_> {
             }
             _ => {
                 if let Some(i) = n.left.as_ident() {
-                    self.add(i.to_id(), false);
-                    self.add(i.to_id(), true);
+                    let id = i.to_id();
+                    self.add(id.clone(), false);
+                    self.add(id, true);
                     n.right.visit_with(self);
                 } else {
                     n.visit_children_with(self);
