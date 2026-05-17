@@ -3480,7 +3480,7 @@ fn is_pure_member_callee(obj: &Expr, prop: &MemberProp, ctx: ExprCtx) -> bool {
         Expr::Ident(Ident {
             ctxt, sym: math, ..
         }) => {
-            &**math == "Math" && (*ctxt == ctx.unresolved_ctxt || *ctxt == SyntaxContext::empty())
+            (*ctxt == ctx.unresolved_ctxt || *ctxt == SyntaxContext::empty()) && &**math == "Math"
         }
 
         Expr::Lit(Lit::Str(..)) => is_pure_str_method(&prop.sym),
