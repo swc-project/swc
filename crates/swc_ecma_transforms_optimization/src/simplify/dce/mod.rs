@@ -704,7 +704,7 @@ impl TreeShaker {
             }
         }
 
-        if self.config.top_retain.contains(&name.0) {
+        if !self.config.top_retain.is_empty() && self.config.top_retain.contains(&name.0) {
             return false;
         }
 
@@ -733,7 +733,7 @@ impl TreeShaker {
             }
         }
 
-        if self.config.top_retain.contains(&name.0) {
+        if !self.config.top_retain.is_empty() && self.config.top_retain.contains(&name.0) {
             return false;
         }
 
