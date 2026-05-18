@@ -1,5 +1,5 @@
-var Analytics = initAnalytics();
+var t = initAnalytics();
 export var DirectExport = initDirect();
 export const StableConst = 1;
-console.log(Analytics, 1);
-export { Analytics };
+console.log(t, 1);
+export { t as Analytics };

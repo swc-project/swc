@@ -186,51 +186,6 @@ impl Visit for Preserver<'_> {
     }
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
-        // Keep exported top-level `var` bindings addressable by their original
-        // names so they stay hoisted across circular module evaluation.
-        let mut hoisted_vars = FxHashSet::default();
-        let mut local_exports = Vec::new();
-
-        for n in n {
-            match n {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Var(var),
-                    ..
-                })) if var.kind == VarDeclKind::Var => {
-                    hoisted_vars.extend(find_pat_ids::<_, Id>(&var.decls));
-                }
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    src: None,
-                    specifiers,
-                    type_only: false,
-                    ..
-                })) => {
-                    local_exports.extend(specifiers.iter().filter_map(|specifier| {
-                        if let ExportSpecifier::Named(ExportNamedSpecifier {
-                            orig: ModuleExportName::Ident(orig),
-                            is_type_only: false,
-                            ..
-                        }) = specifier
-                        {
-                            Some(orig.to_id())
-                        } else {
-                            None
-                        }
-                    }));
-                }
-
-                _ => {}
-            }
-        }
-
-        for id in local_exports {
-            if hoisted_vars.contains(&id) {
-                self.preserved.insert(id);
-            }
-        }
-
         for n in n {
             self.in_top_level = true;
             n.visit_with(self);
