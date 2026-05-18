@@ -716,7 +716,7 @@ impl Optimizer<'_> {
             }
 
             if usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG) && usage.ref_count > 1 {
-                log_abort!("inline: Used as an arugment");
+                log_abort!("inline: Used as an argument");
                 return;
             }
 
