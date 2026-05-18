@@ -3,6 +3,8 @@ name: "Reset milestone to Planned"
 on:
   issues:
     types: [closed]
+  pull_request_target:
+    types: [closed]
 
 permissions: {}
 
@@ -11,18 +13,32 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
+      pull-requests: write
     if: github.repository_owner == 'swc-project'
     steps:
       - name: Set milestone to Planned
         env:
           GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
           REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
 
-          ITEM_NUMBER="${ISSUE_NUMBER}"
-          ITEM_TYPE="issue"
+          # This workflow does not check out or execute pull request code. It
+          # only patches the closed PR's issue record so fork PR closures retain
+          # the milestone automation.
+          if [ "${EVENT_NAME}" = "issues" ]; then
+            ITEM_NUMBER="${ISSUE_NUMBER}"
+            ITEM_TYPE="issue"
+          elif [ "${EVENT_NAME}" = "pull_request_target" ]; then
+            ITEM_NUMBER="${PULL_REQUEST_NUMBER}"
+            ITEM_TYPE="pull request"
+          else
+            echo "Unsupported event: ${EVENT_NAME}"
+            exit 1
+          fi
 
           echo "Processing closed ${ITEM_TYPE} #${ITEM_NUMBER}"
 
