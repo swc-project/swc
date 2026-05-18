@@ -55,7 +55,7 @@ jobs:
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
       # TODO: Check for existing artifacts
@@ -259,7 +259,7 @@ jobs:
     name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }} - node@20"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
@@ -268,7 +268,7 @@ jobs:
         shell: bash
         run: corepack enable
       - name: Setup node x64
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 20
           architecture: x64
@@ -283,7 +283,7 @@ jobs:
           targets: ${{ matrix.settings.target }}
           toolchain: ${{ steps.toolchain.outputs.version }}
       # `pnpm exec napi build ... -x` invokes `cargo-zigbuild`, which requires zig on the runner.
-      - uses: mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29 # v2
+      - uses: mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29 # v2.2.1
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' || matrix.settings.target == 'powerpc64le-unknown-linux-gnu' || matrix.settings.target == 's390x-unknown-linux-gnu' }}
         with:
           version: 0.15.1
@@ -301,7 +301,7 @@ jobs:
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
           echo '/usr/local/cargo/bin' >> $GITHUB_PATH
       - name: Setup node x86
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 20
@@ -353,7 +353,7 @@ jobs:
           cd "packages/$PACKAGE"
           bash -lc "$BUILD_SCRIPT"
       - name: Upload artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: |
@@ -379,7 +379,7 @@ jobs:
           - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
@@ -387,14 +387,14 @@ jobs:
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node }}
           architecture: x64
       - name: Install dependencies
         run: corepack enable && pnpm install --frozen-lockfile
       - name: Download artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
@@ -427,7 +427,7 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
@@ -435,13 +435,13 @@ jobs:
       - name: Corepack
         run: corepack enable
       - name: Setup node
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: corepack enable && pnpm install --frozen-lockfile
       - name: Download artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
@@ -497,7 +497,7 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
@@ -505,7 +505,7 @@ jobs:
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
@@ -513,7 +513,7 @@ jobs:
           corepack enable
           pnpm install --frozen-lockfile --ignore-scripts --libc=musl
       - name: Download artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
@@ -569,7 +569,7 @@ jobs:
       - test-macOS-windows-binding
       # - test-linux-aarch64-musl-binding
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
@@ -598,7 +598,7 @@ jobs:
         run: corepack enable && pnpm install --frozen-lockfile
 
       - name: Download all artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           pattern: "bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-*"
           path: ./packages/${{ inputs.package }}/artifacts
@@ -694,7 +694,7 @@ jobs:
           #   out: "pkg"
 
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
@@ -713,7 +713,7 @@ jobs:
           fi
 
       - name: Setup node
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 20
 

@@ -11,7 +11,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       with:
         fetch-depth: 0
         persist-credentials: false
@@ -22,17 +22,17 @@ runs:
         cache: "false"
 
     - name: Install git-cliff
-      uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+      uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
       with:
         tool: git-cliff@2.8.0
 
     - name: Install cargo-edit
-      uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+      uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
       with:
         tool: cargo-edit@0.12.2
 
     - name: "Setup jq"
-      uses: dcarbone/install-jq-action@8867ddb4788346d7c22b72ea2e2ffe4d514c7bcb # v2
+      uses: dcarbone/install-jq-action@8867ddb4788346d7c22b72ea2e2ffe4d514c7bcb # v2.1.0
       with:
         version: "1.7"
         force: true

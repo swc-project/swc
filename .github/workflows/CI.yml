@@ -31,13 +31,14 @@ jobs:
     env:
       RUST_LOG: "0"
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
 
       # We explicitly do this to cache properly.
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         with:
+          toolchain: nightly-2026-04-10
           components: rustfmt
 
       - run: cargo fmt --all -- --check
@@ -50,13 +51,14 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
           submodules: true
 
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         with:
+          toolchain: nightly-2026-04-10
           components: clippy
 
       - run: cargo clippy --all --all-targets -- -D warnings
@@ -69,7 +71,7 @@ jobs:
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
 
@@ -77,7 +79,7 @@ jobs:
         uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
 
       - name: Install cargo-deny
-        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         with:
           tool: cargo-deny@0.18.9
 
@@ -91,7 +93,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
 
@@ -99,7 +101,7 @@ jobs:
         uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
 
       - name: Install cargo-shear
-        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         with:
           tool: cargo-shear@1.3.3
 
@@ -121,7 +123,7 @@ jobs:
           - macos-latest
           - windows-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
           submodules: true
@@ -154,7 +156,7 @@ jobs:
           - binding_typescript_wasm
           - binding_es_ast_viewer
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
 
@@ -182,7 +184,7 @@ jobs:
     outputs:
       settings: ${{ steps.list-tests.outputs.settings }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -190,7 +192,7 @@ jobs:
       - uses: ./.github/actions/setup-node
 
       - name: Install cargo-mono
-        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         with:
           tool: cargo-mono@0.6.7
 
@@ -222,7 +224,7 @@ jobs:
           git config --system core.autocrlf false
           git config --system core.eol lf
 
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         if: matrix.settings.crate != '__noop__'
         with:
           persist-credentials: false
@@ -247,7 +249,7 @@ jobs:
           # toolchain: stable
           # override: true
 
-      - uses: denoland/setup-deno@11b63cf76cfcafb4e43f97b6cad24d8e8438f62d # v1
+      - uses: denoland/setup-deno@11b63cf76cfcafb4e43f97b6cad24d8e8438f62d # v1.5.2
         if: matrix.settings.crate != '__noop__' && matrix.settings.crate == 'swc_bundler'
         with:
           deno-version: v1.x
@@ -264,7 +266,7 @@ jobs:
           npm install -g jest@27 mocha || true
 
       - name: Save pnpm cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         if: github.ref == 'refs/heads/main' && matrix.settings.crate != '__noop__' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
@@ -291,7 +293,7 @@ jobs:
 
       - name: Restore execution cache
         id: restore-execution-cache
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         if: matrix.settings.crate != '__noop__' && (matrix.settings.crate == 'swc' || startsWith(matrix.settings.crate, 'swc_ecma_transforms_'))
         with:
           path: |
@@ -357,7 +359,7 @@ jobs:
           ./scripts/github/test-concurrent.sh ${{ matrix.settings.crate }}
 
       - name: Install cargo-hack
-        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         if: matrix.settings.os == 'ubuntu-latest' && matrix.settings.crate != '__noop__'
         with:
           tool: cargo-hack@0.5.29
@@ -373,7 +375,7 @@ jobs:
           env RUSTFLAGS="--cfg swc_ast_unknown" cargo check -p ${{ matrix.settings.crate }} --features typescript,react,proposal,optimization,module,compat
 
       - name: Save execution cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         if: github.ref == 'refs/heads/main' && matrix.settings.crate != '__noop__' && (matrix.settings.crate == 'swc' || startsWith(matrix.settings.crate, 'swc_ecma_transforms_')) && steps.restore-execution-cache.outputs.cache-hit != 'true'
         with:
           path: |
@@ -395,7 +397,7 @@ jobs:
           - windows-latest
           - macos-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
 
@@ -424,7 +426,7 @@ jobs:
           corepack enable
           pnpm install --frozen-lockfile
       - name: Save pnpm cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
@@ -447,7 +449,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
 
@@ -482,7 +484,7 @@ jobs:
           npm install -g file:$PWD
 
       - name: Save pnpm cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
