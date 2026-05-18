@@ -24,8 +24,7 @@ env:
   CARGO_PROFILE_RELEASE_LTO: false
   CARGO_PROFILE_BENCH_LTO: false
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   list-crates:
@@ -33,6 +32,8 @@ jobs:
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     name: List crates to benchmark
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     outputs:
       crates: ${{ steps.list-crates.outputs.crates }}
     steps:
@@ -47,6 +48,8 @@ jobs:
   benchmark-crate:
     name: Benchmark ${{ matrix.crate }}
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     needs: list-crates
     strategy:
       matrix:
@@ -57,9 +60,7 @@ jobs:
           persist-credentials: false
 
       - name: Install Rust
-        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
-        with:
-          profile: minimal
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
 
       - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
         # Some crates are too slow to build

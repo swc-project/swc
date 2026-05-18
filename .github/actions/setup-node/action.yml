@@ -9,6 +9,10 @@ inputs:
     description: "Install pnpm dependencies after restoring the pnpm cache"
     required: false
     default: "true"
+  cache:
+    description: "Restore and save the pnpm store cache"
+    required: false
+    default: "true"
 outputs:
   pnpm-store-path:
     description: "Resolved pnpm store path"
@@ -46,6 +50,7 @@ runs:
 
     - name: Restore pnpm cache
       id: restore-pnpm-cache
+      if: inputs.cache == 'true'
       uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: ${{ steps.pnpm-store.outputs.path }}
@@ -57,7 +62,7 @@ runs:
       run: pnpm install --frozen-lockfile
 
     - name: Save pnpm cache
-      if: inputs.install-dependencies == 'true' && github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
+      if: inputs.cache == 'true' && inputs.install-dependencies == 'true' && github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
       uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: ${{ steps.pnpm-store.outputs.path }}

@@ -4,6 +4,8 @@ on:
   pull_request:
     types: [opened, synchronize, ready_for_review]
 
+permissions: {}
+
 jobs:
   claude-review:
     if: >-
@@ -27,7 +29,7 @@ jobs:
 
       - name: Dismiss old Claude bot comments
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           # Get PR comments from claude[bot] and hide them as outdated
           REPO="${{ github.repository }}"
@@ -57,7 +59,7 @@ jobs:
         uses: anthropics/claude-code-action@86eb26bf0139bdd75acd15ea5f00f45ee0a284c2 # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
           use_sticky_comment: true
           prompt: |
             REPO: ${{ github.repository }}

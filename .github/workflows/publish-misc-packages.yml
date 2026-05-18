@@ -1,9 +1,7 @@
 name: "Publish misc packages"
 run-name: "Publish misc packages (${{ inputs.npmTag }})"
 
-permissions:
-  contents: read
-  id-token: write
+permissions: {}
 
 on:
   workflow_dispatch:
@@ -26,6 +24,9 @@ jobs:
     name: "Publish ${{ matrix.package.name }}"
     runs-on: ubuntu-latest
     environment: publish
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -44,8 +45,12 @@ jobs:
           fi
 
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        with:
+          persist-credentials: false
 
       - uses: ./.github/actions/setup-node
+        with:
+          cache: "false"
 
       - name: Update npm to latest
         shell: bash
@@ -53,14 +58,21 @@ jobs:
 
       - name: Log package version
         shell: bash
-        working-directory: ${{ matrix.package.dir }}
+        env:
+          NPM_TAG: ${{ inputs.npmTag }}
+          PACKAGE_DIR: ${{ matrix.package.dir }}
+          PACKAGE_NAME: ${{ matrix.package.name }}
         run: |
+          cd "$PACKAGE_DIR"
           version="$(node -p "require('./package.json').version")"
-          echo "Publishing ${{ matrix.package.name }}@${version} with npm tag '${{ inputs.npmTag }}'"
+          echo "Publishing ${PACKAGE_NAME}@${version} with npm tag '${NPM_TAG}'"
 
       - name: Publish
         shell: bash
-        working-directory: ${{ matrix.package.dir }}
-        run: pnpm publish --access public --tag "${{ inputs.npmTag }}" --force --no-git-checks
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          NPM_TAG: ${{ inputs.npmTag }}
+          PACKAGE_DIR: ${{ matrix.package.dir }}
+        run: |
+          cd "$PACKAGE_DIR"
+          pnpm publish --access public --tag "$NPM_TAG" --force --no-git-checks

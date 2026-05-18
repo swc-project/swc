@@ -13,7 +13,7 @@ on:
     inputs:
       version:
         description: "swc version to use"
-        required: true
+        required: false
         type: string
         default: "nightly"
 
@@ -32,14 +32,15 @@ on:
         type: string
         description: "Passing is a regular proces, and ignored is about ignored tests"
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   list-tests:
     name: "List tests"
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       suites: ${{ steps.list-tests.outputs.suites }}
     steps:
@@ -61,6 +62,8 @@ jobs:
       - list-tests
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -90,20 +93,3 @@ jobs:
           SWC_VERSION: ${{ inputs.version }}
           CI_MODE: ${{ inputs.mode }}
           ALLOW_BREAKING_WASM: ${{ inputs.allowBreakingWasm || 'false' }}
-
-      # - if: ${{ failure() && github.event.inputs.mode == 'passing' }}
-      #   name: Notify failure
-      #   uses: tsickert/discord-webhook@v5.3.0
-      #   with:
-      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      #     content: |
-      #       Test for `${{ matrix.suite }}` with `${{ inputs.version }}` failed.
-      #       See https://github.com/swc-project/swc-ecosystem-ci/actions/runs/${{ github.run_id }} for details.
-
-      # - if: ${{ success() &&github.event.inputs.mode == 'ignored' }}
-      #   name: Notify success
-      #   uses: tsickert/discord-webhook@v5.3.0
-      #   with:
-      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      #     content: |
-      #       Test `${{ matrix.suite }}` is now passing

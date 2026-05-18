@@ -14,6 +14,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
   measure-binary-size:
     name: Measure Binary Size
@@ -71,6 +73,9 @@ jobs:
 
           echo "" >> size_report.md
           echo "*Commit: ${{ github.sha }}*" >> size_report.md
+
+      - name: Add binary size report to summary
+        run: cat size_report.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload size report
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

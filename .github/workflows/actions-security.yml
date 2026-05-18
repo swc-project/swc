@@ -1,0 +1,89 @@
+name: GitHub Actions Security
+
+on:
+  pull_request:
+    paths:
+      - ".github/actions/**"
+      - ".github/workflows/**"
+      - "renovate.json"
+      - "deny.toml"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/actions/**"
+      - ".github/workflows/**"
+      - "renovate.json"
+      - "deny.toml"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  actionlint:
+    name: actionlint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        with:
+          persist-credentials: false
+
+      - name: Install actionlint
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="1.7.12"
+          archive="actionlint_${version}_linux_amd64.tar.gz"
+          install_dir="${RUNNER_TEMP}/actionlint"
+          mkdir -p "$install_dir"
+
+          gh release download "v${version}" \
+            --repo rhysd/actionlint \
+            --pattern "$archive" \
+            --pattern "actionlint_${version}_checksums.txt" \
+            --dir "$install_dir"
+
+          cd "$install_dir"
+          grep "  ${archive}$" "actionlint_${version}_checksums.txt" | sha256sum --check
+          tar -xzf "$archive" actionlint
+          echo "$install_dir" >> "$GITHUB_PATH"
+
+      - name: Check workflows
+        run: actionlint -color
+
+  pinact:
+    name: pinact
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        with:
+          persist-credentials: false
+
+      - uses: suzuki-shunsuke/pinact-action@cf51507d80d4d6522a07348e3d58790290eaf0b6 # v2.0.0
+        with:
+          skip_push: "true"
+          verify: "true"
+
+  zizmor:
+    name: zizmor
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        with:
+          persist-credentials: false
+
+      - uses: zizmorcore/zizmor-action@5f14fd08f7cf1cb1609c1e344975f152c7ee938d # v0.5.6
+        with:
+          version: v1.25.2
+          inputs: ".github/workflows .github/actions"
+          min-confidence: high
+          min-severity: medium
+          advanced-security: "false"
+          annotations: "true"

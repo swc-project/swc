@@ -14,9 +14,12 @@ runs:
     - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
         fetch-depth: 0
+        persist-credentials: false
         ref: "main"
 
     - uses: ./.github/actions/setup-node
+      with:
+        cache: "false"
 
     - name: Install git-cliff
       uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
@@ -40,5 +43,7 @@ runs:
 
     - name: Create git tag commit
       shell: bash
+      env:
+        RELEASE_VERSION: ${{ inputs.version }}
       run: |
-        ./scripts/publish.sh ${{ inputs.version }}
+        ./scripts/publish.sh "$RELEASE_VERSION"
