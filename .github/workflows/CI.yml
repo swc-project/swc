@@ -243,11 +243,9 @@ jobs:
         uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         if: matrix.settings.crate != '__noop__'
         with:
+          toolchain: nightly-2026-04-10
           target: wasm32-wasip1
           components: rustfmt
-          # MSRV is current stable for ES crates and nightly for other languages
-          # toolchain: stable
-          # override: true
 
       - uses: denoland/setup-deno@11b63cf76cfcafb4e43f97b6cad24d8e8438f62d # v1.5.2
         if: matrix.settings.crate != '__noop__' && matrix.settings.crate == 'swc_bundler'
