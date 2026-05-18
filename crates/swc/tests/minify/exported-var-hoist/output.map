@@ -1,0 +1,19 @@
+{
+  "mappings": "AAAA,IAAIA,UAAYC,eAGhB,QAAO,IAAIC,aAAeC,YAAa,AACvC,QAAO,MAAMC,YAAc,CAAE,CAE7BC,QAAQC,GAAG,CALKN,UAGW,UAFlBA,SAAS",
+  "names": [
+    "Analytics",
+    "initAnalytics",
+    "DirectExport",
+    "initDirect",
+    "StableConst",
+    "console",
+    "log"
+  ],
+  "sources": [
+    "$DIR/tests/minify/exported-var-hoist/input.js"
+  ],
+  "sourcesContent": [
+    "var Analytics = initAnalytics();\nvar LocalOnly = Analytics;\nexport { Analytics };\nexport var DirectExport = initDirect();\nexport const StableConst = 1;\n\nconsole.log(LocalOnly, StableConst);\n"
+  ],
+  "version": 3
+}

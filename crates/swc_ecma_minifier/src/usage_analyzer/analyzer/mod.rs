@@ -779,6 +779,7 @@ where
             ModuleExportName::Ident(orig) => {
                 self.report_usage(orig);
                 let v = self.data.var_or_default(orig.to_id());
+                v.mark_as_exported();
                 v.prevent_inline();
                 v.mark_used_as_ref();
             }
@@ -1178,7 +1179,7 @@ where
     }
 
     fn visit_named_export(&mut self, n: &NamedExport) {
-        if n.src.is_some() {
+        if n.src.is_some() || n.type_only {
             return;
         }
         n.visit_children_with(self);
