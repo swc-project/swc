@@ -4,6 +4,8 @@ on:
   pull_request:
     types: [opened, synchronize, ready_for_review]
 
+permissions: {}
+
 jobs:
   claude-review:
     if: >-
@@ -20,14 +22,14 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 1
           persist-credentials: false
 
       - name: Dismiss old Claude bot comments
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           # Get PR comments from claude[bot] and hide them as outdated
           REPO="${{ github.repository }}"
@@ -54,10 +56,10 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         if: ${{ env.ANTHROPIC_API_KEY }}
-        uses: anthropics/claude-code-action@86eb26bf0139bdd75acd15ea5f00f45ee0a284c2 # v1
+        uses: anthropics/claude-code-action@86eb26bf0139bdd75acd15ea5f00f45ee0a284c2 # v1.0.122
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
           use_sticky_comment: true
           prompt: |
             REPO: ${{ github.repository }}

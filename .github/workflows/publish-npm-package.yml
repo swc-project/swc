@@ -17,9 +17,7 @@ env:
   GIT_COMMITTER_NAME: "SWC Bot"
   GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
-permissions:
-  contents: write
-  id-token: write
+permissions: {}
 
 on:
   workflow_call:
@@ -50,22 +48,47 @@ jobs:
   check-if-build-required:
     name: Check if build is required
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     # Run only on main branch
     if: github.ref == 'refs/heads/main'
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
       # TODO: Check for existing artifacts
       - id: check
         if: ${{ !inputs.skipBuild }}
+        env:
+          PACKAGE: ${{ inputs.package }}
+          RELEASE_VERSION: ${{ inputs.version }}
         run: |
-          echo "need-build=true" >> $GITHUB_OUTPUT
+          set -euo pipefail
+          case "$PACKAGE" in
+            core | html | minifier | react-compiler) ;;
+            *)
+              echo "Unsupported package: $PACKAGE" >&2
+              exit 1
+              ;;
+          esac
+
+          case "$RELEASE_VERSION" in
+            *[!A-Za-z0-9._-]* | "")
+              echo "Unsupported version: $RELEASE_VERSION" >&2
+              exit 1
+              ;;
+          esac
+
+          echo "need-build=true" >> "$GITHUB_OUTPUT"
 
   build:
     if: needs.check-if-build-required.outputs.need-build == 'true'
     needs:
       - check-if-build-required
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -104,7 +127,7 @@ jobs:
             target: i686-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian@sha256:6f910fc8a723a1eeab2483d2302e8c1fabe36e54c51eb0da27fafd5c3083e08c
             build: >-
               set -e &&
               unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-gnu &&
@@ -118,7 +141,7 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             # musl build is slow, let's disable the LTO
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine@sha256:caac2d1b9194eada0c69e669e72763869701351d8957ab805cc45a43999d8be2
             build: >-
               set -e &&
               rm /etc/apk/repositories &&
@@ -151,7 +174,7 @@ jobs:
               pnpm build --target aarch64-apple-darwin
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64@sha256:54509bac10132e6a4148fd5ef59c0057c37bb332221fb7448d907bd575936114
             build: >-
               set -e &&
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
@@ -201,7 +224,7 @@ jobs:
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine@sha256:caac2d1b9194eada0c69e669e72763869701351d8957ab805cc45a43999d8be2
             build: >-
               rm /etc/apk/repositories &&
               echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories &&
@@ -236,30 +259,19 @@ jobs:
     name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }} - node@20"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
+          persist-credentials: false
           ref: "v${{ inputs.version }}"
 
       - name: Corepack
         shell: bash
         run: corepack enable
       - name: Setup node x64
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 20
           architecture: x64
-      - name: Get pnpm store path
-        id: pnpm-store
-        shell: bash
-        run: |
-          corepack enable
-          echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-      - name: Restore pnpm cache
-        id: restore-pnpm-cache
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-20-${{ matrix.settings.target }}-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Output toolchain
         id: toolchain
         shell: bash
@@ -271,82 +283,77 @@ jobs:
           targets: ${{ matrix.settings.target }}
           toolchain: ${{ steps.toolchain.outputs.version }}
       # `pnpm exec napi build ... -x` invokes `cargo-zigbuild`, which requires zig on the runner.
-      - uses: mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29 # v2
+      - uses: mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29 # v2.2.1
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' || matrix.settings.target == 'powerpc64le-unknown-linux-gnu' || matrix.settings.target == 's390x-unknown-linux-gnu' }}
         with:
           version: 0.15.1
-      - name: Restore cargo registry
-        id: restore-cargo-registry
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ~/.cargo/registry
-          key: ${{ matrix.settings.target }}-node@20-cargo-registry-trimmed
-      - name: Restore cargo index
-        id: restore-cargo-index
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ~/.cargo/git
-          key: ${{ matrix.settings.target }}-node@20-cargo-index-trimmed
-        if: ${{ matrix.settings.docker }}
-      - name: Setup toolchain
-        run: ${{ matrix.settings.setup }}
-        if: ${{ matrix.settings.setup }}
-        shell: bash
       - name: Install dependencies
         shell: bash
+        env:
+          TARGET: ${{ matrix.settings.target }}
         run: |
           corepack enable
-          if [[ "${{ matrix.settings.target }}" == "i686-pc-windows-msvc" ]]; then
+          if [[ "$TARGET" == "i686-pc-windows-msvc" ]]; then
             pnpm install --frozen-lockfile --cpu=ia32
           else
             pnpm install --frozen-lockfile
           fi
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
           echo '/usr/local/cargo/bin' >> $GITHUB_PATH
-      - name: Save pnpm cache
-        if: github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}
       - name: Setup node x86
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 20
           architecture: x86
       - name: Build in docker
-        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185 # v3
         if: ${{ matrix.settings.docker }}
-        with:
-          image: ${{ matrix.settings.docker }}
-          options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
-          shell: bash
-          run: >-
-            cd ./packages/${{ inputs.package }} &&
-            corepack enable &&
-            corepack prepare pnpm@10.33.3 --activate &&
-            npm i -g wasm-pack &&
-            ${{ matrix.settings.build }}
-      - name: Build
-        working-directory: ./packages/${{ inputs.package }}
-        if: ${{ !matrix.settings.docker }}
-        run: ${{ matrix.settings.build }}
         shell: bash
-      - name: Save cargo registry
-        if: github.ref == 'refs/heads/main' && steps.restore-cargo-registry.outputs.cache-hit != 'true'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ~/.cargo/registry
-          key: ${{ steps.restore-cargo-registry.outputs.cache-primary-key }}
-      - name: Save cargo index
-        if: github.ref == 'refs/heads/main' && matrix.settings.docker && steps.restore-cargo-index.outputs.cache-hit != 'true'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ~/.cargo/git
-          key: ${{ steps.restore-cargo-index.outputs.cache-primary-key }}
+        env:
+          BUILD_SCRIPT: ${{ matrix.settings.build }}
+          DOCKER_IMAGE: ${{ matrix.settings.docker }}
+          PACKAGE: ${{ inputs.package }}
+          WORKSPACE: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          case "$PACKAGE" in
+            core | html | minifier | react-compiler) ;;
+            *)
+              echo "Unsupported package: $PACKAGE" >&2
+              exit 1
+              ;;
+          esac
+
+          mkdir -p "$HOME/.cargo/git" "$HOME/.cargo/registry"
+          docker run --rm \
+            -e BUILD_SCRIPT \
+            -e PACKAGE \
+            -v "$HOME/.cargo/git:/root/.cargo/git" \
+            -v "$HOME/.cargo/registry:/root/.cargo/registry" \
+            -v "$WORKSPACE:/build" \
+            -w /build \
+            "$DOCKER_IMAGE" \
+            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; corepack enable; corepack prepare pnpm@10.33.3 --activate; npm i -g wasm-pack; bash -lc "$BUILD_SCRIPT"'
+      - name: Build
+        if: ${{ !matrix.settings.docker }}
+        shell: bash
+        env:
+          BUILD_SCRIPT: ${{ matrix.settings.build }}
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          set -euo pipefail
+          case "$PACKAGE" in
+            core | html | minifier | react-compiler) ;;
+            *)
+              echo "Unsupported package: $PACKAGE" >&2
+              exit 1
+              ;;
+          esac
+
+          cd "packages/$PACKAGE"
+          bash -lc "$BUILD_SCRIPT"
       - name: Upload artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: |
@@ -357,6 +364,8 @@ jobs:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
     needs:
       - build
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -370,39 +379,22 @@ jobs:
           - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
+          persist-credentials: false
           ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node }}
           architecture: x64
-      - name: Get pnpm store path
-        id: pnpm-store
-        shell: bash
-        run: |
-          corepack enable
-          echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-      - name: Restore pnpm cache
-        id: restore-pnpm-cache
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-${{ matrix.node }}-${{ matrix.settings.target }}-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install dependencies
         run: corepack enable && pnpm install --frozen-lockfile
-      - name: Save pnpm cache
-        if: github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}
       - name: Download artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
@@ -410,15 +402,23 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        working-directory: ./packages/${{ inputs.package }}
-        run: pnpm build:ts
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          cd "packages/$PACKAGE"
+          pnpm build:ts
       - name: Test bindings
-        working-directory: ./packages/${{ inputs.package }}
-        run: pnpm test
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          cd "packages/$PACKAGE"
+          pnpm test
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
       - build
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -427,38 +427,21 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
+          persist-credentials: false
           ref: "v${{ inputs.version }}"
 
       - name: Corepack
         run: corepack enable
       - name: Setup node
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node }}
-      - name: Get pnpm store path
-        id: pnpm-store
-        shell: bash
-        run: |
-          corepack enable
-          echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-      - name: Restore pnpm cache
-        id: restore-pnpm-cache
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-${{ matrix.node }}-x86_64-unknown-linux-gnu-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install dependencies
         run: corepack enable && pnpm install --frozen-lockfile
-      - name: Save pnpm cache
-        if: github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}
       - name: Download artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
@@ -466,14 +449,46 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        working-directory: ./packages/${{ inputs.package }}
-        run: pnpm build:ts
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          cd "packages/$PACKAGE"
+          pnpm build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim sh -c 'corepack enable && corepack prepare pnpm@10.33.3 --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm test:${{ inputs.package }}'
+        env:
+          NODE_VERSION: ${{ matrix.node }}
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          set -euo pipefail
+          case "$PACKAGE" in
+            core | html | minifier | react-compiler) ;;
+            *)
+              echo "Unsupported package: $PACKAGE" >&2
+              exit 1
+              ;;
+          esac
+
+          case "$NODE_VERSION" in
+            20) NODE_IMAGE="node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0" ;;
+            22) NODE_IMAGE="node:22-slim@sha256:689c11043dad91472750cd824c97dd5e2318e9dd6f954e492fe7af0135d33ceb" ;;
+            *)
+              echo "Unsupported Node.js version: $NODE_VERSION" >&2
+              exit 1
+              ;;
+          esac
+
+          docker run --rm \
+            -e PACKAGE \
+            -v "$PWD:/swc" \
+            -w /swc \
+            "$NODE_IMAGE" \
+            sh -c 'corepack enable && corepack prepare pnpm@10.33.3 --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
       - build
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -482,40 +497,23 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
+          persist-credentials: false
           ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node }}
-      - name: Get pnpm store path
-        id: pnpm-store
-        shell: bash
-        run: |
-          corepack enable
-          echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-      - name: Restore pnpm cache
-        id: restore-pnpm-cache
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-${{ matrix.node }}-x86_64-unknown-linux-musl-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install dependencies
         run: |
           corepack enable
           pnpm install --frozen-lockfile --ignore-scripts --libc=musl
-      - name: Save pnpm cache
-        if: github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}
       - name: Download artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
@@ -523,114 +521,47 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        working-directory: ./packages/${{ inputs.package }}
-        run: pnpm build:ts
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          cd "packages/$PACKAGE"
+          pnpm build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine sh -c 'corepack enable && corepack prepare pnpm@10.33.3 --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm test:${{ inputs.package }}'
-  # test-linux-aarch64-musl-binding:
-  #   name: Test bindings on aarch64-unknown-linux-musl - node@lts
-  #   needs:
-  #     - build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v5
-  #       with:
-  #         ref: "v${{ inputs.version }}"
-  #     - name: Corepack
-  #       run: corepack enable
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v5
-  #       with:
-  #         name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-aarch64-unknown-linux-musl
-  #         path: ./packages/${{ inputs.package }}
-  #     - name: List packages
-  #       run: ls -R .
-  #       shell: bash
-  #     - name: Install dependencies
-  #       run: |
-  #         corepack enable
-  #         pnpm install --frozen-lockfile --cpu=arm64 --libc=musl
-  #     - name: Build TypeScript
-  #       run: pnpm build:ts
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v2
-  #       with:
-  #         platforms: arm64
-  #     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-  #     - name: Validate binary loading (before full tests)
-  #       uses: addnab/docker-run-action@v3
-  #       with:
-  #         image: node:lts-alpine
-  #         options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
-  #         shell: bash
-  #         run: >-
-  #           set -e &&
-  #           echo "Running binary validation for ARM64 musl..." &&
-  #           node scripts/validate-binary.js packages/${{ inputs.package }}
-  #     - name: Setup and run tests
-  #       uses: addnab/docker-run-action@v3
-  #       with:
-  #         image: node:lts-alpine
-  #         options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
-  #         shell: bash
-  #         run: >-
-  #           set -e &&
-  #           corepack enable &&
-  #           corepack prepare pnpm@10.33.3 --activate &&
-  #           DISABLE_PLUGIN_E2E_TESTS=true pnpm test:${{ inputs.package }}
+        env:
+          NODE_VERSION: ${{ matrix.node }}
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          set -euo pipefail
+          case "$PACKAGE" in
+            core | html | minifier | react-compiler) ;;
+            *)
+              echo "Unsupported package: $PACKAGE" >&2
+              exit 1
+              ;;
+          esac
 
-  # test-linux-arm-gnueabihf-binding:
-  #   name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
-  #   needs:
-  #     - build
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       node:
-  #         - "20"
-  #         - "22"
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v5
-  # with:
-  #   ref: "v${{ inputs.version }}"
-  #     - name: Corepack
-  #       run: corepack enable
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v5
-  #       with:
-  #         name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-armv7-unknown-linux-gnueabihf
-  #         path: ./packages/${{ inputs.package }}
-  #     - name: List packages
-  #       run: ls -R .
-  #       shell: bash
-  #     - name: Install dependencies
-  #       run: |
-  #         corepack enable
-  #         pnpm install --frozen-lockfile --cpu=arm
-  #     - name: Build TypeScript
-  #       run: pnpm build:ts
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v2
-  #       with:
-  #         platforms: arm
-  #     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-  #     - name: Setup and run tests
-  #       uses: addnab/docker-run-action@v3
-  #       with:
-  #         image: node:${{ matrix.node }}-slim
-  #         options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
-  #         shell: bash
-  #         run: >-
-  #           set -e &&
-  #           corepack enable &&
-  #           corepack prepare pnpm@10.33.3 --activate &&
-  #           DISABLE_PLUGIN_E2E_TESTS=true pnpm test &&
-  #           ls -la
+          case "$NODE_VERSION" in
+            20) NODE_IMAGE="node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293" ;;
+            22) NODE_IMAGE="node:22-alpine@sha256:968df39aedcea65eeb078fb336ed7191baf48f972b4479711397108be0966920" ;;
+            *)
+              echo "Unsupported Node.js version: $NODE_VERSION" >&2
+              exit 1
+              ;;
+          esac
+
+          docker run --rm \
+            -e PACKAGE \
+            -v "$PWD:/swc" \
+            -w /swc \
+            "$NODE_IMAGE" \
+            sh -c 'corepack enable && corepack prepare pnpm@10.33.3 --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
   publish:
     environment: publish
     name: Publish ${{ inputs.version }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     needs:
       - test-linux-x64-gnu-binding
       - test-linux-x64-musl-binding
@@ -638,11 +569,14 @@ jobs:
       - test-macOS-windows-binding
       # - test-linux-aarch64-musl-binding
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
+          persist-credentials: false
           ref: "v${{ inputs.version }}"
 
       - uses: ./.github/actions/setup-node
+        with:
+          cache: "false"
 
       # Update npm to latest, for trusted publish
       - name: Update npm to latest
@@ -651,39 +585,46 @@ jobs:
           npm install -g npm@latest
 
       - name: Tag npm release
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
         run: |
-          if [[ '${{ inputs.version }}' != *"nightly"* ]]; then
-            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          if [[ "$RELEASE_VERSION" != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> "$GITHUB_ENV"
           else
-            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+            echo "NPM_TAG=nightly" >> "$GITHUB_ENV"
           fi
 
       - name: Install dependencies
         run: corepack enable && pnpm install --frozen-lockfile
 
       - name: Download all artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           pattern: "bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-*"
           path: ./packages/${{ inputs.package }}/artifacts
 
       - name: List binaries
-        run: ls -R ./packages/${{ inputs.package }}/artifacts
         shell: bash
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: ls -R "packages/$PACKAGE/artifacts"
 
       - name: Move binaries
         shell: bash
-        working-directory: ./packages/${{ inputs.package }}
+        env:
+          PACKAGE: ${{ inputs.package }}
         run: |
+          cd "packages/$PACKAGE"
           ./scripts/cli_artifacts.sh
           ls -R ./artifacts
           ls -R ./artifacts_cli
           npm run artifacts
 
       - name: List npm
-        run: ls -R ./scripts/npm
-        working-directory: ./packages/${{ inputs.package }}
         shell: bash
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: ls -R "packages/$PACKAGE/scripts/npm"
 
       - name: Set fallback dependencies
         shell: bash
@@ -692,17 +633,18 @@ jobs:
 
       - name: Publish
         if: ${{ !inputs.skipPublishing }}
-        run: |
-          pnpm --filter "./packages/${{ inputs.package }}" prepack
-          pnpm publish -r --filter "./packages/${{ inputs.package }}" --filter "./packages/${{ inputs.package }}/scripts/npm/*" --access public --tag "$NPM_TAG" --force --no-git-checks
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          pnpm --filter "./packages/$PACKAGE" prepack
+          pnpm publish -r --filter "./packages/$PACKAGE" --filter "./packages/$PACKAGE/scripts/npm/*" --access public --tag "$NPM_TAG" --force --no-git-checks
 
       - name: Upload CLI binaries to gh release
         if: ${{ !inputs.skipPublishing && inputs.package == 'core' }}
         shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
           RELEASE_VERSION: "v${{ inputs.version }}"
         run: |
           ./scripts/cli_upload_gh_release.sh
@@ -712,6 +654,9 @@ jobs:
     name: Build - wasm (${{ matrix.settings.npm }})
     if: ${{ inputs.publishWasm }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     needs:
       - publish
     strategy:
@@ -749,33 +694,28 @@ jobs:
           #   out: "pkg"
 
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
+          persist-credentials: false
           ref: "v${{ inputs.version }}"
 
       - name: Corepack
         run: corepack enable
 
       - name: Tag npm release
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
         run: |
-          if [[ '${{ inputs.version }}' != *"nightly"* ]]; then
-            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          if [[ "$RELEASE_VERSION" != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> "$GITHUB_ENV"
           else
-            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+            echo "NPM_TAG=nightly" >> "$GITHUB_ENV"
           fi
 
       - name: Setup node
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 20
-
-      - name: Restore cargo cache
-        id: restore-cargo-cache
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: |
-            ~/.cargo/
-          key: ${{ runner.os }}-publish-integration
 
       - name: Install node dependencies
         run: pnpm install --frozen-lockfile
@@ -784,33 +724,34 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
-        working-directory: bindings/${{ matrix.settings.crate }}
         if: ${{ !matrix.settings.build }}
+        env:
+          CRATE: ${{ matrix.settings.crate }}
+          NPM_PACKAGE: ${{ matrix.settings.npm }}
+          WASM_TARGET: ${{ matrix.settings.target }}
         run: |
-          wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
-          sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
+          cd "bindings/$CRATE"
+          wasm-pack build --out-name wasm --release --scope=swc --target "$WASM_TARGET"
+          sed -i -e "s/\"name\": \"@swc\\/${CRATE}\"/\"name\": \"${NPM_PACKAGE}\"/g" pkg/package.json
 
       - name: Build
-        working-directory: bindings/${{ matrix.settings.crate }}
         if: ${{ matrix.settings.build }}
+        env:
+          BUILD_SCRIPT: ${{ matrix.settings.build }}
+          CRATE: ${{ matrix.settings.crate }}
         run: |
-          ${{ matrix.settings.build }}
+          cd "bindings/$CRATE"
+          bash -lc "$BUILD_SCRIPT"
 
-      - name: Save cargo cache
-        if: github.ref == 'refs/heads/main' && steps.restore-cargo-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: |
-            ~/.cargo/
-          key: ${{ steps.restore-cargo-cache.outputs.cache-primary-key }}
-
-      # Ensure npm 11.5.1 or later is installed
       - name: Update npm
         run: npm install -g npm@latest
 
       - name: Publish
         if: ${{ !inputs.skipBuild }}
-        run: |
-          (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && npm publish --access public --tag $NPM_TAG)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          CRATE: ${{ matrix.settings.crate }}
+          OUT_DIR: ${{ matrix.settings.out }}
+        run: |
+          cd "bindings/$CRATE/$OUT_DIR"
+          npm publish --access public --tag "$NPM_TAG"

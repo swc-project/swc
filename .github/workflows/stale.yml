@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'swc-project'
     steps:
-      - uses: actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da # v4
+      - uses: actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da # v4.1.1
         id: stale
         name: "Close stale issues with no reproduction"
         with:

@@ -10,8 +10,7 @@ env:
   GIT_COMMITTER_NAME: "SWC Bot"
   GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
-permissions:
-  contents: write
+permissions: {}
 
 on:
   workflow_dispatch:
@@ -24,26 +23,31 @@ jobs:
   publish-cargo:
     name: "Publish cargo crates"
     runs-on: ubuntu-latest
+    environment: publish
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
+          persist-credentials: false
           ref: "main"
 
       - uses: ./.github/actions/setup-node
-
-      - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
-          profile: minimal
+          cache: "false"
+
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        with:
           toolchain: nightly-2025-05-06
 
       - name: Install cargo-edit
-        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         with:
           tool: cargo-edit@0.12.2
 
       - name: Install git-cliff
-        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         with:
           tool: git-cliff@2.8.0
 

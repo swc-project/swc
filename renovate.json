@@ -23,15 +23,24 @@
         },
         {
             "groupName": "npm",
-            "matchDatasources": ["npm"]
+            "matchDatasources": ["npm"],
+            "minimumReleaseAge": "3 days"
+        },
+        {
+            "description": "First-party packages are managed by this repository and do not need a third-party release cooldown.",
+            "matchDatasources": ["npm"],
+            "matchPackageNames": ["/^@swc\\//"],
+            "minimumReleaseAge": "0 days"
         },
         {
             "groupName": "cargo",
-            "matchDatasources": ["crate"]
+            "matchDatasources": ["crate"],
+            "minimumReleaseAge": "3 days"
         },
         {
             "groupName": "actions",
             "matchManagers": ["github-actions"],
+            "minimumReleaseAge": "3 days",
             "automerge": true
         },
         {

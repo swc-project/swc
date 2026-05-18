@@ -9,6 +9,10 @@ inputs:
     description: "Install pnpm dependencies after restoring the pnpm cache"
     required: false
     default: "true"
+  cache:
+    description: "Restore and save the pnpm store cache"
+    required: false
+    default: "true"
 outputs:
   pnpm-store-path:
     description: "Resolved pnpm store path"
@@ -31,7 +35,7 @@ runs:
         echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
     - name: Install Node.js
-      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
       with:
         node-version: ${{ inputs.node-version }}
 
@@ -46,7 +50,8 @@ runs:
 
     - name: Restore pnpm cache
       id: restore-pnpm-cache
-      uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      if: inputs.cache == 'true'
+      uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
       with:
         path: ${{ steps.pnpm-store.outputs.path }}
         key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-${{ inputs.node-version }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -57,8 +62,8 @@ runs:
       run: pnpm install --frozen-lockfile
 
     - name: Save pnpm cache
-      if: inputs.install-dependencies == 'true' && github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
-      uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      if: inputs.cache == 'true' && inputs.install-dependencies == 'true' && github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
       with:
         path: ${{ steps.pnpm-store.outputs.path }}
         key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}

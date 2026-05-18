@@ -10,8 +10,7 @@ env:
   GIT_COMMITTER_NAME: "SWC Bot"
   GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
-permissions:
-  contents: read
+permissions: {}
 
 on:
   push:
@@ -27,32 +26,42 @@ jobs:
     # Run only on `chore: Publish` prefix
     name: "Publish cargo crates"
     runs-on: ubuntu-latest
+    environment: publish
+    permissions:
+      contents: read
+      id-token: write
     if: >-
       ${{ github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'chore: Publish') }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
       - uses: ./.github/actions/setup-node
-
-      - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
-          profile: minimal
+          cache: "false"
+
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
 
       - name: Install cargo-edit
-        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         with:
           tool: cargo-edit@0.12.2
 
       - name: Install cargo-mono
-        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         with:
           tool: cargo-mono@0.6.7
 
       - name: Update constant of swc_core
         run: npx ts-node .github/bot/src/cargo/update-constants.ts
 
+      - name: Authenticate with crates.io
+        id: crates-io-auth
+        uses: rust-lang/crates-io-auth-action@bbd81622f20ce9e2dd9622e3218b975523e45bbe # v1.0.4
+
       - name: Publish crates
         env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.crates-io-auth.outputs.token }}
         run: |
           cargo mono publish --allow-dirty

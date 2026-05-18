@@ -152,7 +152,10 @@ registries = []
 # Lint level for when multiple versions of the same crate are detected
 multiple-versions = "allow"
 # Lint level for when a crate version requirement is `*`
-wildcards = "allow"
+wildcards = "deny"
+# Keep denying external wildcard requirements while allowing private workspace
+# path dependencies, which crates.io would not publish as wildcard versions.
+allow-wildcard-paths = true
 # The graph highlighting used when creating dotgraphs for crates
 # with multiple versions
 # * lowest-version - The path to the lowest versioned duplicate is highlighted
@@ -177,10 +180,10 @@ skip-tree = []
 [sources]
 # Lint level for what to happen when a crate from a crate registry that is not
 # in the allow list is encountered
-unknown-registry = "warn"
+unknown-registry = "deny"
 # Lint level for what to happen when a crate from a git repository that is not
 # in the allow list is encountered
-unknown-git = "warn"
+unknown-git = "deny"
 # List of URLs for allowed crate registries. Defaults to the crates.io index
 # if not specified. If it is specified but empty, no registries are allowed.
 allow-registry = ["https://github.com/rust-lang/crates.io-index"]
