@@ -1,8 +1,6 @@
 use std::io::Write;
 
 use memchr::memchr2;
-use rustc_hash::FxBuildHasher;
-use swc_allocator::api::global::HashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
 use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
@@ -16,13 +14,14 @@ use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
 pub struct JsWriter<'a, W: Write> {
     indent: usize,
     indent_str: &'static str,
+    indent_cache: String,
     line_start: bool,
     line_count: usize,
     line_pos: usize,
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-    srcmap_done: HashSet<(BytePos, u32, u32), FxBuildHasher>,
-    last_srcmap: Option<(BytePos, u32, u32)>,
+    last_srcmap_loc: Option<(u32, u32)>,
+    srcmap_done_for_loc: Vec<BytePos>,
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
@@ -50,6 +49,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         JsWriter {
             indent: Default::default(),
             indent_str: "    ",
+            indent_cache: String::new(),
             line_start: true,
             line_count: 0,
             line_pos: Default::default(),
@@ -57,8 +57,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             pending_srcmap: Default::default(),
-            srcmap_done: Default::default(),
-            last_srcmap: Default::default(),
+            last_srcmap_loc: Default::default(),
+            srcmap_done_for_loc: Vec::with_capacity(4),
             scopes,
             scope_stack: Default::default(),
         }
@@ -74,15 +74,19 @@ impl<'a, W: Write> JsWriter<'a, W> {
     /// Sets the indentation string. Defaults to four spaces.
     pub fn set_indent_str(&mut self, indent_str: &'static str) {
         self.indent_str = indent_str;
+        self.indent_cache.clear();
+        for _ in 0..self.indent {
+            self.indent_cache.push_str(self.indent_str);
+        }
     }
 
     #[inline]
     fn write_indent_string(&mut self) -> Result {
-        for _ in 0..self.indent {
-            self.raw_write(self.indent_str)?;
+        if !self.indent_cache.is_empty() {
+            self.wr.write_all(self.indent_cache.as_bytes())?;
         }
         if self.srcmap.is_some() {
-            self.line_pos += self.indent_str.len() * self.indent;
+            self.line_pos += self.indent_cache.len();
         }
 
         Ok(())
@@ -172,21 +176,29 @@ impl<'a, W: Write> JsWriter<'a, W> {
         }
 
         if let Some(ref mut srcmap) = self.srcmap {
-            let key = (byte_pos, self.line_count as _, self.line_pos as _);
-            if self.last_srcmap == Some(key) {
+            let loc = (self.line_count as u32, self.line_pos as u32);
+
+            // Generated coordinates are monotonic, so a (byte_pos, line, col)
+            // key can only repeat while we are still at the same generated
+            // location. Deduping per-location avoids hash-set overhead in the
+            // main source-map emission hot path.
+            if self.last_srcmap_loc != Some(loc) {
+                self.last_srcmap_loc = Some(loc);
+                self.srcmap_done_for_loc.clear();
+            }
+
+            if self.srcmap_done_for_loc.contains(&byte_pos) {
                 return;
             }
 
-            if self.srcmap_done.insert(key) {
-                let loc = LineCol {
-                    line: key.1,
-                    col: key.2,
-                };
-
-                srcmap.push((byte_pos, loc));
-            }
-
-            self.last_srcmap = Some(key);
+            self.srcmap_done_for_loc.push(byte_pos);
+            srcmap.push((
+                byte_pos,
+                LineCol {
+                    line: loc.0,
+                    col: loc.1,
+                },
+            ));
         }
     }
 
@@ -203,12 +215,15 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
     #[inline]
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;
+        self.indent_cache.push_str(self.indent_str);
         Ok(())
     }
 
     #[inline]
     fn decrease_indent(&mut self) -> Result {
         self.indent -= 1;
+        let new_len = self.indent_cache.len() - self.indent_str.len();
+        self.indent_cache.truncate(new_len);
         Ok(())
     }
 
@@ -490,7 +505,7 @@ fn compute_line_starts_from_bytes(bytes: &[u8]) -> LineStart {
 mod test {
     use std::sync::Arc;
 
-    use swc_common::SourceMap;
+    use swc_common::{BytePos, SourceMap};
 
     use super::{compute_line_starts_from_bytes, JsWriter};
     use crate::text_writer::{BindingStorage, ScopeKind, WriteJs};
@@ -642,5 +657,37 @@ mod test {
 
         assert_eq!(line_start.line_count, 2);
         assert_eq!(line_start.byte_pos, 6);
+    }
+
+    #[test]
+    fn deduplicates_srcmap_entries_at_same_generated_position() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut srcmap = vec![];
+        let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
+
+        writer.srcmap(BytePos(1));
+        writer.srcmap(BytePos(2));
+        writer.srcmap(BytePos(1));
+
+        assert_eq!(srcmap.len(), 2);
+        assert_eq!(srcmap[0].0, BytePos(1));
+        assert_eq!(srcmap[1].0, BytePos(2));
+    }
+
+    #[test]
+    fn keeps_srcmap_entry_for_same_bytepos_at_new_generated_position() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut srcmap = vec![];
+        let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
+
+        writer.srcmap(BytePos(7));
+        writer.write_str("a").unwrap();
+        writer.srcmap(BytePos(7));
+
+        assert_eq!(srcmap.len(), 2);
+        assert_eq!(srcmap[0], (BytePos(7), super::LineCol { line: 0, col: 0 }));
+        assert_eq!(srcmap[1], (BytePos(7), super::LineCol { line: 0, col: 1 }));
     }
 }
