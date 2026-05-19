@@ -113,7 +113,7 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = old;
     }
 
-    /// This is overriden to preserve `this`.
+    /// This is overridden to preserve `this`.
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
         let old_in_callee = self.in_callee;
 
