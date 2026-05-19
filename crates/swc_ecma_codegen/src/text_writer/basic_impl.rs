@@ -22,7 +22,6 @@ pub struct JsWriter<'a, W: Write> {
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     srcmap_done: HashSet<(BytePos, u32, u32), FxBuildHasher>,
-    last_srcmap: Option<(BytePos, u32, u32)>,
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
@@ -58,7 +57,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
             wr,
             pending_srcmap: Default::default(),
             srcmap_done: Default::default(),
-            last_srcmap: Default::default(),
             scopes,
             scope_stack: Default::default(),
         }
@@ -173,10 +171,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
         if let Some(ref mut srcmap) = self.srcmap {
             let key = (byte_pos, self.line_count as _, self.line_pos as _);
-            if self.last_srcmap == Some(key) {
-                return;
-            }
-
             if self.srcmap_done.insert(key) {
                 let loc = LineCol {
                     line: key.1,
@@ -185,8 +179,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
                 srcmap.push((byte_pos, loc));
             }
-
-            self.last_srcmap = Some(key);
         }
     }
 
