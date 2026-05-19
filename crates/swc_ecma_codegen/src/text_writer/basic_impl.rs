@@ -111,15 +111,17 @@ impl<'a, W: Write> JsWriter<'a, W> {
                 }
             }
 
-            if let Some(span) = span {
-                self.srcmap(span.lo());
-            }
-
-            self.raw_write(data)?;
-            self.update_pos(data);
-
-            if let Some(span) = span {
-                self.srcmap(span.hi());
+            match span {
+                Some(span) => {
+                    self.srcmap(span.lo());
+                    self.raw_write(data)?;
+                    self.update_pos(data);
+                    self.srcmap(span.hi());
+                }
+                None => {
+                    self.raw_write(data)?;
+                    self.update_pos(data);
+                }
             }
         }
 
