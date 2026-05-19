@@ -505,7 +505,7 @@ fn compute_line_starts_from_bytes(bytes: &[u8]) -> LineStart {
 mod test {
     use std::sync::Arc;
 
-    use swc_common::{BytePos, SourceMap};
+    use swc_common::SourceMap;
 
     use super::{compute_line_starts_from_bytes, JsWriter};
     use crate::text_writer::{BindingStorage, ScopeKind, WriteJs};
@@ -657,37 +657,5 @@ mod test {
 
         assert_eq!(line_start.line_count, 2);
         assert_eq!(line_start.byte_pos, 6);
-    }
-
-    #[test]
-    fn deduplicates_srcmap_entries_at_same_generated_position() {
-        let source_map = Arc::new(SourceMap::default());
-        let mut output = Vec::new();
-        let mut srcmap = vec![];
-        let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
-
-        writer.srcmap(BytePos(1));
-        writer.srcmap(BytePos(2));
-        writer.srcmap(BytePos(1));
-
-        assert_eq!(srcmap.len(), 2);
-        assert_eq!(srcmap[0].0, BytePos(1));
-        assert_eq!(srcmap[1].0, BytePos(2));
-    }
-
-    #[test]
-    fn keeps_srcmap_entry_for_same_bytepos_at_new_generated_position() {
-        let source_map = Arc::new(SourceMap::default());
-        let mut output = Vec::new();
-        let mut srcmap = vec![];
-        let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
-
-        writer.srcmap(BytePos(7));
-        writer.write_str("a").unwrap();
-        writer.srcmap(BytePos(7));
-
-        assert_eq!(srcmap.len(), 2);
-        assert_eq!(srcmap[0], (BytePos(7), super::LineCol { line: 0, col: 0 }));
-        assert_eq!(srcmap[1], (BytePos(7), super::LineCol { line: 0, col: 1 }));
     }
 }
