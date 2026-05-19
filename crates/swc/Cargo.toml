@@ -91,7 +91,7 @@ swc_common = { version = "21.0.2", path = "../swc_common", features = [
 swc_compiler_base = { version = "56.0.0", path = "../swc_compiler_base" }
 swc_config = { version = "5.0.0", path = "../swc_config" }
 swc_ecma_ast = { version = "23.0.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "26.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "26.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "29.0.0", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "31.0.0", path = "../swc_ecma_lints", optional = true }
 swc_ecma_loader = { version = "22.0.0", path = "../swc_ecma_loader", features = [
@@ -99,7 +99,7 @@ swc_ecma_loader = { version = "22.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "53.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "53.0.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "39.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
