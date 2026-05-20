@@ -1,6 +1,6 @@
 (function(MyNamespace) {
     (function(MyEnum) {
-        MyEnum[MyEnum["A"] = 1] = "A";
+        MyEnum[MyEnum["A"] = 2] = "A";
     })(MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
     (function(MyInnerNamespace) {
         (function(MyEnum) {
@@ -11,15 +11,14 @@
 (function(MyNamespace) {
     (function(MyEnum) {
         MyEnum[MyEnum["B"] = 1] = "B";
-    })(MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
+    })(MyNamespace.MyEnum);
     (function(MyInnerNamespace) {
         MyInnerNamespace.Dec2 = 2;
     })(MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
 })(MyNamespace || (MyNamespace = {}));
 (function(MyNamespace) {
-    let MyEnum = /*#__PURE__*/ function(MyEnum) {
+    (function(MyEnum) {
         MyEnum[MyEnum["A"] = 2] = "A";
-        return MyEnum;
-    }({});
+    })(MyEnum);
 })(MyNamespace || (MyNamespace = {}));
 var MyNamespace;
