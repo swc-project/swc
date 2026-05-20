@@ -83,7 +83,7 @@ let isMultiIndexContext = (widget)=>hasMultipleIndices({
                         return {
                             ...request,
                             params: Object.keys(parameters = request.params).map((key)=>{
-                                let value;
+                                var value;
                                 return ((format, ...args)=>{
                                     let i = 0;
                                     return format.replace(/%s/g, ()=>encodeURIComponent(args[i++]));
