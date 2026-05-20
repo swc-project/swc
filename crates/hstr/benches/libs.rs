@@ -175,73 +175,67 @@ fn bench_hash_operation(c: &mut Criterion) {
     {
         for len in length {
             group.bench_with_input(BenchmarkId::new("hstr", len), &len, |b, _| {
-                let mut for_fairness = vec![];
                 let mut store = hstr::AtomStore::default();
-                b.iter_batched(
+                b.iter_batched_ref(
                     || prepare(len, &mut |s| store.atom(s)),
                     |(map, keys)| {
-                        for key in &keys {
+                        for key in keys.iter() {
                             black_box(map.contains(key));
                         }
-                        for_fairness.extend(map);
-                        for_fairness.extend(keys);
                     },
                     BatchSize::SmallInput,
                 );
             });
             group.bench_with_input(BenchmarkId::new("string_cache", len), &len, |b, _| {
-                let mut for_fairness = vec![];
-                b.iter_batched(
+                b.iter_batched_ref(
                     || prepare(len, &mut string_cache::DefaultAtom::from),
                     |(map, keys)| {
-                        for key in &keys {
+                        for key in keys.iter() {
                             black_box(map.contains(key));
                         }
-                        for_fairness.extend(map);
-                        for_fairness.extend(keys);
                     },
                     BatchSize::SmallInput,
                 );
             });
             group.bench_with_input(BenchmarkId::new("compact_str", len), &len, |b, _| {
-                b.iter_batched(
+                b.iter_batched_ref(
                     || prepare(len, &mut CompactString::from),
                     |(map, keys)| {
-                        for key in keys {
-                            black_box(map.contains(&key));
+                        for key in keys.iter() {
+                            black_box(map.contains(key));
                         }
                     },
                     BatchSize::SmallInput,
                 );
             });
             group.bench_with_input(BenchmarkId::new("smartstring", len), &len, |b, _| {
-                b.iter_batched(
+                b.iter_batched_ref(
                     || prepare(len, &mut SmartString::<LazyCompact>::from),
                     |(map, keys)| {
-                        for key in keys {
-                            black_box(map.contains(&key));
+                        for key in keys.iter() {
+                            black_box(map.contains(key));
                         }
                     },
                     BatchSize::SmallInput,
                 );
             });
             group.bench_with_input(BenchmarkId::new("smol_str", len), &len, |b, _| {
-                b.iter_batched(
+                b.iter_batched_ref(
                     || prepare(len, &mut smol_str::SmolStr::from),
                     |(map, keys)| {
-                        for key in keys {
-                            black_box(map.contains(&key));
+                        for key in keys.iter() {
+                            black_box(map.contains(key));
                         }
                     },
                     BatchSize::SmallInput,
                 );
             });
             group.bench_with_input(BenchmarkId::new("kstring", len), &len, |b, _| {
-                b.iter_batched(
+                b.iter_batched_ref(
                     || prepare(len, &mut kstring::KString::from),
                     |(map, keys)| {
-                        for key in keys {
-                            black_box(map.contains(&key));
+                        for key in keys.iter() {
+                            black_box(map.contains(key));
                         }
                     },
                     BatchSize::SmallInput,
