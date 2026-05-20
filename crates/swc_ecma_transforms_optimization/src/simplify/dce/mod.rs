@@ -116,7 +116,7 @@ impl Data {
     fn drop_usage(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
-            // We subtract the cycle count from the occurence count, so the value is not
+            // We subtract the cycle count from the occurrence count, so the value is not
             // correct representation of the actual usage.
             e.usage = e.usage.saturating_sub(1);
 
@@ -133,7 +133,7 @@ impl Data {
     fn drop_assign(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
-            // We subtract the cycle count from the occurence count, so the value is not
+            // We subtract the cycle count from the occurrence count, so the value is not
             // correct representation of the actual usage.
             e.assign = e.assign.saturating_sub(1);
 
