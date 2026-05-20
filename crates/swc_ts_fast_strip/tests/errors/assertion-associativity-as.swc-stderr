@@ -1,0 +1,15 @@
+UnsupportedSyntax
+
+  x Type assertions that would change binary expression grouping are not supported in strip-only mode.
+   ,----
+ 1 | 1 ** 1 as number ** 2;
+   : ^^^^^^^^^^^^^^^^
+   `----
+UnsupportedSyntax
+
+  x Type assertions that would change binary expression grouping are not supported in strip-only mode.
+   ,-[3:1]
+ 2 | 
+ 3 | 1 ** 1 as const ** 2;
+   : ^^^^^^^^^^^^^^^
+   `----

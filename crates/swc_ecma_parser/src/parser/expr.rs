@@ -2037,7 +2037,9 @@ impl<I: Tokens> Parser<I> {
         left: Box<Expr>,
         min_prec: u8,
     ) -> PResult<(Box<Expr>, Option<u8>)> {
-        const PREC_OF_IN: u8 = 7;
+        // TypeScript parses `as` and `satisfies` at the same precedence as
+        // relational operators like `in` and `instanceof`.
+        const PREC_OF_TS_TYPE_OPERATOR: u8 = 7;
 
         // Return left on eof
         let cur = self.input().cur();
@@ -2053,7 +2055,11 @@ impl<I: Tokens> Parser<I> {
                 && self.input().syntax().typescript()
                 && !self.input().had_line_break_before_cur()
             {
-                if PREC_OF_IN > min_prec && cur == Token::As {
+                if PREC_OF_TS_TYPE_OPERATOR <= min_prec {
+                    return Ok((left, None));
+                }
+
+                if cur == Token::As {
                     let start = left.span_lo();
                     let expr = left;
                     let node = if peek!(self).is_some_and(|cur| cur == Token::Const) {
@@ -2075,7 +2081,7 @@ impl<I: Tokens> Parser<I> {
                     };
 
                     return self.parse_bin_op_recursively_inner(node, min_prec);
-                } else if cur == Token::Satisfies {
+                } else {
                     let start = left.span_lo();
                     let expr = left;
                     let node = {
