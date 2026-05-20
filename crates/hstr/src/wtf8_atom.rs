@@ -242,13 +242,9 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
 }
 
 impl PartialEq for Wtf8Atom {
-    #[inline(never)]
+    #[inline(always)]
     fn eq(&self, other: &Self) -> bool {
         partial_eq!(self, other);
-
-        // If the store is different, the string may be the same, even though the
-        // `unsafe_data` is different
-        self.as_wtf8() == other.as_wtf8()
     }
 }
 

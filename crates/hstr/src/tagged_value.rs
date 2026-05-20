@@ -36,11 +36,20 @@ type RawTaggedNonZeroValue = std::ptr::NonNull<()>;
 
 pub(crate) const MAX_INLINE_LEN: usize = std::mem::size_of::<TaggedValue>() - 1;
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug)]
 #[repr(transparent)]
 pub(crate) struct TaggedValue {
     value: RawTaggedNonZeroValue,
 }
+
+impl PartialEq for TaggedValue {
+    #[inline(always)]
+    fn eq(&self, other: &Self) -> bool {
+        self.get_value() == other.get_value()
+    }
+}
+
+impl Eq for TaggedValue {}
 
 impl TaggedValue {
     #[inline(always)]

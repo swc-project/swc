@@ -297,13 +297,9 @@ impl Atom {
 }
 
 impl PartialEq for Atom {
-    #[inline(never)]
+    #[inline(always)]
     fn eq(&self, other: &Self) -> bool {
         partial_eq!(self, other);
-
-        // If the store is different, the string may be the same, even though the
-        // `unsafe_data` is different
-        self.as_str() == other.as_str()
     }
 }
 

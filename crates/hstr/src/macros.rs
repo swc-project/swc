@@ -20,12 +20,15 @@ macro_rules! get_hash {
 
 macro_rules! partial_eq {
     ($self:expr, $other:expr) => {
-        if $self.unsafe_data == $other.unsafe_data {
+        let self_data = $self.unsafe_data;
+        let other_data = $other.unsafe_data;
+
+        if self_data == other_data {
             return true;
         }
 
-        let self_tag = $self.tag();
-        let other_tag = $other.tag();
+        let self_tag = self_data.tag() & TAG_MASK;
+        let other_tag = other_data.tag() & TAG_MASK;
 
         // If one is inline and the other is not, the length is different.
         // If one is static and the other is not, it's different.
@@ -34,8 +37,8 @@ macro_rules! partial_eq {
         }
 
         if self_tag == DYNAMIC_TAG {
-            let te = unsafe { $crate::dynamic::deref_from($self.unsafe_data) };
-            let oe = unsafe { $crate::dynamic::deref_from($other.unsafe_data) };
+            let te = unsafe { $crate::dynamic::deref_from(self_data) };
+            let oe = unsafe { $crate::dynamic::deref_from(other_data) };
 
             if te.header.header.hash != oe.header.header.hash {
                 return false;
@@ -44,9 +47,8 @@ macro_rules! partial_eq {
             return te.slice == oe.slice;
         }
 
-        if $self.get_hash() != $other.get_hash() {
-            return false;
-        }
+        // Inline atoms compare equal only if their raw tagged value matched above.
+        return false;
     };
 }
 
