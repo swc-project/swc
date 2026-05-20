@@ -2632,8 +2632,8 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 name = "hstr"
 version = "3.0.5"
 dependencies = [
+ "codspeed-criterion-compat",
  "compact_str",
- "criterion",
  "hashbrown 0.14.5",
  "kstring",
  "new_debug_unreachable",

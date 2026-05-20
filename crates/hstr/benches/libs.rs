@@ -2,12 +2,12 @@
 
 extern crate swc_malloc;
 
-#[macro_use]
-extern crate criterion;
 use std::{hash::Hash, mem::forget};
 
+use codspeed_criterion_compat::{
+    black_box, criterion_group, criterion_main, BatchSize, BenchmarkId, Criterion,
+};
 use compact_str::CompactString;
-use criterion::{black_box, BatchSize, BenchmarkId, Criterion};
 use par_iter::prelude::*;
 use rand::distributions::{Alphanumeric, DistString};
 use rustc_hash::FxHashSet;
