@@ -1,3 +1,5 @@
+use std::{cell::RefCell, rc::Rc};
+
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
@@ -9,6 +11,21 @@ use swc_ecma_visit::{
 use tracing::{debug, span, Level};
 
 use crate::scope::{DeclKind, IdentType, ScopeKind};
+
+/// Accumulated state for a TypeScript namespace body, keyed by
+/// `(parent_scope.mark, namespace_name)`.  Re-opened namespaces share an entry
+/// so that identifier lookups in later declarations see bindings from earlier
+/// ones.  Persisted across sibling `with_child` calls via the
+/// `Rc<RefCell<..>>` on [`Resolver`] so that scope siblings can communicate
+/// despite the scope tree being stack-allocated.
+#[derive(Debug, Clone, Default)]
+struct NamespaceBody {
+    mark: Mark,
+    declared_symbols: FxHashMap<Atom, DeclKind>,
+    declared_types: FxHashSet<Atom>,
+}
+
+type NamespaceBodyCache = Rc<RefCell<FxHashMap<(Mark, Atom), NamespaceBody>>>;
 
 #[cfg(test)]
 mod tests;
@@ -154,6 +171,7 @@ pub fn resolver(
             unresolved_mark,
             top_level_mark,
         },
+        namespace_bodies: Rc::new(RefCell::new(FxHashMap::default())),
     })
 }
 
@@ -208,6 +226,10 @@ struct Resolver<'a> {
     strict_mode: bool,
 
     config: InnerConfig,
+
+    /// Cache of accumulated bindings for each TypeScript namespace body.
+    /// Shared across sibling scopes so that re-opened namespaces merge.
+    namespace_bodies: NamespaceBodyCache,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -230,6 +252,7 @@ impl<'a> Resolver<'a> {
             config,
             decl_kind: DeclKind::Lexical,
             strict_mode: false,
+            namespace_bodies: Rc::new(RefCell::new(FxHashMap::default())),
         }
     }
 
@@ -250,6 +273,7 @@ impl<'a> Resolver<'a> {
             in_ts_module: self.in_ts_module,
             decl_kind: self.decl_kind,
             strict_mode: self.strict_mode,
+            namespace_bodies: self.namespace_bodies.clone(),
         };
 
         op(&mut child);
@@ -1411,19 +1435,47 @@ impl VisitMut for Resolver<'_> {
             return;
         }
 
-        match &mut decl.id {
+        let namespace_name = match &mut decl.id {
             TsModuleName::Ident(i) => {
                 self.modify(i, DeclKind::Lexical);
+                Some(i.sym.clone())
             }
-            TsModuleName::Str(_) => {}
+            TsModuleName::Str(_) => None,
             #[cfg(swc_ast_unknown)]
-            _ => {}
-        }
+            _ => None,
+        };
+
+        // Re-opened namespaces share scope state so that identifiers in later
+        // declarations can resolve to bindings introduced by earlier ones,
+        // matching TypeScript's namespace-merge semantics.  The cache key is
+        // `(parent_scope.mark, name)`; sibling re-opens at the same nesting
+        // level land on the same entry.
+        let cache_key = namespace_name.map(|name| (self.current.mark, name));
+        let cached = cache_key
+            .as_ref()
+            .and_then(|key| self.namespace_bodies.borrow().get(key).cloned());
 
         self.with_child(ScopeKind::Block, |child| {
             child.in_ts_module = true;
 
+            if let Some(body) = cached {
+                child.current.mark = body.mark;
+                child.current.declared_symbols = body.declared_symbols;
+                child.current.declared_types = body.declared_types;
+            }
+
             decl.body.visit_mut_children_with(child);
+
+            if let Some(key) = cache_key {
+                child.namespace_bodies.borrow_mut().insert(
+                    key,
+                    NamespaceBody {
+                        mark: child.current.mark,
+                        declared_symbols: child.current.declared_symbols.clone(),
+                        declared_types: child.current.declared_types.clone(),
+                    },
+                );
+            }
         });
     }
 
