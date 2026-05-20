@@ -101,14 +101,32 @@ impl TaggedValue {
             feature = "atom_size_64",
             feature = "atom_size_128"
         )))]
-        unsafe {
-            std::mem::transmute(Some(self.value))
+        {
+            self.value.as_ptr() as _
         }
     }
 
     #[inline(always)]
     fn get_value(&self) -> RawTaggedValue {
-        unsafe { std::mem::transmute(Some(self.value)) }
+        #[cfg(any(
+            target_pointer_width = "32",
+            target_pointer_width = "16",
+            feature = "atom_size_64",
+            feature = "atom_size_128"
+        ))]
+        unsafe {
+            std::mem::transmute(Some(self.value))
+        }
+
+        #[cfg(not(any(
+            target_pointer_width = "32",
+            target_pointer_width = "16",
+            feature = "atom_size_64",
+            feature = "atom_size_128"
+        )))]
+        {
+            self.value.as_ptr() as _
+        }
     }
 
     #[inline(always)]

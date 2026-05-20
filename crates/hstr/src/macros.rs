@@ -24,13 +24,16 @@ macro_rules! partial_eq {
             return true;
         }
 
+        let self_tag = $self.tag();
+        let other_tag = $other.tag();
+
         // If one is inline and the other is not, the length is different.
         // If one is static and the other is not, it's different.
-        if $self.tag() != $other.tag() {
+        if self_tag != other_tag {
             return false;
         }
 
-        if $self.is_dynamic() && $other.is_dynamic() {
+        if self_tag == DYNAMIC_TAG {
             let te = unsafe { $crate::dynamic::deref_from($self.unsafe_data) };
             let oe = unsafe { $crate::dynamic::deref_from($other.unsafe_data) };
 
