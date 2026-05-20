@@ -213,7 +213,7 @@ impl Storage for &'_ mut AtomStore {
 #[inline(always)]
 fn calc_hash(text: &[u8]) -> u64 {
     let mut hasher = FxHasher::default();
-    text.hash(&mut hasher);
+    hasher.write(text);
     hasher.finish()
 }
 
