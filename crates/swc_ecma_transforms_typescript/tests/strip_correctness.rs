@@ -67,6 +67,11 @@ fn identity(entry: PathBuf) {
         || file_name.contains("issue-866")
         || file_name.contains("jsdocTypeFromChainedAssignment3")
         || file_name.contains("enumConstantMembers")
+        // `({...{}} = {})` etc are now parser-rejected per ECMA-262
+        // §13.15.5.1.  Coverage moves to
+        // crates/swc_ecma_parser/tests/errors/issue-11543{,-array}.  See
+        // #11543.
+        || file_name.contains("restPropertyWithBindingPattern")
         || postponed
             .iter()
             .any(|postponed| file_name.ends_with(postponed))
