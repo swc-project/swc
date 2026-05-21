@@ -686,7 +686,11 @@ impl Optimizer<'_> {
                             self.prepend_stmts.push(
                                 VarDecl {
                                     span: DUMMY_SP,
-                                    kind: VarDeclKind::Let,
+                                    kind: if self.options.ecma >= EsVersion::Es2015 {
+                                        VarDeclKind::Let
+                                    } else {
+                                        VarDeclKind::Var
+                                    },
                                     declare: Default::default(),
                                     decls: vars,
                                     ..Default::default()
