@@ -1652,18 +1652,38 @@ impl VisitMut for Resolver<'_> {
             _ => None,
         };
 
-        // For nested namespaces the cache key uses the *enclosing namespace's
-        // export mark* (which is stable across re-opens) rather than the
-        // enclosing body's per-re-open mark; this way `namespace Outer {
-        // namespace Inner {} } namespace Outer { namespace Inner {} }` keys
-        // both `Inner` declarations to the same entry and merges them.  For
-        // top-level namespaces the enclosing scope's mark is itself stable
-        // (top-level / file mark) so it doubles as the cache key.
-        let cache_parent_mark = self
-            .namespace_export
-            .as_ref()
-            .map(|exp| exp.borrow().mark)
-            .unwrap_or(self.current.mark);
+        // Cache-key parent mark selection:
+        //
+        // * Top-level namespaces (`self.namespace_export` is `None`): use
+        //   `self.current.mark`.  The enclosing scope's mark is itself stable
+        //   (top-level / file mark) so sibling re-opens collide on the same cache entry
+        //   and merge.
+        //
+        // * Nested namespaces *exported* from the enclosing body: use the enclosing
+        //   namespace's stable export mark.  Both `Inner` declarations in `namespace
+        //   Outer { export namespace Inner {} } namespace Outer { export namespace
+        //   Inner {} }` then key to the same entry, mirroring TypeScript's
+        //   namespace-merge rule for exported nested namespaces.
+        //
+        // * Nested namespaces *not exported* from the enclosing body: use
+        //   `self.current.mark`, which is the per-re-open body mark of the outer
+        //   namespace.  Two outer re-opens hold distinct body marks, so their
+        //   non-exported `Inner` children land in disjoint cache entries and stay
+        //   isolated, matching TypeScript's rule that non-exported members are local to
+        //   each declaration body.
+        let nested_is_exported = namespace_name.as_ref().is_some_and(|name| {
+            self.namespace_export_names
+                .as_ref()
+                .is_some_and(|names| names.values.contains(name) || names.types.contains(name))
+        });
+        let cache_parent_mark = if nested_is_exported {
+            self.namespace_export
+                .as_ref()
+                .map(|exp| exp.borrow().mark)
+                .unwrap_or(self.current.mark)
+        } else {
+            self.current.mark
+        };
         let cache_key = namespace_name.map(|name| (cache_parent_mark, name));
 
         // Look up (or create) the shared export scope.  We hold the cache
