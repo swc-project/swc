@@ -43,7 +43,9 @@ controls around the process.
 
 Security reports are in scope when they affect SWC itself, including:
 
--   Official Rust crates and npm packages
+-   Official Rust crates, in all supported usage
+-   Official npm packages when used as build tools, including CLI and development
+    server integrations
 -   Official bindings and release artifacts
 -   Parser, compiler, bundler, transform, minifier, and code generation behavior
 -   Issues that can cause practical confidentiality, integrity, or availability
