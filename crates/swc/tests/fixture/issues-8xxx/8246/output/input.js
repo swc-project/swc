@@ -1,9 +1,9 @@
 function withLog(t) {
     let e = {};
-    for(let n in t){
-        var o;
-        e[n] = (o = n, function() {
-            return console.log(o + ' invoked'), t[o].apply(this, arguments);
+    for(let o in t){
+        let n;
+        e[o] = (n = o, function() {
+            return console.log(n + ' invoked'), t[n].apply(this, arguments);
         });
     }
     return e;

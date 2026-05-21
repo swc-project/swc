@@ -7449,8 +7449,7 @@
     def_eval(AST_BigInt, function() {
         return supports_bigint ? BigInt(this.value) : this;
     }), def_eval(AST_RegExp, function(compressor) {
-        var source;
-        let evaluated = compressor.evaluated_regexps.get(this.value);
+        let source, evaluated = compressor.evaluated_regexps.get(this.value);
         if (void 0 === evaluated && (source = this.value.source, re_safe_regexp.test(source))) {
             try {
                 let { source, flags } = this.value;
@@ -10109,7 +10108,8 @@
                     }).optimize(compressor);
                     break;
                 case "RegExp":
-                    var source, params = [];
+                    let source;
+                    var params = [];
                     if (self1.args.length >= 1 && self1.args.length <= 2 && self1.args.every((arg)=>{
                         var value = arg.evaluate(compressor);
                         return params.push(value), arg !== value;
