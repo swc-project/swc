@@ -117,7 +117,12 @@ fn run_spec(file: &Path, output_json: &Path) {
         || file_name.contains("tsc/jsdocDisallowedInTypescript")
         || file_name.contains("tsc/errorSuperCalls")
         || file_name.contains("tsc/restElementMustBeLast")
-        || file_name.contains("tsc/parserRegularExpressionDivideAmbiguity3");
+        || file_name.contains("tsc/parserRegularExpressionDivideAmbiguity3")
+        // restPropertyWithBindingPattern asserts the AST of `({...{}} = {})` and similar
+        // forms.  Per the spec these are not valid SimpleAssignmentTargets and we now
+        // emit "Cannot assign to this", which changes the recovery AST.  The fix is
+        // covered by tests/errors/issue-11543{,-array} instead.  See #11543.
+        || file_name.contains("tsc/restPropertyWithBindingPattern");
 
     // Postponed
     let ignore = ignore

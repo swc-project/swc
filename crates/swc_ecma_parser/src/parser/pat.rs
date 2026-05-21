@@ -308,6 +308,16 @@ impl<I: Tokens> Parser<I> {
                                             self.emit_err(span, SyntaxError::DotsWithoutIdentifier);
                                             Pat::Invalid(Invalid { span })
                                         }
+                                    } else if is_array_or_object_literal_rest_target(&expr) {
+                                        // Per ECMA-262 13.15.5.1, AssignmentRestProperty's
+                                        // DestructuringAssignmentTarget may not be an
+                                        // ArrayLiteral or ObjectLiteral.  Parenthesized forms
+                                        // are rejected too, matching V8 / SpiderMonkey behavior.
+                                        // Other shapes (member access, optional chain, calls)
+                                        // are syntactically valid per spec and either reparse
+                                        // successfully or throw at runtime.  Closes #11543.
+                                        self.emit_err(span, SyntaxError::NotSimpleAssign);
+                                        Pat::Invalid(Invalid { span })
                                     } else {
                                         self.reparse_expr_as_pat(element_pat_ty, expr)?
                                     };
@@ -935,6 +945,17 @@ impl<I: Tokens> Parser<I> {
             }
         }
         Ok(params)
+    }
+}
+
+/// Returns `true` when `expr` is a `{...}` or `[...]` literal (possibly wrapped
+/// in parentheses).  Used to detect invalid `AssignmentRestProperty` targets
+/// per ECMA-262 13.15.5.1.
+fn is_array_or_object_literal_rest_target(expr: &Expr) -> bool {
+    match expr {
+        Expr::Array(_) | Expr::Object(_) => true,
+        Expr::Paren(ParenExpr { expr, .. }) => is_array_or_object_literal_rest_target(expr),
+        _ => false,
     }
 }
 
