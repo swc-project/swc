@@ -5513,13 +5513,25 @@ impl<'a> Parser<'a> {
             }
             Some(Expr::Object(object)) => {
                 for (index, prop) in object.props.iter().enumerate() {
-                    if self.is_object_spread_prop(prop) && index + 1 < object.props.len() {
-                        self.errors.push(Error::new(
-                            self.expr_span(prop.value),
-                            Severity::Error,
-                            ErrorCode::InvalidStatement,
-                            "rest element must be the last element",
-                        ));
+                    if self.is_object_spread_prop(prop) {
+                        if index + 1 < object.props.len() {
+                            self.errors.push(Error::new(
+                                self.expr_span(prop.value),
+                                Severity::Error,
+                                ErrorCode::InvalidStatement,
+                                "rest element must be the last element",
+                            ));
+                        }
+
+                        if self.expr_is_array_or_object_literal(prop.value) {
+                            self.errors.push(Error::new(
+                                prop.span,
+                                Severity::Error,
+                                ErrorCode::InvalidAssignTarget,
+                                "Cannot assign to this",
+                            ));
+                            continue;
+                        }
                     }
 
                     self.validate_assignment_target_expr(prop.value);
@@ -5577,6 +5589,16 @@ impl<'a> Parser<'a> {
             &prop.key,
             PropName::Ident(ident) if ident.sym.as_ref() == "__spread__"
         )
+    }
+
+    /// Returns true for array/object literals that cannot be assignment rest
+    /// property targets.
+    fn expr_is_array_or_object_literal(&self, expr: swc_es_ast::ExprId) -> bool {
+        match self.store.expr(expr) {
+            Some(Expr::Array(_) | Expr::Object(_)) => true,
+            Some(Expr::Paren(paren)) => self.expr_is_array_or_object_literal(paren.expr),
+            _ => false,
+        }
     }
 
     fn expr_to_assign_pat(&mut self, expr: swc_es_ast::ExprId) -> swc_es_ast::PatId {
