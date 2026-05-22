@@ -329,9 +329,7 @@ where
 
         if base.is_absolute() != target.is_absolute() {
             if !base.is_absolute() {
-                // Relative input filenames are relative to the current process,
-                // while path-mapped targets are resolved from `jsc.baseUrl`.
-                base = Cow::Owned(absolute_path(None, &base)?);
+                base = Cow::Owned(absolute_base_path(self.config.base_dir.as_deref(), &base)?);
             }
 
             if !target.is_absolute() {
@@ -438,4 +436,46 @@ fn absolute_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
     .clean();
 
     Ok(absolute_path)
+}
+
+fn absolute_base_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
+    if path.is_absolute() {
+        return Ok(path.to_path_buf().clean());
+    }
+
+    let Some(base_dir) = base_dir else {
+        return absolute_path(None, path);
+    };
+
+    let base_dir_path = base_dir.join(path).clean();
+    let cwd_path = match absolute_path(None, path) {
+        Ok(path) => normalize_path_prefix_like(base_dir, path),
+        Err(_) => return Ok(base_dir_path),
+    };
+
+    // Relative CLI filenames are rooted at the current process directory. Other
+    // API callers commonly pass filenames relative to `jsc.baseUrl`, so keep
+    // that legacy behavior unless the cwd-rooted path is visibly under baseUrl.
+    Ok(if cwd_path.starts_with(base_dir) {
+        cwd_path
+    } else {
+        base_dir_path
+    })
+}
+
+#[cfg(windows)]
+fn normalize_path_prefix_like(reference: &Path, path: PathBuf) -> PathBuf {
+    let reference = reference.as_os_str().to_string_lossy();
+    let path_str = path.as_os_str().to_string_lossy();
+
+    if reference.starts_with(r"\\?\") && !path_str.starts_with(r"\\?\") {
+        PathBuf::from(format!(r"\\?\{}", path_str))
+    } else {
+        path
+    }
+}
+
+#[cfg(not(windows))]
+fn normalize_path_prefix_like(_: &Path, path: PathBuf) -> PathBuf {
+    path
 }
