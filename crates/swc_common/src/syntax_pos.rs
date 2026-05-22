@@ -956,9 +956,7 @@ fn stable_name_hash(name: &FileName) -> u128 {
 }
 
 #[cfg(feature = "encoding-impl")]
-const SOURCE_FILE_LEGACY_WIRE_FIELD_COUNT: usize = 10;
-#[cfg(feature = "encoding-impl")]
-const SOURCE_FILE_CURRENT_WIRE_FIELD_COUNT: usize = 8;
+const SOURCE_FILE_WIRE_FIELD_COUNT: usize = 10;
 
 #[cfg(feature = "encoding-impl")]
 impl cbor4ii::core::enc::Encode for SourceFile {
@@ -967,18 +965,17 @@ impl cbor4ii::core::enc::Encode for SourceFile {
         &self,
         writer: &mut W,
     ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
-        // Keep the plugin ABI compatible with plugins compiled before
-        // SourceFile hashes became lazy. In particular,
-        // @swc/plugin-styled-components reads `Loc.file.src_hash` from a
-        // SourceFile sent by this host over the source-map proxy. The Rust
-        // struct no longer stores these hashes eagerly, but the wire format must
-        // still include the old virtual `src_hash` and `name_hash` slots.
+        // This is intentionally the historical plugin wire format, not the
+        // in-memory SourceFile layout. Plugins compiled before SourceFile hashes
+        // became lazy (notably @swc/plugin-styled-components) read
+        // `Loc.file.src_hash`, so the wire format must still include virtual
+        // `src_hash` and `name_hash` slots.
         //
         // The derived encoder historically included ignored fields in the array
-        // header, so the legacy SourceFile header reports 10 fields while only 9
-        // values are written. Preserve that exact shape because old decoders
-        // expect the reported count to include the ignored `lazy` field.
-        cbor4ii::core::types::Array::<()>::bounded(SOURCE_FILE_LEGACY_WIRE_FIELD_COUNT, writer)?;
+        // header, so SourceFile reports 10 fields while only 9 values are
+        // written. Preserve that exact shape because old decoders expect the
+        // reported count to include the ignored `lazy` field.
+        cbor4ii::core::types::Array::<()>::bounded(SOURCE_FILE_WIRE_FIELD_COUNT, writer)?;
 
         encoding_helper::LrcHelper(&self.name).encode(writer)?;
         self.name_was_remapped.encode(writer)?;
@@ -1001,7 +998,7 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for SourceFile {
         reader: &mut R,
     ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
         let len = cbor4ii::core::types::Array::<()>::len(reader)?.unwrap();
-        if len < SOURCE_FILE_CURRENT_WIRE_FIELD_COUNT {
+        if len < SOURCE_FILE_WIRE_FIELD_COUNT {
             return Err(cbor4ii::core::error::DecodeError::Custom {
                 name: &"SourceFile",
                 num: len as u32,
@@ -1013,26 +1010,12 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for SourceFile {
         let unmapped_path = encoding_helper::LrcHelper::<Option<Lrc<FileName>>>::decode(reader)?.0;
         let crate_of_origin = u32::decode(reader)?;
         let src = encoding_helper::Str::<BytesStr>::decode(reader)?.0;
+        let _src_hash = u128::decode(reader)?;
+        let start_pos = BytePos::decode(reader)?;
+        let end_pos = BytePos::decode(reader)?;
+        let _name_hash = u128::decode(reader)?;
 
-        // Accept both the historical reported field count (10, including the
-        // ignored `lazy` field) and the number of values actually written (9).
-        let has_legacy_hash_slots = len >= SOURCE_FILE_LEGACY_WIRE_FIELD_COUNT - 1;
-        let (start_pos, end_pos, consumed_field_count) = if has_legacy_hash_slots {
-            let _src_hash = u128::decode(reader)?;
-            let start_pos = BytePos::decode(reader)?;
-            let end_pos = BytePos::decode(reader)?;
-            let _name_hash = u128::decode(reader)?;
-
-            (start_pos, end_pos, SOURCE_FILE_LEGACY_WIRE_FIELD_COUNT)
-        } else {
-            (
-                BytePos::decode(reader)?,
-                BytePos::decode(reader)?,
-                SOURCE_FILE_CURRENT_WIRE_FIELD_COUNT,
-            )
-        };
-
-        for _ in 0..len.saturating_sub(consumed_field_count) {
+        for _ in 0..len - SOURCE_FILE_WIRE_FIELD_COUNT {
             cbor4ii::core::dec::IgnoredAny::decode(reader)?;
         }
 
@@ -1865,7 +1848,7 @@ mod tests {
 
     #[cfg(feature = "encoding-impl")]
     #[test]
-    fn source_file_encoding_keeps_legacy_hash_slots() {
+    fn source_file_encoding_includes_hash_slots() {
         use cbor4ii::core::{dec::Decode, enc::Encode};
 
         let name = Lrc::new(FileName::Custom("input.js".into()));
@@ -1886,7 +1869,7 @@ mod tests {
         let len = cbor4ii::core::types::Array::<()>::len(&mut reader)
             .unwrap()
             .unwrap();
-        assert_eq!(len, super::SOURCE_FILE_LEGACY_WIRE_FIELD_COUNT);
+        assert_eq!(len, super::SOURCE_FILE_WIRE_FIELD_COUNT);
 
         let decoded_name = FileName::decode(&mut reader).unwrap();
         let decoded_name_was_remapped = bool::decode(&mut reader).unwrap();
