@@ -337,9 +337,9 @@ jobs:
           mkdir -p "$HOME/.cargo/git" "$HOME/.cargo/registry"
           docker run --rm \
             -e BUILD_SCRIPT \
-            -e COREPACK_VERSION \
+            -e COREPACK_VERSION="$COREPACK_VERSION" \
             -e PACKAGE \
-            -e PACKAGE_MANAGER \
+            -e PACKAGE_MANAGER="$PACKAGE_MANAGER" \
             -v "$HOME/.cargo/git:/root/.cargo/git" \
             -v "$HOME/.cargo/registry:/root/.cargo/registry" \
             -v "$WORKSPACE:/build" \
@@ -499,9 +499,9 @@ jobs:
           esac
 
           docker run --rm \
-            -e COREPACK_VERSION \
+            -e COREPACK_VERSION="$COREPACK_VERSION" \
             -e PACKAGE \
-            -e PACKAGE_MANAGER \
+            -e PACKAGE_MANAGER="$PACKAGE_MANAGER" \
             -v "$PWD:/swc" \
             -w /swc \
             "$NODE_IMAGE" \
@@ -582,9 +582,9 @@ jobs:
           esac
 
           docker run --rm \
-            -e COREPACK_VERSION \
+            -e COREPACK_VERSION="$COREPACK_VERSION" \
             -e PACKAGE \
-            -e PACKAGE_MANAGER \
+            -e PACKAGE_MANAGER="$PACKAGE_MANAGER" \
             -v "$PWD:/swc" \
             -w /swc \
             "$NODE_IMAGE" \
