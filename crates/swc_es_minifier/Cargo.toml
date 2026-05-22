@@ -31,7 +31,7 @@ walkdir = { workspace = true }
 
 swc_common    = { version = "21.0.2", path = "../swc_common" }
 swc_es_codegen = { version = "0.3.0", path = "../swc_es_codegen" }
-swc_es_parser = { version = "0.3.0", path = "../swc_es_parser" }
+swc_es_parser = { version = "0.3.1", path = "../swc_es_parser" }
 swc_malloc    = { version = "1.2.5", path = "../swc_malloc" }
 testing       = { version = "22.0.0", path = "../testing" }
 

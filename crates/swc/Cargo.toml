@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc"
 repository    = { workspace = true }
-version       = "64.0.0"
+version       = "64.0.1"
 
 [lib]
 bench = false
@@ -99,8 +99,8 @@ swc_ecma_loader = { version = "22.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "53.0.1", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "39.1.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_minifier = { version = "53.0.2", path = "../swc_ecma_minifier" }
+swc_ecma_parser = { version = "39.1.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_preset_env = { version = "54.0.0", path = "../swc_ecma_preset_env", default-features = false, features = ["serde-impl"] }
@@ -114,7 +114,7 @@ swc_ecma_transforms = { version = "53.0.0", path = "../swc_ecma_transforms", fea
 swc_ecma_transforms_module = { version = "47.0.0", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_base = { version = "42.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "49.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
-swc_ecma_transforms_optimization = { version = "45.0.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "45.0.1", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "29.1.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "23.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "23.0.0", path = "../swc_error_reporters" }

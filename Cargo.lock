@@ -5631,7 +5631,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "64.0.0"
+version = "64.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5920,7 +5920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "66.0.3"
+version = "66.0.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6482,7 +6482,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "53.0.1"
+version = "53.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6526,7 +6526,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "39.1.0"
+version = "39.1.1"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6819,7 +6819,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "45.0.0"
+version = "45.0.1"
 dependencies = [
  "bytes-str",
  "dashmap 6.1.0",
@@ -6920,7 +6920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "47.0.0"
+version = "47.0.1"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
@@ -7059,7 +7059,7 @@ dependencies = [
 
 [[package]]
 name = "swc_es_parser"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "bitflags 2.10.0",
  "codspeed-criterion-compat",
@@ -7492,7 +7492,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip"
-version = "50.0.0"
+version = "50.0.1"
 dependencies = [
  "anyhow",
  "bytes-str",
