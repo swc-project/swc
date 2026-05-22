@@ -942,16 +942,16 @@ pub struct SourceFile {
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[derive(Clone)]
 pub struct SourceFileAnalysis {
+    /// Stable hash of the source code.
+    pub src_hash: u128,
+    /// Stable hash of the filename.
+    pub name_hash: u128,
     /// Locations of lines beginnings in the source code
     pub lines: Vec<BytePos>,
     /// Locations of multi-byte characters in the source code
     pub multibyte_chars: Vec<MultiByteChar>,
     /// Width of characters that are not narrow in the source code
     pub non_narrow_chars: Vec<NonNarrowChar>,
-    /// Stable hash of the source code.
-    pub src_hash: u128,
-    /// Stable hash of the filename.
-    pub name_hash: u128,
 }
 
 impl fmt::Debug for SourceFile {
