@@ -11,6 +11,7 @@ env:
   CARGO_INCREMENTAL: 0
   CARGO_PROFILE_RELEASE_LTO: "fat"
   CI: "1"
+  COREPACK_VERSION: "0.33.0"
   DISABLE_PLUGIN_E2E_TESTS: true
   GIT_AUTHOR_NAME: "SWC Bot"
   GIT_AUTHOR_EMAIL: "bot@swc.rs"
@@ -324,16 +325,27 @@ jobs:
               ;;
           esac
 
+          PACKAGE_MANAGER="$(node -p "require('./package.json').packageManager")"
+          case "$PACKAGE_MANAGER" in
+            pnpm@*) ;;
+            *)
+              echo "Unsupported packageManager: $PACKAGE_MANAGER" >&2
+              exit 1
+              ;;
+          esac
+
           mkdir -p "$HOME/.cargo/git" "$HOME/.cargo/registry"
           docker run --rm \
             -e BUILD_SCRIPT \
+            -e COREPACK_VERSION \
             -e PACKAGE \
+            -e PACKAGE_MANAGER \
             -v "$HOME/.cargo/git:/root/.cargo/git" \
             -v "$HOME/.cargo/registry:/root/.cargo/registry" \
             -v "$WORKSPACE:/build" \
             -w /build \
             "$DOCKER_IMAGE" \
-            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; corepack enable; corepack prepare pnpm@10.33.3 --activate; npm i -g wasm-pack; bash -lc "$BUILD_SCRIPT"'
+            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; npm install -g "corepack@${COREPACK_VERSION}"; corepack enable; corepack prepare "${PACKAGE_MANAGER}" --activate; npm i -g wasm-pack; bash -lc "$BUILD_SCRIPT"'
       - name: Build
         if: ${{ !matrix.settings.docker }}
         shell: bash
@@ -477,12 +489,23 @@ jobs:
               ;;
           esac
 
+          PACKAGE_MANAGER="$(node -p "require('./package.json').packageManager")"
+          case "$PACKAGE_MANAGER" in
+            pnpm@*) ;;
+            *)
+              echo "Unsupported packageManager: $PACKAGE_MANAGER" >&2
+              exit 1
+              ;;
+          esac
+
           docker run --rm \
+            -e COREPACK_VERSION \
             -e PACKAGE \
+            -e PACKAGE_MANAGER \
             -v "$PWD:/swc" \
             -w /swc \
             "$NODE_IMAGE" \
-            sh -c 'corepack enable && corepack prepare pnpm@10.33.3 --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
+            sh -c 'npm install -g "corepack@${COREPACK_VERSION}" && corepack enable && corepack prepare "${PACKAGE_MANAGER}" --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
@@ -549,12 +572,23 @@ jobs:
               ;;
           esac
 
+          PACKAGE_MANAGER="$(node -p "require('./package.json').packageManager")"
+          case "$PACKAGE_MANAGER" in
+            pnpm@*) ;;
+            *)
+              echo "Unsupported packageManager: $PACKAGE_MANAGER" >&2
+              exit 1
+              ;;
+          esac
+
           docker run --rm \
+            -e COREPACK_VERSION \
             -e PACKAGE \
+            -e PACKAGE_MANAGER \
             -v "$PWD:/swc" \
             -w /swc \
             "$NODE_IMAGE" \
-            sh -c 'corepack enable && corepack prepare pnpm@10.33.3 --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
+            sh -c 'npm install -g "corepack@${COREPACK_VERSION}" && corepack enable && corepack prepare "${PACKAGE_MANAGER}" --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
   publish:
     environment: publish
     name: Publish ${{ inputs.version }}
