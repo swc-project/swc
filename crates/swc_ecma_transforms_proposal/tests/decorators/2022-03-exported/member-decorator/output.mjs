@@ -9,5 +9,8 @@ export class A {
             ]
         ], []));
     }
-    x = (_initProto(this), _init_x(this));
+    constructor(){
+        _initProto(this);
+    }
+    x = _init_x(this);
 }

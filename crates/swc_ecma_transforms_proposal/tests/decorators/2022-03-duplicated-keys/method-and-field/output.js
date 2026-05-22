@@ -15,7 +15,10 @@ class Foo {
             ]
         ], []));
     }
-    a = (_initProto(this), _init_a(this, 123));
+    constructor(){
+        _initProto(this);
+    }
+    a = _init_a(this, 123);
     a() {
         return 1;
     }

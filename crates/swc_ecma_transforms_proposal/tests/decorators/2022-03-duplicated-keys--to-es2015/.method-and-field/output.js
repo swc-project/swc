@@ -5,7 +5,8 @@ class Foo {
         return 1;
     }
     constructor(){
-        _define_property(this, "a", (_initProto(this), _init_a(this, 123)));
+        _define_property(this, "a", _init_a(this, 123));
+        _initProto(this);
     }
 }
 ({ e: [_init_a, _initProto] } = _apply_decs_2203_r(Foo, [
