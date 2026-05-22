@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      pull-requests: read
+      pull-requests: write
     if: github.repository_owner == 'swc-project' && github.event.pull_request.merged == true
     steps:
       - name: Lock the merged pull request and closed issues
