@@ -51,13 +51,31 @@ type NamespaceExportNamesRef = Rc<NamespaceExportNames>;
 /// Collect the names that the given namespace body exports.  Only the
 /// top-level `export ...` declarations of the body are inspected; nested
 /// scopes are handled by their own pre-scan when they are visited.
+///
+/// `export import A = ...` (parsed as `TsImportEqualsDecl { is_export: true,
+/// .. }`) is also recognised so that the alias name is routed to the merged
+/// export scope alongside `export var`, `export class`, etc.  Without this,
+/// the alias would be treated as body-local and references from sibling
+/// re-opens of the same namespace would fall through to outer/unresolved
+/// bindings, violating TypeScript's namespace-merge semantics.
 fn pre_scan_namespace_exports(body: &TsNamespaceBody) -> NamespaceExportNames {
     let mut scan = NamespaceExportNames::default();
     if let TsNamespaceBody::TsModuleBlock(block) = body {
-        block.body.iter().for_each(|item| {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) = item {
+        block.body.iter().for_each(|item| match item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
                 add_decl_export_names(&export.decl, &mut scan);
             }
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) if import.is_export => {
+                // An exported import alias behaves like an exported namespace
+                // for merge purposes: visible in value-space (and in
+                // type-space when not a type-only alias) from sibling
+                // re-opens of the enclosing namespace.
+                if !import.is_type_only {
+                    scan.values.insert(import.id.sym.clone());
+                }
+                scan.types.insert(import.id.sym.clone());
+            }
+            _ => {}
         });
     }
     scan
