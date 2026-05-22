@@ -106,6 +106,9 @@
 
 - Provide aarch64 musl linker in publish job ([#11889](https://github.com/swc-project/swc/issues/11889)) ([20234fd](https://github.com/swc-project/swc/commit/20234fd265f8f86f0c81c31c36e467d405a04d01))
 
+
+- Fix publish musl linker and windows tests ([#11890](https://github.com/swc-project/swc/issues/11890)) ([a798a23](https://github.com/swc-project/swc/commit/a798a23e5f5018e5c01f874457aa20370c0d7058))
+
 ### Security
 
 
@@ -2024,9 +2027,6 @@
 - **(ci)** Fix CI ([#10790](https://github.com/swc-project/swc/issues/10790)) ([b3f9760](https://github.com/swc-project/swc/commit/b3f97604b8bc4713ab1f91fa3bd732b7af9cb2e9))
 
 
-- **(es)** Use `default-features = false` for `swc` crate usages ([#10776](https://github.com/swc-project/swc/issues/10776)) ([50b2eac](https://github.com/swc-project/swc/commit/50b2eacdf7bb3705b5be1ba63e9acdb143e82d40))
-
-
 - **(es)** Make `swc_typescript` optional ([#10792](https://github.com/swc-project/swc/issues/10792)) ([c32569d](https://github.com/swc-project/swc/commit/c32569dd558e3bd4e27329275e090cc716a6e440))
 
 ### Performance
@@ -2055,9 +2055,6 @@
 
 ### Testing
 
-
-
-- **(es/minifier)** Update the passing test list ([#10782](https://github.com/swc-project/swc/issues/10782)) ([8aa888b](https://github.com/swc-project/swc/commit/8aa888bc2a0fc0ed84d189725af917ae2be9f905))
 
 
 - **(es/parser)** Add a test for duplicate labels ([#10784](https://github.com/swc-project/swc/issues/10784)) ([28fc643](https://github.com/swc-project/swc/commit/28fc64310c0fdb0491a1121a801f9a5d184109eb))
