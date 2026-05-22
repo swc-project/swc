@@ -226,12 +226,16 @@ jobs:
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine@sha256:caac2d1b9194eada0c69e669e72763869701351d8957ab805cc45a43999d8be2
+            # This image does not provide aarch64-linux-musl-gcc, which is the linker
+            # name configured in .cargo/config.toml, so route that name through Zig.
             build: >-
               rm /etc/apk/repositories &&
               echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories &&
               echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories &&
               apk update &&
-              apk add --upgrade clang-static llvm-dev &&
+              apk add --upgrade clang-static llvm-dev zig &&
+              printf '%s\n' '#!/usr/bin/env bash' 'set -euo pipefail' 'args=()' 'for arg in "$@"; do' '  case "$arg" in' '    -lgcc|-lgcc_s) ;;' '    *) args+=("$arg") ;;' '  esac' 'done' '# Zig provides compiler-rt for this target, so drop GCC runtime flags.' 'exec zig cc -target aarch64-linux-musl "${args[@]}"' > /usr/local/bin/aarch64-linux-musl-gcc &&
+              chmod +x /usr/local/bin/aarch64-linux-musl-gcc &&
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ../../rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
