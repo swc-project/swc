@@ -448,19 +448,37 @@ fn absolute_base_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBu
     };
 
     let base_dir_path = base_dir.join(path).clean();
-    let cwd_path = match absolute_path(None, path) {
-        Ok(path) => normalize_path_prefix_like(base_dir, path),
+    let cwd = match current_dir() {
+        Ok(path) => normalize_path_prefix_like(base_dir, path.clean()),
         Err(_) => return Ok(base_dir_path),
     };
 
+    Ok(absolute_base_path_with_cwd(
+        base_dir,
+        path,
+        &cwd,
+        base_dir_path,
+    ))
+}
+
+fn absolute_base_path_with_cwd(
+    base_dir: &Path,
+    path: &Path,
+    cwd: &Path,
+    base_dir_path: PathBuf,
+) -> PathBuf {
+    let cwd_path = cwd.join(path).clean();
+
     // Relative CLI filenames are rooted at the current process directory. Other
     // API callers commonly pass filenames relative to `jsc.baseUrl`, so keep
-    // that legacy behavior unless the cwd-rooted path is visibly under baseUrl.
-    Ok(if cwd_path.starts_with(base_dir) {
+    // that legacy behavior unless the cwd-rooted path visibly enters baseUrl
+    // from outside it. If cwd is already inside baseUrl, every relative path is
+    // under baseUrl and the interpretation is ambiguous.
+    if cwd_path.starts_with(base_dir) && !cwd.starts_with(base_dir) {
         cwd_path
     } else {
         base_dir_path
-    })
+    }
 }
 
 #[cfg(windows)]
@@ -468,14 +486,77 @@ fn normalize_path_prefix_like(reference: &Path, path: PathBuf) -> PathBuf {
     let reference = reference.as_os_str().to_string_lossy();
     let path_str = path.as_os_str().to_string_lossy();
 
-    if reference.starts_with(r"\\?\") && !path_str.starts_with(r"\\?\") {
-        PathBuf::from(format!(r"\\?\{}", path_str))
-    } else {
-        path
-    }
+    normalize_extended_length_path_prefix(&reference, &path_str)
+        .map(PathBuf::from)
+        .unwrap_or(path)
 }
 
 #[cfg(not(windows))]
 fn normalize_path_prefix_like(_: &Path, path: PathBuf) -> PathBuf {
     path
+}
+
+#[cfg(any(test, windows))]
+fn normalize_extended_length_path_prefix(reference: &str, path: &str) -> Option<String> {
+    if !reference.starts_with(r"\\?\") || path.starts_with(r"\\?\") {
+        return None;
+    }
+
+    if let Some(path) = path.strip_prefix(r"\\") {
+        if path.starts_with(r".\") {
+            return None;
+        }
+
+        return Some(format!(r"\\?\UNC\{path}"));
+    }
+
+    Some(format!(r"\\?\{path}"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn absolute_base_path_keeps_base_dir_when_cwd_is_inside_base_dir() {
+        let base_dir = Path::new("/repo");
+        let cwd = Path::new("/repo/packages/app");
+        let path = Path::new("src");
+
+        assert_eq!(
+            absolute_base_path_with_cwd(base_dir, path, cwd, base_dir.join(path).clean()),
+            PathBuf::from("/repo/src")
+        );
+    }
+
+    #[test]
+    fn absolute_base_path_uses_cwd_when_relative_path_enters_base_dir() {
+        let base_dir = Path::new("/repo/bazel-out/foo-app");
+        let cwd = Path::new("/repo");
+        let path = Path::new("bazel-out/foo-app/src");
+
+        assert_eq!(
+            absolute_base_path_with_cwd(base_dir, path, cwd, base_dir.join(path).clean()),
+            PathBuf::from("/repo/bazel-out/foo-app/src")
+        );
+    }
+
+    #[test]
+    fn extended_unc_prefix_uses_canonical_unc_form() {
+        assert_eq!(
+            normalize_extended_length_path_prefix(
+                r"\\?\UNC\server\share\repo",
+                r"\\server\share\repo\src"
+            ),
+            Some(r"\\?\UNC\server\share\repo\src".into())
+        );
+    }
+
+    #[test]
+    fn extended_drive_prefix_preserves_drive_form() {
+        assert_eq!(
+            normalize_extended_length_path_prefix(r"\\?\C:\repo", r"C:\repo\src"),
+            Some(r"\\?\C:\repo\src".into())
+        );
+    }
 }
