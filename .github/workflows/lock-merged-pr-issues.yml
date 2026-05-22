@@ -1,0 +1,114 @@
+name: "Lock issues closed by merged PR"
+
+on:
+  pull_request_target:
+    types: [closed]
+
+permissions: {}
+
+jobs:
+  lock-merged-pr-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: read
+    if: github.repository_owner == 'swc-project' && github.event.pull_request.merged == true
+    steps:
+      - name: Lock issues closed by the merged pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          repository_owner="${REPOSITORY%%/*}"
+          repository_name="${REPOSITORY#*/}"
+          comment_marker="<!-- swc-merged-pr-issue-lock -->"
+
+          echo "Finding issues closed by merged pull request #${PR_NUMBER}"
+
+          closing_issues="$(gh api graphql \
+            --paginate \
+            --slurp \
+            -F owner="${repository_owner}" \
+            -F name="${repository_name}" \
+            -F number="${PR_NUMBER}" \
+            -f query='
+              query($owner: String!, $name: String!, $number: Int!, $endCursor: String) {
+                repository(owner: $owner, name: $name) {
+                  pullRequest(number: $number) {
+                    closingIssuesReferences(first: 100, after: $endCursor) {
+                      nodes {
+                        number
+                        locked
+                        repository {
+                          name
+                          owner {
+                            login
+                          }
+                        }
+                      }
+                      pageInfo {
+                        hasNextPage
+                        endCursor
+                      }
+                    }
+                  }
+                }
+              }
+            ' \
+            --jq \
+              '.[] | .data.repository.pullRequest.closingIssuesReferences.nodes[] | select(.repository.owner.login == "'"${repository_owner}"'" and .repository.name == "'"${repository_name}"'") | [.number, .locked] | @tsv' \
+            | sort -t "$(printf '\t')" -k1,1n -u)"
+
+          if [ -z "${closing_issues}" ]; then
+            echo "No same-repository issues were closed by pull request #${PR_NUMBER}"
+            exit 0
+          fi
+
+          while IFS="$(printf '\t')" read -r issue_number issue_locked; do
+            if [ -z "${issue_number}" ]; then
+              continue
+            fi
+
+            echo "Processing issue #${issue_number}"
+
+            gh api \
+              --method PATCH \
+              "/repos/${REPOSITORY}/issues/${issue_number}" \
+              -f state=closed \
+              --silent
+
+            if [ "${issue_locked}" = "true" ]; then
+              echo "Issue #${issue_number} is already locked"
+              continue
+            fi
+
+            if gh api \
+              --method GET \
+              --paginate \
+              "/repos/${REPOSITORY}/issues/${issue_number}/comments?per_page=100" \
+              --jq '.[].body' \
+              | grep -Fq "${comment_marker}"; then
+              echo "Issue #${issue_number} already has the lock notice"
+            else
+              comment_body="$(printf '%s\n\nThanks for the report. This issue was closed by #%s, so we are locking this thread to keep the discussion focused on the resolved report.\n\nIf the issue is not fully resolved for your case, or if you are running into a similar but different problem, please open a new issue instead of continuing here. In the new issue, please include:\n\n- A link back to #%s and #%s\n- A minimal reproduction\n- The SWC version you are using\n- The output of `npx -y swc-info@latest`\n\nFresh details help us triage the current behavior quickly. Thank you.\n' "${comment_marker}" "${PR_NUMBER}" "${issue_number}" "${PR_NUMBER}")"
+
+              gh api \
+                --method POST \
+                "/repos/${REPOSITORY}/issues/${issue_number}/comments" \
+                -f body="${comment_body}" \
+                --silent
+
+              echo "Added lock notice to issue #${issue_number}"
+            fi
+
+            gh api \
+              --method PUT \
+              "/repos/${REPOSITORY}/issues/${issue_number}/lock" \
+              -f lock_reason=resolved \
+              --silent
+
+            echo "Locked issue #${issue_number}"
+          done <<<"${closing_issues}"
