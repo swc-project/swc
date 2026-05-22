@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "tests/**/*.rs", "examples/**/*.rs
 license       = { workspace = true }
 name          = "swc_es_parser"
 repository    = { workspace = true }
-version       = "0.3.0"
+version       = "0.3.1"
 
 [lib]
 bench = false
@@ -22,8 +22,8 @@ serde      = { workspace = true, features = ["derive"] }
 seq-macro  = { workspace = true }
 unicode-id-start = { workspace = true }
 
-swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "21.0.1", path = "../swc_common" }
+swc_atoms  = { version = "9.0.1", path = "../swc_atoms" }
+swc_common = { version = "21.0.2", path = "../swc_common" }
 swc_es_ast = { version = "0.3.0", path = "../swc_es_ast" }
 
 [dev-dependencies]

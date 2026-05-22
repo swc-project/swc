@@ -1,0 +1,1 @@
+1 ** 1 satisfies number ** 2;

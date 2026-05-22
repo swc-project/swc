@@ -16,11 +16,11 @@ version       = "34.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-swc_ecma_ast = { version = "23.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transformer = { version = "14.0.0", path = "../swc_ecma_transformer", features = [
+swc_ecma_ast = { version = "23.0.1", path = "../swc_ecma_ast" }
+swc_ecma_transformer = { version = "14.1.0", path = "../swc_ecma_transformer", features = [
     "es3",
 ] }
 
 [dev-dependencies]
-swc_ecma_parser             = { version = "39.0.2", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "39.1.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "46.0.0", path = "../swc_ecma_transforms_testing" }

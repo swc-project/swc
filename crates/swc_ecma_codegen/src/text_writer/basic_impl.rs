@@ -1,5 +1,6 @@
 use std::io::Write;
 
+use memchr::memchr2;
 use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
@@ -121,16 +122,44 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
     #[inline]
     fn update_pos(&mut self, s: &str) {
-        if self.srcmap.is_some() {
-            let line_start_of_s = compute_line_starts(s);
-            self.line_count += line_start_of_s.line_count;
+        if self.srcmap.is_none() || s.is_empty() {
+            return;
+        }
 
-            let chars = s[line_start_of_s.byte_pos..].encode_utf16().count();
-            if line_start_of_s.line_count > 0 {
-                self.line_pos = chars;
-            } else {
-                self.line_pos += chars;
+        let bytes = s.as_bytes();
+
+        // Most tokens are single-byte ASCII characters with no line terminator.
+        if bytes.len() == 1 {
+            match bytes[0] {
+                b'\n' | b'\r' => {
+                    self.line_count += 1;
+                    self.line_pos = 0;
+                }
+                _ => {
+                    self.line_pos += 1;
+                }
             }
+
+            return;
+        }
+
+        // Fast path for common ASCII tokens without line breaks.
+        if memchr2(b'\n', b'\r', bytes).is_none() {
+            if s.is_ascii() {
+                self.line_pos += bytes.len();
+            } else {
+                self.line_pos += s.encode_utf16().count();
+            }
+            return;
+        }
+
+        let line_start_of_s = compute_line_starts(s);
+        self.line_count += line_start_of_s.line_count;
+
+        if s.is_ascii() {
+            self.line_pos = bytes.len() - line_start_of_s.byte_pos;
+        } else {
+            self.line_pos = s[line_start_of_s.byte_pos..].encode_utf16().count();
         }
     }
 
@@ -141,13 +170,11 @@ impl<'a, W: Write> JsWriter<'a, W> {
         }
 
         if let Some(ref mut srcmap) = self.srcmap {
-            if self
-                .srcmap_done
-                .insert((byte_pos, self.line_count as _, self.line_pos as _))
-            {
+            let key = (byte_pos, self.line_count as _, self.line_pos as _);
+            if self.srcmap_done.insert(key) {
                 let loc = LineCol {
-                    line: self.line_count as _,
-                    col: self.line_pos as _,
+                    line: key.1,
+                    col: key.2,
                 };
 
                 srcmap.push((byte_pos, loc));
@@ -413,29 +440,35 @@ struct LineStart {
     byte_pos: usize,
 }
 fn compute_line_starts(s: &str) -> LineStart {
+    compute_line_starts_from_bytes(s.as_bytes())
+}
+
+#[inline]
+fn compute_line_starts_from_bytes(bytes: &[u8]) -> LineStart {
     let mut count = 0;
     let mut line_start = 0;
+    let mut pos = 0;
 
-    let mut chars = s.as_bytes().iter().enumerate().peekable();
-
-    while let Some((pos, c)) = chars.next() {
-        match c {
+    while pos < bytes.len() {
+        match bytes[pos] {
             b'\r' => {
                 count += 1;
-                if let Some(&(_, b'\n')) = chars.peek() {
-                    let _ = chars.next();
-                    line_start = pos + 2
+                pos += 1;
+                if pos < bytes.len() && bytes[pos] == b'\n' {
+                    pos += 1;
                 } else {
-                    line_start = pos + 1
+                    // already moved over '\r'
                 }
+                line_start = pos;
             }
-
             b'\n' => {
                 count += 1;
-                line_start = pos + 1;
+                pos += 1;
+                line_start = pos;
             }
-
-            _ => {}
+            _ => {
+                pos += 1;
+            }
         }
     }
 
@@ -451,7 +484,7 @@ mod test {
 
     use swc_common::SourceMap;
 
-    use super::JsWriter;
+    use super::{compute_line_starts_from_bytes, JsWriter};
     use crate::text_writer::{BindingStorage, ScopeKind, WriteJs};
 
     #[test]
@@ -567,5 +600,39 @@ mod test {
         assert_eq!(scopes[0].bindings.len(), 1);
         assert_eq!(scopes[0].bindings[0].name, "dup");
         assert_eq!(scopes[0].bindings[0].expression.as_deref(), Some("first"));
+    }
+
+    #[test]
+    fn tracks_position_for_ascii_without_newline() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut srcmap = vec![];
+        let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
+
+        writer.write_str("abc").unwrap();
+
+        assert_eq!(writer.line_count, 0);
+        assert_eq!(writer.line_pos, 3);
+    }
+
+    #[test]
+    fn tracks_position_for_crlf_and_unicode_tail() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut srcmap = vec![];
+        let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
+
+        writer.write_str("a\r\nβ").unwrap();
+
+        assert_eq!(writer.line_count, 1);
+        assert_eq!(writer.line_pos, 1);
+    }
+
+    #[test]
+    fn compute_line_starts_handles_crlf_pairs() {
+        let line_start = compute_line_starts_from_bytes(b"a\r\nb\r\n");
+
+        assert_eq!(line_start.line_count, 2);
+        assert_eq!(line_start.byte_pos, 6);
     }
 }

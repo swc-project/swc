@@ -3,9 +3,9 @@ use std::mem;
 use swc_atoms::Atom;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    AssignPat, Decl, ExportDecl, Function, ModuleDecl, ModuleItem, Param, Pat, Script, Stmt,
-    TsKeywordTypeKind, TsParenthesizedType, TsType, TsTypeAnn, TsUnionOrIntersectionType,
-    TsUnionType,
+    AssignPat, Decl, ExportDecl, Function, ModuleDecl, ModuleItem, ObjectPatProp, Param, Pat,
+    Script, Stmt, TsKeywordTypeKind, TsParenthesizedType, TsType, TsTypeAnn,
+    TsUnionOrIntersectionType, TsUnionType,
 };
 
 use super::{
@@ -114,6 +114,7 @@ impl FastDts {
             Pat::Assign(assign_pat) => *assign_pat.left,
             _ => pat,
         };
+        remove_assignments_from_pat(&mut param.pat);
     }
 
     pub(crate) fn transform_assign_pat(
@@ -251,6 +252,34 @@ impl FastDts {
             }
             true
         });
+    }
+}
+
+fn remove_assignments_from_pat(pat: &mut Pat) {
+    match pat {
+        Pat::Assign(_) => {
+            let Pat::Assign(assign_pat) = mem::take(pat) else {
+                unreachable!()
+            };
+            *pat = *assign_pat.left;
+            remove_assignments_from_pat(pat);
+        }
+        Pat::Array(array_pat) => {
+            for elem in array_pat.elems.iter_mut().flatten() {
+                remove_assignments_from_pat(elem);
+            }
+        }
+        Pat::Object(object_pat) => {
+            for prop in &mut object_pat.props {
+                match prop {
+                    ObjectPatProp::KeyValue(kv) => remove_assignments_from_pat(&mut kv.value),
+                    ObjectPatProp::Rest(rest) => remove_assignments_from_pat(&mut rest.arg),
+                    ObjectPatProp::Assign(assign) => assign.value = None,
+                }
+            }
+        }
+        Pat::Rest(rest_pat) => remove_assignments_from_pat(&mut rest_pat.arg),
+        _ => {}
     }
 }
 

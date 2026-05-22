@@ -21,10 +21,10 @@ env:
   RUST_LOG: "off"
   # https://github.com/swc-project/swc/pull/3742
   RUST_MIN_STACK: 4194304
-  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
-  SKIP_YARN_COREPACK_CHECK: 1
   CARGO_PROFILE_RELEASE_LTO: false
   CARGO_PROFILE_BENCH_LTO: false
+
+permissions: {}
 
 jobs:
   list-crates:
@@ -32,10 +32,14 @@ jobs:
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     name: List crates to benchmark
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     outputs:
       crates: ${{ steps.list-crates.outputs.crates }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
       - name: List crates
         id: list-crates
@@ -44,28 +48,31 @@ jobs:
   benchmark-crate:
     name: Benchmark ${{ matrix.crate }}
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     needs: list-crates
     strategy:
       matrix:
         crate: ${{fromJson(needs.list-crates.outputs.crates)}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
 
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
         # Some crates are too slow to build
         if: matrix.crate == 'swc'
         with:
           shared-key: "bench-${{ matrix.crate }}"
           key: "bench-${{ matrix.crate }}"
           cache-all-crates: true
+          save-if: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Install cargo-codspeed
-        uses: taiki-e/install-action@v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         with:
           tool: cargo-codspeed@3.0.2
 
@@ -73,7 +80,7 @@ jobs:
         run: ./scripts/bench/build-crate.sh ${{ matrix.crate }}
 
       - name: Run the benchmarks
-        uses: CodSpeedHQ/action@v3
+        uses: CodSpeedHQ/action@76578c2a7ddd928664caa737f0e962e3085d4e7c # v3.8.1
         with:
           run: cargo codspeed run
           token: ${{ secrets.CODSPEED_TOKEN }}

@@ -95,6 +95,151 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    #[inline(always)]
+    fn is_expr_leaf(e: &Expr) -> bool {
+        matches!(
+            e,
+            Expr::Ident(..) | Expr::Invalid(..) | Expr::Lit(..) | Expr::This(..)
+        )
+    }
+
+    #[inline(always)]
+    fn can_simplify_member_expr(e: &MemberExpr) -> bool {
+        matches!(
+            &*e.obj,
+            Expr::Lit(Lit::Str(..)) | Expr::Array(..) | Expr::Object(..)
+        )
+    }
+
+    #[inline(always)]
+    fn can_simplify_bin_expr(e: &BinExpr) -> bool {
+        match e.op {
+            op!("&&") | op!("||") => Self::can_simplify_bin_operand(&e.left),
+
+            op!("instanceof") => {
+                Self::is_known_non_object(&e.left)
+                    || Self::is_known_object(&e.left)
+                        && e.right
+                            .as_ident()
+                            .is_some_and(|ident| &*ident.sym == "Object")
+            }
+
+            op!("<") | op!(">") | op!("<=") | op!(">=") => {
+                Self::can_simplify_bin_operand(&e.left)
+                    || Self::can_simplify_bin_operand(&e.right)
+                    || Self::same_ident(&e.left, &e.right)
+                    || Self::same_typeof_ident(&e.left, &e.right)
+            }
+
+            op!(bin, "+")
+            | op!(bin, "-")
+            | op!("*")
+            | op!("/")
+            | op!("%")
+            | op!("**")
+            | op!("&")
+            | op!("|")
+            | op!("^")
+            | op!("<<")
+            | op!(">>")
+            | op!(">>>")
+            | op!("==")
+            | op!("!=")
+            | op!("===")
+            | op!("!==") => {
+                Self::can_simplify_bin_operand(&e.left)
+                    || Self::can_simplify_bin_operand(&e.right)
+                    || Self::same_typeof_ident(&e.left, &e.right)
+            }
+
+            _ => false,
+        }
+    }
+
+    #[inline(always)]
+    fn can_simplify_bin_operand(e: &Expr) -> bool {
+        match e {
+            Expr::Lit(..)
+            | Expr::Tpl(..)
+            | Expr::Array(..)
+            | Expr::Object(..)
+            | Expr::Fn(..)
+            | Expr::Class(..)
+            | Expr::New(..)
+            | Expr::Unary(..)
+            | Expr::Seq(..)
+            | Expr::Assign(..)
+            | Expr::Cond(..)
+            | Expr::Bin(..) => true,
+
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(IdentName { sym, .. }),
+                ..
+            }) if &**sym == "length"
+                && matches!(&**obj, Expr::Array(..) | Expr::Lit(Lit::Str(..))) =>
+            {
+                true
+            }
+
+            Expr::Ident(Ident { sym, .. }) => {
+                matches!(&**sym, "undefined" | "Infinity" | "NaN")
+            }
+
+            _ => false,
+        }
+    }
+
+    #[inline(always)]
+    fn is_known_object(e: &Expr) -> bool {
+        matches!(
+            e,
+            Expr::Array(..) | Expr::Object(..) | Expr::Fn(..) | Expr::Class(..) | Expr::New(..)
+        )
+    }
+
+    #[inline(always)]
+    fn is_known_non_object(e: &Expr) -> bool {
+        match e {
+            Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..) | Lit::Bool(..)) => true,
+            Expr::Ident(Ident { sym, .. }) => {
+                matches!(&**sym, "undefined" | "Infinity" | "NaN")
+            }
+            Expr::Unary(UnaryExpr {
+                op: op!("!") | op!(unary, "-") | op!("void"),
+                arg,
+                ..
+            }) => Self::is_known_non_object(arg),
+            _ => false,
+        }
+    }
+
+    #[inline(always)]
+    fn same_ident(left: &Expr, right: &Expr) -> bool {
+        left.as_ident()
+            .zip(right.as_ident())
+            .is_some_and(|(left, right)| left.to_id() == right.to_id())
+    }
+
+    #[inline(always)]
+    fn same_typeof_ident(left: &Expr, right: &Expr) -> bool {
+        match (left, right) {
+            (
+                Expr::Unary(UnaryExpr {
+                    op: op!("typeof"),
+                    arg: left,
+                    ..
+                }),
+                Expr::Unary(UnaryExpr {
+                    op: op!("typeof"),
+                    arg: right,
+                    ..
+                }),
+            ) => Self::same_ident(left, right),
+            _ => false,
+        }
+    }
+
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: ModuleItemExt + Take,
@@ -223,8 +368,12 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
-        self.visit_mut_expr(&mut e.left);
-        self.visit_mut_expr(&mut e.right);
+        if !Self::is_expr_leaf(&e.left) {
+            self.visit_mut_expr(&mut e.left);
+        }
+        if !Self::is_expr_leaf(&e.right) {
+            self.visit_mut_expr(&mut e.right);
+        }
 
         self.compress_cmp_with_long_op(e);
 
@@ -264,7 +413,9 @@ impl VisitMut for Pure<'_> {
         self.optimize_arrow_body(body);
 
         if let BlockStmtOrExpr::Expr(e) = body {
-            self.make_bool_short(e, false, false);
+            if self::bools::may_make_bool_short(e) {
+                self.make_bool_short(e, false, false);
+            }
         }
     }
 
@@ -315,10 +466,16 @@ impl VisitMut for Pure<'_> {
             s.body.visit_mut_with(this);
         });
 
-        self.make_bool_short(&mut s.test, true, false);
+        if self::bools::may_make_bool_short(&s.test) {
+            self.make_bool_short(&mut s.test, true, false);
+        }
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if Self::is_expr_leaf(e) {
+            return;
+        }
+
         self.handle_known_delete(e);
 
         e.visit_mut_children_with(self);
@@ -331,7 +488,7 @@ impl VisitMut for Pure<'_> {
                         .union(Ctx::IS_UPDATE_ARG)
                         .union(Ctx::IS_LHS_OF_ASSIGN)
                         .union(Ctx::IN_OPT_CHAIN),
-                ) =>
+                ) && e.as_member().is_some_and(Self::can_simplify_member_expr) =>
             {
                 let mut changed = false;
                 simplify::expr::optimize_member_expr(
@@ -357,7 +514,7 @@ impl VisitMut for Pure<'_> {
                 }
             }
 
-            Expr::Bin(..) => {
+            Expr::Bin(bin) if Self::can_simplify_bin_expr(bin) => {
                 let mut changed = false;
                 simplify::expr::optimize_bin_expr(self.expr_ctx, e, &mut changed);
 
@@ -366,6 +523,7 @@ impl VisitMut for Pure<'_> {
                     self.changed = true;
                 }
             }
+            Expr::Bin(..) => {}
 
             _ => {}
         }
@@ -384,7 +542,9 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.simplify_assign_expr(e);
+        if matches!(e, Expr::Assign(..)) {
+            self.simplify_assign_expr(e);
+        }
 
         if self.options.unused {
             if let Expr::Unary(UnaryExpr {
@@ -421,213 +581,312 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.eval_nested_tpl(e);
+        if matches!(e, Expr::Tpl(..)) {
+            self.eval_nested_tpl(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_tpl_as_str(e);
+        if matches!(e, Expr::Tpl(..)) {
+            self.eval_tpl_as_str(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_str_addition(e);
-
-        if self.changed {
-            self.remove_invalid(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.eval_str_addition(e);
         }
 
-        if let Expr::Seq(seq) = e {
-            if seq.exprs.is_empty() {
-                *e = Invalid { span: DUMMY_SP }.into();
-                return;
+        match e {
+            Expr::Seq(seq) => {
+                if seq.exprs.iter().any(|expr| expr.is_invalid()) {
+                    self.remove_invalid(e);
+                }
+
+                if let Expr::Seq(seq) = e {
+                    if seq.exprs.is_empty() {
+                        *e = Invalid { span: DUMMY_SP }.into();
+                        return;
+                    }
+                    if seq.exprs.len() == 1 {
+                        self.changed = true;
+                        *e = *seq.exprs.take().into_iter().next().unwrap();
+                    }
+                }
             }
-            if seq.exprs.len() == 1 {
-                self.changed = true;
-                *e = *seq.exprs.take().into_iter().next().unwrap();
+            Expr::Bin(BinExpr { left, right, .. }) if left.is_invalid() || right.is_invalid() => {
+                self.remove_invalid(e);
             }
+            _ => {}
         }
 
-        self.eval_array_spread(e);
+        if matches!(e, Expr::Array(..)) {
+            self.eval_array_spread(e);
+        }
 
-        self.compress_array_join(e);
+        if matches!(e, Expr::Call(..)) {
+            self.compress_array_join(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.unsafe_optimize_fn_as_arrow(e);
+        if matches!(e, Expr::Fn(..)) {
+            self.unsafe_optimize_fn_as_arrow(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_opt_chain(e);
+        if matches!(e, Expr::OptChain(..)) {
+            self.eval_opt_chain(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_number_call(e);
+        if matches!(e, Expr::Call(..)) {
+            self.eval_number_call(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_arguments_member_access(e);
+        if matches!(e, Expr::Member(..)) {
+            self.eval_arguments_member_access(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_number_method_call(e);
+        if matches!(e, Expr::Call(..)) {
+            self.eval_number_method_call(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.swap_bin_operands(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.swap_bin_operands(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.drop_logical_operands(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.drop_logical_operands(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.optimize_negate_eq(e);
+        if matches!(e, Expr::Unary(..)) {
+            self.optimize_negate_eq(e);
+        }
 
-        self.lift_minus(e);
-        self.optimize_to_number(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.lift_minus(e);
+        }
+        if matches!(
+            e,
+            Expr::Assign(AssignExpr { op: op!("="), .. }) | Expr::Bin(BinExpr { op: op!("*"), .. })
+        ) {
+            self.optimize_to_number(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
-        self.convert_tpl_to_str(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
+        if matches!(e, Expr::Tpl(..)) {
+            self.convert_tpl_to_str(e);
         }
-
-        self.drop_useless_addition_of_str(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.compress_useless_deletes(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.remove_useless_logical_rhs(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.handle_negated_seq(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.drop_useless_addition_of_str(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.concat_str(e);
+        if matches!(e, Expr::Unary(..)) {
+            self.compress_useless_deletes(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_array_method_call(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.remove_useless_logical_rhs(e);
         }
-        self.eval_fn_method_call(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.eval_str_method_call(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.optimize_const_cond(e);
-
-        self.compress_conds_as_logical(e);
+        if matches!(e, Expr::Unary(..)) {
+            self.handle_negated_seq(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.compress_cond_with_logical_as_logical(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.concat_str(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.compress_conds_as_arithmetic(e);
-
-        self.eval_logical_expr(e);
+        if matches!(e, Expr::Call(..)) {
+            self.eval_array_or_fn_method_call(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.lift_seqs_of_bin(e);
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        if matches!(e, Expr::Call(..)) {
+            self.eval_str_method_call(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.lift_seqs_of_cond_assign(e);
+        if matches!(e, Expr::Cond(..)) {
+            self.optimize_const_cond(e);
+        }
+
+        if matches!(e, Expr::Cond(..)) {
+            self.compress_conds_as_logical(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.optimize_nullish_coalescing(e);
+        if matches!(e, Expr::Cond(..)) {
+            self.compress_cond_with_logical_as_logical(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.compress_negated_bin_eq(e);
+        if matches!(e, Expr::Cond(..)) {
+            self.compress_conds_as_arithmetic(e);
+        }
+
+        if matches!(
+            e,
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                ..
+            })
+        ) {
+            self.eval_logical_expr(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.compress_useless_cond_expr(e);
+        if matches!(e, Expr::Bin(..)) {
+            self.lift_seqs_of_bin(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.optimize_builtin_object(e);
+        if matches!(e, Expr::Assign(..)) {
+            self.lift_seqs_of_cond_assign(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.optimize_opt_chain(e);
+        if matches!(e, Expr::Bin(BinExpr { op: op!("??"), .. })) {
+            self.optimize_nullish_coalescing(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
         }
 
-        self.eval_member_expr(e);
+        if matches!(e, Expr::Unary(..)) {
+            self.compress_negated_bin_eq(e);
+        }
 
-        self.optimize_to_int(e);
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        if matches!(e, Expr::Cond(..)) {
+            self.compress_useless_cond_expr(e);
+        }
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        if matches!(e, Expr::Call(..) | Expr::New(..)) {
+            self.optimize_builtin_object(e);
+        }
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        if matches!(e, Expr::OptChain(..)) {
+            self.optimize_opt_chain(e);
+        }
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        if matches!(e, Expr::Member(..)) {
+            self.eval_member_expr(e);
+        }
+
+        if matches!(
+            e,
+            Expr::Assign(AssignExpr {
+                op: op!("<<=") | op!(">>=") | op!(">>>=") | op!("|=") | op!("^=") | op!("&="),
+                ..
+            }) | Expr::Bin(BinExpr {
+                op: op!("<<") | op!(">>") | op!(">>>") | op!("|") | op!("^") | op!("&"),
+                ..
+            })
+        ) {
+            self.optimize_to_int(e);
+        }
     }
 
     fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
@@ -652,7 +911,9 @@ impl VisitMut for Pure<'_> {
 
         debug_assert_valid(&s.expr);
 
-        self.make_bool_short(&mut s.expr, false, true);
+        if self::bools::may_make_bool_short(&s.expr) {
+            self.make_bool_short(&mut s.expr, false, true);
+        }
     }
 
     fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
@@ -688,7 +949,9 @@ impl VisitMut for Pure<'_> {
             self.negate_if_terminate(&mut body.stmts, false, true);
         }
 
-        self.make_bool_short(&mut n.right, false, false);
+        if self::bools::may_make_bool_short(&n.right) {
+            self.make_bool_short(&mut n.right, false, false);
+        }
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
@@ -702,7 +965,9 @@ impl VisitMut for Pure<'_> {
             self.negate_if_terminate(&mut body.stmts, false, true);
         }
 
-        self.make_bool_short(&mut n.right, false, false);
+        if self::bools::may_make_bool_short(&n.right) {
+            self.make_bool_short(&mut n.right, false, false);
+        }
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
@@ -755,13 +1020,17 @@ impl VisitMut for Pure<'_> {
 
         self.merge_else_if(s);
 
-        self.make_bool_short(&mut s.test, true, false);
+        if self::bools::may_make_bool_short(&s.test) {
+            self.make_bool_short(&mut s.test, true, false);
+        }
     }
 
     fn visit_mut_key_value_prop(&mut self, p: &mut KeyValueProp) {
         p.visit_mut_children_with(self);
 
-        self.make_bool_short(&mut p.value, false, false);
+        if self::bools::may_make_bool_short(&p.value) {
+            self.make_bool_short(&mut p.value, false, false);
+        }
     }
 
     fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
@@ -904,7 +1173,9 @@ impl VisitMut for Pure<'_> {
         self.drop_undefined_from_return_arg(s);
 
         if let Some(e) = &mut s.arg {
-            self.make_bool_short(e, false, false);
+            if self::bools::may_make_bool_short(e) {
+                self.make_bool_short(e, false, false);
+            }
         }
     }
 
@@ -1160,7 +1431,9 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_throw_stmt(&mut self, s: &mut ThrowStmt) {
         s.visit_mut_children_with(self);
 
-        self.make_bool_short(&mut s.arg, false, false);
+        if self::bools::may_make_bool_short(&s.arg) {
+            self.make_bool_short(&mut s.arg, false, false);
+        }
     }
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
@@ -1230,7 +1503,9 @@ impl VisitMut for Pure<'_> {
         v.visit_mut_children_with(self);
 
         if let Some(init) = &mut v.init {
-            self.make_bool_short(init, false, false);
+            if self::bools::may_make_bool_short(init) {
+                self.make_bool_short(init, false, false);
+            }
         }
     }
 
@@ -1243,7 +1518,9 @@ impl VisitMut for Pure<'_> {
 
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
 
-        self.make_bool_short(&mut s.test, true, false);
+        if self::bools::may_make_bool_short(&s.test) {
+            self.make_bool_short(&mut s.test, true, false);
+        }
     }
 
     /// Noop.

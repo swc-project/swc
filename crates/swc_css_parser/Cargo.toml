@@ -19,15 +19,15 @@ debug = []
 lexical = { workspace = true }
 serde   = { workspace = true }
 
-swc_atoms   = { version = "9.0.0", path = "../swc_atoms" }
-swc_common  = { version = "21.0.1", path = "../swc_common" }
-swc_css_ast = { version = "21.0.0", path = "../swc_css_ast" }
+swc_atoms   = { version = "9.0.1", path = "../swc_atoms" }
+swc_common  = { version = "21.0.2", path = "../swc_common" }
+swc_css_ast = { version = "21.0.1", path = "../swc_css_ast" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 serde_json                = { workspace = true }
 
-swc_css_ast = { version = "21.0.0", path = "../swc_css_ast", features = [
+swc_css_ast = { version = "21.0.1", path = "../swc_css_ast", features = [
   "serde-impl",
 ] }
 swc_css_visit = { version = "21.0.0", path = "../swc_css_visit" }

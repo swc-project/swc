@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_loader"
 repository    = { workspace = true }
-version       = "21.0.0"
+version       = "22.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -30,15 +30,15 @@ dashmap     = { workspace = true, optional = true }
 lru         = { workspace = true, optional = true }
 once_cell   = { workspace = true, optional = true }
 parking_lot = { workspace = true, optional = true }
-path-clean  = { version = "=0.1.0", optional = true }
+path-clean  = { workspace = true, optional = true }
 pathdiff    = { workspace = true }
 rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 serde_json  = { workspace = true, optional = true }
 tracing     = { workspace = true }
 
-swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "21.0.1", path = "../swc_common" }
+swc_atoms  = { version = "9.0.1", path = "../swc_atoms" }
+swc_common = { version = "21.0.2", path = "../swc_common" }
 
 [dev-dependencies]
 lazy_static = { workspace = true }

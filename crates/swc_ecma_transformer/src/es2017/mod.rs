@@ -1,4 +1,4 @@
-mod async_to_generator;
+pub(crate) mod async_to_generator;
 
 use swc_common::SyntaxContext;
 use swc_ecma_hooks::VisitMutHook;

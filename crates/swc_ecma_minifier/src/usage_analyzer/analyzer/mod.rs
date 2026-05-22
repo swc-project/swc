@@ -443,7 +443,7 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        self.visit_pat_id(&Ident::from(n));
+        self.visit_pat_id(n);
     }
 
     #[cfg_attr(
@@ -805,8 +805,6 @@ where
             ..self.ctx
         };
 
-        e.visit_children_with(&mut *self.with_ctx(ctx));
-
         if let Expr::Ident(i) = e {
             #[cfg(feature = "tracing-spans")]
             {
@@ -819,7 +817,10 @@ where
             }
 
             self.with_ctx(ctx).report_usage(i);
+            return;
         }
+
+        e.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
     #[cfg_attr(
@@ -1232,7 +1233,7 @@ where
     fn visit_pat(&mut self, n: &Pat) {
         match n {
             Pat::Ident(i) => {
-                i.visit_with(self);
+                self.visit_pat_id(i);
             }
             _ => {
                 let ctx = self

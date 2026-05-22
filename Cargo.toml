@@ -18,7 +18,7 @@ repository = "https://github.com/swc-project/swc.git"
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
 bytecheck = "0.8.0"
 rancor    = "0.1.0"
-rkyv      = "0.8.8"
+rkyv      = "0.8.16"
 
 
 Inflector                 = "0.11.4"
@@ -47,7 +47,7 @@ console_error_panic_hook  = "0.1.7"
 copyless                  = "0.1.5"
 crc                       = "2.1.0"
 criterion                 = "0.5.1"
-dashmap                   = "5.5.3"
+dashmap                   = "6.1.0"
 dialoguer                 = "0.10.2"
 difference                = "2"
 dragonbox_ecma            = "0.1.0"

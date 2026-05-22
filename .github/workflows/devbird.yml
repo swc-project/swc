@@ -53,6 +53,8 @@ on:
         required: false
         default: ""
 
+permissions: {}
+
 jobs:
   devbird:
     runs-on: ubuntu-latest
@@ -64,26 +66,27 @@ jobs:
       actions: read # Required for Claude to read CI results on PRs
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
 
       - run: corepack enable
 
       # Source map format
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node
         with:
           node-version: "20"
-          cache: "yarn"
+          install-dependencies: "false"
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         with:
-          profile: minimal
           target: wasm32-wasip1
           components: rustfmt
 
       - name: Run DevBird
-        uses: delinoio/devbird-action@main
+        uses: delinoio/devbird-action@1a00faaf30734c914c4066d64d86527edc6bcd85 # main
         with:
           agent: ${{ inputs.agent }}
           agent_model: ${{ inputs.agent_model }}

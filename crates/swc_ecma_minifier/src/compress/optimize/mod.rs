@@ -629,6 +629,13 @@ impl Optimizer<'_> {
         }
     }
 
+    fn bin_has_direct_invalid_child(e: &Expr) -> bool {
+        matches!(
+            e,
+            Expr::Bin(BinExpr { left, right, .. }) if left.is_invalid() || right.is_invalid()
+        )
+    }
+
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
@@ -1852,121 +1859,157 @@ impl VisitMut for Optimizer<'_> {
             .entered()
         };
 
-        let ctx = self
-            .ctx
-            .clone()
-            .with(BitCtx::IsExported, false)
-            .with(BitCtx::IsCallee, false);
-        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        let is_ident = matches!(e, Expr::Ident(..));
 
-        #[cfg(feature = "trace-ast")]
-        let _tracing = {
-            let s = dump(&*e, true);
-            tracing::span!(
-                tracing::Level::ERROR,
-                "visit_mut_expr_after_children",
-                src = tracing::field::display(&s)
-            )
-            .entered()
-        };
+        if is_ident {
+            self.inline(e);
 
-        match e {
-            Expr::Seq(seq) if seq.exprs.len() == 1 => {
-                let span = seq.span;
-                *e = *seq.exprs[0].take();
-                e.set_span(span);
+            if matches!(e, Expr::Ident(..)) {
+                self.evaluate_ident(e);
+
+                #[cfg(feature = "trace-ast")]
+                tracing::debug!("Output: {}", dump(e, true));
+
+                return;
             }
+        } else {
+            let ctx = self
+                .ctx
+                .clone()
+                .with(BitCtx::IsExported, false)
+                .with(BitCtx::IsCallee, false);
+            e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left,
-                right,
-                ..
-            }) => {
-                if let Some(i) = left.as_ident_mut() {
-                    let old = i.to_id();
+            #[cfg(feature = "trace-ast")]
+            let _tracing = {
+                let s = dump(&*e, true);
+                tracing::span!(
+                    tracing::Level::ERROR,
+                    "visit_mut_expr_after_children",
+                    src = tracing::field::display(&s)
+                )
+                .entered()
+            };
 
-                    self.store_var_for_inlining(i, right, false);
-
-                    if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
-                        self.vars.removed.insert(old.clone());
-                    }
-
-                    if right.is_invalid() {
-                        if let Some(lit) = self
-                            .vars
-                            .lits
-                            .get(&old)
-                            .or_else(|| self.vars.vars_for_inlining.get(&old))
-                        {
-                            *e = (**lit).clone();
-                        }
-                    }
+            match e {
+                Expr::Seq(seq) if seq.exprs.len() == 1 => {
+                    let span = seq.span;
+                    *e = *seq.exprs[0].take();
+                    e.set_span(span);
                 }
 
-                self.lift_seqs_of_assign(e)
+                Expr::Assign(AssignExpr {
+                    op: op!("="),
+                    left,
+                    right,
+                    ..
+                }) => {
+                    if let Some(i) = left.as_ident_mut() {
+                        let old = i.to_id();
+
+                        self.store_var_for_inlining(i, right, false);
+
+                        if i.is_dummy() && self.options.unused {
+                            report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
+                            self.vars.removed.insert(old.clone());
+                        }
+
+                        if right.is_invalid() {
+                            if let Some(lit) = self
+                                .vars
+                                .lits
+                                .get(&old)
+                                .or_else(|| self.vars.vars_for_inlining.get(&old))
+                            {
+                                *e = (**lit).clone();
+                            }
+                        }
+                    }
+
+                    self.lift_seqs_of_assign(e)
+                }
+
+                _ => {}
             }
 
-            _ => {}
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
+
+            let should_remove_invalid = match e {
+                Expr::Bin(BinExpr {
+                    op, left, right, ..
+                }) => {
+                    left.is_invalid()
+                        || right.is_invalid()
+                        || self.changed
+                            && matches!(op, op!("&&") | op!("||"))
+                            && (Self::bin_has_direct_invalid_child(left)
+                                || Self::bin_has_direct_invalid_child(right))
+                }
+                _ => false,
+            };
+
+            if should_remove_invalid {
+                self.remove_invalid_bin(e);
+            }
+
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
+
+            self.optimize_str_access_to_arguments(e);
+
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
+
+            self.replace_props(e);
+
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
+
+            self.drop_unused_assignments(e);
+
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
+
+            self.compress_lits(e);
+
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
+
+            self.compress_typeofs(e);
+
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
+
+            self.drop_console(e);
+
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
+
+            if matches!(
+                &*e,
+                Expr::Bin(BinExpr {
+                    op: op!("&&") | op!("||"),
+                    ..
+                })
+            ) {
+                self.compress_logical_exprs_as_bang_bang(e, false);
+            }
+
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
+
+            self.inline(e);
         }
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        // This is not accurate check but avoid some trivial cases.
-        if self.changed {
-            self.remove_invalid_bin(e);
-        }
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.optimize_str_access_to_arguments(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.replace_props(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.drop_unused_assignments(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.compress_lits(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.compress_typeofs(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.drop_console(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.compress_logical_exprs_as_bang_bang(e, false);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.inline(e);
 
         if e.is_seq() {
             debug_assert_valid(e);

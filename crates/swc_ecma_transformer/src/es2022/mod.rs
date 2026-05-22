@@ -6,8 +6,8 @@ use crate::{
 };
 
 mod class_properties;
-mod class_static_block;
-mod private_property_in_object;
+pub(crate) mod class_static_block;
+pub(crate) mod private_property_in_object;
 
 #[derive(Debug, Default)]
 #[non_exhaustive]

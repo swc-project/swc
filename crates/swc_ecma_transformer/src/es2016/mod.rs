@@ -2,7 +2,7 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::TraverseCtx;
 
-mod exponentiation_operator;
+pub(crate) mod exponentiation_operator;
 
 #[derive(Debug, Default)]
 #[non_exhaustive]

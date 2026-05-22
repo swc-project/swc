@@ -21,9 +21,9 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_expr);
         debug_tracing!(self, "parse_expr");
         let expr = self.parse_assignment_expr()?;
-        let start = expr.span_lo();
 
         if self.input_mut().is(Token::Comma) {
+            let start = expr.span_lo();
             let mut exprs = vec![expr];
 
             while self.input_mut().eat(Token::Comma) {
@@ -42,10 +42,12 @@ impl<I: Tokens> Parser<I> {
 
     /// AssignmentExpression[+In, ?Yield, ?Await]
     /// ...AssignmentExpression[+In, ?Yield, ?Await]
+    #[inline(always)]
     fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
         trace_cur!(self, parse_expr_or_spread);
-        let start = self.input().cur_pos();
-        if self.input_mut().eat(Token::DotDotDot) {
+        if self.input().cur() == Token::DotDotDot {
+            self.bump();
+            let start = self.input().prev_span().lo;
             let spread_span = self.span(start);
             let spread = Some(spread_span);
             self.allow_in_expr(Self::parse_assignment_expr)
@@ -74,7 +76,7 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
-        if self.input().syntax().typescript() && self.input().is(Token::JSXTagStart) {
+        if self.input().is(Token::JSXTagStart) && self.input().syntax().typescript() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
             let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
@@ -93,12 +95,14 @@ impl<I: Tokens> Parser<I> {
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_base);
-        let start = self.input().cur_span();
+        let cur = self.input().cur();
+        let syntax = self.input().syntax();
 
-        if self.input().syntax().typescript()
-            && (self.input().cur() == Token::Lt || self.input().cur() == Token::JSXTagStart)
+        if syntax.typescript()
+            && (cur == Token::Lt || cur == Token::JSXTagStart)
             && (peek!(self).is_some_and(|peek| peek.is_word() || peek == Token::JSXName))
         {
+            let start = self.input().cur_span();
             let res = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
                 p.try_parse_ts(|p| {
                     let type_parameters = p.parse_ts_type_params(false, true)?;
@@ -152,18 +156,16 @@ impl<I: Tokens> Parser<I> {
                 })
             });
             if let Some(res) = res {
-                if self.input().syntax().disallow_ambiguous_jsx_like() {
+                if syntax.disallow_ambiguous_jsx_like() {
                     self.emit_err(start, SyntaxError::ReservedArrowTypeParam);
                 }
                 return Ok(res);
             }
         }
 
-        if self.ctx().contains(Context::InGenerator) && self.input().is(Token::Yield) {
+        if cur == Token::Yield && self.ctx().contains(Context::InGenerator) {
             return self.parse_yield_expr();
         }
-
-        let cur = self.input().cur();
 
         if cur == Token::Error {
             let err = self.input_mut().expect_error_token_and_bump();
@@ -171,18 +173,20 @@ impl<I: Tokens> Parser<I> {
         }
 
         self.state_mut().potential_arrow_start =
-            if cur.is_known_ident() || matches!(cur, Token::Ident | Token::Yield | Token::LParen) {
-                Some(self.cur_pos())
+            if matches!(cur, Token::Ident | Token::Yield | Token::LParen) || cur.is_known_ident() {
+                self.cur_pos()
             } else {
-                None
+                BytePos::SYNTHESIZED
             };
-
-        let start = self.cur_pos();
 
         // Try to parse conditional expression.
         let cond = self.parse_cond_expr()?;
 
         return_if_arrow!(self, cond);
+
+        if !self.input().cur().is_assign_op() {
+            return Ok(cond);
+        }
 
         match *cond {
             // if cond is conditional expression but not left-hand-side expression,
@@ -191,6 +195,7 @@ impl<I: Tokens> Parser<I> {
             _ => {}
         }
 
+        let start = cond.span_lo();
         self.finish_assignment_expr(start, cond)
     }
 
@@ -202,127 +207,133 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_unary_expr);
 
-        let token_and_span = self.input().get_cur();
-        let start = token_and_span.span.lo;
-        let cur = token_and_span.token;
+        let cur = self.input().cur();
 
-        if cur == Token::Lt && self.input().syntax().typescript() && !self.input().syntax().jsx() {
-            self.bump(); // consume `<`
-            return if self.input_mut().eat(Token::Const) {
-                self.expect(Token::Gt)?;
-                let expr = self.parse_unary_expr()?;
-                Ok(TsConstAssertion {
-                    span: self.span(start),
-                    expr,
-                }
-                .into())
-            } else {
-                self.parse_ts_type_assertion(start)
-                    .map(Expr::from)
-                    .map(Box::new)
-            };
-        } else if cur == Token::Lt
-            && self.input().syntax().jsx()
-            && self.input_mut().peek().is_some_and(|peek| {
-                peek.is_word() || peek == Token::Gt || peek.should_rescan_into_gt_in_jsx()
-            })
-        {
-            fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
-                match e {
-                    Either::Left(l) => l.into(),
-                    Either::Right(r) => r.into(),
-                }
-            }
-            return self.parse_jsx_element(true).map(into_expr);
-        } else if matches!(cur, Token::PlusPlus | Token::MinusMinus) {
-            // Parse update expression
-            let op = if cur == Token::PlusPlus {
-                op!("++")
-            } else {
-                op!("--")
-            };
-            self.bump();
-
-            let arg = self.parse_unary_expr()?;
-            let span = Span::new_with_checked(start, arg.span_hi());
-            self.check_assign_target(&arg, false);
-
-            return Ok(UpdateExpr {
-                span,
-                prefix: true,
-                op,
-                arg,
-            }
-            .into());
-        } else if cur == Token::Delete
-            || cur == Token::Void
-            || cur == Token::TypeOf
-            || cur == Token::Plus
-            || cur == Token::Minus
-            || cur == Token::Tilde
-            || cur == Token::Bang
-        {
-            // Parse unary expression
-            let op = if cur == Token::Delete {
-                op!("delete")
-            } else if cur == Token::Void {
-                op!("void")
-            } else if cur == Token::TypeOf {
-                op!("typeof")
-            } else if cur == Token::Plus {
-                op!(unary, "+")
-            } else if cur == Token::Minus {
-                op!(unary, "-")
-            } else if cur == Token::Tilde {
-                op!("~")
-            } else {
-                debug_assert!(cur == Token::Bang);
-                op!("!")
-            };
-            self.bump();
-            let arg_start = self.cur_pos() - BytePos(1);
-            let arg = match self.parse_unary_expr() {
-                Ok(expr) => expr,
-                Err(err) => {
-                    self.emit_error(err);
-                    Invalid {
-                        span: Span::new_with_checked(arg_start, arg_start),
+        if cur.needs_unary_expr_prefix_parse() {
+            if cur == Token::Lt
+                && self.input().syntax().typescript()
+                && !self.input().syntax().jsx()
+            {
+                let start = self.input().cur_pos();
+                self.bump(); // consume `<`
+                return if self.input_mut().eat(Token::Const) {
+                    self.expect(Token::Gt)?;
+                    let expr = self.parse_unary_expr()?;
+                    Ok(TsConstAssertion {
+                        span: self.span(start),
+                        expr,
                     }
-                    .into()
-                }
-            };
-
-            if op == op!("delete") {
-                if self.input().syntax().flow()
-                    && matches!(
-                        arg.as_ref(),
-                        Expr::Member(MemberExpr {
-                            prop: MemberProp::PrivateName(..),
-                            ..
-                        })
-                    )
-                {
-                    self.emit_err(arg.span(), SyntaxError::TS1003);
-                }
-
-                // Skip emitting TS1102 in TypeScript mode because it's a semantic error
-                // that should be handled by the type checker, not the parser.
-                // See: https://github.com/swc-project/swc/issues/10558
-                if !self.input().syntax().typescript() {
-                    if let Expr::Ident(ref i) = *arg {
-                        self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                    .into())
+                } else {
+                    self.parse_ts_type_assertion(start)
+                        .map(Expr::from)
+                        .map(Box::new)
+                };
+            } else if cur == Token::Lt
+                && self.input().syntax().jsx()
+                && self.input_mut().peek().is_some_and(|peek| {
+                    peek.is_word() || peek == Token::Gt || peek.should_rescan_into_gt_in_jsx()
+                })
+            {
+                fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
+                    match e {
+                        Either::Left(l) => l.into(),
+                        Either::Right(r) => r.into(),
                     }
                 }
-            }
+                return self.parse_jsx_element(true).map(into_expr);
+            } else if matches!(cur, Token::PlusPlus | Token::MinusMinus) {
+                let start = self.input().cur_pos();
+                // Parse update expression
+                let op = if cur == Token::PlusPlus {
+                    op!("++")
+                } else {
+                    op!("--")
+                };
+                self.bump();
 
-            return Ok(UnaryExpr {
-                span: Span::new_with_checked(start, arg.span_hi()),
-                op,
-                arg,
+                let arg = self.parse_unary_expr()?;
+                let span = Span::new_with_checked(start, arg.span_hi());
+                self.check_assign_target(&arg, false);
+
+                return Ok(UpdateExpr {
+                    span,
+                    prefix: true,
+                    op,
+                    arg,
+                }
+                .into());
+            } else if cur == Token::Delete
+                || cur == Token::Void
+                || cur == Token::TypeOf
+                || cur == Token::Plus
+                || cur == Token::Minus
+                || cur == Token::Tilde
+                || cur == Token::Bang
+            {
+                let start = self.input().cur_pos();
+                // Parse unary expression
+                let op = if cur == Token::Delete {
+                    op!("delete")
+                } else if cur == Token::Void {
+                    op!("void")
+                } else if cur == Token::TypeOf {
+                    op!("typeof")
+                } else if cur == Token::Plus {
+                    op!(unary, "+")
+                } else if cur == Token::Minus {
+                    op!(unary, "-")
+                } else if cur == Token::Tilde {
+                    op!("~")
+                } else {
+                    debug_assert!(cur == Token::Bang);
+                    op!("!")
+                };
+                self.bump();
+                let arg_start = self.cur_pos() - BytePos(1);
+                let arg = match self.parse_unary_expr() {
+                    Ok(expr) => expr,
+                    Err(err) => {
+                        self.emit_error(err);
+                        Invalid {
+                            span: Span::new_with_checked(arg_start, arg_start),
+                        }
+                        .into()
+                    }
+                };
+
+                if op == op!("delete") {
+                    if self.input().syntax().flow()
+                        && matches!(
+                            arg.as_ref(),
+                            Expr::Member(MemberExpr {
+                                prop: MemberProp::PrivateName(..),
+                                ..
+                            })
+                        )
+                    {
+                        self.emit_err(arg.span(), SyntaxError::TS1003);
+                    }
+
+                    // Skip emitting TS1102 in TypeScript mode because it's a semantic error
+                    // that should be handled by the type checker, not the parser.
+                    // See: https://github.com/swc-project/swc/issues/10558
+                    if !self.input().syntax().typescript() {
+                        if let Expr::Ident(ref i) = *arg {
+                            self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                        }
+                    }
+                }
+
+                return Ok(UnaryExpr {
+                    span: Span::new_with_checked(start, arg.span_hi()),
+                    op,
+                    arg,
+                }
+                .into());
+            } else if cur == Token::Await {
+                return self.parse_await_expr(None);
             }
-            .into());
-        } else if cur == Token::Await {
-            return self.parse_await_expr(None);
         }
 
         // UpdateExpression
@@ -331,13 +342,14 @@ impl<I: Tokens> Parser<I> {
             return Ok(expr);
         }
 
-        // Line terminator isn't allowed here.
-        if self.input_mut().had_line_break_before_cur() {
-            return Ok(expr);
-        }
-
         let cur = self.input().cur();
-        if cur == Token::PlusPlus || cur == Token::MinusMinus {
+        let cur_kind = cur as u8;
+        if cur_kind >= Token::PlusPlus as u8 && cur_kind <= Token::MinusMinus as u8 {
+            // Line terminator isn't allowed here.
+            if self.input_mut().had_line_break_before_cur() {
+                return Ok(expr);
+            }
+
             let op = if cur == Token::PlusPlus {
                 op!("++")
             } else {
@@ -362,11 +374,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
         let start = self.input().cur_pos();
-        let can_be_arrow = self
-            .state
-            .potential_arrow_start
-            .map(|s| s == start)
-            .unwrap_or(false);
+        let can_be_arrow = self.state.potential_arrow_start == start;
         let tok = self.input.cur();
         match tok {
             Token::This => return self.parse_this_expr(start),
@@ -420,18 +428,18 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_lhs_expr);
 
-        let token_and_span = self.input().get_cur();
-        let start = token_and_span.span.lo;
-        let cur = token_and_span.token;
+        let cur = self.input().cur();
 
         // `super()` can't be handled from parse_new_expr()
         if cur == Token::Super {
+            let start = self.input().cur_pos();
             self.bump(); // eat `super`
             let obj = Callee::Super(Super {
                 span: self.span(start),
             });
             return self.parse_subscripts(obj, false, false);
         } else if cur == Token::Import {
+            let start = self.input().cur_pos();
             self.bump(); // eat `import`
             return self.parse_dynamic_import_or_import_meta(start, false);
         }
@@ -475,6 +483,7 @@ impl<I: Tokens> Parser<I> {
         if self.input().is(Token::LParen) {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
+            let start = callee.span_lo();
             let (callee, is_import) = match callee {
                 _ if callee.is_ident_ref_to("import") => (
                     Callee::Import(Import {
@@ -511,7 +520,7 @@ impl<I: Tokens> Parser<I> {
                 .into(),
             };
 
-            return self.parse_subscripts(Callee::Expr(call_expr), false, false);
+            return self.parse_subscripts_expr::<false>(call_expr, false);
         }
         if type_args.is_some() {
             // This fails
@@ -533,6 +542,15 @@ impl<I: Tokens> Parser<I> {
         let start = self.input().cur_pos();
 
         self.assert_and_bump(Token::LBracket);
+
+        if self.input().is(Token::RBracket) {
+            expect!(self, Token::RBracket);
+            return Ok(ArrayLit {
+                span: self.span(start),
+                elems: Vec::new(),
+            }
+            .into());
+        }
 
         let mut elems = Vec::with_capacity(8);
 
@@ -562,7 +580,7 @@ impl<I: Tokens> Parser<I> {
 
     fn at_possible_async(&mut self, expr: &Expr) -> bool {
         // TODO(kdy1): !this.state.containsEsc &&
-        self.state().potential_arrow_start == Some(expr.span_lo()) && expr.is_ident_ref_to("async")
+        self.state().potential_arrow_start == expr.span_lo() && expr.is_ident_ref_to("async")
     }
 
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
@@ -920,7 +938,15 @@ impl<I: Tokens> Parser<I> {
             let span = self.span(start);
             Lit::Bool(swc_ecma_ast::Bool { span, value })
         } else if cur == Token::Str {
-            Lit::Str(self.parse_str_lit())
+            let raw = Atom::new(self.input.cur_string());
+            let value = self.input.expect_string_token_value();
+            self.bump();
+
+            Lit::Str(swc_ecma_ast::Str {
+                span: self.span(start),
+                value,
+                raw: Some(raw),
+            })
         } else if cur == Token::Num {
             let raw = Atom::new(self.input.cur_string());
             let value = self.input_mut().expect_number_token_value();
@@ -960,6 +986,11 @@ impl<I: Tokens> Parser<I> {
         self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
             let start = p.cur_pos();
             expect!(p, Token::LParen);
+
+            if p.input().is(Token::RParen) {
+                expect!(p, Token::RParen);
+                return Ok(Vec::new());
+            }
 
             let mut first = true;
             let mut expr_or_spreads = Vec::with_capacity(2);
@@ -1049,12 +1080,11 @@ impl<I: Tokens> Parser<I> {
     fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_cond_expr);
 
-        let start = self.cur_pos();
-
         let test = self.parse_bin_expr()?;
         return_if_arrow!(self, test);
 
         if self.input_mut().eat(Token::QuestionMark) {
+            let start = test.span_lo();
             let cons = self.do_inside_of_context(
                 Context::InCondExpr
                     .union(Context::WillExpectColonForCond)
@@ -1091,35 +1121,93 @@ impl<I: Tokens> Parser<I> {
         no_call: bool,
         no_computed_member: bool,
     ) -> PResult<Box<Expr>> {
-        let start = obj.span().lo;
-        let mut expr = match obj {
-            Callee::Import(import) => self.parse_subscript_import_call(start, import)?,
-            Callee::Super(s) => self.parse_subscript_super(start, s, no_call)?,
-            Callee::Expr(expr) => expr,
+        let expr = match obj {
+            Callee::Import(import) => {
+                let start = import.span.lo;
+                self.parse_subscript_import_call(start, import)?
+            }
+            Callee::Super(s) => {
+                let start = s.span.lo;
+                self.parse_subscript_super(start, s, no_call)?
+            }
+            Callee::Expr(expr) => {
+                return if no_computed_member {
+                    self.parse_subscripts_expr::<true>(expr, no_call)
+                } else {
+                    self.parse_subscripts_expr::<false>(expr, no_call)
+                };
+            }
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
         };
 
-        loop {
-            expr = match self.parse_subscript(start, expr, no_call, no_computed_member)? {
-                (expr, false) => return Ok(expr),
-                (expr, true) => expr,
+        if no_computed_member {
+            self.parse_subscripts_expr::<true>(expr, no_call)
+        } else {
+            self.parse_subscripts_expr::<false>(expr, no_call)
+        }
+    }
+
+    fn parse_subscripts_expr<const NO_COMPUTED: bool>(
+        &mut self,
+        mut expr: Box<Expr>,
+        no_call: bool,
+    ) -> PResult<Box<Expr>> {
+        let cur = self.input().cur();
+        if !matches!(
+            cur,
+            Token::QuestionMark
+                | Token::LBracket
+                | Token::LParen
+                | Token::Dot
+                | Token::TemplateHead
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::BackQuote
+                | Token::Bang
+                | Token::Lt
+        ) {
+            return Ok(expr);
+        }
+
+        let syntax = self.input().syntax();
+
+        if !syntax.typescript() {
+            loop {
+                expr = match self
+                    .parse_subscript_without_type_args::<NO_COMPUTED>(expr, no_call, syntax)?
+                {
+                    (expr, false) => return Ok(expr),
+                    (expr, true) => expr,
+                }
+            }
+        } else {
+            let start = expr.span_lo();
+            loop {
+                expr = match self.parse_subscript::<NO_COMPUTED>(start, expr, no_call)? {
+                    (expr, false) => return Ok(expr),
+                    (expr, true) => expr,
+                }
             }
         }
     }
 
     /// returned bool is true if this method should be called again.
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    fn parse_subscript(
+    fn parse_subscript<const NO_COMPUTED: bool>(
         &mut self,
         start: BytePos,
         mut callee: Box<Expr>,
         no_call: bool,
-        no_computed_member: bool,
     ) -> PResult<(Box<Expr>, bool)> {
         trace_cur!(self, parse_subscript);
 
-        if self.input().syntax().typescript() {
+        let syntax = self.input().syntax();
+
+        if !syntax.typescript() {
+            return self.parse_subscript_without_type_args::<NO_COMPUTED>(callee, no_call, syntax);
+        }
+
+        if syntax.typescript() {
             if !self.input().had_line_break_before_cur() && self.input().is(Token::Bang) {
                 self.input_mut().set_expr_allowed(false);
                 self.assert_and_bump(Token::Bang);
@@ -1212,31 +1300,24 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let ts_instantiation = if self.syntax().typescript() && self.input().is(Token::Lt) {
+        let ts_instantiation = if syntax.typescript() && self.input().is(Token::Lt) {
             self.try_parse_ts_type_args()
         } else {
             None
         };
 
-        let question_dot_token = if self.input().is(Token::QuestionMark)
+        let question_dot = if self.input().is(Token::QuestionMark)
             && peek!(self).is_some_and(|peek| peek == Token::Dot)
         {
-            let start = self.cur_pos();
             self.bump();
-
-            let span = Some(self.span(start));
             self.bump();
-
-            span
+            true
         } else {
-            None
+            false
         };
 
-        // If question_dot_token is Some, then `self.cur == Token::Dot`
-        let question_dot = question_dot_token.is_some();
-
         // $obj[name()]
-        if !no_computed_member && self.input_mut().eat(Token::LBracket) {
+        if !NO_COMPUTED && self.input_mut().eat(Token::LBracket) {
             let bracket_lo = self.input().prev_span().lo;
             let prop = self.allow_in_expr(|p| p.parse_expr())?;
             expect!(self, Token::RBracket);
@@ -1247,7 +1328,7 @@ impl<I: Tokens> Parser<I> {
                 expr: prop,
             };
 
-            let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) {
+            let type_args = if syntax.typescript() && self.input().is(Token::Lt) {
                 self.try_parse_ts_type_args()
             } else {
                 None
@@ -1282,8 +1363,7 @@ impl<I: Tokens> Parser<I> {
             return Ok((Box::new(expr), true));
         }
 
-        let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) && question_dot
-        {
+        let type_args = if syntax.typescript() && self.input().is(Token::Lt) && question_dot {
             let ret = self.parse_ts_type_args()?;
             self.assert_and_bump(Token::Gt);
             Some(ret)
@@ -1325,7 +1405,7 @@ impl<I: Tokens> Parser<I> {
                 Either::Left(p) => MemberProp::PrivateName(p),
                 Either::Right(i) => MemberProp::Ident(i),
             })?;
-            if self.syntax().flow()
+            if syntax.flow()
                 && matches!(prop, MemberProp::PrivateName(..))
                 && !self.ctx().contains(Context::InClass)
             {
@@ -1335,7 +1415,7 @@ impl<I: Tokens> Parser<I> {
             debug_assert_eq!(callee.span_lo(), span.lo());
             debug_assert_eq!(prop.span_hi(), span.hi());
 
-            let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) {
+            let type_args = if syntax.typescript() && self.input().is(Token::Lt) {
                 self.try_parse_ts_type_args()
             } else {
                 None
@@ -1394,6 +1474,168 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok((expr, false))
+    }
+
+    #[inline(always)]
+    fn parse_subscript_without_type_args<const NO_COMPUTED: bool>(
+        &mut self,
+        callee: Box<Expr>,
+        no_call: bool,
+        syntax: SyntaxFlags,
+    ) -> PResult<(Box<Expr>, bool)> {
+        let mut cur = self.input().cur();
+        let question_dot = match cur {
+            Token::QuestionMark if peek!(self).is_some_and(|peek| peek == Token::Dot) => {
+                self.bump();
+                self.bump();
+                cur = self.input().cur();
+                true
+            }
+            Token::LBracket
+            | Token::LParen
+            | Token::Dot
+            | Token::TemplateHead
+            | Token::NoSubstitutionTemplateLiteral
+            | Token::BackQuote => false,
+            _ => return Ok((callee, false)),
+        };
+
+        if !question_dot && cur == Token::Dot {
+            self.bump();
+            let prop = self.parse_maybe_private_name().map(|e| match e {
+                Either::Left(p) => MemberProp::PrivateName(p),
+                Either::Right(i) => MemberProp::Ident(i),
+            })?;
+            if syntax.flow()
+                && matches!(prop, MemberProp::PrivateName(..))
+                && !self.ctx().contains(Context::InClass)
+            {
+                self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
+            }
+            let span = self.span(callee.span_lo());
+            debug_assert_eq!(callee.span_lo(), span.lo());
+            debug_assert_eq!(prop.span_hi(), span.hi());
+
+            let is_opt_chain = unwrap_ts_non_null(&callee).is_opt_chain();
+            let expr = MemberExpr {
+                span,
+                obj: callee,
+                prop,
+            };
+            let expr = if is_opt_chain {
+                OptChainExpr {
+                    span,
+                    optional: false,
+                    base: Box::new(OptChainBase::Member(expr)),
+                }
+                .into()
+            } else {
+                expr.into()
+            };
+
+            return Ok((Box::new(expr), true));
+        }
+
+        if !NO_COMPUTED && cur == Token::LBracket {
+            self.bump();
+            let bracket_lo = self.input().prev_span().lo;
+            let prop = self.allow_in_expr(|p| p.parse_expr())?;
+            expect!(self, Token::RBracket);
+            let span = Span::new_with_checked(callee.span_lo(), self.input().last_pos());
+            debug_assert_eq!(callee.span_lo(), span.lo());
+            let prop = ComputedPropName {
+                span: Span::new_with_checked(bracket_lo, self.input().last_pos()),
+                expr: prop,
+            };
+
+            let is_opt_chain = unwrap_ts_non_null(&callee).is_opt_chain();
+            let expr = MemberExpr {
+                span,
+                obj: callee,
+                prop: MemberProp::Computed(prop),
+            };
+            let expr = if is_opt_chain || question_dot {
+                OptChainExpr {
+                    span,
+                    optional: question_dot,
+                    base: Box::new(OptChainBase::Member(expr)),
+                }
+                .into()
+            } else {
+                expr.into()
+            };
+
+            return Ok((Box::new(expr), true));
+        }
+
+        if cur == Token::LParen && (!no_call || question_dot) {
+            let args = self.parse_args(false)?;
+            let start = callee.span_lo();
+            let span = self.span(start);
+            return if question_dot || unwrap_ts_non_null(&callee).is_opt_chain() {
+                let expr = OptChainExpr {
+                    span,
+                    optional: question_dot,
+                    base: Box::new(OptChainBase::Call(OptCall {
+                        span: self.span(start),
+                        callee,
+                        args,
+                        ..Default::default()
+                    })),
+                };
+                Ok((Box::new(Expr::OptChain(expr)), true))
+            } else {
+                let expr = CallExpr {
+                    span: self.span(start),
+                    callee: Callee::Expr(callee),
+                    args,
+                    ..Default::default()
+                };
+                Ok((Box::new(Expr::Call(expr)), true))
+            };
+        }
+
+        if question_dot {
+            let prop = self.parse_maybe_private_name().map(|e| match e {
+                Either::Left(p) => MemberProp::PrivateName(p),
+                Either::Right(i) => MemberProp::Ident(i),
+            })?;
+            if syntax.flow()
+                && matches!(prop, MemberProp::PrivateName(..))
+                && !self.ctx().contains(Context::InClass)
+            {
+                self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
+            }
+            let span = self.span(callee.span_lo());
+            debug_assert_eq!(callee.span_lo(), span.lo());
+            debug_assert_eq!(prop.span_hi(), span.hi());
+
+            let expr = MemberExpr {
+                span,
+                obj: callee,
+                prop,
+            };
+            let expr = OptChainExpr {
+                span,
+                optional: true,
+                base: Box::new(OptChainBase::Member(expr)),
+            }
+            .into();
+
+            return Ok((Box::new(expr), true));
+        }
+
+        if matches!(
+            cur,
+            Token::TemplateHead | Token::NoSubstitutionTemplateLiteral | Token::BackQuote
+        ) {
+            let tpl = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+                p.parse_tagged_tpl(callee, None)
+            })?;
+            return Ok((tpl.into(), true));
+        }
+
+        Ok((callee, false))
     }
 
     /// Section 13.3 ImportCall
@@ -1542,7 +1784,7 @@ impl<I: Tokens> Parser<I> {
                         span,
                         kind: MetaPropKind::ImportMeta,
                     };
-                    self.parse_subscripts(Callee::Expr(expr.into()), no_call, false)
+                    self.parse_subscripts_expr::<false>(expr.into(), no_call)
                 }
                 "defer" => self.parse_dynamic_import_call(start, ImportPhase::Defer),
                 "source" => self.parse_dynamic_import_call(start, ImportPhase::Source),
@@ -1571,16 +1813,22 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
-        self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
-            p.parse_member_expr_or_new_expr_inner(is_new_expr)
-        })
+        if self.ctx().contains(Context::InType) {
+            self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+                p.parse_member_expr_or_new_expr_inner(is_new_expr)
+            })
+        } else {
+            self.parse_member_expr_or_new_expr_inner(is_new_expr)
+        }
     }
 
     fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
-        let start = self.cur_pos();
-        if self.input_mut().eat(Token::New) {
+        let cur = self.input().cur();
+        if cur == Token::New {
+            self.bump();
+            let start = self.input().prev_span().lo;
             if self.input_mut().eat(Token::Dot) {
                 if self.input_mut().eat(Token::Target) {
                     let span = self.span(start);
@@ -1598,7 +1846,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(span, SyntaxError::InvalidNewTarget);
                     }
 
-                    return self.parse_subscripts(Callee::Expr(expr), true, false);
+                    return self.parse_subscripts_expr::<false>(expr, true);
                 }
 
                 unexpected!(self, "target")
@@ -1660,20 +1908,18 @@ impl<I: Tokens> Parser<I> {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args(false).map(Some)?;
 
-                let new_expr = Callee::Expr(
-                    NewExpr {
-                        span: self.span(start),
-                        callee,
-                        args,
-                        type_args,
-                        ..Default::default()
-                    }
-                    .into(),
-                );
+                let new_expr = NewExpr {
+                    span: self.span(start),
+                    callee,
+                    args,
+                    type_args,
+                    ..Default::default()
+                }
+                .into();
 
                 // We should parse subscripts for MemberExpression.
                 // Because it's left recursive.
-                return self.parse_subscripts(new_expr, true, false);
+                return self.parse_subscripts_expr::<false>(new_expr, true);
             }
 
             // Parsed with 'NewExpression' production.
@@ -1688,24 +1934,29 @@ impl<I: Tokens> Parser<I> {
             .into());
         }
 
-        if self.input_mut().eat(Token::Super) {
+        if cur == Token::Super {
+            self.bump();
+            let start = self.input().prev_span().lo;
             let base = Callee::Super(Super {
                 span: self.span(start),
             });
             return self.parse_subscripts(base, true, false);
-        } else if self.input_mut().eat(Token::Import) {
+        } else if cur == Token::Import {
+            self.bump();
+            let start = self.input().prev_span().lo;
             return self.parse_dynamic_import_or_import_meta(start, true);
         }
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
 
-        let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) {
+        let type_args = if self.input().is(Token::Lt) && self.syntax().typescript() {
             self.try_parse_ts_type_args()
         } else {
             None
         };
         let obj = if let Some(type_args) = type_args {
             trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
+            let start = obj.span_lo();
             TsInstantiation {
                 expr: obj,
                 type_args,
@@ -1716,7 +1967,7 @@ impl<I: Tokens> Parser<I> {
             obj
         };
 
-        self.parse_subscripts(Callee::Expr(obj), true, false)
+        self.parse_subscripts_expr::<false>(obj, true)
     }
 
     /// Parse `NewExpression`.
@@ -1771,31 +2022,11 @@ impl<I: Tokens> Parser<I> {
         loop {
             let (next_left, next_prec) = self.parse_bin_op_recursively_inner(left, min_prec)?;
 
-            match &*next_left {
-                Expr::Bin(BinExpr {
-                    span,
-                    left,
-                    op: op!("&&"),
-                    ..
-                })
-                | Expr::Bin(BinExpr {
-                    span,
-                    left,
-                    op: op!("||"),
-                    ..
-                }) => {
-                    if let Expr::Bin(BinExpr { op: op!("??"), .. }) = &**left {
-                        self.emit_err(*span, SyntaxError::NullishCoalescingWithLogicalOp);
-                    }
-                }
-                _ => {}
-            }
-
-            min_prec = match next_prec {
-                Some(v) => v,
-                None => return Ok(next_left),
+            let Some(next_prec) = next_prec else {
+                return Ok(next_left);
             };
 
+            min_prec = next_prec;
             left = next_left;
         }
     }
@@ -1806,50 +2037,13 @@ impl<I: Tokens> Parser<I> {
         left: Box<Expr>,
         min_prec: u8,
     ) -> PResult<(Box<Expr>, Option<u8>)> {
-        const PREC_OF_IN: u8 = 7;
-
-        if self.input().syntax().typescript() && !self.input().had_line_break_before_cur() {
-            if PREC_OF_IN > min_prec && self.input().is(Token::As) {
-                let start = left.span_lo();
-                let expr = left;
-                let node = if peek!(self).is_some_and(|cur| cur == Token::Const) {
-                    self.bump(); // as
-                    self.bump(); // const
-                    TsConstAssertion {
-                        span: self.span(start),
-                        expr,
-                    }
-                    .into()
-                } else {
-                    let type_ann = self.next_then_parse_ts_type()?;
-                    TsAsExpr {
-                        span: self.span(start),
-                        expr,
-                        type_ann,
-                    }
-                    .into()
-                };
-
-                return self.parse_bin_op_recursively_inner(node, min_prec);
-            } else if self.input().is(Token::Satisfies) {
-                let start = left.span_lo();
-                let expr = left;
-                let node = {
-                    let type_ann = self.next_then_parse_ts_type()?;
-                    TsSatisfiesExpr {
-                        span: self.span(start),
-                        expr,
-                        type_ann,
-                    }
-                    .into()
-                };
-
-                return self.parse_bin_op_recursively_inner(node, min_prec);
-            }
-        }
+        // TypeScript parses `as` and `satisfies` at the same precedence as
+        // relational operators like `in` and `instanceof`.
+        const PREC_OF_TS_TYPE_OPERATOR: u8 = 7;
 
         // Return left on eof
         let cur = self.input().cur();
+
         let op = if cur == Token::In && self.ctx().contains(Context::IncludeInExpr) {
             op!("in")
         } else if cur == Token::InstanceOf {
@@ -1857,32 +2051,81 @@ impl<I: Tokens> Parser<I> {
         } else if let Some(op) = cur.as_bin_op() {
             op
         } else {
+            if (cur == Token::As || cur == Token::Satisfies)
+                && self.input().syntax().typescript()
+                && !self.input().had_line_break_before_cur()
+            {
+                if PREC_OF_TS_TYPE_OPERATOR <= min_prec {
+                    return Ok((left, None));
+                }
+
+                if cur == Token::As {
+                    let start = left.span_lo();
+                    let expr = left;
+                    let node = if peek!(self).is_some_and(|cur| cur == Token::Const) {
+                        self.bump(); // as
+                        self.bump(); // const
+                        TsConstAssertion {
+                            span: self.span(start),
+                            expr,
+                        }
+                        .into()
+                    } else {
+                        let type_ann = self.next_then_parse_ts_type()?;
+                        TsAsExpr {
+                            span: self.span(start),
+                            expr,
+                            type_ann,
+                        }
+                        .into()
+                    };
+
+                    return self.parse_bin_op_recursively_inner(node, min_prec);
+                } else {
+                    let start = left.span_lo();
+                    let expr = left;
+                    let node = {
+                        let type_ann = self.next_then_parse_ts_type()?;
+                        TsSatisfiesExpr {
+                            span: self.span(start),
+                            expr,
+                            type_ann,
+                        }
+                        .into()
+                    };
+
+                    return self.parse_bin_op_recursively_inner(node, min_prec);
+                }
+            }
             return Ok((left, None));
         };
 
-        if op.precedence() <= min_prec {
+        let op_prec = op.precedence();
+        if op_prec <= min_prec {
             if cfg!(feature = "debug") {
                 tracing::trace!(
                     "returning {:?} without parsing {:?} because min_prec={}, prec={}",
                     left,
                     op,
                     min_prec,
-                    op.precedence()
+                    op_prec
                 );
             }
 
             return Ok((left, None));
         }
 
-        let left_is_jsx = match left.as_ref() {
-            Expr::JSXElement(..) | Expr::JSXFragment(..) => true,
-            Expr::Paren(ParenExpr { expr, .. }) => {
-                matches!(expr.as_ref(), Expr::JSXElement(..) | Expr::JSXFragment(..))
+        if op == op!("<") && self.syntax().flow() && self.syntax().jsx() {
+            let left_is_jsx = match left.as_ref() {
+                Expr::JSXElement(..) | Expr::JSXFragment(..) => true,
+                Expr::Paren(ParenExpr { expr, .. }) => {
+                    matches!(expr.as_ref(), Expr::JSXElement(..) | Expr::JSXFragment(..))
+                }
+                _ => false,
+            };
+            if left_is_jsx {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
             }
-            _ => false,
-        };
-        if self.syntax().flow() && self.syntax().jsx() && op == op!("<") && left_is_jsx {
-            self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
         }
 
         self.bump();
@@ -1891,26 +2134,28 @@ impl<I: Tokens> Parser<I> {
                 "parsing binary op {:?} min_prec={}, prec={}",
                 op,
                 min_prec,
-                op.precedence()
+                op_prec
             );
         }
-        match *left {
-            // This is invalid syntax.
-            Expr::Unary { .. } | Expr::Await(..) if op == op!("**") => {
-                // Correct implementation would be returning Ok(left) and
-                // returning "unexpected token '**'" on next.
-                // But it's not useful error message.
+        if op == op!("**") {
+            match *left {
+                // This is invalid syntax.
+                Expr::Unary { .. } | Expr::Await(..) => {
+                    // Correct implementation would be returning Ok(left) and
+                    // returning "unexpected token '**'" on next.
+                    // But it's not useful error message.
 
-                syntax_error!(
-                    self,
-                    SyntaxError::UnaryInExp {
-                        // FIXME: Use display
-                        left: format!("{left:?}"),
-                        left_span: left.span(),
-                    }
-                )
+                    syntax_error!(
+                        self,
+                        SyntaxError::UnaryInExp {
+                            // FIXME: Use display
+                            left: format!("{left:?}"),
+                            left_span: left.span(),
+                        }
+                    )
+                }
+                _ => {}
             }
-            _ => {}
         }
 
         let right = {
@@ -1919,9 +2164,9 @@ impl<I: Tokens> Parser<I> {
                 left_of_right,
                 if op == op!("**") {
                     // exponential operator is right associative
-                    op.precedence() - 1
+                    op_prec - 1
                 } else {
-                    op.precedence()
+                    op_prec
                 },
             )?
         };
@@ -1953,8 +2198,15 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
+        let span = Span::new_with_checked(left.span_lo(), right.span_hi());
+        if (op == op!("&&") || op == op!("||"))
+            && matches!(left.as_ref(), Expr::Bin(BinExpr { op: op!("??"), .. }))
+        {
+            self.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
+        }
+
         let node = BinExpr {
-            span: Span::new_with_checked(left.span_lo(), right.span_hi()),
+            span,
             op,
             left,
             right,
@@ -2057,7 +2309,7 @@ impl<I: Tokens> Parser<I> {
                     .is_some_and(|t| t == Token::LParen || t == Token::Function || t.is_word());
 
             let start = self.cur_pos();
-            self.state_mut().potential_arrow_start = Some(start);
+            self.state_mut().potential_arrow_start = start;
             let modifier_start = start;
 
             let has_modifier = self.eat_any_ts_modifier()?;
@@ -2654,7 +2906,6 @@ impl<I: Tokens> Parser<I> {
         };
 
         let cur = self.input().cur();
-        let token_start = self.input().cur_pos();
 
         if self.is_flow_match_keyword() {
             return self.parse_flow_match_expr(start);
@@ -2665,8 +2916,10 @@ impl<I: Tokens> Parser<I> {
         }
 
         let try_parse_arrow_expr = |p: &mut Self, id: Ident, id_is_async| -> PResult<Box<Expr>> {
-            if can_be_arrow && !p.input().had_line_break_before_cur() {
-                if id_is_async && p.is_ident_ref() {
+            let cur = p.input().cur();
+
+            if id_is_async && cur.is_word() && !cur.is_reserved(p.ctx()) {
+                if !p.input().had_line_break_before_cur() {
                     // see https://github.com/tc39/ecma262/issues/2034
                     // ```js
                     // for(async of
@@ -2690,7 +2943,7 @@ impl<I: Tokens> Parser<I> {
                         return Ok(id.into());
                     }
 
-                    let token = p.input().cur();
+                    let token = cur;
                     let ident = p.parse_binding_ident(false)?;
                     if p.input().syntax().typescript()
                         && token == Token::As
@@ -2726,39 +2979,43 @@ impl<I: Tokens> Parser<I> {
                         ..Default::default()
                     }
                     .into());
-                } else if p.input_mut().eat(Token::Arrow) {
-                    if p.ctx().contains(Context::Strict) && id.is_reserved_in_strict_bind() {
-                        p.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
-                    }
-                    let params = vec![id.into()];
-                    let body = p.parse_fn_block_or_expr_body(
-                        false,
-                        false,
-                        true,
-                        params.is_simple_parameter_list(),
-                    )?;
-
-                    return Ok(ArrowExpr {
-                        span: p.span(start),
-                        body,
-                        params,
-                        is_async: false,
-                        is_generator: false,
-                        ..Default::default()
-                    }
-                    .into());
                 }
+            } else if cur == Token::Arrow && !p.input().had_line_break_before_cur() {
+                if p.ctx().contains(Context::Strict) && id.is_reserved_in_strict_bind() {
+                    p.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
+                }
+                let params = vec![id.into()];
+                p.bump();
+                let body = p.parse_fn_block_or_expr_body(
+                    false,
+                    false,
+                    true,
+                    params.is_simple_parameter_list(),
+                )?;
+
+                return Ok(ArrowExpr {
+                    span: p.span(start),
+                    body,
+                    params,
+                    is_async: false,
+                    is_generator: false,
+                    ..Default::default()
+                }
+                .into());
             }
 
             Ok(id.into())
         };
 
-        if cur == Token::Let || (self.input().syntax().typescript() && cur == Token::Await) {
+        if cur == Token::Let || (cur == Token::Await && self.input().syntax().typescript()) {
             let ctx = self.ctx();
             let id = self.parse_ident(
                 !ctx.contains(Context::InGenerator),
                 !ctx.contains(Context::InAsync),
             )?;
+            if !can_be_arrow {
+                return Ok(id.into());
+            }
             try_parse_arrow_expr(self, id, false)
         } else if cur == Token::Hash {
             self.bump(); // consume `#`
@@ -2776,13 +3033,19 @@ impl<I: Tokens> Parser<I> {
             if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
                 self.emit_err(self.input().prev_span(), SyntaxError::ArgumentsInClassField)
             };
-            let id = Ident::new_no_ctxt(word, self.span(token_start));
+            let id = Ident::new_no_ctxt(word, self.span(start));
+            if !can_be_arrow {
+                return Ok(id.into());
+            }
             try_parse_arrow_expr(self, id, false)
         } else if self.is_ident_ref() {
-            let id_is_async = self.input().cur() == Token::Async;
+            let cur = self.input().cur();
             let word = self.input_mut().expect_word_token_and_bump();
-            let id = Ident::new_no_ctxt(word, self.span(token_start));
-            try_parse_arrow_expr(self, id, id_is_async)
+            let id = Ident::new_no_ctxt(word, self.span(start));
+            if !can_be_arrow {
+                return Ok(id.into());
+            }
+            try_parse_arrow_expr(self, id, cur == Token::Async)
         } else {
             syntax_error!(self, self.input().cur_span(), SyntaxError::TS1109)
         }

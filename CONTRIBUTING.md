@@ -89,7 +89,7 @@ For running all tests, take the following steps:
    Ensure [Yarn Package Manager is installed](https://yarnpkg.com/getting-started/install)
 
     ```bash
-    yarn
+    pnpm install
     ```
 
 3. Setup some environment variables which is required for tests.

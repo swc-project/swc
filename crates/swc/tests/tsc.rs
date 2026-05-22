@@ -36,7 +36,12 @@ use testing::NormalizedOutput;
         "privateNameStaticAccessorsDerivedClasses.ts",
         "privateNameStaticAccessorssDerivedClasses.ts",
         "jsDeclarationsEnums.ts",
-        "typeofAnExportedType.ts"
+        "typeofAnExportedType.ts",
+        // Fixture covers `({...{}} = {})` and similar forms that are now
+        // parser-rejected per ECMA-262 §13.15.5.1.  See
+        // crates/swc_ecma_parser/tests/errors/issue-11543{,-array} for
+        // replacement coverage.  Closes #11543.
+        "restPropertyWithBindingPattern.ts",
     )
 )]
 #[testing::fixture(

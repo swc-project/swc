@@ -304,12 +304,14 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn bump(&mut self) {
-        let next = match self.next.take() {
-            Some(next) => {
-                self.iter.set_token_value(next.value);
-                next.token_and_span
-            }
-            None => self.iter.next_token(),
+        let next = if self.next.is_none() {
+            self.iter.next_token()
+        } else {
+            let Some(next) = self.next.take() else {
+                unreachable!();
+            };
+            self.iter.set_token_value(next.value);
+            next.token_and_span
         };
         self.prev_span = self.cur.span;
         self.set_cur(next);
@@ -317,7 +319,11 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
         let cur = self.cur();
-        let word = cur.take_word(self);
+        let word = if cur == Token::Ident {
+            self.expect_word_token_value()
+        } else {
+            cur.take_word(self)
+        };
         self.bump();
         word
     }
@@ -353,7 +359,7 @@ impl<I: Tokens> Buffer<I> {
 
 impl<I: Tokens> Buffer<I> {
     pub fn had_line_break_before_cur(&self) -> bool {
-        self.get_cur().had_line_break
+        self.cur.had_line_break
     }
 
     /// This returns true on eof.
@@ -438,27 +444,28 @@ impl<I: Tokens> Buffer<I> {
 
     #[inline(always)]
     pub fn is(&self, expected: Token) -> bool {
-        self.cur() == expected
+        self.cur.token == expected
     }
 
     #[inline(always)]
     pub fn eat(&mut self, expected: Token) -> bool {
-        let v = self.is(expected);
-        if v {
+        if self.cur.token == expected {
             self.bump();
+            true
+        } else {
+            false
         }
-        v
     }
 
     /// Returns start of current token.
     #[inline]
     pub fn cur_pos(&self) -> BytePos {
-        self.get_cur().span.lo
+        self.cur.span.lo
     }
 
     #[inline]
     pub fn cur_span(&self) -> Span {
-        self.get_cur().span
+        self.cur.span
     }
 
     #[inline]
@@ -470,7 +477,7 @@ impl<I: Tokens> Buffer<I> {
     /// Returns last byte position of previous token.
     #[inline]
     pub fn last_pos(&self) -> BytePos {
-        self.prev_span().hi
+        self.prev_span.hi
     }
 
     #[inline]

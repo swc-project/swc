@@ -17,7 +17,7 @@ default = []
 [dependencies]
 rustc-hash = { workspace = true }
 
-swc_atoms   = { version = "9.0.0", path = "../swc_atoms" }
+swc_atoms   = { version = "9.0.1", path = "../swc_atoms" }
 swc_es_ast  = { version = "0.3.0", path = "../swc_es_ast" }
 swc_es_visit = { version = "0.3.0", path = "../swc_es_visit" }
 
@@ -26,6 +26,6 @@ serde       = { workspace = true, features = ["derive"] }
 serde_json   = { workspace = true }
 walkdir      = { workspace = true }
 
-swc_common   = { version = "21.0.1", path = "../swc_common" }
-swc_es_parser = { version = "0.3.0", path = "../swc_es_parser" }
+swc_common   = { version = "21.0.2", path = "../swc_common" }
+swc_es_parser = { version = "0.3.1", path = "../swc_es_parser" }
 testing      = { version = "22.0.0", path = "../testing" }

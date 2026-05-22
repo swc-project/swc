@@ -48,13 +48,6 @@ pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl 
 where
     C: Comments + Clone,
 {
-    let mut options = swc_ecma_transformer::Options::default();
-    options.env.regexp.sticky_regex = true;
-    options.env.es2015.shorthand = true;
-    options.env.es2015.instanceof = true;
-    options.env.es2015.duplicate_keys = true;
-    options.env.es2015.typeof_symbol = true;
-
     (
         (
             block_scoped_functions(),
@@ -81,7 +74,7 @@ where
             block_scoping(unresolved_mark),
             generator::generator(unresolved_mark, comments.clone()),
         ),
-        options.into_pass(),
+        swc_ecma_transformer::es2015_runtime_transforms(),
     )
 }
 

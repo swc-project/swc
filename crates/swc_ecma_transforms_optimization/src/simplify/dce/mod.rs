@@ -116,7 +116,7 @@ impl Data {
     fn drop_usage(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
-            // We subtract the cycle count from the occurence count, so the value is not
+            // We subtract the cycle count from the occurrence count, so the value is not
             // correct representation of the actual usage.
             e.usage = e.usage.saturating_sub(1);
 
@@ -133,7 +133,7 @@ impl Data {
     fn drop_assign(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
-            // We subtract the cycle count from the occurence count, so the value is not
+            // We subtract the cycle count from the occurrence count, so the value is not
             // correct representation of the actual usage.
             e.assign = e.assign.saturating_sub(1);
 
@@ -275,11 +275,12 @@ impl<'a> Visit for Dropper<'a> {
     }
 
     fn visit_expr(&mut self, expr: &Expr) {
-        expr.visit_children_with(self);
-
         if let Expr::Ident(i) = expr {
             self.data.drop_usage(&i.to_id());
+            return;
         }
+
+        expr.visit_children_with(self);
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
@@ -522,11 +523,13 @@ impl Visit for Analyzer<'_> {
         let old_in_var_decl = self.in_var_decl;
 
         self.in_var_decl = false;
-        e.visit_children_with(self);
-
         if let Expr::Ident(i) = e {
             self.add(i.to_id(), false);
+            self.in_var_decl = old_in_var_decl;
+            return;
         }
+
+        e.visit_children_with(self);
 
         self.in_var_decl = old_in_var_decl;
     }
@@ -554,19 +557,21 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_jsx_element_name(&mut self, e: &JSXElementName) {
-        e.visit_children_with(self);
-
         if let JSXElementName::Ident(i) = e {
             self.add(i.to_id(), false);
+            return;
         }
+
+        e.visit_children_with(self);
     }
 
     fn visit_jsx_object(&mut self, e: &JSXObject) {
-        e.visit_children_with(self);
-
         if let JSXObject::Ident(i) = e {
             self.add(i.to_id(), false);
+            return;
         }
+
+        e.visit_children_with(self);
     }
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
@@ -617,21 +622,23 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_pat(&mut self, p: &Pat) {
-        p.visit_children_with(self);
-
-        if !self.in_var_decl {
-            if let Pat::Ident(i) = p {
+        if let Pat::Ident(i) = p {
+            if !self.in_var_decl {
                 self.add(i.to_id(), true);
             }
+            return;
         }
+
+        p.visit_children_with(self);
     }
 
     fn visit_prop(&mut self, p: &Prop) {
-        p.visit_children_with(self);
-
         if let Prop::Shorthand(i) = p {
             self.add(i.to_id(), false);
+            return;
         }
+
+        p.visit_children_with(self);
     }
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {

@@ -21,7 +21,7 @@ filesystem_cache              = ["blake3"]
 plugin_transform_schema_v1    = ["swc_common/plugin_transform_schema_v1"]
 plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
-# Enable ECMASCript support
+# Enable ECMAScript support
 ecma = ["swc_ecma_ast/encoding-impl"]
 
 encoding-impl = ["swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
@@ -38,11 +38,11 @@ serde       = { workspace = true, features = ["derive"] }
 serde_json  = { workspace = true }
 tracing     = { workspace = true }
 
-swc_atoms = { version = "9.0.0", path = '../swc_atoms' }
-swc_common = { version = "21.0.1", path = "../swc_common", features = [
+swc_atoms = { version = "9.0.1", path = '../swc_atoms' }
+swc_common = { version = "21.0.2", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "23.0.0", path = "../swc_ecma_ast", optional = true }
+swc_ecma_ast = { version = "23.0.1", path = "../swc_ecma_ast", optional = true }
 swc_plugin_proxy = { version = "23.0.0", path = "../swc_plugin_proxy" }
 swc_transform_common = { version = "15.0.0", path = "../swc_transform_common" }
 

@@ -1108,7 +1108,12 @@ fn test_fold_object_spread() {
     fold("x = {a, ...{}, b}", "x = {a, b}");
     fold("x = {...{a, b}, c, ...{d, e}}", "x = {a, b, c, d, e}");
     fold("x = {...{...{a}, b}, c}", "x = {a, b, c}");
-    fold_same("({...{x}} = obj)");
+    // `({...{x}} = obj)` previously asserted that the simplify pass leaves
+    // destructuring-assignment forms alone, but `{x}` as a rest target is now
+    // a parser error per ECMA-262 §13.15.5.1.  Use an identifier rest target,
+    // which is still a valid `AssignmentRestProperty` and exercises the same
+    // "don't fold inside destructuring" code path.  See #11543.
+    fold_same("({...rest} = obj)");
 }
 
 #[test]

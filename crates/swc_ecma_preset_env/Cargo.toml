@@ -13,7 +13,7 @@ include = [
 license = { workspace = true }
 name = "swc_ecma_preset_env"
 repository = { workspace = true }
-version = "53.0.0"
+version = "54.0.0"
 
 [lib]
 bench = false
@@ -29,22 +29,22 @@ once_cell  = { workspace = true }
 serde      = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true }
 
-preset_env_base = { version = "7.0.0", path = "../preset_env_base" }
+preset_env_base = { version = "8.0.0", path = "../preset_env_base" }
 
 foldhash        = { workspace = true }
 precomputed-map = { workspace = true }
 
 rustc-hash = { workspace = true }
 string_enum = { version = "1.0.2", path = "../string_enum" }
-swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "21.0.1", path = "../swc_common" }
-swc_ecma_ast = { version = "23.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transformer = { version = "14.0.0", path = "../swc_ecma_transformer" }
-swc_ecma_transforms = { version = "52.0.0", path = "../swc_ecma_transforms", features = [
+swc_atoms = { version = "9.0.1", path = "../swc_atoms" }
+swc_common = { version = "21.0.2", path = "../swc_common" }
+swc_ecma_ast = { version = "23.0.1", path = "../swc_ecma_ast" }
+swc_ecma_transformer = { version = "14.1.0", path = "../swc_ecma_transformer" }
+swc_ecma_transforms = { version = "53.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "proposal",
 ] }
-swc_ecma_utils = { version = "29.1.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "29.1.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "23.0.0", path = "../swc_ecma_visit" }
 
 [build-dependencies]
@@ -59,8 +59,8 @@ serde_json      = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc_ecma_codegen = { version = "26.0.1", path = "../swc_ecma_codegen" }
-swc_ecma_parser  = { version = "39.0.2", path = "../swc_ecma_parser" }
+swc_ecma_codegen = { version = "26.0.2", path = "../swc_ecma_codegen" }
+swc_ecma_parser  = { version = "39.1.1", path = "../swc_ecma_parser" }
 testing          = { version = "22.0.0", path = "../testing" }
 
 [[bench]]
