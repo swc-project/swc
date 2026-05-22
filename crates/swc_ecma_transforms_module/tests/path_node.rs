@@ -214,6 +214,67 @@ fn issue_11880_preserve_symlinks_uses_cwd_for_relative_input_filename() {
     assert_eq!(&*resolved, "../../apis/auth");
 }
 
+#[test]
+fn mixed_relative_target_cleans_absolute_base_path() {
+    let cwd = std::env::current_dir().unwrap();
+    let sandbox = tempfile::tempdir_in(&cwd).unwrap();
+    let root = sandbox.path();
+
+    create_dir_all(root.join("bazel-out/foo-app/src")).unwrap();
+    write(
+        root.join("bazel-out/foo-app/src/app.ts"),
+        "import { hello } from '#/apis/auth';\n",
+    )
+    .unwrap();
+
+    let resolver = paths_resolver_with_options(
+        &root.join("bazel-out/foo-app"),
+        vec![("#/apis/*".into(), vec!["../apis/*".into()])],
+        false,
+        true,
+    );
+    let base = root.join("bazel-out/foo-app/src/../src/app.ts");
+
+    let resolved = resolver
+        .resolve_import(&FileName::Real(base), "#/apis/auth")
+        .unwrap();
+
+    assert_eq!(&*resolved, "../../apis/auth");
+}
+
+#[test]
+fn mixed_absolute_target_cleans_target_path() {
+    let cwd = std::env::current_dir().unwrap();
+    let sandbox = tempfile::tempdir_in(&cwd).unwrap();
+    let root = sandbox.path();
+
+    create_dir_all(root.join("bazel-out/foo-app/src")).unwrap();
+    write(
+        root.join("bazel-out/foo-app/src/app.ts"),
+        "import { hello } from '#/apis/auth';\n",
+    )
+    .unwrap();
+
+    let target = root.join("bazel-out/apis/../apis/*").display().to_string();
+    let resolver = paths_resolver_with_options(
+        &root.join("bazel-out/foo-app"),
+        vec![("#/apis/*".into(), vec![target])],
+        false,
+        true,
+    );
+    let relative_input = root
+        .join("bazel-out/foo-app/src/app.ts")
+        .strip_prefix(&cwd)
+        .unwrap()
+        .to_path_buf();
+
+    let resolved = resolver
+        .resolve_import(&FileName::Real(relative_input), "#/apis/auth")
+        .unwrap();
+
+    assert_eq!(&*resolved, "../../apis/auth");
+}
+
 fn create_symlink(a: &Path, b: &Path) {
     #[cfg(unix)]
     {

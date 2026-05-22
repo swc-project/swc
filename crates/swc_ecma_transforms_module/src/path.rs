@@ -328,11 +328,15 @@ where
         };
 
         if base.is_absolute() != target.is_absolute() {
-            if !base.is_absolute() {
+            if base.is_absolute() {
+                base = Cow::Owned(base.to_path_buf().clean());
+            } else {
                 base = Cow::Owned(absolute_base_path(self.config.base_dir.as_deref(), &base)?);
             }
 
-            if !target.is_absolute() {
+            if target.is_absolute() {
+                target = target.clean();
+            } else {
                 target = absolute_path(self.config.base_dir.as_deref(), &target)?;
             }
         }
