@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repair PR"
+  short_description: "Repair PR conflicts, reviews, and CI"
+  default_prompt: "Use $repair-pr to repair the current PR once, then push the finished fixes."
