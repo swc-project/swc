@@ -328,8 +328,15 @@ where
         };
 
         if base.is_absolute() != target.is_absolute() {
-            base = Cow::Owned(absolute_path(self.config.base_dir.as_deref(), &base)?);
-            target = absolute_path(self.config.base_dir.as_deref(), &target)?;
+            if !base.is_absolute() {
+                // Relative input filenames are relative to the current process,
+                // while path-mapped targets are resolved from `jsc.baseUrl`.
+                base = Cow::Owned(absolute_path(None, &base)?);
+            }
+
+            if !target.is_absolute() {
+                target = absolute_path(self.config.base_dir.as_deref(), &target)?;
+            }
         }
 
         debug!(
