@@ -96,6 +96,8 @@ mutation($threadId: ID!) {
         "-F",
         `threadId=${options.threadId}`,
     ]);
+    failOnGraphQLErrors(result, "resolve review thread");
+
     const thread = result?.data?.resolveReviewThread?.thread;
 
     if (!thread?.isResolved) {
@@ -145,6 +147,8 @@ function parseResolveThreadArgs(rawArgs) {
     for (const arg of rawArgs) {
         if (arg === "--help" || arg === "-h") {
             parsed.help = true;
+        } else if (arg.startsWith("--")) {
+            fail(`Unknown resolve-thread argument: ${arg}`);
         } else if (!parsed.threadId) {
             parsed.threadId = arg;
         } else {
@@ -235,6 +239,10 @@ query($owner: String!, $name: String!, $number: Int!, $cursor: String) {
           startLine
           originalStartLine
           comments(first: 100) {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
             nodes {
               id
               author {
@@ -274,6 +282,8 @@ query($owner: String!, $name: String!, $number: Int!, $cursor: String) {
         }
 
         const result = runJson("gh", args);
+        failOnGraphQLErrors(result, "read review threads");
+
         const connection =
             result?.data?.repository?.pullRequest?.reviewThreads;
 
@@ -290,7 +300,71 @@ query($owner: String!, $name: String!, $number: Int!, $cursor: String) {
         cursor = connection.pageInfo.endCursor;
     }
 
-    return threads;
+    return threads.map(readAllThreadComments);
+}
+
+function readAllThreadComments(thread) {
+    const comments = thread.comments?.nodes ?? [];
+    let pageInfo = thread.comments?.pageInfo;
+
+    while (pageInfo?.hasNextPage) {
+        const page = readThreadCommentsPage(thread.id, pageInfo.endCursor);
+        comments.push(...(page.nodes ?? []));
+        pageInfo = page.pageInfo;
+    }
+
+    return {
+        ...thread,
+        comments: {
+            nodes: comments,
+        },
+    };
+}
+
+function readThreadCommentsPage(threadId, cursor) {
+    const query = `
+query($threadId: ID!, $cursor: String) {
+  node(id: $threadId) {
+    ... on PullRequestReviewThread {
+      comments(first: 100, after: $cursor) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          id
+          author {
+            login
+          }
+          body
+          createdAt
+          url
+          isMinimized
+          minimizedReason
+        }
+      }
+    }
+  }
+}`;
+    const result = runJson("gh", [
+        "api",
+        "graphql",
+        "-f",
+        `query=${query}`,
+        "-F",
+        `threadId=${threadId}`,
+        "-F",
+        `cursor=${cursor}`,
+    ]);
+    failOnGraphQLErrors(result, `read comments for review thread ${threadId}`);
+
+    const comments = result?.data?.node?.comments;
+
+    if (!comments) {
+        fail(`GitHub did not return comments for review thread ${threadId}.`);
+    }
+
+    return comments;
 }
 
 function readChecks(prArg) {
@@ -327,9 +401,21 @@ function isRelevantBotThread(thread, reviewAuthor) {
         !thread.isResolved &&
         !thread.isOutdated &&
         (thread.comments?.nodes ?? []).some(
-            (comment) => comment.author?.login === reviewAuthor,
+            (comment) => authorLoginMatches(comment.author?.login, reviewAuthor),
         )
     );
+}
+
+function authorLoginMatches(actual, expected) {
+    if (actual === expected) {
+        return true;
+    }
+
+    return stripBotSuffix(actual) === stripBotSuffix(expected);
+}
+
+function stripBotSuffix(login) {
+    return String(login ?? "").replace(/\[bot\]$/, "");
 }
 
 function isFailingCheck(check) {
@@ -350,7 +436,7 @@ function isFailingCheck(check) {
 function formatThread(thread, reviewAuthor) {
     const comments = thread.comments?.nodes ?? [];
     const firstBotComment = comments.find(
-        (comment) => comment.author?.login === reviewAuthor,
+        (comment) => authorLoginMatches(comment.author?.login, reviewAuthor),
     );
 
     return {
@@ -470,6 +556,12 @@ function runJson(commandName, commandArgs) {
         fail(
             `Could not parse JSON from ${commandName} ${commandArgs.join(" ")}: ${error.message}`,
         );
+    }
+}
+
+function failOnGraphQLErrors(result, operation) {
+    if (Array.isArray(result?.errors) && result.errors.length > 0) {
+        fail(`GraphQL errors while trying to ${operation}: ${JSON.stringify(result.errors)}`);
     }
 }
 
