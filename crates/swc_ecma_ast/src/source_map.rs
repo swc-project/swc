@@ -31,7 +31,7 @@ pub trait SourceMapperExt {
         // let lo = cm.lookup_char_pos(lo);
         // let hi = cm.lookup_char_pos(hi);
 
-        // lo.line == hi.line && lo.file.name_hash == hi.file.name_hash
+        // lo.line == hi.line && lo.file.name_hash() == hi.file.name_hash()
         false
     }
 

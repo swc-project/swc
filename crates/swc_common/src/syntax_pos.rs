@@ -925,14 +925,10 @@ pub struct SourceFile {
     /// The complete source code
     #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Str"))]
     pub src: BytesStr,
-    /// The source code's hash
-    pub src_hash: u128,
     /// The start position of this source in the `SourceMap`
     pub start_pos: BytePos,
     /// The end position of this source in the `SourceMap`
     pub end_pos: BytePos,
-    /// A hash of the filename, used for speeding up the incr. comp. hashing.
-    pub name_hash: u128,
 
     #[cfg_attr(feature = "encoding-impl", encoding(ignore))]
     lazy: CacheCell<SourceFileAnalysis>,
@@ -952,6 +948,10 @@ pub struct SourceFileAnalysis {
     pub multibyte_chars: Vec<MultiByteChar>,
     /// Width of characters that are not narrow in the source code
     pub non_narrow_chars: Vec<NonNarrowChar>,
+    /// Stable hash of the source code.
+    pub src_hash: u128,
+    /// Stable hash of the filename.
+    pub name_hash: u128,
 }
 
 impl fmt::Debug for SourceFile {
@@ -975,16 +975,6 @@ impl SourceFile {
             "BytePos::DUMMY is reserved and `SourceFile` should not use it"
         );
 
-        let src_hash = {
-            let mut hasher: StableHasher = StableHasher::new();
-            hasher.write(src.as_bytes());
-            hasher.finish()
-        };
-        let name_hash = {
-            let mut hasher: StableHasher = StableHasher::new();
-            name.hash(&mut hasher);
-            hasher.finish()
-        };
         let end_pos = start_pos.to_usize() + src.len();
 
         SourceFile {
@@ -993,12 +983,20 @@ impl SourceFile {
             unmapped_path: Some(unmapped_path),
             crate_of_origin: 0,
             src,
-            src_hash,
             start_pos,
             end_pos: SmallPos::from_usize(end_pos),
-            name_hash,
             lazy: CacheCell::new(),
         }
+    }
+
+    /// Returns the stable hash of the source text, computing it on first use.
+    pub fn src_hash(&self) -> u128 {
+        self.analyze().src_hash
+    }
+
+    /// Returns the stable hash of the filename, computing it on first use.
+    pub fn name_hash(&self) -> u128 {
+        self.analyze().name_hash
     }
 
     /// Return the BytePos of the beginning of the current line.
@@ -1088,10 +1086,22 @@ impl SourceFile {
         self.lazy.get_or_init(|| {
             let (lines, multibyte_chars, non_narrow_chars) =
                 analyze_source_file::analyze_source_file(&self.src[..], self.start_pos);
+            let src_hash = {
+                let mut hasher = StableHasher::new();
+                hasher.write(self.src.as_bytes());
+                hasher.finish()
+            };
+            let name_hash = {
+                let mut hasher = StableHasher::new();
+                self.name.hash(&mut hasher);
+                hasher.finish()
+            };
             SourceFileAnalysis {
                 lines,
                 multibyte_chars,
                 non_narrow_chars,
+                src_hash,
+                name_hash,
             }
         })
     }
@@ -1721,7 +1731,8 @@ mod encoding_helper {
 
 #[cfg(test)]
 mod tests {
-    use super::{lookup_line, BytePos, Span};
+    use super::{lookup_line, BytePos, FileName, SourceFile, Span};
+    use crate::sync::Lrc;
 
     #[test]
     fn test_lookup_line() {
@@ -1742,5 +1753,28 @@ mod tests {
     #[test]
     fn size_of_span() {
         assert_eq!(std::mem::size_of::<Span>(), 8);
+    }
+
+    #[test]
+    fn source_file_hashes_are_lazy() {
+        let name = Lrc::new(FileName::Custom("input.js".into()));
+        let file = SourceFile::new(
+            name.clone(),
+            false,
+            name,
+            "let answer = 42;".into(),
+            BytePos(1),
+        );
+
+        assert!(file.lazy.get().is_none());
+
+        let src_hash = file.src_hash();
+        let name_hash = file.name_hash();
+        let analysis = file.lazy.get().unwrap();
+
+        assert_eq!(analysis.src_hash, src_hash);
+        assert_eq!(analysis.name_hash, name_hash);
+        assert_eq!(file.src_hash(), src_hash);
+        assert_eq!(file.name_hash(), name_hash);
     }
 }
