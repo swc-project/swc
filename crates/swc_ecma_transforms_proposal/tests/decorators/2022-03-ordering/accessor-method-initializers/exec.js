@@ -71,9 +71,5 @@ expect(log).toEqual(nums);
 
 new A();
 
-var nums = Array.from({ length: 22 }, (_, i) => i).concat(
-  [30, 31, 32, 33],
-  Array.from({ length: 8 }, (_, i) => i + 22),
-  [34, 35, 36, 37],
-);
+var nums = Array.from({ length: 38 }, (_, i) => i);
 expect(log).toEqual(nums);

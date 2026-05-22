@@ -1169,8 +1169,65 @@ impl DecoratorPass {
             .contains(&callee.to_id())
     }
 
-    fn is_unsafe_2022_private_field_init(&self, member: &ClassMember) -> bool {
-        let ClassMember::PrivateProp(prop) = member else {
+    /// Returns true for private storage synthesized from a public
+    /// auto-accessor.
+    ///
+    /// In 2022-03, this storage can host `_initProto` so method/accessor
+    /// `addInitializer` callbacks still run before accessor `init` effects.
+    fn is_2022_public_accessor_backing_field(&self, members: &[ClassMember], index: usize) -> bool {
+        let Some(ClassMember::PrivateProp(prop)) = members.get(index) else {
+            return false;
+        };
+
+        if prop.is_static || prop.value.is_none() || !prop.span.is_dummy() {
+            return false;
+        }
+
+        matches!(
+            (members.get(index + 1), members.get(index + 2)),
+            (
+                Some(ClassMember::Method(getter)),
+                Some(ClassMember::Method(setter)),
+            ) if !getter.is_static
+                && getter.kind == MethodKind::Getter
+                && !setter.is_static
+                && setter.kind == MethodKind::Setter
+        )
+    }
+
+    /// Generated accessor storage should not block `_initProto` as if it were a
+    /// source private field with a decorated initializer.
+    fn is_2022_accessor_backing_field(&self, members: &[ClassMember], index: usize) -> bool {
+        if self.is_2022_public_accessor_backing_field(members, index) {
+            return true;
+        }
+
+        let Some(ClassMember::PrivateProp(prop)) = members.get(index) else {
+            return false;
+        };
+
+        if prop.is_static || prop.value.is_none() || !prop.span.is_dummy() {
+            return false;
+        }
+
+        matches!(
+            (members.get(index + 1), members.get(index + 2)),
+            (
+                Some(ClassMember::PrivateMethod(getter)),
+                Some(ClassMember::PrivateMethod(setter)),
+            ) if !getter.is_static
+                && getter.kind == MethodKind::Getter
+                && !setter.is_static
+                && setter.kind == MethodKind::Setter
+        )
+    }
+
+    fn is_unsafe_2022_private_field_init(&self, members: &[ClassMember], index: usize) -> bool {
+        if self.is_2022_accessor_backing_field(members, index) {
+            return false;
+        }
+
+        let Some(ClassMember::PrivateProp(prop)) = members.get(index) else {
             return false;
         };
 
@@ -1183,20 +1240,26 @@ impl DecoratorPass {
             .is_some_and(|value| self.is_2022_decorated_instance_field_init(value))
     }
 
-    fn can_inject_2022_init_proto_into_field(&self, member: &ClassMember) -> bool {
-        let ClassMember::ClassProp(prop) = member else {
-            return false;
-        };
+    fn can_inject_2022_init_proto_into_field(&self, members: &[ClassMember], index: usize) -> bool {
+        match members.get(index) {
+            Some(ClassMember::ClassProp(prop)) => {
+                if prop.is_static {
+                    return false;
+                }
 
-        if prop.is_static {
-            return false;
+                let Some(value) = prop.value.as_deref() else {
+                    return false;
+                };
+
+                !self.is_2022_decorated_instance_field_init(value)
+            }
+            Some(ClassMember::PrivateProp(prop)) => {
+                !prop.is_static
+                    && prop.value.is_some()
+                    && self.is_2022_public_accessor_backing_field(members, index)
+            }
+            _ => false,
         }
-
-        let Some(value) = prop.value.as_deref() else {
-            return false;
-        };
-
-        !self.is_2022_decorated_instance_field_init(value)
     }
 
     fn wrap_init_with_extra(&self, init_expr: Box<Expr>, extra_expr: Box<Expr>) -> Box<Expr> {
@@ -2449,14 +2512,12 @@ impl VisitMut for DecoratorPass {
                     }
                 }
             } else {
-                let last_unsafe_private_init = n
-                    .body
-                    .iter()
-                    .rposition(|member| self.is_unsafe_2022_private_field_init(member));
+                let last_unsafe_private_init = (0..n.body.len())
+                    .rposition(|index| self.is_unsafe_2022_private_field_init(&n.body, index));
 
                 for i in 0..n.body.len() {
                     if last_unsafe_private_init.is_some_and(|last| i <= last)
-                        || !self.can_inject_2022_init_proto_into_field(&n.body[i])
+                        || !self.can_inject_2022_init_proto_into_field(&n.body, i)
                     {
                         continue;
                     }
