@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Ci
+
+
+
+- Update corepack in publish docker jobs ([#11885](https://github.com/swc-project/swc/issues/11885)) ([9a7d954](https://github.com/swc-project/swc/commit/9a7d954c4939b12da4c60023eba50d6df8086fd7))
+
 ## [swc_core@v66.0.4] - 2026-05-22
 
 ### Bug Fixes
@@ -2507,12 +2515,6 @@
 
 ## [swc_core@v30.1.0] - 2025-07-04
 
-### Features
-
-
-
-- **(es/minifier)** Implement partial evaluation of array join ([#10758](https://github.com/swc-project/swc/issues/10758)) ([bdf3a98](https://github.com/swc-project/swc/commit/bdf3a98bb45f6f9cdf1b9a8ed8d292ccce257d4e))
-
 ### Performance
 
 
@@ -2524,15 +2526,6 @@
 
 
 - **(es/parser)** Remove useless call in `parse_ident` ([#10770](https://github.com/swc-project/swc/issues/10770)) ([4ca12c9](https://github.com/swc-project/swc/commit/4ca12c97259fdf882b0849112473f3deea54be36))
-
-### Refactor
-
-
-
-- **(es)** Make `swc_ecma_lint` optional for `swc` crate ([#10767](https://github.com/swc-project/swc/issues/10767)) ([f80415b](https://github.com/swc-project/swc/commit/f80415baa60a55a4dea31eff9b1c3431705183e5))
-
-
-- **(es/parser)** Cleanup `typed-arena` ([#10769](https://github.com/swc-project/swc/issues/10769)) ([ce5138d](https://github.com/swc-project/swc/commit/ce5138d3aae6e23127fc76da9f439d47b7c59374))
 
 ### Pref
 

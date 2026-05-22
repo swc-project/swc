@@ -85,6 +85,12 @@
 
 - **(es/minifier)** Move issue_11835 fixture out of terser folder ([#11840](https://github.com/swc-project/swc/issues/11840)) ([3dd3431](https://github.com/swc-project/swc/commit/3dd34310d429baff6e8d1a6393266c648684d3c6))
 
+### Ci
+
+
+
+- Update corepack in publish docker jobs ([#11885](https://github.com/swc-project/swc/issues/11885)) ([9a7d954](https://github.com/swc-project/swc/commit/9a7d954c4939b12da4c60023eba50d6df8086fd7))
+
 ### Security
 
 
@@ -2011,12 +2017,6 @@
 
 - **(preset-env)** Revert `default` value ([#10778](https://github.com/swc-project/swc/issues/10778)) ([7af5824](https://github.com/swc-project/swc/commit/7af58242c2a4c8b7c1a8df8a2dd7d854892fad5e))
 
-### Features
-
-
-
-- **(es/minifier)** Implement partial evaluation of array join ([#10758](https://github.com/swc-project/swc/issues/10758)) ([bdf3a98](https://github.com/swc-project/swc/commit/bdf3a98bb45f6f9cdf1b9a8ed8d292ccce257d4e))
-
 ### Miscellaneous Tasks
 
 
@@ -2046,12 +2046,6 @@
 
 ### Refactor
 
-
-
-- **(es)** Make `swc_ecma_lint` optional for `swc` crate ([#10767](https://github.com/swc-project/swc/issues/10767)) ([f80415b](https://github.com/swc-project/swc/commit/f80415baa60a55a4dea31eff9b1c3431705183e5))
-
-
-- **(es/parser)** Cleanup `typed-arena` ([#10769](https://github.com/swc-project/swc/issues/10769)) ([ce5138d](https://github.com/swc-project/swc/commit/ce5138d3aae6e23127fc76da9f439d47b7c59374))
 
 
 - **(es/parser)** Cleanup for ctx ([#10777](https://github.com/swc-project/swc/issues/10777)) ([d60a611](https://github.com/swc-project/swc/commit/d60a611dc76244b2b12e7676bbf4995bec5ba37c))
