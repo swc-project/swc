@@ -228,21 +228,65 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine@sha256:caac2d1b9194eada0c69e669e72763869701351d8957ab805cc45a43999d8be2
             # This image does not provide aarch64-linux-musl-gcc, which is the linker
             # name configured in .cargo/config.toml, so route that name through Zig.
-            build: >-
-              rm /etc/apk/repositories &&
-              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories &&
-              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories &&
-              apk update &&
-              apk add --upgrade clang-static llvm-dev zig &&
-              printf '%s\n' '#!/usr/bin/env bash' 'set -euo pipefail' 'args=()' 'for arg in "$@"; do' '  case "$arg" in' '    -lgcc|-lgcc_s) ;;' '    *) args+=("$arg") ;;' '  esac' 'done' '# Zig provides compiler-rt for this target, so drop GCC runtime flags.' 'exec zig cc -target aarch64-linux-musl "${args[@]}"' > /usr/local/bin/aarch64-linux-musl-gcc &&
-              chmod +x /usr/local/bin/aarch64-linux-musl-gcc &&
-              export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
-              rustup toolchain install $(cat ../../rust-toolchain) &&
-              rustup target add aarch64-unknown-linux-musl &&
+            build: |
+              set -euo pipefail
+
+              rm /etc/apk/repositories
+              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories
+              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories
+              apk update
+              apk add --upgrade clang-static llvm-dev zig
+              cat > /usr/local/bin/aarch64-linux-musl-gcc <<'EOF'
+              #!/usr/bin/env bash
+              set -euo pipefail
+
+              args=()
+              uses_rust_crt=false
+
+              for arg in "$@"; do
+                case "$arg" in
+                  -lgcc | -lgcc_s) ;;
+                  */rustlib/aarch64-unknown-linux-musl/lib/self-contained/crt1.o | */rustlib/aarch64-unknown-linux-musl/lib/self-contained/Scrt1.o | */rustlib/aarch64-unknown-linux-musl/lib/self-contained/rcrt1.o | */rustlib/aarch64-unknown-linux-musl/lib/self-contained/crti.o)
+                    uses_rust_crt=true
+                    args+=("$arg")
+                    ;;
+                  *) args+=("$arg") ;;
+                esac
+              done
+
+              if [[ "$uses_rust_crt" == true ]]; then
+                ld_args=()
+
+                for arg in "${args[@]}"; do
+                  case "$arg" in
+                    -Wl,*)
+                      IFS="," read -r -a parts <<< "${arg#-Wl,}"
+                      for part in "${parts[@]}"; do
+                        [[ -n "$part" ]] && ld_args+=("$part")
+                      done
+                      ;;
+                    -nostartfiles | -nodefaultlibs) ;;
+                    *) ld_args+=("$arg") ;;
+                  esac
+                done
+
+                # Rust passes its self-contained musl CRT objects for static binaries.
+                # Calling Zig cc would add Zig's CRT too, so call lld directly for that path.
+                exec zig ld.lld -m aarch64linux "${ld_args[@]}"
+              fi
+
+              # Zig provides compiler-rt for this target, so drop GCC runtime flags.
+              exec zig cc -target aarch64-linux-musl "${args[@]}"
+              EOF
+              chmod +x /usr/local/bin/aarch64-linux-musl-gcc
+              export JEMALLOC_SYS_WITH_LG_PAGE=16
+              rustup toolchain install "$(cat ../../rust-toolchain)"
+              rustup target add aarch64-unknown-linux-musl
               if [[ ${{ inputs.package }} == "core" ]]; then
-                RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
-                rm -rf target/release/.cargo-lock &&
-                cp ../../target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+                RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl
+                rm -rf target/release/.cargo-lock
+                cp ../../target/aarch64-unknown-linux-musl/release/swc .
+                chmod +x ./swc
                 env RUSTFLAGS='-C target-feature=-crt-static' pnpm build --target=aarch64-unknown-linux-musl
               else
                 env RUSTFLAGS='-C target-feature=-crt-static' pnpm build --target=aarch64-unknown-linux-musl
@@ -418,17 +462,11 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        env:
-          PACKAGE: ${{ inputs.package }}
-        run: |
-          cd "packages/$PACKAGE"
-          pnpm build:ts
+        working-directory: packages/${{ inputs.package }}
+        run: pnpm build:ts
       - name: Test bindings
-        env:
-          PACKAGE: ${{ inputs.package }}
-        run: |
-          cd "packages/$PACKAGE"
-          pnpm test
+        working-directory: packages/${{ inputs.package }}
+        run: pnpm test
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
