@@ -103,6 +103,9 @@
 
 - Lock issues closed by merged prs ([#11887](https://github.com/swc-project/swc/issues/11887)) ([6bd74e5](https://github.com/swc-project/swc/commit/6bd74e5683ed43640db64f78dc74001a056c1bfa))
 
+
+- Provide aarch64 musl linker in publish job ([#11889](https://github.com/swc-project/swc/issues/11889)) ([20234fd](https://github.com/swc-project/swc/commit/20234fd265f8f86f0c81c31c36e467d405a04d01))
+
 ### Security
 
 
@@ -2026,9 +2029,6 @@
 
 - **(es)** Make `swc_typescript` optional ([#10792](https://github.com/swc-project/swc/issues/10792)) ([c32569d](https://github.com/swc-project/swc/commit/c32569dd558e3bd4e27329275e090cc716a6e440))
 
-
-- **(preset-env)** Revert `default` value ([#10778](https://github.com/swc-project/swc/issues/10778)) ([7af5824](https://github.com/swc-project/swc/commit/7af58242c2a4c8b7c1a8df8a2dd7d854892fad5e))
-
 ### Performance
 
 
@@ -2040,9 +2040,6 @@
 
 ### Refactor
 
-
-
-- **(es/parser)** Cleanup for ctx ([#10777](https://github.com/swc-project/swc/issues/10777)) ([d60a611](https://github.com/swc-project/swc/commit/d60a611dc76244b2b12e7676bbf4995bec5ba37c))
 
 
 - **(es/parser)** Delete `with_ctx` ([#10779](https://github.com/swc-project/swc/issues/10779)) ([ce057c5](https://github.com/swc-project/swc/commit/ce057c55efcb937437af5ef0fd583240b0538a0e))
