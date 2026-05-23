@@ -109,6 +109,9 @@
 
 - Fix publish musl linker and windows tests ([#11890](https://github.com/swc-project/swc/issues/11890)) ([a798a23](https://github.com/swc-project/swc/commit/a798a23e5f5018e5c01f874457aa20370c0d7058))
 
+
+- Make minifier test path explicit ([#11891](https://github.com/swc-project/swc/issues/11891)) ([e7cba97](https://github.com/swc-project/swc/commit/e7cba972ff25565208c4448accab19c259e6947c))
+
 ### Security
 
 
@@ -2040,15 +2043,6 @@
 
 ### Refactor
 
-
-
-- **(es/parser)** Delete `with_ctx` ([#10779](https://github.com/swc-project/swc/issues/10779)) ([ce057c5](https://github.com/swc-project/swc/commit/ce057c55efcb937437af5ef0fd583240b0538a0e))
-
-
-- **(es/parser)** Cleanup ([#10781](https://github.com/swc-project/swc/issues/10781)) ([176ce36](https://github.com/swc-project/swc/commit/176ce36d2407b6d054ec6088a45025b76791fed3))
-
-
-- **(es/preset)** Remove deprecated `preset_env` function and `feature` module ([#10759](https://github.com/swc-project/swc/issues/10759)) ([fa0e0ab](https://github.com/swc-project/swc/commit/fa0e0abf41658271cde27b6852f42dd00dfd8f4a))
 
 
 - **(es/preset-env)** Use phf for corejs3 entry ([#10712](https://github.com/swc-project/swc/issues/10712)) ([658b26d](https://github.com/swc-project/swc/commit/658b26d8386c17cbe7abf740d905d41eac96b7f7))
