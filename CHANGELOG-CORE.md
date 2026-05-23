@@ -2472,18 +2472,6 @@
 
 ## [swc_core@v31.0.0] - 2025-07-07
 
-### Bug Fixes
-
-
-
-- **(es)** Make `swc_typescript` optional ([#10792](https://github.com/swc-project/swc/issues/10792)) ([c32569d](https://github.com/swc-project/swc/commit/c32569dd558e3bd4e27329275e090cc716a6e440))
-
-### Performance
-
-
-
-- **(hstr)** Do not compare string during creating atoms ([#10791](https://github.com/swc-project/swc/issues/10791)) ([43a4f11](https://github.com/swc-project/swc/commit/43a4f117cb0089bc7e117173507886218b064d62))
-
 ### Refactor
 
 

@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.15.40] - 2026-05-23
 
 ### Bug Fixes
 
@@ -2022,18 +2022,6 @@
 - **(es/plugin)** Test memory layout of archived types ([#10841](https://github.com/swc-project/swc/issues/10841)) ([502e991](https://github.com/swc-project/swc/commit/502e991a8bccaefef03f6379bbda8522bde4f62e))
 
 ## [1.12.11] - 2025-07-08
-
-### Bug Fixes
-
-
-
-- **(es)** Make `swc_typescript` optional ([#10792](https://github.com/swc-project/swc/issues/10792)) ([c32569d](https://github.com/swc-project/swc/commit/c32569dd558e3bd4e27329275e090cc716a6e440))
-
-### Performance
-
-
-
-- **(hstr)** Do not compare string during creating atoms ([#10791](https://github.com/swc-project/swc/issues/10791)) ([43a4f11](https://github.com/swc-project/swc/commit/43a4f117cb0089bc7e117173507886218b064d62))
 
 ### Refactor
 
