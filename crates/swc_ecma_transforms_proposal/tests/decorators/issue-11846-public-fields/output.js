@@ -1,4 +1,4 @@
-var _init_decoratedField, _init_secondField, _initProto;
+var _init_decoratedField, _init_extra__init_decoratedField, _init_secondField, _init_extra__init_secondField, _initProto;
 function method(_, context) {
     context.addInitializer(function() {
         this.initializedBeforeFields = !Object.prototype.hasOwnProperty.call(this, "decoratedField");
@@ -11,7 +11,7 @@ function field() {
 }
 class A {
     static{
-        ({ e: [_init_decoratedField, _init_secondField, _initProto] } = _apply_decs_2203_r(this, [
+        ({ e: [_init_decoratedField, _init_extra__init_decoratedField, _init_secondField, _init_extra__init_secondField, _initProto] } = _apply_decs_2203_r(this, [
             [
                 method,
                 2,
@@ -29,7 +29,10 @@ class A {
             ]
         ], []));
     }
+    constructor(){
+        _init_extra__init_secondField(this);
+    }
     m() {}
     decoratedField = (_initProto(this), _init_decoratedField(this, 1));
-    secondField = _init_secondField(this, 2);
+    secondField = (_init_extra__init_decoratedField(this), _init_secondField(this, 2));
 }

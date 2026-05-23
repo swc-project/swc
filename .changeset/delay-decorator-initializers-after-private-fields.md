@@ -1,6 +1,8 @@
 ---
+"@swc/helpers": patch
 swc_core: patch
+swc_ecma_transforms_base: patch
 swc_ecma_transforms_proposal: patch
 ---
 
-fix(es/decorators): Delay 2022 decorator initializers until after private field storage
+fix(es/decorators): Run 2022 field decorator initializers after field storage
