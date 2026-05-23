@@ -21,10 +21,7 @@ class Foo {
             ]
         ], []));
     }
-    constructor(){
-        _initProto(this);
-    }
-    a = _init_a(this);
+    a = (_initProto(this), _init_a(this));
     b = _init_b(this, 123);
     [_computedKey] = _init__computedKey(this, 456);
 }

@@ -87,11 +87,13 @@ struct ClassState {
     init_static: Option<Ident>,
     init_static_args: Vec<Option<ExprOrSpread>>,
 
-    /// Initializer function ids for 2022-03 decorated instance fields.
+    /// Initializer function ids for 2022-03 decorated instance fields and
+    /// accessors.
     ///
-    /// These field initializers create the value/storage exposed through a
-    /// decorator context. Running `_initProto` before them lets
-    /// `addInitializer` callbacks observe an uninitialized element.
+    /// These ids let the class pass recognize synthesized private storage for
+    /// decorated elements. Running `_initProto` before decorated private
+    /// storage would let `addInitializer` callbacks touch private names before
+    /// the brand exists.
     decorated_instance_field_inits: FxHashSet<Id>,
 
     /// Injected into static blocks.
@@ -1242,17 +1244,7 @@ impl DecoratorPass {
 
     fn can_inject_2022_init_proto_into_field(&self, members: &[ClassMember], index: usize) -> bool {
         match members.get(index) {
-            Some(ClassMember::ClassProp(prop)) => {
-                if prop.is_static {
-                    return false;
-                }
-
-                let Some(value) = prop.value.as_deref() else {
-                    return false;
-                };
-
-                !self.is_2022_decorated_instance_field_init(value)
-            }
+            Some(ClassMember::ClassProp(prop)) => !prop.is_static && prop.value.is_some(),
             Some(ClassMember::PrivateProp(prop)) => {
                 !prop.is_static
                     && prop.value.is_some()
@@ -2471,8 +2463,9 @@ impl VisitMut for DecoratorPass {
             // _initProto normally runs AFTER super() but BEFORE field initialization.
             // For 2022-03, we avoid injecting before decorated private storage
             // because addInitializer callbacks can attempt access before brand
-            // setup. We also avoid decorated public field initializers after that
-            // point because their own values are not installed yet.
+            // setup. Public fields stay valid injection points: native field
+            // initializers evaluate before the field is installed, matching
+            // `_initProto`'s required before-fields timing.
             // If there are no suitable fields with initializers, inject into the
             // constructor.
             let mut proto_inited = false;

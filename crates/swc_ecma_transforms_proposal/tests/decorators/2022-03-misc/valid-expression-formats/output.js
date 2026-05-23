@@ -42,10 +42,7 @@ class Foo {
                     ]
                 ], []));
             }
-            constructor(){
-                _initProto(this);
-            }
-            bar = _init_bar(this);
+            bar = (_initProto(this), _init_bar(this));
         };
     }
     static{

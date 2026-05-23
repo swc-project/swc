@@ -18,10 +18,7 @@ class C {
             classDec
         ]));
     }
-    constructor(){
-        _initProto(this);
-    }
-    m = _init_m(this);
+    m = (_initProto(this), _init_m(this));
     static{
         _initClass();
     }
