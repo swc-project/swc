@@ -1242,6 +1242,22 @@ impl DecoratorPass {
             .is_some_and(|value| self.is_2022_decorated_instance_field_init(value))
     }
 
+    /// Returns true for public field initializers that may contribute
+    /// `addInitializer` callbacks to `_initProto`.
+    fn is_2022_decorated_public_field_init(&self, member: &ClassMember) -> bool {
+        let ClassMember::ClassProp(prop) = member else {
+            return false;
+        };
+
+        if prop.is_static {
+            return false;
+        }
+
+        prop.value
+            .as_deref()
+            .is_some_and(|value| self.is_2022_decorated_instance_field_init(value))
+    }
+
     fn can_inject_2022_init_proto_into_field(&self, members: &[ClassMember], index: usize) -> bool {
         match members.get(index) {
             Some(ClassMember::ClassProp(prop)) => !prop.is_static && prop.value.is_some(),
@@ -2507,9 +2523,18 @@ impl VisitMut for DecoratorPass {
             } else {
                 let last_unsafe_private_init = (0..n.body.len())
                     .rposition(|index| self.is_unsafe_2022_private_field_init(&n.body, index));
+                // Once `_initProto` is delayed past private storage, it also
+                // has to wait for later decorated public fields so
+                // `context.access.get(this)` can observe the installed field.
+                let last_unsafe_init = last_unsafe_private_init.map(|last_private| {
+                    (last_private + 1..n.body.len())
+                        .rev()
+                        .find(|&index| self.is_2022_decorated_public_field_init(&n.body[index]))
+                        .unwrap_or(last_private)
+                });
 
                 for i in 0..n.body.len() {
-                    if last_unsafe_private_init.is_some_and(|last| i <= last)
+                    if last_unsafe_init.is_some_and(|last| i <= last)
                         || !self.can_inject_2022_init_proto_into_field(&n.body, i)
                     {
                         continue;
