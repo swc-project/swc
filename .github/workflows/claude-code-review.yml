@@ -36,7 +36,12 @@ jobs:
           PR_NUMBER="${{ github.event.pull_request.number }}"
 
           # Get issue comments (gh pr comment creates issue comments, not review comments)
-          gh api "repos/$REPO/issues/$PR_NUMBER/comments" --jq '.[] | select(.user.login == "claude[bot]") | .node_id' | while read -r comment_node_id; do
+          if ! comment_node_ids=$(gh api "repos/$REPO/issues/$PR_NUMBER/comments" --jq '.[] | select(.user.login == "claude[bot]") | .node_id'); then
+            echo "Skipping old Claude comment dismissal because the GitHub API request failed."
+            exit 0
+          fi
+
+          while IFS= read -r comment_node_id; do
             if [ -n "$comment_node_id" ]; then
               echo "Hiding review comment: $comment_node_id"
               gh api graphql -f query='
@@ -46,9 +51,10 @@ jobs:
                       isMinimized
                     }
                   }
-                }' -f id="$comment_node_id"
+                }' -f id="$comment_node_id" || \
+                echo "Skipping old Claude comment dismissal for $comment_node_id."
             fi
-          done
+          done <<< "$comment_node_ids"
 
 
       - name: Run Claude Code Review
