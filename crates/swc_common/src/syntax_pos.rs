@@ -899,42 +899,27 @@ impl Sub<BytePos> for NonNarrowChar {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 #[derive(Clone)]
 pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
     /// originate from files has names between angle brackets by convention,
     /// e.g. `<anon>`
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::LrcHelper")
-    )]
     pub name: Lrc<FileName>,
     /// True if the `name` field above has been modified by
     /// `--remap-path-prefix`
     pub name_was_remapped: bool,
     /// The unmapped path of the file that the source came from.
     /// Set to `None` if the `SourceFile` was imported from an external crate.
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::LrcHelper")
-    )]
     pub unmapped_path: Option<Lrc<FileName>>,
     /// Indicates which crate this `SourceFile` was imported from.
     pub crate_of_origin: u32,
     /// The complete source code
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Str"))]
     pub src: BytesStr,
-    /// The source code's hash
-    pub src_hash: u128,
     /// The start position of this source in the `SourceMap`
     pub start_pos: BytePos,
     /// The end position of this source in the `SourceMap`
     pub end_pos: BytePos,
-    /// A hash of the filename, used for speeding up the incr. comp. hashing.
-    pub name_hash: u128,
 
-    #[cfg_attr(feature = "encoding-impl", encoding(ignore))]
     lazy: CacheCell<SourceFileAnalysis>,
 }
 
@@ -946,12 +931,105 @@ pub struct SourceFile {
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[derive(Clone)]
 pub struct SourceFileAnalysis {
+    /// Stable hash of the source code.
+    pub src_hash: u128,
+    /// Stable hash of the filename.
+    pub name_hash: u128,
     /// Locations of lines beginnings in the source code
     pub lines: Vec<BytePos>,
     /// Locations of multi-byte characters in the source code
     pub multibyte_chars: Vec<MultiByteChar>,
     /// Width of characters that are not narrow in the source code
     pub non_narrow_chars: Vec<NonNarrowChar>,
+}
+
+fn stable_src_hash(src: &BytesStr) -> u128 {
+    let mut hasher = StableHasher::new();
+    hasher.write(src.as_bytes());
+    hasher.finish()
+}
+
+fn stable_name_hash(name: &FileName) -> u128 {
+    let mut hasher = StableHasher::new();
+    name.hash(&mut hasher);
+    hasher.finish()
+}
+
+#[cfg(feature = "encoding-impl")]
+const SOURCE_FILE_WIRE_FIELD_COUNT: usize = 10;
+
+#[cfg(feature = "encoding-impl")]
+impl cbor4ii::core::enc::Encode for SourceFile {
+    #[inline]
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        // This is intentionally the historical plugin wire format, not the
+        // in-memory SourceFile layout. Plugins compiled before SourceFile hashes
+        // became lazy (notably @swc/plugin-styled-components) read
+        // `Loc.file.src_hash`, so the wire format must still include virtual
+        // `src_hash` and `name_hash` slots.
+        //
+        // The derived encoder historically included ignored fields in the array
+        // header, so SourceFile reports 10 fields while only 9 values are
+        // written. Preserve that exact shape because old decoders expect the
+        // reported count to include the ignored `lazy` field.
+        cbor4ii::core::types::Array::<()>::bounded(SOURCE_FILE_WIRE_FIELD_COUNT, writer)?;
+
+        encoding_helper::LrcHelper(&self.name).encode(writer)?;
+        self.name_was_remapped.encode(writer)?;
+        encoding_helper::LrcHelper(&self.unmapped_path).encode(writer)?;
+        self.crate_of_origin.encode(writer)?;
+        encoding_helper::Str(&self.src).encode(writer)?;
+        stable_src_hash(&self.src).encode(writer)?;
+        self.start_pos.encode(writer)?;
+        self.end_pos.encode(writer)?;
+        stable_name_hash(&self.name).encode(writer)?;
+
+        Ok(())
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de> cbor4ii::core::dec::Decode<'de> for SourceFile {
+    #[inline]
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        let len = cbor4ii::core::types::Array::<()>::len(reader)?.unwrap();
+        if len < SOURCE_FILE_WIRE_FIELD_COUNT {
+            return Err(cbor4ii::core::error::DecodeError::Custom {
+                name: &"SourceFile",
+                num: len as u32,
+            });
+        }
+
+        let name = encoding_helper::LrcHelper::<Lrc<FileName>>::decode(reader)?.0;
+        let name_was_remapped = bool::decode(reader)?;
+        let unmapped_path = encoding_helper::LrcHelper::<Option<Lrc<FileName>>>::decode(reader)?.0;
+        let crate_of_origin = u32::decode(reader)?;
+        let src = encoding_helper::Str::<BytesStr>::decode(reader)?.0;
+        let _src_hash = u128::decode(reader)?;
+        let start_pos = BytePos::decode(reader)?;
+        let end_pos = BytePos::decode(reader)?;
+        let _name_hash = u128::decode(reader)?;
+
+        for _ in 0..len - SOURCE_FILE_WIRE_FIELD_COUNT {
+            cbor4ii::core::dec::IgnoredAny::decode(reader)?;
+        }
+
+        Ok(SourceFile {
+            name,
+            name_was_remapped,
+            unmapped_path,
+            crate_of_origin,
+            src,
+            start_pos,
+            end_pos,
+            lazy: CacheCell::new(),
+        })
+    }
 }
 
 impl fmt::Debug for SourceFile {
@@ -975,16 +1053,6 @@ impl SourceFile {
             "BytePos::DUMMY is reserved and `SourceFile` should not use it"
         );
 
-        let src_hash = {
-            let mut hasher: StableHasher = StableHasher::new();
-            hasher.write(src.as_bytes());
-            hasher.finish()
-        };
-        let name_hash = {
-            let mut hasher: StableHasher = StableHasher::new();
-            name.hash(&mut hasher);
-            hasher.finish()
-        };
         let end_pos = start_pos.to_usize() + src.len();
 
         SourceFile {
@@ -993,12 +1061,20 @@ impl SourceFile {
             unmapped_path: Some(unmapped_path),
             crate_of_origin: 0,
             src,
-            src_hash,
             start_pos,
             end_pos: SmallPos::from_usize(end_pos),
-            name_hash,
             lazy: CacheCell::new(),
         }
+    }
+
+    /// Returns the stable hash of the source text, computing it on first use.
+    pub fn src_hash(&self) -> u128 {
+        self.analyze().src_hash
+    }
+
+    /// Returns the stable hash of the filename, computing it on first use.
+    pub fn name_hash(&self) -> u128 {
+        self.analyze().name_hash
     }
 
     /// Return the BytePos of the beginning of the current line.
@@ -1092,6 +1168,8 @@ impl SourceFile {
                 lines,
                 multibyte_chars,
                 non_narrow_chars,
+                src_hash: stable_src_hash(&self.src),
+                name_hash: stable_name_hash(&self.name),
             }
         })
     }
@@ -1721,7 +1799,8 @@ mod encoding_helper {
 
 #[cfg(test)]
 mod tests {
-    use super::{lookup_line, BytePos, Span};
+    use super::{lookup_line, BytePos, FileName, SourceFile, Span};
+    use crate::sync::Lrc;
 
     #[test]
     fn test_lookup_line() {
@@ -1742,5 +1821,88 @@ mod tests {
     #[test]
     fn size_of_span() {
         assert_eq!(std::mem::size_of::<Span>(), 8);
+    }
+
+    #[test]
+    fn source_file_hashes_are_lazy() {
+        let name = Lrc::new(FileName::Custom("input.js".into()));
+        let file = SourceFile::new(
+            name.clone(),
+            false,
+            name,
+            "let answer = 42;".into(),
+            BytePos(1),
+        );
+
+        assert!(file.lazy.get().is_none());
+
+        let src_hash = file.src_hash();
+        let name_hash = file.name_hash();
+        let analysis = file.lazy.get().unwrap();
+
+        assert_eq!(analysis.src_hash, src_hash);
+        assert_eq!(analysis.name_hash, name_hash);
+        assert_eq!(file.src_hash(), src_hash);
+        assert_eq!(file.name_hash(), name_hash);
+    }
+
+    #[cfg(feature = "encoding-impl")]
+    #[test]
+    fn source_file_encoding_includes_hash_slots() {
+        use cbor4ii::core::{dec::Decode, enc::Encode};
+
+        let name = Lrc::new(FileName::Custom("input.js".into()));
+        let file = SourceFile::new(
+            name.clone(),
+            false,
+            name,
+            "let answer = 42;".into(),
+            BytePos(1),
+        );
+
+        let mut writer = cbor4ii::core::utils::BufWriter::new(Vec::new());
+        file.encode(&mut writer).unwrap();
+        let bytes = writer.into_inner();
+        assert!(file.lazy.get().is_none());
+
+        let mut reader = cbor4ii::core::utils::SliceReader::new(&bytes);
+        let len = cbor4ii::core::types::Array::<()>::len(&mut reader)
+            .unwrap()
+            .unwrap();
+        assert_eq!(len, super::SOURCE_FILE_WIRE_FIELD_COUNT);
+
+        let decoded_name = FileName::decode(&mut reader).unwrap();
+        let decoded_name_was_remapped = bool::decode(&mut reader).unwrap();
+        let decoded_unmapped_path =
+            cbor4ii::core::types::Maybe::<Option<FileName>>::decode(&mut reader)
+                .unwrap()
+                .0;
+        let decoded_crate_of_origin = u32::decode(&mut reader).unwrap();
+        let decoded_src = String::decode(&mut reader).unwrap();
+        let decoded_src_hash = u128::decode(&mut reader).unwrap();
+        let decoded_start_pos = BytePos::decode(&mut reader).unwrap();
+        let decoded_end_pos = BytePos::decode(&mut reader).unwrap();
+        let decoded_name_hash = u128::decode(&mut reader).unwrap();
+
+        assert_eq!(decoded_name, FileName::Custom("input.js".into()));
+        assert!(!decoded_name_was_remapped);
+        assert_eq!(
+            decoded_unmapped_path,
+            Some(FileName::Custom("input.js".into()))
+        );
+        assert_eq!(decoded_crate_of_origin, 0);
+        assert_eq!(decoded_src, "let answer = 42;");
+        assert_eq!(decoded_src_hash, super::stable_src_hash(&file.src));
+        assert_eq!(decoded_start_pos, file.start_pos);
+        assert_eq!(decoded_end_pos, file.end_pos);
+        assert_eq!(decoded_name_hash, super::stable_name_hash(&file.name));
+
+        let mut reader = cbor4ii::core::utils::SliceReader::new(&bytes);
+        let decoded = SourceFile::decode(&mut reader).unwrap();
+        assert_eq!(*decoded.name, FileName::Custom("input.js".into()));
+        assert_eq!(decoded.src, file.src);
+        assert_eq!(decoded.start_pos, file.start_pos);
+        assert_eq!(decoded.end_pos, file.end_pos);
+        assert!(decoded.lazy.get().is_none());
     }
 }
