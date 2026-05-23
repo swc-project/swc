@@ -30,14 +30,15 @@ public disclosure when appropriate.
 
 ## Security Model
 
-SWC is a build tool. It is not designed to be a SaaS platform, a multi-tenant
-sandbox, or a security boundary for executing or transforming arbitrary
-untrusted input.
+SWC is a build tool. SWC does not support processing untrusted input and does
+not provide isolation, resource containment, or other sandbox guarantees. It is
+not designed to be a SaaS platform, a multi-tenant sandbox, or a security
+boundary for executing or transforming arbitrary untrusted input.
 
-If you operate SWC in a service that accepts untrusted input, you are
-responsible for validating that input before passing it to SWC and for applying
-appropriate isolation, resource limits, privilege separation, and operational
-controls around the process.
+If you operate SWC in a service that accepts input from untrusted users or
+tenants, you are responsible for validating that input before passing it to SWC
+and for applying appropriate isolation, resource limits, privilege separation,
+and operational controls around the process.
 
 ## Scope
 

@@ -930,6 +930,13 @@ impl Optimizer<'_> {
             return None;
         }
 
+        let accessed_props_count: u32 = usage.accessed_props.values().sum();
+        // Direct uses, such as default-parameter aliases, can read properties
+        // through another binding, so keep the full object in that case.
+        if accessed_props_count < usage.ref_count {
+            return None;
+        }
+
         if usage.flags.intersects(
             VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
                 .union(VarUsageInfoFlags::USED_AS_REF)

@@ -14,6 +14,9 @@
 - **(es/minifier)** Respect ecma for iife temp vars ([#11873](https://github.com/swc-project/swc/issues/11873)) ([e481934](https://github.com/swc-project/swc/commit/e481934a63c0ee891e4a770c4f0cd5ec3fd8624e))
 
 
+- **(es/minifier)** Preserve default parameter object props ([#11884](https://github.com/swc-project/swc/issues/11884)) ([71ff84f](https://github.com/swc-project/swc/commit/71ff84f19762306ab9b86accb29eb6ed83c46f84))
+
+
 - **(es/parser)** Reject object-rest assignment to array/object literal ([#11875](https://github.com/swc-project/swc/issues/11875)) ([7b57d1f](https://github.com/swc-project/swc/commit/7b57d1f8717d8bf6be0b617b04bc6e219a2b3775))
 
 
@@ -42,6 +45,9 @@
 
 
 - Clarify security scope for npm packages ([#11877](https://github.com/swc-project/swc/issues/11877)) ([4662db8](https://github.com/swc-project/swc/commit/4662db8fe3e503f298a285697ea63ecc1ca3b958))
+
+
+- Clarify untrusted input security model ([#11882](https://github.com/swc-project/swc/issues/11882)) ([5463777](https://github.com/swc-project/swc/commit/546377770e164aead174404fb678319c9c56a9dc))
 
 ### Features
 
@@ -84,6 +90,24 @@
 
 
 - **(es/minifier)** Move issue_11835 fixture out of terser folder ([#11840](https://github.com/swc-project/swc/issues/11840)) ([3dd3431](https://github.com/swc-project/swc/commit/3dd34310d429baff6e8d1a6393266c648684d3c6))
+
+### Ci
+
+
+
+- Update corepack in publish docker jobs ([#11885](https://github.com/swc-project/swc/issues/11885)) ([9a7d954](https://github.com/swc-project/swc/commit/9a7d954c4939b12da4c60023eba50d6df8086fd7))
+
+
+- Pass publish docker env explicitly ([#11888](https://github.com/swc-project/swc/issues/11888)) ([c5f7547](https://github.com/swc-project/swc/commit/c5f7547cf68a4803aec3e88901e0d6b57ebbeb55))
+
+
+- Lock issues closed by merged prs ([#11887](https://github.com/swc-project/swc/issues/11887)) ([6bd74e5](https://github.com/swc-project/swc/commit/6bd74e5683ed43640db64f78dc74001a056c1bfa))
+
+
+- Provide aarch64 musl linker in publish job ([#11889](https://github.com/swc-project/swc/issues/11889)) ([20234fd](https://github.com/swc-project/swc/commit/20234fd265f8f86f0c81c31c36e467d405a04d01))
+
+
+- Fix publish musl linker and windows tests ([#11890](https://github.com/swc-project/swc/issues/11890)) ([a798a23](https://github.com/swc-project/swc/commit/a798a23e5f5018e5c01f874457aa20370c0d7058))
 
 ### Security
 
@@ -2003,25 +2027,7 @@
 - **(ci)** Fix CI ([#10790](https://github.com/swc-project/swc/issues/10790)) ([b3f9760](https://github.com/swc-project/swc/commit/b3f97604b8bc4713ab1f91fa3bd732b7af9cb2e9))
 
 
-- **(es)** Use `default-features = false` for `swc` crate usages ([#10776](https://github.com/swc-project/swc/issues/10776)) ([50b2eac](https://github.com/swc-project/swc/commit/50b2eacdf7bb3705b5be1ba63e9acdb143e82d40))
-
-
 - **(es)** Make `swc_typescript` optional ([#10792](https://github.com/swc-project/swc/issues/10792)) ([c32569d](https://github.com/swc-project/swc/commit/c32569dd558e3bd4e27329275e090cc716a6e440))
-
-
-- **(preset-env)** Revert `default` value ([#10778](https://github.com/swc-project/swc/issues/10778)) ([7af5824](https://github.com/swc-project/swc/commit/7af58242c2a4c8b7c1a8df8a2dd7d854892fad5e))
-
-### Features
-
-
-
-- **(es/minifier)** Implement partial evaluation of array join ([#10758](https://github.com/swc-project/swc/issues/10758)) ([bdf3a98](https://github.com/swc-project/swc/commit/bdf3a98bb45f6f9cdf1b9a8ed8d292ccce257d4e))
-
-### Miscellaneous Tasks
-
-
-
-- **(deps)** Remove unused deps with cargo-shear ([#10765](https://github.com/swc-project/swc/issues/10765)) ([f4e4974](https://github.com/swc-project/swc/commit/f4e4974ffeec16b7d6d5b8def107b82bfc3c7e1d))
 
 ### Performance
 
@@ -2030,31 +2036,10 @@
 - **(es/lexer)** Do not scan number if there's no underscore ([#10788](https://github.com/swc-project/swc/issues/10788)) ([f5d92ee](https://github.com/swc-project/swc/commit/f5d92ee1bf0a2fbeece6570b745ea833f6cd355e))
 
 
-- **(es/lints)** Make rules not parallel ([#10772](https://github.com/swc-project/swc/issues/10772)) ([4e6001c](https://github.com/swc-project/swc/commit/4e6001c5a465ce13547abc2a6b24ae724e1adba5))
-
-
-- **(es/lints)** Merge critical rules ([#10773](https://github.com/swc-project/swc/issues/10773)) ([816e75a](https://github.com/swc-project/swc/commit/816e75a2094fd633243174f7953c9920f4851c79))
-
-
-- **(es/parser)** Remove useless call in `parse_ident` ([#10770](https://github.com/swc-project/swc/issues/10770)) ([4ca12c9](https://github.com/swc-project/swc/commit/4ca12c97259fdf882b0849112473f3deea54be36))
-
-
 - **(hstr)** Do not compare string during creating atoms ([#10791](https://github.com/swc-project/swc/issues/10791)) ([43a4f11](https://github.com/swc-project/swc/commit/43a4f117cb0089bc7e117173507886218b064d62))
-
-
-- Replace `rayon` with `par-iter` ([#10774](https://github.com/swc-project/swc/issues/10774)) ([a6e6ebe](https://github.com/swc-project/swc/commit/a6e6ebeacafb8bccbaf3cb9bec3c87861461437a))
 
 ### Refactor
 
-
-
-- **(es)** Make `swc_ecma_lint` optional for `swc` crate ([#10767](https://github.com/swc-project/swc/issues/10767)) ([f80415b](https://github.com/swc-project/swc/commit/f80415baa60a55a4dea31eff9b1c3431705183e5))
-
-
-- **(es/parser)** Cleanup `typed-arena` ([#10769](https://github.com/swc-project/swc/issues/10769)) ([ce5138d](https://github.com/swc-project/swc/commit/ce5138d3aae6e23127fc76da9f439d47b7c59374))
-
-
-- **(es/parser)** Cleanup for ctx ([#10777](https://github.com/swc-project/swc/issues/10777)) ([d60a611](https://github.com/swc-project/swc/commit/d60a611dc76244b2b12e7676bbf4995bec5ba37c))
 
 
 - **(es/parser)** Delete `with_ctx` ([#10779](https://github.com/swc-project/swc/issues/10779)) ([ce057c5](https://github.com/swc-project/swc/commit/ce057c55efcb937437af5ef0fd583240b0538a0e))
@@ -2072,15 +2057,6 @@
 
 
 
-- **(es/minifier)** Update the passing test list ([#10782](https://github.com/swc-project/swc/issues/10782)) ([8aa888b](https://github.com/swc-project/swc/commit/8aa888bc2a0fc0ed84d189725af917ae2be9f905))
-
-
 - **(es/parser)** Add a test for duplicate labels ([#10784](https://github.com/swc-project/swc/issues/10784)) ([28fc643](https://github.com/swc-project/swc/commit/28fc64310c0fdb0491a1121a801f9a5d184109eb))
-
-### Pref
-
-
-
-- **(hstr)** Do not compare static tag ([#10771](https://github.com/swc-project/swc/issues/10771)) ([5d3ce83](https://github.com/swc-project/swc/commit/5d3ce83add12c4b147d238e1cd6fdf6083c696d2))
 
 <!-- generated by git-cliff -->

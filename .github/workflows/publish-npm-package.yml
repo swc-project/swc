@@ -11,6 +11,7 @@ env:
   CARGO_INCREMENTAL: 0
   CARGO_PROFILE_RELEASE_LTO: "fat"
   CI: "1"
+  COREPACK_VERSION: "0.33.0"
   DISABLE_PLUGIN_E2E_TESTS: true
   GIT_AUTHOR_NAME: "SWC Bot"
   GIT_AUTHOR_EMAIL: "bot@swc.rs"
@@ -225,19 +226,67 @@ jobs:
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine@sha256:caac2d1b9194eada0c69e669e72763869701351d8957ab805cc45a43999d8be2
-            build: >-
-              rm /etc/apk/repositories &&
-              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories &&
-              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories &&
-              apk update &&
-              apk add --upgrade clang-static llvm-dev &&
-              export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
-              rustup toolchain install $(cat ../../rust-toolchain) &&
-              rustup target add aarch64-unknown-linux-musl &&
+            # This image does not provide aarch64-linux-musl-gcc, which is the linker
+            # name configured in .cargo/config.toml, so route that name through Zig.
+            build: |
+              set -euo pipefail
+
+              rm /etc/apk/repositories
+              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories
+              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories
+              apk update
+              apk add --upgrade clang-static llvm-dev zig
+              cat > /usr/local/bin/aarch64-linux-musl-gcc <<'EOF'
+              #!/usr/bin/env bash
+              set -euo pipefail
+
+              args=()
+              uses_rust_crt=false
+
+              for arg in "$@"; do
+                case "$arg" in
+                  -lgcc | -lgcc_s) ;;
+                  */rustlib/aarch64-unknown-linux-musl/lib/self-contained/crt1.o | */rustlib/aarch64-unknown-linux-musl/lib/self-contained/Scrt1.o | */rustlib/aarch64-unknown-linux-musl/lib/self-contained/rcrt1.o | */rustlib/aarch64-unknown-linux-musl/lib/self-contained/crti.o)
+                    uses_rust_crt=true
+                    args+=("$arg")
+                    ;;
+                  *) args+=("$arg") ;;
+                esac
+              done
+
+              if [[ "$uses_rust_crt" == true ]]; then
+                ld_args=()
+
+                for arg in "${args[@]}"; do
+                  case "$arg" in
+                    -Wl,*)
+                      IFS="," read -r -a parts <<< "${arg#-Wl,}"
+                      for part in "${parts[@]}"; do
+                        [[ -n "$part" ]] && ld_args+=("$part")
+                      done
+                      ;;
+                    -nostartfiles | -nodefaultlibs) ;;
+                    *) ld_args+=("$arg") ;;
+                  esac
+                done
+
+                # Rust passes its self-contained musl CRT objects for static binaries.
+                # Calling Zig cc would add Zig's CRT too, so call lld directly for that path.
+                exec zig ld.lld -m aarch64linux "${ld_args[@]}"
+              fi
+
+              # Zig provides compiler-rt for this target, so drop GCC runtime flags.
+              exec zig cc -target aarch64-linux-musl "${args[@]}"
+              EOF
+              chmod +x /usr/local/bin/aarch64-linux-musl-gcc
+              export JEMALLOC_SYS_WITH_LG_PAGE=16
+              rustup toolchain install "$(cat ../../rust-toolchain)"
+              rustup target add aarch64-unknown-linux-musl
               if [[ ${{ inputs.package }} == "core" ]]; then
-                RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
-                rm -rf target/release/.cargo-lock &&
-                cp ../../target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+                RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl
+                rm -rf target/release/.cargo-lock
+                cp ../../target/aarch64-unknown-linux-musl/release/swc .
+                chmod +x ./swc
                 env RUSTFLAGS='-C target-feature=-crt-static' pnpm build --target=aarch64-unknown-linux-musl
               else
                 env RUSTFLAGS='-C target-feature=-crt-static' pnpm build --target=aarch64-unknown-linux-musl
@@ -324,16 +373,27 @@ jobs:
               ;;
           esac
 
+          PACKAGE_MANAGER="$(node -p "require('./package.json').packageManager")"
+          case "$PACKAGE_MANAGER" in
+            pnpm@*) ;;
+            *)
+              echo "Unsupported packageManager: $PACKAGE_MANAGER" >&2
+              exit 1
+              ;;
+          esac
+
           mkdir -p "$HOME/.cargo/git" "$HOME/.cargo/registry"
           docker run --rm \
             -e BUILD_SCRIPT \
+            -e COREPACK_VERSION="$COREPACK_VERSION" \
             -e PACKAGE \
+            -e PACKAGE_MANAGER="$PACKAGE_MANAGER" \
             -v "$HOME/.cargo/git:/root/.cargo/git" \
             -v "$HOME/.cargo/registry:/root/.cargo/registry" \
             -v "$WORKSPACE:/build" \
             -w /build \
             "$DOCKER_IMAGE" \
-            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; corepack enable; corepack prepare pnpm@10.33.3 --activate; npm i -g wasm-pack; bash -lc "$BUILD_SCRIPT"'
+            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; npm install -g "corepack@${COREPACK_VERSION}"; corepack enable; corepack prepare "${PACKAGE_MANAGER}" --activate; npm i -g wasm-pack; bash -lc "$BUILD_SCRIPT"'
       - name: Build
         if: ${{ !matrix.settings.docker }}
         shell: bash
@@ -402,17 +462,11 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        env:
-          PACKAGE: ${{ inputs.package }}
-        run: |
-          cd "packages/$PACKAGE"
-          pnpm build:ts
+        working-directory: packages/${{ inputs.package }}
+        run: pnpm build:ts
       - name: Test bindings
-        env:
-          PACKAGE: ${{ inputs.package }}
-        run: |
-          cd "packages/$PACKAGE"
-          pnpm test
+        working-directory: packages/${{ inputs.package }}
+        run: pnpm test
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
@@ -477,12 +531,23 @@ jobs:
               ;;
           esac
 
+          PACKAGE_MANAGER="$(node -p "require('./package.json').packageManager")"
+          case "$PACKAGE_MANAGER" in
+            pnpm@*) ;;
+            *)
+              echo "Unsupported packageManager: $PACKAGE_MANAGER" >&2
+              exit 1
+              ;;
+          esac
+
           docker run --rm \
+            -e COREPACK_VERSION="$COREPACK_VERSION" \
             -e PACKAGE \
+            -e PACKAGE_MANAGER="$PACKAGE_MANAGER" \
             -v "$PWD:/swc" \
             -w /swc \
             "$NODE_IMAGE" \
-            sh -c 'corepack enable && corepack prepare pnpm@10.33.3 --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
+            sh -c 'npm install -g "corepack@${COREPACK_VERSION}" && corepack enable && corepack prepare "${PACKAGE_MANAGER}" --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
@@ -549,12 +614,23 @@ jobs:
               ;;
           esac
 
+          PACKAGE_MANAGER="$(node -p "require('./package.json').packageManager")"
+          case "$PACKAGE_MANAGER" in
+            pnpm@*) ;;
+            *)
+              echo "Unsupported packageManager: $PACKAGE_MANAGER" >&2
+              exit 1
+              ;;
+          esac
+
           docker run --rm \
+            -e COREPACK_VERSION="$COREPACK_VERSION" \
             -e PACKAGE \
+            -e PACKAGE_MANAGER="$PACKAGE_MANAGER" \
             -v "$PWD:/swc" \
             -w /swc \
             "$NODE_IMAGE" \
-            sh -c 'corepack enable && corepack prepare pnpm@10.33.3 --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
+            sh -c 'npm install -g "corepack@${COREPACK_VERSION}" && corepack enable && corepack prepare "${PACKAGE_MANAGER}" --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
   publish:
     environment: publish
     name: Publish ${{ inputs.version }}
