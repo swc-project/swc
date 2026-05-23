@@ -270,6 +270,10 @@ function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
             }
 
             ret.push(init);
+
+            if (kind === 0 /* FIELD */) {
+                pushInitializers(ret, initializers);
+            }
         }
 
         if (kind !== 0 /* FIELD */) {
@@ -330,12 +334,16 @@ function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
             if (isStatic) {
                 base = Class;
                 kind = kind - 5 /* STATIC */;
-                // initialize staticInitializers when we see a non-field static member
+            } else {
+                base = Class.prototype;
+            }
+
+            if (kind === 0 /* FIELD */) {
+                initializers = [];
+            } else if (isStatic) {
                 staticInitializers = staticInitializers || [];
                 initializers = staticInitializers;
             } else {
-                base = Class.prototype;
-                // initialize protoInitializers when we see a non-field member
                 protoInitializers = protoInitializers || [];
                 initializers = protoInitializers;
             }

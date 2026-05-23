@@ -1,4 +1,4 @@
-var _init_a, _initProto;
+var _init_a, _init_extra__init_a, _initProto;
 const dec = ()=>{};
 class Foo {
     a() {
@@ -6,9 +6,10 @@ class Foo {
     }
     constructor(){
         _define_property(this, "a", (_initProto(this), _init_a(this, 123)));
+        _init_extra__init_a(this);
     }
 }
-({ e: [_init_a, _initProto] } = _apply_decs_2203_r(Foo, [
+({ e: [_init_a, _init_extra__init_a, _initProto] } = _apply_decs_2203_r(Foo, [
     [
         dec,
         2,

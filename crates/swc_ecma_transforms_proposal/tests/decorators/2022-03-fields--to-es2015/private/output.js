@@ -1,4 +1,4 @@
-var _init_a, _init_b, _initProto;
+var _init_a, _init_extra_a, _init_b, _init_extra_b;
 const dec = ()=>{};
 var _a = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();
 class Foo {
@@ -9,12 +9,12 @@ class Foo {
         });
         _class_private_field_init(this, _b, {
             writable: true,
-            value: _init_b(this, 123)
+            value: (_init_extra_a(this), _init_b(this, 123))
         });
-        _initProto(this);
+        _init_extra_b(this);
     }
 }
-({ e: [_init_a, _init_b, _initProto] } = _apply_decs_2203_r(Foo, [
+({ e: [_init_a, _init_extra_a, _init_b, _init_extra_b] } = _apply_decs_2203_r(Foo, [
     [
         dec,
         0,

@@ -783,10 +783,7 @@ impl DecoratorPass {
         value: Option<Box<Expr>>,
         is_static: bool,
     ) -> Option<Box<Expr>> {
-        if !self.is_2023_11()
-            || is_static
-            || self.state.pending_instance_field_extra_inits.is_empty()
-        {
+        if is_static || self.state.pending_instance_field_extra_inits.is_empty() {
             return value;
         }
 
@@ -801,7 +798,7 @@ impl DecoratorPass {
     }
 
     fn queue_pending_instance_field_extra(&mut self, expr: Box<Expr>, is_static: bool) {
-        if self.is_2023_11() && !is_static {
+        if !is_static {
             self.state.pending_instance_field_extra_inits.push(expr);
         }
     }
@@ -1138,6 +1135,71 @@ impl DecoratorPass {
             ..Default::default()
         }
         .into()
+    }
+
+    /// Returns true for private storage synthesized from a public
+    /// auto-accessor.
+    ///
+    /// In 2022-03, this storage can host `_initProto` so method/accessor
+    /// `addInitializer` callbacks still run before accessor `init` effects.
+    fn is_2022_public_accessor_backing_field(&self, members: &[ClassMember], index: usize) -> bool {
+        let Some(ClassMember::PrivateProp(prop)) = members.get(index) else {
+            return false;
+        };
+
+        if prop.is_static || prop.value.is_none() || !prop.span.is_dummy() {
+            return false;
+        }
+
+        matches!(
+            (members.get(index + 1), members.get(index + 2)),
+            (
+                Some(ClassMember::Method(getter)),
+                Some(ClassMember::Method(setter)),
+            ) if !getter.is_static
+                && getter.kind == MethodKind::Getter
+                && !setter.is_static
+                && setter.kind == MethodKind::Setter
+        )
+    }
+
+    /// Generated accessor storage should not block `_initProto` as if it were a
+    /// source private field with a decorated initializer.
+    fn is_2022_accessor_backing_field(&self, members: &[ClassMember], index: usize) -> bool {
+        if self.is_2022_public_accessor_backing_field(members, index) {
+            return true;
+        }
+
+        let Some(ClassMember::PrivateProp(prop)) = members.get(index) else {
+            return false;
+        };
+
+        if prop.is_static || prop.value.is_none() || !prop.span.is_dummy() {
+            return false;
+        }
+
+        matches!(
+            (members.get(index + 1), members.get(index + 2)),
+            (
+                Some(ClassMember::PrivateMethod(getter)),
+                Some(ClassMember::PrivateMethod(setter)),
+            ) if !getter.is_static
+                && getter.kind == MethodKind::Getter
+                && !setter.is_static
+                && setter.kind == MethodKind::Setter
+        )
+    }
+
+    fn can_inject_2022_init_proto_into_field(&self, members: &[ClassMember], index: usize) -> bool {
+        match members.get(index) {
+            Some(ClassMember::ClassProp(prop)) => !prop.is_static && prop.value.is_some(),
+            Some(ClassMember::PrivateProp(prop)) => {
+                !prop.is_static
+                    && prop.value.is_some()
+                    && self.is_2022_accessor_backing_field(members, index)
+            }
+            _ => false,
+        }
     }
 
     fn wrap_init_with_extra(&self, init_expr: Box<Expr>, extra_expr: Box<Expr>) -> Box<Expr> {
@@ -2344,11 +2406,10 @@ impl VisitMut for DecoratorPass {
                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                 ..Default::default()
             };
-            // _initProto must run AFTER super() but BEFORE field initialization.
-            // For 2022-03, we avoid injecting into truly private field initializers
-            // because addInitializer callbacks can attempt private access before brand
-            // setup. We still allow private storage generated for public accessors to
-            // preserve ordering.
+            // _initProto normally runs AFTER super() but BEFORE field initialization.
+            // In 2022-03, decorated field addInitializers are emitted as
+            // field-local extras, so _initProto only carries method/accessor
+            // initializers and must stay before accessor init side effects.
             // If there are no suitable fields with initializers, inject into the
             // constructor.
             let mut proto_inited = false;
@@ -2388,23 +2449,8 @@ impl VisitMut for DecoratorPass {
                     }
                 }
             } else {
-                let body_len = n.body.len();
-                for i in 0..body_len {
-                    let should_inject = match &n.body[i] {
-                        ClassMember::ClassProp(prop) => !prop.is_static && prop.value.is_some(),
-                        ClassMember::PrivateProp(prop) => {
-                            !prop.is_static
-                                && prop.value.is_some()
-                                && i + 1 < body_len
-                                && matches!(
-                                    &n.body[i + 1],
-                                    ClassMember::Method(m) if m.kind == MethodKind::Getter
-                                )
-                        }
-                        _ => false,
-                    };
-
-                    if !should_inject {
+                for i in 0..n.body.len() {
+                    if !self.can_inject_2022_init_proto_into_field(&n.body, i) {
                         continue;
                     }
 
@@ -2441,7 +2487,7 @@ impl VisitMut for DecoratorPass {
             }
         }
 
-        if self.is_2023_11() && !self.state.pending_instance_field_extra_inits.is_empty() {
+        if !self.state.pending_instance_field_extra_inits.is_empty() {
             let pending_instance = self.state.pending_instance_field_extra_inits.take();
             let is_derived = n.super_class.is_some();
             let ctor = self.ensure_constructor(n);
@@ -3241,9 +3287,7 @@ impl VisitMut for DecoratorPass {
         let (dec, decorators_have_this) = self.merge_decorators_for_member(p.decorators.take());
 
         let (name, init) = self.initializer_name(&mut p.key, "init");
-        let init_extra = self
-            .is_2023_11()
-            .then(|| private_ident!(format!("_init_extra_{}", init.sym)));
+        let init_extra = private_ident!(format!("_init_extra_{}", init.sym));
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
@@ -3251,14 +3295,12 @@ impl VisitMut for DecoratorPass {
             init: None,
             definite: false,
         });
-        if let Some(init_extra) = &init_extra {
-            self.extra_vars.push(VarDeclarator {
-                span: p.span,
-                name: init_extra.clone().into(),
-                init: None,
-                definite: false,
-            });
-        }
+        self.extra_vars.push(VarDeclarator {
+            span: p.span,
+            name: init_extra.clone().into(),
+            init: None,
+            definite: false,
+        });
 
         let field_init_expr = self
             .prepend_pending_instance_field_extras(
@@ -3266,21 +3308,17 @@ impl VisitMut for DecoratorPass {
                 p.is_static,
             )
             .unwrap();
-        p.value = Some(if self.is_2023_11() && !p.is_static {
-            if let Some(init_extra) = &init_extra {
-                self.queue_pending_instance_field_extra(
-                    self.extra_init_call_expr(init_extra, p.is_static),
-                    p.is_static,
-                );
-            }
+        p.value = Some(if !p.is_static {
+            self.queue_pending_instance_field_extra(
+                self.extra_init_call_expr(&init_extra, p.is_static),
+                p.is_static,
+            );
             field_init_expr
-        } else if let Some(init_extra) = &init_extra {
+        } else {
             self.wrap_init_with_extra(
                 field_init_expr,
-                self.extra_init_call_expr(init_extra, p.is_static),
+                self.extra_init_call_expr(&init_extra, p.is_static),
             )
-        } else {
-            field_init_expr
         });
 
         let initialize_init = {
@@ -3301,26 +3339,12 @@ impl VisitMut for DecoratorPass {
 
         if p.is_static {
             self.push_lhs(init, true, true);
-            if let Some(init_extra) = init_extra {
-                self.push_lhs(init_extra, true, true);
-            }
+            self.push_lhs(init_extra, true, true);
             self.state.init_static_args.push(initialize_init);
-            if !self.is_2023_11() {
-                self.state
-                    .init_static
-                    .get_or_insert_with(|| private_ident!("_initStatic"));
-            }
         } else {
             self.push_lhs(init, false, true);
-            if let Some(init_extra) = init_extra {
-                self.push_lhs(init_extra, false, true);
-            }
+            self.push_lhs(init_extra, false, true);
             self.state.init_proto_args.push(initialize_init);
-            if !self.is_2023_11() {
-                self.state
-                    .init_proto
-                    .get_or_insert_with(|| private_ident!("_initProto"));
-            }
         }
     }
 
@@ -3546,9 +3570,7 @@ impl VisitMut for DecoratorPass {
         let (dec, decorators_have_this) = self.merge_decorators_for_member(p.decorators.take());
 
         let init = private_ident!(format!("_init_{}", p.key.name));
-        let init_extra = self
-            .is_2023_11()
-            .then(|| private_ident!(format!("_init_extra_{}", p.key.name)));
+        let init_extra = private_ident!(format!("_init_extra_{}", p.key.name));
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
@@ -3556,14 +3578,12 @@ impl VisitMut for DecoratorPass {
             init: None,
             definite: false,
         });
-        if let Some(init_extra) = &init_extra {
-            self.extra_vars.push(VarDeclarator {
-                span: p.span,
-                name: init_extra.clone().into(),
-                init: None,
-                definite: false,
-            });
-        }
+        self.extra_vars.push(VarDeclarator {
+            span: p.span,
+            name: init_extra.clone().into(),
+            init: None,
+            definite: false,
+        });
 
         let field_init_expr = self
             .prepend_pending_instance_field_extras(
@@ -3571,21 +3591,17 @@ impl VisitMut for DecoratorPass {
                 p.is_static,
             )
             .unwrap();
-        p.value = Some(if self.is_2023_11() && !p.is_static {
-            if let Some(init_extra) = &init_extra {
-                self.queue_pending_instance_field_extra(
-                    self.extra_init_call_expr(init_extra, p.is_static),
-                    p.is_static,
-                );
-            }
+        p.value = Some(if !p.is_static {
+            self.queue_pending_instance_field_extra(
+                self.extra_init_call_expr(&init_extra, p.is_static),
+                p.is_static,
+            );
             field_init_expr
-        } else if let Some(init_extra) = &init_extra {
+        } else {
             self.wrap_init_with_extra(
                 field_init_expr,
-                self.extra_init_call_expr(init_extra, p.is_static),
+                self.extra_init_call_expr(&init_extra, p.is_static),
             )
-        } else {
-            field_init_expr
         });
 
         let initialize_init = {
@@ -3741,15 +3757,8 @@ impl VisitMut for DecoratorPass {
 
         if p.is_static {
             self.push_lhs(init, true, true);
-            if let Some(init_extra) = init_extra {
-                self.push_lhs(init_extra, true, true);
-            }
+            self.push_lhs(init_extra, true, true);
             self.state.init_static_args.push(Some(initialize_init));
-            if !self.is_2023_11() {
-                self.state
-                    .init_static
-                    .get_or_insert_with(|| private_ident!("_initStatic"));
-            }
         } else {
             if self.is_2023_11() {
                 self.state
@@ -3757,15 +3766,8 @@ impl VisitMut for DecoratorPass {
                     .get_or_insert_with(|| p.key.clone());
             }
             self.push_lhs(init, false, true);
-            if let Some(init_extra) = init_extra {
-                self.push_lhs(init_extra, false, true);
-            }
+            self.push_lhs(init_extra, false, true);
             self.state.init_proto_args.push(Some(initialize_init));
-            if !self.is_2023_11() {
-                self.state
-                    .init_proto
-                    .get_or_insert_with(|| private_ident!("_initProto"));
-            }
         }
     }
 
