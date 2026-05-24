@@ -62,13 +62,23 @@ pub struct AtomStore {
 
 impl Default for AtomStore {
     fn default() -> Self {
-        Self {
-            data: hashbrown::HashMap::with_capacity_and_hasher(64, BuildEntryHasher::default()),
-        }
+        Self::with_capacity(64)
     }
 }
 
 impl AtomStore {
+    /// Create an atom store with enough capacity for `capacity` non-inline
+    /// atoms before rehashing.
+    #[inline]
+    pub fn with_capacity(capacity: usize) -> Self {
+        Self {
+            data: hashbrown::HashMap::with_capacity_and_hasher(
+                capacity,
+                BuildEntryHasher::default(),
+            ),
+        }
+    }
+
     #[inline(always)]
     pub fn atom<'a>(&mut self, text: impl Into<Cow<'a, str>>) -> Atom {
         atom_in(self, &text.into())

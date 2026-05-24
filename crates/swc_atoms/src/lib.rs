@@ -311,6 +311,13 @@ pub type StaticString = Atom;
 pub struct AtomStore(hstr::AtomStore);
 
 impl AtomStore {
+    /// Create an atom store with enough capacity for `capacity` non-inline
+    /// atoms before rehashing.
+    #[inline]
+    pub fn with_capacity(capacity: usize) -> Self {
+        Self(hstr::AtomStore::with_capacity(capacity))
+    }
+
     #[inline]
     pub fn atom<'a>(&mut self, s: impl Into<Cow<'a, str>>) -> Atom {
         Atom(self.0.atom(s))
@@ -327,6 +334,13 @@ impl AtomStore {
 pub struct AtomStoreCell(UnsafeCell<AtomStore>);
 
 impl AtomStoreCell {
+    /// Create an internally mutable atom store cell with enough capacity for
+    /// `capacity` non-inline atoms before rehashing.
+    #[inline]
+    pub fn with_capacity(capacity: usize) -> Self {
+        Self(UnsafeCell::new(AtomStore::with_capacity(capacity)))
+    }
+
     #[inline]
     pub fn atom<'a>(&self, s: impl Into<Cow<'a, str>>) -> Atom {
         // evaluate the into before borrowing (see #8362)
