@@ -69,6 +69,20 @@ static SINGLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
 static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || b == b'_' || b == b'$'));
 
+#[inline]
+fn atom_store_capacity(input_len: usize) -> usize {
+    // Long identifiers and string values are interned in an hstr AtomStore.
+    // Large bundles can create enough non-inline atoms to trigger multiple
+    // hash table rehashes from the default capacity. Use source size as a
+    // conservative hint, while keeping small inputs at the existing default
+    // and capping the hint to avoid over-allocation on very large files.
+    if input_len < 64 * 1024 {
+        return 64;
+    }
+
+    (input_len / 256).clamp(64, 65_536)
+}
+
 #[cfg(feature = "flow")]
 fn flow_pragma_in_comment(comment: &str) -> Option<bool> {
     if comment.contains("@noflow") {
@@ -298,6 +312,7 @@ impl<'a> Lexer<'a> {
         let mut syntax = syntax.into_flags();
         #[cfg(not(feature = "flow"))]
         let syntax = syntax.into_flags();
+        let atom_store_capacity = atom_store_capacity(input.as_str().len());
 
         #[cfg(feature = "flow")]
         {
@@ -320,7 +335,7 @@ impl<'a> Lexer<'a> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
-            atoms: Default::default(),
+            atoms: Rc::new(AtomStoreCell::with_capacity(atom_store_capacity)),
             token_flags: TokenFlags::empty(),
         }
     }
