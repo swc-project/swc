@@ -1926,7 +1926,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// This method is optimized for texts without escape sequences.
-    #[inline(always)]
+    #[inline]
     fn read_word_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
         debug_assert!(self.cur().is_some());
         let slice_start = self.cur_pos();
@@ -2287,7 +2287,7 @@ impl<'a> Lexer<'a> {
 
     /// This can be used if there's no keyword starting with the first
     /// character.
-    #[inline(always)]
+    #[inline]
     fn read_ident_unknown(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
@@ -2398,7 +2398,7 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    #[inline(always)]
+    #[inline]
     fn read_keyword_with<F>(&mut self, convert: F) -> LexResult<Token>
     where
         F: FnOnce(&str) -> Option<Token>,
@@ -2429,7 +2429,7 @@ impl<'a> Lexer<'a> {
     /// This is a performant version of [Lexer::read_word_as_str_with] for
     /// reading keywords. We should make sure the first byte is a valid
     /// ASCII.
-    #[inline(always)]
+    #[inline]
     fn read_keyword_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
         let slice_start = self.cur_pos();
 
