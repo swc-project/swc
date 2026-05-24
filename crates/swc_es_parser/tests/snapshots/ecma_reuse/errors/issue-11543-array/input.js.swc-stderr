@@ -1,8 +1,0 @@
-  x Cannot assign to this
-   ,-[/swc_ecma_parser/tests/errors/issue-11543-array/input.js:1:1]
- 1 | ({...[]} = {});
-   :   ^^^^^^
-   `----
-
-Advice: 
-  > code: InvalidAssignTarget

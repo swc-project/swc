@@ -1,8 +1,0 @@
-  x unexpected token while parsing expression
-   ,-[/swc_ecma_parser/tests/typescript-errors/reserved-words/keywords/input.ts:1:1]
- 1 | let a = if
-   :         ^^
-   `----
-
-Advice: 
-  > code: UnexpectedToken

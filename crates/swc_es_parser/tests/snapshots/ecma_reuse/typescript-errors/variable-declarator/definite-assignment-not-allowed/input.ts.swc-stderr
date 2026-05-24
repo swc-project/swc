@@ -1,8 +1,0 @@
-  x unexpected token while parsing expression
-   ,-[/swc_ecma_parser/tests/typescript-errors/variable-declarator/definite-assignment-not-allowed/input.ts:1:1]
- 1 | let {}! = {};
-   :         ^
-   `----
-
-Advice: 
-  > code: UnexpectedToken
