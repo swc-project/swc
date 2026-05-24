@@ -177,6 +177,7 @@ impl crate::input::Tokens for Lexer<'_> {
         self.state.token_value.take()
     }
 
+    #[inline(always)]
     fn first_token(&mut self) -> TokenAndSpan {
         let mut start = self.cur_pos();
         let token = match self.read_shebang() {
@@ -204,6 +205,7 @@ impl crate::input::Tokens for Lexer<'_> {
         self.finish_next_token(self.span(start), token)
     }
 
+    #[inline(always)]
     fn next_token(&mut self) -> TokenAndSpan {
         // `read_next_token` always overwrites this out-parameter before
         // returning, including the regexp path.
@@ -403,6 +405,7 @@ impl Lexer<'_> {
         prefix.as_bytes().last().copied() == Some(b'-')
     }
 
+    #[inline(always)]
     fn read_next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
         if let Some(next_regexp) = self.state.next_regexp {
             *start = next_regexp;

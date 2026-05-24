@@ -297,12 +297,14 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(token);
     }
 
+    #[inline(always)]
     pub fn first_bump(&mut self) {
         let first_token = self.iter.first_token();
         self.prev_span = self.cur.span;
         self.set_cur(first_token);
     }
 
+    #[inline(always)]
     pub fn bump(&mut self) {
         let next = if self.next.is_none() {
             self.iter.next_token()
@@ -317,6 +319,7 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(next);
     }
 
+    #[inline(always)]
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
         let cur = self.cur();
         let word = if cur == Token::Ident {
