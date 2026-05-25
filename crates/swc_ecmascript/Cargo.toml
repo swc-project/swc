@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecmascript"
 repository    = { workspace = true }
-version       = "61.0.0"
+version       = "62.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -41,15 +41,15 @@ react        = ["swc_ecma_transforms/react"]
 typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 
 [dependencies]
-swc_ecma_ast        = { version = "23.0.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen    = { version = "26.0.2", path = "../swc_ecma_codegen", optional = true }
-swc_ecma_minifier   = { version = "53.0.3", path = "../swc_ecma_minifier", optional = true }
-swc_ecma_parser     = { version = "39.1.1", path = "../swc_ecma_parser", optional = true, default-features = false }
-swc_ecma_preset_env = { version = "54.0.0", path = "../swc_ecma_preset_env", optional = true }
-swc_ecma_quote      = { version = "39.0.0", path = "../swc_ecma_quote", optional = true }
-swc_ecma_transforms = { version = "53.0.0", path = "../swc_ecma_transforms", optional = true }
-swc_ecma_utils      = { version = "29.1.1", path = "../swc_ecma_utils", optional = true }
-swc_ecma_visit      = { version = "23.0.0", path = "../swc_ecma_visit", optional = true }
+swc_ecma_ast        = { version = "24.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen    = { version = "27.0.0", path = "../swc_ecma_codegen", optional = true }
+swc_ecma_minifier   = { version = "54.0.0", path = "../swc_ecma_minifier", optional = true }
+swc_ecma_parser     = { version = "40.0.0", path = "../swc_ecma_parser", optional = true, default-features = false }
+swc_ecma_preset_env = { version = "55.0.0", path = "../swc_ecma_preset_env", optional = true }
+swc_ecma_quote      = { version = "40.0.0", path = "../swc_ecma_quote", optional = true }
+swc_ecma_transforms = { version = "54.0.0", path = "../swc_ecma_transforms", optional = true }
+swc_ecma_utils      = { version = "30.0.0", path = "../swc_ecma_utils", optional = true }
+swc_ecma_visit      = { version = "24.0.0", path = "../swc_ecma_visit", optional = true }
 
 [dev-dependencies]
 par-core = { workspace = true, features = ["chili"] }
