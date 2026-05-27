@@ -1,4 +1,4 @@
-var _initClass, _init_a, _init_extra__init_a, _init_d, _init_e, _init_extra_e, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_i, _init_extra__init_i, _init_m, _init_n, _init_extra_n, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _initProto, _initStatic;
+var _initClass, _init_a, _init_d, _init_e, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_i, _init_m, _init_n, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _initProto, _initStatic;
 const dec = ()=>{};
 let _Class;
 new class extends _identity {
@@ -7,7 +7,7 @@ new class extends _identity {
     }
     static [class Class {
         static{
-            ({ e: [_init_m, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _init_i, _init_extra__init_i, _init_n, _init_extra_n, _init_d, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_a, _init_extra__init_a, _init_e, _init_extra_e, _initProto, _initStatic], c: [_Class, _initClass] } = _apply_decs_2203_r(this, [
+            ({ e: [_init_m, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _init_i, _init_n, _init_d, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_a, _init_e, _initProto, _initStatic], c: [_Class, _initClass] } = _apply_decs_2203_r(this, [
                 [
                     dec,
                     7,
@@ -147,7 +147,7 @@ new class extends _identity {
         b() {}
         get c() {}
         set c(v) {}
-        #___private_d_1 = (_init_extra__init_a(this), _init_d(this));
+        #___private_d_1 = _init_d(this);
         get d() {
             return this.#___private_d_1;
         }
@@ -164,7 +164,7 @@ new class extends _identity {
         set #g(v) {
             return _call_g1(this, v);
         }
-        #__h_2 = (_init_extra_e(this), _init_h(this));
+        #__h_2 = _init_h(this);
         get #h() {
             return _get___h(this);
         }
@@ -181,17 +181,9 @@ new class extends _identity {
             Class.#___private_m_3 = _v;
         }
     }];
-    i = (()=>{
-        const _value = _init_i(this);
-        _init_extra__init_i(this);
-        return _value;
-    })();
+    i = _init_i(this);
     #___private_m_3 = _init_m(this);
-    #n = (()=>{
-        const _value = _init_n(this);
-        _init_extra_n(this);
-        return _value;
-    })();
+    #n = _init_n(this);
     get #o() {
         return _call_o;
     }

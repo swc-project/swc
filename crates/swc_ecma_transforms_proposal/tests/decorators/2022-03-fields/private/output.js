@@ -1,8 +1,8 @@
-var _init_a, _init_extra_a, _init_b, _init_extra_b;
+var _init_a, _init_b, _initProto;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_init_a, _init_extra_a, _init_b, _init_extra_b] } = _apply_decs_2203_r(this, [
+        ({ e: [_init_a, _init_b, _initProto] } = _apply_decs_2203_r(this, [
             [
                 dec,
                 0,
@@ -28,8 +28,8 @@ class Foo {
         ], []));
     }
     constructor(){
-        _init_extra_b(this);
+        _initProto(this);
     }
     #a = _init_a(this);
-    #b = (_init_extra_a(this), _init_b(this, 123));
+    #b = _init_b(this, 123);
 }

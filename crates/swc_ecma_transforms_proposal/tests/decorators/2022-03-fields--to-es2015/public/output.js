@@ -1,16 +1,15 @@
-var _computedKey, _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey;
+var _computedKey, _init_a, _init_b, _init__computedKey, _initProto;
 const dec = ()=>{};
 _computedKey = 'c';
 let _computedKey1 = _computedKey;
 class Foo {
     constructor(){
-        _define_property(this, "a", _init_a(this));
-        _define_property(this, "b", (_init_extra__init_a(this), _init_b(this, 123)));
-        _define_property(this, _computedKey1, (_init_extra__init_b(this), _init__computedKey(this, 456)));
-        _init_extra__init__computedKey(this);
+        _define_property(this, "a", (_initProto(this), _init_a(this)));
+        _define_property(this, "b", _init_b(this, 123));
+        _define_property(this, _computedKey1, _init__computedKey(this, 456));
     }
 }
-({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey] } = _apply_decs_2203_r(Foo, [
+({ e: [_init_a, _init_b, _init__computedKey, _initProto] } = _apply_decs_2203_r(Foo, [
     [
         dec,
         0,
