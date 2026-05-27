@@ -54,12 +54,7 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
-
-      - name: Initialize submodules
-        # Run this after checkout so public external submodules are fetched
-        # without the repository-scoped GitHub token, which GitHub can reject
-        # when fetching an unadvertised submodule commit directly by SHA.
-        run: git submodule update --init --force --depth=1
+          submodules: true
 
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         with:
@@ -131,12 +126,7 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
-
-      - name: Initialize submodules
-        # Run this after checkout so public external submodules are fetched
-        # without the repository-scoped GitHub token, which GitHub can reject
-        # when fetching an unadvertised submodule commit directly by SHA.
-        run: git submodule update --init --force --depth=1
+          submodules: true
 
       # We explicitly do this to cache properly.
       - name: Install Rust
@@ -173,14 +163,12 @@ jobs:
       # We explicitly do this to cache properly.
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
 
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
       - uses: ./.github/actions/setup-node
         with:
           node-version: "20"
-
-      - name: Install wasm-pack
-        # The rustwasm shell installer can crash on GitHub Windows runners after
-        # installing. Use the npm package so every CI OS follows one install path.
-        run: npm install -g wasm-pack
 
       - name: Test
         run: |
@@ -240,13 +228,7 @@ jobs:
         if: matrix.settings.crate != '__noop__'
         with:
           persist-credentials: false
-
-      - name: Initialize submodules
-        if: matrix.settings.crate != '__noop__'
-        # Run this after checkout so public external submodules are fetched
-        # without the repository-scoped GitHub token, which GitHub can reject
-        # when fetching an unadvertised submodule commit directly by SHA.
-        run: git submodule update --init --force --depth=1
+          submodules: true
 
       # Source map format
       - uses: ./.github/actions/setup-node
@@ -434,9 +416,7 @@ jobs:
         shell: bash
 
       - name: Install wasm-pack
-        # The rustwasm shell installer can crash on GitHub Windows runners after
-        # installing. Use the npm package so every CI OS follows one install path.
-        run: npm install -g wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Prepare
         run: |
@@ -484,9 +464,7 @@ jobs:
         shell: bash
 
       - name: Install wasm-pack
-        # The rustwasm shell installer can crash on GitHub Windows runners after
-        # installing. Use the npm package so every CI OS follows one install path.
-        run: npm install -g wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Prepare
         run: |
