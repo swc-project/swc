@@ -13,7 +13,7 @@ use std::{
     borrow::{Borrow, Cow},
     cell::UnsafeCell,
     fmt::{self, Display, Formatter},
-    hash::Hash,
+    hash::{Hash, Hasher},
     mem::transmute,
     ops::Deref,
     rc::Rc,
@@ -33,10 +33,26 @@ mod wtf8_atom;
 ///
 ///
 /// See [tendril] for more details.
-#[derive(Clone, Default, PartialEq, Eq, Hash)]
+#[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[repr(transparent)]
 pub struct Atom(hstr::Atom);
+
+impl PartialEq for Atom {
+    #[inline]
+    fn eq(&self, other: &Self) -> bool {
+        self.0 == other.0
+    }
+}
+
+impl Eq for Atom {}
+
+impl Hash for Atom {
+    #[inline]
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.0.hash(state);
+    }
+}
 
 #[cfg(feature = "encoding-impl")]
 impl cbor4ii::core::enc::Encode for Atom {
@@ -132,6 +148,7 @@ impl Deref for Atom {
 macro_rules! impl_eq {
     ($T:ty) => {
         impl PartialEq<$T> for Atom {
+            #[inline]
             fn eq(&self, other: &$T) -> bool {
                 &**self == &**other
             }
@@ -164,8 +181,9 @@ impl From<Atom> for hstr::Wtf8Atom {
 }
 
 impl PartialEq<str> for Atom {
+    #[inline]
     fn eq(&self, other: &str) -> bool {
-        &**self == other
+        self.0 == *other
     }
 }
 
@@ -260,8 +278,9 @@ macro_rules! lazy_atom {
 }
 
 impl PartialEq<Atom> for str {
+    #[inline]
     fn eq(&self, other: &Atom) -> bool {
-        *self == **other
+        *self == other.0
     }
 }
 
@@ -347,6 +366,30 @@ impl AtomStoreCell {
         // to use an UnsafeCell. Note the borrow here is short lived
         // only to this block.
         unsafe { (*self.0.get()).wtf8_atom(s) }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn equality_variants() {
+        assert_eq!(Atom::from("inline"), Atom::from("inline"));
+        assert_ne!(Atom::from("inline"), Atom::from("inlinf"));
+
+        let mut store = AtomStore::default();
+        let dynamic = store.atom("Hello, beautiful world!");
+        let dynamic_same_store_equal = store.atom("Hello, beautiful world!");
+
+        let mut other_store = AtomStore::default();
+        let dynamic_other_store_equal = other_store.atom("Hello, beautiful world!");
+        let dynamic_different = other_store.atom("Hello, different world!");
+
+        assert_eq!(dynamic, dynamic_same_store_equal);
+        assert_eq!(dynamic, dynamic_other_store_equal);
+        assert_ne!(dynamic, dynamic_different);
+        assert_eq!(dynamic, "Hello, beautiful world!");
     }
 }
 
