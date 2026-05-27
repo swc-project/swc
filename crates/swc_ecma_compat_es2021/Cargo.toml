@@ -20,5 +20,5 @@ tracing = { workspace = true }
 
 swc_ecma_ast             = { version = "24.0.0", path = "../swc_ecma_ast" }
 swc_ecma_transformer     = { version = "15.0.0", path = "../swc_ecma_transformer" }
-swc_ecma_transforms_base = { version = "43.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "43.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils           = { version = "30.0.0", path = "../swc_ecma_utils" }

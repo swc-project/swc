@@ -51,7 +51,7 @@ swc_ecma_minifier = { version = "54.0.0", path = "../swc_ecma_minifier", feature
 swc_ecma_parser = { version = "40.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "43.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "43.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "24.0.0", path = "../swc_ecma_visit" }
 swc_html_ast = { version = "22.0.0", path = "../swc_html_ast" }
 swc_html_codegen = { version = "23.0.0", path = "../swc_html_codegen" }

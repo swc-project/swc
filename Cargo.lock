@@ -5920,7 +5920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "67.0.1"
+version = "67.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6709,7 +6709,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "43.0.0"
+version = "43.0.1"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -6847,7 +6847,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "43.0.0"
+version = "43.0.1"
 dependencies = [
  "either",
  "rustc-hash 2.1.1",

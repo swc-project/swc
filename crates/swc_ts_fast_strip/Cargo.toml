@@ -30,7 +30,7 @@ swc_ecma_parser = { version = "40.0.0", path = "../swc_ecma_parser", default-fea
   "typescript",
   "unstable",
 ] }
-swc_ecma_transforms_base = { version = "43.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "43.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_react = { version = "48.0.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_typescript = { version = "48.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "24.0.0", path = "../swc_ecma_visit" }
