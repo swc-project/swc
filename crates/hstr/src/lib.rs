@@ -17,7 +17,7 @@ use once_cell::sync::Lazy;
 
 pub use crate::dynamic::{global_atom_store_gc, AtomStore};
 use crate::{
-    macros::{get_hash, impl_from_alias, partial_eq},
+    macros::{get_hash, impl_from_alias},
     tagged_value::TaggedValue,
 };
 
@@ -297,13 +297,37 @@ impl Atom {
 }
 
 impl PartialEq for Atom {
-    #[inline(never)]
+    #[inline]
     fn eq(&self, other: &Self) -> bool {
-        partial_eq!(self, other);
+        let unsafe_data = self.unsafe_data;
+        let other_unsafe_data = other.unsafe_data;
 
-        // If the store is different, the string may be the same, even though the
-        // `unsafe_data` is different
-        self.as_str() == other.as_str()
+        if unsafe_data == other_unsafe_data {
+            return true;
+        }
+
+        let tag = unsafe_data.tag() & TAG_MASK;
+
+        if tag != (other_unsafe_data.tag() & TAG_MASK) {
+            return false;
+        }
+
+        match tag {
+            // Inline atoms encode both their length and bytes in `unsafe_data`, so
+            // different raw values mean different strings.
+            INLINE_TAG => false,
+            DYNAMIC_TAG => {
+                let this = unsafe { crate::dynamic::deref_from(unsafe_data) };
+                let other = unsafe { crate::dynamic::deref_from(other_unsafe_data) };
+
+                if this.header.header.hash != other.header.header.hash {
+                    return false;
+                }
+
+                this.slice == other.slice
+            }
+            _ => unsafe { debug_unreachable!() },
+        }
     }
 }
 

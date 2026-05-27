@@ -22,6 +22,28 @@ fn store_with_wtf8_atoms(texts: Vec<&Wtf8>) -> (AtomStore, Vec<Wtf8Atom>) {
 }
 
 #[test]
+fn equality_variants() {
+    assert_eq!(Atom::from("inline"), Atom::from("inline"));
+    assert_ne!(Atom::from("inline"), Atom::from("inlinf"));
+
+    let (_, atoms1) = store_with_atoms(vec!["Hello, beautiful world!"]);
+    let (_, atoms2) = store_with_atoms(vec!["Hello, beautiful world!", "Hello, different world!"]);
+    assert_eq!(atoms1[0], atoms2[0]);
+    assert_ne!(atoms1[0], atoms2[1]);
+
+    assert_eq!(Wtf8Atom::from("inline"), Wtf8Atom::from("inline"));
+    assert_ne!(Wtf8Atom::from("inline"), Wtf8Atom::from("inlinf"));
+
+    let (_, atoms1) = store_with_wtf8_atoms(vec![&Wtf8::from_str("Hello, beautiful world!")]);
+    let (_, atoms2) = store_with_wtf8_atoms(vec![
+        &Wtf8::from_str("Hello, beautiful world!"),
+        &Wtf8::from_str("Hello, different world!"),
+    ]);
+    assert_eq!(atoms1[0], atoms2[0]);
+    assert_ne!(atoms1[0], atoms2[1]);
+}
+
+#[test]
 fn simple_usage() {
     // atom
     let (s, atoms) = store_with_atoms(vec!["Hello, world!", "Hello, world!"]);
