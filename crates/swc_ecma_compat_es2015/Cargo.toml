@@ -23,7 +23,7 @@ rustc-hash   = { workspace = true }
 serde        = { workspace = true }
 serde_derive = { workspace = true }
 smallvec     = { workspace = true }
-swc_atoms    = { version = "9.0.1", path = "../swc_atoms" }
+swc_atoms    = { version = "9.0.2", path = "../swc_atoms" }
 
 
 swc_common                  = { version = "22.0.0", path = "../swc_common" }

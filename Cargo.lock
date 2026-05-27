@@ -2630,7 +2630,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "3.0.5"
+version = "3.0.6"
 dependencies = [
  "compact_str",
  "criterion",
@@ -5743,7 +5743,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "9.0.1"
+version = "9.0.2"
 dependencies = [
  "arbitrary",
  "bytecheck 0.8.1",
@@ -5920,7 +5920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "67.0.2"
+version = "67.0.3"
 dependencies = [
  "anyhow",
  "binding_macros",
