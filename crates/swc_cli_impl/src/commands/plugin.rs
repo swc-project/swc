@@ -194,7 +194,11 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
 
 [target.'cfg(target_arch = "wasm32")']
 rustflags = [
-  "--cfg=swc_ast_unknown"
+  "--cfg=swc_ast_unknown",
+  # Keep host-provided plugin ABI functions as wasm imports without requiring
+  # every extern block to specify a wasm import module.
+  "-C",
+  "link-arg=--import-undefined",
 ]
 "#
             .as_bytes(),

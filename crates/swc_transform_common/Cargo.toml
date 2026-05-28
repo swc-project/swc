@@ -13,7 +13,7 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
-plugin-mode = []
+plugin-mode = ["swc_common/plugin-mode"]
 
 [dependencies]
 rustc-hash = { workspace = true }
