@@ -5743,7 +5743,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "9.0.2"
+version = "9.0.3"
 dependencies = [
  "arbitrary",
  "bytecheck 0.8.1",
@@ -5920,7 +5920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "68.0.0"
+version = "68.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
