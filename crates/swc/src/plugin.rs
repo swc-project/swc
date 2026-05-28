@@ -201,7 +201,8 @@ impl Fold for RustPlugins {
             Ok(program) => program.expect_module(),
             Err(err) => {
                 HANDLER.with(|handler| {
-                    handler.err_with_code(&err.to_string(), DiagnosticId::Error("plugin".into()));
+                    handler
+                        .err_with_code(&format!("{err:#}"), DiagnosticId::Error("plugin".into()));
                 });
                 Module::default()
             }
@@ -213,7 +214,8 @@ impl Fold for RustPlugins {
             Ok(program) => program.expect_script(),
             Err(err) => {
                 HANDLER.with(|handler| {
-                    handler.err_with_code(&err.to_string(), DiagnosticId::Error("plugin".into()));
+                    handler
+                        .err_with_code(&format!("{err:#}"), DiagnosticId::Error("plugin".into()));
                 });
                 Script::default()
             }
