@@ -201,10 +201,8 @@ impl Fold for RustPlugins {
             Ok(program) => program.expect_module(),
             Err(err) => {
                 HANDLER.with(|handler| {
-                    handler.err_with_code(
-                        &format_plugin_error(&err),
-                        DiagnosticId::Error("plugin".into()),
-                    );
+                    handler
+                        .err_with_code(&format!("{err:#}"), DiagnosticId::Error("plugin".into()));
                 });
                 Module::default()
             }
@@ -216,20 +214,13 @@ impl Fold for RustPlugins {
             Ok(program) => program.expect_script(),
             Err(err) => {
                 HANDLER.with(|handler| {
-                    handler.err_with_code(
-                        &format_plugin_error(&err),
-                        DiagnosticId::Error("plugin".into()),
-                    );
+                    handler
+                        .err_with_code(&format!("{err:#}"), DiagnosticId::Error("plugin".into()));
                 });
                 Script::default()
             }
         }
     }
-}
-
-#[cfg(feature = "plugin")]
-fn format_plugin_error(err: &anyhow::Error) -> String {
-    format!("{err:#}")
 }
 
 #[cfg(feature = "plugin")]
@@ -274,16 +265,4 @@ pub(crate) fn compile_wasm_plugins(
     }
 
     Ok(())
-}
-
-#[cfg(all(test, feature = "plugin"))]
-mod tests {
-    use super::format_plugin_error;
-
-    #[test]
-    fn plugin_error_includes_context_chain() {
-        let err = anyhow::anyhow!("root cause").context("outer context");
-
-        assert_eq!(format_plugin_error(&err), "outer context: root cause");
-    }
 }
