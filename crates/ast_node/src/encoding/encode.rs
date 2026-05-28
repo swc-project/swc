@@ -28,8 +28,9 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                             cbor4ii::core::enc::Encode::encode(&#fieldpath, writer)?;
                         },
                     }
-                });
-            let count = data.fields.len();
+                })
+                .collect::<Vec<_>>();
+            let count = fields.len();
             let head: Option<syn::Stmt> = (count != 1).then(|| {
                 syn::parse_quote! {
                     <cbor4ii::core::types::Array<()>>::bounded(#count, writer)?;
