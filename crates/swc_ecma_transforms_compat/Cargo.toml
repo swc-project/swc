@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_compat"
 repository    = { workspace = true }
-version       = "51.0.0"
+version       = "51.0.1"
 
 [lib]
 bench = false
