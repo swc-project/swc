@@ -12349,3 +12349,144 @@ console.log(out.poisoned);
 
     run_default_exec_test(src);
 }
+
+#[test]
+fn issue_11294_eval_mangle_no_collision() {
+    // Regression test for #11294.
+    //
+    // The compressor's scalar replacement rewrites `var x = { ids: [] }; x.ids`
+    // into a synthetic `var x_ids = []` whose binding isn't covered by the
+    // mangler's `eval` bypass. With `eval` present, the top-level map and the
+    // eval-free callback's per-unit map were built with independent reverse
+    // maps, so both reused the same Base54 names and collided. This input both
+    // triggers the scalar replacement (vars inside the `if` block) and contains
+    // `eval`, so a regression reintroduces the collision and breaks runtime.
+    let src = r#"
+var out = function (chart) {
+    var result = "";
+    if (chart.series) {
+        var first = { ids: [] };
+        var second = { ids: [] };
+        chart.series.forEach(function (item) {
+            var id = item.split("-")[2];
+            first.ids.push(id);
+            second.ids.push(id);
+        });
+        result = first.ids.join(",") + "|" + second.ids.join(",");
+    }
+    eval("");
+    return result;
+}({ series: ["a-b-1", "a-b-2", "a-b-3"] });
+console.log(out);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    let expected_output = stdout_of(src).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "compress-and-mangle").entered();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            src,
+            Some(config),
+            Some(MangleOptions {
+                top_level: Some(true),
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
+fn issue_11294_eval_mangle_no_collision_nested() {
+    // Same root cause as `issue_11294_eval_mangle_no_collision`, but with
+    // nested callbacks (a `forEach` inside another `forEach`), exercising
+    // several levels of per-unit maps that all must avoid the names assigned
+    // by the top-level map under `eval`.
+    let src = r#"
+var out = function (data) {
+    var result = "";
+    if (data.rows) {
+        var collected = { ids: [] };
+        var mirror = { ids: [] };
+        data.rows.forEach(function (row) {
+            row.forEach(function (cell) {
+                var doubled = cell * 2;
+                collected.ids.push(doubled);
+                mirror.ids.push(doubled);
+            });
+        });
+        result = collected.ids.join(",") + "|" + mirror.ids.join(",");
+    }
+    eval("");
+    return result;
+}({ rows: [[1, 2], [3, 4]] });
+console.log(out);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    let expected_output = stdout_of(src).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "compress-and-mangle").entered();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            src,
+            Some(config),
+            Some(MangleOptions {
+                top_level: Some(true),
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
+}
