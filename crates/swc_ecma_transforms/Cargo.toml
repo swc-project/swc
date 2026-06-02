@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms"
 repository    = { workspace = true }
-version       = "55.0.0"
+version       = "55.0.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -44,7 +44,7 @@ swc_ecma_transforms_base         = { version = "44.0.1", path = "../swc_ecma_tra
 swc_ecma_transforms_compat       = { version = "51.0.1", path = "../swc_ecma_transforms_compat", optional = true, default-features = false }
 swc_ecma_transforms_module       = { version = "49.0.0", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_optimization = { version = "47.0.0", path = "../swc_ecma_transforms_optimization", optional = true }
-swc_ecma_transforms_proposal     = { version = "44.0.0", path = "../swc_ecma_transforms_proposal", optional = true }
+swc_ecma_transforms_proposal     = { version = "44.0.1", path = "../swc_ecma_transforms_proposal", optional = true }
 swc_ecma_transforms_react        = { version = "49.0.0", path = "../swc_ecma_transforms_react", optional = true }
 swc_ecma_transforms_typescript   = { version = "49.0.0", path = "../swc_ecma_transforms_typescript", optional = true }
 swc_ecma_utils                   = { version = "31.0.0", path = "../swc_ecma_utils" }

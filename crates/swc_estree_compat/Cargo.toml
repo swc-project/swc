@@ -47,7 +47,7 @@ pretty_assertions         = { workspace = true }
 swc                 = { version = "66.0.0", path = "../swc", default-features = false }
 swc_ecma_ast        = { version = "25.0.0", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "41.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "55.0.0", path = "../swc_ecma_transforms/" }
+swc_ecma_transforms = { version = "55.0.1", path = "../swc_ecma_transforms/" }
 testing             = { version = "24.0.0", path = "../testing" }
 walkdir             = { workspace = true }
 

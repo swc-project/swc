@@ -104,7 +104,7 @@ swc_ecma_parser = { version = "41.0.0", path = "../swc_ecma_parser", default-fea
   "typescript",
 ] }
 swc_ecma_preset_env = { version = "56.0.0", path = "../swc_ecma_preset_env", default-features = false, features = ["serde-impl"] }
-swc_ecma_transforms = { version = "55.0.0", path = "../swc_ecma_transforms", features = [
+swc_ecma_transforms = { version = "55.0.1", path = "../swc_ecma_transforms", features = [
   "compat",
   "optimization",
   "proposal",

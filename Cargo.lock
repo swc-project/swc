@@ -5920,7 +5920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "68.0.3"
+version = "68.0.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6689,7 +6689,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "55.0.0"
+version = "55.0.1"
 dependencies = [
  "par-core",
  "swc_common",
@@ -6847,7 +6847,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "44.0.0"
+version = "44.0.1"
 dependencies = [
  "either",
  "rustc-hash 2.1.1",
