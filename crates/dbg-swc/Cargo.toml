@@ -22,7 +22,7 @@ rayon = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 sha1 = { workspace = true }
-swc_common = { version = "23.0.0", features = [
+swc_common = { version = "23.0.1", features = [
   "concurrent",
   "tty-emitter",
 ], path = "../swc_common" }

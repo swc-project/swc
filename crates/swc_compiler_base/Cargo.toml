@@ -24,7 +24,7 @@ serde_json    = { workspace = true }
 swc_sourcemap = { workspace = true }
 
 swc_atoms = { version = "9.0.3", path = "../swc_atoms" }
-swc_common = { version = "23.0.0", path = "../swc_common", features = [
+swc_common = { version = "23.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_config = { version = "5.0.0", path = "../swc_config" }

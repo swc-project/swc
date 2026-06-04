@@ -19,7 +19,7 @@ hex = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 sha2 = { workspace = true }
-swc_common = { version = "23.0.0", path = "../swc_common", features = [
+swc_common = { version = "23.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "25.0.0", path = "../swc_ecma_ast" }

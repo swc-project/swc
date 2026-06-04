@@ -26,7 +26,7 @@ smallvec     = { workspace = true }
 swc_atoms    = { version = "9.0.3", path = "../swc_atoms" }
 
 
-swc_common                  = { version = "23.0.0", path = "../swc_common" }
+swc_common                  = { version = "23.0.1", path = "../swc_common" }
 swc_config                  = { version = "5.0.0", path = "../swc_config" }
 swc_ecma_ast                = { version = "25.0.0", path = "../swc_ecma_ast" }
 swc_ecma_compat_common      = { version = "40.0.0", path = "../swc_ecma_compat_common" }
