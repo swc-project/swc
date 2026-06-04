@@ -1244,6 +1244,35 @@ fn calc_utf16_offset(file: &SourceFile, bpos: BytePos, state: &mut ByteToCharPos
     total_extra_bytes
 }
 
+/// Source map producers can occasionally point a generated mapping at a byte
+/// inside a UTF-8 character. Source map columns are character-based, so treat
+/// that mapping as pointing at the character start before calculating columns.
+#[cfg(feature = "sourcemap")]
+fn normalize_sourcemap_pos(file: &SourceFile, pos: BytePos) -> BytePos {
+    let mbcs = &file.analyze().multibyte_chars;
+    if mbcs.is_empty() {
+        return pos;
+    }
+
+    let index = match mbcs.binary_search_by(|mbc| mbc.pos.cmp(&pos)) {
+        Ok(_) | Err(0) => return pos,
+        Err(index) => index - 1,
+    };
+    let mbc = &mbcs[index];
+    let mbc_end = mbc.pos + BytePos(mbc.bytes as u32);
+
+    if pos < mbc_end {
+        debug!(
+            "clamping sourcemap byte position inside multibyte char: bpos = {:?}, mbc.pos = {:?}, \
+             mbc.bytes = {:?}",
+            pos, mbc.pos, mbc.bytes
+        );
+        return mbc.pos;
+    }
+
+    pos
+}
+
 pub trait Files {
     /// This function is called to change the [BytePos] in AST into an unmapped,
     /// real value.
@@ -1367,6 +1396,7 @@ pub fn build_source_map(
             continue;
         }
 
+        let pos = normalize_sourcemap_pos(f, pos);
         let emit_columns = config.emit_columns(&f.name);
 
         if !emit_columns && lc.line == prev_dst_line {
@@ -1836,6 +1866,42 @@ mod tests {
 
             assert_eq!(actual, cpos.to_u32());
         }
+    }
+
+    #[cfg(feature = "sourcemap")]
+    #[test]
+    fn source_map_clamps_mappings_inside_multibyte_chars() {
+        let input = "// ┌\nconst emoji = '💩';\n";
+        let sm = SourceMap::new(FilePathMapping::empty());
+        let file = sm.new_source_file(Lrc::new(PathBuf::from("multibyte.js").into()), input);
+
+        let box_drawing_start = input.find('┌').unwrap() as u32;
+        let emoji_start = input.find('💩').unwrap() as u32;
+        let mappings = [
+            (
+                file.start_pos + BytePos(box_drawing_start + 1),
+                LineCol { line: 0, col: 0 },
+            ),
+            (
+                file.start_pos + BytePos(emoji_start + 2),
+                LineCol { line: 1, col: 0 },
+            ),
+        ];
+
+        let map = sm.build_source_map(&mappings, None, DefaultSourceMapGenConfig);
+        let tokens = map
+            .tokens()
+            .map(|token| {
+                (
+                    token.get_dst_line(),
+                    token.get_dst_col(),
+                    token.get_src_line(),
+                    token.get_src_col(),
+                )
+            })
+            .collect::<Vec<_>>();
+
+        assert_eq!(tokens, vec![(0, 0, 0, 3), (1, 0, 1, 15)]);
     }
 
     #[test]
