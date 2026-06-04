@@ -617,6 +617,11 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: true };
         node.callee.visit_mut_with(self);
         match *node.callee {
+            // `new foo()`bar`() constructs `foo`, while `new (foo()`bar`)()`
+            // constructs the class returned by the tagged template expression.
+            Expr::TaggedTpl(TaggedTpl { ref tag, .. }) if matches!(**tag, Expr::Call(..)) => {
+                self.wrap(&mut node.callee)
+            }
             Expr::Call(..)
             | Expr::Await(..)
             | Expr::Yield(..)
