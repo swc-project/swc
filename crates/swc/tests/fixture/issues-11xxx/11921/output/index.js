@@ -6,8 +6,11 @@ const taggedObject = ()=>(args)=>({
                 }
         });
 new (taggedObject()`a`.bar`b`)();
+const nestedTag = ()=>(args)=>(args)=>class D {
+            };
+new (nestedTag()`a``b`)();
 function Foo() {
     return (args)=>class C {
         };
 }
-new (new Foo`bar`)();
+new (new Foo)`bar`();
