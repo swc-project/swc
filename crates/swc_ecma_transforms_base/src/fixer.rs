@@ -71,6 +71,22 @@ enum Context {
 }
 
 impl Fixer<'_> {
+    fn should_wrap_tagged_tpl_new_callee(tag: &Expr) -> bool {
+        match tag {
+            Expr::Call(..) | Expr::New(..) => true,
+            Expr::Member(MemberExpr { obj, .. }) => Self::member_tag_starts_with_tagged_tpl(obj),
+            _ => false,
+        }
+    }
+
+    fn member_tag_starts_with_tagged_tpl(obj: &Expr) -> bool {
+        match obj {
+            Expr::TaggedTpl(..) => true,
+            Expr::Member(MemberExpr { obj, .. }) => Self::member_tag_starts_with_tagged_tpl(obj),
+            _ => false,
+        }
+    }
+
     fn wrap_callee(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => (),
@@ -619,7 +635,9 @@ impl VisitMut for Fixer<'_> {
         match *node.callee {
             // `new foo()`bar`() constructs `foo`, while `new (foo()`bar`)()`
             // constructs the class returned by the tagged template expression.
-            Expr::TaggedTpl(TaggedTpl { ref tag, .. }) if matches!(**tag, Expr::Call(..)) => {
+            Expr::TaggedTpl(TaggedTpl { ref tag, .. })
+                if Self::should_wrap_tagged_tpl_new_callee(tag) =>
+            {
                 self.wrap(&mut node.callee)
             }
             Expr::Call(..)
