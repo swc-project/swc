@@ -3,6 +3,24 @@ const swc = require("../../"),
     sourceMap = require("source-map");
 const path = require("path");
 
+const muiDefaultPropsProvider = `import PropTypes from "prop-types";
+
+const DefaultPropsProvider = {};
+
+DefaultPropsProvider.propTypes /* remove-proptypes */ = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │ To update them, edit the TypeScript types and run \`pnpm proptypes\`. │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * @ignore
+   */
+  children: PropTypes.node,
+};
+
+export { DefaultPropsProvider };
+`;
+
 it("should handle sourcemap correctly", async () => {
     const raw = `
 class Foo extends Array {
@@ -56,6 +74,66 @@ console.log('foo')
     expect(out2.map).toBeTruthy();
     expect(JSON.parse(out2.map).sources).toEqual(["<anon>"]);
     validate(out2.code, out2.map, { "input.js": raw });
+});
+
+it("should keep source context for plugin sourcemaps with multibyte comments", () => {
+    const filename = "DefaultPropsProvider.mjs";
+    const out = swc.transformSync(muiDefaultPropsProvider, {
+        filename,
+        sourceMaps: true,
+        plugin: (m) => ({ ...m }),
+    });
+
+    expect(out.map).toBeTruthy();
+    expect(JSON.parse(out.map).sources).toEqual([filename]);
+    validate(out.code, out.map, { [filename]: muiDefaultPropsProvider });
+});
+
+it("should keep source context for print(parse()) sourcemaps", () => {
+    const filename = "DefaultPropsProvider.mjs";
+    const program = swc.parseSync(
+        muiDefaultPropsProvider,
+        { syntax: "ecmascript" },
+        filename
+    );
+    const out = swc.printSync(program, {
+        filename,
+        sourceMaps: true,
+    });
+
+    expect(out.map).toBeTruthy();
+    expect(JSON.parse(out.map).sources).toEqual([filename]);
+    expect(JSON.stringify(program)).not.toContain("sourceContext");
+    validate(out.code, out.map, { [filename]: muiDefaultPropsProvider });
+});
+
+it("should isolate async plugin source contexts", async () => {
+    const inputs = [
+        muiDefaultPropsProvider,
+        `const emoji = "🙂";\nexport { emoji };\n`,
+    ];
+
+    const outputs = await Promise.all(
+        Array.from({ length: 24 }, (_, index) => {
+            const filename = `input-${index}.mjs`;
+
+            return swc.transform(inputs[index % inputs.length], {
+                filename,
+                sourceMaps: true,
+                plugin: (m) => ({ ...m }),
+            });
+        })
+    );
+
+    outputs.forEach((out, index) => {
+        const filename = `input-${index}.mjs`;
+
+        expect(out.map).toBeTruthy();
+        expect(JSON.parse(out.map).sources).toEqual([filename]);
+        validate(out.code, out.map, {
+            [filename]: inputs[index % inputs.length],
+        });
+    });
 });
 
 it("should handle input sourcemap correctly", async () => {

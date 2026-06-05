@@ -16,6 +16,7 @@ use swc_core::{
 
 #[cfg(feature = "plugin")]
 mod analyze;
+mod ast_context;
 mod bundle;
 mod minify;
 mod parse;

@@ -42,6 +42,89 @@ const bindings: typeof import("../binding") = (() => {
     }
 })();
 
+type ProgramSourceContext = {
+    realFilename?: string | null;
+    source: string;
+    startPos: number;
+    endPos: number;
+};
+
+type ProgramEnvelope = {
+    program: Program;
+    sourceContext?: ProgramSourceContext | null;
+};
+
+const programSourceContextKey: unique symbol = Symbol(
+    "@swc/core.programSourceContext"
+);
+
+type ProgramWithSourceContext = Program & {
+    [programSourceContextKey]?: ProgramSourceContext;
+};
+
+function attachProgramSourceContext<T extends Program>(
+    program: T,
+    sourceContext?: ProgramSourceContext | null
+): T {
+    if (!sourceContext || typeof program !== "object" || program === null) {
+        return program;
+    }
+
+    try {
+        Object.defineProperty(program, programSourceContextKey, {
+            configurable: true,
+            enumerable: false,
+            value: sourceContext,
+            writable: true,
+        });
+    } catch (_) {
+        // Frozen user-created ASTs keep the legacy raw Program behavior.
+    }
+
+    return program;
+}
+
+function getProgramSourceContext(
+    program: Program
+): ProgramSourceContext | undefined {
+    return (program as ProgramWithSourceContext)[programSourceContextKey];
+}
+
+function copyProgramSourceContext<T extends Program>(from: Program, to: T): T {
+    return attachProgramSourceContext(to, getProgramSourceContext(from));
+}
+
+function parseProgramJson(json: string): Program {
+    const value = JSON.parse(json) as Program | ProgramEnvelope;
+
+    if (
+        value &&
+        typeof value === "object" &&
+        "program" in value &&
+        value.program
+    ) {
+        return attachProgramSourceContext(
+            value.program,
+            value.sourceContext
+        );
+    }
+
+    return value as Program;
+}
+
+function stringifyProgram(program: Program): string {
+    const sourceContext = getProgramSourceContext(program);
+
+    if (sourceContext) {
+        return JSON.stringify({
+            program,
+            sourceContext,
+        });
+    }
+
+    return JSON.stringify(program);
+}
+
 /**
  * Version of the swc binding.
  */
@@ -111,7 +194,7 @@ export class Compiler {
 
         if (bindings) {
             const res = await bindings.parse(src, toBuffer(options), filename);
-            return JSON.parse(res);
+            return parseProgramJson(res);
         } else if (fallbackBindings) {
             return fallbackBindings.parse(src, options);
         }
@@ -125,7 +208,7 @@ export class Compiler {
         options.syntax = options.syntax || "ecmascript";
 
         if (bindings) {
-            return JSON.parse(
+            return parseProgramJson(
                 bindings.parseSync(src, toBuffer(options), filename)
             );
         } else if (fallbackBindings) {
@@ -154,7 +237,7 @@ export class Compiler {
 
         const res = await bindings.parseFile(path, toBuffer(options));
 
-        return JSON.parse(res);
+        return parseProgramJson(res);
     }
 
     parseFileSync(
@@ -174,7 +257,7 @@ export class Compiler {
             throw new Error("Bindings not found.");
         }
 
-        return JSON.parse(bindings.parseFileSync(path, toBuffer(options)));
+        return parseProgramJson(bindings.parseFileSync(path, toBuffer(options)));
     }
 
     /**
@@ -185,7 +268,7 @@ export class Compiler {
         options = options || {};
 
         if (bindings) {
-            return bindings.print(JSON.stringify(m), toBuffer(options));
+            return bindings.print(stringifyProgram(m), toBuffer(options));
         } else if (fallbackBindings) {
             return fallbackBindings.print(m, options);
         }
@@ -201,7 +284,7 @@ export class Compiler {
         options = options || {};
 
         if (bindings) {
-            return bindings.printSync(JSON.stringify(m), toBuffer(options));
+            return bindings.printSync(stringifyProgram(m), toBuffer(options));
         } else if (fallbackBindings) {
             return fallbackBindings.printSync(m, options);
         }
@@ -230,11 +313,14 @@ export class Compiler {
                             options.filename
                         )
                         : src;
-                return this.transform(plugin(m), newOptions);
+                return this.transform(
+                    copyProgramSourceContext(m, plugin(m)),
+                    newOptions
+                );
             }
 
             return bindings.transform(
-                isModule ? JSON.stringify(src) : src,
+                isModule ? stringifyProgram(src) : src,
                 isModule,
                 toBuffer(newOptions)
             );
@@ -273,11 +359,14 @@ export class Compiler {
                             options.filename
                         )
                         : src;
-                return this.transformSync(plugin(m), newOptions);
+                return this.transformSync(
+                    copyProgramSourceContext(m, plugin(m)),
+                    newOptions
+                );
             }
 
             return bindings.transformSync(
-                isModule ? JSON.stringify(src) : src,
+                isModule ? stringifyProgram(src) : src,
                 isModule,
                 toBuffer(newOptions)
             );
@@ -318,7 +407,10 @@ export class Compiler {
 
         if (plugin) {
             const m = await this.parseFile(path, options?.jsc?.parser);
-            return this.transform(plugin(m), newOptions);
+            return this.transform(
+                copyProgramSourceContext(m, plugin(m)),
+                newOptions
+            );
         }
 
         return bindings.transformFile(path, false, toBuffer(newOptions));
@@ -345,7 +437,10 @@ export class Compiler {
 
         if (plugin) {
             const m = this.parseFileSync(path, options?.jsc?.parser);
-            return this.transformSync(plugin(m), newOptions);
+            return this.transformSync(
+                copyProgramSourceContext(m, plugin(m)),
+                newOptions
+            );
         }
 
         return bindings.transformFileSync(
