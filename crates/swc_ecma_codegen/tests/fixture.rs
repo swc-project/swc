@@ -51,6 +51,13 @@ fn find_config(dir: &Path) -> TestConfig {
 
 fn run(input: &Path, minify: bool) {
     let dir = input.parent().unwrap();
+    let file_name = input
+        .file_name()
+        .and_then(|file_name| file_name.to_str())
+        .unwrap();
+    let dts = file_name.ends_with(".d.ts")
+        || file_name.ends_with(".d.mts")
+        || file_name.ends_with(".d.cts");
     let output = if minify {
         dir.join(format!(
             "output.min.{}",
@@ -73,6 +80,7 @@ fn run(input: &Path, minify: bool) {
             Syntax::Typescript(TsSyntax {
                 decorators: true,
                 tsx: true,
+                dts,
                 ..Default::default()
             }),
             EsVersion::latest(),
@@ -114,6 +122,7 @@ fn run(input: &Path, minify: bool) {
 
 #[testing::fixture("tests/fixture/**/input.ts")]
 #[testing::fixture("tests/fixture/**/input.tsx")]
+#[testing::fixture("tests/fixture/**/input.d.ts")]
 fn ts(input: PathBuf) {
     run(&input, false);
 }
