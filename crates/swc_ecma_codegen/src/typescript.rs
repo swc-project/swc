@@ -809,6 +809,7 @@ impl MacroNode for TsNamespaceExportDecl {
         keyword!(emitter, "namespace");
         space!(emitter);
         emit!(self.id);
+        formatting_semi!(emitter);
         Ok(())
     }
 }
