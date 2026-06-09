@@ -51,24 +51,10 @@ fn find_config(dir: &Path) -> TestConfig {
 
 fn run(input: &Path, minify: bool) {
     let dir = input.parent().unwrap();
-    let file_name = input
-        .file_name()
-        .and_then(|file_name| file_name.to_str())
-        .unwrap();
-    let dts = file_name.ends_with(".d.ts")
-        || file_name.ends_with(".d.mts")
-        || file_name.ends_with(".d.cts");
-    let output = if minify {
-        dir.join(format!(
-            "output.min.{}",
-            input.extension().unwrap().to_string_lossy()
-        ))
-    } else {
-        dir.join(format!(
-            "output.{}",
-            input.extension().unwrap().to_string_lossy()
-        ))
-    };
+
+    let dts = is_dts(input);
+
+    let output = output_path(input, minify, dts);
 
     run_test2(false, |cm, _| {
         let config = find_config(dir);
@@ -120,11 +106,38 @@ fn run(input: &Path, minify: bool) {
     .unwrap();
 }
 
+fn is_dts(input: &Path) -> bool {
+    let file_name = input
+        .file_name()
+        .and_then(|file_name| file_name.to_str())
+        .unwrap();
+    file_name.ends_with(".d.ts") || file_name.ends_with(".d.mts") || file_name.ends_with(".d.cts")
+}
+
+fn output_path(input: &Path, minify: bool, is_dts: bool) -> PathBuf {
+    let dir = input.parent().unwrap();
+
+    if minify {
+        dir.join(format!(
+            "output.min.{}{}",
+            if is_dts { "d." } else { "" },
+            input.extension().unwrap().to_string_lossy()
+        ))
+    } else {
+        dir.join(format!(
+            "output.{}{}",
+            if is_dts { "d." } else { "" },
+            input.extension().unwrap().to_string_lossy()
+        ))
+    }
+}
+
 #[testing::fixture("tests/fixture/**/input.ts")]
 #[testing::fixture("tests/fixture/**/input.tsx")]
 #[testing::fixture("tests/fixture/**/input.d.ts")]
 fn ts(input: PathBuf) {
     run(&input, false);
+    run(&input, true);
 }
 
 #[testing::fixture("tests/fixture/**/input.js")]
