@@ -25,7 +25,7 @@ serde      = { workspace = true, features = ["derive"], optional = true }
 tracing    = { workspace = true }
 
 string_enum = { version = "1.0.2", path = "../string_enum" }
-swc = { version = "66.0.0", path = "../swc" }
+swc = { version = "66.0.1", path = "../swc" }
 swc_atoms = { version = "9.0.3", path = "../swc_atoms" }
 swc_bundler = { version = "51.0.0", path = "../swc_bundler", features = [
   "concurrent",
@@ -34,9 +34,9 @@ swc_common = { version = "23.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_ecma_ast = { version = "25.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "28.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "28.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "24.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "41.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "41.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms = { version = "55.0.1", path = "../swc_ecma_transforms" }
@@ -45,7 +45,7 @@ swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
 
 [dev-dependencies]
 
-swc_ecma_transforms_base = { version = "44.0.1", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "44.0.2", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 testing = { version = "24.0.0", path = "../testing" }
