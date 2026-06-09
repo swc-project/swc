@@ -528,6 +528,8 @@ impl VisitMut for Finalizer<'_> {
                             _ => break 'a,
                         },
                         MemberProp::PrivateName(_) => break 'a,
+                        #[cfg(swc_ast_unknown)]
+                        _ => break 'a,
                     };
 
                     if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), sym.clone())) {
