@@ -3208,6 +3208,17 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    fn flow_anon_fn_param_to_pat(param: TsFnParam) -> Pat {
+        match param {
+            TsFnParam::Ident(param) => Pat::Ident(param),
+            TsFnParam::Array(param) => Pat::Array(param),
+            TsFnParam::Rest(param) => Pat::Rest(param),
+            TsFnParam::Object(param) => Pat::Object(param),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
+        }
+    }
+
     fn flow_starts_like_anon_signature_param_type(&mut self) -> bool {
         let cur = self.input().cur();
 
@@ -3288,6 +3299,21 @@ impl<I: Tokens> Parser<I> {
         Ok(Some(
             self.make_flow_anon_fn_param(start, index, dot3_token, ty),
         ))
+    }
+
+    pub(crate) fn try_parse_flow_anon_formal_param(
+        &mut self,
+        index: usize,
+    ) -> PResult<Option<Pat>> {
+        if !self.input().syntax().flow() || !self.ctx().contains(Context::InDeclare) {
+            return Ok(None);
+        }
+
+        // Flow declare signatures allow anonymous function type parameters where
+        // normal formal parameters still require a binding pattern.
+        Ok(self
+            .try_parse_ts(|p| p.in_type(|p| p.try_parse_flow_anon_signature_param(index)))
+            .map(Self::flow_anon_fn_param_to_pat))
     }
 
     fn try_parse_flow_anon_fn_type(&mut self) -> PResult<Option<TsFnType>> {
@@ -5182,7 +5208,15 @@ impl<I: Tokens> Parser<I> {
                     .map(|p| p.pat)
                     .collect();
                 expect!(p, Token::RParen);
-                let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
+                let return_type = if p.input().syntax().flow() {
+                    // In arrow return type context, `T => expr` belongs to the
+                    // outer arrow unless the function type is parenthesized.
+                    p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
+                        p.try_parse_ts_type_or_type_predicate_ann()
+                    })?
+                } else {
+                    p.try_parse_ts_type_or_type_predicate_ann()?
+                };
                 expect!(p, Token::Arrow);
 
                 Ok(Some((type_params, params, return_type)))

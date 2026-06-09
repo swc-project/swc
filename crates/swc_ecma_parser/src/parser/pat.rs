@@ -783,7 +783,9 @@ impl<I: Tokens> Parser<I> {
             let decorators = self.parse_decorators(false)?;
             let pat_start = self.cur_pos();
 
-            let pat = if self.input_mut().eat(Token::DotDotDot) {
+            let pat = if let Some(pat) = self.try_parse_flow_anon_formal_param(params.len())? {
+                pat
+            } else if self.input_mut().eat(Token::DotDotDot) {
                 let dot3_token = self.span(pat_start);
 
                 let mut pat = self.parse_binding_pat_or_ident(false)?;
@@ -827,6 +829,9 @@ impl<I: Tokens> Parser<I> {
                 self.parse_formal_param_pat()?
             };
             let is_rest = matches!(pat, Pat::Rest(_));
+            if is_rest {
+                rest_span = pat.span();
+            }
 
             params.push(Param {
                 span: self.span(param_start),

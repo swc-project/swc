@@ -82,6 +82,13 @@ impl<I: Tokens> Parser<I> {
         Ok(None)
     }
 
+    pub(crate) fn try_parse_flow_anon_formal_param(
+        &mut self,
+        _index: usize,
+    ) -> PResult<Option<Pat>> {
+        Ok(None)
+    }
+
     pub(super) fn next_then_parse_ts_type(&mut self) -> PResult<Box<TsType>> {
         unreachable!("next_then_parse_ts_type should not be called without typescript feature")
     }
