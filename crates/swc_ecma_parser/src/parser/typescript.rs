@@ -3214,6 +3214,8 @@ impl<I: Tokens> Parser<I> {
             TsFnParam::Array(param) => Pat::Array(param),
             TsFnParam::Rest(param) => Pat::Rest(param),
             TsFnParam::Object(param) => Pat::Object(param),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         }
     }
 
