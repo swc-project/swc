@@ -1,4 +1,5 @@
 type Rendered = renders React.Node;
+type MaybeRendered = renders ?React.Node;
 
 function f(x: renders React.Node) {}
 

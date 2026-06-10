@@ -4403,8 +4403,10 @@ impl<I: Tokens> Parser<I> {
                 }
                 p.bump();
 
-                if !p.input_mut().eat(Token::QuestionMark) {
-                    p.input_mut().eat(Token::Asterisk);
+                if matches!(p.input().cur(), Token::QuestionMark | Token::Asterisk)
+                    && p.input().prev_span().hi == p.input().cur_span().lo
+                {
+                    p.bump();
                 }
 
                 let type_ann = p.parse_ts_non_array_type()?;
