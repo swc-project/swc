@@ -80,6 +80,7 @@ function run(
   try {
     return execFileSync(command, commandArgs, {
       encoding: "utf8",
+      maxBuffer: 64 * 1024 * 1024,
       stdio: ["ignore", "pipe", "pipe"],
     }).trim();
   } catch (error: any) {
@@ -219,6 +220,8 @@ function timestampOrZero(value: string | null | undefined) {
 function listReleases() {
   const pages = ghJson<GitHubRelease[][]>([
     "api",
+    "--cache",
+    "1h",
     "--paginate",
     "--slurp",
     `repos/${OWNER}/${REPO}/releases?per_page=100`,
