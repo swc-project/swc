@@ -28,6 +28,37 @@ type GitHubRelease = {
   published_at: string | null;
 };
 
+type SearchIssue = {
+  number: number;
+  title: string;
+  html_url: string;
+};
+
+type SearchIssuesResponse = {
+  items: SearchIssue[];
+};
+
+type GitHubPullRequest = {
+  number: number;
+  title: string;
+  html_url: string;
+  merged_at: string | null;
+  merge_commit_sha: string | null;
+  milestone: Milestone | null;
+};
+
+type ClosingIssuesResponse = {
+  data: {
+    repository: {
+      pullRequest: {
+        closingIssuesReferences: {
+          nodes: IssueReference[];
+        };
+      } | null;
+    };
+  };
+};
+
 type Milestone = {
   number: number;
   title: string;
@@ -97,6 +128,14 @@ function run(
 function ghJson<T>(commandArgs: string[]): T {
   const output = run("gh", commandArgs);
   return (output ? JSON.parse(output) : null) as T;
+}
+
+function ghApiJson<T>(path: string, fields: Record<string, string> = {}): T {
+  const args = ["api", "-X", "GET", path];
+  for (const [key, value] of Object.entries(fields)) {
+    args.push("-f", `${key}=${value}`);
+  }
+  return ghJson<T>(args);
 }
 
 function validateArgs(args: string[]) {
@@ -342,29 +381,72 @@ function mergedPrSearchQuery(
 }
 
 function fetchMergedPullRequests(searchQuery: string) {
-  const pullRequests = ghJson<PullRequest[]>([
-    "pr",
-    "list",
-    "--repo",
-    `${OWNER}/${REPO}`,
-    "--state",
-    "merged",
-    "--limit",
-    String(MAX_PR_CANDIDATES),
-    "--search",
-    searchQuery,
-    "--json",
-    "number,title,url,mergedAt,mergeCommit,milestone,closingIssuesReferences",
+  const pages = ghJson<SearchIssuesResponse[]>([
+    "api",
+    "--paginate",
+    "--slurp",
+    "-X",
+    "GET",
+    "search/issues",
+    "-f",
+    `q=repo:${OWNER}/${REPO} is:pr is:merged ${searchQuery}`,
+    "-f",
+    "per_page=100",
   ]);
+  const searchResults = pages.flatMap((page) => page.items);
 
-  if (pullRequests.length >= MAX_PR_CANDIDATES) {
+  if (searchResults.length >= MAX_PR_CANDIDATES) {
     fail(
-      `Fetched ${pullRequests.length} merged PR candidates, which reaches the safety limit. ` +
+      `Fetched ${searchResults.length} merged PR candidates, which reaches the safety limit. ` +
         "Narrow the release range or raise the limit before closing the release milestone."
     );
   }
 
-  return pullRequests;
+  return searchResults.map((searchResult) => {
+    const pullRequest = ghApiJson<GitHubPullRequest>(
+      `repos/${OWNER}/${REPO}/pulls/${searchResult.number}`
+    );
+
+    return {
+      number: pullRequest.number,
+      title: pullRequest.title,
+      url: pullRequest.html_url,
+      mergedAt: pullRequest.merged_at,
+      mergeCommit: pullRequest.merge_commit_sha
+        ? { oid: pullRequest.merge_commit_sha }
+        : null,
+      milestone: pullRequest.milestone,
+      closingIssuesReferences: null,
+    };
+  });
+}
+
+function fetchClosingIssueReferences(
+  pullRequest: PullRequest
+): IssueReference[] {
+  const response = ghJson<ClosingIssuesResponse>([
+    "api",
+    "graphql",
+    "-F",
+    `owner=${OWNER}`,
+    "-F",
+    `repo=${REPO}`,
+    "-F",
+    `number=${pullRequest.number}`,
+    "-f",
+    "query=query($owner:String!, $repo:String!, $number:Int!) { repository(owner:$owner, name:$repo) { pullRequest(number:$number) { closingIssuesReferences(first:100) { nodes { number url repository { name owner { login } } } } } } }",
+  ]);
+
+  return (
+    response.data.repository.pullRequest?.closingIssuesReferences.nodes ?? []
+  );
+}
+
+function attachClosingIssueReferences(pullRequests: PullRequest[]) {
+  return pullRequests.map((pullRequest) => ({
+    ...pullRequest,
+    closingIssuesReferences: fetchClosingIssueReferences(pullRequest),
+  }));
 }
 
 function filterPullRequestsInReleaseRange(
@@ -629,7 +711,9 @@ function main() {
     previousCommit,
     currentCommit
   );
-  const targets = collectMilestoneTargets(pullRequests);
+  const targets = collectMilestoneTargets(
+    attachClosingIssueReferences(pullRequests)
+  );
   const targetCount = targets.pullRequests.length + targets.issues.length;
 
   if (targets.externalIssueReferences.length > 0) {
