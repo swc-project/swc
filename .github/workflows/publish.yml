@@ -157,16 +157,18 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: ./.github/actions/setup-node
         with:
           cache: "false"
       - name: Manage milestone
         env:
+          GH_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ github.token }}
-          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_TAG: v${{ inputs.version }}
         run: |
-          npx ts-node .github/bot/src/milestone-manager.ts "$RELEASE_VERSION"
+          npx ts-node .github/bot/src/milestone-manager.ts "$RELEASE_TAG"
 
   publish-npm-stable:
     name: "Publish ${{ matrix.package }}@${{ inputs.version || 'stable' }} to npm"
