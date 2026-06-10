@@ -3225,6 +3225,9 @@ impl<I: Tokens> Parser<I> {
             TsFnParam::Object(param) => Pat::Object(param),
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
+        }
+    }
+
     fn is_flow_bare_renders_type(ty: &TsType) -> bool {
         match ty {
             TsType::TsTypeRef(TsTypeRef {
