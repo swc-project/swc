@@ -142,7 +142,7 @@ function isReleaseTagName(tag: string) {
 }
 
 function isStableReleaseTag(tag: string) {
-  return isReleaseTagName(tag) && !tag.includes("-nightly");
+  return isReleaseTagName(tag) && !tag.includes("-");
 }
 
 function commitForRevision(revision: string) {
