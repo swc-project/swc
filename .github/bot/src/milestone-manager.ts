@@ -21,6 +21,13 @@ type Release = {
   publishedAt: string | null;
 };
 
+type GitHubRelease = {
+  tag_name: string;
+  draft: boolean;
+  prerelease: boolean;
+  published_at: string | null;
+};
+
 type Milestone = {
   number: number;
   title: string;
@@ -210,16 +217,19 @@ function timestampOrZero(value: string | null | undefined) {
 }
 
 function listReleases() {
-  return ghJson<Release[]>([
-    "release",
-    "list",
-    "--repo",
-    `${OWNER}/${REPO}`,
-    "--limit",
-    String(MAX_RELEASE_CANDIDATES),
-    "--json",
-    "tagName,isDraft,isPrerelease,publishedAt",
+  const pages = ghJson<GitHubRelease[][]>([
+    "api",
+    "--paginate",
+    "--slurp",
+    `repos/${OWNER}/${REPO}/releases?per_page=100`,
   ]);
+
+  return pages.flat().map<Release>((release) => ({
+    tagName: release.tag_name,
+    isDraft: release.draft,
+    isPrerelease: release.prerelease,
+    publishedAt: release.published_at,
+  }));
 }
 
 function findPreviousStableReleaseTag(
