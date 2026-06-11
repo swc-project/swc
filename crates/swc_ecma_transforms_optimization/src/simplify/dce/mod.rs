@@ -467,14 +467,13 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
-        if let Some(super_class) = &n.class.super_class {
-            super_class.visit_with(self);
-        }
-
         self.with_ast_path(vec![n.ident.to_id()], |v| {
             let old = v.cur_class_id.take();
             v.cur_class_id = Some(n.ident.to_id());
             n.ident.visit_with(v);
+            if let Some(super_class) = &n.class.super_class {
+                super_class.visit_with(v);
+            }
             n.class.decorators.visit_with(v);
             n.class.body.visit_with(v);
             v.cur_class_id = old;
@@ -648,7 +647,14 @@ impl Visit for Analyzer<'_> {
         n.name.visit_with(self);
 
         self.in_var_decl = false;
-        n.init.visit_with(self);
+        if let Some(init) = &n.init {
+            let ids = find_pat_ids(&n.name);
+            if ids.is_empty() {
+                init.visit_with(self);
+            } else {
+                self.with_ast_path(ids, |v| init.visit_with(v));
+            }
+        }
 
         self.in_var_decl = old;
     }
