@@ -345,6 +345,57 @@ struct Analyzer<'a> {
     initialized_lexical_bindings: FxHashSet<Id>,
 }
 
+struct UninitializedLexicalRefFinder<'a> {
+    initialized: &'a FxHashSet<Id>,
+    unresolved_ctxt: SyntaxContext,
+    found: bool,
+}
+
+impl UninitializedLexicalRefFinder<'_> {
+    fn visit_ref(&mut self, ident: &Ident) {
+        if ident.ctxt != self.unresolved_ctxt && !self.initialized.contains(&ident.to_id()) {
+            self.found = true;
+        }
+    }
+}
+
+impl Visit for UninitializedLexicalRefFinder<'_> {
+    noop_visit_type!();
+
+    fn visit_expr(&mut self, expr: &Expr) {
+        if self.found {
+            return;
+        }
+
+        if let Expr::Ident(ident) = expr {
+            self.visit_ref(ident);
+            return;
+        }
+
+        expr.visit_children_with(self);
+    }
+
+    fn visit_pat(&mut self, _: &Pat) {}
+
+    fn visit_prop(&mut self, prop: &Prop) {
+        if self.found {
+            return;
+        }
+
+        match prop {
+            Prop::Shorthand(ident) => {
+                self.visit_ref(ident);
+            }
+            Prop::KeyValue(prop) => {
+                prop.value.visit_with(self);
+            }
+            _ => {
+                prop.visit_children_with(self);
+            }
+        }
+    }
+}
+
 #[derive(Debug, Default)]
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
@@ -379,27 +430,15 @@ impl Analyzer<'_> {
     }
 
     fn lexical_init_preserves_cycle(&self, init: &Expr) -> bool {
-        let init = init.unwrap_with(|expr| match expr {
-            Expr::Paren(paren) => Some(&paren.expr),
-            _ => None,
-        });
+        let mut finder = UninitializedLexicalRefFinder {
+            initialized: &self.initialized_lexical_bindings,
+            unresolved_ctxt: self.expr_ctx.unresolved_ctxt,
+            found: false,
+        };
 
-        if let Some(i) = init.as_ident() {
-            return !self.initialized_lexical_bindings.contains(&i.to_id());
-        }
+        init.visit_with(&mut finder);
 
-        if let Expr::Class(class_expr) = init {
-            return class_expr
-                .class
-                .super_class
-                .as_deref()
-                .is_some_and(|super_class| {
-                    Self::expr_ident_ignoring_parens(super_class)
-                        .is_some_and(|i| !self.initialized_lexical_bindings.contains(&i.to_id()))
-                });
-        }
-
-        false
+        finder.found
     }
 
     fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)

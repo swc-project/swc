@@ -717,6 +717,62 @@ noop!(
 );
 
 noop!(
+    deno_11516_tdz_closure_cycle,
+    "
+    const mount = (fn) => (fn instanceof App ? fn.attach : fn);
+
+    class App {
+        use(fn) {
+            return mount(fn);
+        }
+    }
+    "
+);
+
+noop!(
+    deno_11516_app_export,
+    "
+    const mount = (fn) => (fn instanceof App ? fn.attach : fn);
+
+    export class App extends Router {
+        route() {
+            const app = new App();
+            this.use(mount(app));
+        }
+
+        use(fn) {
+            return fn;
+        }
+    }
+
+    new App();
+    "
+);
+
+noop!(
+    deno_11516_app_export_alias,
+    "
+    const mount = (fn) => (fn instanceof App ? fn.attach : fn);
+
+    class App extends Router {
+        route() {
+            const app = new App();
+            this.use(mount(app));
+        }
+
+        use(fn) {
+            return fn;
+        }
+    }
+
+    var App1 = App;
+    var App2 = App1;
+
+    new App2();
+    "
+);
+
+noop!(
     deno_9212_1,
     "
     var _ = [];
