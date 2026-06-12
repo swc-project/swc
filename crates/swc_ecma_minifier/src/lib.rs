@@ -248,6 +248,7 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: Marks) {
             top_level: options.top_level(),
             top_retain: options.top_retain.clone(),
             preserve_imports_with_side_effects: true,
+            preserve_lexical_init_cycles: false,
         },
         extra.unresolved_mark,
     );

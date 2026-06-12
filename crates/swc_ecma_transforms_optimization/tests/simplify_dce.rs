@@ -18,6 +18,17 @@ fn tr(unresolved_mark: Mark) -> impl Pass {
     ))
 }
 
+fn tr_preserve_lexical_init_cycles(unresolved_mark: Mark) -> impl Pass {
+    Repeat::new(dce(
+        Config {
+            top_level: true,
+            preserve_lexical_init_cycles: true,
+            ..Default::default()
+        },
+        unresolved_mark,
+    ))
+}
+
 macro_rules! to {
     ($name:ident, $src:expr) => {
         test!(
@@ -31,6 +42,27 @@ macro_rules! to {
                 (
                     resolver(unresolved_mark, Mark::new(), false),
                     tr(unresolved_mark),
+                )
+            },
+            $name,
+            $src
+        );
+    };
+}
+
+macro_rules! to_preserve_lexical_init_cycles {
+    ($name:ident, $src:expr) => {
+        test!(
+            Syntax::Es(EsSyntax {
+                decorators: true,
+                ..Default::default()
+            }),
+            |_| {
+                let unresolved_mark = Mark::new();
+
+                (
+                    resolver(unresolved_mark, Mark::new(), false),
+                    tr_preserve_lexical_init_cycles(unresolved_mark),
                 )
             },
             $name,
@@ -716,7 +748,7 @@ noop!(
     "
 );
 
-noop!(
+to_preserve_lexical_init_cycles!(
     deno_11516_tdz_closure_cycle,
     "
     const mount = (fn) => (fn instanceof App ? fn.attach : fn);
@@ -729,7 +761,7 @@ noop!(
     "
 );
 
-noop!(
+to_preserve_lexical_init_cycles!(
     deno_11516_app_export,
     "
     const mount = (fn) => (fn instanceof App ? fn.attach : fn);
@@ -749,7 +781,7 @@ noop!(
     "
 );
 
-noop!(
+to_preserve_lexical_init_cycles!(
     deno_11516_app_export_alias,
     "
     const mount = (fn) => (fn instanceof App ? fn.attach : fn);

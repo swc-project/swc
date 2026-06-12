@@ -67,6 +67,10 @@ pub struct Config {
 
     /// If false, imports with side effects will be removed.
     pub preserve_imports_with_side_effects: bool,
+
+    /// If true, lexical initializers that close over later lexical bindings are
+    /// treated as cycle-preserving edges.
+    pub preserve_lexical_init_cycles: bool,
 }
 
 impl Default for Config {
@@ -76,6 +80,7 @@ impl Default for Config {
             top_level: true,
             top_retain: Default::default(),
             preserve_imports_with_side_effects: true,
+            preserve_lexical_init_cycles: false,
         }
     }
 }
@@ -430,6 +435,33 @@ impl Analyzer<'_> {
     }
 
     fn lexical_init_preserves_cycle(&self, init: &Expr) -> bool {
+        let unwrapped_init = init.unwrap_with(|expr| match expr {
+            Expr::Paren(paren) => Some(&paren.expr),
+            _ => None,
+        });
+
+        if let Some(i) = unwrapped_init.as_ident() {
+            return !self.initialized_lexical_bindings.contains(&i.to_id());
+        }
+
+        if let Expr::Class(class_expr) = unwrapped_init {
+            if class_expr
+                .class
+                .super_class
+                .as_deref()
+                .is_some_and(|super_class| {
+                    Self::expr_ident_ignoring_parens(super_class)
+                        .is_some_and(|i| !self.initialized_lexical_bindings.contains(&i.to_id()))
+                })
+            {
+                return true;
+            }
+        }
+
+        if !self.config.preserve_lexical_init_cycles {
+            return false;
+        }
+
         let mut finder = UninitializedLexicalRefFinder {
             initialized: &self.initialized_lexical_bindings,
             unresolved_ctxt: self.expr_ctx.unresolved_ctxt,

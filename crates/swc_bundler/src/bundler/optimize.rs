@@ -27,6 +27,7 @@ where
                         top_level: true,
                         top_retain: Default::default(),
                         preserve_imports_with_side_effects: true,
+                        preserve_lexical_init_cycles: true,
                     },
                     self.unresolved_mark,
                 )));
