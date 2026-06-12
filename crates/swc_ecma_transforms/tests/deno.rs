@@ -2,7 +2,7 @@
     feature = "swc_ecma_transforms_proposal",
     feature = "swc_ecma_transforms_typescript",
 ))]
-use std::path::PathBuf;
+use std::{panic, path::PathBuf, thread};
 
 use swc_common::Mark;
 use swc_ecma_parser::Syntax;
@@ -16,7 +16,17 @@ use swc_ecma_transforms_typescript::typescript;
 
 #[testing::fixture("tests/fixture/deno/**/input.ts")]
 fn stack_overflow(input: PathBuf) {
-    run_test(input);
+    const STACK_SIZE: usize = 32 * 1024 * 1024;
+
+    let handle = thread::Builder::new()
+        .name("deno-stack-overflow-fixture".into())
+        .stack_size(STACK_SIZE)
+        .spawn(|| run_test(input))
+        .expect("failed to spawn deno stack overflow fixture thread");
+
+    if let Err(err) = handle.join() {
+        panic::resume_unwind(err);
+    }
 }
 
 fn run_test(input: PathBuf) {
