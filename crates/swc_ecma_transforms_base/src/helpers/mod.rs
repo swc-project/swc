@@ -810,7 +810,7 @@ let x = 4;",
                             if (error !== empty) throw error;
                         }
                         function err(e) {
-                            error = error !== empty ? new _disposeSuppressedError(error, e) : e;
+                            error = error !== empty ? new _disposeSuppressedError(e, error) : e;
                             return next();
                         }
                         return next();
