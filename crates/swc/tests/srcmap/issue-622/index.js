@@ -1,6 +1,6 @@
-function* foo() {
+function foo() {
     try {
-        return yield call();
+        return call();
     } finally {
     }
 }
