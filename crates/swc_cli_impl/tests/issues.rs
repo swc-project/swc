@@ -125,7 +125,11 @@ fn issue_8495_1() -> Result<()> {
 
 #[test]
 fn issue_8667_1() -> Result<()> {
-    let output_base = TempDir::new()?;
+    let temp_parent = Path::new("target/swc-cli-issue-8667");
+    create_dir_all(temp_parent)?;
+    let output_base = tempfile::Builder::new()
+        .prefix("issue-8667-")
+        .tempdir_in(temp_parent)?;
     let bin_dir = output_base.path().join("bazel-out/arch/bin");
     let sandbox = output_base.path().join("sandbox/123");
 
