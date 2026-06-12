@@ -1,7 +1,7 @@
 #![allow(clippy::redundant_clone)]
 #![allow(clippy::while_let_on_iterator)]
 
-use std::{fs, mem::take, path::PathBuf};
+use std::{env, fs, mem::take, path::PathBuf};
 
 use common::{document_span_visualizer, DomVisualizer};
 use rustc_hash::FxHashSet;
@@ -541,6 +541,13 @@ enum DocumentOrDocumentFragment {
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn html5lib_test_tree_construction(input: PathBuf) {
     if input.extension().unwrap() == "dat" {
+        // The `.dat` inputs generate the committed `html5lib-tests-fixture`
+        // files. Running that generator during ordinary tests races with the
+        // `.html` fixture tests, which read the same files in parallel.
+        if env::var("UPDATE").as_deref() != Ok("1") {
+            return;
+        }
+
         let mut tree_construction_base = None;
         let mut tests_base = None;
         let mut path_buf = input.to_path_buf();
