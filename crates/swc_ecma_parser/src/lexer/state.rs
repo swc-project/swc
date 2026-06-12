@@ -397,10 +397,17 @@ impl Lexer<'_> {
             self.input_slice_str(start, pos)
         };
 
-        // Only allow raw `>` when it is already part of in-text arrow prose like `->`.
+        // Only allow raw `>` when it is already part of in-text operator prose like
+        // `->` or `>=`.
         // A leading raw `>` immediately after the opening tag must keep producing the
         // legacy JSX error from `tests/jsx/errors/issue-10635/index.js`.
-        prefix.as_bytes().last().copied() == Some(b'-')
+        prefix.as_bytes().last().copied() == Some(b'-') || self.jsx_text_gt_starts_comparison(pos)
+    }
+
+    #[inline]
+    fn jsx_text_gt_starts_comparison(&self, pos: BytePos) -> bool {
+        let offset = (pos - self.input.cur_pos()).0 as usize;
+        self.input.as_str().as_bytes().get(offset + 1).copied() == Some(b'=')
     }
 
     fn read_next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {

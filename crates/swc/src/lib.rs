@@ -282,15 +282,15 @@ fn downgrade_flow_script_like_module(program: Program) -> Result<Program, Error>
         return Ok(program);
     };
 
-    if module
-        .body
-        .iter()
-        .any(|module_item| matches!(module_item, ModuleItem::ModuleDecl(..)))
-    {
-        bail!(
-            "failed to downgrade Flow type-only module to script because module declarations \
-             remain after stripping"
-        );
+    match classify_flow_script_like_module_body(&module) {
+        FlowScriptLikeModuleKind::Script => {}
+        FlowScriptLikeModuleKind::RuntimeModule(..) => return Ok(Program::Module(module)),
+        FlowScriptLikeModuleKind::TypeOnlyModule => {
+            bail!(
+                "failed to downgrade Flow type-only module to script because module declarations \
+                 remain after stripping"
+            );
+        }
     }
 
     let Module {
