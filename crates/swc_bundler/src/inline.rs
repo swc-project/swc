@@ -28,7 +28,9 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
         module.visit_with(&mut analyzer);
     }
 
-    let mut v = Inliner { data };
+    let mut v = Inliner {
+        data: readonly(data),
+    };
     module.par_visit_mut_with(&mut v);
     module.retain_mut(|_, s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
 }
@@ -37,6 +39,16 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
 #[cfg_attr(feature = "concurrent", derive(Clone))]
 struct Inliner {
     data: Readonly<InlineData>,
+}
+
+#[cfg(feature = "concurrent")]
+fn readonly<T>(value: T) -> Readonly<T> {
+    value.into()
+}
+
+#[cfg(not(feature = "concurrent"))]
+fn readonly<T>(value: T) -> Readonly<T> {
+    value
 }
 
 struct Analyzer<'a> {
