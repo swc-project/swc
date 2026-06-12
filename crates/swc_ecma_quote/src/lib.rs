@@ -34,12 +34,18 @@ mod clone;
 /// e.g.
 ///
 /// ```rust
+/// # mod swc_core {
+/// #     pub mod atoms { pub use swc_atoms::*; }
+/// #     pub mod common { pub use swc_common::*; }
+/// #     pub mod ecma { pub mod ast { pub use swc_ecma_ast::*; } }
+/// #     pub mod quote { pub use swc_ecma_quote::*; }
+/// # }
 /// use swc_common::DUMMY_SP;
-/// use swc_ecma_ast::Ident;
+/// use swc_ecma_ast::{Ident, Stmt};
 /// use swc_ecma_quote::quote;
 ///
 /// // This will return ast for `const ref = 4;`
-/// let _stmt = quote!("const $name = 4;" as Stmt, name = Ident::new("ref".into(), DUMMY_SP));
+/// let _stmt = quote!("const $name = 4;" as Stmt, name = Ident::new_no_ctxt("ref".into(), DUMMY_SP));
 ///
 /// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```
@@ -58,14 +64,20 @@ mod clone;
 /// You can use it like
 ///
 /// ```rust
+/// # mod swc_core {
+/// #     pub mod atoms { pub use swc_atoms::*; }
+/// #     pub mod common { pub use swc_common::*; }
+/// #     pub mod ecma { pub mod ast { pub use swc_ecma_ast::*; } }
+/// #     pub mod quote { pub use swc_ecma_quote::*; }
+/// # }
 /// use swc_common::DUMMY_SP;
-/// use swc_ecma_ast::Ident;
+/// use swc_ecma_ast::{Expr, Ident, Stmt};
 /// use swc_ecma_quote::quote;
 ///
 /// // This will return ast for `const ref = 4;`
 /// let _stmt = quote!(
 ///                 "const $name = $val;" as Stmt,
-///                 name = Ident::new("ref".into(), DUMMY_SP),
+///                 name = Ident::new_no_ctxt("ref".into(), DUMMY_SP),
 ///                 val: Expr = 4.into(),
 ///             );
 /// ```
@@ -74,13 +86,19 @@ mod clone;
 ///
 /// ## Quote a variable declaration
 /// ```rust
+/// # mod swc_core {
+/// #     pub mod atoms { pub use swc_atoms::*; }
+/// #     pub mod common { pub use swc_common::*; }
+/// #     pub mod ecma { pub mod ast { pub use swc_ecma_ast::*; } }
+/// #     pub mod quote { pub use swc_ecma_quote::*; }
+/// # }
 /// use swc_common::DUMMY_SP;
-/// use swc_ecma_ast::Ident;
+/// use swc_ecma_ast::{Ident, Stmt};
 /// use swc_ecma_quote::quote;
 ///
 /// // This will return ast for `const ref = 4;`
 /// let _stmt = quote!("const $name = 4;" as Stmt, name =
-/// Ident::new("ref".into(), DUMMY_SP));
+/// Ident::new_no_ctxt("ref".into(), DUMMY_SP));
 ///
 /// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```
@@ -90,8 +108,13 @@ mod clone;
 /// The grammar is `"$var_name"`.
 ///
 /// ```rust
-/// use swc_common::DUMMY_SP;
-/// use swc_ecma_ast::Str;
+/// # mod swc_core {
+/// #     pub mod atoms { pub use swc_atoms::*; }
+/// #     pub mod common { pub use swc_common::*; }
+/// #     pub mod ecma { pub mod ast { pub use swc_ecma_ast::*; } }
+/// #     pub mod quote { pub use swc_ecma_quote::*; }
+/// # }
+/// use swc_ecma_ast::{ModuleItem, Str};
 /// use swc_ecma_quote::quote;
 ///
 /// // This will return ast for `import thing from "foo";`

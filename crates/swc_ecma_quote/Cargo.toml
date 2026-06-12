@@ -20,3 +20,4 @@ swc_ecma_ast          = { version = "25.0.0", path = "../swc_ecma_ast" }
 swc_ecma_quote_macros = { version = "41.0.0", path = "../swc_ecma_quote_macros" }
 
 [dev-dependencies]
+swc_atoms = { version = "9.0.3", path = "../swc_atoms" }
