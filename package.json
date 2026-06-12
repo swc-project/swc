@@ -40,6 +40,7 @@
         "@swc/core": "workspace:^",
         "@swc/helpers": "workspace:^",
         "@swc/plugin-jest": "^1.5.117",
+        "@swc/plugin-styled-components": "^12.12.1",
         "@taplo/cli": "^0.5.2",
         "@types/jest": "^29.5.11",
         "@types/node": "^20.5.0",
