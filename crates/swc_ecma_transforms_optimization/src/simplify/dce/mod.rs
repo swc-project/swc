@@ -378,6 +378,30 @@ impl Analyzer<'_> {
         .as_ident()
     }
 
+    fn lexical_init_preserves_cycle(&self, init: &Expr) -> bool {
+        let init = init.unwrap_with(|expr| match expr {
+            Expr::Paren(paren) => Some(&paren.expr),
+            _ => None,
+        });
+
+        if let Some(i) = init.as_ident() {
+            return !self.initialized_lexical_bindings.contains(&i.to_id());
+        }
+
+        if let Expr::Class(class_expr) = init {
+            return class_expr
+                .class
+                .super_class
+                .as_deref()
+                .is_some_and(|super_class| {
+                    Self::expr_ident_ignoring_parens(super_class)
+                        .is_some_and(|i| !self.initialized_lexical_bindings.contains(&i.to_id()))
+                });
+        }
+
+        false
+    }
+
     fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
@@ -740,8 +764,10 @@ impl Visit for Analyzer<'_> {
                 } else {
                     self.with_ast_path(ids, |v| init.visit_with(v));
                 }
-            } else {
+            } else if self.lexical_init_preserves_cycle(init) {
                 self.with_ast_path(ids, |v| v.with_preserved_cycle(|v| init.visit_with(v)));
+            } else {
+                self.with_ast_path(ids, |v| init.visit_with(v));
             }
         }
 
