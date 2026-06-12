@@ -1,7 +1,12 @@
 use std::borrow::Cow;
 
 use indexmap::IndexSet;
-use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
+use petgraph::{
+    algo::tarjan_scc,
+    prelude::GraphMap,
+    Directed,
+    Direction::{Incoming, Outgoing},
+};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::{atom, Atom};
 use swc_common::{
@@ -160,7 +165,7 @@ impl Data {
     }
 
     /// Add an edge to dependency graph
-    fn add_dep_edge(&mut self, from: &Id, to: &Id, assign: bool) {
+    fn add_dep_edge(&mut self, from: &Id, to: &Id, assign: bool, preserves_cycle: bool) {
         let from = self.node(from);
         let to = self.node(to);
 
@@ -171,6 +176,7 @@ impl Data {
                 } else {
                     info.usage += 1;
                 }
+                info.preserves_cycle |= preserves_cycle;
             }
             None => {
                 self.graph.add_edge(
@@ -179,6 +185,7 @@ impl Data {
                     VarInfo {
                         usage: u32::from(!assign),
                         assign: u32::from(assign),
+                        preserves_cycle,
                     },
                 );
             }
@@ -194,6 +201,8 @@ impl Data {
                 continue;
             }
 
+            let cycle_set = cycle.iter().copied().collect::<FxHashSet<_>>();
+
             // We have to exclude cycle from remove list if an outer node refences an item
             // of cycle.
             for &node in &cycle {
@@ -206,25 +215,38 @@ impl Data {
                 // should not remove the cycle
                 if self.graph.neighbors_directed(node, Incoming).any(|source| {
                     // Node in cycle does not matter
-                    !cycle.contains(&source)
+                    !cycle_set.contains(&source)
                 }) {
                     continue 'c;
                 }
             }
 
-            for &i in &cycle {
-                for &j in &cycle {
-                    if i == j {
+            for &node in &cycle {
+                for target in self.graph.neighbors_directed(node, Outgoing) {
+                    if cycle_set.contains(&target)
+                        && self
+                            .graph
+                            .edge_weight(node, target)
+                            .is_some_and(|w| w.preserves_cycle)
+                    {
+                        continue 'c;
+                    }
+                }
+            }
+
+            for &node in &cycle {
+                for target in self.graph.neighbors_directed(node, Outgoing) {
+                    if node == target || !cycle_set.contains(&target) {
                         continue;
                     }
 
-                    let id = self.graph_ix.get_index(j as _);
+                    let id = self.graph_ix.get_index(target as _);
                     let id = match id {
                         Some(id) => id,
                         None => continue,
                     };
 
-                    if let Some(w) = self.graph.edge_weight(i, j) {
+                    if let Some(w) = self.graph.edge_weight(node, target) {
                         let e = self.used_names.entry(id.clone()).or_default();
                         e.usage -= w.usage;
                         e.assign -= w.assign;
@@ -304,16 +326,23 @@ struct VarInfo {
     pub usage: u32,
     /// This does not include self-references in a function.
     pub assign: u32,
+    /// If true, this edge models a read that must stay observable even when it
+    /// participates in a closed declaration cycle.
+    pub preserves_cycle: bool,
 }
 
 struct Analyzer<'a> {
     #[allow(dead_code)]
     config: &'a Config,
+    expr_ctx: ExprCtx,
     in_var_decl: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
     cur_class_id: Option<Id>,
     cur_fn_id: Option<Id>,
+    var_decl_kind: Option<VarDeclKind>,
+    preserves_cycle: bool,
+    initialized_lexical_bindings: FxHashSet<Id>,
 }
 
 #[derive(Debug, Default)]
@@ -341,6 +370,14 @@ enum ScopeKind {
 }
 
 impl Analyzer<'_> {
+    fn expr_ident_ignoring_parens(expr: &Expr) -> Option<&Ident> {
+        expr.unwrap_with(|expr| match expr {
+            Expr::Paren(paren) => Some(&paren.expr),
+            _ => None,
+        })
+        .as_ident()
+    }
+
     fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
@@ -365,11 +402,16 @@ impl Analyzer<'_> {
             };
 
             let mut v = Analyzer {
+                config: self.config,
+                expr_ctx: self.expr_ctx,
+                in_var_decl: self.in_var_decl,
                 scope: child,
                 data: self.data,
                 cur_fn_id: self.cur_fn_id.clone(),
                 cur_class_id: self.cur_class_id.clone(),
-                ..*self
+                var_decl_kind: self.var_decl_kind,
+                preserves_cycle: self.preserves_cycle,
+                initialized_lexical_bindings: Default::default(),
             };
 
             op(&mut v);
@@ -402,6 +444,17 @@ impl Analyzer<'_> {
         }
     }
 
+    fn with_preserved_cycle<F>(&mut self, op: F)
+    where
+        F: for<'aa> FnOnce(&mut Analyzer<'aa>),
+    {
+        let old = self.preserves_cycle;
+
+        self.preserves_cycle = true;
+        op(self);
+        self.preserves_cycle = old;
+    }
+
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
         if id.0 == atom!("arguments") {
@@ -428,7 +481,8 @@ impl Analyzer<'_> {
 
             while let Some(s) = scope {
                 for component in &s.ast_path {
-                    self.data.add_dep_edge(component, &id, assign);
+                    self.data
+                        .add_dep_edge(component, &id, assign, self.preserves_cycle);
                 }
 
                 if s.kind == ScopeKind::Fn && !s.ast_path.is_empty() {
@@ -467,13 +521,32 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
+        let super_class_is_entry = n.class.super_class.as_ref().is_some_and(|super_class| {
+            if let Some(i) = Self::expr_ident_ignoring_parens(super_class) {
+                !self.initialized_lexical_bindings.contains(&i.to_id())
+            } else {
+                super_class.may_have_side_effects(self.expr_ctx)
+            }
+        });
+
+        if super_class_is_entry {
+            if let Some(super_class) = &n.class.super_class {
+                super_class.visit_with(self);
+            }
+        }
+
         self.with_ast_path(vec![n.ident.to_id()], |v| {
+            n.ident.visit_with(v);
+            if !super_class_is_entry {
+                if let Some(super_class) = &n.class.super_class {
+                    let old = v.cur_class_id.take();
+                    super_class.visit_with(v);
+                    v.cur_class_id = old;
+                }
+            }
+
             let old = v.cur_class_id.take();
             v.cur_class_id = Some(n.ident.to_id());
-            n.ident.visit_with(v);
-            if let Some(super_class) = &n.class.super_class {
-                super_class.visit_with(v);
-            }
             n.class.decorators.visit_with(v);
             n.class.body.visit_with(v);
             v.cur_class_id = old;
@@ -481,7 +554,9 @@ impl Visit for Analyzer<'_> {
             if !n.class.decorators.is_empty() {
                 v.add(n.ident.to_id(), false);
             }
-        })
+        });
+
+        self.initialized_lexical_bindings.insert(n.ident.to_id());
     }
 
     fn visit_class_expr(&mut self, n: &ClassExpr) {
@@ -640,6 +715,14 @@ impl Visit for Analyzer<'_> {
         p.visit_children_with(self);
     }
 
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        let old = self.var_decl_kind;
+
+        self.var_decl_kind = Some(n.kind);
+        n.visit_children_with(self);
+        self.var_decl_kind = old;
+    }
+
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
         let old = self.in_var_decl;
 
@@ -651,12 +734,23 @@ impl Visit for Analyzer<'_> {
             let ids = find_pat_ids(&n.name);
             if ids.is_empty() {
                 init.visit_with(self);
+            } else if self.var_decl_kind == Some(VarDeclKind::Var) {
+                if init.may_have_side_effects(self.expr_ctx) {
+                    self.with_ast_path(ids, |v| v.with_preserved_cycle(|v| init.visit_with(v)));
+                } else {
+                    self.with_ast_path(ids, |v| init.visit_with(v));
+                }
             } else {
-                self.with_ast_path(ids, |v| init.visit_with(v));
+                self.with_ast_path(ids, |v| v.with_preserved_cycle(|v| init.visit_with(v)));
             }
         }
 
         self.in_var_decl = old;
+
+        if self.var_decl_kind != Some(VarDeclKind::Var) {
+            self.initialized_lexical_bindings
+                .extend(find_pat_ids(&n.name));
+        }
     }
 }
 
@@ -1030,11 +1124,15 @@ impl VisitMut for TreeShaker {
             {
                 let mut analyzer = Analyzer {
                     config: &self.config,
+                    expr_ctx: self.expr_ctx,
                     in_var_decl: false,
                     scope: Default::default(),
                     data: &mut data,
                     cur_class_id: Default::default(),
                     cur_fn_id: Default::default(),
+                    var_decl_kind: Default::default(),
+                    preserves_cycle: false,
+                    initialized_lexical_bindings: Default::default(),
                 };
                 m.visit_with(&mut analyzer);
             }
@@ -1094,11 +1192,15 @@ impl VisitMut for TreeShaker {
             {
                 let mut analyzer = Analyzer {
                     config: &self.config,
+                    expr_ctx: self.expr_ctx,
                     in_var_decl: false,
                     scope: Default::default(),
                     data: &mut data,
                     cur_class_id: Default::default(),
                     cur_fn_id: Default::default(),
+                    var_decl_kind: Default::default(),
+                    preserves_cycle: false,
+                    initialized_lexical_bindings: Default::default(),
                 };
                 m.visit_with(&mut analyzer);
             }
