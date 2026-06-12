@@ -10,14 +10,12 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1", "plugin"]
+default = ["plugin"]
 plugin = [
   "swc_core/plugin_backend_wasmer",
   "swc_core/plugin_transform_host_native",
   "swc_core/plugin_transform_host_native_filesystem_cache",
 ]
-swc_v1 = ["swc_core/bundler_node_v1"]
-swc_v2 = ["swc_core/bundler_node_v2"]
 
 # Internal flag for testing purpose only.
 __plugin_transform_vtest = [
@@ -52,7 +50,6 @@ tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 swc_core = { path = "../../../../swc_core", features = [
   "ecma_ast",
   "common_concurrent",
-  "bundler",
   "ecma_loader",
   "ecma_transforms",
   "ecma_visit",

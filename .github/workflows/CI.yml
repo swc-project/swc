@@ -247,11 +247,6 @@ jobs:
           target: wasm32-wasip1
           components: rustfmt
 
-      - uses: denoland/setup-deno@11b63cf76cfcafb4e43f97b6cad24d8e8438f62d # v1.5.2
-        if: matrix.settings.crate != '__noop__' && matrix.settings.crate == 'swc_bundler'
-        with:
-          deno-version: v1.x
-
       - name: Install node dependencies
         if: matrix.settings.crate != '__noop__'
         shell: bash
@@ -528,11 +523,6 @@ jobs:
           # (cd tests/integration/redux/repo && pnpm install)
           # TODO
           # (cd tests/integration/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
-      - name: (swcpack) example react app
-        run: |
-          export NODE_OPTIONS="--unhandled-rejections=warn"
-          (cd crates/swc_node_bundler/tests/integration/react && npm install && npx spack)
-
   done:
     needs:
       - cargo-fmt

@@ -321,9 +321,6 @@ opt-level = "s"
 [profile.release.package.miette]
 opt-level = "s"
 
-[profile.release.package.swc_bundler]
-opt-level = "s"
-
 [profile.release.package.swc_ecma_compat_es3]
 opt-level = "s"
 

@@ -1,3 +1,0 @@
-if (foo()) {
-    require("./common");
-}

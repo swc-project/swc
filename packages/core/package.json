@@ -77,7 +77,6 @@
         "CHANGELOG.md",
         "Visitor.d.ts",
         "index.d.ts",
-        "spack.js",
         "util.d.ts",
         "LICENSE",
         "Visitor.js",
@@ -88,7 +87,6 @@
         "README.md",
         "binding.js",
         "package.json",
-        "spack.d.ts",
         "types.js",
         "postinstall.js",
         "bindings/binding_core_wasm/pkg/binding_core_wasm.d.ts"
