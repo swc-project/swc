@@ -33,7 +33,9 @@ public disclosure when appropriate.
 SWC is a build tool. SWC does not support processing untrusted input and does
 not provide isolation, resource containment, or other sandbox guarantees. It is
 not designed to be a SaaS platform, a multi-tenant sandbox, or a security
-boundary for executing or transforming arbitrary untrusted input.
+boundary for executing or transforming arbitrary untrusted input. This applies
+regardless of the input language, syntax, file type, or SWC package used to
+process it.
 
 If you operate SWC in a service that accepts input from untrusted users or
 tenants, you are responsible for validating that input before passing it to SWC
