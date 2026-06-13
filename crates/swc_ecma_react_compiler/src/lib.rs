@@ -11,6 +11,7 @@ pub mod diagnostics;
 pub mod fast_check;
 mod prefilter;
 mod preserved_ast;
+mod source_type;
 
 #[cfg(test)]
 mod tests;
@@ -18,7 +19,6 @@ mod tests;
 use apply_renames::{apply_renames, build_rename_plan};
 use convert_ast::convert_program;
 use convert_ast_reverse::convert_program_to_swc;
-use convert_scope::build_scope_info;
 use diagnostics::{compile_result_to_diagnostics, DiagnosticMessage};
 use prefilter::{has_react_like_functions, has_resource_management_declarations};
 use react_compiler::entrypoint::compile_result::LoggerEvent;
@@ -27,10 +27,11 @@ pub use react_compiler::entrypoint::plugin_options::{
     CompilerTarget, DynamicGatingConfig, GatingConfig, PluginOptions,
 };
 use react_compiler_hir::environment_config::EnvironmentConfig;
+pub use source_type::SourceType;
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::Program;
 
-use crate::convert_ast::ConvertResult;
+use crate::{convert_ast::ConvertResult, convert_scope::SemanticBuilder};
 
 /// [`PluginOptions`] with the compiler's standard defaults.
 ///
@@ -78,6 +79,7 @@ pub struct LintResult {
 #[must_use]
 pub fn transform(
     program: &Program,
+    source_type: SourceType,
     source_text: &str,
     comments: Option<&SingleThreadedComments>,
     options: PluginOptions,
@@ -100,11 +102,12 @@ pub fn transform(
         };
     }
 
+    let source_type = source_type.with_module(matches!(program, Program::Module(_)));
+    let scope_info = SemanticBuilder::with_source_type(source_type).build(program);
     let ConvertResult {
         file,
         preserved_ast,
     } = convert_program(program, source_text, comments);
-    let scope_info = build_scope_info(program);
     let result =
         react_compiler::entrypoint::program::compile_program(file, scope_info.clone(), options);
 
@@ -143,7 +146,9 @@ pub(crate) fn transform_source(
     options: PluginOptions,
 ) -> TransformResult {
     match parse_source_for_tests(source_text, syntax) {
-        Ok((program, comments)) => transform(&program, source_text, Some(&comments), options),
+        Ok((program, comments, source_type)) => {
+            transform(&program, source_type, source_text, Some(&comments), options)
+        }
         Err(diagnostic) => TransformResult {
             program: None,
             diagnostics: vec![diagnostic],
@@ -160,13 +165,14 @@ pub(crate) fn transform_source(
 #[must_use]
 pub fn lint(
     program: &Program,
+    source_type: SourceType,
     source_text: &str,
     comments: Option<&SingleThreadedComments>,
     options: PluginOptions,
 ) -> LintResult {
     let mut opts = options;
     opts.no_emit = true;
-    let result = transform(program, source_text, comments, opts);
+    let result = transform(program, source_type, source_text, comments, opts);
     LintResult {
         diagnostics: result.diagnostics,
     }
@@ -180,7 +186,9 @@ pub(crate) fn lint_source(
     options: PluginOptions,
 ) -> LintResult {
     match parse_source_for_tests(source_text, syntax) {
-        Ok((program, comments)) => lint(&program, source_text, Some(&comments), options),
+        Ok((program, comments, source_type)) => {
+            lint(&program, source_type, source_text, Some(&comments), options)
+        }
         Err(diagnostic) => LintResult {
             diagnostics: vec![diagnostic],
         },
@@ -191,7 +199,7 @@ pub(crate) fn lint_source(
 fn parse_source_for_tests(
     source_text: &str,
     syntax: swc_ecma_parser::Syntax,
-) -> Result<(Program, SingleThreadedComments), DiagnosticMessage> {
+) -> Result<(Program, SingleThreadedComments, SourceType), DiagnosticMessage> {
     let cm = std::sync::Arc::new(swc_common::SourceMap::default());
     let fm = cm.new_source_file(
         std::sync::Arc::new(swc_common::FileName::Anon),
@@ -199,6 +207,7 @@ fn parse_source_for_tests(
     );
     let comments = SingleThreadedComments::default();
     let mut errors = Vec::new();
+    let is_typescript = syntax.typescript();
     match swc_ecma_parser::parse_file_as_program(
         &fm,
         syntax,
@@ -206,7 +215,10 @@ fn parse_source_for_tests(
         Some(&comments),
         &mut errors,
     ) {
-        Ok(program) => Ok((program, comments)),
+        Ok(program) => {
+            let source_type = SourceType::from_program(&program).with_typescript(is_typescript);
+            Ok((program, comments, source_type))
+        }
         Err(error) => Err(DiagnosticMessage {
             severity: diagnostics::Severity::Error,
             message: format!("[ReactCompiler] Parse error: {error:?}"),

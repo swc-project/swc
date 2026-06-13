@@ -348,8 +348,15 @@ impl Options {
             };
 
             if let Some(fm) = fm {
-                let result =
-                    swc_ecma_react_compiler::transform(&program, &fm.src, comments, options);
+                let source_type = swc_ecma_react_compiler::SourceType::from_program(&program)
+                    .with_typescript(syntax.typescript());
+                let result = swc_ecma_react_compiler::transform(
+                    &program,
+                    source_type,
+                    &fm.src,
+                    comments,
+                    options,
+                );
                 emit_react_compiler_diagnostics(handler, &result.diagnostics);
 
                 if let Some(compiled) = result.program {

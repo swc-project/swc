@@ -11,7 +11,7 @@ use swc_ecma_codegen::{
     Emitter, Node,
 };
 use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
-use swc_ecma_react_compiler::{default_plugin_options, transform};
+use swc_ecma_react_compiler::{default_plugin_options, transform, SourceType};
 use testing::{run_test2, NormalizedOutput};
 
 #[derive(Deserialize)]
@@ -71,15 +71,20 @@ fn read_syntax(input: &Path) -> Syntax {
     }
 }
 
-fn parse_program(input: &Path, cm: Lrc<SourceMap>) -> (Program, SingleThreadedComments) {
+fn parse_program(
+    input: &Path,
+    cm: Lrc<SourceMap>,
+) -> (Program, SingleThreadedComments, SourceType) {
     let fm = cm
         .load_file(input)
         .unwrap_or_else(|err| panic!("failed to load {}: {err}", input.display()));
     let comments = SingleThreadedComments::default();
     let mut errors = Vec::new();
+    let syntax = read_syntax(input);
+    let is_typescript = syntax.typescript();
     let program = parse_file_as_program(
         &fm,
-        read_syntax(input),
+        syntax,
         EsVersion::latest(),
         Some(&comments),
         &mut errors,
@@ -96,16 +101,16 @@ fn parse_program(input: &Path, cm: Lrc<SourceMap>) -> (Program, SingleThreadedCo
             .join("\n")
     );
 
-    (
-        program.unwrap_or_else(|error| {
-            panic!(
-                "failed to parse {}: {}",
-                input.display(),
-                error.kind().msg()
-            )
-        }),
-        comments,
-    )
+    let program = program.unwrap_or_else(|error| {
+        panic!(
+            "failed to parse {}: {}",
+            input.display(),
+            error.kind().msg()
+        )
+    });
+    let source_type = SourceType::from_program(&program).with_typescript(is_typescript);
+
+    (program, comments, source_type)
 }
 
 fn emit_program(program: &Program, cm: Lrc<SourceMap>) -> String {
@@ -134,11 +139,17 @@ fn run(input: PathBuf) {
     run_test2(false, |cm, _| {
         let source_text = read_to_string(&input)
             .unwrap_or_else(|err| panic!("failed to read {}: {err}", input.display()));
-        let (program, comments) = parse_program(&input, cm.clone());
+        let (program, comments, source_type) = parse_program(&input, cm.clone());
         let mut options = default_plugin_options();
         options.filename = Some(input.display().to_string());
 
-        let result = transform(&program, &source_text, Some(&comments), options);
+        let result = transform(
+            &program,
+            source_type,
+            &source_text,
+            Some(&comments),
+            options,
+        );
         let transformed = result.program.unwrap_or_else(|| {
             panic!(
                 "React Compiler did not return a transformed program for {}\ndiagnostics:\n{:#?}",

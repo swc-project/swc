@@ -15,7 +15,7 @@ use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
 use swc_ecma_react_compiler::{
     default_plugin_options,
     diagnostics::{DiagnosticMessage, Severity},
-    transform,
+    transform, SourceType,
 };
 
 fn main() {
@@ -33,11 +33,17 @@ fn run() -> Result<(), String> {
     let source_text = std::fs::read_to_string(path)
         .map_err(|err| format!("failed to read {}: {err}", path.display()))?;
 
-    let (program, comments) = parse_program(path, &source_text)?;
+    let (program, comments, source_type) = parse_program(path, &source_text)?;
     let mut options = default_plugin_options();
     options.filename = Some(path.display().to_string());
 
-    let result = transform(&program, &source_text, Some(&comments), options);
+    let result = transform(
+        &program,
+        source_type,
+        &source_text,
+        Some(&comments),
+        options,
+    );
     emit_diagnostics(&result.diagnostics);
 
     let output = emit_program(result.program.as_ref().unwrap_or(&program))?;
@@ -49,7 +55,7 @@ fn run() -> Result<(), String> {
 fn parse_program(
     path: &Path,
     source_text: &str,
-) -> Result<(Program, SingleThreadedComments), String> {
+) -> Result<(Program, SingleThreadedComments, SourceType), String> {
     let cm = Lrc::new(SourceMap::default());
     let fm = cm.new_source_file(
         Lrc::new(FileName::Real(path.to_path_buf())),
@@ -57,9 +63,11 @@ fn parse_program(
     );
     let comments = SingleThreadedComments::default();
     let mut errors = Vec::new();
+    let syntax = syntax_for_path(path);
+    let is_typescript = syntax.typescript();
     let program = parse_file_as_program(
         &fm,
-        syntax_for_path(path),
+        syntax,
         EsVersion::latest(),
         Some(&comments),
         &mut errors,
@@ -76,7 +84,8 @@ fn parse_program(
 
     let program =
         program.map_err(|error| format!("failed to parse input: {}", error.kind().msg()))?;
-    Ok((program, comments))
+    let source_type = SourceType::from_program(&program).with_typescript(is_typescript);
+    Ok((program, comments, source_type))
 }
 
 fn syntax_for_path(path: &Path) -> Syntax {
