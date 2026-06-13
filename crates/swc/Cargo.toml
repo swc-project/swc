@@ -24,10 +24,10 @@ concurrent = [
   "swc_ecma_minifier/concurrent",
 ]
 
-debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
-default = ["lint", "isolated-dts", "module"]
-es3 = ["swc_ecma_transforms_compat/es3", "swc_ecma_preset_env/es3"]
-flow = ["swc_ecma_parser/flow"]
+debug        = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
+default      = ["lint", "isolated-dts", "module"]
+es3          = ["swc_ecma_transforms_compat/es3", "swc_ecma_preset_env/es3"]
+flow         = ["swc_ecma_parser/flow"]
 isolated-dts = ["swc_typescript"]
 # Enable module transforms (CommonJS, AMD, UMD, SystemJS).
 # Bundlers typically don't need this as they handle module transforms themselves.
@@ -103,7 +103,10 @@ swc_ecma_minifier = { version = "55.0.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "41.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_preset_env = { version = "56.0.0", path = "../swc_ecma_preset_env", default-features = false, features = ["serde-impl"] }
+swc_ecma_preset_env = { version = "56.0.0", path = "../swc_ecma_preset_env", default-features = false, features = [
+  "serde-impl",
+] }
+swc_ecma_react_compiler = { version = "19.0.0", path = "../swc_ecma_react_compiler" }
 swc_ecma_transforms = { version = "55.0.1", path = "../swc_ecma_transforms", features = [
   "compat",
   "optimization",
@@ -111,9 +114,9 @@ swc_ecma_transforms = { version = "55.0.1", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_module = { version = "49.0.0", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_base = { version = "44.0.2", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "51.0.1", path = "../swc_ecma_transforms_compat", default-features = false }
+swc_ecma_transforms_module = { version = "49.0.0", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_optimization = { version = "47.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "31.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "25.0.0", path = "../swc_ecma_visit" }
