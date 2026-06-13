@@ -397,7 +397,8 @@ impl Lexer<'_> {
             self.input_slice_str(start, pos)
         };
 
-        // Only allow raw `>` when it is already part of in-text arrow prose like `->`.
+        // Only allow raw `>` when it is already part of in-text operator prose like
+        // `->`.
         // A leading raw `>` immediately after the opening tag must keep producing the
         // legacy JSX error from `tests/jsx/errors/issue-10635/index.js`.
         prefix.as_bytes().last().copied() == Some(b'-')

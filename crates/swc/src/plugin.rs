@@ -231,7 +231,10 @@ pub(crate) fn compile_wasm_plugins(
 ) -> Result<()> {
     let plugin_resolver = CachingResolver::new(
         40,
-        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
+        // WASM plugins can be configured by npm package name, such as
+        // `@swc/plugin-styled-components`, so plugin resolution must walk
+        // node_modules instead of only accepting filesystem paths.
+        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), false),
     );
 
     // Currently swc enables filesystemcache by default on Embedded runtime plugin

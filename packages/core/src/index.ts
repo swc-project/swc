@@ -13,7 +13,6 @@ import type {
 export type * from "@swc/types";
 // @ts-ignore
 export { newMangleNameCache as experimental_newMangleNameCache } from "./binding";
-import { BundleInput, compileBundleOptions } from "./spack";
 import * as assert from "assert";
 // @ts-ignore
 import type { NapiMinifyExtra } from "./binding";
@@ -450,41 +449,6 @@ export class Compiler {
         );
     }
 
-    async bundle(
-        options?: BundleInput | string
-    ): Promise<{ [name: string]: Output }> {
-        if (!bindings && !!fallbackBindings) {
-            throw new Error(
-                "Fallback bindings does not support this interface yet."
-            );
-        } else if (!bindings) {
-            throw new Error("Bindings not found.");
-        }
-
-        const opts = await compileBundleOptions(options);
-
-        if (Array.isArray(opts)) {
-            const all = await Promise.all(
-                opts.map(async (opt) => {
-                    return this.bundle(opt);
-                })
-            );
-            let obj = {} as any;
-            for (const o of all) {
-                obj = {
-                    ...obj,
-                    ...o,
-                };
-            }
-            return obj;
-        }
-
-        return bindings.bundle(
-            toBuffer({
-                ...opts,
-            })
-        );
-    }
 }
 
 const compiler = new Compiler();
@@ -573,12 +537,6 @@ export function transformFile(
 
 export function transformFileSync(path: string, options?: Options): Output {
     return compiler.transformFileSync(path, options);
-}
-
-export function bundle(
-    options?: BundleInput | string
-): Promise<{ [name: string]: Output }> {
-    return compiler.bundle(options);
 }
 
 export async function minify(

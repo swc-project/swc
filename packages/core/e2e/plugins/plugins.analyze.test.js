@@ -30,7 +30,7 @@ const buildHost = async (feature) => {
         "binding_core_node",
         "--cargo-cwd",
         "./bindings/binding_core_node",
-        `--cargo-flags=--no-default-features --features swc_v1 --features ${feature}`,
+        `--cargo-flags=--no-default-features --features ${feature}`,
         "--config",
         `./node-swc/e2e/fixtures/napi.host.${feature}.config.js`,
     ];

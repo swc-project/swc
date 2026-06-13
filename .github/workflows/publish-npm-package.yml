@@ -121,7 +121,7 @@ jobs:
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
                 cp ../../target/i686-pc-windows-msvc/release/swc .
-                pnpm build --target i686-pc-windows-msvc --no-default-features --features swc_v1
+                pnpm build --target i686-pc-windows-msvc --no-default-features
               else
                 pnpm build --target i686-pc-windows-msvc
               fi
@@ -135,7 +135,7 @@ jobs:
               rm -rf ../../target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
               cp ../../target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               if [[ ${{ inputs.package }} == "core" ]]; then
-                pnpm build --target x86_64-unknown-linux-gnu --no-default-features --features swc_v1,plugin
+                pnpm build --target x86_64-unknown-linux-gnu --no-default-features --features plugin
               else
                 pnpm build --target x86_64-unknown-linux-gnu
               fi
@@ -196,7 +196,7 @@ jobs:
               if [[ ${{ inputs.package }} == "core" ]]; then
                 pnpm exec napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
                 chmod +x ./swc
-                pnpm build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
+                pnpm build --target armv7-unknown-linux-gnueabihf --no-default-features --use-napi-cross
               else
                 pnpm build --target armv7-unknown-linux-gnueabihf --use-napi-cross
               fi
@@ -207,7 +207,7 @@ jobs:
               if [[ ${{ inputs.package }} == "core" ]]; then
                 pnpm exec napi build --bin swc --release --target powerpc64le-unknown-linux-gnu --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
                 chmod +x ./swc
-                pnpm build --target powerpc64le-unknown-linux-gnu --no-default-features --features swc_v1 --use-napi-cross
+                pnpm build --target powerpc64le-unknown-linux-gnu --no-default-features --use-napi-cross
               else
                 pnpm build --target powerpc64le-unknown-linux-gnu --use-napi-cross
               fi
@@ -218,7 +218,7 @@ jobs:
               if [[ ${{ inputs.package }} == "core" ]]; then
                 pnpm exec napi build --bin swc --release --target s390x-unknown-linux-gnu --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
                 chmod +x ./swc
-                pnpm build --target s390x-unknown-linux-gnu --no-default-features --features swc_v1 --use-napi-cross
+                pnpm build --target s390x-unknown-linux-gnu --no-default-features --use-napi-cross
               else
                 pnpm build --target s390x-unknown-linux-gnu --use-napi-cross
               fi
@@ -301,7 +301,7 @@ jobs:
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
                 cp ../../target/aarch64-pc-windows-msvc/release/swc.exe .
-                pnpm build --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
+                pnpm build --target aarch64-pc-windows-msvc --no-default-features
               else
                 pnpm build --target aarch64-pc-windows-msvc
               fi

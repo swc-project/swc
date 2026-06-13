@@ -49,7 +49,7 @@ pub struct Config {
     /// separate module.
     ///
     /// **Note**: This is hack to make operation parallel while allowing invalid
-    /// module produced by the `swc_bundler`.
+    /// module produced by a bundler.
     pub module_mark: Option<Mark>,
 
     /// If true, top-level items will be removed if they are not used.

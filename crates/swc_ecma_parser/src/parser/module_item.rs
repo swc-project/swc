@@ -313,6 +313,14 @@ impl<I: Tokens> Parser<I> {
                         } else {
                             // `import { type xx } from 'mod'`
                             // `import { type xx as yy } from 'mod'`
+                            if possibly_orig_token.is_keyword() {
+                                syntax_error!(
+                                    self,
+                                    possibly_orig_name.span,
+                                    SyntaxError::ReservedWordInImport
+                                )
+                            }
+
                             if type_only {
                                 self.emit_err(orig_name.span, SyntaxError::TS2206);
                             }

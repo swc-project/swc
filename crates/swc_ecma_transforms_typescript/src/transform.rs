@@ -724,6 +724,9 @@ impl Transform {
     fn strip_module_items_with_semantic(&self, items: &mut Vec<ModuleItem>) {
         items.retain_mut(|module_item| match module_item {
             ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                type_only: true, ..
+            })) => false,
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                 specifiers,
                 type_only: false,
                 ..

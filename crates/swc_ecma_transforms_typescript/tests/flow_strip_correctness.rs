@@ -62,6 +62,37 @@ fn issue_11808_does_not_restore_empty_export_for_flow_type_only_module() {
     .expect("failed to run flow strip issue-11808 test");
 }
 
+#[test]
+fn removes_flow_type_only_import_declarations() {
+    ::testing::run_test(false, |cm, handler| -> Result<(), ()> {
+        let flow_syntax = FlowSyntax {
+            require_directive: true,
+            ..Default::default()
+        };
+        let fm = cm.new_source_file(
+            FileName::Custom("flow-import-type.js".into()).into(),
+            "/** @flow strict */\nimport type {SchemaType} from './schema';\nconst schema = \
+             require('./schema');\nmodule.exports = schema;\n",
+        );
+
+        let output = strip_flow_program(cm.clone(), handler, fm, flow_syntax)?;
+
+        assert!(
+            !output.contains("import"),
+            "expected Flow type-only import declaration to be removed, got: {output}"
+        );
+        assert!(
+            output.contains("const schema = require('./schema');"),
+            "expected runtime require to remain in stripped output, got: {output}"
+        );
+
+        assert_reparses_as_javascript(cm.clone(), handler, output, flow_syntax)?;
+
+        Ok(())
+    })
+    .expect("failed to run Flow type-only import stripping test");
+}
+
 fn strip_flow_program(
     cm: Lrc<SourceMap>,
     handler: &Handler,

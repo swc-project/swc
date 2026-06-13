@@ -13,14 +13,12 @@ bench      = false
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1", "plugin"]
+default = ["plugin"]
 plugin = [
   "swc_core/plugin_backend_wasmer",
   "swc_core/plugin_transform_host_native",
   "swc_core/plugin_transform_host_native_filesystem_cache",
 ]
-swc_v1 = ["swc_core/bundler_node_v1"]
-swc_v2 = ["swc_core/bundler_node_v2"]
 
 # Internal flag for testing purpose only.
 __plugin_transform_vtest = [
@@ -54,7 +52,6 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_codegen",
   "ecma_ast_serde",
   "common_concurrent",
-  "bundler",
   "ecma_loader",
   "ecma_helpers_inline",
   "ecma_transforms",
