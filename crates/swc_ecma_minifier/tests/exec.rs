@@ -293,6 +293,19 @@ fn run_default_exec_test(input_src: &str) {
 }
 
 #[test]
+fn concat_tpl_keeps_delimiter_after_interpolation() {
+    run_default_exec_test(
+        r#"
+        console.log(`<b>${1}</b>` + `<i>${2}</i>`);
+        console.log(`width:${1}px;` + `height:${2}px;`);
+        console.log(`a${0}]` + `${0}b`);
+        console.log(`<a>${1}</a>` + `<b>${2}</b>` + `<c>${3}</c>`);
+        console.log(`x${1}|` + "mid" + `z${2}|`);
+        "#,
+    );
+}
+
+#[test]
 fn next_feedback_1_capture_1() {
     let src = r###"
 const arr = [];
