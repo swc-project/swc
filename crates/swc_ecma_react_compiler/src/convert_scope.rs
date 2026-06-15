@@ -510,6 +510,11 @@ impl SemanticBuilder {
     fn collect_pat_bindings(&mut self, pat: &Pat, flags: SymbolFlags) {
         match pat {
             Pat::Ident(binding_ident) => {
+                // TypeScript `this` pseudo-parameters are type annotations only.
+                // They are erased before emit and must not be registered as bindings.
+                if binding_ident.id.sym.as_str() == "this" {
+                    return;
+                }
                 self.declare_symbol(
                     binding_ident.id.span,
                     binding_ident.id.sym.to_string(),
