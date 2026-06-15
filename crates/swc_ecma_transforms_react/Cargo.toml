@@ -36,7 +36,7 @@ swc_common                 = { version = "23.0.1", path = "../swc_common" }
 swc_config                 = { version = "5.0.0", path = "../swc_config" }
 swc_ecma_ast               = { version = "25.0.0", path = "../swc_ecma_ast" }
 swc_ecma_hooks             = { version = "0.9.0", path = "../swc_ecma_hooks" }
-swc_ecma_parser            = { version = "41.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser            = { version = "41.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms_base   = { version = "44.0.2", path = "../swc_ecma_transforms_base" }

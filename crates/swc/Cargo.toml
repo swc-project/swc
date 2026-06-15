@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc"
 repository    = { workspace = true }
-version       = "66.0.1"
+version       = "66.1.0"
 
 [lib]
 bench = false
@@ -100,13 +100,13 @@ swc_ecma_loader = { version = "24.0.0", path = "../swc_ecma_loader", features = 
   "tsc",
 ] }
 swc_ecma_minifier = { version = "55.0.1", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "41.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "41.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_preset_env = { version = "56.0.0", path = "../swc_ecma_preset_env", default-features = false, features = [
   "serde-impl",
 ] }
-swc_ecma_react_compiler = { version = "19.0.0", path = "../swc_ecma_react_compiler" }
+swc_ecma_react_compiler = { version = "19.1.0", path = "../swc_ecma_react_compiler" }
 swc_ecma_transforms = { version = "55.0.1", path = "../swc_ecma_transforms", features = [
   "compat",
   "optimization",
