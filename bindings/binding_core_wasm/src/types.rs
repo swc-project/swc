@@ -840,6 +840,8 @@ export interface TransformConfig {
    */
   react?: ReactConfig;
 
+  reactCompiler?: boolean | ReactCompilerOptions;
+
   constModules?: ConstModulesConfig;
 
   /**
@@ -860,6 +862,108 @@ export interface TransformConfig {
   treatConstEnumAsEnum?: boolean;
 
   useDefineForClassFields?: boolean;
+}
+
+export interface ReactCompilerOptions {
+  /**
+   * Which functions to compile.
+   *
+   * Defaults to `"infer"`.
+   */
+  compilationMode?: "infer" | "syntax" | "annotation" | "all";
+
+  /**
+   * What to do when a function cannot be compiled.
+   *
+   * Defaults to `"none"`.
+   */
+  panicThreshold?: "none" | "critical_errors" | "all_errors";
+
+  /**
+   * React runtime version target.
+   *
+   * Defaults to `"19"`.
+   */
+  target?: "17" | "18" | "19";
+
+  /**
+   * Analyze and report diagnostics only; emit no transformed code.
+   *
+   * Defaults to `false`.
+   */
+  noEmit?: boolean;
+
+  /**
+   * Defaults to `"client"`.
+   */
+  outputMode?: "client" | "ssr" | "lint";
+
+  /**
+   * Compile even functions marked with opt-out directives.
+   *
+   * Defaults to `false`.
+   */
+  ignoreUseNoForget?: boolean;
+
+  /**
+   * Treat Flow suppression comments as opt-outs.
+   *
+   * Defaults to `true`.
+   */
+  flowSuppressions?: boolean;
+
+  /**
+   * Enable react-native-reanimated support.
+   *
+   * Defaults to `false`.
+   */
+  enableReanimated?: boolean;
+
+  /**
+   * Development mode.
+   *
+   * Defaults to `false`.
+   */
+  isDev?: boolean;
+
+  /**
+   * ESLint rules whose suppressions opt a function out of compilation.
+   */
+  eslintSuppressionRules?: string[];
+
+  /**
+   * Extra directives that opt a function out of compilation.
+   */
+  customOptOutDirectives?: string[];
+
+  /**
+   * Emit a gated version of each compiled function.
+   */
+  gating?: ReactCompilerGatingConfig;
+
+  /**
+   * Dynamically-gated compilation.
+   */
+  dynamicGating?: ReactCompilerDynamicGatingConfig;
+}
+
+export interface ReactCompilerGatingConfig {
+  /**
+   * Module the gating import comes from.
+   */
+  source: string;
+
+  /**
+   * Imported specifier used as the gate.
+   */
+  importSpecifierName: string;
+}
+
+export interface ReactCompilerDynamicGatingConfig {
+  /**
+   * Module the gating import comes from.
+   */
+  source: string;
 }
 
 export interface ReactConfig {

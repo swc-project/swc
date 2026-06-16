@@ -493,9 +493,19 @@ impl Pure<'_> {
                 {
                     let l_last = l.quasis.pop().unwrap();
                     let r_first = rt.quasis.first_mut().unwrap();
-                    let new: Atom = format!("{}{}", l_last.raw, r_first.raw).into();
 
-                    r_first.raw = new;
+                    let new_raw: Atom = format!("{}{}", l_last.raw, r_first.raw).into();
+                    r_first.raw = new_raw;
+
+                    let new_cooked = match (l_last.cooked, &r_first.cooked) {
+                        (Some(l_cooked), Some(r_cooked)) => {
+                            let mut c = Wtf8Buf::from(&l_cooked);
+                            c.push_wtf8(r_cooked);
+                            Some(c.into())
+                        }
+                        _ => None,
+                    };
+                    r_first.cooked = new_cooked;
                 }
 
                 l.quasis.extend(rt.quasis.take());

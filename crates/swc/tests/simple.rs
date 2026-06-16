@@ -1,3 +1,5 @@
+#[cfg(feature = "react-compiler")]
+use swc::{config::TransformConfig, BoolOrDataConfig};
 use swc::{
     config::{Config, IsModule, JscConfig, Options},
     Compiler,
@@ -132,6 +134,45 @@ fn test_tsx_escape_xhtml() {
     );
 
     assert_eq!(compiled_es2020, expected);
+}
+
+#[cfg(feature = "react-compiler")]
+#[test]
+fn react_compiler_runs_before_jsx_transform() {
+    let source = r#"
+        import { useState } from "react";
+
+        export function Counter() {
+            const [count] = useState(0);
+            return <div>{count}</div>;
+        }
+    "#;
+
+    let compiled = compile(
+        source,
+        Options {
+            config: Config {
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
+                        tsx: true,
+                        ..Default::default()
+                    })),
+                    transform: Some(TransformConfig {
+                        react_compiler: BoolOrDataConfig::from_bool(true),
+                        ..Default::default()
+                    })
+                    .into(),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            swcrc: false,
+            ..Default::default()
+        },
+    );
+
+    assert!(compiled.contains("react/compiler-runtime"));
+    assert!(!compiled.contains("<div"));
 }
 
 #[test]
