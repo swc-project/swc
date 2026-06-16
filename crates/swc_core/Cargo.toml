@@ -66,6 +66,8 @@ base_flow = ["__base", "swc/flow"]
 # Enable module transforms (CommonJS, AMD, UMD, SystemJS).
 # Bundlers typically don't need this as they handle module transforms themselves.
 base_module = ["__base", "swc/module"]
+# Enable React Compiler APIs exposed via `base`.
+base_react_compiler = ["__base", "swc/react-compiler"]
 # Enables n-api related features.
 base_node = [
   "__base",
