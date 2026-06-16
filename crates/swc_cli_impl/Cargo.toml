@@ -45,6 +45,7 @@ swc_core = { version = "68.1.2", features = [
   "base_concurrent",
   "base_flow",
   "base_module",
+  "base_react_compiler",
   "ecma_helpers_inline",
 ], path = "../swc_core" }
 

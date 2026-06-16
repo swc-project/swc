@@ -63,5 +63,6 @@ swc_core = { path = "../../crates/swc_core", features = [
   "base_concurrent",
   "base_flow",
   "base_module",
+  "base_react_compiler",
 ] }
 swc_malloc = { path = "../../crates/swc_malloc" }
