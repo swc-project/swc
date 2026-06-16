@@ -1435,6 +1435,42 @@ fn ts_import_equals_export_round_trips() {
     );
 }
 
+/// A TypeScript `this` parameter (`function f(this: T) {}`) declares the type
+/// of `this` inside the body. SWC represents it as a `Pat::Ident("this")`,
+/// indistinguishable from a real parameter. The scope collector must skip it
+/// to avoid a "reserved word" diagnostic.
+#[test]
+fn ts_this_param_in_function_is_not_a_reserved_identifier_error() {
+    let source = r#"
+        'use client';
+
+        import * as React from 'react';
+
+        function useClickHandler() {
+            const [count, setCount] = React.useState(0);
+            function handleClick(this: HTMLElement) {
+                setCount(c => c + 1);
+            }
+            return handleClick;
+        }
+    "#;
+
+    let result = transform_source(
+        source,
+        swc_ecma_parser::Syntax::Typescript(swc_ecma_parser::TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        default_options(),
+    );
+
+    assert!(
+        result.diagnostics.is_empty(),
+        "got unexpected diagnostic for TS `this` param: {:#?}",
+        result.diagnostics
+    );
+}
+
 fn emit_program(program: &swc_ecma_ast::Program) -> Result<String, String> {
     let cm = Lrc::new(SourceMap::default());
     let mut buf = Vec::new();
