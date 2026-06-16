@@ -24,8 +24,10 @@ use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
-    BytePos, FileName, Mark, SourceMap, Span, Spanned,
+    FileName, Mark, SourceMap,
 };
+#[cfg(feature = "react-compiler")]
+use swc_common::{BytePos, Span, Spanned};
 pub use swc_compiler_base::SourceMapsConfig;
 pub use swc_config::is_module::IsModule;
 use swc_config::{
@@ -338,6 +340,7 @@ impl Options {
 
         let mut transform = transform.into_inner().unwrap_or_default();
 
+        #[cfg(feature = "react-compiler")]
         if let Some(options) = react_compiler_options(transform.react_compiler.clone(), base) {
             let fm = if program.span().is_dummy() {
                 cm.get_source_file(base)
@@ -367,6 +370,16 @@ impl Options {
                     .struct_warn("React Compiler is enabled, but the source text is unavailable")
                     .emit();
             }
+        }
+
+        #[cfg(not(feature = "react-compiler"))]
+        if transform.react_compiler.is_true() || transform.react_compiler.is_obj() {
+            handler
+                .struct_warn(
+                    "React Compiler is configured, but swc was built without the `react-compiler` \
+                     feature",
+                )
+                .emit();
         }
 
         // Do a resolver pass before everything.
@@ -1845,6 +1858,7 @@ pub struct ReactCompilerConfig {
     pub dynamic_gating: Option<ReactCompilerDynamicGatingConfig>,
 }
 
+#[cfg(feature = "react-compiler")]
 impl ReactCompilerConfig {
     fn into_plugin_options(
         self,
@@ -1910,6 +1924,7 @@ pub enum ReactCompilerCompilationMode {
     All,
 }
 
+#[cfg(feature = "react-compiler")]
 impl ReactCompilerCompilationMode {
     fn as_str(self) -> &'static str {
         match self {
@@ -1931,6 +1946,7 @@ pub enum ReactCompilerPanicThreshold {
     AllErrors,
 }
 
+#[cfg(feature = "react-compiler")]
 impl ReactCompilerPanicThreshold {
     fn as_str(self) -> &'static str {
         match self {
@@ -1951,6 +1967,7 @@ pub enum ReactCompilerTarget {
     React19,
 }
 
+#[cfg(feature = "react-compiler")]
 impl ReactCompilerTarget {
     fn as_str(self) -> &'static str {
         match self {
@@ -1971,6 +1988,7 @@ pub enum ReactCompilerOutputMode {
     Lint,
 }
 
+#[cfg(feature = "react-compiler")]
 impl ReactCompilerOutputMode {
     fn as_str(self) -> &'static str {
         match self {
@@ -1988,6 +2006,7 @@ pub struct ReactCompilerGatingConfig {
     pub import_specifier_name: String,
 }
 
+#[cfg(feature = "react-compiler")]
 impl From<ReactCompilerGatingConfig> for swc_ecma_react_compiler::GatingConfig {
     fn from(config: ReactCompilerGatingConfig) -> Self {
         Self {
@@ -2003,6 +2022,7 @@ pub struct ReactCompilerDynamicGatingConfig {
     pub source: String,
 }
 
+#[cfg(feature = "react-compiler")]
 impl From<ReactCompilerDynamicGatingConfig> for swc_ecma_react_compiler::DynamicGatingConfig {
     fn from(config: ReactCompilerDynamicGatingConfig) -> Self {
         Self {
@@ -2011,6 +2031,7 @@ impl From<ReactCompilerDynamicGatingConfig> for swc_ecma_react_compiler::Dynamic
     }
 }
 
+#[cfg(feature = "react-compiler")]
 fn react_compiler_options(
     config: BoolOrDataConfig<ReactCompilerConfig>,
     base: &FileName,
@@ -2028,6 +2049,7 @@ fn react_compiler_options(
     }
 }
 
+#[cfg(feature = "react-compiler")]
 fn emit_react_compiler_diagnostics(
     handler: &Handler,
     diagnostics: &[swc_ecma_react_compiler::diagnostics::DiagnosticMessage],

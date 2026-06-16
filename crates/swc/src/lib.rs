@@ -111,6 +111,10 @@
 
 pub extern crate swc_atoms as atoms;
 extern crate swc_common as common;
+/// React Compiler APIs.
+#[cfg(feature = "react-compiler")]
+#[cfg_attr(docsrs, doc(cfg(feature = "react-compiler")))]
+pub extern crate swc_ecma_react_compiler as react_compiler;
 
 use std::{
     fs::{read_to_string, File},

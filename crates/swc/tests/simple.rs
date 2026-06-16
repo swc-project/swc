@@ -1,6 +1,8 @@
+#[cfg(feature = "react-compiler")]
+use swc::{config::TransformConfig, BoolOrDataConfig};
 use swc::{
-    config::{Config, IsModule, JscConfig, Options, TransformConfig},
-    BoolOrDataConfig, Compiler,
+    config::{Config, IsModule, JscConfig, Options},
+    Compiler,
 };
 use swc_common::FileName;
 use swc_ecma_ast::EsVersion;
@@ -134,6 +136,7 @@ fn test_tsx_escape_xhtml() {
     assert_eq!(compiled_es2020, expected);
 }
 
+#[cfg(feature = "react-compiler")]
 #[test]
 fn react_compiler_runs_before_jsx_transform() {
     let source = r#"
