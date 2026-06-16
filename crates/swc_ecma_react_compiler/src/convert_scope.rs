@@ -37,38 +37,60 @@ pub struct ScopeFlags {
 
 #[allow(non_upper_case_globals)]
 impl ScopeFlags {
-    pub const CatchClause: Self = Self { bits: 1 << 3 };
-    pub const Class: Self = Self { bits: 1 << 6 };
-    pub const For: Self = Self { bits: 1 << 4 };
-    pub const Function: Self = Self { bits: 1 << 1 };
-    pub const StrictMode: Self = Self { bits: 1 << 2 };
-    pub const Switch: Self = Self { bits: 1 << 5 };
-    pub const Top: Self = Self { bits: 1 << 0 };
+    pub const CatchClause: Self = Self { bits: 1 << 0 };
+    pub const Class: Self = Self { bits: 1 << 1 };
+    pub const ClassStaticBlock: Self = Self { bits: 1 << 2 };
+    pub const For: Self = Self { bits: 1 << 3 };
+    pub const Function: Self = Self { bits: 1 << 4 };
+    pub const StrictMode: Self = Self { bits: 1 << 5 };
+    pub const Switch: Self = Self { bits: 1 << 6 };
+    pub const Top: Self = Self { bits: 1 << 7 };
+    pub const TsModuleBlock: Self = Self { bits: 1 << 8 };
 
+    #[inline]
     pub const fn empty() -> Self {
         Self { bits: 0 }
     }
 
+    #[inline]
     pub const fn contains(self, other: Self) -> bool {
         (self.bits & other.bits) == other.bits
     }
 
+    #[inline]
     pub const fn intersects(self, other: Self) -> bool {
         (self.bits & other.bits) != 0
     }
 
+    #[inline]
     pub fn is_top(self) -> bool {
         self.contains(Self::Top)
     }
 
+    #[inline]
     pub fn is_function(self) -> bool {
         self.intersects(Self::Function)
     }
 
-    pub fn is_var(self) -> bool {
-        self.is_function() || self.is_top()
+    #[inline]
+    pub fn is_class_static_block(self) -> bool {
+        self.contains(Self::ClassStaticBlock)
     }
 
+    #[inline]
+    pub fn is_ts_module_block(self) -> bool {
+        self.contains(Self::TsModuleBlock)
+    }
+
+    #[inline]
+    pub fn is_var(self) -> bool {
+        self.is_function()
+            || self.is_top()
+            || self.is_class_static_block()
+            || self.is_ts_module_block()
+    }
+
+    #[inline]
     pub fn is_catch_clause(self) -> bool {
         self.contains(Self::CatchClause)
     }
@@ -113,14 +135,17 @@ impl SymbolFlags {
     pub const Import: Self = Self { bits: 1 << 8 };
     pub const Param: Self = Self { bits: 1 << 9 };
 
+    #[inline]
     pub const fn contains(self, other: Self) -> bool {
         (self.bits & other.bits) == other.bits
     }
 
+    #[inline]
     pub const fn intersects(self, other: Self) -> bool {
         (self.bits & other.bits) != 0
     }
 
+    #[inline]
     pub fn is_value(self) -> bool {
         self.intersects(
             Self::FunctionScopedVariable
@@ -134,6 +159,7 @@ impl SymbolFlags {
         )
     }
 
+    #[inline]
     pub fn can_be_referenced_by_value(self) -> bool {
         self.is_value()
     }
@@ -495,14 +521,14 @@ impl SemanticBuilder {
         true
     }
 
-    fn enclosing_function_scope(&self) -> ScopeId {
+    fn enclosing_var_scope(&self) -> ScopeId {
         self.scope_stack
             .iter()
             .rev()
             .copied()
             .find(|scope_id| {
                 let flags = self.scoping.scope_flags(*scope_id);
-                flags.is_function() || flags.is_top()
+                flags.is_var()
             })
             .unwrap_or(ScopeId(0))
     }
@@ -703,7 +729,7 @@ impl Visit for SemanticBuilder {
         };
 
         let target_scope = match var_decl.kind {
-            VarDeclKind::Var => self.enclosing_function_scope(),
+            VarDeclKind::Var => self.enclosing_var_scope(),
             VarDeclKind::Let | VarDeclKind::Const => self.current_scope(),
         };
 
@@ -730,7 +756,7 @@ impl Visit for SemanticBuilder {
     fn visit_fn_decl(&mut self, fn_decl: &FnDecl) {
         let current_scope = self.current_scope();
         let hoist_scope = if self.should_hoist_block_function(&fn_decl.function) {
-            self.enclosing_function_scope()
+            self.enclosing_var_scope()
         } else {
             current_scope
         };
@@ -892,7 +918,7 @@ impl Visit for SemanticBuilder {
         match &export.decl {
             DefaultDecl::Fn(fn_expr) => {
                 if let Some(ident) = &fn_expr.ident {
-                    let hoist_scope = self.enclosing_function_scope();
+                    let hoist_scope = self.enclosing_var_scope();
                     self.declare_symbol_on_scope(
                         ident.span,
                         ident.sym.to_string(),
@@ -920,6 +946,15 @@ impl Visit for SemanticBuilder {
         }
     }
 
+    fn visit_static_block(&mut self, block: &StaticBlock) {
+        self.push_scope(
+            ScopeFlags::ClassStaticBlock | ScopeFlags::StrictMode,
+            block.span,
+        );
+        block.visit_children_with(self);
+        self.pop_scope();
+    }
+
     fn visit_ts_import_equals_decl(&mut self, decl: &TsImportEqualsDecl) {
         self.declare_symbol(decl.id.span, decl.id.sym.to_string(), SymbolFlags::Import);
         decl.module_ref.visit_with(self);
@@ -943,7 +978,16 @@ impl Visit for SemanticBuilder {
         }
     }
 
-    fn visit_ts_module_decl(&mut self, _decl: &TsModuleDecl) {}
+    fn visit_ts_module_decl(&mut self, decl: &TsModuleDecl) {
+        self.push_scope(
+            ScopeFlags::TsModuleBlock | ScopeFlags::StrictMode,
+            decl.span,
+        );
+        if let Some(body) = &decl.body {
+            body.visit_with(self);
+        }
+        self.pop_scope();
+    }
 
     fn visit_ident(&mut self, ident: &Ident) {
         let start = self.start(ident.span);
@@ -1314,7 +1358,7 @@ fn get_scope_kind(flags: ScopeFlags) -> react_compiler_ast::scope::ScopeKind {
         return ScopeKind::Switch;
     }
 
-    if flags.contains(ScopeFlags::Class) {
+    if flags.contains(ScopeFlags::Class) || flags.is_class_static_block() {
         return ScopeKind::Class;
     }
 
