@@ -879,22 +879,27 @@ fn scope_ts_enum_binding_is_local() {
 }
 
 #[test]
-fn scope_declare_ts_enum_has_no_runtime_binding() {
+fn scope_declare_ts_enum_binding_is_local() {
     let source = "declare enum Status { Ready }\nconst value = Status.Ready;";
     let program = parse_ts_program(source);
     let info = SemanticBuilder::with_source_type(SourceType::script().with_typescript(true))
         .build(&program);
 
-    assert!(
-        info.bindings.iter().all(|binding| binding.name != "Status"),
-        "declare enum should not create a runtime binding"
-    );
+    let status_binding = info
+        .bindings
+        .iter()
+        .find(|binding| binding.name == "Status")
+        .expect("declare enum should create a binding for reference resolution");
+    assert!(matches!(status_binding.kind, BindingKind::Local));
 
     let status_ref = source
         .find("Status.Ready")
         .expect("should find enum reference") as u32
         + 1;
-    assert_eq!(info.ref_node_id_to_binding.get(&status_ref), None);
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&status_ref),
+        Some(&status_binding.id)
+    );
 }
 
 #[test]

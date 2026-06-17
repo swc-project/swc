@@ -963,10 +963,7 @@ impl Visit for SemanticBuilder {
     fn visit_ts_type_alias_decl(&mut self, _decl: &TsTypeAliasDecl) {}
 
     fn visit_ts_enum_decl(&mut self, decl: &TsEnumDecl) {
-        if !decl.declare {
-            self.declare_symbol(decl.id.span, decl.id.sym.to_string(), SymbolFlags::Enum);
-        }
-
+        self.declare_symbol(decl.id.span, decl.id.sym.to_string(), SymbolFlags::Enum);
         for member in &decl.members {
             member.visit_with(self);
         }
@@ -979,14 +976,42 @@ impl Visit for SemanticBuilder {
     }
 
     fn visit_ts_module_decl(&mut self, decl: &TsModuleDecl) {
+        if let TsModuleName::Ident(ident) = &decl.id {
+            self.declare_symbol(
+                ident.span,
+                ident.sym.to_string(),
+                SymbolFlags::FunctionScopedVariable,
+            );
+        }
+
+        if let Some(body) = &decl.body {
+            self.push_scope(
+                ScopeFlags::TsModuleBlock | ScopeFlags::StrictMode,
+                decl.span,
+            );
+            body.visit_with(self);
+            self.pop_scope();
+        }
+    }
+
+    fn visit_ts_namespace_decl(&mut self, decl: &TsNamespaceDecl) {
+        self.declare_symbol(
+            decl.id.span,
+            decl.id.sym.to_string(),
+            SymbolFlags::FunctionScopedVariable,
+        );
+
         self.push_scope(
             ScopeFlags::TsModuleBlock | ScopeFlags::StrictMode,
             decl.span,
         );
-        if let Some(body) = &decl.body {
-            body.visit_with(self);
-        }
+        decl.body.visit_with(self);
         self.pop_scope();
+    }
+
+    fn visit_ts_interface_decl(&mut self, _decl: &TsInterfaceDecl) {
+        // Type-only declaration; do not traverse children to avoid recording
+        // type references as value references.
     }
 
     fn visit_ident(&mut self, ident: &Ident) {
