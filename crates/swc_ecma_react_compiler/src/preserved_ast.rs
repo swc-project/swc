@@ -43,7 +43,7 @@ pub struct ArrowShell {
 /// AST.
 #[derive(Clone)]
 pub struct FunctionShell {
-    params: Vec<ParamShell>,
+    params: Vec<Param>,
     decorators: Vec<Decorator>,
     type_params: Option<Box<TsTypeParamDecl>>,
     return_type: Option<Box<TsTypeAnn>>,
@@ -54,14 +54,6 @@ pub struct FunctionShell {
 #[derive(Clone)]
 pub struct VariableShell {
     declarations: Vec<Option<PatternTypeShell>>,
-}
-
-/// Lightweight function parameter metadata not represented losslessly in React
-/// Compiler's AST.
-#[derive(Clone)]
-pub struct ParamShell {
-    decorators: Vec<Decorator>,
-    pat_type: Option<PatternTypeShell>,
 }
 
 /// Typescript pattern metadata attached to the outer binding pattern.
@@ -277,7 +269,7 @@ impl PreservedAst {
         self.nodes.insert(
             function.span.lo.to_u32(),
             PreservedNode::Function(Box::new(FunctionShell {
-                params: function.params.iter().map(ParamShell::from_param).collect(),
+                params: function.params.clone(),
                 decorators: function.decorators.clone(),
                 type_params: function.type_params.clone(),
                 return_type: function.return_type.clone(),
@@ -299,8 +291,29 @@ impl PreservedAst {
         function.type_params = snapshot.type_params;
         function.return_type = snapshot.return_type;
         for (param, source_param) in function.params.iter_mut().zip(snapshot.params) {
-            source_param.apply_to_param(param);
+            param.decorators = source_param.decorators;
+            if let Some(pat_type) = PatternTypeShell::from_pat(&source_param.pat) {
+                pat_type.apply_to_pat(&mut param.pat);
+            }
         }
+
+        true
+    }
+
+    pub fn load_ts_function(&mut self, function: &mut Function) -> bool {
+        let key = function.span.lo.to_u32();
+        if !matches!(self.nodes.get(&key), Some(PreservedNode::Function(_))) {
+            return false;
+        }
+
+        let Some(PreservedNode::Function(snapshot)) = self.nodes.remove(&key) else {
+            unreachable!()
+        };
+
+        function.decorators = snapshot.decorators;
+        function.type_params = snapshot.type_params;
+        function.return_type = snapshot.return_type;
+        function.params = snapshot.params;
 
         true
     }
@@ -750,22 +763,6 @@ fn module_item_span(item: &ModuleItem) -> Option<swc_common::Span> {
         ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(decl)) => Some(decl.span),
         ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(decl))) => Some(decl.span),
         _ => None,
-    }
-}
-
-impl ParamShell {
-    fn from_param(param: &Param) -> Self {
-        Self {
-            decorators: param.decorators.clone(),
-            pat_type: PatternTypeShell::from_pat(&param.pat),
-        }
-    }
-
-    fn apply_to_param(self, param: &mut Param) {
-        param.decorators = self.decorators;
-        if let Some(pat_type) = self.pat_type {
-            pat_type.apply_to_pat(&mut param.pat);
-        }
     }
 }
 

@@ -1966,7 +1966,6 @@ checksum = "9ed9a281f7bc9b7576e61468ba615a66a5c8cfdff42420a70aa82701a3b1e292"
 dependencies = [
  "block-buffer",
  "crypto-common",
- "subtle",
 ]
 
 [[package]]
@@ -2225,9 +2224,9 @@ checksum = "00b0228411908ca8685dba7fc2cdd70ec9990a6e753e89b6ac91a84c40fbaf4b"
 
 [[package]]
 name = "forked_react_compiler"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f6970d9da2347af882a10b88480d6b2f44caca55567d85c2b1fa35420b53c1cc"
+checksum = "ac2369cf719891033c9b17a8093c7cf83dbad40113d4a24513fe3d42e37050ea"
 dependencies = [
  "forked_react_compiler_ast",
  "forked_react_compiler_diagnostics",
@@ -2238,49 +2237,59 @@ dependencies = [
  "forked_react_compiler_reactive_scopes",
  "forked_react_compiler_ssa",
  "forked_react_compiler_typeinference",
+ "forked_react_compiler_utils",
  "forked_react_compiler_validation",
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
  "serde",
  "serde_json",
 ]
 
 [[package]]
 name = "forked_react_compiler_ast"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46f9465a3f9934ef1c1e76bdbab8e70c86b41016a8e7ca1b51fede63e47a6036"
+checksum = "daccd93f89b1bc808a485767928b80456711e2141e54722e478795c84e0d5c7b"
 dependencies = [
+ "forked_react_compiler_diagnostics",
+ "forked_react_compiler_utils",
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
  "serde",
+ "serde-transcode",
  "serde_json",
 ]
 
 [[package]]
 name = "forked_react_compiler_diagnostics"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e282f5f7b9506e5055758e4ec9857cdc4873e530d3d381d3ecd0d0321e139ec"
+checksum = "8c3d5b1d76f01cd1cc64d016880380cada17c2e7e3fc2337ffd2db690cdb3b4e"
 dependencies = [
+ "rustc-hash 2.1.1",
  "serde",
 ]
 
 [[package]]
 name = "forked_react_compiler_hir"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9df1312f02a4e7a90686a0fc301fb0dfb58a99cdf53a375922e65b8678dc9df7"
+checksum = "4668644f0b802b21e0a547e74cbf01dccb8f854c894800f9f1115fa5d0816383"
 dependencies = [
+ "forked_react_compiler_ast",
  "forked_react_compiler_diagnostics",
+ "forked_react_compiler_utils",
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
  "serde",
  "serde_json",
 ]
 
 [[package]]
 name = "forked_react_compiler_inference"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd9a5bd84db67b0958c414da69f38184fb60e7a55a63ce9f95b367497939b892"
+checksum = "b17f5d24f016fe5fab0b15e36fcaa54ef377a341dbcd747f1e4371e29acb3198"
 dependencies = [
  "forked_react_compiler_diagnostics",
  "forked_react_compiler_hir",
@@ -2289,90 +2298,101 @@ dependencies = [
  "forked_react_compiler_ssa",
  "forked_react_compiler_utils",
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
 ]
 
 [[package]]
 name = "forked_react_compiler_lowering"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "036e4fb36420ed59df1f20a5bb4ae08b095e8e3e1e1c047b7ca4cb0abebd04d9"
+checksum = "6dc9d291addca587d64bc90b7d6e58fcd4ebc255aa9a97751e0058ba2a4c1dab"
 dependencies = [
  "forked_react_compiler_ast",
  "forked_react_compiler_diagnostics",
  "forked_react_compiler_hir",
+ "forked_react_compiler_utils",
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
  "serde_json",
 ]
 
 [[package]]
 name = "forked_react_compiler_optimization"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a1ec9f8dfb36bcfab25f3f476ccdada95f55f1071e45d25f4549c7c3395aaffc"
+checksum = "717defb246a678ab851a46210d65e0c7604cc7944395d380338a3062924965c9"
 dependencies = [
  "forked_react_compiler_diagnostics",
  "forked_react_compiler_hir",
  "forked_react_compiler_lowering",
  "forked_react_compiler_ssa",
+ "forked_react_compiler_utils",
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
 ]
 
 [[package]]
 name = "forked_react_compiler_reactive_scopes"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1cc54d3b97369ae60549db1d7f792f585920ee451b09946a247cc25087eb384d"
+checksum = "928d6ae8021a1c8f5a32b20cf2ef4b20f76cf997ae753c4e958e896bcf64ae90"
 dependencies = [
  "forked_react_compiler_ast",
  "forked_react_compiler_diagnostics",
  "forked_react_compiler_hir",
- "hmac",
+ "forked_react_compiler_utils",
+ "hmac-sha256",
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
  "serde_json",
- "sha2",
 ]
 
 [[package]]
 name = "forked_react_compiler_ssa"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8edcb5fac346f6ad59478ca4b373a930bdc41fd073dccbb10ff69461bdc94423"
+checksum = "cd26c931f5a799188a2d7bb5960cfde048c91348a074876e49c9f7d6e8581d93"
 dependencies = [
  "forked_react_compiler_diagnostics",
  "forked_react_compiler_hir",
- "forked_react_compiler_lowering",
+ "forked_react_compiler_utils",
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
 ]
 
 [[package]]
 name = "forked_react_compiler_typeinference"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b3191b89198d502e11f624a15086ba54ce2828ede7d56eb2b78650da7aef06c1"
+checksum = "4f603c0f89520b55e9c34fc6264df6f29bba60d7e94269f433dd13ba76c4d686"
 dependencies = [
  "forked_react_compiler_diagnostics",
  "forked_react_compiler_hir",
  "forked_react_compiler_ssa",
+ "rustc-hash 2.1.1",
 ]
 
 [[package]]
 name = "forked_react_compiler_utils"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "005055ef8bfe84dd5f766302bb39fc2d4a361c30abb8a49384d6aff9cc479028"
+checksum = "5390b90b48cf2aaab7e511009e10e6b8c2c5b750a8c873881b4014e4295cb128"
 dependencies = [
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
 ]
 
 [[package]]
 name = "forked_react_compiler_validation"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2699f361db2993828d9194af7f6942a8ae746a3688eb5847c70d28da672f4269"
+checksum = "7801bd3359181d53a99a06c43f76943f56736814f3dead0ce5fac9118391f18b"
 dependencies = [
  "forked_react_compiler_diagnostics",
  "forked_react_compiler_hir",
+ "forked_react_compiler_utils",
  "indexmap 2.12.0",
+ "rustc-hash 2.1.1",
 ]
 
 [[package]]
@@ -2782,13 +2802,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
-name = "hmac"
-version = "0.12.1"
+name = "hmac-sha256"
+version = "1.1.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c49c37c09c17a53d937dfbb742eb3a961d65a994e6bcdcf37e7399d0cc8ab5e"
-dependencies = [
- "digest",
-]
+checksum = "ec9d92d097f4749b64e8cc33d924d9f40a2d4eb91402b458014b781f5733d60f"
 
 [[package]]
 name = "hstr"
@@ -5429,6 +5446,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde-transcode"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "590c0e25c2a5bb6e85bf5c1bce768ceb86b316e7a01bdf07d2cb4ec2271990e2"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "serde-wasm-bindgen"
 version = "0.6.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5790,12 +5816,6 @@ name = "strsim"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
-
-[[package]]
-name = "subtle"
-version = "2.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"

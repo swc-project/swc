@@ -8,8 +8,15 @@
 use std::cell::RefCell;
 
 use react_compiler_ast::{
-    common::BaseNode, declarations::*, expressions::*, jsx::*, literals::*, operators::*,
-    patterns::*, statements::*, File,
+    common::{BaseNode, RawNode},
+    declarations::*,
+    expressions::*,
+    jsx::*,
+    literals::*,
+    operators::*,
+    patterns::*,
+    statements::*,
+    File,
 };
 use serde_json::Value;
 use swc_atoms::Atom;
@@ -46,6 +53,11 @@ impl ReverseCtx {
         }
     }
 
+    #[cold]
+    fn span_from_raw_node(&self, value: &RawNode) -> Span {
+        self.span_from_json_value(&value.parse_value())
+    }
+
     fn any_ts_type(&self, span: Span) -> Box<swc::TsType> {
         Box::new(swc::TsType::TsKeywordType(swc::TsKeywordType {
             span,
@@ -72,9 +84,12 @@ impl ReverseCtx {
     #[cold]
     fn convert_ts_type_annotation_option(
         &self,
-        value: Option<&serde_json::Value>,
+        value: Option<&RawNode>,
     ) -> Option<Box<swc::TsTypeAnn>> {
-        value.and_then(|value| self.convert_ts_type_annotation_from_json(value))
+        value.and_then(|value| {
+            let value = value.parse_value();
+            self.convert_ts_type_annotation_from_json(&value)
+        })
     }
 
     #[cold]
@@ -217,10 +232,13 @@ impl ReverseCtx {
     #[cold]
     fn convert_ts_type_parameter_instantiation_pair(
         &self,
-        type_parameters: Option<&serde_json::Value>,
-        type_arguments: Option<&serde_json::Value>,
+        type_parameters: Option<&RawNode>,
+        type_arguments: Option<&RawNode>,
     ) -> Option<Box<swc::TsTypeParamInstantiation>> {
-        self.convert_ts_type_parameter_instantiation_option(type_parameters.or(type_arguments))
+        type_parameters.or(type_arguments).and_then(|value| {
+            let value = value.parse_value();
+            self.convert_ts_type_parameter_instantiation_from_json(&value)
+        })
     }
 
     #[cold]
@@ -259,11 +277,12 @@ impl ReverseCtx {
     fn cold_fill_ts_as_expr_from_json(
         &self,
         expr: &mut swc::TsAsExpr,
-        type_annotation: &serde_json::Value,
+        type_annotation: &RawNode,
         fallback_span: Span,
     ) {
+        let type_annotation = type_annotation.parse_value();
         expr.type_ann = self
-            .convert_ts_type_from_json(type_annotation)
+            .convert_ts_type_from_json(&type_annotation)
             .unwrap_or_else(|| self.any_ts_type(fallback_span));
     }
 
@@ -271,11 +290,12 @@ impl ReverseCtx {
     fn cold_fill_ts_satisfies_expr_from_json(
         &self,
         expr: &mut swc::TsSatisfiesExpr,
-        type_annotation: &serde_json::Value,
+        type_annotation: &RawNode,
         fallback_span: Span,
     ) {
+        let type_annotation = type_annotation.parse_value();
         expr.type_ann = self
-            .convert_ts_type_from_json(type_annotation)
+            .convert_ts_type_from_json(&type_annotation)
             .unwrap_or_else(|| self.any_ts_type(fallback_span));
     }
 
@@ -283,11 +303,12 @@ impl ReverseCtx {
     fn cold_fill_ts_type_assertion_from_json(
         &self,
         expr: &mut swc::TsTypeAssertion,
-        type_annotation: &serde_json::Value,
+        type_annotation: &RawNode,
         fallback_span: Span,
     ) {
+        let type_annotation = type_annotation.parse_value();
         expr.type_ann = self
-            .convert_ts_type_from_json(type_annotation)
+            .convert_ts_type_from_json(&type_annotation)
             .unwrap_or_else(|| self.any_ts_type(fallback_span));
     }
 
@@ -295,11 +316,12 @@ impl ReverseCtx {
     fn cold_fill_ts_instantiation_from_json(
         &self,
         expr: &mut swc::TsInstantiation,
-        type_parameters: &serde_json::Value,
+        type_parameters: &RawNode,
         fallback_span: Span,
     ) {
+        let type_parameters = type_parameters.parse_value();
         expr.type_args = self
-            .convert_ts_type_parameter_instantiation_from_json(type_parameters)
+            .convert_ts_type_parameter_instantiation_from_json(&type_parameters)
             .unwrap_or_else(|| {
                 Box::new(swc::TsTypeParamInstantiation {
                     span: fallback_span,
@@ -312,8 +334,8 @@ impl ReverseCtx {
     fn cold_fill_call_type_args_from_json(
         &self,
         call: &mut swc::CallExpr,
-        type_parameters: Option<&serde_json::Value>,
-        type_arguments: Option<&serde_json::Value>,
+        type_parameters: Option<&RawNode>,
+        type_arguments: Option<&RawNode>,
     ) {
         call.type_args =
             self.convert_ts_type_parameter_instantiation_pair(type_parameters, type_arguments);
@@ -323,8 +345,8 @@ impl ReverseCtx {
     fn cold_fill_opt_call_type_args_from_json(
         &self,
         call: &mut swc::OptCall,
-        type_parameters: Option<&serde_json::Value>,
-        type_arguments: Option<&serde_json::Value>,
+        type_parameters: Option<&RawNode>,
+        type_arguments: Option<&RawNode>,
     ) {
         call.type_args =
             self.convert_ts_type_parameter_instantiation_pair(type_parameters, type_arguments);
@@ -334,8 +356,8 @@ impl ReverseCtx {
     fn cold_fill_new_type_args_from_json(
         &self,
         expr: &mut swc::NewExpr,
-        type_parameters: Option<&serde_json::Value>,
-        type_arguments: Option<&serde_json::Value>,
+        type_parameters: Option<&RawNode>,
+        type_arguments: Option<&RawNode>,
     ) {
         expr.type_args =
             self.convert_ts_type_parameter_instantiation_pair(type_parameters, type_arguments);
@@ -345,18 +367,24 @@ impl ReverseCtx {
     fn cold_fill_tagged_tpl_type_params_from_json(
         &self,
         tpl: &mut swc::TaggedTpl,
-        type_parameters: Option<&serde_json::Value>,
+        type_parameters: Option<&RawNode>,
     ) {
-        tpl.type_params = self.convert_ts_type_parameter_instantiation_option(type_parameters);
+        tpl.type_params = type_parameters.and_then(|value| {
+            let value = value.parse_value();
+            self.convert_ts_type_parameter_instantiation_from_json(&value)
+        });
     }
 
     #[cold]
     fn cold_fill_jsx_opening_type_args_from_json(
         &self,
         opening: &mut swc::JSXOpeningElement,
-        type_parameters: Option<&serde_json::Value>,
+        type_parameters: Option<&RawNode>,
     ) {
-        opening.type_args = self.convert_ts_type_parameter_instantiation_option(type_parameters);
+        opening.type_args = type_parameters.and_then(|value| {
+            let value = value.parse_value();
+            self.convert_ts_type_parameter_instantiation_from_json(&value)
+        });
     }
 
     #[cold]
@@ -364,7 +392,7 @@ impl ReverseCtx {
         &self,
         function: &mut swc::Function,
         params: &[PatternLike],
-        return_type: Option<&serde_json::Value>,
+        return_type: Option<&RawNode>,
     ) {
         function.params = params
             .iter()
@@ -378,7 +406,7 @@ impl ReverseCtx {
         &self,
         arrow: &mut swc::ArrowExpr,
         params: &[PatternLike],
-        return_type: Option<&serde_json::Value>,
+        return_type: Option<&RawNode>,
     ) {
         arrow.params = params
             .iter()
@@ -402,22 +430,20 @@ impl ReverseCtx {
     fn cold_fill_ts_type_alias_from_json(
         &self,
         decl: &mut swc::TsTypeAliasDecl,
-        type_annotation: &serde_json::Value,
+        type_annotation: &RawNode,
         fallback_span: Span,
     ) {
+        let type_annotation = type_annotation.parse_value();
         decl.type_ann = self
-            .convert_ts_type_from_json(type_annotation)
+            .convert_ts_type_from_json(&type_annotation)
             .unwrap_or_else(|| self.any_ts_type(fallback_span));
     }
 
-    fn has_type_args(
-        type_parameters: Option<&serde_json::Value>,
-        type_arguments: Option<&serde_json::Value>,
-    ) -> bool {
+    fn has_type_args(type_parameters: Option<&RawNode>, type_arguments: Option<&RawNode>) -> bool {
         type_parameters.is_some() || type_arguments.is_some()
     }
 
-    fn has_type_annotation(value: Option<&serde_json::Value>) -> bool {
+    fn has_type_annotation(value: Option<&RawNode>) -> bool {
         value.is_some()
     }
 
@@ -1081,14 +1107,14 @@ impl ReverseCtx {
                 };
                 if !self.preserved_ast.borrow_mut().load_opt_call(&mut opt_call)
                     && Self::has_type_args(
-                        call.type_parameters.as_deref(),
-                        call.type_arguments.as_deref(),
+                        call.type_parameters.as_ref(),
+                        call.type_arguments.as_ref(),
                     )
                 {
                     self.cold_fill_opt_call_type_args_from_json(
                         &mut opt_call,
-                        call.type_parameters.as_deref(),
-                        call.type_arguments.as_deref(),
+                        call.type_parameters.as_ref(),
+                        call.type_arguments.as_ref(),
                     );
                 }
                 swc::Expr::OptChain(swc::OptChainExpr {
@@ -1185,14 +1211,14 @@ impl ReverseCtx {
                 };
                 if !self.preserved_ast.borrow_mut().load_new(&mut new_expr)
                     && Self::has_type_args(
-                        new.type_parameters.as_deref(),
-                        new.type_arguments.as_deref(),
+                        new.type_parameters.as_ref(),
+                        new.type_arguments.as_ref(),
                     )
                 {
                     self.cold_fill_new_type_args_from_json(
                         &mut new_expr,
-                        new.type_parameters.as_deref(),
-                        new.type_arguments.as_deref(),
+                        new.type_parameters.as_ref(),
+                        new.type_arguments.as_ref(),
                     );
                 }
                 swc::Expr::New(new_expr)
@@ -1210,11 +1236,11 @@ impl ReverseCtx {
                     .preserved_ast
                     .borrow_mut()
                     .load_tagged_tpl(&mut tagged_tpl)
-                    && Self::has_type_annotation(tagged.type_parameters.as_deref())
+                    && Self::has_type_annotation(tagged.type_parameters.as_ref())
                 {
                     self.cold_fill_tagged_tpl_type_params_from_json(
                         &mut tagged_tpl,
-                        tagged.type_parameters.as_deref(),
+                        tagged.type_parameters.as_ref(),
                     );
                 }
                 swc::Expr::TaggedTpl(tagged_tpl)
@@ -1383,15 +1409,12 @@ impl ReverseCtx {
             type_args: None,
         };
         if !self.preserved_ast.borrow_mut().load_call(&mut call_expr)
-            && Self::has_type_args(
-                call.type_parameters.as_deref(),
-                call.type_arguments.as_deref(),
-            )
+            && Self::has_type_args(call.type_parameters.as_ref(), call.type_arguments.as_ref())
         {
             self.cold_fill_call_type_args_from_json(
                 &mut call_expr,
-                call.type_parameters.as_deref(),
-                call.type_arguments.as_deref(),
+                call.type_parameters.as_ref(),
+                call.type_arguments.as_ref(),
             );
         }
         call_expr
@@ -1508,12 +1531,12 @@ impl ReverseCtx {
                 let mut function = self.convert_object_method_to_function(method);
                 if !self.preserved_ast.borrow_mut().load_function(&mut function)
                     && (Self::patterns_have_type_annotations(&method.params)
-                        || Self::has_type_annotation(method.return_type.as_deref()))
+                        || Self::has_type_annotation(method.return_type.as_ref()))
                 {
                     self.cold_fill_function_types_from_json(
                         &mut function,
                         &method.params,
-                        method.return_type.as_deref(),
+                        method.return_type.as_ref(),
                     );
                 }
                 let key = self.convert_expression_as_prop_name(&method.key, method.computed);
@@ -1631,12 +1654,12 @@ impl ReverseCtx {
         };
         if !self.preserved_ast.borrow_mut().load_function(&mut function)
             && (Self::patterns_have_type_annotations(&f.params)
-                || Self::has_type_annotation(f.return_type.as_deref()))
+                || Self::has_type_annotation(f.return_type.as_ref()))
         {
             self.cold_fill_function_types_from_json(
                 &mut function,
                 &f.params,
-                f.return_type.as_deref(),
+                f.return_type.as_ref(),
             );
         }
         swc::FnDecl {
@@ -1700,12 +1723,12 @@ impl ReverseCtx {
         };
         if !self.preserved_ast.borrow_mut().load_function(&mut function)
             && (Self::patterns_have_type_annotations(&f.params)
-                || Self::has_type_annotation(f.return_type.as_deref()))
+                || Self::has_type_annotation(f.return_type.as_ref()))
         {
             self.cold_fill_function_types_from_json(
                 &mut function,
                 &f.params,
-                f.return_type.as_deref(),
+                f.return_type.as_ref(),
             );
         }
         function
@@ -1753,12 +1776,12 @@ impl ReverseCtx {
         };
         if !self.preserved_ast.borrow_mut().load_arrow(&mut arrow_expr)
             && (Self::patterns_have_type_annotations(&arrow.params)
-                || Self::has_type_annotation(arrow.return_type.as_deref()))
+                || Self::has_type_annotation(arrow.return_type.as_ref()))
         {
             self.cold_fill_arrow_types_from_json(
                 &mut arrow_expr,
                 &arrow.params,
-                arrow.return_type.as_deref(),
+                arrow.return_type.as_ref(),
             );
         }
 
@@ -1806,19 +1829,19 @@ impl ReverseCtx {
     ) -> Option<Box<swc::TsTypeAnn>> {
         match pattern {
             PatternLike::Identifier(id) => {
-                self.convert_ts_type_annotation_option(id.type_annotation.as_deref())
+                self.convert_ts_type_annotation_option(id.type_annotation.as_ref())
             }
             PatternLike::ObjectPattern(pattern) => {
-                self.convert_ts_type_annotation_option(pattern.type_annotation.as_deref())
+                self.convert_ts_type_annotation_option(pattern.type_annotation.as_ref())
             }
             PatternLike::ArrayPattern(pattern) => {
-                self.convert_ts_type_annotation_option(pattern.type_annotation.as_deref())
+                self.convert_ts_type_annotation_option(pattern.type_annotation.as_ref())
             }
             PatternLike::AssignmentPattern(pattern) => {
-                self.convert_ts_type_annotation_option(pattern.type_annotation.as_deref())
+                self.convert_ts_type_annotation_option(pattern.type_annotation.as_ref())
             }
             PatternLike::RestElement(pattern) => {
-                self.convert_ts_type_annotation_option(pattern.type_annotation.as_deref())
+                self.convert_ts_type_annotation_option(pattern.type_annotation.as_ref())
             }
             _ => None,
         }
@@ -2037,11 +2060,11 @@ impl ReverseCtx {
             .preserved_ast
             .borrow_mut()
             .load_jsx_opening_element(&mut opening)
-            && Self::has_type_annotation(el.type_parameters.as_deref())
+            && Self::has_type_annotation(el.type_parameters.as_ref())
         {
             self.cold_fill_jsx_opening_type_args_from_json(
                 &mut opening,
-                el.type_parameters.as_deref(),
+                el.type_parameters.as_ref(),
             );
         }
         opening
@@ -2600,7 +2623,7 @@ impl ReverseCtx {
     fn convert_string_literal(&self, lit: &StringLiteral) -> swc::Str {
         swc::Str {
             span: self.span_from_base(&lit.base),
-            value: lit.value.as_str().into(),
+            value: lit.value.to_string_lossy().into(),
             raw: None,
         }
     }
@@ -2679,7 +2702,7 @@ impl ReverseCtx {
             .borrow_mut()
             .load_ts_interface(&mut ts_decl)
         {
-            ts_decl.body.span = self.span_from_json_value(&decl.body);
+            ts_decl.body.span = self.span_from_raw_node(&decl.body);
         }
         swc::Stmt::Decl(swc::Decl::TsInterface(Box::new(ts_decl))).into()
     }
@@ -2727,23 +2750,21 @@ impl ReverseCtx {
     }
 
     #[cold]
-    fn convert_ts_module_name_from_json(
-        &self,
-        value: &serde_json::Value,
-    ) -> Option<swc::TsModuleName> {
-        match json_type(value) {
+    fn convert_ts_module_name_from_json(&self, value: &RawNode) -> Option<swc::TsModuleName> {
+        let value = value.parse_value();
+        match json_type(&value) {
             Some("Identifier") => self
-                .convert_ident_from_json(value)
+                .convert_ident_from_json(&value)
                 .map(swc::TsModuleName::Ident),
             Some("StringLiteral") => self
-                .convert_str_from_json(value)
+                .convert_str_from_json(&value)
                 .map(swc::TsModuleName::Str),
             Some(_) => None,
             None if value.get("name").is_some() => self
-                .convert_ident_from_json(value)
+                .convert_ident_from_json(&value)
                 .map(swc::TsModuleName::Ident),
             None if value.get("value").is_some() => self
-                .convert_str_from_json(value)
+                .convert_str_from_json(&value)
                 .map(swc::TsModuleName::Str),
             None => None,
         }
@@ -2768,39 +2789,43 @@ impl ReverseCtx {
         })
     }
 
+    #[cold]
+    fn convert_raw_pattern_like(&self, index: usize, _raw: &RawNode) -> swc::Param {
+        let name = format!("_{index}");
+
+        swc::Ident {
+            ctxt: SyntaxContext::empty(),
+            sym: self.atom(&name),
+            ..Default::default()
+        }
+        .into()
+    }
+
     fn convert_ts_declare_function(&self, decl: &TSDeclareFunction) -> swc::ModuleItem {
         let id = decl.id.as_ref().map_or_else(
             || self.private_ident("__declare", &decl.base),
             |id| self.convert_identifier(id),
         );
-        let params: Vec<_> = decl
-            .params
-            .iter()
-            .filter_map(|param| serde_json::from_value::<PatternLike>(param.clone()).ok())
-            .collect();
         let mut function = swc::Function {
-            params: params
-                .iter()
-                .map(|param| self.convert_pattern_like_as_formal_parameter_omitting_types(param))
-                .collect(),
-            decorators: vec![],
             span: self.span_from_base(&decl.base),
             ctxt: SyntaxContext::empty(),
-            body: None,
             is_generator: decl.generator.unwrap_or(false),
             is_async: decl.is_async.unwrap_or(false),
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         };
-        if !self.preserved_ast.borrow_mut().load_function(&mut function)
-            && (Self::patterns_have_type_annotations(&params)
-                || Self::has_type_annotation(decl.return_type.as_deref()))
+        if !self
+            .preserved_ast
+            .borrow_mut()
+            .load_ts_function(&mut function)
         {
-            self.cold_fill_function_types_from_json(
-                &mut function,
-                &params,
-                decl.return_type.as_deref(),
-            );
+            function.params = decl
+                .params
+                .iter()
+                .enumerate()
+                .map(|(index, param)| self.convert_raw_pattern_like(index, param))
+                .collect();
+            function.return_type =
+                self.convert_ts_type_annotation_option(decl.return_type.as_ref());
         }
 
         swc::Stmt::Decl(swc::Decl::Fn(swc::FnDecl {
