@@ -879,22 +879,27 @@ fn scope_ts_enum_binding_is_local() {
 }
 
 #[test]
-fn scope_declare_ts_enum_has_no_runtime_binding() {
+fn scope_declare_ts_enum_binding_is_local() {
     let source = "declare enum Status { Ready }\nconst value = Status.Ready;";
     let program = parse_ts_program(source);
     let info = SemanticBuilder::with_source_type(SourceType::script().with_typescript(true))
         .build(&program);
 
-    assert!(
-        info.bindings.iter().all(|binding| binding.name != "Status"),
-        "declare enum should not create a runtime binding"
-    );
+    let status_binding = info
+        .bindings
+        .iter()
+        .find(|binding| binding.name == "Status")
+        .expect("declare enum should create a binding for reference resolution");
+    assert!(matches!(status_binding.kind, BindingKind::Local));
 
     let status_ref = source
         .find("Status.Ready")
         .expect("should find enum reference") as u32
         + 1;
-    assert_eq!(info.ref_node_id_to_binding.get(&status_ref), None);
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&status_ref),
+        Some(&status_binding.id)
+    );
 }
 
 #[test]
@@ -1126,6 +1131,57 @@ fn scope_resolves_references_inside_object_assign_patterns() {
     assert_eq!(
         info.ref_node_id_to_binding.get(&fallback_ref).copied(),
         Some(binding_id("fallback"))
+    );
+}
+
+#[test]
+fn scope_class_static_block_var_is_scoped() {
+    let source = r#"
+        const x = 1;
+        class C {
+            static { var x = 2; }
+        }
+        function App() { return x; }
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let x_bindings: Vec<_> = info.bindings.iter().filter(|b| b.name == "x").collect();
+    assert_eq!(x_bindings.len(), 2, "should have two x bindings");
+
+    let static_block_x = x_bindings
+        .iter()
+        .find(|b| matches!(b.kind, BindingKind::Var))
+        .expect("should find var x binding in static block");
+    let static_block_scope = &info.scopes[static_block_x.scope.0 as usize];
+    assert!(
+        matches!(static_block_scope.kind, ScopeKind::Class),
+        "static block var x should be scoped to Class scope"
+    );
+}
+
+#[test]
+fn scope_ts_module_block_creates_scope() {
+    let source = r#"
+        namespace N {
+            export const hidden = 1;
+        }
+        function App() { return N.hidden; }
+    "#;
+    let module = parse_ts_module(source);
+    let program = swc_ecma_ast::Program::Module(module);
+    let info = SemanticBuilder::new().build(&program);
+
+    let hidden_binding = info
+        .bindings
+        .iter()
+        .find(|b| b.name == "hidden")
+        .expect("should find hidden binding");
+
+    let hidden_scope = &info.scopes[hidden_binding.scope.0 as usize];
+    assert!(
+        !matches!(hidden_scope.kind, ScopeKind::Program),
+        "namespace member should not leak to Program scope"
     );
 }
 
