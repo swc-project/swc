@@ -8,6 +8,7 @@ use std::{
 use anyhow::{bail, Context, Result};
 use sha2::{Digest, Sha256};
 use testing::CARGO_TARGET_DIR;
+#[cfg(debug_assertions)]
 use tracing::debug;
 
 static CACHE_WRITE_ID: AtomicU64 = AtomicU64::new(0);
@@ -66,6 +67,7 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
         return Ok(output);
     }
 
+    #[cfg(debug_assertions)]
     debug!("Executing nodejs:\n{}", js_code);
 
     let mut c = Command::new("node");

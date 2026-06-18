@@ -109,7 +109,10 @@ impl RustPlugins {
         ret
     }
 
-    #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
+    #[cfg_attr(
+        debug_assertions,
+        tracing::instrument(level = "info", skip_all, name = "apply_plugins")
+    )]
     #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
@@ -124,9 +127,11 @@ impl RustPlugins {
                 inner: self.comments.clone(),
             },
             || {
+                #[cfg(debug_assertions)]
                 let span = tracing::span!(tracing::Level::INFO, "serialize_program").entered();
                 let program = swc_common::plugin::serialized::VersionedSerializable::new(n);
                 let mut serialized = PluginSerializedBytes::try_serialize(&program)?;
+                #[cfg(debug_assertions)]
                 drop(span);
 
                 // Run plugin transformation against current program.
@@ -158,6 +163,7 @@ impl RustPlugins {
                                 self.plugin_runtime.clone(),
                             );
 
+                        #[cfg(debug_assertions)]
                         let span = tracing::span!(
                             tracing::Level::INFO,
                             "execute_plugin_runner",
@@ -173,6 +179,7 @@ impl RustPlugins {
                                     &p.0, plugin_name
                                 )
                             })?;
+                        #[cfg(debug_assertions)]
                         drop(span);
                     }
                 }
@@ -185,7 +192,7 @@ impl RustPlugins {
     }
 
     #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
-    #[tracing::instrument(level = "info", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         // [TODO]: unimplemented
         n
@@ -260,6 +267,7 @@ pub(crate) fn compile_wasm_plugins(
             };
 
             inner_cache.store_bytes_from_path(plugin_runtime, &path, plugin_name)?;
+            #[cfg(debug_assertions)]
             tracing::debug!("Initialized WASM plugin {plugin_name}");
         }
     }

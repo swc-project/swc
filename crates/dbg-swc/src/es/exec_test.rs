@@ -11,7 +11,6 @@ use swc_common::SourceMap;
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
-use swc_timer::timer;
 use tracing::info;
 
 use crate::{bundle::bundle, util::print_js};
@@ -25,23 +24,19 @@ pub enum ExecForTestingCommand {
 
 impl ExecForTestingCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
-        let _timer = timer!("test");
-
         let output = {
-            let _timer = timer!("process");
-
             match self {
                 ExecForTestingCommand::MinifiedBundle(cmd) => cmd.run(cm),
             }?
         };
 
         {
-            let _timer = timer!("run");
             let stdout = output
                 .runtime
                 .execute(&output.path)
                 .context("failed to execute generated code")?;
 
+            #[cfg(debug_assertions)]
             info!("----- Stdout -----\n{}", stdout);
         }
 
@@ -59,7 +54,6 @@ impl TestMinifiedBundleCommand {
         let bundle = bundle(cm.clone(), &self.entry)?;
 
         let mut minified = {
-            let _timer = timer!("minify");
             swc_ecma_minifier::optimize(
                 bundle.module.into(),
                 cm.clone(),

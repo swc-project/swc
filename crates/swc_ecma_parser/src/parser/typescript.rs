@@ -1200,7 +1200,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     pub(crate) fn parse_ts_type_ann(
@@ -1693,7 +1693,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
@@ -1747,7 +1747,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsTryParseTypeAnnotation`
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     pub(crate) fn try_parse_ts_type_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {

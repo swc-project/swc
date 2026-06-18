@@ -35,7 +35,6 @@ swc_ecma_parser = { version = "41.1.0", path = "../swc_ecma_parser", default-fea
   "typescript",
 ] }
 swc_ecma_visit = { version = "25.0.0", path = "../swc_ecma_visit" }
-swc_timer = { version = "1.0.0", path = "../swc_timer" }
 
 [dependencies.napi-derive]
 default-features = false

@@ -7,7 +7,7 @@ use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-#[cfg(feature = "debug")]
+#[cfg(all(debug_assertions, feature = "debug"))]
 use tracing::{span, Level};
 
 use super::{is_pure_undefined, Optimizer};
@@ -531,7 +531,10 @@ impl Optimizer<'_> {
         })
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: ModuleItemExt,
@@ -605,7 +608,7 @@ impl Optimizer<'_> {
         }
         exprs.push(buf);
 
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let buf_len = exprs.iter().map(|v| v.len()).collect::<Vec<_>>();
             Some(
@@ -689,7 +692,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let e_str = dump(&*e, false);
 
@@ -729,7 +732,7 @@ impl Optimizer<'_> {
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
     fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) -> Result<(), ()> {
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             Some(
                 tracing::span!(Level::TRACE, "merge_sequences_in_exprs", len = exprs.len())
@@ -1184,7 +1187,10 @@ impl Optimizer<'_> {
         false
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.bit_ctx.contains(BitCtx::InTryBlock) {
             log_abort!("try block");
@@ -1510,7 +1516,7 @@ impl Optimizer<'_> {
     ///
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let b_str = dump(&*b, false);
             let a = match a {

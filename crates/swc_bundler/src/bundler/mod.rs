@@ -117,10 +117,13 @@ where
     ) -> Self {
         GLOBALS.set(globals, || {
             let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            #[cfg(debug_assertions)]
             tracing::debug!("Helper ctxt: {:?}", helper_ctxt);
             let synthesized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            #[cfg(debug_assertions)]
             tracing::debug!("Synthesized ctxt: {:?}", synthesized_ctxt);
             let injected_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            #[cfg(debug_assertions)]
             tracing::debug!("Injected ctxt: {:?}", injected_ctxt);
 
             Bundler {

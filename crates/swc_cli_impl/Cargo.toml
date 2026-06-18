@@ -35,12 +35,9 @@ path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
 pathdiff           = { workspace = true }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
 tracing            = { workspace = true }
-tracing-chrome     = { workspace = true }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }
 walkdir            = { workspace = true }
 
 swc_core = { version = "69.0.0", features = [
-  "trace_macro",
   "common_concurrent",
   "base_concurrent",
   "base_flow",

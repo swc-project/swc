@@ -12,7 +12,7 @@ use swc_ecma_utils::{
     member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
+#[cfg(debug_assertions)]
 use tracing::trace;
 
 pub fn parameters(c: Config, unresolved_mark: Mark) -> impl 'static + Pass {
@@ -70,7 +70,6 @@ pub struct Config {
 //     }
 // }
 
-#[swc_trace]
 impl Params {
     fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt, is_setter: bool) {
         let mut params = Vec::new();
@@ -465,7 +464,6 @@ impl Params {
     }
 }
 
-#[swc_trace]
 impl VisitMut for Params {
     noop_visit_mut_type!(fail);
 
@@ -571,6 +569,7 @@ impl VisitMut for Params {
     }
 
     fn visit_mut_constructor(&mut self, f: &mut Constructor) {
+        #[cfg(debug_assertions)]
         trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
         f.params.visit_mut_with(self);
 
@@ -598,6 +597,7 @@ impl VisitMut for Params {
             }
         }
 
+        #[cfg(debug_assertions)]
         trace!(
             "visit_mut_constructor(parmas.len() = {}, after)",
             f.params.len()

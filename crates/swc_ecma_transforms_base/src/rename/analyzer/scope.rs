@@ -167,6 +167,7 @@ impl Scope {
                     let renamed = V::new_private(sym.clone());
                     if cfg!(debug_assertions) {
                         let renamed = renamed.to_id();
+                        #[cfg(debug_assertions)]
                         debug!(
                             "Renaming `{}{:?}` to `{}{:?}`",
                             id.0, id.1, renamed.0, renamed.1
@@ -311,6 +312,7 @@ impl Scope {
                 if self.can_rename(&id, &sym, reverse) {
                     #[cfg(debug_assertions)]
                     {
+                        #[cfg(debug_assertions)]
                         debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
                     }
 

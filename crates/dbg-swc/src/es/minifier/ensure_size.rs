@@ -38,6 +38,7 @@ impl EnsureSize {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         let all_files = all_js_files(&self.path)?;
 
+        #[cfg(debug_assertions)]
         info!("Using {} files", all_files.len());
 
         let mut results = GLOBALS.with(|globals| {
@@ -148,6 +149,7 @@ impl EnsureSize {
 
     fn check_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<Option<FileSize>> {
         wrap_task(|| {
+            #[cfg(debug_assertions)]
             info!("Checking {}", js_file.display());
 
             let fm = cm.load_file(js_file).context("failed to load file")?;

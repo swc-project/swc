@@ -70,7 +70,6 @@ swc_ecma_transforms_base = { version = "44.0.2", path = "../swc_ecma_transforms_
 swc_ecma_transforms_optimization = { version = "47.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "31.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "25.0.0", path = "../swc_ecma_visit" }
-swc_timer = { version = "1.0.0", path = "../swc_timer" }
 tracing = { workspace = true }
 
 [dev-dependencies]

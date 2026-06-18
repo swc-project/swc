@@ -15,6 +15,7 @@ use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::{Resolution, Resolve};
 use swc_ecma_utils::{quote_ident, ExprFactory};
+#[cfg(debug_assertions)]
 use tracing::{debug, info, warn, Level};
 
 #[derive(Default)]
@@ -158,6 +159,7 @@ where
     R: Resolve,
 {
     fn to_specifier(&self, mut target_path: PathBuf, orig_filename: Option<&str>) -> Atom {
+        #[cfg(debug_assertions)]
         debug!(
             "Creating a specifier for `{}` with original filename `{:?}`",
             target_path.display(),
@@ -250,6 +252,7 @@ where
     }
 
     fn try_resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error> {
+        #[cfg(debug_assertions)]
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -270,7 +273,10 @@ where
         let mut target = match target {
             Ok(v) => v,
             Err(err) => {
+                #[cfg(debug_assertions)]
                 warn!("import rewriter: failed to resolve: {}", err);
+                #[cfg(not(debug_assertions))]
+                let _ = err;
                 return Ok(module_specifier.into());
             }
         };
@@ -292,6 +298,7 @@ where
         } = target;
         let slug = slug.as_deref().or(orig_slug);
 
+        #[cfg(debug_assertions)]
         info!("Resolved as {target:?} with slug = {slug:?}");
 
         let mut target = match target {
@@ -332,6 +339,7 @@ where
             target = absolute_path(self.config.base_dir.as_deref(), &target)?;
         }
 
+        #[cfg(debug_assertions)]
         debug!(
             "Comparing values (after normalizing absoluteness)\nbase={}\ntarget={}",
             base.display(),
@@ -345,6 +353,7 @@ where
             None => return Ok(self.to_specifier(target, slug)),
         };
 
+        #[cfg(debug_assertions)]
         debug!("Relative path: {}", rel_path.display());
 
         {
@@ -396,7 +405,10 @@ where
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error> {
         self.try_resolve_import(base, module_specifier)
             .or_else(|err| {
+                #[cfg(debug_assertions)]
                 warn!("Failed to resolve import: {}", err);
+                #[cfg(not(debug_assertions))]
+                let _ = err;
                 Ok(module_specifier.into())
             })
     }

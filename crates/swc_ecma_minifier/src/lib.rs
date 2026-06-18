@@ -44,7 +44,6 @@ use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, Synta
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_visit::VisitMutWith;
-use swc_timer::timer;
 
 pub use crate::pass::global_defs::globals_defs;
 use crate::usage_analyzer::marks::Marks;
@@ -98,8 +97,6 @@ pub fn optimize(
     options: &MinifyOptions,
     extra: &ExtraOptions,
 ) -> Program {
-    let _timer = timer!("minify");
-
     let mut marks = Marks::new();
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
     marks.unresolved_mark = extra.unresolved_mark;
@@ -107,7 +104,6 @@ pub fn optimize(
     debug_assert_valid(&n);
 
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
-        let _timer = timer!("inline global defs");
         // Apply global defs.
         //
         // As terser treats `CONFIG['VALUE']` and `CONFIG.VALUE` differently, we don't
@@ -157,8 +153,6 @@ pub fn optimize(
     }
     if let Some(c) = &options.compress {
         {
-            let _timer = timer!("compress ast");
-
             perform_dce(&mut n, c, marks);
 
             n.mutate(&mut compressor(
@@ -172,8 +166,6 @@ pub fn optimize(
         }
 
         // Again, we don't need to validate ast
-
-        let _timer = timer!("postcompress");
 
         postcompress_optimizer(&mut n, c);
 
@@ -198,7 +190,6 @@ pub fn optimize(
     }
 
     if let Some(mangle) = &options.mangle {
-        let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
         let preserved = idents_to_preserve(mangle, marks, &n);
@@ -240,8 +231,6 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: Marks) {
         return;
     }
 
-    let _timer = timer!("remove dead code");
-
     let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
         swc_ecma_transforms_optimization::simplify::dce::Config {
             module_mark: None,
@@ -261,6 +250,7 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: Marks) {
         #[cfg(feature = "debug")]
         if visitor.changed() {
             let src = crate::debug::dump(&*m, false);
+            #[cfg(debug_assertions)]
             tracing::debug!(
                 "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
                 start,

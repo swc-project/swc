@@ -7,7 +7,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_utils::{is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 pub fn template_literal(c: Config) -> impl Pass {
     visit_mut_pass(TemplateLiteral {
@@ -41,7 +40,6 @@ impl Parallel for TemplateLiteral {
     }
 }
 
-#[swc_trace]
 impl VisitMut for TemplateLiteral {
     noop_visit_mut_type!(fail);
 

@@ -38,7 +38,6 @@ swc_ecma_transforms_base = { version = "44.0.2", path = "../swc_ecma_transforms_
 swc_ecma_transforms_typescript = { version = "49.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "25.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "25.0.0", path = "../swc_error_reporters" }
-swc_timer = { version = "1.0.0", path = "../swc_timer" }
 tempfile = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }

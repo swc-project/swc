@@ -5,14 +5,11 @@ use std::{
 
 use anyhow::{bail, Context, Result};
 use swc_common::{FileName, SourceMap};
-use swc_timer::timer;
 
 use crate::util::{parse_js, wrap_task, ModuleRecord};
 
 pub fn bundle(cm: Arc<SourceMap>, entry_url: &str) -> Result<ModuleRecord> {
     wrap_task(|| {
-        let _timer = timer!("bundle");
-
         let mut cmd = Command::new("deno");
         cmd.arg("bundle");
         cmd.arg(entry_url);

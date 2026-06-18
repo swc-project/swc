@@ -333,6 +333,7 @@ impl<'a> Resolver<'a> {
     /// Modifies a binding identifier.
     fn modify(&mut self, id: &mut Ident, kind: DeclKind) {
         if cfg!(debug_assertions) && LOG {
+            #[cfg(debug_assertions)]
             debug!(
                 "Binding (type = {}) {}{:?} {:?}",
                 self.in_type, id.sym, id.ctxt, kind
@@ -807,6 +808,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        #[cfg(debug_assertions)]
         let _span = if LOG {
             Some(span!(Level::ERROR, "visit_mut_expr").entered())
         } else {
@@ -933,12 +935,14 @@ impl VisitMut for Resolver<'_> {
         if let JSXElementName::Ident(i) = node {
             if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
                 if cfg!(debug_assertions) && LOG {
+                    #[cfg(debug_assertions)]
                     debug!("\t -> JSXElementName");
                 }
 
                 let ctxt = i.ctxt.apply_mark(self.config.unresolved_mark);
 
                 if cfg!(debug_assertions) && LOG {
+                    #[cfg(debug_assertions)]
                     debug!("\t -> {:?}", ctxt);
                 }
 
@@ -962,6 +966,7 @@ impl VisitMut for Resolver<'_> {
                 let Ident { sym, ctxt, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
+                    #[cfg(debug_assertions)]
                     debug!("IdentRef (type = {}) {}{:?}", self.in_type, sym, ctxt);
                 }
 
@@ -973,17 +978,20 @@ impl VisitMut for Resolver<'_> {
                     let ctxt = ctxt.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
+                        #[cfg(debug_assertions)]
                         debug!("\t -> {:?}", ctxt);
                     }
                     i.ctxt = ctxt;
                 } else {
                     if cfg!(debug_assertions) && LOG {
+                        #[cfg(debug_assertions)]
                         debug!("\t -> Unresolved");
                     }
 
                     let ctxt = ctxt.apply_mark(self.config.unresolved_mark);
 
                     if cfg!(debug_assertions) && LOG {
+                        #[cfg(debug_assertions)]
                         debug!("\t -> {:?}", ctxt);
                     }
 
@@ -1156,6 +1164,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        #[cfg(debug_assertions)]
         let _span = if LOG {
             Some(span!(Level::ERROR, "visit_mut_stmts").entered())
         } else {
@@ -1164,6 +1173,7 @@ impl VisitMut for Resolver<'_> {
 
         // Phase 1: Handle hoisting
         {
+            #[cfg(debug_assertions)]
             let _span = if LOG {
                 Some(span!(Level::ERROR, "hoist").entered())
             } else {

@@ -156,9 +156,12 @@ pub struct TransformExecutor {
 
 #[cfg(feature = "encoding-impl")]
 impl TransformExecutor {
-    #[tracing::instrument(
-        level = "info",
-        skip(source_map, metadata_context, plugin_config, module_bytes, runtime)
+    #[cfg_attr(
+        debug_assertions,
+        tracing::instrument(
+            level = "info",
+            skip(source_map, metadata_context, plugin_config, module_bytes, runtime)
+        )
     )]
     pub fn new(
         module_bytes: Box<dyn PluginModuleBytes>,
@@ -247,7 +250,7 @@ impl TransformExecutor {
         })
     }
 
-    #[tracing::instrument(level = "info", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
     pub fn transform(
         &mut self,
         program: &PluginSerializedBytes,

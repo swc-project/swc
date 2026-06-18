@@ -6,7 +6,6 @@ use swc_ecma_utils::{
     find_pat_ids, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-use swc_timer::timer;
 
 pub use self::ctx::Ctx;
 use self::storage::*;
@@ -24,8 +23,6 @@ where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
 {
-    let _timer = timer!("analyze");
-
     let mut v = UsageAnalyzer {
         data,
         marks,
@@ -242,7 +239,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
@@ -269,7 +266,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
@@ -391,7 +388,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
@@ -439,7 +436,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
@@ -447,7 +444,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
@@ -457,7 +454,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_call_expr(&mut self, n: &CallExpr) {
@@ -565,7 +562,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_catch_clause(&mut self, n: &CatchClause) {
@@ -584,7 +581,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class(&mut self, n: &Class) {
@@ -601,7 +598,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_decl(&mut self, n: &ClassDecl) {
@@ -616,7 +613,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_expr(&mut self, n: &ClassExpr) {
@@ -634,7 +631,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_method(&mut self, n: &ClassMethod) {
@@ -652,7 +649,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_prop(&mut self, n: &ClassProp) {
@@ -662,7 +659,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_computed_prop_name(&mut self, n: &ComputedPropName) {
@@ -672,7 +669,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_cond_expr(&mut self, n: &CondExpr) {
@@ -693,7 +690,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_constructor(&mut self, n: &Constructor) {
@@ -729,7 +726,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
@@ -740,7 +737,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_export_decl(&mut self, n: &ExportDecl) {
@@ -765,7 +762,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
@@ -789,7 +786,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip(self, e))
     )]
     fn visit_expr(&mut self, e: &Expr) {
@@ -824,7 +821,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_expr_or_spread(&mut self, e: &ExprOrSpread) {
@@ -840,7 +837,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
@@ -893,7 +890,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_fn_expr(&mut self, n: &FnExpr) {
@@ -931,7 +928,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
@@ -962,7 +959,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
@@ -990,7 +987,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_for_stmt(&mut self, n: &ForStmt) {
@@ -1007,7 +1004,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_function(&mut self, n: &Function) {
@@ -1028,7 +1025,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_getter_prop(&mut self, n: &GetterProp) {
@@ -1044,7 +1041,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_if_stmt(&mut self, n: &IfStmt) {
@@ -1068,7 +1065,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
@@ -1095,7 +1092,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip(self, e))
     )]
     fn visit_member_expr(&mut self, e: &MemberExpr) {
@@ -1155,7 +1152,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_method_prop(&mut self, n: &MethodProp) {
@@ -1185,7 +1182,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_new_expr(&mut self, n: &NewExpr) {
@@ -1207,7 +1204,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_param(&mut self, n: &Param) {
@@ -1227,7 +1224,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_pat(&mut self, n: &Pat) {
@@ -1245,7 +1242,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_private_method(&mut self, n: &PrivateMethod) {
@@ -1263,7 +1260,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_private_prop(&mut self, n: &PrivateProp) {
@@ -1272,7 +1269,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_prop(&mut self, n: &Prop) {
@@ -1306,7 +1303,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_setter_prop(&mut self, n: &SetterProp) {
@@ -1326,7 +1323,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_spread_element(&mut self, e: &SpreadElement) {
@@ -1340,7 +1337,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_stmt(&mut self, n: &Stmt) {
@@ -1370,7 +1367,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip(self, e))
     )]
     fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
@@ -1386,7 +1383,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
@@ -1407,7 +1404,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_tagged_tpl(&mut self, n: &TaggedTpl) {
@@ -1424,7 +1421,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_tpl(&mut self, n: &Tpl) {
@@ -1433,7 +1430,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_try_stmt(&mut self, n: &TryStmt) {
@@ -1442,7 +1439,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_unary_expr(&mut self, n: &UnaryExpr) {
@@ -1453,7 +1450,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
@@ -1464,7 +1461,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_var_decl(&mut self, n: &VarDecl) {
@@ -1544,7 +1541,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip(self, e))
     )]
     fn visit_var_declarator(&mut self, e: &VarDeclarator) {
@@ -1624,7 +1621,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
@@ -1638,7 +1635,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_with_stmt(&mut self, n: &WithStmt) {

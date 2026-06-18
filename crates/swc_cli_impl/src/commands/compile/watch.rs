@@ -53,7 +53,10 @@ impl FileWatcher {
             {
                 Ok(event) => event,
                 Err(error) => {
+                    #[cfg(debug_assertions)]
                     tracing::warn!(error = %error, "file watcher emitted a recoverable error");
+                    #[cfg(not(debug_assertions))]
+                    let _ = error;
                     continue;
                 }
             };
