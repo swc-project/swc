@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_cli_impl"
 repository  = { workspace = true }
-version     = "69.0.0"
+version     = "70.0.0"
 
 [[bin]]
 name = "swc"
@@ -37,7 +37,7 @@ serde_json         = { workspace = true, features = ["unbounded_depth"] }
 tracing            = { workspace = true }
 walkdir            = { workspace = true }
 
-swc_core = { version = "69.0.0", features = [
+swc_core = { version = "70.0.0", features = [
   "common_concurrent",
   "base_concurrent",
   "base_flow",

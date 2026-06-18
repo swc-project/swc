@@ -5,7 +5,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_react_compiler"
 repository    = { workspace = true }
-version       = "19.1.1"
+version       = "19.1.2"
 
 
 [package.metadata.docs.rs]
@@ -21,13 +21,13 @@ rustc-hash         = { workspace = true }
 serde              = { workspace = true, features = ["derive"] }
 serde_json         = { workspace = true }
 swc_atoms          = { version = "9.0.3", path = "../swc_atoms" }
-swc_common         = { version = "23.0.1", path = "../swc_common" }
+swc_common         = { version = "23.0.2", path = "../swc_common" }
 swc_ecma_ast       = { version = "25.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen   = { version = "28.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser    = { version = "41.1.0", path = "../swc_ecma_parser" }
+swc_ecma_codegen   = { version = "28.0.2", path = "../swc_ecma_codegen" }
+swc_ecma_parser    = { version = "41.1.1", path = "../swc_ecma_parser" }
 swc_ecma_visit     = { version = "25.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_common      = { version = "23.0.1", path = "../swc_common" }
-swc_ecma_parser = { version = "41.1.0", path = "../swc_ecma_parser" }
-testing         = { version = "24.0.0", path = "../testing" }
+swc_common      = { version = "23.0.2", path = "../swc_common" }
+swc_ecma_parser = { version = "41.1.1", path = "../swc_ecma_parser" }
+testing         = { version = "24.0.1", path = "../testing" }

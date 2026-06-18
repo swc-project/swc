@@ -22,7 +22,7 @@ debug = []
 rustc-hash = { workspace = true }
 
 swc_atoms      = { version = "9.0.3", path = "../swc_atoms" }
-swc_common     = { version = "23.0.1", path = "../swc_common" }
+swc_common     = { version = "23.0.2", path = "../swc_common" }
 swc_html_ast   = { version = "23.0.0", path = "../swc_html_ast" }
 swc_html_utils = { version = "16.0.0", path = "../swc_html_utils" }
 
@@ -36,7 +36,7 @@ swc_html_ast = { version = "23.0.0", path = "../swc_html_ast", features = [
 ] }
 swc_html_visit = { version = "23.0.0", path = "../swc_html_visit" }
 swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
-testing = { version = "24.0.0", path = "../testing" }
+testing = { version = "24.0.1", path = "../testing" }
 
 [[bench]]
 harness = false

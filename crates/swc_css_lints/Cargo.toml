@@ -22,7 +22,7 @@ serde       = { workspace = true, features = ["derive"] }
 thiserror   = { workspace = true }
 
 swc_atoms     = { version = "9.0.3", path = "../swc_atoms" }
-swc_common    = { version = "23.0.1", path = "../swc_common" }
+swc_common    = { version = "23.0.2", path = "../swc_common" }
 swc_config    = { version = "5.0.0", path = "../swc_config", features = ["regex"] }
 swc_css_ast   = { version = "23.0.0", path = "../swc_css_ast" }
 swc_css_visit = { version = "23.0.0", path = "../swc_css_visit" }
@@ -31,4 +31,4 @@ swc_css_visit = { version = "23.0.0", path = "../swc_css_visit" }
 serde_json = { workspace = true }
 
 swc_css_parser = { version = "23.0.0", path = "../swc_css_parser" }
-testing        = { version = "24.0.0", path = "../testing" }
+testing        = { version = "24.0.1", path = "../testing" }
