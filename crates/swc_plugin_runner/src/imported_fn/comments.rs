@@ -35,7 +35,7 @@ impl CommentHostEnvironment {
 
 /// Copy given serialized byte into host's comment buffer, subsequent proxy call
 /// in the host can read it.
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn copy_comment_to_host_env(
     caller: &mut dyn runtime::Caller<'_>,
     env: &CommentHostEnvironment,
@@ -48,7 +48,7 @@ pub fn copy_comment_to_host_env(
 
 /// Utility fn to unwrap necessary values for the comments fn operation when fn
 /// needs to return values.
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 fn unwrap_comments_storage_or_default<F, R>(f: F, default: R) -> R
 where
     F: FnOnce(&SingleThreadedComments) -> R,
@@ -68,7 +68,7 @@ where
 
 /// Utility fn to unwrap necessary values for the comments fn operation when fn
 /// does not need to return values.
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 fn unwrap_comments_storage<F>(f: F)
 where
     F: FnOnce(&SingleThreadedComments),
@@ -83,7 +83,7 @@ where
 }
 
 /// Common logics for add_*_comment/comments.
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 fn add_comments_inner<F>(env: &CommentHostEnvironment, byte_pos: u32, f: F)
 where
     F: FnOnce(&SingleThreadedComments, BytePos, PluginSerializedBytes),
@@ -118,7 +118,7 @@ pub fn add_leading_comment_proxy(
     });
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn add_leading_comments_proxy(
     _caller: &mut dyn runtime::Caller<'_>,
     env: &CommentHostEnvironment,
@@ -135,19 +135,19 @@ pub fn add_leading_comments_proxy(
     });
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn has_leading_comments_proxy(byte_pos: u32) -> i32 {
     unwrap_comments_storage_or_default(|comments| comments.has_leading(BytePos(byte_pos)) as i32, 0)
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn move_leading_comments_proxy(from_byte_pos: u32, to_byte_pos: u32) {
     unwrap_comments_storage(|comments| {
         comments.move_leading(BytePos(from_byte_pos), BytePos(to_byte_pos))
     });
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn take_leading_comments_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     _env: &CommentHostEnvironment,
@@ -182,7 +182,7 @@ pub fn take_leading_comments_proxy(
 ///
 /// Returns 1 if operation success with Some(Vec<Comments>), 0 otherwise.
 /// Allocated results should be read through CommentsPtr.
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn get_leading_comments_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     _env: &CommentHostEnvironment,
@@ -212,7 +212,7 @@ pub fn get_leading_comments_proxy(
     )
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn add_trailing_comment_proxy(
     _caller: &mut dyn runtime::Caller<'_>,
     env: &CommentHostEnvironment,
@@ -229,7 +229,7 @@ pub fn add_trailing_comment_proxy(
     });
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn add_trailing_comments_proxy(
     _caller: &mut dyn runtime::Caller<'_>,
     env: &CommentHostEnvironment,
@@ -246,7 +246,7 @@ pub fn add_trailing_comments_proxy(
     });
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn has_trailing_comments_proxy(byte_pos: u32) -> i32 {
     unwrap_comments_storage_or_default(
         |comments| comments.has_trailing(BytePos(byte_pos)) as i32,
@@ -254,14 +254,14 @@ pub fn has_trailing_comments_proxy(byte_pos: u32) -> i32 {
     )
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn move_trailing_comments_proxy(from_byte_pos: u32, to_byte_pos: u32) {
     unwrap_comments_storage(|comments| {
         comments.move_trailing(BytePos(from_byte_pos), BytePos(to_byte_pos))
     });
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn take_trailing_comments_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     _env: &CommentHostEnvironment,
@@ -291,7 +291,7 @@ pub fn take_trailing_comments_proxy(
     )
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn get_trailing_comments_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     _env: &CommentHostEnvironment,
@@ -321,7 +321,7 @@ pub fn get_trailing_comments_proxy(
     )
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn add_pure_comment_proxy(byte_pos: u32) {
     unwrap_comments_storage(|comments| comments.add_pure_comment(BytePos(byte_pos)));
 }

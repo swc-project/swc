@@ -66,6 +66,7 @@ where
 
         if let Some(rpos) = cycle_rpos {
             let cycle = path[rpos..].to_vec();
+            #[cfg(debug_assertions)]
             tracing::debug!("Found cycle: {:?}", cycle);
             self.data.cycles.push(cycle);
         }
@@ -87,6 +88,7 @@ where
         self.data.graph.add_node(module_id);
 
         for dep_module_id in self.dep_graph.deps_of(module_id) {
+            #[cfg(debug_assertions)]
             tracing::debug!("Dep: {:?} -> {:?}", module_id, dep_module_id);
 
             self.data.graph.add_edge(module_id, dep_module_id, ());

@@ -137,6 +137,7 @@ macro_rules! impl_visit_mut_fn {
                 return;
             }
 
+            #[cfg(debug_assertions)]
             tracing::trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
 
             f.visit_mut_children_with(self);
@@ -155,6 +156,7 @@ macro_rules! impl_visit_mut_fn {
 
             let (params, body) = self.visit_mut_fn_like(&mut params, &mut f.body.take().unwrap());
 
+            #[cfg(debug_assertions)]
             tracing::trace!(
                 "visit_mut_constructor(parmas.len() = {}, after)",
                 params.len()

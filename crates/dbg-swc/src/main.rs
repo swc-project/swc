@@ -1,4 +1,6 @@
-use std::{env, path::PathBuf, str::FromStr, sync::Arc};
+#[cfg(debug_assertions)]
+use std::str::FromStr;
+use std::{env, path::PathBuf, sync::Arc};
 
 use anyhow::{bail, Error, Result};
 use clap::{StructOpt, Subcommand};
@@ -8,6 +10,7 @@ use swc_common::{
     Globals, SourceMap, GLOBALS,
 };
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
+#[cfg(debug_assertions)]
 use tracing_subscriber::EnvFilter;
 
 use self::util::print_js;
@@ -34,19 +37,21 @@ enum Cmd {
 }
 
 fn init() -> Result<()> {
-    let log_env =
-        env::var("RUST_LOG").unwrap_or_else(|_| "info,swc_ecma_minifier=warn,swc_timer=off".into());
+    #[cfg(debug_assertions)]
+    {
+        let log_env = env::var("RUST_LOG").unwrap_or_else(|_| "info,swc_ecma_minifier=warn".into());
 
-    let logger = tracing_subscriber::FmtSubscriber::builder()
-        .without_time()
-        .with_target(false)
-        .with_ansi(true)
-        .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
-        .with_writer(std::io::stderr)
-        .pretty()
-        .finish();
+        let logger = tracing_subscriber::FmtSubscriber::builder()
+            .without_time()
+            .with_target(false)
+            .with_ansi(true)
+            .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
+            .with_writer(std::io::stderr)
+            .pretty()
+            .finish();
 
-    tracing::subscriber::set_global_default(logger)?;
+        tracing::subscriber::set_global_default(logger)?;
+    }
 
     Ok(())
 }

@@ -28,6 +28,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
     Visit, VisitMut, VisitMutWith, VisitWith,
 };
+#[cfg(debug_assertions)]
 use tracing::trace;
 
 #[allow(deprecated)]
@@ -1491,6 +1492,7 @@ pub fn prop_name_to_member_prop(prop_name: PropName) -> MemberProp {
 /// `super_call_span` should be the span of the class definition
 /// Use value of [`Class::span`].
 pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> Constructor {
+    #[cfg(debug_assertions)]
     trace!(has_super = has_super, "Creating a default constructor");
     let super_call_span = super_call_span.with_hi(super_call_span.lo);
 

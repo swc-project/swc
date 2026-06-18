@@ -14,7 +14,7 @@ use swc_ecma_utils::{
     StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-#[cfg(feature = "debug")]
+#[cfg(all(debug_assertions, feature = "debug"))]
 use tracing::{span, Level};
 use Value::Known;
 
@@ -455,7 +455,10 @@ impl Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
@@ -638,7 +641,10 @@ impl Optimizer<'_> {
 
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         self.compress_cond_to_logical_ignoring_return_value(e);
 
@@ -1490,7 +1496,10 @@ impl Optimizer<'_> {
 impl VisitMut for Optimizer<'_> {
     noop_visit_mut_type!(fail);
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         self.drop_unused_arrow_params(&mut n.params);
 
@@ -1549,7 +1558,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = self
@@ -1562,7 +1574,10 @@ impl VisitMut for Optimizer<'_> {
         e.right.visit_mut_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         n.visit_mut_children_with(self);
 
@@ -1573,7 +1588,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
         {
             let ctx = self.ctx.clone().with(
@@ -1604,7 +1622,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
             bit_ctx: self
@@ -1633,7 +1654,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         // Record static method usage for aliasing (before any transformations)
         if let Callee::Expr(callee) = &e.callee {
@@ -1721,7 +1745,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_class(&mut self, n: &mut Class) {
         n.decorators.visit_mut_with(self);
 
@@ -1749,7 +1776,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
         let ctx = self
             .ctx
@@ -1785,7 +1815,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_class_expr(&mut self, e: &mut ClassExpr) {
         if !self.options.keep_classnames {
             if e.ident.is_some() && !contains_eval(&e.class, true) {
@@ -1796,7 +1829,10 @@ impl VisitMut for Optimizer<'_> {
         e.visit_mut_children_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         match decl {
             Decl::Class(class_decl) => self.visit_mut_class(&mut class_decl.class),
@@ -1810,7 +1846,10 @@ impl VisitMut for Optimizer<'_> {
         self.store_decl_for_inlining(decl);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
         match n {
             DefaultDecl::Class(_) => {}
@@ -1832,7 +1871,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         if let Decl::Fn(f) = &mut n.decl {
             self.drop_unused_params(&mut f.function.params);
@@ -1848,7 +1890,7 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        #[cfg(feature = "trace-ast")]
+        #[cfg(all(debug_assertions, feature = "trace-ast"))]
         let _tracing = {
             let s = dump(&*e, true);
             tracing::span!(
@@ -1867,7 +1909,8 @@ impl VisitMut for Optimizer<'_> {
             if matches!(e, Expr::Ident(..)) {
                 self.evaluate_ident(e);
 
-                #[cfg(feature = "trace-ast")]
+                #[cfg(all(debug_assertions, feature = "trace-ast"))]
+                #[cfg(debug_assertions)]
                 tracing::debug!("Output: {}", dump(e, true));
 
                 return;
@@ -1880,7 +1923,7 @@ impl VisitMut for Optimizer<'_> {
                 .with(BitCtx::IsCallee, false);
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-            #[cfg(feature = "trace-ast")]
+            #[cfg(all(debug_assertions, feature = "trace-ast"))]
             let _tracing = {
                 let s = dump(&*e, true);
                 tracing::span!(
@@ -2066,11 +2109,15 @@ impl VisitMut for Optimizer<'_> {
 
         self.reduce_escaped_newline_for_str_lit(e);
 
-        #[cfg(feature = "trace-ast")]
+        #[cfg(all(debug_assertions, feature = "trace-ast"))]
+        #[cfg(debug_assertions)]
         tracing::debug!("Output: {}", dump(e, true));
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         let was_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
 
@@ -2160,7 +2207,8 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
+        #[cfg(debug_assertions)]
         let _tracing = tracing::span!(
             Level::ERROR,
             "visit_mut_fn_decl",
@@ -2184,7 +2232,10 @@ impl VisitMut for Optimizer<'_> {
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(ident) = &e.ident {
             self.functions
@@ -2208,7 +2259,10 @@ impl VisitMut for Optimizer<'_> {
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
         n.right.visit_mut_with(self);
 
@@ -2227,7 +2281,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
         n.right.visit_mut_with(self);
 
@@ -2246,7 +2303,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         self.visit_with_prepend(&mut s.init);
 
@@ -2259,7 +2319,10 @@ impl VisitMut for Optimizer<'_> {
         s.body.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.decorators.visit_mut_with(self);
 
@@ -2329,7 +2392,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.test.visit_mut_with(self);
 
@@ -2342,7 +2408,10 @@ impl VisitMut for Optimizer<'_> {
         self.negate_if_stmt(n);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         let ctx = self.ctx.clone().with(
             BitCtx::DontUsePrependNorAppend,
@@ -2354,7 +2423,10 @@ impl VisitMut for Optimizer<'_> {
         self.try_remove_label(n);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         {
             let ctx = self
@@ -2382,7 +2454,10 @@ impl VisitMut for Optimizer<'_> {
         m.visit_mut_children_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
         s.visit_mut_children_with(self);
 
@@ -2397,7 +2472,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
         self.with_ctx(ctx).handle_stmt_likes(stmts, true);
@@ -2431,7 +2509,10 @@ impl VisitMut for Optimizer<'_> {
         drop_invalid_stmts(stmts);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
         // Record global object usage for aliasing (before any transformations)
         self.static_alias_state.try_record_global_object(
@@ -2469,7 +2550,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_opt_stmt(&mut self, s: &mut Option<Box<Stmt>>) {
         s.visit_mut_children_with(self);
 
@@ -2480,7 +2564,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
         n.visit_mut_children_with(self);
 
@@ -2503,7 +2590,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_param(&mut self, n: &mut Param) {
         let ctx = Ctx {
             bit_ctx: self.ctx.bit_ctx.with(BitCtx::InParam, true),
@@ -2533,7 +2623,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
@@ -2542,7 +2635,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_script(&mut self, s: &mut Script) {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2576,7 +2672,10 @@ impl VisitMut for Optimizer<'_> {
         drop_invalid_stmts(&mut s.body);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         n.visit_mut_children_with(self);
 
@@ -2586,12 +2685,15 @@ impl VisitMut for Optimizer<'_> {
         self.merge_sequences_in_seq_expr(n);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old_prepend = self.prepend_stmts.take();
         let old_append = self.append_stmts.take();
 
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let text = dump(&*s, false);
 
@@ -2816,7 +2918,10 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_valid(s);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         // Skip if `use asm` exists.
         if maybe_par!(
@@ -2855,7 +2960,10 @@ impl VisitMut for Optimizer<'_> {
         s.visit_mut_children_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
         if let SuperProp::Computed(c) = &mut n.prop {
             let ctx = self
@@ -2867,7 +2975,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
         n.discriminant.visit_mut_with(self);
 
@@ -2875,7 +2986,10 @@ impl VisitMut for Optimizer<'_> {
     }
 
     /// We don't optimize [Tpl] contained in [TaggedTpl].
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.tag.visit_mut_with(
             &mut *self.with_ctx(self.ctx.clone().with(BitCtx::IsThisAwareCallee, true)),
@@ -2884,14 +2998,20 @@ impl VisitMut for Optimizer<'_> {
         n.tpl.exprs.visit_mut_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
         self.optimize_last_expr_before_termination(&mut n.arg);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
         debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
 
@@ -2906,7 +3026,10 @@ impl VisitMut for Optimizer<'_> {
             .for_each(|expr| self.optimize_expr_in_str_ctx(expr));
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
         let ctx = self.ctx.clone().with(BitCtx::InTryBlock, true);
         n.block.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2931,7 +3054,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
         let ctx = self
             .ctx
@@ -2959,14 +3085,20 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
         let ctx = self.ctx.clone().with(BitCtx::IsUpdateArg, true);
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_using_decl(&mut self, n: &mut UsingDecl) {
         let ctx = Ctx {
             bit_ctx: self
@@ -2984,7 +3116,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
         {
             let ctx = Ctx {
@@ -3049,7 +3184,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
         var.name.visit_mut_with(self);
 
@@ -3085,7 +3223,10 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_valid(&var.init);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
         vars.retain_mut(|var| {
             if var.name.is_invalid() {
@@ -3261,7 +3402,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
         {
             let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
@@ -3269,7 +3413,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
 
@@ -3279,7 +3426,10 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
         n.visit_mut_children_with(self);
 

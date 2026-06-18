@@ -39,7 +39,7 @@ fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
     feature = "__plugin_mode",
     target_arch = "wasm32"
 ))]
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
     F: FnOnce(u32) -> u32,
@@ -88,7 +88,7 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
     target_arch = "wasm32"
 ))]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,

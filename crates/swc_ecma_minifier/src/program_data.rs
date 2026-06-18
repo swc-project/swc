@@ -483,6 +483,7 @@ impl Storage for ProgramData {
             {
                 #[cfg(feature = "debug")]
                 {
+                    #[cfg(debug_assertions)]
                     tracing::trace!("declare_decl(`{}`): Already declared", i);
                 }
 

@@ -408,12 +408,15 @@ pub fn operate(
                 code[i.0 as usize - 1] = v;
             }
 
-            let code = if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
+            let code = {
                 String::from_utf8(code).map_err(|err| TsError {
                     message: format!("failed to convert to utf-8: {err}"),
                     code: ErrorCode::Unknown,
                 })?
-            } else {
+            };
+            #[cfg(not(debug_assertions))]
+            let code = {
                 // SAFETY: We've already validated that the source is valid utf-8
                 // and our operations are limited to character-level string replacements.
                 unsafe { String::from_utf8_unchecked(code) }

@@ -15,7 +15,6 @@ use swc_core::{
     ecma::ast::noop_pass,
     node::{get_deserialized, MapErr},
 };
-use tracing::instrument;
 
 use crate::{
     ast_context::{deserialize_program_input, prepare_program_with_context, ProgramInput},
@@ -82,7 +81,7 @@ impl Task for TransformTask {
     type JsValue = TransformOutput;
     type Output = TransformOutput;
 
-    #[instrument(level = "trace", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "trace", skip_all))]
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let mut options: Options = serde_json::from_slice(self.options.as_ref())?;
         if !options.filename.is_empty() {
@@ -143,7 +142,7 @@ impl Task for TransformTask {
 }
 
 #[napi]
-#[instrument(level = "trace", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "trace", skip_all))]
 pub fn transform(
     src: String,
     is_module: bool,
@@ -163,7 +162,7 @@ pub fn transform(
 }
 
 #[napi]
-#[instrument(level = "trace", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "trace", skip_all))]
 pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
 
@@ -212,7 +211,7 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
 }
 
 #[napi]
-#[instrument(level = "trace", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "trace", skip_all))]
 pub fn transform_file(
     src: String,
     _is_module: bool,

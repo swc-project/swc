@@ -17,6 +17,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+#[cfg(debug_assertions)]
 use tracing::{debug, span, Level};
 
 use crate::debug_assert_valid;
@@ -684,6 +685,7 @@ impl TreeShaker {
         stmts.retain(|s| match s.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             Some(Stmt::Block(s)) if s.is_empty() => {
+                #[cfg(debug_assertions)]
                 debug!("Dropping an empty block statement");
                 false
             }
@@ -787,6 +789,7 @@ impl VisitMut for TreeShaker {
                 && !n.right.may_have_side_effects(self.expr_ctx)
             {
                 self.changed = true;
+                #[cfg(debug_assertions)]
                 debug!("Dropping an assignment to `{}` because it's not used", id);
                 self.data.drop_ast_node(&n.left);
 
@@ -818,6 +821,7 @@ impl VisitMut for TreeShaker {
 
         match n {
             Decl::Fn(f) if self.can_drop_binding(f.ident.to_id(), true) => {
+                #[cfg(debug_assertions)]
                 debug!("Dropping function `{}` as it's not used", f.ident);
                 self.changed = true;
 
@@ -863,6 +867,7 @@ impl VisitMut for TreeShaker {
                         _ => panic!("unable to access unknown nodes"),
                     }) =>
             {
+                #[cfg(debug_assertions)]
                 debug!("Dropping class `{}` as it's not used", c.ident);
                 self.changed = true;
 
@@ -933,6 +938,7 @@ impl VisitMut for TreeShaker {
                                     _ => panic!("unable to access unknown nodes"),
                                 }) {
                                     self.changed = true;
+                                    #[cfg(debug_assertions)]
                                     debug!("Dropping a wrapped esm");
                                     *n = *arg.take();
                                     return;
@@ -998,6 +1004,7 @@ impl VisitMut for TreeShaker {
             };
 
             if self.can_drop_binding(local.to_id(), false) {
+                #[cfg(debug_assertions)]
                 debug!(
                     "Dropping import specifier `{}` because it's not used",
                     local
@@ -1013,6 +1020,7 @@ impl VisitMut for TreeShaker {
     fn visit_mut_module(&mut self, m: &mut Module) {
         debug_assert_valid(m);
 
+        #[cfg(debug_assertions)]
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
         if !self.data.initialized {
@@ -1052,6 +1060,7 @@ impl VisitMut for TreeShaker {
                     && !is_for_side_effect
                     && i.specifiers.is_empty()
                 {
+                    #[cfg(debug_assertions)]
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
                     *n = EmptyStmt { span: DUMMY_SP }.into();
@@ -1077,6 +1086,7 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
+        #[cfg(debug_assertions)]
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
         if !self.data.initialized {
@@ -1139,6 +1149,7 @@ impl VisitMut for TreeShaker {
                     .filter_map(|v| v.init)
                     .collect::<Vec<_>>();
 
+                #[cfg(debug_assertions)]
                 debug!(
                     count = cnt,
                     "Dropping names of variables as they are not used",
@@ -1178,7 +1189,10 @@ impl VisitMut for TreeShaker {
         n.visit_mut_children_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_using_decl(&mut self, n: &mut UsingDecl) {
         for decl in n.decls.iter_mut() {
             decl.init.visit_mut_with(self);
@@ -1217,6 +1231,7 @@ impl VisitMut for TreeShaker {
                 && self.can_drop_binding(i.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
             {
                 self.changed = true;
+                #[cfg(debug_assertions)]
                 debug!("Dropping {} because it's not used", i);
                 self.data.drop_ast_node(&*v);
                 v.name.take();

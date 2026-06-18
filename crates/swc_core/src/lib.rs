@@ -175,13 +175,6 @@ pub mod plugin_runner {
     pub use swc_plugin_runner::*;
 }
 
-// swc_trace_macro
-#[cfg(feature = "trace_macro")]
-#[cfg_attr(docsrs, doc(cfg(feature = "trace_macro")))]
-pub mod trace_macro {
-    pub use swc_trace_macro::*;
-}
-
 #[cfg(feature = "transform_common")]
 #[cfg_attr(docsrs, doc(cfg(feature = "transform_common")))]
 pub extern crate swc_transform_common as transform_common;

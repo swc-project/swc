@@ -20,7 +20,6 @@ features = [
   "bundler",
   "ecma_loader",
   "ecma_ast",
-  "trace_macro",
   "transform_common",
   "plugin_transform",
 ]
@@ -179,11 +178,6 @@ css_visit_path = ["__css", "swc_css_visit/path"]
 
 # Utilities for testing.
 testing = ["dep:testing"]
-
-# Enable trace macro support.
-# TODO: Once all top-level package (node, wasm, cli..) imports swc_core,
-# we may encapsulate `tracing` package into swc_core.
-trace_macro = ["swc_trace_macro"]
 
 binding_macro_native = ["__binding_macros", "binding_macros/binding_native"]
 binding_macro_wasm   = ["__binding_macros", "binding_macros/binding_wasm"]
@@ -380,7 +374,6 @@ swc_plugin                       = { optional = true, version = "1.0.1", path = 
 swc_plugin_macro                 = { optional = true, version = "1.1.0", path = "../swc_plugin_macro" }
 swc_plugin_proxy                 = { optional = true, version = "25.0.0", path = "../swc_plugin_proxy" }
 swc_plugin_runner                = { optional = true, version = "29.0.0", path = "../swc_plugin_runner", default-features = false }
-swc_trace_macro                  = { optional = true, version = "2.0.2", path = "../swc_trace_macro" }
 swc_transform_common             = { optional = true, version = "17.0.0", path = "../swc_transform_common" }
 swc_typescript                   = { optional = true, version = "30.0.0", path = "../swc_typescript" }
 testing                          = { optional = true, version = "24.0.0", path = "../testing" }

@@ -11,6 +11,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, visit_obj_and_computed, Visit, VisitMut,
     VisitMutWith, VisitWith,
 };
+#[cfg(debug_assertions)]
 use tracing::{span, Level};
 
 use self::scope::{Scope, ScopeKind, VarType};
@@ -110,6 +111,7 @@ impl VisitMut for Inlining<'_> {
     }
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
+        #[cfg(debug_assertions)]
         tracing::trace!("{:?}; Fold<AssignExpr>", self.phase);
         self.pat_mode = PatFoldingMode::Assign;
 
@@ -126,6 +128,7 @@ impl VisitMut for Inlining<'_> {
                     AssignTarget::Simple(left) => {
                         //
                         if let SimpleAssignTarget::Member(ref left) = &*left {
+                            #[cfg(debug_assertions)]
                             tracing::trace!("Assign to member expression!");
                             let mut v = IdentListVisitor {
                                 scope: &mut self.scope,
@@ -300,13 +303,16 @@ impl VisitMut for Inlining<'_> {
                     self.scope.add_read(&id);
                 }
                 Phase::Inlining => {
+                    #[cfg(debug_assertions)]
                     tracing::trace!("Trying to inline: {:?}", id);
                     let expr = if let Some(var) = self.scope.find_binding(&id) {
+                        #[cfg(debug_assertions)]
                         tracing::trace!("VarInfo: {:?}", var);
                         if !var.is_inline_prevented() {
                             let expr = var.value.borrow();
 
                             if let Some(expr) = &*expr {
+                                #[cfg(debug_assertions)]
                                 tracing::debug!("Inlining: {:?}", id);
 
                                 if *node != *expr {
@@ -315,17 +321,20 @@ impl VisitMut for Inlining<'_> {
 
                                 Some(expr.clone())
                             } else {
+                                #[cfg(debug_assertions)]
                                 tracing::debug!("Inlining: {:?} as undefined", id);
 
                                 if var.is_undefined.get() {
                                     *node = *Expr::undefined(i.span);
                                     return;
                                 } else {
+                                    #[cfg(debug_assertions)]
                                     tracing::trace!("Not a cheap expression");
                                     None
                                 }
                             }
                         } else {
+                            #[cfg(debug_assertions)]
                             tracing::trace!("Inlining is prevented");
                             None
                         }
@@ -471,6 +480,7 @@ impl VisitMut for Inlining<'_> {
     }
 
     fn visit_mut_program(&mut self, program: &mut Program) {
+        #[cfg(debug_assertions)]
         let _tracing = span!(Level::ERROR, "inlining", pass = self.pass).entered();
 
         let old_phase = self.phase;
@@ -478,6 +488,7 @@ impl VisitMut for Inlining<'_> {
         self.phase = Phase::Analysis;
         program.visit_mut_children_with(self);
 
+        #[cfg(debug_assertions)]
         tracing::trace!("Switching to Inlining phase");
 
         // Inline
@@ -649,17 +660,20 @@ impl VisitMut for Inlining<'_> {
                     if self.var_decl_kind != VarDeclKind::Const {
                         let id = name.to_id();
 
+                        #[cfg(debug_assertions)]
                         tracing::trace!("Trying to optimize variable declaration: {:?}", id);
 
                         if self.scope.is_inline_prevented(&Ident::from(name).into())
                             || !self.scope.has_same_this(&id, node.init.as_deref())
                         {
+                            #[cfg(debug_assertions)]
                             tracing::trace!("Inline is prevented for {:?}", id);
                             return;
                         }
 
                         let mut init = node.init.take();
                         init.visit_mut_with(self);
+                        #[cfg(debug_assertions)]
                         tracing::trace!("\tInit: {:?}", init);
 
                         if let Some(init) = &init {
@@ -675,6 +689,7 @@ impl VisitMut for Inlining<'_> {
 
                         if let Some(ref e) = init {
                             if self.scope.is_inline_prevented(e) {
+                                #[cfg(debug_assertions)]
                                 tracing::trace!(
                                     "Inlining is not possible as inline of the initialization was \
                                      prevented"

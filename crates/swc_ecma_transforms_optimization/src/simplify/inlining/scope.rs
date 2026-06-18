@@ -10,6 +10,7 @@ use indexmap::map::{Entry, IndexMap};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
+#[cfg(debug_assertions)]
 use tracing::{span, Level};
 
 use super::{Inlining, Phase};
@@ -62,6 +63,7 @@ impl Inlining<'_> {
             (child.scope.unresolved_usages, child.scope.bindings)
         };
 
+        #[cfg(debug_assertions)]
         tracing::trace!("propagating variables");
 
         self.scope.unresolved_usages.extend(unresolved_usages);
@@ -78,6 +80,7 @@ impl Inlining<'_> {
             }) {
                 let v: VarInfo = v;
 
+                #[cfg(debug_assertions)]
                 tracing::trace!("Hoisting a variable {:?}", id);
 
                 if self.scope.unresolved_usages.contains(&id) {
@@ -102,6 +105,7 @@ impl Inlining<'_> {
         is_change: bool,
         kind: VarType,
     ) {
+        #[cfg(debug_assertions)]
         tracing::trace!(
             "({}, {:?}) declare({})",
             self.scope.depth(),
@@ -143,9 +147,11 @@ impl Inlining<'_> {
             };
 
         if is_inline_prevented {
+            #[cfg(debug_assertions)]
             tracing::trace!("\tdeclare: Inline prevented: {:?}", id)
         }
         if is_undefined {
+            #[cfg(debug_assertions)]
             tracing::trace!("\tdeclare: {:?} is undefined", id);
         }
 
@@ -192,6 +198,7 @@ impl Inlining<'_> {
                 }
 
                 if scope.kind == ScopeKind::Loop {
+                    #[cfg(debug_assertions)]
                     tracing::trace!("preventing inline as it's declared in a loop");
                     self.scope.prevent_inline(&id);
                     break;
@@ -210,6 +217,7 @@ impl Inlining<'_> {
 
         if barrier_works {
             if let Some((value_idx, vi)) = value_idx {
+                #[cfg(debug_assertions)]
                 tracing::trace!("\tdeclare: {} -> {}", idx, value_idx);
 
                 let barrier_exists = (|| {
@@ -225,11 +233,13 @@ impl Inlining<'_> {
                 })();
 
                 if value_idx > idx || barrier_exists {
+                    #[cfg(debug_assertions)]
                     tracing::trace!("Variable use before declaration: {:?}", id);
                     self.scope.prevent_inline(&id);
                     self.scope.prevent_inline(&vi)
                 }
             } else {
+                #[cfg(debug_assertions)]
                 tracing::trace!("\tdeclare: value idx is none");
             }
         }
@@ -315,6 +325,7 @@ impl<'a> Scope<'a> {
     }
 
     fn read_prevents_inlining(&self, id: &Id) -> bool {
+        #[cfg(debug_assertions)]
         tracing::trace!("read_prevents_inlining({:?})", id);
 
         if let Some(v) = self.find_binding(id) {
@@ -339,13 +350,16 @@ impl<'a> Scope<'a> {
                 let found = scope.find_binding_from_current(id).is_some();
 
                 if found {
+                    #[cfg(debug_assertions)]
                     tracing::trace!("found");
                     break;
                 }
+                #[cfg(debug_assertions)]
                 tracing::trace!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
 
                 match scope.kind {
                     ScopeKind::Fn { .. } => {
+                        #[cfg(debug_assertions)]
                         tracing::trace!(
                             "{}: variable access from a nested function detected",
                             id.0
@@ -366,6 +380,7 @@ impl<'a> Scope<'a> {
 
     pub fn add_read(&mut self, id: &Id) {
         if self.read_prevents_inlining(id) {
+            #[cfg(debug_assertions)]
             tracing::trace!("prevent inlining because of read: {}", id.0);
 
             self.prevent_inline(id)
@@ -381,6 +396,7 @@ impl<'a> Scope<'a> {
                 var_info.inline_prevented.set(true);
             }
         } else {
+            #[cfg(debug_assertions)]
             tracing::trace!("({}): Unresolved usage.: {:?}", self.depth(), id);
             self.unresolved_usages.insert(id.clone());
         }
@@ -394,6 +410,7 @@ impl<'a> Scope<'a> {
     }
 
     fn write_prevents_inline(&self, id: &Id) -> bool {
+        #[cfg(debug_assertions)]
         tracing::trace!("write_prevents_inline({})", id.0);
 
         {
@@ -405,10 +422,12 @@ impl<'a> Scope<'a> {
                 if found {
                     break;
                 }
+                #[cfg(debug_assertions)]
                 tracing::trace!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
 
                 match scope.kind {
                     ScopeKind::Fn { .. } => {
+                        #[cfg(debug_assertions)]
                         tracing::trace!(
                             "{}: variable access from a nested function detected",
                             id.0
@@ -428,6 +447,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn add_write(&mut self, id: &Id, force_no_inline: bool) {
+        #[cfg(debug_assertions)]
         let _tracing = span!(
             Level::DEBUG,
             "add_write",
@@ -437,6 +457,7 @@ impl<'a> Scope<'a> {
         .entered();
 
         if self.write_prevents_inline(id) {
+            #[cfg(debug_assertions)]
             tracing::trace!("prevent inlining because of write: {}", id.0);
 
             self.prevent_inline(id)
@@ -457,6 +478,7 @@ impl<'a> Scope<'a> {
         } else if self.has_constant(id) {
             // noop
         } else {
+            #[cfg(debug_assertions)]
             tracing::trace!(
                 "({}): Unresolved. (scope = ({})): {:?}",
                 self.depth(),
@@ -534,6 +556,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn store_inline_barrier(&self, phase: Phase) {
+        #[cfg(debug_assertions)]
         tracing::trace!("store_inline_barrier({:?})", phase);
 
         match phase {
@@ -578,6 +601,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn prevent_inline(&self, id: &Id) {
+        #[cfg(debug_assertions)]
         tracing::trace!("({}) Prevent inlining: {:?}", self.depth(), id);
 
         if let Some(v) = self.find_binding_from_current(id) {

@@ -1,7 +1,7 @@
 [package]
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Proc macro for performance trace of swc"
-documentation = "https://rustdoc.swc.rs/swc_trace_macro/"
+documentation = "https://rustdoc.swc.rs/swc_typescript/"
 edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_typescript"

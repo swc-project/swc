@@ -4,7 +4,9 @@ use swc_common::{
     SourceMap,
 };
 use swc_error_reporters::{GraphicalReportHandler, ToPrettyDiagnostic};
-use tracing::{info, metadata::LevelFilter, Level};
+#[cfg(debug_assertions)]
+use tracing::info;
+use tracing::{metadata::LevelFilter, Level};
 
 /// This emitter is controlled by the env var `RUST_LOG`.
 ///
@@ -12,6 +14,7 @@ use tracing::{info, metadata::LevelFilter, Level};
 /// equal to `debug`
 pub(crate) fn stderr_emitter(cm: Lrc<SourceMap>) -> Box<dyn Emitter> {
     if LevelFilter::current() > Level::INFO {
+        #[cfg(debug_assertions)]
         info!("Diagnostics will be printed to stderr as logging level is trace or debug");
 
         let reporter = GraphicalReportHandler::default();
