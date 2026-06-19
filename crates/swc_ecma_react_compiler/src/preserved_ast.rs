@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_common::{source_map::SmallPos, util::take::Take, Span, Spanned};
+use swc_common::{source_map::SmallPos, util::take::Take, Span};
 use swc_ecma_ast::*;
 
 #[derive(Default, Clone)]
@@ -452,13 +452,13 @@ impl PreservedAst {
     // expr as T
     pub fn save_ts_as_expr(&mut self, expr: &TsAsExpr) {
         self.nodes.insert(
-            expr.expr.span_hi().to_u32(),
+            expr.span.hi.to_u32(),
             PreservedNode::TsExpr(Box::new(TsExprShell::from_ts_as_expr(expr))),
         );
     }
 
     pub fn load_ts_as_expr(&mut self, expr: &mut TsAsExpr) -> bool {
-        let key = expr.expr.span_hi().to_u32();
+        let key = expr.span.hi.to_u32();
         if !matches!(self.nodes.get(&key), Some(PreservedNode::TsExpr(_))) {
             return false;
         }
@@ -476,13 +476,13 @@ impl PreservedAst {
     // expr satisfies T
     pub fn save_ts_satisfies_expr(&mut self, expr: &TsSatisfiesExpr) {
         self.nodes.insert(
-            expr.expr.span_hi().to_u32(),
+            expr.span.hi.to_u32(),
             PreservedNode::TsExpr(Box::new(TsExprShell::from_ts_satisfies_expr(expr))),
         );
     }
 
     pub fn load_ts_satisfies_expr(&mut self, expr: &mut TsSatisfiesExpr) -> bool {
-        let key = expr.expr.span_hi().to_u32();
+        let key = expr.span.hi.to_u32();
         if !matches!(self.nodes.get(&key), Some(PreservedNode::TsExpr(_))) {
             return false;
         }
@@ -524,7 +524,7 @@ impl PreservedAst {
     // expr<T>
     pub fn save_ts_instantiation(&mut self, expr: &TsInstantiation) {
         self.nodes.insert(
-            expr.expr.span_hi().to_u32(),
+            expr.span.hi.to_u32(),
             PreservedNode::TsInstantiation(Box::new(TsInstantiationShell::from_ts_instantiation(
                 expr,
             ))),
@@ -532,7 +532,7 @@ impl PreservedAst {
     }
 
     pub fn load_ts_instantiation(&mut self, expr: &mut TsInstantiation) -> bool {
-        let key = expr.expr.span_hi().to_u32();
+        let key = expr.span.hi.to_u32();
         if !matches!(
             self.nodes.get(&key),
             Some(PreservedNode::TsInstantiation(_))
