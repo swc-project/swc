@@ -9,7 +9,7 @@ use react_compiler_ast::{
     statements::Statement,
     File,
 };
-use swc_common::{sync::Lrc, FileName, SourceMap};
+use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::Node;
 use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, EsSyntax, Syntax};
@@ -1355,6 +1355,38 @@ fn reverse_convert_multiple_statement_types() {
     let program = convert_program_to_swc(&file);
     let module = program.as_module().unwrap();
     assert_eq!(module.body.len(), 5);
+}
+
+#[test]
+fn reverse_convert_preserves_class_syntax_context() {
+    GLOBALS.set(&Globals::new(), || {
+        let source = "class Foo { method() { return 1; } }";
+        let mut module = parse_module(source);
+        let class_ctxt = SyntaxContext::empty().apply_mark(Mark::new());
+
+        let swc_ecma_ast::ModuleItem::Stmt(swc_ecma_ast::Stmt::Decl(swc_ecma_ast::Decl::Class(
+            class_decl,
+        ))) = &mut module.body[0]
+        else {
+            panic!("expected class declaration");
+        };
+        class_decl.class.ctxt = class_ctxt;
+
+        let program = swc_ecma_ast::Program::Module(module);
+        let result = convert_program(&program, source, None);
+        let program = convert_program_to_swc_with_preserved_ast(&result.file, result.preserved_ast);
+        let module = program.as_module().unwrap();
+
+        let swc_ecma_ast::ModuleItem::Stmt(swc_ecma_ast::Stmt::Decl(swc_ecma_ast::Decl::Class(
+            class_decl,
+        ))) = &module.body[0]
+        else {
+            panic!("expected class declaration");
+        };
+
+        assert_eq!(class_decl.class.ctxt, class_ctxt);
+        assert_eq!(class_decl.class.body.len(), 1);
+    });
 }
 
 // ── TS module interop statements ────────────────────────────────────────────

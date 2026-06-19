@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_common::{source_map::SmallPos, util::take::Take, Span};
+use swc_common::{source_map::SmallPos, util::take::Take, Span, SyntaxContext};
 use swc_ecma_ast::*;
 
 #[derive(Default, Clone)]
@@ -224,6 +224,15 @@ impl PreservedAst {
             class.span.lo.to_u32(),
             PreservedNode::Class(Box::new(class.clone())),
         );
+    }
+
+    pub fn class_ctxt_for_span(&self, span: Span) -> Option<SyntaxContext> {
+        let key = span.lo.to_u32();
+        let Some(PreservedNode::Class(snapshot)) = self.nodes.get(&key) else {
+            return None;
+        };
+
+        Some(snapshot.ctxt)
     }
 
     pub fn load_class(&mut self, class: &mut Class) -> bool {

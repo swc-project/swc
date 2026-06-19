@@ -1688,9 +1688,15 @@ impl ReverseCtx {
         body: &ClassBody,
         is_abstract: bool,
     ) -> swc::Class {
+        let span = self.span_from_base(base);
+        let ctxt = self
+            .preserved_ast
+            .borrow()
+            .class_ctxt_for_span(span)
+            .unwrap_or_else(SyntaxContext::empty);
         let mut class = swc::Class {
-            span: self.span_from_base(base),
-            ctxt: SyntaxContext::empty(),
+            span,
+            ctxt,
             decorators: vec![],
             body: self.convert_class_body(body),
             super_class: super_class.map(|expr| Box::new(self.convert_expression(expr))),
