@@ -115,19 +115,12 @@ pub fn es2022_static_blocks() -> impl Pass {
     hook_pass(crate::es2022::class_static_block::hook())
 }
 
-pub fn es2022_private_in_object() -> impl Pass {
-    crate::es2022::private_property_in_object::pass()
-}
-
 pub fn es2022_runtime_transforms(regexp_options: crate::regexp::RegExpOptions) -> impl Pass {
-    (
-        hook_pass(
-            HookBuilder::new(NoopHook)
-                .chain(crate::es2022::class_static_block::hook())
-                .chain_optional(crate::regexp::hook(regexp_options))
-                .build(),
-        ),
-        crate::es2022::private_property_in_object::pass(),
+    hook_pass(
+        HookBuilder::new(NoopHook)
+            .chain(crate::es2022::class_static_block::hook())
+            .chain_optional(crate::regexp::hook(regexp_options))
+            .build(),
     )
 }
 

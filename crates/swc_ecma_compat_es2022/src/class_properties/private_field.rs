@@ -51,6 +51,19 @@ impl PrivateRecord {
         HANDLER.with(|handler| handler.struct_span_err(span, &error).emit());
         (Mark::root(), PrivateKind::default(), &self.0[0].class_name)
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
+    }
+
+    pub fn try_get(&self, _span: Span, name: &Atom) -> Option<(Mark, PrivateKind, &Ident)> {
+        for p in self.0.iter().rev() {
+            if let Some(kind) = p.ident.get(name) {
+                return Some((p.mark, *kind, &p.class_name));
+            }
+        }
+        None
+    }
 }
 
 #[derive(Copy, Clone, PartialEq, Default, Eq)]
@@ -73,76 +86,6 @@ impl PrivateKind {
 
     fn is_method(&self) -> bool {
         self.is_method && !self.has_getter && !self.has_setter
-    }
-}
-
-pub(super) struct BrandCheckHandler<'a> {
-    pub private: &'a PrivateRecord,
-}
-
-impl VisitMut for BrandCheckHandler<'_> {
-    noop_visit_mut_type!(fail);
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
-        match e {
-            Expr::Bin(BinExpr {
-                span,
-                op: op!("in"),
-                left,
-                right,
-            }) if left.is_private_name() => {
-                let n = left.as_private_name().unwrap();
-                if let Expr::Ident(right) = &**right {
-                    let curr_class = self.private.curr_class();
-                    if curr_class.sym == right.sym && curr_class.ctxt == right.ctxt {
-                        *e = BinExpr {
-                            span: *span,
-                            op: op!("==="),
-                            left: curr_class.clone().into(),
-                            right: right.clone().into(),
-                        }
-                        .into();
-                        return;
-                    }
-                }
-
-                let (mark, kind, class_name) = self.private.get(n.span, &n.name);
-
-                if mark == Mark::root() {
-                    return;
-                }
-
-                if kind.is_static {
-                    *e = BinExpr {
-                        span: *span,
-                        op: op!("==="),
-                        left: right.take(),
-                        right: class_name.clone().into(),
-                    }
-                    .into();
-                    return;
-                }
-
-                let weak_coll_ident = Ident::new(
-                    format!("_{}", n.name).into(),
-                    n.span,
-                    SyntaxContext::empty().apply_mark(mark),
-                );
-
-                *e = CallExpr {
-                    span: *span,
-                    callee: weak_coll_ident.make_member(quote_ident!("has")).as_callee(),
-                    args: vec![right.take().as_arg()],
-
-                    ..Default::default()
-                }
-                .into();
-            }
-
-            _ => {}
-        }
     }
 }
 

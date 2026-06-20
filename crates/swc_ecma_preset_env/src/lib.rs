@@ -105,24 +105,27 @@ where
     // because it transforms into private static property
 
     let pass = add!(pass, ClassStaticBlock, es2022::static_blocks());
-    let pass = add!(
+    // If target doesn't support private property in object (`#x in o`),
+    // we need to enable class properties transform because brand check logic
+    // is integrated into it.
+    let class_properties_enabled =
+        !caniuse(Feature::ClassProperties) || !caniuse(Feature::PrivatePropertyInObject);
+    let pass = (
         pass,
-        ClassProperties,
-        es2022::class_properties(
-            es2022::class_properties::Config {
-                private_as_properties: loose || assumptions.private_fields_as_properties,
-                set_public_fields: loose || assumptions.set_public_class_fields,
-                constant_super: loose || assumptions.constant_super,
-                no_document_all: loose || assumptions.no_document_all,
-                pure_getter: loose || assumptions.pure_getters,
-            },
-            unresolved_mark
-        )
+        Optional::new(
+            es2022::class_properties(
+                es2022::class_properties::Config {
+                    private_as_properties: loose || assumptions.private_fields_as_properties,
+                    set_public_fields: loose || assumptions.set_public_class_fields,
+                    constant_super: loose || assumptions.constant_super,
+                    no_document_all: loose || assumptions.no_document_all,
+                    pure_getter: loose || assumptions.pure_getters,
+                },
+                unresolved_mark,
+            ),
+            class_properties_enabled,
+        ),
     );
-
-    if !caniuse(Feature::PrivatePropertyInObject) {
-        options.env.es2022.private_property_in_object = true;
-    }
 
     if !caniuse(Feature::LogicalAssignmentOperators) {
         options.env.es2021.logical_assignment_operators = true;

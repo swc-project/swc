@@ -1,0 +1,19 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript"
+    },
+    "transform": {
+      "useDefineForClassFields": false
+    }
+  },
+  "env": {
+    "targets": {
+      "chrome": "109",
+      "safari": "14.1",
+      "ios": "18.5"
+    },
+    "mode": "usage",
+    "coreJs": "3"
+  }
+}

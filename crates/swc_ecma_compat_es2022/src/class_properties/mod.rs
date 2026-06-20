@@ -21,8 +21,8 @@ use self::{
     class_name_tdz::ClassNameTdzFolder,
     member_init::{MemberInit, MemberInitRecord, PrivAccessor, PrivMethod, PrivProp, PubProp},
     private_field::{
-        dup_private_method, visit_private_in_expr, BrandCheckHandler, Private,
-        PrivateAccessVisitor, PrivateKind, PrivateRecord,
+        dup_private_method, visit_private_in_expr, Private, PrivateAccessVisitor, PrivateKind,
+        PrivateRecord,
     },
     this_in_static::{NewTargetInProp, ThisInStaticFolder},
     used_name::UsedNameCollector,
@@ -185,124 +185,178 @@ impl VisitMut for ClassProperties {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        if let Expr::Class(ClassExpr {
-            ident: orig_ident,
-            class,
-        }) = expr
-        {
-            let ident = private_ident!(orig_ident
-                .clone()
-                .map(|id| Atom::from(format!("_{}", id.sym)))
-                .unwrap_or(atom!("_class")));
-            let (decl, ClassExtra { lets, vars, stmts }) =
-                self.visit_mut_class_as_decl(ident.clone(), class.take());
+        match expr {
+            Expr::Class(ClassExpr {
+                ident: orig_ident,
+                class,
+            }) => {
+                let ident = private_ident!(orig_ident
+                    .clone()
+                    .map(|id| Atom::from(format!("_{}", id.sym)))
+                    .unwrap_or(atom!("_class")));
+                let (decl, ClassExtra { lets, vars, stmts }) =
+                    self.visit_mut_class_as_decl(ident.clone(), class.take());
 
-            let class = ClassExpr {
-                ident: orig_ident.clone(),
-                class: decl.class,
-            }
-            .into();
-            if vars.is_empty() && lets.is_empty() && stmts.is_empty() {
-                *expr = class;
-                return;
-            }
-
-            let mut exprs = Vec::new();
-
-            for mut var in vars {
-                let init = var.init.take();
-                if let Some(init) = init {
-                    exprs.push(
-                        AssignExpr {
-                            span: var.span,
-                            op: op!("="),
-                            left: var.name.clone().try_into().unwrap(),
-                            right: init,
-                        }
-                        .into(),
-                    )
+                let class = ClassExpr {
+                    ident: orig_ident.clone(),
+                    class: decl.class,
                 }
-                self.extra.vars.push(var);
-            }
-
-            for mut var in lets {
-                let init = var.init.take();
-                if let Some(init) = init {
-                    exprs.push(
-                        AssignExpr {
-                            span: var.span,
-                            op: op!("="),
-                            left: var.name.clone().try_into().unwrap(),
-                            right: init,
-                        }
-                        .into(),
-                    )
+                .into();
+                if vars.is_empty() && lets.is_empty() && stmts.is_empty() {
+                    *expr = class;
+                    return;
                 }
-                self.extra.lets.push(var);
-            }
 
-            let mut extra_value = false;
-            if !stmts.is_empty() {
-                extra_value = true;
-                self.extra.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: ident.clone().into(),
-                    init: None,
-                    definite: false,
-                });
-                exprs.push(
-                    AssignExpr {
-                        span: DUMMY_SP,
-                        left: ident.clone().into(),
-                        op: op!("="),
-                        right: class.into(),
-                    }
-                    .into(),
-                );
-            } else {
-                exprs.push(class.into());
-            }
+                let mut exprs = Vec::new();
 
-            for mut stmt in stmts {
-                if let Some(orig_ident) = orig_ident {
-                    replace_ident(&mut stmt, orig_ident.clone().into(), &ident);
-                }
-                match stmt {
-                    Stmt::Expr(e) => exprs.push(e.expr),
-                    Stmt::Decl(Decl::Var(v)) => {
-                        for mut decl in v.decls {
-                            let init = decl.init.take();
-
-                            if let Some(init) = init {
-                                exprs.push(
-                                    AssignExpr {
-                                        span: decl.span,
-                                        op: op!("="),
-                                        left: decl.name.clone().try_into().unwrap(),
-                                        right: init,
-                                    }
-                                    .into(),
-                                )
+                for mut var in vars {
+                    let init = var.init.take();
+                    if let Some(init) = init {
+                        exprs.push(
+                            AssignExpr {
+                                span: var.span,
+                                op: op!("="),
+                                left: var.name.clone().try_into().unwrap(),
+                                right: init,
                             }
-
-                            self.extra.vars.push(decl)
-                        }
+                            .into(),
+                        )
                     }
-                    _ => self.extra.stmts.push(stmt),
+                    self.extra.vars.push(var);
+                }
+
+                for mut var in lets {
+                    let init = var.init.take();
+                    if let Some(init) = init {
+                        exprs.push(
+                            AssignExpr {
+                                span: var.span,
+                                op: op!("="),
+                                left: var.name.clone().try_into().unwrap(),
+                                right: init,
+                            }
+                            .into(),
+                        )
+                    }
+                    self.extra.lets.push(var);
+                }
+
+                let mut extra_value = false;
+                if !stmts.is_empty() {
+                    extra_value = true;
+                    self.extra.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: ident.clone().into(),
+                        init: None,
+                        definite: false,
+                    });
+                    exprs.push(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            left: ident.clone().into(),
+                            op: op!("="),
+                            right: class.into(),
+                        }
+                        .into(),
+                    );
+                } else {
+                    exprs.push(class.into());
+                }
+
+                for mut stmt in stmts {
+                    if let Some(orig_ident) = orig_ident {
+                        replace_ident(&mut stmt, orig_ident.clone().into(), &ident);
+                    }
+                    match stmt {
+                        Stmt::Expr(e) => exprs.push(e.expr),
+                        Stmt::Decl(Decl::Var(v)) => {
+                            for mut decl in v.decls {
+                                let init = decl.init.take();
+
+                                if let Some(init) = init {
+                                    exprs.push(
+                                        AssignExpr {
+                                            span: decl.span,
+                                            op: op!("="),
+                                            left: decl.name.clone().try_into().unwrap(),
+                                            right: init,
+                                        }
+                                        .into(),
+                                    )
+                                }
+
+                                self.extra.vars.push(decl)
+                            }
+                        }
+                        _ => self.extra.stmts.push(stmt),
+                    }
+                }
+
+                if extra_value {
+                    exprs.push(Box::new(ident.into()))
+                }
+
+                *expr = SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                }
+                .into()
+            }
+            Expr::Bin(BinExpr {
+                span,
+                op: op!("in"),
+                left,
+                right,
+            }) if left.is_private_name() => {
+                if self.private.is_empty() {
+                    expr.visit_mut_children_with(self);
+                    return;
+                }
+
+                let n = left.as_private_name().unwrap();
+
+                if let Expr::Ident(right_ident) = &**right {
+                    let curr_class = self.private.curr_class();
+                    if curr_class.sym == right_ident.sym && curr_class.ctxt == right_ident.ctxt {
+                        *expr = BinExpr {
+                            span: *span,
+                            op: op!("==="),
+                            left: curr_class.clone().into(),
+                            right: right_ident.clone().into(),
+                        }
+                        .into();
+                        return;
+                    }
+                }
+
+                if let Some((mark, kind, class_name)) = self.private.try_get(n.span, &n.name) {
+                    if kind.is_static {
+                        *expr = BinExpr {
+                            span: *span,
+                            op: op!("==="),
+                            left: right.take(),
+                            right: class_name.clone().into(),
+                        }
+                        .into();
+                    } else {
+                        let weak_coll_ident = Ident::new(
+                            format!("_{}", n.name).into(),
+                            n.span,
+                            SyntaxContext::empty().apply_mark(mark),
+                        );
+
+                        *expr = CallExpr {
+                            span: *span,
+                            callee: weak_coll_ident.make_member(quote_ident!("has")).as_callee(),
+                            args: vec![right.take().as_arg()],
+
+                            ..Default::default()
+                        }
+                        .into();
+                    }
                 }
             }
-
-            if extra_value {
-                exprs.push(Box::new(ident.into()))
-            }
-
-            *expr = SeqExpr {
-                span: DUMMY_SP,
-                exprs,
-            }
-            .into()
-        } else {
-            expr.visit_mut_children_with(self);
+            _ => expr.visit_mut_children_with(self),
         };
     }
 }
@@ -508,12 +562,6 @@ impl ClassProperties {
         let mut super_ident = None;
 
         let should_visit_private = has_private_bindings || contains_private_name(&class.body);
-
-        if should_visit_private {
-            class.body.visit_mut_with(&mut BrandCheckHandler {
-                private: &self.private,
-            });
-        }
 
         let should_create_vars_for_method_names = class.body.iter().any(|m| match m {
             ClassMember::Constructor(_)
@@ -1141,6 +1189,10 @@ impl Visit for ShouldWork {
     }
 
     fn visit_constructor(&mut self, _: &Constructor) {
+        self.found = true;
+    }
+
+    fn visit_private_name(&mut self, _: &PrivateName) {
         self.found = true;
     }
 

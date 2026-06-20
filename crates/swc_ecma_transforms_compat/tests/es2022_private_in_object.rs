@@ -4,10 +4,7 @@ use serde::Deserialize;
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_compat::{
-    es2015::classes,
-    es2022::{class_properties, private_in_object},
-};
+use swc_ecma_transforms_compat::{es2015::classes, es2022::class_properties};
 use swc_ecma_transforms_testing::{parse_options, test_fixture};
 
 #[derive(Debug, Clone, Deserialize)]
@@ -99,8 +96,6 @@ fn fixture(input: PathBuf) {
                     }
                 }
             }
-
-            pass = Box::new((pass, private_in_object()));
 
             pass
         },
