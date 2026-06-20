@@ -27,9 +27,8 @@ pub fn compile_result_to_diagnostics(result: &CompileResult) -> Vec<DiagnosticMe
 
     match result {
         CompileResult::Success { events, .. } => {
-            // Process logger events from successful compilation
             for event in events {
-                if let Some(diag) = event_to_diagnostic(event) {
+                if let Some(diag) = event_to_diagnostic(event, true) {
                     diagnostics.push(diag);
                 }
             }
@@ -40,7 +39,7 @@ pub fn compile_result_to_diagnostics(result: &CompileResult) -> Vec<DiagnosticMe
 
             // Process logger events from failed compilation
             for event in events {
-                if let Some(diag) = event_to_diagnostic(event) {
+                if let Some(diag) = event_to_diagnostic(event, false) {
                     diagnostics.push(diag);
                 }
             }
@@ -64,7 +63,10 @@ fn error_info_to_diagnostic(error: &CompilerErrorInfo) -> DiagnosticMessage {
     }
 }
 
-fn error_detail_to_diagnostic(detail: &CompilerErrorDetailInfo) -> Option<DiagnosticMessage> {
+fn error_detail_to_diagnostic(
+    detail: &CompilerErrorDetailInfo,
+    success: bool,
+) -> Option<DiagnosticMessage> {
     let message = if let Some(description) = &detail.description {
         format!(
             "[ReactCompiler] {}: {}. {}",
@@ -78,6 +80,7 @@ fn error_detail_to_diagnostic(detail: &CompilerErrorDetailInfo) -> Option<Diagno
     // transform errors are represented separately by `CompileResult::Error`.
     let severity = match detail.severity.as_str() {
         "Off" => return None,
+        "Error" if success => return None,
         "Error" => Severity::Error,
         // `Warning`, `Hint`, and any unknown future value surface as warnings.
         _ => Severity::Warning,
@@ -90,11 +93,18 @@ fn error_detail_to_diagnostic(detail: &CompilerErrorDetailInfo) -> Option<Diagno
     })
 }
 
-fn event_to_diagnostic(event: &LoggerEvent) -> Option<DiagnosticMessage> {
+fn event_to_diagnostic(event: &LoggerEvent, success: bool) -> Option<DiagnosticMessage> {
     match event {
         LoggerEvent::CompileSuccess { .. } | LoggerEvent::CompileSkip { .. } => None,
         LoggerEvent::CompileError { detail, .. }
-        | LoggerEvent::CompileErrorWithLoc { detail, .. } => error_detail_to_diagnostic(detail),
+        | LoggerEvent::CompileErrorWithLoc { detail, .. } => {
+            error_detail_to_diagnostic(detail, success)
+        }
+        LoggerEvent::CompileUnexpectedThrow { .. } | LoggerEvent::PipelineError { .. }
+            if success =>
+        {
+            None
+        }
         LoggerEvent::CompileUnexpectedThrow { data, .. } => Some(DiagnosticMessage {
             severity: Severity::Error,
             message: format!("[ReactCompiler] Unexpected error: {data}"),

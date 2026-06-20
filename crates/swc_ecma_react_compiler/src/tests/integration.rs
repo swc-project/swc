@@ -1228,6 +1228,51 @@ fn transform_component_with_hook_does_not_panic() {
 }
 
 #[test]
+fn transform_ref_access_error_is_not_swc_diagnostic_with_default_panic_threshold() {
+    let source = r#"
+        import { useRef } from 'react';
+
+        function App() {
+            const ref = useRef(1);
+            return ref.current;
+        }
+    "#;
+
+    let result = transform_source(source, Default::default(), default_options());
+
+    assert!(
+        result.program.is_none(),
+        "component with a ref access error should not be compiled"
+    );
+    assert!(
+        result.diagnostics.is_empty(),
+        "non-fatal React Compiler events should not surface as SWC diagnostics: {:#?}",
+        result.diagnostics
+    );
+    assert!(
+        result.events.iter().any(|event| {
+            serde_json::to_value(event).ok().is_some_and(|event| {
+                event.get("kind").and_then(serde_json::Value::as_str) == Some("CompileError")
+                    && event
+                        .pointer("/detail/category")
+                        .and_then(serde_json::Value::as_str)
+                        == Some("Refs")
+                    && event
+                        .pointer("/detail/reason")
+                        .and_then(serde_json::Value::as_str)
+                        == Some("Cannot access refs during render")
+                    && event
+                        .pointer("/detail/severity")
+                        .and_then(serde_json::Value::as_str)
+                        == Some("Error")
+            })
+        }),
+        "React Compiler should still preserve the non-fatal error logger event: {:#?}",
+        result.events
+    );
+}
+
+#[test]
 fn transform_non_react_code_returns_none() {
     let source = "const x = 1 + 2;";
     let result = transform_source(source, Default::default(), default_options());
