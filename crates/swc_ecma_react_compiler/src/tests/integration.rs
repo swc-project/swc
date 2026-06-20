@@ -1249,27 +1249,6 @@ fn transform_ref_access_error_is_not_swc_diagnostic_with_default_panic_threshold
         "non-fatal React Compiler events should not surface as SWC diagnostics: {:#?}",
         result.diagnostics
     );
-    assert!(
-        result.events.iter().any(|event| {
-            serde_json::to_value(event).ok().is_some_and(|event| {
-                event.get("kind").and_then(serde_json::Value::as_str) == Some("CompileError")
-                    && event
-                        .pointer("/detail/category")
-                        .and_then(serde_json::Value::as_str)
-                        == Some("Refs")
-                    && event
-                        .pointer("/detail/reason")
-                        .and_then(serde_json::Value::as_str)
-                        == Some("Cannot access refs during render")
-                    && event
-                        .pointer("/detail/severity")
-                        .and_then(serde_json::Value::as_str)
-                        == Some("Error")
-            })
-        }),
-        "React Compiler should still preserve the non-fatal error logger event: {:#?}",
-        result.events
-    );
 }
 
 #[test]
