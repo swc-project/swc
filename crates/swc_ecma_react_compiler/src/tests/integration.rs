@@ -17,8 +17,8 @@ use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, EsSyntax, Syn
 use crate::{
     convert_ast::convert_program,
     convert_ast_reverse::convert_program_to_swc as convert_program_to_swc_with_preserved_ast,
-    convert_scope::SemanticBuilder, lint_source, prefilter::has_react_like_functions,
-    transform_source, SourceType,
+    convert_scope::SemanticBuilder, diagnostics::Severity, lint_source,
+    prefilter::has_react_like_functions, transform_source, SourceType,
 };
 
 fn convert_program_to_swc(file: &File) -> swc_ecma_ast::Program {
@@ -1301,6 +1301,34 @@ fn lint_simple_component_does_not_panic() {
     "#;
     let result = lint_source(source, Default::default(), default_options());
     let _ = result.diagnostics;
+}
+
+#[test]
+fn lint_reports_ref_access_error_with_default_panic_threshold() {
+    let source = r#"
+        import { useRef } from 'react';
+
+        function App() {
+            const ref = useRef(1);
+            return ref.current;
+        }
+    "#;
+
+    let result = lint_source(source, Default::default(), default_options());
+
+    assert_eq!(result.diagnostics.len(), 1);
+    assert!(
+        matches!(result.diagnostics[0].severity, Severity::Error),
+        "lint should preserve React Compiler error severity: {:#?}",
+        result.diagnostics
+    );
+    assert!(
+        result.diagnostics[0]
+            .message
+            .contains("[ReactCompiler] Refs: Cannot access refs during render"),
+        "unexpected diagnostic: {:#?}",
+        result.diagnostics
+    );
 }
 
 #[test]

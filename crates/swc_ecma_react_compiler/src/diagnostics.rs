@@ -22,13 +22,16 @@ pub struct DiagnosticMessage {
 
 /// Convert a [`CompileResult`] into SWC-facing diagnostics.
 #[must_use]
-pub fn compile_result_to_diagnostics(result: &CompileResult) -> Vec<DiagnosticMessage> {
+pub fn compile_result_to_diagnostics(
+    result: &CompileResult,
+    emit_success_error_diagnostics: bool,
+) -> Vec<DiagnosticMessage> {
     let mut diagnostics = Vec::new();
 
     match result {
         CompileResult::Success { events, .. } => {
             for event in events {
-                if let Some(diag) = event_to_diagnostic(event, true) {
+                if let Some(diag) = event_to_diagnostic(event, !emit_success_error_diagnostics) {
                     diagnostics.push(diag);
                 }
             }
@@ -65,7 +68,7 @@ fn error_info_to_diagnostic(error: &CompilerErrorInfo) -> DiagnosticMessage {
 
 fn error_detail_to_diagnostic(
     detail: &CompilerErrorDetailInfo,
-    success: bool,
+    suppress_error_diagnostics: bool,
 ) -> Option<DiagnosticMessage> {
     let message = if let Some(description) = &detail.description {
         format!(
@@ -80,7 +83,7 @@ fn error_detail_to_diagnostic(
     // transform errors are represented separately by `CompileResult::Error`.
     let severity = match detail.severity.as_str() {
         "Off" => return None,
-        "Error" if success => return None,
+        "Error" if suppress_error_diagnostics => return None,
         "Error" => Severity::Error,
         // `Warning`, `Hint`, and any unknown future value surface as warnings.
         _ => Severity::Warning,
@@ -93,15 +96,18 @@ fn error_detail_to_diagnostic(
     })
 }
 
-fn event_to_diagnostic(event: &LoggerEvent, success: bool) -> Option<DiagnosticMessage> {
+fn event_to_diagnostic(
+    event: &LoggerEvent,
+    suppress_error_diagnostics: bool,
+) -> Option<DiagnosticMessage> {
     match event {
         LoggerEvent::CompileSuccess { .. } | LoggerEvent::CompileSkip { .. } => None,
         LoggerEvent::CompileError { detail, .. }
         | LoggerEvent::CompileErrorWithLoc { detail, .. } => {
-            error_detail_to_diagnostic(detail, success)
+            error_detail_to_diagnostic(detail, suppress_error_diagnostics)
         }
         LoggerEvent::CompileUnexpectedThrow { .. } | LoggerEvent::PipelineError { .. }
-            if success =>
+            if suppress_error_diagnostics =>
         {
             None
         }
