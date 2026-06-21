@@ -739,13 +739,9 @@ impl<'a> ConvertCtx<'a> {
                     type_annotation: RawNode::from_value(&type_ann),
                 })
             }
-            swc::Expr::Invalid(i) => Expression::Identifier(Identifier {
-                base: self.make_base_node(i.span),
-                name: "__invalid__".to_string(),
-                type_annotation: None,
-                optional: None,
-                decorators: None,
-            }),
+            swc::Expr::Invalid(i) => {
+                unreachable!("SWC invalid expressions should not be converted: {:?}", i)
+            }
         }
     }
 
@@ -1017,7 +1013,11 @@ impl<'a> ConvertCtx<'a> {
             swc::Expr::TsSatisfies(ts_sat) => self.convert_expr(&ts_sat.expr),
             swc::Expr::TsNonNull(ts_non_null) => self.convert_expr(&ts_non_null.expr),
             swc::Expr::TsTypeAssertion(ts_assert) => self.convert_expr(&ts_assert.expr),
-            _ => unreachable!("SWC update argument is not a simple assignment target"),
+            swc::Expr::TsInstantiation(ts_instantiation) => {
+                self.convert_expr_as_simple_assign_target(&ts_instantiation.expr)
+            }
+            swc::Expr::Paren(paren) => self.convert_expr_as_simple_assign_target(&paren.expr),
+            other => self.convert_expr(other),
         }
     }
 
@@ -1185,12 +1185,49 @@ impl<'a> ConvertCtx<'a> {
             swc::Pat::Object(obj) => PatternLike::ObjectPattern(self.convert_object_pat(obj)),
             swc::Pat::Assign(a) => PatternLike::AssignmentPattern(self.convert_assign_pat(a)),
             swc::Pat::Rest(r) => PatternLike::RestElement(self.convert_rest_pat(r)),
-            swc::Pat::Expr(e) => match &**e {
-                swc::Expr::Ident(id) => PatternLike::Identifier(self.convert_ident(id)),
-                swc::Expr::Member(m) => PatternLike::MemberExpression(self.convert_member_expr(m)),
-                _ => unreachable!("SWC Pat::Expr contains a non-LVal expression"),
-            },
-            swc::Pat::Invalid(_) => unreachable!("SWC Invalid pattern cannot be converted"),
+            swc::Pat::Expr(e) => self.convert_expr_as_pat(e),
+            swc::Pat::Invalid(invalid) => {
+                unreachable!(
+                    "SWC invalid patterns should not be converted: {:?}",
+                    invalid
+                )
+            }
+        }
+    }
+
+    fn convert_expr_as_pat(&self, expr: &swc::Expr) -> PatternLike {
+        match expr {
+            swc::Expr::Ident(id) => PatternLike::Identifier(self.convert_ident(id)),
+            swc::Expr::Member(m) => PatternLike::MemberExpression(self.convert_member_expr(m)),
+            swc::Expr::SuperProp(sp) => {
+                PatternLike::MemberExpression(self.convert_super_prop_expr(sp))
+            }
+            swc::Expr::TsAs(e) => PatternLike::TSAsExpression(self.convert_ts_as_expr(e)),
+            swc::Expr::TsSatisfies(e) => {
+                PatternLike::TSSatisfiesExpression(self.convert_ts_satisfies_expr(e))
+            }
+            swc::Expr::TsNonNull(e) => {
+                PatternLike::TSNonNullExpression(self.convert_ts_non_null_expr(e))
+            }
+            swc::Expr::TsTypeAssertion(e) => {
+                PatternLike::TSTypeAssertion(self.convert_ts_type_assertion(e))
+            }
+            swc::Expr::TsInstantiation(e) => {
+                // PatternLike has no TSInstantiation variant. SWC validates the
+                // wrapped expression as the assignment target, so convert that target.
+                self.convert_expr_as_pat(&e.expr)
+            }
+            swc::Expr::Paren(e) => self.convert_expr_as_pat(&e.expr),
+            swc::Expr::Invalid(invalid) => {
+                unreachable!(
+                    "SWC invalid expressions should not be converted: {:?}",
+                    invalid
+                )
+            }
+            other => unreachable!(
+                "Only certain expressions are valid patterns. Unexpected expression: {:?}",
+                other
+            ),
         }
     }
 
@@ -1335,11 +1372,9 @@ impl<'a> ConvertCtx<'a> {
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::SuperProp(sp)) => {
                 PatternLike::MemberExpression(self.convert_super_prop_expr(sp))
             }
-            swc::AssignTarget::Simple(swc::SimpleAssignTarget::Paren(p)) => match &*p.expr {
-                swc::Expr::Ident(id) => PatternLike::Identifier(self.convert_ident(id)),
-                swc::Expr::Member(m) => PatternLike::MemberExpression(self.convert_member_expr(m)),
-                _ => unreachable!("parenthesized assignment target is not an LVal"),
-            },
+            swc::AssignTarget::Simple(swc::SimpleAssignTarget::Paren(p)) => {
+                self.convert_expr_as_pat(&p.expr)
+            }
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::OptChain(_)) => {
                 unreachable!("optional chaining is not a valid assignment target")
             }
@@ -1355,13 +1390,17 @@ impl<'a> ConvertCtx<'a> {
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsTypeAssertion(e)) => {
                 PatternLike::TSTypeAssertion(self.convert_ts_type_assertion(e))
             }
-            swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsInstantiation(_)) => {
-                unreachable!(
-                    "AssignTarget::TsInstantiation AST shape is rejected by TS/Babel parser"
-                )
+            swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsInstantiation(e)) => {
+                // PatternLike cannot represent TSInstantiation directly. Preserve a
+                // valid target by converting the wrapped expression, matching SWC's
+                // assignment-target validation.
+                self.convert_expr_as_pat(&e.expr)
             }
-            swc::AssignTarget::Simple(swc::SimpleAssignTarget::Invalid(_)) => {
-                unreachable!("SWC Invalid assignment target cannot be converted")
+            swc::AssignTarget::Simple(swc::SimpleAssignTarget::Invalid(invalid)) => {
+                unreachable!(
+                    "SWC invalid assignment targets should not be converted: {:?}",
+                    invalid
+                )
             }
             swc::AssignTarget::Pat(swc::AssignTargetPat::Array(a)) => {
                 self.convert_array_pat_as_assign_target(a)
@@ -1369,8 +1408,11 @@ impl<'a> ConvertCtx<'a> {
             swc::AssignTarget::Pat(swc::AssignTargetPat::Object(o)) => {
                 PatternLike::ObjectPattern(self.convert_object_pat(o))
             }
-            swc::AssignTarget::Pat(swc::AssignTargetPat::Invalid(_)) => {
-                unreachable!()
+            swc::AssignTarget::Pat(swc::AssignTargetPat::Invalid(invalid)) => {
+                unreachable!(
+                    "SWC invalid assignment targets should not be converted: {:?}",
+                    invalid
+                )
             }
         }
     }
