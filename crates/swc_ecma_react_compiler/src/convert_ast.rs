@@ -463,6 +463,8 @@ impl<'a> ConvertCtx<'a> {
     }
 
     fn convert_catch_clause(&self, clause: &swc::CatchClause) -> CatchClause {
+        self.preserved_ast.borrow_mut().save_catch_clause(clause);
+
         CatchClause {
             base: self.make_base_node(clause.span),
             param: clause.param.as_ref().map(|p| self.convert_pat(p)),

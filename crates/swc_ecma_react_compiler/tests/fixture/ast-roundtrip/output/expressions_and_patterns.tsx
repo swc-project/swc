@@ -49,6 +49,9 @@ export async function expressionShapes<TInput = any>(input: TInput & any, loader
         big
     ] as const;
     const instantiatedFactory = input.makeBox<string>;
+    const factory = input.makeBox<string> as {
+        value: string;
+    };
     const sequence = (total++, total--, total);
     delete others.skip;
     void import.meta.url;
@@ -102,3 +105,11 @@ export function App() {
     }
     return t0;
 }
+1 as unknown as number;
+function foo<T>(): <U>() => [T, U] {
+    return function<U>(): [T, U] {
+        throw new Error("not implemented");
+    };
+}
+const f = foo<string>()<number>;
+const value: [string, number] = f();
