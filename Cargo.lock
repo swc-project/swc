@@ -6100,7 +6100,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "71.0.0"
+version = "71.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6782,7 +6782,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "20.0.0"
+version = "20.0.1"
 dependencies = [
  "forked_react_compiler",
  "forked_react_compiler_ast",
