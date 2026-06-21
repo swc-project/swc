@@ -220,7 +220,9 @@ impl<'a> ConvertCtx<'a> {
                 }
                 past_directives = true;
             }
-            body.push(self.convert_stmt(stmt));
+            if let Some(stmt) = self.convert_stmt(stmt) {
+                body.push(stmt);
+            }
         }
 
         (body, directives)
@@ -246,7 +248,9 @@ impl<'a> ConvertCtx<'a> {
                 }
                 past_directives = true;
             }
-            body.push(self.convert_module_item(item));
+            if let Some(stmt) = self.convert_module_item(item) {
+                body.push(stmt);
+            }
         }
 
         (body, directives)
@@ -254,27 +258,27 @@ impl<'a> ConvertCtx<'a> {
 
     // ===== Statements =====
 
-    fn convert_module_item(&self, item: &swc::ModuleItem) -> Statement {
+    fn convert_module_item(&self, item: &swc::ModuleItem) -> Option<Statement> {
         match item {
             swc::ModuleItem::Stmt(stmt) => self.convert_stmt(stmt),
             swc::ModuleItem::ModuleDecl(decl) => self.convert_module_decl(decl),
         }
     }
 
-    fn convert_module_decl(&self, decl: &swc::ModuleDecl) -> Statement {
-        match decl {
+    fn convert_module_decl(&self, decl: &swc::ModuleDecl) -> Option<Statement> {
+        Some(match decl {
             swc::ModuleDecl::Import(d) => Statement::ImportDeclaration(self.convert_import_decl(d)),
             swc::ModuleDecl::ExportDecl(d) => {
-                Statement::ExportNamedDeclaration(self.convert_export_decl(d))
+                Statement::ExportNamedDeclaration(self.convert_export_decl(d)?)
             }
             swc::ModuleDecl::ExportNamed(d) => {
                 Statement::ExportNamedDeclaration(self.convert_named_export(d))
             }
             swc::ModuleDecl::ExportDefaultDecl(d) => {
-                Statement::ExportDefaultDeclaration(self.convert_export_default_decl(d))
+                Statement::ExportDefaultDeclaration(self.convert_export_default_decl(d)?)
             }
             swc::ModuleDecl::ExportDefaultExpr(d) => {
-                Statement::ExportDefaultDeclaration(self.convert_export_default_expr(d))
+                Statement::ExportDefaultDeclaration(self.convert_export_default_expr(d)?)
             }
             swc::ModuleDecl::ExportAll(d) => {
                 Statement::ExportAllDeclaration(self.convert_export_all(d))
@@ -301,39 +305,47 @@ impl<'a> ConvertCtx<'a> {
                     Some(self.convert_ident_json(&d.id)),
                 ))
             }
-        }
+        })
     }
 
-    fn convert_stmt(&self, stmt: &swc::Stmt) -> Statement {
+    fn convert_stmt(&self, stmt: &swc::Stmt) -> Option<Statement> {
         match stmt {
-            swc::Stmt::Block(s) => Statement::BlockStatement(self.convert_block_stmt(s)),
-            swc::Stmt::Break(s) => Statement::BreakStatement(self.convert_break_stmt(s)),
-            swc::Stmt::Continue(s) => Statement::ContinueStatement(self.convert_continue_stmt(s)),
-            swc::Stmt::Debugger(s) => Statement::DebuggerStatement(DebuggerStatement {
+            swc::Stmt::Block(s) => Some(Statement::BlockStatement(self.convert_block_stmt(s))),
+            swc::Stmt::Break(s) => Some(Statement::BreakStatement(self.convert_break_stmt(s))),
+            swc::Stmt::Continue(s) => {
+                Some(Statement::ContinueStatement(self.convert_continue_stmt(s)))
+            }
+            swc::Stmt::Debugger(s) => Some(Statement::DebuggerStatement(DebuggerStatement {
                 base: self.make_base_node(s.span),
-            }),
-            swc::Stmt::DoWhile(s) => Statement::DoWhileStatement(self.convert_do_while_stmt(s)),
-            swc::Stmt::Empty(s) => Statement::EmptyStatement(EmptyStatement {
+            })),
+            swc::Stmt::DoWhile(s) => self
+                .convert_do_while_stmt(s)
+                .map(Statement::DoWhileStatement),
+            swc::Stmt::Empty(s) => Some(Statement::EmptyStatement(EmptyStatement {
                 base: self.make_base_node(s.span),
-            }),
-            swc::Stmt::Expr(s) => Statement::ExpressionStatement(self.convert_expr_stmt(s)),
-            swc::Stmt::ForIn(s) => Statement::ForInStatement(self.convert_for_in_stmt(s)),
-            swc::Stmt::ForOf(s) => Statement::ForOfStatement(self.convert_for_of_stmt(s)),
-            swc::Stmt::For(s) => Statement::ForStatement(self.convert_for_stmt(s)),
-            swc::Stmt::If(s) => Statement::IfStatement(self.convert_if_stmt(s)),
-            swc::Stmt::Labeled(s) => Statement::LabeledStatement(self.convert_labeled_stmt(s)),
-            swc::Stmt::Return(s) => Statement::ReturnStatement(self.convert_return_stmt(s)),
-            swc::Stmt::Switch(s) => Statement::SwitchStatement(self.convert_switch_stmt(s)),
-            swc::Stmt::Throw(s) => Statement::ThrowStatement(self.convert_throw_stmt(s)),
-            swc::Stmt::Try(s) => Statement::TryStatement(self.convert_try_stmt(s)),
-            swc::Stmt::While(s) => Statement::WhileStatement(self.convert_while_stmt(s)),
-            swc::Stmt::With(s) => Statement::WithStatement(self.convert_with_stmt(s)),
+            })),
+            swc::Stmt::Expr(s) => self
+                .convert_expr_stmt(s)
+                .map(Statement::ExpressionStatement),
+            swc::Stmt::ForIn(s) => self.convert_for_in_stmt(s).map(Statement::ForInStatement),
+            swc::Stmt::ForOf(s) => self.convert_for_of_stmt(s).map(Statement::ForOfStatement),
+            swc::Stmt::For(s) => self.convert_for_stmt(s).map(Statement::ForStatement),
+            swc::Stmt::If(s) => self.convert_if_stmt(s).map(Statement::IfStatement),
+            swc::Stmt::Labeled(s) => self
+                .convert_labeled_stmt(s)
+                .map(Statement::LabeledStatement),
+            swc::Stmt::Return(s) => Some(Statement::ReturnStatement(self.convert_return_stmt(s))),
+            swc::Stmt::Switch(s) => self.convert_switch_stmt(s).map(Statement::SwitchStatement),
+            swc::Stmt::Throw(s) => self.convert_throw_stmt(s).map(Statement::ThrowStatement),
+            swc::Stmt::Try(s) => Some(Statement::TryStatement(self.convert_try_stmt(s))),
+            swc::Stmt::While(s) => self.convert_while_stmt(s).map(Statement::WhileStatement),
+            swc::Stmt::With(s) => self.convert_with_stmt(s).map(Statement::WithStatement),
             swc::Stmt::Decl(d) => self.convert_decl_as_statement(d),
         }
     }
 
-    fn convert_decl_as_statement(&self, decl: &swc::Decl) -> Statement {
-        match self.convert_decl(decl) {
+    fn convert_decl_as_statement(&self, decl: &swc::Decl) -> Option<Statement> {
+        Some(match self.convert_decl(decl)? {
             Declaration::VariableDeclaration(d) => Statement::VariableDeclaration(d),
             Declaration::FunctionDeclaration(d) => Statement::FunctionDeclaration(d),
             Declaration::ClassDeclaration(d) => Statement::ClassDeclaration(d),
@@ -348,20 +360,20 @@ impl<'a> ConvertCtx<'a> {
             | Declaration::EnumDeclaration(_) => {
                 unreachable!("SWC declaration conversion does not produce Flow declarations")
             }
-        }
+        })
     }
 
-    fn convert_decl(&self, decl: &swc::Decl) -> Declaration {
-        match decl {
-            swc::Decl::Var(v) => Declaration::VariableDeclaration(self.convert_var_decl(v)),
+    fn convert_decl(&self, decl: &swc::Decl) -> Option<Declaration> {
+        Some(match decl {
+            swc::Decl::Var(v) => Declaration::VariableDeclaration(self.convert_var_decl(v)?),
             swc::Decl::Fn(f) => {
                 if f.function.body.is_none() {
-                    Declaration::TSDeclareFunction(self.convert_fn_decl_as_ts_declare_function(f))
+                    Declaration::TSDeclareFunction(self.convert_fn_decl_as_ts_declare_function(f)?)
                 } else {
-                    Declaration::FunctionDeclaration(self.convert_fn_decl(f))
+                    Declaration::FunctionDeclaration(self.convert_fn_decl(f)?)
                 }
             }
-            swc::Decl::Class(c) => Declaration::ClassDeclaration(self.convert_class_decl(c)),
+            swc::Decl::Class(c) => Declaration::ClassDeclaration(self.convert_class_decl(c)?),
             swc::Decl::TsTypeAlias(d) => {
                 Declaration::TSTypeAliasDeclaration(self.convert_ts_type_alias_decl(d))
             }
@@ -372,8 +384,8 @@ impl<'a> ConvertCtx<'a> {
             swc::Decl::TsModule(d) => {
                 Declaration::TSModuleDeclaration(self.convert_ts_module_decl(d))
             }
-            swc::Decl::Using(u) => Declaration::VariableDeclaration(self.convert_using_decl(u)),
-        }
+            swc::Decl::Using(u) => Declaration::VariableDeclaration(self.convert_using_decl(u)?),
+        })
     }
 
     fn convert_block_stmt(&self, block: &swc::BlockStmt) -> BlockStatement {
@@ -389,112 +401,124 @@ impl<'a> ConvertCtx<'a> {
     fn convert_return_stmt(&self, ret: &swc::ReturnStmt) -> ReturnStatement {
         ReturnStatement {
             base: self.make_base_node(ret.span),
-            argument: ret.arg.as_ref().map(|a| Box::new(self.convert_expr(a))),
+            argument: ret
+                .arg
+                .as_ref()
+                .and_then(|a| self.convert_expr(a).map(Box::new)),
         }
     }
 
-    fn convert_if_stmt(&self, if_stmt: &swc::IfStmt) -> IfStatement {
-        IfStatement {
+    fn convert_if_stmt(&self, if_stmt: &swc::IfStmt) -> Option<IfStatement> {
+        Some(IfStatement {
             base: self.make_base_node(if_stmt.span),
-            test: Box::new(self.convert_expr(&if_stmt.test)),
-            consequent: Box::new(self.convert_stmt(&if_stmt.cons)),
-            alternate: if_stmt.alt.as_ref().map(|a| Box::new(self.convert_stmt(a))),
-        }
+            test: Box::new(self.convert_expr(&if_stmt.test)?),
+            consequent: Box::new(self.convert_stmt(&if_stmt.cons)?),
+            alternate: if_stmt
+                .alt
+                .as_ref()
+                .and_then(|a| self.convert_stmt(a).map(Box::new)),
+        })
     }
 
-    fn convert_for_stmt(&self, for_stmt: &swc::ForStmt) -> ForStatement {
-        ForStatement {
+    fn convert_for_stmt(&self, for_stmt: &swc::ForStmt) -> Option<ForStatement> {
+        Some(ForStatement {
             base: self.make_base_node(for_stmt.span),
-            init: for_stmt.init.as_ref().map(|i| {
-                Box::new(match i {
-                    swc::VarDeclOrExpr::VarDecl(v) => {
-                        ForInit::VariableDeclaration(self.convert_var_decl(v))
-                    }
-                    swc::VarDeclOrExpr::Expr(e) => {
-                        ForInit::Expression(Box::new(self.convert_expr(e)))
-                    }
-                })
-            }),
+            init: match for_stmt.init.as_ref() {
+                Some(swc::VarDeclOrExpr::VarDecl(v)) => Some(Box::new(
+                    ForInit::VariableDeclaration(self.convert_var_decl(v)?),
+                )),
+                Some(swc::VarDeclOrExpr::Expr(e)) => Some(Box::new(ForInit::Expression(Box::new(
+                    self.convert_expr(e)?,
+                )))),
+                None => None,
+            },
             test: for_stmt
                 .test
                 .as_ref()
-                .map(|t| Box::new(self.convert_expr(t))),
+                .and_then(|t| self.convert_expr(t).map(Box::new)),
             update: for_stmt
                 .update
                 .as_ref()
-                .map(|u| Box::new(self.convert_expr(u))),
-            body: Box::new(self.convert_stmt(&for_stmt.body)),
-        }
+                .and_then(|u| self.convert_expr(u).map(Box::new)),
+            body: Box::new(self.convert_stmt(&for_stmt.body)?),
+        })
     }
 
-    fn convert_while_stmt(&self, while_stmt: &swc::WhileStmt) -> WhileStatement {
-        WhileStatement {
+    fn convert_while_stmt(&self, while_stmt: &swc::WhileStmt) -> Option<WhileStatement> {
+        Some(WhileStatement {
             base: self.make_base_node(while_stmt.span),
-            test: Box::new(self.convert_expr(&while_stmt.test)),
-            body: Box::new(self.convert_stmt(&while_stmt.body)),
-        }
+            test: Box::new(self.convert_expr(&while_stmt.test)?),
+            body: Box::new(self.convert_stmt(&while_stmt.body)?),
+        })
     }
 
-    fn convert_do_while_stmt(&self, do_while: &swc::DoWhileStmt) -> DoWhileStatement {
-        DoWhileStatement {
+    fn convert_do_while_stmt(&self, do_while: &swc::DoWhileStmt) -> Option<DoWhileStatement> {
+        Some(DoWhileStatement {
             base: self.make_base_node(do_while.span),
-            test: Box::new(self.convert_expr(&do_while.test)),
-            body: Box::new(self.convert_stmt(&do_while.body)),
-        }
+            test: Box::new(self.convert_expr(&do_while.test)?),
+            body: Box::new(self.convert_stmt(&do_while.body)?),
+        })
     }
 
-    fn convert_for_in_stmt(&self, for_in: &swc::ForInStmt) -> ForInStatement {
-        ForInStatement {
+    fn convert_for_in_stmt(&self, for_in: &swc::ForInStmt) -> Option<ForInStatement> {
+        Some(ForInStatement {
             base: self.make_base_node(for_in.span),
-            left: Box::new(self.convert_for_head(&for_in.left)),
-            right: Box::new(self.convert_expr(&for_in.right)),
-            body: Box::new(self.convert_stmt(&for_in.body)),
-        }
+            left: Box::new(self.convert_for_head(&for_in.left)?),
+            right: Box::new(self.convert_expr(&for_in.right)?),
+            body: Box::new(self.convert_stmt(&for_in.body)?),
+        })
     }
 
-    fn convert_for_of_stmt(&self, for_of: &swc::ForOfStmt) -> ForOfStatement {
-        ForOfStatement {
+    fn convert_for_of_stmt(&self, for_of: &swc::ForOfStmt) -> Option<ForOfStatement> {
+        Some(ForOfStatement {
             base: self.make_base_node(for_of.span),
-            left: Box::new(self.convert_for_head(&for_of.left)),
-            right: Box::new(self.convert_expr(&for_of.right)),
-            body: Box::new(self.convert_stmt(&for_of.body)),
+            left: Box::new(self.convert_for_head(&for_of.left)?),
+            right: Box::new(self.convert_expr(&for_of.right)?),
+            body: Box::new(self.convert_stmt(&for_of.body)?),
             is_await: for_of.is_await,
-        }
+        })
     }
 
     fn convert_catch_clause(&self, clause: &swc::CatchClause) -> CatchClause {
         CatchClause {
             base: self.make_base_node(clause.span),
-            param: clause.param.as_ref().map(|p| self.convert_pat(p)),
+            param: clause.param.as_ref().and_then(|p| self.convert_pat(p)),
             body: self.convert_block_stmt(&clause.body),
         }
     }
 
-    fn convert_switch_stmt(&self, switch: &swc::SwitchStmt) -> SwitchStatement {
-        SwitchStatement {
+    fn convert_switch_stmt(&self, switch: &swc::SwitchStmt) -> Option<SwitchStatement> {
+        Some(SwitchStatement {
             base: self.make_base_node(switch.span),
-            discriminant: Box::new(self.convert_expr(&switch.discriminant)),
+            discriminant: Box::new(self.convert_expr(&switch.discriminant)?),
             cases: switch
                 .cases
                 .iter()
                 .map(|c| self.convert_switch_case(c))
-                .collect(),
-        }
+                .collect::<Option<Vec<_>>>()?,
+        })
     }
 
-    fn convert_switch_case(&self, case: &swc::SwitchCase) -> SwitchCase {
-        SwitchCase {
+    fn convert_switch_case(&self, case: &swc::SwitchCase) -> Option<SwitchCase> {
+        Some(SwitchCase {
             base: self.make_base_node(case.span),
-            test: case.test.as_ref().map(|t| Box::new(self.convert_expr(t))),
-            consequent: case.cons.iter().map(|s| self.convert_stmt(s)).collect(),
-        }
+            test: case
+                .test
+                .as_ref()
+                .and_then(|t| self.convert_expr(t).map(Box::new)),
+            consequent: case
+                .cons
+                .iter()
+                .map(|s| self.convert_stmt(s))
+                .collect::<Option<Vec<_>>>()?,
+        })
     }
 
-    fn convert_throw_stmt(&self, throw: &swc::ThrowStmt) -> ThrowStatement {
-        ThrowStatement {
+    fn convert_throw_stmt(&self, throw: &swc::ThrowStmt) -> Option<ThrowStatement> {
+        Some(ThrowStatement {
             base: self.make_base_node(throw.span),
-            argument: Box::new(self.convert_expr(&throw.arg)),
-        }
+            argument: Box::new(self.convert_expr(&throw.arg)?),
+        })
     }
 
     fn convert_try_stmt(&self, try_stmt: &swc::TryStmt) -> TryStatement {
@@ -526,85 +550,92 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_labeled_stmt(&self, labeled: &swc::LabeledStmt) -> LabeledStatement {
-        LabeledStatement {
+    fn convert_labeled_stmt(&self, labeled: &swc::LabeledStmt) -> Option<LabeledStatement> {
+        Some(LabeledStatement {
             base: self.make_base_node(labeled.span),
             label: self.convert_ident(&labeled.label),
-            body: Box::new(self.convert_stmt(&labeled.body)),
-        }
+            body: Box::new(self.convert_stmt(&labeled.body)?),
+        })
     }
 
-    fn convert_expr_stmt(&self, expr_stmt: &swc::ExprStmt) -> ExpressionStatement {
-        ExpressionStatement {
+    fn convert_expr_stmt(&self, expr_stmt: &swc::ExprStmt) -> Option<ExpressionStatement> {
+        Some(ExpressionStatement {
             base: self.make_base_node(expr_stmt.span),
-            expression: Box::new(self.convert_expr(&expr_stmt.expr)),
-        }
+            expression: Box::new(self.convert_expr(&expr_stmt.expr)?),
+        })
     }
 
-    fn convert_with_stmt(&self, with: &swc::WithStmt) -> WithStatement {
-        WithStatement {
+    fn convert_with_stmt(&self, with: &swc::WithStmt) -> Option<WithStatement> {
+        Some(WithStatement {
             base: self.make_base_node(with.span),
-            object: Box::new(self.convert_expr(&with.obj)),
-            body: Box::new(self.convert_stmt(&with.body)),
-        }
+            object: Box::new(self.convert_expr(&with.obj)?),
+            body: Box::new(self.convert_stmt(&with.body)?),
+        })
     }
 
-    fn convert_for_head(&self, head: &swc::ForHead) -> ForInOfLeft {
+    fn convert_for_head(&self, head: &swc::ForHead) -> Option<ForInOfLeft> {
         match head {
-            swc::ForHead::VarDecl(v) => ForInOfLeft::VariableDeclaration(self.convert_var_decl(v)),
-            swc::ForHead::Pat(p) => ForInOfLeft::Pattern(Box::new(self.convert_pat(p))),
-            swc::ForHead::UsingDecl(u) => {
-                ForInOfLeft::VariableDeclaration(self.convert_using_decl(u))
+            swc::ForHead::VarDecl(v) => {
+                Some(ForInOfLeft::VariableDeclaration(self.convert_var_decl(v)?))
             }
+            swc::ForHead::Pat(p) => self
+                .convert_pat(p)
+                .map(|p| ForInOfLeft::Pattern(Box::new(p))),
+            swc::ForHead::UsingDecl(u) => Some(ForInOfLeft::VariableDeclaration(
+                self.convert_using_decl(u)?,
+            )),
         }
     }
 
-    fn convert_var_decl(&self, decl: &swc::VarDecl) -> VariableDeclaration {
+    fn convert_var_decl(&self, decl: &swc::VarDecl) -> Option<VariableDeclaration> {
         self.preserved_ast.borrow_mut().save_var_decl(decl);
 
-        VariableDeclaration {
+        Some(VariableDeclaration {
             base: self.make_base_node(decl.span),
             declarations: decl
                 .decls
                 .iter()
                 .map(|d| self.convert_var_declarator(d))
-                .collect(),
+                .collect::<Option<Vec<_>>>()?,
             kind: match decl.kind {
                 swc::VarDeclKind::Var => VariableDeclarationKind::Var,
                 swc::VarDeclKind::Let => VariableDeclarationKind::Let,
                 swc::VarDeclKind::Const => VariableDeclarationKind::Const,
             },
             declare: decl.declare.then_some(true),
-        }
+        })
     }
 
-    fn convert_using_decl(&self, decl: &swc::UsingDecl) -> VariableDeclaration {
-        VariableDeclaration {
+    fn convert_using_decl(&self, decl: &swc::UsingDecl) -> Option<VariableDeclaration> {
+        Some(VariableDeclaration {
             base: self.make_base_node(decl.span),
             declarations: decl
                 .decls
                 .iter()
                 .map(|d| self.convert_var_declarator(d))
-                .collect(),
+                .collect::<Option<Vec<_>>>()?,
             kind: VariableDeclarationKind::Using,
             declare: None,
-        }
+        })
     }
 
-    fn convert_var_declarator(&self, d: &swc::VarDeclarator) -> VariableDeclarator {
-        VariableDeclarator {
+    fn convert_var_declarator(&self, d: &swc::VarDeclarator) -> Option<VariableDeclarator> {
+        Some(VariableDeclarator {
             base: self.make_base_node(d.span),
-            id: self.convert_pat(&d.name),
-            init: d.init.as_ref().map(|e| Box::new(self.convert_expr(e))),
+            id: self.convert_pat(&d.name)?,
+            init: d
+                .init
+                .as_ref()
+                .and_then(|e| self.convert_expr(e).map(Box::new)),
             definite: d.definite.then_some(true),
-        }
+        })
     }
 
     // ===== Expressions =====
 
-    fn convert_expr(&self, expr: &swc::Expr) -> Expression {
+    fn convert_expr(&self, expr: &swc::Expr) -> Option<Expression> {
         match expr {
-            swc::Expr::Lit(lit) => match lit {
+            swc::Expr::Lit(lit) => Some(match lit {
                 swc::Lit::Str(s) => Expression::StringLiteral(StringLiteral {
                     base: self.make_base_node(s.span),
                     value: wtf8_to_string(&s.value).into(),
@@ -631,16 +662,20 @@ impl<'a> ConvertCtx<'a> {
                     base: self.make_base_node(t.span),
                     value: decode_jsx_entities(t.value.as_ref()).into(),
                 }),
-            },
-            swc::Expr::Ident(id) => Expression::Identifier(self.convert_ident(id)),
-            swc::Expr::This(t) => Expression::ThisExpression(ThisExpression {
-                base: self.make_base_node(t.span),
             }),
-            swc::Expr::Array(arr) => Expression::ArrayExpression(self.convert_array_lit(arr)),
-            swc::Expr::Object(obj) => Expression::ObjectExpression(self.convert_object_lit(obj)),
-            swc::Expr::Fn(f) => Expression::FunctionExpression(self.convert_fn_expr(f)),
-            swc::Expr::Unary(un) => Expression::UnaryExpression(self.convert_unary_expr(un)),
-            swc::Expr::Update(up) => Expression::UpdateExpression(self.convert_update_expr(up)),
+            swc::Expr::Ident(id) => Some(Expression::Identifier(self.convert_ident(id))),
+            swc::Expr::This(t) => Some(Expression::ThisExpression(ThisExpression {
+                base: self.make_base_node(t.span),
+            })),
+            swc::Expr::Array(arr) => self.convert_array_lit(arr).map(Expression::ArrayExpression),
+            swc::Expr::Object(obj) => self
+                .convert_object_lit(obj)
+                .map(Expression::ObjectExpression),
+            swc::Expr::Fn(f) => self.convert_fn_expr(f).map(Expression::FunctionExpression),
+            swc::Expr::Unary(un) => self.convert_unary_expr(un).map(Expression::UnaryExpression),
+            swc::Expr::Update(up) => self
+                .convert_update_expr(up)
+                .map(Expression::UpdateExpression),
             swc::Expr::Bin(bin) => {
                 if matches!(
                     bin.op,
@@ -648,78 +683,96 @@ impl<'a> ConvertCtx<'a> {
                         | swc::BinaryOp::LogicalAnd
                         | swc::BinaryOp::NullishCoalescing
                 ) {
-                    Expression::LogicalExpression(self.convert_bin_expr_as_logical(bin))
+                    self.convert_bin_expr_as_logical(bin)
+                        .map(Expression::LogicalExpression)
                 } else if bin.op == swc::BinaryOp::In
                     && matches!(&*bin.left, swc::Expr::PrivateName(_))
                 {
-                    Expression::BinaryExpression(self.convert_bin_expr_as_private_in(bin))
+                    self.convert_bin_expr_as_private_in(bin)
+                        .map(Expression::BinaryExpression)
                 } else {
-                    Expression::BinaryExpression(self.convert_bin_expr(bin))
+                    self.convert_bin_expr(bin).map(Expression::BinaryExpression)
                 }
             }
-            swc::Expr::Assign(a) => Expression::AssignmentExpression(self.convert_assign_expr(a)),
-            swc::Expr::Member(m) => Expression::MemberExpression(self.convert_member_expr(m)),
-            swc::Expr::SuperProp(sp) => {
-                Expression::MemberExpression(self.convert_super_prop_expr(sp))
+            swc::Expr::Assign(a) => self
+                .convert_assign_expr(a)
+                .map(Expression::AssignmentExpression),
+            swc::Expr::Member(m) => self
+                .convert_member_expr(m)
+                .map(Expression::MemberExpression),
+            swc::Expr::SuperProp(sp) => self
+                .convert_super_prop_expr(sp)
+                .map(Expression::MemberExpression),
+            swc::Expr::Cond(c) => self
+                .convert_cond_expr(c)
+                .map(Expression::ConditionalExpression),
+            swc::Expr::Call(call) => self.convert_call_expr(call).map(Expression::CallExpression),
+            swc::Expr::New(n) => self.convert_new_expr(n).map(Expression::NewExpression),
+            swc::Expr::Seq(seq) => self
+                .convert_seq_expr(seq)
+                .map(Expression::SequenceExpression),
+            swc::Expr::Arrow(arrow) => self
+                .convert_arrow_expr(arrow)
+                .map(Expression::ArrowFunctionExpression),
+            swc::Expr::Class(class) => self
+                .convert_class_expr(class)
+                .map(Expression::ClassExpression),
+            swc::Expr::Yield(y) => self.convert_yield_expr(y).map(Expression::YieldExpression),
+            swc::Expr::Await(a) => self.convert_await_expr(a).map(Expression::AwaitExpression),
+            swc::Expr::MetaProp(mp) => {
+                Some(Expression::MetaProperty(self.convert_meta_prop_expr(mp)))
             }
-            swc::Expr::Cond(c) => Expression::ConditionalExpression(self.convert_cond_expr(c)),
-            swc::Expr::Call(call) => Expression::CallExpression(self.convert_call_expr(call)),
-            swc::Expr::New(n) => Expression::NewExpression(self.convert_new_expr(n)),
-            swc::Expr::Seq(seq) => Expression::SequenceExpression(self.convert_seq_expr(seq)),
-            swc::Expr::Arrow(arrow) => {
-                Expression::ArrowFunctionExpression(self.convert_arrow_expr(arrow))
-            }
-            swc::Expr::Class(class) => Expression::ClassExpression(self.convert_class_expr(class)),
-            swc::Expr::Yield(y) => Expression::YieldExpression(self.convert_yield_expr(y)),
-            swc::Expr::Await(a) => Expression::AwaitExpression(self.convert_await_expr(a)),
-            swc::Expr::MetaProp(mp) => Expression::MetaProperty(self.convert_meta_prop_expr(mp)),
-            swc::Expr::Tpl(tpl) => Expression::TemplateLiteral(self.convert_tpl(tpl)),
-            swc::Expr::TaggedTpl(tag) => {
-                Expression::TaggedTemplateExpression(self.convert_tagged_tpl(tag))
-            }
-            swc::Expr::Paren(p) => Expression::ParenthesizedExpression(self.convert_paren_expr(p)),
+            swc::Expr::Tpl(tpl) => self.convert_tpl(tpl).map(Expression::TemplateLiteral),
+            swc::Expr::TaggedTpl(tag) => self
+                .convert_tagged_tpl(tag)
+                .map(Expression::TaggedTemplateExpression),
+            swc::Expr::Paren(p) => self
+                .convert_paren_expr(p)
+                .map(Expression::ParenthesizedExpression),
             swc::Expr::OptChain(chain) => self.convert_opt_chain_expr(chain),
-            swc::Expr::PrivateName(p) => Expression::PrivateName(self.convert_private_name(p)),
-            swc::Expr::JSXElement(el) => {
-                Expression::JSXElement(Box::new(self.convert_jsx_element(el)))
+            swc::Expr::PrivateName(p) => {
+                Some(Expression::PrivateName(self.convert_private_name(p)))
             }
+            swc::Expr::JSXElement(el) => self
+                .convert_jsx_element(el)
+                .map(|el| Expression::JSXElement(Box::new(el))),
             swc::Expr::JSXFragment(frag) => {
-                Expression::JSXFragment(self.convert_jsx_fragment(frag))
+                self.convert_jsx_fragment(frag).map(Expression::JSXFragment)
             }
-            swc::Expr::JSXEmpty(e) => Expression::Identifier(Identifier {
+            swc::Expr::JSXEmpty(e) => Some(Expression::Identifier(Identifier {
                 base: self.make_base_node(e.span),
                 name: "undefined".to_string(),
                 type_annotation: None,
                 optional: None,
                 decorators: None,
-            }),
-            swc::Expr::JSXMember(m) => Expression::Identifier(Identifier {
+            })),
+            swc::Expr::JSXMember(m) => Some(Expression::Identifier(Identifier {
                 base: self.make_base_node(m.prop.span),
                 name: m.prop.sym.to_string(),
                 type_annotation: None,
                 optional: None,
                 decorators: None,
-            }),
-            swc::Expr::JSXNamespacedName(n) => Expression::Identifier(Identifier {
+            })),
+            swc::Expr::JSXNamespacedName(n) => Some(Expression::Identifier(Identifier {
                 base: self.make_base_node(n.name.span),
                 name: format!("{}:{}", n.ns.sym, n.name.sym),
                 type_annotation: None,
                 optional: None,
                 decorators: None,
-            }),
-            swc::Expr::TsAs(e) => Expression::TSAsExpression(self.convert_ts_as_expr(e)),
-            swc::Expr::TsSatisfies(e) => {
-                Expression::TSSatisfiesExpression(self.convert_ts_satisfies_expr(e))
-            }
-            swc::Expr::TsTypeAssertion(e) => {
-                Expression::TSTypeAssertion(self.convert_ts_type_assertion(e))
-            }
-            swc::Expr::TsNonNull(e) => {
-                Expression::TSNonNullExpression(self.convert_ts_non_null_expr(e))
-            }
-            swc::Expr::TsInstantiation(e) => {
-                Expression::TSInstantiationExpression(self.convert_ts_instantiation(e))
-            }
+            })),
+            swc::Expr::TsAs(e) => self.convert_ts_as_expr(e).map(Expression::TSAsExpression),
+            swc::Expr::TsSatisfies(e) => self
+                .convert_ts_satisfies_expr(e)
+                .map(Expression::TSSatisfiesExpression),
+            swc::Expr::TsTypeAssertion(e) => self
+                .convert_ts_type_assertion(e)
+                .map(Expression::TSTypeAssertion),
+            swc::Expr::TsNonNull(e) => self
+                .convert_ts_non_null_expr(e)
+                .map(Expression::TSNonNullExpression),
+            swc::Expr::TsInstantiation(e) => self
+                .convert_ts_instantiation(e)
+                .map(Expression::TSInstantiationExpression),
             swc::Expr::TsConstAssertion(e) => {
                 // "as const" → TSAsExpression with typeAnnotation: TSTypeReference { typeName:
                 // Identifier { name: "const" } } This matches Babel's AST
@@ -731,25 +784,25 @@ impl<'a> ConvertCtx<'a> {
                         "name": "const"
                     }
                 });
-                Expression::TSAsExpression(TSAsExpression {
+                Some(Expression::TSAsExpression(TSAsExpression {
                     base: self.make_base_node(e.span),
-                    expression: Box::new(self.convert_expr(&e.expr)),
+                    expression: Box::new(self.convert_expr(&e.expr)?),
                     type_annotation: RawNode::from_value(&type_ann),
-                })
+                }))
             }
-            swc::Expr::Invalid(i) => Expression::Identifier(self.convert_invalid_ident(i.span)),
+            swc::Expr::Invalid(_) => None,
         }
     }
 
     // ===== Optional chaining =====
 
-    fn convert_opt_chain_expr(&self, chain: &swc::OptChainExpr) -> Expression {
-        match &*chain.base {
+    fn convert_opt_chain_expr(&self, chain: &swc::OptChainExpr) -> Option<Expression> {
+        Some(match &*chain.base {
             swc::OptChainBase::Member(m) => {
-                let (property, computed) = self.convert_member_prop(&m.prop);
+                let (property, computed) = self.convert_member_prop(&m.prop)?;
                 Expression::OptionalMemberExpression(OptionalMemberExpression {
                     base: self.make_base_node(chain.span),
-                    object: Box::new(self.convert_expr_in_chain(&m.obj)),
+                    object: Box::new(self.convert_expr_in_chain(&m.obj)?),
                     property: Box::new(property),
                     computed,
                     optional: chain.optional,
@@ -762,12 +815,12 @@ impl<'a> ConvertCtx<'a> {
 
                 Expression::OptionalCallExpression(OptionalCallExpression {
                     base: self.make_base_node(chain.span),
-                    callee: Box::new(self.convert_expr_in_chain(&call.callee)),
+                    callee: Box::new(self.convert_expr_in_chain(&call.callee)?),
                     arguments: call
                         .args
                         .iter()
                         .map(|a| self.convert_expr_or_spread(a))
-                        .collect(),
+                        .collect::<Option<Vec<_>>>()?,
                     optional: chain.optional,
                     type_parameters: call
                         .type_args
@@ -776,10 +829,10 @@ impl<'a> ConvertCtx<'a> {
                     type_arguments: None,
                 })
             }
-        }
+        })
     }
 
-    fn convert_expr_in_chain(&self, expr: &swc::Expr) -> Expression {
+    fn convert_expr_in_chain(&self, expr: &swc::Expr) -> Option<Expression> {
         if Self::expr_contains_optional(expr) {
             if let swc::Expr::OptChain(chain) = expr {
                 return self.convert_opt_chain_expr(chain);
@@ -792,47 +845,47 @@ impl<'a> ConvertCtx<'a> {
         matches!(expr, swc::Expr::OptChain(_))
     }
 
-    fn convert_member_expr(&self, member: &swc::MemberExpr) -> MemberExpression {
-        let (property, computed) = self.convert_member_prop(&member.prop);
-        MemberExpression {
+    fn convert_member_expr(&self, member: &swc::MemberExpr) -> Option<MemberExpression> {
+        let (property, computed) = self.convert_member_prop(&member.prop)?;
+        Some(MemberExpression {
             base: self.make_base_node(member.span),
-            object: Box::new(self.convert_expr(&member.obj)),
+            object: Box::new(self.convert_expr(&member.obj)?),
             property: Box::new(property),
             computed,
-        }
+        })
     }
 
-    fn convert_super_prop_expr(&self, super_prop: &swc::SuperPropExpr) -> MemberExpression {
-        let (property, computed) = self.convert_super_prop(&super_prop.prop);
-        MemberExpression {
+    fn convert_super_prop_expr(&self, super_prop: &swc::SuperPropExpr) -> Option<MemberExpression> {
+        let (property, computed) = self.convert_super_prop(&super_prop.prop)?;
+        Some(MemberExpression {
             base: self.make_base_node(super_prop.span),
             object: Box::new(Expression::Super(Super {
                 base: self.make_base_node(super_prop.obj.span),
             })),
             property: Box::new(property),
             computed,
-        }
+        })
     }
 
-    fn convert_member_prop(&self, prop: &swc::MemberProp) -> (Expression, bool) {
-        match prop {
+    fn convert_member_prop(&self, prop: &swc::MemberProp) -> Option<(Expression, bool)> {
+        Some(match prop {
             swc::MemberProp::Ident(id) => {
                 (Expression::Identifier(self.convert_ident_name(id)), false)
             }
-            swc::MemberProp::Computed(c) => (self.convert_expr(&c.expr), true),
+            swc::MemberProp::Computed(c) => (self.convert_expr(&c.expr)?, true),
             swc::MemberProp::PrivateName(p) => {
                 (Expression::PrivateName(self.convert_private_name(p)), false)
             }
-        }
+        })
     }
 
-    fn convert_super_prop(&self, prop: &swc::SuperProp) -> (Expression, bool) {
-        match prop {
+    fn convert_super_prop(&self, prop: &swc::SuperProp) -> Option<(Expression, bool)> {
+        Some(match prop {
             swc::SuperProp::Ident(id) => {
                 (Expression::Identifier(self.convert_ident_name(id)), false)
             }
-            swc::SuperProp::Computed(c) => (self.convert_expr(&c.expr), true),
-        }
+            swc::SuperProp::Computed(c) => (self.convert_expr(&c.expr)?, true),
+        })
     }
 
     fn convert_private_name(&self, private_name: &swc::PrivateName) -> PrivateName {
@@ -850,11 +903,11 @@ impl<'a> ConvertCtx<'a> {
 
     // ===== Call expression =====
 
-    fn convert_call_expr(&self, call: &swc::CallExpr) -> CallExpression {
+    fn convert_call_expr(&self, call: &swc::CallExpr) -> Option<CallExpression> {
         self.preserved_ast.borrow_mut().save_call(call);
 
         let callee = match &call.callee {
-            swc::Callee::Expr(e) => self.convert_expr(e),
+            swc::Callee::Expr(e) => self.convert_expr(e)?,
             swc::Callee::Super(s) => Expression::Super(Super {
                 base: self.make_base_node(s.span),
             }),
@@ -862,149 +915,160 @@ impl<'a> ConvertCtx<'a> {
                 base: self.make_base_node(i.span),
             }),
         };
-        CallExpression {
+        Some(CallExpression {
             base: self.make_base_node(call.span),
             callee: Box::new(callee),
             arguments: call
                 .args
                 .iter()
                 .map(|a| self.convert_expr_or_spread(a))
-                .collect(),
+                .collect::<Option<Vec<_>>>()?,
             type_parameters: call
                 .type_args
                 .as_ref()
                 .map(|t| self.convert_ts_type_param_instantiation_json(t)),
             type_arguments: None,
             optional: None,
-        }
+        })
     }
 
-    fn convert_expr_or_spread(&self, arg: &swc::ExprOrSpread) -> Expression {
+    fn convert_expr_or_spread(&self, arg: &swc::ExprOrSpread) -> Option<Expression> {
         if let Some(spread_span) = arg.spread {
-            Expression::SpreadElement(SpreadElement {
+            Some(Expression::SpreadElement(SpreadElement {
                 base: self.make_base_node(Span::new(spread_span.lo, arg.expr.span().hi)),
-                argument: Box::new(self.convert_expr(&arg.expr)),
-            })
+                argument: Box::new(self.convert_expr(&arg.expr)?),
+            }))
         } else {
             self.convert_expr(&arg.expr)
         }
     }
 
-    fn convert_await_expr(&self, await_expr: &swc::AwaitExpr) -> AwaitExpression {
-        AwaitExpression {
+    fn convert_await_expr(&self, await_expr: &swc::AwaitExpr) -> Option<AwaitExpression> {
+        Some(AwaitExpression {
             base: self.make_base_node(await_expr.span),
-            argument: Box::new(self.convert_expr(&await_expr.arg)),
-        }
+            argument: Box::new(self.convert_expr(&await_expr.arg)?),
+        })
     }
 
-    fn convert_bin_expr(&self, binary: &swc::BinExpr) -> BinaryExpression {
-        BinaryExpression {
+    fn convert_bin_expr(&self, binary: &swc::BinExpr) -> Option<BinaryExpression> {
+        Some(BinaryExpression {
             base: self.make_base_node(binary.span),
             operator: self.convert_binary_op(binary.op),
-            left: Box::new(self.convert_expr(&binary.left)),
-            right: Box::new(self.convert_expr(&binary.right)),
-        }
+            left: Box::new(self.convert_expr(&binary.left)?),
+            right: Box::new(self.convert_expr(&binary.right)?),
+        })
     }
 
-    fn convert_bin_expr_as_private_in(&self, private_in: &swc::BinExpr) -> BinaryExpression {
-        BinaryExpression {
+    fn convert_bin_expr_as_private_in(
+        &self,
+        private_in: &swc::BinExpr,
+    ) -> Option<BinaryExpression> {
+        Some(BinaryExpression {
             base: self.make_base_node(private_in.span),
             operator: BinaryOperator::In,
-            left: Box::new(self.convert_expr(&private_in.left)),
-            right: Box::new(self.convert_expr(&private_in.right)),
-        }
+            left: Box::new(self.convert_expr(&private_in.left)?),
+            right: Box::new(self.convert_expr(&private_in.right)?),
+        })
     }
 
-    fn convert_cond_expr(&self, cond: &swc::CondExpr) -> ConditionalExpression {
-        ConditionalExpression {
+    fn convert_cond_expr(&self, cond: &swc::CondExpr) -> Option<ConditionalExpression> {
+        Some(ConditionalExpression {
             base: self.make_base_node(cond.span),
-            test: Box::new(self.convert_expr(&cond.test)),
-            consequent: Box::new(self.convert_expr(&cond.cons)),
-            alternate: Box::new(self.convert_expr(&cond.alt)),
-        }
+            test: Box::new(self.convert_expr(&cond.test)?),
+            consequent: Box::new(self.convert_expr(&cond.cons)?),
+            alternate: Box::new(self.convert_expr(&cond.alt)?),
+        })
     }
 
-    fn convert_bin_expr_as_logical(&self, logical: &swc::BinExpr) -> LogicalExpression {
-        LogicalExpression {
+    fn convert_bin_expr_as_logical(&self, logical: &swc::BinExpr) -> Option<LogicalExpression> {
+        Some(LogicalExpression {
             base: self.make_base_node(logical.span),
             operator: self.convert_binary_op_as_logical_op(logical.op),
-            left: Box::new(self.convert_expr(&logical.left)),
-            right: Box::new(self.convert_expr(&logical.right)),
-        }
+            left: Box::new(self.convert_expr(&logical.left)?),
+            right: Box::new(self.convert_expr(&logical.right)?),
+        })
     }
 
-    fn convert_new_expr(&self, new: &swc::NewExpr) -> NewExpression {
+    fn convert_new_expr(&self, new: &swc::NewExpr) -> Option<NewExpression> {
         self.preserved_ast.borrow_mut().save_new(new);
 
-        NewExpression {
+        Some(NewExpression {
             base: self.make_base_node(new.span),
-            callee: Box::new(self.convert_expr(&new.callee)),
-            arguments: new.args.as_ref().map_or_else(Vec::new, |args| {
-                args.iter()
+            callee: Box::new(self.convert_expr(&new.callee)?),
+            arguments: match new.args.as_ref() {
+                Some(args) => args
+                    .iter()
                     .map(|a| self.convert_expr_or_spread(a))
-                    .collect()
-            }),
+                    .collect::<Option<Vec<_>>>()?,
+                None => vec![],
+            },
             type_parameters: new
                 .type_args
                 .as_ref()
                 .map(|t| self.convert_ts_type_param_instantiation_json(t)),
             type_arguments: None,
-        }
+        })
     }
 
-    fn convert_paren_expr(&self, paren: &swc::ParenExpr) -> ParenthesizedExpression {
-        ParenthesizedExpression {
+    fn convert_paren_expr(&self, paren: &swc::ParenExpr) -> Option<ParenthesizedExpression> {
+        Some(ParenthesizedExpression {
             base: self.make_base_node(paren.span),
-            expression: Box::new(self.convert_expr(&paren.expr)),
-        }
+            expression: Box::new(self.convert_expr(&paren.expr)?),
+        })
     }
 
-    fn convert_seq_expr(&self, seq: &swc::SeqExpr) -> SequenceExpression {
-        SequenceExpression {
+    fn convert_seq_expr(&self, seq: &swc::SeqExpr) -> Option<SequenceExpression> {
+        Some(SequenceExpression {
             base: self.make_base_node(seq.span),
-            expressions: seq.exprs.iter().map(|e| self.convert_expr(e)).collect(),
-        }
+            expressions: seq
+                .exprs
+                .iter()
+                .map(|e| self.convert_expr(e))
+                .collect::<Option<Vec<_>>>()?,
+        })
     }
 
-    fn convert_tagged_tpl(&self, tagged: &swc::TaggedTpl) -> TaggedTemplateExpression {
+    fn convert_tagged_tpl(&self, tagged: &swc::TaggedTpl) -> Option<TaggedTemplateExpression> {
         self.preserved_ast.borrow_mut().save_tagged_tpl(tagged);
 
-        TaggedTemplateExpression {
+        Some(TaggedTemplateExpression {
             base: self.make_base_node(tagged.span),
-            tag: Box::new(self.convert_expr(&tagged.tag)),
-            quasi: self.convert_tpl(&tagged.tpl),
+            tag: Box::new(self.convert_expr(&tagged.tag)?),
+            quasi: self.convert_tpl(&tagged.tpl)?,
             type_parameters: tagged
                 .type_params
                 .as_ref()
                 .map(|t| self.convert_ts_type_param_instantiation_json(t)),
-        }
+        })
     }
 
-    fn convert_unary_expr(&self, unary: &swc::UnaryExpr) -> UnaryExpression {
-        UnaryExpression {
+    fn convert_unary_expr(&self, unary: &swc::UnaryExpr) -> Option<UnaryExpression> {
+        Some(UnaryExpression {
             base: self.make_base_node(unary.span),
             operator: self.convert_unary_op(unary.op),
             prefix: true,
-            argument: Box::new(self.convert_expr(&unary.arg)),
-        }
+            argument: Box::new(self.convert_expr(&unary.arg)?),
+        })
     }
 
-    fn convert_update_expr(&self, update: &swc::UpdateExpr) -> UpdateExpression {
-        UpdateExpression {
+    fn convert_update_expr(&self, update: &swc::UpdateExpr) -> Option<UpdateExpression> {
+        Some(UpdateExpression {
             base: self.make_base_node(update.span),
             operator: self.convert_update_op(update.op),
-            argument: Box::new(self.convert_expr_as_simple_assign_target(&update.arg)),
+            argument: Box::new(self.convert_expr_as_simple_assign_target(&update.arg)?),
             prefix: update.prefix,
-        }
+        })
     }
 
-    fn convert_expr_as_simple_assign_target(&self, target: &swc::Expr) -> Expression {
+    fn convert_expr_as_simple_assign_target(&self, target: &swc::Expr) -> Option<Expression> {
         match target {
-            swc::Expr::Ident(id) => Expression::Identifier(self.convert_ident(id)),
-            swc::Expr::Member(m) => Expression::MemberExpression(self.convert_member_expr(m)),
-            swc::Expr::SuperProp(sp) => {
-                Expression::MemberExpression(self.convert_super_prop_expr(sp))
-            }
+            swc::Expr::Ident(id) => Some(Expression::Identifier(self.convert_ident(id))),
+            swc::Expr::Member(m) => self
+                .convert_member_expr(m)
+                .map(Expression::MemberExpression),
+            swc::Expr::SuperProp(sp) => self
+                .convert_super_prop_expr(sp)
+                .map(Expression::MemberExpression),
             swc::Expr::TsAs(ts_as) => self.convert_expr(&ts_as.expr),
             swc::Expr::TsSatisfies(ts_sat) => self.convert_expr(&ts_sat.expr),
             swc::Expr::TsNonNull(ts_non_null) => self.convert_expr(&ts_non_null.expr),
@@ -1017,18 +1081,18 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_yield_expr(&self, yield_expr: &swc::YieldExpr) -> YieldExpression {
-        YieldExpression {
+    fn convert_yield_expr(&self, yield_expr: &swc::YieldExpr) -> Option<YieldExpression> {
+        Some(YieldExpression {
             base: self.make_base_node(yield_expr.span),
             argument: yield_expr
                 .arg
                 .as_ref()
-                .map(|a| Box::new(self.convert_expr(a))),
+                .and_then(|a| self.convert_expr(a).map(Box::new)),
             delegate: yield_expr.delegate,
-        }
+        })
     }
 
-    fn convert_prop_name_as_expression(&self, key: &swc::PropName) -> Expression {
+    fn convert_prop_name_as_expression(&self, key: &swc::PropName) -> Option<Expression> {
         match key {
             swc::PropName::Computed(c) => self.convert_expr(&c.expr),
             _ => unreachable!("non-computed property key is handled directly"),
@@ -1041,14 +1105,14 @@ impl<'a> ConvertCtx<'a> {
 
     // ===== Function helpers =====
 
-    fn convert_fn_decl(&self, func: &swc::FnDecl) -> FunctionDeclaration {
+    fn convert_fn_decl(&self, func: &swc::FnDecl) -> Option<FunctionDeclaration> {
         let f = &func.function;
         self.preserved_ast.borrow_mut().save_function(f);
 
-        FunctionDeclaration {
+        Some(FunctionDeclaration {
             base: self.make_base_node(f.span),
             id: Some(self.convert_ident(&func.ident)),
-            params: self.convert_param_list(&f.params),
+            params: self.convert_param_list(&f.params)?,
             body: self.convert_block_stmt_as_optional_function_body(f.body.as_ref(), f.span),
             generator: f.is_generator,
             is_async: f.is_async,
@@ -1061,18 +1125,21 @@ impl<'a> ConvertCtx<'a> {
             predicate: None,
             component_declaration: false,
             hook_declaration: false,
-        }
+        })
     }
 
-    fn convert_fn_decl_as_ts_declare_function(&self, func: &swc::FnDecl) -> TSDeclareFunction {
+    fn convert_fn_decl_as_ts_declare_function(
+        &self,
+        func: &swc::FnDecl,
+    ) -> Option<TSDeclareFunction> {
         let f = &func.function;
         self.preserved_ast.borrow_mut().save_function(f);
 
-        TSDeclareFunction {
+        Some(TSDeclareFunction {
             base: self.make_base_node(f.span),
             id: Some(self.convert_ident(&func.ident)),
             params: self
-                .convert_param_list(&f.params)
+                .convert_param_list(&f.params)?
                 .into_iter()
                 .map(|param| {
                     RawNode::from_value(
@@ -1088,17 +1155,17 @@ impl<'a> ConvertCtx<'a> {
                 .as_ref()
                 .map(|t| self.convert_ts_type_ann_json(t)),
             type_parameters: f.type_params.as_ref().map(|_| RawNode::null()),
-        }
+        })
     }
 
-    fn convert_fn_expr(&self, func: &swc::FnExpr) -> FunctionExpression {
+    fn convert_fn_expr(&self, func: &swc::FnExpr) -> Option<FunctionExpression> {
         let f = &func.function;
         self.preserved_ast.borrow_mut().save_function(f);
 
-        FunctionExpression {
+        Some(FunctionExpression {
             base: self.make_base_node(f.span),
             id: func.ident.as_ref().map(|id| self.convert_ident(id)),
-            params: self.convert_param_list(&f.params),
+            params: self.convert_param_list(&f.params)?,
             body: self.convert_block_stmt_as_optional_function_body(f.body.as_ref(), f.span),
             generator: f.is_generator,
             is_async: f.is_async,
@@ -1108,10 +1175,10 @@ impl<'a> ConvertCtx<'a> {
                 .map(|t| self.convert_ts_type_ann_json(t)),
             type_parameters: f.type_params.as_ref().map(|_| RawNode::null()),
             predicate: None,
-        }
+        })
     }
 
-    fn convert_arrow_expr(&self, arrow: &swc::ArrowExpr) -> ArrowFunctionExpression {
+    fn convert_arrow_expr(&self, arrow: &swc::ArrowExpr) -> Option<ArrowFunctionExpression> {
         self.preserved_ast.borrow_mut().save_arrow(arrow);
 
         let is_expression = matches!(&*arrow.body, swc::BlockStmtOrExpr::Expr(_));
@@ -1120,12 +1187,16 @@ impl<'a> ConvertCtx<'a> {
                 ArrowFunctionBody::BlockStatement(self.convert_block_stmt(block))
             }
             swc::BlockStmtOrExpr::Expr(expr) => {
-                ArrowFunctionBody::Expression(Box::new(self.convert_expr(expr)))
+                ArrowFunctionBody::Expression(Box::new(self.convert_expr(expr)?))
             }
         };
-        ArrowFunctionExpression {
+        Some(ArrowFunctionExpression {
             base: self.make_base_node(arrow.span),
-            params: arrow.params.iter().map(|p| self.convert_pat(p)).collect(),
+            params: arrow
+                .params
+                .iter()
+                .map(|p| self.convert_pat(p))
+                .collect::<Option<Vec<_>>>()?,
             body: Box::new(body),
             id: None,
             generator: arrow.is_generator,
@@ -1137,14 +1208,17 @@ impl<'a> ConvertCtx<'a> {
                 .map(|t| self.convert_ts_type_ann_json(t)),
             type_parameters: arrow.type_params.as_ref().map(|_| RawNode::null()),
             predicate: None,
-        }
+        })
     }
 
-    fn convert_param_list(&self, params: &[swc::Param]) -> Vec<PatternLike> {
-        params.iter().map(|p| self.convert_param(p)).collect()
+    fn convert_param_list(&self, params: &[swc::Param]) -> Option<Vec<PatternLike>> {
+        params
+            .iter()
+            .map(|p| self.convert_param(p))
+            .collect::<Option<Vec<_>>>()
     }
 
-    fn convert_param(&self, param: &swc::Param) -> PatternLike {
+    fn convert_param(&self, param: &swc::Param) -> Option<PatternLike> {
         self.convert_pat(&param.pat)
     }
 
@@ -1165,7 +1239,7 @@ impl<'a> ConvertCtx<'a> {
 
     // ===== Patterns =====
 
-    fn convert_pat(&self, pat: &swc::Pat) -> PatternLike {
+    fn convert_pat(&self, pat: &swc::Pat) -> Option<PatternLike> {
         match pat {
             swc::Pat::Ident(id) => {
                 let mut pattern = PatternLike::Identifier(self.convert_ident(&id.id));
@@ -1175,56 +1249,56 @@ impl<'a> ConvertCtx<'a> {
                         self.convert_ts_type_ann_json(type_annotation),
                     );
                 }
-                pattern
+                Some(pattern)
             }
-            swc::Pat::Array(arr) => PatternLike::ArrayPattern(self.convert_array_pat(arr)),
-            swc::Pat::Object(obj) => PatternLike::ObjectPattern(self.convert_object_pat(obj)),
-            swc::Pat::Assign(a) => PatternLike::AssignmentPattern(self.convert_assign_pat(a)),
-            swc::Pat::Rest(r) => PatternLike::RestElement(self.convert_rest_pat(r)),
+            swc::Pat::Array(arr) => Some(PatternLike::ArrayPattern(self.convert_array_pat(arr))),
+            swc::Pat::Object(obj) => self.convert_object_pat(obj).map(PatternLike::ObjectPattern),
+            swc::Pat::Assign(a) => self
+                .convert_assign_pat(a)
+                .map(PatternLike::AssignmentPattern),
+            swc::Pat::Rest(r) => self.convert_rest_pat(r).map(PatternLike::RestElement),
             swc::Pat::Expr(e) => self.convert_expr_as_pat(e),
-            swc::Pat::Invalid(invalid) => {
-                PatternLike::Identifier(self.convert_invalid_ident(invalid.span))
-            }
+            swc::Pat::Invalid(_) => None,
         }
     }
 
-    fn convert_expr_as_pat(&self, expr: &swc::Expr) -> PatternLike {
+    fn convert_expr_as_pat(&self, expr: &swc::Expr) -> Option<PatternLike> {
         match expr {
-            swc::Expr::Ident(id) => PatternLike::Identifier(self.convert_ident(id)),
-            swc::Expr::Member(m) => PatternLike::MemberExpression(self.convert_member_expr(m)),
-            swc::Expr::SuperProp(sp) => {
-                PatternLike::MemberExpression(self.convert_super_prop_expr(sp))
-            }
-            swc::Expr::TsAs(e) => PatternLike::TSAsExpression(self.convert_ts_as_expr(e)),
-            swc::Expr::TsSatisfies(e) => {
-                PatternLike::TSSatisfiesExpression(self.convert_ts_satisfies_expr(e))
-            }
-            swc::Expr::TsNonNull(e) => {
-                PatternLike::TSNonNullExpression(self.convert_ts_non_null_expr(e))
-            }
-            swc::Expr::TsTypeAssertion(e) => {
-                PatternLike::TSTypeAssertion(self.convert_ts_type_assertion(e))
-            }
+            swc::Expr::Ident(id) => Some(PatternLike::Identifier(self.convert_ident(id))),
+            swc::Expr::Member(m) => self
+                .convert_member_expr(m)
+                .map(PatternLike::MemberExpression),
+            swc::Expr::SuperProp(sp) => self
+                .convert_super_prop_expr(sp)
+                .map(PatternLike::MemberExpression),
+            swc::Expr::TsAs(e) => self.convert_ts_as_expr(e).map(PatternLike::TSAsExpression),
+            swc::Expr::TsSatisfies(e) => self
+                .convert_ts_satisfies_expr(e)
+                .map(PatternLike::TSSatisfiesExpression),
+            swc::Expr::TsNonNull(e) => self
+                .convert_ts_non_null_expr(e)
+                .map(PatternLike::TSNonNullExpression),
+            swc::Expr::TsTypeAssertion(e) => self
+                .convert_ts_type_assertion(e)
+                .map(PatternLike::TSTypeAssertion),
             swc::Expr::TsInstantiation(e) => {
                 // PatternLike has no TSInstantiation variant. SWC validates the
                 // wrapped expression as the assignment target, so convert that target.
                 self.convert_expr_as_pat(&e.expr)
             }
             swc::Expr::Paren(e) => self.convert_expr_as_pat(&e.expr),
-            swc::Expr::Invalid(invalid) => {
-                PatternLike::Identifier(self.convert_invalid_ident(invalid.span))
-            }
-            other => PatternLike::Identifier(self.convert_invalid_ident(other.span())),
+            swc::Expr::Invalid(_) => None,
+            _ => None,
         }
     }
 
-    fn convert_object_pat(&self, obj: &swc::ObjectPat) -> ObjectPattern {
+    fn convert_object_pat(&self, obj: &swc::ObjectPat) -> Option<ObjectPattern> {
         let properties = obj
             .props
             .iter()
             .map(|p| self.convert_object_pat_prop(p))
-            .collect();
-        ObjectPattern {
+            .collect::<Option<Vec<_>>>()?;
+        Some(ObjectPattern {
             base: self.make_base_node(obj.span),
             properties,
             type_annotation: obj
@@ -1232,21 +1306,21 @@ impl<'a> ConvertCtx<'a> {
                 .as_ref()
                 .map(|t| self.convert_ts_type_ann_json(t)),
             decorators: None,
-        }
+        })
     }
 
-    fn convert_object_pat_prop(&self, prop: &swc::ObjectPatProp) -> ObjectPatternProperty {
+    fn convert_object_pat_prop(&self, prop: &swc::ObjectPatProp) -> Option<ObjectPatternProperty> {
         match prop {
             swc::ObjectPatProp::KeyValue(kv) => {
-                ObjectPatternProperty::ObjectProperty(ObjectPatternProp {
+                Some(ObjectPatternProperty::ObjectProperty(ObjectPatternProp {
                     base: self.make_base_node(kv.span()),
-                    key: Box::new(self.convert_prop_name(&kv.key)),
-                    value: Box::new(self.convert_pat(&kv.value)),
+                    key: Box::new(self.convert_prop_name(&kv.key)?),
+                    value: Box::new(self.convert_pat(&kv.value)?),
                     computed: self.convert_prop_name_computed(&kv.key),
                     shorthand: false,
                     decorators: None,
                     method: None,
-                })
+                }))
             }
             swc::ObjectPatProp::Assign(a) => {
                 let id = self.convert_ident(&a.key.id);
@@ -1254,14 +1328,14 @@ impl<'a> ConvertCtx<'a> {
                     Box::new(PatternLike::AssignmentPattern(AssignmentPattern {
                         base: self.make_base_node(a.span),
                         left: Box::new(PatternLike::Identifier(id.clone())),
-                        right: Box::new(self.convert_expr(init)),
+                        right: Box::new(self.convert_expr(init)?),
                         type_annotation: None,
                         decorators: None,
                     }))
                 } else {
                     Box::new(PatternLike::Identifier(id.clone()))
                 };
-                ObjectPatternProperty::ObjectProperty(ObjectPatternProp {
+                Some(ObjectPatternProperty::ObjectProperty(ObjectPatternProp {
                     base: self.make_base_node(a.span),
                     key: Box::new(Expression::Identifier(id)),
                     value,
@@ -1269,11 +1343,11 @@ impl<'a> ConvertCtx<'a> {
                     shorthand: true,
                     decorators: None,
                     method: None,
-                })
+                }))
             }
-            swc::ObjectPatProp::Rest(r) => {
-                ObjectPatternProperty::RestElement(self.convert_rest_pat(r))
-            }
+            swc::ObjectPatProp::Rest(r) => self
+                .convert_rest_pat(r)
+                .map(ObjectPatternProperty::RestElement),
         }
     }
 
@@ -1283,7 +1357,7 @@ impl<'a> ConvertCtx<'a> {
             elements: arr
                 .elems
                 .iter()
-                .map(|e| e.as_ref().map(|p| self.convert_pat(p)))
+                .map(|e| e.as_ref().and_then(|p| self.convert_pat(p)))
                 .collect(),
             type_annotation: arr
                 .type_ann
@@ -1293,26 +1367,26 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_assign_pat(&self, assign: &swc::AssignPat) -> AssignmentPattern {
-        AssignmentPattern {
+    fn convert_assign_pat(&self, assign: &swc::AssignPat) -> Option<AssignmentPattern> {
+        Some(AssignmentPattern {
             base: self.make_base_node(assign.span),
-            left: Box::new(self.convert_pat(&assign.left)),
-            right: Box::new(self.convert_expr(&assign.right)),
+            left: Box::new(self.convert_pat(&assign.left)?),
+            right: Box::new(self.convert_expr(&assign.right)?),
             type_annotation: None,
             decorators: None,
-        }
+        })
     }
 
-    fn convert_rest_pat(&self, rest: &swc::RestPat) -> RestElement {
-        RestElement {
+    fn convert_rest_pat(&self, rest: &swc::RestPat) -> Option<RestElement> {
+        Some(RestElement {
             base: self.make_base_node(rest.span),
-            argument: Box::new(self.convert_pat(&rest.arg)),
+            argument: Box::new(self.convert_pat(&rest.arg)?),
             type_annotation: rest
                 .type_ann
                 .as_ref()
                 .map(|t| self.convert_ts_type_ann_json(t)),
             decorators: None,
-        }
+        })
     }
 
     fn set_pattern_type_annotation(pattern: &mut PatternLike, type_annotation: RawNode) {
@@ -1343,7 +1417,7 @@ impl<'a> ConvertCtx<'a> {
 
     // ===== AssignTarget =====
 
-    fn convert_assign_target(&self, target: &swc::AssignTarget) -> PatternLike {
+    fn convert_assign_target(&self, target: &swc::AssignTarget) -> Option<PatternLike> {
         match target {
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::Ident(id)) => {
                 let mut ident = self.convert_ident(&id.id);
@@ -1351,14 +1425,14 @@ impl<'a> ConvertCtx<'a> {
                     .type_ann
                     .as_ref()
                     .map(|ann| self.convert_ts_type_ann_json(ann));
-                PatternLike::Identifier(ident)
+                Some(PatternLike::Identifier(ident))
             }
-            swc::AssignTarget::Simple(swc::SimpleAssignTarget::Member(m)) => {
-                PatternLike::MemberExpression(self.convert_member_expr(m))
-            }
-            swc::AssignTarget::Simple(swc::SimpleAssignTarget::SuperProp(sp)) => {
-                PatternLike::MemberExpression(self.convert_super_prop_expr(sp))
-            }
+            swc::AssignTarget::Simple(swc::SimpleAssignTarget::Member(m)) => self
+                .convert_member_expr(m)
+                .map(PatternLike::MemberExpression),
+            swc::AssignTarget::Simple(swc::SimpleAssignTarget::SuperProp(sp)) => self
+                .convert_super_prop_expr(sp)
+                .map(PatternLike::MemberExpression),
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::Paren(p)) => {
                 self.convert_expr_as_pat(&p.expr)
             }
@@ -1366,35 +1440,31 @@ impl<'a> ConvertCtx<'a> {
                 unreachable!("optional chaining is not a valid assignment target")
             }
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsAs(e)) => {
-                PatternLike::TSAsExpression(self.convert_ts_as_expr(e))
+                self.convert_ts_as_expr(e).map(PatternLike::TSAsExpression)
             }
-            swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsSatisfies(e)) => {
-                PatternLike::TSSatisfiesExpression(self.convert_ts_satisfies_expr(e))
-            }
-            swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsNonNull(e)) => {
-                PatternLike::TSNonNullExpression(self.convert_ts_non_null_expr(e))
-            }
-            swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsTypeAssertion(e)) => {
-                PatternLike::TSTypeAssertion(self.convert_ts_type_assertion(e))
-            }
+            swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsSatisfies(e)) => self
+                .convert_ts_satisfies_expr(e)
+                .map(PatternLike::TSSatisfiesExpression),
+            swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsNonNull(e)) => self
+                .convert_ts_non_null_expr(e)
+                .map(PatternLike::TSNonNullExpression),
+            swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsTypeAssertion(e)) => self
+                .convert_ts_type_assertion(e)
+                .map(PatternLike::TSTypeAssertion),
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsInstantiation(e)) => {
                 // PatternLike cannot represent TSInstantiation directly. Preserve a
                 // valid target by converting the wrapped expression, matching SWC's
                 // assignment-target validation.
                 self.convert_expr_as_pat(&e.expr)
             }
-            swc::AssignTarget::Simple(swc::SimpleAssignTarget::Invalid(invalid)) => {
-                PatternLike::Identifier(self.convert_invalid_ident(invalid.span))
-            }
+            swc::AssignTarget::Simple(swc::SimpleAssignTarget::Invalid(_)) => None,
             swc::AssignTarget::Pat(swc::AssignTargetPat::Array(a)) => {
-                self.convert_array_pat_as_assign_target(a)
+                Some(self.convert_array_pat_as_assign_target(a))
             }
             swc::AssignTarget::Pat(swc::AssignTargetPat::Object(o)) => {
-                PatternLike::ObjectPattern(self.convert_object_pat(o))
+                self.convert_object_pat(o).map(PatternLike::ObjectPattern)
             }
-            swc::AssignTarget::Pat(swc::AssignTargetPat::Invalid(invalid)) => {
-                PatternLike::Identifier(self.convert_invalid_ident(invalid.span))
-            }
+            swc::AssignTarget::Pat(swc::AssignTargetPat::Invalid(_)) => None,
         }
     }
 
@@ -1405,10 +1475,10 @@ impl<'a> ConvertCtx<'a> {
                 .elems
                 .iter()
                 .map(|e| {
-                    e.as_ref().map(|p| match p {
-                        swc::Pat::Assign(assign) => {
-                            PatternLike::AssignmentPattern(self.convert_assign_pat(assign))
-                        }
+                    e.as_ref().and_then(|p| match p {
+                        swc::Pat::Assign(assign) => self
+                            .convert_assign_pat(assign)
+                            .map(PatternLike::AssignmentPattern),
                         other => self.convert_pat_as_assign_target_maybe_default(other),
                     })
                 })
@@ -1421,41 +1491,41 @@ impl<'a> ConvertCtx<'a> {
         })
     }
 
-    fn convert_pat_as_assign_target_maybe_default(&self, target: &swc::Pat) -> PatternLike {
+    fn convert_pat_as_assign_target_maybe_default(&self, target: &swc::Pat) -> Option<PatternLike> {
         match target {
             swc::Pat::Assign(_) => unreachable!("handled separately"),
             other => self.convert_pat(other),
         }
     }
 
-    fn convert_assign_expr(&self, assign: &swc::AssignExpr) -> AssignmentExpression {
-        AssignmentExpression {
+    fn convert_assign_expr(&self, assign: &swc::AssignExpr) -> Option<AssignmentExpression> {
+        Some(AssignmentExpression {
             base: self.make_base_node(assign.span),
             operator: self.convert_assign_op(assign.op),
-            left: Box::new(self.convert_assign_target(&assign.left)),
-            right: Box::new(self.convert_expr(&assign.right)),
-        }
+            left: Box::new(self.convert_assign_target(&assign.left)?),
+            right: Box::new(self.convert_expr(&assign.right)?),
+        })
     }
 
     // ===== Object expression =====
 
-    fn convert_object_lit(&self, obj: &swc::ObjectLit) -> ObjectExpression {
-        ObjectExpression {
+    fn convert_object_lit(&self, obj: &swc::ObjectLit) -> Option<ObjectExpression> {
+        Some(ObjectExpression {
             base: self.make_base_node(obj.span),
             properties: obj
                 .props
                 .iter()
                 .map(|p| self.convert_prop_or_spread(p))
-                .collect(),
-        }
+                .collect::<Option<Vec<_>>>()?,
+        })
     }
 
-    fn convert_prop_or_spread(&self, prop: &swc::PropOrSpread) -> ObjectExpressionProperty {
-        match prop {
+    fn convert_prop_or_spread(&self, prop: &swc::PropOrSpread) -> Option<ObjectExpressionProperty> {
+        Some(match prop {
             swc::PropOrSpread::Spread(s) => {
                 ObjectExpressionProperty::SpreadElement(SpreadElement {
                     base: self.make_base_node(s.span()),
-                    argument: Box::new(self.convert_expr(&s.expr)),
+                    argument: Box::new(self.convert_expr(&s.expr)?),
                 })
             }
             swc::PropOrSpread::Prop(p) => match &**p {
@@ -1472,13 +1542,13 @@ impl<'a> ConvertCtx<'a> {
                     })
                 }
                 swc::Prop::KeyValue(kv) => {
-                    ObjectExpressionProperty::ObjectProperty(self.convert_key_value_prop(kv))
+                    ObjectExpressionProperty::ObjectProperty(self.convert_key_value_prop(kv)?)
                 }
                 swc::Prop::Getter(g) => ObjectExpressionProperty::ObjectMethod(ObjectMethod {
                     base: self.make_base_node(g.span),
                     method: false,
                     kind: ObjectMethodKind::Get,
-                    key: Box::new(self.convert_prop_name(&g.key)),
+                    key: Box::new(self.convert_prop_name(&g.key)?),
                     params: vec![],
                     body: self
                         .convert_block_stmt_as_optional_function_body(g.body.as_ref(), g.span),
@@ -1498,8 +1568,8 @@ impl<'a> ConvertCtx<'a> {
                     base: self.make_base_node(s.span),
                     method: false,
                     kind: ObjectMethodKind::Set,
-                    key: Box::new(self.convert_prop_name(&s.key)),
-                    params: vec![self.convert_pat(&s.param)],
+                    key: Box::new(self.convert_prop_name(&s.key)?),
+                    params: vec![self.convert_pat(&s.param)?],
                     body: self
                         .convert_block_stmt_as_optional_function_body(s.body.as_ref(), s.span),
                     computed: self.convert_prop_name_computed(&s.key),
@@ -1518,8 +1588,8 @@ impl<'a> ConvertCtx<'a> {
                         base: self.make_base_node(m.span()),
                         method: true,
                         kind: ObjectMethodKind::Method,
-                        key: Box::new(self.convert_prop_name(&m.key)),
-                        params: self.convert_param_list(&m.function.params),
+                        key: Box::new(self.convert_prop_name(&m.key)?),
+                        params: self.convert_param_list(&m.function.params)?,
                         body: self.convert_block_stmt_as_optional_function_body(
                             m.function.body.as_ref(),
                             m.function.span,
@@ -1547,7 +1617,7 @@ impl<'a> ConvertCtx<'a> {
                             base: self.make_base_node(a.span),
                             operator: AssignmentOperator::Assign,
                             left: Box::new(PatternLike::Identifier(ident)),
-                            right: Box::new(self.convert_expr(&a.value)),
+                            right: Box::new(self.convert_expr(&a.value)?),
                         })),
                         computed: false,
                         shorthand: true,
@@ -1556,29 +1626,29 @@ impl<'a> ConvertCtx<'a> {
                     })
                 }
             },
-        }
+        })
     }
 
-    fn convert_key_value_prop(&self, kv: &swc::KeyValueProp) -> ObjectProperty {
-        ObjectProperty {
+    fn convert_key_value_prop(&self, kv: &swc::KeyValueProp) -> Option<ObjectProperty> {
+        Some(ObjectProperty {
             base: self.make_base_node(kv.span()),
-            key: Box::new(self.convert_prop_name(&kv.key)),
-            value: Box::new(self.convert_expr(&kv.value)),
+            key: Box::new(self.convert_prop_name(&kv.key)?),
+            value: Box::new(self.convert_expr(&kv.value)?),
             computed: self.convert_prop_name_computed(&kv.key),
             shorthand: false,
             decorators: None,
             method: Some(false),
-        }
+        })
     }
 
-    fn convert_array_lit(&self, arr: &swc::ArrayLit) -> ArrayExpression {
-        ArrayExpression {
+    fn convert_array_lit(&self, arr: &swc::ArrayLit) -> Option<ArrayExpression> {
+        Some(ArrayExpression {
             base: self.make_base_node(arr.span),
             elements: arr
                 .elems
                 .iter()
                 .map(|e| {
-                    e.as_ref().map(|elem| {
+                    e.as_ref().and_then(|elem| {
                         if elem.spread.is_some() {
                             self.convert_expr_or_spread(elem)
                         } else {
@@ -1587,19 +1657,23 @@ impl<'a> ConvertCtx<'a> {
                     })
                 })
                 .collect(),
-        }
+        })
     }
 
-    fn convert_tpl(&self, tpl: &swc::Tpl) -> TemplateLiteral {
-        TemplateLiteral {
+    fn convert_tpl(&self, tpl: &swc::Tpl) -> Option<TemplateLiteral> {
+        Some(TemplateLiteral {
             base: self.make_base_node(tpl.span),
             quasis: tpl
                 .quasis
                 .iter()
                 .map(|q| self.convert_tpl_element(q))
                 .collect(),
-            expressions: tpl.exprs.iter().map(|e| self.convert_expr(e)).collect(),
-        }
+            expressions: tpl
+                .exprs
+                .iter()
+                .map(|e| self.convert_expr(e))
+                .collect::<Option<Vec<_>>>()?,
+        })
     }
 
     fn convert_tpl_element(&self, element: &swc::TplElement) -> TemplateElement {
@@ -1637,61 +1711,70 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_ts_as_expr(&self, ts_as: &swc::TsAsExpr) -> TSAsExpression {
+    fn convert_ts_as_expr(&self, ts_as: &swc::TsAsExpr) -> Option<TSAsExpression> {
         self.preserved_ast.borrow_mut().save_ts_as_expr(ts_as);
 
-        TSAsExpression {
+        Some(TSAsExpression {
             base: self.make_base_node(ts_as.span),
-            expression: Box::new(self.convert_expr(&ts_as.expr)),
+            expression: Box::new(self.convert_expr(&ts_as.expr)?),
             type_annotation: self.convert_ts_type_json(&ts_as.type_ann),
-        }
+        })
     }
 
-    fn convert_ts_satisfies_expr(&self, ts_sat: &swc::TsSatisfiesExpr) -> TSSatisfiesExpression {
+    fn convert_ts_satisfies_expr(
+        &self,
+        ts_sat: &swc::TsSatisfiesExpr,
+    ) -> Option<TSSatisfiesExpression> {
         self.preserved_ast
             .borrow_mut()
             .save_ts_satisfies_expr(ts_sat);
 
-        TSSatisfiesExpression {
+        Some(TSSatisfiesExpression {
             base: self.make_base_node(ts_sat.span),
-            expression: Box::new(self.convert_expr(&ts_sat.expr)),
+            expression: Box::new(self.convert_expr(&ts_sat.expr)?),
             type_annotation: self.convert_ts_type_json(&ts_sat.type_ann),
-        }
+        })
     }
 
-    fn convert_ts_type_assertion(&self, ts_assert: &swc::TsTypeAssertion) -> TSTypeAssertion {
+    fn convert_ts_type_assertion(
+        &self,
+        ts_assert: &swc::TsTypeAssertion,
+    ) -> Option<TSTypeAssertion> {
         self.preserved_ast
             .borrow_mut()
             .save_ts_type_assertion(ts_assert);
 
-        TSTypeAssertion {
+        Some(TSTypeAssertion {
             base: self.make_base_node(ts_assert.span),
-            expression: Box::new(self.convert_expr(&ts_assert.expr)),
+            expression: Box::new(self.convert_expr(&ts_assert.expr)?),
             type_annotation: self.convert_ts_type_json(&ts_assert.type_ann),
-        }
+        })
     }
 
-    fn convert_ts_non_null_expr(&self, ts_non_null: &swc::TsNonNullExpr) -> TSNonNullExpression {
-        TSNonNullExpression {
+    fn convert_ts_non_null_expr(
+        &self,
+        ts_non_null: &swc::TsNonNullExpr,
+    ) -> Option<TSNonNullExpression> {
+        Some(TSNonNullExpression {
             base: self.make_base_node(ts_non_null.span),
-            expression: Box::new(self.convert_expr(&ts_non_null.expr)),
-        }
+            expression: Box::new(self.convert_expr(&ts_non_null.expr)?),
+        })
     }
 
     fn convert_ts_instantiation(
         &self,
         ts_instantiation: &swc::TsInstantiation,
-    ) -> TSInstantiationExpression {
+    ) -> Option<TSInstantiationExpression> {
         self.preserved_ast
             .borrow_mut()
             .save_ts_instantiation(ts_instantiation);
 
-        TSInstantiationExpression {
+        Some(TSInstantiationExpression {
             base: self.make_base_node(ts_instantiation.span),
-            expression: Box::new(self.convert_expr(&ts_instantiation.expr)),
+            expression: Box::new(self.convert_expr(&ts_instantiation.expr)?),
             type_parameters: self
                 .convert_ts_type_param_instantiation_json(&ts_instantiation.type_args),
-        }
+        })
     }
 
     // ===== Class =====
@@ -1705,17 +1788,17 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_class_decl(&self, class: &swc::ClassDecl) -> ClassDeclaration {
+    fn convert_class_decl(&self, class: &swc::ClassDecl) -> Option<ClassDeclaration> {
         let c = &class.class;
         self.preserved_ast.borrow_mut().save_class(c);
 
-        ClassDeclaration {
+        Some(ClassDeclaration {
             base: self.make_base_node(c.span),
             id: Some(self.convert_ident(&class.ident)),
-            super_class: c
-                .super_class
-                .as_ref()
-                .map(|s| Box::new(self.convert_expr(s))),
+            super_class: match c.super_class.as_ref() {
+                Some(s) => Some(self.convert_expr(s).map(Box::new)?),
+                None => None,
+            },
             body: ClassBody {
                 base: self.make_base_node(c.span),
                 body: vec![],
@@ -1727,20 +1810,20 @@ impl<'a> ConvertCtx<'a> {
             super_type_parameters: c.super_type_params.as_ref().map(|_| RawNode::null()),
             type_parameters: c.type_params.as_ref().map(|_| RawNode::null()),
             mixins: None,
-        }
+        })
     }
 
-    fn convert_class_expr(&self, class: &swc::ClassExpr) -> ClassExpression {
+    fn convert_class_expr(&self, class: &swc::ClassExpr) -> Option<ClassExpression> {
         let c = &class.class;
         self.preserved_ast.borrow_mut().save_class(c);
 
-        ClassExpression {
+        Some(ClassExpression {
             base: self.make_base_node(c.span),
             id: class.ident.as_ref().map(|id| self.convert_ident(id)),
-            super_class: c
-                .super_class
-                .as_ref()
-                .map(|s| Box::new(self.convert_expr(s))),
+            super_class: match c.super_class.as_ref() {
+                Some(s) => Some(self.convert_expr(s).map(Box::new)?),
+                None => None,
+            },
             body: ClassBody {
                 base: self.make_base_node(c.span),
                 body: vec![],
@@ -1749,7 +1832,7 @@ impl<'a> ConvertCtx<'a> {
             implements: self.convert_raw_node_null_placeholders(c.implements.len()),
             super_type_parameters: c.super_type_params.as_ref().map(|_| RawNode::null()),
             type_parameters: c.type_params.as_ref().map(|_| RawNode::null()),
-        }
+        })
     }
 
     fn convert_big_int(&self, lit: &swc::BigInt) -> BigIntLiteral {
@@ -1761,11 +1844,11 @@ impl<'a> ConvertCtx<'a> {
 
     // ===== JSX =====
 
-    fn convert_jsx_element(&self, el: &swc::JSXElement) -> JSXElement {
+    fn convert_jsx_element(&self, el: &swc::JSXElement) -> Option<JSXElement> {
         let self_closing = el.closing.is_none();
-        JSXElement {
+        Some(JSXElement {
             base: self.make_base_node(el.span),
-            opening_element: self.convert_jsx_opening_element(&el.opening, self_closing),
+            opening_element: self.convert_jsx_opening_element(&el.opening, self_closing)?,
             closing_element: el
                 .closing
                 .as_ref()
@@ -1774,29 +1857,29 @@ impl<'a> ConvertCtx<'a> {
                 .children
                 .iter()
                 .map(|c| self.convert_jsx_element_child(c))
-                .collect(),
+                .collect::<Option<Vec<_>>>()?,
             self_closing: Some(self_closing),
-        }
+        })
     }
 
     fn convert_jsx_opening_element(
         &self,
         el: &swc::JSXOpeningElement,
         self_closing: bool,
-    ) -> JSXOpeningElement {
+    ) -> Option<JSXOpeningElement> {
         self.preserved_ast.borrow_mut().save_jsx_opening_element(el);
 
-        JSXOpeningElement {
+        Some(JSXOpeningElement {
             base: self.make_base_node(el.span),
             name: self.convert_jsx_element_name(&el.name),
             attributes: el
                 .attrs
                 .iter()
                 .map(|a| self.convert_jsx_attr_or_spread(a))
-                .collect(),
+                .collect::<Option<Vec<_>>>()?,
             self_closing,
             type_parameters: el.type_args.as_ref().map(|_| RawNode::null()),
-        }
+        })
     }
 
     fn convert_jsx_closing_element(&self, el: &swc::JSXClosingElement) -> JSXClosingElement {
@@ -1839,26 +1922,29 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_jsx_attr_or_spread(&self, attr: &swc::JSXAttrOrSpread) -> JSXAttributeItem {
-        match attr {
+    fn convert_jsx_attr_or_spread(&self, attr: &swc::JSXAttrOrSpread) -> Option<JSXAttributeItem> {
+        Some(match attr {
             swc::JSXAttrOrSpread::JSXAttr(a) => {
-                JSXAttributeItem::JSXAttribute(self.convert_jsx_attr(a))
+                JSXAttributeItem::JSXAttribute(self.convert_jsx_attr(a)?)
             }
             swc::JSXAttrOrSpread::SpreadElement(s) => {
                 JSXAttributeItem::JSXSpreadAttribute(JSXSpreadAttribute {
                     base: self.make_base_node(s.span()),
-                    argument: Box::new(self.convert_expr(&s.expr)),
+                    argument: Box::new(self.convert_expr(&s.expr)?),
                 })
             }
-        }
+        })
     }
 
-    fn convert_jsx_attr(&self, attr: &swc::JSXAttr) -> JSXAttribute {
-        JSXAttribute {
+    fn convert_jsx_attr(&self, attr: &swc::JSXAttr) -> Option<JSXAttribute> {
+        Some(JSXAttribute {
             base: self.make_base_node(attr.span),
             name: self.convert_jsx_attr_name(&attr.name),
-            value: attr.value.as_ref().map(|v| self.convert_jsx_attr_value(v)),
-        }
+            value: match attr.value.as_ref() {
+                Some(v) => Some(self.convert_jsx_attr_value(v)?),
+                None => None,
+            },
+        })
     }
 
     fn convert_jsx_attr_name(&self, name: &swc::JSXAttrName) -> JSXAttributeName {
@@ -1880,26 +1966,29 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_jsx_attr_value(&self, value: &swc::JSXAttrValue) -> JSXAttributeValue {
-        match value {
+    fn convert_jsx_attr_value(&self, value: &swc::JSXAttrValue) -> Option<JSXAttributeValue> {
+        Some(match value {
             swc::JSXAttrValue::Str(s) => JSXAttributeValue::StringLiteral(StringLiteral {
                 base: self.make_base_node(s.span),
                 value: decode_jsx_entities(&s.value.to_string_lossy()).into(),
             }),
             swc::JSXAttrValue::JSXExprContainer(ec) => {
-                JSXAttributeValue::JSXExpressionContainer(self.convert_jsx_expr_container(ec))
+                JSXAttributeValue::JSXExpressionContainer(self.convert_jsx_expr_container(ec)?)
             }
             swc::JSXAttrValue::JSXElement(el) => {
-                JSXAttributeValue::JSXElement(Box::new(self.convert_jsx_element(el)))
+                JSXAttributeValue::JSXElement(Box::new(self.convert_jsx_element(el)?))
             }
             swc::JSXAttrValue::JSXFragment(frag) => {
-                JSXAttributeValue::JSXFragment(self.convert_jsx_fragment(frag))
+                JSXAttributeValue::JSXFragment(self.convert_jsx_fragment(frag)?)
             }
-        }
+        })
     }
 
-    fn convert_jsx_expr_container(&self, ec: &swc::JSXExprContainer) -> JSXExpressionContainer {
-        JSXExpressionContainer {
+    fn convert_jsx_expr_container(
+        &self,
+        ec: &swc::JSXExprContainer,
+    ) -> Option<JSXExpressionContainer> {
+        Some(JSXExpressionContainer {
             base: self.make_base_node(ec.span),
             expression: match &ec.expr {
                 swc::JSXExpr::JSXEmptyExpr(e) => {
@@ -1908,14 +1997,14 @@ impl<'a> ConvertCtx<'a> {
                     })
                 }
                 swc::JSXExpr::Expr(e) => {
-                    JSXExpressionContainerExpr::Expression(Box::new(self.convert_expr(e)))
+                    JSXExpressionContainerExpr::Expression(Box::new(self.convert_expr(e)?))
                 }
             },
-        }
+        })
     }
 
-    fn convert_jsx_element_child(&self, child: &swc::JSXElementChild) -> JSXChild {
-        match child {
+    fn convert_jsx_element_child(&self, child: &swc::JSXElementChild) -> Option<JSXChild> {
+        Some(match child {
             swc::JSXElementChild::JSXText(t) => JSXChild::JSXText(JSXText {
                 base: self.make_base_node(t.span),
                 // SWC stores the Babel-compatible decoded JSX text value here.
@@ -1923,23 +2012,23 @@ impl<'a> ConvertCtx<'a> {
                 value: decode_jsx_entities(t.value.as_ref()),
             }),
             swc::JSXElementChild::JSXExprContainer(ec) => {
-                JSXChild::JSXExpressionContainer(self.convert_jsx_expr_container(ec))
+                JSXChild::JSXExpressionContainer(self.convert_jsx_expr_container(ec)?)
             }
             swc::JSXElementChild::JSXSpreadChild(s) => JSXChild::JSXSpreadChild(JSXSpreadChild {
                 base: self.make_base_node(s.span),
-                expression: Box::new(self.convert_expr(&s.expr)),
+                expression: Box::new(self.convert_expr(&s.expr)?),
             }),
             swc::JSXElementChild::JSXElement(el) => {
-                JSXChild::JSXElement(Box::new(self.convert_jsx_element(el)))
+                JSXChild::JSXElement(Box::new(self.convert_jsx_element(el)?))
             }
             swc::JSXElementChild::JSXFragment(frag) => {
-                JSXChild::JSXFragment(self.convert_jsx_fragment(frag))
+                JSXChild::JSXFragment(self.convert_jsx_fragment(frag)?)
             }
-        }
+        })
     }
 
-    fn convert_jsx_fragment(&self, frag: &swc::JSXFragment) -> JSXFragment {
-        JSXFragment {
+    fn convert_jsx_fragment(&self, frag: &swc::JSXFragment) -> Option<JSXFragment> {
+        Some(JSXFragment {
             base: self.make_base_node(frag.span),
             opening_fragment: JSXOpeningFragment {
                 base: self.make_base_node(frag.opening.span),
@@ -1951,8 +2040,8 @@ impl<'a> ConvertCtx<'a> {
                 .children
                 .iter()
                 .map(|c| self.convert_jsx_element_child(c))
-                .collect(),
-        }
+                .collect::<Option<Vec<_>>>()?,
+        })
     }
 
     fn make_jsx_identifier(&self, span: Span, name: &str) -> JSXIdentifier {
@@ -2037,8 +2126,8 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_export_decl(&self, decl: &swc::ExportDecl) -> ExportNamedDeclaration {
-        let declaration = self.convert_decl(&decl.decl);
+    fn convert_export_decl(&self, decl: &swc::ExportDecl) -> Option<ExportNamedDeclaration> {
+        let declaration = self.convert_decl(&decl.decl)?;
 
         let is_type = match &decl.decl {
             swc_ecma_ast::Decl::Class(class_decl) => class_decl.declare,
@@ -2051,7 +2140,7 @@ impl<'a> ConvertCtx<'a> {
             swc_ecma_ast::Decl::TsModule(ts_module_decl) => ts_module_decl.declare,
         };
 
-        ExportNamedDeclaration {
+        Some(ExportNamedDeclaration {
             base: self.make_base_node(decl.span),
             declaration: Some(Box::new(declaration)),
             specifiers: vec![],
@@ -2059,7 +2148,7 @@ impl<'a> ConvertCtx<'a> {
             export_kind: is_type.then_some(ExportKind::Type),
             assertions: None,
             attributes: None,
-        }
+        })
     }
 
     fn convert_named_export(&self, decl: &swc::NamedExport) -> ExportNamedDeclaration {
@@ -2088,7 +2177,7 @@ impl<'a> ConvertCtx<'a> {
     fn convert_export_default_decl(
         &self,
         decl: &swc::ExportDefaultDecl,
-    ) -> ExportDefaultDeclaration {
+    ) -> Option<ExportDefaultDeclaration> {
         let declaration = match &decl.decl {
             swc::DefaultDecl::Fn(f) => {
                 let func = &f.function;
@@ -2097,7 +2186,7 @@ impl<'a> ConvertCtx<'a> {
                 ExportDefaultDecl::FunctionDeclaration(FunctionDeclaration {
                     base: self.make_base_node(func.span),
                     id: f.ident.as_ref().map(|id| self.convert_ident(id)),
-                    params: self.convert_param_list(&func.params),
+                    params: self.convert_param_list(&func.params)?,
                     body: self.convert_block_stmt_as_optional_function_body(
                         func.body.as_ref(),
                         func.span,
@@ -2122,10 +2211,10 @@ impl<'a> ConvertCtx<'a> {
                 ExportDefaultDecl::ClassDeclaration(ClassDeclaration {
                     base: self.make_base_node(class.span),
                     id: c.ident.as_ref().map(|id| self.convert_ident(id)),
-                    super_class: class
-                        .super_class
-                        .as_ref()
-                        .map(|s| Box::new(self.convert_expr(s))),
+                    super_class: match class.super_class.as_ref() {
+                        Some(s) => Some(self.convert_expr(s).map(Box::new)?),
+                        None => None,
+                    },
                     body: ClassBody {
                         base: self.make_base_node(class.span),
                         body: vec![],
@@ -2151,21 +2240,24 @@ impl<'a> ConvertCtx<'a> {
                 })))
             }
         };
-        ExportDefaultDeclaration {
+        Some(ExportDefaultDeclaration {
             base: self.make_base_node(decl.span),
             declaration: Box::new(declaration),
             export_kind: None,
-        }
+        })
     }
 
-    fn convert_export_default_expr(&self, d: &swc::ExportDefaultExpr) -> ExportDefaultDeclaration {
-        ExportDefaultDeclaration {
+    fn convert_export_default_expr(
+        &self,
+        d: &swc::ExportDefaultExpr,
+    ) -> Option<ExportDefaultDeclaration> {
+        Some(ExportDefaultDeclaration {
             base: self.make_base_node(d.span),
             declaration: Box::new(ExportDefaultDecl::Expression(Box::new(
-                self.convert_expr(&d.expr),
+                self.convert_expr(&d.expr)?,
             ))),
             export_kind: None,
-        }
+        })
     }
 
     fn convert_export_all(&self, decl: &swc::ExportAll) -> ExportAllDeclaration {
@@ -2632,39 +2724,29 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_invalid_ident(&self, span: Span) -> Identifier {
-        Identifier {
-            base: self.make_base_node(span),
-            name: "__invalid__".to_string(),
-            type_annotation: None,
-            optional: None,
-            decorators: None,
-        }
-    }
-
-    fn convert_prop_name(&self, key: &swc::PropName) -> Expression {
+    fn convert_prop_name(&self, key: &swc::PropName) -> Option<Expression> {
         match key {
-            swc::PropName::Ident(id) => Expression::Identifier(Identifier {
+            swc::PropName::Ident(id) => Some(Expression::Identifier(Identifier {
                 base: self.make_base_node(id.span),
                 name: id.sym.to_string(),
                 type_annotation: None,
                 optional: None,
                 decorators: None,
-            }),
-            swc::PropName::Str(s) => Expression::StringLiteral(StringLiteral {
+            })),
+            swc::PropName::Str(s) => Some(Expression::StringLiteral(StringLiteral {
                 base: self.make_base_node(s.span),
                 value: wtf8_to_string(&s.value).into(),
-            }),
-            swc::PropName::Num(n) => Expression::NumericLiteral(NumericLiteral {
+            })),
+            swc::PropName::Num(n) => Some(Expression::NumericLiteral(NumericLiteral {
                 base: self.make_base_node(n.span),
                 value: n.value,
                 extra: None,
-            }),
+            })),
             swc::PropName::Computed(_) => self.convert_prop_name_as_expression(key),
-            swc::PropName::BigInt(b) => Expression::BigIntLiteral(BigIntLiteral {
+            swc::PropName::BigInt(b) => Some(Expression::BigIntLiteral(BigIntLiteral {
                 base: self.make_base_node(b.span),
                 value: b.value.to_string(),
-            }),
+            })),
         }
     }
 
