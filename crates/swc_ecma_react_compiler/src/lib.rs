@@ -108,10 +108,11 @@ pub fn transform(
         file,
         preserved_ast,
     } = convert_program(program, source_text, comments);
+    let emit_success_error_diagnostics = options.no_emit;
     let result =
         react_compiler::entrypoint::program::compile_program(file, scope_info.clone(), options);
 
-    let diagnostics = compile_result_to_diagnostics(&result);
+    let diagnostics = compile_result_to_diagnostics(&result, emit_success_error_diagnostics);
     let (file, events, renames) = match result {
         react_compiler::entrypoint::compile_result::CompileResult::Success {
             ast,
