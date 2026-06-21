@@ -737,7 +737,9 @@ impl<'a> ConvertCtx<'a> {
                     type_annotation: RawNode::from_value(&type_ann),
                 })
             }
-            swc::Expr::Invalid(i) => Expression::Identifier(self.convert_invalid_ident(i.span)),
+            swc::Expr::Invalid(i) => {
+                unreachable!("SWC invalid expressions should not be converted: {:?}", i)
+            }
         }
     }
 
@@ -1183,7 +1185,10 @@ impl<'a> ConvertCtx<'a> {
             swc::Pat::Rest(r) => PatternLike::RestElement(self.convert_rest_pat(r)),
             swc::Pat::Expr(e) => self.convert_expr_as_pat(e),
             swc::Pat::Invalid(invalid) => {
-                PatternLike::Identifier(self.convert_invalid_ident(invalid.span))
+                unreachable!(
+                    "SWC invalid patterns should not be converted: {:?}",
+                    invalid
+                )
             }
         }
     }
@@ -1212,9 +1217,15 @@ impl<'a> ConvertCtx<'a> {
             }
             swc::Expr::Paren(e) => self.convert_expr_as_pat(&e.expr),
             swc::Expr::Invalid(invalid) => {
-                PatternLike::Identifier(self.convert_invalid_ident(invalid.span))
+                unreachable!(
+                    "SWC invalid expressions should not be converted: {:?}",
+                    invalid
+                )
             }
-            other => PatternLike::Identifier(self.convert_invalid_ident(other.span())),
+            other => unreachable!(
+                "Only certain expressions are valid patterns. Unexpected expression: {:?}",
+                other
+            ),
         }
     }
 
@@ -1384,7 +1395,10 @@ impl<'a> ConvertCtx<'a> {
                 self.convert_expr_as_pat(&e.expr)
             }
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::Invalid(invalid)) => {
-                PatternLike::Identifier(self.convert_invalid_ident(invalid.span))
+                unreachable!(
+                    "SWC invalid assignment targets should not be converted: {:?}",
+                    invalid
+                )
             }
             swc::AssignTarget::Pat(swc::AssignTargetPat::Array(a)) => {
                 self.convert_array_pat_as_assign_target(a)
@@ -1393,7 +1407,10 @@ impl<'a> ConvertCtx<'a> {
                 PatternLike::ObjectPattern(self.convert_object_pat(o))
             }
             swc::AssignTarget::Pat(swc::AssignTargetPat::Invalid(invalid)) => {
-                PatternLike::Identifier(self.convert_invalid_ident(invalid.span))
+                unreachable!(
+                    "SWC invalid assignment targets should not be converted: {:?}",
+                    invalid
+                )
             }
         }
     }
@@ -2626,16 +2643,6 @@ impl<'a> ConvertCtx<'a> {
         Identifier {
             base: self.make_base_node(id.span),
             name: id.sym.to_string(),
-            type_annotation: None,
-            optional: None,
-            decorators: None,
-        }
-    }
-
-    fn convert_invalid_ident(&self, span: Span) -> Identifier {
-        Identifier {
-            base: self.make_base_node(span),
-            name: "__invalid__".to_string(),
             type_annotation: None,
             optional: None,
             decorators: None,
