@@ -1296,15 +1296,21 @@ impl Pure<'_> {
                             })
                             .into(),
                         ),
-                        // this is indeed very unsafe in case of BigInt
-                        [ExprOrSpread { spread: None, expr }] if self.options.unsafe_math => Some(
-                            UnaryExpr {
-                                span: *span,
-                                op: op!(unary, "+"),
-                                arg: expr.take(),
-                            }
-                            .into(),
-                        ),
+                        // This is indeed very unsafe in case of BigInt, so it
+                        // requires both `unsafe` and `unsafe_math`, matching
+                        // terser (since v4.3.11).
+                        [ExprOrSpread { spread: None, expr }]
+                            if self.options.unsafe_passes && self.options.unsafe_math =>
+                        {
+                            Some(
+                                UnaryExpr {
+                                    span: *span,
+                                    op: op!(unary, "+"),
+                                    arg: expr.take(),
+                                }
+                                .into(),
+                            )
+                        }
                         _ => None,
                     },
                     Expr::Ident(Ident { sym, .. }) if &**sym == "String" => match &mut args[..] {
