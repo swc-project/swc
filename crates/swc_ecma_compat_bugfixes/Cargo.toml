@@ -23,5 +23,5 @@ swc_ecma_utils           = { version = "31.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit           = { version = "25.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_parser             = { version = "41.1.1", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "41.1.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "48.0.0", path = "../swc_ecma_transforms_testing" }

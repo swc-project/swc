@@ -11,21 +11,20 @@ pub struct PreservedAst {
 #[derive(Clone)]
 pub enum PreservedNode {
     Arrow(Box<ArrowShell>),
-    Call(Box<CallShell>),
+    Catch(Box<PatternTypeShell>),
     Class(Box<Class>),
     Directive(Box<Str>),
     Function(Box<FunctionShell>),
     Import(Box<ImportShell>),
-    JsxOpeningElement(Box<JsxOpeningElementShell>),
-    New(Box<NewShell>),
-    TaggedTemplate(Box<TaggedTemplateShell>),
-    TsExpr(Box<TsExprShell>),
     TsEnum(Box<TsEnumDecl>),
     TsExportAssignment(TsExportAssignment),
+    TsExpr(Box<TsExprShell>),
     TsImportEquals(Box<TsImportEqualsDecl>),
+    TsInstantiation(Box<TsInstantiationShell>),
     TsInterface(Box<TsInterfaceDecl>),
     TsModule(Box<TsModuleDecl>),
     TsNamespaceExport(TsNamespaceExportDecl),
+    TsOptionalInstantiation(Box<TsOptionalInstantiationShell>),
     TsTypeAlias(Box<TsTypeAliasDecl>),
     Variable(Box<VariableShell>),
 }
@@ -43,7 +42,7 @@ pub struct ArrowShell {
 /// AST.
 #[derive(Clone)]
 pub struct FunctionShell {
-    params: Vec<ParamShell>,
+    params: Vec<Param>,
     decorators: Vec<Decorator>,
     type_params: Option<Box<TsTypeParamDecl>>,
     return_type: Option<Box<TsTypeAnn>>,
@@ -56,39 +55,11 @@ pub struct VariableShell {
     declarations: Vec<Option<PatternTypeShell>>,
 }
 
-/// Lightweight function parameter metadata not represented losslessly in React
-/// Compiler's AST.
-#[derive(Clone)]
-pub struct ParamShell {
-    decorators: Vec<Decorator>,
-    pat_type: Option<PatternTypeShell>,
-}
-
 /// Typescript pattern metadata attached to the outer binding pattern.
 #[derive(Clone)]
-pub enum PatternTypeShell {
-    Ident {
-        type_ann: Option<Box<TsTypeAnn>>,
-        optional: bool,
-    },
-    Array {
-        type_ann: Option<Box<TsTypeAnn>>,
-        optional: bool,
-    },
-    Object {
-        type_ann: Option<Box<TsTypeAnn>>,
-        optional: bool,
-    },
-    Rest {
-        type_ann: Option<Box<TsTypeAnn>>,
-    },
-}
-
-/// Lightweight call metadata not represented losslessly in React Compiler's
-/// AST.
-#[derive(Clone)]
-pub struct CallShell {
-    type_args: Option<Box<TsTypeParamInstantiation>>,
+pub struct PatternTypeShell {
+    type_ann: Option<Box<TsTypeAnn>>,
+    optional: bool,
 }
 
 /// Lightweight import metadata that SWC's import declaration shape cannot
@@ -98,48 +69,27 @@ pub struct ImportShell {
     phase: ImportPhase,
 }
 
-/// Lightweight JSX opening element metadata not represented losslessly in
+/// Lightweight instantiation metadata not represented losslessly in React
+/// Compiler's AST.
+#[derive(Clone)]
+pub struct TsInstantiationShell {
+    span: Span,
+    type_args: Box<TsTypeParamInstantiation>,
+}
+
+/// Lightweight optional instantiation metadata not represented losslessly in
 /// React Compiler's AST.
 #[derive(Clone)]
-pub struct JsxOpeningElementShell {
+pub struct TsOptionalInstantiationShell {
     type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
-/// Lightweight new expression metadata not represented losslessly in React
-/// Compiler's AST.
+/// Lightweight Typescript expression wrapper metadata. These wrappers use the
+/// wrapped expression's `span.hi` as their preservation key.
 #[derive(Clone)]
-pub struct NewShell {
-    type_args: Option<Box<TsTypeParamInstantiation>>,
-}
-
-/// Lightweight tagged template metadata not represented losslessly in React
-/// Compiler's AST.
-#[derive(Clone)]
-pub struct TaggedTemplateShell {
-    type_params: Option<Box<TsTypeParamInstantiation>>,
-}
-
-/// Lightweight Typescript expression wrapper metadata. These wrappers use
-/// `span.hi` as their preservation key because their `span.lo` is often shared
-/// with the wrapped expression.
-#[derive(Clone)]
-pub enum TsExprShell {
-    As {
-        span: Span,
-        type_ann: Box<TsType>,
-    },
-    Satisfies {
-        span: Span,
-        type_ann: Box<TsType>,
-    },
-    TypeAssertion {
-        span: Span,
-        type_ann: Box<TsType>,
-    },
-    Instantiation {
-        span: Span,
-        type_args: Box<TsTypeParamInstantiation>,
-    },
+pub struct TsExprShell {
+    span: Span,
+    type_ann: Box<TsType>,
 }
 
 impl PreservedAst {
@@ -182,28 +132,31 @@ impl PreservedAst {
     pub fn save_call(&mut self, call: &CallExpr) {
         self.nodes.insert(
             call.span.lo.to_u32(),
-            PreservedNode::Call(Box::new(CallShell {
-                type_args: call.type_args.clone(),
-            })),
+            PreservedNode::TsOptionalInstantiation(Box::new(
+                TsOptionalInstantiationShell::from_optional_type_args(&call.type_args),
+            )),
         );
     }
 
     pub fn save_opt_call(&mut self, span: Span, call: &OptCall) {
         self.nodes.insert(
             span.lo.to_u32(),
-            PreservedNode::Call(Box::new(CallShell {
-                type_args: call.type_args.clone(),
-            })),
+            PreservedNode::TsOptionalInstantiation(Box::new(
+                TsOptionalInstantiationShell::from_optional_type_args(&call.type_args),
+            )),
         );
     }
 
     pub fn load_call(&mut self, call: &mut CallExpr) -> bool {
         let key = call.span.lo.to_u32();
-        if !matches!(self.nodes.get(&key), Some(PreservedNode::Call(_))) {
+        if !matches!(
+            self.nodes.get(&key),
+            Some(PreservedNode::TsOptionalInstantiation(_))
+        ) {
             return false;
         }
 
-        let Some(PreservedNode::Call(snapshot)) = self.nodes.remove(&key) else {
+        let Some(PreservedNode::TsOptionalInstantiation(snapshot)) = self.nodes.remove(&key) else {
             unreachable!()
         };
 
@@ -214,15 +167,47 @@ impl PreservedAst {
 
     pub fn load_opt_call(&mut self, call: &mut OptCall) -> bool {
         let key = call.span.lo.to_u32();
-        if !matches!(self.nodes.get(&key), Some(PreservedNode::Call(_))) {
+        if !matches!(
+            self.nodes.get(&key),
+            Some(PreservedNode::TsOptionalInstantiation(_))
+        ) {
             return false;
         }
 
-        let Some(PreservedNode::Call(snapshot)) = self.nodes.remove(&key) else {
+        let Some(PreservedNode::TsOptionalInstantiation(snapshot)) = self.nodes.remove(&key) else {
             unreachable!()
         };
 
         call.type_args = snapshot.type_args;
+
+        true
+    }
+
+    pub fn save_catch_clause(&mut self, clause: &CatchClause) {
+        let type_ann = clause.param.as_ref().and_then(pattern_type_ann);
+
+        self.nodes.insert(
+            clause.span.lo.to_u32(),
+            PreservedNode::Catch(Box::new(PatternTypeShell {
+                type_ann,
+                optional: false,
+            })),
+        );
+    }
+
+    pub fn load_catch_clause(&mut self, clause: &mut CatchClause) -> bool {
+        let key = clause.span.lo.to_u32();
+        if !matches!(self.nodes.get(&key), Some(PreservedNode::Catch(_))) {
+            return false;
+        }
+
+        let Some(PreservedNode::Catch(snapshot)) = self.nodes.remove(&key) else {
+            unreachable!()
+        };
+
+        if let (Some(param), Some(param_type)) = (&mut clause.param, snapshot.type_ann) {
+            apply_pattern_type_ann(param, param_type);
+        }
 
         true
     }
@@ -277,7 +262,7 @@ impl PreservedAst {
         self.nodes.insert(
             function.span.lo.to_u32(),
             PreservedNode::Function(Box::new(FunctionShell {
-                params: function.params.iter().map(ParamShell::from_param).collect(),
+                params: function.params.clone(),
                 decorators: function.decorators.clone(),
                 type_params: function.type_params.clone(),
                 return_type: function.return_type.clone(),
@@ -299,8 +284,29 @@ impl PreservedAst {
         function.type_params = snapshot.type_params;
         function.return_type = snapshot.return_type;
         for (param, source_param) in function.params.iter_mut().zip(snapshot.params) {
-            source_param.apply_to_param(param);
+            param.decorators = source_param.decorators;
+            if let Some(pat_type) = PatternTypeShell::from_pat(&source_param.pat) {
+                pat_type.apply_to_pat(&mut param.pat);
+            }
         }
+
+        true
+    }
+
+    pub fn load_ts_function(&mut self, function: &mut Function) -> bool {
+        let key = function.span.lo.to_u32();
+        if !matches!(self.nodes.get(&key), Some(PreservedNode::Function(_))) {
+            return false;
+        }
+
+        let Some(PreservedNode::Function(snapshot)) = self.nodes.remove(&key) else {
+            unreachable!()
+        };
+
+        function.decorators = snapshot.decorators;
+        function.type_params = snapshot.type_params;
+        function.return_type = snapshot.return_type;
+        function.params = snapshot.params;
 
         true
     }
@@ -330,9 +336,9 @@ impl PreservedAst {
     pub fn save_jsx_opening_element(&mut self, el: &JSXOpeningElement) {
         self.nodes.insert(
             el.span.lo.to_u32(),
-            PreservedNode::JsxOpeningElement(Box::new(JsxOpeningElementShell {
-                type_args: el.type_args.clone(),
-            })),
+            PreservedNode::TsOptionalInstantiation(Box::new(
+                TsOptionalInstantiationShell::from_optional_type_args(&el.type_args),
+            )),
         );
     }
 
@@ -340,12 +346,12 @@ impl PreservedAst {
         let key = el.span.lo.to_u32();
         if !matches!(
             self.nodes.get(&key),
-            Some(PreservedNode::JsxOpeningElement(_))
+            Some(PreservedNode::TsOptionalInstantiation(_))
         ) {
             return false;
         }
 
-        let Some(PreservedNode::JsxOpeningElement(snapshot)) = self.nodes.remove(&key) else {
+        let Some(PreservedNode::TsOptionalInstantiation(snapshot)) = self.nodes.remove(&key) else {
             unreachable!()
         };
 
@@ -357,19 +363,22 @@ impl PreservedAst {
     pub fn save_new(&mut self, new: &NewExpr) {
         self.nodes.insert(
             new.span.lo.to_u32(),
-            PreservedNode::New(Box::new(NewShell {
-                type_args: new.type_args.clone(),
-            })),
+            PreservedNode::TsOptionalInstantiation(Box::new(
+                TsOptionalInstantiationShell::from_optional_type_args(&new.type_args),
+            )),
         );
     }
 
     pub fn load_new(&mut self, new: &mut NewExpr) -> bool {
         let key = new.span.lo.to_u32();
-        if !matches!(self.nodes.get(&key), Some(PreservedNode::New(_))) {
+        if !matches!(
+            self.nodes.get(&key),
+            Some(PreservedNode::TsOptionalInstantiation(_))
+        ) {
             return false;
         }
 
-        let Some(PreservedNode::New(snapshot)) = self.nodes.remove(&key) else {
+        let Some(PreservedNode::TsOptionalInstantiation(snapshot)) = self.nodes.remove(&key) else {
             unreachable!()
         };
 
@@ -381,23 +390,26 @@ impl PreservedAst {
     pub fn save_tagged_tpl(&mut self, tagged: &TaggedTpl) {
         self.nodes.insert(
             tagged.span.lo.to_u32(),
-            PreservedNode::TaggedTemplate(Box::new(TaggedTemplateShell {
-                type_params: tagged.type_params.clone(),
-            })),
+            PreservedNode::TsOptionalInstantiation(Box::new(
+                TsOptionalInstantiationShell::from_optional_type_args(&tagged.type_params),
+            )),
         );
     }
 
     pub fn load_tagged_tpl(&mut self, tagged: &mut TaggedTpl) -> bool {
         let key = tagged.span.lo.to_u32();
-        if !matches!(self.nodes.get(&key), Some(PreservedNode::TaggedTemplate(_))) {
+        if !matches!(
+            self.nodes.get(&key),
+            Some(PreservedNode::TsOptionalInstantiation(_))
+        ) {
             return false;
         }
 
-        let Some(PreservedNode::TaggedTemplate(snapshot)) = self.nodes.remove(&key) else {
+        let Some(PreservedNode::TsOptionalInstantiation(snapshot)) = self.nodes.remove(&key) else {
             unreachable!()
         };
 
-        tagged.type_params = snapshot.type_params;
+        tagged.type_params = snapshot.type_args;
 
         true
     }
@@ -437,6 +449,7 @@ impl PreservedAst {
         true
     }
 
+    // expr as T
     pub fn save_ts_as_expr(&mut self, expr: &TsAsExpr) {
         self.nodes.insert(
             expr.span.hi.to_u32(),
@@ -446,10 +459,7 @@ impl PreservedAst {
 
     pub fn load_ts_as_expr(&mut self, expr: &mut TsAsExpr) -> bool {
         let key = expr.span.hi.to_u32();
-        if !matches!(
-            self.nodes.get(&key),
-            Some(PreservedNode::TsExpr(shell)) if matches!(shell.as_ref(), TsExprShell::As { .. })
-        ) {
+        if !matches!(self.nodes.get(&key), Some(PreservedNode::TsExpr(_))) {
             return false;
         }
 
@@ -457,16 +467,13 @@ impl PreservedAst {
             unreachable!()
         };
 
-        let TsExprShell::As { span, type_ann } = *snapshot else {
-            unreachable!()
-        };
-
-        expr.span = span;
-        expr.type_ann = type_ann;
+        expr.span = snapshot.span;
+        expr.type_ann = snapshot.type_ann;
 
         true
     }
 
+    // expr satisfies T
     pub fn save_ts_satisfies_expr(&mut self, expr: &TsSatisfiesExpr) {
         self.nodes.insert(
             expr.span.hi.to_u32(),
@@ -476,92 +483,6 @@ impl PreservedAst {
 
     pub fn load_ts_satisfies_expr(&mut self, expr: &mut TsSatisfiesExpr) -> bool {
         let key = expr.span.hi.to_u32();
-        if !matches!(
-            self.nodes.get(&key),
-            Some(PreservedNode::TsExpr(shell))
-                if matches!(shell.as_ref(), TsExprShell::Satisfies { .. })
-        ) {
-            return false;
-        }
-
-        let Some(PreservedNode::TsExpr(snapshot)) = self.nodes.remove(&key) else {
-            unreachable!()
-        };
-
-        let TsExprShell::Satisfies { span, type_ann } = *snapshot else {
-            unreachable!()
-        };
-
-        expr.span = span;
-        expr.type_ann = type_ann;
-
-        true
-    }
-
-    pub fn save_ts_type_assertion(&mut self, expr: &TsTypeAssertion) {
-        self.nodes.insert(
-            expr.span.hi.to_u32(),
-            PreservedNode::TsExpr(Box::new(TsExprShell::from_ts_type_assertion(expr))),
-        );
-    }
-
-    pub fn load_ts_type_assertion(&mut self, expr: &mut TsTypeAssertion) -> bool {
-        let key = expr.span.hi.to_u32();
-        if !matches!(
-            self.nodes.get(&key),
-            Some(PreservedNode::TsExpr(shell))
-                if matches!(shell.as_ref(), TsExprShell::TypeAssertion { .. })
-        ) {
-            return false;
-        }
-
-        let Some(PreservedNode::TsExpr(snapshot)) = self.nodes.remove(&key) else {
-            unreachable!()
-        };
-
-        let TsExprShell::TypeAssertion { span, type_ann } = *snapshot else {
-            unreachable!()
-        };
-
-        expr.span = span;
-        expr.type_ann = type_ann;
-
-        true
-    }
-
-    pub fn save_ts_instantiation(&mut self, expr: &TsInstantiation) {
-        self.nodes.insert(
-            expr.span.hi.to_u32(),
-            PreservedNode::TsExpr(Box::new(TsExprShell::from_ts_instantiation(expr))),
-        );
-    }
-
-    pub fn load_ts_instantiation(&mut self, expr: &mut TsInstantiation) -> bool {
-        let key = expr.span.hi.to_u32();
-        if !matches!(
-            self.nodes.get(&key),
-            Some(PreservedNode::TsExpr(shell))
-                if matches!(shell.as_ref(), TsExprShell::Instantiation { .. })
-        ) {
-            return false;
-        }
-
-        let Some(PreservedNode::TsExpr(snapshot)) = self.nodes.remove(&key) else {
-            unreachable!()
-        };
-
-        let TsExprShell::Instantiation { span, type_args } = *snapshot else {
-            unreachable!()
-        };
-
-        expr.span = span;
-        expr.type_args = type_args;
-
-        true
-    }
-
-    pub fn load_ts_expr_for_span(&mut self, expr: &mut Expr, span: Span) -> bool {
-        let key = span.hi.to_u32();
         if !matches!(self.nodes.get(&key), Some(PreservedNode::TsExpr(_))) {
             return false;
         }
@@ -570,8 +491,61 @@ impl PreservedAst {
             unreachable!()
         };
 
-        let current = expr.take();
-        *expr = snapshot.wrap(current);
+        expr.span = snapshot.span;
+        expr.type_ann = snapshot.type_ann;
+
+        true
+    }
+
+    // <T>expr
+    pub fn save_ts_type_assertion(&mut self, expr: &TsTypeAssertion) {
+        self.nodes.insert(
+            expr.span.lo.to_u32(),
+            PreservedNode::TsExpr(Box::new(TsExprShell::from_ts_type_assertion(expr))),
+        );
+    }
+
+    pub fn load_ts_type_assertion(&mut self, expr: &mut TsTypeAssertion) -> bool {
+        let key = expr.span.lo.to_u32();
+        if !matches!(self.nodes.get(&key), Some(PreservedNode::TsExpr(_))) {
+            return false;
+        }
+
+        let Some(PreservedNode::TsExpr(snapshot)) = self.nodes.remove(&key) else {
+            unreachable!()
+        };
+
+        expr.span = snapshot.span;
+        expr.type_ann = snapshot.type_ann;
+
+        true
+    }
+
+    // expr<T>
+    pub fn save_ts_instantiation(&mut self, expr: &TsInstantiation) {
+        self.nodes.insert(
+            expr.span.hi.to_u32(),
+            PreservedNode::TsInstantiation(Box::new(TsInstantiationShell::from_ts_instantiation(
+                expr,
+            ))),
+        );
+    }
+
+    pub fn load_ts_instantiation(&mut self, expr: &mut TsInstantiation) -> bool {
+        let key = expr.span.hi.to_u32();
+        if !matches!(
+            self.nodes.get(&key),
+            Some(PreservedNode::TsInstantiation(_))
+        ) {
+            return false;
+        }
+
+        let Some(PreservedNode::TsInstantiation(snapshot)) = self.nodes.remove(&key) else {
+            unreachable!()
+        };
+
+        expr.span = snapshot.span;
+        expr.type_args = snapshot.type_args;
 
         true
     }
@@ -694,7 +668,7 @@ impl PreservedAst {
         true
     }
 
-    pub fn load_module_item(&mut self, item: &mut ModuleItem, id: Option<TsModuleName>) -> bool {
+    pub fn load_module_item(&mut self, item: &mut ModuleItem) -> bool {
         let key = match module_item_span(item) {
             Some(span) => span.lo.to_u32(),
             None => return false,
@@ -719,22 +693,13 @@ impl PreservedAst {
             PreservedNode::TsExportAssignment(decl) => {
                 *item = ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(decl));
             }
-            PreservedNode::TsImportEquals(mut decl) => {
-                if let Some(TsModuleName::Ident(id)) = id {
-                    decl.id = id;
-                }
+            PreservedNode::TsImportEquals(decl) => {
                 *item = ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl));
             }
-            PreservedNode::TsModule(mut decl) => {
-                if let Some(id) = id {
-                    decl.id = id;
-                }
+            PreservedNode::TsModule(decl) => {
                 *item = ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(decl)));
             }
-            PreservedNode::TsNamespaceExport(mut decl) => {
-                if let Some(TsModuleName::Ident(id)) = id {
-                    decl.id = id;
-                }
+            PreservedNode::TsNamespaceExport(decl) => {
                 *item = ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(decl));
             }
             _ => unreachable!(),
@@ -753,60 +718,65 @@ fn module_item_span(item: &ModuleItem) -> Option<swc_common::Span> {
     }
 }
 
-impl ParamShell {
-    fn from_param(param: &Param) -> Self {
-        Self {
-            decorators: param.decorators.clone(),
-            pat_type: PatternTypeShell::from_pat(&param.pat),
-        }
+fn pattern_type_ann(pattern: &Pat) -> Option<Box<TsTypeAnn>> {
+    match PatternTypeShell::typed_pat(pattern) {
+        Pat::Ident(pattern) => pattern.type_ann.clone(),
+        Pat::Array(pattern) => pattern.type_ann.clone(),
+        Pat::Object(pattern) => pattern.type_ann.clone(),
+        Pat::Rest(pattern) => pattern.type_ann.clone(),
+        _ => None,
     }
+}
 
-    fn apply_to_param(self, param: &mut Param) {
-        param.decorators = self.decorators;
-        if let Some(pat_type) = self.pat_type {
-            pat_type.apply_to_pat(&mut param.pat);
-        }
+fn apply_pattern_type_ann(pattern: &mut Pat, type_ann: Box<TsTypeAnn>) {
+    match PatternTypeShell::typed_pat_mut(pattern) {
+        Pat::Ident(pattern) => pattern.type_ann = Some(type_ann),
+        Pat::Array(pattern) => pattern.type_ann = Some(type_ann),
+        Pat::Object(pattern) => pattern.type_ann = Some(type_ann),
+        Pat::Rest(pattern) => pattern.type_ann = Some(type_ann),
+        _ => {}
     }
 }
 
 impl PatternTypeShell {
     fn from_pat(pattern: &Pat) -> Option<Self> {
         match Self::typed_pat(pattern) {
-            Pat::Ident(pattern) => Some(Self::Ident {
+            Pat::Ident(pattern) => Some(Self {
                 type_ann: pattern.type_ann.clone(),
                 optional: pattern.id.optional,
             }),
-            Pat::Array(pattern) => Some(Self::Array {
+            Pat::Array(pattern) => Some(Self {
                 type_ann: pattern.type_ann.clone(),
                 optional: pattern.optional,
             }),
-            Pat::Object(pattern) => Some(Self::Object {
+            Pat::Object(pattern) => Some(Self {
                 type_ann: pattern.type_ann.clone(),
                 optional: pattern.optional,
             }),
-            Pat::Rest(pattern) => Some(Self::Rest {
+            Pat::Rest(pattern) => Some(Self {
                 type_ann: pattern.type_ann.clone(),
+                optional: false,
             }),
             _ => None,
         }
     }
 
     fn apply_to_pat(self, pattern: &mut Pat) {
-        match (self, Self::typed_pat_mut(pattern)) {
-            (Self::Ident { type_ann, optional }, Pat::Ident(pattern)) => {
-                pattern.type_ann = type_ann;
-                pattern.id.optional = optional;
+        match Self::typed_pat_mut(pattern) {
+            Pat::Ident(pattern) => {
+                pattern.type_ann = self.type_ann;
+                pattern.id.optional = self.optional;
             }
-            (Self::Array { type_ann, optional }, Pat::Array(pattern)) => {
-                pattern.type_ann = type_ann;
-                pattern.optional = optional;
+            Pat::Array(pattern) => {
+                pattern.type_ann = self.type_ann;
+                pattern.optional = self.optional;
             }
-            (Self::Object { type_ann, optional }, Pat::Object(pattern)) => {
-                pattern.type_ann = type_ann;
-                pattern.optional = optional;
+            Pat::Object(pattern) => {
+                pattern.type_ann = self.type_ann;
+                pattern.optional = self.optional;
             }
-            (Self::Rest { type_ann }, Pat::Rest(pattern)) => {
-                pattern.type_ann = type_ann;
+            Pat::Rest(pattern) => {
+                pattern.type_ann = self.type_ann;
             }
             _ => {}
         }
@@ -827,61 +797,42 @@ impl PatternTypeShell {
     }
 }
 
+impl TsInstantiationShell {
+    fn from_ts_instantiation(expr: &TsInstantiation) -> Self {
+        Self {
+            span: expr.span,
+            type_args: expr.type_args.clone(),
+        }
+    }
+}
+
+impl TsOptionalInstantiationShell {
+    fn from_optional_type_args(type_args: &Option<Box<TsTypeParamInstantiation>>) -> Self {
+        Self {
+            type_args: type_args.clone(),
+        }
+    }
+}
+
 impl TsExprShell {
     fn from_ts_as_expr(expr: &TsAsExpr) -> Self {
-        Self::As {
+        Self {
             span: expr.span,
             type_ann: expr.type_ann.clone(),
         }
     }
 
     fn from_ts_satisfies_expr(expr: &TsSatisfiesExpr) -> Self {
-        Self::Satisfies {
+        Self {
             span: expr.span,
             type_ann: expr.type_ann.clone(),
         }
     }
 
     fn from_ts_type_assertion(expr: &TsTypeAssertion) -> Self {
-        Self::TypeAssertion {
+        Self {
             span: expr.span,
             type_ann: expr.type_ann.clone(),
-        }
-    }
-
-    fn from_ts_instantiation(expr: &TsInstantiation) -> Self {
-        Self::Instantiation {
-            span: expr.span,
-            type_args: expr.type_args.clone(),
-        }
-    }
-
-    fn wrap(self, expr: Expr) -> Expr {
-        match self {
-            TsExprShell::As { span, type_ann } => Expr::TsAs(TsAsExpr {
-                span,
-                expr: Box::new(expr),
-                type_ann,
-            }),
-            TsExprShell::Satisfies { span, type_ann } => Expr::TsSatisfies(TsSatisfiesExpr {
-                span,
-                expr: Box::new(expr),
-                type_ann,
-            }),
-            TsExprShell::TypeAssertion { span, type_ann } => {
-                Expr::TsTypeAssertion(TsTypeAssertion {
-                    span,
-                    expr: Box::new(expr),
-                    type_ann,
-                })
-            }
-            TsExprShell::Instantiation { span, type_args } => {
-                Expr::TsInstantiation(TsInstantiation {
-                    span,
-                    expr: Box::new(expr),
-                    type_args,
-                })
-            }
         }
     }
 }

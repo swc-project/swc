@@ -17,8 +17,8 @@ use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, EsSyntax, Syn
 use crate::{
     convert_ast::convert_program,
     convert_ast_reverse::convert_program_to_swc as convert_program_to_swc_with_preserved_ast,
-    convert_scope::SemanticBuilder, lint_source, prefilter::has_react_like_functions,
-    transform_source, SourceType,
+    convert_scope::SemanticBuilder, diagnostics::Severity, lint_source,
+    prefilter::has_react_like_functions, transform_source, SourceType,
 };
 
 fn convert_program_to_swc(file: &File) -> swc_ecma_ast::Program {
@@ -28,6 +28,18 @@ fn convert_program_to_swc(file: &File) -> swc_ecma_ast::Program {
 fn convert_module(module: &swc_ecma_ast::Module, source_text: &str) -> File {
     let program = swc_ecma_ast::Program::Module(module.clone());
     convert_program(&program, source_text, None).file
+}
+
+fn assert_file_serializes_to_json(file: &File) {
+    let json = serde_json::to_value(file).expect("serialize to JSON");
+    assert!(json
+        .get("program")
+        .and_then(|program| program.get("body"))
+        .is_some());
+    assert!(json
+        .pointer("/program/body")
+        .and_then(serde_json::Value::as_array)
+        .is_some());
 }
 
 fn parse_program(source: &str) -> swc_ecma_ast::Program {
@@ -1216,6 +1228,30 @@ fn transform_component_with_hook_does_not_panic() {
 }
 
 #[test]
+fn transform_ref_access_error_is_not_swc_diagnostic_with_default_panic_threshold() {
+    let source = r#"
+        import { useRef } from 'react';
+
+        function App() {
+            const ref = useRef(1);
+            return ref.current;
+        }
+    "#;
+
+    let result = transform_source(source, Default::default(), default_options());
+
+    assert!(
+        result.program.is_none(),
+        "component with a ref access error should not be compiled"
+    );
+    assert!(
+        result.diagnostics.is_empty(),
+        "non-fatal React Compiler events should not surface as SWC diagnostics: {:#?}",
+        result.diagnostics
+    );
+}
+
+#[test]
 fn transform_non_react_code_returns_none() {
     let source = "const x = 1 + 2;";
     let result = transform_source(source, Default::default(), default_options());
@@ -1244,6 +1280,34 @@ fn lint_simple_component_does_not_panic() {
     "#;
     let result = lint_source(source, Default::default(), default_options());
     let _ = result.diagnostics;
+}
+
+#[test]
+fn lint_reports_ref_access_error_with_default_panic_threshold() {
+    let source = r#"
+        import { useRef } from 'react';
+
+        function App() {
+            const ref = useRef(1);
+            return ref.current;
+        }
+    "#;
+
+    let result = lint_source(source, Default::default(), default_options());
+
+    assert_eq!(result.diagnostics.len(), 1);
+    assert!(
+        matches!(result.diagnostics[0].severity, Severity::Error),
+        "lint should preserve React Compiler error severity: {:#?}",
+        result.diagnostics
+    );
+    assert!(
+        result.diagnostics[0]
+            .message
+            .contains("[ReactCompiler] Refs: Cannot access refs during render"),
+        "unexpected diagnostic: {:#?}",
+        result.diagnostics
+    );
 }
 
 #[test]
@@ -1308,13 +1372,9 @@ fn reverse_convert_roundtrip_via_json() {
     let module = parse_module(source);
     let file = convert_module(&module, source);
 
-    // Serialize to JSON and deserialize back
-    let json = serde_json::to_value(&file).expect("serialize to JSON");
-    let deserialized: react_compiler_ast::File =
-        serde_json::from_value(json).expect("deserialize from JSON");
+    assert_file_serializes_to_json(&file);
 
-    // Convert the deserialized AST back to SWC
-    let program = convert_program_to_swc(&deserialized);
+    let program = convert_program_to_swc(&file);
     let module = program.as_module().unwrap();
     assert_eq!(module.body.len(), 2);
 }
@@ -1325,11 +1385,9 @@ fn reverse_convert_jsx_roundtrip() {
     let module = parse_module(source);
     let file = convert_module(&module, source);
 
-    let json = serde_json::to_value(&file).expect("serialize to JSON");
-    let deserialized: react_compiler_ast::File =
-        serde_json::from_value(json).expect("deserialize from JSON");
+    assert_file_serializes_to_json(&file);
 
-    let program = convert_program_to_swc(&deserialized);
+    let program = convert_program_to_swc(&file);
     let module = program.as_module().unwrap();
     assert_eq!(module.body.len(), 1);
 }
@@ -1378,18 +1436,16 @@ fn convert_ts_source(source: &str) -> crate::convert_ast::ConvertResult {
 }
 
 fn round_trip_convert_result(result: crate::convert_ast::ConvertResult) -> swc_ecma_ast::Program {
-    let json = serde_json::to_value(&result.file).expect("serialize to JSON");
-    let deserialized: react_compiler_ast::File =
-        serde_json::from_value(json).expect("deserialize from JSON");
+    assert_file_serializes_to_json(&result.file);
 
-    convert_program_to_swc_with_preserved_ast(&deserialized, result.preserved_ast)
+    convert_program_to_swc_with_preserved_ast(&result.file, result.preserved_ast)
 }
 
 /// TS module-interop statements (`import x = require(...)`, `export = x`,
 /// `export as namespace X`) have no dedicated node in `react_compiler_ast`.
 /// They are carried as opaque `TSModuleDeclaration`s with preserved SWC shells.
-/// This test verifies they survive a JSON round trip and emit back without
-/// source-text reparse.
+/// This test verifies the typed AST still serializes to JSON and emits back
+/// without source-text reparse.
 #[test]
 fn ts_module_interop_statements_round_trip() {
     let source =

@@ -7,9 +7,9 @@ const fallback = {
     label: "fallback",
 };
 
-const namedFunctionExpression = function NamedFunctionExpression<TValue extends number = number>(
-    value: TValue,
-) {
+const namedFunctionExpression = function NamedFunctionExpression<
+    TValue extends number = number,
+>(value: TValue) {
     return value + fallback.count;
 };
 
@@ -46,6 +46,7 @@ export async function expressionShapes<TInput = any>(
     const satisfied = { name: nonNull } satisfies NamedValue;
     const tuple = [satisfied.name, big] as const;
     const instantiatedFactory = input.makeBox<string>;
+    const factory = input.makeBox<string> as { value: string };
     const sequence = (total++, total--, total);
 
     delete others.skip;
@@ -67,7 +68,10 @@ export async function expressionShapes<TInput = any>(
     };
 }
 
-function tag<TValue = string>(strings: TemplateStringsArray, ...values: unknown[]): TValue {
+function tag<TValue = string>(
+    strings: TemplateStringsArray,
+    ...values: unknown[]
+): TValue {
     return (strings.raw.join("|") + values.length) as TValue;
 }
 
@@ -94,3 +98,15 @@ export function* generatedIds(seed: number) {
 export function App() {
     return <div data-kind="expressions" />;
 }
+
+1 as unknown as number;
+
+function foo<T>(): <U>() => [T, U] {
+    return function <U>(): [T, U] {
+        throw new Error("not implemented");
+    };
+}
+
+const f = foo<string>()<number>;
+
+const value: [string, number] = f();

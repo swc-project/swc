@@ -1,4 +1,104 @@
 # Changelog
+## [swc_core@v71.0.2] - 2026-06-22
+
+### Bug Fixes
+
+
+
+- **(es/parser)** Allow no-default builds ([#11956](https://github.com/swc-project/swc/issues/11956)) ([baab240](https://github.com/swc-project/swc/commit/baab240500b8d7329fabfb3ec936ba62b59742db))
+
+## [swc_core@v71.0.1] - 2026-06-21
+
+### Bug Fixes
+
+
+
+- **(react-compiler)** React compiler AST conversion for wrapped assignment targets ([#11952](https://github.com/swc-project/swc/issues/11952)) ([fc9b453](https://github.com/swc-project/swc/commit/fc9b4537a0e4adf8bce0f8834b7805a75a448a5b))
+
+## [swc_core@v71.0.0] - 2026-06-21
+
+### Bug Fixes
+
+
+
+- **(es/es2022)** Correct scope for private property brand checks ([#11953](https://github.com/swc-project/swc/issues/11953)) ([fb5afa2](https://github.com/swc-project/swc/commit/fb5afa22796439b41a0b261b6a4823cab0dcc8df))
+
+
+- **(es/minifier)** Gate Number(x) -> +x on unsafe flag ([#11944](https://github.com/swc-project/swc/issues/11944)) ([#11949](https://github.com/swc-project/swc/issues/11949)) ([6176019](https://github.com/swc-project/swc/commit/617601978a4090cde8c0dd900c079cc7eb64b642))
+
+
+- **(react-compiler)** Avoid reporting non-fatal success errors as diagnostics ([#11951](https://github.com/swc-project/swc/issues/11951)) ([cb4cb23](https://github.com/swc-project/swc/commit/cb4cb230ec473cb42ccd27dc8d20702ccb24e653))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/react-compiler)** Update forked react compiler to 0.2.0 ([#11946](https://github.com/swc-project/swc/issues/11946)) ([6fbe188](https://github.com/swc-project/swc/commit/6fbe188741cebee363e7afeec4b0c4aa96144070))
+
+### Refactor
+
+
+
+- **(es/react-compiler)** Preserve TS metadata during AST roundtrip ([#11950](https://github.com/swc-project/swc/issues/11950)) ([9c4dec3](https://github.com/swc-project/swc/commit/9c4dec3799bc65782823281ba9b2bb714c43181c))
+
+## [swc_core@v70.0.0] - 2026-06-18
+
+### Bug Fixes
+
+
+
+- **(es/react-compiler)** Scope ClassStaticBlock and TsModuleBlock as var boundaries ([#11943](https://github.com/swc-project/swc/issues/11943)) ([1ee74a0](https://github.com/swc-project/swc/commit/1ee74a0cc5938a720e106221374c0d894396a16d))
+
+### Refactor
+
+
+
+- Remove production tracing hooks ([#11945](https://github.com/swc-project/swc/issues/11945)) ([0dffdc4](https://github.com/swc-project/swc/commit/0dffdc4998a5b8605de8f07fb0518bc60495a931))
+
+## [swc_core@v69.0.0] - 2026-06-16
+
+### Features
+
+
+
+- **(swc)** Gate react compiler re-export ([#11941](https://github.com/swc-project/swc/issues/11941)) ([dcc0f2d](https://github.com/swc-project/swc/commit/dcc0f2d0c5c5b68656065277b0b84572286693a5))
+
+## [swc_core@v68.1.2] - 2026-06-16
+
+### Bug Fixes
+
+
+
+- **(es/react-compiler)** Skip TypeScript `this` pseudo-params in scope collector ([#11940](https://github.com/swc-project/swc/issues/11940)) ([9066c43](https://github.com/swc-project/swc/commit/9066c4319a8c4e8bf9dc97885d2d7ff3a26cf79f))
+
+## [swc_core@v68.1.1] - 2026-06-15
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Preserve `cooked` when concatenating template literals ([#11939](https://github.com/swc-project/swc/issues/11939)) ([a7244a6](https://github.com/swc-project/swc/commit/a7244a65e2dcb28f20ab6d747fd782d02a8eebf9))
+
+## [swc_core@v68.1.0] - 2026-06-15
+
+### Bug Fixes
+
+
+
+- **(es/parser)** Parse Flow bare renders types ([#11929](https://github.com/swc-project/swc/issues/11929)) ([a71c8eb](https://github.com/swc-project/swc/commit/a71c8eba7b0ef4280b8866cd8e6eebc5be10f0dc))
+
+### Documentation
+
+
+
+- Document untrusted input security scope ([#11937](https://github.com/swc-project/swc/issues/11937)) ([677305b](https://github.com/swc-project/swc/commit/677305b6fb204d5ffd391616f3e091c5c190893a))
+
+### Features
+
+
+
+- **(es/react-compiler)** Add React Compiler ([#11917](https://github.com/swc-project/swc/issues/11917)) ([b182fbd](https://github.com/swc-project/swc/commit/b182fbd5bc0336f33ac1dec4ca0027d5b25ce1e3))
+
 ## [swc_core@v68.0.6] - 2026-06-09
 
 ### Bug Fixes
@@ -2386,91 +2486,5 @@
 
 
 - **(es/minifier)** Cleanup ([#10882](https://github.com/swc-project/swc/issues/10882)) ([2595cb1](https://github.com/swc-project/swc/commit/2595cb13a737e9ad935c4c99ec954e7c6224ecd0))
-
-## [swc_core@v33.0.0] - 2025-07-17
-
-### Bug Fixes
-
-
-
-- **(es/lexer)** Disallow legacy octal literals as BigInt ([#10867](https://github.com/swc-project/swc/issues/10867)) ([430fbf4](https://github.com/swc-project/swc/commit/430fbf45371e760b23f5feed56aa9cfdb7403d72))
-
-
-- **(es/parser)** Mark `static` as reserved in strict mode ([#10861](https://github.com/swc-project/swc/issues/10861)) ([5bdddd7](https://github.com/swc-project/swc/commit/5bdddd7d65b137f8a03a33a4f74a636e8b908227))
-
-### Features
-
-
-
-- **(plugin/runner)** Use wasmer-wasix sys-minimal feature to reduce binary size ([#10638](https://github.com/swc-project/swc/issues/10638)) ([b5f704a](https://github.com/swc-project/swc/commit/b5f704a1199ea1be0a68e23d4eb8928e2ac6bc51))
-
-### Performance
-
-
-
-- **(es/lexer)** Reduce comparison while reading numbers ([#10864](https://github.com/swc-project/swc/issues/10864)) ([c6ba5c2](https://github.com/swc-project/swc/commit/c6ba5c263d0ab520e5253579213c02a6b647664b))
-
-
-- **(es/lexer)** Remove unnecessary check when reading keywords ([#10866](https://github.com/swc-project/swc/issues/10866)) ([4aefe0e](https://github.com/swc-project/swc/commit/4aefe0eb0645f711ec16c2bfdc32a105e19f0733))
-
-
-- **(es/parser)** Reduce comparisons ([#10862](https://github.com/swc-project/swc/issues/10862)) ([3bd9aad](https://github.com/swc-project/swc/commit/3bd9aadd27e22475e789ab393bc0318a6edbcb96))
-
-
-- **(es/parser)** Remove useless alloc ([#10865](https://github.com/swc-project/swc/issues/10865)) ([3ebf088](https://github.com/swc-project/swc/commit/3ebf088cc88234c50e3924b1e9d0284d186f81ed))
-
-
-- **(es/parser)** Reduce token query ([#10869](https://github.com/swc-project/swc/issues/10869)) ([d93ef64](https://github.com/swc-project/swc/commit/d93ef647f29c7c2241adc28a8eb2b6511f054949))
-
-
-- **(es/parser)** Remove duplicate check ([#10872](https://github.com/swc-project/swc/issues/10872)) ([fe76460](https://github.com/swc-project/swc/commit/fe764608a5d27c41467102ef745d90940a033a7c))
-
-
-- **(es/parser)** Remove duplicate check ([#10874](https://github.com/swc-project/swc/issues/10874)) ([064123b](https://github.com/swc-project/swc/commit/064123b6b5e5741083e246ad4156dc848ba5a89f))
-
-### Refactor
-
-
-
-- **(es/lexer)** Avoid passing `convert` ([#10868](https://github.com/swc-project/swc/issues/10868)) ([77393f8](https://github.com/swc-project/swc/commit/77393f80d0a59c6d136221935d439ba1d99d4385))
-
-
-- **(es/parser)** Remove duplicate check for reservedness ([#10850](https://github.com/swc-project/swc/issues/10850)) ([4897bfd](https://github.com/swc-project/swc/commit/4897bfd6444fb12ea8a916765a47e3712072dc01))
-
-
-- **(es/parser)** Remove span swap operation in parser ([#10854](https://github.com/swc-project/swc/issues/10854)) ([32f4bb8](https://github.com/swc-project/swc/commit/32f4bb80c19b33ab490e8cf70666cac4c1b8c495))
-
-## [swc_core@v32.0.5] - 2025-07-17
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Restrict IIFE inlining in class contexts ([#10879](https://github.com/swc-project/swc/issues/10879)) ([a01b54a](https://github.com/swc-project/swc/commit/a01b54afc82b7bd25cbf5faa7d4d4c18543dc9d8))
-
-## [swc_core@v32.0.3] - 2025-07-16
-
-### Features
-
-
-
-- **(es/minifier)** Drop unused rest paramters ([#10857](https://github.com/swc-project/swc/issues/10857)) ([5305486](https://github.com/swc-project/swc/commit/5305486d58d9cbee06d1f81691cf6f261d7158ed))
-
-
-- **(es/minifier)** Enhance IIFE invoker for arrow functions ([#10860](https://github.com/swc-project/swc/issues/10860)) ([2b1ce3d](https://github.com/swc-project/swc/commit/2b1ce3d2322d3726cad799b2b3ca9ca1f04449bf))
-
-## [swc_core@v32.0.2] - 2025-07-14
-
-### Miscellaneous Tasks
-
-
-
-- **(bindings)** Fix dependency issues ([7c57fbb](https://github.com/swc-project/swc/commit/7c57fbb103baaa236d3c040e72d5cf65bc2b7ec4))
-
-### Performance
-
-
-
-- **(swc_error_reporters)** Avoid creating miette handler when no diagnostics ([#10852](https://github.com/swc-project/swc/issues/10852)) ([93b318f](https://github.com/swc-project/swc/commit/93b318f05c71b1a9e94a457fa93094cfb9116b4e))
 
 <!-- generated by git-cliff -->

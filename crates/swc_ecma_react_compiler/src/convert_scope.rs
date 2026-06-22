@@ -12,10 +12,16 @@
 use std::collections::HashMap;
 
 use indexmap::IndexMap;
+use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::SourceType;
+
+/// `IndexMap` keyed with the deterministic Fx hasher, matching
+/// `react_compiler_utils::FxIndexMap` used by React Compiler 0.2.0 AST scope
+/// fields.
+type FxIndexMap<K, V> = IndexMap<K, V, FxBuildHasher>;
 
 /// Unique ID for a scope.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -1160,10 +1166,10 @@ impl SemanticBuilder {
 
         let mut scopes: Vec<ScopeData> = Vec::new();
         let mut bindings: Vec<BindingData> = Vec::new();
-        let mut node_to_scope: HashMap<u32, OutScopeId> = HashMap::new();
-        let mut node_to_scope_end: HashMap<u32, u32> = HashMap::new();
-        let mut node_id_to_scope: HashMap<u32, OutScopeId> = HashMap::new();
-        let mut ref_node_id_to_binding: IndexMap<u32, BindingId> = IndexMap::new();
+        let mut node_to_scope: FxHashMap<u32, OutScopeId> = FxHashMap::default();
+        let mut node_to_scope_end: FxHashMap<u32, u32> = FxHashMap::default();
+        let mut node_id_to_scope: FxHashMap<u32, OutScopeId> = FxHashMap::default();
+        let mut ref_node_id_to_binding: FxIndexMap<u32, BindingId> = FxIndexMap::default();
 
         let mut symbol_to_binding: HashMap<SymbolId, BindingId> = HashMap::new();
 
@@ -1208,7 +1214,7 @@ impl SemanticBuilder {
 
             let kind = get_scope_kind(scope_flags);
 
-            let mut scope_bindings: HashMap<String, BindingId> = HashMap::new();
+            let mut scope_bindings: FxHashMap<String, BindingId> = FxHashMap::default();
             for symbol_id in self.scoping.iter_bindings_in(scope_id) {
                 if let Some(&binding_id) = symbol_to_binding.get(&symbol_id) {
                     let name = bindings[binding_id.0 as usize].name.clone();
@@ -1293,7 +1299,7 @@ impl SemanticBuilder {
             bindings,
             node_to_scope,
             node_to_scope_end,
-            reference_to_binding: IndexMap::new(),
+            reference_to_binding: FxIndexMap::default(),
             ref_node_id_to_binding,
             node_id_to_scope,
             program_scope,
