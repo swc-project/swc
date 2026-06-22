@@ -1,6 +1,6 @@
 {
   "name": "@swc/minifier-linux-s390x-gnu",
-  "version": "1.15.42-nightly-20260622.1",
+  "version": "1.15.43-nightly-20260622.1",
   "os": [
     "linux"
   ],
