@@ -15,8 +15,10 @@ use crate::TraverseCtx;
 pub fn hook(
     unresolved_ctxt: SyntaxContext,
     ignore_function_length: bool,
+    options: Options,
 ) -> impl VisitMutHook<TraverseCtx> {
     AsyncToGeneratorPass {
+        options,
         fn_state: None,
         fn_state_stack: vec![],
         in_subclass: false,
@@ -27,9 +29,39 @@ pub fn hook(
     }
 }
 
+#[derive(Clone, Copy, Debug)]
+pub(crate) struct Options {
+    /// Transform ordinary async functions and async arrows.
+    pub(crate) transform_async_functions: bool,
+    /// Transform async generator functions without forcing ordinary async
+    /// lowering.
+    pub(crate) transform_async_generators: bool,
+}
+
+impl Options {
+    pub(crate) fn all() -> Self {
+        Self {
+            transform_async_functions: true,
+            transform_async_generators: true,
+        }
+    }
+
+    fn should_transform(
+        self,
+        is_async: bool,
+        is_generator: bool,
+        nested_in_transform: bool,
+    ) -> bool {
+        is_async
+            && (nested_in_transform
+                || self.transform_async_functions
+                || (is_generator && self.transform_async_generators))
+    }
+}
+
 #[derive(Default, Clone, Debug)]
 struct FnState {
-    is_async: bool,
+    transform: bool,
     is_generator: bool,
     use_this: bool,
     use_arguments: bool,
@@ -40,6 +72,7 @@ struct FnState {
 }
 
 struct AsyncToGeneratorPass {
+    options: Options,
     fn_state: Option<FnState>,
     fn_state_stack: Vec<FnState>,
     in_subclass: bool,
@@ -62,7 +95,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             return;
         };
 
-        if !fn_state.is_async {
+        if !fn_state.transform {
             // Restore the previous fn_state from stack
             self.fn_state = self.fn_state_stack.pop();
             return;
@@ -141,8 +174,13 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             self.fn_state_stack.push(prev);
         }
 
+        let nested_in_transform = self.fn_state_stack.last().is_some_and(|s| s.transform);
         self.fn_state = Some(FnState {
-            is_async: function.is_async,
+            transform: self.options.should_transform(
+                function.is_async,
+                function.is_generator,
+                nested_in_transform,
+            ),
             is_generator: function.is_generator,
             ..Default::default()
         });
@@ -164,7 +202,12 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         // `this`/`arguments`/`super` are inherited from the parent function
         // If arrow is in a constructor and uses `this`, we need to propagate it
         // to use the _this variable pattern at the constructor level
-        if let Some(out_fn_state) = &parent_fn_state {
+        self.fn_state = parent_fn_state;
+        if !fn_state.transform {
+            return;
+        }
+
+        if let Some(out_fn_state) = &self.fn_state {
             let mut updated = out_fn_state.clone();
             updated.use_this |= fn_state.use_this;
             updated.use_arguments |= fn_state.use_arguments;
@@ -240,8 +283,11 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             self.fn_state_stack.push(prev);
         }
 
+        let nested_in_transform = self.fn_state_stack.last().is_some_and(|s| s.transform);
         self.fn_state = Some(FnState {
-            is_async: true,
+            transform: self
+                .options
+                .should_transform(true, false, nested_in_transform),
             is_generator: false,
             in_constructor,
             ..Default::default()
@@ -329,7 +375,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
-        let Some(fn_state @ FnState { is_async: true, .. }) = &mut self.fn_state else {
+        let Some(fn_state) = &mut self.fn_state else {
             return;
         };
 
@@ -341,6 +387,10 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 fn_state.use_arguments = true;
             }
             Expr::Await(AwaitExpr { arg, span }) => {
+                if !fn_state.transform {
+                    return;
+                }
+
                 *expr = if fn_state.is_generator {
                     let callee = helper!(await_async_generator);
                     let arg = CallExpr {
@@ -369,6 +419,10 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 arg: Some(arg),
                 delegate: true,
             }) => {
+                if !fn_state.transform {
+                    return;
+                }
+
                 let async_iter =
                     helper_expr!(async_iterator).as_call(DUMMY_SP, vec![arg.take().as_arg()]);
 
@@ -390,7 +444,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 
     fn exit_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         if let Some(FnState {
-            is_async: true,
+            transform: true,
             is_generator,
             ..
         }) = self.fn_state

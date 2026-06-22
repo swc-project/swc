@@ -179,6 +179,7 @@ pub fn es2017_async_to_generator(
     hook_pass(crate::es2017::async_to_generator::hook(
         unresolved_ctxt,
         ignore_function_length,
+        crate::es2017::async_to_generator::Options::all(),
     ))
 }
 

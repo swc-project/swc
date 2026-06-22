@@ -1,0 +1,15 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "chrome": "63"
+        },
+        "useBuiltIns": "usage",
+        "corejs": "3.49.0",
+        "shippedProposals": true
+      }
+    ]
+  ]
+}
