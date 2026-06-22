@@ -1,16 +1,23 @@
 //! Stub implementations for TypeScript parsing methods when the `typescript`
 //! feature is disabled.
 //!
-//! These methods are never called at runtime (the calls are guarded by
-//! `syntax().typescript()` which returns `false` when the feature is disabled),
-//! but Rust needs them to exist for compilation to succeed.
+//! Shared parser modules call these methods even when the `typescript` feature
+//! is disabled. Runtime syntax checks make TypeScript and Flow behavior
+//! unavailable in this configuration, but Rust still needs matching method
+//! definitions for compilation to succeed.
 
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
 
 use crate::{input::Tokens, lexer::Token, PResult, Parser};
 
 impl<I: Tokens> Parser<I> {
+    pub(super) fn is_flow_reserved_type_name(_name: &str) -> bool {
+        false
+    }
+
+    pub(super) fn emit_flow_reserved_type_name_error(&mut self, _span: Span, _name: &str) {}
+
     pub(crate) fn try_parse_ts<T, F>(&mut self, _op: F) -> Option<T>
     where
         F: FnOnce(&mut Self) -> PResult<Option<T>>,

@@ -40,6 +40,8 @@ check:
         - "cargo hack check --feature-powerset --exclude-features __rkyv"
     swc_ecma_loader:
         - "cargo hack check --feature-powerset"
+    swc_ecma_parser:
+        - "cargo check --no-default-features"
     swc_ecma_transforms:
         # - "cargo hack check --feature-powerset"
         - "cargo check --features concurrent --features par-core/chili"
