@@ -6100,7 +6100,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "71.0.1"
+version = "71.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6701,7 +6701,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "41.1.1"
+version = "41.1.2"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -7480,7 +7480,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "proc-macro2",
  "quote",
