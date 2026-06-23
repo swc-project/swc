@@ -127,10 +127,45 @@ where
             if let Some(module_root) = &self.module_root {
                 if let Some(swc_common::FileName::Real(file_path)) = self.resolver.base() {
                     let module_root_path = std::path::Path::new(module_root);
-                    let canonical_module_root = module_root_path
-                        .canonicalize()
-                        .unwrap_or_else(|_| module_root_path.to_path_buf());
-                    if let Some(relative_path) = diff_paths(file_path, &canonical_module_root) {
+                    let mut relative_path = diff_paths(file_path, module_root_path);
+
+                    let needs_canonicalization = match &relative_path {
+                        None => true,
+                        Some(p) => p.is_absolute() || p.starts_with(".."),
+                    };
+
+                    if needs_canonicalization {
+                        let canonical_module_root = module_root_path
+                            .canonicalize()
+                            .unwrap_or_else(|_| module_root_path.to_path_buf());
+                        let canonical_file_path = file_path
+                            .canonicalize()
+                            .unwrap_or_else(|_| file_path.to_path_buf());
+
+                        if let Some(canonical_relative) =
+                            diff_paths(&canonical_file_path, &canonical_module_root)
+                        {
+                            let use_canonical = match &relative_path {
+                                None => true,
+                                Some(orig) => {
+                                    if orig.is_absolute() {
+                                        true
+                                    } else if !canonical_relative.starts_with("..") {
+                                        true
+                                    } else {
+                                        canonical_relative.components().count()
+                                            < orig.components().count()
+                                    }
+                                }
+                            };
+
+                            if use_canonical {
+                                relative_path = Some(canonical_relative);
+                            }
+                        }
+                    }
+
+                    if let Some(relative_path) = relative_path {
                         if let Some(stem) = relative_path.with_extension("").to_str() {
                             self.module_id = Some(stem.replace('\\', "/"));
                         }
