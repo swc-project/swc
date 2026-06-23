@@ -1,6 +1,7 @@
 use std::borrow::Cow;
 
 use anyhow::Context;
+use pathdiff::diff_paths;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{atom, Atom};
@@ -36,6 +37,9 @@ pub struct Config {
     #[serde(default)]
     pub module_id: Option<String>,
 
+    #[serde(default)]
+    pub module_root: Option<String>,
+
     #[serde(flatten, default)]
     pub config: InnerConfig,
 }
@@ -56,10 +60,11 @@ pub fn amd<C>(
 where
     C: Comments,
 {
-    let Config { module_id, config } = config;
+    let Config { module_id, module_root, config } = config;
 
     visit_mut_pass(Amd {
         module_id,
+        module_root,
         config,
         unresolved_mark,
         resolver,
@@ -87,6 +92,7 @@ where
     C: Comments,
 {
     module_id: Option<String>,
+    module_root: Option<String>,
     config: InnerConfig,
     unresolved_mark: Mark,
     resolver: Resolver,
@@ -111,6 +117,19 @@ where
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.module_id.is_none() {
             self.module_id = self.get_amd_module_id_from_comments(n.span);
+        }
+
+        if self.module_id.is_none() {
+            if let Some(module_root) = &self.module_root {
+                if let Some(swc_common::FileName::Real(file_path)) = self.resolver.base() {
+                    let module_root_path = std::path::Path::new(module_root);
+                    if let Some(relative_path) = diff_paths(file_path, module_root_path) {
+                        if let Some(stem) = relative_path.with_extension("").to_str() {
+                            self.module_id = Some(stem.replace('\\', "/"));
+                        }
+                    }
+                }
+            }
         }
 
         let mut stmts: Vec<Stmt> = Vec::with_capacity(n.body.len() + 4);
