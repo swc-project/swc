@@ -1693,7 +1693,7 @@ impl ModuleConfig {
                 if let FileName::Real(v) = base {
                     return Some((
                         FileName::Real(v.clone()),
-                        Arc::new(swc_ecma_transforms_module::path::NoopImportResolver)
+                        Arc::new(swc_ecma_transforms_module::path::NoopImportResolver),
                     ));
                 }
             }
