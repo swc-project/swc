@@ -283,7 +283,10 @@ impl Options {
 
         cfg.merge(config.unwrap_or_default());
 
-        #[cfg(all(feature = "module", not(all(target_arch = "wasm32", not(target_os = "wasi")))))]
+        #[cfg(all(
+            feature = "module",
+            not(all(target_arch = "wasm32", not(target_os = "wasi")))
+        ))]
         if let Some(ModuleConfig::Amd(amd)) = &mut cfg.module {
             if let Some(root) = &amd.module_root {
                 let root_path = Path::new(root);
