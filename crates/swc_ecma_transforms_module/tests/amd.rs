@@ -103,47 +103,50 @@ test!(
 "#
 );
 
-test!(
-    module,
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let config = amd::Config {
-            module_root: Some("src".into()),
-            ..Default::default()
-        };
-        let resolver_impl = swc_ecma_transforms_module::path::Resolver::Real {
-            base: swc_common::FileName::Real(PathBuf::from("src/components/button.js")),
-            resolver: std::sync::Arc::new(swc_ecma_transforms_module::path::NoopImportResolver),
-        };
-        amd(
-            resolver_impl,
-            unresolved_mark,
-            config,
-            FeatureFlag {
-                support_block_scoping: true,
-                support_arrow: true,
-            },
-            None::<Rc<SingleThreadedComments>>,
-        )
-    },
-    amd_module_root_test,
-    r#"
-    export const foo = 1;
-    "#,
-    r#"
-    define("components/button", ["require", "exports"], function(require, exports) {
-        "use strict";
-        Object.defineProperty(exports, "__esModule", {
-            value: true
+#[test]
+fn amd_module_root_test() {
+    swc_ecma_transforms_testing::test_inline_input_output(
+        syntax(),
+        Some(true),
+        |_| {
+            let unresolved_mark = Mark::new();
+            let config = amd::Config {
+                module_root: Some("src".into()),
+                ..Default::default()
+            };
+            let resolver_impl = swc_ecma_transforms_module::path::Resolver::Real {
+                base: swc_common::FileName::Real(PathBuf::from("src/components/button.js")),
+                resolver: std::sync::Arc::new(swc_ecma_transforms_module::path::NoopImportResolver),
+            };
+            amd(
+                resolver_impl,
+                unresolved_mark,
+                config,
+                FeatureFlag {
+                    support_block_scoping: true,
+                    support_arrow: true,
+                },
+                None::<Rc<SingleThreadedComments>>,
+            )
+        },
+        r#"
+        export const foo = 1;
+        "#,
+        r#"
+        define("components/button", ["require", "exports"], function(require, exports) {
+            "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            Object.defineProperty(exports, "foo", {
+                enumerable: true,
+                get: function() {
+                    return foo;
+                }
+            });
+            const foo = 1;
         });
-        Object.defineProperty(exports, "foo", {
-            enumerable: true,
-            get: function() {
-                return foo;
-            }
-        });
-        const foo = 1;
-    });
-    "#
-);
+        "#
+    );
+}
+
