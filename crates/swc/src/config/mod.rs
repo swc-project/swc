@@ -291,7 +291,19 @@ impl Options {
             if let Some(root) = &amd.module_root {
                 let root_path = Path::new(root);
                 if root_path.is_relative() {
-                    amd.module_root = Some(self.cwd.join(root_path).to_string_lossy().to_string());
+                    let base_dir = match &self.config_file {
+                        Some(ConfigFile::Str(ref s)) => {
+                            let p = Path::new(s);
+                            p.parent().unwrap_or_else(|| Path::new("")).to_path_buf()
+                        }
+                        _ => self.cwd.clone(),
+                    };
+                    let base_dir = if base_dir.is_absolute() {
+                        base_dir
+                    } else {
+                        self.cwd.join(base_dir)
+                    };
+                    amd.module_root = Some(base_dir.join(root_path).to_string_lossy().to_string());
                 }
             }
         }
@@ -1694,8 +1706,13 @@ impl ModuleConfig {
             };
             if has_module_root {
                 if let FileName::Real(v) = base {
+                    let v = if v.is_absolute() {
+                        v.clone()
+                    } else {
+                        std::env::current_dir().unwrap_or_default().join(v)
+                    };
                     return Some((
-                        FileName::Real(v.clone()),
+                        FileName::Real(v),
                         Arc::new(swc_ecma_transforms_module::path::NoopImportResolver),
                     ));
                 }
