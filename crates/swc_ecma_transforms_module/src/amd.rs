@@ -148,14 +148,10 @@ where
                             let use_canonical = match &relative_path {
                                 None => true,
                                 Some(orig) => {
-                                    if orig.is_absolute() {
-                                        true
-                                    } else if !canonical_relative.starts_with("..") {
-                                        true
-                                    } else {
-                                        canonical_relative.components().count()
+                                    orig.is_absolute()
+                                        || !canonical_relative.starts_with("..")
+                                        || canonical_relative.components().count()
                                             < orig.components().count()
-                                    }
                                 }
                             };
 
