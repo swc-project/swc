@@ -283,6 +283,16 @@ impl Options {
 
         cfg.merge(config.unwrap_or_default());
 
+        #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
+        if let Some(ModuleConfig::Amd(amd)) = &mut cfg.module {
+            if let Some(root) = &amd.module_root {
+                let root_path = Path::new(root);
+                if root_path.is_relative() {
+                    amd.module_root = Some(self.cwd.join(root_path).to_string_lossy().to_string());
+                }
+            }
+        }
+
         if let FileName::Real(base) = base {
             cfg.adjust(base);
         }
@@ -1675,6 +1685,18 @@ impl ModuleConfig {
         let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
         if skip_resolver {
+            let has_module_root = match config {
+                Some(ModuleConfig::Amd(amd)) => amd.module_root.is_some(),
+                _ => false,
+            };
+            if has_module_root {
+                if let FileName::Real(v) = base {
+                    return Some((
+                        FileName::Real(v.clone()),
+                        Arc::new(swc_ecma_transforms_module::path::NoopImportResolver)
+                    ));
+                }
+            }
             return None;
         }
 
