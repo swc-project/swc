@@ -60,7 +60,11 @@ pub fn amd<C>(
 where
     C: Comments,
 {
-    let Config { module_id, module_root, config } = config;
+    let Config {
+        module_id,
+        module_root,
+        config,
+    } = config;
 
     visit_mut_pass(Amd {
         module_id,
