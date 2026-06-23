@@ -127,7 +127,10 @@ where
             if let Some(module_root) = &self.module_root {
                 if let Some(swc_common::FileName::Real(file_path)) = self.resolver.base() {
                     let module_root_path = std::path::Path::new(module_root);
-                    if let Some(relative_path) = diff_paths(file_path, module_root_path) {
+                    let canonical_module_root = module_root_path
+                        .canonicalize()
+                        .unwrap_or_else(|_| module_root_path.to_path_buf());
+                    if let Some(relative_path) = diff_paths(file_path, &canonical_module_root) {
                         if let Some(stem) = relative_path.with_extension("").to_str() {
                             self.module_id = Some(stem.replace('\\', "/"));
                         }

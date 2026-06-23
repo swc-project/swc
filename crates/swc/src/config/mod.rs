@@ -283,31 +283,6 @@ impl Options {
 
         cfg.merge(config.unwrap_or_default());
 
-        #[cfg(all(
-            feature = "module",
-            not(all(target_arch = "wasm32", not(target_os = "wasi")))
-        ))]
-        if let Some(ModuleConfig::Amd(amd)) = &mut cfg.module {
-            if let Some(root) = &amd.module_root {
-                let root_path = Path::new(root);
-                if root_path.is_relative() {
-                    let base_dir = match &self.config_file {
-                        Some(ConfigFile::Str(ref s)) => {
-                            let p = Path::new(s);
-                            p.parent().unwrap_or_else(|| Path::new("")).to_path_buf()
-                        }
-                        _ => self.cwd.clone(),
-                    };
-                    let base_dir = if base_dir.is_absolute() {
-                        base_dir
-                    } else {
-                        self.cwd.join(base_dir)
-                    };
-                    amd.module_root = Some(base_dir.join(root_path).to_string_lossy().to_string());
-                }
-            }
-        }
-
         if let FileName::Real(base) = base {
             cfg.adjust(base);
         }

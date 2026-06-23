@@ -813,6 +813,20 @@ impl Compiler {
                                 })?
                             };
                         }
+
+                        #[cfg(all(
+                            feature = "module",
+                            not(all(target_arch = "wasm32", not(target_os = "wasi")))
+                        ))]
+                        if let Some(crate::config::ModuleConfig::Amd(amd)) = &mut c.module {
+                            if let Some(root) = &amd.module_root {
+                                let root_path = Path::new(root);
+                                if root_path.is_relative() {
+                                    let joined = dir.join(root_path);
+                                    amd.module_root = Some(joined.to_string_lossy().to_string());
+                                }
+                            }
+                        }
                     }
 
                     return Ok(config);
