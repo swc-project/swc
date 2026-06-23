@@ -17,7 +17,12 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr_with_resolver(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>, resolver_impl: swc_ecma_transforms_module::path::Resolver) -> impl Pass {
+fn tr_with_resolver(
+    config: amd::Config,
+    is_ts: bool,
+    comments: Rc<SingleThreadedComments>,
+    resolver_impl: swc_ecma_transforms_module::path::Resolver,
+) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -146,7 +151,6 @@ fn amd_module_root_test() {
             });
             const foo = 1;
         });
-        "#
+        "#,
     );
 }
-
