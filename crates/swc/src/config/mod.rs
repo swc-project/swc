@@ -1675,6 +1675,23 @@ impl ModuleConfig {
         let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
         if skip_resolver {
+            let has_module_root = match config {
+                Some(ModuleConfig::Amd(amd)) => amd.module_root.is_some(),
+                _ => false,
+            };
+            if has_module_root {
+                if let FileName::Real(v) = base {
+                    let v = if v.is_absolute() {
+                        v.clone()
+                    } else {
+                        std::env::current_dir().unwrap_or_default().join(v)
+                    };
+                    return Some((
+                        FileName::Real(v),
+                        Arc::new(swc_ecma_transforms_module::path::NoopImportResolver),
+                    ));
+                }
+            }
             return None;
         }
 
