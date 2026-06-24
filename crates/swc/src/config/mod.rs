@@ -283,6 +283,31 @@ impl Options {
 
         cfg.merge(config.unwrap_or_default());
 
+        let base_dir = self.root.clone().unwrap_or_else(|| {
+            #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
+            {
+                self.cwd.clone()
+            }
+            #[cfg(all(target_arch = "wasm32", not(target_os = "wasi")))]
+            {
+                PathBuf::new()
+            }
+        });
+
+        #[cfg(all(
+            feature = "module",
+            not(all(target_arch = "wasm32", not(target_os = "wasi")))
+        ))]
+        if let Some(crate::config::ModuleConfig::Amd(amd)) = &mut cfg.module {
+            if let Some(root) = &amd.module_root {
+                let root_path = Path::new(root);
+                if root_path.is_relative() {
+                    let joined = base_dir.join(root_path);
+                    amd.module_root = Some(joined.to_string_lossy().to_string());
+                }
+            }
+        }
+
         if let FileName::Real(base) = base {
             cfg.adjust(base);
         }
@@ -642,6 +667,7 @@ impl Options {
             base,
             cfg.module.as_ref(),
             preserve_symlinks,
+            &base_dir,
         );
 
         let target = es_version;
@@ -1671,6 +1697,7 @@ impl ModuleConfig {
         base: &FileName,
         config: Option<&ModuleConfig>,
         preserve_symlinks: bool,
+        base_dir: &Path,
     ) -> Option<(FileName, Arc<dyn ImportResolver>)> {
         let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
@@ -1684,7 +1711,7 @@ impl ModuleConfig {
                     let v = if v.is_absolute() {
                         v.clone()
                     } else {
-                        std::env::current_dir().unwrap_or_default().join(v)
+                        base_dir.join(v)
                     };
                     return Some((
                         FileName::Real(v),
@@ -1776,6 +1803,7 @@ impl ModuleConfig {
         _base: &FileName,
         _config: Option<&ModuleConfig>,
         _preserve_symlinks: bool,
+        _base_dir: &Path,
     ) -> Option<(FileName, Arc<dyn swc_ecma_loader::resolve::Resolve>)> {
         None
     }
