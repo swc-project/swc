@@ -136,7 +136,9 @@ use swc_common::{
     comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap, Span,
     Spanned, GLOBALS,
 };
-pub use swc_compiler_base::{PrintArgs, TransformOutput};
+pub use swc_compiler_base::{
+    PrintArgs, ReactCompilerDiagnostic, ReactCompilerDiagnosticError, TransformOutput,
+};
 pub use swc_config::types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{
     noop_pass, Decl, DefaultDecl, EsVersion, Module, ModuleDecl, ModuleItem, Pass, Program, Script,

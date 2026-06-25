@@ -1,5 +1,5 @@
 use std::{
-    env,
+    env, fmt,
     path::{Path, PathBuf},
 };
 
@@ -44,12 +44,148 @@ pub struct TransformOutput {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
 
+    #[napi(js_name = "extractedComments")]
     #[serde(rename = "extractedComments", skip_serializing_if = "Option::is_none")]
     pub extracted_comments: Option<Vec<String>>,
 
     pub diagnostics: std::vec::Vec<String>,
 }
 
+#[cfg_attr(feature = "node", napi_derive::napi(object))]
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ReactCompilerDiagnostic {
+    pub message: String,
+    #[cfg_attr(feature = "node", napi(js_name = "ruleId"))]
+    #[serde(rename = "ruleId", skip_serializing_if = "Option::is_none")]
+    pub rule_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub category: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reason: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub loc: Option<ReactCompilerDiagnosticLocation>,
+    pub details: Vec<ReactCompilerDiagnosticDetail>,
+}
+
+#[cfg(test)]
+mod tests {
+    use serde_json::json;
+
+    use super::{
+        ReactCompilerDiagnostic, ReactCompilerDiagnosticError, ReactCompilerDiagnosticLocation,
+        ReactCompilerDiagnosticPosition,
+    };
+
+    #[test]
+    fn serializes_react_compiler_diagnostic_js_field_names() {
+        let error = ReactCompilerDiagnosticError::new(vec![ReactCompilerDiagnostic {
+            message: "[ReactCompiler] Refs: invalid ref access".into(),
+            rule_id: Some("refs".into()),
+            category: Some("Refs".into()),
+            reason: Some("invalid ref access".into()),
+            description: Some("description".into()),
+            loc: Some(ReactCompilerDiagnosticLocation {
+                start: ReactCompilerDiagnosticPosition {
+                    line: 3,
+                    column: 10,
+                    index: Some(42),
+                },
+                end: ReactCompilerDiagnosticPosition {
+                    line: 3,
+                    column: 21,
+                    index: Some(53),
+                },
+                filename: Some("input.tsx".into()),
+                identifier_name: Some("value".into()),
+            }),
+            details: Vec::new(),
+        }]);
+
+        assert_eq!(
+            serde_json::to_value(error.diagnostics()).unwrap(),
+            json!([
+                {
+                    "message": "[ReactCompiler] Refs: invalid ref access",
+                    "ruleId": "refs",
+                    "category": "Refs",
+                    "reason": "invalid ref access",
+                    "description": "description",
+                    "loc": {
+                        "start": { "line": 3, "column": 10, "index": 42 },
+                        "end": { "line": 3, "column": 21, "index": 53 },
+                        "filename": "input.tsx",
+                        "identifierName": "value"
+                    },
+                    "details": []
+                }
+            ])
+        );
+    }
+}
+
+#[cfg_attr(feature = "node", napi_derive::napi(object))]
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ReactCompilerDiagnosticLocation {
+    pub start: ReactCompilerDiagnosticPosition,
+    pub end: ReactCompilerDiagnosticPosition,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub filename: Option<String>,
+    #[cfg_attr(feature = "node", napi(js_name = "identifierName"))]
+    #[serde(rename = "identifierName", skip_serializing_if = "Option::is_none")]
+    pub identifier_name: Option<String>,
+}
+
+#[cfg_attr(feature = "node", napi_derive::napi(object))]
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ReactCompilerDiagnosticPosition {
+    pub line: u32,
+    pub column: u32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub index: Option<u32>,
+}
+
+#[cfg_attr(feature = "node", napi_derive::napi(object))]
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ReactCompilerDiagnosticDetail {
+    pub kind: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub loc: Option<ReactCompilerDiagnosticLocation>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message: Option<String>,
+}
+
+#[derive(Debug)]
+pub struct ReactCompilerDiagnosticError {
+    diagnostics: Vec<ReactCompilerDiagnostic>,
+}
+
+impl ReactCompilerDiagnosticError {
+    pub fn new(diagnostics: Vec<ReactCompilerDiagnostic>) -> Self {
+        Self { diagnostics }
+    }
+
+    pub fn diagnostics(&self) -> &[ReactCompilerDiagnostic] {
+        &self.diagnostics
+    }
+}
+
+impl fmt::Display for ReactCompilerDiagnosticError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if let Some(diagnostic) = self.diagnostics.first() {
+            f.write_str(&diagnostic.message)
+        } else {
+            f.write_str("React Compiler diagnostics")
+        }
+    }
+}
+
+impl std::error::Error for ReactCompilerDiagnosticError {}
 #[cfg(not(feature = "node"))]
 #[derive(Debug, Serialize)]
 pub struct TransformOutput {

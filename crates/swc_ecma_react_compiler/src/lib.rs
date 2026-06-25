@@ -152,7 +152,7 @@ pub(crate) fn transform_source(
         }
         Err(diagnostic) => TransformResult {
             program: None,
-            diagnostics: vec![diagnostic],
+            diagnostics: vec![*diagnostic],
             events: vec![],
         },
     }
@@ -191,7 +191,7 @@ pub(crate) fn lint_source(
             lint(&program, source_type, source_text, Some(&comments), options)
         }
         Err(diagnostic) => LintResult {
-            diagnostics: vec![diagnostic],
+            diagnostics: vec![*diagnostic],
         },
     }
 }
@@ -200,7 +200,7 @@ pub(crate) fn lint_source(
 fn parse_source_for_tests(
     source_text: &str,
     syntax: swc_ecma_parser::Syntax,
-) -> Result<(Program, SingleThreadedComments, SourceType), DiagnosticMessage> {
+) -> Result<(Program, SingleThreadedComments, SourceType), Box<DiagnosticMessage>> {
     let cm = std::sync::Arc::new(swc_common::SourceMap::default());
     let fm = cm.new_source_file(
         std::sync::Arc::new(swc_common::FileName::Anon),
@@ -220,10 +220,16 @@ fn parse_source_for_tests(
             let source_type = SourceType::from_program(&program).with_typescript(is_typescript);
             Ok((program, comments, source_type))
         }
-        Err(error) => Err(DiagnosticMessage {
+        Err(error) => Err(Box::new(DiagnosticMessage {
             severity: diagnostics::Severity::Error,
             message: format!("[ReactCompiler] Parse error: {error:?}"),
             span: None,
-        }),
+            rule_id: None,
+            category: None,
+            reason: Some("Parse error".into()),
+            description: None,
+            loc: None,
+            details: Vec::new(),
+        })),
     }
 }
