@@ -23,7 +23,7 @@ pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>, collect_property_atoms: bo
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
-    let data = if collect_property_atoms {
+    let mut data = if collect_property_atoms {
         ProgramData {
             property_atoms: Some(Vec::with_capacity(128)),
             ..Default::default()
@@ -31,6 +31,11 @@ where
     } else {
         ProgramData::default()
     };
+    // Large modules commonly have tens of thousands of bindings. Reserving the
+    // top-level storage avoids repeated rehashing while usage data from child
+    // scopes is merged back into the program data.
+    data.vars.reserve(131072);
+    data.initialized_vars.reserve(18432);
 
     analyze_with_custom_storage(data, n, marks)
 }
@@ -38,7 +43,7 @@ where
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
+    pub(crate) vars: FxHashMap<Id, VarUsageInfo>,
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 
@@ -231,9 +236,15 @@ impl Storage for ProgramData {
         self.vars.reserve(child.vars.len());
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
-            let inited = self.initialized_vars.contains(&id);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
+                    let inited = if !var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+                        && var_info.ref_count > 0
+                    {
+                        self.initialized_vars.contains(e.key())
+                    } else {
+                        false
+                    };
                     let e = e.get_mut();
 
                     if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
@@ -260,60 +271,67 @@ impl Storage for ProgramData {
                     } else {
                         // If it is inited in some other child scope, but referenced in
                         // current child scope
-                        if !inited
-                            && e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+                        if e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
                             && var_info.ref_count > 0
+                            && !inited
                         {
                             e.flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
                             e.flags.insert(VarUsageInfoFlags::REASSIGNED);
                         }
                     }
 
-                    e.merged_var_type.merge(var_info.merged_var_type);
+                    if let Some(ty) = var_info.merged_var_type {
+                        e.merged_var_type.merge(Some(ty));
+                    }
 
                     e.ref_count += var_info.ref_count;
                     e.property_mutation_count |= var_info.property_mutation_count;
                     e.declared_count += var_info.declared_count;
                     e.assign_count += var_info.assign_count;
                     e.usage_count += var_info.usage_count;
-                    e.infects_to.extend(var_info.infects_to);
+                    if !var_info.infects_to.is_empty() {
+                        e.infects_to.extend(var_info.infects_to);
+                    }
                     e.callee_count += var_info.callee_count;
 
-                    e.param_count = match (e.param_count, var_info.param_count) {
-                        (Some(Value::Known(v1)), Some(Value::Known(v2))) if v1 == v2 => {
-                            Some(Value::Known(v1))
-                        }
-                        (Some(Value::Known(v)), None) | (None, Some(Value::Known(v))) => {
-                            Some(Value::Known(v))
-                        }
-                        (Some(Value::Known(_)), Some(Value::Known(_)))
-                        | (Some(Value::Unknown), _)
-                        | (_, Some(Value::Unknown)) => Some(Value::Unknown),
-                        (None, None) => None,
-                    };
-
-                    for (k, v) in var_info.accessed_props {
-                        *e.accessed_props.entry(k).or_default() += v;
+                    if let Some(param_count) = var_info.param_count {
+                        e.param_count = match (e.param_count, param_count) {
+                            (Some(Value::Known(v1)), Value::Known(v2)) if v1 == v2 => {
+                                Some(Value::Known(v1))
+                            }
+                            (None, Value::Known(v)) => Some(Value::Known(v)),
+                            (Some(Value::Known(_)), Value::Known(_))
+                            | (Some(Value::Unknown), _)
+                            | (_, Value::Unknown) => Some(Value::Unknown),
+                        };
                     }
+
+                    if !var_info.accessed_props.is_empty() {
+                        for (k, v) in var_info.accessed_props {
+                            *e.accessed_props.entry(k).or_default() += v;
+                        }
+                    }
+
+                    const MERGED_FLAGS: VarUsageInfoFlags = VarUsageInfoFlags::REASSIGNED
+                        .union(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
+                        .union(VarUsageInfoFlags::EXPORTED)
+                        .union(VarUsageInfoFlags::DECLARED)
+                        .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                        .union(VarUsageInfoFlags::DECLARED_AS_FN_DECL)
+                        .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
+                        .union(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
+                        .union(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
+                        .union(VarUsageInfoFlags::USED_IN_COND)
+                        .union(VarUsageInfoFlags::USED_AS_ARG)
+                        .union(VarUsageInfoFlags::USED_AS_REF)
+                        .union(VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY)
+                        .union(VarUsageInfoFlags::PURE_FN)
+                        .union(VarUsageInfoFlags::USED_RECURSIVELY)
+                        .union(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
 
                     let var_info_flags = var_info.flags;
                     let e_flags = &mut e.flags;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_PARAM;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_EXPR;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_COND;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_ARG;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_REF;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::PURE_FN;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_RECURSIVELY;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_NON_CHILD_FN;
+                    *e_flags |= var_info_flags & MERGED_FLAGS;
 
                     // If a var is registered at a parent scope, it means that it's delcared before
                     // usages.
@@ -367,12 +385,10 @@ impl Storage for ProgramData {
     }
 
     fn report_usage(&mut self, ctx: Ctx, i: Id) {
-        let inited = self.initialized_vars.contains(&i);
-
-        let e = self.vars.entry(i).or_insert_with(|| {
+        let e = self.vars.entry(i.clone()).or_insert_with(|| {
             let mut default = VarUsageInfo::default();
             default.flags.insert(VarUsageInfoFlags::USED_ABOVE_DECL);
-            Box::new(default)
+            default
         });
 
         if ctx.is_id_ref() {
@@ -381,7 +397,9 @@ impl Storage for ProgramData {
         e.ref_count += 1;
         e.usage_count += 1;
         // If it is inited in some child scope, but referenced in current scope
-        if !inited && e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
+        if e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+            && !self.initialized_vars.contains(&i)
+        {
             e.flags.insert(VarUsageInfoFlags::REASSIGNED);
             e.flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
         }
@@ -399,8 +417,6 @@ impl Storage for ProgramData {
     fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>) {
         let e = self.vars.entry(i.clone()).or_default();
 
-        let inited = self.initialized_vars.contains(&i);
-
         if e.assign_count > 0 || e.initialized() {
             e.flags.insert(VarUsageInfoFlags::REASSIGNED);
         }
@@ -409,8 +425,12 @@ impl Storage for ProgramData {
         e.assign_count += 1;
 
         if !is_op {
+            let should_mark_initialized =
+                e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const);
+            let inited = should_mark_initialized && self.initialized_vars.contains(&i);
+
             self.initialized_vars.insert(i.clone());
-            if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
+            if should_mark_initialized && !inited {
                 e.flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
             } else {
                 e.flags.insert(VarUsageInfoFlags::REASSIGNED);
@@ -515,8 +535,8 @@ impl Storage for ProgramData {
 
         if ctx.in_pat_of_param() {
             v.merged_var_type = Some(Value::Unknown);
-        } else {
-            v.merged_var_type.merge(init_type);
+        } else if let Some(init_type) = init_type {
+            v.merged_var_type.merge(Some(init_type));
         }
 
         v.declared_count += 1;
@@ -541,25 +561,26 @@ impl Storage for ProgramData {
     }
 
     fn mark_property_mutation(&mut self, id: Id) {
-        let e = self.vars.entry(id).or_default();
-        e.property_mutation_count += 1;
+        let infects_to = {
+            let e = self.vars.entry(id.clone()).or_default();
+            e.property_mutation_count += 1;
 
-        if e.infects_to.is_empty() {
-            return;
+            if e.infects_to.is_empty() {
+                return;
+            }
+
+            std::mem::take(&mut e.infects_to)
+        };
+
+        for (other, kind) in &infects_to {
+            if *kind == AccessKind::Reference {
+                let other = self.vars.entry(other.clone()).or_default();
+
+                other.property_mutation_count += 1;
+            }
         }
 
-        let to_mark_mutate = e
-            .infects_to
-            .iter()
-            .filter(|(_, kind)| *kind == AccessKind::Reference)
-            .map(|(id, _)| id.clone())
-            .collect::<Vec<_>>();
-
-        for other in to_mark_mutate {
-            let other = self.vars.entry(other).or_default();
-
-            other.property_mutation_count += 1;
-        }
+        self.vars.entry(id).or_default().infects_to = infects_to;
     }
 
     fn add_property_atom(&mut self, atom: Wtf8Atom) {
@@ -568,8 +589,12 @@ impl Storage for ProgramData {
         }
     }
 
+    fn should_collect_property_atoms(&self) -> bool {
+        self.property_atoms.is_some()
+    }
+
     fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
-        self.vars.get(&id).map(|v| v.as_ref())
+        self.vars.get(&id)
     }
 }
 
@@ -664,6 +689,10 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn add_accessed_property(&mut self, name: swc_atoms::Wtf8Atom) {
+        if self.accessed_props.is_empty() {
+            self.accessed_props.reserve(8);
+        }
+
         *self.accessed_props.entry(name).or_default() += 1;
     }
 

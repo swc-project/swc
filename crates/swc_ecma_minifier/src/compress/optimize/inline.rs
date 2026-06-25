@@ -1,4 +1,4 @@
-use std::ops::Deref;
+use std::{collections::hash_map::Entry, ops::Deref};
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
@@ -316,7 +316,7 @@ impl Optimizer<'_> {
                     property_mutation_count,
                     flags,
                     ..
-                } = **usage;
+                } = *usage;
                 let mut inc_usage = || {
                     for (i, _) in collect_infects_from(
                         &*init,
@@ -997,27 +997,27 @@ impl Optimizer<'_> {
             return Some(value);
         }
 
-        // Check without cloning
-        if let Some(value) = self.vars.vars_for_inlining.get(&id) {
-            if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign) && !is_valid_for_lhs(value) {
-                return None;
-            }
-
-            if let Expr::Member(..) = &**value {
-                if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+        match self.vars.vars_for_inlining.entry(id) {
+            Entry::Occupied(entry) => {
+                let value = entry.get();
+                if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign) && !is_valid_for_lhs(value)
+                {
                     return None;
                 }
+
+                if let Expr::Member(..) = &**value {
+                    if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+                        return None;
+                    }
+                }
+
+                self.changed = true;
+                report_change!("inline: Replacing '{}' with an expression", ident);
+
+                Some(entry.remove())
             }
+            Entry::Vacant(_) => None,
         }
-
-        if let Some(value) = self.vars.vars_for_inlining.remove(&id) {
-            self.changed = true;
-            report_change!("inline: Replacing '{}' with an expression", ident);
-
-            return Some(value);
-        }
-
-        None
     }
 }
 

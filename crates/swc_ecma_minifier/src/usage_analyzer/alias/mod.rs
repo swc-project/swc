@@ -168,9 +168,10 @@ pub struct InfectionCollector {
 
 impl InfectionCollector {
     fn add_binding(&mut self, e: &Ident) {
-        if self.bindings.insert(e.to_id()) {
-            self.accesses.remove(&(e.to_id(), AccessKind::Reference));
-            self.accesses.remove(&(e.to_id(), AccessKind::Call));
+        let id = e.to_id();
+        if self.bindings.insert(id.clone()) {
+            self.accesses.remove(&(id.clone(), AccessKind::Reference));
+            self.accesses.remove(&(id, AccessKind::Call));
         }
     }
 

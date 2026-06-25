@@ -91,7 +91,7 @@ pub(super) fn optimizer<'a>(
         mangle_options,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
-        vars: Default::default(),
+        vars: Vars::with_capacity(data.vars.len()),
         typeofs: Default::default(),
         data,
         ctx,
@@ -251,7 +251,6 @@ struct Optimizer<'a> {
     static_alias_state: &'a mut StaticAliasState,
 }
 
-#[derive(Default)]
 struct Vars {
     /// Cheap to clone.
     ///
@@ -282,6 +281,23 @@ struct Vars {
 }
 
 impl Vars {
+    fn with_capacity(var_count: usize) -> Self {
+        // Inline candidates scale with the analyzed binding count, but only a
+        // subset becomes replaceable. This avoids repeated growth on large
+        // modules without over-reserving for typical files.
+        let cap = var_count.min(65536);
+
+        Self {
+            lits: FxHashMap::with_capacity_and_hasher(cap, Default::default()),
+            hoisted_props: Default::default(),
+            lits_for_cmp: FxHashMap::with_capacity_and_hasher(cap / 2, Default::default()),
+            lits_for_array_access: Default::default(),
+            simple_functions: Default::default(),
+            vars_for_inlining: FxHashMap::with_capacity_and_hasher(cap, Default::default()),
+            removed: Default::default(),
+        }
+    }
+
     fn has_pending_inline_for(&self, id: &Id) -> bool {
         self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
     }
@@ -352,6 +368,10 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
+        if id.ctxt != self.marks.top_level_ctxt {
+            return true;
+        }
+
         if self
             .data
             .vars
@@ -359,10 +379,6 @@ impl Optimizer<'_> {
             .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
         {
             return false;
-        }
-
-        if id.ctxt != self.marks.top_level_ctxt {
-            return true;
         }
 
         if self.options.top_level() {

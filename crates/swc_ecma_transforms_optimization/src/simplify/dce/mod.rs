@@ -1,9 +1,8 @@
 use std::borrow::Cow;
 
-use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
-use swc_atoms::{atom, Atom};
+use swc_atoms::Atom;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -110,10 +109,22 @@ struct Data {
     /// Entrypoints.
     entries: FxHashSet<u32>,
 
-    graph_ix: IndexSet<Id, FxBuildHasher>,
+    graph_ix: FxHashMap<Id, u32>,
+    /// Reverse lookup for graph node ids used while subtracting cycles.
+    graph_ids: Vec<Id>,
 }
 
 impl Data {
+    fn reserve_for_large_module(&mut self) {
+        // Large modules can produce tens of thousands of bindings and graph
+        // nodes. Reserve the top-level DCE storage up front to avoid repeated
+        // rehashing while the analyzer records usage and dependency edges.
+        self.used_names.reserve(65536);
+        self.entries.reserve(16384);
+        self.graph_ix.reserve(65536);
+        self.graph_ids.reserve(65536);
+    }
+
     fn drop_usage(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
@@ -149,15 +160,18 @@ impl Data {
     }
 
     fn get_node(&self, id: &Id) -> Option<u32> {
-        self.graph_ix.get_index_of(id).map(|ix| ix as _)
+        self.graph_ix.get(id).copied()
     }
 
     fn node(&mut self, id: &Id) -> u32 {
-        self.graph_ix.get_index_of(id).unwrap_or_else(|| {
-            let ix = self.graph_ix.len();
-            self.graph_ix.insert_full(id.clone());
-            ix
-        }) as _
+        if let Some(&ix) = self.graph_ix.get(id) {
+            return ix;
+        }
+
+        let ix = self.graph_ids.len() as u32;
+        self.graph_ids.push(id.clone());
+        self.graph_ix.insert(id.clone(), ix);
+        ix
     }
 
     /// Add an edge to dependency graph
@@ -219,7 +233,7 @@ impl Data {
                         continue;
                     }
 
-                    let id = self.graph_ix.get_index(j as _);
+                    let id = self.graph_ids.get(j as usize);
                     let id = match id {
                         Some(id) => id,
                         None => continue,
@@ -321,6 +335,7 @@ struct Analyzer<'a> {
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     kind: ScopeKind,
+    parent_has_ast_path: bool,
 
     bindings_affected_by_eval: FxHashSet<Id>,
     found_direct_eval: bool,
@@ -342,17 +357,15 @@ enum ScopeKind {
 }
 
 impl Analyzer<'_> {
-    fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
+    fn with_ast_path<F>(&mut self, id: Id, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
-        let prev_len = self.scope.ast_path.len();
-
-        self.scope.ast_path.extend(ids);
+        self.scope.ast_path.push(id);
 
         op(self);
 
-        self.scope.ast_path.truncate(prev_len);
+        self.scope.ast_path.pop();
     }
 
     fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
@@ -362,6 +375,7 @@ impl Analyzer<'_> {
         let child_scope = {
             let child = Scope {
                 parent: Some(&self.scope),
+                parent_has_ast_path: !self.scope.is_ast_path_empty(),
                 ..Default::default()
             };
 
@@ -405,17 +419,17 @@ impl Analyzer<'_> {
 
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
-        if id.0 == atom!("arguments") {
+        if &*id.0 == "arguments" {
             self.scope.found_arguemnts = true;
         }
 
         if let Some(f) = &self.cur_fn_id {
-            if id == *f {
+            if id.1 == f.1 && id.0 == f.0 {
                 return;
             }
         }
         if let Some(f) = &self.cur_class_id {
-            if id == *f {
+            if id.1 == f.1 && id.0 == f.0 {
                 return;
             }
         }
@@ -472,16 +486,17 @@ impl Visit for Analyzer<'_> {
             super_class.visit_with(self);
         }
 
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        let id = n.ident.to_id();
+        self.with_ast_path(id.clone(), |v| {
             let old = v.cur_class_id.take();
-            v.cur_class_id = Some(n.ident.to_id());
+            v.cur_class_id = Some(id.clone());
             n.ident.visit_with(v);
             n.class.decorators.visit_with(v);
             n.class.body.visit_with(v);
             v.cur_class_id = old;
 
             if !n.class.decorators.is_empty() {
-                v.add(n.ident.to_id(), false);
+                v.add(id, false);
             }
         })
     }
@@ -547,8 +562,9 @@ impl Visit for Analyzer<'_> {
             }
             _ => {
                 if let Some(i) = n.left.as_ident() {
-                    self.add(i.to_id(), false);
-                    self.add(i.to_id(), true);
+                    let id = i.to_id();
+                    self.add(id.clone(), false);
+                    self.add(id, true);
                     n.right.visit_with(self);
                 } else {
                     n.visit_children_with(self);
@@ -600,14 +616,15 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        let id = n.ident.to_id();
+        self.with_ast_path(id.clone(), |v| {
             let old = v.cur_fn_id.take();
-            v.cur_fn_id = Some(n.ident.to_id());
+            v.cur_fn_id = Some(id.clone());
             n.visit_children_with(v);
             v.cur_fn_id = old;
 
             if !n.function.decorators.is_empty() {
-                v.add(n.ident.to_id(), false);
+                v.add(id, false);
             }
         })
     }
@@ -704,7 +721,7 @@ impl TreeShaker {
             }
         }
 
-        if self.config.top_retain.contains(&name.0) {
+        if !self.config.top_retain.is_empty() && self.config.top_retain.contains(&name.0) {
             return false;
         }
 
@@ -725,15 +742,15 @@ impl TreeShaker {
             }
 
             // Abort if the variable is declared on top level scope.
-            let ix = self.data.graph_ix.get_index_of(&name);
-            if let Some(ix) = ix {
-                if self.data.entries.contains(&(ix as u32)) {
+            let ix = self.data.graph_ix.get(&name);
+            if let Some(&ix) = ix {
+                if self.data.entries.contains(&ix) {
                     return false;
                 }
             }
         }
 
-        if self.config.top_retain.contains(&name.0) {
+        if !self.config.top_retain.is_empty() && self.config.top_retain.contains(&name.0) {
             return false;
         }
 
@@ -1028,6 +1045,7 @@ impl VisitMut for TreeShaker {
                 initialized: true,
                 ..Default::default()
             };
+            data.reserve_for_large_module();
 
             {
                 let mut analyzer = Analyzer {
@@ -1094,6 +1112,7 @@ impl VisitMut for TreeShaker {
                 initialized: true,
                 ..Default::default()
             };
+            data.reserve_for_large_module();
 
             {
                 let mut analyzer = Analyzer {
@@ -1259,12 +1278,6 @@ impl VisitMut for TreeShaker {
 impl Scope<'_> {
     /// Returns true if it's not in a function or class.
     fn is_ast_path_empty(&self) -> bool {
-        if !self.ast_path.is_empty() {
-            return false;
-        }
-        match &self.parent {
-            Some(p) => p.is_ast_path_empty(),
-            None => true,
-        }
+        !self.parent_has_ast_path && self.ast_path.is_empty()
     }
 }
