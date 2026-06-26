@@ -147,7 +147,7 @@ fn transform_fixture(input: &Path, cm: Lrc<SourceMap>) -> TransformResult {
     )
 }
 
-fn run_ast_roundtrip(input: PathBuf) {
+fn run_compile_pass(input: PathBuf) {
     let output = fixture_dir(&input)
         .join("output")
         .join(input.file_name().unwrap());
@@ -183,10 +183,9 @@ fn run_build_pass(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("tests/fixture/ast-roundtrip/input/*")]
-#[testing::fixture("tests/fixture/cjs/input/*")]
-fn ast_roundtrip(input: PathBuf) {
-    run_ast_roundtrip(input);
+#[testing::fixture("tests/fixture/compile-pass/**/input/*")]
+fn compile_pass(input: PathBuf) {
+    run_compile_pass(input);
 }
 
 #[testing::fixture("tests/fixture/build-pass/input/*")]
