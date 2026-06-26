@@ -38,28 +38,15 @@ fn syntax_for_path(path: &Path) -> Syntax {
     }
 }
 
-fn fixture_dir(input: &Path) -> &Path {
-    let input_dir = input
-        .parent()
-        .unwrap_or_else(|| panic!("input fixture has no parent: {}", input.display()));
-    assert_eq!(
-        input_dir.file_name().and_then(|name| name.to_str()),
-        Some("input"),
-        "input fixture must live under an input directory: {}",
-        input.display()
-    );
-
-    input_dir
-        .parent()
-        .unwrap_or_else(|| panic!("input fixture has no case directory: {}", input.display()))
-}
-
 fn read_syntax(input: &Path) -> Syntax {
-    let parser_json = fixture_dir(input).join("parser.json");
-
-    if !parser_json.exists() {
-        return syntax_for_path(input);
-    }
+    let parser_json = match input
+        .parent()
+        .and_then(|d| d.parent())
+        .map(|p| p.join("parser.json"))
+    {
+        Some(p) if p.exists() => p,
+        _ => return syntax_for_path(input),
+    };
 
     let json = read_to_string(&parser_json)
         .unwrap_or_else(|err| panic!("failed to read {}: {err}", parser_json.display()));
@@ -148,7 +135,11 @@ fn transform_fixture(input: &Path, cm: Lrc<SourceMap>) -> TransformResult {
 }
 
 fn run_compile_pass(input: PathBuf) {
-    let output = fixture_dir(&input)
+    let output = input
+        .parent()
+        .unwrap()
+        .parent()
+        .unwrap()
         .join("output")
         .join(input.file_name().unwrap());
 
@@ -177,7 +168,6 @@ fn run_compile_pass(input: PathBuf) {
 fn run_build_pass(input: PathBuf) {
     run_test2(false, |cm, _| {
         drop(transform_fixture(&input, cm));
-
         Ok(())
     })
     .unwrap();
@@ -188,7 +178,7 @@ fn compile_pass(input: PathBuf) {
     run_compile_pass(input);
 }
 
-#[testing::fixture("tests/fixture/build-pass/input/*")]
+#[testing::fixture("tests/fixture/build-pass/*")]
 fn build_pass(input: PathBuf) {
     run_build_pass(input);
 }
