@@ -6100,7 +6100,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "71.0.3"
+version = "71.0.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -7003,7 +7003,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "47.0.1"
+version = "47.0.2"
 dependencies = [
  "bytes-str",
  "dashmap 6.1.0",
