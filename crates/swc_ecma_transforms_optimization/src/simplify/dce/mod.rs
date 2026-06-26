@@ -502,6 +502,8 @@ fn class_def_is_trivial(class: &Class) -> bool {
             a.decorators.is_empty() && !(a.is_static && a.value.is_some())
         }
         ClassMember::StaticBlock(_) => false,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     })
 }
 
