@@ -11,7 +11,7 @@ use swc_ecma_codegen::{
     Emitter, Node,
 };
 use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
-use swc_ecma_react_compiler::{default_plugin_options, transform, SourceType};
+use swc_ecma_react_compiler::{default_plugin_options, transform, SourceType, TransformResult};
 use testing::{run_test2, NormalizedOutput};
 
 #[derive(Deserialize)]
@@ -38,28 +38,15 @@ fn syntax_for_path(path: &Path) -> Syntax {
     }
 }
 
-fn fixture_dir(input: &Path) -> &Path {
-    let input_dir = input
-        .parent()
-        .unwrap_or_else(|| panic!("input fixture has no parent: {}", input.display()));
-    assert_eq!(
-        input_dir.file_name().and_then(|name| name.to_str()),
-        Some("input"),
-        "input fixture must live under an input directory: {}",
-        input.display()
-    );
-
-    input_dir
-        .parent()
-        .unwrap_or_else(|| panic!("input fixture has no case directory: {}", input.display()))
-}
-
 fn read_syntax(input: &Path) -> Syntax {
-    let parser_json = fixture_dir(input).join("parser.json");
-
-    if !parser_json.exists() {
-        return syntax_for_path(input);
-    }
+    let parser_json = match input
+        .parent()
+        .and_then(|d| d.parent())
+        .map(|p| p.join("parser.json"))
+    {
+        Some(p) if p.exists() => p,
+        _ => return syntax_for_path(input),
+    };
 
     let json = read_to_string(&parser_json)
         .unwrap_or_else(|err| panic!("failed to read {}: {err}", parser_json.display()));
@@ -131,25 +118,33 @@ fn emit_program(program: &Program, cm: Lrc<SourceMap>) -> String {
     String::from_utf8(buf).expect("emitted module is not valid UTF-8")
 }
 
-fn run(input: PathBuf) {
-    let output = fixture_dir(&input)
+fn transform_fixture(input: &Path, cm: Lrc<SourceMap>) -> TransformResult {
+    let source_text = read_to_string(input)
+        .unwrap_or_else(|err| panic!("failed to read {}: {err}", input.display()));
+    let (program, comments, source_type) = parse_program(input, cm);
+    let mut options = default_plugin_options();
+    options.filename = Some(input.display().to_string());
+
+    transform(
+        &program,
+        source_type,
+        &source_text,
+        Some(&comments),
+        options,
+    )
+}
+
+fn run_compile_pass(input: PathBuf) {
+    let output = input
+        .parent()
+        .unwrap()
+        .parent()
+        .unwrap()
         .join("output")
         .join(input.file_name().unwrap());
 
     run_test2(false, |cm, _| {
-        let source_text = read_to_string(&input)
-            .unwrap_or_else(|err| panic!("failed to read {}: {err}", input.display()));
-        let (program, comments, source_type) = parse_program(&input, cm.clone());
-        let mut options = default_plugin_options();
-        options.filename = Some(input.display().to_string());
-
-        let result = transform(
-            &program,
-            source_type,
-            &source_text,
-            Some(&comments),
-            options,
-        );
+        let result = transform_fixture(&input, cm.clone());
         let transformed = result.program.unwrap_or_else(|| {
             panic!(
                 "React Compiler did not return a transformed program for {}\ndiagnostics:\n{:#?}",
@@ -168,7 +163,22 @@ fn run(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/input/*")]
-fn ast_roundtrip(input: PathBuf) {
-    run(input);
+/// Build-pass fixtures assert that SWC-to-React-Compiler conversion does not
+/// panic, even if the React Compiler later declines to emit a program.
+fn run_build_pass(input: PathBuf) {
+    run_test2(false, |cm, _| {
+        drop(transform_fixture(&input, cm));
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/fixture/compile-pass/**/input/*")]
+fn compile_pass(input: PathBuf) {
+    run_compile_pass(input);
+}
+
+#[testing::fixture("tests/fixture/build-pass/*")]
+fn build_pass(input: PathBuf) {
+    run_build_pass(input);
 }
