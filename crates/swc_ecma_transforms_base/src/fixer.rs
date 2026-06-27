@@ -71,6 +71,28 @@ enum Context {
 }
 
 impl Fixer<'_> {
+    /// `Pat::Expr` is needed for parenthesized for-head expressions, but a
+    /// bare identifier should use the same pattern shape as `for (x of y)`.
+    fn normalize_for_head_pat(n: &mut ForHead) {
+        let ForHead::Pat(pat) = n else {
+            return;
+        };
+
+        if pat.as_expr().and_then(|expr| expr.as_ident()).is_none() {
+            return;
+        }
+
+        let Pat::Expr(expr) = *pat.take() else {
+            unreachable!()
+        };
+
+        let Expr::Ident(ident) = *expr else {
+            unreachable!()
+        };
+
+        **pat = ident.into();
+    }
+
     fn should_wrap_tagged_tpl_new_callee(tag: &Expr) -> bool {
         match tag {
             Expr::Call(..) | Expr::New(..) => true,
@@ -507,30 +529,30 @@ impl VisitMut for Fixer<'_> {
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, true);
         n.visit_mut_children_with(self);
         self.in_for_stmt_head = in_for_stmt_head;
+
+        Self::normalize_for_head_pat(n);
     }
 
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
 
-        if !s.is_await {
-            match &s.left {
-                ForHead::Pat(p)
-                    if match &**p {
-                        Pat::Ident(BindingIdent {
-                            id: Ident { sym, .. },
-                            ..
-                        }) => &**sym == "async",
-                        _ => false,
-                    } =>
-                {
-                    let expr: Pat = p.clone().expect_ident().into();
-                    s.left = ForHead::Pat(expr.into());
-                }
-                _ => (),
-            }
+        if !self.remove_only && !s.is_await {
+            if let ForHead::Pat(p) = &mut s.left {
+                if matches!(
+                    &**p,
+                    Pat::Ident(BindingIdent {
+                        id: Ident { sym, .. },
+                        ..
+                    }) if &**sym == "async"
+                ) {
+                    let Pat::Ident(ident) = *p.take() else {
+                        unreachable!()
+                    };
 
-            if let ForHead::Pat(e) = &mut s.left {
-                if let Pat::Expr(expr) = &mut **e {
+                    **p = Pat::Expr(ident.into());
+                }
+
+                if let Pat::Expr(expr) = &mut **p {
                     if expr.is_ident_ref_to("async") {
                         self.wrap(&mut *expr);
                     }
@@ -1224,7 +1246,10 @@ fn will_eat_else_token(s: &Stmt) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_ast::noop_pass;
+    use swc_ecma_ast::{noop_pass, ForHead, ModuleItem, Pat, Program, Stmt};
+    use swc_ecma_parser::Syntax;
+
+    use super::paren_remover;
 
     fn run_test(from: &str, to: &str) {
         crate::tests::test_transform(
@@ -1251,6 +1276,46 @@ mod tests {
         ($name:ident, $src:literal) => {
             test_fixer!($name, $src, $src);
         };
+    }
+
+    fn assert_for_head_ident(left: &ForHead, expected: &str) {
+        let ForHead::Pat(pat) = left else {
+            panic!("expected for head pattern");
+        };
+
+        let Pat::Ident(ident) = &**pat else {
+            panic!("expected identifier pattern");
+        };
+
+        assert_eq!(&*ident.sym, expected);
+    }
+
+    #[test]
+    fn paren_remover_normalizes_ident_for_head_pat_exprs() {
+        crate::tests::Tester::run(|tester| {
+            let program = tester.apply_transform(
+                paren_remover(None),
+                "input.js",
+                Syntax::default(),
+                "for ((((x))) of y) {}\nfor ((((x))) in y) {}\nfor ((((async))) of y) {}",
+            )?;
+
+            let Program::Module(module) = program else {
+                panic!("expected module");
+            };
+
+            let [ModuleItem::Stmt(Stmt::ForOf(for_of)), ModuleItem::Stmt(Stmt::ForIn(for_in)), ModuleItem::Stmt(Stmt::ForOf(for_of_async))] =
+                &module.body[..]
+            else {
+                panic!("expected for-of, for-in, and async for-of");
+            };
+
+            assert_for_head_ident(&for_of.left, "x");
+            assert_for_head_ident(&for_in.left, "x");
+            assert_for_head_ident(&for_of_async.left, "async");
+
+            Ok(())
+        });
     }
 
     identical!(fn_expr_position, r#"foo(function(){}())"#);
@@ -1345,6 +1410,12 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     test_fixer!(fixer_03, "((a, b), (c && d)) && e;", "(a, b, c && d) && e;");
 
     test_fixer!(fixer_04, "for ((a, b), c;;) ;", "for(a, b, c;;);");
+
+    test_fixer!(
+        for_of_async_head,
+        "var async; for (async of [1, 2]);",
+        "var async; for ((async) of [1, 2]);"
+    );
 
     test_fixer!(
         fixer_05,
