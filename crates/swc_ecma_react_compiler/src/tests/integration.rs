@@ -1602,3 +1602,155 @@ fn emit_program(program: &swc_ecma_ast::Program) -> Result<String, String> {
 
     String::from_utf8(buf).map_err(|err| format!("emitted output is not valid UTF-8: {err}"))
 }
+
+// ── ESLint suppression bail-out tests ────────────────────────────────────────
+//
+// When `eslintSuppressionRules` lists a rule whose suppression comment appears
+// in the file, the affected component must be left uncompiled — matching
+// `babel-plugin-react-compiler` semantics.
+
+/// A component that carries `eslint-disable-next-line react-hooks/exhaustive-deps`
+/// and whose suppression rule is listed in `eslint_suppression_rules` must bail
+/// out silently (`program: None`, no error diagnostics), mirroring Babel.
+#[test]
+fn eslint_suppression_bails_when_rule_is_listed() {
+    let source = r#"
+        import { useState, useEffect } from 'react';
+
+        function App({ id }) {
+            const [data, setData] = useState(null);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            useEffect(() => { setData(id); }, []);
+            return <div>{data}</div>;
+        }
+    "#;
+
+    let mut options = default_options();
+    options.eslint_suppression_rules = Some(vec!["react-hooks/exhaustive-deps".to_string()]);
+
+    let result = transform_source(
+        source,
+        swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsSyntax {
+            jsx: true,
+            ..Default::default()
+        }),
+        options,
+    );
+
+    assert!(
+        result.program.is_none(),
+        "component with a listed ESLint suppression should not be compiled"
+    );
+    assert!(
+        result.diagnostics.is_empty(),
+        "ESLint suppression bail should produce no error diagnostics: {:#?}",
+        result.diagnostics
+    );
+}
+
+/// The same component with `eslint_suppression_rules = None` should compile
+/// normally, confirming that the bail is opt-in (default-off).
+#[test]
+fn eslint_suppression_does_not_bail_when_rules_is_none() {
+    let source = r#"
+        import { useState, useEffect } from 'react';
+
+        function App({ id }) {
+            const [data, setData] = useState(null);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            useEffect(() => { setData(id); }, []);
+            return <div>{data}</div>;
+        }
+    "#;
+
+    // eslint_suppression_rules is None (default) — suppression comment ignored.
+    let result = transform_source(
+        source,
+        swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsSyntax {
+            jsx: true,
+            ..Default::default()
+        }),
+        default_options(),
+    );
+
+    // The compiler may or may not produce output, but it must NOT bail due to
+    // the ESLint comment — the suppression check is disabled when rules = None.
+    // We verify by checking that the function was not skipped by the bridge;
+    // in practice the compiler returns Some(...) for a compilable component.
+    assert!(
+        result.program.is_some(),
+        "component should compile when eslint_suppression_rules is None"
+    );
+}
+
+/// A suppression comment for a rule NOT in `eslint_suppression_rules` must
+/// not cause a bail; the component should compile as usual.
+#[test]
+fn eslint_suppression_non_listed_rule_does_not_bail() {
+    let source = r#"
+        import { useState, useEffect } from 'react';
+
+        function App({ id }) {
+            const [data, setData] = useState(null);
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            useEffect(() => { setData(id); }, []);
+            return <div>{data}</div>;
+        }
+    "#;
+
+    let mut options = default_options();
+    // Only exhaustive-deps is listed; rules-of-hooks suppression should be ignored.
+    options.eslint_suppression_rules = Some(vec!["react-hooks/exhaustive-deps".to_string()]);
+
+    let result = transform_source(
+        source,
+        swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsSyntax {
+            jsx: true,
+            ..Default::default()
+        }),
+        options,
+    );
+
+    // The suppressed rule is not in the list, so the component should compile.
+    assert!(
+        result.program.is_some(),
+        "component should compile when the suppressed rule is not listed in eslint_suppression_rules"
+    );
+}
+
+/// A `react-hooks/rules-of-hooks` suppression is honored when that rule is
+/// explicitly included in `eslint_suppression_rules`.
+#[test]
+fn eslint_suppression_rules_of_hooks_bails_when_listed() {
+    let source = r#"
+        import { useState } from 'react';
+
+        function App() {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const [count, setCount] = useState(0);
+            return <div>{count}</div>;
+        }
+    "#;
+
+    let mut options = default_options();
+    options.eslint_suppression_rules = Some(vec!["react-hooks/rules-of-hooks".to_string()]);
+
+    let result = transform_source(
+        source,
+        swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsSyntax {
+            jsx: true,
+            ..Default::default()
+        }),
+        options,
+    );
+
+    assert!(
+        result.program.is_none(),
+        "component with a listed react-hooks/rules-of-hooks suppression should not be compiled"
+    );
+    assert!(
+        result.diagnostics.is_empty(),
+        "ESLint suppression bail should produce no error diagnostics: {:#?}",
+        result.diagnostics
+    );
+}

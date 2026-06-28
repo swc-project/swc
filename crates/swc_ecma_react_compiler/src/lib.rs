@@ -108,6 +108,31 @@ pub fn transform(
         file,
         preserved_ast,
     } = convert_program(program, source_text, comments);
+
+    // When `eslint_suppression_rules` is explicitly configured, check for
+    // matching ESLint-disable comments and bail without compiling.
+    //
+    // The upstream `compile_program` skips this check when both
+    // `validate_exhaustive_memoization_dependencies` and `validate_hooks_usage`
+    // are enabled (the default), so the bridge must implement it here to
+    // honour the user's intent and match `babel-plugin-react-compiler`.
+    if let Some(rules) = &options.eslint_suppression_rules {
+        if !rules.is_empty() {
+            let suppressions = react_compiler::entrypoint::suppression::find_program_suppressions(
+                &file.comments,
+                Some(rules),
+                false, // Flow suppressions are handled separately by compile_program
+            );
+            if !suppressions.is_empty() {
+                return TransformResult {
+                    program: None,
+                    diagnostics: vec![],
+                    events: vec![],
+                };
+            }
+        }
+    }
+
     let emit_success_error_diagnostics = options.no_emit;
     let result =
         react_compiler::entrypoint::program::compile_program(file, scope_info.clone(), options);

@@ -12,7 +12,7 @@ pub struct ModuleData {
     /// # Example
     ///
     /// ```rust,ignore
-    /// 
+    ///
     /// impl Load for Loader {
     ///     fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
     ///         let helpers = Helpers::new(false);

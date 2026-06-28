@@ -171,7 +171,7 @@ pub(super) fn local_name_for_src(src: &Atom) -> Atom {
 /// Creates
 ///
 ///```js
-/// 
+///
 ///  Object.defineProperty(target, prop_name, {
 ///      ...props
 ///  });
@@ -188,7 +188,7 @@ pub(super) fn object_define_property(
 /// Creates
 ///
 ///```js
-/// 
+///
 ///  Object.defineProperty(exports, '__esModule', {
 ///       value: true
 ///  });
