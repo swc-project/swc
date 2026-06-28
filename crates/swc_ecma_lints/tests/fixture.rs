@@ -63,8 +63,9 @@ fn pass(input: PathBuf) {
             }
             Program::Script(s) => {
                 rules.lint_script(s);
-            } // TODO: reenable once experimental_metadata breaking change is merged
-              //_ => unreachable!(),
+            }
+            // TODO: reenable once experimental_metadata breaking change is merged
+            //_ => unreachable!(),
         });
 
         if handler.has_errors() {

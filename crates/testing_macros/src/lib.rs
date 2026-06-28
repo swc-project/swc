@@ -24,7 +24,7 @@ mod fixture;
 /// If you want to load all typescript files from `pass`
 ///
 /// ```rust,ignore
-///
+/// 
 /// #[fixture("pass/**/*.{ts,tsx}")]
 /// fn pass(file: PathBuf) {
 ///     // test by reading file
