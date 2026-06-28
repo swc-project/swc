@@ -198,7 +198,7 @@ impl Visit for UsageVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
-        if let Callee::Import(_) = &e.callee {
+        if matches!(&e.callee, Callee::Import(_)) || is_async_generator_helper_call(&e.callee) {
             self.may_inject_global(builtin::promise_dependencies())
         }
     }
@@ -277,4 +277,22 @@ impl Visit for UsageVisitor {
             self.may_inject_global(builtin::common_iterators())
         }
     }
+}
+
+fn is_async_generator_helper_call(callee: &Callee) -> bool {
+    matches!(
+        callee,
+        Callee::Expr(expr)
+            if matches!(
+                &**expr,
+                Expr::Ident(Ident { sym, .. }) if is_async_generator_helper(sym)
+            )
+    )
+}
+
+fn is_async_generator_helper(sym: &Atom) -> bool {
+    matches!(
+        &**sym,
+        "_async_generator_delegate" | "_async_iterator" | "_wrap_async_generator"
+    )
 }

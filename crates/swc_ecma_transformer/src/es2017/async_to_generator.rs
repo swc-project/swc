@@ -8,7 +8,7 @@ use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use crate::TraverseCtx;
 
@@ -51,11 +51,12 @@ impl Options {
         is_async: bool,
         is_generator: bool,
         nested_in_transform: bool,
+        contains_await_for: bool,
     ) -> bool {
         is_async
             && (nested_in_transform
                 || self.transform_async_functions
-                || (is_generator && self.transform_async_generators))
+                || (self.transform_async_generators && (is_generator || contains_await_for)))
     }
 }
 
@@ -165,7 +166,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn enter_function(&mut self, function: &mut Function, _ctx: &mut TraverseCtx) {
-        let Some(_body) = &mut function.body else {
+        let Some(body) = &mut function.body else {
             return;
         };
 
@@ -175,11 +176,17 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
 
         let nested_in_transform = self.fn_state_stack.last().is_some_and(|s| s.transform);
+        let contains_await_for = self.should_scan_for_await_for(
+            function.is_async,
+            function.is_generator,
+            nested_in_transform,
+        ) && contains_await_for_in_block_stmt(body);
         self.fn_state = Some(FnState {
             transform: self.options.should_transform(
                 function.is_async,
                 function.is_generator,
                 nested_in_transform,
+                contains_await_for,
             ),
             is_generator: function.is_generator,
             ..Default::default()
@@ -284,10 +291,15 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
 
         let nested_in_transform = self.fn_state_stack.last().is_some_and(|s| s.transform);
+        let contains_await_for = self.should_scan_for_await_for(true, false, nested_in_transform)
+            && contains_await_for_in_block_stmt_or_expr(&arrow_expr.body);
         self.fn_state = Some(FnState {
-            transform: self
-                .options
-                .should_transform(true, false, nested_in_transform),
+            transform: self.options.should_transform(
+                true,
+                false,
+                nested_in_transform,
+                contains_await_for,
+            ),
             is_generator: false,
             in_constructor,
             ..Default::default()
@@ -380,7 +392,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         };
 
         match expr {
-            Expr::This(..) => {
+            Expr::This(..) if fn_state.transform => {
                 fn_state.use_this = true;
             }
             Expr::Ident(Ident { sym, .. }) if sym == "arguments" => {
@@ -458,6 +470,63 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             *use_super = true;
         }
     }
+}
+
+impl AsyncToGeneratorPass {
+    fn should_scan_for_await_for(
+        &self,
+        is_async: bool,
+        is_generator: bool,
+        nested_in_transform: bool,
+    ) -> bool {
+        is_async
+            && !is_generator
+            && !nested_in_transform
+            && !self.options.transform_async_functions
+            && self.options.transform_async_generators
+    }
+}
+
+#[derive(Default)]
+struct AwaitForFinder {
+    found: bool,
+}
+
+impl Visit for AwaitForFinder {
+    noop_visit_type!(fail);
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_class(&mut self, _: &Class) {}
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_for_of_stmt(&mut self, stmt: &ForOfStmt) {
+        if stmt.is_await {
+            self.found = true;
+            return;
+        }
+
+        stmt.visit_children_with(self);
+    }
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
+
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
+}
+
+fn contains_await_for_in_block_stmt(body: &BlockStmt) -> bool {
+    let mut finder = AwaitForFinder::default();
+    body.visit_with(&mut finder);
+    finder.found
+}
+
+fn contains_await_for_in_block_stmt_or_expr(body: &BlockStmtOrExpr) -> bool {
+    let mut finder = AwaitForFinder::default();
+    body.visit_with(&mut finder);
+    finder.found
 }
 
 /// Creates

@@ -827,6 +827,7 @@ impl Caniuse for EsVersion {
 
             // ES2018
             Feature::ObjectRestSpread
+            | Feature::AsyncGeneratorFunctions
             | Feature::DotAllRegex
             | Feature::NamedCapturingGroupsRegex
             | Feature::UnicodePropertyRegex => *self >= EsVersion::Es2018,
