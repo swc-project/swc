@@ -341,6 +341,15 @@ where
             }
         }
 
+        #[cfg(windows)]
+        {
+            (base, target) = normalize_extended_length_path_prefixes(
+                self.config.base_dir.as_deref(),
+                base,
+                target,
+            );
+        }
+
         debug!(
             "Comparing values (after normalizing absoluteness)\nbase={}\ntarget={}",
             base.display(),
@@ -500,9 +509,48 @@ fn normalize_path_prefix_like(_: &Path, path: PathBuf) -> PathBuf {
     path
 }
 
+#[cfg(windows)]
+fn normalize_extended_length_path_prefixes<'a>(
+    base_dir: Option<&Path>,
+    base: Cow<'a, Path>,
+    target: PathBuf,
+) -> (Cow<'a, Path>, PathBuf) {
+    if !base.is_absolute() || !target.is_absolute() {
+        return (base, target);
+    }
+
+    let reference = match base_dir {
+        Some(base_dir) if has_extended_length_path_prefix(base_dir) => Some(base_dir.to_path_buf()),
+        _ if has_extended_length_path_prefix(base.as_ref()) => Some(base.to_path_buf()),
+        _ if has_extended_length_path_prefix(&target) => Some(target.clone()),
+        _ => None,
+    };
+
+    let Some(reference) = reference else {
+        return (base, target);
+    };
+
+    // Windows canonicalization often returns extended-length paths (`\\?\...`).
+    // `pathdiff` treats those as a different prefix from ordinary absolute
+    // paths, so align both sides before calculating a relative import.
+    (
+        Cow::Owned(normalize_path_prefix_like(&reference, base.into_owned())),
+        normalize_path_prefix_like(&reference, target),
+    )
+}
+
+#[cfg(windows)]
+fn has_extended_length_path_prefix(path: &Path) -> bool {
+    path.as_os_str().to_string_lossy().starts_with(r"\\?\")
+}
+
 #[cfg(any(test, windows))]
 fn normalize_extended_length_path_prefix(reference: &str, path: &str) -> Option<String> {
     if !reference.starts_with(r"\\?\") || path.starts_with(r"\\?\") {
+        return None;
+    }
+
+    if !is_windows_absolute_path(path) {
         return None;
     }
 
@@ -515,6 +563,21 @@ fn normalize_extended_length_path_prefix(reference: &str, path: &str) -> Option<
     }
 
     Some(format!(r"\\?\{path}"))
+}
+
+#[cfg(any(test, windows))]
+fn is_windows_absolute_path(path: &str) -> bool {
+    path.starts_with(r"\\") || has_windows_drive_prefix(path)
+}
+
+#[cfg(any(test, windows))]
+fn has_windows_drive_prefix(path: &str) -> bool {
+    let bytes = path.as_bytes();
+
+    bytes.len() >= 3
+        && bytes[0].is_ascii_alphabetic()
+        && bytes[1] == b':'
+        && matches!(bytes[2], b'/' | b'\\')
 }
 
 #[cfg(test)]
@@ -561,6 +624,14 @@ mod tests {
         assert_eq!(
             normalize_extended_length_path_prefix(r"\\?\C:\repo", r"C:\repo\src"),
             Some(r"\\?\C:\repo\src".into())
+        );
+    }
+
+    #[test]
+    fn extended_drive_prefix_skips_relative_path() {
+        assert_eq!(
+            normalize_extended_length_path_prefix(r"\\?\C:\repo", r"repo\src"),
+            None
         );
     }
 }
