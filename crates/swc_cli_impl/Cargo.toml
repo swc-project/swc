@@ -37,7 +37,7 @@ serde_json         = { workspace = true, features = ["unbounded_depth"] }
 tracing            = { workspace = true }
 walkdir            = { workspace = true }
 
-swc_core = { version = "71.0.4", features = [
+swc_core = { version = "71.0.5", features = [
   "common_concurrent",
   "base_concurrent",
   "base_flow",
