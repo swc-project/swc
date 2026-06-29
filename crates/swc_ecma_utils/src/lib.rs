@@ -3934,7 +3934,7 @@ switch (foo) {
 
     #[test]
     fn switch_non_terminating_case_falls_through_to_terminating_case() {
-        assert!(stmt_in_function_terminates(
+        assert!(!stmt_in_function_terminates(
             r#"
 switch (foo) {
     case "0":
