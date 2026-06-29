@@ -39,7 +39,7 @@ const DEFAULT_ESLINT_SUPPRESSION_RULES: &[&str] =
 fn default_eslint_suppression_rules() -> Vec<String> {
     DEFAULT_ESLINT_SUPPRESSION_RULES
         .iter()
-        .map(|rule| (*rule).to_string())
+        .map(|&rule| rule.to_string())
         .collect()
 }
 
