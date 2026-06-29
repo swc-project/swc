@@ -40,12 +40,12 @@ swc_ecma_parser = { version = "41.1.2", path = "../swc_ecma_parser", default-fea
   "typescript",
 ] }
 swc_ecma_transforms = { version = "56.0.0", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "31.0.1", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "31.0.2", path = "../swc_ecma_utils" }
 swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
 
 [dev-dependencies]
 
-swc_ecma_transforms_base = { version = "44.0.3", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "44.0.4", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 testing = { version = "24.0.1", path = "../testing" }

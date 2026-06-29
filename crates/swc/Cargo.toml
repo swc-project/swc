@@ -103,7 +103,7 @@ swc_ecma_loader = { version = "24.0.1", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "56.0.1", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "56.0.2", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "41.1.2", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
@@ -118,11 +118,11 @@ swc_ecma_transforms = { version = "56.0.0", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "44.0.3", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "44.0.4", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "52.0.1", path = "../swc_ecma_transforms_compat", default-features = false }
-swc_ecma_transforms_module = { version = "49.0.1", path = "../swc_ecma_transforms_module", optional = true }
+swc_ecma_transforms_module = { version = "49.0.2", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_optimization = { version = "47.0.2", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils = { version = "31.0.1", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "31.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "25.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "25.0.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "24.0.0", path = "../swc_node_comments" }
@@ -166,7 +166,7 @@ swc_ecma_preset_env = { version = "57.0.0", path = "../swc_ecma_preset_env", fea
   "es3",
 ] }
 swc_ecma_testing = { version = "24.0.1", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "44.0.3", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "44.0.4", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 swc_ecma_transforms_compat = { version = "52.0.1", path = "../swc_ecma_transforms_compat", features = [
