@@ -928,6 +928,8 @@ export interface ReactCompilerOptions {
 
   /**
    * ESLint rules whose suppressions opt a function out of compilation.
+   *
+   * Defaults to `['react-hooks/exhaustive-deps', 'react-hooks/rules-of-hooks']`.
    */
   eslintSuppressionRules?: string[];
 

@@ -33,6 +33,16 @@ use swc_ecma_ast::Program;
 
 use crate::{convert_ast::ConvertResult, convert_scope::SemanticBuilder};
 
+const DEFAULT_ESLINT_SUPPRESSION_RULES: &[&str] =
+    &["react-hooks/exhaustive-deps", "react-hooks/rules-of-hooks"];
+
+fn default_eslint_suppression_rules() -> Vec<String> {
+    DEFAULT_ESLINT_SUPPRESSION_RULES
+        .iter()
+        .map(|rule| (*rule).to_string())
+        .collect()
+}
+
 /// [`PluginOptions`] with the compiler's standard defaults.
 ///
 /// Override fields with struct-update syntax:
@@ -51,7 +61,7 @@ pub fn default_plugin_options() -> PluginOptions {
         dynamic_gating: None,
         no_emit: false,
         output_mode: None,
-        eslint_suppression_rules: None,
+        eslint_suppression_rules: Some(default_eslint_suppression_rules()),
         flow_suppressions: true,
         ignore_use_no_forget: false,
         custom_opt_out_directives: None,
@@ -109,13 +119,13 @@ pub fn transform(
         preserved_ast,
     } = convert_program(program, source_text, comments);
 
-    // When `eslint_suppression_rules` is explicitly configured, check for
-    // matching ESLint-disable comments and bail without compiling.
+    // When `eslint_suppression_rules` is non-empty, check for matching
+    // ESLint-disable comments and bail without compiling.
     //
     // The upstream `compile_program` skips this check when both
     // `validate_exhaustive_memoization_dependencies` and `validate_hooks_usage`
     // are enabled (the default), so the bridge must implement it here to
-    // honour the user's intent and match `babel-plugin-react-compiler`.
+    // honour the configured rules and match `babel-plugin-react-compiler`.
     if let Some(rules) = &options.eslint_suppression_rules {
         if !rules.is_empty() {
             let suppressions = react_compiler::entrypoint::suppression::find_program_suppressions(

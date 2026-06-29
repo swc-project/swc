@@ -3,7 +3,7 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-use react_compiler::entrypoint::plugin_options::{CompilerTarget, PluginOptions};
+use react_compiler::entrypoint::plugin_options::PluginOptions;
 use react_compiler_ast::{
     scope::{BindingKind, ScopeKind},
     statements::Statement,
@@ -109,27 +109,7 @@ fn parse_ts_program(source: &str) -> swc_ecma_ast::Program {
 }
 
 fn default_options() -> PluginOptions {
-    PluginOptions {
-        should_compile: true,
-        enable_reanimated: false,
-        is_dev: false,
-        filename: None,
-        compilation_mode: "infer".to_string(),
-        panic_threshold: "none".to_string(),
-        target: CompilerTarget::Version("19".to_string()),
-        gating: None,
-        dynamic_gating: None,
-        no_emit: false,
-        output_mode: None,
-        eslint_suppression_rules: None,
-        flow_suppressions: true,
-        ignore_use_no_forget: false,
-        custom_opt_out_directives: None,
-        environment: Default::default(),
-        source_code: None,
-        profiling: false,
-        debug: false,
-    }
+    crate::default_plugin_options()
 }
 
 // ── Prefilter tests ─────────────────────────────────────────────────────────
@@ -1609,11 +1589,11 @@ fn emit_program(program: &swc_ecma_ast::Program) -> Result<String, String> {
 // in the file, the affected component must be left uncompiled — matching
 // `babel-plugin-react-compiler` semantics.
 
-/// A component that carries `eslint-disable-next-line react-hooks/exhaustive-deps`
-/// and whose suppression rule is listed in `eslint_suppression_rules` must bail
-/// out silently (`program: None`, no error diagnostics), mirroring Babel.
+/// A component that carries `eslint-disable-next-line
+/// react-hooks/exhaustive-deps` must bail out silently with the default
+/// Babel-matching suppression rules.
 #[test]
-fn eslint_suppression_bails_when_rule_is_listed() {
+fn eslint_suppression_bails_with_default_rules() {
     let source = r#"
         import { useState, useEffect } from 'react';
 
@@ -1625,16 +1605,13 @@ fn eslint_suppression_bails_when_rule_is_listed() {
         }
     "#;
 
-    let mut options = default_options();
-    options.eslint_suppression_rules = Some(vec!["react-hooks/exhaustive-deps".to_string()]);
-
     let result = transform_source(
         source,
         swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsSyntax {
             jsx: true,
             ..Default::default()
         }),
-        options,
+        default_options(),
     );
 
     assert!(
@@ -1649,7 +1626,7 @@ fn eslint_suppression_bails_when_rule_is_listed() {
 }
 
 /// The same component with `eslint_suppression_rules = None` should compile
-/// normally, confirming that the bail is opt-in (default-off).
+/// normally, confirming that `None` still opts out of suppression-based bails.
 #[test]
 fn eslint_suppression_does_not_bail_when_rules_is_none() {
     let source = r#"
@@ -1663,14 +1640,16 @@ fn eslint_suppression_does_not_bail_when_rules_is_none() {
         }
     "#;
 
-    // eslint_suppression_rules is None (default) — suppression comment ignored.
+    let mut options = default_options();
+    options.eslint_suppression_rules = None;
+
     let result = transform_source(
         source,
         swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsSyntax {
             jsx: true,
             ..Default::default()
         }),
-        default_options(),
+        options,
     );
 
     // The compiler may or may not produce output, but it must NOT bail due to
@@ -1714,7 +1693,8 @@ fn eslint_suppression_non_listed_rule_does_not_bail() {
     // The suppressed rule is not in the list, so the component should compile.
     assert!(
         result.program.is_some(),
-        "component should compile when the suppressed rule is not listed in eslint_suppression_rules"
+        "component should compile when the suppressed rule is not listed in \
+         eslint_suppression_rules"
     );
 }
 
