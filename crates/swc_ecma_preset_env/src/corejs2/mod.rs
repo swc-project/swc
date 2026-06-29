@@ -114,6 +114,15 @@ impl UsageVisitor {
             self.add(features);
         }
     }
+
+    fn add_async_iterator_deps(&mut self) {
+        self.add(["es7.symbol.async-iterator"].iter().copied());
+    }
+
+    fn add_async_generator_helper_deps(&mut self) {
+        self.add_promise_deps();
+        self.add_async_iterator_deps();
+    }
 }
 
 // TODO:
@@ -283,7 +292,7 @@ impl Visit for UsageVisitor {
         e.visit_children_with(self);
 
         if is_async_generator_helper_call(&e.callee) {
-            self.add_promise_deps();
+            self.add_async_generator_helper_deps();
         }
 
         if match &e.callee {

@@ -1,4 +1,5 @@
 import "core-js/modules/es.promise.js";
+import "core-js/modules/es.symbol.async-iterator.js";
 export function collect(source) {
     return _async_to_generator(function*() {
         {

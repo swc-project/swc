@@ -53,10 +53,15 @@ impl Options {
         nested_in_transform: bool,
         contains_await_for: bool,
     ) -> bool {
-        is_async
-            && (nested_in_transform
-                || self.transform_async_functions
-                || (self.transform_async_generators && (is_generator || contains_await_for)))
+        if !is_async {
+            return false;
+        }
+
+        if is_generator || contains_await_for {
+            return self.transform_async_generators;
+        }
+
+        nested_in_transform || self.transform_async_functions
     }
 }
 
@@ -479,9 +484,15 @@ impl AsyncToGeneratorPass {
         is_generator: bool,
         nested_in_transform: bool,
     ) -> bool {
-        is_async
-            && !is_generator
-            && !nested_in_transform
+        if !is_async || is_generator {
+            return false;
+        }
+
+        if self.options.transform_async_functions && !self.options.transform_async_generators {
+            return true;
+        }
+
+        !nested_in_transform
             && !self.options.transform_async_functions
             && self.options.transform_async_generators
     }

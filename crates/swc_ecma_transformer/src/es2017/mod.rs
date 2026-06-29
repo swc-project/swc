@@ -32,8 +32,7 @@ pub fn hook(
             ignore_function_length,
             async_to_generator::Options {
                 transform_async_functions: options.async_to_generator,
-                transform_async_generators: options.async_to_generator
-                    || options.async_generator_to_generator,
+                transform_async_generators: options.async_generator_to_generator,
             },
         ))
     } else {

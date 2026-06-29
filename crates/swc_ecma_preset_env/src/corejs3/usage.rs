@@ -109,6 +109,15 @@ impl UsageVisitor {
         }
     }
 
+    fn add_async_iterator_deps(&mut self) {
+        self.may_inject_global(["es.symbol.async-iterator"].iter().copied());
+    }
+
+    fn add_async_generator_helper_deps(&mut self) {
+        self.may_inject_global(builtin::promise_dependencies());
+        self.add_async_iterator_deps();
+    }
+
     fn add_property_deps(&mut self, obj: &Expr, prop: &Atom) {
         let obj = match obj {
             Expr::Ident(i) => &i.sym,
@@ -198,8 +207,12 @@ impl Visit for UsageVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
-        if matches!(&e.callee, Callee::Import(_)) || is_async_generator_helper_call(&e.callee) {
+        if matches!(&e.callee, Callee::Import(_)) {
             self.may_inject_global(builtin::promise_dependencies())
+        }
+
+        if is_async_generator_helper_call(&e.callee) {
+            self.add_async_generator_helper_deps();
         }
     }
 
