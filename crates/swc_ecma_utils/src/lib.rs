@@ -499,6 +499,7 @@ pub trait StmtExt {
             allow_break: bool,
             allow_throw: bool,
         ) -> Result<bool, ()> {
+            // println!("2222 {in_switch} {allow_break} {:#?}", stmt);
             Ok(match stmt {
                 Stmt::Break(_) => {
                     if in_switch {
@@ -542,7 +543,16 @@ pub trait StmtExt {
                     let mut has_default = false;
                     let mut has_non_empty_terminates = false;
 
-                    for case in &s.cases {
+                    // last case empty or no case at all
+                    if s.cases
+                        .last()
+                        .map(|case| case.cons.is_empty())
+                        .unwrap_or(true)
+                    {
+                        return Ok(false);
+                    }
+
+                    for case in s.cases.iter().rev() {
                         if case.test.is_none() {
                             has_default = true
                         }
@@ -3894,6 +3904,55 @@ mod tests {
     fn top_level_export_await() {
         assert!(has_top_level_await("export const foo = await 1;"));
         assert!(has_top_level_await("export default await 1;"));
+    }
+
+    #[test]
+    fn switch_default_before_empty_case_does_not_terminate() {
+        assert!(!stmt_in_function_terminates(
+            r#"
+switch (foo) {
+    default:
+        return 1;
+    case "0":
+}
+"#
+        ));
+    }
+
+    #[test]
+    fn switch_empty_case_before_default_terminates() {
+        assert!(stmt_in_function_terminates(
+            r#"
+switch (foo) {
+    case "0":
+    default:
+        return 1;
+}
+"#
+        ));
+    }
+
+    #[test]
+    fn switch_non_terminating_case_falls_through_to_terminating_case() {
+        assert!(!stmt_in_function_terminates(
+            r#"
+switch (foo) {
+    case "0":
+        foo();
+    default:
+        return 1;
+}
+"#
+        ));
+    }
+
+    fn stmt_in_function_terminates(text: &str) -> bool {
+        let module = parse_module(&format!("function f() {{ {text} }}"));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) = &module.body[0] else {
+            unreachable!("expected a function declaration")
+        };
+        let body = f.function.body.as_ref().unwrap();
+        body.stmts[0].terminates()
     }
 }
 

@@ -335,8 +335,26 @@ where
         };
 
         if base.is_absolute() != target.is_absolute() {
-            base = Cow::Owned(absolute_path(self.config.base_dir.as_deref(), &base)?);
-            target = absolute_path(self.config.base_dir.as_deref(), &target)?;
+            if base.is_absolute() {
+                base = Cow::Owned(base.to_path_buf().clean());
+            } else {
+                base = Cow::Owned(absolute_base_path(self.config.base_dir.as_deref(), &base)?);
+            }
+
+            if target.is_absolute() {
+                target = target.clean();
+            } else {
+                target = absolute_path(self.config.base_dir.as_deref(), &target)?;
+            }
+        }
+
+        #[cfg(windows)]
+        {
+            (base, target) = normalize_extended_length_path_prefixes(
+                self.config.base_dir.as_deref(),
+                base,
+                target,
+            );
         }
 
         #[cfg(debug_assertions)]
@@ -443,4 +461,189 @@ fn absolute_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
     .clean();
 
     Ok(absolute_path)
+}
+
+fn absolute_base_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
+    if path.is_absolute() {
+        return Ok(path.to_path_buf().clean());
+    }
+
+    let Some(base_dir) = base_dir else {
+        return absolute_path(None, path);
+    };
+
+    let base_dir_path = base_dir.join(path).clean();
+    let cwd = match current_dir() {
+        Ok(path) => normalize_path_prefix_like(base_dir, path.clean()),
+        Err(_) => return Ok(base_dir_path),
+    };
+
+    Ok(absolute_base_path_with_cwd(
+        base_dir,
+        path,
+        &cwd,
+        base_dir_path,
+    ))
+}
+
+fn absolute_base_path_with_cwd(
+    base_dir: &Path,
+    path: &Path,
+    cwd: &Path,
+    base_dir_path: PathBuf,
+) -> PathBuf {
+    let cwd_path = cwd.join(path).clean();
+
+    // Relative CLI filenames are rooted at the current process directory. Other
+    // API callers commonly pass filenames relative to `jsc.baseUrl`, so keep
+    // that legacy behavior unless the cwd-rooted path visibly enters baseUrl
+    // from outside it. If cwd is already inside baseUrl, every relative path is
+    // under baseUrl and the interpretation is ambiguous.
+    if cwd_path.starts_with(base_dir) && !cwd.starts_with(base_dir) {
+        cwd_path
+    } else {
+        base_dir_path
+    }
+}
+
+#[cfg(windows)]
+fn normalize_path_prefix_like(reference: &Path, path: PathBuf) -> PathBuf {
+    let reference = reference.as_os_str().to_string_lossy();
+    let path_str = path.as_os_str().to_string_lossy();
+
+    normalize_extended_length_path_prefix(&reference, &path_str)
+        .map(PathBuf::from)
+        .unwrap_or(path)
+}
+
+#[cfg(not(windows))]
+fn normalize_path_prefix_like(_: &Path, path: PathBuf) -> PathBuf {
+    path
+}
+
+#[cfg(windows)]
+fn normalize_extended_length_path_prefixes<'a>(
+    base_dir: Option<&Path>,
+    base: Cow<'a, Path>,
+    target: PathBuf,
+) -> (Cow<'a, Path>, PathBuf) {
+    if !base.is_absolute() || !target.is_absolute() {
+        return (base, target);
+    }
+
+    let reference = match base_dir {
+        Some(base_dir) if has_extended_length_path_prefix(base_dir) => Some(base_dir.to_path_buf()),
+        _ if has_extended_length_path_prefix(base.as_ref()) => Some(base.to_path_buf()),
+        _ if has_extended_length_path_prefix(&target) => Some(target.clone()),
+        _ => None,
+    };
+
+    let Some(reference) = reference else {
+        return (base, target);
+    };
+
+    // Windows canonicalization often returns extended-length paths (`\\?\...`).
+    // `pathdiff` treats those as a different prefix from ordinary absolute
+    // paths, so align both sides before calculating a relative import.
+    (
+        Cow::Owned(normalize_path_prefix_like(&reference, base.into_owned())),
+        normalize_path_prefix_like(&reference, target),
+    )
+}
+
+#[cfg(windows)]
+fn has_extended_length_path_prefix(path: &Path) -> bool {
+    path.as_os_str().to_string_lossy().starts_with(r"\\?\")
+}
+
+#[cfg(any(test, windows))]
+fn normalize_extended_length_path_prefix(reference: &str, path: &str) -> Option<String> {
+    if !reference.starts_with(r"\\?\") || path.starts_with(r"\\?\") {
+        return None;
+    }
+
+    if !is_windows_absolute_path(path) {
+        return None;
+    }
+
+    if let Some(path) = path.strip_prefix(r"\\") {
+        if path.starts_with(r".\") {
+            return None;
+        }
+
+        return Some(format!(r"\\?\UNC\{path}"));
+    }
+
+    Some(format!(r"\\?\{path}"))
+}
+
+#[cfg(any(test, windows))]
+fn is_windows_absolute_path(path: &str) -> bool {
+    path.starts_with(r"\\") || has_windows_drive_prefix(path)
+}
+
+#[cfg(any(test, windows))]
+fn has_windows_drive_prefix(path: &str) -> bool {
+    let bytes = path.as_bytes();
+
+    bytes.len() >= 3
+        && bytes[0].is_ascii_alphabetic()
+        && bytes[1] == b':'
+        && matches!(bytes[2], b'/' | b'\\')
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn absolute_base_path_keeps_base_dir_when_cwd_is_inside_base_dir() {
+        let base_dir = Path::new("/repo");
+        let cwd = Path::new("/repo/packages/app");
+        let path = Path::new("src");
+
+        assert_eq!(
+            absolute_base_path_with_cwd(base_dir, path, cwd, base_dir.join(path).clean()),
+            PathBuf::from("/repo/src")
+        );
+    }
+
+    #[test]
+    fn absolute_base_path_uses_cwd_when_relative_path_enters_base_dir() {
+        let base_dir = Path::new("/repo/bazel-out/foo-app");
+        let cwd = Path::new("/repo");
+        let path = Path::new("bazel-out/foo-app/src");
+
+        assert_eq!(
+            absolute_base_path_with_cwd(base_dir, path, cwd, base_dir.join(path).clean()),
+            PathBuf::from("/repo/bazel-out/foo-app/src")
+        );
+    }
+
+    #[test]
+    fn extended_unc_prefix_uses_canonical_unc_form() {
+        assert_eq!(
+            normalize_extended_length_path_prefix(
+                r"\\?\UNC\server\share\repo",
+                r"\\server\share\repo\src"
+            ),
+            Some(r"\\?\UNC\server\share\repo\src".into())
+        );
+    }
+
+    #[test]
+    fn extended_drive_prefix_preserves_drive_form() {
+        assert_eq!(
+            normalize_extended_length_path_prefix(r"\\?\C:\repo", r"C:\repo\src"),
+            Some(r"\\?\C:\repo\src".into())
+        );
+    }
+
+    #[test]
+    fn extended_drive_prefix_skips_relative_path() {
+        assert_eq!(
+            normalize_extended_length_path_prefix(r"\\?\C:\repo", r"repo\src"),
+            None
+        );
+    }
 }
