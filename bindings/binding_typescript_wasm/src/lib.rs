@@ -10,10 +10,13 @@ use js_sys::Uint8Array;
 use miette::{GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
 use swc_common::{
+    comments::SingleThreadedComments,
     errors::{DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
     sync::Lrc,
-    SourceMap, Span, GLOBALS,
+    FileName, SourceMap, Span, GLOBALS,
 };
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_error_reporters::{convert_span, to_pretty_source_code};
 use swc_ts_fast_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
@@ -27,7 +30,27 @@ mod error_reporter;
 const INTERFACE_DEFINITIONS: &'static str = r#"
 export declare function transform(src: string | Uint8Array, opts?: Options): Promise<TransformOutput>;
 export declare function transformSync(src: string | Uint8Array, opts?: Options): TransformOutput;
-export type { Options, TransformOutput };
+export declare function parse(src: string | Uint8Array, opts?: Options): Promise<Program>;
+export declare function parseSync(src: string | Uint8Array, opts?: Options): Program;
+export type { Options, TransformOutput, Program };
+
+interface Program {
+    type: "Module" | "Script";
+    span: Span;
+    body: Node[];
+    [key: string]: unknown;
+}
+
+interface Node {
+    type: string;
+    span: Span;
+    [key: string]: unknown;
+}
+
+interface Span {
+    start: number;
+    end: number;
+}
 "#;
 
 #[wasm_bindgen(skip_typescript)]
@@ -37,26 +60,8 @@ pub fn transform(input: JsValue, options: JsValue) -> Promise {
 
 #[wasm_bindgen(js_name = "transformSync", skip_typescript)]
 pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsValue> {
-    let options: Options = if options.is_falsy() {
-        Default::default()
-    } else {
-        serde_wasm_bindgen::from_value(options)?
-    };
-
-    let input = match input.as_string() {
-        Some(input) => input,
-        None => {
-            if input.is_instance_of::<Uint8Array>() {
-                let input = input.unchecked_into::<Uint8Array>();
-                match input.to_string().as_string() {
-                    Some(input) => input,
-                    None => return Err(JsValue::from_str("Input Uint8Array is not valid utf-8")),
-                }
-            } else {
-                return Err(JsValue::from_str("Input is not a string or Uint8Array"));
-            }
-        }
-    };
+    let options = deserialize_options(options)?;
+    let input = coerce_input(input)?;
 
     let result = GLOBALS.set(&Default::default(), || operate(input, options));
 
@@ -66,11 +71,94 @@ pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsVal
     }
 }
 
+#[wasm_bindgen(skip_typescript)]
+pub fn parse(input: JsValue, options: JsValue) -> Promise {
+    future_to_promise(async move { parse_sync(input, options) })
+}
+
+#[wasm_bindgen(js_name = "parseSync", skip_typescript)]
+pub fn parse_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsValue> {
+    let options = deserialize_options(options)?;
+    let input = coerce_input(input)?;
+
+    let result = GLOBALS.set(&Default::default(), || parse_program(input, options));
+
+    match result {
+        Ok(v) => Ok(serde_wasm_bindgen::to_value(&v)?),
+        Err(errors) => Err(serde_wasm_bindgen::to_value(&errors[0])?),
+    }
+}
+
+fn deserialize_options(options: JsValue) -> Result<Options, JsValue> {
+    Ok(if options.is_falsy() {
+        Default::default()
+    } else {
+        serde_wasm_bindgen::from_value(options)?
+    })
+}
+
+fn coerce_input(input: JsValue) -> Result<String, JsValue> {
+    match input.as_string() {
+        Some(input) => Ok(input),
+        None => {
+            if input.is_instance_of::<Uint8Array>() {
+                let input = input.unchecked_into::<Uint8Array>();
+                match input.to_string().as_string() {
+                    Some(input) => Ok(input),
+                    None => Err(JsValue::from_str("Input Uint8Array is not valid utf-8")),
+                }
+            } else {
+                Err(JsValue::from_str("Input is not a string or Uint8Array"))
+            }
+        }
+    }
+}
+
 fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonDiagnostic>> {
     let cm = Lrc::new(SourceMap::default());
 
     try_with_json_handler(cm.clone(), |handler| {
         swc_ts_fast_strip::operate(&cm, handler, input, options).map_err(anyhow::Error::new)
+    })
+}
+
+fn parse_program(input: String, options: Options) -> Result<Program, Vec<JsonDiagnostic>> {
+    let cm = Lrc::new(SourceMap::default());
+
+    try_with_json_handler(cm.clone(), |handler| {
+        let filename = options
+            .filename
+            .map_or(FileName::Anon, |f| FileName::Real(f.into()));
+        let fm = cm.new_source_file(filename.into(), input);
+
+        let syntax = Syntax::Typescript(options.parser);
+        let target = EsVersion::latest();
+        let comments = SingleThreadedComments::default();
+
+        let lexer = Lexer::new(syntax, target, StringInput::from(&*fm), Some(&comments));
+        let mut parser = Parser::new_from(lexer);
+
+        let program = match options.module {
+            Some(true) => parser.parse_module().map(Program::Module),
+            Some(false) => parser.parse_script().map(Program::Script),
+            None => parser.parse_program(),
+        };
+        let errors = parser.take_errors();
+
+        let program = program.map_err(|err| {
+            err.into_diagnostic(handler)
+                .code(DiagnosticId::Error("InvalidSyntax".into()))
+                .emit();
+            anyhow::Error::msg("Syntax error")
+        })?;
+
+        for e in errors {
+            e.into_diagnostic(handler)
+                .code(DiagnosticId::Error("InvalidSyntax".into()))
+                .emit();
+        }
+
+        Ok(program)
     })
 }
 
