@@ -499,6 +499,7 @@ pub trait StmtExt {
             allow_break: bool,
             allow_throw: bool,
         ) -> Result<bool, ()> {
+            // println!("2222 {in_switch} {allow_break} {:#?}", stmt);
             Ok(match stmt {
                 Stmt::Break(_) => {
                     if in_switch {
@@ -540,28 +541,35 @@ pub trait StmtExt {
                 }
                 Stmt::Switch(s) => {
                     let mut has_default = false;
-                    let mut next_case_terminates = false;
-                    let mut all_entries_terminate = true;
+                    let mut has_non_empty_terminates = false;
 
-                    // A matching case can fall through into later cases, so each case entry
-                    // depends on the termination state of the following case.
+                    // last case empty or no case at all
+                    if s.cases
+                        .last()
+                        .map(|case| case.cons.is_empty())
+                        .unwrap_or(true)
+                    {
+                        return Ok(false);
+                    }
+
                     for case in s.cases.iter().rev() {
                         if case.test.is_none() {
                             has_default = true
                         }
 
-                        let case_terminates =
-                            match terminates_many(&case.cons, true, false, allow_throw) {
-                                Ok(true) => true,
-                                Ok(false) => next_case_terminates,
-                                Err(()) => false,
-                            };
+                        if !case.cons.is_empty() {
+                            let t = terminates_many(&case.cons, true, false, allow_throw)
+                                .unwrap_or(false);
 
-                        all_entries_terminate &= case_terminates;
-                        next_case_terminates = case_terminates;
+                            if t {
+                                has_non_empty_terminates = true
+                            } else {
+                                return Ok(false);
+                            }
+                        }
                     }
 
-                    has_default && all_entries_terminate
+                    has_default && has_non_empty_terminates
                 }
                 Stmt::Try(t) => {
                     if let Some(h) = &t.handler {
