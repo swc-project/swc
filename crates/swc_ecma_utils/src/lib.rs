@@ -540,26 +540,28 @@ pub trait StmtExt {
                 }
                 Stmt::Switch(s) => {
                     let mut has_default = false;
-                    let mut has_non_empty_terminates = false;
+                    let mut next_case_terminates = false;
+                    let mut all_entries_terminate = true;
 
-                    for case in &s.cases {
+                    // A matching case can fall through into later cases, so each case entry
+                    // depends on the termination state of the following case.
+                    for case in s.cases.iter().rev() {
                         if case.test.is_none() {
                             has_default = true
                         }
 
-                        if !case.cons.is_empty() {
-                            let t = terminates_many(&case.cons, true, false, allow_throw)
-                                .unwrap_or(false);
+                        let case_terminates =
+                            match terminates_many(&case.cons, true, false, allow_throw) {
+                                Ok(true) => true,
+                                Ok(false) => next_case_terminates,
+                                Err(()) => false,
+                            };
 
-                            if t {
-                                has_non_empty_terminates = true
-                            } else {
-                                return Ok(false);
-                            }
-                        }
+                        all_entries_terminate &= case_terminates;
+                        next_case_terminates = case_terminates;
                     }
 
-                    has_default && has_non_empty_terminates
+                    has_default && all_entries_terminate
                 }
                 Stmt::Try(t) => {
                     if let Some(h) = &t.handler {
@@ -3894,6 +3896,55 @@ mod tests {
     fn top_level_export_await() {
         assert!(has_top_level_await("export const foo = await 1;"));
         assert!(has_top_level_await("export default await 1;"));
+    }
+
+    #[test]
+    fn switch_default_before_empty_case_does_not_terminate() {
+        assert!(!stmt_in_function_terminates(
+            r#"
+switch (foo) {
+    default:
+        return 1;
+    case "0":
+}
+"#
+        ));
+    }
+
+    #[test]
+    fn switch_empty_case_before_default_terminates() {
+        assert!(stmt_in_function_terminates(
+            r#"
+switch (foo) {
+    case "0":
+    default:
+        return 1;
+}
+"#
+        ));
+    }
+
+    #[test]
+    fn switch_non_terminating_case_falls_through_to_terminating_case() {
+        assert!(stmt_in_function_terminates(
+            r#"
+switch (foo) {
+    case "0":
+        foo();
+    default:
+        return 1;
+}
+"#
+        ));
+    }
+
+    fn stmt_in_function_terminates(text: &str) -> bool {
+        let module = parse_module(&format!("function f() {{ {text} }}"));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) = &module.body[0] else {
+            unreachable!("expected a function declaration")
+        };
+        let body = f.function.body.as_ref().unwrap();
+        body.stmts[0].terminates()
     }
 }
 
