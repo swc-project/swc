@@ -359,49 +359,7 @@ pub fn operate(
 
             for r in replacements {
                 let (start, end) = (r.0 .0 as usize - 1, r.1 .0 as usize - 1);
-
-                for (i, c) in source[start..end].char_indices() {
-                    let i = start + i;
-                    match c {
-                        // https://262.ecma-international.org/#sec-white-space
-                        '\u{0009}' | '\u{0000B}' | '\u{000C}' | '\u{FEFF}' => continue,
-                        // Space_Separator
-                        '\u{0020}' | '\u{00A0}' | '\u{1680}' | '\u{2000}' | '\u{2001}'
-                        | '\u{2002}' | '\u{2003}' | '\u{2004}' | '\u{2005}' | '\u{2006}'
-                        | '\u{2007}' | '\u{2008}' | '\u{2009}' | '\u{200A}' | '\u{202F}'
-                        | '\u{205F}' | '\u{3000}' => continue,
-                        // https://262.ecma-international.org/#sec-line-terminators
-                        '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}' => continue,
-                        _ => match c.len_utf8() {
-                            1 => {
-                                // Space 0020
-                                code[i] = 0x20;
-                            }
-                            2 => {
-                                // No-Break Space 00A0
-                                code[i] = 0xc2;
-                                code[i + 1] = 0xa0;
-                            }
-                            3 => {
-                                // En Space 2002
-                                code[i] = 0xe2;
-                                code[i + 1] = 0x80;
-                                code[i + 2] = 0x82;
-                            }
-                            4 => {
-                                // We do not have a 4-byte space character in the Unicode standard.
-
-                                // Space 0020
-                                code[i] = 0x20;
-                                // ZWNBSP FEFF
-                                code[i + 1] = 0xef;
-                                code[i + 2] = 0xbb;
-                                code[i + 3] = 0xbf;
-                            }
-                            _ => unreachable!(),
-                        },
-                    }
-                }
+                replace_non_whitespace_with_spaces(&source, &mut code, start, end);
             }
 
             for (i, v) in overwrites {
@@ -542,6 +500,67 @@ pub fn operate(
 struct ErrorOnTsModule<'a> {
     src: &'a str,
     tokens: &'a [TokenAndSpan],
+}
+
+fn replace_non_whitespace_with_spaces(source: &str, code: &mut [u8], start: usize, end: usize) {
+    let span = &source[start..end];
+
+    if span.is_ascii() {
+        for (i, b) in span.bytes().enumerate() {
+            if !is_ascii_ecma_whitespace_or_line_terminator(b) {
+                code[start + i] = b' ';
+            }
+        }
+
+        return;
+    }
+
+    for (i, c) in span.char_indices() {
+        let i = start + i;
+        match c {
+            // https://262.ecma-international.org/#sec-white-space
+            '\u{0009}' | '\u{0000B}' | '\u{000C}' | '\u{FEFF}' => continue,
+            // Space_Separator
+            '\u{0020}' | '\u{00A0}' | '\u{1680}' | '\u{2000}' | '\u{2001}' | '\u{2002}'
+            | '\u{2003}' | '\u{2004}' | '\u{2005}' | '\u{2006}' | '\u{2007}' | '\u{2008}'
+            | '\u{2009}' | '\u{200A}' | '\u{202F}' | '\u{205F}' | '\u{3000}' => continue,
+            // https://262.ecma-international.org/#sec-line-terminators
+            '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}' => continue,
+            _ => match c.len_utf8() {
+                1 => {
+                    // Space 0020
+                    code[i] = 0x20;
+                }
+                2 => {
+                    // No-Break Space 00A0
+                    code[i] = 0xc2;
+                    code[i + 1] = 0xa0;
+                }
+                3 => {
+                    // En Space 2002
+                    code[i] = 0xe2;
+                    code[i + 1] = 0x80;
+                    code[i + 2] = 0x82;
+                }
+                4 => {
+                    // We do not have a 4-byte space character in the Unicode standard.
+
+                    // Space 0020
+                    code[i] = 0x20;
+                    // ZWNBSP FEFF
+                    code[i + 1] = 0xef;
+                    code[i + 2] = 0xbb;
+                    code[i + 3] = 0xbf;
+                }
+                _ => unreachable!(),
+            },
+        }
+    }
+}
+
+#[inline]
+fn is_ascii_ecma_whitespace_or_line_terminator(b: u8) -> bool {
+    matches!(b, b'\t' | 0x0b | 0x0c | b' ' | b'\n' | b'\r')
 }
 
 // All namespaces or modules are either at the top level or nested within
@@ -1829,4 +1848,32 @@ impl U8Helper for u8 {
 
 fn span(lo: BytePos, hi: BytePos) -> Span {
     Span::new(lo, hi)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn replacement_preserves_ascii_whitespace_and_line_terminators() {
+        let source = "a\tb\nc d";
+        let mut code = source.as_bytes().to_vec();
+
+        replace_non_whitespace_with_spaces(source, &mut code, 0, source.len());
+
+        assert_eq!(code, b" \t \n   ");
+    }
+
+    #[test]
+    fn replacement_preserves_unicode_width() {
+        let source = "a: \u{00a0}任意\n";
+        let mut code = source.as_bytes().to_vec();
+
+        replace_non_whitespace_with_spaces(source, &mut code, 0, source.len());
+
+        assert_eq!(
+            String::from_utf8(code).unwrap(),
+            "   \u{00a0}\u{2002}\u{2002}\n"
+        );
+    }
 }
