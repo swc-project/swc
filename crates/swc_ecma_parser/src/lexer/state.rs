@@ -37,6 +37,7 @@ static JSX_CHILD_TABLE: SafeByteMatchTable =
 pub struct State {
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
+    pub has_pending_comments: bool,
     pub next_regexp: Option<BytePos>,
     pub prev_hi: BytePos,
 
@@ -409,7 +410,9 @@ impl Lexer<'_> {
             return self.read_regexp(next_regexp);
         }
 
-        self.state.had_line_break = false;
+        if self.state.had_line_break {
+            self.state.had_line_break = false;
+        }
         self.skip_space();
         *start = self.input.cur_pos();
 
@@ -418,17 +421,16 @@ impl Lexer<'_> {
 
     #[inline(always)]
     fn finish_next_token(&mut self, span: Span, token: Token) -> TokenAndSpan {
-        if self.comments_buffer.is_some() {
-            if token == Token::Eof {
+        if token == Token::Eof {
+            if self.comments_buffer.is_some() {
                 self.consume_pending_comments();
-            } else {
-                let Some(comments_buffer) = self.comments_buffer.as_mut() else {
-                    unreachable!();
-                };
-                if comments_buffer.has_pending() {
-                    comments_buffer.pending_to_comment(BufferedCommentKind::Leading, span.lo);
-                }
             }
+        } else if self.state.has_pending_comments {
+            let Some(comments_buffer) = self.comments_buffer.as_mut() else {
+                unreachable!();
+            };
+            comments_buffer.pending_to_comment(BufferedCommentKind::Leading, span.lo);
+            self.state.has_pending_comments = false;
         }
 
         self.state.set_token_type(token);
@@ -677,6 +679,7 @@ impl State {
     pub fn new(start_pos: BytePos) -> Self {
         State {
             had_line_break: false,
+            has_pending_comments: false,
             next_regexp: None,
             prev_hi: start_pos,
             token_value: None,

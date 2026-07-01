@@ -25,8 +25,14 @@ impl<I: Tokens> Parser<I> {
         let token_and_span = self.input().get_cur();
         let start = token_and_span.span.lo;
         let cur = token_and_span.token;
-        let w = if cur.is_word() {
-            self.input_mut().expect_word_token_and_bump()
+        let w = if cur == Token::Ident {
+            let word = self.input_mut().expect_word_token_value();
+            self.bump();
+            word
+        } else if cur.is_word() {
+            let word = cur.take_word(&self.input);
+            self.bump();
+            word
         } else if cur == Token::JSXName && self.ctx().contains(Context::InType) {
             self.input_mut().expect_jsx_name_token_and_bump()
         } else {
@@ -89,7 +95,8 @@ impl<I: Tokens> Parser<I> {
             unexpected!(self, "let is reserved in const, let, class declaration")
         } else if cur == Token::Ident {
             let span = self.input().cur_span();
-            let word = self.input_mut().expect_word_token_and_bump();
+            let word = self.input_mut().expect_word_token_value();
+            self.bump();
             if atom!("arguments") == word || atom!("eval") == word {
                 self.emit_strict_mode_err(span, SyntaxError::EvalAndArgumentsInStrict);
             }
@@ -147,7 +154,8 @@ impl<I: Tokens> Parser<I> {
         // StringValue of IdentifierName is: "implements", "interface", "let",
         // "package", "private", "protected", "public", "static", or "yield".
         if t == Token::Enum {
-            let word = self.input_mut().expect_word_token_and_bump();
+            let word = t.take_word(&self.input);
+            self.bump();
             self.emit_err(span, SyntaxError::InvalidIdentInStrict(word.clone()));
             return Ok(Ident::new_no_ctxt(word, self.span(start)));
         } else if t == Token::Yield
@@ -160,7 +168,8 @@ impl<I: Tokens> Parser<I> {
             || t == Token::Protected
             || t == Token::Public
         {
-            let word = self.input_mut().expect_word_token_and_bump();
+            let word = t.take_word(&self.input);
+            self.bump();
             self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(word.clone()));
             return Ok(Ident::new_no_ctxt(word, self.span(start)));
         };
@@ -193,7 +202,8 @@ impl<I: Tokens> Parser<I> {
             let ident = t.take_known_ident(&self.input);
             word = ident
         } else if t == Token::Ident {
-            let word = self.input_mut().expect_word_token_and_bump();
+            let word = self.input_mut().expect_word_token_value();
+            self.bump();
             if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
                 self.emit_err(span, SyntaxError::ArgumentsInClassField)
             }
