@@ -544,7 +544,7 @@ mod tests {
                 children: vec![JSXElementChild::JSXText(JSXText {
                     span,
                     raw: atom!("foo"),
-                    value: atom!("foo"),
+                    value: atom!("foo").into(),
                 })],
                 closing: Some(JSXClosingElement {
                     span,
