@@ -50,8 +50,8 @@
     "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
     "pack": "wasm-pack",
     "build:ts": "tsc -d",
-    "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir . --release",
-    "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir .",
+    "build": "tsc -d && napi build --platform --js ./binding.js --dts ./binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir . --release",
+    "build:dev": "tsc -d && napi build --platform --js ./binding.js --dts ./binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir .",
     "test": "node --test tests/lint.test.cjs",
     "version": "napi version --npm-dir scripts/npm"
   },
