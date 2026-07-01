@@ -29,6 +29,7 @@ pub use react_compiler::entrypoint::plugin_options::{
 use react_compiler_hir::environment_config::EnvironmentConfig;
 pub use source_type::SourceType;
 use swc_common::comments::SingleThreadedComments;
+use swc_common::{sync::Lrc, FileName};
 use swc_ecma_ast::Program;
 
 use crate::{convert_ast::ConvertResult, convert_scope::SemanticBuilder};
@@ -201,9 +202,9 @@ fn parse_source(
     source_text: &str,
     syntax: swc_ecma_parser::Syntax,
 ) -> Result<(Program, SingleThreadedComments, SourceType), Box<DiagnosticMessage>> {
-    let cm = std::sync::Arc::new(swc_common::SourceMap::default());
+    let cm = Lrc::new(swc_common::SourceMap::default());
     let fm = cm.new_source_file(
-        std::sync::Arc::new(swc_common::FileName::Anon),
+        Lrc::new(FileName::Anon),
         source_text.to_string(),
     );
     let comments = SingleThreadedComments::default();
