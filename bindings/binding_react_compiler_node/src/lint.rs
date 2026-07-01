@@ -1,7 +1,7 @@
 use napi::bindgen_prelude::*;
 use swc_core::ecma::parser::Syntax;
 
-use crate::diagnostics::Diagnostic;
+use crate::diagnostics::{diagnostic_from_message, Diagnostic};
 
 /// Matches `swc_ecma_parser::Syntax`'s own `Default` impl
 /// (`Es(EsSyntax::default())` — plain ECMAScript, no JSX/TSX/decorators) rather
@@ -48,7 +48,11 @@ fn lint_inner(code: &str, syntax: Syntax) -> Vec<Diagnostic> {
         swc_ecma_react_compiler::default_plugin_options(),
     );
 
-    result.diagnostics.iter().map(Into::into).collect()
+    result
+        .diagnostics
+        .iter()
+        .map(|d| diagnostic_from_message(code, d))
+        .collect()
 }
 
 struct LintTask {
