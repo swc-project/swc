@@ -32,7 +32,9 @@ function encodeSyntax(syntax?: ParserConfig): Buffer | undefined {
 /**
  * Lints `code` for React Compiler rule violations without compiling it.
  *
- * `syntax` defaults to TSX with decorators enabled when omitted.
+ * `syntax` defaults to plain ECMAScript (no JSX/TSX/decorators) when
+ * omitted, matching `@swc/core`'s own default — pass an explicit `syntax`
+ * for TypeScript, JSX, or decorator syntax.
  */
 export async function lint(code: Buffer, syntax?: ParserConfig): Promise<binding.Diagnostic[]> {
     return await binding.lint(code, encodeSyntax(syntax))

@@ -29,6 +29,7 @@
 - **Regenerate**: `packages/react-compiler/src/binding.js`, `packages/react-compiler/src/binding.d.ts` (via `napi build`, not hand-edited).
 - **Create**: `packages/react-compiler/tests/lint.test.cjs`.
 - **Modify**: `packages/react-compiler/package.json` — point `"test"` at the new file.
+- **Modify** (Task 7, added after initial review): `bindings/binding_react_compiler_node/src/lint.rs`, `bindings/binding_react_compiler_node/Cargo.toml`, `packages/react-compiler/src/index.ts` — add an optional parser-syntax parameter to `lint`/`lintSync`.
 
 ---
 
@@ -666,6 +667,304 @@ git commit -m "test(react-compiler): add lint/lintSync coverage"
 
 ---
 
+### Task 7: Add an optional parser-syntax parameter to `lint`/`lintSync`
+
+**Context (added after Task 6, during initial maintainer-facing review):** `lint`/`lintSync` currently hardcode TSX+decorators parsing internally. A real downstream consumer (an internal ESLint rule prototype that calls this same lint pass via `@swc/core`'s `transformSync`) needs to control parser syntax per file (`.js` vs `.ts` vs `.tsx`, decorators on/off, etc.) — `@swc/core` already exposes this via `jsc.parser`, and `swc_ecma_react_compiler::lint_source` already accepts a `syntax: swc_ecma_parser::Syntax` parameter (nothing to change in that crate). The gap is entirely in the napi binding and TS wrapper, which never expose it.
+
+**Files:**
+- Modify: `bindings/binding_react_compiler_node/src/lint.rs` (full rewrite of its non-test content)
+- Modify: `bindings/binding_react_compiler_node/Cargo.toml` (add `serde_json` dependency)
+- Modify: `packages/react-compiler/src/index.ts` (add `syntax` parameter, reuse `@swc/types`'s existing `ParserConfig`)
+- Regenerate: `packages/react-compiler/src/binding.js`, `packages/react-compiler/src/binding.d.ts` (via `napi build`)
+
+**Interfaces:**
+- Consumes: `swc_ecma_react_compiler::lint_source(code, syntax, options)` (unchanged, already takes `Syntax`); `swc_core::ecma::parser::{Syntax, TsSyntax}` (re-exported, already used); `@swc/types`'s existing `ParserConfig` export (`packages/types/index.ts:749`, a union of `TsParserConfig | EsParserConfig | FlowParserConfig` — already a dependency of `packages/react-compiler` per its `package.json`).
+- Produces: `lint(code: Buffer, syntax?: ParserConfig): Promise<Diagnostic[]>`, `lintSync(code: Buffer, syntax?: ParserConfig): Diagnostic[]` — the public TS signature. When `syntax` is omitted, behavior is unchanged from Task 4/5/6 (TSX + decorators, matching `swc_ecma_parser::TsSyntax { decorators: true, tsx: true, ..Default::default() }`).
+
+**Design:** The napi layer takes `syntax` as an `Option<Buffer>` (JSON-encoded), matching this codebase's established convention for passing config objects across the FFI boundary (see `bindings/binding_core_node/src/transform.rs`'s `opts: Buffer` pattern, deserialized via `get_deserialized`/`serde_json`). `swc_ecma_parser::Syntax` already derives `Serialize`/`Deserialize` with `#[serde(tag = "syntax")]` — exactly matching `@swc/types`'s `ParserConfig` shape (its discriminant field is also named `syntax`, with values `"ecmascript"`/`"typescript"`/`"flow"`). The hand-written TS wrapper does the `JSON.stringify`/`Buffer.from` encoding so callers get a typed `ParserConfig` object, not a raw `Buffer`.
+
+- [ ] **Step 1: Add `serde_json` as a direct dependency**
+
+In `bindings/binding_react_compiler_node/Cargo.toml`, add `serde_json` to `[dependencies]` (it's already a workspace dependency used elsewhere in this repo):
+
+```toml
+[dependencies]
+backtrace     = { workspace = true }
+napi          = { workspace = true, features = ["napi3", "serde-json"] }
+napi-derive   = { workspace = true, features = ["type-def"] }
+serde         = { workspace = true, features = ["derive"] }
+serde_json    = { workspace = true }
+tracing       = { workspace = true, features = ["release_max_level_info"] }
+```
+
+- [ ] **Step 2: Rewrite `lint.rs` to accept an optional syntax parameter**
+
+Replace the full contents of `bindings/binding_react_compiler_node/src/lint.rs` with:
+
+```rust
+use napi::bindgen_prelude::*;
+use swc_core::ecma::parser::Syntax;
+
+use crate::diagnostics::Diagnostic;
+
+/// Matches `swc_ecma_parser::Syntax`'s own `Default` impl (`Es(EsSyntax::default())`
+/// — plain ECMAScript, no JSX/TSX/decorators) rather than any particular
+/// consumer's build settings. This package is general-purpose; it must not
+/// silently assume one caller's parser configuration for everyone else.
+fn default_syntax() -> Syntax {
+    Syntax::default()
+}
+
+/// Pure JSON decode, no napi types involved — this is the only part of
+/// syntax parsing that unit tests may call directly. A `napi::Error` has a
+/// non-trivial `Drop`/`ToNapiValue` impl that references live N-API C
+/// functions (`napi_throw`, `napi_create_error`, ...), which only exist once
+/// this cdylib is `dlopen`'d by a running Node process. If ANY function that
+/// tests call constructs a `napi::Error` anywhere in its body — even in a
+/// branch that specific test never executes — the whole function's compiled
+/// object code references those unresolved symbols, and a standalone
+/// `cargo test` binary (never loaded by Node) fails to link. Keep this
+/// function's signature free of `napi::Error`/`napi::Result` so tests can
+/// call it safely. Uses `std::result::Result` explicitly because
+/// `napi::bindgen_prelude::*` (imported above) shadows the prelude's
+/// `Result` with a `napi`-flavored alias.
+fn decode_syntax(bytes: &[u8]) -> std::result::Result<Syntax, serde_json::Error> {
+    serde_json::from_slice(bytes)
+}
+
+/// Thin napi-facing wrapper — not unit tested (see `decode_syntax`'s doc
+/// comment), matching this crate's existing convention of only testing the
+/// pure logic behind a `#[napi]` function, never the function itself (see
+/// `support.rs`'s `is_react_compiler_required(_sync)`, which have no tests
+/// at all).
+fn parse_syntax_option(syntax: Option<Buffer>) -> napi::Result<Syntax> {
+    match syntax {
+        Some(buf) => decode_syntax(buf.as_ref()).map_err(|err| {
+            napi::Error::new(
+                napi::Status::InvalidArg,
+                format!("invalid `syntax`: {err}"),
+            )
+        }),
+        None => Ok(default_syntax()),
+    }
+}
+
+fn lint_inner(code: &str, syntax: Syntax) -> Vec<Diagnostic> {
+    let result = swc_ecma_react_compiler::lint_source(
+        code,
+        syntax,
+        swc_ecma_react_compiler::default_plugin_options(),
+    );
+
+    result.diagnostics.iter().map(Into::into).collect()
+}
+
+struct LintTask {
+    code: String,
+    syntax: Syntax,
+}
+
+#[napi]
+impl Task for LintTask {
+    type JsValue = Vec<Diagnostic>;
+    type Output = Vec<Diagnostic>;
+
+    fn compute(&mut self) -> napi::Result<Self::Output> {
+        Ok(lint_inner(&self.code, self.syntax))
+    }
+
+    fn resolve(&mut self, _env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+        Ok(output)
+    }
+}
+
+#[napi]
+fn lint(
+    code: Buffer,
+    syntax: Option<Buffer>,
+    signal: Option<AbortSignal>,
+) -> napi::Result<AsyncTask<LintTask>> {
+    let syntax = parse_syntax_option(syntax)?;
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
+
+    Ok(AsyncTask::with_optional_signal(LintTask { code, syntax }, signal))
+}
+
+#[napi]
+pub fn lint_sync(code: Buffer, syntax: Option<Buffer>) -> napi::Result<Vec<Diagnostic>> {
+    let syntax = parse_syntax_option(syntax)?;
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
+
+    Ok(lint_inner(&code, syntax))
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_core::ecma::parser::{EsSyntax, Syntax};
+
+    use super::{decode_syntax, default_syntax, lint_inner};
+
+    #[test]
+    fn reports_ref_access_error_with_default_syntax() {
+        let source = r#"
+            import { useRef } from 'react';
+
+            function App() {
+                const ref = useRef(1);
+                return ref.current;
+            }
+        "#;
+
+        let diagnostics = lint_inner(source, default_syntax());
+
+        assert_eq!(diagnostics.len(), 1);
+        assert_eq!(diagnostics[0].severity, "error");
+        assert_eq!(diagnostics[0].rule_id.as_deref(), Some("refs"));
+        assert_eq!(diagnostics[0].category.as_deref(), Some("Refs"));
+    }
+
+    #[test]
+    fn returns_empty_for_non_react_code() {
+        let diagnostics = lint_inner("const x = 1;", default_syntax());
+
+        assert!(diagnostics.is_empty());
+    }
+
+    #[test]
+    fn decode_syntax_decodes_ecmascript_json() {
+        let syntax = decode_syntax(br#"{"syntax":"ecmascript","jsx":true}"#)
+            .expect("valid ecmascript syntax JSON should decode");
+
+        assert_eq!(
+            syntax,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            })
+        );
+    }
+
+    #[test]
+    fn decode_syntax_rejects_invalid_json() {
+        let result = decode_syntax(b"not json");
+
+        assert!(result.is_err());
+    }
+}
+```
+
+This is a full rewrite of the file's non-test content from Task 4 — `lint_inner` gains a `syntax: Syntax` parameter instead of hardcoding it internally, and both `lint`/`lint_sync` gain a `syntax: Option<Buffer>` parameter, decoded via the new `parse_syntax_option` helper before use. The 2 tests from Task 4 (`reports_ref_access_error`, `returns_empty_for_non_react_code`) are kept, calling `lint_inner` with `default_syntax()` explicitly, plus 2 new tests for `decode_syntax` — the pure JSON-decoding logic, deliberately kept free of `napi::Error` so it's linkable in a standalone `cargo test` binary (see `decode_syntax`'s doc comment for why `parse_syntax_option` itself, and the "defaults when omitted" behavior it wraps, is not unit tested — it's a thin, untested napi-facing wrapper, matching this crate's existing convention for `support.rs`'s `is_react_compiler_required(_sync)`).
+
+- [ ] **Step 3: Run the updated tests**
+
+Run: `cargo test -p binding_react_compiler_node`
+Expected: 6 tests pass — the 2 from Task 3 (`diagnostics::tests::*`) plus this task's 4 in `lint::tests` (2 carried over from Task 4 — `reports_ref_access_error` renamed to `reports_ref_access_error_with_default_syntax`, `returns_empty_for_non_react_code` unchanged — plus 2 new `decode_syntax_*` tests). Task 4 left the suite at 4 total (2+2); this task brings it to 6.
+
+- [ ] **Step 4: Run clippy**
+
+Run: `cargo clippy -p binding_react_compiler_node --all-targets -- -D warnings`
+Expected: no warnings.
+
+- [ ] **Step 5: Regenerate the native binding**
+
+Run from `packages/react-compiler/`:
+```bash
+pnpm exec napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir .
+```
+Expected: succeeds; `src/binding.d.ts`'s `lint`/`lintSync` declarations now include a `syntax?: Buffer | undefined | null` parameter between `code` and (for `lint`) `signal`.
+
+**Known local-machine note:** if this build errors out at a `tsc` step first, that's this machine's pre-existing, unrelated `~/node_modules` ambient-type pollution (documented in Tasks 5/6's history) — not a repo bug, and not this task's job to fix. Run the `napi build` command directly (as above), which doesn't invoke `tsc` at all, to sidestep it. If you need to typecheck `index.ts` afterward, use `pnpm exec tsc -d --typeRoots ../../node_modules/@types` instead of the plain `build:ts` script, exactly as Tasks 5/6 did, and clean up any root-level `binding.js`/`binding.d.ts`/`index.js`/`index.d.ts`/`.tsbuildinfo` it produces before committing (this package only tracks `src/binding.d.ts`/`src/binding.js`, never the root copies — confirm via `git status --short`).
+
+- [ ] **Step 6: Add the TS wrapper's `syntax` parameter**
+
+In `packages/react-compiler/src/index.ts`, replace the full file with:
+
+```ts
+
+import type { ParserConfig } from '@swc/types'
+
+import * as binding from './binding'
+
+export type {
+    Diagnostic,
+    DiagnosticDetail,
+    DiagnosticLocation,
+    DiagnosticPosition,
+} from './binding'
+
+/**
+ * TODO
+ */
+export async function isReactCompilerRequired(code: Buffer) {
+    return await binding.isReactCompilerRequired(code)
+}
+
+
+/**
+ * TODO
+ */
+export function isReactCompilerRequiredSync(code: Buffer): boolean {
+    return binding.isReactCompilerRequiredSync(code)
+}
+
+function encodeSyntax(syntax?: ParserConfig): Buffer | undefined {
+    return syntax === undefined ? undefined : Buffer.from(JSON.stringify(syntax))
+}
+
+/**
+ * Lints `code` for React Compiler rule violations without compiling it.
+ *
+ * `syntax` defaults to plain ECMAScript (no JSX/TSX/decorators) when
+ * omitted, matching `@swc/core`'s own default — pass an explicit `syntax`
+ * for TypeScript, JSX, or decorator syntax.
+ */
+export async function lint(code: Buffer, syntax?: ParserConfig): Promise<binding.Diagnostic[]> {
+    return await binding.lint(code, encodeSyntax(syntax))
+}
+
+/**
+ * Synchronous variant of {@link lint}.
+ */
+export function lintSync(code: Buffer, syntax?: ParserConfig): binding.Diagnostic[] {
+    return binding.lintSync(code, encodeSyntax(syntax))
+}
+```
+
+- [ ] **Step 7: Type-check**
+
+Run (from `packages/react-compiler/`): `pnpm exec tsc -d --typeRoots ../../node_modules/@types`
+Expected: succeeds with no errors. Clean up any root-level `binding.js`/`binding.d.ts`/`index.js`/`index.d.ts`/`.tsbuildinfo` this produces (do not commit them).
+
+- [ ] **Step 8: Update the Node test to cover the new parameter**
+
+In `packages/react-compiler/tests/lint.test.cjs`, add one test after the existing 3, verifying `syntax` is honored (a plain `.js`-style `EsSyntax` with `jsx: true` should still detect the same violation, since `useRef`/`.current` access is valid in both ES+JSX and TSX):
+
+```js
+test("lintSync accepts an explicit ecmascript syntax", () => {
+    const diagnostics = reactCompiler.lintSync(Buffer.from(REF_ACCESS_SOURCE), {
+        syntax: "ecmascript",
+        jsx: true,
+    });
+
+    assert.equal(diagnostics.length, 1);
+    assert.equal(diagnostics[0].ruleId, "refs");
+});
+```
+
+- [ ] **Step 9: Run the full test suite**
+
+Run (from `packages/react-compiler/`, after Step 5's `napi build` and Step 7's `tsc` have produced a root-level `index.js`): `node --test tests/lint.test.cjs`
+Expected: all 4 tests pass (3 from Task 6 + this task's new one).
+
+- [ ] **Step 10: Commit**
+
+```bash
+git add bindings/binding_react_compiler_node/Cargo.toml bindings/binding_react_compiler_node/src/lint.rs packages/react-compiler/src/index.ts packages/react-compiler/src/binding.js packages/react-compiler/src/binding.d.ts packages/react-compiler/tests/lint.test.cjs
+git commit -m "feat(react-compiler): allow lint/lintSync to accept a parser syntax option"
+```
+
+---
+
 ## Final Verification
 
 - [ ] `cargo fmt --all`
@@ -676,6 +975,13 @@ git commit -m "test(react-compiler): add lint/lintSync coverage"
 - [ ] `pnpm --filter @swc/react-compiler build:dev && pnpm --filter @swc/react-compiler test`
 - [ ] `cargo check -p binding_core_node` (confirms the Task 1 revert didn't leave `@swc/core`'s napi binding referencing removed types)
 
-## Open Question for @kdy1 (not blocking, but worth flagging in the PR)
+## Resolved: parser syntax is configurable (Task 7), react-compiler's own options are not (by design)
 
-The confirmed API surface is only the function names (`lint`/`lintSync`). This plan's `PluginOptions` input is hardcoded to `default_plugin_options()` (TSX syntax, `compilation_mode: "infer"`) — there's no way for JS callers to pass their own `target`/`compilationMode`/etc. yet. That's intentionally out of scope here (YAGNI — nobody has asked for configurable options), but should be called out as a known follow-up when this rework is posted for review.
+Task 7 added a `syntax` parameter to `lint`/`lintSync` (parser-level config: `syntax`/`tsx`/`jsx`/`decorators`, matching `@swc/core`'s `jsc.parser` shape via `@swc/types`'s existing `ParserConfig`). Its default is `swc_ecma_parser::Syntax::default()` (plain ECMAScript — no JSX/TSX/decorators), matching `@swc/core`'s own project-wide convention, **not** any one downstream consumer's specific build settings (an earlier draft of this default accidentally matched one real consumer's exact webpack config verbatim — corrected after review).
+
+Separately, react-compiler's own `PluginOptions` (`compilationMode`, `target`, `panicThreshold`, `gating`, `environment`, etc.) remain hardcoded via `default_plugin_options()` — investigated and deliberately left that way, not just deferred:
+- `jsc.transform`'s other fields (`legacyDecorator`, `react.*`, `optimizer.*`, `useDefineForClassFields`, `decoratorVersion`) control code *emission*; `lint`/`lintSync` never emit code (`no_emit: true` internally), so none of them apply.
+- `panicThreshold` specifically was checked against the upstream `forked_react_compiler` source (`entrypoint/program.rs`'s `handle_error`): raising it toward `"all_errors"` causes more errors to take the fatal `CompileResult::Error` path, and this crate's own `error_info_to_diagnostic` (`diagnostics.rs`) drops `rule_id`/`category`/`loc`/`details` entirely for that path, returning only a generic message. Exposing `panicThreshold` would let callers *degrade* the exact structured-diagnostic value this API exists to provide — our hardcoded `"none"` default is the right choice, not a gap.
+- `compilationMode: "infer"` (default) cheaply skips files with no detected React-like functions before doing any real analysis — appropriate for a lint pass expected to run across a whole `.tsx?`/`.jsx?` glob, most of which won't be components.
+
+No further options work is planned. Worth a one-line mention in the PR description that this was investigated, not just left as future work.
