@@ -3,8 +3,9 @@ use swc_ecma_react_compiler::diagnostics::{
     DiagnosticMessage, DiagnosticPosition as CoreDiagnosticPosition, Severity,
 };
 
-// `#[napi]` resolves via the crate-wide `#[macro_use] extern crate napi_derive;`
-// in `lib.rs` — matches the convention already used in `support.rs`.
+// `#[napi]` resolves via the crate-wide `#[macro_use] extern crate
+// napi_derive;` in `lib.rs` — matches the convention already used in
+// `support.rs`.
 #[napi(object)]
 #[derive(Debug, Clone)]
 pub struct Diagnostic {
@@ -139,7 +140,10 @@ mod tests {
         let diagnostic: Diagnostic = (&sample_message()).into();
 
         assert_eq!(diagnostic.severity, "error");
-        assert_eq!(diagnostic.message, "[ReactCompiler] Refs: invalid ref access");
+        assert_eq!(
+            diagnostic.message,
+            "[ReactCompiler] Refs: invalid ref access"
+        );
         assert_eq!(diagnostic.rule_id.as_deref(), Some("refs"));
         assert_eq!(diagnostic.category.as_deref(), Some("Refs"));
 
