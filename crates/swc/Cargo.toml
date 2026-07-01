@@ -128,7 +128,7 @@ swc_error_reporters = { version = "25.0.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "24.0.0", path = "../swc_node_comments" }
 swc_plugin_backend_wasmer = { version = "13.0.0", path = "../swc_plugin_backend_wasmer", optional = true, default-features = false }
 swc_plugin_proxy = { version = "26.0.0", path = "../swc_plugin_proxy", optional = true }
-swc_plugin_runner = { version = "30.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
+swc_plugin_runner = { version = "30.0.1", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_transform_common = { version = "17.0.0", path = "../swc_transform_common" }
 swc_typescript = { version = "30.0.1", path = "../swc_typescript", optional = true }
 swc_visit = { version = "2.0.1", path = "../swc_visit" }

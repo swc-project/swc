@@ -6047,7 +6047,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "71.0.5"
+version = "71.0.6"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -7447,7 +7447,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "30.0.0"
+version = "30.0.1"
 dependencies = [
  "anyhow",
  "blake3",

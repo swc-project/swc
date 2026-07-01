@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "71.0.5"
+version       = "71.0.6"
 [package.metadata.docs.rs]
 features = [
   "allocator_node",
@@ -373,7 +373,7 @@ swc_nodejs_common                = { optional = true, version = "1.0.3", path = 
 swc_plugin                       = { optional = true, version = "1.0.1", path = "../swc_plugin" }
 swc_plugin_macro                 = { optional = true, version = "1.1.1", path = "../swc_plugin_macro" }
 swc_plugin_proxy                 = { optional = true, version = "26.0.0", path = "../swc_plugin_proxy" }
-swc_plugin_runner                = { optional = true, version = "30.0.0", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner                = { optional = true, version = "30.0.1", path = "../swc_plugin_runner", default-features = false }
 swc_transform_common             = { optional = true, version = "17.0.0", path = "../swc_transform_common" }
 swc_typescript                   = { optional = true, version = "30.0.1", path = "../swc_typescript" }
 testing                          = { optional = true, version = "24.0.1", path = "../testing" }
