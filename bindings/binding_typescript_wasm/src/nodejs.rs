@@ -7,14 +7,14 @@
 use serde::Serialize;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, Spanned};
 use swc_ecma_ast::{
-    CallExpr, Callee, EsVersion, ExportDefaultDecl, ImportDecl, ImportSpecifier, Module,
-    ModuleDecl, ModuleExportName, ModuleItem,
+    CallExpr, Callee, Decl, DefaultDecl, EsVersion, ExportDefaultDecl, ExportSpecifier, ImportDecl,
+    ImportSpecifier, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport, ObjectLit,
 };
 use swc_ecma_parser::{
     error::{Error as ParseError, SyntaxError},
     lexer::Lexer,
     unstable::{Token, TokenAndSpan},
-    EsSyntax, Parser, StringInput, Syntax,
+    EsSyntax, Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -48,31 +48,36 @@ pub fn transform_module_syntax(code: String) -> ModuleSyntaxTransformOutput {
         };
     };
 
-    let mut edits = Vec::new();
+    let (edits, hoisted) = {
+        let mut transform = ModuleSyntaxTransform::new(&code);
 
-    for item in &module.body {
-        collect_module_item_edit(&code, item, &mut edits);
-    }
+        for item in &module.body {
+            transform.collect_module_item_edit(item);
+        }
 
-    let replaced_ranges = edits
-        .iter()
-        .map(|edit| (edit.start, edit.end))
-        .collect::<Vec<_>>();
-    module.visit_with(&mut DynamicImportCollector {
-        code: &code,
-        edits: &mut edits,
-        replaced_ranges: &replaced_ranges,
-    });
+        let replaced_ranges = transform
+            .edits
+            .iter()
+            .map(|edit| (edit.start, edit.end))
+            .collect::<Vec<_>>();
+        module.visit_with(&mut DynamicImportCollector {
+            code: &code,
+            edits: &mut transform.edits,
+            replaced_ranges: &replaced_ranges,
+        });
 
-    if edits.is_empty() {
-        return ModuleSyntaxTransformOutput {
-            code,
-            had_module_syntax: false,
-        };
-    }
+        if transform.edits.is_empty() && transform.hoisted.is_empty() {
+            return ModuleSyntaxTransformOutput {
+                code,
+                had_module_syntax: false,
+            };
+        }
+
+        (transform.edits, transform.hoisted)
+    };
 
     ModuleSyntaxTransformOutput {
-        code: apply_edits(code, edits),
+        code: prepend_hoisted_imports(apply_edits(code, edits), hoisted),
         had_module_syntax: true,
     }
 }
@@ -202,54 +207,132 @@ pub fn is_recoverable_error(code: String) -> bool {
     }
 }
 
-fn collect_module_item_edit(code: &str, item: &ModuleItem, edits: &mut Vec<Edit>) {
-    let ModuleItem::ModuleDecl(decl) = item else {
-        return;
-    };
+struct ModuleSyntaxTransform<'a> {
+    code: &'a str,
+    edits: Vec<Edit>,
+    hoisted: Vec<String>,
+}
 
-    match decl {
-        ModuleDecl::Import(import) => {
-            push_span_edit(edits, code, import.span, import_decl_to_script(import));
+impl<'a> ModuleSyntaxTransform<'a> {
+    fn new(code: &'a str) -> Self {
+        Self {
+            code,
+            edits: Vec::new(),
+            hoisted: Vec::new(),
         }
-        ModuleDecl::ExportDecl(export) => {
-            if let Some(text) = slice_span(code, export.decl.span()) {
-                push_span_edit(edits, code, export.span, text.to_string());
+    }
+
+    fn collect_module_item_edit(&mut self, item: &ModuleItem) {
+        let ModuleItem::ModuleDecl(decl) = item else {
+            return;
+        };
+
+        match decl {
+            ModuleDecl::Import(import) => {
+                self.delete_span(import.span);
+                if !import.type_only {
+                    if let Some(script) = import_decl_to_script(self.code, import) {
+                        self.hoisted.push(script);
+                    }
+                }
             }
+            ModuleDecl::ExportDecl(export) => {
+                if is_type_only_decl(&export.decl) {
+                    self.delete_span(export.span);
+                } else if let (Some((start, _)), Some((decl_start, _))) =
+                    (span_range(export.span), span_range(export.decl.span()))
+                {
+                    push_range_edit(&mut self.edits, self.code, start, decl_start, String::new());
+                }
+            }
+            ModuleDecl::ExportNamed(export) => {
+                self.delete_span(export.span);
+                if let Some(src) = &export.src {
+                    if named_export_loads_source(export) {
+                        self.hoist_import(&src.value.to_string_lossy(), export.with.as_deref());
+                    }
+                }
+            }
+            ModuleDecl::ExportDefaultDecl(export) => {
+                self.replace_span(export.span, default_decl_to_script(self.code, export));
+            }
+            ModuleDecl::ExportDefaultExpr(export) => {
+                self.unwrap_default_expression(export.span, export.expr.span());
+            }
+            ModuleDecl::ExportAll(export) => {
+                self.delete_span(export.span);
+                if !export.type_only {
+                    self.hoist_import(&export.src.value.to_string_lossy(), export.with.as_deref());
+                }
+            }
+            ModuleDecl::TsImportEquals(..)
+            | ModuleDecl::TsExportAssignment(..)
+            | ModuleDecl::TsNamespaceExport(..) => {}
         }
-        ModuleDecl::ExportNamed(export) => {
-            push_span_edit(edits, code, export.span, String::new());
-        }
-        ModuleDecl::ExportDefaultDecl(export) => {
-            push_span_edit(
-                edits,
-                code,
-                export.span,
-                default_decl_to_script(code, export),
+    }
+
+    fn delete_span(&mut self, span: Span) {
+        self.replace_span(span, String::new());
+    }
+
+    fn replace_span(&mut self, span: Span, text: String) {
+        push_span_edit(&mut self.edits, self.code, span, text);
+    }
+
+    fn hoist_import(&mut self, specifier: &str, with: Option<&ObjectLit>) {
+        self.hoisted.push(format!(
+            "await {};",
+            await_import(self.code, specifier, with)
+        ));
+    }
+
+    fn unwrap_default_expression(&mut self, export_span: Span, expr_span: Span) {
+        let (Some((export_start, export_end)), Some((expr_start, expr_end))) =
+            (span_range(export_span), span_range(expr_span))
+        else {
+            return;
+        };
+
+        push_range_edit(
+            &mut self.edits,
+            self.code,
+            export_start,
+            expr_start,
+            String::new(),
+        );
+
+        let has_separator = self
+            .code
+            .get(expr_end..export_end)
+            .is_some_and(|tail| tail.contains(';'));
+        if !has_separator {
+            push_range_edit(
+                &mut self.edits,
+                self.code,
+                expr_end,
+                expr_end,
+                ";".to_string(),
             );
         }
-        ModuleDecl::ExportDefaultExpr(export) => {
-            if let Some(text) = slice_span(code, export.expr.span()) {
-                push_span_edit(edits, code, export.span, text.to_string());
-            }
-        }
-        ModuleDecl::ExportAll(export) => {
-            push_span_edit(edits, code, export.span, String::new());
-        }
-        ModuleDecl::TsImportEquals(..)
-        | ModuleDecl::TsExportAssignment(..)
-        | ModuleDecl::TsNamespaceExport(..) => {}
     }
 }
 
-fn await_import(specifier: &str) -> String {
-    format!("{DYNAMIC_IMPORT_NAME}({})", json_string(specifier))
+fn await_import(code: &str, specifier: &str, with: Option<&ObjectLit>) -> String {
+    let mut out = format!("{DYNAMIC_IMPORT_NAME}({}", json_string(specifier));
+    if let Some(options) = import_options_to_dynamic_options(code, with) {
+        out.push_str(", ");
+        out.push_str(&options);
+    }
+    out.push(')');
+    out
 }
 
-fn import_decl_to_script(node: &ImportDecl) -> String {
+fn import_decl_to_script(code: &str, node: &ImportDecl) -> Option<String> {
     let specifier = node.src.value.to_string_lossy();
+    let with = node.with.as_deref();
 
     if node.specifiers.is_empty() {
-        return format!("await {};", await_import(&specifier));
+        return Some(format!("await {};", await_import(code, &specifier, with)));
     }
 
     let mut namespace_name = None;
@@ -265,6 +348,10 @@ fn import_decl_to_script(node: &ImportDecl) -> String {
                 default_name = Some(specifier.local.sym.to_string());
             }
             ImportSpecifier::Named(specifier) => {
+                if specifier.is_type_only {
+                    continue;
+                }
+
                 let local = specifier.local.sym.to_string();
                 let imported = specifier
                     .imported
@@ -284,31 +371,66 @@ fn import_decl_to_script(node: &ImportDecl) -> String {
     if let Some(namespace_name) = namespace_name {
         let mut out = format!(
             "const {namespace_name} = await {};",
-            await_import(&specifier)
+            await_import(code, &specifier, with)
         );
         if let Some(default_name) = default_name {
             out.push_str(&format!(
                 " const {default_name} = {namespace_name}.default;"
             ));
         }
-        return out;
+        return Some(out);
     }
 
     if let Some(default_name) = default_name {
         named.push(format!("default: {default_name}"));
     }
 
-    format!(
+    if named.is_empty() {
+        return None;
+    }
+
+    Some(format!(
         "const {{ {} }} = await {};",
         named.join(", "),
-        await_import(&specifier)
-    )
+        await_import(code, &specifier, with)
+    ))
 }
 
 fn default_decl_to_script(code: &str, export: &ExportDefaultDecl) -> String {
-    slice_span(code, export.decl.span())
-        .unwrap_or_default()
-        .to_string()
+    let Some(text) = slice_span(code, export.decl.span()) else {
+        return String::new();
+    };
+
+    match &export.decl {
+        DefaultDecl::Class(class) if class.ident.is_none() => format!("({text});"),
+        DefaultDecl::Fn(function) if function.ident.is_none() => format!("({text});"),
+        DefaultDecl::TsInterfaceDecl(..) => String::new(),
+        _ => text.to_string(),
+    }
+}
+
+fn import_options_to_dynamic_options(code: &str, with: Option<&ObjectLit>) -> Option<String> {
+    let attributes = slice_span(code, with?.span)?;
+    Some(format!("{{ with: {attributes} }}"))
+}
+
+fn is_type_only_decl(decl: &Decl) -> bool {
+    matches!(decl, Decl::TsInterface(..) | Decl::TsTypeAlias(..))
+}
+
+fn named_export_loads_source(export: &NamedExport) -> bool {
+    if export.type_only {
+        return false;
+    }
+
+    if export.specifiers.is_empty() {
+        return true;
+    }
+
+    export.specifiers.iter().any(|specifier| match specifier {
+        ExportSpecifier::Named(named) => !named.is_type_only,
+        ExportSpecifier::Namespace(..) | ExportSpecifier::Default(..) => true,
+    })
 }
 
 fn module_export_name(name: &ModuleExportName) -> String {
@@ -327,9 +449,13 @@ struct Edit {
 
 fn push_span_edit(edits: &mut Vec<Edit>, code: &str, span: Span, text: String) {
     if let Some((start, end)) = span_range(span) {
-        if start <= end && end <= code.len() {
-            edits.push(Edit { start, end, text });
-        }
+        push_range_edit(edits, code, start, end, text);
+    }
+}
+
+fn push_range_edit(edits: &mut Vec<Edit>, code: &str, start: usize, end: usize, text: String) {
+    if start <= end && end <= code.len() {
+        edits.push(Edit { start, end, text });
     }
 }
 
@@ -347,6 +473,21 @@ fn apply_edits(mut code: String, mut edits: Vec<Edit>) -> String {
     }
 
     code
+}
+
+fn prepend_hoisted_imports(code: String, hoisted: Vec<String>) -> String {
+    if hoisted.is_empty() {
+        return code;
+    }
+
+    let imports = hoisted.join("\n");
+    if code.is_empty() {
+        imports
+    } else if code.starts_with('\n') || code.starts_with("\r\n") {
+        format!("{imports}{code}")
+    } else {
+        format!("{imports}\n{code}")
+    }
 }
 
 struct DynamicImportCollector<'a, 'b> {
@@ -417,11 +558,16 @@ fn parse_program_result(code: &str) -> ParseOutcome {
 }
 
 fn parse_module(code: &str) -> Option<Module> {
+    parse_module_with_syntax(code, Syntax::Es(es_syntax()))
+        .or_else(|| parse_module_with_syntax(code, Syntax::Typescript(ts_syntax())))
+}
+
+fn parse_module_with_syntax(code: &str, syntax: Syntax) -> Option<Module> {
     let cm = Lrc::new(SourceMap::default());
     let fm = cm.new_source_file(FileName::Anon.into(), code.to_string());
     let comments = SingleThreadedComments::default();
     let lexer = Lexer::new(
-        Syntax::Es(es_syntax()),
+        syntax,
         EsVersion::latest(),
         StringInput::from(&*fm),
         Some(&comments),
@@ -458,6 +604,13 @@ fn es_syntax() -> EsSyntax {
         auto_accessors: true,
         explicit_resource_management: true,
         import_attributes: true,
+        ..Default::default()
+    }
+}
+
+fn ts_syntax() -> TsSyntax {
+    TsSyntax {
+        decorators: true,
         ..Default::default()
     }
 }
@@ -558,6 +711,20 @@ mod tests {
             transform_module_syntax("import { \"a-b\" as c } from \"mod\";".into()).code,
             "const { \"a-b\": c } = await __nodeREPLDynamicImport(\"mod\");"
         );
+        assert_eq!(
+            transform_module_syntax(
+                "import data from \"./data.json\" with { type: \"json\" };".into()
+            )
+            .code,
+            "const { default: data } = await __nodeREPLDynamicImport(\"./data.json\", { with: { \
+             type: \"json\" } });"
+        );
+        assert_eq!(
+            transform_module_syntax("console.log(typeof fs);\nimport fs from \"node:fs\";".into())
+                .code,
+            "const { default: fs } = await \
+             __nodeREPLDynamicImport(\"node:fs\");\nconsole.log(typeof fs);\n"
+        );
     }
 
     #[test]
@@ -568,12 +735,28 @@ mod tests {
         );
         assert_eq!(
             transform_module_syntax("export default value;".into()).code,
-            "value"
+            "value;"
+        );
+        assert_eq!(
+            transform_module_syntax("export default foo; doSomething();".into()).code,
+            "foo; doSomething();"
+        );
+        assert_eq!(
+            transform_module_syntax("export default function () {}".into()).code,
+            "(function () {});"
+        );
+        assert_eq!(
+            transform_module_syntax("export default class {}".into()).code,
+            "(class {});"
         );
         assert_eq!(transform_module_syntax("export { x };".into()).code, "");
         assert_eq!(
             transform_module_syntax("export * from \"mod\";".into()).code,
-            ""
+            "await __nodeREPLDynamicImport(\"mod\");"
+        );
+        assert_eq!(
+            transform_module_syntax("console.log(1);\nexport { value } from \"mod\";".into()).code,
+            "await __nodeREPLDynamicImport(\"mod\");\nconsole.log(1);\n"
         );
     }
 
@@ -591,6 +774,30 @@ mod tests {
         let incomplete = transform_module_syntax("import {".into());
         assert!(!incomplete.had_module_syntax);
         assert_eq!(incomplete.code, "import {");
+    }
+
+    #[test]
+    fn transform_typescript_module_syntax() {
+        assert_eq!(
+            transform_module_syntax("import fs from \"node:fs\";\nconst x: number = 1;".into())
+                .code,
+            "const { default: fs } = await __nodeREPLDynamicImport(\"node:fs\");\nconst x: number \
+             = 1;"
+        );
+
+        let type_only = transform_module_syntax(
+            "import type { Foo } from \"types\";\nexport type { Foo };\nconst x: number = 1;"
+                .into(),
+        );
+        assert!(type_only.had_module_syntax);
+        assert!(!type_only.code.contains("__nodeREPLDynamicImport"));
+        assert!(!type_only.code.contains("import type"));
+        assert!(!type_only.code.contains("export type"));
+
+        let re_export_type =
+            transform_module_syntax("export { type Foo } from \"types\";\nconst x = 1;".into());
+        assert!(!re_export_type.code.contains("__nodeREPLDynamicImport"));
+        assert_eq!(re_export_type.code, "\nconst x = 1;");
     }
 
     #[test]
