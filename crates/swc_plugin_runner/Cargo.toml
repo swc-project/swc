@@ -26,10 +26,6 @@ ecma = ["swc_ecma_ast/encoding-impl"]
 
 encoding-impl = ["swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
-[build-dependencies]
-vergen = { workspace = true, features = ["build", "cargo"] }
-
-
 [dependencies]
 anyhow      = { workspace = true }
 parking_lot = { workspace = true }

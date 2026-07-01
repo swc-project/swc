@@ -307,12 +307,9 @@ pub mod diagnostics {
     /// Returns metadata about the swc_core engine that was built against.
     pub fn get_core_engine_diagnostics() -> CoreEngineDiagnostics {
         CoreEngineDiagnostics {
-            package_semver: option_env!("VERGEN_BUILD_SEMVER")
-                .unwrap_or_else(|| PKG_SEMVER_FALLBACK)
-                .to_string(),
+            package_semver: PKG_SEMVER_FALLBACK.to_string(),
             git_sha: GIT_SHA.to_string(),
-            cargo_features: option_env!("VERGEN_CARGO_FEATURES")
-                .unwrap_or_else(|| "Unavailable to query")
+            cargo_features: include_str!(concat!(env!("OUT_DIR"), "/cargo_features.txt"))
                 .to_string(),
         }
     }

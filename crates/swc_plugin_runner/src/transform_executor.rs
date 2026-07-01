@@ -274,20 +274,12 @@ impl TransformExecutor {
 
                 See https://plugins.swc.rs/versions/from-plugin-runner/{PKG_VERSION} for the list of the compatible versions.
 
-                Build info:
-                    Date: {BUILD_DATE}
-                    Timestamp: {BUILD_TIMESTAMP}
-
                 Version info:
                     swc_plugin_runner: {PKG_VERSION}
-                    Dependencies: {PKG_DEPS}
                 "
                 )
             })
     }
 }
 
-const BUILD_DATE: &str = env!("VERGEN_BUILD_DATE");
-const BUILD_TIMESTAMP: &str = env!("VERGEN_BUILD_TIMESTAMP");
 const PKG_VERSION: &str = env!("CARGO_PKG_VERSION");
-const PKG_DEPS: &str = env!("VERGEN_CARGO_DEPENDENCIES");

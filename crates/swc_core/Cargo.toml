@@ -378,9 +378,6 @@ swc_transform_common             = { optional = true, version = "17.0.0", path =
 swc_typescript                   = { optional = true, version = "30.0.1", path = "../swc_typescript" }
 testing                          = { optional = true, version = "24.0.1", path = "../testing" }
 
-[build-dependencies]
-vergen = { workspace = true, features = ["cargo"] }
-
 [dev-dependencies]
 anyhow  = { workspace = true }
 testing = { version = "24.0.1", path = "../testing" }
