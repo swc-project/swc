@@ -439,6 +439,16 @@ jobs:
         run: |
           pnpm test
 
+      - name: Build (react-compiler)
+        working-directory: packages/react-compiler
+        run: |
+          pnpm build:dev
+
+      - name: Test (react-compiler)
+        working-directory: packages/react-compiler
+        run: |
+          pnpm test
+
   integration-test:
     name: "Test with @swc/cli"
     if: >-

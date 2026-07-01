@@ -93,9 +93,21 @@ pub fn lint_sync(code: String, syntax: Option<Buffer>) -> napi::Result<Vec<Diagn
 
 #[cfg(test)]
 mod tests {
-    use swc_core::ecma::parser::{EsSyntax, Syntax};
+    use swc_core::ecma::parser::{EsSyntax, Syntax, TsSyntax};
 
     use super::{decode_syntax, default_syntax, lint_inner};
+
+    /// Several documented React Compiler lint rules
+    /// (https://react.dev/reference/eslint-plugin-react-hooks) only surface
+    /// on JSX-bearing source, which `default_syntax()` (plain ECMAScript, no
+    /// JSX) can't parse. Tests exercising those rules use this instead.
+    fn tsx_syntax() -> Syntax {
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            decorators: true,
+            ..Default::default()
+        })
+    }
 
     #[test]
     fn reports_ref_access_error_with_default_syntax() {
@@ -121,6 +133,101 @@ mod tests {
         let diagnostics = lint_inner("const x = 1;", default_syntax());
 
         assert!(diagnostics.is_empty());
+    }
+
+    /// One test per documented React Compiler lint rule
+    /// (https://react.dev/reference/eslint-plugin-react-hooks) that a
+    /// hand-written source snippet can reliably trigger. Every trigger
+    /// condition here was verified empirically against the actual compiled
+    /// binary before being written as a test — not guessed. Rules not
+    /// covered below either require configuration this crate deliberately
+    /// doesn't expose (`config`, `gating`: need explicit gating directives;
+    /// `purity`: `validate_no_impure_functions_in_render` defaults to
+    /// `false` upstream) or need more investigation to find a reliable
+    /// trigger (`error-boundaries`, `static-components`,
+    /// `set-state-in-effect`, `incompatible-library`).
+    mod documented_rule_coverage {
+        use super::{lint_inner, tsx_syntax};
+
+        fn assert_fires(source: &str, expected_rule_id: &str) {
+            let diagnostics = lint_inner(source, tsx_syntax());
+
+            assert!(
+                diagnostics
+                    .iter()
+                    .any(|d| d.rule_id.as_deref() == Some(expected_rule_id)),
+                "expected a `{expected_rule_id}` diagnostic, got: {diagnostics:#?}"
+            );
+        }
+
+        #[test]
+        fn globals() {
+            assert_fires(
+                r#"
+                let count = 0;
+                function App() {
+                    const [x] = useState(0);
+                    count = count + 1;
+                    return <div>{count}{x}</div>;
+                }
+                "#,
+                "globals",
+            );
+        }
+
+        #[test]
+        fn immutability() {
+            assert_fires(
+                r#"
+                function App(props) {
+                    const [x, setX] = useState(0);
+                    props.value = 1;
+                    return <div onClick={() => setX(x + 1)}>{x}</div>;
+                }
+                "#,
+                "immutability",
+            );
+        }
+
+        #[test]
+        fn use_memo() {
+            assert_fires(
+                r#"
+                function App() {
+                    const value = useMemo((extra) => extra, [1]);
+                    return <div>{value}</div>;
+                }
+                "#,
+                "use-memo",
+            );
+        }
+
+        #[test]
+        fn set_state_in_render() {
+            assert_fires(
+                r#"
+                function App() {
+                    const [state, setState] = useState(0);
+                    setState(state + 1);
+                    return <div>{state}</div>;
+                }
+                "#,
+                "set-state-in-render",
+            );
+        }
+
+        #[test]
+        fn unsupported_syntax() {
+            assert_fires(
+                r#"
+                function App() {
+                    eval('1');
+                    return <div />;
+                }
+                "#,
+                "unsupported-syntax",
+            );
+        }
     }
 
     #[test]
