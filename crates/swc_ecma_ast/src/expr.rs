@@ -1414,7 +1414,15 @@ impl Spanned for ExprOrSpread {
     fn span(&self) -> Span {
         let expr = self.expr.span();
         match self.spread {
-            Some(spread) => expr.with_lo(spread.lo()),
+            Some(spread) => {
+                let lo = spread.lo();
+                let hi = expr.hi();
+                if lo < hi {
+                    Span::new(lo, hi)
+                } else {
+                    Span::new(hi, lo)
+                }
+            }
             None => expr,
         }
     }
