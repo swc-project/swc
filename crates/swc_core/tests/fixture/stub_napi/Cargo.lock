@@ -395,38 +395,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "camino"
-version = "1.1.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0da45bc31171d8d6960122e222a67740df867c1dd53b4d51caa297084c185cab"
-dependencies = [
- "serde",
-]
-
-[[package]]
-name = "cargo-platform"
-version = "0.1.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e35af189006b9c0f00a064685c727031e3ed2d8020f7ba284d78cc2671bd36ea"
-dependencies = [
- "serde",
-]
-
-[[package]]
-name = "cargo_metadata"
-version = "0.19.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd5eb614ed4c27c5d706420e4320fbe3216ab31fa1c33cd8246ac36dae4479ba"
-dependencies = [
- "camino",
- "cargo-platform",
- "semver",
- "serde",
- "serde_json",
- "thiserror 2.0.12",
-]
-
-[[package]]
 name = "castaway"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -822,7 +790,7 @@ dependencies = [
  "ident_case",
  "proc-macro2",
  "quote",
- "strsim 0.10.0",
+ "strsim",
  "syn 1.0.109",
 ]
 
@@ -836,7 +804,6 @@ dependencies = [
  "ident_case",
  "proc-macro2",
  "quote",
- "strsim 0.11.1",
  "syn 2.0.102",
 ]
 
@@ -907,16 +874,7 @@ version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8d67778784b508018359cbc8696edb3db78160bab2c2a28ba7f56ef6932997f8"
 dependencies = [
- "derive_builder_macro 0.12.0",
-]
-
-[[package]]
-name = "derive_builder"
-version = "0.20.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "507dfb09ea8b7fa618fcf76e953f4f5e192547945816d5358edffe39f6f94947"
-dependencies = [
- "derive_builder_macro 0.20.2",
+ "derive_builder_macro",
 ]
 
 [[package]]
@@ -932,35 +890,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "derive_builder_core"
-version = "0.20.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d5bcf7b024d6835cfb3d473887cd966994907effbe9227e8c8219824d06c4e8"
-dependencies = [
- "darling 0.20.11",
- "proc-macro2",
- "quote",
- "syn 2.0.102",
-]
-
-[[package]]
 name = "derive_builder_macro"
 version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ebcda35c7a396850a55ffeac740804b40ffec779b98fffbb1738f4033f0ee79e"
 dependencies = [
- "derive_builder_core 0.12.0",
+ "derive_builder_core",
  "syn 1.0.109",
-]
-
-[[package]]
-name = "derive_builder_macro"
-version = "0.20.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ab63b0e2bf4d5928aff72e83a7dace85d7bba5fe12dcc3c5a572d78caffd3f3c"
-dependencies = [
- "derive_builder_core 0.20.2",
- "syn 2.0.102",
 ]
 
 [[package]]
@@ -2305,15 +2241,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "num_threads"
-version = "0.1.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c7398b9c8b70908f6371f47ed36737907c87c52af34c268fed0bf0ceb92ead9"
-dependencies = [
- "libc",
-]
-
-[[package]]
 name = "object"
 version = "0.32.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2537,7 +2464,7 @@ checksum = "84350ffee5cedfabf9bee3e8825721f651da8ff79d50fe7a37cf0ca015c428ee"
 
 [[package]]
 name = "preset_env_base"
-version = "8.0.0"
+version = "8.0.1"
 dependencies = [
  "anyhow",
  "browserslist-rs",
@@ -3269,12 +3196,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
-name = "strsim"
-version = "0.11.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
-
-[[package]]
 name = "stub_napi"
 version = "0.1.0"
 dependencies = [
@@ -3294,7 +3215,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "67.0.0"
+version = "69.0.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -3371,7 +3292,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "51.0.0"
+version = "51.0.1"
 dependencies = [
  "anyhow",
  "crc",
@@ -3400,7 +3321,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "23.0.1"
+version = "23.0.2"
 dependencies = [
  "anyhow",
  "ast_node",
@@ -3429,7 +3350,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "58.0.0"
+version = "59.0.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -3483,7 +3404,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "69.0.0"
+version = "71.0.5"
 dependencies = [
  "swc",
  "swc_allocator",
@@ -3498,7 +3419,6 @@ dependencies = [
  "swc_nodejs_common",
  "swc_plugin_proxy",
  "swc_plugin_runner",
- "vergen",
 ]
 
 [[package]]
@@ -3522,7 +3442,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "28.0.1"
+version = "28.0.2"
 dependencies = [
  "ascii",
  "compact_str",
@@ -3552,7 +3472,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "50.0.0"
+version = "51.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -3567,7 +3487,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "40.0.0"
+version = "40.0.1"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -3577,7 +3497,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "49.0.0"
+version = "50.0.0"
 dependencies = [
  "arrayvec",
  "indexmap",
@@ -3650,7 +3570,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "47.0.0"
+version = "48.0.0"
 dependencies = [
  "serde",
  "swc_common",
@@ -3676,7 +3596,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "47.0.0"
+version = "48.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -3742,7 +3662,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "24.0.0"
+version = "24.0.1"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -3762,7 +3682,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "55.0.2"
+version = "56.0.2"
 dependencies = [
  "arrayvec",
  "bitflags 2.9.1",
@@ -3795,7 +3715,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "41.1.0"
+version = "41.1.2"
 dependencies = [
  "bitflags 2.9.1",
  "either",
@@ -3813,7 +3733,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "56.0.0"
+version = "57.0.0"
 dependencies = [
  "anyhow",
  "foldhash 0.1.5",
@@ -3876,7 +3796,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transformer"
-version = "16.0.1"
+version = "16.0.3"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -3893,7 +3813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "55.0.1"
+version = "56.0.0"
 dependencies = [
  "par-core",
  "swc_common",
@@ -3910,7 +3830,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "44.0.2"
+version = "44.0.4"
 dependencies = [
  "better_scoped_tls",
  "indexmap",
@@ -3942,7 +3862,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "51.0.1"
+version = "52.0.1"
 dependencies = [
  "indexmap",
  "par-core",
@@ -3978,7 +3898,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "49.0.0"
+version = "49.0.2"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -4004,7 +3924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "47.0.0"
+version = "47.0.2"
 dependencies = [
  "bytes-str",
  "dashmap",
@@ -4042,7 +3962,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "49.0.0"
+version = "50.0.0"
 dependencies = [
  "base64",
  "bytes-str",
@@ -4065,7 +3985,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "49.0.0"
+version = "50.0.0"
 dependencies = [
  "bytes-str",
  "rustc-hash 2.1.1",
@@ -4081,7 +4001,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "31.0.0"
+version = "31.0.2"
 dependencies = [
  "dragonbox_ecma",
  "indexmap",
@@ -4131,7 +4051,7 @@ dependencies = [
 
 [[package]]
 name = "swc_graph_analyzer"
-version = "14.0.1"
+version = "14.0.2"
 dependencies = [
  "auto_impl",
  "petgraph",
@@ -4158,7 +4078,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "68.0.0"
+version = "70.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",
@@ -4201,7 +4121,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_backend_wasmer"
-version = "12.0.0"
+version = "13.0.0"
 dependencies = [
  "anyhow",
  "enumset",
@@ -4215,7 +4135,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "25.0.0"
+version = "26.0.0"
 dependencies = [
  "better_scoped_tls",
  "cbor4ii",
@@ -4227,7 +4147,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "29.0.0"
+version = "30.0.0"
 dependencies = [
  "anyhow",
  "blake3",
@@ -4241,7 +4161,6 @@ dependencies = [
  "swc_plugin_proxy",
  "swc_transform_common",
  "tracing",
- "vergen",
 ]
 
 [[package]]
@@ -4273,7 +4192,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "30.0.0"
+version = "30.0.1"
 dependencies = [
  "bitflags 2.9.1",
  "petgraph",
@@ -4459,9 +4378,7 @@ checksum = "8a7619e19bc266e0f9c5e6686659d394bc57973859340060a69221e57dbc0c40"
 dependencies = [
  "deranged",
  "itoa",
- "libc",
  "num-conv",
- "num_threads",
  "powerfmt",
  "serde",
  "time-core",
@@ -4772,32 +4689,6 @@ checksum = "3cf4199d1e5d15ddd86a694e4d0dffa9c323ce759fea589f00fef9d81cc1931d"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "vergen"
-version = "9.0.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b2bf58be11fc9414104c6d3a2e464163db5ef74b12296bda593cac37b6e4777"
-dependencies = [
- "anyhow",
- "cargo_metadata",
- "derive_builder 0.20.2",
- "regex",
- "rustversion",
- "time",
- "vergen-lib",
-]
-
-[[package]]
-name = "vergen-lib"
-version = "0.1.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9b07e6010c0f3e59fcb164e0163834597da68d1f864e2b8ca49f74de01e9c166"
-dependencies = [
- "anyhow",
- "derive_builder 0.20.2",
- "rustversion",
 ]
 
 [[package]]
@@ -5139,7 +5030,7 @@ dependencies = [
  "anyhow",
  "bytesize",
  "ciborium",
- "derive_builder 0.12.0",
+ "derive_builder",
  "hex",
  "indexmap",
  "saffron",
