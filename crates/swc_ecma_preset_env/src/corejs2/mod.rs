@@ -108,6 +108,21 @@ impl UsageVisitor {
             }
         }
     }
+
+    fn add_promise_deps(&mut self) {
+        if let Some(features) = data::builtin_types_get("Promise") {
+            self.add(features);
+        }
+    }
+
+    fn add_async_iterator_deps(&mut self) {
+        self.add(["es7.symbol.async-iterator"].iter().copied());
+    }
+
+    fn add_async_generator_helper_deps(&mut self) {
+        self.add_promise_deps();
+        self.add_async_iterator_deps();
+    }
 }
 
 // TODO:
@@ -276,6 +291,10 @@ impl Visit for UsageVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
+        if is_async_generator_helper_call(&e.callee) {
+            self.add_async_generator_helper_deps();
+        }
+
         if match &e.callee {
             Callee::Expr(callee) => matches!(&**callee, Expr::Member(MemberExpr {
                     prop: MemberProp::Computed(ComputedPropName { expr, .. }),
@@ -318,4 +337,22 @@ fn is_symbol_iterator(e: &Expr) -> bool {
         }
         _ => false,
     }
+}
+
+fn is_async_generator_helper_call(callee: &Callee) -> bool {
+    matches!(
+        callee,
+        Callee::Expr(expr)
+            if matches!(
+                &**expr,
+                Expr::Ident(Ident { sym, .. }) if is_async_generator_helper(sym)
+            )
+    )
+}
+
+fn is_async_generator_helper(sym: &Atom) -> bool {
+    matches!(
+        &**sym,
+        "_async_generator_delegate" | "_async_iterator" | "_wrap_async_generator"
+    )
 }
