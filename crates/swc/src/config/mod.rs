@@ -29,11 +29,6 @@ use swc_common::{
 #[cfg(feature = "react-compiler")]
 use swc_common::{BytePos, Span, Spanned};
 pub use swc_compiler_base::SourceMapsConfig;
-#[cfg(feature = "react-compiler")]
-use swc_compiler_base::{
-    ReactCompilerDiagnostic, ReactCompilerDiagnosticDetail, ReactCompilerDiagnosticError,
-    ReactCompilerDiagnosticLocation, ReactCompilerDiagnosticPosition,
-};
 pub use swc_config::is_module::IsModule;
 use swc_config::{
     file_pattern::FilePattern,
@@ -347,9 +342,6 @@ impl Options {
 
         #[cfg(feature = "react-compiler")]
         if let Some(options) = react_compiler_options(transform.react_compiler.clone(), base) {
-            let emit_to_handler =
-                !options.no_emit && options.output_mode.as_deref() != Some("lint");
-            let is_lint_output = options.output_mode.as_deref() == Some("lint");
             let fm = if program.span().is_dummy() {
                 cm.get_source_file(base)
             } else {
@@ -368,28 +360,7 @@ impl Options {
                     comments,
                     options,
                 );
-                if emit_to_handler {
-                    emit_react_compiler_diagnostics(handler, &result.diagnostics);
-                }
-
-                if !result.diagnostics.is_empty() {
-                    let diagnostics = result
-                        .diagnostics
-                        .iter()
-                        .map(react_compiler_diagnostic_to_output)
-                        .collect::<Vec<_>>();
-
-                    if is_lint_output
-                        && result.diagnostics.iter().any(|diagnostic| {
-                            matches!(
-                                diagnostic.severity,
-                                swc_ecma_react_compiler::diagnostics::Severity::Error
-                            )
-                        })
-                    {
-                        return Err(Error::new(ReactCompilerDiagnosticError::new(diagnostics)));
-                    }
-                }
+                emit_react_compiler_diagnostics(handler, &result.diagnostics);
 
                 if let Some(compiled) = result.program {
                     program = compiled;
@@ -2102,52 +2073,6 @@ fn emit_react_compiler_diagnostics(
                 handler.struct_warn(&diagnostic.message).emit()
             }
         }
-    }
-}
-
-#[cfg(feature = "react-compiler")]
-fn react_compiler_diagnostic_to_output(
-    diagnostic: &swc_ecma_react_compiler::diagnostics::DiagnosticMessage,
-) -> ReactCompilerDiagnostic {
-    ReactCompilerDiagnostic {
-        message: diagnostic.message.clone(),
-        rule_id: diagnostic.rule_id.clone(),
-        category: diagnostic.category.clone(),
-        reason: diagnostic.reason.clone(),
-        description: diagnostic.description.clone(),
-        loc: diagnostic
-            .loc
-            .as_ref()
-            .map(react_compiler_location_to_output),
-        details: diagnostic
-            .details
-            .iter()
-            .map(|detail| ReactCompilerDiagnosticDetail {
-                kind: detail.kind.clone(),
-                loc: detail.loc.as_ref().map(react_compiler_location_to_output),
-                message: detail.message.clone(),
-            })
-            .collect(),
-    }
-}
-
-#[cfg(feature = "react-compiler")]
-fn react_compiler_location_to_output(
-    loc: &swc_ecma_react_compiler::diagnostics::DiagnosticLocation,
-) -> ReactCompilerDiagnosticLocation {
-    ReactCompilerDiagnosticLocation {
-        start: ReactCompilerDiagnosticPosition {
-            line: loc.start.line,
-            column: loc.start.column,
-            index: loc.start.index,
-        },
-        end: ReactCompilerDiagnosticPosition {
-            line: loc.end.line,
-            column: loc.end.column,
-            index: loc.end.index,
-        },
-        filename: loc.filename.clone(),
-        identifier_name: loc.identifier_name.clone(),
     }
 }
 

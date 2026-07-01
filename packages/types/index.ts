@@ -1392,41 +1392,7 @@ export interface Output {
      * Extracted comments collected during minification.
      */
     extractedComments?: string[];
-
 }
-
-export interface ReactCompilerDiagnosticError extends Error {
-    reactCompilerDiagnostics: ReactCompilerDiagnostic[];
-}
-export interface ReactCompilerDiagnostic {
-    message: string;
-    ruleId?: string;
-    category?: string;
-    reason?: string;
-    description?: string;
-    loc?: ReactCompilerDiagnosticLocation;
-    details: ReactCompilerDiagnosticDetail[];
-}
-
-export interface ReactCompilerDiagnosticLocation {
-    start: ReactCompilerDiagnosticPosition;
-    end: ReactCompilerDiagnosticPosition;
-    filename?: string;
-    identifierName?: string;
-}
-
-export interface ReactCompilerDiagnosticPosition {
-    line: number;
-    column: number;
-    index?: number;
-}
-
-export interface ReactCompilerDiagnosticDetail {
-    kind: string;
-    loc?: ReactCompilerDiagnosticLocation;
-    message?: string;
-}
-
 
 export interface MatchPattern { }
 
