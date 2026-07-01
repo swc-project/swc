@@ -1,4 +1,4 @@
-use std::borrow::Cow;
+use std::{borrow::Cow, path::Path};
 
 use anyhow::Context;
 use regex::Regex;
@@ -8,7 +8,7 @@ use swc_common::{
     comments::{CommentKind, Comments},
     source_map::PURE_SP,
     util::take::Take,
-    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    FileName, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper_expr;
@@ -33,8 +33,19 @@ use crate::{
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
+    /// Static module id (TypeScript `--outFile` style `///<amd-module
+    /// name="..."/>` equivalent), or a template containing the
+    /// placeholders `[name]` (file stem) and `[path]` (relative path
+    /// without extension). Templates are interpolated per file using the
+    /// resolver `base`.
     #[serde(default)]
     pub module_id: Option<String>,
+
+    /// When true and no static/template `module_id` is supplied, swc derives
+    /// the module name from the file path the same way TypeScript's
+    /// `--outFile` does: the project-relative path without an extension.
+    #[serde(default)]
+    pub auto_module_id: bool,
 
     #[serde(flatten, default)]
     pub config: InnerConfig,
@@ -56,10 +67,15 @@ pub fn amd<C>(
 where
     C: Comments,
 {
-    let Config { module_id, config } = config;
+    let Config {
+        module_id,
+        auto_module_id,
+        config,
+    } = config;
 
     visit_mut_pass(Amd {
         module_id,
+        auto_module_id,
         config,
         unresolved_mark,
         resolver,
@@ -87,6 +103,7 @@ where
     C: Comments,
 {
     module_id: Option<String>,
+    auto_module_id: bool,
     config: InnerConfig,
     unresolved_mark: Mark,
     resolver: Resolver,
@@ -111,6 +128,16 @@ where
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.module_id.is_none() {
             self.module_id = self.get_amd_module_id_from_comments(n.span);
+        }
+
+        // Apply [name] / [path] template substitution against the resolver
+        // base, or auto-derive when `auto_module_id` is set without a static id.
+        if let Some(template) = self.module_id.clone() {
+            if template.contains('[') {
+                self.module_id = Some(self.interpolate_module_id(&template));
+            }
+        } else if self.auto_module_id {
+            self.module_id = self.derive_auto_module_id();
         }
 
         let mut stmts: Vec<Stmt> = Vec::with_capacity(n.body.len() + 4);
@@ -536,6 +563,67 @@ where
                 .map(|m| m.as_str().to_string())
         })
     }
+
+    /// Extract the (name, path-without-ext) pair from the resolver base file
+    /// name. Returns None when running with the default (no-op) resolver.
+    fn base_name_and_path(&self) -> Option<(String, String)> {
+        let base = match &self.resolver {
+            Resolver::Real { base, .. } => base,
+            Resolver::Default => return None,
+        };
+
+        match base {
+            FileName::Real(path) => {
+                let stem = path.file_stem()?.to_string_lossy().into_owned();
+                let parent = path.parent().unwrap_or_else(|| Path::new(""));
+                let mut joined = parent.to_string_lossy().replace('\\', "/");
+                if !joined.is_empty() {
+                    joined.push('/');
+                }
+                joined.push_str(&stem);
+                let trimmed = joined.trim_start_matches("./").to_string();
+                Some((stem, trimmed))
+            }
+            FileName::Custom(s) => {
+                let p = Path::new(s.as_str());
+                let stem = p
+                    .file_stem()
+                    .map(|s| s.to_string_lossy().into_owned())
+                    .unwrap_or_else(|| s.clone());
+                let no_ext = match p.extension() {
+                    Some(_) => {
+                        let parent = p.parent().unwrap_or_else(|| Path::new(""));
+                        let mut joined = parent.to_string_lossy().replace('\\', "/");
+                        if !joined.is_empty() {
+                            joined.push('/');
+                        }
+                        joined.push_str(&stem);
+                        joined
+                    }
+                    None => s.clone(),
+                };
+                Some((stem, no_ext.trim_start_matches("./").to_string()))
+            }
+            _ => None,
+        }
+    }
+
+    /// Substitute `[name]` and `[path]` placeholders in a `module_id` template
+    /// using the resolver base. Unknown placeholders are kept as-is so the
+    /// output is still a valid string for the caller to inspect.
+    fn interpolate_module_id(&self, template: &str) -> String {
+        let (name, path) = match self.base_name_and_path() {
+            Some(v) => v,
+            None => return template.to_string(),
+        };
+        template.replace("[name]", &name).replace("[path]", &path)
+    }
+
+    /// Derive the module id from the resolver base path the same way
+    /// TypeScript's `--outFile` does: project-relative path, no extension.
+    fn derive_auto_module_id(&self) -> Option<String> {
+        self.base_name_and_path().map(|(_, path)| path)
+    }
 }
 
 /// new Promise((resolve, reject) => require([arg], m => resolve(m), reject))
@@ -617,4 +705,104 @@ fn amd_import_meta_filename(span: Span, module: Ident) -> Expr {
         .as_call(DUMMY_SP, vec![quote_str!("/").as_arg()])
         .make_member(quote_ident!("pop"))
         .as_call(span, vec![])
+}
+
+#[cfg(test)]
+mod tests {
+    use std::{path::PathBuf, sync::Arc};
+
+    use swc_common::{comments::SingleThreadedComments, FileName, GLOBALS};
+
+    use super::*;
+    use crate::path::NoopImportResolver;
+
+    fn amd_with_base(base: FileName) -> Amd<SingleThreadedComments> {
+        let unresolved_mark = Mark::new();
+        Amd {
+            module_id: None,
+            auto_module_id: false,
+            config: InnerConfig::default(),
+            unresolved_mark,
+            resolver: Resolver::Real {
+                base,
+                resolver: Arc::new(NoopImportResolver),
+            },
+            comments: None,
+            support_arrow: true,
+            const_var_kind: VarDeclKind::Const,
+            dep_list: Vec::new(),
+            require: quote_ident!(
+                SyntaxContext::empty().apply_mark(unresolved_mark),
+                "require"
+            ),
+            exports: None,
+            module: None,
+            found_import_meta: false,
+        }
+    }
+
+    fn amd_with_default_resolver() -> Amd<SingleThreadedComments> {
+        let unresolved_mark = Mark::new();
+        Amd {
+            module_id: None,
+            auto_module_id: false,
+            config: InnerConfig::default(),
+            unresolved_mark,
+            resolver: Resolver::Default,
+            comments: None,
+            support_arrow: true,
+            const_var_kind: VarDeclKind::Const,
+            dep_list: Vec::new(),
+            require: quote_ident!(
+                SyntaxContext::empty().apply_mark(unresolved_mark),
+                "require"
+            ),
+            exports: None,
+            module: None,
+            found_import_meta: false,
+        }
+    }
+
+    #[test]
+    fn auto_module_id_uses_path_without_extension() {
+        GLOBALS.set(&Default::default(), || {
+            let pass = amd_with_base(FileName::Real(PathBuf::from("src/components/button.ts")));
+            assert_eq!(
+                pass.derive_auto_module_id(),
+                Some("src/components/button".to_string())
+            );
+        });
+    }
+
+    #[test]
+    fn template_module_id_substitutes_name_and_path() {
+        GLOBALS.set(&Default::default(), || {
+            let pass = amd_with_base(FileName::Real(PathBuf::from("src/utils/parse.ts")));
+            assert_eq!(pass.interpolate_module_id("[name]"), "parse");
+            assert_eq!(
+                pass.interpolate_module_id("my-lib/[path]"),
+                "my-lib/src/utils/parse"
+            );
+            // Unknown placeholders are left untouched.
+            assert_eq!(pass.interpolate_module_id("foo/[xyz]"), "foo/[xyz]");
+        });
+    }
+
+    #[test]
+    fn custom_filename_resolves_stem_and_path() {
+        GLOBALS.set(&Default::default(), || {
+            let pass = amd_with_base(FileName::Custom("./foo/bar.js".into()));
+            assert_eq!(pass.interpolate_module_id("[name]"), "bar");
+            assert_eq!(pass.derive_auto_module_id(), Some("foo/bar".to_string()));
+        });
+    }
+
+    #[test]
+    fn default_resolver_falls_back_to_template_unchanged() {
+        GLOBALS.set(&Default::default(), || {
+            let pass = amd_with_default_resolver();
+            assert_eq!(pass.interpolate_module_id("[name]"), "[name]");
+            assert_eq!(pass.derive_auto_module_id(), None);
+        });
+    }
 }
