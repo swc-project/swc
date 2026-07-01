@@ -3,10 +3,11 @@ use swc_core::ecma::parser::Syntax;
 
 use crate::diagnostics::Diagnostic;
 
-/// Matches `swc_ecma_parser::Syntax`'s own `Default` impl (`Es(EsSyntax::default())`
-/// — plain ECMAScript, no JSX/TSX/decorators) rather than any particular
-/// consumer's build settings. This package is general-purpose; it must not
-/// silently assume one caller's parser configuration for everyone else.
+/// Matches `swc_ecma_parser::Syntax`'s own `Default` impl
+/// (`Es(EsSyntax::default())` — plain ECMAScript, no JSX/TSX/decorators) rather
+/// than any particular consumer's build settings. This package is
+/// general-purpose; it must not silently assume one caller's parser
+/// configuration for everyone else.
 fn default_syntax() -> Syntax {
     Syntax::default()
 }
