@@ -1,4 +1,6 @@
 
+import type { ParserConfig } from '@swc/types'
+
 import * as binding from './binding'
 
 export type {
@@ -23,16 +25,22 @@ export function isReactCompilerRequiredSync(code: Buffer): boolean {
     return binding.isReactCompilerRequiredSync(code)
 }
 
+function encodeSyntax(syntax?: ParserConfig): Buffer | undefined {
+    return syntax === undefined ? undefined : Buffer.from(JSON.stringify(syntax))
+}
+
 /**
  * Lints `code` for React Compiler rule violations without compiling it.
+ *
+ * `syntax` defaults to TSX with decorators enabled when omitted.
  */
-export async function lint(code: Buffer): Promise<binding.Diagnostic[]> {
-    return await binding.lint(code)
+export async function lint(code: Buffer, syntax?: ParserConfig): Promise<binding.Diagnostic[]> {
+    return await binding.lint(code, encodeSyntax(syntax))
 }
 
 /**
  * Synchronous variant of {@link lint}.
  */
-export function lintSync(code: Buffer): binding.Diagnostic[] {
-    return binding.lintSync(code)
+export function lintSync(code: Buffer, syntax?: ParserConfig): binding.Diagnostic[] {
+    return binding.lintSync(code, encodeSyntax(syntax))
 }

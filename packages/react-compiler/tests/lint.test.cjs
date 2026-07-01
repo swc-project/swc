@@ -33,3 +33,13 @@ test("lint (async) matches lintSync", async () => {
 
     assert.deepEqual(asyncResult, syncResult);
 });
+
+test("lintSync accepts an explicit ecmascript syntax", () => {
+    const diagnostics = reactCompiler.lintSync(Buffer.from(REF_ACCESS_SOURCE), {
+        syntax: "ecmascript",
+        jsx: true,
+    });
+
+    assert.equal(diagnostics.length, 1);
+    assert.equal(diagnostics[0].ruleId, "refs");
+});
