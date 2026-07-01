@@ -146,7 +146,7 @@ pub(crate) fn transform_source(
     syntax: swc_ecma_parser::Syntax,
     options: PluginOptions,
 ) -> TransformResult {
-    match parse_source_for_tests(source_text, syntax) {
+    match parse_source(source_text, syntax) {
         Ok((program, comments, source_type)) => {
             transform(&program, source_type, source_text, Some(&comments), options)
         }
@@ -179,14 +179,15 @@ pub fn lint(
     }
 }
 
-/// Convenience wrapper: parses source text, then lints.
-#[cfg(test)]
-pub(crate) fn lint_source(
+/// Parses source text, then lints it. This is the entry point for callers
+/// (e.g. the `@swc/react-compiler` napi binding) that have not already
+/// parsed their source into a [`Program`].
+pub fn lint_source(
     source_text: &str,
     syntax: swc_ecma_parser::Syntax,
     options: PluginOptions,
 ) -> LintResult {
-    match parse_source_for_tests(source_text, syntax) {
+    match parse_source(source_text, syntax) {
         Ok((program, comments, source_type)) => {
             lint(&program, source_type, source_text, Some(&comments), options)
         }
@@ -196,8 +197,7 @@ pub(crate) fn lint_source(
     }
 }
 
-#[cfg(test)]
-fn parse_source_for_tests(
+fn parse_source(
     source_text: &str,
     syntax: swc_ecma_parser::Syntax,
 ) -> Result<(Program, SingleThreadedComments, SourceType), Box<DiagnosticMessage>> {
