@@ -17,7 +17,12 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) -> impl Pass {
+fn tr_with_resolver(
+    config: amd::Config,
+    is_ts: bool,
+    comments: Rc<SingleThreadedComments>,
+    resolver_impl: swc_ecma_transforms_module::path::Resolver,
+) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -25,7 +30,7 @@ fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) ->
         resolver(unresolved_mark, top_level_mark, is_ts),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
         amd(
-            Default::default(),
+            resolver_impl,
             unresolved_mark,
             config,
             FeatureFlag {
@@ -35,6 +40,10 @@ fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) ->
             Some(comments),
         ),
     )
+}
+
+fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) -> impl Pass {
+    tr_with_resolver(config, is_ts, comments, Default::default())
 }
 
 #[testing::fixture("tests/fixture/common/**/input.js")]
@@ -63,7 +72,13 @@ fn esm_to_amd(input: PathBuf) {
 
     test_fixture(
         if is_ts { ts_syntax() } else { syntax() },
-        &|t| tr(config.clone(), is_ts, t.comments.clone()),
+        &|t| {
+            let resolver_impl = swc_ecma_transforms_module::path::Resolver::Real {
+                base: swc_common::FileName::Real(input.clone()),
+                resolver: std::sync::Arc::new(swc_ecma_transforms_module::path::NoopImportResolver),
+            };
+            tr_with_resolver(config.clone(), is_ts, t.comments.clone(), resolver_impl)
+        },
         &input,
         &output,
         FixtureTestConfig {
