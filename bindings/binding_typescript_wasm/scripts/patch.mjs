@@ -11,7 +11,20 @@ const patchedJsFile = origJsFile
     .replace(', fatal: true', '')
     .replace(`const bytes = require('fs').readFileSync(path);`, `
 const { Buffer } = require('node:buffer');
-const bytes = Buffer.from('${base64}', 'base64');`)
+const bytes = Buffer.from('${base64}', 'base64');`) + `
+
+const __swcNodejs = Object.freeze({
+    transformModuleSyntax: module.exports.__nodejsTransformModuleSyntax,
+    getFirstExpression: module.exports.__nodejsGetFirstExpression,
+    isValidSyntax: module.exports.__nodejsIsValidSyntax,
+    isRecoverableError: module.exports.__nodejsIsRecoverableError,
+});
+delete module.exports.__nodejsTransformModuleSyntax;
+delete module.exports.__nodejsGetFirstExpression;
+delete module.exports.__nodejsIsValidSyntax;
+delete module.exports.__nodejsIsRecoverableError;
+module.exports.nodejs = __swcNodejs;
+`;
 
 await fs.writeFile('pkg/wasm.js', patchedJsFile);
 

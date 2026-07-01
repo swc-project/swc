@@ -1,4 +1,6 @@
 const swc = require("../pkg");
+const fs = require("node:fs");
+const path = require("node:path");
 
 it("properly reports error", () => {
     expect(() => {
@@ -216,5 +218,62 @@ if(!((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((
                 }),
             ).rejects.toMatchSnapshot();
         })
+    });
+});
+
+describe("nodejs namespace", () => {
+    it("exposes Node.js-specific helpers only through the namespace", () => {
+        expect(swc.nodejs).toBeDefined();
+        expect(typeof swc.nodejs.transformModuleSyntax).toBe("function");
+        expect(typeof swc.__nodejsTransformModuleSyntax).toBe("undefined");
+    });
+
+    it("transforms module syntax without exposing an AST", () => {
+        expect(
+            swc.nodejs.transformModuleSyntax(`import fs from "node:fs";`),
+        ).toEqual({
+            code: `const { default: fs } = await __nodeREPLDynamicImport("node:fs");`,
+            hadModuleSyntax: true,
+        });
+
+        expect(
+            swc.nodejs.transformModuleSyntax(`const importName = "import";`),
+        ).toEqual({
+            code: `const importName = "import";`,
+            hadModuleSyntax: false,
+        });
+    });
+
+    it("supports Uint8Array input", () => {
+        const input = new TextEncoder().encode(`import "node:fs";`);
+
+        expect(swc.nodejs.transformModuleSyntax(input)).toEqual({
+            code: `await __nodeREPLDynamicImport("node:fs");`,
+            hadModuleSyntax: true,
+        });
+    });
+
+    it("extracts the first expression for assertion locations", () => {
+        expect(swc.nodejs.getFirstExpression("assert.ok(value)", 9)).toBe(
+            "assert.ok(value)",
+        );
+        expect(swc.nodejs.getFirstExpression("a(); assert.ok(value); b()", 13)).toBe(
+            "assert.ok(value)",
+        );
+    });
+
+    it("checks syntax validity and recoverability", () => {
+        expect(swc.nodejs.isValidSyntax("await value")).toBe(true);
+        expect(swc.nodejs.isValidSyntax("function foo(")).toBe(false);
+        expect(swc.nodejs.isRecoverableError("function foo() {")).toBe(true);
+        expect(swc.nodejs.isRecoverableError("2e")).toBe(false);
+    });
+
+    it("declares the public namespace in generated types", () => {
+        const types = fs.readFileSync(path.join(__dirname, "../pkg/wasm.d.ts"), "utf8");
+
+        expect(types).toContain("export declare namespace nodejs");
+        expect(types).toContain("function transformModuleSyntax");
+        expect(types).not.toContain("__nodejsTransformModuleSyntax");
     });
 });

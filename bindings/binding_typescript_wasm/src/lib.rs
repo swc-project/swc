@@ -20,6 +20,7 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
 
 mod error_reporter;
+mod nodejs;
 
 /// Custom interface definitions for the @swc/wasm's public interface instead of
 /// auto generated one, which is not reflecting most of types in detail.
@@ -27,6 +28,17 @@ mod error_reporter;
 const INTERFACE_DEFINITIONS: &'static str = r#"
 export declare function transform(src: string | Uint8Array, opts?: Options): Promise<TransformOutput>;
 export declare function transformSync(src: string | Uint8Array, opts?: Options): TransformOutput;
+export declare namespace nodejs {
+    function transformModuleSyntax(src: string | Uint8Array): ModuleSyntaxTransformOutput;
+    function getFirstExpression(src: string | Uint8Array, startColumn: number): string;
+    function isValidSyntax(src: string | Uint8Array): boolean;
+    function isRecoverableError(src: string | Uint8Array): boolean;
+
+    interface ModuleSyntaxTransformOutput {
+        code: string;
+        hadModuleSyntax: boolean;
+    }
+}
 export type { Options, TransformOutput };
 "#;
 
@@ -43,26 +55,58 @@ pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsVal
         serde_wasm_bindgen::from_value(options)?
     };
 
-    let input = match input.as_string() {
-        Some(input) => input,
-        None => {
-            if input.is_instance_of::<Uint8Array>() {
-                let input = input.unchecked_into::<Uint8Array>();
-                match input.to_string().as_string() {
-                    Some(input) => input,
-                    None => return Err(JsValue::from_str("Input Uint8Array is not valid utf-8")),
-                }
-            } else {
-                return Err(JsValue::from_str("Input is not a string or Uint8Array"));
-            }
-        }
-    };
+    let input = coerce_input(input)?;
 
     let result = GLOBALS.set(&Default::default(), || operate(input, options));
 
     match result {
         Ok(v) => Ok(serde_wasm_bindgen::to_value(&v)?),
         Err(errors) => Err(serde_wasm_bindgen::to_value(&errors[0])?),
+    }
+}
+
+#[wasm_bindgen(js_name = "__nodejsTransformModuleSyntax", skip_typescript)]
+pub fn nodejs_transform_module_syntax(input: JsValue) -> Result<JsValue, JsValue> {
+    let input = coerce_input(input)?;
+    let output = nodejs::transform_module_syntax(input);
+
+    Ok(serde_wasm_bindgen::to_value(&output)?)
+}
+
+#[wasm_bindgen(js_name = "__nodejsGetFirstExpression", skip_typescript)]
+pub fn nodejs_get_first_expression(input: JsValue, start_column: u32) -> Result<String, JsValue> {
+    let input = coerce_input(input)?;
+
+    Ok(nodejs::get_first_expression(input, start_column))
+}
+
+#[wasm_bindgen(js_name = "__nodejsIsValidSyntax", skip_typescript)]
+pub fn nodejs_is_valid_syntax(input: JsValue) -> Result<bool, JsValue> {
+    let input = coerce_input(input)?;
+
+    Ok(nodejs::is_valid_syntax(input))
+}
+
+#[wasm_bindgen(js_name = "__nodejsIsRecoverableError", skip_typescript)]
+pub fn nodejs_is_recoverable_error(input: JsValue) -> Result<bool, JsValue> {
+    let input = coerce_input(input)?;
+
+    Ok(nodejs::is_recoverable_error(input))
+}
+
+fn coerce_input(input: JsValue) -> Result<String, JsValue> {
+    match input.as_string() {
+        Some(input) => Ok(input),
+        None => {
+            if input.is_instance_of::<Uint8Array>() {
+                let input = input.unchecked_into::<Uint8Array>();
+
+                String::from_utf8(input.to_vec())
+                    .map_err(|_| JsValue::from_str("Input Uint8Array is not valid utf-8"))
+            } else {
+                Err(JsValue::from_str("Input is not a string or Uint8Array"))
+            }
+        }
     }
 }
 
