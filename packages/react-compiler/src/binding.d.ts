@@ -34,6 +34,6 @@ export declare function isReactCompilerRequired(code: Buffer, signal?: AbortSign
 
 export declare function isReactCompilerRequiredSync(code: Buffer): boolean
 
-export declare function lint(code: Buffer, syntax?: Buffer | undefined | null, signal?: AbortSignal | undefined | null): Promise<Array<Diagnostic>>
+export declare function lint(code: string, syntax?: Buffer | undefined | null, signal?: AbortSignal | undefined | null): Promise<Array<Diagnostic>>
 
-export declare function lintSync(code: Buffer, syntax?: Buffer | undefined | null): Array<Diagnostic>
+export declare function lintSync(code: string, syntax?: Buffer | undefined | null): Array<Diagnostic>

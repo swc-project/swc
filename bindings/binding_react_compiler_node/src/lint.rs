@@ -71,12 +71,11 @@ impl Task for LintTask {
 
 #[napi]
 fn lint(
-    code: Buffer,
+    code: String,
     syntax: Option<Buffer>,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<LintTask>> {
     let syntax = parse_syntax_option(syntax)?;
-    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
 
     Ok(AsyncTask::with_optional_signal(
         LintTask { code, syntax },
@@ -85,9 +84,8 @@ fn lint(
 }
 
 #[napi]
-pub fn lint_sync(code: Buffer, syntax: Option<Buffer>) -> napi::Result<Vec<Diagnostic>> {
+pub fn lint_sync(code: String, syntax: Option<Buffer>) -> napi::Result<Vec<Diagnostic>> {
     let syntax = parse_syntax_option(syntax)?;
-    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
 
     Ok(lint_inner(&code, syntax))
 }

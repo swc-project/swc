@@ -13,7 +13,7 @@ function App() {
 `;
 
 test("lintSync reports a rule violation with rule metadata", () => {
-    const diagnostics = reactCompiler.lintSync(Buffer.from(REF_ACCESS_SOURCE));
+    const diagnostics = reactCompiler.lintSync(REF_ACCESS_SOURCE);
 
     assert.equal(diagnostics.length, 1);
     assert.equal(diagnostics[0].severity, "error");
@@ -22,20 +22,20 @@ test("lintSync reports a rule violation with rule metadata", () => {
 });
 
 test("lintSync returns no diagnostics for non-React code", () => {
-    const diagnostics = reactCompiler.lintSync(Buffer.from("const x = 1;"));
+    const diagnostics = reactCompiler.lintSync("const x = 1;");
 
     assert.deepEqual(diagnostics, []);
 });
 
 test("lint (async) matches lintSync", async () => {
-    const syncResult = reactCompiler.lintSync(Buffer.from(REF_ACCESS_SOURCE));
-    const asyncResult = await reactCompiler.lint(Buffer.from(REF_ACCESS_SOURCE));
+    const syncResult = reactCompiler.lintSync(REF_ACCESS_SOURCE);
+    const asyncResult = await reactCompiler.lint(REF_ACCESS_SOURCE);
 
     assert.deepEqual(asyncResult, syncResult);
 });
 
 test("lintSync accepts an explicit ecmascript syntax", () => {
-    const diagnostics = reactCompiler.lintSync(Buffer.from(REF_ACCESS_SOURCE), {
+    const diagnostics = reactCompiler.lintSync(REF_ACCESS_SOURCE, {
         syntax: "ecmascript",
         jsx: true,
     });

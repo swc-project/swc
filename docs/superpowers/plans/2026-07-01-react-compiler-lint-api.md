@@ -985,3 +985,9 @@ Separately, react-compiler's own `PluginOptions` (`compilationMode`, `target`, `
 - `compilationMode: "infer"` (default) cheaply skips files with no detected React-like functions before doing any real analysis — appropriate for a lint pass expected to run across a whole `.tsx?`/`.jsx?` glob, most of which won't be components.
 
 No further options work is planned. Worth a one-line mention in the PR description that this was investigated, not just left as future work.
+
+## Resolved: `code` is `string`, not `Buffer`
+
+Tasks 4-7 gave `lint`/`lintSync` a `code: Buffer` parameter, following `is_react_compiler_required(_sync)`'s existing precedent in the same file. Checked against `@swc/core`'s own actual convention instead (`packages/core/src/index.ts:341` — `transformSync(src: string | Program, options?: Options)`): the source-code parameter is a plain `string` there; only the JSON-serialized `options` config gets `Buffer`-encoded internally (`toBuffer(newOptions)`). Our `syntax` parameter already matches that (`Buffer`-encoded JSON config) — `code` didn't, applying the "config" convention to the "source" parameter.
+
+Fixed: `lint`/`lint_sync` (Rust, `bindings/binding_react_compiler_node/src/lint.rs`) and `lint`/`lintSync` (TS, `packages/react-compiler/src/index.ts`) now take `code: string`. This also removed the internal `String::from_utf8_lossy(code.as_ref()).into_owned()` conversion entirely (napi guarantees a JS-string-typed parameter is already valid UTF-8 on the Rust side), closing the lossy-decode Minor finding the whole-branch review raised. `is_react_compiler_required(_sync)` is unchanged (pre-existing, released API, out of scope for this PR).

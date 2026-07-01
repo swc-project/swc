@@ -36,13 +36,13 @@ function encodeSyntax(syntax?: ParserConfig): Buffer | undefined {
  * omitted, matching `@swc/core`'s own default — pass an explicit `syntax`
  * for TypeScript, JSX, or decorator syntax.
  */
-export async function lint(code: Buffer, syntax?: ParserConfig): Promise<binding.Diagnostic[]> {
+export async function lint(code: string, syntax?: ParserConfig): Promise<binding.Diagnostic[]> {
     return await binding.lint(code, encodeSyntax(syntax))
 }
 
 /**
  * Synchronous variant of {@link lint}.
  */
-export function lintSync(code: Buffer, syntax?: ParserConfig): binding.Diagnostic[] {
+export function lintSync(code: string, syntax?: ParserConfig): binding.Diagnostic[] {
     return binding.lintSync(code, encodeSyntax(syntax))
 }
