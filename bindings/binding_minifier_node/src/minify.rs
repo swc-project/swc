@@ -150,8 +150,6 @@ fn do_work(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        let is_mangler_enabled = min_opts.mangle.is_some();
-
         let module = {
             let module = module.apply(resolver(unresolved_mark, top_level_mark, false));
 
@@ -168,9 +166,11 @@ fn do_work(
                 },
             );
 
-            if !is_mangler_enabled {
-                module.visit_mut_with(&mut hygiene())
-            }
+            // Always run hygiene, even when the mangler ran: the mangler cannot
+            // deconflict a synthesized binding that collides with a name it is
+            // required to preserve. See
+            // https://github.com/swc-project/swc/issues/11977
+            module.visit_mut_with(&mut hygiene());
             module.visit_mut_with(&mut fixer(Some(&comments as &dyn Comments)));
             module
         };

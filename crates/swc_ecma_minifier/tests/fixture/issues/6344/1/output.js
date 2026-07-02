@@ -1,10 +1,10 @@
 function n() {}
 var t = function() {
-    function n(n) {}
+    function n1(n) {}
     var t = null;
     return {
         init: function(u) {
-            return t = new n(u);
+            return t = new n1(u);
         }
     };
 }();

@@ -276,19 +276,19 @@
                     x,
                     f
                 ]), (0, A.useEffect)(()=>{
-                    let m = null != r ? r : "";
-                    !m && t && (m = `[data-tooltip-id='${t}']`);
+                    let m1 = null != r ? r : "";
+                    !m1 && t && (m1 = `[data-tooltip-id='${t}']`);
                     let S = new MutationObserver((S)=>{
                         let h = [];
                         S.forEach((S)=>{
                             if ("attributes" === S.type && "data-tooltip-id" === S.attributeName && S.target.getAttribute("data-tooltip-id") === t && h.push(S.target), "childList" === S.type && (_ && [
                                 ...S.removedNodes
-                            ].some((m)=>m.contains(_) ? (M(!1), Z(!1), b(null), !0) : !1), !!m)) try {
+                            ].some((m)=>m.contains(_) ? (M(!1), Z(!1), b(null), !0) : !1), !!m1)) try {
                                 let E = [
                                     ...S.addedNodes
                                 ].filter((m)=>1 === m.nodeType);
-                                h.push(...E.filter((S)=>S.matches(m))), h.push(...E.flatMap((S)=>[
-                                        ...S.querySelectorAll(m)
+                                h.push(...E.filter((S)=>S.matches(m1))), h.push(...E.flatMap((S)=>[
+                                        ...S.querySelectorAll(m1)
                                     ]));
                             } catch (m) {}
                         }), h.length && G((m)=>[
@@ -349,9 +349,9 @@
                 ]), (0, A.useEffect)(()=>()=>{
                         h.current && clearTimeout(h.current), E.current && clearTimeout(E.current);
                     }, []), (0, A.useEffect)(()=>{
-                    let m = r;
-                    if (!m && t && (m = `[data-tooltip-id='${t}']`), !!m) try {
-                        let S = Array.from(document.querySelectorAll(m));
+                    let m1 = r;
+                    if (!m1 && t && (m1 = `[data-tooltip-id='${t}']`), !!m1) try {
+                        let S = Array.from(document.querySelectorAll(m1));
                         G(S);
                     } catch (m) {
                         G([]);

@@ -146,7 +146,11 @@ fn run(
     skip_hygiene: bool,
 ) -> Option<Program> {
     HANDLER.set(handler, || {
-        let disable_hygiene = mangle.is_some() || skip_hygiene;
+        // Mirror the production pipeline (`crates/swc`): hygiene runs even when
+        // the mangler is enabled, because the mangler cannot deconflict
+        // synthesized bindings that collide with names it must preserve.
+        // See https://github.com/swc-project/swc/issues/11977
+        let disable_hygiene = skip_hygiene;
 
         let (_module, mut config) = parse_compressor_config(cm.clone(), config);
 

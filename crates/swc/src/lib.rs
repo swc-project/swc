@@ -1117,8 +1117,6 @@ impl Compiler {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            let is_mangler_enabled = min_opts.mangle.is_some();
-
             program = self.run_transform(handler, false, || {
                 program.mutate(&mut paren_remover(Some(&comments)));
 
@@ -1137,9 +1135,16 @@ impl Compiler {
                     },
                 );
 
-                if !is_mangler_enabled {
-                    program.visit_mut_with(&mut hygiene())
-                }
+                // Always run hygiene, even when the mangler ran. The mangler
+                // preserves names it is not allowed to rename (e.g. top-level
+                // bindings with the default `top_level: false`), so it cannot
+                // deconflict a synthesized binding that collides with a
+                // preserved one — for example a `let`/`var` hoisted out of an
+                // inlined IIFE that shadows a user's top-level declaration.
+                // Hygiene resolves those collisions; skipping it here emitted
+                // invalid output. See
+                // https://github.com/swc-project/swc/issues/11977
+                program.visit_mut_with(&mut hygiene());
                 program.mutate(&mut fixer(Some(&comments as &dyn Comments)));
                 program
             });

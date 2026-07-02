@@ -1,11 +1,11 @@
 "use strict";
 function n() {}
 var r = function() {
-    var n = function n(n) {};
+    var n1 = function n1(n) {};
     var r = null;
     return {
         init: function t(t) {
-            return r = new n(t);
+            return r = new n1(t);
         }
     };
 }();

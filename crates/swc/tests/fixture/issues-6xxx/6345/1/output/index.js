@@ -10,7 +10,7 @@ var te = function() {
     };
 }();
 var he = function() {
-    function n() {
+    function n1() {
         a();
     }
     ;

@@ -697,11 +697,6 @@ impl Options {
             }
         };
 
-        let is_mangler_enabled = js_minify
-            .as_ref()
-            .map(|v| v.mangle.is_obj() || v.mangle.is_true())
-            .unwrap_or(false);
-
         #[cfg(feature = "module")]
         let rewrite_import_pass: Box<dyn Pass> = {
             let swc_import_rewriter: Box<dyn Pass> = match resolver.clone() {
@@ -788,12 +783,17 @@ impl Options {
                 comments: comments.map(|v| v as &dyn Comments),
                 top_level_mark,
             },
+            // Run hygiene after the minifier pass even when the mangler is
+            // enabled: the mangler cannot deconflict a synthesized binding that
+            // collides with a name it must preserve (e.g. a binding hoisted out
+            // of an inlined IIFE shadowing a user's top-level declaration).
+            // See https://github.com/swc-project/swc/issues/11977
             Optional::new(
                 hygiene_with_config(swc_ecma_transforms_base::hygiene::Config {
                     top_level_mark,
                     ..hygiene_config.clone().unwrap_or_default()
                 }),
-                hygiene_config.is_some() && !is_mangler_enabled,
+                hygiene_config.is_some(),
             ),
             Optional::new(fixer(comments.map(|v| v as &dyn Comments)), fixer_enabled),
         );
