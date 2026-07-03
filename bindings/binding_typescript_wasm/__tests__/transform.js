@@ -2,6 +2,21 @@ const swc = require("../pkg");
 const fs = require("node:fs");
 const path = require("node:path");
 
+function validatedImport(specifier, exports) {
+    let out = `__nodeREPLDynamicImport(${JSON.stringify(specifier)})`;
+
+    if (exports.length > 0) {
+        out += `.then((m) => { `;
+        for (const exportName of exports) {
+            const message = `The requested module '${specifier}' does not provide an export named '${exportName}'`;
+            out += `if (!(${JSON.stringify(exportName)} in m)) throw new SyntaxError(${JSON.stringify(message)}); `;
+        }
+        out += `return m; })`;
+    }
+
+    return out;
+}
+
 it("properly reports error", () => {
     expect(() => {
         swc.transformSync("Foo {}", {});
@@ -232,7 +247,7 @@ describe("nodejs namespace", () => {
         expect(
             swc.nodejs.transformModuleSyntax(`import fs from "node:fs";`),
         ).toEqual({
-            code: `const { default: fs } = await __nodeREPLDynamicImport("node:fs");`,
+            code: `const { default: fs } = await ${validatedImport("node:fs", ["default"])};`,
             hadModuleSyntax: true,
         });
 
@@ -257,6 +272,9 @@ describe("nodejs namespace", () => {
         expect(swc.nodejs.getFirstExpression("assert.ok(value)", 9)).toBe(
             "assert.ok(value)",
         );
+        expect(swc.nodejs.getFirstExpression("assert(value)", 6)).toBe(
+            "assert(value)",
+        );
         expect(swc.nodejs.getFirstExpression("a(); assert.ok(value); b()", 13)).toBe(
             "assert.ok(value)",
         );
@@ -264,8 +282,10 @@ describe("nodejs namespace", () => {
 
     it("checks syntax validity and recoverability", () => {
         expect(swc.nodejs.isValidSyntax("await value")).toBe(true);
+        expect(swc.nodejs.isValidSyntax("const x: number = 1")).toBe(true);
         expect(swc.nodejs.isValidSyntax("function foo(")).toBe(false);
         expect(swc.nodejs.isRecoverableError("function foo() {")).toBe(true);
+        expect(swc.nodejs.isRecoverableError("const x: number = 1")).toBe(false);
         expect(swc.nodejs.isRecoverableError("2e")).toBe(false);
     });
 

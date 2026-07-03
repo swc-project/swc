@@ -7,7 +7,7 @@
 use serde::Serialize;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, Spanned};
 use swc_ecma_ast::{
-    CallExpr, Callee, Decl, DefaultDecl, EsVersion, ExportDefaultDecl, ExportSpecifier, ImportDecl,
+    CallExpr, Callee, Decl, DefaultDecl, EsVersion, ExportSpecifier, Expr, ImportDecl,
     ImportSpecifier, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport, ObjectLit,
 };
 use swc_ecma_parser::{
@@ -149,8 +149,26 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
                 first_member_access_name_token = None;
             }
 
+            if token.token == Token::LParen
+                && last_token
+                    .as_ref()
+                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(last.token))
+            {
+                first_member_access_name_token.get_or_insert(last_token.unwrap());
+                last_token = Some(token);
+                continue;
+            }
+
             last_token = Some(token);
             continue;
+        }
+
+        if token.token == Token::LParen
+            && last_token
+                .as_ref()
+                .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(last.token))
+        {
+            first_member_access_name_token.get_or_insert(last_token.unwrap());
         }
 
         match token.token {
@@ -248,16 +266,24 @@ impl<'a> ModuleSyntaxTransform<'a> {
             ModuleDecl::ExportNamed(export) => {
                 self.delete_span(export.span);
                 if let Some(src) = &export.src {
-                    if named_export_loads_source(export) {
-                        self.hoist_import(&src.value.to_string_lossy(), export.with.as_deref());
+                    if let Some(required_exports) = named_export_source_imports(export) {
+                        self.hoist_validated_import(
+                            &src.value.to_string_lossy(),
+                            export.with.as_deref(),
+                            &required_exports,
+                        );
                     }
                 }
             }
             ModuleDecl::ExportDefaultDecl(export) => {
-                self.replace_span(export.span, default_decl_to_script(self.code, export));
+                self.unwrap_default_declaration(export.span, export.decl.span(), &export.decl);
             }
             ModuleDecl::ExportDefaultExpr(export) => {
-                self.unwrap_default_expression(export.span, export.expr.span());
+                self.unwrap_default_expression(
+                    export.span,
+                    export.expr.span(),
+                    matches!(&*export.expr, Expr::Object(..)),
+                );
             }
             ModuleDecl::ExportAll(export) => {
                 self.delete_span(export.span);
@@ -282,11 +308,71 @@ impl<'a> ModuleSyntaxTransform<'a> {
     fn hoist_import(&mut self, specifier: &str, with: Option<&ObjectLit>) {
         self.hoisted.push(format!(
             "await {};",
-            await_import(self.code, specifier, with)
+            await_import(self.code, specifier, with, &[])
         ));
     }
 
-    fn unwrap_default_expression(&mut self, export_span: Span, expr_span: Span) {
+    fn hoist_validated_import(
+        &mut self,
+        specifier: &str,
+        with: Option<&ObjectLit>,
+        required_exports: &[String],
+    ) {
+        self.hoisted.push(format!(
+            "await {};",
+            await_import(self.code, specifier, with, required_exports)
+        ));
+    }
+
+    fn unwrap_default_declaration(
+        &mut self,
+        export_span: Span,
+        decl_span: Span,
+        decl: &DefaultDecl,
+    ) {
+        if matches!(decl, DefaultDecl::TsInterfaceDecl(..)) {
+            self.delete_span(export_span);
+            return;
+        }
+
+        let (Some((export_start, _)), Some((decl_start, decl_end))) =
+            (span_range(export_span), span_range(decl_span))
+        else {
+            return;
+        };
+
+        push_range_edit(
+            &mut self.edits,
+            self.code,
+            export_start,
+            decl_start,
+            String::new(),
+        );
+
+        if default_declaration_needs_parentheses(decl) {
+            push_range_edit(
+                &mut self.edits,
+                self.code,
+                decl_start,
+                decl_start,
+                "(".to_string(),
+            );
+            push_range_edit(
+                &mut self.edits,
+                self.code,
+                decl_end,
+                decl_end,
+                ");".to_string(),
+            );
+        }
+    }
+
+    fn unwrap_default_expression(
+        &mut self,
+        export_span: Span,
+        expr_span: Span,
+        needs_parentheses: bool,
+    ) {
         let (Some((export_start, export_end)), Some((expr_start, expr_end))) =
             (span_range(export_span), span_range(expr_span))
         else {
@@ -301,29 +387,59 @@ impl<'a> ModuleSyntaxTransform<'a> {
             String::new(),
         );
 
+        if needs_parentheses {
+            push_range_edit(
+                &mut self.edits,
+                self.code,
+                expr_start,
+                expr_start,
+                "(".to_string(),
+            );
+        }
+
         let has_separator = self
             .code
             .get(expr_end..export_end)
             .is_some_and(|tail| tail.contains(';'));
-        if !has_separator {
-            push_range_edit(
-                &mut self.edits,
-                self.code,
-                expr_end,
-                expr_end,
-                ";".to_string(),
-            );
+        if needs_parentheses || !has_separator {
+            let mut suffix = String::new();
+            if needs_parentheses {
+                suffix.push(')');
+            }
+            if !has_separator {
+                suffix.push(';');
+            }
+            push_range_edit(&mut self.edits, self.code, expr_end, expr_end, suffix);
         }
     }
 }
 
-fn await_import(code: &str, specifier: &str, with: Option<&ObjectLit>) -> String {
+fn await_import(
+    code: &str,
+    specifier: &str,
+    with: Option<&ObjectLit>,
+    required_exports: &[String],
+) -> String {
     let mut out = format!("{DYNAMIC_IMPORT_NAME}({}", json_string(specifier));
     if let Some(options) = import_options_to_dynamic_options(code, with) {
         out.push_str(", ");
         out.push_str(&options);
     }
     out.push(')');
+    if !required_exports.is_empty() {
+        out.push_str(".then((m) => { ");
+        for export_name in required_exports {
+            out.push_str("if (!(");
+            out.push_str(&json_string(export_name));
+            out.push_str(" in m)) throw new SyntaxError(");
+            out.push_str(&json_string(&format!(
+                "The requested module '{specifier}' does not provide an export named \
+                 '{export_name}'"
+            )));
+            out.push_str("); ");
+        }
+        out.push_str("return m; })");
+    }
     out
 }
 
@@ -332,12 +448,16 @@ fn import_decl_to_script(code: &str, node: &ImportDecl) -> Option<String> {
     let with = node.with.as_deref();
 
     if node.specifiers.is_empty() {
-        return Some(format!("await {};", await_import(code, &specifier, with)));
+        return Some(format!(
+            "await {};",
+            await_import(code, &specifier, with, &[])
+        ));
     }
 
     let mut namespace_name = None;
     let mut default_name = None;
     let mut named = Vec::new();
+    let mut required_exports = Vec::new();
 
     for specifier in &node.specifiers {
         match specifier {
@@ -346,6 +466,7 @@ fn import_decl_to_script(code: &str, node: &ImportDecl) -> Option<String> {
             }
             ImportSpecifier::Default(specifier) => {
                 default_name = Some(specifier.local.sym.to_string());
+                push_required_export(&mut required_exports, "default".to_string());
             }
             ImportSpecifier::Named(specifier) => {
                 if specifier.is_type_only {
@@ -358,6 +479,7 @@ fn import_decl_to_script(code: &str, node: &ImportDecl) -> Option<String> {
                     .as_ref()
                     .map(module_export_name)
                     .unwrap_or_else(|| local.clone());
+                push_required_export(&mut required_exports, imported.clone());
 
                 if imported == local {
                     named.push(imported);
@@ -371,7 +493,7 @@ fn import_decl_to_script(code: &str, node: &ImportDecl) -> Option<String> {
     if let Some(namespace_name) = namespace_name {
         let mut out = format!(
             "const {namespace_name} = await {};",
-            await_import(code, &specifier, with)
+            await_import(code, &specifier, with, &required_exports)
         );
         if let Some(default_name) = default_name {
             out.push_str(&format!(
@@ -392,21 +514,8 @@ fn import_decl_to_script(code: &str, node: &ImportDecl) -> Option<String> {
     Some(format!(
         "const {{ {} }} = await {};",
         named.join(", "),
-        await_import(code, &specifier, with)
+        await_import(code, &specifier, with, &required_exports)
     ))
-}
-
-fn default_decl_to_script(code: &str, export: &ExportDefaultDecl) -> String {
-    let Some(text) = slice_span(code, export.decl.span()) else {
-        return String::new();
-    };
-
-    match &export.decl {
-        DefaultDecl::Class(class) if class.ident.is_none() => format!("({text});"),
-        DefaultDecl::Fn(function) if function.ident.is_none() => format!("({text});"),
-        DefaultDecl::TsInterfaceDecl(..) => String::new(),
-        _ => text.to_string(),
-    }
 }
 
 fn import_options_to_dynamic_options(code: &str, with: Option<&ObjectLit>) -> Option<String> {
@@ -414,23 +523,53 @@ fn import_options_to_dynamic_options(code: &str, with: Option<&ObjectLit>) -> Op
     Some(format!("{{ with: {attributes} }}"))
 }
 
+fn default_declaration_needs_parentheses(decl: &DefaultDecl) -> bool {
+    matches!(decl, DefaultDecl::Class(class) if class.ident.is_none())
+        || matches!(decl, DefaultDecl::Fn(function) if function.ident.is_none())
+}
+
 fn is_type_only_decl(decl: &Decl) -> bool {
     matches!(decl, Decl::TsInterface(..) | Decl::TsTypeAlias(..))
 }
 
-fn named_export_loads_source(export: &NamedExport) -> bool {
+fn named_export_source_imports(export: &NamedExport) -> Option<Vec<String>> {
     if export.type_only {
-        return false;
+        return None;
     }
 
-    if export.specifiers.is_empty() {
-        return true;
+    let mut loads_source = export.specifiers.is_empty();
+    let mut required_exports = Vec::new();
+
+    for specifier in &export.specifiers {
+        match specifier {
+            ExportSpecifier::Named(named) => {
+                if named.is_type_only {
+                    continue;
+                }
+
+                loads_source = true;
+                push_required_export(&mut required_exports, module_export_name(&named.orig));
+            }
+            ExportSpecifier::Default(..) => {
+                loads_source = true;
+                push_required_export(&mut required_exports, "default".to_string());
+            }
+            ExportSpecifier::Namespace(..) => {
+                loads_source = true;
+            }
+        }
     }
 
-    export.specifiers.iter().any(|specifier| match specifier {
-        ExportSpecifier::Named(named) => !named.is_type_only,
-        ExportSpecifier::Namespace(..) | ExportSpecifier::Default(..) => true,
-    })
+    loads_source.then_some(required_exports)
+}
+
+fn push_required_export(required_exports: &mut Vec<String>, export_name: String) {
+    if !required_exports
+        .iter()
+        .any(|required| required == &export_name)
+    {
+        required_exports.push(export_name);
+    }
 }
 
 fn module_export_name(name: &ModuleExportName) -> String {
@@ -529,11 +668,20 @@ enum ParseOutcome {
 }
 
 fn parse_program_result(code: &str) -> ParseOutcome {
+    let es = parse_program_result_with_syntax(code, Syntax::Es(es_syntax()));
+    if matches!(es, ParseOutcome::Valid) {
+        return es;
+    }
+
+    parse_program_result_with_syntax(code, Syntax::Typescript(ts_syntax()))
+}
+
+fn parse_program_result_with_syntax(code: &str, syntax: Syntax) -> ParseOutcome {
     let cm = Lrc::new(SourceMap::default());
     let fm = cm.new_source_file(FileName::Anon.into(), code.to_string());
     let comments = SingleThreadedComments::default();
     let lexer = Lexer::new(
-        Syntax::Es(es_syntax()),
+        syntax,
         EsVersion::latest(),
         StringInput::from(&*fm),
         Some(&comments),
@@ -689,6 +837,40 @@ fn json_string(value: &str) -> String {
 mod tests {
     use super::*;
 
+    fn validated_import(specifier: &str, required_exports: &[&str]) -> String {
+        validated_import_with_options(specifier, None, required_exports)
+    }
+
+    fn validated_import_with_options(
+        specifier: &str,
+        options: Option<&str>,
+        required_exports: &[&str],
+    ) -> String {
+        let mut out = format!("{DYNAMIC_IMPORT_NAME}({}", json_string(specifier));
+        if let Some(options) = options {
+            out.push_str(", ");
+            out.push_str(options);
+        }
+        out.push(')');
+
+        if !required_exports.is_empty() {
+            out.push_str(".then((m) => { ");
+            for export_name in required_exports {
+                out.push_str("if (!(");
+                out.push_str(&json_string(export_name));
+                out.push_str(" in m)) throw new SyntaxError(");
+                out.push_str(&json_string(&format!(
+                    "The requested module '{specifier}' does not provide an export named \
+                     '{export_name}'"
+                )));
+                out.push_str("); ");
+            }
+            out.push_str("return m; })");
+        }
+
+        out
+    }
+
     #[test]
     fn transform_import_forms() {
         assert_eq!(
@@ -697,33 +879,53 @@ mod tests {
         );
         assert_eq!(
             transform_module_syntax("import fs from \"node:fs\";".into()).code,
-            "const { default: fs } = await __nodeREPLDynamicImport(\"node:fs\");"
+            format!(
+                "const {{ default: fs }} = await {};",
+                validated_import("node:fs", &["default"])
+            )
         );
         assert_eq!(
             transform_module_syntax("import { readFile as rf } from \"node:fs\";".into()).code,
-            "const { \"readFile\": rf } = await __nodeREPLDynamicImport(\"node:fs\");"
+            format!(
+                "const {{ \"readFile\": rf }} = await {};",
+                validated_import("node:fs", &["readFile"])
+            )
         );
         assert_eq!(
             transform_module_syntax("import def, * as ns from \"mod\";".into()).code,
-            "const ns = await __nodeREPLDynamicImport(\"mod\"); const def = ns.default;"
+            format!(
+                "const ns = await {}; const def = ns.default;",
+                validated_import("mod", &["default"])
+            )
         );
         assert_eq!(
             transform_module_syntax("import { \"a-b\" as c } from \"mod\";".into()).code,
-            "const { \"a-b\": c } = await __nodeREPLDynamicImport(\"mod\");"
+            format!(
+                "const {{ \"a-b\": c }} = await {};",
+                validated_import("mod", &["a-b"])
+            )
         );
         assert_eq!(
             transform_module_syntax(
                 "import data from \"./data.json\" with { type: \"json\" };".into()
             )
             .code,
-            "const { default: data } = await __nodeREPLDynamicImport(\"./data.json\", { with: { \
-             type: \"json\" } });"
+            format!(
+                "const {{ default: data }} = await {};",
+                validated_import_with_options(
+                    "./data.json",
+                    Some("{ with: { type: \"json\" } }"),
+                    &["default"]
+                )
+            )
         );
         assert_eq!(
             transform_module_syntax("console.log(typeof fs);\nimport fs from \"node:fs\";".into())
                 .code,
-            "const { default: fs } = await \
-             __nodeREPLDynamicImport(\"node:fs\");\nconsole.log(typeof fs);\n"
+            format!(
+                "const {{ default: fs }} = await {};\nconsole.log(typeof fs);\n",
+                validated_import("node:fs", &["default"])
+            )
         );
     }
 
@@ -742,8 +944,26 @@ mod tests {
             "foo; doSomething();"
         );
         assert_eq!(
+            transform_module_syntax("export default { ...config };".into()).code,
+            "({ ...config });"
+        );
+        assert_eq!(
             transform_module_syntax("export default function () {}".into()).code,
             "(function () {});"
+        );
+        assert_eq!(
+            transform_module_syntax(
+                "export default function f() { return import(\"node:fs\"); }".into()
+            )
+            .code,
+            "function f() { return __nodeREPLDynamicImport(\"node:fs\"); }"
+        );
+        assert_eq!(
+            transform_module_syntax(
+                "export default function () { return import(\"node:fs\"); }".into()
+            )
+            .code,
+            "(function () { return __nodeREPLDynamicImport(\"node:fs\"); });"
         );
         assert_eq!(
             transform_module_syntax("export default class {}".into()).code,
@@ -756,8 +976,25 @@ mod tests {
         );
         assert_eq!(
             transform_module_syntax("console.log(1);\nexport { value } from \"mod\";".into()).code,
-            "await __nodeREPLDynamicImport(\"mod\");\nconsole.log(1);\n"
+            format!(
+                "await {};\nconsole.log(1);\n",
+                validated_import("mod", &["value"])
+            )
         );
+    }
+
+    #[test]
+    fn transform_preserves_missing_export_failures() {
+        let missing_default = transform_module_syntax("import missing from \"mod\";".into());
+        assert!(missing_default.code.contains("\"default\" in m"));
+        assert!(missing_default.code.contains("export named 'default'"));
+
+        let missing_named = transform_module_syntax("import { missing, ok } from \"mod\";".into());
+        assert!(missing_named.code.contains("\"missing\" in m"));
+        assert!(missing_named.code.contains("\"ok\" in m"));
+
+        let re_export = transform_module_syntax("export { missing } from \"mod\";".into());
+        assert!(re_export.code.contains("\"missing\" in m"));
     }
 
     #[test]
@@ -781,8 +1018,10 @@ mod tests {
         assert_eq!(
             transform_module_syntax("import fs from \"node:fs\";\nconst x: number = 1;".into())
                 .code,
-            "const { default: fs } = await __nodeREPLDynamicImport(\"node:fs\");\nconst x: number \
-             = 1;"
+            format!(
+                "const {{ default: fs }} = await {};\nconst x: number = 1;",
+                validated_import("node:fs", &["default"])
+            )
         );
 
         let type_only = transform_module_syntax(
@@ -802,6 +1041,11 @@ mod tests {
 
     #[test]
     fn first_expression_from_error_column() {
+        assert_eq!(
+            get_first_expression("assert(value)".into(), 6),
+            "assert(value)"
+        );
+        assert_eq!(get_first_expression("ok(value)".into(), 3), "ok(value)");
         assert_eq!(
             get_first_expression("assert.ok(value)".into(), 9),
             "assert.ok(value)"
@@ -829,6 +1073,7 @@ mod tests {
         assert!(is_valid_syntax("await foo".into()));
         assert!(is_valid_syntax("{ value: 1 }".into()));
         assert!(is_valid_syntax("foo + bar".into()));
+        assert!(is_valid_syntax("const x: number = 1".into()));
         assert!(!is_valid_syntax("function foo(".into()));
     }
 
@@ -838,6 +1083,7 @@ mod tests {
         assert!(is_recoverable_error("`template".into()));
         assert!(is_recoverable_error("/* comment".into()));
         assert!(is_recoverable_error("\"continued\\\n".into()));
+        assert!(!is_recoverable_error("const x: number = 1".into()));
         assert!(!is_recoverable_error("2e".into()));
         assert!(!is_recoverable_error("\"unterminated".into()));
     }
