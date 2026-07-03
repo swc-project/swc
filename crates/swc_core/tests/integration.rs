@@ -15,13 +15,9 @@ fn build_fixture_binary(dir: &Path, target: Option<&str>) -> Result<(), Error> {
     let mut cmd = Command::new("cargo");
     cmd.current_dir(dir);
     cmd.args(args).stderr(Stdio::inherit());
-    cmd.output()?;
+    let status = cmd.status()?;
 
-    if !cmd
-        .status()
-        .expect("Exit code should be available")
-        .success()
-    {
+    if !status.success() {
         return Err(anyhow!("Failed to build binary"));
     }
 
