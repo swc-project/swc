@@ -18,6 +18,7 @@ pub(super) struct Analyzer {
     pub(super) var_belong_to_fn_scope: bool,
     pub(super) in_catch_params: bool,
     pub(super) scope: Scope,
+    pub(super) scope_depth: u32,
     /// If we try add variables declared by `var` to the block scope,
     /// variables will be added to `hoisted_vars` and merged to latest
     /// function scope in the end.
@@ -50,15 +51,19 @@ impl Analyzer {
     }
 
     pub(super) fn add_decl(&mut self, id: Id, belong_to_fn_scope: bool) {
+        let is_top_level = self.scope_depth == 0;
+
         if belong_to_fn_scope {
             match self.scope.kind {
                 ScopeKind::Fn => {
-                    self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
+                    self.scope
+                        .add_decl(&id, self.has_eval, self.top_level_mark, is_top_level);
                 }
                 ScopeKind::Block => self.hoisted_vars.push(id),
             }
         } else {
-            self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
+            self.scope
+                .add_decl(&id, self.has_eval, self.top_level_mark, is_top_level);
         }
     }
 
@@ -96,6 +101,7 @@ impl Analyzer {
                 kind,
                 ..Default::default()
             },
+            scope_depth: self.scope_depth + 1,
             skip_first_fn_or_class_decl: false,
             is_first_node: false,
             hoisted_vars: Default::default(),

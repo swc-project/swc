@@ -25,6 +25,7 @@ where
 
         idents: Vec::new(),
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
+        top_level_ctx: marks.top_level_ctxt,
     };
     n.visit_with(&mut v);
 
@@ -67,6 +68,7 @@ pub(crate) struct Preserver<'a> {
 
     idents: Vec<Id>,
     unresolved_ctx: SyntaxContext,
+    top_level_ctx: SyntaxContext,
 }
 
 impl Preserver<'_> {
@@ -82,6 +84,12 @@ impl Preserver<'_> {
         }
 
         self.idents.push(ident.to_id());
+    }
+
+    fn should_preserve_top_level_decl(&self, ident: &Ident) -> bool {
+        self.in_top_level
+            && !self.options.top_level.unwrap_or_default()
+            && ident.ctxt == self.top_level_ctx
     }
 }
 
@@ -114,7 +122,7 @@ impl Visit for Preserver<'_> {
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         n.visit_children_with(self);
 
-        if (self.in_top_level && !self.options.top_level.unwrap_or_default())
+        if self.should_preserve_top_level_decl(&n.ident)
             || self.options.keep_class_names
             || self.is_reserved(&n.ident)
         {
@@ -163,7 +171,7 @@ impl Visit for Preserver<'_> {
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         n.visit_children_with(self);
 
-        if (self.in_top_level && !self.options.top_level.unwrap_or_default())
+        if self.should_preserve_top_level_decl(&n.ident)
             || self.is_reserved(&n.ident)
             || self.options.keep_fn_names
         {
@@ -215,10 +223,14 @@ impl Visit for Preserver<'_> {
         n.visit_children_with(self);
 
         if self.in_top_level && !self.options.top_level.unwrap_or_default() {
-            let old = self.should_preserve;
-            self.should_preserve = true;
-            n.name.visit_with(self);
-            self.should_preserve = old;
+            // Only real source-level bindings are part of the public top-level
+            // surface. Compressor-hoisted nested bindings should remain
+            // renameable so the mangle pass can avoid printed-name collisions.
+            self.preserved.extend(
+                find_pat_ids::<_, Id>(&n.name)
+                    .into_iter()
+                    .filter(|id| id.1 == self.top_level_ctx),
+            );
             return;
         }
 
