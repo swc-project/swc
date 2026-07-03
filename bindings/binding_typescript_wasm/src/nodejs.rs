@@ -8,7 +8,8 @@ use serde::Serialize;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, Spanned};
 use swc_ecma_ast::{
     CallExpr, Callee, Decl, DefaultDecl, EsVersion, ExportSpecifier, Expr, ImportDecl,
-    ImportSpecifier, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport, ObjectLit,
+    ImportSpecifier, MetaPropExpr, MetaPropKind, Module, ModuleDecl, ModuleExportName, ModuleItem,
+    NamedExport, ObjectLit, Prop,
 };
 use swc_ecma_parser::{
     error::{Error as ParseError, SyntaxError},
@@ -60,10 +61,16 @@ pub fn transform_module_syntax(code: String) -> ModuleSyntaxTransformOutput {
             .iter()
             .map(|edit| (edit.start, edit.end))
             .collect::<Vec<_>>();
-        module.visit_with(&mut DynamicImportCollector {
+        module.visit_with(&mut ModuleFeatureCollector {
             code: &code,
             edits: &mut transform.edits,
             replaced_ranges: &replaced_ranges,
+        });
+        module.visit_with(&mut ImportBindingReferenceCollector {
+            code: &code,
+            edits: &mut transform.edits,
+            replaced_ranges: &replaced_ranges,
+            bindings: &transform.import_bindings,
         });
 
         if transform.edits.is_empty() && transform.hoisted.is_empty() {
@@ -94,6 +101,7 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
     let mut pending_optional_chain_name_token = None;
     let mut terminating_byte = None;
     let mut paren_level = 0u32;
+    let mut member_bracket_depth = 0u32;
 
     for token in tokenize(&code) {
         if token.token == Token::Eof {
@@ -108,7 +116,20 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
             if token.token == Token::Semi {
                 first_member_access_name_token = None;
                 pending_optional_chain_name_token = None;
+                member_bracket_depth = 0;
                 last_token = None;
+                continue;
+            }
+
+            if member_bracket_depth > 0 {
+                match token.token {
+                    Token::LBracket => member_bracket_depth += 1,
+                    Token::RBracket => {
+                        member_bracket_depth = member_bracket_depth.saturating_sub(1);
+                    }
+                    _ => {}
+                }
+                last_token = Some(token);
                 continue;
             }
 
@@ -136,6 +157,17 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
                 first_member_access_name_token = None;
             }
 
+            if token.token == Token::LBracket
+                && last_token
+                    .as_ref()
+                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(last.token))
+            {
+                first_member_access_name_token.get_or_insert(last_token.unwrap());
+                member_bracket_depth = 1;
+                last_token = Some(token);
+                continue;
+            }
+
             if is_member_access_token(token.token) {
                 if last_token
                     .as_ref()
@@ -147,6 +179,11 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
                 }
             } else if !is_member_name_token(token.token) {
                 first_member_access_name_token = None;
+            }
+
+            if token.token == Token::LParen && first_member_access_name_token.is_some() {
+                last_token = Some(token);
+                continue;
             }
 
             if token.token == Token::LParen
@@ -213,15 +250,18 @@ pub fn is_valid_syntax(code: String) -> bool {
 
 /// Returns true for parser errors that should keep a Node REPL input open.
 pub fn is_recoverable_error(code: String) -> bool {
-    if code.trim_start().starts_with('{') && is_recoverable_error(format!("({code}")) {
-        return true;
-    }
-
     match parse_program_result(&code) {
         ParseOutcome::Valid => false,
-        ParseOutcome::Invalid(errors) => errors
-            .iter()
-            .any(|error| is_recoverable_parse_error(&code, error)),
+        ParseOutcome::Invalid(errors) => {
+            if errors
+                .iter()
+                .any(|error| is_recoverable_parse_error(&code, error))
+            {
+                return true;
+            }
+
+            code.trim_start().starts_with('{') && is_recoverable_error(format!("({code}"))
+        }
     }
 }
 
@@ -229,6 +269,8 @@ struct ModuleSyntaxTransform<'a> {
     code: &'a str,
     edits: Vec<Edit>,
     hoisted: Vec<String>,
+    import_bindings: Vec<ImportBinding>,
+    import_namespace_count: u32,
 }
 
 impl<'a> ModuleSyntaxTransform<'a> {
@@ -237,6 +279,8 @@ impl<'a> ModuleSyntaxTransform<'a> {
             code,
             edits: Vec::new(),
             hoisted: Vec::new(),
+            import_bindings: Vec::new(),
+            import_namespace_count: 0,
         }
     }
 
@@ -249,7 +293,7 @@ impl<'a> ModuleSyntaxTransform<'a> {
             ModuleDecl::Import(import) => {
                 self.delete_span(import.span);
                 if !import.type_only {
-                    if let Some(script) = import_decl_to_script(self.code, import) {
+                    if let Some(script) = self.import_decl_to_script(import) {
                         self.hoisted.push(script);
                     }
                 }
@@ -298,7 +342,12 @@ impl<'a> ModuleSyntaxTransform<'a> {
     }
 
     fn delete_span(&mut self, span: Span) {
-        self.replace_span(span, String::new());
+        let replacement = if needs_statement_separator(self.code, span) {
+            ";"
+        } else {
+            ""
+        };
+        self.replace_span(span, replacement.to_string());
     }
 
     fn replace_span(&mut self, span: Span, text: String) {
@@ -322,6 +371,88 @@ impl<'a> ModuleSyntaxTransform<'a> {
             "await {};",
             await_import(self.code, specifier, with, required_exports)
         ));
+    }
+
+    fn import_decl_to_script(&mut self, node: &ImportDecl) -> Option<String> {
+        let specifier = node.src.value.to_string_lossy();
+        let with = node.with.as_deref();
+
+        if node.specifiers.is_empty() {
+            return Some(format!(
+                "await {};",
+                await_import(self.code, &specifier, with, &[])
+            ));
+        }
+
+        let mut namespace_name = None;
+        let mut default_name = None;
+        let mut named = Vec::new();
+        let mut required_exports = Vec::new();
+
+        for specifier in &node.specifiers {
+            match specifier {
+                ImportSpecifier::Namespace(specifier) => {
+                    namespace_name = Some(specifier.local.sym.to_string());
+                }
+                ImportSpecifier::Default(specifier) => {
+                    default_name = Some(specifier.local.sym.to_string());
+                    push_required_export(&mut required_exports, "default".to_string());
+                }
+                ImportSpecifier::Named(specifier) => {
+                    if specifier.is_type_only {
+                        continue;
+                    }
+
+                    let local = specifier.local.sym.to_string();
+                    let imported = specifier
+                        .imported
+                        .as_ref()
+                        .map(module_export_name)
+                        .unwrap_or_else(|| local.clone());
+                    push_required_export(&mut required_exports, imported.clone());
+                    named.push((local, imported));
+                }
+            }
+        }
+
+        if namespace_name.is_none() && default_name.is_none() && named.is_empty() {
+            return None;
+        }
+
+        let namespace_name = namespace_name.unwrap_or_else(|| self.fresh_import_namespace_name());
+        let out = format!(
+            "const {namespace_name} = await {};",
+            await_import(self.code, &specifier, with, &required_exports)
+        );
+
+        if let Some(default_name) = default_name {
+            self.import_bindings.push(ImportBinding {
+                local: default_name,
+                namespace: namespace_name.clone(),
+                export_name: "default".to_string(),
+            });
+        }
+
+        for (local, export_name) in named {
+            self.import_bindings.push(ImportBinding {
+                local,
+                namespace: namespace_name.clone(),
+                export_name,
+            });
+        }
+
+        Some(out)
+    }
+
+    fn fresh_import_namespace_name(&mut self) -> String {
+        loop {
+            let candidate = format!("__nodeREPLImport{}", self.import_namespace_count);
+            self.import_namespace_count += 1;
+
+            if !self.code.contains(&candidate) {
+                return candidate;
+            }
+        }
     }
 
     fn unwrap_default_declaration(
@@ -443,81 +574,6 @@ fn await_import(
     out
 }
 
-fn import_decl_to_script(code: &str, node: &ImportDecl) -> Option<String> {
-    let specifier = node.src.value.to_string_lossy();
-    let with = node.with.as_deref();
-
-    if node.specifiers.is_empty() {
-        return Some(format!(
-            "await {};",
-            await_import(code, &specifier, with, &[])
-        ));
-    }
-
-    let mut namespace_name = None;
-    let mut default_name = None;
-    let mut named = Vec::new();
-    let mut required_exports = Vec::new();
-
-    for specifier in &node.specifiers {
-        match specifier {
-            ImportSpecifier::Namespace(specifier) => {
-                namespace_name = Some(specifier.local.sym.to_string());
-            }
-            ImportSpecifier::Default(specifier) => {
-                default_name = Some(specifier.local.sym.to_string());
-                push_required_export(&mut required_exports, "default".to_string());
-            }
-            ImportSpecifier::Named(specifier) => {
-                if specifier.is_type_only {
-                    continue;
-                }
-
-                let local = specifier.local.sym.to_string();
-                let imported = specifier
-                    .imported
-                    .as_ref()
-                    .map(module_export_name)
-                    .unwrap_or_else(|| local.clone());
-                push_required_export(&mut required_exports, imported.clone());
-
-                if imported == local {
-                    named.push(imported);
-                } else {
-                    named.push(format!("{}: {local}", json_string(&imported)));
-                }
-            }
-        }
-    }
-
-    if let Some(namespace_name) = namespace_name {
-        let mut out = format!(
-            "const {namespace_name} = await {};",
-            await_import(code, &specifier, with, &required_exports)
-        );
-        if let Some(default_name) = default_name {
-            out.push_str(&format!(
-                " const {default_name} = {namespace_name}.default;"
-            ));
-        }
-        return Some(out);
-    }
-
-    if let Some(default_name) = default_name {
-        named.push(format!("default: {default_name}"));
-    }
-
-    if named.is_empty() {
-        return None;
-    }
-
-    Some(format!(
-        "const {{ {} }} = await {};",
-        named.join(", "),
-        await_import(code, &specifier, with, &required_exports)
-    ))
-}
-
 fn import_options_to_dynamic_options(code: &str, with: Option<&ObjectLit>) -> Option<String> {
     let attributes = slice_span(code, with?.span)?;
     Some(format!("{{ with: {attributes} }}"))
@@ -586,6 +642,13 @@ struct Edit {
     text: String,
 }
 
+#[derive(Debug)]
+struct ImportBinding {
+    local: String,
+    namespace: String,
+    export_name: String,
+}
+
 fn push_span_edit(edits: &mut Vec<Edit>, code: &str, span: Span, text: String) {
     if let Some((start, end)) = span_range(span) {
         push_range_edit(edits, code, start, end, text);
@@ -614,13 +677,34 @@ fn apply_edits(mut code: String, mut edits: Vec<Edit>) -> String {
     code
 }
 
+fn needs_statement_separator(code: &str, span: Span) -> bool {
+    let Some((start, end)) = span_range(span) else {
+        return false;
+    };
+
+    code[..start].chars().any(|ch| !ch.is_whitespace())
+        && code[end..].chars().any(|ch| !ch.is_whitespace())
+}
+
 fn prepend_hoisted_imports(code: String, hoisted: Vec<String>) -> String {
     if hoisted.is_empty() {
         return code;
     }
 
     let imports = hoisted.join("\n");
-    if code.is_empty() {
+    if code.starts_with("#!") {
+        if let Some(line_end) = code.find('\n') {
+            let insert_at = line_end + 1;
+            let (hashbang, rest) = code.split_at(insert_at);
+            if rest.is_empty() || rest.starts_with('\n') {
+                format!("{hashbang}{imports}{rest}")
+            } else {
+                format!("{hashbang}{imports}\n{rest}")
+            }
+        } else {
+            format!("{code}\n{imports}")
+        }
+    } else if code.is_empty() {
         imports
     } else if code.starts_with('\n') || code.starts_with("\r\n") {
         format!("{imports}{code}")
@@ -629,23 +713,17 @@ fn prepend_hoisted_imports(code: String, hoisted: Vec<String>) -> String {
     }
 }
 
-struct DynamicImportCollector<'a, 'b> {
+struct ModuleFeatureCollector<'a, 'b> {
     code: &'a str,
     edits: &'b mut Vec<Edit>,
     replaced_ranges: &'b [(usize, usize)],
 }
 
-impl Visit for DynamicImportCollector<'_, '_> {
+impl Visit for ModuleFeatureCollector<'_, '_> {
     fn visit_call_expr(&mut self, node: &CallExpr) {
         if matches!(node.callee, Callee::Import(..)) {
             if let Some((start, end)) = span_range(node.span) {
-                if !self
-                    .replaced_ranges
-                    .iter()
-                    .any(|(replace_start, replace_end)| {
-                        start >= *replace_start && end <= *replace_end
-                    })
-                {
+                if !range_is_replaced(self.replaced_ranges, start, end) {
                     let original = &self.code[start..end];
                     if let Some(rest) = original.strip_prefix("import") {
                         self.edits.push(Edit {
@@ -660,6 +738,127 @@ impl Visit for DynamicImportCollector<'_, '_> {
 
         node.visit_children_with(self);
     }
+
+    fn visit_meta_prop_expr(&mut self, node: &MetaPropExpr) {
+        if node.kind == MetaPropKind::ImportMeta {
+            if let Some((start, end)) = span_range(node.span) {
+                if !range_is_replaced(self.replaced_ranges, start, end) {
+                    self.edits.push(Edit {
+                        start,
+                        end,
+                        text: import_meta_error_expression(),
+                    });
+                }
+            }
+        }
+    }
+}
+
+struct ImportBindingReferenceCollector<'a, 'b> {
+    code: &'a str,
+    edits: &'b mut Vec<Edit>,
+    replaced_ranges: &'b [(usize, usize)],
+    bindings: &'b [ImportBinding],
+}
+
+impl Visit for ImportBindingReferenceCollector<'_, '_> {
+    fn visit_expr(&mut self, node: &Expr) {
+        if let Expr::Ident(ident) = node {
+            self.replace_identifier(ident.span, ident.sym.as_ref());
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_prop(&mut self, node: &Prop) {
+        if let Prop::Shorthand(ident) = node {
+            if let Some(binding) = self.binding_for(ident.sym.as_ref()) {
+                if let Some((start, end)) = span_range(ident.span) {
+                    if !range_is_replaced(self.replaced_ranges, start, end) {
+                        let access = import_binding_access(binding);
+                        self.edits.push(Edit {
+                            start,
+                            end,
+                            text: format!("{}: {access}", ident.sym),
+                        });
+                    }
+                }
+            }
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+}
+
+impl ImportBindingReferenceCollector<'_, '_> {
+    fn replace_identifier(&mut self, span: Span, local: &str) {
+        let Some(binding) = self.binding_for(local) else {
+            return;
+        };
+
+        let Some((start, end)) = span_range(span) else {
+            return;
+        };
+
+        if range_is_replaced(self.replaced_ranges, start, end) {
+            return;
+        }
+
+        if !self.code.get(start..end).is_some_and(|text| text == local) {
+            return;
+        }
+
+        self.edits.push(Edit {
+            start,
+            end,
+            text: import_binding_access(binding),
+        });
+    }
+
+    fn binding_for(&self, local: &str) -> Option<&ImportBinding> {
+        self.bindings.iter().find(|binding| binding.local == local)
+    }
+}
+
+fn range_is_replaced(replaced_ranges: &[(usize, usize)], start: usize, end: usize) -> bool {
+    replaced_ranges
+        .iter()
+        .any(|(replace_start, replace_end)| start >= *replace_start && end <= *replace_end)
+}
+
+fn import_binding_access(binding: &ImportBinding) -> String {
+    format!(
+        "{}{}",
+        binding.namespace,
+        export_property_access(&binding.export_name)
+    )
+}
+
+fn export_property_access(export_name: &str) -> String {
+    if is_identifier_name(export_name) {
+        format!(".{export_name}")
+    } else {
+        format!("[{}]", json_string(export_name))
+    }
+}
+
+fn import_meta_error_expression() -> String {
+    "(() => { throw new SyntaxError(\"Cannot use import.meta outside a module\"); })()".to_string()
+}
+
+fn is_identifier_name(value: &str) -> bool {
+    let mut chars = value.chars();
+    let Some(first) = chars.next() else {
+        return false;
+    };
+
+    if !(first == '_' || first == '$' || first.is_ascii_alphabetic()) {
+        return false;
+    }
+
+    chars.all(|ch| ch == '_' || ch == '$' || ch.is_ascii_alphanumeric())
 }
 
 enum ParseOutcome {
@@ -880,28 +1079,50 @@ mod tests {
         assert_eq!(
             transform_module_syntax("import fs from \"node:fs\";".into()).code,
             format!(
-                "const {{ default: fs }} = await {};",
+                "const __nodeREPLImport0 = await {};",
                 validated_import("node:fs", &["default"])
             )
         );
         assert_eq!(
             transform_module_syntax("import { readFile as rf } from \"node:fs\";".into()).code,
             format!(
-                "const {{ \"readFile\": rf }} = await {};",
+                "const __nodeREPLImport0 = await {};",
+                validated_import("node:fs", &["readFile"])
+            )
+        );
+        assert_eq!(
+            transform_module_syntax("import { readFile as rf } from \"node:fs\";\nrf();".into())
+                .code,
+            format!(
+                "const __nodeREPLImport0 = await {};\n__nodeREPLImport0.readFile();",
                 validated_import("node:fs", &["readFile"])
             )
         );
         assert_eq!(
             transform_module_syntax("import def, * as ns from \"mod\";".into()).code,
             format!(
-                "const ns = await {}; const def = ns.default;",
+                "const ns = await {};",
+                validated_import("mod", &["default"])
+            )
+        );
+        assert_eq!(
+            transform_module_syntax("import def, * as ns from \"mod\";\ndef; ns;".into()).code,
+            format!(
+                "const ns = await {};\nns.default; ns;",
                 validated_import("mod", &["default"])
             )
         );
         assert_eq!(
             transform_module_syntax("import { \"a-b\" as c } from \"mod\";".into()).code,
             format!(
-                "const {{ \"a-b\": c }} = await {};",
+                "const __nodeREPLImport0 = await {};",
+                validated_import("mod", &["a-b"])
+            )
+        );
+        assert_eq!(
+            transform_module_syntax("import { \"a-b\" as c } from \"mod\";\nc;".into()).code,
+            format!(
+                "const __nodeREPLImport0 = await {};\n__nodeREPLImport0[\"a-b\"];",
                 validated_import("mod", &["a-b"])
             )
         );
@@ -911,7 +1132,7 @@ mod tests {
             )
             .code,
             format!(
-                "const {{ default: data }} = await {};",
+                "const __nodeREPLImport0 = await {};",
                 validated_import_with_options(
                     "./data.json",
                     Some("{ with: { type: \"json\" } }"),
@@ -923,7 +1144,8 @@ mod tests {
             transform_module_syntax("console.log(typeof fs);\nimport fs from \"node:fs\";".into())
                 .code,
             format!(
-                "const {{ default: fs }} = await {};\nconsole.log(typeof fs);\n",
+                "const __nodeREPLImport0 = await {};\nconsole.log(typeof \
+                 __nodeREPLImport0.default);\n",
                 validated_import("node:fs", &["default"])
             )
         );
@@ -1011,6 +1233,27 @@ mod tests {
         let incomplete = transform_module_syntax("import {".into());
         assert!(!incomplete.had_module_syntax);
         assert_eq!(incomplete.code, "import {");
+
+        let import_meta = transform_module_syntax("console.log(import.meta.url);".into());
+        assert!(import_meta.had_module_syntax);
+        assert!(import_meta
+            .code
+            .contains("Cannot use import.meta outside a module"));
+    }
+
+    #[test]
+    fn transform_preserves_statement_boundaries() {
+        let hashbang = transform_module_syntax(
+            "#!/usr/bin/env node\nimport fs from \"node:fs\";\nfs.readFile;".into(),
+        )
+        .code;
+        assert!(hashbang.starts_with("#!/usr/bin/env node\nconst __nodeREPLImport0 = await "));
+        assert!(hashbang.contains("\n__nodeREPLImport0.default.readFile;"));
+
+        assert_eq!(
+            transform_module_syntax("foo()\nimport \"x\";\n[1].forEach(bar)".into()).code,
+            "await __nodeREPLDynamicImport(\"x\");\nfoo()\n;\n[1].forEach(bar)"
+        );
     }
 
     #[test]
@@ -1019,7 +1262,7 @@ mod tests {
             transform_module_syntax("import fs from \"node:fs\";\nconst x: number = 1;".into())
                 .code,
             format!(
-                "const {{ default: fs }} = await {};\nconst x: number = 1;",
+                "const __nodeREPLImport0 = await {};\nconst x: number = 1;",
                 validated_import("node:fs", &["default"])
             )
         );
@@ -1055,6 +1298,10 @@ mod tests {
             "assert['ok'](value)"
         );
         assert_eq!(
+            get_first_expression("assert[method + suffix](value)".into(), 23),
+            "assert[method + suffix](value)"
+        );
+        assert_eq!(
             get_first_expression("assert?.ok(value)".into(), 10),
             "assert?.ok(value)"
         );
@@ -1080,10 +1327,13 @@ mod tests {
     #[test]
     fn recoverable_syntax_checks() {
         assert!(is_recoverable_error("function foo() {".into()));
+        assert!(is_recoverable_error("{".into()));
         assert!(is_recoverable_error("`template".into()));
         assert!(is_recoverable_error("/* comment".into()));
         assert!(is_recoverable_error("\"continued\\\n".into()));
         assert!(!is_recoverable_error("const x: number = 1".into()));
+        assert!(!is_recoverable_error("{ value: 1 }".into()));
+        assert!(!is_recoverable_error("{}".into()));
         assert!(!is_recoverable_error("2e".into()));
         assert!(!is_recoverable_error("\"unterminated".into()));
     }

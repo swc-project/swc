@@ -247,7 +247,23 @@ describe("nodejs namespace", () => {
         expect(
             swc.nodejs.transformModuleSyntax(`import fs from "node:fs";`),
         ).toEqual({
-            code: `const { default: fs } = await ${validatedImport("node:fs", ["default"])};`,
+            code: `const __nodeREPLImport0 = await ${validatedImport("node:fs", ["default"])};`,
+            hadModuleSyntax: true,
+        });
+
+        expect(
+            swc.nodejs.transformModuleSyntax(
+                `import { readFile as rf } from "node:fs";\nrf();`,
+            ),
+        ).toEqual({
+            code: `const __nodeREPLImport0 = await ${validatedImport("node:fs", ["readFile"])};\n__nodeREPLImport0.readFile();`,
+            hadModuleSyntax: true,
+        });
+
+        expect(
+            swc.nodejs.transformModuleSyntax(`console.log(import.meta.url);`),
+        ).toEqual({
+            code: `console.log((() => { throw new SyntaxError("Cannot use import.meta outside a module"); })().url);`,
             hadModuleSyntax: true,
         });
 
@@ -278,6 +294,12 @@ describe("nodejs namespace", () => {
         expect(swc.nodejs.getFirstExpression("a(); assert.ok(value); b()", 13)).toBe(
             "assert.ok(value)",
         );
+        expect(
+            swc.nodejs.getFirstExpression(
+                "assert[method + suffix](value)",
+                23,
+            ),
+        ).toBe("assert[method + suffix](value)");
     });
 
     it("checks syntax validity and recoverability", () => {
@@ -285,6 +307,8 @@ describe("nodejs namespace", () => {
         expect(swc.nodejs.isValidSyntax("const x: number = 1")).toBe(true);
         expect(swc.nodejs.isValidSyntax("function foo(")).toBe(false);
         expect(swc.nodejs.isRecoverableError("function foo() {")).toBe(true);
+        expect(swc.nodejs.isRecoverableError("{ value: 1 }")).toBe(false);
+        expect(swc.nodejs.isRecoverableError("{}")).toBe(false);
         expect(swc.nodejs.isRecoverableError("const x: number = 1")).toBe(false);
         expect(swc.nodejs.isRecoverableError("2e")).toBe(false);
     });
