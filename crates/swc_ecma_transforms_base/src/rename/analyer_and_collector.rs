@@ -87,7 +87,7 @@ impl Visit for AnalyzerAndCollector {
         let old_decl_collector_is_pat_decl = self.decl_collector.is_pat_decl;
         self.decl_collector.is_pat_decl = true;
 
-        let old_analyzer = self.analyzer.enter_fn_scope();
+        let old_analyzer = self.analyzer.enter_fn_scope(node.ctxt);
         let old_analyzer_is_pat_decl = self.analyzer.is_pat_decl;
         self.analyzer.is_pat_decl = true;
 
@@ -133,7 +133,7 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_block_stmt(&mut self, node: &BlockStmt) {
-        let old_analyzer = self.analyzer.enter_block_scope();
+        let old_analyzer = self.analyzer.enter_block_scope(Some(node.ctxt));
 
         node.visit_children_with(self);
 
@@ -147,7 +147,7 @@ impl Visit for AnalyzerAndCollector {
     fn visit_catch_clause(&mut self, node: &CatchClause) {
         let old_decl_collector_is_pat_decl = self.decl_collector.is_pat_decl;
 
-        let old_analyzer = self.analyzer.enter_block_scope();
+        let old_analyzer = self.analyzer.enter_block_scope(Some(node.body.ctxt));
         let old_analyzer_is_pat_decl = self.analyzer.is_pat_decl;
         let old_analyzer_in_catch_params = self.analyzer.in_catch_params;
 
@@ -179,7 +179,7 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_class_expr(&mut self, node: &ClassExpr) {
-        let old_analyzer = self.analyzer.enter_block_scope();
+        let old_analyzer = self.analyzer.enter_block_scope(Some(node.class.ctxt));
 
         self.analyzer.handle_class_expr(node);
 
@@ -193,7 +193,7 @@ impl Visit for AnalyzerAndCollector {
     fn visit_class_method(&mut self, node: &ClassMethod) {
         node.key.visit_with(self);
 
-        let old_analyzer = self.analyzer.enter_fn_scope();
+        let old_analyzer = self.analyzer.enter_fn_scope(node.function.ctxt);
 
         node.function.decorators.visit_with(self);
         node.function.params.visit_with(self);
@@ -205,7 +205,7 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_constructor(&mut self, node: &Constructor) {
-        let old_analyzer = self.analyzer.enter_fn_scope();
+        let old_analyzer = self.analyzer.enter_fn_scope(node.ctxt);
         node.key.visit_with(self);
         node.params.visit_with(self);
         if let Some(body) = &node.body {
@@ -221,7 +221,7 @@ impl Visit for AnalyzerAndCollector {
                 self.analyzer.handle_class_expr(c);
                 self.decl_collector.handle_class_expr(c);
 
-                let old_analyzer = self.analyzer.enter_fn_scope();
+                let old_analyzer = self.analyzer.enter_fn_scope(c.class.ctxt);
                 c.visit_children_with(self);
                 self.analyzer.exit_scope(old_analyzer);
             }
@@ -293,7 +293,7 @@ impl Visit for AnalyzerAndCollector {
 
         node.ident.visit_with(self);
 
-        let old_analyzer = self.analyzer.enter_fn_scope();
+        let old_analyzer = self.analyzer.enter_fn_scope(node.function.ctxt);
 
         if !need_skip_analyzer_record && has_rest {
             // self.analyer is different from above because we are in a function scope
@@ -312,9 +312,9 @@ impl Visit for AnalyzerAndCollector {
 
     fn visit_fn_expr(&mut self, node: &FnExpr) {
         if let Some(id) = &node.ident {
-            let old_analyzer0 = self.analyzer.enter_fn_scope();
+            let old_analyzer0 = self.analyzer.enter_fn_scope(id.ctxt);
             self.analyzer.add_decl(id.to_id(), true);
-            let old_analyzer1 = self.analyzer.enter_fn_scope();
+            let old_analyzer1 = self.analyzer.enter_fn_scope(node.function.ctxt);
             // https://github.com/swc-project/swc/issues/6819
             //
             // We need to check for assign pattern because safari has a bug.
@@ -348,10 +348,10 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_for_in_stmt(&mut self, node: &ForInStmt) {
-        let old_analyzer0 = self.analyzer.enter_block_scope();
+        let old_analyzer0 = self.analyzer.enter_block_scope(None);
         node.left.visit_with(self);
         node.right.visit_with(self);
-        let old_analyzer1 = self.analyzer.enter_block_scope();
+        let old_analyzer1 = self.analyzer.enter_block_scope(None);
         match node.body.as_ref() {
             Stmt::Block(n) => n.visit_children_with(self),
             _ => node.body.visit_with(self),
@@ -361,10 +361,10 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_for_of_stmt(&mut self, node: &ForOfStmt) {
-        let old_analyzer0 = self.analyzer.enter_block_scope();
+        let old_analyzer0 = self.analyzer.enter_block_scope(None);
         node.left.visit_with(self);
         node.right.visit_with(self);
-        let old_analyzer1 = self.analyzer.enter_block_scope();
+        let old_analyzer1 = self.analyzer.enter_block_scope(None);
         match node.body.as_ref() {
             Stmt::Block(n) => n.visit_children_with(self),
             _ => node.body.visit_with(self),
@@ -374,11 +374,11 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_for_stmt(&mut self, node: &ForStmt) {
-        let old_analyzer0 = self.analyzer.enter_block_scope();
+        let old_analyzer0 = self.analyzer.enter_block_scope(None);
         node.init.visit_with(self);
         node.test.visit_with(self);
         node.update.visit_with(self);
-        let old_analyzer1 = self.analyzer.enter_block_scope();
+        let old_analyzer1 = self.analyzer.enter_block_scope(None);
         match node.body.as_ref() {
             Stmt::Block(n) => n.visit_children_with(self),
             _ => node.body.visit_with(self),
@@ -388,7 +388,7 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_function(&mut self, node: &Function) {
-        let old_analyzer = self.analyzer.enter_fn_scope();
+        let old_analyzer = self.analyzer.enter_fn_scope(node.ctxt);
 
         node.decorators.visit_with(self);
         node.params.visit_with(self);
@@ -447,7 +447,7 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_static_block(&mut self, node: &StaticBlock) {
-        let old_analyzer = self.analyzer.enter_fn_scope();
+        let old_analyzer = self.analyzer.enter_fn_scope(node.body.ctxt);
 
         node.body.visit_children_with(self);
 
