@@ -7,9 +7,11 @@
 use serde::Serialize;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, Spanned};
 use swc_ecma_ast::{
-    CallExpr, Callee, Decl, DefaultDecl, EsVersion, ExportSpecifier, Expr, ImportDecl,
-    ImportSpecifier, MetaPropExpr, MetaPropKind, Module, ModuleDecl, ModuleExportName, ModuleItem,
-    NamedExport, ObjectLit, Prop,
+    ArrowExpr, AssignExpr, AssignTarget, AssignTargetPat, BindingIdent, BlockStmt, BlockStmtOrExpr,
+    CallExpr, Callee, CatchClause, Class, ClassDecl, Decl, DefaultDecl, EsVersion, ExportSpecifier,
+    Expr, FnDecl, Function, ImportDecl, ImportSpecifier, MetaPropExpr, MetaPropKind, Module,
+    ModuleDecl, ModuleExportName, ModuleItem, NamedExport, ObjectLit, ObjectPatProp, Pat, Prop,
+    SimpleAssignTarget, Stmt, UpdateExpr, VarDecl, VarDeclKind,
 };
 use swc_ecma_parser::{
     error::{Error as ParseError, SyntaxError},
@@ -71,6 +73,7 @@ pub fn transform_module_syntax(code: String) -> ModuleSyntaxTransformOutput {
             edits: &mut transform.edits,
             replaced_ranges: &replaced_ranges,
             bindings: &transform.import_bindings,
+            scopes: vec![Vec::new()],
         });
 
         if transform.edits.is_empty() && transform.hoisted.is_empty() {
@@ -97,6 +100,7 @@ pub fn transform_module_syntax(code: String) -> ModuleSyntaxTransformOutput {
 pub fn get_first_expression(code: String, start_column: u32) -> String {
     let start_byte = utf16_column_to_byte_pos(&code, start_column);
     let mut last_token = None;
+    let mut potential_expression_start_token = None;
     let mut first_member_access_name_token = None;
     let mut pending_optional_chain_name_token = None;
     let mut terminating_byte = None;
@@ -111,9 +115,9 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
         let Some((token_start, token_end)) = span_range(token.span) else {
             continue;
         };
-
         if token_start < start_byte {
             if token.token == Token::Semi {
+                potential_expression_start_token = None;
                 first_member_access_name_token = None;
                 pending_optional_chain_name_token = None;
                 member_bracket_depth = 0;
@@ -133,10 +137,17 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
                 continue;
             }
 
+            if is_member_identifier_token(&code, &token)
+                && first_member_access_name_token.is_none()
+                && potential_expression_start_token.is_none()
+            {
+                potential_expression_start_token = Some(token);
+            }
+
             if token.token == Token::QuestionMark
                 && last_token
                     .as_ref()
-                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(last.token))
+                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(&code, last))
             {
                 pending_optional_chain_name_token = last_token;
                 last_token = Some(token);
@@ -160,9 +171,10 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
             if token.token == Token::LBracket
                 && last_token
                     .as_ref()
-                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(last.token))
+                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(&code, last))
             {
-                first_member_access_name_token.get_or_insert(last_token.unwrap());
+                first_member_access_name_token
+                    .get_or_insert(potential_expression_start_token.unwrap_or(last_token.unwrap()));
                 member_bracket_depth = 1;
                 last_token = Some(token);
                 continue;
@@ -171,17 +183,21 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
             if is_member_access_token(token.token) {
                 if last_token
                     .as_ref()
-                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(last.token))
+                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(&code, last))
                 {
-                    first_member_access_name_token.get_or_insert(last_token.unwrap());
+                    first_member_access_name_token.get_or_insert(
+                        potential_expression_start_token.unwrap_or(last_token.unwrap()),
+                    );
                     last_token = Some(token);
                     continue;
                 }
-            } else if !is_member_name_token(token.token) {
+            } else if token.token != Token::LParen && !is_member_name_token(&code, &token) {
+                potential_expression_start_token = None;
                 first_member_access_name_token = None;
             }
 
             if token.token == Token::LParen && first_member_access_name_token.is_some() {
+                paren_level += 1;
                 last_token = Some(token);
                 continue;
             }
@@ -189,9 +205,11 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
             if token.token == Token::LParen
                 && last_token
                     .as_ref()
-                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(last.token))
+                    .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(&code, last))
             {
-                first_member_access_name_token.get_or_insert(last_token.unwrap());
+                first_member_access_name_token
+                    .get_or_insert(potential_expression_start_token.unwrap_or(last_token.unwrap()));
+                paren_level += 1;
                 last_token = Some(token);
                 continue;
             }
@@ -203,9 +221,10 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
         if token.token == Token::LParen
             && last_token
                 .as_ref()
-                .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(last.token))
+                .is_some_and(|last: &TokenAndSpan| is_member_identifier_token(&code, last))
         {
-            first_member_access_name_token.get_or_insert(last_token.unwrap());
+            first_member_access_name_token
+                .get_or_insert(potential_expression_start_token.unwrap_or(last_token.unwrap()));
         }
 
         match token.token {
@@ -335,9 +354,15 @@ impl<'a> ModuleSyntaxTransform<'a> {
                     self.hoist_import(&export.src.value.to_string_lossy(), export.with.as_deref());
                 }
             }
-            ModuleDecl::TsImportEquals(..)
-            | ModuleDecl::TsExportAssignment(..)
-            | ModuleDecl::TsNamespaceExport(..) => {}
+            ModuleDecl::TsImportEquals(import) => {
+                if import.is_type_only {
+                    self.delete_span(import.span);
+                }
+            }
+            ModuleDecl::TsNamespaceExport(export) => {
+                self.delete_span(export.span);
+            }
+            ModuleDecl::TsExportAssignment(..) => {}
         }
     }
 
@@ -725,11 +750,11 @@ impl Visit for ModuleFeatureCollector<'_, '_> {
             if let Some((start, end)) = span_range(node.span) {
                 if !range_is_replaced(self.replaced_ranges, start, end) {
                     let original = &self.code[start..end];
-                    if let Some(rest) = original.strip_prefix("import") {
+                    if original.starts_with("import") {
                         self.edits.push(Edit {
                             start,
-                            end,
-                            text: format!("{DYNAMIC_IMPORT_NAME}{rest}"),
+                            end: start + "import".len(),
+                            text: DYNAMIC_IMPORT_NAME.to_string(),
                         });
                     }
                 }
@@ -759,9 +784,54 @@ struct ImportBindingReferenceCollector<'a, 'b> {
     edits: &'b mut Vec<Edit>,
     replaced_ranges: &'b [(usize, usize)],
     bindings: &'b [ImportBinding],
+    scopes: Vec<Vec<String>>,
 }
 
 impl Visit for ImportBindingReferenceCollector<'_, '_> {
+    fn visit_assign_expr(&mut self, node: &AssignExpr) {
+        if self.import_binding_for_assign_target(&node.left).is_some() {
+            self.replace_expression_with_import_assignment_error(node.span);
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, node: &UpdateExpr) {
+        if let Expr::Ident(ident) = &*node.arg {
+            if self.binding_for_unshadowed(ident.sym.as_ref()).is_some() {
+                self.replace_expression_with_import_assignment_error(node.span);
+                return;
+            }
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_function(&mut self, node: &Function) {
+        let shadowed = function_scope_shadowed_bindings(node, self.bindings);
+        self.with_scope(shadowed, |this| node.visit_children_with(this));
+    }
+
+    fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
+        let shadowed = arrow_scope_shadowed_bindings(node, self.bindings);
+        self.with_scope(shadowed, |this| node.visit_children_with(this));
+    }
+
+    fn visit_block_stmt(&mut self, node: &BlockStmt) {
+        let shadowed = direct_block_shadowed_bindings(node, self.bindings);
+        self.with_scope(shadowed, |this| node.visit_children_with(this));
+    }
+
+    fn visit_catch_clause(&mut self, node: &CatchClause) {
+        let mut shadowed = Vec::new();
+        if let Some(param) = &node.param {
+            collect_shadowed_pat_bindings(&mut shadowed, param, self.bindings);
+        }
+
+        self.with_scope(shadowed, |this| node.visit_children_with(this));
+    }
+
     fn visit_expr(&mut self, node: &Expr) {
         if let Expr::Ident(ident) = node {
             self.replace_identifier(ident.span, ident.sym.as_ref());
@@ -773,7 +843,7 @@ impl Visit for ImportBindingReferenceCollector<'_, '_> {
 
     fn visit_prop(&mut self, node: &Prop) {
         if let Prop::Shorthand(ident) = node {
-            if let Some(binding) = self.binding_for(ident.sym.as_ref()) {
+            if let Some(binding) = self.binding_for_unshadowed(ident.sym.as_ref()) {
                 if let Some((start, end)) = span_range(ident.span) {
                     if !range_is_replaced(self.replaced_ranges, start, end) {
                         let access = import_binding_access(binding);
@@ -794,7 +864,7 @@ impl Visit for ImportBindingReferenceCollector<'_, '_> {
 
 impl ImportBindingReferenceCollector<'_, '_> {
     fn replace_identifier(&mut self, span: Span, local: &str) {
-        let Some(binding) = self.binding_for(local) else {
+        let Some(binding) = self.binding_for_unshadowed(local) else {
             return;
         };
 
@@ -819,6 +889,232 @@ impl ImportBindingReferenceCollector<'_, '_> {
 
     fn binding_for(&self, local: &str) -> Option<&ImportBinding> {
         self.bindings.iter().find(|binding| binding.local == local)
+    }
+
+    fn binding_for_unshadowed(&self, local: &str) -> Option<&ImportBinding> {
+        if self.is_shadowed(local) {
+            return None;
+        }
+
+        self.binding_for(local)
+    }
+
+    fn import_binding_for_assign_target(&self, target: &AssignTarget) -> Option<&ImportBinding> {
+        match target {
+            AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) => {
+                self.binding_for_unshadowed(ident.id.sym.as_ref())
+            }
+            AssignTarget::Pat(pat) => self.import_binding_for_assign_target_pat(pat),
+            _ => None,
+        }
+    }
+
+    fn import_binding_for_assign_target_pat(
+        &self,
+        target: &AssignTargetPat,
+    ) -> Option<&ImportBinding> {
+        match target {
+            AssignTargetPat::Array(array) => array
+                .elems
+                .iter()
+                .flatten()
+                .find_map(|pat| self.import_binding_for_pat(pat)),
+            AssignTargetPat::Object(object) => object.props.iter().find_map(|prop| match prop {
+                ObjectPatProp::KeyValue(prop) => self.import_binding_for_pat(&prop.value),
+                ObjectPatProp::Assign(prop) => {
+                    self.binding_for_unshadowed(prop.key.id.sym.as_ref())
+                }
+                ObjectPatProp::Rest(prop) => self.import_binding_for_pat(&prop.arg),
+            }),
+            AssignTargetPat::Invalid(..) => None,
+        }
+    }
+
+    fn import_binding_for_pat(&self, pat: &Pat) -> Option<&ImportBinding> {
+        match pat {
+            Pat::Ident(ident) => self.binding_for_unshadowed(ident.id.sym.as_ref()),
+            Pat::Array(array) => array
+                .elems
+                .iter()
+                .flatten()
+                .find_map(|pat| self.import_binding_for_pat(pat)),
+            Pat::Rest(rest) => self.import_binding_for_pat(&rest.arg),
+            Pat::Object(object) => object.props.iter().find_map(|prop| match prop {
+                ObjectPatProp::KeyValue(prop) => self.import_binding_for_pat(&prop.value),
+                ObjectPatProp::Assign(prop) => {
+                    self.binding_for_unshadowed(prop.key.id.sym.as_ref())
+                }
+                ObjectPatProp::Rest(prop) => self.import_binding_for_pat(&prop.arg),
+            }),
+            Pat::Assign(assign) => self.import_binding_for_pat(&assign.left),
+            Pat::Invalid(..) | Pat::Expr(..) => None,
+        }
+    }
+
+    fn replace_expression_with_import_assignment_error(&mut self, span: Span) {
+        let Some((start, end)) = span_range(span) else {
+            return;
+        };
+
+        if range_is_replaced(self.replaced_ranges, start, end) {
+            return;
+        }
+
+        self.edits.push(Edit {
+            start,
+            end,
+            text: import_assignment_error_expression(),
+        });
+    }
+
+    fn with_scope(&mut self, shadowed: Vec<String>, op: impl FnOnce(&mut Self)) {
+        self.scopes.push(shadowed);
+        op(self);
+        self.scopes.pop();
+    }
+
+    fn is_shadowed(&self, local: &str) -> bool {
+        self.scopes
+            .iter()
+            .rev()
+            .any(|scope| scope.iter().any(|name| name == local))
+    }
+}
+
+fn function_scope_shadowed_bindings(node: &Function, bindings: &[ImportBinding]) -> Vec<String> {
+    let mut shadowed = Vec::new();
+    for param in &node.params {
+        collect_shadowed_pat_bindings(&mut shadowed, &param.pat, bindings);
+    }
+    if let Some(body) = &node.body {
+        collect_function_var_shadowed_bindings(&mut shadowed, body, bindings);
+    }
+    shadowed
+}
+
+fn arrow_scope_shadowed_bindings(node: &ArrowExpr, bindings: &[ImportBinding]) -> Vec<String> {
+    let mut shadowed = Vec::new();
+    for param in &node.params {
+        collect_shadowed_pat_bindings(&mut shadowed, param, bindings);
+    }
+    if let BlockStmtOrExpr::BlockStmt(body) = &*node.body {
+        collect_function_var_shadowed_bindings(&mut shadowed, body, bindings);
+    }
+    shadowed
+}
+
+fn collect_function_var_shadowed_bindings(
+    out: &mut Vec<String>,
+    body: &BlockStmt,
+    bindings: &[ImportBinding],
+) {
+    let mut collector = FunctionScopedVarCollector {
+        bindings,
+        shadowed: out,
+    };
+    body.visit_with(&mut collector);
+}
+
+struct FunctionScopedVarCollector<'a, 'b> {
+    bindings: &'a [ImportBinding],
+    shadowed: &'b mut Vec<String>,
+}
+
+impl Visit for FunctionScopedVarCollector<'_, '_> {
+    fn visit_var_decl(&mut self, node: &VarDecl) {
+        if node.kind == VarDeclKind::Var {
+            collect_shadowed_var_decl_bindings(self.shadowed, node, self.bindings);
+        }
+    }
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_class(&mut self, _: &Class) {}
+}
+
+fn direct_block_shadowed_bindings(node: &BlockStmt, bindings: &[ImportBinding]) -> Vec<String> {
+    let mut shadowed = Vec::new();
+
+    for stmt in &node.stmts {
+        if let Stmt::Decl(decl) = stmt {
+            collect_shadowed_decl_bindings(&mut shadowed, decl, bindings);
+        }
+    }
+
+    shadowed
+}
+
+fn collect_shadowed_decl_bindings(out: &mut Vec<String>, decl: &Decl, bindings: &[ImportBinding]) {
+    match decl {
+        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+            push_shadowed_ident_binding(out, ident.sym.as_ref(), bindings);
+        }
+        Decl::Var(var) => {
+            collect_shadowed_var_decl_bindings(out, var, bindings);
+        }
+        Decl::Using(using) => {
+            for declarator in &using.decls {
+                collect_shadowed_pat_bindings(out, &declarator.name, bindings);
+            }
+        }
+        Decl::TsInterface(..) | Decl::TsTypeAlias(..) | Decl::TsEnum(..) | Decl::TsModule(..) => {}
+    }
+}
+
+fn collect_shadowed_var_decl_bindings(
+    out: &mut Vec<String>,
+    decl: &VarDecl,
+    bindings: &[ImportBinding],
+) {
+    for declarator in &decl.decls {
+        collect_shadowed_pat_bindings(out, &declarator.name, bindings);
+    }
+}
+
+fn collect_shadowed_pat_bindings(out: &mut Vec<String>, pat: &Pat, bindings: &[ImportBinding]) {
+    match pat {
+        Pat::Ident(ident) => push_shadowed_binding_ident(out, ident, bindings),
+        Pat::Array(array) => {
+            for elem in array.elems.iter().flatten() {
+                collect_shadowed_pat_bindings(out, elem, bindings);
+            }
+        }
+        Pat::Rest(rest) => collect_shadowed_pat_bindings(out, &rest.arg, bindings),
+        Pat::Object(object) => {
+            for prop in &object.props {
+                match prop {
+                    ObjectPatProp::KeyValue(prop) => {
+                        collect_shadowed_pat_bindings(out, &prop.value, bindings);
+                    }
+                    ObjectPatProp::Assign(prop) => {
+                        push_shadowed_binding_ident(out, &prop.key, bindings);
+                    }
+                    ObjectPatProp::Rest(prop) => {
+                        collect_shadowed_pat_bindings(out, &prop.arg, bindings);
+                    }
+                }
+            }
+        }
+        Pat::Assign(assign) => collect_shadowed_pat_bindings(out, &assign.left, bindings),
+        Pat::Invalid(..) | Pat::Expr(..) => {}
+    }
+}
+
+fn push_shadowed_binding_ident(
+    out: &mut Vec<String>,
+    ident: &BindingIdent,
+    bindings: &[ImportBinding],
+) {
+    push_shadowed_ident_binding(out, ident.id.sym.as_ref(), bindings);
+}
+
+fn push_shadowed_ident_binding(out: &mut Vec<String>, local: &str, bindings: &[ImportBinding]) {
+    if bindings.iter().any(|binding| binding.local == local)
+        && !out.iter().any(|name| name == local)
+    {
+        out.push(local.to_string());
     }
 }
 
@@ -846,6 +1142,10 @@ fn export_property_access(export_name: &str) -> String {
 
 fn import_meta_error_expression() -> String {
     "(() => { throw new SyntaxError(\"Cannot use import.meta outside a module\"); })()".to_string()
+}
+
+fn import_assignment_error_expression() -> String {
+    "(() => { throw new TypeError(\"Assignment to constant variable.\"); })()".to_string()
 }
 
 fn is_identifier_name(value: &str) -> bool {
@@ -988,12 +1288,20 @@ fn is_member_access_token(token: Token) -> bool {
     )
 }
 
-fn is_member_name_token(token: Token) -> bool {
-    matches!(token, Token::Ident | Token::Str | Token::Num) || token.is_known_ident()
+fn is_member_name_token(code: &str, token: &TokenAndSpan) -> bool {
+    matches!(token.token, Token::Ident | Token::Str | Token::Num)
+        || token.token.is_known_ident()
+        || token_text_is_identifier(code, token)
 }
 
-fn is_member_identifier_token(token: Token) -> bool {
-    token == Token::Ident || token.is_known_ident()
+fn is_member_identifier_token(code: &str, token: &TokenAndSpan) -> bool {
+    token.token == Token::Ident
+        || token.token.is_known_ident()
+        || token_text_is_identifier(code, token)
+}
+
+fn token_text_is_identifier(code: &str, token: &TokenAndSpan) -> bool {
+    slice_span(code, token.span).is_some_and(is_identifier_name)
 }
 
 fn slice_span(code: &str, span: Span) -> Option<&str> {
@@ -1220,6 +1528,94 @@ mod tests {
     }
 
     #[test]
+    fn transform_preserves_import_binding_semantics() {
+        assert_eq!(
+            transform_module_syntax("import { spec } from \"m\";\nimport(spec);".into()).code,
+            format!(
+                "const __nodeREPLImport0 = await \
+                 {};\n__nodeREPLDynamicImport(__nodeREPLImport0.spec);",
+                validated_import("m", &["spec"])
+            )
+        );
+
+        assert_eq!(
+            transform_module_syntax(
+                "import { x } from \"m\";\nfunction f(x) { return x; }\nx;".into()
+            )
+            .code,
+            format!(
+                "const __nodeREPLImport0 = await {};\nfunction f(x) {{ return x; \
+                 }}\n__nodeREPLImport0.x;",
+                validated_import("m", &["x"])
+            )
+        );
+
+        assert_eq!(
+            transform_module_syntax("import { x } from \"m\";\n{ const x = 1; x; }\nx;".into())
+                .code,
+            format!(
+                "const __nodeREPLImport0 = await {};\n{{ const x = 1; x; }}\n__nodeREPLImport0.x;",
+                validated_import("m", &["x"])
+            )
+        );
+
+        assert_eq!(
+            transform_module_syntax("import { x } from \"m\";\ntry {} catch (x) { x; }\nx;".into())
+                .code,
+            format!(
+                "const __nodeREPLImport0 = await {};\ntry {{}} catch (x) {{ x; \
+                 }}\n__nodeREPLImport0.x;",
+                validated_import("m", &["x"])
+            )
+        );
+
+        assert_eq!(
+            transform_module_syntax(
+                "import { x } from \"m\";\nfunction f(){ if (ok) { var x = 1; } return x; }\nx;"
+                    .into()
+            )
+            .code,
+            format!(
+                "const __nodeREPLImport0 = await {};\nfunction f(){{ if (ok) {{ var x = 1; }} \
+                 return x; }}\n__nodeREPLImport0.x;",
+                validated_import("m", &["x"])
+            )
+        );
+
+        assert_eq!(
+            transform_module_syntax("import { readFile } from \"node:fs\";\nreadFile = 1;".into())
+                .code,
+            format!(
+                "const __nodeREPLImport0 = await {};\n(() => {{ throw new TypeError(\"Assignment \
+                 to constant variable.\"); }})();",
+                validated_import("node:fs", &["readFile"])
+            )
+        );
+
+        assert_eq!(
+            transform_module_syntax(
+                "import { readFile } from \"node:fs\";\n({ readFile } = obj);".into()
+            )
+            .code,
+            format!(
+                "const __nodeREPLImport0 = await {};\n((() => {{ throw new TypeError(\"Assignment \
+                 to constant variable.\"); }})());",
+                validated_import("node:fs", &["readFile"])
+            )
+        );
+
+        assert_eq!(
+            transform_module_syntax("import { readFile } from \"node:fs\";\nreadFile++;".into())
+                .code,
+            format!(
+                "const __nodeREPLImport0 = await {};\n(() => {{ throw new TypeError(\"Assignment \
+                 to constant variable.\"); }})();",
+                validated_import("node:fs", &["readFile"])
+            )
+        );
+    }
+
+    #[test]
     fn transform_dynamic_import_and_noops() {
         assert_eq!(
             transform_module_syntax("const mod = import(\"node:fs\");".into()).code,
@@ -1280,6 +1676,16 @@ mod tests {
             transform_module_syntax("export { type Foo } from \"types\";\nconst x = 1;".into());
         assert!(!re_export_type.code.contains("__nodeREPLDynamicImport"));
         assert_eq!(re_export_type.code, "\nconst x = 1;");
+
+        let import_equals =
+            transform_module_syntax("import type Foo = require(\"foo\");\nconst x = 1;".into());
+        assert!(import_equals.had_module_syntax);
+        assert_eq!(import_equals.code, "\nconst x = 1;");
+
+        let namespace_export =
+            transform_module_syntax("export as namespace Foo;\nconst x = 1;".into());
+        assert!(namespace_export.had_module_syntax);
+        assert_eq!(namespace_export.code, "\nconst x = 1;");
     }
 
     #[test]
@@ -1300,6 +1706,10 @@ mod tests {
         assert_eq!(
             get_first_expression("assert[method + suffix](value)".into(), 23),
             "assert[method + suffix](value)"
+        );
+        assert_eq!(
+            get_first_expression("assert.deepEqual(foo(), 1)".into(), 17),
+            "assert.deepEqual(foo(), 1)"
         );
         assert_eq!(
             get_first_expression("assert?.ok(value)".into(), 10),
