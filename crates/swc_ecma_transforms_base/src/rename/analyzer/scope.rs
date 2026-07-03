@@ -51,6 +51,7 @@ impl Scope {
         has_eval: bool,
         top_level_mark: Mark,
         is_top_level: bool,
+        allow_eval_hoisted_top_level_rename: bool,
     ) {
         if id.0 == atom!("arguments") {
             return;
@@ -60,16 +61,22 @@ impl Scope {
 
         if !self.data.queue.contains(id) {
             let is_user_decl = id.1.outer().is_descendant_of(top_level_mark);
-            let is_exact_top_level_decl =
-                is_top_level && id.1 == SyntaxContext::empty().apply_mark(top_level_mark);
 
             // When eval/with is present, source declarations must keep their
-            // names. A declaration physically moved to the program root may
-            // still carry a nested source context, though; queue it so mangle
-            // can avoid printing it with the same name as a real top-level
-            // binding (#11977).
-            if has_eval && is_user_decl && (!is_top_level || is_exact_top_level_decl) {
-                return;
+            // names. The mangle pass is the only caller that may rename a
+            // declaration physically moved to the program root while it still
+            // carries a nested source context, and only when the declaration
+            // subtree was proven eval-free by the analyzer. Normal hygiene
+            // keeps the descendant-based eval guard intact because callers
+            // often use the default root mark after resolver.
+            if has_eval && is_user_decl {
+                let is_exact_top_level_decl =
+                    is_top_level && id.1 == SyntaxContext::empty().apply_mark(top_level_mark);
+                let is_hoisted_top_level_decl = is_top_level && !is_exact_top_level_decl;
+
+                if !is_hoisted_top_level_decl || !allow_eval_hoisted_top_level_rename {
+                    return;
+                }
             }
 
             self.data.queue.insert(id.clone());

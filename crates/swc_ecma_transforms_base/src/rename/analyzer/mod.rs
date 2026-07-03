@@ -30,6 +30,9 @@ pub(super) struct Analyzer {
     /// Whether we're in mangle mode. Some Safari bug workarounds only apply
     /// during mangling, not during normal hygiene.
     pub(super) mangle: bool,
+    /// Whether the declaration currently being recorded can use the mangle-only
+    /// eval exception for physically top-level, source-nested bindings.
+    pub(super) can_rename_hoisted_top_level_decl_under_eval: bool,
 }
 
 impl Analyzer {
@@ -46,24 +49,39 @@ impl Analyzer {
             is_first_node: true,
             hoisted_vars: Vec::with_capacity(32),
             mangle,
+            can_rename_hoisted_top_level_decl_under_eval: true,
             ..Default::default()
         }
     }
 
     pub(super) fn add_decl(&mut self, id: Id, belong_to_fn_scope: bool) {
         let is_top_level = self.scope_depth == 0;
+        let allow_eval_hoisted_top_level_rename = self.mangle
+            && is_top_level
+            && self.top_level_mark != Mark::root()
+            && self.can_rename_hoisted_top_level_decl_under_eval;
 
         if belong_to_fn_scope {
             match self.scope.kind {
                 ScopeKind::Fn => {
-                    self.scope
-                        .add_decl(&id, self.has_eval, self.top_level_mark, is_top_level);
+                    self.scope.add_decl(
+                        &id,
+                        self.has_eval,
+                        self.top_level_mark,
+                        is_top_level,
+                        allow_eval_hoisted_top_level_rename,
+                    );
                 }
                 ScopeKind::Block => self.hoisted_vars.push(id),
             }
         } else {
-            self.scope
-                .add_decl(&id, self.has_eval, self.top_level_mark, is_top_level);
+            self.scope.add_decl(
+                &id,
+                self.has_eval,
+                self.top_level_mark,
+                is_top_level,
+                allow_eval_hoisted_top_level_rename,
+            );
         }
     }
 
@@ -106,6 +124,7 @@ impl Analyzer {
             is_first_node: false,
             hoisted_vars: Default::default(),
             mangle: self.mangle,
+            can_rename_hoisted_top_level_decl_under_eval: true,
         };
         std::mem::swap(self, &mut analyer);
         analyer // old analyzer

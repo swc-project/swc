@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use super::{analyzer::scope::Scope, Analyzer};
+use super::{analyzer::scope::Scope, contains_eval, Analyzer};
 
 struct IdCollector {
     ids: FxHashSet<Id>,
@@ -171,7 +171,14 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_class_decl(&mut self, node: &ClassDecl) {
+        let old_can_rename_hoisted_top_level_decl_under_eval =
+            self.analyzer.can_rename_hoisted_top_level_decl_under_eval;
+        self.analyzer.can_rename_hoisted_top_level_decl_under_eval =
+            self.can_rename_hoisted_top_level_decl_under_eval(node);
+
         self.analyzer.handle_class_decl(node);
+        self.analyzer.can_rename_hoisted_top_level_decl_under_eval =
+            old_can_rename_hoisted_top_level_decl_under_eval;
 
         node.visit_children_with(self);
 
@@ -263,6 +270,11 @@ impl Visit for AnalyzerAndCollector {
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
+        let old_can_rename_hoisted_top_level_decl_under_eval =
+            self.analyzer.can_rename_hoisted_top_level_decl_under_eval;
+        self.analyzer.can_rename_hoisted_top_level_decl_under_eval =
+            self.can_rename_hoisted_top_level_decl_under_eval(node);
+
         // https://github.com/swc-project/swc/issues/6819
         //
         // We need to check for assign pattern because safari has a bug.
@@ -290,6 +302,8 @@ impl Visit for AnalyzerAndCollector {
                 self.analyzer.add_usage(node.ident.to_id());
             }
         }
+        self.analyzer.can_rename_hoisted_top_level_decl_under_eval =
+            old_can_rename_hoisted_top_level_decl_under_eval;
 
         node.ident.visit_with(self);
 
@@ -483,11 +497,17 @@ impl Visit for AnalyzerAndCollector {
 
         let old_analyzer_is_pat_decl = self.analyzer.is_pat_decl;
         self.analyzer.is_pat_decl = true;
+        let old_can_rename_hoisted_top_level_decl_under_eval =
+            self.analyzer.can_rename_hoisted_top_level_decl_under_eval;
+        self.analyzer.can_rename_hoisted_top_level_decl_under_eval =
+            self.can_rename_hoisted_top_level_decl_under_eval(node);
 
         node.name.visit_with(self);
 
         self.decl_collector.is_pat_decl = false;
         self.analyzer.is_pat_decl = false;
+        self.analyzer.can_rename_hoisted_top_level_decl_under_eval =
+            old_can_rename_hoisted_top_level_decl_under_eval;
 
         node.init.visit_with(self);
 
@@ -541,6 +561,18 @@ impl Visit for AnalyzerAndCollector {
         if node.src.is_some() {
             self.id_collector.stopped = old_id_collector_stopped;
         }
+    }
+}
+
+impl AnalyzerAndCollector {
+    fn can_rename_hoisted_top_level_decl_under_eval<N>(&self, node: &N) -> bool
+    where
+        N: VisitWith<crate::rename::eval::EvalFinder>,
+    {
+        !(self.analyzer.has_eval
+            && self.analyzer.mangle
+            && self.analyzer.scope_depth == 0
+            && contains_eval(node, true))
     }
 }
 

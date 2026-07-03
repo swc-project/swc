@@ -231,7 +231,6 @@ impl Visit for Preserver<'_> {
                     .into_iter()
                     .filter(|id| id.1 == self.top_level_ctx),
             );
-            return;
         }
 
         if self.options.keep_fn_names {
