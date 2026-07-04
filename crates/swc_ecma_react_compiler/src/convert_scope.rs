@@ -140,6 +140,12 @@ impl SymbolFlags {
     pub const FunctionScopedVariable: Self = Self { bits: 1 << 7 };
     pub const Import: Self = Self { bits: 1 << 8 };
     pub const Param: Self = Self { bits: 1 << 9 };
+    pub const Value: Self = Self {
+        bits: Self::Variable.bits | Self::Class.bits | Self::Function.bits | Self::Enum.bits,
+    };
+    pub const Variable: Self = Self {
+        bits: Self::FunctionScopedVariable.bits | Self::BlockScopedVariable.bits,
+    };
 
     #[inline]
     pub const fn contains(self, other: Self) -> bool {
@@ -153,17 +159,7 @@ impl SymbolFlags {
 
     #[inline]
     pub fn is_value(self) -> bool {
-        self.intersects(
-            Self::FunctionScopedVariable
-                | Self::BlockScopedVariable
-                | Self::Function
-                | Self::FunctionExpression
-                | Self::Class
-                | Self::Enum
-                | Self::Import
-                | Self::Param
-                | Self::CatchVariable,
-        )
+        self.intersects(Self::Value | Self::Import)
     }
 
     #[inline]
@@ -349,7 +345,7 @@ pub struct SemanticBuilder {
     declaration_starts: std::collections::HashSet<u32>,
     /// Re-declaration sites that should resolve to an existing binding.
     redeclaration_bindings: HashMap<u32, SymbolId>,
-    /// Flat list of unresolved references: (name, reference_id).
+    /// Flat list of unresolved references: (name, `reference_id`).
     unresolved_references: Vec<(String, ReferenceId)>,
     /// Track function body spans so they don't create extra block scopes.
     function_body_spans: std::collections::HashSet<u32>,
@@ -515,6 +511,21 @@ impl SemanticBuilder {
         false
     }
 
+    /// Resolve references emitted while visiting function or catch parameters
+    /// before body bindings are added to the same scope.
+    fn resolve_references_from_checkpoint(&mut self, checkpoint: usize) {
+        if checkpoint >= self.unresolved_references.len() {
+            return;
+        }
+
+        let references = self.unresolved_references.split_off(checkpoint);
+        for (name, reference_id) in references {
+            if !self.walk_up_resolve_reference(&name, reference_id) {
+                self.unresolved_references.push((name, reference_id));
+            }
+        }
+    }
+
     fn try_resolve_reference(&mut self, reference_id: ReferenceId, symbol_id: SymbolId) -> bool {
         let symbol_flags = self.scoping.symbol_flags(symbol_id);
 
@@ -538,6 +549,11 @@ impl SemanticBuilder {
                 flags.is_var()
             })
             .unwrap_or(ScopeId(0))
+    }
+
+    #[inline]
+    fn param_flags() -> SymbolFlags {
+        SymbolFlags::FunctionScopedVariable | SymbolFlags::Param
     }
 
     fn collect_pat_bindings(&mut self, pat: &Pat, flags: SymbolFlags) {
@@ -595,6 +611,17 @@ impl SemanticBuilder {
         }
     }
 
+    /// A simple catch parameter is function-scoped for `var` redeclaration
+    /// compatibility, while destructuring is block-scoped.
+    fn collect_catch_pat_bindings(&mut self, pat: &Pat) {
+        let flags = if matches!(pat, Pat::Ident(_)) {
+            SymbolFlags::FunctionScopedVariable | SymbolFlags::CatchVariable
+        } else {
+            SymbolFlags::BlockScopedVariable | SymbolFlags::CatchVariable
+        };
+        self.collect_pat_bindings(pat, flags);
+    }
+
     fn visit_function_inner(&mut self, function: &Function, flags: ScopeFlags) {
         self.visit_function_inner_with_span(function.span, function, flags);
     }
@@ -610,9 +637,11 @@ impl SemanticBuilder {
             scope_span,
         );
 
+        let checkpoint = self.unresolved_references.len();
         for param in &function.params {
-            self.collect_pat_bindings(&param.pat, SymbolFlags::Param);
+            self.collect_pat_bindings(&param.pat, Self::param_flags());
         }
+        self.resolve_references_from_checkpoint(checkpoint);
 
         if let Some(body) = &function.body {
             self.function_body_spans.insert(self.start(body.span));
@@ -628,9 +657,11 @@ impl SemanticBuilder {
             constructor.span,
         );
 
+        let checkpoint = self.unresolved_references.len();
         for param in &constructor.params {
             self.collect_constructor_param_bindings(param);
         }
+        self.resolve_references_from_checkpoint(checkpoint);
 
         if let Some(body) = &constructor.body {
             self.function_body_spans.insert(self.start(body.span));
@@ -643,18 +674,18 @@ impl SemanticBuilder {
     fn collect_constructor_param_bindings(&mut self, param: &ParamOrTsParamProp) {
         match param {
             ParamOrTsParamProp::Param(param) => {
-                self.collect_pat_bindings(&param.pat, SymbolFlags::Param);
+                self.collect_pat_bindings(&param.pat, Self::param_flags());
             }
             ParamOrTsParamProp::TsParamProp(param_prop) => match &param_prop.param {
                 TsParamPropParam::Ident(binding_ident) => {
                     self.declare_symbol(
                         binding_ident.id.span,
                         binding_ident.id.sym.to_string(),
-                        SymbolFlags::Param,
+                        Self::param_flags(),
                     );
                 }
                 TsParamPropParam::Assign(assign) => {
-                    self.collect_pat_bindings(&assign.left, SymbolFlags::Param);
+                    self.collect_pat_bindings(&assign.left, Self::param_flags());
                     assign.right.visit_with(self);
                 }
             },
@@ -670,7 +701,9 @@ impl SemanticBuilder {
         let _scope_id = self.push_scope(self.body_scope_flags(ScopeFlags::Function, body), span);
 
         if let Some(param) = param {
-            self.collect_pat_bindings(param, SymbolFlags::Param);
+            let checkpoint = self.unresolved_references.len();
+            self.collect_pat_bindings(param, Self::param_flags());
+            self.resolve_references_from_checkpoint(checkpoint);
         }
 
         if let Some(body) = body {
@@ -787,13 +820,15 @@ impl Visit for SemanticBuilder {
             self.declare_symbol(
                 ident.span,
                 ident.sym.to_string(),
-                SymbolFlags::FunctionExpression,
+                SymbolFlags::Function | SymbolFlags::FunctionExpression,
             );
         }
 
+        let checkpoint = self.unresolved_references.len();
         for param in &fn_expr.function.params {
-            self.collect_pat_bindings(&param.pat, SymbolFlags::Param);
+            self.collect_pat_bindings(&param.pat, Self::param_flags());
         }
+        self.resolve_references_from_checkpoint(checkpoint);
 
         if let Some(body) = &fn_expr.function.body {
             self.function_body_spans.insert(self.start(body.span));
@@ -812,9 +847,11 @@ impl Visit for SemanticBuilder {
         };
         self.push_scope(flags, arrow.span);
 
+        let checkpoint = self.unresolved_references.len();
         for param in &arrow.params {
-            self.collect_pat_bindings(param, SymbolFlags::Param);
+            self.collect_pat_bindings(param, Self::param_flags());
         }
+        self.resolve_references_from_checkpoint(checkpoint);
 
         match &*arrow.body {
             BlockStmtOrExpr::BlockStmt(block) => {
@@ -874,7 +911,9 @@ impl Visit for SemanticBuilder {
         self.push_scope(ScopeFlags::CatchClause, catch.span);
 
         if let Some(param) = &catch.param {
-            self.collect_pat_bindings(param, SymbolFlags::CatchVariable);
+            let checkpoint = self.unresolved_references.len();
+            self.collect_catch_pat_bindings(param);
+            self.resolve_references_from_checkpoint(checkpoint);
         }
 
         self.function_body_spans.insert(self.start(catch.body.span));
@@ -1366,7 +1405,7 @@ fn build_import_map(
     map
 }
 
-/// Map our ScopeFlags to react_compiler_ast ScopeKind.
+/// Map our `ScopeFlags` to `react_compiler_ast` `ScopeKind`.
 fn get_scope_kind(flags: ScopeFlags) -> react_compiler_ast::scope::ScopeKind {
     use react_compiler_ast::scope::ScopeKind;
 
@@ -1397,7 +1436,7 @@ fn get_scope_kind(flags: ScopeFlags) -> react_compiler_ast::scope::ScopeKind {
     ScopeKind::Block
 }
 
-/// Map our SymbolFlags to react_compiler_ast BindingKind.
+/// Map our `SymbolFlags` to `react_compiler_ast` `BindingKind`.
 fn get_binding_kind(flags: SymbolFlags) -> react_compiler_ast::scope::BindingKind {
     use react_compiler_ast::scope::BindingKind;
 
@@ -1420,9 +1459,8 @@ fn get_binding_kind(flags: SymbolFlags) -> react_compiler_ast::scope::BindingKin
     if flags.contains(SymbolFlags::BlockScopedVariable) {
         if flags.contains(SymbolFlags::ConstVariable) {
             return BindingKind::Const;
-        } else {
-            return BindingKind::Let;
         }
+        return BindingKind::Let;
     }
 
     if flags.contains(SymbolFlags::FunctionExpression) {

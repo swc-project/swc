@@ -1081,6 +1081,85 @@ fn scope_for_loop_creates_scope() {
 }
 
 #[test]
+fn scope_resolves_function_param_references_before_body_bindings() {
+    let source = r#"
+        const fallback = "outer";
+        function useValue(value = fallback) {
+            const fallback = "inner";
+            return value;
+        }
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let source_pos = |needle: &str| {
+        source
+            .find(needle)
+            .unwrap_or_else(|| panic!("should find {needle:?}")) as u32
+            + 1
+    };
+    let binding_id_at = |name: &str, needle: &str| {
+        let start = source_pos(needle);
+        info.bindings
+            .iter()
+            .find(|binding| binding.name == name && binding.declaration_start == Some(start))
+            .unwrap_or_else(|| panic!("should find binding {name} at {needle:?}"))
+            .id
+    };
+
+    let outer_fallback = binding_id_at("fallback", "fallback = \"outer\"");
+    let inner_fallback = binding_id_at("fallback", "fallback = \"inner\"");
+    let fallback_ref = source_pos("fallback) {");
+    let resolved = info.ref_node_id_to_binding.get(&fallback_ref).copied();
+
+    assert_eq!(resolved, Some(outer_fallback));
+    assert_ne!(resolved, Some(inner_fallback));
+}
+
+#[test]
+fn scope_resolves_catch_param_references_before_body_bindings() {
+    let source = r#"
+        const key = "outer";
+        try {
+        } catch ({ [key]: value }) {
+            const key = "inner";
+            console.log(value);
+        }
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let source_pos = |needle: &str| {
+        source
+            .find(needle)
+            .unwrap_or_else(|| panic!("should find {needle:?}")) as u32
+            + 1
+    };
+    let binding_id_at = |name: &str, needle: &str| {
+        let start = source_pos(needle);
+        info.bindings
+            .iter()
+            .find(|binding| binding.name == name && binding.declaration_start == Some(start))
+            .unwrap_or_else(|| panic!("should find binding {name} at {needle:?}"))
+            .id
+    };
+
+    let outer_key = binding_id_at("key", "key = \"outer\"");
+    let inner_key = binding_id_at("key", "key = \"inner\"");
+    let catch_value = binding_id_at("value", "value })");
+    let key_ref = source_pos("key]: value");
+    let value_ref = source_pos("value);");
+
+    let resolved_key = info.ref_node_id_to_binding.get(&key_ref).copied();
+    assert_eq!(resolved_key, Some(outer_key));
+    assert_ne!(resolved_key, Some(inner_key));
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&value_ref).copied(),
+        Some(catch_value)
+    );
+}
+
+#[test]
 fn scope_resolves_references_inside_var_decl_patterns() {
     let source = r#"
         const key = "name";
