@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "71.0.6"
+version       = "71.0.7"
 [package.metadata.docs.rs]
 features = [
   "allocator_node",
@@ -352,7 +352,7 @@ swc_ecma_ast                     = { optional = true, version = "25.0.0", path =
 swc_ecma_codegen                 = { optional = true, version = "28.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "33.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "24.0.1", path = "../swc_ecma_loader" }
-swc_ecma_minifier                = { optional = true, version = "56.0.2", path = "../swc_ecma_minifier" }
+swc_ecma_minifier                = { optional = true, version = "56.0.3", path = "../swc_ecma_minifier" }
 swc_ecma_parser                  = { optional = true, version = "41.1.2", path = "../swc_ecma_parser", default-features = false }
 swc_ecma_preset_env              = { optional = true, version = "57.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "41.0.0", path = "../swc_ecma_quote_macros" }
