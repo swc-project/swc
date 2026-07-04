@@ -540,6 +540,35 @@ fn scope_named_function_expression_is_local() {
 }
 
 #[test]
+fn scope_named_function_expression_allows_same_named_param() {
+    let source = "const g = function f(f) { return f; };";
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let f_bindings: Vec<_> = info.bindings.iter().filter(|b| b.name == "f").collect();
+    assert_eq!(f_bindings.len(), 2, "should create separate f bindings");
+
+    let function_binding = f_bindings
+        .iter()
+        .find(|binding| matches!(binding.kind, BindingKind::Local))
+        .expect("should find named function expression binding");
+    let param_binding = f_bindings
+        .iter()
+        .find(|binding| matches!(binding.kind, BindingKind::Param))
+        .expect("should find parameter binding");
+
+    let return_ref = source.find("return f").expect("should find return f") as u32 + 8;
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&return_ref).copied(),
+        Some(param_binding.id)
+    );
+    assert_ne!(
+        info.ref_node_id_to_binding.get(&return_ref).copied(),
+        Some(function_binding.id)
+    );
+}
+
+#[test]
 fn scope_export_default_function_named_binding_is_program_scoped() {
     let source = "export default function App() { return App; }";
     let program = parse_program(source);

@@ -461,8 +461,14 @@ impl SemanticBuilder {
     ) -> SymbolId {
         if flags.contains(SymbolFlags::FunctionScopedVariable) {
             if let Some(symbol_id) = self.scoping.get_binding(scope_id, &name) {
-                self.record_redeclaration_binding(span, symbol_id);
-                return symbol_id;
+                if !self
+                    .scoping
+                    .symbol_flags(symbol_id)
+                    .contains(SymbolFlags::FunctionExpression)
+                {
+                    self.record_redeclaration_binding(span, symbol_id);
+                    return symbol_id;
+                }
             }
         }
 
