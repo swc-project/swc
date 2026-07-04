@@ -161,7 +161,8 @@ impl SymbolFlags {
                 | Self::Class
                 | Self::Enum
                 | Self::Import
-                | Self::Param,
+                | Self::Param
+                | Self::CatchVariable,
         )
     }
 
