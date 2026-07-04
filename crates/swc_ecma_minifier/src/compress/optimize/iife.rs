@@ -861,8 +861,24 @@ impl Optimizer<'_> {
         param_ids: impl ExactSizeIterator<Item = &'a Ident> + Clone,
         args: &[ExprOrSpread],
     ) -> bool {
-        // Don't create top-level variables.
+        if param_ids.len() == 0 {
+            return true;
+        }
+
         if !self.may_add_ident() {
+            // cannot add new ident, but sometimes inline or unused pass could remove those
+            // new vars
+            // but not when there's eval
+
+            if self
+                .data
+                .get_scope(self.ctx.scope)
+                .unwrap()
+                .contains(ScopeData::HAS_EVAL_CALL)
+            {
+                return false;
+            }
+
             for (idx, pid) in param_ids.clone().enumerate() {
                 if let Some(usage) = self.data.vars.get(&pid.to_id()) {
                     let arg = args.get(idx).map(|a| &*a.expr);
