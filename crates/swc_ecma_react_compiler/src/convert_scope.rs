@@ -266,6 +266,17 @@ impl Scoping {
         self.scopes[scope_id.0 as usize].bindings.get(name).copied()
     }
 
+    pub fn move_bindings(&mut self, from_scope_id: ScopeId, to_scope_id: ScopeId) {
+        if from_scope_id == to_scope_id {
+            return;
+        }
+
+        let bindings = std::mem::take(&mut self.scopes[from_scope_id.0 as usize].bindings);
+        self.scopes[to_scope_id.0 as usize]
+            .bindings
+            .extend(bindings);
+    }
+
     pub fn root_scope_id(&self) -> ScopeId {
         ScopeId(0)
     }
@@ -876,7 +887,11 @@ impl Visit for SemanticBuilder {
         if self.function_body_spans.remove(&self.start(block.span)) {
             block.visit_children_with(self);
         } else {
-            self.push_scope(ScopeFlags::empty(), block.span);
+            let parent_scope = self.current_scope();
+            let scope_id = self.push_scope(ScopeFlags::empty(), block.span);
+            if self.scoping.scope_flags(parent_scope).is_catch_clause() {
+                self.scoping.move_bindings(parent_scope, scope_id);
+            }
             block.visit_children_with(self);
             self.pop_scope();
         }
@@ -922,7 +937,6 @@ impl Visit for SemanticBuilder {
             self.resolve_references_from_checkpoint(checkpoint);
         }
 
-        self.function_body_spans.insert(self.start(catch.body.span));
         catch.body.visit_with(self);
 
         self.pop_scope();

@@ -1074,7 +1074,14 @@ fn scope_catch_clause_creates_scope() {
         .expect("should find binding e");
     assert!(matches!(e_binding.kind, BindingKind::Let));
     let scope = &info.scopes[e_binding.scope.0 as usize];
-    assert!(matches!(scope.kind, ScopeKind::Catch));
+    assert!(matches!(scope.kind, ScopeKind::Block));
+    let parent = scope
+        .parent
+        .expect("catch param block should have a parent");
+    assert!(matches!(
+        info.scopes[parent.0 as usize].kind,
+        ScopeKind::Catch
+    ));
 }
 
 #[test]
@@ -1148,12 +1155,12 @@ fn scope_resolves_function_param_references_before_body_bindings() {
 #[test]
 fn scope_resolves_catch_param_references_before_body_bindings() {
     let source = r#"
-        const key = "outer";
         try {
         } catch ({ [key]: value }) {
             const key = "inner";
             console.log(value);
         }
+        const key = "outer";
     "#;
     let program = parse_program(source);
     let info = SemanticBuilder::new().build(&program);
