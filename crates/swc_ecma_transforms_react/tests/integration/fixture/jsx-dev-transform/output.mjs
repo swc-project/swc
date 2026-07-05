@@ -14,7 +14,11 @@ const App = /*#__PURE__*/ _jsxDEV("div", {
                 lineNumber: 5,
                 columnNumber: 13
             }, this)
-        }, void 0, false)
+        }, void 0, false, {
+            fileName: "input.js",
+            lineNumber: 4,
+            columnNumber: 9
+        }, this)
     ]
 }, void 0, true, {
     fileName: "input.js",
