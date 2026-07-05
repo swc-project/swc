@@ -439,12 +439,52 @@ jobs:
         run: |
           pnpm test
 
-      - name: Build (react-compiler)
+  react-compiler-test:
+    name: Test react-compiler bindings - ${{ matrix.os }}
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          # - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+
+      - uses: ./.github/actions/setup-node
+        id: setup-node
+        with:
+          node-version: 18
+          install-dependencies: "false"
+
+      - name: Prepare
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+      - name: Save pnpm cache
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
+        with:
+          path: ${{ steps.setup-node.outputs.pnpm-store-path }}
+          key: ${{ steps.setup-node.outputs.pnpm-cache-primary-key }}
+
+      - name: Build
         working-directory: packages/react-compiler
         run: |
           pnpm build:dev
 
-      - name: Test (react-compiler)
+      - name: Test
         working-directory: packages/react-compiler
         run: |
           pnpm test
