@@ -10,7 +10,7 @@ use swc_ecma_utils::{
 };
 
 use crate::{
-    module_decl_strip::{ExportItem, ExportKV},
+    module_record::{ExportBinding, LocalExportEntry},
     SpanCtx,
 };
 
@@ -335,11 +335,11 @@ pub(crate) fn esm_export() -> Function {
 /// Sort export properties by key without allocating cached keys or cloning
 /// `Atom`s for each entry.
 #[inline]
-pub(crate) fn sort_export_obj_prop_list(prop_list: &mut [ExportKV]) {
+pub(crate) fn sort_export_bindings(prop_list: &mut [ExportBinding]) {
     prop_list.sort_unstable_by(|a, b| a.0.cmp(&b.0));
 }
 
-pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) -> Vec<Stmt> {
+pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportBinding>) -> Vec<Stmt> {
     match prop_list.len() {
         0 | 1 => prop_list
             .pop()
@@ -349,7 +349,7 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
                     quote_str!(export_item.export_name_span().0, export_name).as_arg(),
                     prop_function((
                         "get".into(),
-                        ExportItem::new(Default::default(), export_item.into_local_ident()),
+                        LocalExportEntry::new(Default::default(), export_item.into_local_ident()),
                     ))
                     .into(),
                 )
@@ -423,7 +423,7 @@ impl From<IdentOrStr> for MemberProp {
 ///     },
 /// }
 /// ```
-pub(crate) fn prop_function((key, export_item): ExportKV) -> Prop {
+pub(crate) fn prop_function((key, export_item): ExportBinding) -> Prop {
     let key = prop_name(&key, export_item.export_name_span()).into();
 
     KeyValueProp {
@@ -447,7 +447,7 @@ pub(crate) fn prop_function((key, export_item): ExportKV) -> Prop {
 /// }
 /// ```
 /// Compatibility: getter is supported in Node.js v0.10+
-fn getter_function((key, export_item): ExportKV) -> Prop {
+fn getter_function((key, export_item): ExportBinding) -> Prop {
     let key = prop_name(&key, export_item.export_name_span()).into();
 
     GetterProp {

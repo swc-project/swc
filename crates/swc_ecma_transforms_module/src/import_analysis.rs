@@ -6,7 +6,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitWith,
 };
 
-use crate::{module_decl_strip::LinkFlag, util::ImportInterop, wtf8::str_to_atom};
+use crate::{module_record::ModuleRequestUsage, util::ImportInterop, wtf8::str_to_atom};
 
 pub fn import_analyzer(import_interop: ImportInterop, ignore_dynamic: bool) -> impl Pass {
     visit_mut_pass(ImportAnalyzer {
@@ -21,7 +21,7 @@ pub struct ImportAnalyzer {
     import_interop: ImportInterop,
     ignore_dynamic: bool,
 
-    flag_record: FxHashMap<Atom, LinkFlag>,
+    flag_record: FxHashMap<Atom, ModuleRequestUsage>,
     dynamic_import_found: bool,
 }
 
@@ -46,7 +46,7 @@ impl Visit for ImportAnalyzer {
 
         let flag_record = &self.flag_record;
 
-        if flag_record.values().any(|flag| flag.export_star()) {
+        if flag_record.values().any(|flag| flag.has_star_export()) {
             enable_helper!(export_star);
         }
 
@@ -57,12 +57,15 @@ impl Visit for ImportAnalyzer {
         if self.import_interop.is_swc()
             && flag_record
                 .values()
-                .any(|flag| flag.interop() && !flag.has_named())
+                .any(|flag| flag.needs_interop() && !flag.has_named())
         {
             enable_helper!(interop_require_default);
         }
 
-        if flag_record.values().any(|flag| flag.namespace()) {
+        if flag_record
+            .values()
+            .any(|flag| flag.needs_namespace_object())
+        {
             enable_helper!(interop_require_wildcard);
         } else if !self.ignore_dynamic {
             // `import/export * as foo from "foo"` not found
@@ -99,7 +102,7 @@ impl Visit for ImportAnalyzer {
 
     fn visit_export_all(&mut self, n: &ExportAll) {
         let src = str_to_atom(&n.src);
-        *self.flag_record.entry(src).or_default() |= LinkFlag::EXPORT_STAR;
+        *self.flag_record.entry(src).or_default() |= ModuleRequestUsage::STAR_EXPORT;
     }
 
     fn visit_import(&mut self, _: &Import) {
