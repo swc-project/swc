@@ -528,6 +528,7 @@ impl VisitMut for Resolver<'_> {
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         self.with_child(ScopeKind::Fn, |child| {
+            child.mark_block(&mut e.ctxt);
             e.type_params.visit_mut_with(child);
 
             let old = child.ident_type;

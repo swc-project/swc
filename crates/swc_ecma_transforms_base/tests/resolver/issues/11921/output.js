@@ -1,16 +1,16 @@
-const foo__2 = ()=>(args__3)=>class A__4 {
+const foo__2 = ()=>(args__4)=>class A__5 {
         };
 new (foo__2()`bar`)();
-const taggedObject__2 = ()=>(args__5)=>({
-            bar: (args__6)=>class B__7 {
+const taggedObject__2 = ()=>(args__7)=>({
+            bar: (args__8)=>class B__9 {
                 }
         });
 new (taggedObject__2()`a`.bar`b`)();
-const nestedTag__2 = ()=>(args__8)=>(args__9)=>class D__10 {
+const nestedTag__2 = ()=>(args__11)=>(args__12)=>class D__13 {
             };
 new (nestedTag__2()`a``b`)();
 function Foo__2() {
-    return (args__12)=>class C__13 {
+    return (args__15)=>class C__16 {
         };
 }
 new (new Foo__2)`bar`();
