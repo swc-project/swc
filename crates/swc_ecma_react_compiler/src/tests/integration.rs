@@ -1137,14 +1137,7 @@ fn scope_catch_clause_creates_scope() {
         .expect("should find binding e");
     assert!(matches!(e_binding.kind, BindingKind::Let));
     let scope = &info.scopes[e_binding.scope.0 as usize];
-    assert!(matches!(scope.kind, ScopeKind::Block));
-    let parent = scope
-        .parent
-        .expect("catch param block should have a parent");
-    assert!(matches!(
-        info.scopes[parent.0 as usize].kind,
-        ScopeKind::Catch
-    ));
+    assert!(matches!(scope.kind, ScopeKind::Catch));
 }
 
 #[test]
@@ -1415,6 +1408,58 @@ fn scope_resolves_catch_param_references_before_body_bindings() {
     assert_eq!(
         info.ref_node_id_to_binding.get(&value_ref).copied(),
         Some(catch_value)
+    );
+}
+
+#[test]
+fn scope_catch_param_binding_covers_initializer_references() {
+    let source = r#"
+        try {
+        } catch ({ e = () => e }) {
+            e();
+        }
+        const e = "outer";
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let source_pos = |needle: &str| {
+        source
+            .find(needle)
+            .unwrap_or_else(|| panic!("should find {needle:?}")) as u32
+            + 1
+    };
+    let binding_id_at = |name: &str, needle: &str| {
+        let start = source_pos(needle);
+        info.bindings
+            .iter()
+            .find(|binding| binding.name == name && binding.declaration_start == Some(start))
+            .unwrap_or_else(|| panic!("should find binding {name} at {needle:?}"))
+            .id
+    };
+
+    let catch_e = binding_id_at("e", "e = ()");
+    let outer_e = binding_id_at("e", "e = \"outer\"");
+    let initializer_e_ref = source_pos("=> e") + 3;
+    let body_e_ref = source_pos("e();");
+    let catch_binding = &info.bindings[catch_e.0 as usize];
+
+    assert!(matches!(catch_binding.kind, BindingKind::Let));
+    assert!(matches!(
+        info.scopes[catch_binding.scope.0 as usize].kind,
+        ScopeKind::Catch
+    ));
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&initializer_e_ref).copied(),
+        Some(catch_e)
+    );
+    assert_ne!(
+        info.ref_node_id_to_binding.get(&initializer_e_ref).copied(),
+        Some(outer_e)
+    );
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&body_e_ref).copied(),
+        Some(catch_e)
     );
 }
 
