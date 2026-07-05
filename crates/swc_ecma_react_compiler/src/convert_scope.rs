@@ -191,6 +191,7 @@ pub struct Symbol {
     pub name: String,
     pub span: swc_common::Span,
     pub flags: SymbolFlags,
+    pub scope_id: ScopeId,
 }
 
 /// A reference to a symbol.
@@ -252,6 +253,10 @@ impl Scoping {
         self.symbols[symbol_id.0 as usize].span
     }
 
+    pub fn symbol_scope_id(&self, symbol_id: SymbolId) -> ScopeId {
+        self.symbols[symbol_id.0 as usize].scope_id
+    }
+
     pub fn scope_flags(&self, scope_id: ScopeId) -> ScopeFlags {
         self.scopes[scope_id.0 as usize].flags
     }
@@ -294,6 +299,9 @@ impl Scoping {
         }
 
         let bindings = std::mem::take(&mut self.scopes[from_scope_id.0 as usize].bindings);
+        for symbol_id in bindings.values().copied() {
+            self.symbols[symbol_id.0 as usize].scope_id = to_scope_id;
+        }
         self.scopes[to_scope_id.0 as usize]
             .bindings
             .extend(bindings);
@@ -328,6 +336,7 @@ impl Scoping {
             name: name.clone(),
             span,
             flags,
+            scope_id,
         });
         if let Some(scope) = self.scopes.get_mut(scope_id.0 as usize) {
             scope.bindings.insert(name, id);
@@ -1479,6 +1488,18 @@ impl SemanticBuilder {
             scope_to_out_scope.insert(scope_id, out_scope_id);
         }
 
+        for symbol_id in self.scoping.symbol_ids() {
+            if let Some(&binding_id) = symbol_to_binding.get(&symbol_id) {
+                let symbol_scope_id = self.scoping.symbol_scope_id(symbol_id);
+                let out_scope_id = output_scope_for_internal_scope(
+                    &self.scoping,
+                    &scope_to_out_scope,
+                    symbol_scope_id,
+                );
+                bindings[binding_id.0 as usize].scope = out_scope_id;
+            }
+        }
+
         // Second pass: Create all scopes and update binding scope references
         for scope_id in self.scoping.scope_descendants_from_root() {
             let scope_flags = self.scoping.scope_flags(scope_id);
@@ -1496,7 +1517,6 @@ impl SemanticBuilder {
                 if let Some(&binding_id) = symbol_to_binding.get(&symbol_id) {
                     let name = bindings[binding_id.0 as usize].name.clone();
                     scope_bindings.insert(name, binding_id);
-                    bindings[binding_id.0 as usize].scope = out_scope_id;
                 }
             }
 
@@ -1597,6 +1617,22 @@ fn output_parent_scope(
         parent_id = scoping.scope_parent_id(parent);
     }
     None
+}
+
+fn output_scope_for_internal_scope(
+    scoping: &Scoping,
+    scope_to_out_scope: &HashMap<ScopeId, react_compiler_ast::scope::ScopeId>,
+    mut scope_id: ScopeId,
+) -> react_compiler_ast::scope::ScopeId {
+    loop {
+        if let Some(&out_scope_id) = scope_to_out_scope.get(&scope_id) {
+            return out_scope_id;
+        }
+
+        scope_id = scoping
+            .scope_parent_id(scope_id)
+            .expect("internal scope should have an output ancestor");
+    }
 }
 
 /// Build a map from import specifier span start to its import data.

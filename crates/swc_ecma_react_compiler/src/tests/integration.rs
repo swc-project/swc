@@ -573,10 +573,57 @@ fn scope_named_function_expression_allows_same_named_param() {
         .find(|binding| matches!(binding.kind, BindingKind::Param))
         .expect("should find parameter binding");
 
+    assert!(matches!(
+        info.scopes[function_binding.scope.0 as usize].kind,
+        ScopeKind::Function
+    ));
+    assert!(matches!(
+        info.scopes[param_binding.scope.0 as usize].kind,
+        ScopeKind::Function
+    ));
+
     let return_ref = source.find("return f").expect("should find return f") as u32 + 8;
     assert_eq!(
         info.ref_node_id_to_binding.get(&return_ref).copied(),
         Some(param_binding.id)
+    );
+    assert_ne!(
+        info.ref_node_id_to_binding.get(&return_ref).copied(),
+        Some(function_binding.id)
+    );
+}
+
+#[test]
+fn scope_named_function_expression_preserves_scope_when_shadowed_by_var() {
+    let source = "const g = function f() { var f; return f; };";
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let f_bindings: Vec<_> = info.bindings.iter().filter(|b| b.name == "f").collect();
+    assert_eq!(f_bindings.len(), 2, "should create separate f bindings");
+
+    let function_binding = f_bindings
+        .iter()
+        .find(|binding| matches!(binding.kind, BindingKind::Local))
+        .expect("should find named function expression binding");
+    let var_binding = f_bindings
+        .iter()
+        .find(|binding| matches!(binding.kind, BindingKind::Var))
+        .expect("should find var binding");
+
+    assert!(matches!(
+        info.scopes[function_binding.scope.0 as usize].kind,
+        ScopeKind::Function
+    ));
+    assert!(matches!(
+        info.scopes[var_binding.scope.0 as usize].kind,
+        ScopeKind::Function
+    ));
+
+    let return_ref = source.find("return f").expect("should find return f") as u32 + 8;
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&return_ref).copied(),
+        Some(var_binding.id)
     );
     assert_ne!(
         info.ref_node_id_to_binding.get(&return_ref).copied(),
