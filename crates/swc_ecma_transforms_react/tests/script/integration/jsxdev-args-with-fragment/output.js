@@ -16,4 +16,8 @@ var x = /*#__PURE__*/ _jsxDEV(_Fragment, {
             columnNumber: 9
         }, this)
     ]
-}, void 0, true);
+}, void 0, true, {
+    fileName: "input.js",
+    lineNumber: 2,
+    columnNumber: 5
+}, this);
