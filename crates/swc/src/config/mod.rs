@@ -702,6 +702,8 @@ impl Options {
             .map(|v| v.mangle.is_obj() || v.mangle.is_true())
             .unwrap_or(false);
 
+        let jsx_preserve = transform.react.runtime == Some(react::Runtime::Preserve);
+
         #[cfg(feature = "module")]
         let rewrite_import_pass: Box<dyn Pass> = {
             let swc_import_rewriter: Box<dyn Pass> = match resolver.clone() {
@@ -715,9 +717,7 @@ impl Options {
             };
 
             let typescript_import_rewriter = Optional::new(
-                modules::rewriter::typescript_import_rewriter(
-                    transform.react.runtime == Some(react::Runtime::Preserve),
-                ),
+                modules::rewriter::typescript_import_rewriter(jsx_preserve),
                 rewrite_relative_import_extensions.into_bool(),
             );
 
@@ -880,8 +880,7 @@ impl Options {
         {
             plugin_transforms.unwrap()
         } else {
-            let jsx_enabled =
-                syntax.jsx() && transform.react.runtime != Some(react::Runtime::Preserve);
+            let jsx_enabled = syntax.jsx() && !jsx_preserve;
 
             let decorator_pass: Box<dyn Pass> =
                 match transform.decorator_version.unwrap_or_default() {
