@@ -108,7 +108,9 @@ fn get_output_extension(specifier: &Atom, jsx_preserve: bool) -> Option<Atom> {
     let ext = match ext {
         "js" | "ts" => "js",
         "json" => "json",
-        "jsx" | "tsx" => {
+        // `.jsx` is not rewritten: TypeScript only rewrites specifiers with a
+        // TS extension (`shouldRewriteModuleSpecifier` in utilities.ts).
+        "tsx" => {
             if jsx_preserve {
                 "jsx"
             } else {
