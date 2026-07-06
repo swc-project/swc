@@ -1,6 +1,9 @@
 //// [0.ts]
 System.register([], function(_export, _context) {
-    return {
+    return _export({
+        a: void 0,
+        b: void 0
+    }), {
         setters: [],
         execute: function() {
             _export("a", 1), _export("b", 2);
@@ -11,12 +14,14 @@ System.register([], function(_export, _context) {
 System.register([
     "./0"
 ], function(_export, _context) {
-    return {
+    return _export("ns", void 0), {
         setters: [
-            function(_0) {}
+            function(_0_ns) {
+                _export("ns", _0_ns);
+            }
         ],
         execute: function() {
-            _export("_ns", ns), ns.a, ns.b;
+            ns.a, ns.b;
         }
     };
 });
@@ -27,8 +32,8 @@ System.register([
     var foo;
     return {
         setters: [
-            function(_1) {
-                foo = _1;
+            function(_1_ns) {
+                foo = _1_ns;
             }
         ],
         execute: function() {

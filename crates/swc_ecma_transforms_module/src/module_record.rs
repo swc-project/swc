@@ -1,6 +1,8 @@
+use std::cmp::Ordering;
+
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
@@ -8,25 +10,82 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{module_ref_rewriter::ImportMap, SpanCtx};
 
-/// `Source Text Module Record.[[RequestedModules]]`, grouped by module request
-/// string and kept in source order for deterministic emit.
+/// `Source Text Module Record.[[RequestedModules]]`, kept in source order for
+/// deterministic emit.
+///
+/// By default entries are grouped by module specifier for emitters that only
+/// have string dependency slots. Callers that need per-dependency metadata can
+/// opt into grouping by ModuleRequest Record so import attributes stay paired
+/// with the matching dependency slot.
 ///
 /// Spec:
 /// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-source-text-module-records
 /// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-module-request-records
 /// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-static-semantics-modulerequests
-pub(crate) type RequestedModules = IndexMap<Atom, RequestedModule>;
+pub(crate) type RequestedModules = IndexMap<RequestedModuleKey, RequestedModule>;
 /// `Source Text Module Record.[[LocalExportEntries]]`, keyed by export name.
 ///
 /// Spec: https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-source-text-module-records
 pub(crate) type LocalExportEntries = FxHashMap<Atom, LocalExportEntry>;
 
-/// Extracts ECMAScript module syntax into module-record-like data while
-/// stripping module declarations from the body for legacy CommonJS/AMD/UMD
-/// emit.
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+pub(crate) enum RequestedModuleKey {
+    Specifier(Atom),
+    ModuleRequest(ModuleRequestRecord),
+}
+
+impl RequestedModuleKey {
+    pub fn src(&self) -> &Atom {
+        match self {
+            Self::Specifier(src) => src,
+            Self::ModuleRequest(request) => &request.specifier,
+        }
+    }
+
+    pub fn attributes(&self) -> &[ImportAttributeRecord] {
+        match self {
+            Self::Specifier(_) => &[],
+            Self::ModuleRequest(request) => &request.attributes,
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+pub(crate) struct ModuleRequestRecord {
+    /// ModuleRequest Record [[Specifier]].
+    specifier: Atom,
+    /// ModuleRequest Record [[Attributes]].
+    attributes: Vec<ImportAttributeRecord>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+pub(crate) struct ImportAttributeRecord {
+    /// ImportAttribute Record [[Key]].
+    key: Atom,
+    /// ImportAttribute Record [[Value]].
+    value: Wtf8Atom,
+}
+
+impl ImportAttributeRecord {
+    pub fn key(&self) -> &Atom {
+        &self.key
+    }
+
+    pub fn value(&self) -> &Wtf8Atom {
+        &self.value
+    }
+}
+
+/// Source-level module syntax split into reusable module-record data and
+/// ordered body items.
+///
+/// This keeps extraction separate from target-specific stripping. Lowerers are
+/// responsible for deciding how an exported declaration or expression becomes
+/// executable code in their output format.
 #[derive(Debug)]
 pub struct ModuleSyntaxExtractor {
-    /// Imported modules and indirect/star exports grouped by module request.
+    /// Imported modules and indirect/star exports grouped by requested module
+    /// key.
     pub requested_modules: RequestedModules,
 
     /// Local exported binding.
@@ -44,6 +103,7 @@ pub struct ModuleSyntaxExtractor {
     default_export_decl: Option<Stmt>,
 
     const_var_kind: VarDeclKind,
+    preserve_import_attributes: bool,
 }
 
 impl ModuleSyntaxExtractor {
@@ -55,7 +115,78 @@ impl ModuleSyntaxExtractor {
             has_module_syntax: Default::default(),
             default_export_decl: Default::default(),
             const_var_kind,
+            preserve_import_attributes: false,
         }
+    }
+
+    pub fn preserve_import_attributes(mut self) -> Self {
+        self.preserve_import_attributes = true;
+        self
+    }
+
+    fn request_key(
+        &self,
+        specifier: Atom,
+        attributes: &[ImportAttributeRecord],
+    ) -> RequestedModuleKey {
+        if self.preserve_import_attributes {
+            return RequestedModuleKey::ModuleRequest(ModuleRequestRecord {
+                specifier,
+                attributes: attributes.to_vec(),
+            });
+        }
+
+        RequestedModuleKey::Specifier(specifier)
+    }
+
+    fn import_attributes(with: Option<Box<ObjectLit>>) -> Vec<ImportAttributeRecord> {
+        let Some(with) = with else {
+            return Vec::new();
+        };
+
+        let Some(mut attributes) = with
+            .props
+            .into_iter()
+            .map(|prop| Self::import_attribute_record(&prop))
+            .collect::<Option<Vec<_>>>()
+        else {
+            return Vec::new();
+        };
+
+        attributes.sort_unstable_by(|a, b| {
+            Self::cmp_utf16(a.key.as_str(), b.key.as_str()).then_with(|| a.value.cmp(&b.value))
+        });
+
+        attributes
+    }
+
+    fn import_attribute_record(prop: &PropOrSpread) -> Option<ImportAttributeRecord> {
+        let PropOrSpread::Prop(prop) = prop else {
+            return None;
+        };
+
+        let Prop::KeyValue(key_value) = &**prop else {
+            return None;
+        };
+
+        let key = match &key_value.key {
+            PropName::Ident(key) => key.sym.clone(),
+            PropName::Str(key) => key.value.as_str()?.into(),
+            _ => return None,
+        };
+
+        let Expr::Lit(Lit::Str(value)) = &*key_value.value else {
+            return None;
+        };
+
+        Some(ImportAttributeRecord {
+            key,
+            value: value.value.clone(),
+        })
+    }
+
+    fn cmp_utf16(a: &str, b: &str) -> Ordering {
+        a.encode_utf16().cmp(b.encode_utf16())
     }
 }
 
@@ -124,11 +255,18 @@ impl VisitMut for ModuleSyntaxExtractor {
         }
 
         let ImportDecl {
-            specifiers, src, ..
+            specifiers,
+            src,
+            with,
+            ..
         } = n.take();
 
+        let src_key = src.value.to_atom_lossy().into_owned();
+        let attributes = Self::import_attributes(with);
+        let request_key = self.request_key(src_key, &attributes);
+
         self.requested_modules
-            .entry(src.value.to_atom_lossy().into_owned())
+            .entry(request_key)
             .or_default()
             .mut_dummy_span(src.span)
             .extend(specifiers.into_iter().map(From::from));
@@ -186,12 +324,19 @@ impl VisitMut for ModuleSyntaxExtractor {
         }
 
         let NamedExport {
-            specifiers, src, ..
+            specifiers,
+            src,
+            with,
+            ..
         } = n.take();
 
         if let Some(src) = src {
+            let src_key = src.value.to_atom_lossy().into_owned();
+            let attributes = Self::import_attributes(with);
+            let request_key = self.request_key(src_key, &attributes);
+
             self.requested_modules
-                .entry(src.value.to_atom_lossy().into_owned())
+                .entry(request_key)
                 .or_default()
                 .mut_dummy_span(src.span)
                 .extend(specifiers.into_iter().map(From::from));
@@ -313,14 +458,18 @@ impl VisitMut for ModuleSyntaxExtractor {
     /// export * from "mod";
     /// ```
     fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
+        let ExportAll { src, with, .. } = n.take();
         let Str {
             value: src_key,
             span: src_span,
             ..
-        } = *n.take().src;
+        } = *src;
+
+        let attributes = Self::import_attributes(with);
+        let request_key = self.request_key(src_key.to_atom_lossy().into_owned(), &attributes);
 
         self.requested_modules
-            .entry(src_key.to_atom_lossy().into_owned())
+            .entry(request_key)
             .or_default()
             .mut_dummy_span(src_span)
             .insert(ModuleRecordEntry::StarExport);
@@ -360,7 +509,9 @@ impl VisitMut for ModuleSyntaxExtractor {
             }
 
             self.requested_modules
-                .entry(src_key.to_atom_lossy().into_owned())
+                .entry(RequestedModuleKey::Specifier(
+                    src_key.to_atom_lossy().into_owned(),
+                ))
                 .or_default()
                 .mut_dummy_span(*span)
                 .insert(ModuleRecordEntry::TsImportEquals {
@@ -612,7 +763,8 @@ pub struct RequestedModule {
     ///
     /// Spec: https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-module-request-records
     pub span: SpanCtx,
-    /// ImportEntry and ExportEntry records associated with this module request.
+    /// `ImportEntry` and `ExportEntry` records associated with this module
+    /// request.
     pub entries: FxHashSet<ModuleRecordEntry>,
     /// Emitter-only summary of which runtime module shape is needed.
     pub usage: ModuleRequestUsage,

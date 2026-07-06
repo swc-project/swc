@@ -332,13 +332,15 @@ impl Cjs {
 
         requested_modules.into_iter().for_each(
             |(
-                src,
+                request_key,
                 RequestedModule {
                     span: src_span,
                     entries: module_entries,
                     usage: mut module_usage,
+                    ..
                 },
             )| {
+                let src = request_key.src().clone();
                 let is_node_default = !module_usage.has_named() && is_node;
 
                 if import_interop.is_none() {
@@ -582,10 +584,12 @@ impl Cjs {
         requested_modules
             .iter()
             .filter(|(.., RequestedModule { usage, .. })| usage.has_star_export())
-            .map(|(src, ..)| {
-                let import_expr =
-                    self.resolver
-                        .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
+            .map(|(request_key, ..)| {
+                let import_expr = self.resolver.make_require_call(
+                    self.unresolved_mark,
+                    request_key.src().clone(),
+                    DUMMY_SP,
+                );
 
                 quote_ident!("__export").as_call(DUMMY_SP, vec![import_expr.as_arg()])
             })

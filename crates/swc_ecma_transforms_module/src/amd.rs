@@ -430,13 +430,15 @@ where
 
         requested_modules.into_iter().for_each(
             |(
-                src,
+                request_key,
                 RequestedModule {
                     span: src_span,
                     entries: module_entries,
                     usage: mut module_usage,
+                    ..
                 },
             )| {
+                let src = request_key.src().clone();
                 let is_node_default = !module_usage.has_named() && import_interop.is_node();
 
                 if import_interop.is_none() {
