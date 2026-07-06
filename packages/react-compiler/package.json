@@ -45,6 +45,12 @@
     "provenance": true
   },
   "types": "./index.d.ts",
+  "files": [
+    "binding.d.ts",
+    "binding.js",
+    "index.d.ts",
+    "index.js"
+  ],
   "scripts": {
     "artifacts": "napi artifacts --npm-dir scripts/npm",
     "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
