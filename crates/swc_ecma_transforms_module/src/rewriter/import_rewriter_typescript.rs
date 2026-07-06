@@ -9,7 +9,7 @@ use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 /// This is the implementation of rewriteRelativeImportExtensions in TypeScript
 ///
 /// `jsx_preserve` corresponds to TypeScript's `jsx: "preserve"`: when set,
-/// `.tsx`/`.jsx` specifiers are rewritten to `.jsx` instead of `.js`.
+/// `.tsx` specifiers are rewritten to `.jsx` instead of `.js`.
 pub fn typescript_import_rewriter(jsx_preserve: bool) -> impl Pass {
     visit_mut_pass(Rewriter { jsx_preserve })
 }
