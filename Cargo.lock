@@ -470,7 +470,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "69.0.0"
+version = "70.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1773,7 +1773,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "57.0.0"
+version = "58.0.0"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -5762,7 +5762,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "69.0.0"
+version = "70.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5889,7 +5889,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "51.0.1"
+version = "52.0.0"
 dependencies = [
  "anyhow",
  "crc",
@@ -5931,7 +5931,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.116.3"
+version = "0.117.0"
 dependencies = [
  "anyhow",
  "par-core",
@@ -5940,7 +5940,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "71.0.0"
+version = "72.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -5994,7 +5994,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "59.0.0"
+version = "60.0.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -6048,7 +6048,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "71.0.7"
+version = "72.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6348,7 +6348,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "51.0.0"
+version = "52.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -6365,7 +6365,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "40.0.1"
+version = "41.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -6375,7 +6375,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "50.0.0"
+version = "51.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.12.0",
@@ -6402,7 +6402,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "45.0.0"
+version = "46.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -6415,7 +6415,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "45.0.0"
+version = "46.0.0"
 dependencies = [
  "serde",
  "swc_common",
@@ -6428,7 +6428,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "46.0.0"
+version = "47.0.0"
 dependencies = [
  "serde",
  "swc_ecma_ast",
@@ -6440,7 +6440,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "45.0.0"
+version = "46.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -6454,7 +6454,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "48.0.0"
+version = "49.0.0"
 dependencies = [
  "serde",
  "swc_common",
@@ -6469,7 +6469,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "45.0.0"
+version = "46.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_transformer",
@@ -6480,7 +6480,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "48.0.0"
+version = "49.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -6497,7 +6497,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es3"
-version = "36.0.0"
+version = "37.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -6605,7 +6605,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "56.0.3"
+version = "57.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6676,7 +6676,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "57.0.0"
+version = "58.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6729,7 +6729,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "20.0.2"
+version = "20.1.0"
 dependencies = [
  "forked_react_compiler",
  "forked_react_compiler_ast",
@@ -6803,7 +6803,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transformer"
-version = "16.0.3"
+version = "17.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -6820,7 +6820,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "56.0.0"
+version = "57.0.0"
 dependencies = [
  "par-core",
  "swc_common",
@@ -6840,7 +6840,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "44.0.4"
+version = "45.0.0"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -6866,7 +6866,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "44.0.0"
+version = "45.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -6877,7 +6877,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "52.0.1"
+version = "53.0.0"
 dependencies = [
  "indexmap 2.12.0",
  "par-core",
@@ -6918,7 +6918,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "49.0.2"
+version = "50.0.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -6950,7 +6950,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "47.0.2"
+version = "48.0.0"
 dependencies = [
  "bytes-str",
  "dashmap 6.1.0",
@@ -6978,7 +6978,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "44.0.1"
+version = "45.0.0"
 dependencies = [
  "either",
  "rustc-hash 2.1.1",
@@ -7000,7 +7000,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "50.0.0"
+version = "51.0.0"
 dependencies = [
  "base64 0.22.1",
  "bytes-str",
@@ -7027,7 +7027,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "48.0.0"
+version = "49.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -7051,7 +7051,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "50.0.0"
+version = "51.0.0"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
@@ -7108,7 +7108,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "64.0.0"
+version = "65.0.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -7239,7 +7239,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "56.0.0"
+version = "57.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "once_cell",
@@ -7326,7 +7326,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "70.0.0"
+version = "71.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",
@@ -7496,7 +7496,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip"
-version = "53.0.0"
+version = "54.0.0"
 dependencies = [
  "anyhow",
  "bytes-str",
@@ -7517,7 +7517,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip_binding"
-version = "0.18.0"
+version = "0.19.0"
 dependencies = [
  "anyhow",
  "miette",
