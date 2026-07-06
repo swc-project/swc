@@ -715,7 +715,9 @@ impl Options {
             };
 
             let typescript_import_rewriter = Optional::new(
-                modules::rewriter::typescript_import_rewriter(),
+                modules::rewriter::typescript_import_rewriter(
+                    transform.react.runtime == Some(react::Runtime::Preserve),
+                ),
                 rewrite_relative_import_extensions.into_bool(),
             );
 
