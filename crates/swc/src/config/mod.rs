@@ -603,9 +603,9 @@ impl Options {
             Some(ModuleConfig::Es6(..)) => TsImportExportAssignConfig::EsNext,
             Some(ModuleConfig::CommonJs(..))
             | Some(ModuleConfig::Amd(..))
-            | Some(ModuleConfig::Umd(..)) => TsImportExportAssignConfig::Preserve,
+            | Some(ModuleConfig::Umd(..))
+            | Some(ModuleConfig::SystemJs(..)) => TsImportExportAssignConfig::Preserve,
             Some(ModuleConfig::NodeNext(..)) => TsImportExportAssignConfig::NodeNext,
-            // TODO: should Preserve for SystemJS
             _ => TsImportExportAssignConfig::Classic,
         };
 

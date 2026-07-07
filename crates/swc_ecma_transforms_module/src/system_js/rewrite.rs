@@ -5,7 +5,7 @@ use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::{
-    ir::{ExecuteStmt, ExportName},
+    ir::{ExportName, SystemModule},
     lower::export_names_call,
     pattern::replace_exported_pat,
     util::{context_member, context_meta},
@@ -13,8 +13,7 @@ use super::{
 use crate::path::Resolver;
 
 pub(super) fn rewrite_special_refs(
-    wrapper_fns: &mut [FnDecl],
-    stmts: &mut [ExecuteStmt],
+    module: &mut SystemModule,
     context_ident: Ident,
     unresolved_ctxt: SyntaxContext,
     resolver: &Resolver,
@@ -28,23 +27,28 @@ pub(super) fn rewrite_special_refs(
         ignore_dynamic,
         preserve_import_meta,
     };
-    for wrapper_fn in wrapper_fns {
+    for wrapper_fn in &mut module.wrapper_fns {
         wrapper_fn.visit_mut_with(&mut rewriter);
     }
-    for stmt in stmts {
+    for export_init in &mut module.export_inits {
+        export_init.value.visit_mut_with(&mut rewriter);
+    }
+    for stmt in &mut module.execute_stmts {
         stmt.visit_mut_with(&mut rewriter);
     }
 }
 
 pub(super) fn rewrite_export_bindings(
-    wrapper_fns: &mut [FnDecl],
-    stmts: &mut [ExecuteStmt],
+    module: &mut SystemModule,
     rewriter: &mut ExportBindingRewriter,
 ) {
-    for wrapper_fn in wrapper_fns {
+    for wrapper_fn in &mut module.wrapper_fns {
         wrapper_fn.visit_mut_with(rewriter);
     }
-    for stmt in stmts {
+    for export_init in &mut module.export_inits {
+        export_init.value.visit_mut_with(rewriter);
+    }
+    for stmt in &mut module.execute_stmts {
         stmt.visit_mut_with(rewriter);
     }
 }

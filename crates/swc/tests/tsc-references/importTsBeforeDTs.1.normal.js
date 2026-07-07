@@ -24,9 +24,6 @@ Object.defineProperty(exports, "y", {
 var y = 42;
 //// [foo_1.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 var foo = require("./foo_0");
 var z1 = foo.x + 10; // Should error, as .ts preferred over .d.ts
 var z2 = foo.y + 10; // Should resolve

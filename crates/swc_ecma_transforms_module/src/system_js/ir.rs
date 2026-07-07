@@ -33,6 +33,19 @@ impl ExportTable {
     }
 }
 
+/// Export value initialized in the `System.register` declaration callback.
+#[derive(Debug)]
+pub(super) struct ExportInit {
+    pub export: ExportName,
+    pub value: Box<Expr>,
+}
+
+impl ExportInit {
+    pub fn new(export: ExportName, value: Box<Expr>) -> Self {
+        Self { export, value }
+    }
+}
+
 #[derive(Debug)]
 pub(super) enum SetterOp {
     Import {
@@ -70,6 +83,14 @@ pub(super) enum ExecuteStmt {
         local: Ident,
         right: Box<Expr>,
     },
+    ExportValue {
+        export: ExportName,
+        value: Box<Expr>,
+    },
+    /// SystemJS batch export update: `_export(value)`.
+    ExportBatch {
+        value: Box<Expr>,
+    },
     ExportNames {
         exports: Vec<ExportName>,
         value: Ident,
@@ -91,6 +112,14 @@ impl ExecuteStmt {
             local,
             right,
         }
+    }
+
+    pub fn export_value(export: ExportName, value: Box<Expr>) -> Self {
+        Self::ExportValue { export, value }
+    }
+
+    pub fn export_batch(value: Box<Expr>) -> Self {
+        Self::ExportBatch { value }
     }
 
     pub fn export_names(exports: &[ExportName], value: Ident) -> Self {
@@ -124,6 +153,12 @@ where
             ExecuteStmt::ExportAssign { right, .. } => {
                 right.visit_mut_with(visitor);
             }
+            ExecuteStmt::ExportValue { value, .. } => {
+                value.visit_mut_with(visitor);
+            }
+            ExecuteStmt::ExportBatch { value } => {
+                value.visit_mut_with(visitor);
+            }
             ExecuteStmt::ExportNames { .. } => {}
         }
     }
@@ -149,6 +184,12 @@ where
             ExecuteStmt::ExportAssign { right, .. } => {
                 right.visit_with(visitor);
             }
+            ExecuteStmt::ExportValue { value, .. } => {
+                value.visit_with(visitor);
+            }
+            ExecuteStmt::ExportBatch { value } => {
+                value.visit_with(visitor);
+            }
             ExecuteStmt::ExportNames { .. } => {}
         }
     }
@@ -158,6 +199,7 @@ where
 pub(super) struct SystemModule {
     pub dependencies: Vec<DependencySlot>,
     pub exports: ExportTable,
+    pub export_inits: Vec<ExportInit>,
     pub wrapper_vars: Vec<Ident>,
     pub wrapper_fns: Vec<FnDecl>,
     pub wrapper_stmts: Vec<Stmt>,
@@ -172,6 +214,7 @@ impl SystemModule {
         Self {
             dependencies: Default::default(),
             exports,
+            export_inits: Default::default(),
             wrapper_vars: Default::default(),
             wrapper_fns: Default::default(),
             wrapper_stmts: Default::default(),

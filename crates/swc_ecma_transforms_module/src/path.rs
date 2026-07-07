@@ -73,7 +73,7 @@ pub trait ImportResolver {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error>;
 }
 
-/// [ImportResolver] implementation which just uses original source.
+/// [`ImportResolver`] implementation which just uses original source.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct NoopImportResolver;
 
@@ -83,11 +83,11 @@ impl ImportResolver for NoopImportResolver {
     }
 }
 
-/// [ImportResolver] implementation for node.js
+/// [`ImportResolver`] implementation for node.js
 ///
-/// Supports [FileName::Real] and [FileName::Anon] for `base`, [FileName::Real]
-/// and [FileName::Custom] for `target`. ([FileName::Custom] is used for core
-/// modules)
+/// Supports [`FileName::Real`] and [`FileName::Anon`] for `base`,
+/// [`FileName::Real`] and [`FileName::Custom`] for `target`.
+/// ([`FileName::Custom`] is used for core modules)
 #[derive(Debug, Clone, Default)]
 pub struct NodeImportResolver<R>
 where

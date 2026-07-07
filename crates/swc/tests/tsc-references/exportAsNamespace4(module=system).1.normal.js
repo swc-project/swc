@@ -36,7 +36,7 @@ System.register([
     "./0"
 ], function(_export, _context) {
     "use strict";
-    var _default, ns;
+    var ns;
     _export("default", void 0);
     return {
         setters: [
@@ -45,7 +45,7 @@ System.register([
             }
         ],
         execute: function() {
-            _export("default", _default = ns);
+            _export("default", ns);
         }
     };
 });

@@ -9,12 +9,9 @@ define([
 //// [test.tsx]
 define([
     "require",
-    "exports",
     "react",
     "react-router"
-], function(require, exports, _react, _reactrouter) {
+], function(require, React, ReactRouter) {
     var M;
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    }), _reactrouter.Route, M || (M = {}), M || (M = {}), X;
+    ReactRouter.Route, M || (M = {}), M || (M = {}), X;
 });

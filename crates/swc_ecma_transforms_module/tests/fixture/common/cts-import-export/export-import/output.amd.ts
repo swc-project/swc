@@ -1,6 +1,11 @@
 define([
-    "require"
-], function(require) {
+    "require",
+    "exports",
+    "foo"
+], function(require, exports, foo) {
     "use strict";
-    const foo = exports.foo = require("foo");
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.foo = foo;
 });

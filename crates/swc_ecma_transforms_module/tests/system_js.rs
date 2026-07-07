@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::{AssignExpr, Expr, Lit, Pass, Pat, Prop, PropName, SetterProp};
-use swc_ecma_parser::Syntax;
+use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_module::system_js::{system_js, Config};
 use swc_ecma_transforms_testing::{test, test_fixture, FixtureTestConfig, Tester};
@@ -14,11 +14,24 @@ fn syntax() -> Syntax {
     Syntax::Es(Default::default())
 }
 
+fn ts_syntax() -> Syntax {
+    Syntax::Typescript(TsSyntax::default())
+}
+
 fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
     (
         resolver(unresolved_mark, top_level_mark, false),
+        system_js(Default::default(), unresolved_mark, config),
+    )
+}
+
+fn tr_ts(_tester: &mut Tester<'_>, config: Config) -> impl Pass {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+    (
+        resolver(unresolved_mark, top_level_mark, true),
         system_js(Default::default(), unresolved_mark, config),
     )
 }
@@ -237,6 +250,24 @@ fn fixture(input: PathBuf) {
     test_fixture(
         syntax(),
         &|tester| tr(tester, Default::default()),
+        &input,
+        &output,
+        FixtureTestConfig {
+            module: Some(true),
+            ..Default::default()
+        },
+    );
+}
+
+#[testing::fixture("tests/fixture/systemjs/**/input.ts")]
+fn fixture_ts(input: PathBuf) {
+    let dir = input.parent().unwrap().to_path_buf();
+
+    let output = dir.join("output.js");
+
+    test_fixture(
+        ts_syntax(),
+        &|tester| tr_ts(tester, Default::default()),
         &input,
         &output,
         FixtureTestConfig {
