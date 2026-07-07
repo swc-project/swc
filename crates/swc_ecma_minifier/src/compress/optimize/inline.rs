@@ -437,39 +437,7 @@ impl Optimizer<'_> {
                         return;
                     }
 
-                    Expr::Fn(f) => {
-                        let excluded: Vec<Id> = find_pat_ids(&f.function.params);
-
-                        for id in idents_used_by(&f.function.params) {
-                            if excluded.contains(&id) {
-                                continue;
-                            }
-                            if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
-                                    return;
-                                }
-                            } else {
-                                return;
-                            }
-                        }
-                    }
-
-                    Expr::Arrow(f) => {
-                        let excluded: Vec<Id> = find_pat_ids(&f.params);
-
-                        for id in idents_used_by(&f.params) {
-                            if excluded.contains(&id) {
-                                continue;
-                            }
-                            if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
-                                    return;
-                                }
-                            } else {
-                                return;
-                            }
-                        }
-                    }
+                    Expr::Fn(_) | Expr::Arrow(_) => {}
 
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
@@ -798,13 +766,13 @@ impl Optimizer<'_> {
                                 id.1
                             );
 
-                            for i in collect_infects_from(
+                            for (i, _) in collect_infects_from(
                                 &f.function,
                                 AliasConfig::default()
                                     .marks(Some(self.marks))
                                     .need_all(true),
                             ) {
-                                if let Some(usage) = self.data.vars.get_mut(&i.0) {
+                                if let Some(usage) = self.data.vars.get_mut(&i) {
                                     usage.ref_count += 1;
                                 }
                             }
