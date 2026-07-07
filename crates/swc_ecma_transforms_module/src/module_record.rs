@@ -8,47 +8,58 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{module_ref_rewriter::ImportMap, SpanCtx};
 
-/// key: module path
-pub type Link = IndexMap<Atom, LinkItem>;
-/// key: export binding name
-pub type Export = FxHashMap<Atom, ExportItem>;
+/// `Source Text Module Record.[[RequestedModules]]`, grouped by module request
+/// string and kept in source order for deterministic emit.
+///
+/// Spec:
+/// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-source-text-module-records
+/// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-module-request-records
+/// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-static-semantics-modulerequests
+pub(crate) type RequestedModules = IndexMap<Atom, RequestedModule>;
+/// `Source Text Module Record.[[LocalExportEntries]]`, keyed by export name.
+///
+/// Spec: https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-source-text-module-records
+pub(crate) type LocalExportEntries = FxHashMap<Atom, LocalExportEntry>;
 
+/// Extracts ECMAScript module syntax into module-record-like data while
+/// stripping module declarations from the body for legacy CommonJS/AMD/UMD
+/// emit.
 #[derive(Debug)]
-pub struct ModuleDeclStrip {
-    /// all imports/exports collected by path in source text order
-    pub link: Link,
+pub struct ModuleSyntaxExtractor {
+    /// Imported modules and indirect/star exports grouped by module request.
+    pub requested_modules: RequestedModules,
 
-    /// local exported binding
+    /// Local exported binding.
     ///
     /// `export { foo as "1", bar }`
     /// -> Map("1" => foo, bar => bar)
-    pub export: Export,
+    pub local_export_entries: LocalExportEntries,
 
     /// `export = ` detected
     pub export_assign: Option<Box<Expr>>,
 
-    pub has_module_decl: bool,
+    pub has_module_syntax: bool,
 
     /// `export default expr`
-    export_default: Option<Stmt>,
+    default_export_decl: Option<Stmt>,
 
     const_var_kind: VarDeclKind,
 }
 
-impl ModuleDeclStrip {
+impl ModuleSyntaxExtractor {
     pub fn new(const_var_kind: VarDeclKind) -> Self {
         Self {
-            link: Default::default(),
-            export: Default::default(),
+            requested_modules: Default::default(),
+            local_export_entries: Default::default(),
             export_assign: Default::default(),
-            has_module_decl: Default::default(),
-            export_default: Default::default(),
+            has_module_syntax: Default::default(),
+            default_export_decl: Default::default(),
             const_var_kind,
         }
     }
 }
 
-impl VisitMut for ModuleDeclStrip {
+impl VisitMut for ModuleSyntaxExtractor {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
@@ -59,9 +70,11 @@ impl VisitMut for ModuleDeclStrip {
                 ModuleItem::Stmt(stmt) => list.push(stmt.into()),
 
                 ModuleItem::ModuleDecl(mut module_decl) => {
-                    // collect link meta
+                    // Collect the source text module record entries produced
+                    // by ParseModule.
+                    // Spec: https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-parsemodule
                     module_decl.visit_mut_with(self);
-                    self.has_module_decl = true;
+                    self.has_module_syntax = true;
 
                     // emit stmt
                     match module_decl {
@@ -83,7 +96,7 @@ impl VisitMut for ModuleDeclStrip {
                             _ => panic!("unable to access unknown nodes"),
                         },
                         ModuleDecl::ExportDefaultExpr(..) => {
-                            list.extend(self.export_default.take().map(From::from))
+                            list.extend(self.default_export_decl.take().map(From::from))
                         }
                         ModuleDecl::ExportAll(..) => continue,
                         ModuleDecl::TsImportEquals(..) => continue,
@@ -101,7 +114,10 @@ impl VisitMut for ModuleDeclStrip {
         *n = list;
     }
 
-    // collect all static import
+    // Collect ImportEntry records from static imports.
+    // Spec:
+    // - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-static-semantics-importentries
+    // - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-static-semantics-importentriesformodule
     fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
         if n.type_only {
             return;
@@ -111,7 +127,7 @@ impl VisitMut for ModuleDeclStrip {
             specifiers, src, ..
         } = n.take();
 
-        self.link
+        self.requested_modules
             .entry(src.value.to_atom_lossy().into_owned())
             .or_default()
             .mut_dummy_span(src.span)
@@ -131,20 +147,24 @@ impl VisitMut for ModuleDeclStrip {
     /// function x() {}
     /// class y {}
     /// ```
+    /// Spec: https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-static-semantics-exportentries
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         match &n.decl {
             Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                self.export.insert(
+                self.local_export_entries.insert(
                     ident.sym.clone(),
-                    ExportItem::new((ident.span, ident.ctxt), ident.clone()),
+                    LocalExportEntry::new((ident.span, ident.ctxt), ident.clone()),
                 );
             }
 
             Decl::Var(v) => {
-                self.export.extend(
-                    find_pat_ids::<_, Ident>(&v.decls)
-                        .into_iter()
-                        .map(|id| (id.sym.clone(), ExportItem::new((id.span, id.ctxt), id))),
+                self.local_export_entries.extend(
+                    find_pat_ids::<_, Ident>(&v.decls).into_iter().map(|id| {
+                        (
+                            id.sym.clone(),
+                            LocalExportEntry::new((id.span, id.ctxt), id),
+                        )
+                    }),
                 );
             }
             _ => {}
@@ -157,6 +177,9 @@ impl VisitMut for ModuleDeclStrip {
     /// export * as foo from "mod";
     /// export * as "bar" from "mod";
     /// ```
+    /// Spec:
+    /// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-static-semantics-exportentries
+    /// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-static-semantics-exportentriesformodule
     fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
         if n.type_only {
             return;
@@ -167,53 +190,54 @@ impl VisitMut for ModuleDeclStrip {
         } = n.take();
 
         if let Some(src) = src {
-            self.link
+            self.requested_modules
                 .entry(src.value.to_atom_lossy().into_owned())
                 .or_default()
                 .mut_dummy_span(src.span)
                 .extend(specifiers.into_iter().map(From::from));
         } else {
-            self.export.extend(specifiers.into_iter().map(|e| match e {
-                ExportSpecifier::Namespace(..) => {
-                    unreachable!("`export *` without src is invalid")
-                }
-                ExportSpecifier::Default(..) => {
-                    unreachable!("`export foo` without src is invalid")
-                }
-                ExportSpecifier::Named(ExportNamedSpecifier { orig, exported, .. }) => {
-                    let orig = match orig {
-                        ModuleExportName::Ident(id) => id,
-                        ModuleExportName::Str(_) => {
-                            unreachable!(r#"`export {{ "foo" }}` without src is invalid"#)
-                        }
-                        #[cfg(swc_ast_unknown)]
-                        _ => panic!("unable to access unknown nodes"),
-                    };
-
-                    if let Some(exported) = exported {
-                        let (export_name, export_name_span) = match exported {
-                            ModuleExportName::Ident(Ident {
-                                ctxt, span, sym, ..
-                            }) => (sym, (span, ctxt)),
-                            ModuleExportName::Str(Str { span, value, .. }) => (
-                                value.to_atom_lossy().into_owned(),
-                                (span, Default::default()),
-                            ),
+            self.local_export_entries
+                .extend(specifiers.into_iter().map(|e| match e {
+                    ExportSpecifier::Namespace(..) => {
+                        unreachable!("`export *` without src is invalid")
+                    }
+                    ExportSpecifier::Default(..) => {
+                        unreachable!("`export foo` without src is invalid")
+                    }
+                    ExportSpecifier::Named(ExportNamedSpecifier { orig, exported, .. }) => {
+                        let orig = match orig {
+                            ModuleExportName::Ident(id) => id,
+                            ModuleExportName::Str(_) => {
+                                unreachable!(r#"`export {{ "foo" }}` without src is invalid"#)
+                            }
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         };
 
-                        (export_name, ExportItem::new(export_name_span, orig))
-                    } else {
-                        (
-                            orig.sym.clone(),
-                            ExportItem::new((orig.span, orig.ctxt), orig),
-                        )
+                        if let Some(exported) = exported {
+                            let (export_name, export_name_span) = match exported {
+                                ModuleExportName::Ident(Ident {
+                                    ctxt, span, sym, ..
+                                }) => (sym, (span, ctxt)),
+                                ModuleExportName::Str(Str { span, value, .. }) => (
+                                    value.to_atom_lossy().into_owned(),
+                                    (span, Default::default()),
+                                ),
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
+                            };
+
+                            (export_name, LocalExportEntry::new(export_name_span, orig))
+                        } else {
+                            (
+                                orig.sym.clone(),
+                                LocalExportEntry::new((orig.span, orig.ctxt), orig),
+                            )
+                        }
                     }
-                }
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
-            }))
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                }))
         }
     }
 
@@ -238,9 +262,9 @@ impl VisitMut for ModuleDeclStrip {
                     .get_or_insert_with(|| private_ident!(n.span, "_default"))
                     .clone();
 
-                self.export.insert(
+                self.local_export_entries.insert(
                     atom!("default"),
-                    ExportItem::new((n.span, Default::default()), ident),
+                    LocalExportEntry::new((n.span, Default::default()), ident),
                 );
             }
             DefaultDecl::Fn(fn_expr) => {
@@ -249,9 +273,9 @@ impl VisitMut for ModuleDeclStrip {
                     .get_or_insert_with(|| private_ident!(n.span, "_default"))
                     .clone();
 
-                self.export.insert(
+                self.local_export_entries.insert(
                     atom!("default"),
-                    ExportItem::new((n.span, Default::default()), ident),
+                    LocalExportEntry::new((n.span, Default::default()), ident),
                 );
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
@@ -272,12 +296,12 @@ impl VisitMut for ModuleDeclStrip {
     fn visit_mut_export_default_expr(&mut self, n: &mut ExportDefaultExpr) {
         let ident = private_ident!(n.span, "_default");
 
-        self.export.insert(
+        self.local_export_entries.insert(
             atom!("default"),
-            ExportItem::new((n.span, Default::default()), ident.clone()),
+            LocalExportEntry::new((n.span, Default::default()), ident.clone()),
         );
 
-        self.export_default = Some(
+        self.default_export_decl = Some(
             n.expr
                 .take()
                 .into_var_decl(self.const_var_kind, ident.into())
@@ -295,11 +319,11 @@ impl VisitMut for ModuleDeclStrip {
             ..
         } = *n.take().src;
 
-        self.link
+        self.requested_modules
             .entry(src_key.to_atom_lossy().into_owned())
             .or_default()
             .mut_dummy_span(src_span)
-            .insert(LinkSpecifier::ExportStar);
+            .insert(ModuleRecordEntry::StarExport);
     }
 
     /// ```javascript
@@ -329,17 +353,19 @@ impl VisitMut for ModuleDeclStrip {
         }) = module_ref
         {
             if *is_export {
-                self.export.insert(
+                self.local_export_entries.insert(
                     id.sym.clone(),
-                    ExportItem::new((id.span, id.ctxt), id.clone()),
+                    LocalExportEntry::new((id.span, id.ctxt), id.clone()),
                 );
             }
 
-            self.link
+            self.requested_modules
                 .entry(src_key.to_atom_lossy().into_owned())
                 .or_default()
                 .mut_dummy_span(*span)
-                .insert(LinkSpecifier::ImportEqual(id.to_id()));
+                .insert(ModuleRecordEntry::TsImportEquals {
+                    local_name: id.to_id(),
+                });
         }
     }
 
@@ -351,8 +377,15 @@ impl VisitMut for ModuleDeclStrip {
     }
 }
 
+/// ImportEntry and ExportEntry record fields used by this transform.
+///
+/// Spec:
+/// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#table-importentry-record-fields
+/// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#table-exportentry-record-fields
+/// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-static-semantics-importentries
+/// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-static-semantics-exportentries
 #[derive(Debug, PartialEq, Eq, Hash)]
-pub enum LinkSpecifier {
+pub enum ModuleRecordEntry {
     ///```javascript
     /// import "mod";
     /// import {} from "mod",
@@ -366,27 +399,35 @@ pub enum LinkSpecifier {
     /// import { imported as local, local } from "mod";
     /// import { "imported" as local } from "mod";
     /// ```
-    /// Note: imported will never be `default`
-    ImportNamed { imported: Option<Atom>, local: Id },
+    /// Note: `import_name` will never be `default`.
+    ImportNamed {
+        import_name: Option<Atom>,
+        local_name: Id,
+    },
 
     /// ```javascript
     /// import foo from "mod";
     /// ```
-    ImportDefault(Id),
+    ImportDefault { local_name: Id },
 
     /// ```javascript
     /// import * as foo from "mod";
     /// ```
-    ImportStarAs(Id),
+    /// The spec resolves this to a Module Namespace Exotic Object. This legacy
+    /// module transform emits an interop object instead.
+    /// Spec:
+    /// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-getmodulenamespace
+    /// - https://tc39.es/ecma262/multipage/ordinary-and-exotic-objects-behaviours.html#sec-module-namespace-exotic-objects
+    ImportNamespace { local_name: Id },
 
     /// ```javascript
     /// export { orig, orig as exported } from "mod";
     /// export { "orig", "orig" as "exported" } from "mod";
     /// ```
-    /// Note: orig will never be `default`
-    ExportNamed {
-        orig: (Atom, SpanCtx),
-        exported: Option<(Atom, SpanCtx)>,
+    /// Note: `import_name` will never be `default`.
+    IndirectExportNamed {
+        import_name: (Atom, SpanCtx),
+        export_name: Option<(Atom, SpanCtx)>,
     },
 
     /// ```javascript
@@ -394,49 +435,68 @@ pub enum LinkSpecifier {
     /// export { "default" } from "foo";
     /// export { default as foo } from "mod";
     /// ```
-    /// (default_span, local_sym, local_span)
-    ExportDefaultAs(SpanCtx, Atom, SpanCtx),
+    IndirectExportDefault {
+        export_name: Atom,
+        export_name_span: SpanCtx,
+    },
 
     /// ```javascript
     /// export * as foo from "mod";
     /// export * as "bar" from "mod";
     /// ```
-    ExportStarAs(Atom, SpanCtx),
+    /// The spec resolves this to a namespace export binding. This transform
+    /// emits a legacy interop object getter instead.
+    /// Spec:
+    /// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-resolveexport
+    /// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-getmodulenamespace
+    IndirectExportNamespace {
+        export_name: Atom,
+        export_name_span: SpanCtx,
+    },
 
     /// ```javascript
     /// export * from "mod";
     /// ```
-    ExportStar,
+    /// Related spec operation: `GetExportedNames` walks
+    /// `[[StarExportEntries]]` and omits `default` from star-exported names.
+    /// https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-getexportednames
+    StarExport,
 
     /// ```javascript
     /// import foo = require("foo");
     /// ```
-    ImportEqual(Id),
+    TsImportEquals { local_name: Id },
 }
 
-impl From<ImportSpecifier> for LinkSpecifier {
+impl From<ImportSpecifier> for ModuleRecordEntry {
     fn from(i: ImportSpecifier) -> Self {
         match i {
             ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
-                Self::ImportStarAs(local.to_id())
+                Self::ImportNamespace {
+                    local_name: local.to_id(),
+                }
             }
 
-            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. }) => {
-                Self::ImportDefault(local.to_id())
-            }
+            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. }) => Self::ImportDefault {
+                local_name: local.to_id(),
+            },
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
                 local,
                 imported: Some(ModuleExportName::Ident(Ident { sym: s, .. })),
                 ..
-            }) if &*s == "default" => Self::ImportDefault(local.to_id()),
+            }) if &*s == "default" => Self::ImportDefault {
+                local_name: local.to_id(),
+            },
 
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
                 local,
                 imported: Some(ModuleExportName::Str(Str { value: s, .. })),
                 ..
-            }) if &s == "default" => Self::ImportDefault(local.to_id()),
+            }) if &s == "default" => Self::ImportDefault {
+                local_name: local.to_id(),
+            },
 
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
@@ -444,7 +504,7 @@ impl From<ImportSpecifier> for LinkSpecifier {
                 imported,
                 ..
             }) => {
-                let imported = imported.and_then(|e| match e {
+                let import_name = imported.and_then(|e| match e {
                     ModuleExportName::Ident(Ident { sym, .. }) => Some(sym),
                     ModuleExportName::Str(Str { value, .. }) => value.as_atom().cloned(),
                     #[cfg(swc_ast_unknown)]
@@ -452,8 +512,8 @@ impl From<ImportSpecifier> for LinkSpecifier {
                 });
 
                 Self::ImportNamed {
-                    local: local.to_id(),
-                    imported,
+                    local_name: local.to_id(),
+                    import_name,
                 }
             }
             _ => Self::Empty,
@@ -461,7 +521,7 @@ impl From<ImportSpecifier> for LinkSpecifier {
     }
 }
 
-impl From<ExportSpecifier> for LinkSpecifier {
+impl From<ExportSpecifier> for ModuleRecordEntry {
     fn from(e: ExportSpecifier) -> Self {
         match e {
             ExportSpecifier::Namespace(ExportNamespaceSpecifier {
@@ -470,22 +530,24 @@ impl From<ExportSpecifier> for LinkSpecifier {
                         span, value: sym, ..
                     }),
                 ..
-            }) => Self::ExportStarAs(
-                sym.to_atom_lossy().into_owned(),
-                (span, SyntaxContext::empty()),
-            ),
+            }) => Self::IndirectExportNamespace {
+                export_name: sym.to_atom_lossy().into_owned(),
+                export_name_span: (span, SyntaxContext::empty()),
+            },
             ExportSpecifier::Namespace(ExportNamespaceSpecifier {
                 name: ModuleExportName::Ident(Ident { span, sym, .. }),
                 ..
-            }) => Self::ExportStarAs(sym, (span, SyntaxContext::empty())),
+            }) => Self::IndirectExportNamespace {
+                export_name: sym,
+                export_name_span: (span, SyntaxContext::empty()),
+            },
 
             ExportSpecifier::Default(ExportDefaultSpecifier { exported }) => {
                 // https://github.com/tc39/proposal-export-default-from
-                Self::ExportDefaultAs(
-                    (exported.span, exported.ctxt),
-                    exported.sym,
-                    (exported.span, exported.ctxt),
-                )
+                Self::IndirectExportDefault {
+                    export_name: exported.sym,
+                    export_name_span: (exported.span, exported.ctxt),
+                }
             }
 
             ExportSpecifier::Named(ExportNamedSpecifier {
@@ -523,12 +585,18 @@ impl From<ExportSpecifier> for LinkSpecifier {
                 });
 
                 match (&*orig.0, orig.1) {
-                    ("default", default_span) => {
+                    ("default", _) => {
                         let (sym, span) = exported.unwrap_or(orig);
 
-                        Self::ExportDefaultAs(default_span, sym, span)
+                        Self::IndirectExportDefault {
+                            export_name: sym,
+                            export_name_span: span,
+                        }
                     }
-                    _ => Self::ExportNamed { orig, exported },
+                    _ => Self::IndirectExportNamed {
+                        import_name: orig,
+                        export_name: exported,
+                    },
                 }
             }
             _ => Self::Empty,
@@ -537,23 +605,34 @@ impl From<ExportSpecifier> for LinkSpecifier {
 }
 
 #[derive(Debug, Default)]
-pub struct LinkItem(pub SpanCtx, pub FxHashSet<LinkSpecifier>, pub LinkFlag);
+pub struct RequestedModule {
+    /// First useful source span for the module request. The spec tracks this as
+    /// a ModuleRequest Record; emitters keep the span for generated literals
+    /// and diagnostics.
+    ///
+    /// Spec: https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-module-request-records
+    pub span: SpanCtx,
+    /// ImportEntry and ExportEntry records associated with this module request.
+    pub entries: FxHashSet<ModuleRecordEntry>,
+    /// Emitter-only summary of which runtime module shape is needed.
+    pub usage: ModuleRequestUsage,
+}
 
 use bitflags::bitflags;
 
 bitflags! {
     #[derive(Default, Debug)]
-    pub struct LinkFlag: u8 {
+    pub struct ModuleRequestUsage: u8 {
         const NAMED = 1 << 0;
         const DEFAULT = 1 << 1;
         const NAMESPACE = Self::NAMED.bits() | Self::DEFAULT.bits();
-        const EXPORT_STAR = 1 << 2;
-        const IMPORT_EQUAL = 1 << 3;
+        const STAR_EXPORT = 1 << 2;
+        const TS_IMPORT_EQUALS = 1 << 3;
     }
 }
 
-impl LinkFlag {
-    pub fn interop(&self) -> bool {
+impl ModuleRequestUsage {
+    pub fn needs_interop(&self) -> bool {
         self.intersects(Self::DEFAULT)
     }
 
@@ -561,38 +640,38 @@ impl LinkFlag {
         self.intersects(Self::NAMED)
     }
 
-    pub fn namespace(&self) -> bool {
+    pub fn needs_namespace_object(&self) -> bool {
         self.contains(Self::NAMESPACE)
     }
 
-    pub fn need_raw_import(&self) -> bool {
-        self.interop() && self.intersects(Self::IMPORT_EQUAL)
+    pub fn needs_raw_import_for_ts_import_equals(&self) -> bool {
+        self.needs_interop() && self.intersects(Self::TS_IMPORT_EQUALS)
     }
 
-    pub fn export_star(&self) -> bool {
-        self.intersects(Self::EXPORT_STAR)
+    pub fn has_star_export(&self) -> bool {
+        self.intersects(Self::STAR_EXPORT)
     }
 }
 
-impl From<&LinkSpecifier> for LinkFlag {
-    fn from(s: &LinkSpecifier) -> Self {
+impl From<&ModuleRecordEntry> for ModuleRequestUsage {
+    fn from(s: &ModuleRecordEntry) -> Self {
         match s {
-            LinkSpecifier::Empty => Self::empty(),
-            LinkSpecifier::ImportStarAs(..) => Self::NAMESPACE,
-            LinkSpecifier::ImportDefault(..) => Self::DEFAULT,
-            LinkSpecifier::ImportNamed { .. } => Self::NAMED,
+            ModuleRecordEntry::Empty => Self::empty(),
+            ModuleRecordEntry::ImportNamespace { .. } => Self::NAMESPACE,
+            ModuleRecordEntry::ImportDefault { .. } => Self::DEFAULT,
+            ModuleRecordEntry::ImportNamed { .. } => Self::NAMED,
 
-            LinkSpecifier::ExportStarAs(..) => Self::NAMESPACE,
-            LinkSpecifier::ExportDefaultAs(..) => Self::DEFAULT,
-            LinkSpecifier::ExportNamed { .. } => Self::NAMED,
+            ModuleRecordEntry::IndirectExportNamespace { .. } => Self::NAMESPACE,
+            ModuleRecordEntry::IndirectExportDefault { .. } => Self::DEFAULT,
+            ModuleRecordEntry::IndirectExportNamed { .. } => Self::NAMED,
 
-            LinkSpecifier::ImportEqual(..) => Self::IMPORT_EQUAL,
-            LinkSpecifier::ExportStar => Self::EXPORT_STAR,
+            ModuleRecordEntry::TsImportEquals { .. } => Self::TS_IMPORT_EQUALS,
+            ModuleRecordEntry::StarExport => Self::STAR_EXPORT,
         }
     }
 }
 
-impl From<&ImportSpecifier> for LinkFlag {
+impl From<&ImportSpecifier> for ModuleRequestUsage {
     fn from(i: &ImportSpecifier) -> Self {
         match i {
             ImportSpecifier::Namespace(..) => Self::NAMESPACE,
@@ -621,7 +700,7 @@ impl From<&ImportSpecifier> for LinkFlag {
     }
 }
 
-impl From<&ExportSpecifier> for LinkFlag {
+impl From<&ExportSpecifier> for ModuleRequestUsage {
     fn from(e: &ExportSpecifier) -> Self {
         match e {
             ExportSpecifier::Namespace(..) => Self::NAMESPACE,
@@ -651,37 +730,44 @@ impl From<&ExportSpecifier> for LinkFlag {
     }
 }
 
-impl Extend<LinkSpecifier> for LinkItem {
-    fn extend<T: IntoIterator<Item = LinkSpecifier>>(&mut self, iter: T) {
+impl Extend<ModuleRecordEntry> for RequestedModule {
+    fn extend<T: IntoIterator<Item = ModuleRecordEntry>>(&mut self, iter: T) {
         iter.into_iter().for_each(|link| {
             self.insert(link);
         });
     }
 }
 
-impl LinkItem {
+impl RequestedModule {
     fn mut_dummy_span(&mut self, span: Span) -> &mut Self {
-        if self.0 .0.is_dummy() {
-            self.0 .0 = span;
+        if self.span.0.is_dummy() {
+            self.span.0 = span;
         }
 
         self
     }
 
-    fn insert(&mut self, link: LinkSpecifier) -> bool {
-        self.2 |= (&link).into();
-        self.1.insert(link)
+    fn insert(&mut self, entry: ModuleRecordEntry) -> bool {
+        self.usage |= (&entry).into();
+        self.entries.insert(entry)
     }
 }
 
-pub(crate) type ExportObjPropList = Vec<ExportKV>;
+pub(crate) type ExportObjectProperties = Vec<ExportBinding>;
 
-/// Reduce self to generate ImportMap and ExportObjPropList
-pub(crate) trait LinkSpecifierReducer {
+/// Reduce module record entries into the import map and export object
+/// properties required by CommonJS-like emitters.
+///
+/// This is not a full ECMAScript module linker. It only lowers collected
+/// syntactic entries to emitter-local data structures; the corresponding spec
+/// operations for linked modules are `GetExportedNames` and `ResolveExport`.
+/// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-getexportednames
+/// - https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-resolveexport
+pub(crate) trait ModuleRecordEntryReducer {
     fn reduce(
         self,
         import_map: &mut ImportMap,
-        export_obj_prop_list: &mut ExportObjPropList,
+        export_bindings: &mut ExportObjectProperties,
         mod_ident: &Ident,
         raw_mod_ident: &Option<Ident>,
         ref_to_mod_ident: &mut bool,
@@ -690,42 +776,48 @@ pub(crate) trait LinkSpecifierReducer {
     );
 }
 
-impl LinkSpecifierReducer for FxHashSet<LinkSpecifier> {
+impl ModuleRecordEntryReducer for FxHashSet<ModuleRecordEntry> {
     fn reduce(
         self,
         import_map: &mut ImportMap,
-        export_obj_prop_list: &mut ExportObjPropList,
+        export_bindings: &mut ExportObjectProperties,
         mod_ident: &Ident,
         raw_mod_ident: &Option<Ident>,
         ref_to_mod_ident: &mut bool,
         default_nowrap: bool,
     ) {
         self.into_iter().for_each(|s| match s {
-            LinkSpecifier::ImportNamed { imported, local } => {
+            ModuleRecordEntry::ImportNamed {
+                import_name,
+                local_name,
+            } => {
                 *ref_to_mod_ident = true;
 
                 import_map.insert(
-                    local.clone(),
-                    (mod_ident.clone(), imported.or(Some(local.0))),
+                    local_name.clone(),
+                    (mod_ident.clone(), import_name.or(Some(local_name.0))),
                 );
             }
-            LinkSpecifier::ImportDefault(id) => {
+            ModuleRecordEntry::ImportDefault { local_name } => {
                 *ref_to_mod_ident = true;
 
                 import_map.insert(
-                    id,
+                    local_name,
                     (
                         mod_ident.clone(),
                         (!default_nowrap).then(|| atom!("default")),
                     ),
                 );
             }
-            LinkSpecifier::ImportStarAs(id) => {
+            ModuleRecordEntry::ImportNamespace { local_name } => {
                 *ref_to_mod_ident = true;
 
-                import_map.insert(id, (mod_ident.clone(), None));
+                import_map.insert(local_name, (mod_ident.clone(), None));
             }
-            LinkSpecifier::ExportNamed { orig, exported } => {
+            ModuleRecordEntry::IndirectExportNamed {
+                import_name,
+                export_name,
+            } => {
                 *ref_to_mod_ident = true;
 
                 // ```javascript
@@ -737,19 +829,27 @@ impl LinkSpecifierReducer for FxHashSet<LinkSpecifier> {
 
                 // foo -> mod.foo
                 import_map.insert(
-                    (orig.0.clone(), orig.1 .1),
-                    (mod_ident.clone(), Some(orig.0.clone())),
+                    (import_name.0.clone(), import_name.1 .1),
+                    (mod_ident.clone(), Some(import_name.0.clone())),
                 );
 
-                let (export_name, export_name_span) = exported.unwrap_or_else(|| orig.clone());
+                let (export_name, export_name_span) =
+                    export_name.unwrap_or_else(|| import_name.clone());
 
                 // bar -> foo
-                export_obj_prop_list.push((
+                export_bindings.push((
                     export_name,
-                    ExportItem::new(export_name_span, quote_ident!(orig.1 .1, orig.1 .0, orig.0)),
+                    LocalExportEntry::new(
+                        export_name_span,
+                        quote_ident!(import_name.1 .1, import_name.1 .0, import_name.0),
+                    ),
                 ))
             }
-            LinkSpecifier::ExportDefaultAs(_, key, span) => {
+            ModuleRecordEntry::IndirectExportDefault {
+                export_name,
+                export_name_span,
+                ..
+            } => {
                 *ref_to_mod_ident = true;
 
                 // ```javascript
@@ -761,41 +861,50 @@ impl LinkSpecifierReducer for FxHashSet<LinkSpecifier> {
 
                 // foo -> mod.default
                 import_map.insert(
-                    (key.clone(), span.1),
+                    (export_name.clone(), export_name_span.1),
                     (mod_ident.clone(), Some(atom!("default"))),
                 );
 
-                export_obj_prop_list.push((
-                    key.clone(),
-                    ExportItem::new(span, quote_ident!(span.1, span.0, key)),
+                export_bindings.push((
+                    export_name.clone(),
+                    LocalExportEntry::new(
+                        export_name_span,
+                        quote_ident!(export_name_span.1, export_name_span.0, export_name),
+                    ),
                 ));
             }
-            LinkSpecifier::ExportStarAs(key, span) => {
+            ModuleRecordEntry::IndirectExportNamespace {
+                export_name,
+                export_name_span,
+            } => {
                 *ref_to_mod_ident = true;
 
-                export_obj_prop_list.push((key, ExportItem::new(span, mod_ident.clone())));
+                export_bindings.push((
+                    export_name,
+                    LocalExportEntry::new(export_name_span, mod_ident.clone()),
+                ));
             }
-            LinkSpecifier::ExportStar => {}
-            LinkSpecifier::ImportEqual(id) => {
+            ModuleRecordEntry::StarExport => {}
+            ModuleRecordEntry::TsImportEquals { local_name } => {
                 *ref_to_mod_ident = true;
 
                 import_map.insert(
-                    id,
+                    local_name,
                     (
                         raw_mod_ident.clone().unwrap_or_else(|| mod_ident.clone()),
                         None,
                     ),
                 );
             }
-            LinkSpecifier::Empty => {}
+            ModuleRecordEntry::Empty => {}
         })
     }
 }
 
 #[derive(Debug)]
-pub struct ExportItem(SpanCtx, Ident);
+pub struct LocalExportEntry(SpanCtx, Ident);
 
-impl ExportItem {
+impl LocalExportEntry {
     pub fn new(export_name_span: SpanCtx, local_ident: Ident) -> Self {
         Self(export_name_span, local_ident)
     }
@@ -809,4 +918,4 @@ impl ExportItem {
     }
 }
 
-pub type ExportKV = (Atom, ExportItem);
+pub type ExportBinding = (Atom, LocalExportEntry);
