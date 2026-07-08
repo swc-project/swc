@@ -4,7 +4,7 @@ const __require = _createRequire(import.meta.url);
 import "./foo.js";
 import "../foo.mjs";
 import "../../foo.cjs";
-import "./foo.jsx";
+import "./foo.js";
 const foo = __require("./foo.ts");
 import "./foo.js";
 export * from "./foo.js";
@@ -21,7 +21,7 @@ import(_ts_rewrite_relative_import_extension("" + "./foo.ts"));
 import "./foo.js";
 import "../foo.mjs";
 import "../../foo.cjs";
-import "./foo.jsx";
+import "./foo.js";
 import "./foo.js";
 export * from "./foo.js";
 // Shim
