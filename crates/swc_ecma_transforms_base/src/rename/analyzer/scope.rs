@@ -42,6 +42,11 @@ pub(super) struct ScopeData {
     all: FxHashSet<Id>,
 
     queue: FxIndexSet<Id>,
+
+    /// Raw names of user bindings preserved because direct eval can observe
+    /// them. Generated bindings must not reuse these names after hygiene is
+    /// removed.
+    eval_reserved_symbols: FxHashSet<Atom>,
 }
 
 impl Scope {
@@ -54,6 +59,7 @@ impl Scope {
 
         if !self.data.queue.contains(id) {
             if has_eval && id.1.outer().is_descendant_of(top_level_mark) {
+                self.data.eval_reserved_symbols.insert(id.0.clone());
                 return;
             }
 
@@ -85,6 +91,9 @@ impl Scope {
             child.prepare_renaming();
 
             self.data.all.extend(child.data.all.iter().cloned());
+            self.data
+                .eval_reserved_symbols
+                .extend(child.data.eval_reserved_symbols.iter().cloned());
         });
     }
 
@@ -159,7 +168,9 @@ impl Scope {
             loop {
                 let sym = renamer.new_name_for(&id, &mut n);
 
-                if preserved_symbols.contains(&sym) {
+                if preserved_symbols.contains(&sym)
+                    || self.data.eval_reserved_symbols.contains(&sym)
+                {
                     continue;
                 }
 
@@ -305,7 +316,9 @@ impl Scope {
                 let sym = renamer.new_name_for(&id, &mut n);
 
                 // TODO: Use base54::decode
-                if preserved_symbols.contains(&sym) {
+                if preserved_symbols.contains(&sym)
+                    || self.data.eval_reserved_symbols.contains(&sym)
+                {
                     continue;
                 }
 
