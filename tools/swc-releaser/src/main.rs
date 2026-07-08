@@ -1,5 +1,5 @@
 use std::{
-    collections::{hash_map::Entry, HashMap},
+    collections::{hash_map::Entry, HashMap, HashSet},
     env,
     path::{Path, PathBuf},
     process::Command,
@@ -54,6 +54,33 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     }
 
     let (versions, graph) = get_data()?;
+    let rust_releases = changeset
+        .releases
+        .into_iter()
+        .filter_map(|(pkg_name, release)| {
+            if versions.contains_key(pkg_name.as_str()) {
+                Some((pkg_name, release))
+            } else {
+                eprintln!("Skipping non-Cargo changeset package: {pkg_name}");
+                None
+            }
+        })
+        .collect::<Vec<_>>();
+
+    if rust_releases.is_empty() {
+        eprintln!("No Rust changeset found");
+        return Ok(());
+    }
+    let rust_changeset_files = rust_releases
+        .iter()
+        .flat_map(|(_, release)| {
+            release
+                .changes
+                .iter()
+                .map(|change| change.unique_id.to_file_name())
+        })
+        .collect::<HashSet<_>>();
+
     let mut new_versions = VersionMap::new();
 
     let mut worker = Bump {
@@ -62,7 +89,7 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         new_versions: &mut new_versions,
     };
 
-    for (pkg_name, release) in changeset.releases {
+    for (pkg_name, release) in rust_releases {
         let is_breaking = worker
             .is_breaking(pkg_name.as_str(), release.change_type())
             .with_context(|| format!("failed to check if package {pkg_name} is breaking"))?;
@@ -83,10 +110,15 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         if !dry_run {
             for file in std::fs::read_dir(&changeset_dir)? {
                 let file = file?;
+                let path = file.path();
                 if file.file_type()?.is_file()
-                    && file.path().extension().unwrap_or_default() == "md"
+                    && path.extension().unwrap_or_default() == "md"
+                    && file
+                        .file_name()
+                        .to_str()
+                        .is_some_and(|name| rust_changeset_files.contains(name))
                 {
-                    std::fs::remove_file(file.path())?;
+                    std::fs::remove_file(path)?;
                 }
             }
         }

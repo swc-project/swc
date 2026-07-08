@@ -22,7 +22,7 @@
   "homepage": "https://swc.rs",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=12"
+    "node": ">=20"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

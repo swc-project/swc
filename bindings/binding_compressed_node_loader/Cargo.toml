@@ -1,0 +1,22 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+build   = "build.rs"
+edition = "2021"
+exclude = ["artifacts.json", "index.node"]
+license = "Apache-2.0"
+name    = "binding_compressed_node_loader"
+publish = false
+version = "0.1.0"
+
+[lib]
+bench      = false
+crate-type = ["cdylib"]
+
+[build-dependencies]
+napi-build = { workspace = true }
+
+[dependencies]
+decmpfs    = { workspace = true, features = ["addon"] }
+hex        = { workspace = true }
+libloading = { workspace = true }
+napi-sys   = { workspace = true, features = ["napi9"] }
