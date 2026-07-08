@@ -81,6 +81,10 @@ impl Analyzer {
         self.scope.add_usage(id);
     }
 
+    pub(super) fn mark_contains_eval(&mut self) {
+        self.scope.mark_contains_eval();
+    }
+
     fn reserve_usage(&mut self, len: usize) {
         self.scope.reserve_usage(len);
     }
@@ -115,6 +119,9 @@ impl Analyzer {
 
     pub(super) fn exit_scope(&mut self, mut v: Self) {
         std::mem::swap(self, &mut v);
+        if v.scope.contains_eval() {
+            self.scope.mark_contains_eval();
+        }
         if !v.hoisted_vars.is_empty() {
             debug_assert!(matches!(v.scope.kind, ScopeKind::Block));
             self.reserve_usage(v.hoisted_vars.len());

@@ -47,6 +47,11 @@ pub(super) struct ScopeData {
     /// them. Generated bindings must not reuse these names after hygiene is
     /// removed.
     eval_reserved_symbols: FxHashSet<Atom>,
+
+    /// True if this scope, or one of its nested scopes, contains direct eval or
+    /// with. Only scopes on this path need to reserve eval-preserved names for
+    /// ancestor-generated bindings.
+    contains_eval: bool,
 }
 
 impl Scope {
@@ -85,15 +90,26 @@ impl Scope {
         self.data.all.reserve(len);
     }
 
+    pub(super) fn mark_contains_eval(&mut self) {
+        self.data.contains_eval = true;
+    }
+
+    pub(super) fn contains_eval(&self) -> bool {
+        self.data.contains_eval
+    }
+
     /// Copy `children.data.all` to `self.data.all`.
     pub(crate) fn prepare_renaming(&mut self) {
         self.children.iter_mut().for_each(|child| {
             child.prepare_renaming();
 
             self.data.all.extend(child.data.all.iter().cloned());
-            self.data
-                .eval_reserved_symbols
-                .extend(child.data.eval_reserved_symbols.iter().cloned());
+            if child.data.contains_eval {
+                self.data
+                    .eval_reserved_symbols
+                    .extend(child.data.eval_reserved_symbols.iter().cloned());
+                self.data.contains_eval = true;
+            }
         });
     }
 

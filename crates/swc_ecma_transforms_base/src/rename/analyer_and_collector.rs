@@ -144,6 +144,14 @@ impl Visit for AnalyzerAndCollector {
         maybe_grow_default(|| node.visit_children_with(self));
     }
 
+    fn visit_callee(&mut self, node: &Callee) {
+        if node.as_expr().is_some_and(|e| e.is_ident_ref_to("eval")) {
+            self.analyzer.mark_contains_eval();
+        }
+
+        node.visit_children_with(self);
+    }
+
     fn visit_catch_clause(&mut self, node: &CatchClause) {
         let old_decl_collector_is_pat_decl = self.decl_collector.is_pat_decl;
 
@@ -493,6 +501,12 @@ impl Visit for AnalyzerAndCollector {
 
         self.analyzer.is_pat_decl = old_analyzer_is_pat_decl;
         self.decl_collector.is_pat_decl = old_decl_collector_is_pat_decl;
+    }
+
+    fn visit_with_stmt(&mut self, node: &WithStmt) {
+        self.analyzer.mark_contains_eval();
+
+        node.visit_children_with(self);
     }
 
     fn visit_super_prop(&mut self, node: &SuperProp) {
