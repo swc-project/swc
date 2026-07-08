@@ -20,10 +20,7 @@ use crate::{
     },
     option::CompressOptions,
     program_data::{ScopeData, VarUsageInfoFlags},
-    usage_analyzer::{
-        alias::{try_collect_infects_from, AccessKind, AliasConfig},
-        util::is_global_var_with_pure_property_access,
-    },
+    usage_analyzer::util::is_global_var_with_pure_property_access,
     util::{
         idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, IdentUsageCollector,
         ModuleItemExt,
@@ -1102,56 +1099,7 @@ impl Optimizer<'_> {
                 Mergable::Drop => return false,
             }
 
-            let e_id = e.to_id();
-            let ids_used_by_a_init = match a {
-                Mergable::Var(a) => a.init.as_ref().map(|init| {
-                    try_collect_infects_from(
-                        init,
-                        AliasConfig::default()
-                            .marks(Some(self.marks))
-                            .ignore_nested(true)
-                            .need_all(true),
-                        8,
-                    )
-                }),
-                Mergable::Expr(a) => match a {
-                    Expr::Assign(a) if a.is_simple_assign() => Some(try_collect_infects_from(
-                        &a.right,
-                        AliasConfig::default()
-                            .marks(Some(self.marks))
-                            .ignore_nested(true)
-                            .need_all(true),
-                        8,
-                    )),
-
-                    _ => None,
-                },
-
-                Mergable::FnDecl(a) => Some(try_collect_infects_from(
-                    &a.function,
-                    AliasConfig::default()
-                        .marks(Some(self.marks))
-                        .ignore_nested(true)
-                        .need_all(true),
-                    8,
-                )),
-
-                Mergable::Drop => return false,
-            };
-
-            if let Some(deps) = ids_used_by_a_init {
-                let Ok(deps) = deps else {
-                    return false;
-                };
-
-                if deps.iter().any(|(id, kind)| {
-                    id == &e_id && matches!(kind, AccessKind::Reference | AccessKind::Call)
-                }) {
-                    return false;
-                }
-            }
-
-            if !self.assignee_skippable_for_seq(a, &e_id) {
+            if !self.assignee_skippable_for_seq(a, &e.to_id()) {
                 return false;
             }
         }
@@ -2442,10 +2390,9 @@ impl Optimizer<'_> {
                 Mergable::Var(a) => {
                     if self.options.unused {
                         if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
-                            // We are eliminating one usage, so we use 1 instead of
-                            // 0
+                            // We are eliminating one usage, so we use 1 instead of 0
                             if !force_drop
-                                && usage.usage_count == 1
+                                && usage.ref_count == 1
                                 && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                             {
                                 report_change!("sequences: Dropping inlined variable");
