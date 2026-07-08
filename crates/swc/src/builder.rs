@@ -55,7 +55,7 @@ impl Pass for MinifierPass<'_> {
             n.visit_mut_with(&mut hygiene_with_config(
                 swc_ecma_transforms_base::hygiene::Config {
                     top_level_mark: self.top_level_mark,
-                    ..Default::default()
+                    ..swc_ecma_transforms_base::hygiene::Config::hygiene_default()
                 },
             ));
 

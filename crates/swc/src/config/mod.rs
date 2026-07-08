@@ -652,7 +652,7 @@ impl Options {
         } else {
             Some(hygiene::Config {
                 keep_class_names,
-                ..Default::default()
+                ..hygiene::Config::hygiene_default()
             })
         };
         let env = cfg.env.map(Into::into);
@@ -793,7 +793,9 @@ impl Options {
             Optional::new(
                 hygiene_with_config(swc_ecma_transforms_base::hygiene::Config {
                     top_level_mark,
-                    ..hygiene_config.clone().unwrap_or_default()
+                    ..hygiene_config
+                        .clone()
+                        .unwrap_or_else(hygiene::Config::hygiene_default)
                 }),
                 hygiene_config.is_some() && !is_mangler_enabled,
             ),
