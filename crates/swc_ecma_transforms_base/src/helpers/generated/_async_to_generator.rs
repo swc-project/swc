@@ -39,7 +39,7 @@ function _async_to_generator(fn) {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[],
+    deps: super::HelperBitmap::from_bits(0x00000000000000000000000000000400),
 };
 
 #[cfg(feature = "inline-helpers")]

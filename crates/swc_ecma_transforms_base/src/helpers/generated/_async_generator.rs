@@ -80,7 +80,7 @@ _async_generator.prototype.return = function(arg) {
 };
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[HelperName::overload_yield],
+    deps: super::HelperBitmap::from_bits(0x00000000000004000000000000000080),
 };
 
 #[cfg(feature = "inline-helpers")]

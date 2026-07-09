@@ -15,11 +15,7 @@ pub const DEF: HelperDef = HelperDef {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[
-        HelperName::class_apply_descriptor_update,
-        HelperName::class_check_private_static_access,
-        HelperName::class_check_private_static_field_descriptor,
-    ],
+    deps: super::HelperBitmap::from_bits(0x00000000000000000000002000340000),
 };
 
 #[cfg(feature = "inline-helpers")]

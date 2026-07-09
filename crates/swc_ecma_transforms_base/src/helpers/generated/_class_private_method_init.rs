@@ -13,7 +13,7 @@ pub const DEF: HelperDef = HelperDef {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[HelperName::check_private_redeclaration],
+    deps: super::HelperBitmap::from_bits(0x00000000000000000000000100004000),
 };
 
 #[cfg(feature = "inline-helpers")]

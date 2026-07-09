@@ -51,7 +51,7 @@ function _ts_dispose_resources(env) {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[],
+    deps: super::HelperBitmap::from_bits(0x00000000100000000000000000000000),
 };
 
 #[cfg(feature = "inline-helpers")]

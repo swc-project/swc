@@ -9,7 +9,7 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith
 #[doc(hidden)]
 pub mod generated;
 
-use generated::HelperName;
+use generated::{HelperBitmap, HelperName};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -112,49 +112,26 @@ impl Default for HelperMark {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Default)]
 struct Inner {
-    used: [bool; generated::HELPER_COUNT],
-}
-
-impl Default for Inner {
-    fn default() -> Self {
-        Self {
-            used: [false; generated::HELPER_COUNT],
-        }
-    }
+    used: HelperBitmap,
 }
 
 impl Inner {
     fn enable(&mut self, name: HelperName) {
-        self.used[name as usize] = true;
-    }
-
-    #[cfg(feature = "inline-helpers")]
-    fn enable_with_deps(&mut self, name: HelperName) {
-        if self.is_enabled(name) {
-            return;
-        }
-
-        self.enable(name);
-
-        for dep in generated::helper(name).deps {
-            self.enable_with_deps(*dep);
-        }
+        self.used.insert(name);
     }
 
     fn extend_from(&mut self, other: &Self) {
-        for (value, other) in self.used.iter_mut().zip(other.used.iter().copied()) {
-            *value |= other;
-        }
+        self.used |= other.used;
     }
 
     fn is_enabled(&self, name: HelperName) -> bool {
-        self.used[name as usize]
+        self.used.contains(name)
     }
 
     fn any(&self) -> bool {
-        self.used.iter().any(|used| *used)
+        !self.used.is_empty()
     }
 }
 
@@ -193,11 +170,11 @@ impl InjectHelpers {
     fn build_helpers(&self) -> Vec<Stmt> {
         let (required, mark) = HELPERS.with(|helpers| {
             let inner = helpers.inner.borrow();
-            let mut required = Inner::default();
+            let mut required = HelperBitmap::EMPTY;
 
             for helper in generated::ALL {
                 if inner.is_enabled(helper.name) {
-                    required.enable_with_deps(helper.name);
+                    required |= helper.deps;
                 }
             }
 
@@ -208,7 +185,7 @@ impl InjectHelpers {
         let mut buf = Vec::new();
 
         for helper in generated::ALL {
-            if required.is_enabled(helper.name) {
+            if required.contains(helper.name) {
                 buf.extend(
                     generated::stmts(helper.name)
                         .iter()

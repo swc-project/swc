@@ -12,12 +12,7 @@ pub const DEF: HelperDef = HelperDef {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[
-        HelperName::array_without_holes,
-        HelperName::iterable_to_array,
-        HelperName::non_iterable_spread,
-        HelperName::unsupported_iterable_to_array,
-    ],
+    deps: super::HelperBitmap::from_bits(0x00000008008000104000000000000028),
 };
 
 #[cfg(feature = "inline-helpers")]

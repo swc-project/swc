@@ -19,7 +19,7 @@ pub const DEF: HelperDef = HelperDef {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[HelperName::array_like_to_array],
+    deps: super::HelperBitmap::from_bits(0x00000008000000000000000000000008),
 };
 
 #[cfg(feature = "inline-helpers")]

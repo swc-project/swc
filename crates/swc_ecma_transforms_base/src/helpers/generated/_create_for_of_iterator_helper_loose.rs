@@ -28,7 +28,7 @@ pub const DEF: HelperDef = HelperDef {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[HelperName::unsupported_iterable_to_array],
+    deps: super::HelperBitmap::from_bits(0x00000008000000000000020000000008),
 };
 
 #[cfg(feature = "inline-helpers")]

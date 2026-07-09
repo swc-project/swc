@@ -48,7 +48,7 @@ function _dispose(stack, error, hasError) {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[],
+    deps: super::HelperBitmap::from_bits(0x00000000000000000000800000000000),
 };
 
 #[cfg(feature = "inline-helpers")]

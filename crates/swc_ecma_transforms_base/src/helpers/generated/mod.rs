@@ -224,6 +224,47 @@ pub enum HelperName {
 
 pub const HELPER_COUNT: usize = 107;
 
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub struct HelperBitmap(u128);
+
+impl HelperBitmap {
+    pub const EMPTY: Self = Self(0);
+
+    pub const fn single(name: HelperName) -> Self {
+        Self(1u128 << (name as usize))
+    }
+
+    pub const fn from_bits(bits: u128) -> Self {
+        Self(bits)
+    }
+
+    pub fn contains(self, name: HelperName) -> bool {
+        self.0 & Self::single(name).0 != 0
+    }
+
+    pub fn insert(&mut self, name: HelperName) {
+        self.0 |= Self::single(name).0;
+    }
+
+    pub fn is_empty(self) -> bool {
+        self.0 == 0
+    }
+}
+
+impl core::ops::BitOr for HelperBitmap {
+    type Output = Self;
+
+    fn bitor(self, rhs: Self) -> Self {
+        Self(self.0 | rhs.0)
+    }
+}
+
+impl core::ops::BitOrAssign for HelperBitmap {
+    fn bitor_assign(&mut self, rhs: Self) {
+        self.0 |= rhs.0;
+    }
+}
+
 #[derive(Clone, Copy, Debug)]
 pub struct HelperDef {
     pub name: HelperName,
@@ -232,7 +273,7 @@ pub struct HelperDef {
     #[cfg(feature = "inline-helpers")]
     pub source: &'static str,
     #[cfg(feature = "inline-helpers")]
-    pub deps: &'static [HelperName],
+    pub deps: HelperBitmap,
 }
 
 pub const ALL: &[HelperDef; HELPER_COUNT] = &[

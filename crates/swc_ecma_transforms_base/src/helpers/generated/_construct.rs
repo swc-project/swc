@@ -26,10 +26,7 @@ pub const DEF: HelperDef = HelperDef {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[
-        HelperName::is_native_reflect_construct,
-        HelperName::set_prototype_of,
-    ],
+    deps: super::HelperBitmap::from_bits(0x00000000000040002000008000000000),
 };
 
 #[cfg(feature = "inline-helpers")]

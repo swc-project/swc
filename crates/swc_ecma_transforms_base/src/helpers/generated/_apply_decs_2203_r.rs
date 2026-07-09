@@ -579,7 +579,7 @@ function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
 }
 "##,
     #[cfg(feature = "inline-helpers")]
-    deps: &[],
+    deps: super::HelperBitmap::from_bits(0x00000000000000000000000000000002),
 };
 
 #[cfg(feature = "inline-helpers")]

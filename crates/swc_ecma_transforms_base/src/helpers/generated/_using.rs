@@ -29,7 +29,7 @@ function _using(stack, value, isAwait) {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: &[],
+    deps: super::HelperBitmap::from_bits(0x00000020000000000000000000000000),
 };
 
 #[cfg(feature = "inline-helpers")]
