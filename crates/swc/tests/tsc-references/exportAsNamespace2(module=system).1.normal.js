@@ -2,6 +2,10 @@
 System.register([], function(_export, _context) {
     "use strict";
     var a, b;
+    _export({
+        a: void 0,
+        b: void 0
+    });
     return {
         setters: [],
         execute: function() {
@@ -16,14 +20,15 @@ System.register([
 ], function(_export, _context) {
     "use strict";
     var _ns;
+    _export("ns", void 0);
     return {
         setters: [
-            function(_0) {
-                _ns = _0;
+            function(_0_ns) {
+                _ns = _0_ns;
+                _export("ns", _ns);
             }
         ],
         execute: function() {
-            _export("_ns", ns);
             ns.a;
             ns.b;
         }
@@ -37,8 +42,8 @@ System.register([
     var foo;
     return {
         setters: [
-            function(_1) {
-                foo = _1;
+            function(_1_ns) {
+                foo = _1_ns;
             }
         ],
         execute: function() {

@@ -4,22 +4,27 @@ System.register([
     "./directory/foo-bar"
 ], function(_export, _context) {
     "use strict";
-    var foo, foo2, bar, bar2, test2;
+    var _default, bar, bar2, foo, foo2, test2;
+    _export({
+        default: void 0,
+        foo: void 0,
+        test2: void 0
+    });
     return {
         setters: [
-            function(_foo) {
-                foo = _foo.default;
-                foo2 = _foo;
-                bar = _foo.bar;
-                bar2 = _foo.foo;
+            function(_foo_ns) {
+                foo = _foo_ns.default;
+                _export("foo", foo);
+                foo2 = _foo_ns;
+                bar = _foo_ns.bar;
+                bar2 = _foo_ns.foo;
             },
-            function(_foobar) {},
-            function(_foobar) {}
+            function() {},
+            function() {}
         ],
         execute: function() {
-            _export("foo", foo);
             _export("test2", test2 = 5);
-            _export("default", foo);
+            _export("default", _default = foo);
         }
     };
 });

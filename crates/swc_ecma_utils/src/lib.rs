@@ -2308,6 +2308,10 @@ impl Visit for TopLevelAwait {
                 key: PropName::Computed(computed),
                 ..
             }) => computed.visit_children_with(self),
+            ClassMember::AutoAccessor(AutoAccessor {
+                key: Key::Public(PropName::Computed(computed)),
+                ..
+            }) => computed.visit_children_with(self),
             _ => (),
         };
     }
@@ -2316,9 +2320,16 @@ impl Visit for TopLevelAwait {
         match prop {
             Prop::KeyValue(KeyValueProp {
                 key: PropName::Computed(computed),
+                value,
                 ..
-            })
-            | Prop::Getter(GetterProp {
+            }) => {
+                computed.visit_children_with(self);
+                value.visit_with(self);
+            }
+            Prop::KeyValue(KeyValueProp { value, .. }) | Prop::Assign(AssignProp { value, .. }) => {
+                value.visit_with(self);
+            }
+            Prop::Getter(GetterProp {
                 key: PropName::Computed(computed),
                 ..
             })
@@ -3828,6 +3839,26 @@ pub fn prop_name_from_ident(ident: Ident) -> PropName {
     }
 }
 
+pub fn prop_name_from_str(span: Span, s: &str) -> PropName {
+    if s == "__proto__" {
+        PropName::Computed(ComputedPropName {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span,
+                value: s.into(),
+                raw: None,
+            }))),
+        })
+    } else if is_valid_prop_ident(s) {
+        PropName::Ident(IdentName {
+            span,
+            sym: s.into(),
+        })
+    } else {
+        PropName::Str(quote_str!(span, s))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use swc_common::{input::StringInput, BytePos};
@@ -3898,6 +3929,29 @@ mod tests {
     #[test]
     fn top_level_await_for_of() {
         assert!(has_top_level_await("for await (let iter of []){}"))
+    }
+
+    #[test]
+    fn top_level_await_object_property() {
+        assert!(has_top_level_await("const obj = { value: await test };"));
+        assert!(has_top_level_await("const obj = { [await key]: value };"));
+        assert!(!has_top_level_await(
+            "const obj = { async method() { await test; } };"
+        ));
+    }
+
+    #[test]
+    fn top_level_await_class() {
+        assert!(has_top_level_await("class C extends (await base) {}"));
+        assert!(has_top_level_await("class C { [await key]() {} }"));
+        assert!(!has_top_level_await(
+            "class C { async method() { await test; } }"
+        ));
+    }
+
+    #[test]
+    fn nested_await_is_not_top_level_await() {
+        assert!(!has_top_level_await("const f = async () => await test;"));
     }
 
     #[test]
