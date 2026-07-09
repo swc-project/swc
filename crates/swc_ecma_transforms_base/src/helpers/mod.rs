@@ -15,8 +15,7 @@ use generated::{HelperBitmap, HelperName};
 macro_rules! enable_helper {
     ($i:ident) => {{
         $crate::helpers::HELPERS.with(|helpers| {
-            let helper = $crate::helpers::generated::helper_name(stringify!($i))
-                .unwrap_or_else(|| unreachable!("unknown swc helper: {}", stringify!($i)));
+            let helper = $crate::helpers::generated::HelperName::$i;
             helpers.enable(helper);
             helpers.mark()
         })
