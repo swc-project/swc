@@ -167,6 +167,7 @@ impl Annotation {
 #[derive(Debug)]
 pub struct StyledString {
     pub text: String,
+    #[allow(dead_code)]
     pub style: Style,
 }
 

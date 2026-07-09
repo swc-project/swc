@@ -34,8 +34,6 @@ impl<T> Default for CacheCell<T> {
 
 #[cfg(feature = "rkyv-impl")]
 mod rkyv_impl {
-    use std::hint::unreachable_unchecked;
-
     use rancor::Fallible;
     use rkyv::{
         munge::munge, option::ArchivedOption, traits::NoUndef, Archive, Deserialize, Place,
@@ -81,9 +79,7 @@ mod rkyv_impl {
                     let value = if let Some(value) = self.get() {
                         value
                     } else {
-                        unsafe {
-                            unreachable_unchecked();
-                        }
+                        unreachable!("CacheCell resolved before being serialized");
                     };
 
                     value.resolve(resolver, out_value);
@@ -112,5 +108,28 @@ mod rkyv_impl {
                 ArchivedOption::None => CacheCell::new(),
             })
         }
+    }
+}
+
+#[cfg(all(test, feature = "rkyv-impl"))]
+mod tests {
+    use rkyv::{option::ArchivedOption, Archive, Place};
+
+    use super::*;
+
+    /// Regression test for <https://github.com/swc-project/swc/issues/11991>:
+    /// `Archive::resolve` must panic safely instead of triggering UB when
+    /// called with `Some(resolver)` on an unpopulated `CacheCell`.
+    #[test]
+    #[should_panic(expected = "CacheCell resolved before being serialized")]
+    fn resolve_empty_cell_with_some_resolver_panics() {
+        let cell: CacheCell<()> = CacheCell::new();
+        let mut storage = ArchivedOption::<()>::None;
+        // SAFETY: `Place::new_unchecked` requires that the pointer is
+        // properly aligned, initialized, and points to valid memory for
+        // the archived type. `&mut storage` satisfies all of these for
+        // `ArchivedOption<()>`.
+        let out = unsafe { Place::new_unchecked(0, &mut storage) };
+        <CacheCell<()> as Archive>::resolve(&cell, Some(()), out);
     }
 }
