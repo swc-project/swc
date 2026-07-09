@@ -3,7 +3,7 @@
 use std::path::{Path, PathBuf};
 
 use anyhow::{bail, Context, Result};
-use clap::Parser;
+use clap::{Parser, Subcommand};
 use swc_config::regex::CachedRegex;
 use syn::Item;
 
@@ -14,27 +14,63 @@ mod types;
 
 #[derive(Debug, Parser)]
 struct CliArgs {
+    #[clap(subcommand)]
+    command: Option<Command>,
+
     /// The directory containing the crate to generate the visitor for.
     #[clap(short = 'i', long)]
-    input_dir: PathBuf,
+    input_dir: Option<PathBuf>,
 
     /// The file for the generated visitor code.
     #[clap(short = 'o', long)]
-    output: PathBuf,
+    output: Option<PathBuf>,
 
     /// The list of types to exclude from the generated visitor.
     #[clap(long)]
     exclude: Vec<String>,
 }
 
+#[derive(Debug, Subcommand)]
+enum Command {
+    /// Generate Rust artifacts for ECMAScript helpers.
+    Helpers,
+}
+
 fn main() -> Result<()> {
     let CliArgs {
+        command,
         input_dir,
         output,
         exclude,
     } = CliArgs::parse();
 
-    run_visitor_codegen(&input_dir, &output, &exclude)?;
+    match command {
+        Some(Command::Helpers) => run_helpers_codegen()?,
+        None => {
+            let input_dir = input_dir.context("`--input-dir` is required for visitor codegen")?;
+            let output = output.context("`--output` is required for visitor codegen")?;
+
+            run_visitor_codegen(&input_dir, &output, &exclude)?;
+        }
+    }
+
+    Ok(())
+}
+
+fn run_helpers_codegen() -> Result<()> {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../..")
+        .canonicalize()
+        .context("failed to canonicalize repository root")?;
+
+    let written = generators::helpers::generate(generators::helpers::Config {
+        input_dir: root.join("packages/helpers/esm"),
+        output_dir: root.join("crates/swc_ecma_transforms_base/src/helpers/generated"),
+    })?;
+
+    eprintln!("Generated {} helper artifact files", written.len());
+
+    run_cargo_fmt_many(&written)?;
 
     Ok(())
 }
@@ -257,6 +293,11 @@ fn test_xml() {
     .unwrap();
 }
 
+#[test]
+fn test_helpers() {
+    run_helpers_codegen().unwrap();
+}
+
 fn get_type_defs(file: &syn::File) -> Vec<&Item> {
     let mut type_defs = Vec::new();
     for item in &file.items {
@@ -293,6 +334,29 @@ fn run_cargo_fmt(file: &Path) -> Result<()> {
     cmd.arg("fmt").arg("--").arg(file);
 
     eprintln!("Running: {cmd:?}");
+    let status = cmd.status().context("failed to run cargo fmt")?;
+
+    if !status.success() {
+        bail!("cargo fmt failed with status: {status:?}");
+    }
+
+    Ok(())
+}
+
+fn run_cargo_fmt_many(files: &[PathBuf]) -> Result<()> {
+    if files.is_empty() {
+        return Ok(());
+    }
+
+    let files = files
+        .iter()
+        .map(|file| file.canonicalize().context("failed to canonicalize file"))
+        .collect::<Result<Vec<_>>>()?;
+
+    let mut cmd = std::process::Command::new("cargo");
+    cmd.arg("fmt").arg("--").args(&files);
+
+    eprintln!("Running cargo fmt for {} files", files.len());
     let status = cmd.status().context("failed to run cargo fmt")?;
 
     if !status.success() {
