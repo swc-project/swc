@@ -20,6 +20,6 @@ function _class_private_field_loose_key(name) {
 #[cfg(feature = "inline-helpers")]
 pub fn stmts() -> &'static [swc_ecma_ast::Stmt] {
     static STMTS: once_cell::sync::Lazy<Vec<swc_ecma_ast::Stmt>> =
-        once_cell::sync::Lazy::new(|| super::super::parse(DEF.source));
+        once_cell::sync::Lazy::new(|| super::super::parse(DEF.source, DEF.import_path));
     &STMTS
 }

@@ -598,7 +598,8 @@ fn generate_helper_rs(helper: &Helper, inline_deps: u128) -> String {
     output.push_str("#[cfg(feature = \"inline-helpers\")]\n");
     output.push_str("pub fn stmts() -> &'static [swc_ecma_ast::Stmt] {\n");
     output.push_str("    static STMTS: once_cell::sync::Lazy<Vec<swc_ecma_ast::Stmt>> =\n");
-    output.push_str("        once_cell::sync::Lazy::new(|| super::super::parse(DEF.source));\n");
+    output.push_str("        once_cell::sync::Lazy::new(|| ");
+    output.push_str("super::super::parse(DEF.source, DEF.import_path));\n");
     output.push_str("    &STMTS\n");
     output.push_str("}\n");
 

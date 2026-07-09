@@ -585,6 +585,6 @@ function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
 #[cfg(feature = "inline-helpers")]
 pub fn stmts() -> &'static [swc_ecma_ast::Stmt] {
     static STMTS: once_cell::sync::Lazy<Vec<swc_ecma_ast::Stmt>> =
-        once_cell::sync::Lazy::new(|| super::super::parse(DEF.source));
+        once_cell::sync::Lazy::new(|| super::super::parse(DEF.source, DEF.import_path));
     &STMTS
 }

@@ -23,11 +23,11 @@ macro_rules! enable_helper {
 }
 
 #[cfg(feature = "inline-helpers")]
-fn parse(code: &str) -> Vec<Stmt> {
+fn parse(code: &str, path: &str) -> Vec<Stmt> {
     let cm = swc_common::SourceMap::default();
 
     let fm = cm.new_source_file(
-        swc_common::FileName::Custom("swc helpers".into()).into(),
+        swc_common::FileName::Custom(path.into()).into(),
         code.to_string(),
     );
     swc_ecma_parser::parse_file_as_script(
