@@ -10,8 +10,8 @@ Object.defineProperty(exports, "default", {
     }
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
-var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 var _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
+var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 var _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
 var env = {
     stack: [],
