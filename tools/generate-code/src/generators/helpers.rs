@@ -349,20 +349,6 @@ fn validate_deps(helpers: &[Helper]) -> Result<()> {
         }
     }
 
-    let mut visiting = BTreeSet::new();
-    let mut visited = BTreeSet::new();
-    let mut stack = Vec::new();
-
-    for helper in helpers {
-        validate_acyclic(
-            helper.module_name.as_str(),
-            &helper_map,
-            &mut visiting,
-            &mut visited,
-            &mut stack,
-        )?;
-    }
-
     Ok(())
 }
 
@@ -411,39 +397,6 @@ fn collect_inline_deps(
             .with_context(|| format!("missing helper `{dep}` during dependency flattening"))?;
         collect_inline_deps(dep_index, helpers, helper_indices, bits)?;
     }
-
-    Ok(())
-}
-
-fn validate_acyclic<'a>(
-    name: &'a str,
-    helper_map: &BTreeMap<&'a str, &'a Helper>,
-    visiting: &mut BTreeSet<&'a str>,
-    visited: &mut BTreeSet<&'a str>,
-    stack: &mut Vec<&'a str>,
-) -> Result<()> {
-    if visited.contains(name) {
-        return Ok(());
-    }
-
-    if !visiting.insert(name) {
-        stack.push(name);
-        bail!("helper dependency cycle detected: {}", stack.join(" -> "));
-    }
-
-    stack.push(name);
-    let helper = helper_map
-        .get(name)
-        .copied()
-        .with_context(|| format!("missing helper `{name}` during cycle validation"))?;
-
-    for dep in &helper.deps {
-        validate_acyclic(dep, helper_map, visiting, visited, stack)?;
-    }
-
-    stack.pop();
-    visiting.remove(name);
-    visited.insert(name);
 
     Ok(())
 }
