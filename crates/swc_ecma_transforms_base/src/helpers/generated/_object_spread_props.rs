@@ -36,7 +36,7 @@ function _object_spread_props(target, source) {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: super::HelperBitmap::from_bits(0x00000000000000800000000000000000),
+    deps: super::HelperBitmap::from_bits(0x00000000000000400000000000000000),
 };
 
 #[cfg(feature = "inline-helpers")]

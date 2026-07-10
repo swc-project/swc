@@ -20,7 +20,7 @@ pub const DEF: HelperDef = HelperDef {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: super::HelperBitmap::from_bits(0x00000004000008002008000000002040),
+    deps: super::HelperBitmap::from_bits(0x00000002000004002008000000002040),
 };
 
 #[cfg(feature = "inline-helpers")]

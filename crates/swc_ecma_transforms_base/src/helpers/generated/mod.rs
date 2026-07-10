@@ -66,7 +66,6 @@ mod _is_native_reflect_construct;
 mod _iterable_to_array;
 mod _iterable_to_array_limit;
 mod _iterable_to_array_limit_loose;
-mod _jsx;
 mod _new_arrow_check;
 mod _non_iterable_rest;
 mod _non_iterable_spread;
@@ -178,7 +177,6 @@ pub enum HelperName {
     iterable_to_array,
     iterable_to_array_limit,
     iterable_to_array_limit_loose,
-    jsx,
     new_arrow_check,
     non_iterable_rest,
     non_iterable_spread,
@@ -222,7 +220,7 @@ pub enum HelperName {
     write_only_error,
 }
 
-pub const HELPER_COUNT: usize = 107;
+pub const HELPER_COUNT: usize = 106;
 
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct HelperBitmap(u128);
@@ -342,7 +340,6 @@ pub const ALL: &[HelperDef; HELPER_COUNT] = &[
     _iterable_to_array::DEF,
     _iterable_to_array_limit::DEF,
     _iterable_to_array_limit_loose::DEF,
-    _jsx::DEF,
     _new_arrow_check::DEF,
     _non_iterable_rest::DEF,
     _non_iterable_spread::DEF,
@@ -469,7 +466,6 @@ pub fn helper_name(name: &str) -> Option<HelperName> {
         "iterable_to_array" => Some(HelperName::iterable_to_array),
         "iterable_to_array_limit" => Some(HelperName::iterable_to_array_limit),
         "iterable_to_array_limit_loose" => Some(HelperName::iterable_to_array_limit_loose),
-        "jsx" => Some(HelperName::jsx),
         "new_arrow_check" => Some(HelperName::new_arrow_check),
         "non_iterable_rest" => Some(HelperName::non_iterable_rest),
         "non_iterable_spread" => Some(HelperName::non_iterable_spread),
@@ -778,10 +774,6 @@ impl super::Helpers {
         self.enable(HelperName::iterable_to_array_limit_loose);
     }
 
-    pub fn jsx(&self) {
-        self.enable(HelperName::jsx);
-    }
-
     pub fn new_arrow_check(&self) {
         self.enable(HelperName::new_arrow_check);
     }
@@ -1031,7 +1023,6 @@ pub fn stmts(name: HelperName) -> &'static [swc_ecma_ast::Stmt] {
         HelperName::iterable_to_array => _iterable_to_array::stmts(),
         HelperName::iterable_to_array_limit => _iterable_to_array_limit::stmts(),
         HelperName::iterable_to_array_limit_loose => _iterable_to_array_limit_loose::stmts(),
-        HelperName::jsx => _jsx::stmts(),
         HelperName::new_arrow_check => _new_arrow_check::stmts(),
         HelperName::non_iterable_rest => _non_iterable_rest::stmts(),
         HelperName::non_iterable_spread => _non_iterable_spread::stmts(),
