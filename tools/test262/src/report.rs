@@ -31,7 +31,9 @@ pub struct SuiteExecution {
 pub enum BaselineMode {
     Filtered,
     Verify,
+    VerifyAdvisory,
     Update,
+    UpdateAdvisory,
 }
 
 #[derive(Debug, Serialize)]
@@ -44,6 +46,7 @@ pub struct SuiteReport {
     pub skipped: usize,
     pub skipped_cases: Vec<SkipRecord>,
     pub unsupported: usize,
+    pub baseline_stale: bool,
     pub failures: Vec<Failure>,
     pub new_failures: Vec<Failure>,
     pub unexpected_passes: Vec<Failure>,
@@ -88,13 +91,14 @@ pub fn evaluate(
         .cloned()
         .collect::<Vec<_>>();
 
-    let (known_failed, comparison) = match mode {
+    let (known_failed, comparison, baseline_stale) = match mode {
         BaselineMode::Filtered => (
             0,
             Comparison {
                 new_failures: comparable,
                 unexpected_passes: Vec::new(),
             },
+            false,
         ),
         BaselineMode::Verify => {
             let baseline = Baseline::load(baseline_path, revision, execution.suite)?;
@@ -102,7 +106,16 @@ pub fn evaluate(
             let known_failed = comparable
                 .len()
                 .saturating_sub(comparison.new_failures.len());
-            (known_failed, comparison)
+            (known_failed, comparison, false)
+        }
+        BaselineMode::VerifyAdvisory => {
+            let baseline = Baseline::load_advisory(baseline_path, execution.suite)?;
+            let stale = baseline.upstream_revision != revision;
+            let comparison = baseline.compare(comparable.clone());
+            let known_failed = comparable
+                .len()
+                .saturating_sub(comparison.new_failures.len());
+            (known_failed, comparison, stale)
         }
         BaselineMode::Update => {
             let baseline = Baseline::new(revision.to_owned(), execution.suite, comparable.clone());
@@ -113,6 +126,20 @@ pub fn evaluate(
                     new_failures: Vec::new(),
                     unexpected_passes: Vec::new(),
                 },
+                false,
+            )
+        }
+        BaselineMode::UpdateAdvisory => {
+            let baseline =
+                Baseline::new_advisory(revision.to_owned(), execution.suite, comparable.clone());
+            baseline.save(baseline_path)?;
+            (
+                comparable.len(),
+                Comparison {
+                    new_failures: Vec::new(),
+                    unexpected_passes: Vec::new(),
+                },
+                false,
             )
         }
     };
@@ -140,6 +167,7 @@ pub fn evaluate(
         skipped,
         skipped_cases: execution.skipped,
         unsupported,
+        baseline_stale,
         failures: all_failures,
         new_failures: comparison.new_failures,
         unexpected_passes: comparison.unexpected_passes,
@@ -235,5 +263,39 @@ mod tests {
         assert_eq!(report.unsupported, 1);
         assert_eq!(report.eligible, 0);
         assert!(report.is_clean());
+    }
+
+    #[test]
+    fn advisory_allowlist_reports_revision_drift_without_rejecting_it() {
+        let directory = TempDir::new().unwrap();
+        let path = directory.path().join("runtime.json");
+        let failures = vec![failure("case.js", FailureKind::RuntimeError)];
+        evaluate(
+            SuiteExecution {
+                suite: Suite::Parser,
+                total: 1,
+                skipped: Vec::new(),
+                failures: failures.clone(),
+            },
+            "reviewed-revision",
+            &path,
+            BaselineMode::UpdateAdvisory,
+        )
+        .unwrap();
+
+        let report = evaluate(
+            SuiteExecution {
+                suite: Suite::Parser,
+                total: 1,
+                skipped: Vec::new(),
+                failures,
+            },
+            "new-revision",
+            &path,
+            BaselineMode::VerifyAdvisory,
+        )
+        .unwrap();
+        assert!(report.is_clean());
+        assert!(report.baseline_stale);
     }
 }

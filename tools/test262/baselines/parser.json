@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "revision_policy": "locked",
   "upstream_revision": "de8e621cdba4f40cff3cf244e6cfb8cb48746b4a",
   "suite": "parser",
   "failures": [
@@ -9744,38 +9745,11 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/expressions/class/decorator/syntax/class-valid/decorator-member-expr-private-identifier.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "bd7ff0609a992d6c7435b6a55f99b13ae18453703285e57137f8f9d436fef00c",
-      "summary": "Error { error: (1348..1349, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/decorator/syntax/class-valid/decorator-member-expr-private-identifier.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a08e2e4a92d800dcfc469b136f3c3f4f25f1de5fe632c3791ccdc958b2028f88",
-      "summary": "Error { error: (1362..1363, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/decorator/syntax/valid/decorator-call-expr-identifier-reference-yield.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "1b0713be01a2b4ced6c57b1275834b92ae96b0f4046dd84af7ef1e7b5d29093f",
-      "summary": "Error { error: (1350..1351, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
       "path": "language/expressions/class/decorator/syntax/valid/decorator-call-expr-identifier-reference.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
-      "fingerprint": "860aa7137e8feeebb360892008d1cb233ac969cbdb870dd40f2fd4eca17b85f1",
-      "summary": "Error { error: (1507..1508, TS1109) }"
+      "fingerprint": "adfda71c30003fa658533b5fdd118e37e1fa8d85342dca6344b4463e00333602",
+      "summary": "Error { error: (1569..1574, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -9783,35 +9757,8 @@
       "path": "language/expressions/class/decorator/syntax/valid/decorator-call-expr-identifier-reference.js",
       "variant": "strict",
       "kind": "unexpected-parse-error",
-      "fingerprint": "1cdbc259faa1cbaf7d9c24c38f099615cc180b6cbf38a4f0be9ee0ada2cec33c",
-      "summary": "Error { error: (1521..1522, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/decorator/syntax/valid/decorator-member-expr-decorator-member-expr.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "aee960d25903a901a806fa1810f0b11d8f2d542668ee6baed172ed4a4e471d26",
-      "summary": "Error { error: (1213..1214, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/decorator/syntax/valid/decorator-member-expr-decorator-member-expr.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "08ffdc260fa2a7d5117ec7776e6e7997a9903ccc109d518e52cdc4cc37189739",
-      "summary": "Error { error: (1227..1228, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/decorator/syntax/valid/decorator-member-expr-identifier-reference-yield.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a0ee25278896ad7e124c4d90bb36156c662246e7e214a1c026f04b2125f0ac9a",
-      "summary": "Error { error: (966..967, TS1109) }"
+      "fingerprint": "aba730d255b280bf176048be5f812af0fcbab0ec94459edfc19dc6c906d2eb19",
+      "summary": "Error { error: (1583..1588, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -9819,8 +9766,8 @@
       "path": "language/expressions/class/decorator/syntax/valid/decorator-member-expr-identifier-reference.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
-      "fingerprint": "8b7cccb953f0f638faa266c39fa70131a5407315c8a3cff90aec9eb9817d4974",
-      "summary": "Error { error: (1105..1106, TS1109) }"
+      "fingerprint": "99c7c978ede147ac95b068b051811ecb3915e6ce4da88a86c1dc0397dc8e8b79",
+      "summary": "Error { error: (1155..1160, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -9828,35 +9775,8 @@
       "path": "language/expressions/class/decorator/syntax/valid/decorator-member-expr-identifier-reference.js",
       "variant": "strict",
       "kind": "unexpected-parse-error",
-      "fingerprint": "6ef1e7a84c563e852439b41f83df2f6bbd0308419fe32b82550d55b8240e4ec8",
-      "summary": "Error { error: (1119..1120, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/decorator/syntax/valid/decorator-parenthesized-expr-identifier-reference-yield.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e07cda2e5a264efb9b2dbb575301aede78d68275c1d2bb7083a0a1813a11455c",
-      "summary": "Error { error: (1553..1554, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/decorator/syntax/valid/decorator-parenthesized-expr-identifier-reference.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "edfdb7eb8494d15f0e3157313d2a2e1c3864318e5e1d29c73715d7397564db57",
-      "summary": "Error { error: (1592..1593, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/decorator/syntax/valid/decorator-parenthesized-expr-identifier-reference.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "0e4074677fa77af1d49e5af3ec173d075d6e0f563e0e49a9ffaf3b52ecda8fbb",
-      "summary": "Error { error: (1606..1607, TS1109) }"
+      "fingerprint": "51143667f410373511283f7f5e2c062f855ef0332792bec2ac47cd9a92982ffb",
+      "summary": "Error { error: (1169..1174, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -13727,24 +13647,6 @@
       "kind": "missing-parse-error",
       "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
       "summary": "expected SyntaxError"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/elements/syntax/valid/grammar-field-accessor.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "efd8a1469b1e09db45982443bded2789909f7c6b1a9959d4adf4faf36dc2cdf3",
-      "summary": "Error { error: (643..644, Unexpected { got: \"ident\", expected: \"* for generator, private key, identifier or async\" }) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/expressions/class/elements/syntax/valid/grammar-field-accessor.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a5d8b62a08f144d6553b1eb66cdb5391bf8095766f36aa481a842def6129b498",
-      "summary": "Error { error: (657..658, Unexpected { got: \"ident\", expected: \"* for generator, private key, identifier or async\" }) }"
     },
     {
       "suite": "parser",
@@ -24765,618 +24667,6 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.asyncDispose-getter.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "2f3969c5237f99aedb01fa3895b2be540f87ab20956a839e9ed3113b45396af0",
-      "summary": "Error { error: (2286..2310, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.asyncDispose-getter.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "d8b79f8753e3c0ad1737507eeac77f906dbdf0cf05747e603097e211d33f4818",
-      "summary": "Error { error: (2300..2324, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.asyncDispose-method-called-with-correct-this.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c12cc1340de9a9401d3b1d71718cd1392fd3c38fb081e75641a0468c4095ff15",
-      "summary": "Error { error: (1695..1719, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.asyncDispose-method-called-with-correct-this.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "16178fbebba8b5d02c59fdadb1472d2053dd6890c53c52d90c34d867a5f5a5bc",
-      "summary": "Error { error: (1709..1733, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.asyncDispose-method-not-async.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "096da7debcbe90ca10181f24816cf961af97f4eb232f684751c7f3633bcc604c",
-      "summary": "Error { error: (1746..1770, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.asyncDispose-method-not-async.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "4c1641821c08a7be6f6956b40a0ee15988c97b4f52541cb6998f930df311b595",
-      "summary": "Error { error: (1760..1784, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.dispose-getter.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "d0f9717f27e4a83559442d2dcddade6b5f2f0b7bfd11b83dc61086b53d651e29",
-      "summary": "Error { error: (2269..2293, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.dispose-getter.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "6e1d5317e1c7eac5858ba53613656e9830e86136fa33fe7f9c636944a2dc5d7a",
-      "summary": "Error { error: (2283..2307, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.dispose-method-called-with-correct-this.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "dae5598044b599c326e5e6d35f9e62977690b335b07606ba0e78e951f7138bb7",
-      "summary": "Error { error: (1675..1699, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/Symbol.dispose-method-called-with-correct-this.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "1505f5a3bc05b00448f5e6f33d66fb978c28385d2312345864789526d097f6fa",
-      "summary": "Error { error: (1689..1713, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-Symbol.asyncDispose-allows-non-promise-return-value.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "b7b7b44f5d1d1dc1ad3895a2c856e079301ad4b942147cab45368a2528063259",
-      "summary": "Error { error: (1491..1515, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-Symbol.asyncDispose-allows-non-promise-return-value.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "327589a5a44acd5d8d279ccc22aa48b30881671f72f7c381b36fc65850218046",
-      "summary": "Error { error: (1505..1529, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-Symbol.asyncDispose-allows-promiselike-return-value.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "b229acc521a70c3a19c6c2b734eb1e49429016c72a8609089279ce53963915c2",
-      "summary": "Error { error: (1582..1606, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-Symbol.asyncDispose-allows-promiselike-return-value.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a1575ed9a24a10129c055306ee84e325ebefd73c7730317ad9639d210d802789",
-      "summary": "Error { error: (1596..1620, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-allows-null-initializer.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "377d4398578722bc5cdaa218155c27ebff2edd0ce680fa6d742dc6d6f8aefe04",
-      "summary": "Error { error: (1220..1240, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-allows-null-initializer.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "016756ea0e247afa466e07820da875ccbd603fdf004c75219312e76d11af0400",
-      "summary": "Error { error: (1234..1254, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-allows-undefined-initializer.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "9abfa002fffbcaf0d301ffb3dd5bcdaaeed9395430aa5bca002332e5f1bc607a",
-      "summary": "Error { error: (1225..1244, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-allows-undefined-initializer.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e85d98d96083841b5f499668b65ce4b8112bb137e5d7545c0390b90c245647ae",
-      "summary": "Error { error: (1239..1258, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-does-not-imply-await-if-not-evaluated.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "64c8e752c9ece5511250ce3800a0a302ed41aad5bb7c49155355800b85096809",
-      "summary": "Error { error: (3103..3123, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-does-not-imply-await-if-not-evaluated.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c9821a45460bdab729941d40e17306e07d5aac83a21fa150b36a8ceb77a40928",
-      "summary": "Error { error: (3117..3137, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-implies-await-if-evaluated.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "1fee0b161fae674e84b1a645a3833736ab0c646be461ccdfcb1cdbe6267629e8",
-      "summary": "Error { error: (3141..3161, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/await-using-implies-await-if-evaluated.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "ba32fc7fc837e836b7d51b770b8ebf9b8fb8661fea99edec4ff27fbb85cdf42b",
-      "summary": "Error { error: (3155..3175, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/block-local-closure-get-before-initialization.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "5df2cd9069d125bb1fb59de8b8d7546aaf6a8f23b5d212e063c5a06b67c0ffa3",
-      "summary": "Error { error: (528..548, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/block-local-closure-get-before-initialization.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "949178a54e1d07a54bed7186d1a53b3dd7d42dfde3b093dabc6f589762795df8",
-      "summary": "Error { error: (542..562, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/block-local-use-before-initialization-in-declaration-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "57ac7a7ec2ea2e0feff313cdf917091fadf4d2413ca7475c4ec67cf08b12e019",
-      "summary": "Error { error: (512..533, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/block-local-use-before-initialization-in-declaration-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "da80a01f6299e16c1bb6a325b58d5996f3c890f18d58d80094fd932c0d236ba5",
-      "summary": "Error { error: (526..547, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/block-local-use-before-initialization-in-prior-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "d2ce7d642afc01d34308a0e716abeb2c84497c6192932a8ca7e91067fa9e4073",
-      "summary": "Error { error: (507..527, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/block-local-use-before-initialization-in-prior-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "3e7420a6cc4ec65c97daa84dcbf6b105dbe30cb8f32e48ce4baf23051003f3f6",
-      "summary": "Error { error: (521..541, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-arrow.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "70606091126a7d85513de2f58053b425ed339e2909ccb923bbc0c65fc824955a",
-      "summary": "Error { error: (799..827, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-arrow.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c54b6afa1715092d7324934627c5f087399b145f2b5cec34b5c6fc05b1e421c9",
-      "summary": "Error { error: (813..841, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-class.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "7c14d927f5a480a468559502abec5ea5c97ccab2fe0dc064a94c102195eaa670",
-      "summary": "Error { error: (637..707, UsingDeclNotEnabled) }\nError { error: (713..780, UsingDeclNotEnabled) }\nError { error: (786..872, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-class.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "fc6fef43222c2abaa8f81b14cbe0d0c65bfbaf7e22055d3ea3341cc296cb8d91",
-      "summary": "Error { error: (651..721, UsingDeclNotEnabled) }\nError { error: (727..794, UsingDeclNotEnabled) }\nError { error: (800..886, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-cover.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "01401d2f6940b2a14657bc3525ef949414207413a97afe35d7d116d722e46198",
-      "summary": "Error { error: (820..859, UsingDeclNotEnabled) }\nError { error: (863..898, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-cover.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "4ed51a7db0cfe0c9047212e50eeff2daf5ba0dc5ea426c433f23879e76dc93fd",
-      "summary": "Error { error: (834..873, UsingDeclNotEnabled) }\nError { error: (877..912, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-fn.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "7f98d549ebd9799a1333db96f202f6cf29caddb16ae7f9ca90eea48d1d3794f0",
-      "summary": "Error { error: (805..838, UsingDeclNotEnabled) }\nError { error: (844..874, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-fn.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "7ded976f0333ac4204e4c309427db7b447ae7cb2fcd0a79dfdbf86052837d029",
-      "summary": "Error { error: (819..852, UsingDeclNotEnabled) }\nError { error: (858..888, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-gen.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a00076b7c9b6b7b39b2466d7188cbc0c6ffdc1cb193f616a1862ee2a1bfc8576",
-      "summary": "Error { error: (817..852, UsingDeclNotEnabled) }\nError { error: (858..890, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/fn-name-gen.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "4a2438078c2b51c709d7b299494aa563e24e6719100755bee98a80dbbdbedcc5",
-      "summary": "Error { error: (831..866, UsingDeclNotEnabled) }\nError { error: (872..904, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/function-local-closure-get-before-initialization.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "edd60e5138a3724974875d479e0120192a2ae69e832032e0dfcc2fd2bc98ff2d",
-      "summary": "Error { error: (531..551, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/function-local-closure-get-before-initialization.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "4693cee3ce7d965b0922f3ebd28d8f658321b60bf45ccc03732091ad38205739",
-      "summary": "Error { error: (545..565, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/function-local-use-before-initialization-in-declaration-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "57ac7a7ec2ea2e0feff313cdf917091fadf4d2413ca7475c4ec67cf08b12e019",
-      "summary": "Error { error: (512..533, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/function-local-use-before-initialization-in-declaration-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "da80a01f6299e16c1bb6a325b58d5996f3c890f18d58d80094fd932c0d236ba5",
-      "summary": "Error { error: (526..547, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/function-local-use-before-initialization-in-prior-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "282986e8bed88c6b5af8b70e50be0f841418ced858878919a8b95c7595fd38b0",
-      "summary": "Error { error: (510..530, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/function-local-use-before-initialization-in-prior-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "09b752103ae091877253d5c32a4c563769f8cf5544342cad6bc092db7a2dfad1",
-      "summary": "Error { error: (524..544, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-Symbol.asyncDispose-property-once.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "121f48ecc53059eabbc2a3e764ac23bb781afd9d315b84b61d57216939fbbbcc",
-      "summary": "Error { error: (2507..2531, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-Symbol.asyncDispose-property-once.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8c5efd52b13454b79fc4b9cf7a02456613bd81bb67ecda3e4457be70ebcedeb5",
-      "summary": "Error { error: (2521..2545, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-Symbol.dispose-after-Symbol.asyncDispose-is-null.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8ed0d40a5b3cf98f750bf50e21e473c98008fc97068d09ce56f90024d8e83d24",
-      "summary": "Error { error: (2606..2630, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-Symbol.dispose-after-Symbol.asyncDispose-is-null.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "602c6c7b1fb348cbccb5cf1dccec20d4076e9a7242d66f945d4f8c27358d2178",
-      "summary": "Error { error: (2620..2644, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-Symbol.dispose-after-Symbol.asyncDispose-is-undefined.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f21febab4bab535c04334e6394b0aa288529146c59741a80889e1bca36902439",
-      "summary": "Error { error: (2617..2641, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-Symbol.dispose-after-Symbol.asyncDispose-is-undefined.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "9f9d89f2b14feeb633122060cfee42f0251c600884803199043580609e0e086f",
-      "summary": "Error { error: (2631..2655, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-Symbol.dispose-property-once.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "1f5de8173cc3826b233dfdf08c66881de1ac12c297a23435cb597b033b3ee2e4",
-      "summary": "Error { error: (2481..2505, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-Symbol.dispose-property-once.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f8f8d88e9c25e44dc3f5a30cc627b4388b85df8d099c80ea65811b294d066acc",
-      "summary": "Error { error: (2495..2519, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-does-not-read-Symbol.dispose-if-Symbol.asyncDispose-exists.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "5a655ee93eef77f36b9a5ed7cd5d2716983fbc54d125c2d33db8a85439313342",
-      "summary": "Error { error: (2644..2668, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/gets-initializer-does-not-read-Symbol.dispose-if-Symbol.asyncDispose-exists.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "3cb0eebec67cee17b6877befb30185ede2c06426ec4e04f2ae116a7194920a40",
-      "summary": "Error { error: (2658..2682, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/global-closure-get-before-initialization.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f3d249c23d03eb2e04e318a81affae17671425ee0a88677de69f5f01701f758e",
-      "summary": "Error { error: (522..542, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/global-closure-get-before-initialization.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "b670660f643967685d86967bf5a4f6399eba5e9c481f3c78f0e6aa22e95fe89e",
-      "summary": "Error { error: (536..556, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/global-use-before-initialization-in-declaration-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e0363add4d1ce846fe19b4b8960ac8e609b99210b215a8f08a9f9effbf984f8d",
-      "summary": "Error { error: (506..527, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/global-use-before-initialization-in-declaration-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "ae8659590bd29b01177b9906328829de54416e8dd1fbe2ec1fa07dfed98dc645",
-      "summary": "Error { error: (520..541, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/global-use-before-initialization-in-prior-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "87c1f5458b65b0cbaa4a4e8a71d27dcf324a3a6fb12d64476e6e31fa4ec9e9a9",
-      "summary": "Error { error: (503..523, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/global-use-before-initialization-in-prior-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "118b7d42bdf3c7d0cfde1e488441cef1bef615b20865d8b3e1b47f28bad88700",
-      "summary": "Error { error: (517..537, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-at-end-of-asyncfunctionbody.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "b2698d9e25e454164c4e02ccdc67ce91fe8b052c1e271f86e43ffc469dc3d2fd",
-      "summary": "Error { error: (3955..3979, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-at-end-of-asyncfunctionbody.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "288b2f145e028d851d89af98776dab686b6de56448bc7e0f77070527e2afa07e",
-      "summary": "Error { error: (3969..3993, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-at-end-of-asyncgeneratorbody.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c346089865b679009ca0305c7b225e3b20bbf3397ddc0442108d4d57fcab4b2a",
-      "summary": "Error { error: (3668..3692, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-at-end-of-asyncgeneratorbody.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "66ff771070a1f5e363d4101671a61bae088413572fe5ab0df394c12b97a1141d",
-      "summary": "Error { error: (3682..3706, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-at-end-of-block.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "96c8c542ef36240c2ec54b446b3f92852bfc793dc278f0396d30da24d6bc0458",
-      "summary": "Error { error: (1754..1778, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-at-end-of-block.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f10d53e06ca439af17e089a4782e985c25806985762312d11430be5fe57c5a41",
-      "summary": "Error { error: (1768..1792, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-at-end-of-each-iteration-of-forofstatement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "bb41822a207756815c4855a14fe33d5b89874e0c8d1910e457c5c921d4aa11b2",
-      "summary": "Error { error: (2835..2836, Expected(\";\", \"ident\")) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-at-end-of-each-iteration-of-forofstatement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f9aed914e726072fe965d4c77c7fb6bef221edd31932aa03a9627246034e916e",
-      "summary": "Error { error: (2849..2850, Expected(\";\", \"ident\")) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
       "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-at-end-of-forstatement.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
@@ -25409,96 +24699,6 @@
       "kind": "unexpected-parse-error",
       "fingerprint": "8f1e269407ab1397336fc1d409693d03f8ae2dfd375bf7d71b1239731b2b4909",
       "summary": "Error { error: (2180..2182, Expected(\";\", \"ident\")) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-if-subsequent-initializer-throws.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "7318d46720bdb8c9689bb7e151e851c859e6dbaa571d74bd5660d7754e6c30f3",
-      "summary": "Error { error: (1873..1918, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.asyncDispose-called-if-subsequent-initializer-throws.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c2d1b68e971b5a7b649c11ef37b2abffc888291b1ac74a9c0e77af927b58f7ef",
-      "summary": "Error { error: (1887..1932, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-at-end-of-asyncfunctionbody.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "5e8398aca2f4156daa30a1c9a90d7815f727fcea917ebf0999b29a3e848d9c56",
-      "summary": "Error { error: (3944..3968, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-at-end-of-asyncfunctionbody.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "15f2bd729d2dd30f548c95d0316d4d050d0521096b47644da2c0e0e7eabe3634",
-      "summary": "Error { error: (3958..3982, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-at-end-of-asyncgeneratorbody.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "dbba7d7876e0bf451f2604e0aa2813b5d96e7e8c415ef8e56b9d02d57d79405a",
-      "summary": "Error { error: (3657..3681, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-at-end-of-asyncgeneratorbody.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "cd2226d67b01e0f763d088a3ad4f7bfa703a744b7280c42f72e49321c5db0c17",
-      "summary": "Error { error: (3671..3695, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-at-end-of-block.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "6a74a68b7481a54091ec4b13142eb2f9ebb5c20687f7af27e4f33648b1dc902a",
-      "summary": "Error { error: (1743..1767, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-at-end-of-block.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f89995e0b1fb2e5cf6c99de289d5d3a91986c575d40bb019adeae1253f1c4433",
-      "summary": "Error { error: (1757..1781, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-at-end-of-each-iteration-of-forofstatement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "4282cd081ef5a53250c9e1d56581999667e9bd2797a1d29be28d7416c1f81e9d",
-      "summary": "Error { error: (2824..2825, Expected(\";\", \"ident\")) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-at-end-of-each-iteration-of-forofstatement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "aef8fe08c5300bafcc43f14daba2204a286ef841a4a961846e4325edf8883134",
-      "summary": "Error { error: (2838..2839, Expected(\";\", \"ident\")) }"
     },
     {
       "suite": "parser",
@@ -25539,119 +24739,11 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-if-subsequent-initializer-throws.js",
+      "path": "language/statements/await-using/redeclaration-error-from-within-strict-mode-function-await-using.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f8bca7f9375feb4fb22afa8eef43d2390ebba7f9e0be648fc8a018545a5f47c8",
-      "summary": "Error { error: (1862..1907, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/initializer-Symbol.dispose-called-if-subsequent-initializer-throws.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a27282e561cfc9149b3c0787c1c8f1349a18f6983287acffc463e794de686921",
-      "summary": "Error { error: (1876..1921, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/multiple-resources-disposed-in-reverse-order.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "5a351fd67aec0d8951066fdfb2cfb3cddf647b9048ad6f4a2d7787910825e282",
-      "summary": "Error { error: (1893..1935, UsingDeclNotEnabled) }\nError { error: (1941..1967, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/multiple-resources-disposed-in-reverse-order.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "0509ce1898de6ad3ff5af5f1b9df085d2c0d243b6fec8b407e2f18519f0a8a1b",
-      "summary": "Error { error: (1907..1949, UsingDeclNotEnabled) }\nError { error: (1955..1981, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/puts-initializer-on-top-of-disposableresourcestack-multiple-bindings.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "ab749989b3896efc49147e8d217f8b92432b1dcbe9c75a628c67d63218366115",
-      "summary": "Error { error: (1923..1965, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/puts-initializer-on-top-of-disposableresourcestack-multiple-bindings.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "ff7d757d34d689d051ec45304a02b8717fee1663922c741985bb813b5db43981",
-      "summary": "Error { error: (1937..1979, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/puts-initializer-on-top-of-disposableresourcestack-subsequent-usings.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "aea7226052348062852e6938de2e5e361d29683591d01fc1d6f6628bb3d04831",
-      "summary": "Error { error: (1716..1742, UsingDeclNotEnabled) }\nError { error: (1748..1774, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/puts-initializer-on-top-of-disposableresourcestack-subsequent-usings.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8ed3977c11f2e7e822bbb10cf7e1b9c90b8ce1b92ec2e3cb56dfdacabd011ca2",
-      "summary": "Error { error: (1730..1756, UsingDeclNotEnabled) }\nError { error: (1762..1788, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/syntax/await-using-allowed-at-top-level-of-module.js",
-      "variant": "module",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8c7faa5d127e1965646e4149d9bd86a07588fa725441803039ab67d855a45ebb",
-      "summary": "Error { error: (750..770, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/syntax/await-using-allows-bindingidentifier.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "5c8c7a18c316d722fdb30c6ea4e49aefa5a003773caf2e973a602a9b327b6f5b",
-      "summary": "Error { error: (390..410, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/syntax/await-using-allows-bindingidentifier.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "94d8040a47f64924a99a800dd6eb9ddb4918dd2c0560d618c0b4b29e2c8af0b2",
-      "summary": "Error { error: (404..424, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/syntax/await-using-allows-multiple-bindings.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "9ab65ec58bfaafa61cd474dad80b6f8e9f87f2645abdb3d3a393746a2832bf65",
-      "summary": "Error { error: (327..357, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/syntax/await-using-allows-multiple-bindings.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f9874e0c9182852de03b31dbd1da141610c7c2c0f419693954f68b15a6951739",
-      "summary": "Error { error: (341..371, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
@@ -25674,20 +24766,38 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/await-using/syntax/await-using-invalid-assignment-statement-body-for-of.js",
+      "path": "language/statements/await-using/syntax/await-using-invalid-switchstatement-caseclause.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "625382d7d261cdeac5d4bc71bdee6c68c14e4a0d1a82626f29360a72ebf4af70",
-      "summary": "Error { error: (592..593, Expected(\";\", \"ident\")) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/await-using/syntax/await-using-invalid-assignment-statement-body-for-of.js",
+      "path": "language/statements/await-using/syntax/await-using-invalid-switchstatement-caseclause.js",
       "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "784e5b3318c1d0a8886ea264896531d5996322aca897882cbb71f2f79a490a20",
-      "summary": "Error { error: (606..607, Expected(\";\", \"ident\")) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
+    },
+    {
+      "suite": "parser",
+      "pipeline": "parse",
+      "path": "language/statements/await-using/syntax/await-using-invalid-switchstatement-defaultclause.js",
+      "variant": "sloppy",
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
+    },
+    {
+      "suite": "parser",
+      "pipeline": "parse",
+      "path": "language/statements/await-using/syntax/await-using-invalid-switchstatement-defaultclause.js",
+      "variant": "strict",
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
@@ -25695,8 +24805,8 @@
       "path": "language/statements/await-using/syntax/await-using-outer-inner-using-bindings.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
-      "fingerprint": "c276ddfcfd23c7d41c5b3739676fc16ce116adfc888ded8657dfe944abb7fe1a",
-      "summary": "Error { error: (686..687, Expected(\";\", \"ident\")) }\nError { error: (595..618, UsingDeclNotEnabled) }\nError { error: (624..647, UsingDeclNotEnabled) }"
+      "fingerprint": "1211b83c7ba6df15434ca7c20e4568000d98dd9557424e60826b91b8a978cd4f",
+      "summary": "Error { error: (686..687, Expected(\";\", \"ident\")) }"
     },
     {
       "suite": "parser",
@@ -25704,8 +24814,8 @@
       "path": "language/statements/await-using/syntax/await-using-outer-inner-using-bindings.js",
       "variant": "strict",
       "kind": "unexpected-parse-error",
-      "fingerprint": "2af01f469bbf31f198b7c384211db5575b18f3abe27614014849062b16e29e94",
-      "summary": "Error { error: (700..701, Expected(\";\", \"ident\")) }\nError { error: (609..632, UsingDeclNotEnabled) }\nError { error: (638..661, UsingDeclNotEnabled) }"
+      "fingerprint": "817314ada17ce698a362271293993b29d072f741988196ebe3b4d9335817c75a",
+      "summary": "Error { error: (700..701, Expected(\";\", \"ident\")) }"
     },
     {
       "suite": "parser",
@@ -25728,191 +24838,38 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/await-using/syntax/await-using.js",
-      "variant": "module",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "dad8767c1328557c110152cc4786bcc397e3d6787f63b1e0f286bcf136433a79",
-      "summary": "Error { error: (308..328, UsingDeclNotEnabled) }\nError { error: (350..375, UsingDeclNotEnabled) }\nError { error: (464..483, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-error-as-is-if-only-one-error-during-disposal.js",
+      "path": "language/statements/await-using/syntax/with-initializer-case-expression-statement-list.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e41ce33074bf3260ca738d86537e8350c64273d7cda3e3e7689dbbaa4c5bbc21",
-      "summary": "Error { error: (1577..1652, UsingDeclNotEnabled) }\nError { error: (1658..1701, UsingDeclNotEnabled) }\nError { error: (1770..1824, UsingDeclNotEnabled) }\nError { error: (1830..1894, UsingDeclNotEnabled) }\nError { error: (1963..2017, UsingDeclNotEnabled) }\nError { error: (2023..2066, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/await-using/throws-error-as-is-if-only-one-error-during-disposal.js",
+      "path": "language/statements/await-using/syntax/with-initializer-case-expression-statement-list.js",
       "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8f4c69ace8abf762bac3d023b524fd1d551d1e43499005a1622ef1c04d99fdff",
-      "summary": "Error { error: (1591..1666, UsingDeclNotEnabled) }\nError { error: (1672..1715, UsingDeclNotEnabled) }\nError { error: (1784..1838, UsingDeclNotEnabled) }\nError { error: (1844..1908, UsingDeclNotEnabled) }\nError { error: (1977..2031, UsingDeclNotEnabled) }\nError { error: (2037..2080, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.asyncDispose-property-is-null.js",
+      "path": "language/statements/await-using/syntax/with-initializer-default-statement-list.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "21df5f9e49370774a79507578bf08e2436bac7ddef4604b9e07372a9db6fe7af",
-      "summary": "Error { error: (2248..2295, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.asyncDispose-property-is-null.js",
+      "path": "language/statements/await-using/syntax/with-initializer-default-statement-list.js",
       "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "56b23d714990bd9189d7fdb4d14a493ad307baf58d1b3efc797950a4610b699a",
-      "summary": "Error { error: (2262..2309, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.asyncDispose-property-is-undefined.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c80fb32c3418940a1d3b5232a76bc401eaf5d697c0927bfa21f65453bbdc2bb7",
-      "summary": "Error { error: (2253..2305, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.asyncDispose-property-is-undefined.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "7980f9d26833ae6ccf9186229a031c09e022e8c6be6b542d3eeee143257b6293",
-      "summary": "Error { error: (2267..2319, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.asyncDispose-property-not-callable.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "4ef8188b4338cd57a0d8f97ad9a1f1363416dd457ab85c4e731f6a04123bc2cc",
-      "summary": "Error { error: (2470..2517, UsingDeclNotEnabled) }\nError { error: (2595..2643, UsingDeclNotEnabled) }\nError { error: (2722..2766, UsingDeclNotEnabled) }\nError { error: (2846..2897, UsingDeclNotEnabled) }\nError { error: (2997..3041, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.asyncDispose-property-not-callable.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "7764bc2354066df5a51b68c82ce4860fbdaa6e8370fb4dba7771bfac50d1e500",
-      "summary": "Error { error: (2484..2531, UsingDeclNotEnabled) }\nError { error: (2609..2657, UsingDeclNotEnabled) }\nError { error: (2736..2780, UsingDeclNotEnabled) }\nError { error: (2860..2911, UsingDeclNotEnabled) }\nError { error: (3011..3055, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.dispose-property-is-null.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "39130c10e4b54e352685275899d86f66eb68bafd8808915e77e650c89e643ec0",
-      "summary": "Error { error: (2209..2251, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.dispose-property-is-null.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "ecd80768d68ed879a0a77dfad567d8181fe9ec8957e25af799c1da975fe1951e",
-      "summary": "Error { error: (2223..2265, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.dispose-property-is-undefined.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "0aab704332d093812a2d2c8d88e151090cd746e25085fc88061bed0f4c5fbaf3",
-      "summary": "Error { error: (2214..2261, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.dispose-property-is-undefined.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "726fe97b616e5baab376cdbcb1c40f0ceb57ca84ff0e8e968538c18724081707",
-      "summary": "Error { error: (2228..2275, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.dispose-property-not-callable.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "56f987c7a018667ee90edb10cc60c932f5a2a2c1a30d0fb79505d6852a1e36b8",
-      "summary": "Error { error: (2466..2508, UsingDeclNotEnabled) }\nError { error: (2587..2630, UsingDeclNotEnabled) }\nError { error: (2710..2749, UsingDeclNotEnabled) }\nError { error: (2830..2876, UsingDeclNotEnabled) }\nError { error: (2977..3016, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-Symbol.dispose-property-not-callable.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "025ead0341a284ba3046002188c7ab9a17f166c4aca6e1f7115b6c8d692c2741",
-      "summary": "Error { error: (2480..2522, UsingDeclNotEnabled) }\nError { error: (2601..2644, UsingDeclNotEnabled) }\nError { error: (2724..2763, UsingDeclNotEnabled) }\nError { error: (2844..2890, UsingDeclNotEnabled) }\nError { error: (2991..3030, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-missing-both-Symbol.asyncDispose-and-Symbol.dispose.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e1134cc159212e18e068ed25b9da484b9efe5c3a2adcbc8e14f53b405d6d3c72",
-      "summary": "Error { error: (2337..2355, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-missing-both-Symbol.asyncDispose-and-Symbol.dispose.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "cbbba84d4577860426f8bda1ac5c5d6311151462bc289d808ae2e3dc3d30335a",
-      "summary": "Error { error: (2351..2369, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-not-object.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8cff301c4ab25270bdac202f1630bd7cde6503c084568f5eb1eb4ab241c6d8ea",
-      "summary": "Error { error: (1568..1588, UsingDeclNotEnabled) }\nError { error: (1666..1687, UsingDeclNotEnabled) }\nError { error: (1766..1783, UsingDeclNotEnabled) }\nError { error: (1863..1887, UsingDeclNotEnabled) }\nError { error: (1987..2004, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-if-initializer-not-object.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8eb3b1342bc03e6b106753a4ac413a20789eee47afa398d7123d301d2e548cba",
-      "summary": "Error { error: (1582..1602, UsingDeclNotEnabled) }\nError { error: (1680..1701, UsingDeclNotEnabled) }\nError { error: (1780..1797, UsingDeclNotEnabled) }\nError { error: (1877..1901, UsingDeclNotEnabled) }\nError { error: (2001..2018, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-suppressederror-if-multiple-errors-during-disposal.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "298c3013ae5a013508d51b6a0a8dc8cff740c90fd53333a4fc87cf69a54acefb",
-      "summary": "Error { error: (1652..1720, UsingDeclNotEnabled) }\nError { error: (1726..1783, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/await-using/throws-suppressederror-if-multiple-errors-during-disposal.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c57a4de19bb08917d84a6d74f7449414d57bb7301a6755972ee1966754cd9409",
-      "summary": "Error { error: (1666..1734, UsingDeclNotEnabled) }\nError { error: (1740..1797, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
@@ -26331,29 +25288,11 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/class-valid/decorator-member-expr-private-identifier.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "86f73849e8de2f20274e646e5a6b679ceefd67ca15b1d0afe5f9f681736e7c04",
-      "summary": "Error { error: (1431..1432, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/class-valid/decorator-member-expr-private-identifier.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "26fad9126e411e2bd433dd7ae92be7d9efad68d870f19f9623c54bf7f097328e",
-      "summary": "Error { error: (1445..1446, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
       "path": "language/statements/class/decorator/syntax/valid/class-element-decorator-call-expr-identifier-reference.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
-      "fingerprint": "241dbeaeb42c3a90c5f96130a45eb60c21b23eec0268073076009f3df6172d52",
-      "summary": "Error { error: (1729..1730, Unexpected { got: \"@\", expected: \"identifier, string literal, numeric literal or [ for the computed key\" }) }"
+      "fingerprint": "872bdfd43e3751482ce43805a55721baf83e25367b14860e1d832f4edeaa97b6",
+      "summary": "Error { error: (1803..1808, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -26361,26 +25300,8 @@
       "path": "language/statements/class/decorator/syntax/valid/class-element-decorator-call-expr-identifier-reference.js",
       "variant": "strict",
       "kind": "unexpected-parse-error",
-      "fingerprint": "e72b8b2158f71ae4e80e7f7a3297db9b055992262b45db155860ed121c7d6d89",
-      "summary": "Error { error: (1743..1744, Unexpected { got: \"@\", expected: \"identifier, string literal, numeric literal or [ for the computed key\" }) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/class-element-decorator-member-expr-decorator-member-expr.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "3bda5275c1ca1203e908125507f501c02c336d1d8028b03abd9cc0038fbb9701",
-      "summary": "Error { error: (1435..1436, Unexpected { got: \"@\", expected: \"identifier, string literal, numeric literal or [ for the computed key\" }) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/class-element-decorator-member-expr-decorator-member-expr.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "88ec44c1c6f8bc035e2716cbc3a802194eebbffbbc6b81094a4330a8e43e7239",
-      "summary": "Error { error: (1449..1450, Unexpected { got: \"@\", expected: \"identifier, string literal, numeric literal or [ for the computed key\" }) }"
+      "fingerprint": "e8a5336548ef9be6583a2618ef45312e2151a9a052e68dd93127f1353c659860",
+      "summary": "Error { error: (1817..1822, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -26388,8 +25309,8 @@
       "path": "language/statements/class/decorator/syntax/valid/class-element-decorator-member-expr-identifier-reference.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
-      "fingerprint": "e4f7dcd663997bfc982bdd8aad6c64334f2c4e960fa72aeb55ca6625cd16621e",
-      "summary": "Error { error: (1327..1328, Unexpected { got: \"@\", expected: \"identifier, string literal, numeric literal or [ for the computed key\" }) }"
+      "fingerprint": "ae3ff3b4f15662a94c224f64c399faec0d5a22e25a713b0b95e2a82b818809dd",
+      "summary": "Error { error: (1389..1394, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -26397,35 +25318,8 @@
       "path": "language/statements/class/decorator/syntax/valid/class-element-decorator-member-expr-identifier-reference.js",
       "variant": "strict",
       "kind": "unexpected-parse-error",
-      "fingerprint": "10d60030d29693b370d08cf07b84d14c2ae0a84ab454957fd5500f3aef5b5619",
-      "summary": "Error { error: (1341..1342, Unexpected { got: \"@\", expected: \"identifier, string literal, numeric literal or [ for the computed key\" }) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/class-element-decorator-parenthesized-expr-identifier-reference.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8cd7c222ca762bdce4f60eafcc5425d3da2a6f67f9e5738d8527fcfb92fc3471",
-      "summary": "Error { error: (1814..1815, Unexpected { got: \"@\", expected: \"identifier, string literal, numeric literal or [ for the computed key\" }) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/class-element-decorator-parenthesized-expr-identifier-reference.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "69c788c90025ac3fce103b3d296c56966e7642313788947e624c018a2f33a358",
-      "summary": "Error { error: (1828..1829, Unexpected { got: \"@\", expected: \"identifier, string literal, numeric literal or [ for the computed key\" }) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/decorator-call-expr-identifier-reference-yield.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "3cc06311a5c8d9baf00c05a4cdfd29cc2f20bbe04b652fef7fa070e1bd3438e1",
-      "summary": "Error { error: (1422..1423, TS1109) }"
+      "fingerprint": "d799e31cca108cfe256bdb96753e3b96a814334949e079ee39dcf45e69ab8410",
+      "summary": "Error { error: (1403..1408, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -26433,8 +25327,8 @@
       "path": "language/statements/class/decorator/syntax/valid/decorator-call-expr-identifier-reference.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
-      "fingerprint": "c8e69de7c1fe47b88ad31f8d9ffb2f3d676c2c107e66882b69073e41f4f37a0e",
-      "summary": "Error { error: (1579..1580, TS1109) }"
+      "fingerprint": "7f7562b08a63421e2a09896ff2bad824483d3a9f5992f2f823844902ca55c745",
+      "summary": "Error { error: (1641..1646, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -26442,35 +25336,8 @@
       "path": "language/statements/class/decorator/syntax/valid/decorator-call-expr-identifier-reference.js",
       "variant": "strict",
       "kind": "unexpected-parse-error",
-      "fingerprint": "ec9b26ce6838fe78ab4c296759952c39662cd5f25089d20226c2088103f78c39",
-      "summary": "Error { error: (1593..1594, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/decorator-member-expr-decorator-member-expr.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e54c0de224caeddd9411fdb1e4ff178e78fcb39cc0caecea0467dcba9049869c",
-      "summary": "Error { error: (1285..1286, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/decorator-member-expr-decorator-member-expr.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "660e4f142c82bb14c89da06feb333dde5d3ec17fcf9dc9bbcf00ddcd51dddebc",
-      "summary": "Error { error: (1299..1300, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/decorator-member-expr-identifier-reference-yield.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "5ae11370b8cab20e48ba1fff3bdf6568f3581b50ca699c09f4e2e0eaadca815d",
-      "summary": "Error { error: (1038..1039, TS1109) }"
+      "fingerprint": "602cb5074ee89006a43950514fd29335135b336e7389fda831553da5edb16ad5",
+      "summary": "Error { error: (1655..1660, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -26478,8 +25345,8 @@
       "path": "language/statements/class/decorator/syntax/valid/decorator-member-expr-identifier-reference.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
-      "fingerprint": "3a36d25e6723ce823e0b707a6b23464b9f5874d3c6da1cf3745338d00a206314",
-      "summary": "Error { error: (1177..1178, TS1109) }"
+      "fingerprint": "a3c721a655579c48cbec9770e190568e91306b04001a4e368b34300bc8ae383f",
+      "summary": "Error { error: (1227..1232, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -26487,35 +25354,8 @@
       "path": "language/statements/class/decorator/syntax/valid/decorator-member-expr-identifier-reference.js",
       "variant": "strict",
       "kind": "unexpected-parse-error",
-      "fingerprint": "5c0152ebaa7c779647d7c1d77dd27555fff04b407d8f84cec1611fb9617a4858",
-      "summary": "Error { error: (1191..1192, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/decorator-parenthesized-expr-identifier-reference-yield.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "1b6b6ad8db99126355c55549ee88aecd1a095f8e2d464b1780ceaf3170c029c9",
-      "summary": "Error { error: (1625..1626, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/decorator-parenthesized-expr-identifier-reference.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a618f59dc33b1ff1d4219efaba0bd7a3e901e2d8b5384c95226343980016923a",
-      "summary": "Error { error: (1664..1665, TS1109) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/decorator/syntax/valid/decorator-parenthesized-expr-identifier-reference.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "d748301357ea211f6d57ca2f24d2146d843b7d7eca6a787284917502be90c22a",
-      "summary": "Error { error: (1678..1679, TS1109) }"
+      "fingerprint": "08f25364f1bf98cb2bce4ec16fa452573b043236d089db2f322f1749af499fcd",
+      "summary": "Error { error: (1241..1246, ExpectedIdent) }"
     },
     {
       "suite": "parser",
@@ -30602,24 +29442,6 @@
       "kind": "missing-parse-error",
       "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
       "summary": "expected SyntaxError"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/elements/syntax/valid/grammar-field-accessor.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "7b4f8b88ea7914bc92911c6ec7838d3e6817b8f8d9dd7e7e3b1b7783243ed7b2",
-      "summary": "Error { error: (638..639, Unexpected { got: \"ident\", expected: \"* for generator, private key, identifier or async\" }) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/class/elements/syntax/valid/grammar-field-accessor.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "0dabb7525a25707de2c6b190c3bf27dac43949e84c0b2cf83e299965436e695f",
-      "summary": "Error { error: (652..653, Unexpected { got: \"ident\", expected: \"* for generator, private key, identifier or async\" }) }"
     },
     {
       "suite": "parser",
@@ -31875,29 +30697,20 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/for-of/head-await-using-bound-names-fordecl-tdz.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "ab26616286d0d59426c3d3ce7c89a57c11ef9ca287529956dd601ba12cdbdf2e",
-      "summary": "Error { error: (507..508, Expected(\";\", \"ident\")) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/for-of/head-await-using-bound-names-fordecl-tdz.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "428db171cbef791049e45eb6a7adde8e003945079ca1dca3857b91d4e61dbdeb",
-      "summary": "Error { error: (521..522, Expected(\";\", \"ident\")) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/for-of/head-await-using-fresh-binding-per-iteration.js",
+      "path": "language/statements/for-of/head-await-using-bound-names-in-stmt.js",
       "variant": "module",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f328dbddacc0236be5c03cb03944b927e8c8b49c0945cf0d667f2e2a5e89452b",
-      "summary": "Error { error: (563..564, Expected(\";\", \"ident\")) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
+    },
+    {
+      "suite": "parser",
+      "pipeline": "parse",
+      "path": "language/statements/for-of/head-await-using-bound-names-let.js",
+      "variant": "sloppy",
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
@@ -31974,38 +30787,29 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/for-of/head-using-bound-names-fordecl-tdz.js",
+      "path": "language/statements/for-of/head-using-bound-names-in-stmt.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a30a50acfaa7b6a89f406a43d9c129d2344c327aae615b1aa241d87bfbcb7b2a",
-      "summary": "Error { error: (394..395, Expected(\";\", \"ident\")) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/for-of/head-using-bound-names-fordecl-tdz.js",
+      "path": "language/statements/for-of/head-using-bound-names-in-stmt.js",
       "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "6081cc855b621f1965a657a74ac3fe07f0103641f00eb8bb4bcc419a16efdd10",
-      "summary": "Error { error: (408..409, Expected(\";\", \"ident\")) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/for-of/head-using-fresh-binding-per-iteration.js",
+      "path": "language/statements/for-of/head-using-bound-names-let.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "d6af8832bfc0bb697883100a9ca359d13f6da22215d7cbf0975afc34f52fa858",
-      "summary": "Error { error: (502..503, Expected(\";\", \"ident\")) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/for-of/head-using-fresh-binding-per-iteration.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "73c754e20cff392e5a8fb1bf7b2de759d40816c9a30be5f22d0eea3ed9511e8b",
-      "summary": "Error { error: (516..517, Expected(\";\", \"ident\")) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
@@ -33945,366 +32749,6 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/using/Symbol.dispose-getter.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c13f20b074cb1c0d6de82f88418edaedf399953ef29146d4b215887d1571bf60",
-      "summary": "Error { error: (2247..2265, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/Symbol.dispose-getter.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "d53968bd4334168f7917824578f4b25e2bad8fcebb14912c77c67bfb13379ead",
-      "summary": "Error { error: (2261..2279, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/Symbol.dispose-method-called-with-correct-this.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c572ab566f62186e5b6f09f4afd3afc53af3df746d8494e8dcaaa73a52ad260b",
-      "summary": "Error { error: (1595..1613, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/Symbol.dispose-method-called-with-correct-this.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e86b06f83c5626489bd0dbf3e20bdab3823c07229a5fd3dd3029cefa76d5dae4",
-      "summary": "Error { error: (1609..1627, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/block-local-closure-get-before-initialization.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "247af8d76b0ae1389096fadf7ce38a6a0b2253a4441c3e5f22849511a8cb5c3a",
-      "summary": "Error { error: (450..464, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/block-local-closure-get-before-initialization.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "39032aa568226cdb63a60e2d91ed79f11661990b777089a22812f7ef75539263",
-      "summary": "Error { error: (464..478, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/block-local-use-before-initialization-in-declaration-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "4b866494bb03b52f8e4b89fcf1549315a55a15dbc3deb2bfa08c70945fb5d2eb",
-      "summary": "Error { error: (416..431, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/block-local-use-before-initialization-in-declaration-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "dec7db0dec3928e83f267060631d4ef5fdf098c857fb3d50f566dacb2edd56c3",
-      "summary": "Error { error: (430..445, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/block-local-use-before-initialization-in-prior-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "03ab7c03a95ecc10660e6d450bccacfde7d12789616c057deeca66c13d3a1df5",
-      "summary": "Error { error: (413..427, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/block-local-use-before-initialization-in-prior-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "16ee85b3a6d4ce58fe197a252ccfbbc41cdfaecb76f672deccfa376305d81daa",
-      "summary": "Error { error: (427..441, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-arrow.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "1123ad1766a7b6dbcf8faacc9d247dae26ad3cd2cc72132c607bcfbd0e7e66cb",
-      "summary": "Error { error: (740..762, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-arrow.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "2ec14941412e3750abd9a988bf766be5328bfd381e4cfd7f3c09a12ae04d0401",
-      "summary": "Error { error: (754..776, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-class.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f5b06f1c6a3e836ad1dff0df2b934b154244b069e801697e6d30a290be1e0a18",
-      "summary": "Error { error: (575..628, UsingDeclNotEnabled) }\nError { error: (634..684, UsingDeclNotEnabled) }\nError { error: (690..759, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-class.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c317b42d8d70c5f0b3c3ad1b761a3c9b0ee2210e33358969a497ef79f806367a",
-      "summary": "Error { error: (589..642, UsingDeclNotEnabled) }\nError { error: (648..698, UsingDeclNotEnabled) }\nError { error: (704..773, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-cover.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "77522ce51005c1c54ac52efe321079a705572c6e18ad9784761e0cec02e2779e",
-      "summary": "Error { error: (761..794, UsingDeclNotEnabled) }\nError { error: (800..829, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-cover.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "b8d8f0314d1c841fd91b95db223d2ce3c7904d0c518420b9b9871a486e91f928",
-      "summary": "Error { error: (775..808, UsingDeclNotEnabled) }\nError { error: (814..843, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-fn.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "cca09f14b1c7c2d7f979e3bc80be76a090f806c7f42702f2dcde05651f3105c2",
-      "summary": "Error { error: (745..772, UsingDeclNotEnabled) }\nError { error: (778..802, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-fn.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "9920d5bfa46b53b5aacc1980fbd98a479370310aee3c26c2a351ea0dc5945e3b",
-      "summary": "Error { error: (759..786, UsingDeclNotEnabled) }\nError { error: (792..816, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-gen.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "32c1cc7075a3a8380814dd8728b5342db16e9f4144e05794e0dc20f2e27ddcac",
-      "summary": "Error { error: (757..786, UsingDeclNotEnabled) }\nError { error: (792..818, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/fn-name-gen.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "fffd281bd1f62100426b8f75743014e4f8f7115850ea29d40495727aaff5a3b1",
-      "summary": "Error { error: (771..800, UsingDeclNotEnabled) }\nError { error: (806..832, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/function-local-closure-get-before-initialization.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e9f780995d068ae08343ac389ae50c94f05ae7c39f30644ac54db3488a11f773",
-      "summary": "Error { error: (466..480, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/function-local-closure-get-before-initialization.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "08af0de7f58237ba42a77982304ce35bdd4b6dd06661e3b165d9101fbe4e1cbc",
-      "summary": "Error { error: (480..494, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/function-local-use-before-initialization-in-declaration-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "0bda2fa501710577e408297b8c878ccea79a0c90152925974e9f11ad1b972cc2",
-      "summary": "Error { error: (431..446, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/function-local-use-before-initialization-in-declaration-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "28bcd58d4a91205aed25375d22fc14e103f8d0d551087b89cd5870fdb8fa10b9",
-      "summary": "Error { error: (445..460, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/function-local-use-before-initialization-in-prior-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "4eb0c0a1af5b1655c8ccd5ad607d5e50c2597cc4fe45abcbcc8c3f831168d356",
-      "summary": "Error { error: (428..442, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/function-local-use-before-initialization-in-prior-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "328e21d7417436459d9051327b518b00382d85e632c689b6bac7aec24095c223",
-      "summary": "Error { error: (442..456, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/gets-initializer-Symbol.dispose-property-once.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "58e27d1b8888566ababd99a3912d70d520fff8315be6fe05a2695c195d4bee06",
-      "summary": "Error { error: (2341..2359, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/gets-initializer-Symbol.dispose-property-once.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a26a5220072f03d9cc23804f296bd2267120fddc72d3f877ed2919c707df6a1c",
-      "summary": "Error { error: (2355..2373, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/global-closure-get-before-initialization.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "3778a2b2d975b62f704bb07630b31ed20db19240d6ab58e49976140a64f58947",
-      "summary": "Error { error: (446..460, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/global-closure-get-before-initialization.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "de35fe5619e363d44fa67c68110b993c9aec95b9a8b999621a360170858d80e4",
-      "summary": "Error { error: (460..474, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/global-use-before-initialization-in-declaration-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8e3a3233a69b2082839b45fd1c2a285dbcbd190ff5b808d317ef1e3fd2b33ec1",
-      "summary": "Error { error: (414..429, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/global-use-before-initialization-in-declaration-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e74ae57b154f43c44c993366b11cd81a1acd1158a2a822da7a290bf06cd6c979",
-      "summary": "Error { error: (428..443, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/global-use-before-initialization-in-prior-statement.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "bdcb37f44cc36b773838a98734f0f4869e699455fde635845dd04d9a12f6b1ef",
-      "summary": "Error { error: (411..425, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/global-use-before-initialization-in-prior-statement.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "d15e08df8a0f6d294e5e2f9fb77f37239ddef2536af6b2f3167ca5a757821546",
-      "summary": "Error { error: (425..439, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-asyncfunctionbody.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "0f3884c6456b48ff4320462e3e5eafd304be1ac087e0b4e6004bf3a3b6ff96de",
-      "summary": "Error { error: (3923..3941, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-asyncfunctionbody.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "460a2a8e19a8fce0b984006d80de589d42faa8891bdd63b0aff238157c61768b",
-      "summary": "Error { error: (3937..3955, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-asyncgeneratorbody.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "001b31d314de269832450d8c50645c43daaa3213bf252f8c319bd4aad23def49",
-      "summary": "Error { error: (3636..3654, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-asyncgeneratorbody.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "1a031b063ac63c172d45d9ed886795bd78e44ea5e43ae52c6cd98d38ac399316",
-      "summary": "Error { error: (3650..3668, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-block.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "fb8169b8191827f8cd85812498ed3471d604e4925fa5e7ed3442baac2b7b8547",
-      "summary": "Error { error: (1633..1651, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-block.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "649acb63cf2614215e906470e8638eab87f95b28ce77a564ea6360dd6273d334",
-      "summary": "Error { error: (1647..1665, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
       "path": "language/statements/using/initializer-disposed-at-end-of-forstatement.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
@@ -34319,42 +32763,6 @@
       "kind": "unexpected-parse-error",
       "fingerprint": "78bbc9c8bdee2557bed8253c84be731433d654a0cfda0ab0914bd24e0b48af57",
       "summary": "Error { error: (1917..1918, Expected(\";\", \"ident\")) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-functionbody.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "475a2927700ab18410fb531ebc672f3c0f5f0e4d221f55f5a3f3d88ec3b77603",
-      "summary": "Error { error: (1692..1710, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-functionbody.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "303acf6499501f9385609ffc162273a09dd4f980267f8870515a4780cd3c144d",
-      "summary": "Error { error: (1706..1724, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-generatorbody.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "bcc309c8b2b3ef9c4039d894ce373fb234fd6b7461c9e71f49b8d586f940c03f",
-      "summary": "Error { error: (3549..3567, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-at-end-of-generatorbody.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "d354b5f0f8271c840ea90bc622dfdf9973479386962dad20d917da687a0c72e0",
-      "summary": "Error { error: (3563..3581, UsingDeclNotEnabled) }"
     },
     {
       "suite": "parser",
@@ -34377,74 +32785,11 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-if-subsequent-initializer-throws.js",
+      "path": "language/statements/using/redeclaration-error-from-within-strict-mode-function-using.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "ff9492c117807418c97ff0ea3248e59488c7c9b5b456df30ca23535c1f70af35",
-      "summary": "Error { error: (1737..1776, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/initializer-disposed-if-subsequent-initializer-throws.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8d33b1ab268567a1239957af6c87a1f8e6f338c45722c90b44bbc5f97e60b1d2",
-      "summary": "Error { error: (1751..1790, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/multiple-resources-disposed-in-reverse-order.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "8a14494943102401a29dbf5b7b78f351ee7a74c5e9f02b7ccc61de685fbb11f9",
-      "summary": "Error { error: (1766..1802, UsingDeclNotEnabled) }\nError { error: (1806..1826, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/multiple-resources-disposed-in-reverse-order.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "64c1ca260ec548cb29ccfec6418f8789885268f4b6abc80933a911323b4637f8",
-      "summary": "Error { error: (1780..1816, UsingDeclNotEnabled) }\nError { error: (1820..1840, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/puts-initializer-on-top-of-disposableresourcestack-multiple-bindings.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "fd4b5e2b95267c116b85043cf6ddf04bd3a734b3b0cc83fc517fd2a73ca24882",
-      "summary": "Error { error: (1759..1795, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/puts-initializer-on-top-of-disposableresourcestack-multiple-bindings.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "fb00be9df041e3d1dcd9bb7e4a709646f5012f611851355b62bb43936786be93",
-      "summary": "Error { error: (1773..1809, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/puts-initializer-on-top-of-disposableresourcestack-subsequent-usings.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "99f6b44b47700b1c39e117cc382de30405aa19963b0b942fdde0695ea8848f04",
-      "summary": "Error { error: (1552..1572, UsingDeclNotEnabled) }\nError { error: (1576..1596, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/puts-initializer-on-top-of-disposableresourcestack-subsequent-usings.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "567dd3f29551cd33a1068c768030ef1b13440d4c274b5c14bbd868d0580a663e",
-      "summary": "Error { error: (1566..1586, UsingDeclNotEnabled) }\nError { error: (1590..1610, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
@@ -34463,51 +32808,6 @@
       "kind": "unexpected-parse-error",
       "fingerprint": "4ade8e898fbcda32a0513b8383cd8593ba094f4741d64e97239628b246cf3fa4",
       "summary": "Error { error: (565..570, ExpectedSemiForExprStmt { expr: 559..564 }) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/syntax/using-allowed-at-top-level-of-module.js",
-      "variant": "module",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "4c1582e7cf9a34c06c5ff5af8c8dc5703c501bb04fdeb3c020e6661e7632e685",
-      "summary": "Error { error: (696..710, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/syntax/using-allows-bindingidentifier.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "2b8e25460e6669d4774f7f0f7c15c819c9e326f306b9993735489ece20dd734e",
-      "summary": "Error { error: (313..327, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/syntax/using-allows-bindingidentifier.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "aab4c7e02faf381a684fc06ee53d82d8c80fb31771c76f7abb66adf7108cb517",
-      "summary": "Error { error: (327..341, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/syntax/using-allows-multiple-bindings.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "5aca4c878eae66be47d8cda7cb0380e1a4ea0d5cbe12512b8d463e80ef4bc4d5",
-      "summary": "Error { error: (302..326, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/syntax/using-allows-multiple-bindings.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e7dc43c088a8dce33e41acc48fa1a56185913bbd0913ec7fb73fe680e240ad6d",
-      "summary": "Error { error: (316..340, UsingDeclNotEnabled) }"
     },
     {
       "suite": "parser",
@@ -34548,20 +32848,56 @@
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/using/syntax/using-invalid-assignment-statement-body-for-of.js",
+      "path": "language/statements/using/syntax/using-invalid-switchstatement-caseclause.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "5d5b065c25fac6115db916a2f8521832c69e7603092cb52619761c8427f91e67",
-      "summary": "Error { error: (478..479, Expected(\";\", \"ident\")) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/using/syntax/using-invalid-assignment-statement-body-for-of.js",
+      "path": "language/statements/using/syntax/using-invalid-switchstatement-caseclause.js",
       "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "d271ccafa54e0d7dd6d289c15e0701c3ab239fc60a648cdf36b4955ba59605dc",
-      "summary": "Error { error: (492..493, Expected(\";\", \"ident\")) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
+    },
+    {
+      "suite": "parser",
+      "pipeline": "parse",
+      "path": "language/statements/using/syntax/using-invalid-switchstatement-defaultclause.js",
+      "variant": "sloppy",
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
+    },
+    {
+      "suite": "parser",
+      "pipeline": "parse",
+      "path": "language/statements/using/syntax/using-invalid-switchstatement-defaultclause.js",
+      "variant": "strict",
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
+    },
+    {
+      "suite": "parser",
+      "pipeline": "parse",
+      "path": "language/statements/using/syntax/using-not-allowed-at-top-level-of-script.js",
+      "variant": "sloppy",
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
+    },
+    {
+      "suite": "parser",
+      "pipeline": "parse",
+      "path": "language/statements/using/syntax/using-not-allowed-at-top-level-of-script.js",
+      "variant": "strict",
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
@@ -34569,8 +32905,8 @@
       "path": "language/statements/using/syntax/using-outer-inner-using-bindings.js",
       "variant": "sloppy",
       "kind": "unexpected-parse-error",
-      "fingerprint": "5c9c957bcbceacf0dc602917dcc02ce191d7f3f8ac83050b16c1a47fe766cfa6",
-      "summary": "Error { error: (565..566, Expected(\";\", \"ident\")) }\nError { error: (498..515, UsingDeclNotEnabled) }\nError { error: (519..536, UsingDeclNotEnabled) }"
+      "fingerprint": "005eab2c05689486d0d676d75017937f507a750f62ad62d5e06742deafdc01d1",
+      "summary": "Error { error: (565..566, Expected(\";\", \"ident\")) }"
     },
     {
       "suite": "parser",
@@ -34578,179 +32914,44 @@
       "path": "language/statements/using/syntax/using-outer-inner-using-bindings.js",
       "variant": "strict",
       "kind": "unexpected-parse-error",
-      "fingerprint": "3eb328bae5cbd191f639a1a03f5cebd92eb1bdc0ba65ddd6508c73535ff313f9",
-      "summary": "Error { error: (579..580, Expected(\";\", \"ident\")) }\nError { error: (512..529, UsingDeclNotEnabled) }\nError { error: (533..550, UsingDeclNotEnabled) }"
+      "fingerprint": "53b645962a11ac9c393660cf48c6517d046f67d7385361e02e3e4b83ce115b43",
+      "summary": "Error { error: (579..580, Expected(\";\", \"ident\")) }"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/using/syntax/using.js",
-      "variant": "module",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "22d835b2a69e8f6c2007d276ea01e489e6de211d48574565b2534ac1b1784f44",
-      "summary": "Error { error: (302..316, UsingDeclNotEnabled) }\nError { error: (338..357, UsingDeclNotEnabled) }\nError { error: (446..459, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-error-as-is-if-only-one-error-during-disposal.js",
+      "path": "language/statements/using/syntax/with-initializer-case-expression-statement-list.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "f3c7d6e8d9e89f841b3a94758480f0e2d153dc1cc6c184d6d00a7da04b761d42",
-      "summary": "Error { error: (1476..1534, UsingDeclNotEnabled) }\nError { error: (1538..1575, UsingDeclNotEnabled) }\nError { error: (1621..1658, UsingDeclNotEnabled) }\nError { error: (1662..1720, UsingDeclNotEnabled) }\nError { error: (1766..1803, UsingDeclNotEnabled) }\nError { error: (1807..1844, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/using/throws-error-as-is-if-only-one-error-during-disposal.js",
+      "path": "language/statements/using/syntax/with-initializer-case-expression-statement-list.js",
       "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "0ebe27916fb0ce7049309255a7d825f71d37d6ea1501485772640d0308568d62",
-      "summary": "Error { error: (1490..1548, UsingDeclNotEnabled) }\nError { error: (1552..1589, UsingDeclNotEnabled) }\nError { error: (1635..1672, UsingDeclNotEnabled) }\nError { error: (1676..1734, UsingDeclNotEnabled) }\nError { error: (1780..1817, UsingDeclNotEnabled) }\nError { error: (1821..1858, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-Symbol.dispose-property-is-null.js",
+      "path": "language/statements/using/syntax/with-initializer-default-statement-list.js",
       "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "443b7fc265333b815930b71814751d525fae4e9c4f3dd1e5e1864d757793c83f",
-      "summary": "Error { error: (1935..1971, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",
       "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-Symbol.dispose-property-is-null.js",
+      "path": "language/statements/using/syntax/with-initializer-default-statement-list.js",
       "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e155d1f2546247e87e2e7772a9b086bf366cc7be426e3a13cfbc0ffca0af2475",
-      "summary": "Error { error: (1949..1985, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-Symbol.dispose-property-is-undefined.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "33ff6203af16a3f7d29e3df018d6e852cf69586438c48af654d297a076d80294",
-      "summary": "Error { error: (1940..1981, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-Symbol.dispose-property-is-undefined.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "43b79f2bfc6aef80c031207a81047c54ebe04957011806d81945c229ecab6b50",
-      "summary": "Error { error: (1954..1995, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-Symbol.dispose-property-not-callable.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "0f2fdf1b9aee2502ab681c8dcdfbcf498b51177f5113504145971b22e8615111",
-      "summary": "Error { error: (2191..2227, UsingDeclNotEnabled) }\nError { error: (2282..2319, UsingDeclNotEnabled) }\nError { error: (2375..2408, UsingDeclNotEnabled) }\nError { error: (2465..2505, UsingDeclNotEnabled) }\nError { error: (2580..2613, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-Symbol.dispose-property-not-callable.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "b910a8d5a9cd9e6303834099e6efd2f5df1d2b5ec87e3e659245d7d42c826ba4",
-      "summary": "Error { error: (2205..2241, UsingDeclNotEnabled) }\nError { error: (2296..2333, UsingDeclNotEnabled) }\nError { error: (2389..2422, UsingDeclNotEnabled) }\nError { error: (2479..2519, UsingDeclNotEnabled) }\nError { error: (2594..2627, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-missing-Symbol.dispose.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "32bf2c8596b9b9d5de9e4dd66e458b3d28630d0fa17bcde611838c4db179443c",
-      "summary": "Error { error: (1872..1884, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-missing-Symbol.dispose.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "380cf18e8fe036b7862399275608e5045cd9e504978c67f516b2dba3a68b4a0d",
-      "summary": "Error { error: (1886..1898, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-not-object.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "c59c0472f81ec5fe7c6b3e3a10101e5c5ac5c80a364aec36d29fc8bf1bf54463",
-      "summary": "Error { error: (1425..1439, UsingDeclNotEnabled) }\nError { error: (1494..1509, UsingDeclNotEnabled) }\nError { error: (1565..1576, UsingDeclNotEnabled) }\nError { error: (1633..1651, UsingDeclNotEnabled) }\nError { error: (1726..1737, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-if-initializer-not-object.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "031c7a4461cc4b345bbbf6df72d80c91a0c30a93ae6d7b6c7647ddcd1fd9d769",
-      "summary": "Error { error: (1439..1453, UsingDeclNotEnabled) }\nError { error: (1508..1523, UsingDeclNotEnabled) }\nError { error: (1579..1590, UsingDeclNotEnabled) }\nError { error: (1647..1665, UsingDeclNotEnabled) }\nError { error: (1740..1751, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-suppressederror-if-multiple-errors-during-disposal.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "2191566c7aa9ee660ea23c6f6c8dcb10c47486397afb6cdddcc5ffe75020a0f6",
-      "summary": "Error { error: (1562..1613, UsingDeclNotEnabled) }\nError { error: (1617..1668, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/throws-suppressederror-if-multiple-errors-during-disposal.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "70212c2c5f8c070e3ce23cc3cbb22cc75e5bab3edfd5cff96c84cdf68ab192a6",
-      "summary": "Error { error: (1576..1627, UsingDeclNotEnabled) }\nError { error: (1631..1682, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/using-allows-null-initializer.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a247a1f1da9ef43d5fdd16fee42c9021c79f76aeee8a937aa6f22fa9e48959ab",
-      "summary": "Error { error: (1094..1108, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/using-allows-null-initializer.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "089c4f23cddd8de959c4e0f5b83a9f533eb2d5b2f5b77ad57823bcf8f1133fed",
-      "summary": "Error { error: (1108..1122, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/using-allows-undefined-initializer.js",
-      "variant": "sloppy",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "e0f7c71409685f8ac7c2a8062a5e814a9b62d7b19bc295412c27af9037215ae0",
-      "summary": "Error { error: (1099..1118, UsingDeclNotEnabled) }"
-    },
-    {
-      "suite": "parser",
-      "pipeline": "parse",
-      "path": "language/statements/using/using-allows-undefined-initializer.js",
-      "variant": "strict",
-      "kind": "unexpected-parse-error",
-      "fingerprint": "a74199eb6050546debf75ad334c7b0b34a66e7d0b29009a0e133916f6e652291",
-      "summary": "Error { error: (1113..1132, UsingDeclNotEnabled) }"
+      "kind": "missing-parse-error",
+      "fingerprint": "c75bc99ff4ebe2fb06ae590a3c1367017e036ffea6400bbd92cad6d4be5eab93",
+      "summary": "expected SyntaxError"
     },
     {
       "suite": "parser",

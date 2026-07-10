@@ -3,8 +3,8 @@
 use std::panic::{catch_unwind, AssertUnwindSafe};
 
 use swc_common::{sync::Lrc, FileName, SourceMap, GLOBALS};
-use swc_ecma_ast::Program;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 
 use crate::{
     baseline::fingerprint,
@@ -83,8 +83,8 @@ fn parse(case: &TestCase, variant: TestVariant) -> Result<(), (FailureKind, Stri
 
     let parsed = GLOBALS.set(&Default::default(), || {
         let lexer = Lexer::new(
-            Syntax::Es(Default::default()),
-            Default::default(),
+            crate::syntax::for_metadata(&case.metadata),
+            EsVersion::latest(),
             StringInput::from(&*fm),
             None,
         );

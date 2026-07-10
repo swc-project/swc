@@ -108,6 +108,7 @@ impl RuntimeOptions {
 pub struct RuntimeRunner {
     options: RuntimeOptions,
     node_major: u32,
+    worker_fingerprint: String,
     harness: HarnessStore,
 }
 
@@ -136,10 +137,18 @@ impl RuntimeRunner {
             bail!("Test262 runtime requires Node.js 22 or newer; found Node.js {node_major}");
         }
 
+        let worker_source = fs::read(&options.worker_script).with_context(|| {
+            format!(
+                "failed to read Node runtime worker `{}`",
+                options.worker_script.display()
+            )
+        })?;
+        let worker_fingerprint = digest(&worker_source);
         let harness = HarnessStore::new(options.harness_root.clone())?;
         Ok(Self {
             options,
             node_major,
+            worker_fingerprint,
             harness,
         })
     }
@@ -158,6 +167,13 @@ impl RuntimeRunner {
         }
         failures.sort_by(|left, right| left.comparison_key().cmp(&right.comparison_key()));
         Ok(failures)
+    }
+
+    /// Executes one already-built case on the persistent worker owned by the
+    /// current Rayon thread. Runtime pipeline construction uses this entry
+    /// point to avoid retaining every generated program in memory.
+    pub(crate) fn run_one(&self, case: &RuntimeCase) -> Result<Vec<Failure>> {
+        self.run_case(case)
     }
 
     fn run_case(&self, case: &RuntimeCase) -> Result<Vec<Failure>> {
@@ -226,7 +242,8 @@ impl RuntimeRunner {
             let response = match self.cached_response(case, &request)? {
                 Some(response) => response,
                 None => {
-                    let response = dispatch_to_worker(&self.options, &request);
+                    let response =
+                        dispatch_to_worker(&self.options, &self.worker_fingerprint, &request);
                     if !matches!(
                         response.phase,
                         WorkerPhase::Timeout | WorkerPhase::ProtocolError
@@ -314,6 +331,7 @@ impl RuntimeRunner {
             protocol_version: u32,
             test262_revision: &'a str,
             node_major: u32,
+            worker_fingerprint: &'a str,
             metadata: &'a Metadata,
             request: WorkerRequest,
         }
@@ -324,6 +342,7 @@ impl RuntimeRunner {
             protocol_version: PROTOCOL_VERSION,
             test262_revision: &self.options.test262_revision,
             node_major: self.node_major,
+            worker_fingerprint: &self.worker_fingerprint,
             metadata: &case.metadata,
             request: normalized_request,
         };
@@ -752,14 +771,22 @@ impl HarnessStore {
 struct WorkerKey {
     node_binary: PathBuf,
     worker_script: PathBuf,
+    worker_fingerprint: String,
 }
 
 impl WorkerKey {
-    fn new(options: &RuntimeOptions) -> Self {
+    fn new(options: &RuntimeOptions, worker_fingerprint: &str) -> Self {
         Self {
             node_binary: options.node_binary.clone(),
             worker_script: options.worker_script.clone(),
+            worker_fingerprint: worker_fingerprint.into(),
         }
+    }
+
+    fn matches(&self, options: &RuntimeOptions, worker_fingerprint: &str) -> bool {
+        self.node_binary == options.node_binary
+            && self.worker_script == options.worker_script
+            && self.worker_fingerprint == worker_fingerprint
     }
 }
 
@@ -783,8 +810,8 @@ struct NodeWorker {
 }
 
 impl NodeWorker {
-    fn spawn(options: &RuntimeOptions) -> Result<Self> {
-        let key = WorkerKey::new(options);
+    fn spawn(options: &RuntimeOptions, worker_fingerprint: &str) -> Result<Self> {
+        let key = WorkerKey::new(options, worker_fingerprint);
         let mut child = Command::new(&options.node_binary)
             .arg("--experimental-vm-modules")
             .arg("--expose-gc")
@@ -933,19 +960,22 @@ impl Drop for NodeWorker {
     }
 }
 
-fn dispatch_to_worker(options: &RuntimeOptions, request: &WorkerRequest) -> WorkerResponse {
+fn dispatch_to_worker(
+    options: &RuntimeOptions,
+    worker_fingerprint: &str,
+    request: &WorkerRequest,
+) -> WorkerResponse {
     NODE_WORKER.with(|slot| {
         let mut slot = slot.borrow_mut();
-        let key = WorkerKey::new(options);
         let mut last_error = String::new();
 
         for _attempt in 0..2 {
             let requires_spawn = match slot.as_ref() {
-                Some(worker) => worker.key != key,
+                Some(worker) => !worker.key.matches(options, worker_fingerprint),
                 None => true,
             };
             if requires_spawn {
-                *slot = match NodeWorker::spawn(options) {
+                *slot = match NodeWorker::spawn(options, worker_fingerprint) {
                     Ok(worker) => Some(worker),
                     Err(error) => {
                         last_error = format!("{error:#}");
@@ -1111,6 +1141,41 @@ mod tests {
     }
 
     #[test]
+    fn clears_case_and_child_realm_timers_without_restarting_the_worker() {
+        let (_fixture, runner) = test_runner(Duration::from_secs(2));
+        let timers = runtime_case(
+            "timers.js",
+            "setTimeout(() => { throw new Error('leaked case timer'); }, 0); const realm = \
+             $262.createRealm(); realm.evalScript(\"setInterval(() => { throw new Error('leaked \
+             realm timer'); }, 0)\");",
+        );
+        assert!(runner.run_one(&timers).unwrap().is_empty());
+        let initial_process = NODE_WORKER.with(|slot| {
+            slot.borrow()
+                .as_ref()
+                .expect("the first request starts a worker")
+                .child
+                .id()
+        });
+
+        // Give an untracked timer enough time to crash the otherwise idle
+        // worker before issuing the next request.
+        thread::sleep(Duration::from_millis(25));
+        assert!(runner
+            .run_one(&runtime_case("after-timers.js", "assert(true);"))
+            .unwrap()
+            .is_empty());
+        let final_process = NODE_WORKER.with(|slot| {
+            slot.borrow()
+                .as_ref()
+                .expect("the second request keeps a worker")
+                .child
+                .id()
+        });
+        assert_eq!(initial_process, final_process);
+    }
+
+    #[test]
     fn restarts_a_crashed_persistent_worker_once() {
         let (_fixture, runner) = test_runner(Duration::from_secs(2));
         let case = runtime_case("restart.js", "assert(true);");
@@ -1131,28 +1196,50 @@ mod tests {
         let (fixture, initial_runner) = test_runner(Duration::from_secs(2));
         drop(initial_runner);
         let cache = fixture.path().join("cache");
+        let worker_script = fixture.path().join("runtime-worker.mjs");
         let mut options = RuntimeOptions::new(fixture.path().join("harness"), "revision-a");
+        fs::copy(&options.worker_script, &worker_script).unwrap();
+        options.worker_script = worker_script.clone();
         options.cache_directory = Some(cache.clone());
         options.timeout = Duration::from_secs(2);
         let runner = RuntimeRunner::new(options).unwrap();
 
         let first = runtime_case("cache.js", "assert(true);");
-        assert!(runner.run(std::slice::from_ref(&first)).unwrap().is_empty());
+        assert!(runner.run_one(&first).unwrap().is_empty());
         assert_eq!(cache_entries(&cache), 1);
-        assert!(runner.run(std::slice::from_ref(&first)).unwrap().is_empty());
+        assert!(runner.run_one(&first).unwrap().is_empty());
         assert_eq!(cache_entries(&cache), 1);
 
         let changed_code = runtime_case("cache.js", "assert(1 === 1);");
-        assert!(runner.run(&[changed_code]).unwrap().is_empty());
+        assert!(runner.run_one(&changed_code).unwrap().is_empty());
         assert_eq!(cache_entries(&cache), 2);
 
-        let mut changed_metadata = first;
+        let mut changed_metadata = first.clone();
         changed_metadata
             .metadata
             .features
             .push("example-feature".into());
-        assert!(runner.run(&[changed_metadata]).unwrap().is_empty());
+        assert!(runner.run_one(&changed_metadata).unwrap().is_empty());
         assert_eq!(cache_entries(&cache), 3);
+
+        let mut worker_source = fs::read_to_string(&worker_script).unwrap();
+        worker_source.push_str("\n// Invalidate the semantic worker cache.\n");
+        fs::write(&worker_script, worker_source).unwrap();
+        let mut changed_options = RuntimeOptions::new(fixture.path().join("harness"), "revision-a");
+        changed_options.worker_script = worker_script;
+        changed_options.cache_directory = Some(cache.clone());
+        changed_options.timeout = Duration::from_secs(2);
+        let changed_runner = RuntimeRunner::new(changed_options).unwrap();
+        assert!(changed_runner.run_one(&first).unwrap().is_empty());
+        assert_eq!(cache_entries(&cache), 4);
+        NODE_WORKER.with(|slot| {
+            let slot = slot.borrow();
+            let worker = slot.as_ref().expect("the runtime request starts a worker");
+            assert_eq!(
+                worker.key.worker_fingerprint,
+                changed_runner.worker_fingerprint
+            );
+        });
     }
 
     fn cache_entries(cache: &Path) -> usize {
@@ -1219,6 +1306,31 @@ mod tests {
             .run(&[module, runtime_negative, resolution_negative])
             .unwrap()
             .is_empty());
+    }
+
+    #[test]
+    fn reuses_an_in_flight_dynamic_import_link() {
+        let (_fixture, runner) = test_runner(Duration::from_secs(2));
+        let dependency = RuntimeModule {
+            path: "concurrent/dependency_FIXTURE.js".into(),
+            code: "export const value = 42;".into(),
+        };
+        let case = RuntimeCase {
+            path: "concurrent/entry.js".into(),
+            variant: module_variant(),
+            metadata: Metadata {
+                flags: vec![TestFlag::Module],
+                ..Default::default()
+            },
+            pipelines: pipelines(
+                "const [first, second] = await Promise.all([import('./dependency_FIXTURE.js'), \
+                 import('./dependency_FIXTURE.js')]); assert(first.value === 42 && second.value \
+                 === 42);",
+                vec![dependency],
+            ),
+        };
+
+        assert!(runner.run(&[case]).unwrap().is_empty());
     }
 
     #[test]

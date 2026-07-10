@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "revision_policy": "locked",
+  "upstream_revision": "de8e621cdba4f40cff3cf244e6cfb8cb48746b4a",
+  "suite": "lexer",
+  "failures": []
+}

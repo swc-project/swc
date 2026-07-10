@@ -3,6 +3,7 @@
 use std::{
     fs,
     path::{Component, Path, PathBuf},
+    time::Instant,
 };
 
 use anyhow::{bail, Context, Result};
@@ -118,7 +119,12 @@ pub fn run() -> Result<()> {
             run_requested_suites(&cli, &paths, &upstreams, &suites)
         }
         Some(Command::Runtime) => run_requested_suites(&cli, &paths, &upstreams, &[Suite::Runtime]),
-        None => run_requested_suites(&cli, &paths, &upstreams, &Suite::NON_RUNTIME),
+        None => {
+            if cli.update {
+                bail!("baseline updates require `run` with an explicit suite list");
+            }
+            run_requested_suites(&cli, &paths, &upstreams, &Suite::NON_RUNTIME)
+        }
     }
 }
 
@@ -228,7 +234,6 @@ fn run_requested_suites(
     if cli.filter.is_some() && cli.update {
         bail!("filtered runs never read or update baselines; remove `--update`");
     }
-    ensure_implemented(suites)?;
     if bootstrap::ensure_features(paths, suites)? {
         return Ok(());
     }
@@ -237,27 +242,40 @@ fn run_requested_suites(
 
     let test_root = paths.upstream_dir(UpstreamId::Test262).join("test");
     let corpus = loader::load(&test_root, cli.filter.as_deref())?;
+    if cli.filter.is_some() && corpus.cases.is_empty() && corpus.issues.is_empty() {
+        bail!("the Test262 filter matched no test cases");
+    }
     let skip_policy = SkipPolicy::load(&paths.tool_root().join("skips.toml"))?;
     let revision = upstreams.test262.revision.as_str();
-    let baseline_mode = if cli.filter.is_some() {
-        BaselineMode::Filtered
-    } else if cli.update {
-        BaselineMode::Update
-    } else {
-        BaselineMode::Verify
-    };
     let artifact_root = paths.workspace_root().join("target/test262");
     let baseline_root = paths.tool_root().join("baselines");
     let mut reports = Vec::with_capacity(suites.len());
 
     for &suite in suites {
         let selection = select_cases(suite, &corpus, &skip_policy);
-        let mut failures = execute_suite(suite, &selection.cases)?;
+        let started = Instant::now();
+        eprintln!(
+            "test262: running {suite} ({} pipeline executions)",
+            selection.total
+        );
+        let mut failures = execute_suite(
+            suite,
+            &selection.cases,
+            &test_root,
+            revision,
+            &artifact_root,
+        )?;
         failures.extend(configuration_failures(suite, &selection.issues));
         failures.sort_by(|left, right| left.comparison_key().cmp(&right.comparison_key()));
+        eprintln!(
+            "test262: completed {suite} in {:.2?} with {} diagnostics",
+            started.elapsed(),
+            failures.len()
+        );
         report::write_diagnostics(&artifact_root, suite, &failures)?;
 
         let baseline_path = baseline_root.join(format!("{}.json", suite.as_str()));
+        let baseline_mode = baseline_mode(cli, suite);
         let execution = SuiteExecution {
             suite,
             total: selection.total,
@@ -281,6 +299,16 @@ fn run_requested_suites(
     report::ensure_clean(&invocation.suites)
 }
 
+fn baseline_mode(cli: &Cli, suite: Suite) -> BaselineMode {
+    match (cli.filter.is_some(), cli.update, suite == Suite::Runtime) {
+        (true, _, _) => BaselineMode::Filtered,
+        (false, true, true) => BaselineMode::UpdateAdvisory,
+        (false, true, false) => BaselineMode::Update,
+        (false, false, true) => BaselineMode::VerifyAdvisory,
+        (false, false, false) => BaselineMode::Verify,
+    }
+}
+
 struct Selection<'a> {
     cases: Vec<&'a TestCase>,
     issues: Vec<&'a CorpusIssue>,
@@ -298,6 +326,9 @@ fn select_cases<'a>(suite: Suite, corpus: &'a LoadedCorpus, policy: &SkipPolicy)
     };
 
     for case in &corpus.cases {
+        if !suite_accepts_case(suite, case) {
+            continue;
+        }
         let variants = case.variants().len() * pipelines;
         selection.total += variants;
         if let Some(rule) = policy.matching(suite, &case.path) {
@@ -329,6 +360,17 @@ fn select_cases<'a>(suite: Suite, corpus: &'a LoadedCorpus, policy: &SkipPolicy)
     selection
 }
 
+fn suite_accepts_case(suite: Suite, case: &TestCase) -> bool {
+    if matches!(suite, Suite::Parser | Suite::Lexer) {
+        return true;
+    }
+    !case
+        .metadata
+        .negative
+        .as_ref()
+        .is_some_and(|negative| negative.phase.expects_parse_error())
+}
+
 fn configuration_failures(suite: Suite, issues: &[&CorpusIssue]) -> Vec<Failure> {
     issues
         .iter()
@@ -344,34 +386,49 @@ fn configuration_failures(suite: Suite, issues: &[&CorpusIssue]) -> Vec<Failure>
         .collect()
 }
 
-fn execute_suite(suite: Suite, _cases: &[&TestCase]) -> Result<Vec<Failure>> {
+fn execute_suite(
+    suite: Suite,
+    _cases: &[&TestCase],
+    _test_root: &Path,
+    _revision: &str,
+    _artifact_root: &Path,
+) -> Result<Vec<Failure>> {
+    // The fallback is reachable in lightweight builds, while `suite-all`
+    // makes the feature-gated arms exhaustive.
+    #[allow(unreachable_patterns)]
     match suite {
         #[cfg(feature = "suite-parser")]
         Suite::Parser => Ok(crate::parser_suite::run(_cases)),
+        #[cfg(feature = "suite-lexer")]
+        Suite::Lexer => Ok(crate::lexer_suite::run(_cases)),
+        #[cfg(feature = "suite-codegen")]
+        Suite::Codegen | Suite::SourceMap => Ok(crate::codegen_suite::run(_cases, suite)),
+        #[cfg(feature = "suite-transforms")]
+        Suite::Transforms => Ok(crate::transform_suite::run(_cases)),
+        #[cfg(feature = "suite-minifier")]
+        Suite::Minifier => Ok(crate::minifier_suite::run(_cases)),
+        #[cfg(feature = "suite-runtime")]
+        Suite::Runtime => {
+            let builder = crate::runtime_pipeline::RuntimePipelineBuilder::new(_test_root)?;
+            let mut options = crate::runtime_suite::RuntimeOptions::new(
+                _test_root
+                    .parent()
+                    .context("Test262 test root has no repository parent")?
+                    .join("harness"),
+                _revision,
+            );
+            options.cache_directory = Some(_artifact_root.join("runtime-cache"));
+            let runner = crate::runtime_suite::RuntimeRunner::new(options)?;
+            builder.run(_cases, &runner)
+        }
         _ => bail!("suite `{suite}` has not been connected yet"),
     }
 }
 
-fn ensure_implemented(suites: &[Suite]) -> Result<()> {
-    let unavailable = suites
-        .iter()
-        .copied()
-        .filter(|suite| *suite != Suite::Parser)
-        .map(Suite::as_str)
-        .collect::<Vec<_>>();
-    if !unavailable.is_empty() {
-        bail!(
-            "the following migration suites are not connected yet: {}",
-            unavailable.join(", ")
-        );
-    }
-    Ok(())
-}
-
 const fn pipeline_count(suite: Suite) -> usize {
     match suite {
-        Suite::Parser | Suite::Lexer | Suite::SourceMap | Suite::Transforms => 1,
-        Suite::Codegen | Suite::Minifier => 2,
+        Suite::Parser | Suite::Lexer | Suite::Transforms => 1,
+        Suite::Codegen | Suite::SourceMap | Suite::Minifier => 2,
         Suite::Runtime => 4,
     }
 }
@@ -459,14 +516,16 @@ fn print_invocation(cli: &Cli, invocation: &InvocationReport) -> Result<()> {
 
     for report in &invocation.suites {
         eprintln!(
-            "{}: total={} eligible={} passed={} known-failed={} skipped={} unsupported={}",
+            "{}: total={} eligible={} passed={} known-failed={} skipped={} unsupported={} \
+             baseline-stale={}",
             report.suite,
             report.total,
             report.eligible,
             report.passed,
             report.known_failed,
             report.skipped,
-            report.unsupported
+            report.unsupported,
+            report.baseline_stale
         );
         for failure in &report.new_failures {
             print_failure("new failure", failure);
@@ -492,11 +551,19 @@ fn print_failure(label: &str, failure: &Failure) {
         failure.kind,
         failure.summary
     );
-    eprintln!(
-        "rerun: cargo test262 run {} --filter {} --detail --jobs 1",
-        failure.suite,
-        failure.path.display()
-    );
+    eprintln!("rerun: {}", rerun_command(failure));
+}
+
+fn rerun_command(failure: &Failure) -> String {
+    let path = failure.path.display();
+    if failure.suite == Suite::Runtime {
+        format!("cargo test262 runtime --filter {path} --detail --jobs 1")
+    } else {
+        format!(
+            "cargo test262 run {} --filter {path} --detail --jobs 1",
+            failure.suite
+        )
+    }
 }
 
 fn print_serializable<T, F>(json: bool, value: &T, human: F) -> Result<()>
@@ -528,5 +595,59 @@ mod tests {
     fn explain_rejects_paths_outside_the_corpus() {
         assert!(validate_relative_test_path(Path::new("../harness/assert.js")).is_err());
         assert!(validate_relative_test_path(Path::new("language/example.js")).is_ok());
+    }
+
+    #[test]
+    fn global_run_options_parse_after_the_suite_list() {
+        let cli = Cli::try_parse_from([
+            "cargo test262",
+            "run",
+            "parser",
+            "lexer",
+            "--filter",
+            "language/classes",
+            "--detail",
+            "--json",
+            "--jobs",
+            "1",
+            "--offline",
+        ])
+        .unwrap();
+        assert_eq!(cli.filter.as_deref(), Some("language/classes"));
+        assert!(cli.detail && cli.json && cli.offline);
+        assert_eq!(cli.jobs, Some(1));
+        let Some(Command::Run(args)) = cli.command else {
+            panic!("expected the run subcommand")
+        };
+        assert_eq!(args.suites, [Suite::Parser, Suite::Lexer]);
+    }
+
+    #[test]
+    fn zero_workers_is_rejected() {
+        assert!(Cli::try_parse_from(["cargo test262", "run", "parser", "--jobs", "0"]).is_err());
+    }
+
+    #[test]
+    fn rerun_commands_use_the_runtime_subcommand() {
+        let mut failure = Failure {
+            suite: Suite::Runtime,
+            pipeline: Pipeline::RuntimeCodegen,
+            path: "language/example.js".into(),
+            variant: "sloppy".into(),
+            kind: FailureKind::RuntimeError,
+            fingerprint: String::new(),
+            summary: String::new(),
+        };
+        assert_eq!(
+            rerun_command(&failure),
+            "cargo test262 runtime --filter language/example.js --detail --jobs 1"
+        );
+
+        failure.suite = Suite::Parser;
+        failure.pipeline = Pipeline::Parse;
+        assert_eq!(
+            rerun_command(&failure),
+            "cargo test262 run parser --filter language/example.js --detail --jobs 1"
+        );
     }
 }

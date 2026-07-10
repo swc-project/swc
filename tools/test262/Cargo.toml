@@ -17,12 +17,32 @@ suite-all = [
   "suite-runtime",
   "suite-transforms",
 ]
-suite-codegen = []
-suite-lexer = []
-suite-minifier = []
+suite-codegen = [
+  "dep:swc_common",
+  "dep:swc_ecma_ast",
+  "dep:swc_ecma_codegen",
+  "dep:swc_ecma_parser",
+  "dep:swc_ecma_transforms_base",
+  "dep:swc_ecma_utils",
+  "dep:swc_ecma_visit",
+  "dep:swc_sourcemap",
+]
+suite-lexer = [
+  "dep:swc_common",
+  "dep:swc_ecma_ast",
+  "dep:swc_ecma_parser",
+  "swc_ecma_parser/unstable",
+]
+suite-minifier = ["dep:swc", "dep:swc_common"]
 suite-parser = ["dep:swc_common", "dep:swc_ecma_ast", "dep:swc_ecma_parser"]
-suite-runtime = []
-suite-transforms = []
+suite-runtime = ["suite-codegen", "suite-minifier", "suite-transforms"]
+suite-transforms = [
+  "dep:swc",
+  "dep:swc_common",
+  "dep:swc_ecma_ast",
+  "dep:swc_ecma_parser",
+  "dep:swc_ecma_transforms_base",
+]
 
 [dependencies]
 anyhow = { workspace = true }
@@ -33,9 +53,15 @@ saphyr = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 sha2 = { workspace = true }
-swc_common = { path = "../../crates/swc_common", features = ["tty-emitter"], optional = true }
+swc = { path = "../../crates/swc", default-features = false, optional = true }
+swc_common = { path = "../../crates/swc_common", features = ["sourcemap", "tty-emitter"], optional = true }
 swc_ecma_ast = { path = "../../crates/swc_ecma_ast", features = ["serde-impl"], optional = true }
+swc_ecma_codegen = { path = "../../crates/swc_ecma_codegen", optional = true }
 swc_ecma_parser = { path = "../../crates/swc_ecma_parser", features = ["verify"], optional = true }
+swc_ecma_transforms_base = { path = "../../crates/swc_ecma_transforms_base", features = ["inline-helpers"], optional = true }
+swc_ecma_utils = { path = "../../crates/swc_ecma_utils", optional = true }
+swc_ecma_visit = { path = "../../crates/swc_ecma_visit", optional = true }
+swc_sourcemap = { workspace = true, optional = true }
 toml = { workspace = true }
 walkdir = { workspace = true }
 

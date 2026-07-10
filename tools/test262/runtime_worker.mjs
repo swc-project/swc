@@ -98,12 +98,13 @@ function compileHarness(sources) {
     return scripts;
 }
 
-function installHost(context) {
+function installHost(context, childCleanups) {
     const globalObject = vm.runInContext("globalThis", context);
 
     const createRealm = () => {
         const realmOutput = [];
         const realm = createContext(realmOutput);
+        childCleanups.push(realm.cleanup);
         return realm.host;
     };
 
@@ -154,21 +155,52 @@ function installHost(context) {
 }
 
 function createContext(consoleOutput) {
+    const timers = new Set();
+    const childCleanups = [];
+    const trackedSetTimeout = (callback, delay, ...arguments_) => {
+        let handle;
+        handle = setTimeout(() => {
+            timers.delete(handle);
+            callback(...arguments_);
+        }, delay);
+        timers.add(handle);
+        return handle;
+    };
+    const trackedSetInterval = (callback, delay, ...arguments_) => {
+        const handle = setInterval(callback, delay, ...arguments_);
+        timers.add(handle);
+        return handle;
+    };
+    const trackedClear = (clear, handle) => {
+        timers.delete(handle);
+        clear(handle);
+    };
     const sandbox = {
-        clearInterval,
-        clearTimeout,
+        clearInterval: (handle) => trackedClear(clearInterval, handle),
+        clearTimeout: (handle) => trackedClear(clearTimeout, handle),
         console: capturedConsole(consoleOutput),
         queueMicrotask,
-        setInterval,
-        setTimeout,
+        setInterval: trackedSetInterval,
+        setTimeout: trackedSetTimeout,
         structuredClone,
     };
     const context = vm.createContext(sandbox, {
         name: "test262-case",
         codeGeneration: { strings: true, wasm: true },
     });
-    const host = installHost(context);
-    return { context, host };
+    const host = installHost(context, childCleanups);
+    const cleanup = () => {
+        for (const handle of timers) {
+            clearTimeout(handle);
+            clearInterval(handle);
+        }
+        timers.clear();
+        for (const cleanupChild of childCleanups) {
+            cleanupChild();
+        }
+        childCleanups.length = 0;
+    };
+    return { cleanup, context, host };
 }
 
 function deadline(timeoutMs) {
@@ -301,14 +333,15 @@ function moduleResolver(request, context, remaining) {
         getModule(resolve(specifier, referencingModule.identifier));
 
     const ensureLinked = (module) => {
+        let promise = linkPromises.get(module.identifier);
+        if (promise !== undefined) {
+            return promise;
+        }
         if (module.status !== "unlinked") {
             return Promise.resolve();
         }
-        let promise = linkPromises.get(module.identifier);
-        if (promise === undefined) {
-            promise = module.link(linker);
-            linkPromises.set(module.identifier, promise);
-        }
+        promise = module.link(linker);
+        linkPromises.set(module.identifier, promise);
         return promise;
     };
 
@@ -332,10 +365,9 @@ function moduleResolver(request, context, remaining) {
 
 async function executeScript(request, context, remaining, donePromise) {
     let script;
-    const source =
-        request.strictness === "strict"
-            ? `"use strict";\n${request.code}`
-            : request.code;
+    // Strictness is materialized before SWC runs so transforms and minification
+    // observe the same semantics as the final runtime execution.
+    const source = request.code;
     try {
         script = new vm.Script(source, { filename: request.filename });
     } catch (error) {
@@ -400,40 +432,44 @@ async function execute(request) {
     }
 
     const consoleOutput = [];
-    const { context } = createContext(consoleOutput);
+    const { cleanup, context } = createContext(consoleOutput);
     const remaining = deadline(request.timeoutMs);
     const donePromise = installDone(context);
 
     try {
-        runHarness(context, request.harness, remaining);
-    } catch (error) {
+        try {
+            runHarness(context, request.harness, remaining);
+        } catch (error) {
+            return responseForError(
+                request.id,
+                "runtime",
+                error,
+                consoleOutput,
+            );
+        }
+
+        const outcome =
+            request.goal === "module"
+                ? await executeModule(request, context, remaining, donePromise)
+                : await executeScript(request, context, remaining, donePromise);
+
+        if (outcome.phase === "success") {
+            return {
+                protocolVersion: PROTOCOL_VERSION,
+                id: request.id,
+                phase: "success",
+                console: consoleOutput,
+            };
+        }
         return responseForError(
             request.id,
-            "runtime",
-            error,
+            outcome.phase,
+            outcome.error,
             consoleOutput,
         );
+    } finally {
+        cleanup();
     }
-
-    const outcome =
-        request.goal === "module"
-            ? await executeModule(request, context, remaining, donePromise)
-            : await executeScript(request, context, remaining, donePromise);
-
-    if (outcome.phase === "success") {
-        return {
-            protocolVersion: PROTOCOL_VERSION,
-            id: request.id,
-            phase: "success",
-            console: consoleOutput,
-        };
-    }
-    return responseForError(
-        request.id,
-        outcome.phase,
-        outcome.error,
-        consoleOutput,
-    );
 }
 
 const input = readline.createInterface({
