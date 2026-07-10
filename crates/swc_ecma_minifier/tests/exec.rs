@@ -12505,6 +12505,25 @@ console.log(out);
 }
 
 #[test]
+fn issue_11684_new_function_expr_side_effect_arg() {
+    let src = r#"
+var count = 0;
+try {
+    new function() {
+        throw 1;
+    }(count++);
+} catch (e) {}
+console.log(count);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn issue_11970_switch_default_before_empty_case() {
     let src = r#"
 async function classify(code) {

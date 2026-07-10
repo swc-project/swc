@@ -500,6 +500,66 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn drop_trailing_useless_args_of_new_expr(&mut self, n: &mut NewExpr) {
+        if !self.options.unused && !self.options.reduce_vars {
+            return;
+        }
+
+        let (ctxt, formal_len, has_rest_param) = match &*n.callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                if function.is_async || function.is_generator {
+                    return;
+                }
+
+                (
+                    function.ctxt,
+                    function.params.len(),
+                    function
+                        .params
+                        .iter()
+                        .any(|param| matches!(&param.pat, Pat::Rest(_))),
+                )
+            }
+            _ => return,
+        };
+
+        if let Some(scope) = self.data.get_scope(ctxt) {
+            if scope.intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL)) {
+                return;
+            }
+        }
+
+        if has_rest_param {
+            return;
+        }
+
+        let Some(args) = n.args.as_mut() else {
+            return;
+        };
+
+        if args.len() <= formal_len {
+            return;
+        }
+
+        while args.len() > formal_len {
+            let Some(last) = args.last() else {
+                break;
+            };
+
+            if last.spread.is_some() {
+                break;
+            }
+
+            if last.expr.may_have_side_effects(self.ctx.expr_ctx) {
+                break;
+            }
+
+            args.pop();
+            self.changed = true;
+            report_change!("new_expr: Dropping a trailing pure argument of a function constructor");
+        }
+    }
+
     #[cfg_attr(
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
