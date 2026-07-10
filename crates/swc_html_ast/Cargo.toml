@@ -15,26 +15,16 @@ version = "23.0.0"
 bench = false
 
 [features]
-__rkyv = []
 encoding-impl = [
   "cbor4ii",
   "swc_atoms/encoding-impl",
   "swc_common/encoding-impl",
 ]
-rkyv-impl = [
-  "__rkyv",
-  "rkyv",
-  "swc_atoms/rkyv-impl",
-  "swc_common/rkyv-impl",
-  "bytecheck",
-]
 serde-impl = ["serde"]
 
 [dependencies]
-bytecheck = { workspace = true, optional = true }
 cbor4ii   = { workspace = true, features = ["use_std"], optional = true }
 is-macro  = { workspace = true }
-rkyv      = { workspace = true, optional = true }
 serde     = { workspace = true, features = ["derive"], optional = true }
 
 string_enum = { version = "1.0.2", path = "../string_enum/" }

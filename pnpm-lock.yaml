@@ -346,10 +346,6 @@ importers:
   packages/core/scripts/npm/win32-x64-msvc: {}
 
   packages/helpers:
-    dependencies:
-      tslib:
-        specifier: ^2.8.0
-        version: 2.8.0
     devDependencies:
       '@ast-grep/napi':
         specifier: ^0.40.3

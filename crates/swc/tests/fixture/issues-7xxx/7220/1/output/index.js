@@ -1,8 +1,8 @@
+import { _ as _apply_decs_2203_r } from "@swc/helpers/_/_apply_decs_2203_r";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
-import { _ as _apply_decs_2203_r } from "@swc/helpers/_/_apply_decs_2203_r";
 var _dec, _initProto;
 var _BOUND_FUNCTIONS = {};
 export var BackgroundJob = function BackgroundJob() {

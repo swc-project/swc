@@ -13,13 +13,11 @@ version       = "23.0.0"
 bench = false
 
 [features]
-__rkyv = []
 encoding-impl = [
   "cbor4ii",
   "swc_atoms/encoding-impl",
   "swc_common/encoding-impl",
 ]
-rkyv-impl = []
 serde-impl = ["serde"]
 
 [lints.rust]

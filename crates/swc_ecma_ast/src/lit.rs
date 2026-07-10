@@ -86,7 +86,6 @@ impl Lit {
 #[derive(Eq, Hash)]
 pub struct BigInt {
     pub span: Span,
-    #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeBigInt))]
     #[cfg_attr(feature = "encoding-impl", encoding(with = "EncodeBigInt2"))]
     pub value: Box<BigIntValue>,
 
@@ -135,61 +134,6 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for EncodeBigInt2<Box<BigIntValue>> {
         Ok(EncodeBigInt2(Box::new(BigIntValue::from_signed_bytes_le(
             buf.0,
         ))))
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodeBigInt;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<Box<BigIntValue>> for EncodeBigInt {
-    type Archived = rkyv::Archived<String>;
-    type Resolver = rkyv::Resolver<String>;
-
-    fn resolve_with(
-        field: &Box<BigIntValue>,
-        resolver: Self::Resolver,
-        out: rkyv::Place<Self::Archived>,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.to_string();
-        s.resolve(resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<Box<BigIntValue>, S> for EncodeBigInt
-where
-    S: ?Sized + rancor::Fallible + rkyv::ser::Writer,
-    S::Error: rancor::Source,
-{
-    fn serialize_with(
-        field: &Box<BigIntValue>,
-        serializer: &mut S,
-    ) -> Result<Self::Resolver, S::Error> {
-        let field = field.to_string();
-        rkyv::string::ArchivedString::serialize_from_str(&field, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Box<BigIntValue>, D> for EncodeBigInt
-where
-    D: ?Sized + rancor::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<String>,
-        deserializer: &mut D,
-    ) -> Result<Box<BigIntValue>, D::Error> {
-        use rkyv::Deserialize;
-
-        let s: String = field.deserialize(deserializer)?;
-
-        Ok(Box::new(s.parse().unwrap()))
     }
 }
 

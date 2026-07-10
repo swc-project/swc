@@ -739,7 +739,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c02af038c863b51d496dd4a2eabdf781f8f7ab68025e13b984b7f2c525560454"
 dependencies = [
  "bytes",
- "rkyv 0.8.16",
  "serde",
 ]
 
@@ -1574,9 +1573,9 @@ dependencies = [
 
 [[package]]
 name = "crossbeam-epoch"
-version = "0.9.18"
+version = "0.9.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5b82ac4a3c2ca9c3460964f020e1402edd5753411d7737aa39c3714ad1b5420e"
+checksum = "2d6914041f254d6e9176c01941b21115dcfb7089e55135a35411081bd106ef3f"
 dependencies = [
  "crossbeam-utils",
 ]
@@ -2772,7 +2771,6 @@ dependencies = [
  "once_cell",
  "par-iter",
  "rand 0.8.6",
- "rkyv 0.8.16",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -5877,12 +5875,9 @@ name = "swc_atoms"
 version = "9.0.3"
 dependencies = [
  "arbitrary",
- "bytecheck 0.8.1",
  "cbor4ii",
  "hstr",
  "once_cell",
- "rancor",
- "rkyv 0.8.16",
  "serde",
  "shrink-to-fit",
 ]
@@ -5966,7 +5961,6 @@ dependencies = [
  "arbitrary",
  "ast_node",
  "better_scoped_tls",
- "bytecheck 0.8.1",
  "bytes-str",
  "cbor4ii",
  "either",
@@ -5975,8 +5969,6 @@ dependencies = [
  "once_cell",
  "par-iter",
  "parking_lot",
- "rancor",
- "rkyv 0.8.16",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -6118,10 +6110,8 @@ dependencies = [
 name = "swc_css_ast"
 version = "23.0.0"
 dependencies = [
- "bytecheck 0.8.1",
  "cbor4ii",
  "is-macro",
- "rkyv 0.8.16",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -6289,14 +6279,11 @@ version = "25.0.0"
 dependencies = [
  "arbitrary",
  "bitflags 2.10.0",
- "bytecheck 0.8.1",
  "cbor4ii",
  "is-macro",
  "num-bigint",
  "once_cell",
  "phf",
- "rancor",
- "rkyv 0.8.16",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -7202,10 +7189,8 @@ dependencies = [
 name = "swc_html_ast"
 version = "23.0.0"
 dependencies = [
- "bytecheck 0.8.1",
  "cbor4ii",
  "is-macro",
- "rkyv 0.8.16",
  "serde",
  "string_enum",
  "swc_atoms",
