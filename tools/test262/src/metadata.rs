@@ -39,18 +39,19 @@ pub fn parse(code: &str) -> Result<Metadata> {
 
     let negative = yaml
         .as_mapping_get("negative")
-        .filter(|value| !value.is_null() && !value.is_badvalue())
         .map(|value| {
             if !value.is_mapping() {
                 bail!("negative must be a YAML mapping");
             }
-            let phase = value["phase"]
-                .as_str()
+            let phase = value
+                .as_mapping_get("phase")
+                .and_then(Yaml::as_str)
                 .ok_or_else(|| anyhow!("negative.phase must be a string"))?;
             let phase = NegativePhase::parse(phase)
                 .ok_or_else(|| anyhow!("unknown Test262 negative phase `{phase}`"))?;
-            let error_type = value["type"]
-                .as_str()
+            let error_type = value
+                .as_mapping_get("type")
+                .and_then(Yaml::as_str)
                 .ok_or_else(|| anyhow!("negative.type must be a string"))?;
             Ok(Negative {
                 phase,
@@ -61,8 +62,13 @@ pub fn parse(code: &str) -> Result<Metadata> {
 
     let esid = yaml
         .as_mapping_get("esid")
-        .and_then(Yaml::as_str)
-        .map(ToOwned::to_owned);
+        .map(|value| {
+            value
+                .as_str()
+                .map(ToOwned::to_owned)
+                .ok_or_else(|| anyhow!("esid must be a string"))
+        })
+        .transpose()?;
 
     Ok(Metadata {
         esid,
@@ -97,9 +103,6 @@ fn strings(yaml: &Yaml, key: &str) -> Result<Vec<String>> {
     let Some(value) = yaml.as_mapping_get(key) else {
         return Ok(Vec::new());
     };
-    if value.is_null() || value.is_badvalue() {
-        return Ok(Vec::new());
-    }
     let values = value
         .as_vec()
         .ok_or_else(|| anyhow!("`{key}` must be a YAML sequence"))?;
@@ -155,5 +158,66 @@ negative:
     fn rejects_non_mapping_metadata() {
         let error = parse("/*---\n- only-a-sequence\n---*/").unwrap_err();
         assert!(error.to_string().contains("mapping"));
+    }
+
+    #[test]
+    fn accepts_every_known_flag() {
+        for flag in [
+            "onlyStrict",
+            "noStrict",
+            "module",
+            "raw",
+            "async",
+            "generated",
+            "CanBlockIsFalse",
+            "CanBlockIsTrue",
+            "non-deterministic",
+            "explicit-resource-management",
+        ] {
+            let source = format!("/*---\nflags: [{flag}]\n---*/");
+            assert_eq!(parse(&source).unwrap().flags.len(), 1, "flag {flag}");
+        }
+    }
+
+    #[test]
+    fn accepts_every_negative_phase() {
+        for (phase, expected) in [
+            ("parse", NegativePhase::Parse),
+            ("early", NegativePhase::Early),
+            ("resolution", NegativePhase::Resolution),
+            ("runtime", NegativePhase::Runtime),
+        ] {
+            let source = format!("/*---\nnegative:\n  phase: {phase}\n  type: SyntaxError\n---*/");
+            assert_eq!(parse(&source).unwrap().negative.unwrap().phase, expected);
+        }
+    }
+
+    #[test]
+    fn rejects_unknown_and_malformed_negative_metadata() {
+        for source in [
+            "/*---\nnegative:\n  phase: future\n  type: SyntaxError\n---*/",
+            "/*---\nnegative:\n  phase: parse\n---*/",
+            "/*---\nnegative: null\n---*/",
+        ] {
+            assert!(
+                parse(source).is_err(),
+                "metadata should be rejected: {source}"
+            );
+        }
+    }
+
+    #[test]
+    fn rejects_malformed_scalar_and_sequence_fields() {
+        for source in [
+            "/*---\nesid: 42\n---*/",
+            "/*---\nfeatures: null\n---*/",
+            "/*---\nincludes: [42]\n---*/",
+            "/*---\nflags: onlyStrict\n---*/",
+        ] {
+            assert!(
+                parse(source).is_err(),
+                "metadata should be rejected: {source}"
+            );
+        }
     }
 }

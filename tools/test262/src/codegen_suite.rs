@@ -8,6 +8,7 @@ use std::{
 };
 
 use rayon::prelude::*;
+use sha2::{Digest, Sha256};
 use swc_common::{
     source_map::SourceMapGenConfig, sync::Lrc, FileName, Globals, SourceMap, GLOBALS,
 };
@@ -28,7 +29,6 @@ use swc_sourcemap::{RawToken, SourceMap as DecodedSourceMap};
 #[cfg(feature = "suite-runtime")]
 use crate::model::{HarnessMode, Metadata};
 use crate::{
-    baseline::fingerprint,
     model::{Failure, FailureKind, ParseGoal, Pipeline, Strictness, Suite, TestCase, TestVariant},
     syntax,
 };
@@ -199,9 +199,9 @@ fn run_codegen_variant(case: &TestCase, variant: TestVariant) -> Vec<Failure> {
     ]
     .into_iter()
     .filter_map(|(pipeline, minify)| {
-        check_codegen_pipeline(case, variant, &program, cm.clone(), minify)
-            .err()
-            .map(|(kind, summary)| failure(case, variant, Suite::Codegen, pipeline, kind, summary))
+        run_pipeline_catching_panics(case, variant, Suite::Codegen, pipeline, || {
+            check_codegen_pipeline(case, variant, &program, cm.clone(), minify)
+        })
     })
     .collect()
 }
@@ -227,7 +227,8 @@ fn check_codegen_pipeline(
     if expected != actual {
         return Err((
             FailureKind::AstMismatch,
-            "AST changed after fixer, code generation, and reparse".into(),
+            ast_mismatch_diagnostic(&expected, &actual)
+                .map_err(|summary| (FailureKind::AstSerialization, summary))?,
         ));
     }
 
@@ -273,19 +274,83 @@ fn run_source_map_variant(case: &TestCase, variant: TestVariant) -> Vec<Failure>
     ]
     .into_iter()
     .filter_map(|(pipeline, minify)| {
-        let result = emit_program(&program, cm.clone(), minify, true)
-            .map_err(|summary| (FailureKind::SourceMapMismatch, summary))
-            .and_then(|emitted| {
-                let source_map =
-                    cm.build_source_map(&emitted.mappings, None, InlineSourceMapConfig);
-                validate_source_map(&source_map, &emitted.code, &source)
-            });
-
-        result.err().map(|(kind, summary)| {
-            failure(case, variant, Suite::SourceMap, pipeline, kind, summary)
+        run_pipeline_catching_panics(case, variant, Suite::SourceMap, pipeline, || {
+            emit_program(&program, cm.clone(), minify, true)
+                .map_err(|summary| (FailureKind::SourceMapMismatch, summary))
+                .and_then(|emitted| {
+                    let source_map =
+                        cm.build_source_map(&emitted.mappings, None, InlineSourceMapConfig);
+                    validate_source_map(&source_map, &emitted.code, &source)
+                })
         })
     })
     .collect()
+}
+
+fn run_pipeline_catching_panics<F>(
+    case: &TestCase,
+    variant: TestVariant,
+    suite: Suite,
+    pipeline: Pipeline,
+    operation: F,
+) -> Option<Failure>
+where
+    F: FnOnce() -> Result<(), (FailureKind, String)>,
+{
+    match catch_unwind(AssertUnwindSafe(operation)) {
+        Ok(Ok(())) => None,
+        Ok(Err((kind, summary))) => Some(failure(case, variant, suite, pipeline, kind, summary)),
+        Err(payload) => Some(failure(
+            case,
+            variant,
+            suite,
+            pipeline,
+            FailureKind::Panic,
+            panic_message(payload),
+        )),
+    }
+}
+
+fn ast_mismatch_diagnostic(expected: &Program, actual: &Program) -> Result<String, String> {
+    let expected = serde_json::to_string(expected)
+        .map_err(|error| format!("failed to serialize expected normalized AST: {error}"))?;
+    let actual = serde_json::to_string(actual)
+        .map_err(|error| format!("failed to serialize actual normalized AST: {error}"))?;
+    let offset = expected
+        .bytes()
+        .zip(actual.bytes())
+        .position(|(expected, actual)| expected != actual)
+        .unwrap_or_else(|| expected.len().min(actual.len()));
+
+    Ok(format!(
+        "AST changed after fixer, code generation, and reparse\nexpected-sha256: \
+         {}\nactual-sha256: {}\nfirst-difference-byte: {offset}\nexpected-context: \
+         {:?}\nactual-context: {:?}",
+        sha256(&expected),
+        sha256(&actual),
+        context_around(&expected, offset),
+        context_around(&actual, offset),
+    ))
+}
+
+fn sha256(value: &str) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(value.as_bytes());
+    format!("{:x}", hasher.finalize())
+}
+
+fn context_around(value: &str, offset: usize) -> &str {
+    const RADIUS: usize = 120;
+
+    let mut start = offset.saturating_sub(RADIUS).min(value.len());
+    while !value.is_char_boundary(start) {
+        start += 1;
+    }
+    let mut end = offset.saturating_add(RADIUS).min(value.len());
+    while !value.is_char_boundary(end) {
+        end -= 1;
+    }
+    &value[start..end]
 }
 
 fn source_for_variant(case: &TestCase, variant: TestVariant) -> String {
@@ -681,15 +746,14 @@ fn failure(
     kind: FailureKind,
     summary: String,
 ) -> Failure {
-    Failure {
+    Failure::from_diagnostic(
         suite,
         pipeline,
-        path: case.path.clone(),
-        variant: variant.name().into(),
+        case.path.clone(),
+        variant.name(),
         kind,
-        fingerprint: fingerprint(&summary),
         summary,
-    }
+    )
 }
 
 fn panic_message(payload: Box<dyn std::any::Any + Send>) -> String {
@@ -722,11 +786,63 @@ mod tests {
         })
     }
 
-    #[test]
-    fn normalization_removes_only_codegen_representation_details() {
-        let source = parse("(value); ({ key: 0x10 }); new Target; 1n; class C { ; }");
-        let emitted_shape = parse("value; ({ \"key\": 16 }); new Target(); 1n; class C {}");
+    fn drop_spans(mut program: Program) -> Program {
+        program.visit_mut_with(&mut DropSpan);
+        program
+    }
+
+    fn assert_same_normalized_shape(source: &str, emitted_shape: &str) {
+        let source = parse(source);
+        let emitted_shape = parse(emitted_shape);
+
+        assert_ne!(
+            drop_spans(source.clone()),
+            drop_spans(emitted_shape.clone()),
+            "fixture must construct distinct AST representations"
+        );
         assert_eq!(normalize_program(source), normalize_program(emitted_shape));
+    }
+
+    #[test]
+    fn normalization_removes_empty_class_members() {
+        assert_same_normalized_shape(
+            "class Container { ;;; method() {} ; }",
+            "class Container { method() {} }",
+        );
+    }
+
+    #[test]
+    fn normalization_removes_parentheses_and_canonicalizes_new_arguments() {
+        assert_same_normalized_shape("(value);", "value;");
+        assert_same_normalized_shape("new Target;", "new Target();");
+    }
+
+    #[test]
+    fn normalization_flattens_nested_sequence_expressions() {
+        assert_same_normalized_shape("(first, (second, third));", "first, second, third;");
+    }
+
+    #[test]
+    fn normalization_removes_number_bigint_and_string_raw_syntax() {
+        assert_same_normalized_shape("0x10;", "16;");
+        assert_same_normalized_shape("0x10n;", "16n;");
+        assert_same_normalized_shape("'value';", "\"value\";");
+    }
+
+    #[test]
+    fn normalization_converts_expression_identifier_patterns() {
+        assert_same_normalized_shape("for ((target) of values) {}", "for (target of values) {}");
+    }
+
+    #[test]
+    fn normalization_canonicalizes_identifier_and_numeric_property_names() {
+        assert_same_normalized_shape("({ key: value });", "({ \"key\": value });");
+        assert_same_normalized_shape("({ 16: value });", "({ \"16\": value });");
+    }
+
+    #[test]
+    fn normalization_removes_parenthesized_simple_assignment_targets() {
+        assert_same_normalized_shape("((target)) = value;", "target = value;");
     }
 
     #[test]
@@ -734,6 +850,22 @@ mod tests {
         assert_ne!(
             normalize_program(parse("left + right;")),
             normalize_program(parse("left * right;"))
+        );
+    }
+
+    #[test]
+    fn ast_mismatch_diagnostic_is_compact_and_content_addressed() {
+        let expected = normalize_program(parse("left + right;"));
+        let actual = normalize_program(parse("left * right;"));
+        let diagnostic = ast_mismatch_diagnostic(&expected, &actual).unwrap();
+
+        assert!(diagnostic.contains("expected-sha256:"));
+        assert!(diagnostic.contains("actual-sha256:"));
+        assert!(diagnostic.contains("first-difference-byte:"));
+        assert!(diagnostic.len() < 1_000);
+        assert_ne!(
+            diagnostic,
+            ast_mismatch_diagnostic(&expected, &normalize_program(parse("left - right;"))).unwrap()
         );
     }
 
@@ -797,5 +929,36 @@ mod tests {
                 validate_source_map(&source_map, &emitted.code, source).unwrap();
             }
         });
+    }
+
+    #[test]
+    fn panic_is_attributed_to_only_the_pipeline_that_panicked() {
+        let case = TestCase {
+            path: "pipeline-panic.js".into(),
+            code: "value;".into(),
+            metadata: Metadata::default(),
+        };
+        let variant = TestVariant {
+            goal: ParseGoal::Script,
+            strictness: Strictness::Sloppy,
+            harness: crate::model::HarnessMode::Standard,
+        };
+
+        let panic = run_pipeline_catching_panics(
+            &case,
+            variant,
+            Suite::Codegen,
+            Pipeline::CodegenMinified,
+            || panic!("synthetic pipeline panic"),
+        )
+        .unwrap();
+        assert_eq!(panic.pipeline, Pipeline::CodegenMinified);
+        assert_eq!(panic.kind, FailureKind::Panic);
+
+        let successful =
+            run_pipeline_catching_panics(&case, variant, Suite::Codegen, Pipeline::Codegen, || {
+                Ok(())
+            });
+        assert!(successful.is_none());
     }
 }

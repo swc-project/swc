@@ -19,7 +19,6 @@ use swc_common::{
 use swc_ecma_ast::EsVersion;
 
 use crate::{
-    baseline::fingerprint,
     model::{Failure, FailureKind, ParseGoal, Pipeline, Strictness, Suite, TestCase, TestVariant},
     syntax,
 };
@@ -88,7 +87,7 @@ fn transform_twice(case: &TestCase, variant: TestVariant) -> Result<(), (Failure
             FailureKind::OutputMismatch,
             format!(
                 "ES5 transform is not idempotent: first output is {} bytes, second output is {} \
-                 bytes",
+                 bytes\nfirst:\n{first}\nsecond:\n{second}",
                 first.len(),
                 second.len()
             ),
@@ -165,15 +164,14 @@ fn panic_message(payload: Box<dyn std::any::Any + Send>) -> String {
 }
 
 fn failure(case: &TestCase, variant: TestVariant, kind: FailureKind, summary: String) -> Failure {
-    Failure {
-        suite: Suite::Transforms,
-        pipeline: Pipeline::TransformEs5,
-        path: case.path.clone(),
-        variant: variant.name().into(),
+    Failure::from_diagnostic(
+        Suite::Transforms,
+        Pipeline::TransformEs5,
+        case.path.clone(),
+        variant.name(),
         kind,
-        fingerprint: fingerprint(&summary),
         summary,
-    }
+    )
 }
 
 #[derive(Clone, Default)]

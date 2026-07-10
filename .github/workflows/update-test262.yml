@@ -191,13 +191,13 @@ jobs:
                   "suite": suite,
                   "previous_revision": None if previous is None else previous["upstream_revision"],
                   "current_revision": current["upstream_revision"],
-                  "previous_known_failure_count": len(old_failures),
-                  "current_known_failure_count": len(new_failures),
-                  "known_failure_delta": len(new_failures) - len(old_failures),
-                  "new_failure_count": len(added),
-                  "unexpected_pass_count": len(removed),
-                  "new_failures": [brief_failure(failure) for failure in added[:3]],
-                  "unexpected_passes": [brief_failure(failure) for failure in removed[:3]],
+                  "previous_reviewed_outcome_count": len(old_failures),
+                  "current_reviewed_outcome_count": len(new_failures),
+                  "reviewed_outcome_delta": len(new_failures) - len(old_failures),
+                  "new_outcome_count": len(added),
+                  "resolved_outcome_count": len(removed),
+                  "new_outcomes": [brief_failure(failure) for failure in added[:3]],
+                  "resolved_outcomes": [brief_failure(failure) for failure in removed[:3]],
                   "truncated": len(added) > 3 or len(removed) > 3,
               })
 
@@ -214,7 +214,9 @@ jobs:
 
       - name: Verify the Test262 tool
         run: |
+          rustup component add clippy
           cargo test -p swc_test262 --all-features
+          cargo clippy -p swc_test262 --all-features --all-targets -- -D warnings
           cargo fmt --all -- --check
           git diff --check
 
@@ -275,7 +277,7 @@ jobs:
           - `tc39/test262`: `__TEST262_SHA__`
 
           <details>
-          <summary>Conformance statistics, new failures, and unexpected passes</summary>
+          <summary>Conformance statistics and reviewed outcome changes</summary>
 
           ```json
           __SUMMARY__

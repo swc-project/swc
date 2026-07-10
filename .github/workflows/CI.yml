@@ -384,6 +384,12 @@ jobs:
         if: matrix.settings.crate == 'swc_test262'
         run: cargo test -p swc_test262 --all-features
 
+      - name: Lint the Test262 runner with all suites
+        if: matrix.settings.crate == 'swc_test262'
+        run: |
+          rustup component add clippy
+          cargo clippy -p swc_test262 --all-features --all-targets -- -D warnings
+
       - name: Run Test262 conformance
         if: matrix.settings.crate == 'swc_test262'
         run: cargo test262 --offline

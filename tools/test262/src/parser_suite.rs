@@ -6,12 +6,9 @@ use swc_common::{sync::Lrc, FileName, SourceMap, GLOBALS};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 
-use crate::{
-    baseline::fingerprint,
-    model::{
-        Failure, FailureKind, NegativePhase, ParseGoal, Pipeline, Strictness, Suite, TestCase,
-        TestVariant,
-    },
+use crate::model::{
+    Failure, FailureKind, NegativePhase, ParseGoal, Pipeline, Strictness, Suite, TestCase,
+    TestVariant,
 };
 
 pub fn run(cases: &[&TestCase]) -> Vec<Failure> {
@@ -140,15 +137,14 @@ fn serde_roundtrip(program: &Program) -> Result<(), (FailureKind, String)> {
 }
 
 fn failure(case: &TestCase, variant: TestVariant, kind: FailureKind, summary: String) -> Failure {
-    Failure {
-        suite: Suite::Parser,
-        pipeline: Pipeline::Parse,
-        path: case.path.clone(),
-        variant: variant.name().into(),
+    Failure::from_diagnostic(
+        Suite::Parser,
+        Pipeline::Parse,
+        case.path.clone(),
+        variant.name(),
         kind,
-        fingerprint: fingerprint(&summary),
         summary,
-    }
+    )
 }
 
 #[allow(dead_code)]

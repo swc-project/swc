@@ -343,16 +343,43 @@ pub struct Failure {
     pub kind: FailureKind,
     pub fingerprint: String,
     pub summary: String,
+    #[serde(default, skip_serializing)]
+    pub detail: Option<String>,
 }
 
 impl Failure {
-    pub fn comparison_key(&self) -> (&PathBuf, Suite, Pipeline, &str, FailureKind) {
+    pub fn from_diagnostic(
+        suite: Suite,
+        pipeline: Pipeline,
+        path: PathBuf,
+        variant: impl Into<String>,
+        kind: FailureKind,
+        diagnostic: impl Into<String>,
+    ) -> Self {
+        let diagnostic = diagnostic.into();
+        let summary = crate::diagnostic::summary(&diagnostic);
+        let fingerprint = crate::diagnostic::fingerprint(&diagnostic);
+        let detail = (diagnostic != summary).then_some(diagnostic);
+        Self {
+            suite,
+            pipeline,
+            path,
+            variant: variant.into(),
+            kind,
+            fingerprint,
+            summary,
+            detail,
+        }
+    }
+
+    pub fn comparison_key(&self) -> (&PathBuf, Suite, Pipeline, &str, FailureKind, &str) {
         (
             &self.path,
             self.suite,
             self.pipeline,
             &self.variant,
             self.kind,
+            &self.fingerprint,
         )
     }
 }
@@ -394,5 +421,25 @@ mod tests {
         assert_eq!(variants.len(), 1);
         assert_eq!(variants[0].harness, HarnessMode::Raw);
         assert_eq!(variants[0].strictness, Strictness::Unmodified);
+    }
+
+    #[test]
+    fn strictness_flags_select_one_script_variant() {
+        let strict = test_case(vec![TestFlag::OnlyStrict]).variants();
+        assert_eq!(strict.len(), 1);
+        assert_eq!(strict[0].strictness, Strictness::Strict);
+
+        let sloppy = test_case(vec![TestFlag::NoStrict]).variants();
+        assert_eq!(sloppy.len(), 1);
+        assert_eq!(sloppy[0].strictness, Strictness::Sloppy);
+    }
+
+    #[test]
+    fn raw_module_preserves_source_and_module_goal() {
+        let variants = test_case(vec![TestFlag::Module, TestFlag::Raw]).variants();
+        assert_eq!(variants.len(), 1);
+        assert_eq!(variants[0].goal, ParseGoal::Module);
+        assert_eq!(variants[0].strictness, Strictness::Inherent);
+        assert_eq!(variants[0].harness, HarnessMode::Raw);
     }
 }

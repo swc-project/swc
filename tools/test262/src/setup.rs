@@ -16,7 +16,7 @@ use crate::config::{ProjectPaths, Revision, UpstreamId, Upstreams};
 /// Controls how managed upstream repositories are synchronized.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct SetupOptions {
-    /// Refuse to replace an existing checkout at a different revision.
+    /// Use the configured revision without permitting destructive cleanup.
     pub locked: bool,
     /// Perform no network operation and require an exact existing checkout.
     pub offline: bool,
@@ -77,8 +77,9 @@ pub fn inspect_upstreams(
 /// All mutations are constrained to fixed direct children of
 /// [`ProjectPaths::vendor_root`]. Dirty repositories are never reset unless
 /// `force` is set. Offline mode is validation-only and requires a clean exact
-/// checkout. Locked mode permits creating a missing checkout, but refuses to
-/// move an existing checkout from a different commit.
+/// checkout. Locked mode still moves a clean checkout to the configured pin,
+/// which keeps branch switches and upstream-pin updates a one-command flow.
+/// It cannot be combined with destructive `force` cleanup.
 pub fn setup_upstreams(
     paths: &ProjectPaths,
     upstreams: &Upstreams,
@@ -87,6 +88,9 @@ pub fn setup_upstreams(
 ) -> Result<Vec<UpstreamStatus>> {
     if options.offline && options.force {
         bail!("`offline` and `force` cannot be used together");
+    }
+    if options.locked && options.force {
+        bail!("`locked` and `force` cannot be used together");
     }
 
     validate_vendor_root(paths, !options.offline)?;
@@ -227,20 +231,6 @@ fn synchronize_upstream(
                 "refusing to reset dirty `{id}` checkout at `{}`; pass `--force` to discard its \
                  changes",
                 path.display()
-            );
-        }
-
-        let actual_revision = read_head(&path)?;
-        if options.locked
-            && actual_revision.is_some()
-            && actual_revision.as_ref() != Some(&config.revision)
-        {
-            bail!(
-                "locked setup expected `{id}` at revision {}, found {}",
-                config.revision,
-                actual_revision
-                    .as_ref()
-                    .map_or_else(|| "no commit".to_string(), ToString::to_string)
             );
         }
     } else {
@@ -564,7 +554,7 @@ mod tests {
     }
 
     #[test]
-    fn locked_refuses_to_move_an_existing_checkout() {
+    fn locked_moves_a_clean_checkout_to_the_configured_revision() {
         let fixture = Fixture::new();
         let first = fixture.commit("first");
         let first_upstreams = fixture.upstreams(first);
@@ -578,7 +568,7 @@ mod tests {
 
         let second = fixture.commit("second");
         let second_upstreams = fixture.upstreams(second.clone());
-        assert!(setup_upstreams(
+        let statuses = setup_upstreams(
             &fixture.paths,
             &second_upstreams,
             &[UpstreamId::Test262],
@@ -587,16 +577,26 @@ mod tests {
                 ..SetupOptions::default()
             },
         )
-        .is_err());
-
-        let statuses = setup_upstreams(
-            &fixture.paths,
-            &second_upstreams,
-            &[UpstreamId::Test262],
-            SetupOptions::default(),
-        )
         .unwrap();
         assert_eq!(statuses[0].actual_revision.as_ref(), Some(&second));
+    }
+
+    #[test]
+    fn locked_setup_rejects_destructive_force() {
+        let fixture = Fixture::new();
+        let revision = fixture.commit("initial");
+        let upstreams = fixture.upstreams(revision);
+        assert!(setup_upstreams(
+            &fixture.paths,
+            &upstreams,
+            &[UpstreamId::Test262],
+            SetupOptions {
+                locked: true,
+                force: true,
+                ..SetupOptions::default()
+            },
+        )
+        .is_err());
     }
 
     #[test]

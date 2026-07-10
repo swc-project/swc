@@ -2,7 +2,6 @@ use std::{collections::BTreeMap, fs, path::Path};
 
 use anyhow::{bail, Context, Result};
 use serde::{Deserialize, Serialize};
-use sha2::{Digest, Sha256};
 
 use crate::model::{Failure, FailureKind, Pipeline, Suite};
 
@@ -20,6 +19,8 @@ pub struct Baseline {
     pub schema_version: u32,
     #[serde(default)]
     pub revision_policy: RevisionPolicy,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub environment: Option<BaselineEnvironment>,
     pub upstream_revision: String,
     pub suite: Suite,
     pub failures: Vec<Failure>,
@@ -31,6 +32,12 @@ pub enum RevisionPolicy {
     #[default]
     Locked,
     Advisory,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "kebab-case")]
+pub enum BaselineEnvironment {
+    Node { major: u32 },
 }
 
 pub struct Comparison {
@@ -50,6 +57,7 @@ impl Baseline {
         Self {
             schema_version: 1,
             revision_policy: RevisionPolicy::Locked,
+            environment: None,
             upstream_revision,
             suite,
             failures,
@@ -60,11 +68,13 @@ impl Baseline {
         reviewed_revision: String,
         suite: Suite,
         mut failures: Vec<Failure>,
+        environment: BaselineEnvironment,
     ) -> Self {
         failures.sort_by_key(key);
         Self {
             schema_version: 1,
             revision_policy: RevisionPolicy::Advisory,
+            environment: Some(environment),
             upstream_revision: reviewed_revision,
             suite,
             failures,
@@ -75,6 +85,12 @@ impl Baseline {
         let baseline = Self::load_file(path)?;
         if baseline.revision_policy != RevisionPolicy::Locked {
             bail!("baseline {} is not revision-locked", path.display());
+        }
+        if baseline.environment.is_some() {
+            bail!(
+                "revision-locked baseline {} declares a runtime environment",
+                path.display()
+            );
         }
         if baseline.upstream_revision != expected_revision {
             bail!(
@@ -90,13 +106,25 @@ impl Baseline {
         Ok(baseline)
     }
 
-    pub fn load_advisory(path: &Path, expected_suite: Suite) -> Result<Self> {
+    pub fn load_advisory(
+        path: &Path,
+        expected_suite: Suite,
+        expected_environment: &BaselineEnvironment,
+    ) -> Result<Self> {
         let baseline = Self::load_file(path)?;
         if baseline.revision_policy != RevisionPolicy::Advisory {
             bail!("baseline {} is not an advisory allowlist", path.display());
         }
         if baseline.suite != expected_suite {
             bail!("baseline suite does not match {}", expected_suite.as_str());
+        }
+        if baseline.environment.as_ref() != Some(expected_environment) {
+            bail!(
+                "baseline {} was reviewed with {:?}, current runtime is {:?}",
+                path.display(),
+                baseline.environment,
+                expected_environment
+            );
         }
         Ok(baseline)
     }
@@ -159,14 +187,10 @@ fn key(failure: &Failure) -> FailureKey {
     }
 }
 
-pub fn fingerprint(message: &str) -> String {
-    let mut hasher = Sha256::new();
-    hasher.update(message.as_bytes());
-    format!("{:x}", hasher.finalize())
-}
-
 #[cfg(test)]
 mod tests {
+    use tempfile::TempDir;
+
     use super::*;
 
     fn failure(path: &str, kind: FailureKind) -> Failure {
@@ -178,6 +202,7 @@ mod tests {
             kind,
             fingerprint: "fingerprint".into(),
             summary: "summary".into(),
+            detail: None,
         }
     }
 
@@ -211,5 +236,32 @@ mod tests {
         let comparison = baseline.compare(vec![failure("new.js", FailureKind::MissingParseError)]);
         assert_eq!(comparison.new_failures.len(), 1);
         assert_eq!(comparison.unexpected_passes.len(), 1);
+    }
+
+    #[test]
+    fn failure_kind_change_requires_review() {
+        let baseline = Baseline::new(
+            "revision".into(),
+            Suite::Parser,
+            vec![failure("case.js", FailureKind::UnexpectedParseError)],
+        );
+        let comparison = baseline.compare(vec![failure("case.js", FailureKind::MissingParseError)]);
+        assert_eq!(comparison.new_failures.len(), 1);
+        assert_eq!(comparison.unexpected_passes.len(), 1);
+    }
+
+    #[test]
+    fn tracked_baseline_omits_full_diagnostic_detail() {
+        let directory = TempDir::new().unwrap();
+        let path = directory.path().join("parser.json");
+        let mut failure = failure("case.js", FailureKind::UnexpectedParseError);
+        failure.detail = Some("a very large full diagnostic".into());
+        Baseline::new("revision".into(), Suite::Parser, vec![failure])
+            .save(&path)
+            .unwrap();
+
+        let source = fs::read_to_string(path).unwrap();
+        assert!(!source.contains("a very large full diagnostic"));
+        assert!(!source.contains("\"detail\""));
     }
 }

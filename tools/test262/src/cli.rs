@@ -12,7 +12,7 @@ use rayon::ThreadPoolBuilder;
 use serde::Serialize;
 
 use crate::{
-    baseline::fingerprint,
+    baseline::BaselineEnvironment,
     bootstrap,
     config::{ProjectPaths, Revision, UpstreamId, Upstreams},
     loader::{self, CorpusIssue, CorpusStats, LoadedCorpus},
@@ -23,6 +23,8 @@ use crate::{
     skips::SkipPolicy,
     updater,
 };
+
+const DEFAULT_RUNTIME_JOBS_LIMIT: usize = 8;
 
 #[derive(Debug, Parser)]
 #[command(name = "cargo test262", version, about)]
@@ -116,6 +118,7 @@ pub fn run() -> Result<()> {
         Some(Command::Update(args)) => run_update(&cli, &paths, &upstreams, args),
         Some(Command::Run(args)) => {
             let suites = deduplicate_suites(&args.suites);
+            validate_non_runtime_suites(&suites)?;
             run_requested_suites(&cli, &paths, &upstreams, &suites)
         }
         Some(Command::Runtime) => run_requested_suites(&cli, &paths, &upstreams, &[Suite::Runtime]),
@@ -237,7 +240,7 @@ fn run_requested_suites(
     if bootstrap::ensure_features(paths, suites)? {
         return Ok(());
     }
-    configure_rayon(cli.jobs)?;
+    configure_rayon(cli.jobs, suites)?;
     ensure_test262(paths, upstreams, cli.offline)?;
 
     let test_root = paths.upstream_dir(UpstreamId::Test262).join("test");
@@ -252,19 +255,28 @@ fn run_requested_suites(
     let mut reports = Vec::with_capacity(suites.len());
 
     for &suite in suites {
+        let baseline_path = baseline_root.join(format!("{}.json", suite.as_str()));
+        report::preflight(suite, revision, &baseline_path, baseline_mode(cli, suite))?;
+    }
+
+    for &suite in suites {
         let selection = select_cases(suite, &corpus, &skip_policy);
+        let baseline_path = baseline_root.join(format!("{}.json", suite.as_str()));
+        let baseline_mode = baseline_mode(cli, suite);
         let started = Instant::now();
         eprintln!(
             "test262: running {suite} ({} pipeline executions)",
             selection.total
         );
-        let mut failures = execute_suite(
+        let output = execute_suite(
             suite,
             &selection.cases,
             &test_root,
             revision,
             &artifact_root,
+            cli.filter.is_none(),
         )?;
+        let mut failures = output.failures;
         failures.extend(configuration_failures(suite, &selection.issues));
         failures.sort_by(|left, right| left.comparison_key().cmp(&right.comparison_key()));
         eprintln!(
@@ -274,13 +286,12 @@ fn run_requested_suites(
         );
         report::write_diagnostics(&artifact_root, suite, &failures)?;
 
-        let baseline_path = baseline_root.join(format!("{}.json", suite.as_str()));
-        let baseline_mode = baseline_mode(cli, suite);
         let execution = SuiteExecution {
             suite,
             total: selection.total,
             skipped: selection.skipped,
             failures,
+            environment: output.environment,
         };
         reports.push(report::evaluate(
             execution,
@@ -374,14 +385,15 @@ fn suite_accepts_case(suite: Suite, case: &TestCase) -> bool {
 fn configuration_failures(suite: Suite, issues: &[&CorpusIssue]) -> Vec<Failure> {
     issues
         .iter()
-        .map(|issue| Failure {
-            suite,
-            pipeline: primary_pipeline(suite),
-            path: issue.path.clone(),
-            variant: "metadata".into(),
-            kind: FailureKind::HarnessConfiguration,
-            fingerprint: fingerprint(&issue.summary),
-            summary: issue.summary.clone(),
+        .map(|issue| {
+            Failure::from_diagnostic(
+                suite,
+                primary_pipeline(suite),
+                issue.path.clone(),
+                "metadata",
+                FailureKind::HarnessConfiguration,
+                issue.summary.clone(),
+            )
         })
         .collect()
 }
@@ -392,21 +404,32 @@ fn execute_suite(
     _test_root: &Path,
     _revision: &str,
     _artifact_root: &Path,
-) -> Result<Vec<Failure>> {
+    _require_canonical_environment: bool,
+) -> Result<SuiteOutput> {
     // The fallback is reachable in lightweight builds, while `suite-all`
     // makes the feature-gated arms exhaustive.
     #[allow(unreachable_patterns)]
     match suite {
         #[cfg(feature = "suite-parser")]
-        Suite::Parser => Ok(crate::parser_suite::run(_cases)),
+        Suite::Parser => Ok(SuiteOutput::without_environment(crate::parser_suite::run(
+            _cases,
+        ))),
         #[cfg(feature = "suite-lexer")]
-        Suite::Lexer => Ok(crate::lexer_suite::run(_cases)),
+        Suite::Lexer => Ok(SuiteOutput::without_environment(crate::lexer_suite::run(
+            _cases,
+        ))),
         #[cfg(feature = "suite-codegen")]
-        Suite::Codegen | Suite::SourceMap => Ok(crate::codegen_suite::run(_cases, suite)),
+        Suite::Codegen | Suite::SourceMap => Ok(SuiteOutput::without_environment(
+            crate::codegen_suite::run(_cases, suite),
+        )),
         #[cfg(feature = "suite-transforms")]
-        Suite::Transforms => Ok(crate::transform_suite::run(_cases)),
+        Suite::Transforms => Ok(SuiteOutput::without_environment(
+            crate::transform_suite::run(_cases),
+        )),
         #[cfg(feature = "suite-minifier")]
-        Suite::Minifier => Ok(crate::minifier_suite::run(_cases)),
+        Suite::Minifier => Ok(SuiteOutput::without_environment(
+            crate::minifier_suite::run(_cases),
+        )),
         #[cfg(feature = "suite-runtime")]
         Suite::Runtime => {
             let builder = crate::runtime_pipeline::RuntimePipelineBuilder::new(_test_root)?;
@@ -419,9 +442,44 @@ fn execute_suite(
             );
             options.cache_directory = Some(_artifact_root.join("runtime-cache"));
             let runner = crate::runtime_suite::RuntimeRunner::new(options)?;
-            builder.run(_cases, &runner)
+            validate_runtime_environment(runner.node_major(), _require_canonical_environment)?;
+            let environment = BaselineEnvironment::Node {
+                major: runner.node_major(),
+            };
+            Ok(SuiteOutput {
+                failures: builder.run(_cases, &runner)?,
+                environment: Some(environment),
+            })
         }
         _ => bail!("suite `{suite}` has not been connected yet"),
+    }
+}
+
+#[cfg(any(test, feature = "suite-runtime"))]
+fn validate_runtime_environment(node_major: u32, require_canonical: bool) -> Result<()> {
+    if require_canonical && node_major != 22 {
+        bail!(
+            "unfiltered runtime conformance requires canonical Node.js 22; found Node.js \
+             {node_major}. Newer Node.js versions can be used with `--filter`"
+        );
+    }
+    Ok(())
+}
+
+struct SuiteOutput {
+    failures: Vec<Failure>,
+    environment: Option<BaselineEnvironment>,
+}
+
+impl SuiteOutput {
+    // The lightweight bootstrap binary has no suite arms; child builds use
+    // this constructor after enabling a requested non-runtime suite.
+    #[allow(dead_code)]
+    fn without_environment(failures: Vec<Failure>) -> Self {
+        Self {
+            failures,
+            environment: None,
+        }
     }
 }
 
@@ -463,14 +521,27 @@ fn ensure_test262(paths: &ProjectPaths, upstreams: &Upstreams, offline: bool) ->
     Ok(())
 }
 
-fn configure_rayon(jobs: Option<usize>) -> Result<()> {
-    let Some(jobs) = jobs else {
+fn configure_rayon(requested_jobs: Option<usize>, suites: &[Suite]) -> Result<()> {
+    let available_jobs = std::thread::available_parallelism().map_or(1, |jobs| jobs.get());
+    let Some(jobs) = effective_jobs(requested_jobs, suites, available_jobs) else {
         return Ok(());
     };
     ThreadPoolBuilder::new()
         .num_threads(jobs)
         .build_global()
         .context("failed to configure the Test262 worker pool")
+}
+
+fn effective_jobs(
+    requested_jobs: Option<usize>,
+    suites: &[Suite],
+    available_jobs: usize,
+) -> Option<usize> {
+    requested_jobs.or_else(|| {
+        suites
+            .contains(&Suite::Runtime)
+            .then(|| available_jobs.clamp(1, DEFAULT_RUNTIME_JOBS_LIMIT))
+    })
 }
 
 fn parse_jobs(value: &str) -> std::result::Result<usize, String> {
@@ -488,6 +559,13 @@ fn deduplicate_suites(suites: &[Suite]) -> Vec<Suite> {
     suites.sort_unstable();
     suites.dedup();
     suites
+}
+
+fn validate_non_runtime_suites(suites: &[Suite]) -> Result<()> {
+    if suites.contains(&Suite::Runtime) {
+        bail!("runtime conformance uses `cargo test262 runtime`, not the `run` subcommand");
+    }
+    Ok(())
 }
 
 fn reject_suite_only_options(cli: &Cli) -> Result<()> {
@@ -515,6 +593,9 @@ fn print_invocation(cli: &Cli, invocation: &InvocationReport) -> Result<()> {
     }
 
     for report in &invocation.suites {
+        if let Some(environment) = &report.environment {
+            eprintln!("{} environment: {environment:?}", report.suite);
+        }
         eprintln!(
             "{}: total={} eligible={} passed={} known-failed={} skipped={} unsupported={} \
              baseline-stale={}",
@@ -528,30 +609,39 @@ fn print_invocation(cli: &Cli, invocation: &InvocationReport) -> Result<()> {
             report.baseline_stale
         );
         for failure in &report.new_failures {
-            print_failure("new failure", failure);
+            print_failure("new failure", failure, false);
         }
         for failure in &report.unexpected_passes {
-            print_failure("unexpected pass", failure);
+            print_failure("unexpected pass", failure, false);
         }
         if cli.detail {
             for failure in &report.failures {
-                print_failure("diagnostic", failure);
+                print_failure("diagnostic", failure, true);
             }
         }
     }
     Ok(())
 }
 
-fn print_failure(label: &str, failure: &Failure) {
+fn print_failure(label: &str, failure: &Failure, include_detail: bool) {
+    let diagnostic = diagnostic_text(failure, include_detail);
     eprintln!(
         "{label}: {} [{} / {} / {:?}]: {}",
         failure.path.display(),
         failure.pipeline.as_str(),
         failure.variant,
         failure.kind,
-        failure.summary
+        diagnostic
     );
     eprintln!("rerun: {}", rerun_command(failure));
+}
+
+fn diagnostic_text(failure: &Failure, include_detail: bool) -> &str {
+    if include_detail {
+        failure.detail.as_deref().unwrap_or(&failure.summary)
+    } else {
+        &failure.summary
+    }
 }
 
 fn rerun_command(failure: &Failure) -> String {
@@ -592,6 +682,13 @@ mod tests {
     }
 
     #[test]
+    fn run_subcommand_rejects_the_runtime_suite() {
+        assert!(validate_non_runtime_suites(&[Suite::Parser]).is_ok());
+        let error = validate_non_runtime_suites(&[Suite::Runtime]).unwrap_err();
+        assert!(error.to_string().contains("cargo test262 runtime"));
+    }
+
+    #[test]
     fn explain_rejects_paths_outside_the_corpus() {
         assert!(validate_relative_test_path(Path::new("../harness/assert.js")).is_err());
         assert!(validate_relative_test_path(Path::new("language/example.js")).is_ok());
@@ -628,6 +725,17 @@ mod tests {
     }
 
     #[test]
+    fn runtime_defaults_to_a_bounded_worker_pool() {
+        assert_eq!(
+            effective_jobs(None, &[Suite::Runtime], 32),
+            Some(DEFAULT_RUNTIME_JOBS_LIMIT)
+        );
+        assert_eq!(effective_jobs(None, &[Suite::Runtime], 4), Some(4));
+        assert_eq!(effective_jobs(None, &[Suite::Parser], 32), None);
+        assert_eq!(effective_jobs(Some(12), &[Suite::Runtime], 32), Some(12));
+    }
+
+    #[test]
     fn rerun_commands_use_the_runtime_subcommand() {
         let mut failure = Failure {
             suite: Suite::Runtime,
@@ -637,6 +745,7 @@ mod tests {
             kind: FailureKind::RuntimeError,
             fingerprint: String::new(),
             summary: String::new(),
+            detail: None,
         };
         assert_eq!(
             rerun_command(&failure),
@@ -649,5 +758,28 @@ mod tests {
             rerun_command(&failure),
             "cargo test262 run parser --filter language/example.js --detail --jobs 1"
         );
+    }
+
+    #[test]
+    fn detail_mode_uses_the_complete_diagnostic() {
+        let failure = Failure {
+            suite: Suite::Parser,
+            pipeline: Pipeline::Parse,
+            path: "language/example.js".into(),
+            variant: "sloppy".into(),
+            kind: FailureKind::UnexpectedParseError,
+            fingerprint: String::new(),
+            summary: "brief".into(),
+            detail: Some("complete diagnostic".into()),
+        };
+        assert_eq!(diagnostic_text(&failure, false), "brief");
+        assert_eq!(diagnostic_text(&failure, true), "complete diagnostic");
+    }
+
+    #[test]
+    fn unfiltered_runtime_requires_canonical_node_major() {
+        assert!(validate_runtime_environment(22, true).is_ok());
+        assert!(validate_runtime_environment(24, false).is_ok());
+        assert!(validate_runtime_environment(24, true).is_err());
     }
 }

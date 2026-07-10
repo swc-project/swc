@@ -17,9 +17,8 @@ use swc_common::{
     FileName, SourceMap, GLOBALS,
 };
 
-use crate::{
-    baseline::fingerprint,
-    model::{Failure, FailureKind, ParseGoal, Pipeline, Strictness, Suite, TestCase, TestVariant},
+use crate::model::{
+    Failure, FailureKind, ParseGoal, Pipeline, Strictness, Suite, TestCase, TestVariant,
 };
 
 /// Runs compress-only and compress-plus-mangle through SWC's production
@@ -105,7 +104,8 @@ fn minify_twice(
         Err((
             FailureKind::OutputMismatch,
             format!(
-                "{} is not idempotent: first output is {} bytes, second output is {} bytes",
+                "{} is not idempotent: first output is {} bytes, second output is {} \
+                 bytes\nfirst:\n{first}\nsecond:\n{second}",
                 pipeline.as_str(),
                 first.len(),
                 second.len()
@@ -178,15 +178,14 @@ fn failure(
     kind: FailureKind,
     summary: String,
 ) -> Failure {
-    Failure {
-        suite: Suite::Minifier,
+    Failure::from_diagnostic(
+        Suite::Minifier,
         pipeline,
-        path: case.path.clone(),
-        variant: variant.name().into(),
+        case.path.clone(),
+        variant.name(),
         kind,
-        fingerprint: fingerprint(&summary),
         summary,
-    }
+    )
 }
 
 #[derive(Clone, Default)]

@@ -16,9 +16,8 @@ use swc_ecma_parser::{
     Lexer, Parser, StringInput,
 };
 
-use crate::{
-    baseline::fingerprint,
-    model::{Failure, FailureKind, ParseGoal, Pipeline, Strictness, Suite, TestCase, TestVariant},
+use crate::model::{
+    Failure, FailureKind, ParseGoal, Pipeline, Strictness, Suite, TestCase, TestVariant,
 };
 
 /// Drives the compact lexer through the production parser and validates its
@@ -183,15 +182,14 @@ fn source_for_variant(case: &TestCase, variant: TestVariant) -> String {
 }
 
 fn failure(case: &TestCase, variant: TestVariant, kind: FailureKind, summary: String) -> Failure {
-    Failure {
-        suite: Suite::Lexer,
-        pipeline: Pipeline::Lex,
-        path: case.path.clone(),
-        variant: variant.name().into(),
+    Failure::from_diagnostic(
+        Suite::Lexer,
+        Pipeline::Lex,
+        case.path.clone(),
+        variant.name(),
         kind,
-        fingerprint: fingerprint(&summary),
         summary,
-    }
+    )
 }
 
 fn panic_message(payload: Box<dyn std::any::Any + Send>) -> String {

@@ -18,7 +18,7 @@ use std::{
         Arc, Mutex,
     },
     thread,
-    time::Duration,
+    time::{Duration, Instant},
 };
 
 use anyhow::{bail, Context, Result};
@@ -26,14 +26,23 @@ use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-use crate::model::{
-    Failure, FailureKind, HarnessMode, Metadata, NegativePhase, ParseGoal, Pipeline, Strictness,
-    Suite, TestVariant,
+use crate::{
+    model::{
+        Failure, FailureKind, HarnessMode, Metadata, NegativePhase, ParseGoal, Pipeline,
+        Strictness, Suite, TestVariant,
+    },
+    runtime_features::RuntimeFeatureSupport,
 };
 
 const PROTOCOL_VERSION: u32 = 1;
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(5);
+// A fresh vm.Context retains enough V8 heap that longer-lived workers can
+// exceed CI memory even with a bounded harness cache. Sixty-four requests keep
+// each process persistent across complete four-pipeline case groups while
+// placing a conservative bound on unreclaimed per-context state.
+const DEFAULT_MAX_REQUESTS_PER_WORKER: usize = 64;
 const WORKER_RESPONSE_GRACE: Duration = Duration::from_secs(1);
+const WORKER_RETIRE_GRACE: Duration = Duration::from_millis(250);
 const MAX_STDERR_LINES: usize = 32;
 const RUNTIME_PIPELINES: [Pipeline; 4] = [
     Pipeline::RuntimeCodegen,
@@ -88,6 +97,20 @@ pub struct RuntimeOptions {
     pub test262_revision: String,
     pub cache_directory: Option<PathBuf>,
     pub timeout: Duration,
+    /// Maximum number of completed requests handled by one persistent Node
+    /// process before Rust retires it. The default aligns to complete groups
+    /// of four runtime pipelines.
+    pub max_requests_per_worker: usize,
+}
+
+/// Execution environment values which affect runtime conformance results.
+///
+/// Baseline policy uses this separately from the content-addressed worker
+/// cache so a result reviewed on one Node major cannot silently become the
+/// canonical result for another.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
+pub struct RuntimeEnvironment {
+    pub node_major: u32,
 }
 
 impl RuntimeOptions {
@@ -100,6 +123,7 @@ impl RuntimeOptions {
             test262_revision: test262_revision.into(),
             cache_directory: None,
             timeout: DEFAULT_TIMEOUT,
+            max_requests_per_worker: DEFAULT_MAX_REQUESTS_PER_WORKER,
         }
     }
 }
@@ -109,6 +133,7 @@ pub struct RuntimeRunner {
     options: RuntimeOptions,
     node_major: u32,
     worker_fingerprint: String,
+    feature_support: RuntimeFeatureSupport,
     harness: HarnessStore,
 }
 
@@ -131,6 +156,9 @@ impl RuntimeRunner {
         if options.timeout.is_zero() {
             bail!("runtime timeout must be greater than zero");
         }
+        if options.max_requests_per_worker == 0 {
+            bail!("maximum requests per runtime worker must be greater than zero");
+        }
 
         let node_major = node_major_version(&options.node_binary)?;
         if node_major < 22 {
@@ -144,13 +172,27 @@ impl RuntimeRunner {
             )
         })?;
         let worker_fingerprint = digest(&worker_source);
+        let feature_support = RuntimeFeatureSupport::probe(&options.node_binary)?;
         let harness = HarnessStore::new(options.harness_root.clone())?;
         Ok(Self {
             options,
             node_major,
             worker_fingerprint,
+            feature_support,
             harness,
         })
+    }
+
+    /// Returns the environment identity needed by runtime baseline policy.
+    pub const fn environment(&self) -> RuntimeEnvironment {
+        RuntimeEnvironment {
+            node_major: self.node_major,
+        }
+    }
+
+    /// Returns the detected Node.js major version.
+    pub const fn node_major(&self) -> u32 {
+        self.node_major
     }
 
     /// Runs all cases in parallel. Results are sorted so scheduling never
@@ -169,11 +211,47 @@ impl RuntimeRunner {
         Ok(failures)
     }
 
-    /// Executes one already-built case on the persistent worker owned by the
-    /// current Rayon thread. Runtime pipeline construction uses this entry
-    /// point to avoid retaining every generated program in memory.
-    pub(crate) fn run_one(&self, case: &RuntimeCase) -> Result<Vec<Failure>> {
-        self.run_case(case)
+    /// Executes the successfully built subset of a variant's pipelines.
+    /// Missing inputs are intentional here because their typed build failures
+    /// are reported by `RuntimePipelineBuilder`.
+    pub(crate) fn run_partial(&self, case: &RuntimeCase) -> Result<Vec<Failure>> {
+        let pipeline_map = match validate_supplied_pipeline_inputs(case) {
+            Ok(pipelines) => pipelines,
+            Err(failures) => return Ok(failures),
+        };
+        self.run_validated(case, pipeline_map)
+    }
+
+    pub(crate) fn unsupported_capability(
+        &self,
+        metadata: &Metadata,
+    ) -> Option<(FailureKind, String)> {
+        let unsupported_host = self.feature_support.unsupported_host(metadata);
+        if !unsupported_host.is_empty() {
+            let names = unsupported_host
+                .into_iter()
+                .map(|capability| capability.name())
+                .collect::<Vec<_>>()
+                .join(", ");
+            return Some((
+                FailureKind::UnsupportedHostCapability,
+                format!("Node runtime host does not support: {names}"),
+            ));
+        }
+
+        let unsupported = self.feature_support.unsupported(metadata);
+        if unsupported.is_empty() {
+            return None;
+        }
+        let names = unsupported
+            .into_iter()
+            .map(|feature| feature.metadata_name())
+            .collect::<Vec<_>>()
+            .join(", ");
+        Some((
+            FailureKind::UnsupportedFeature,
+            format!("Node runtime does not support Test262 metadata feature(s): {names}"),
+        ))
     }
 
     fn run_case(&self, case: &RuntimeCase) -> Result<Vec<Failure>> {
@@ -181,6 +259,23 @@ impl RuntimeRunner {
             Ok(pipelines) => pipelines,
             Err(failures) => return Ok(failures),
         };
+        self.run_validated(case, pipeline_map)
+    }
+
+    fn run_validated(
+        &self,
+        case: &RuntimeCase,
+        pipeline_map: BTreeMap<Pipeline, &PipelineInput>,
+    ) -> Result<Vec<Failure>> {
+        if pipeline_map.is_empty() {
+            return Ok(Vec::new());
+        }
+        let selected_pipelines = || pipeline_map.keys().copied();
+        if let Some((kind, summary)) = self.unsupported_capability(&case.metadata) {
+            return Ok(selected_pipelines()
+                .map(|pipeline| failure(case, pipeline, kind, &summary))
+                .collect());
+        }
 
         if let Some(negative) = &case.metadata.negative {
             if negative.phase.expects_parse_error() {
@@ -188,8 +283,7 @@ impl RuntimeRunner {
                     "{}-negative test was passed to the runtime suite",
                     negative_phase_name(negative.phase)
                 );
-                return Ok(RUNTIME_PIPELINES
-                    .into_iter()
+                return Ok(selected_pipelines()
                     .map(|pipeline| {
                         failure(case, pipeline, FailureKind::HarnessConfiguration, &summary)
                     })
@@ -198,8 +292,7 @@ impl RuntimeRunner {
             if negative.phase == NegativePhase::Resolution && case.variant.goal != ParseGoal::Module
             {
                 let summary = "resolution-negative test must use the module parse goal";
-                return Ok(RUNTIME_PIPELINES
-                    .into_iter()
+                return Ok(selected_pipelines()
                     .map(|pipeline| {
                         failure(case, pipeline, FailureKind::HarnessConfiguration, summary)
                     })
@@ -214,8 +307,7 @@ impl RuntimeRunner {
             Ok(harness) => harness,
             Err(error) => {
                 let summary = format!("failed to load Test262 harness: {error:#}");
-                return Ok(RUNTIME_PIPELINES
-                    .into_iter()
+                return Ok(selected_pipelines()
                     .map(|pipeline| {
                         failure(case, pipeline, FailureKind::HarnessConfiguration, &summary)
                     })
@@ -225,7 +317,9 @@ impl RuntimeRunner {
 
         let mut failures = Vec::new();
         for pipeline in RUNTIME_PIPELINES {
-            let input = pipeline_map[&pipeline];
+            let Some(input) = pipeline_map.get(&pipeline).copied() else {
+                continue;
+            };
             let request = match worker_request(case, input, harness.clone(), self.options.timeout) {
                 Ok(request) => request,
                 Err(error) => {
@@ -240,6 +334,8 @@ impl RuntimeRunner {
             };
 
             let response = match self.cached_response(case, &request)? {
+                // A cache hit performs no Node work and cannot grow the
+                // process, so it intentionally does not age the worker.
                 Some(response) => response,
                 None => {
                     let response =
@@ -269,7 +365,8 @@ impl RuntimeRunner {
         let Some(directory) = &self.options.cache_directory else {
             return Ok(None);
         };
-        let path = directory.join(format!("{}.json", self.cache_key(case, request)?));
+        let key = self.cache_key(case, request)?;
+        let path = cache_path(directory, &key);
         if !path.is_file() {
             return Ok(None);
         }
@@ -291,13 +388,15 @@ impl RuntimeRunner {
         let Some(directory) = &self.options.cache_directory else {
             return Ok(());
         };
-        fs::create_dir_all(directory)
-            .with_context(|| format!("failed to create runtime cache `{}`", directory.display()))?;
-
         let key = self.cache_key(case, request)?;
-        let destination = directory.join(format!("{key}.json"));
+        let destination = cache_path(directory, &key);
+        let shard = destination
+            .parent()
+            .context("runtime cache destination has no parent")?;
+        fs::create_dir_all(shard)
+            .with_context(|| format!("failed to create runtime cache `{}`", shard.display()))?;
         let temporary_id = NEXT_CACHE_TEMPORARY.fetch_add(1, Ordering::Relaxed);
-        let temporary = directory.join(format!(
+        let temporary = shard.join(format!(
             ".{key}.{}.{}.tmp",
             std::process::id(),
             temporary_id
@@ -351,7 +450,39 @@ impl RuntimeRunner {
     }
 }
 
+fn cache_path(directory: &Path, key: &str) -> PathBuf {
+    // SHA-256 keys are ASCII hex. A two-character shard keeps a full runtime
+    // run from placing hundreds of thousands of files in one directory.
+    let shard = key
+        .get(..2)
+        .expect("runtime cache key must contain a SHA-256 prefix");
+    directory.join(shard).join(format!("{key}.json"))
+}
+
 fn validate_pipeline_inputs(
+    case: &RuntimeCase,
+) -> std::result::Result<BTreeMap<Pipeline, &PipelineInput>, Vec<Failure>> {
+    let pipelines = validate_supplied_pipeline_inputs(case)?;
+    let mut failures = Vec::new();
+    for pipeline in RUNTIME_PIPELINES {
+        if !pipelines.contains_key(&pipeline) {
+            failures.push(failure(
+                case,
+                pipeline,
+                FailureKind::HarnessConfiguration,
+                "required runtime pipeline output is missing",
+            ));
+        }
+    }
+
+    if failures.is_empty() {
+        Ok(pipelines)
+    } else {
+        Err(failures)
+    }
+}
+
+fn validate_supplied_pipeline_inputs(
     case: &RuntimeCase,
 ) -> std::result::Result<BTreeMap<Pipeline, &PipelineInput>, Vec<Failure>> {
     let mut pipelines = BTreeMap::new();
@@ -372,17 +503,6 @@ fn validate_pipeline_inputs(
                 input.pipeline,
                 FailureKind::HarnessConfiguration,
                 "runtime pipeline was supplied more than once",
-            ));
-        }
-    }
-
-    for pipeline in RUNTIME_PIPELINES {
-        if !pipelines.contains_key(&pipeline) {
-            failures.push(failure(
-                case,
-                pipeline,
-                FailureKind::HarnessConfiguration,
-                "required runtime pipeline output is missing",
             ));
         }
     }
@@ -466,7 +586,7 @@ fn evaluate_response(
                 case,
                 pipeline,
                 FailureKind::RuntimeTimeout,
-                &format!("runtime execution timed out: {}", response.error_summary()),
+                "runtime execution exceeded the configured timeout",
             ));
         }
         WorkerPhase::ProtocolError => {
@@ -474,7 +594,7 @@ fn evaluate_response(
                 case,
                 pipeline,
                 FailureKind::RuntimeError,
-                &response.error_summary(),
+                &response.diagnostic(),
             ));
         }
         WorkerPhase::Success
@@ -493,7 +613,7 @@ fn evaluate_response(
             &format!(
                 "unexpected {} error: {}",
                 response.phase.as_str(),
-                response.error_summary()
+                response.diagnostic()
             ),
         )),
         Some(negative) => {
@@ -520,7 +640,7 @@ fn evaluate_response(
                         expected_phase.as_str(),
                         negative.error_type,
                         response.phase.as_str(),
-                        response.error_summary()
+                        response.diagnostic()
                     ),
                 ));
             }
@@ -550,15 +670,14 @@ fn evaluate_response(
 }
 
 fn failure(case: &RuntimeCase, pipeline: Pipeline, kind: FailureKind, summary: &str) -> Failure {
-    Failure {
-        suite: Suite::Runtime,
+    Failure::from_diagnostic(
+        Suite::Runtime,
         pipeline,
-        path: case.path.clone(),
-        variant: case.variant.name().into(),
+        case.path.clone(),
+        case.variant.name(),
         kind,
-        fingerprint: digest(summary.as_bytes()),
-        summary: summary.into(),
-    }
+        summary,
+    )
 }
 
 fn digest(source: &[u8]) -> String {
@@ -602,6 +721,7 @@ struct WorkerModule {
 struct HarnessSource {
     name: String,
     code: String,
+    digest: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -626,6 +746,25 @@ impl WorkerResponse {
         }
     }
 
+    fn diagnostic(&self) -> String {
+        let mut diagnostic = self.error_summary();
+        if let Some(stack) = self.error.as_ref().and_then(|error| error.stack.as_deref()) {
+            diagnostic.push_str("\nstack:\n");
+            diagnostic.push_str(stack);
+        }
+        if !self.console.is_empty() {
+            diagnostic.push_str("\nconsole:");
+            for message in &self.console {
+                diagnostic.push('\n');
+                diagnostic.push('[');
+                diagnostic.push_str(&message.level);
+                diagnostic.push_str("] ");
+                diagnostic.push_str(&message.message);
+            }
+        }
+        diagnostic
+    }
+
     fn protocol_error(id: u64, summary: impl Into<String>) -> Self {
         Self {
             protocol_version: PROTOCOL_VERSION,
@@ -634,6 +773,7 @@ impl WorkerResponse {
             error: Some(WorkerError {
                 name: "WorkerProtocolError".into(),
                 message: summary.into(),
+                stack: None,
             }),
             capability: None,
             console: Vec::new(),
@@ -648,6 +788,7 @@ impl WorkerResponse {
             error: Some(WorkerError {
                 name: "ExecutionTimeout".into(),
                 message: format!("worker did not respond within {} ms", timeout.as_millis()),
+                stack: None,
             }),
             capability: None,
             console: Vec::new(),
@@ -687,6 +828,8 @@ impl WorkerPhase {
 struct WorkerError {
     name: String,
     message: String,
+    #[serde(default)]
+    stack: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -698,7 +841,7 @@ struct ConsoleMessage {
 
 struct HarnessStore {
     root: PathBuf,
-    sources: Mutex<HashMap<String, String>>,
+    sources: Mutex<HashMap<String, HarnessSource>>,
 }
 
 impl HarnessStore {
@@ -722,18 +865,10 @@ impl HarnessStore {
 
         let mut seen = BTreeSet::new();
         names.retain(|name| seen.insert(name.clone()));
-        names
-            .into_iter()
-            .map(|name| {
-                Ok(HarnessSource {
-                    code: self.source(&name)?,
-                    name,
-                })
-            })
-            .collect()
+        names.into_iter().map(|name| self.source(&name)).collect()
     }
 
-    fn source(&self, name: &str) -> Result<String> {
+    fn source(&self, name: &str) -> Result<HarnessSource> {
         if name.is_empty()
             || Path::new(name).components().any(|component| {
                 matches!(
@@ -762,6 +897,11 @@ impl HarnessStore {
         }
         let source = fs::read_to_string(&canonical)
             .with_context(|| format!("failed to read Test262 harness include `{name}`"))?;
+        let source = HarnessSource {
+            name: name.into(),
+            digest: digest(source.as_bytes()),
+            code: source,
+        };
         sources.insert(name.into(), source.clone());
         Ok(source)
     }
@@ -804,9 +944,10 @@ enum RequestError {
 struct NodeWorker {
     key: WorkerKey,
     child: Child,
-    input: BufWriter<ChildStdin>,
+    input: Option<BufWriter<ChildStdin>>,
     output: Receiver<WorkerOutput>,
     stderr: Arc<Mutex<VecDeque<String>>>,
+    completed_requests: usize,
 }
 
 impl NodeWorker {
@@ -881,9 +1022,10 @@ impl NodeWorker {
         Ok(Self {
             key,
             child,
-            input,
+            input: Some(input),
             output,
             stderr,
+            completed_requests: 0,
         })
     }
 
@@ -892,11 +1034,14 @@ impl NodeWorker {
         request: &WorkerRequest,
         timeout: Duration,
     ) -> std::result::Result<WorkerResponse, RequestError> {
-        serde_json::to_writer(&mut self.input, request)
+        let input = self.input.as_mut().ok_or_else(|| {
+            RequestError::Broken("attempted to use a retired runtime worker".into())
+        })?;
+        serde_json::to_writer(&mut *input, request)
             .map_err(|error| RequestError::Broken(format!("failed to encode request: {error}")))?;
-        self.input
+        input
             .write_all(b"\n")
-            .and_then(|()| self.input.flush())
+            .and_then(|()| input.flush())
             .map_err(|error| RequestError::Broken(format!("failed to write request: {error}")))?;
 
         let wait = timeout.saturating_add(WORKER_RESPONSE_GRACE);
@@ -919,6 +1064,7 @@ impl NodeWorker {
                         response.protocol_version, PROTOCOL_VERSION
                     )));
                 }
+                self.completed_requests = self.completed_requests.saturating_add(1);
                 Ok(response)
             }
             Ok(WorkerOutput::ReadError(error)) => Err(RequestError::Broken(format!(
@@ -935,6 +1081,29 @@ impl NodeWorker {
                 self.stderr_summary()
             ))),
         }
+    }
+
+    fn is_expired(&self, max_requests: usize) -> bool {
+        self.completed_requests >= max_requests
+    }
+
+    fn retire(&mut self) {
+        // EOF lets readline finish naturally once the last response has been
+        // emitted. A bounded grace period protects the runner from leaked Node
+        // handles while keeping normal lifecycle recycling graceful.
+        self.input.take();
+        let deadline = Instant::now() + WORKER_RETIRE_GRACE;
+        loop {
+            match self.child.try_wait() {
+                Ok(Some(_)) => return,
+                Ok(None) if Instant::now() < deadline => {
+                    thread::sleep(Duration::from_millis(1));
+                }
+                Ok(None) | Err(_) => break,
+            }
+        }
+        let _ = self.child.kill();
+        let _ = self.child.wait();
     }
 
     fn stderr_summary(&self) -> String {
@@ -955,6 +1124,9 @@ impl NodeWorker {
 
 impl Drop for NodeWorker {
     fn drop(&mut self) {
+        if matches!(self.child.try_wait(), Ok(Some(_))) {
+            return;
+        }
         let _ = self.child.kill();
         let _ = self.child.wait();
     }
@@ -971,10 +1143,16 @@ fn dispatch_to_worker(
 
         for _attempt in 0..2 {
             let requires_spawn = match slot.as_ref() {
-                Some(worker) => !worker.key.matches(options, worker_fingerprint),
+                Some(worker) => {
+                    !worker.key.matches(options, worker_fingerprint)
+                        || worker.is_expired(options.max_requests_per_worker)
+                }
                 None => true,
             };
             if requires_spawn {
+                if let Some(mut worker) = slot.take() {
+                    worker.retire();
+                }
                 *slot = match NodeWorker::spawn(options, worker_fingerprint) {
                     Ok(worker) => Some(worker),
                     Err(error) => {
@@ -1096,8 +1274,36 @@ mod tests {
     }
 
     #[test]
+    fn node_harness_cache_reuses_sources_and_is_bounded() {
+        let worker_script = Path::new(env!("CARGO_MANIFEST_DIR")).join("runtime_worker.mjs");
+        let output = Command::new("node")
+            .arg(worker_script)
+            .arg("--self-test-harness-cache")
+            .output()
+            .unwrap();
+
+        assert!(
+            output.status.success(),
+            "Node harness cache self-test failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert!(
+            output.stdout.is_empty(),
+            "cache self-test must not emit JSONL protocol output"
+        );
+    }
+
+    #[test]
     fn executes_scripts_with_fresh_contexts_and_isolated_stdout() {
         let (_fixture, runner) = test_runner(Duration::from_secs(2));
+        let detected_node_major = node_major_version(Path::new("node")).unwrap();
+        assert_eq!(runner.node_major(), detected_node_major);
+        assert_eq!(
+            runner.environment(),
+            RuntimeEnvironment {
+                node_major: detected_node_major,
+            }
+        );
         let included = RuntimeCase {
             metadata: Metadata {
                 includes: vec!["helper.js".into()],
@@ -1117,7 +1323,8 @@ mod tests {
                 ..Default::default()
             },
             pipelines: pipelines(
-                "if (typeof assert !== 'undefined') throw new Error('harness');",
+                "if (typeof assert !== 'undefined' || typeof $DONE !== 'undefined') throw new \
+                 Error('unexpected harness global');",
                 Vec::new(),
             ),
         };
@@ -1130,7 +1337,8 @@ mod tests {
         let cases = vec![
             runtime_case(
                 "first.js",
-                "globalThis.leaked = 1; console.log('not protocol'); assert(true);",
+                "globalThis.leaked = 1; console.log('not protocol'); print('also not protocol'); \
+                 assert(true);",
             ),
             runtime_case("second.js", "assert(!('leaked' in globalThis));"),
             included,
@@ -1149,7 +1357,7 @@ mod tests {
              $262.createRealm(); realm.evalScript(\"setInterval(() => { throw new Error('leaked \
              realm timer'); }, 0)\");",
         );
-        assert!(runner.run_one(&timers).unwrap().is_empty());
+        assert!(runner.run_case(&timers).unwrap().is_empty());
         let initial_process = NODE_WORKER.with(|slot| {
             slot.borrow()
                 .as_ref()
@@ -1162,7 +1370,7 @@ mod tests {
         // worker before issuing the next request.
         thread::sleep(Duration::from_millis(25));
         assert!(runner
-            .run_one(&runtime_case("after-timers.js", "assert(true);"))
+            .run_case(&runtime_case("after-timers.js", "assert(true);"))
             .unwrap()
             .is_empty());
         let final_process = NODE_WORKER.with(|slot| {
@@ -1192,6 +1400,47 @@ mod tests {
     }
 
     #[test]
+    fn recycles_a_worker_after_its_bounded_request_lifetime() {
+        let (_fixture, mut runner) = test_runner(Duration::from_secs(2));
+        runner.options.max_requests_per_worker = 2;
+        NODE_WORKER.with(|slot| *slot.borrow_mut() = None);
+
+        let mut case = runtime_case("bounded-worker.js", "assert(true);");
+        case.pipelines.truncate(1);
+        assert!(runner.run_partial(&case).unwrap().is_empty());
+        let (first_process, first_count) = NODE_WORKER.with(|slot| {
+            let slot = slot.borrow();
+            let worker = slot.as_ref().expect("the first request starts a worker");
+            (worker.child.id(), worker.completed_requests)
+        });
+        assert_eq!(first_count, 1);
+
+        case.path = "bounded-worker-second.js".into();
+        assert!(runner.run_partial(&case).unwrap().is_empty());
+        let (second_process, second_count) = NODE_WORKER.with(|slot| {
+            let slot = slot.borrow();
+            let worker = slot
+                .as_ref()
+                .expect("requests within the lifetime reuse a worker");
+            (worker.child.id(), worker.completed_requests)
+        });
+        assert_eq!(second_process, first_process);
+        assert_eq!(second_count, 2);
+
+        case.path = "bounded-worker-third.js".into();
+        assert!(runner.run_partial(&case).unwrap().is_empty());
+        let (third_process, third_count) = NODE_WORKER.with(|slot| {
+            let slot = slot.borrow();
+            let worker = slot
+                .as_ref()
+                .expect("the next request starts a replacement worker");
+            (worker.child.id(), worker.completed_requests)
+        });
+        assert_ne!(third_process, first_process);
+        assert_eq!(third_count, 1);
+    }
+
+    #[test]
     fn runtime_cache_is_content_addressed() {
         let (fixture, initial_runner) = test_runner(Duration::from_secs(2));
         drop(initial_runner);
@@ -1205,13 +1454,26 @@ mod tests {
         let runner = RuntimeRunner::new(options).unwrap();
 
         let first = runtime_case("cache.js", "assert(true);");
-        assert!(runner.run_one(&first).unwrap().is_empty());
+        assert!(runner.run_case(&first).unwrap().is_empty());
         assert_eq!(cache_entries(&cache), 1);
-        assert!(runner.run_one(&first).unwrap().is_empty());
+        let requests_before_cache_hit = NODE_WORKER.with(|slot| {
+            slot.borrow()
+                .as_ref()
+                .expect("the uncached request starts a worker")
+                .completed_requests
+        });
+        assert!(runner.run_case(&first).unwrap().is_empty());
         assert_eq!(cache_entries(&cache), 1);
+        let requests_after_cache_hit = NODE_WORKER.with(|slot| {
+            slot.borrow()
+                .as_ref()
+                .expect("the cache hit preserves the worker")
+                .completed_requests
+        });
+        assert_eq!(requests_after_cache_hit, requests_before_cache_hit);
 
         let changed_code = runtime_case("cache.js", "assert(1 === 1);");
-        assert!(runner.run_one(&changed_code).unwrap().is_empty());
+        assert!(runner.run_case(&changed_code).unwrap().is_empty());
         assert_eq!(cache_entries(&cache), 2);
 
         let mut changed_metadata = first.clone();
@@ -1219,7 +1481,7 @@ mod tests {
             .metadata
             .features
             .push("example-feature".into());
-        assert!(runner.run_one(&changed_metadata).unwrap().is_empty());
+        assert!(runner.run_case(&changed_metadata).unwrap().is_empty());
         assert_eq!(cache_entries(&cache), 3);
 
         let mut worker_source = fs::read_to_string(&worker_script).unwrap();
@@ -1230,7 +1492,7 @@ mod tests {
         changed_options.cache_directory = Some(cache.clone());
         changed_options.timeout = Duration::from_secs(2);
         let changed_runner = RuntimeRunner::new(changed_options).unwrap();
-        assert!(changed_runner.run_one(&first).unwrap().is_empty());
+        assert!(changed_runner.run_case(&first).unwrap().is_empty());
         assert_eq!(cache_entries(&cache), 4);
         NODE_WORKER.with(|slot| {
             let slot = slot.borrow();
@@ -1243,13 +1505,23 @@ mod tests {
     }
 
     fn cache_entries(cache: &Path) -> usize {
-        fs::read_dir(cache)
-            .unwrap()
+        walkdir::WalkDir::new(cache)
+            .into_iter()
             .filter_map(std::result::Result::ok)
+            .filter(|entry| entry.file_type().is_file())
             .filter(|entry| {
                 entry.path().extension().and_then(|value| value.to_str()) == Some("json")
             })
             .count()
+    }
+
+    #[test]
+    fn runtime_cache_paths_are_hash_sharded() {
+        let key = "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789";
+        assert_eq!(
+            cache_path(Path::new("cache"), key),
+            Path::new("cache/ab").join(format!("{key}.json"))
+        );
     }
 
     #[test]
@@ -1309,6 +1581,155 @@ mod tests {
     }
 
     #[test]
+    fn attributes_unhandled_node_failures_to_the_active_case() {
+        let (_fixture, runner) = test_runner(Duration::from_secs(2));
+        let rejection = runtime_case(
+            "unhandled-rejection.js",
+            "Promise.reject(new RangeError('unhandled rejection'));",
+        );
+        let rejection_failures = runner.run_case(&rejection).unwrap();
+        assert_eq!(rejection_failures.len(), RUNTIME_PIPELINES.len());
+        assert!(rejection_failures.iter().all(|failure| {
+            failure.kind == FailureKind::RuntimeError
+                && failure.summary.contains("RangeError: unhandled rejection")
+                && !failure.summary.contains("WorkerProtocolError")
+        }));
+
+        let initial_process = NODE_WORKER.with(|slot| {
+            slot.borrow()
+                .as_ref()
+                .expect("the rejected request keeps its worker alive")
+                .child
+                .id()
+        });
+        let exception = runtime_case(
+            "uncaught-exception.js",
+            "queueMicrotask(() => { throw new TypeError('uncaught exception'); });",
+        );
+        let exception_failures = runner.run_case(&exception).unwrap();
+        assert_eq!(exception_failures.len(), RUNTIME_PIPELINES.len());
+        assert!(exception_failures.iter().all(|failure| {
+            failure.kind == FailureKind::RuntimeError
+                && failure.summary.contains("TypeError: uncaught exception")
+                && !failure.summary.contains("WorkerProtocolError")
+        }));
+
+        assert!(runner
+            .run_case(&runtime_case("after-unhandled.js", "assert(true);"))
+            .unwrap()
+            .is_empty());
+        let final_process = NODE_WORKER.with(|slot| {
+            slot.borrow()
+                .as_ref()
+                .expect("the following request reuses the worker")
+                .child
+                .id()
+        });
+        assert_eq!(initial_process, final_process);
+    }
+
+    #[test]
+    fn accepts_an_async_runtime_negative_unhandled_rejection() {
+        let (_fixture, runner) = test_runner(Duration::from_secs(2));
+        let case = RuntimeCase {
+            metadata: Metadata {
+                flags: vec![TestFlag::Async],
+                negative: Some(Negative {
+                    phase: NegativePhase::Runtime,
+                    error_type: "TypeError".into(),
+                }),
+                ..Default::default()
+            },
+            ..runtime_case(
+                "async-unhandled-negative.js",
+                "Promise.reject(new TypeError('expected'));",
+            )
+        };
+
+        assert!(runner.run_case(&case).unwrap().is_empty());
+    }
+
+    #[test]
+    fn supports_dynamic_import_from_scripts_and_eval_script() {
+        let (_fixture, runner) = test_runner(Duration::from_secs(2));
+        let dependency = RuntimeModule {
+            path: "script-import/dependency_FIXTURE.js".into(),
+            code: "export const value = [];".into(),
+        };
+        let case = RuntimeCase {
+            path: "script-import/entry.js".into(),
+            variant: script_variant(),
+            metadata: Metadata {
+                flags: vec![TestFlag::Async],
+                features: vec!["dynamic-import".into()],
+                ..Default::default()
+            },
+            pipelines: pipelines(
+                "const realm = $262.createRealm(); const nestedRealm = \
+                 realm.evalScript('$262.createRealm()'); \
+                 Promise.all([import('./dependency_FIXTURE.js'), \
+                 $262.evalScript(\"import('./dependency_FIXTURE.js')\"), \
+                 realm.evalScript(\"import('./dependency_FIXTURE.js')\"), \
+                 nestedRealm.evalScript(\"import('./dependency_FIXTURE.js')\"), \
+                 import('./THIS_FILE_DOES_NOT_EXIST.js').catch(error => error)]).then(([direct, \
+                 evaluated, realmEvaluated, nestedRealmEvaluated, missing]) => { const \
+                 directPrototype = Object.getPrototypeOf(direct.value); const evaluatedPrototype \
+                 = Object.getPrototypeOf(evaluated.value); const realmPrototype = \
+                 Object.getPrototypeOf(realmEvaluated.value); const nestedRealmPrototype = \
+                 Object.getPrototypeOf(nestedRealmEvaluated.value); const valid = directPrototype \
+                 === Array.prototype && evaluatedPrototype === Array.prototype && realmPrototype \
+                 === realm.global.Array.prototype && realmPrototype !== Array.prototype && \
+                 nestedRealmPrototype === nestedRealm.global.Array.prototype && \
+                 nestedRealmPrototype !== realmPrototype && realmEvaluated !== direct && \
+                 nestedRealmEvaluated !== realmEvaluated && missing; $DONE(valid ? undefined : \
+                 new Error('bad dynamic import realm')); }, $DONE);",
+                vec![dependency],
+            ),
+        };
+
+        assert!(runner.run(&[case]).unwrap().is_empty());
+    }
+
+    #[test]
+    fn classifies_missing_runtime_features_and_host_hooks_before_execution() {
+        let (_fixture, mut runner) = test_runner(Duration::from_secs(2));
+        runner.feature_support = RuntimeFeatureSupport::from_results(
+            &[false; crate::runtime_features::RuntimeFeature::ALL.len()],
+        )
+        .unwrap();
+        let feature_case = RuntimeCase {
+            metadata: Metadata {
+                features: vec!["Temporal".into(), "decorators".into()],
+                ..Default::default()
+            },
+            ..runtime_case("temporal.js", "throw new Error('must not execute');")
+        };
+        let feature_failures = runner.run_case(&feature_case).unwrap();
+        assert_eq!(feature_failures.len(), RUNTIME_PIPELINES.len());
+        assert!(feature_failures.iter().all(|failure| {
+            failure.kind == FailureKind::UnsupportedFeature
+                && failure.summary.contains("Temporal")
+                && !failure.summary.contains("decorators")
+        }));
+
+        let host_case = RuntimeCase {
+            metadata: Metadata {
+                features: vec!["IsHTMLDDA".into()],
+                includes: vec!["atomicsHelper.js".into()],
+                ..Default::default()
+            },
+            ..runtime_case("host.js", "throw new Error('must not execute');")
+        };
+        let host_failures = runner.run_case(&host_case).unwrap();
+        assert_eq!(host_failures.len(), RUNTIME_PIPELINES.len());
+        assert!(host_failures.iter().all(|failure| {
+            failure.kind == FailureKind::UnsupportedHostCapability
+                && failure.summary.contains("IsHTMLDDA")
+                && failure.summary.contains("$262.agent")
+        }));
+    }
+
+    #[test]
     fn reuses_an_in_flight_dynamic_import_link() {
         let (_fixture, runner) = test_runner(Duration::from_secs(2));
         let dependency = RuntimeModule {
@@ -1347,6 +1768,10 @@ mod tests {
                 .count(),
             4
         );
+        assert!(failures
+            .iter()
+            .filter(|failure| failure.kind == FailureKind::RuntimeTimeout)
+            .all(|failure| failure.summary == "runtime execution exceeded the configured timeout"));
         assert_eq!(
             failures
                 .iter()
@@ -1354,5 +1779,19 @@ mod tests {
                 .count(),
             4
         );
+    }
+
+    #[test]
+    fn public_runner_reports_a_missing_pipeline_as_configuration_error() {
+        let (_fixture, runner) = test_runner(Duration::from_secs(2));
+        let mut case = runtime_case("partial.js", "assert(true);");
+        case.pipelines
+            .retain(|input| input.pipeline != Pipeline::RuntimeCompress);
+
+        assert!(runner.run_partial(&case).unwrap().is_empty());
+        let failures = runner.run_case(&case).unwrap();
+        assert_eq!(failures.len(), 1);
+        assert_eq!(failures[0].pipeline, Pipeline::RuntimeCompress);
+        assert_eq!(failures[0].kind, FailureKind::HarnessConfiguration);
     }
 }

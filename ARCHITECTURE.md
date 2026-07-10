@@ -138,11 +138,21 @@ Contains code related to making code faster on runtime. Currently only a small s
 
 ## Tests
 
-SWC uses the [official ecmascript conformance test suite called test262][test262] for testing.
+SWC's repository-internal conformance runner uses a pinned shallow checkout of
+the official [Test262][test262] corpus. `cargo test262` runs the complete
+non-runtime parser, compact lexer, codegen/fixer, source-map, transform, and
+minifier suites. Reviewed failures are explicit revision-bound baselines; full
+diagnostics remain build artifacts rather than tracked golden output.
 
-Parser tests ensure that the parsed results of `test262/pass` are identical with `test262/pass-explicit`.
+`cargo test262 runtime` separately executes codegen, ES5 transform,
+compress-only, and compress-plus-mangle output in persistent Node.js workers.
+The runtime monitor uses a Node.js 22 reviewed allowlist and is intentionally
+independent from required pull-request checks.
 
-Codegen tests ensure that the generated code is equivalent to the golden fixture files located at [tests/references](crates/swc_ecma_codegen/tests).
+The old `test262-parser-tests` submodule and its bulk codegen/error goldens are
+frozen migration inputs. They must not receive new coverage and can be removed
+only after the corresponding official suites are stable in CI and any unique
+local diagnostic regressions have been extracted into named fixtures.
 
 [string_enum]: https://rustdoc.swc.rs/string_enum/derive.StringEnum.html
 [ast_node]: https://rustdoc.swc.rs/ast_node/index.html

@@ -16,13 +16,13 @@ use anyhow::{Context, Result};
 use rayon::prelude::*;
 use swc_common::{sync::Lrc, FileName, SourceMap, GLOBALS};
 use swc_ecma_ast::{
-    CallExpr, Callee, ExportAll, Expr, ImportDecl, ImportPhase, Lit, NamedExport, Program,
+    CallExpr, Callee, EsVersion, ExportAll, Expr, ImportDecl, ImportPhase, Lit, NamedExport,
+    Program,
 };
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
-    baseline::fingerprint,
     model::{
         Failure, FailureKind, Metadata, NegativePhase, ParseGoal, Pipeline, Strictness, Suite,
         TestCase, TestVariant,
@@ -83,7 +83,8 @@ impl RuntimePipelineBuilder {
         let mut failures = Vec::new();
         for result in results {
             match result {
-                Ok(runtime_case) => runtime_cases.push(runtime_case),
+                Ok(built) if built.failures.is_empty() => runtime_cases.push(built.runtime_case),
+                Ok(mut built) => failures.append(&mut built.failures),
                 Err(mut variant_failures) => failures.append(&mut variant_failures),
             }
         }
@@ -106,11 +107,24 @@ impl RuntimePipelineBuilder {
             .par_iter()
             .filter(|case| is_runtime_eligible(case))
             .flat_map_iter(|case| {
+                let unsupported = runner.unsupported_capability(&case.metadata);
                 case.variants()
                     .into_iter()
-                    .map(|variant| match self.build_catching_panics(case, variant) {
-                        Ok(runtime_case) => runner.run_one(&runtime_case),
-                        Err(failures) => Ok(failures),
+                    .map(move |variant| {
+                        if let Some((kind, summary)) = &unsupported {
+                            return Ok::<Vec<Failure>, anyhow::Error>(common_failures(
+                                case, variant, *kind, summary,
+                            ));
+                        }
+                        match self.build_catching_panics(case, variant) {
+                            Ok(mut built) => {
+                                built
+                                    .failures
+                                    .extend(runner.run_partial(&built.runtime_case)?);
+                                Ok(built.failures)
+                            }
+                            Err(failures) => Ok(failures),
+                        }
                     })
                     .collect::<Vec<_>>()
             })
@@ -128,7 +142,7 @@ impl RuntimePipelineBuilder {
         &self,
         case: &TestCase,
         variant: TestVariant,
-    ) -> std::result::Result<RuntimeCase, Vec<Failure>> {
+    ) -> std::result::Result<BuiltRuntimeVariant, Vec<Failure>> {
         match catch_unwind(AssertUnwindSafe(|| self.build_variant(case, variant))) {
             Ok(result) => result,
             Err(payload) => {
@@ -142,36 +156,11 @@ impl RuntimePipelineBuilder {
         &self,
         case: &TestCase,
         variant: TestVariant,
-    ) -> std::result::Result<RuntimeCase, Vec<Failure>> {
+    ) -> std::result::Result<BuiltRuntimeVariant, Vec<Failure>> {
         let graph = self
             .load_graph(case, variant)
             .map_err(|issue| common_failures(case, variant, issue.kind, &issue.summary))?;
-
-        let mut pipelines = Vec::with_capacity(RUNTIME_PIPELINES.len());
-        let mut failures = Vec::new();
-        for pipeline in RUNTIME_PIPELINES {
-            match emit_pipeline(&graph, pipeline, &case.metadata) {
-                Ok(input) => pipelines.push(input),
-                Err(summary) => failures.push(failure(
-                    case,
-                    variant,
-                    pipeline,
-                    pipeline_failure_kind(pipeline),
-                    &summary,
-                )),
-            }
-        }
-
-        if !failures.is_empty() {
-            return Err(failures);
-        }
-
-        Ok(RuntimeCase {
-            path: graph.entry,
-            variant,
-            metadata: case.metadata.clone(),
-            pipelines,
-        })
+        Ok(emit_runtime_pipelines(case, variant, graph, emit_pipeline))
     }
 
     fn load_graph(
@@ -184,47 +173,57 @@ impl RuntimePipelineBuilder {
             summary,
         })?;
         let entry_source = source_for_variant(case, variant);
+        let entry_key = SourceKey::entry(entry.clone());
         let mut sources = BTreeMap::from([(
-            entry.clone(),
+            entry_key.clone(),
             SourceUnit {
                 code: entry_source,
                 goal: variant.goal,
             },
         )]);
-        let mut pending = VecDeque::from([entry.clone()]);
+        let mut pending = VecDeque::from([entry_key.clone()]);
 
-        while let Some(path) = pending.pop_front() {
-            let source = &sources[&path];
-            let program = parse_program(&path, &source.code, source.goal, &case.metadata).map_err(
-                |summary| BuildIssue {
+        while let Some(key) = pending.pop_front() {
+            let source = &sources[&key];
+            let program = parse_program(&key.path, &source.code, source.goal, &case.metadata)
+                .map_err(|summary| BuildIssue {
                     kind: FailureKind::UnexpectedParseError,
                     summary: format!(
                         "failed to inspect module graph source `{}`: {summary}",
-                        path.display()
+                        key.path.display()
                     ),
-                },
-            )?;
+                })?;
             let requests = collect_module_requests(&program)?;
 
             for request in requests {
-                let Some(dependency) = self.resolve_request(case, &path, &request)? else {
+                let Some(dependency) = self.resolve_request(case, &key.path, &request)? else {
                     continue;
                 };
-                if sources.contains_key(&dependency) {
+                let dependency_key = if variant.goal == ParseGoal::Module && dependency == entry {
+                    entry_key.clone()
+                } else {
+                    SourceKey::module(dependency.clone())
+                };
+                if sources.contains_key(&dependency_key) {
                     continue;
                 }
 
-                let Some(code) = self.read_dependency(case, &dependency)? else {
+                let code = if dependency == entry {
+                    Some(case.code.clone())
+                } else {
+                    self.read_dependency(case, &dependency, request.kind)?
+                };
+                let Some(code) = code else {
                     continue;
                 };
                 sources.insert(
-                    dependency.clone(),
+                    dependency_key.clone(),
                     SourceUnit {
                         code,
                         goal: ParseGoal::Module,
                     },
                 );
-                pending.push_back(dependency);
+                pending.push_back(dependency_key);
             }
         }
 
@@ -249,7 +248,7 @@ impl RuntimePipelineBuilder {
         }
 
         if !is_relative_or_absolute_specifier(&request.specifier) {
-            if expects_resolution_error(&case.metadata) {
+            if request.kind == RequestKind::Dynamic || expects_resolution_error(&case.metadata) {
                 return Ok(None);
             }
             return Err(BuildIssue {
@@ -293,16 +292,22 @@ impl RuntimePipelineBuilder {
         &self,
         case: &TestCase,
         dependency: &Path,
+        request_kind: RequestKind,
     ) -> std::result::Result<Option<String>, BuildIssue> {
         let candidate = self.test_root.join(dependency);
         let canonical = match candidate.canonicalize() {
             Ok(canonical) => canonical,
-            Err(_) if expects_resolution_error(&case.metadata) => return Ok(None),
+            Err(_)
+                if request_kind == RequestKind::Dynamic
+                    || expects_resolution_error(&case.metadata) =>
+            {
+                return Ok(None)
+            }
             Err(error) => {
                 return Err(BuildIssue {
-                    kind: FailureKind::UnsupportedHostCapability,
+                    kind: FailureKind::HarnessConfiguration,
                     summary: format!(
-                        "cannot resolve runtime module `{}`: {error}",
+                        "required runtime module `{}` is missing: {error}",
                         dependency.display()
                     ),
                 })
@@ -332,10 +337,43 @@ impl RuntimePipelineBuilder {
     }
 }
 
+struct BuiltRuntimeVariant {
+    runtime_case: RuntimeCase,
+    failures: Vec<Failure>,
+}
+
 #[derive(Debug)]
 struct SourceGraph {
     entry: PathBuf,
-    sources: BTreeMap<PathBuf, SourceUnit>,
+    sources: BTreeMap<SourceKey, SourceUnit>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct SourceKey {
+    path: PathBuf,
+    role: SourceRole,
+}
+
+impl SourceKey {
+    fn entry(path: PathBuf) -> Self {
+        Self {
+            path,
+            role: SourceRole::Entry,
+        }
+    }
+
+    fn module(path: PathBuf) -> Self {
+        Self {
+            path,
+            role: SourceRole::Module,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+enum SourceRole {
+    Entry,
+    Module,
 }
 
 #[derive(Debug)]
@@ -372,6 +410,51 @@ struct ModuleRequest {
     kind: RequestKind,
 }
 
+fn emit_runtime_pipelines<F>(
+    case: &TestCase,
+    variant: TestVariant,
+    graph: SourceGraph,
+    mut emitter: F,
+) -> BuiltRuntimeVariant
+where
+    F: FnMut(&SourceGraph, Pipeline, &Metadata) -> std::result::Result<PipelineInput, String>,
+{
+    let mut pipelines = Vec::with_capacity(RUNTIME_PIPELINES.len());
+    let mut failures = Vec::new();
+    for pipeline in RUNTIME_PIPELINES {
+        let emitted = catch_unwind(AssertUnwindSafe(|| {
+            emitter(&graph, pipeline, &case.metadata)
+        }));
+        match emitted {
+            Ok(Ok(input)) => pipelines.push(input),
+            Ok(Err(summary)) => failures.push(failure(
+                case,
+                variant,
+                pipeline,
+                pipeline_failure_kind(pipeline),
+                &summary,
+            )),
+            Err(payload) => failures.push(failure(
+                case,
+                variant,
+                pipeline,
+                FailureKind::Panic,
+                &panic_message(payload),
+            )),
+        }
+    }
+
+    BuiltRuntimeVariant {
+        runtime_case: RuntimeCase {
+            path: graph.entry,
+            variant,
+            metadata: case.metadata.clone(),
+            pipelines,
+        },
+        failures,
+    }
+}
+
 fn emit_pipeline(
     graph: &SourceGraph,
     pipeline: Pipeline,
@@ -380,8 +463,8 @@ fn emit_pipeline(
     let mut entry_code = None;
     let mut modules = Vec::with_capacity(graph.sources.len().saturating_sub(1));
 
-    for (path, source) in &graph.sources {
-        let path_string = path.to_string_lossy();
+    for (key, source) in &graph.sources {
+        let path_string = key.path.to_string_lossy();
         let code = match pipeline {
             Pipeline::RuntimeCodegen => crate::codegen_suite::emit_for_runtime(
                 &path_string,
@@ -410,11 +493,11 @@ fn emit_pipeline(
             _ => Err(format!("{} is not a runtime pipeline", pipeline.as_str())),
         }?;
 
-        if path == &graph.entry {
+        if key.role == SourceRole::Entry {
             entry_code = Some(code);
         } else {
             modules.push(RuntimeModule {
-                path: path.clone(),
+                path: key.path.clone(),
                 code,
             });
         }
@@ -442,7 +525,7 @@ fn parse_program(
     GLOBALS.set(&Default::default(), || {
         let lexer = Lexer::new(
             syntax::for_metadata(metadata),
-            Default::default(),
+            EsVersion::latest(),
             StringInput::from(&*fm),
             None,
         );
@@ -719,15 +802,14 @@ fn failure(
     kind: FailureKind,
     summary: &str,
 ) -> Failure {
-    Failure {
-        suite: Suite::Runtime,
+    Failure::from_diagnostic(
+        Suite::Runtime,
         pipeline,
-        path: case.path.clone(),
-        variant: variant.name().into(),
+        case.path.clone(),
+        variant.name(),
         kind,
-        fingerprint: fingerprint(summary),
-        summary: summary.into(),
-    }
+        summary,
+    )
 }
 
 fn panic_message(payload: Box<dyn std::any::Any + Send>) -> String {
@@ -823,6 +905,18 @@ mod tests {
             .modules
             .iter()
             .all(|module| !module.code.contains("=>")));
+    }
+
+    #[test]
+    fn graph_inspection_uses_the_latest_ecmascript_target() {
+        let program = parse_program(
+            Path::new("latest.js"),
+            "class Example { #value = 1; }",
+            ParseGoal::Script,
+            &Metadata::default(),
+        );
+
+        assert!(program.is_ok(), "{program:#?}");
     }
 
     #[test]
@@ -930,5 +1024,100 @@ mod tests {
             .pipelines
             .iter()
             .all(|pipeline| pipeline.code.contains("use strict")));
+    }
+
+    #[test]
+    fn leaves_unmapped_literal_dynamic_imports_to_reject_at_runtime() {
+        let fixture = tempfile::tempdir().unwrap();
+        let case = TestCase {
+            path: "dynamic/catch.js".into(),
+            code: "Promise.all([import(''), import('bare'), \
+                   import('./THIS_FILE_DOES_NOT_EXIST.js')].map(p => p.catch(() => {})));"
+                .into(),
+            metadata: Metadata {
+                features: vec!["dynamic-import".into()],
+                ..Default::default()
+            },
+        };
+        let builder = RuntimePipelineBuilder::new(fixture.path()).unwrap();
+        let (cases, failures) = builder.build(&[&case]);
+
+        assert!(failures.is_empty(), "{failures:#?}");
+        assert_eq!(cases.len(), 2);
+        assert!(cases.iter().all(|case| case
+            .pipelines
+            .iter()
+            .all(|pipeline| pipeline.modules.is_empty())));
+    }
+
+    #[test]
+    fn emits_a_script_self_import_as_a_module_definition() {
+        let fixture = tempfile::tempdir().unwrap();
+        let case = TestCase {
+            path: "dynamic/self.js".into(),
+            code: "globalThis.evaluations = (globalThis.evaluations || 0) + 1; \
+                   import('./self.js');"
+                .into(),
+            metadata: Metadata {
+                features: vec!["dynamic-import".into()],
+                ..Default::default()
+            },
+        };
+        let builder = RuntimePipelineBuilder::new(fixture.path()).unwrap();
+        let (cases, failures) = builder.build(&[&case]);
+
+        assert!(failures.is_empty(), "{failures:#?}");
+        assert_eq!(cases.len(), 2);
+        assert!(cases.iter().all(|case| case
+            .pipelines
+            .iter()
+            .all(|pipeline| { module_paths(pipeline) == [PathBuf::from("dynamic/self.js")] })));
+    }
+
+    #[test]
+    fn reports_a_missing_static_import_as_harness_configuration() {
+        let fixture = tempfile::tempdir().unwrap();
+        let case = module_case("entry.js", "import './missing_FIXTURE.js';");
+        let builder = RuntimePipelineBuilder::new(fixture.path()).unwrap();
+        let (cases, failures) = builder.build(&[&case]);
+
+        assert!(cases.is_empty());
+        assert_eq!(failures.len(), RUNTIME_PIPELINES.len());
+        assert!(failures
+            .iter()
+            .all(|failure| failure.kind == FailureKind::HarnessConfiguration));
+    }
+
+    #[test]
+    fn preserves_successful_outputs_when_one_pipeline_fails_to_build() {
+        let case = module_case("partial.js", "export const value = 1;");
+        let variant = case.variants()[0];
+        let entry = case.path.clone();
+        let graph = SourceGraph {
+            entry: entry.clone(),
+            sources: BTreeMap::from([(
+                SourceKey::entry(entry),
+                SourceUnit {
+                    code: case.code.clone(),
+                    goal: ParseGoal::Module,
+                },
+            )]),
+        };
+        let built = emit_runtime_pipelines(&case, variant, graph, |_, pipeline, _| {
+            if pipeline == Pipeline::RuntimeCompress {
+                Err("synthetic compress failure".into())
+            } else {
+                Ok(PipelineInput {
+                    pipeline,
+                    code: "export const value = 1;".into(),
+                    modules: Vec::new(),
+                })
+            }
+        });
+
+        assert_eq!(built.runtime_case.pipelines.len(), 3);
+        assert_eq!(built.failures.len(), 1);
+        assert_eq!(built.failures[0].pipeline, Pipeline::RuntimeCompress);
+        assert_eq!(built.failures[0].kind, FailureKind::MinifierError);
     }
 }
