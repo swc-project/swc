@@ -4,11 +4,6 @@ use anyhow::Error;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
-#[cfg_attr(
-    feature = "__plugin",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "__plugin", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "__plugin", repr(u32))]
 /// Enum for possible errors while running transform via plugin.
 ///
@@ -58,25 +53,6 @@ impl PluginSerializedBytes {
      * This is sort of mimic TryFrom behavior, since we can't use generic
      * to implement TryFrom trait
      */
-    /*
-    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
-    pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
-    where
-        W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
-    {
-        rkyv::to_bytes::<_, 512>(t)
-            .map(|field| PluginSerializedBytes { field })
-            .map_err(|err| match err {
-                rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
-                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(_e) => {
-                    Error::msg("AllocScratchError")
-                }
-                rkyv::ser::serializers::CompositeSerializerError::SharedError(_e) => {
-                    Error::msg("SharedSerializeMapError")
-                }
-            })
-    }
-     */
 
     #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
     pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
@@ -125,26 +101,6 @@ impl PluginSerializedBytes {
             .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))?;
         Ok(VersionedSerializable(deserialized))
     }
-
-    /*
-    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
-    pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
-    where
-        W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>
-            + for<'a> rkyv::CheckBytes<rkyv::validation::validators::DefaultValidator<'a>>,
-    {
-        use anyhow::Context;
-
-        let archived = rkyv::check_archived_root::<VersionedSerializable<W>>(&self.field[..])
-            .map_err(|err| {
-                anyhow::format_err!("wasm plugin bytecheck failed {:?}", err.to_string())
-            })?;
-
-        archived
-            .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
-            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
-    } */
 }
 
 /// A wrapper type for the structures to be passed into plugins
@@ -154,18 +110,9 @@ impl PluginSerializedBytes {
 /// First field indicate version of struct type (schema). Any consumers like
 /// swc_plugin_macro can use this to validate compatiblility before attempt to
 /// serialize.
-#[cfg_attr(
-    feature = "__plugin",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[repr(transparent)]
-#[cfg_attr(feature = "__plugin", derive(bytecheck::CheckBytes))]
 #[derive(Debug)]
-pub struct VersionedSerializable<T>(
-    // [NOTE]: https://github.com/rkyv/rkyv/issues/373#issuecomment-1546360897
-    //#[cfg_attr(feature = "__plugin", with(rkyv::with::AsBox))]
-    pub T,
-);
+pub struct VersionedSerializable<T>(pub T);
 
 impl<T> VersionedSerializable<T> {
     pub fn new(value: T) -> Self {

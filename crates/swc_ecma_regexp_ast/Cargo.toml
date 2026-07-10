@@ -12,14 +12,12 @@ version       = "0.12.0"
 bench = false
 
 [features]
-__rkyv = []
 default = []
 encoding-impl = [
   "cbor4ii",
   "swc_atoms/encoding-impl",
   "swc_common/encoding-impl",
 ]
-rkyv-impl = []
 serde-impl = ["serde"]
 
 [dependencies]

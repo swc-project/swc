@@ -1,14 +1,8 @@
 /// A serializable, wrapped struct for the diagnostics information
 /// included in plugin binaries.
-/// TODO: Must implement bytecheck with forward-compatible schema changes to
+/// TODO: Must implement forward-compatible validation for schema changes to
 /// prevent handshake failure.
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
