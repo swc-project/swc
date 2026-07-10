@@ -13,10 +13,7 @@ bench   = false
 doctest = false
 
 [features]
-# for ast_node macro
 default = ["encoding-impl"]
-__rkyv = []
-rkyv-impl = []
 serde-impl = []
 encoding-impl = []
 

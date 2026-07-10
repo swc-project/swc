@@ -17,27 +17,6 @@ use crate::{typescript::TsTypeAnn, Expr};
 /// Identifier used as a pattern.
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv-impl",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(
-    feature = "rkyv-impl",
-    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(
-    feature = "rkyv-impl",
-    rkyv(bytecheck(bounds(
-        __C: rkyv::validation::ArchiveContext,
-        __C::Error: rkyv::rancor::Source
-    )))
-)]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
@@ -46,11 +25,9 @@ use crate::{typescript::TsTypeAnn, Expr};
 )]
 pub struct BindingIdent {
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub id: Ident,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     #[cfg_attr(
         feature = "encoding-impl",
         encoding(with = "cbor4ii::core::types::Maybe")
@@ -181,10 +158,8 @@ bridge_from!(BindingIdent, Ident, Id);
 #[derive(Eq, Hash, Default)]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Ident {
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
 
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub ctxt: SyntaxContext,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
@@ -420,7 +395,6 @@ impl Ident {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct IdentName {
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]

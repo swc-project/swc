@@ -1154,12 +1154,6 @@ pub struct MetaPropExpr {
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
     feature = "encoding-impl",
@@ -1369,27 +1363,6 @@ impl Take for Import {
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(
-    feature = "rkyv-impl",
-    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(
-                    feature = "rkyv-impl",
-                    rkyv(bytecheck(bounds(
-                        __C: rkyv::validation::ArchiveContext,
-                        __C::Error: rkyv::rancor::Source
-                    )))
-                )]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
     feature = "encoding-impl",
@@ -1397,7 +1370,6 @@ impl Take for Import {
 )]
 pub struct ExprOrSpread {
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     #[cfg_attr(
         feature = "encoding-impl",
         encoding(with = "cbor4ii::core::types::Maybe")
@@ -1405,7 +1377,6 @@ pub struct ExprOrSpread {
     pub spread: Option<Span>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub expr: Box<Expr>,
 }
 

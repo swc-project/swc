@@ -381,7 +381,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "95ea3da8de225a11bcd5cee66b00eddcc7fd03e55bbe839fa4735d3281afb758"
 dependencies = [
  "bytes",
- "rkyv",
  "serde",
 ]
 
@@ -3281,12 +3280,9 @@ dependencies = [
 name = "swc_atoms"
 version = "9.0.3"
 dependencies = [
- "bytecheck 0.8.1",
  "cbor4ii",
  "hstr",
  "once_cell",
- "rancor",
- "rkyv",
  "serde",
 ]
 
@@ -3326,7 +3322,6 @@ dependencies = [
  "anyhow",
  "ast_node",
  "better_scoped_tls",
- "bytecheck 0.8.1",
  "bytes-str",
  "cbor4ii",
  "either",
@@ -3334,8 +3329,6 @@ dependencies = [
  "num-bigint",
  "once_cell",
  "parking_lot",
- "rancor",
- "rkyv",
  "rustc-hash 2.1.1",
  "serde",
  "siphasher 0.3.11",

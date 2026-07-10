@@ -14,14 +14,12 @@ bench = false
 [features]
 atom_size_128 = []
 atom_size_64  = []
-rkyv          = ["dep:rkyv"]
 serde         = ["dep:serde"]
 
 [dependencies]
 hashbrown             = { workspace = true }
 new_debug_unreachable = { workspace = true }
 once_cell             = { workspace = true }
-rkyv                  = { workspace = true, optional = true }
 rustc-hash            = { workspace = true }
 serde                 = { workspace = true, optional = true }
 triomphe              = { workspace = true }

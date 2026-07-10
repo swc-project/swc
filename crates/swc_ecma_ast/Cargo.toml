@@ -19,7 +19,6 @@ bench = false
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [features]
-__rkyv = []
 default = []
 encoding-impl = [
   "cbor4ii",
@@ -27,14 +26,6 @@ encoding-impl = [
   "swc_common/encoding-impl",
 ]
 fuzzing = ["arbitrary", "swc_atoms/arbitrary", "swc_common/arbitrary"]
-rkyv-impl = [
-  "__rkyv",
-  "rkyv",
-  "bytecheck",
-  "rancor",
-  "swc_atoms/rkyv-impl",
-  "swc_common/rkyv-impl",
-]
 serde-impl = ["serde"]
 shrink-to-fit = [
   "dep:shrink-to-fit",
@@ -45,13 +36,10 @@ shrink-to-fit = [
 [dependencies]
 arbitrary        = { workspace = true, features = ["derive"], optional = true }
 bitflags         = { workspace = true }
-bytecheck        = { workspace = true, optional = true }
 is-macro         = { workspace = true }
 num-bigint       = { workspace = true, features = ["serde"] }
 once_cell        = { workspace = true }
 phf              = { workspace = true, features = ["macros"] }
-rancor           = { workspace = true, optional = true }
-rkyv             = { workspace = true, optional = true }
 rustc-hash       = { workspace = true }
 serde            = { workspace = true, features = ["derive"], optional = true }
 shrink-to-fit    = { workspace = true, optional = true }
