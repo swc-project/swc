@@ -47,7 +47,7 @@ function _set(target, property, value, receiver, isStrict) {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: super::HelperBitmap::from_bits(0x00000000000420000008400000000000),
+    deps: super::HelperBitmap::from_bits(0x00000000000210000008400000000000),
 };
 
 #[cfg(feature = "inline-helpers")]

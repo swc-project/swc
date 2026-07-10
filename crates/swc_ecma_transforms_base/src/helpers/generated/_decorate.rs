@@ -272,7 +272,7 @@ function _runClassFinishers(constructor, finishers) {
 }
 "#,
     #[cfg(feature = "inline-helpers")]
-    deps: super::HelperBitmap::from_bits(0x0000000c034000084000080000000018),
+    deps: super::HelperBitmap::from_bits(0x0000000601a000044000080000000018),
 };
 
 #[cfg(feature = "inline-helpers")]
