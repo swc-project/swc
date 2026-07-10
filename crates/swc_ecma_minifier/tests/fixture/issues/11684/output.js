@@ -14,4 +14,16 @@ new function() {
     console.log(args.length);
 }("keep", "also_keep"), new Foo("keep"), new function(x) {
     console.log(x);
-}(...xs, "keep");
+}(...xs, "keep"), new function() {
+    console.log(this.constructor.arguments.length);
+}("keep"), new function F() {
+    console.log(F.arguments.length);
+}("keep"), new function F() {
+    leak(F);
+}("keep"), new function() {
+    leak(this);
+}("keep"), new function() {
+    console.log(new.target.arguments.length);
+}("keep"), new function() {
+    with (obj)console.log(value);
+}("keep");

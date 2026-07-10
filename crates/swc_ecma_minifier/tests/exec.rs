@@ -12540,6 +12540,51 @@ new function(x) {
 }
 
 #[test]
+fn issue_11684_new_function_expr_this_constructor_arguments() {
+    let src = r#"
+new function() {
+    console.log(this.constructor.arguments.length);
+}("keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_new_function_expr_named_function_arguments() {
+    let src = r#"
+new function F() {
+    console.log(F.arguments.length);
+}("keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_new_function_expr_new_target_arguments() {
+    let src = r#"
+new function() {
+    console.log(new.target.arguments.length);
+}("keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn issue_11970_switch_default_before_empty_case() {
     let src = r#"
 async function classify(code) {

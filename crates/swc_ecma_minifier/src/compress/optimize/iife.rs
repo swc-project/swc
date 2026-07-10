@@ -505,29 +505,26 @@ impl Optimizer<'_> {
             return;
         }
 
-        let (ctxt, formal_len, has_rest_param) = match &*n.callee {
-            Expr::Fn(FnExpr { function, .. }) => {
+        let (ident, function) = match &*n.callee {
+            Expr::Fn(FnExpr { ident, function }) => {
                 if function.is_async || function.is_generator {
                     return;
                 }
 
-                (
-                    function.ctxt,
-                    function.params.len(),
-                    function
-                        .params
-                        .iter()
-                        .any(|param| matches!(&param.pat, Pat::Rest(_))),
-                )
+                (ident.as_ref(), function.as_ref())
             }
             _ => return,
         };
 
-        if let Some(scope) = self.data.get_scope(ctxt) {
-            if scope.intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL)) {
-                return;
-            }
+        if self.new_function_constructor_args_may_be_observed(ident, function) {
+            return;
         }
+
+        let formal_len = function.params.len();
+        let has_rest_param = function
+            .params
+            .iter()
+            .any(|param| matches!(&param.pat, Pat::Rest(_)));
 
         if has_rest_param {
             return;
@@ -558,6 +555,38 @@ impl Optimizer<'_> {
             self.changed = true;
             report_change!("new_expr: Dropping a trailing pure argument of a function constructor");
         }
+    }
+
+    fn new_function_constructor_args_may_be_observed(
+        &self,
+        ident: Option<&Ident>,
+        function: &Function,
+    ) -> bool {
+        let Some(body) = function.body.as_ref() else {
+            return true;
+        };
+
+        if let Some(scope) = self.data.get_scope(function.ctxt) {
+            if scope.intersects(
+                ScopeData::USED_ARGUMENTS
+                    .union(ScopeData::HAS_EVAL_CALL)
+                    .union(ScopeData::HAS_WITH_STMT),
+            ) {
+                return true;
+            }
+        }
+
+        if contains_this_expr(body) {
+            return true;
+        }
+
+        if let Some(ident) = ident {
+            if contains_ident_ref(&function.body, ident) {
+                return true;
+            }
+        }
+
+        contains_new_target(body)
     }
 
     #[cfg_attr(
@@ -1796,4 +1825,27 @@ impl Optimizer<'_> {
 
         None
     }
+}
+
+struct ContainsNewTarget {
+    found: bool,
+}
+
+impl Visit for ContainsNewTarget {
+    noop_visit_type!();
+
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
+        if matches!(n.kind, MetaPropKind::NewTarget) {
+            self.found = true;
+        }
+    }
+}
+
+fn contains_new_target<N>(n: &N) -> bool
+where
+    N: VisitWith<ContainsNewTarget>,
+{
+    let mut v = ContainsNewTarget { found: false };
+    n.visit_with(&mut v);
+    v.found
 }

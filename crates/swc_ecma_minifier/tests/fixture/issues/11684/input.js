@@ -31,3 +31,29 @@ var h = new Foo("keep");
 var i = new function(x) {
     console.log(x);
 }(...xs, "keep");
+
+var j = new function() {
+    console.log(this.constructor.arguments.length);
+}("keep");
+
+var k = new function F() {
+    console.log(F.arguments.length);
+}("keep");
+
+var l = new function F() {
+    leak(F);
+}("keep");
+
+var m = new function() {
+    leak(this);
+}("keep");
+
+var n = new function() {
+    console.log(new.target.arguments.length);
+}("keep");
+
+var o = new function() {
+    with (obj) {
+        console.log(value);
+    }
+}("keep");
