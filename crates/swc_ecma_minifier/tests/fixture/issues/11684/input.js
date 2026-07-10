@@ -27,3 +27,7 @@ var g = new function(...args) {
 }("keep", "also_keep");
 
 var h = new Foo("keep");
+
+var i = new function(x) {
+    console.log(x);
+}(...xs, "keep");

@@ -12,4 +12,6 @@ new function() {
     throw 1;
 }(...xs), new function(...args) {
     console.log(args.length);
-}("keep", "also_keep"), new Foo("keep");
+}("keep", "also_keep"), new Foo("keep"), new function(x) {
+    console.log(x);
+}(...xs, "keep");

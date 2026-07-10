@@ -12524,6 +12524,22 @@ console.log(count);
 }
 
 #[test]
+fn issue_11684_new_function_expr_spread_before_trailing_arg() {
+    let src = r#"
+var xs = [];
+new function(x) {
+    console.log(x);
+}(...xs, "keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn issue_11970_switch_default_before_empty_case() {
     let src = r#"
 async function classify(code) {

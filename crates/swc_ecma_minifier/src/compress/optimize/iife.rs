@@ -537,6 +537,10 @@ impl Optimizer<'_> {
             return;
         };
 
+        if args.iter().any(|arg| arg.spread.is_some()) {
+            return;
+        }
+
         if args.len() <= formal_len {
             return;
         }
@@ -545,10 +549,6 @@ impl Optimizer<'_> {
             let Some(last) = args.last() else {
                 break;
             };
-
-            if last.spread.is_some() {
-                break;
-            }
 
             if last.expr.may_have_side_effects(self.ctx.expr_ctx) {
                 break;
