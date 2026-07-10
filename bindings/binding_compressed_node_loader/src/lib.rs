@@ -1,20 +1,19 @@
+#[cfg(unix)]
+use std::time::{SystemTime, UNIX_EPOCH};
 use std::{
     env,
     ffi::{CStr, CString},
-    fs,
+    fs::{self, File},
+    io::{self, Read},
     os::raw::c_char,
     path::{Path, PathBuf},
     ptr,
-};
-#[cfg(unix)]
-use std::{
-    io,
-    time::{SystemTime, UNIX_EPOCH},
 };
 
 use decmpfs::{compress_bytes, Gate, Outcome};
 use libloading::Library;
 use napi_sys::{napi_env, napi_value};
+use sha2::{Digest, Sha512};
 
 mod pressed_data {
     include!(concat!(env!("OUT_DIR"), "/pressed_data.rs"));
@@ -40,12 +39,13 @@ type RegisterModule = unsafe extern "C" fn(napi_env, napi_value) -> napi_value;
 struct PressedDataMetadata {
     compressed_len: u64,
     uncompressed_len: u64,
-    sha512: [u8; INTEGRITY_HASH_LEN],
+    compressed_sha512: [u8; INTEGRITY_HASH_LEN],
+    raw_sha512: Option<[u8; INTEGRITY_HASH_LEN]>,
 }
 
 impl PressedDataMetadata {
     fn cache_key(&self) -> String {
-        hex::encode(self.sha512)
+        hex::encode(self.raw_sha512.unwrap_or(self.compressed_sha512))
     }
 }
 
@@ -78,18 +78,34 @@ fn register_original_addon(env: napi_env, exports: napi_value) -> Result<napi_va
     let self_path = unsafe { module_file_name(env)? };
     let cache_path = cache_path_for(&cache_root(), &self_path, &metadata);
 
-    if cache_path.exists() && is_expected_raw_addon(&cache_path, metadata.uncompressed_len) {
-        match unsafe { load_and_register(&cache_path, env, exports) } {
-            Ok(exports) => {
+    if cache_path.exists() {
+        match verify_cached_raw_addon(&cache_path, &metadata) {
+            Ok(true) => match unsafe { load_and_register(&cache_path, env, exports) } {
+                Ok(exports) => {
+                    debug_log(format_args!(
+                        "loaded native binding cache {}",
+                        cache_path.display()
+                    ));
+                    return Ok(exports);
+                }
+                Err(err) => {
+                    debug_log(format_args!(
+                        "failed to load native binding cache {}: {err}",
+                        cache_path.display()
+                    ));
+                    let _ = fs::remove_file(&cache_path);
+                }
+            },
+            Ok(false) => {
                 debug_log(format_args!(
-                    "loaded native binding cache {}",
+                    "discarding invalid native binding cache {}",
                     cache_path.display()
                 ));
-                return Ok(exports);
+                let _ = fs::remove_file(&cache_path);
             }
             Err(err) => {
                 debug_log(format_args!(
-                    "failed to load native binding cache {}: {err}",
+                    "failed to verify native binding cache {}: {err}",
                     cache_path.display()
                 ));
                 let _ = fs::remove_file(&cache_path);
@@ -103,22 +119,11 @@ fn register_original_addon(env: napi_env, exports: napi_value) -> Result<napi_va
     #[cfg(unix)]
     if !env_flag("SWC_NATIVE_BINDING_DISABLE_SELF_REPLACE") {
         match try_self_replace(&self_path, &raw) {
-            Ok(Some(path)) => match unsafe { load_and_register(&path, env, exports) } {
-                Ok(exports) => {
-                    debug_log(format_args!(
-                        "loaded self-replaced native binding {}",
-                        path.display()
-                    ));
-                    return Ok(exports);
-                }
-                Err(err) => {
-                    debug_log(format_args!(
-                        "failed to load self-replaced native binding {}: {err}",
-                        path.display()
-                    ));
-                }
-            },
-            Ok(None) => {}
+            Ok(true) => debug_log(format_args!(
+                "self-replaced native binding {}; loading cache for current process",
+                self_path.display()
+            )),
+            Ok(false) => {}
             Err(err) => debug_log(format_args!(
                 "self-replace native binding path {} failed: {err}",
                 self_path.display()
@@ -150,8 +155,8 @@ fn parse_pressed_data_metadata(data: &[u8]) -> Option<PressedDataMetadata> {
 
     let integrity_offset = MAGIC_MARKER.len() + 16 + CACHE_KEY_LEN + PLATFORM_METADATA_LEN;
     let integrity = data.get(integrity_offset..integrity_offset + INTEGRITY_HASH_LEN)?;
-    let mut sha512 = [0; INTEGRITY_HASH_LEN];
-    sha512.copy_from_slice(integrity);
+    let mut compressed_sha512 = [0; INTEGRITY_HASH_LEN];
+    compressed_sha512.copy_from_slice(integrity);
 
     let config_flag_offset = integrity_offset + INTEGRITY_HASH_LEN;
     let has_config = *data.get(config_flag_offset)?;
@@ -162,12 +167,21 @@ fn parse_pressed_data_metadata(data: &[u8]) -> Option<PressedDataMetadata> {
         } else {
             SMOL_CONFIG_BINARY_LEN
         })?;
-    data.get(payload_offset..payload_offset.checked_add(compressed_len as usize)?)?;
+    let raw_hash_offset = payload_offset.checked_add(compressed_len as usize)?;
+    data.get(payload_offset..raw_hash_offset)?;
+    let raw_sha512 = data
+        .get(raw_hash_offset..raw_hash_offset + INTEGRITY_HASH_LEN)
+        .map(|integrity| {
+            let mut raw_sha512 = [0; INTEGRITY_HASH_LEN];
+            raw_sha512.copy_from_slice(integrity);
+            raw_sha512
+        });
 
     Some(PressedDataMetadata {
         compressed_len,
         uncompressed_len,
-        sha512,
+        compressed_sha512,
+        raw_sha512,
     })
 }
 
@@ -236,21 +250,66 @@ fn cache_path_for(root: &Path, module_path: &Path, metadata: &PressedDataMetadat
         .join(format!("{addon_name}-{}.node", metadata.cache_key()))
 }
 
-fn is_expected_raw_addon(path: &Path, expected_len: u64) -> bool {
-    fs::metadata(path)
-        .map(|metadata| metadata.is_file() && metadata.len() == expected_len)
-        .unwrap_or(false)
+fn verify_cached_raw_addon(path: &Path, metadata: &PressedDataMetadata) -> Result<bool, String> {
+    let file = match File::open(path) {
+        Ok(file) => file,
+        Err(err) if err.kind() == io::ErrorKind::NotFound => return Ok(false),
+        Err(err) => {
+            return Err(format!(
+                "failed to open native binding cache {}: {err}",
+                path.display()
+            ))
+        }
+    };
+    let file_metadata = file.metadata().map_err(|err| {
+        format!(
+            "failed to stat native binding cache {}: {err}",
+            path.display()
+        )
+    })?;
+
+    if !file_metadata.is_file() || file_metadata.len() != metadata.uncompressed_len {
+        return Ok(false);
+    }
+
+    let Some(raw_sha512) = &metadata.raw_sha512 else {
+        return Ok(false);
+    };
+
+    raw_addon_sha512_matches(file, raw_sha512)
+}
+
+fn raw_addon_sha512_matches<R>(
+    mut reader: R,
+    expected: &[u8; INTEGRITY_HASH_LEN],
+) -> Result<bool, String>
+where
+    R: Read,
+{
+    let mut hasher = Sha512::new();
+    let mut buf = [0u8; 64 * 1024];
+    loop {
+        let read = reader
+            .read(&mut buf)
+            .map_err(|err| format!("failed to hash native binding cache: {err}"))?;
+        if read == 0 {
+            break;
+        }
+        hasher.update(&buf[..read]);
+    }
+    let actual = hasher.finalize();
+    Ok(actual[..] == expected[..])
 }
 
 #[cfg(unix)]
-fn try_self_replace(self_path: &Path, raw: &[u8]) -> Result<Option<PathBuf>, String> {
+fn try_self_replace(self_path: &Path, raw: &[u8]) -> Result<bool, String> {
     let parent = match self_path.parent() {
         Some(parent) => parent,
-        None => return Ok(None),
+        None => return Ok(false),
     };
     let file_name = match self_path.file_name().and_then(|name| name.to_str()) {
         Some(file_name) => file_name,
-        None => return Ok(None),
+        None => return Ok(false),
     };
 
     let unique = SystemTime::now()
@@ -271,11 +330,11 @@ fn try_self_replace(self_path: &Path, raw: &[u8]) -> Result<Option<PathBuf>, Str
 
     if !is_os_compressed_outcome(&outcome) {
         let _ = fs::remove_file(&tmp);
-        return Ok(None);
+        return Ok(false);
     }
 
     match fs::rename(&tmp, self_path) {
-        Ok(()) => Ok(Some(self_path.to_path_buf())),
+        Ok(()) => Ok(true),
         Err(err) => {
             let _ = fs::remove_file(&tmp);
             if is_non_fatal_replace_error(&err) {
@@ -284,7 +343,7 @@ fn try_self_replace(self_path: &Path, raw: &[u8]) -> Result<Option<PathBuf>, Str
                     tmp.display(),
                     self_path.display()
                 ));
-                Ok(None)
+                Ok(false)
             } else {
                 Err(format!(
                     "failed to replace {} with {}: {err}",
@@ -370,7 +429,76 @@ unsafe fn module_file_name(env: napi_env) -> Result<PathBuf, String> {
     let path = unsafe { CStr::from_ptr(result) }
         .to_string_lossy()
         .into_owned();
-    Ok(PathBuf::from(path))
+    Ok(module_path_from_node_file_name(&path))
+}
+
+fn module_path_from_node_file_name(file_name: &str) -> PathBuf {
+    file_url_to_path(file_name).unwrap_or_else(|| PathBuf::from(file_name))
+}
+
+fn file_url_to_path(file_name: &str) -> Option<PathBuf> {
+    let rest = file_name.strip_prefix("file://")?;
+    let path_storage;
+    let path = if rest.starts_with('/') {
+        rest
+    } else if let Some(rest) = rest.strip_prefix("localhost/") {
+        path_storage = format!("/{rest}");
+        path_storage.as_str()
+    } else {
+        return None;
+    };
+
+    Some(bytes_to_path_buf(percent_decode(path.as_bytes())?))
+}
+
+fn percent_decode(bytes: &[u8]) -> Option<Vec<u8>> {
+    let mut decoded = Vec::with_capacity(bytes.len());
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'%' {
+            let hi = hex_digit(*bytes.get(i + 1)?)?;
+            let lo = hex_digit(*bytes.get(i + 2)?)?;
+            decoded.push((hi << 4) | lo);
+            i += 3;
+        } else {
+            decoded.push(bytes[i]);
+            i += 1;
+        }
+    }
+    Some(decoded)
+}
+
+fn hex_digit(byte: u8) -> Option<u8> {
+    match byte {
+        b'0'..=b'9' => Some(byte - b'0'),
+        b'a'..=b'f' => Some(byte - b'a' + 10),
+        b'A'..=b'F' => Some(byte - b'A' + 10),
+        _ => None,
+    }
+}
+
+fn bytes_to_path_buf(bytes: Vec<u8>) -> PathBuf {
+    #[cfg(unix)]
+    {
+        use std::os::unix::ffi::OsStringExt;
+
+        PathBuf::from(std::ffi::OsString::from_vec(bytes))
+    }
+
+    #[cfg(windows)]
+    {
+        let mut path = String::from_utf8_lossy(&bytes).into_owned();
+        let bytes = path.as_bytes();
+        if bytes.get(0) == Some(&b'/') && bytes.get(2) == Some(&b':') {
+            path.remove(0);
+        }
+        PathBuf::from(path.replace('/', "\\"))
+    }
+
+    #[cfg(not(any(unix, windows)))]
+    {
+        PathBuf::from(String::from_utf8_lossy(&bytes).into_owned())
+    }
 }
 
 unsafe fn throw_napi_error(env: napi_env, msg: &str) {
@@ -433,7 +561,17 @@ mod tests {
 
         assert_eq!(metadata.compressed_len, 4);
         assert_eq!(metadata.uncompressed_len, 8);
-        assert_eq!(metadata.sha512, [0x7f; INTEGRITY_HASH_LEN]);
+        assert_eq!(metadata.compressed_sha512, [0x7f; INTEGRITY_HASH_LEN]);
+        assert!(metadata.raw_sha512.is_none());
+    }
+
+    #[test]
+    fn parses_raw_sha512_extension() {
+        let mut data = valid_pressed_data_header();
+        data.extend_from_slice(&[0x80; INTEGRITY_HASH_LEN]);
+        let metadata = parse_pressed_data_metadata(&data).unwrap();
+
+        assert_eq!(metadata.raw_sha512, Some([0x80; INTEGRITY_HASH_LEN]));
     }
 
     #[test]
@@ -488,5 +626,69 @@ mod tests {
         assert!(!is_os_compressed_outcome(&Outcome::Unsupported {
             reason: decmpfs::UnsupportedReason::Filesystem,
         }));
+    }
+
+    #[test]
+    fn verifies_cached_raw_addon_hash() {
+        let dir = env::temp_dir().join(format!(
+            "swc-native-binding-cache-test-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("addon.node");
+        let raw = b"verified raw addon bytes";
+        fs::write(&path, raw).unwrap();
+
+        let mut sha512 = [0u8; INTEGRITY_HASH_LEN];
+        sha512.copy_from_slice(&Sha512::digest(raw));
+        let metadata = PressedDataMetadata {
+            compressed_len: 1,
+            uncompressed_len: raw.len() as u64,
+            compressed_sha512: [0u8; INTEGRITY_HASH_LEN],
+            raw_sha512: Some(sha512),
+        };
+
+        assert!(verify_cached_raw_addon(&path, &metadata).unwrap());
+
+        let tampered = b"tampered raw addon bytes";
+        assert_eq!(tampered.len(), raw.len());
+        fs::write(&path, tampered).unwrap();
+        assert!(!verify_cached_raw_addon(&path, &metadata).unwrap());
+
+        fs::remove_dir_all(dir).unwrap();
+    }
+
+    #[test]
+    fn rejects_cache_when_raw_hash_is_absent() {
+        let raw = b"verified raw addon bytes";
+        let metadata = PressedDataMetadata {
+            compressed_len: 1,
+            uncompressed_len: raw.len() as u64,
+            compressed_sha512: [0u8; INTEGRITY_HASH_LEN],
+            raw_sha512: None,
+        };
+
+        assert!(!verify_cached_raw_addon(Path::new("/missing/addon.node"), &metadata).unwrap());
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn decodes_file_url_module_file_name() {
+        assert_eq!(
+            module_path_from_node_file_name("file:///tmp/swc%20core/swc.darwin-arm64.node"),
+            PathBuf::from("/tmp/swc core/swc.darwin-arm64.node")
+        );
+    }
+
+    #[test]
+    fn preserves_plain_module_file_name() {
+        assert_eq!(
+            module_path_from_node_file_name("/tmp/swc/swc.darwin-arm64.node"),
+            PathBuf::from("/tmp/swc/swc.darwin-arm64.node")
+        );
     }
 }

@@ -383,6 +383,7 @@ dependencies = [
  "libloading",
  "napi-build",
  "napi-sys",
+ "sha2",
 ]
 
 [[package]]

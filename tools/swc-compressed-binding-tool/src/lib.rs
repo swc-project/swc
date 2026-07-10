@@ -31,6 +31,7 @@ pub fn pack_pressed_data(raw_addon: &[u8], level: i32) -> Result<Vec<u8>> {
 
     let cache_key = Sha256::digest(raw_addon);
     let integrity = Sha512::digest(&compressed);
+    let raw_integrity = Sha512::digest(raw_addon);
     let mut data = Vec::with_capacity(
         MAGIC_MARKER.len()
             + 16
@@ -38,7 +39,8 @@ pub fn pack_pressed_data(raw_addon: &[u8], level: i32) -> Result<Vec<u8>> {
             + PLATFORM_METADATA_LEN
             + INTEGRITY_HASH_LEN
             + SMOL_CONFIG_FLAG_LEN
-            + compressed.len(),
+            + compressed.len()
+            + INTEGRITY_HASH_LEN,
     );
 
     data.extend_from_slice(MAGIC_MARKER);
@@ -49,6 +51,7 @@ pub fn pack_pressed_data(raw_addon: &[u8], level: i32) -> Result<Vec<u8>> {
     data.extend_from_slice(&integrity);
     data.push(0);
     data.extend_from_slice(&compressed);
+    data.extend_from_slice(&raw_integrity);
 
     Ok(data)
 }
@@ -95,7 +98,18 @@ mod tests {
     #[test]
     fn rejects_tampered_payload() {
         let mut data = pack_fixture();
-        let last = data.len() - 1;
+        let compressed_len = u64::from_le_bytes(
+            data[MAGIC_MARKER.len()..MAGIC_MARKER.len() + 8]
+                .try_into()
+                .unwrap(),
+        ) as usize;
+        let payload_offset = MAGIC_MARKER.len()
+            + 16
+            + CACHE_KEY_LEN
+            + PLATFORM_METADATA_LEN
+            + INTEGRITY_HASH_LEN
+            + SMOL_CONFIG_FLAG_LEN;
+        let last = payload_offset + compressed_len - 1;
         data[last] ^= 0xff;
 
         assert!(decmpfs::addon::decode_pressed_data(&data).is_none());
@@ -124,5 +138,29 @@ mod tests {
         let data = pack_fixture();
 
         assert_eq!(pressed_data_sha512_hex(&data).unwrap().len(), 128);
+    }
+
+    #[test]
+    fn appends_raw_sha512_after_compressed_payload() {
+        let raw = b"raw native addon bytes";
+        let data = pack_pressed_data(raw, 19).unwrap();
+        let compressed_len = u64::from_le_bytes(
+            data[MAGIC_MARKER.len()..MAGIC_MARKER.len() + 8]
+                .try_into()
+                .unwrap(),
+        ) as usize;
+        let raw_hash_offset = MAGIC_MARKER.len()
+            + 16
+            + CACHE_KEY_LEN
+            + PLATFORM_METADATA_LEN
+            + INTEGRITY_HASH_LEN
+            + SMOL_CONFIG_FLAG_LEN
+            + compressed_len;
+
+        let raw_hash = Sha512::digest(raw);
+        assert_eq!(
+            &data[raw_hash_offset..raw_hash_offset + INTEGRITY_HASH_LEN],
+            &raw_hash[..]
+        );
     }
 }

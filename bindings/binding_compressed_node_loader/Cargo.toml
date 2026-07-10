@@ -20,3 +20,4 @@ decmpfs    = { workspace = true, features = ["addon"] }
 hex        = { workspace = true }
 libloading = { workspace = true }
 napi-sys   = { workspace = true, features = ["napi9"] }
+sha2       = { workspace = true }
