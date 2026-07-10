@@ -12585,6 +12585,48 @@ new function() {
 }
 
 #[test]
+fn issue_11684_new_function_expr_param_new_target_arguments() {
+    let src = r#"
+new function(a = console.log(new.target.arguments.length)) {
+}(undefined, "keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_new_function_expr_param_this_constructor_arguments() {
+    let src = r#"
+new function(a = console.log(this.constructor.arguments.length)) {
+}(undefined, "keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_new_function_expr_param_named_function_arguments() {
+    let src = r#"
+new function F(a = console.log(F.arguments.length)) {
+}(undefined, "keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn issue_11970_switch_default_before_empty_case() {
     let src = r#"
 async function classify(code) {

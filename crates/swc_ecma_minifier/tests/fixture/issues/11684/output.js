@@ -26,4 +26,4 @@ new function() {
     console.log(new.target.arguments.length);
 }("keep"), new function() {
     with (obj)console.log(value);
-}("keep");
+}("keep"), new function(a = console.log(new.target.arguments.length)) {}(void 0, "keep"), new function(a = console.log(this.constructor.arguments.length)) {}(void 0, "keep"), new function F(a = console.log(F.arguments.length)) {}(void 0, "keep");

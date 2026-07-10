@@ -576,17 +576,17 @@ impl Optimizer<'_> {
             }
         }
 
-        if contains_this_expr(body) {
+        if contains_this_expr(&function.params) || contains_this_expr(body) {
             return true;
         }
 
         if let Some(ident) = ident {
-            if contains_ident_ref(&function.body, ident) {
+            if contains_ident_ref(&function.params, ident) || contains_ident_ref(body, ident) {
                 return true;
             }
         }
 
-        contains_new_target(body)
+        contains_new_target(&function.params) || contains_new_target(body)
     }
 
     #[cfg_attr(

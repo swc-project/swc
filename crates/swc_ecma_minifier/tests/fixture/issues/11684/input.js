@@ -57,3 +57,12 @@ var o = new function() {
         console.log(value);
     }
 }("keep");
+
+var p = new function(a = console.log(new.target.arguments.length)) {
+}(undefined, "keep");
+
+var q = new function(a = console.log(this.constructor.arguments.length)) {
+}(undefined, "keep");
+
+var r = new function F(a = console.log(F.arguments.length)) {
+}(undefined, "keep");
