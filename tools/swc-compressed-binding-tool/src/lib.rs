@@ -6,7 +6,7 @@ pub const CACHE_KEY_LEN: usize = 16;
 pub const PLATFORM_METADATA_LEN: usize = 3;
 pub const INTEGRITY_HASH_LEN: usize = 64;
 pub const SMOL_CONFIG_FLAG_LEN: usize = 1;
-pub const MAX_DECOMPRESSED: usize = 512 * 1024 * 1024;
+pub const MAX_DECOMPRESSED: usize = 2 * 1024 * 1024 * 1024;
 
 pub fn pack_pressed_data(raw_addon: &[u8], level: i32) -> Result<Vec<u8>> {
     if raw_addon.is_empty() {

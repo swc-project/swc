@@ -384,6 +384,7 @@ dependencies = [
  "napi-build",
  "napi-sys",
  "sha2",
+ "zstd",
 ]
 
 [[package]]

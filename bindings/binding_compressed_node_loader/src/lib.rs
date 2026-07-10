@@ -25,7 +25,7 @@ const PLATFORM_METADATA_LEN: usize = 3;
 const INTEGRITY_HASH_LEN: usize = 64;
 const SMOL_CONFIG_FLAG_LEN: usize = 1;
 const SMOL_CONFIG_BINARY_LEN: usize = 1192;
-const MAX_DECOMPRESSED: u64 = 512 * 1024 * 1024;
+const MAX_DECOMPRESSED: u64 = 2 * 1024 * 1024 * 1024;
 const HEADER_LEN: usize = MAGIC_MARKER.len()
     + 16
     + CACHE_KEY_LEN
@@ -39,6 +39,7 @@ type RegisterModule = unsafe extern "C" fn(napi_env, napi_value) -> napi_value;
 struct PressedDataMetadata {
     compressed_len: u64,
     uncompressed_len: u64,
+    payload_offset: usize,
     compressed_sha512: [u8; INTEGRITY_HASH_LEN],
     raw_sha512: Option<[u8; INTEGRITY_HASH_LEN]>,
 }
@@ -113,7 +114,7 @@ fn register_original_addon(env: napi_env, exports: napi_value) -> Result<napi_va
         }
     }
 
-    let raw = decmpfs::addon::decode_pressed_data(&pressed_data::PRESSED_DATA)
+    let raw = decode_pressed_data(&pressed_data::PRESSED_DATA, &metadata)
         .ok_or_else(|| "failed to verify or decompress SWC native binding payload".to_string())?;
 
     #[cfg(unix)]
@@ -180,9 +181,35 @@ fn parse_pressed_data_metadata(data: &[u8]) -> Option<PressedDataMetadata> {
     Some(PressedDataMetadata {
         compressed_len,
         uncompressed_len,
+        payload_offset,
         compressed_sha512,
         raw_sha512,
     })
+}
+
+fn decode_pressed_data(data: &[u8], metadata: &PressedDataMetadata) -> Option<Vec<u8>> {
+    let compressed_len = usize::try_from(metadata.compressed_len).ok()?;
+    let payload_end = metadata.payload_offset.checked_add(compressed_len)?;
+    let payload = data.get(metadata.payload_offset..payload_end)?;
+
+    let compressed_sha512 = Sha512::digest(payload);
+    if compressed_sha512[..] != metadata.compressed_sha512[..] {
+        return None;
+    }
+
+    let raw = zstd::stream::decode_all(payload).ok()?;
+    if raw.len() as u64 != metadata.uncompressed_len {
+        return None;
+    }
+
+    if let Some(raw_sha512) = &metadata.raw_sha512 {
+        let actual = Sha512::digest(&raw);
+        if actual[..] != raw_sha512[..] {
+            return None;
+        }
+    }
+
+    Some(raw)
 }
 
 fn read_u64_le(buf: &[u8], at: usize) -> Option<u64> {
@@ -555,6 +582,23 @@ mod tests {
         data
     }
 
+    fn packed_pressed_data(raw: &[u8]) -> Vec<u8> {
+        let compressed = zstd::stream::encode_all(raw, 3).unwrap();
+        let compressed_sha512 = Sha512::digest(&compressed);
+        let raw_sha512 = Sha512::digest(raw);
+        let mut data = Vec::new();
+        data.extend_from_slice(MAGIC_MARKER);
+        data.extend_from_slice(&(compressed.len() as u64).to_le_bytes());
+        data.extend_from_slice(&(raw.len() as u64).to_le_bytes());
+        data.extend_from_slice(&[0x42; CACHE_KEY_LEN]);
+        data.extend_from_slice(&[0; PLATFORM_METADATA_LEN]);
+        data.extend_from_slice(&compressed_sha512);
+        data.push(0);
+        data.extend_from_slice(&compressed);
+        data.extend_from_slice(&raw_sha512);
+        data
+    }
+
     #[test]
     fn parses_pressed_data_metadata() {
         let metadata = parse_pressed_data_metadata(&valid_pressed_data_header()).unwrap();
@@ -572,6 +616,35 @@ mod tests {
         let metadata = parse_pressed_data_metadata(&data).unwrap();
 
         assert_eq!(metadata.raw_sha512, Some([0x80; INTEGRITY_HASH_LEN]));
+    }
+
+    #[test]
+    fn decodes_pressed_data_locally() {
+        let raw = b"raw addon fixture";
+        let data = packed_pressed_data(raw);
+        let metadata = parse_pressed_data_metadata(&data).unwrap();
+
+        assert_eq!(decode_pressed_data(&data, &metadata).unwrap(), raw);
+    }
+
+    #[test]
+    fn rejects_tampered_raw_hash_extension() {
+        let mut data = packed_pressed_data(b"raw addon fixture");
+        let last = data.len() - 1;
+        data[last] ^= 0xff;
+        let metadata = parse_pressed_data_metadata(&data).unwrap();
+
+        assert!(decode_pressed_data(&data, &metadata).is_none());
+    }
+
+    #[test]
+    fn rejects_tampered_compressed_payload() {
+        let mut data = packed_pressed_data(b"raw addon fixture");
+        let metadata = parse_pressed_data_metadata(&data).unwrap();
+        let at = metadata.payload_offset;
+        data[at] ^= 0xff;
+
+        assert!(decode_pressed_data(&data, &metadata).is_none());
     }
 
     #[test]
@@ -648,6 +721,7 @@ mod tests {
         let metadata = PressedDataMetadata {
             compressed_len: 1,
             uncompressed_len: raw.len() as u64,
+            payload_offset: HEADER_LEN,
             compressed_sha512: [0u8; INTEGRITY_HASH_LEN],
             raw_sha512: Some(sha512),
         };
@@ -668,6 +742,7 @@ mod tests {
         let metadata = PressedDataMetadata {
             compressed_len: 1,
             uncompressed_len: raw.len() as u64,
+            payload_offset: HEADER_LEN,
             compressed_sha512: [0u8; INTEGRITY_HASH_LEN],
             raw_sha512: None,
         };
