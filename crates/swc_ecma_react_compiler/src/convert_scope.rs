@@ -48,6 +48,7 @@ impl ScopeFlags {
     pub const ClassStaticBlock: Self = Self { bits: 1 << 2 };
     pub const For: Self = Self { bits: 1 << 3 };
     pub const Function: Self = Self { bits: 1 << 4 };
+    pub const Parameter: Self = Self { bits: 1 << 9 };
     pub const StrictMode: Self = Self { bits: 1 << 5 };
     pub const Switch: Self = Self { bits: 1 << 6 };
     pub const Top: Self = Self { bits: 1 << 7 };
@@ -100,6 +101,11 @@ impl ScopeFlags {
     pub fn is_catch_clause(self) -> bool {
         self.contains(Self::CatchClause)
     }
+
+    #[inline]
+    pub fn is_parameter(self) -> bool {
+        self.contains(Self::Parameter)
+    }
 }
 
 impl std::ops::BitOr for ScopeFlags {
@@ -140,6 +146,12 @@ impl SymbolFlags {
     pub const FunctionScopedVariable: Self = Self { bits: 1 << 7 };
     pub const Import: Self = Self { bits: 1 << 8 };
     pub const Param: Self = Self { bits: 1 << 9 };
+    pub const Value: Self = Self {
+        bits: Self::Variable.bits | Self::Class.bits | Self::Function.bits | Self::Enum.bits,
+    };
+    pub const Variable: Self = Self {
+        bits: Self::FunctionScopedVariable.bits | Self::BlockScopedVariable.bits,
+    };
 
     #[inline]
     pub const fn contains(self, other: Self) -> bool {
@@ -153,16 +165,7 @@ impl SymbolFlags {
 
     #[inline]
     pub fn is_value(self) -> bool {
-        self.intersects(
-            Self::FunctionScopedVariable
-                | Self::BlockScopedVariable
-                | Self::Function
-                | Self::FunctionExpression
-                | Self::Class
-                | Self::Enum
-                | Self::Import
-                | Self::Param,
-        )
+        self.intersects(Self::Value | Self::Import)
     }
 
     #[inline]
@@ -188,6 +191,7 @@ pub struct Symbol {
     pub name: String,
     pub span: swc_common::Span,
     pub flags: SymbolFlags,
+    pub scope_id: ScopeId,
 }
 
 /// A reference to a symbol.
@@ -249,6 +253,10 @@ impl Scoping {
         self.symbols[symbol_id.0 as usize].span
     }
 
+    pub fn symbol_scope_id(&self, symbol_id: SymbolId) -> ScopeId {
+        self.symbols[symbol_id.0 as usize].scope_id
+    }
+
     pub fn scope_flags(&self, scope_id: ScopeId) -> ScopeFlags {
         self.scopes[scope_id.0 as usize].flags
     }
@@ -265,8 +273,24 @@ impl Scoping {
         self.scopes[scope_id.0 as usize].bindings.values().copied()
     }
 
+    pub fn iter_binding_entries_in(
+        &self,
+        scope_id: ScopeId,
+    ) -> impl Iterator<Item = (&str, SymbolId)> + '_ {
+        self.scopes[scope_id.0 as usize]
+            .bindings
+            .iter()
+            .map(|(name, &symbol_id)| (name.as_str(), symbol_id))
+    }
+
     pub fn get_binding(&self, scope_id: ScopeId, name: &str) -> Option<SymbolId> {
         self.scopes[scope_id.0 as usize].bindings.get(name).copied()
+    }
+
+    pub fn bind_symbol_on_scope(&mut self, scope_id: ScopeId, name: String, symbol_id: SymbolId) {
+        if let Some(scope) = self.scopes.get_mut(scope_id.0 as usize) {
+            scope.bindings.insert(name, symbol_id);
+        }
     }
 
     pub fn root_scope_id(&self) -> ScopeId {
@@ -298,6 +322,7 @@ impl Scoping {
             name: name.clone(),
             span,
             flags,
+            scope_id,
         });
         if let Some(scope) = self.scopes.get_mut(scope_id.0 as usize) {
             scope.bindings.insert(name, id);
@@ -348,7 +373,7 @@ pub struct SemanticBuilder {
     declaration_starts: std::collections::HashSet<u32>,
     /// Re-declaration sites that should resolve to an existing binding.
     redeclaration_bindings: HashMap<u32, SymbolId>,
-    /// Flat list of unresolved references: (name, reference_id).
+    /// Flat list of unresolved references: (name, `reference_id`).
     unresolved_references: Vec<(String, ReferenceId)>,
     /// Track function body spans so they don't create extra block scopes.
     function_body_spans: std::collections::HashSet<u32>,
@@ -464,14 +489,49 @@ impl SemanticBuilder {
     ) -> SymbolId {
         if flags.contains(SymbolFlags::FunctionScopedVariable) {
             if let Some(symbol_id) = self.scoping.get_binding(scope_id, &name) {
-                self.record_redeclaration_binding(span, symbol_id);
-                return symbol_id;
+                if !self
+                    .scoping
+                    .symbol_flags(symbol_id)
+                    .contains(SymbolFlags::FunctionExpression)
+                {
+                    self.record_redeclaration_binding(span, symbol_id);
+                    return symbol_id;
+                }
             }
         }
 
         let symbol_id = self.scoping.create_symbol(span, name, flags, scope_id);
         self.declaration_starts.insert(self.start(span));
         symbol_id
+    }
+
+    fn declare_symbol_on_scope_with_alias(
+        &mut self,
+        span: swc_common::Span,
+        name: String,
+        flags: SymbolFlags,
+        scope_id: ScopeId,
+        alias_scope_id: Option<ScopeId>,
+    ) -> SymbolId {
+        let symbol_id = self.declare_symbol_on_scope(span, name.clone(), flags, scope_id);
+        if let Some(alias_scope_id) = alias_scope_id {
+            self.scoping
+                .bind_symbol_on_scope(alias_scope_id, name, symbol_id);
+        }
+        symbol_id
+    }
+
+    fn alias_bindings_to_scope(&mut self, from_scope_id: ScopeId, to_scope_id: ScopeId) {
+        let bindings: Vec<(String, SymbolId)> = self
+            .scoping
+            .iter_binding_entries_in(from_scope_id)
+            .map(|(name, symbol_id)| (name.to_string(), symbol_id))
+            .collect();
+
+        for (name, symbol_id) in bindings {
+            self.scoping
+                .bind_symbol_on_scope(to_scope_id, name, symbol_id);
+        }
     }
 
     fn record_redeclaration_binding(&mut self, span: swc_common::Span, symbol_id: SymbolId) {
@@ -509,9 +569,37 @@ impl SemanticBuilder {
                     return true;
                 }
             }
-            scope_id = self.scoping.scope_parent_id(sid);
+            scope_id = self.resolution_parent_id(sid);
         }
         false
+    }
+
+    fn resolution_parent_id(&self, scope_id: ScopeId) -> Option<ScopeId> {
+        let parent_id = self.scoping.scope_parent_id(scope_id)?;
+        if self.scoping.scope_flags(scope_id).is_parameter() {
+            // Parameter initializers run before the function body environment is
+            // visible. Check parameter aliases first, then continue at the
+            // outer scope instead of the function scope that will hold body
+            // bindings in the React Compiler-compatible output model.
+            return self.scoping.scope_parent_id(parent_id);
+        }
+
+        Some(parent_id)
+    }
+
+    /// Resolve references emitted while visiting function or catch parameters
+    /// before body bindings are added to the same scope.
+    fn resolve_references_from_checkpoint(&mut self, checkpoint: usize) {
+        if checkpoint >= self.unresolved_references.len() {
+            return;
+        }
+
+        let references = self.unresolved_references.split_off(checkpoint);
+        for (name, reference_id) in references {
+            if !self.walk_up_resolve_reference(&name, reference_id) {
+                self.unresolved_references.push((name, reference_id));
+            }
+        }
     }
 
     fn try_resolve_reference(&mut self, reference_id: ReferenceId, symbol_id: SymbolId) -> bool {
@@ -539,7 +627,36 @@ impl SemanticBuilder {
             .unwrap_or(ScopeId(0))
     }
 
+    #[inline]
+    fn param_flags() -> SymbolFlags {
+        SymbolFlags::FunctionScopedVariable | SymbolFlags::Param
+    }
+
     fn collect_pat_bindings(&mut self, pat: &Pat, flags: SymbolFlags) {
+        self.collect_pat_bindings_in_scope(pat, flags, self.current_scope(), None);
+    }
+
+    fn collect_parameter_pat_bindings(
+        &mut self,
+        pat: &Pat,
+        function_scope_id: ScopeId,
+        parameter_scope_id: ScopeId,
+    ) {
+        self.collect_pat_bindings_in_scope(
+            pat,
+            Self::param_flags(),
+            function_scope_id,
+            Some(parameter_scope_id),
+        );
+    }
+
+    fn collect_pat_bindings_in_scope(
+        &mut self,
+        pat: &Pat,
+        flags: SymbolFlags,
+        scope_id: ScopeId,
+        alias_scope_id: Option<ScopeId>,
+    ) {
         match pat {
             Pat::Ident(binding_ident) => {
                 // TypeScript `this` pseudo-parameters are type annotations only.
@@ -547,15 +664,17 @@ impl SemanticBuilder {
                 if binding_ident.id.sym.as_str() == "this" {
                     return;
                 }
-                self.declare_symbol(
+                self.declare_symbol_on_scope_with_alias(
                     binding_ident.id.span,
                     binding_ident.id.sym.to_string(),
                     flags,
+                    scope_id,
+                    alias_scope_id,
                 );
             }
             Pat::Array(arr) => {
                 for p in arr.elems.iter().flatten() {
-                    self.collect_pat_bindings(p, flags);
+                    self.collect_pat_bindings_in_scope(p, flags, scope_id, alias_scope_id);
                 }
             }
             Pat::Object(obj) => {
@@ -565,33 +684,205 @@ impl SemanticBuilder {
                             if let PropName::Computed(computed) = &kv.key {
                                 computed.visit_with(self);
                             }
-                            self.collect_pat_bindings(&kv.value, flags);
+                            self.collect_pat_bindings_in_scope(
+                                &kv.value,
+                                flags,
+                                scope_id,
+                                alias_scope_id,
+                            );
                         }
                         ObjectPatProp::Assign(assign) => {
-                            self.declare_symbol(
+                            self.declare_symbol_on_scope_with_alias(
                                 assign.key.id.span,
                                 assign.key.id.sym.to_string(),
                                 flags,
+                                scope_id,
+                                alias_scope_id,
                             );
                             if let Some(value) = &assign.value {
                                 value.visit_with(self);
                             }
                         }
                         ObjectPatProp::Rest(rest) => {
-                            self.collect_pat_bindings(&rest.arg, flags);
+                            self.collect_pat_bindings_in_scope(
+                                &rest.arg,
+                                flags,
+                                scope_id,
+                                alias_scope_id,
+                            );
                         }
                     }
                 }
             }
             Pat::Rest(rest) => {
-                self.collect_pat_bindings(&rest.arg, flags);
+                self.collect_pat_bindings_in_scope(&rest.arg, flags, scope_id, alias_scope_id);
             }
             Pat::Assign(assign) => {
-                self.collect_pat_bindings(&assign.left, flags);
+                self.collect_pat_bindings_in_scope(&assign.left, flags, scope_id, alias_scope_id);
                 assign.right.visit_with(self);
             }
             Pat::Expr(_) | Pat::Invalid(_) => {}
         }
+    }
+
+    fn visit_function_params(
+        &mut self,
+        function_scope_id: ScopeId,
+        scope_span: swc_common::Span,
+        params: &[Param],
+    ) {
+        if params
+            .iter()
+            .any(|param| Self::pat_needs_parameter_scope(&param.pat))
+        {
+            self.with_parameter_scope(function_scope_id, scope_span, |this, parameter_scope_id| {
+                for param in params {
+                    this.collect_parameter_pat_bindings(
+                        &param.pat,
+                        function_scope_id,
+                        parameter_scope_id,
+                    );
+                }
+            });
+        } else {
+            for param in params {
+                self.collect_pat_bindings_in_scope(
+                    &param.pat,
+                    Self::param_flags(),
+                    function_scope_id,
+                    None,
+                );
+            }
+        }
+    }
+
+    fn visit_arrow_params(
+        &mut self,
+        function_scope_id: ScopeId,
+        scope_span: swc_common::Span,
+        params: &[Pat],
+    ) {
+        if params.iter().any(Self::pat_needs_parameter_scope) {
+            self.with_parameter_scope(function_scope_id, scope_span, |this, parameter_scope_id| {
+                for param in params {
+                    this.collect_parameter_pat_bindings(
+                        param,
+                        function_scope_id,
+                        parameter_scope_id,
+                    );
+                }
+            });
+        } else {
+            for param in params {
+                self.collect_pat_bindings_in_scope(
+                    param,
+                    Self::param_flags(),
+                    function_scope_id,
+                    None,
+                );
+            }
+        }
+    }
+
+    fn visit_constructor_params(
+        &mut self,
+        function_scope_id: ScopeId,
+        scope_span: swc_common::Span,
+        params: &[ParamOrTsParamProp],
+    ) {
+        if params
+            .iter()
+            .any(Self::constructor_param_needs_parameter_scope)
+        {
+            self.with_parameter_scope(function_scope_id, scope_span, |this, parameter_scope_id| {
+                for param in params {
+                    this.collect_constructor_param_bindings(
+                        param,
+                        function_scope_id,
+                        Some(parameter_scope_id),
+                    );
+                }
+            });
+        } else {
+            for param in params {
+                self.collect_constructor_param_bindings(param, function_scope_id, None);
+            }
+        }
+    }
+
+    fn visit_accessor_param(
+        &mut self,
+        function_scope_id: ScopeId,
+        scope_span: swc_common::Span,
+        param: &Pat,
+    ) {
+        if Self::pat_needs_parameter_scope(param) {
+            self.with_parameter_scope(function_scope_id, scope_span, |this, parameter_scope_id| {
+                this.collect_parameter_pat_bindings(param, function_scope_id, parameter_scope_id);
+            });
+        } else {
+            self.collect_pat_bindings_in_scope(param, Self::param_flags(), function_scope_id, None);
+        }
+    }
+
+    fn with_parameter_scope<F>(
+        &mut self,
+        function_scope_id: ScopeId,
+        scope_span: swc_common::Span,
+        visit_params: F,
+    ) where
+        F: FnOnce(&mut Self, ScopeId),
+    {
+        let checkpoint = self.unresolved_references.len();
+        let parameter_scope_id = self.push_scope(ScopeFlags::Parameter, scope_span);
+        // Named function expression bindings are visible in parameter defaults,
+        // but body bindings are not. Parameters are declared in the function
+        // scope for output compatibility and aliased here for resolution.
+        self.alias_bindings_to_scope(function_scope_id, parameter_scope_id);
+        visit_params(self, parameter_scope_id);
+        self.pop_scope();
+        self.resolve_references_from_checkpoint(checkpoint);
+    }
+
+    fn pat_needs_parameter_scope(pat: &Pat) -> bool {
+        match pat {
+            Pat::Ident(_) | Pat::Invalid(_) => false,
+            Pat::Array(arr) => arr
+                .elems
+                .iter()
+                .flatten()
+                .any(Self::pat_needs_parameter_scope),
+            Pat::Object(obj) => obj.props.iter().any(|prop| match prop {
+                ObjectPatProp::KeyValue(kv) => {
+                    matches!(kv.key, PropName::Computed(_))
+                        || Self::pat_needs_parameter_scope(&kv.value)
+                }
+                ObjectPatProp::Assign(assign) => assign.value.is_some(),
+                ObjectPatProp::Rest(rest) => Self::pat_needs_parameter_scope(&rest.arg),
+            }),
+            Pat::Rest(rest) => Self::pat_needs_parameter_scope(&rest.arg),
+            Pat::Assign(_) | Pat::Expr(_) => true,
+        }
+    }
+
+    fn constructor_param_needs_parameter_scope(param: &ParamOrTsParamProp) -> bool {
+        match param {
+            ParamOrTsParamProp::Param(param) => Self::pat_needs_parameter_scope(&param.pat),
+            ParamOrTsParamProp::TsParamProp(param_prop) => {
+                matches!(param_prop.param, TsParamPropParam::Assign(_))
+            }
+        }
+    }
+
+    /// A simple catch parameter is function-scoped for `var` redeclaration
+    /// compatibility, while destructuring is block-scoped.
+    fn collect_catch_pat_bindings(&mut self, pat: &Pat) {
+        let flags = if matches!(pat, Pat::Ident(_)) {
+            SymbolFlags::FunctionScopedVariable | SymbolFlags::CatchVariable
+        } else {
+            SymbolFlags::BlockScopedVariable | SymbolFlags::CatchVariable
+        };
+        self.collect_pat_bindings(pat, flags);
     }
 
     fn visit_function_inner(&mut self, function: &Function, flags: ScopeFlags) {
@@ -604,14 +895,12 @@ impl SemanticBuilder {
         function: &Function,
         flags: ScopeFlags,
     ) {
-        let _scope_id = self.push_scope(
+        let scope_id = self.push_scope(
             self.body_scope_flags(flags, function.body.as_ref()),
             scope_span,
         );
 
-        for param in &function.params {
-            self.collect_pat_bindings(&param.pat, SymbolFlags::Param);
-        }
+        self.visit_function_params(scope_id, scope_span, &function.params);
 
         if let Some(body) = &function.body {
             self.function_body_spans.insert(self.start(body.span));
@@ -622,14 +911,12 @@ impl SemanticBuilder {
     }
 
     fn visit_constructor_inner(&mut self, constructor: &Constructor) {
-        let _scope_id = self.push_scope(
+        let scope_id = self.push_scope(
             self.body_scope_flags(ScopeFlags::Function, constructor.body.as_ref()),
             constructor.span,
         );
 
-        for param in &constructor.params {
-            self.collect_constructor_param_bindings(param);
-        }
+        self.visit_constructor_params(scope_id, constructor.span, &constructor.params);
 
         if let Some(body) = &constructor.body {
             self.function_body_spans.insert(self.start(body.span));
@@ -639,21 +926,38 @@ impl SemanticBuilder {
         self.pop_scope();
     }
 
-    fn collect_constructor_param_bindings(&mut self, param: &ParamOrTsParamProp) {
+    fn collect_constructor_param_bindings(
+        &mut self,
+        param: &ParamOrTsParamProp,
+        function_scope_id: ScopeId,
+        alias_scope_id: Option<ScopeId>,
+    ) {
         match param {
             ParamOrTsParamProp::Param(param) => {
-                self.collect_pat_bindings(&param.pat, SymbolFlags::Param);
+                self.collect_pat_bindings_in_scope(
+                    &param.pat,
+                    Self::param_flags(),
+                    function_scope_id,
+                    alias_scope_id,
+                );
             }
             ParamOrTsParamProp::TsParamProp(param_prop) => match &param_prop.param {
                 TsParamPropParam::Ident(binding_ident) => {
-                    self.declare_symbol(
+                    self.declare_symbol_on_scope_with_alias(
                         binding_ident.id.span,
                         binding_ident.id.sym.to_string(),
-                        SymbolFlags::Param,
+                        Self::param_flags(),
+                        function_scope_id,
+                        alias_scope_id,
                     );
                 }
                 TsParamPropParam::Assign(assign) => {
-                    self.collect_pat_bindings(&assign.left, SymbolFlags::Param);
+                    self.collect_pat_bindings_in_scope(
+                        &assign.left,
+                        Self::param_flags(),
+                        function_scope_id,
+                        alias_scope_id,
+                    );
                     assign.right.visit_with(self);
                 }
             },
@@ -666,10 +970,10 @@ impl SemanticBuilder {
         param: Option<&Pat>,
         body: Option<&BlockStmt>,
     ) {
-        let _scope_id = self.push_scope(self.body_scope_flags(ScopeFlags::Function, body), span);
+        let scope_id = self.push_scope(self.body_scope_flags(ScopeFlags::Function, body), span);
 
         if let Some(param) = param {
-            self.collect_pat_bindings(param, SymbolFlags::Param);
+            self.visit_accessor_param(scope_id, span, param);
         }
 
         if let Some(body) = body {
@@ -780,19 +1084,17 @@ impl Visit for SemanticBuilder {
 
     fn visit_fn_expr(&mut self, fn_expr: &FnExpr) {
         let flags = self.body_scope_flags(ScopeFlags::Function, fn_expr.function.body.as_ref());
-        self.push_scope(flags, fn_expr.function.span);
+        let scope_id = self.push_scope(flags, fn_expr.function.span);
 
         if let Some(ident) = &fn_expr.ident {
             self.declare_symbol(
                 ident.span,
                 ident.sym.to_string(),
-                SymbolFlags::FunctionExpression,
+                SymbolFlags::Function | SymbolFlags::FunctionExpression,
             );
         }
 
-        for param in &fn_expr.function.params {
-            self.collect_pat_bindings(&param.pat, SymbolFlags::Param);
-        }
+        self.visit_function_params(scope_id, fn_expr.function.span, &fn_expr.function.params);
 
         if let Some(body) = &fn_expr.function.body {
             self.function_body_spans.insert(self.start(body.span));
@@ -809,11 +1111,9 @@ impl Visit for SemanticBuilder {
             }
             BlockStmtOrExpr::Expr(_) => ScopeFlags::Function,
         };
-        self.push_scope(flags, arrow.span);
+        let scope_id = self.push_scope(flags, arrow.span);
 
-        for param in &arrow.params {
-            self.collect_pat_bindings(param, SymbolFlags::Param);
-        }
+        self.visit_arrow_params(scope_id, arrow.span, &arrow.params);
 
         match &*arrow.body {
             BlockStmtOrExpr::BlockStmt(block) => {
@@ -873,10 +1173,11 @@ impl Visit for SemanticBuilder {
         self.push_scope(ScopeFlags::CatchClause, catch.span);
 
         if let Some(param) = &catch.param {
-            self.collect_pat_bindings(param, SymbolFlags::CatchVariable);
+            let checkpoint = self.unresolved_references.len();
+            self.collect_catch_pat_bindings(param);
+            self.resolve_references_from_checkpoint(checkpoint);
         }
 
-        self.function_body_spans.insert(self.start(catch.body.span));
         catch.body.visit_with(self);
 
         self.pop_scope();
@@ -1105,55 +1406,7 @@ impl Visit for SemanticBuilder {
 
 impl SemanticBuilder {
     fn collect_pat_bindings_with_scope(&mut self, pat: &Pat, flags: SymbolFlags, scope: ScopeId) {
-        match pat {
-            Pat::Ident(binding_ident) => {
-                let _symbol_id = self.declare_symbol_on_scope(
-                    binding_ident.id.span,
-                    binding_ident.id.sym.to_string(),
-                    flags,
-                    scope,
-                );
-            }
-            Pat::Array(arr) => {
-                for p in arr.elems.iter().flatten() {
-                    self.collect_pat_bindings_with_scope(p, flags, scope);
-                }
-            }
-            Pat::Object(obj) => {
-                for prop in &obj.props {
-                    match prop {
-                        ObjectPatProp::KeyValue(kv) => {
-                            if let PropName::Computed(computed) = &kv.key {
-                                computed.visit_with(self);
-                            }
-                            self.collect_pat_bindings_with_scope(&kv.value, flags, scope);
-                        }
-                        ObjectPatProp::Assign(assign) => {
-                            let _symbol_id = self.declare_symbol_on_scope(
-                                assign.key.id.span,
-                                assign.key.id.sym.to_string(),
-                                flags,
-                                scope,
-                            );
-                            if let Some(value) = &assign.value {
-                                value.visit_with(self);
-                            }
-                        }
-                        ObjectPatProp::Rest(rest) => {
-                            self.collect_pat_bindings_with_scope(&rest.arg, flags, scope);
-                        }
-                    }
-                }
-            }
-            Pat::Rest(rest) => {
-                self.collect_pat_bindings_with_scope(&rest.arg, flags, scope);
-            }
-            Pat::Assign(assign) => {
-                self.collect_pat_bindings_with_scope(&assign.left, flags, scope);
-                assign.right.visit_with(self);
-            }
-            Pat::Expr(_) | Pat::Invalid(_) => {}
-        }
+        self.collect_pat_bindings_in_scope(pat, flags, scope, None);
     }
 
     /// Consume the builder and produce a React Compiler [`ScopeInfo`].
@@ -1205,12 +1458,39 @@ impl SemanticBuilder {
             });
         }
 
+        // Parameter scopes are internal resolution environments. They must not
+        // overwrite BindingData.scope or appear as scope-creating AST nodes in
+        // the React Compiler ScopeInfo.
+        let mut scope_to_out_scope: HashMap<ScopeId, OutScopeId> = HashMap::new();
+        for scope_id in self.scoping.scope_descendants_from_root() {
+            if self.scoping.scope_flags(scope_id).is_parameter() {
+                continue;
+            }
+            let out_scope_id = OutScopeId(scope_to_out_scope.len() as u32);
+            scope_to_out_scope.insert(scope_id, out_scope_id);
+        }
+
+        for symbol_id in self.scoping.symbol_ids() {
+            if let Some(&binding_id) = symbol_to_binding.get(&symbol_id) {
+                let symbol_scope_id = self.scoping.symbol_scope_id(symbol_id);
+                let out_scope_id = output_scope_for_internal_scope(
+                    &self.scoping,
+                    &scope_to_out_scope,
+                    symbol_scope_id,
+                );
+                bindings[binding_id.0 as usize].scope = out_scope_id;
+            }
+        }
+
         // Second pass: Create all scopes and update binding scope references
         for scope_id in self.scoping.scope_descendants_from_root() {
             let scope_flags = self.scoping.scope_flags(scope_id);
-            let parent = self.scoping.scope_parent_id(scope_id);
+            if scope_flags.is_parameter() {
+                continue;
+            }
 
-            let out_scope_id = OutScopeId(scope_id.0);
+            let out_scope_id = scope_to_out_scope[&scope_id];
+            let parent = output_parent_scope(&self.scoping, &scope_to_out_scope, scope_id);
 
             let kind = get_scope_kind(scope_flags);
 
@@ -1219,7 +1499,6 @@ impl SemanticBuilder {
                 if let Some(&binding_id) = symbol_to_binding.get(&symbol_id) {
                     let name = bindings[binding_id.0 as usize].name.clone();
                     scope_bindings.insert(name, binding_id);
-                    bindings[binding_id.0 as usize].scope = out_scope_id;
                 }
             }
 
@@ -1237,7 +1516,7 @@ impl SemanticBuilder {
 
             scopes.push(ScopeData {
                 id: out_scope_id,
-                parent: parent.map(|p| OutScopeId(p.0)),
+                parent,
                 kind,
                 bindings: scope_bindings,
             });
@@ -1292,7 +1571,7 @@ impl SemanticBuilder {
             }
         }
 
-        let program_scope = OutScopeId(self.scoping.root_scope_id().0);
+        let program_scope = scope_to_out_scope[&self.scoping.root_scope_id()];
 
         ScopeInfo {
             scopes,
@@ -1304,6 +1583,37 @@ impl SemanticBuilder {
             node_id_to_scope,
             program_scope,
         }
+    }
+}
+
+fn output_parent_scope(
+    scoping: &Scoping,
+    scope_to_out_scope: &HashMap<ScopeId, react_compiler_ast::scope::ScopeId>,
+    scope_id: ScopeId,
+) -> Option<react_compiler_ast::scope::ScopeId> {
+    let mut parent_id = scoping.scope_parent_id(scope_id);
+    while let Some(parent) = parent_id {
+        if let Some(&out_parent) = scope_to_out_scope.get(&parent) {
+            return Some(out_parent);
+        }
+        parent_id = scoping.scope_parent_id(parent);
+    }
+    None
+}
+
+fn output_scope_for_internal_scope(
+    scoping: &Scoping,
+    scope_to_out_scope: &HashMap<ScopeId, react_compiler_ast::scope::ScopeId>,
+    mut scope_id: ScopeId,
+) -> react_compiler_ast::scope::ScopeId {
+    loop {
+        if let Some(&out_scope_id) = scope_to_out_scope.get(&scope_id) {
+            return out_scope_id;
+        }
+
+        scope_id = scoping
+            .scope_parent_id(scope_id)
+            .expect("internal scope should have an output ancestor");
     }
 }
 
@@ -1365,7 +1675,7 @@ fn build_import_map(
     map
 }
 
-/// Map our ScopeFlags to react_compiler_ast ScopeKind.
+/// Map our `ScopeFlags` to `react_compiler_ast` `ScopeKind`.
 fn get_scope_kind(flags: ScopeFlags) -> react_compiler_ast::scope::ScopeKind {
     use react_compiler_ast::scope::ScopeKind;
 
@@ -1396,7 +1706,7 @@ fn get_scope_kind(flags: ScopeFlags) -> react_compiler_ast::scope::ScopeKind {
     ScopeKind::Block
 }
 
-/// Map our SymbolFlags to react_compiler_ast BindingKind.
+/// Map our `SymbolFlags` to `react_compiler_ast` `BindingKind`.
 fn get_binding_kind(flags: SymbolFlags) -> react_compiler_ast::scope::BindingKind {
     use react_compiler_ast::scope::BindingKind;
 
@@ -1419,9 +1729,8 @@ fn get_binding_kind(flags: SymbolFlags) -> react_compiler_ast::scope::BindingKin
     if flags.contains(SymbolFlags::BlockScopedVariable) {
         if flags.contains(SymbolFlags::ConstVariable) {
             return BindingKind::Const;
-        } else {
-            return BindingKind::Let;
         }
+        return BindingKind::Let;
     }
 
     if flags.contains(SymbolFlags::FunctionExpression) {

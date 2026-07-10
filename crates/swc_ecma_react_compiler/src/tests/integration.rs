@@ -5,7 +5,7 @@
 
 use react_compiler::entrypoint::plugin_options::{CompilerTarget, PluginOptions};
 use react_compiler_ast::{
-    scope::{BindingKind, ScopeKind},
+    scope::{BindingId, BindingKind, ScopeInfo, ScopeKind},
     statements::Statement,
     File,
 };
@@ -92,6 +92,22 @@ fn parse_module(source: &str) -> swc_ecma_ast::Module {
         &mut errors,
     )
     .expect("Failed to parse")
+}
+
+fn source_pos(source: &str, needle: &str) -> u32 {
+    source
+        .find(needle)
+        .unwrap_or_else(|| panic!("should find {needle:?}")) as u32
+        + 1
+}
+
+fn binding_id_at(info: &ScopeInfo, source: &str, name: &str, needle: &str) -> BindingId {
+    let start = source_pos(source, needle);
+    info.bindings
+        .iter()
+        .find(|binding| binding.name == name && binding.declaration_start == Some(start))
+        .unwrap_or_else(|| panic!("should find binding {name} at {needle:?}"))
+        .id
 }
 
 fn parse_ts_program(source: &str) -> swc_ecma_ast::Program {
@@ -536,6 +552,82 @@ fn scope_named_function_expression_is_local() {
     assert_eq!(
         info.ref_node_id_to_binding.get(&g_ref).copied(),
         Some(g_binding.id)
+    );
+}
+
+#[test]
+fn scope_named_function_expression_allows_same_named_param() {
+    let source = "const g = function f(f) { return f; };";
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let f_bindings: Vec<_> = info.bindings.iter().filter(|b| b.name == "f").collect();
+    assert_eq!(f_bindings.len(), 2, "should create separate f bindings");
+
+    let function_binding = f_bindings
+        .iter()
+        .find(|binding| matches!(binding.kind, BindingKind::Local))
+        .expect("should find named function expression binding");
+    let param_binding = f_bindings
+        .iter()
+        .find(|binding| matches!(binding.kind, BindingKind::Param))
+        .expect("should find parameter binding");
+
+    assert!(matches!(
+        info.scopes[function_binding.scope.0 as usize].kind,
+        ScopeKind::Function
+    ));
+    assert!(matches!(
+        info.scopes[param_binding.scope.0 as usize].kind,
+        ScopeKind::Function
+    ));
+
+    let return_ref = source.find("return f").expect("should find return f") as u32 + 8;
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&return_ref).copied(),
+        Some(param_binding.id)
+    );
+    assert_ne!(
+        info.ref_node_id_to_binding.get(&return_ref).copied(),
+        Some(function_binding.id)
+    );
+}
+
+#[test]
+fn scope_named_function_expression_preserves_scope_when_shadowed_by_var() {
+    let source = "const g = function f() { var f; return f; };";
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let f_bindings: Vec<_> = info.bindings.iter().filter(|b| b.name == "f").collect();
+    assert_eq!(f_bindings.len(), 2, "should create separate f bindings");
+
+    let function_binding = f_bindings
+        .iter()
+        .find(|binding| matches!(binding.kind, BindingKind::Local))
+        .expect("should find named function expression binding");
+    let var_binding = f_bindings
+        .iter()
+        .find(|binding| matches!(binding.kind, BindingKind::Var))
+        .expect("should find var binding");
+
+    assert!(matches!(
+        info.scopes[function_binding.scope.0 as usize].kind,
+        ScopeKind::Function
+    ));
+    assert!(matches!(
+        info.scopes[var_binding.scope.0 as usize].kind,
+        ScopeKind::Function
+    ));
+
+    let return_ref = source.find("return f").expect("should find return f") as u32 + 8;
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&return_ref).copied(),
+        Some(var_binding.id)
+    );
+    assert_ne!(
+        info.ref_node_id_to_binding.get(&return_ref).copied(),
+        Some(function_binding.id)
     );
 }
 
@@ -1078,6 +1170,297 @@ fn scope_for_loop_creates_scope() {
     assert!(matches!(i_binding.kind, BindingKind::Let));
     let scope = &info.scopes[i_binding.scope.0 as usize];
     assert!(matches!(scope.kind, ScopeKind::For));
+}
+
+#[test]
+fn scope_resolves_function_param_references_before_body_bindings() {
+    let source = r#"
+        const fallback = "outer";
+        function useValue(value = fallback) {
+            const fallback = "inner";
+            return value;
+        }
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let source_pos = |needle: &str| {
+        source
+            .find(needle)
+            .unwrap_or_else(|| panic!("should find {needle:?}")) as u32
+            + 1
+    };
+    let binding_id_at = |name: &str, needle: &str| {
+        let start = source_pos(needle);
+        info.bindings
+            .iter()
+            .find(|binding| binding.name == name && binding.declaration_start == Some(start))
+            .unwrap_or_else(|| panic!("should find binding {name} at {needle:?}"))
+            .id
+    };
+
+    let outer_fallback = binding_id_at("fallback", "fallback = \"outer\"");
+    let inner_fallback = binding_id_at("fallback", "fallback = \"inner\"");
+    let fallback_ref = source_pos("fallback) {");
+    let resolved = info.ref_node_id_to_binding.get(&fallback_ref).copied();
+
+    assert_eq!(resolved, Some(outer_fallback));
+    assert_ne!(resolved, Some(inner_fallback));
+}
+
+#[test]
+fn scope_resolves_deferred_function_param_references_from_outer_scope() {
+    let source = r#"
+        function useValue(value = fallback) {
+            const fallback = "inner";
+            return value;
+        }
+        const fallback = "outer";
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let outer_fallback = binding_id_at(&info, source, "fallback", "fallback = \"outer\"");
+    let inner_fallback = binding_id_at(&info, source, "fallback", "fallback = \"inner\"");
+    let fallback_ref = source_pos(source, "fallback) {");
+    let resolved = info.ref_node_id_to_binding.get(&fallback_ref).copied();
+
+    assert_eq!(resolved, Some(outer_fallback));
+    assert_ne!(resolved, Some(inner_fallback));
+}
+
+#[test]
+fn scope_does_not_resolve_function_param_references_to_body_var() {
+    let source = r#"
+        function useValue(value = fallback) {
+            var fallback = "inner";
+            return value;
+        }
+        const fallback = "outer";
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let outer_fallback = binding_id_at(&info, source, "fallback", "fallback = \"outer\"");
+    let body_fallback = binding_id_at(&info, source, "fallback", "fallback = \"inner\"");
+    let fallback_ref = source_pos(source, "fallback) {");
+    let resolved = info.ref_node_id_to_binding.get(&fallback_ref).copied();
+
+    assert_eq!(resolved, Some(outer_fallback));
+    assert_ne!(resolved, Some(body_fallback));
+}
+
+#[test]
+fn scope_leaves_function_param_references_unresolved_without_outer_binding() {
+    let source = r#"
+        function useValue(value = fallback) {
+            const fallback = "inner";
+            return value;
+        }
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let body_fallback = binding_id_at(&info, source, "fallback", "fallback = \"inner\"");
+    let fallback_ref = source_pos(source, "fallback) {");
+    let resolved = info.ref_node_id_to_binding.get(&fallback_ref).copied();
+
+    assert_eq!(resolved, None);
+    assert_ne!(resolved, Some(body_fallback));
+}
+
+#[test]
+fn scope_resolves_function_param_references_to_later_params() {
+    let source = r#"
+        function useValue(value = fallback, fallback) {
+            return value;
+        }
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let fallback_param = binding_id_at(&info, source, "fallback", "fallback) {");
+    let fallback_ref = source_pos(source, "fallback, fallback");
+
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&fallback_ref).copied(),
+        Some(fallback_param)
+    );
+}
+
+#[test]
+fn scope_resolves_function_expression_name_in_param_default() {
+    let source = r#"
+        const useValue = function inner(value = inner) {
+            return value;
+        };
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let function_binding = binding_id_at(&info, source, "inner", "inner(value");
+    let inner_ref = source_pos(source, "inner) {");
+
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&inner_ref).copied(),
+        Some(function_binding)
+    );
+}
+
+#[test]
+fn scope_resolves_same_named_function_expression_param_default_to_param() {
+    let source = r#"
+        const useValue = function inner(inner = inner) {
+            return inner;
+        };
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let function_binding = binding_id_at(&info, source, "inner", "inner(inner");
+    let param_binding = binding_id_at(&info, source, "inner", "inner = inner");
+    let default_ref = source_pos(source, "inner) {");
+    let return_ref = source_pos(source, "inner;");
+
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&default_ref).copied(),
+        Some(param_binding)
+    );
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&return_ref).copied(),
+        Some(param_binding)
+    );
+    assert_ne!(
+        info.ref_node_id_to_binding.get(&default_ref).copied(),
+        Some(function_binding)
+    );
+}
+
+#[test]
+fn scope_resolves_computed_function_param_references_outside_body_scope() {
+    let source = r#"
+        function useValue({ [key]: value }) {
+            const key = "inner";
+            return value;
+        }
+        const key = "outer";
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let outer_key = binding_id_at(&info, source, "key", "key = \"outer\"");
+    let inner_key = binding_id_at(&info, source, "key", "key = \"inner\"");
+    let value_param = binding_id_at(&info, source, "value", "value })");
+    let key_ref = source_pos(source, "key]: value");
+    let value_ref = source_pos(source, "value;");
+
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&key_ref).copied(),
+        Some(outer_key)
+    );
+    assert_ne!(
+        info.ref_node_id_to_binding.get(&key_ref).copied(),
+        Some(inner_key)
+    );
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&value_ref).copied(),
+        Some(value_param)
+    );
+}
+
+#[test]
+fn scope_resolves_catch_param_references_before_body_bindings() {
+    let source = r#"
+        try {
+        } catch ({ [key]: value }) {
+            const key = "inner";
+            console.log(value);
+        }
+        const key = "outer";
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let source_pos = |needle: &str| {
+        source
+            .find(needle)
+            .unwrap_or_else(|| panic!("should find {needle:?}")) as u32
+            + 1
+    };
+    let binding_id_at = |name: &str, needle: &str| {
+        let start = source_pos(needle);
+        info.bindings
+            .iter()
+            .find(|binding| binding.name == name && binding.declaration_start == Some(start))
+            .unwrap_or_else(|| panic!("should find binding {name} at {needle:?}"))
+            .id
+    };
+
+    let outer_key = binding_id_at("key", "key = \"outer\"");
+    let inner_key = binding_id_at("key", "key = \"inner\"");
+    let catch_value = binding_id_at("value", "value })");
+    let key_ref = source_pos("key]: value");
+    let value_ref = source_pos("value);");
+
+    let resolved_key = info.ref_node_id_to_binding.get(&key_ref).copied();
+    assert_eq!(resolved_key, Some(outer_key));
+    assert_ne!(resolved_key, Some(inner_key));
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&value_ref).copied(),
+        Some(catch_value)
+    );
+}
+
+#[test]
+fn scope_catch_param_binding_covers_initializer_references() {
+    let source = r#"
+        try {
+        } catch ({ e = () => e }) {
+            e();
+        }
+        const e = "outer";
+    "#;
+    let program = parse_program(source);
+    let info = SemanticBuilder::new().build(&program);
+
+    let source_pos = |needle: &str| {
+        source
+            .find(needle)
+            .unwrap_or_else(|| panic!("should find {needle:?}")) as u32
+            + 1
+    };
+    let binding_id_at = |name: &str, needle: &str| {
+        let start = source_pos(needle);
+        info.bindings
+            .iter()
+            .find(|binding| binding.name == name && binding.declaration_start == Some(start))
+            .unwrap_or_else(|| panic!("should find binding {name} at {needle:?}"))
+            .id
+    };
+
+    let catch_e = binding_id_at("e", "e = ()");
+    let outer_e = binding_id_at("e", "e = \"outer\"");
+    let initializer_e_ref = source_pos("=> e") + 3;
+    let body_e_ref = source_pos("e();");
+    let catch_binding = &info.bindings[catch_e.0 as usize];
+
+    assert!(matches!(catch_binding.kind, BindingKind::Let));
+    assert!(matches!(
+        info.scopes[catch_binding.scope.0 as usize].kind,
+        ScopeKind::Catch
+    ));
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&initializer_e_ref).copied(),
+        Some(catch_e)
+    );
+    assert_ne!(
+        info.ref_node_id_to_binding.get(&initializer_e_ref).copied(),
+        Some(outer_e)
+    );
+    assert_eq!(
+        info.ref_node_id_to_binding.get(&body_e_ref).copied(),
+        Some(catch_e)
+    );
 }
 
 #[test]

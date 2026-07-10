@@ -5,20 +5,20 @@ System.register([
     "@swc/helpers/_/_ts_add_disposable_resource",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
-    var _class_call_check, _ts_decorate, _ts_add_disposable_resource, _ts_dispose_resources, env;
-    return {
+    var _class, _class_call_check, _ts_add_disposable_resource, _ts_decorate, _ts_dispose_resources, env;
+    return _export("default", void 0), {
         setters: [
-            function(_class_call_check1) {
-                _class_call_check = _class_call_check1._;
+            function(_class_call_check_ns) {
+                _class_call_check = _class_call_check_ns._;
             },
-            function(_ts_decorate1) {
-                _ts_decorate = _ts_decorate1._;
+            function(_ts_decorate_ns) {
+                _ts_decorate = _ts_decorate_ns._;
             },
-            function(_ts_add_disposable_resource1) {
-                _ts_add_disposable_resource = _ts_add_disposable_resource1._;
+            function(_ts_add_disposable_resource_ns) {
+                _ts_add_disposable_resource = _ts_add_disposable_resource_ns._;
             },
-            function(_ts_dispose_resources1) {
-                _ts_dispose_resources = _ts_dispose_resources1._;
+            function(_ts_dispose_resources_ns) {
+                _ts_dispose_resources = _ts_dispose_resources_ns._;
             }
         ],
         execute: function() {
@@ -28,12 +28,11 @@ System.register([
                 hasError: !1
             };
             try {
-                var _class = function _class() {
+                _class = function _class() {
                     _class_call_check(this, _class);
-                };
-                _export("default", _class = _ts_decorate([
+                }, _export("default", _class), _class = _ts_decorate([
                     dec
-                ], _class)), _ts_add_disposable_resource(env, null, !1);
+                ], _class), _export("default", _class), _ts_add_disposable_resource(env, null, !1);
             } catch (e) {
                 env.error = e, env.hasError = !0;
             } finally{

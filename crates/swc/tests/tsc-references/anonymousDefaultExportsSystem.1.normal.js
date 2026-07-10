@@ -1,17 +1,21 @@
 //// [a.ts]
 System.register([], function(_export, _context) {
     "use strict";
-    _export("default", class {
-    });
+    var _default;
+    _export("default", void 0);
     return {
         setters: [],
-        execute: function() {}
+        execute: function() {
+            _export("default", _default = class _default {
+            });
+        }
     };
 });
 //// [b.ts]
 System.register([], function(_export, _context) {
     "use strict";
-    _export("default", function() {});
+    function _default() {}
+    _export("default", _default);
     return {
         setters: [],
         execute: function() {}

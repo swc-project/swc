@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_plugin_runner"
 repository    = { workspace = true }
-version       = "30.0.0"
+version       = "30.0.1"
 
 [lib]
 bench   = false
@@ -25,10 +25,6 @@ plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 ecma = ["swc_ecma_ast/encoding-impl"]
 
 encoding-impl = ["swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
-
-[build-dependencies]
-vergen = { workspace = true, features = ["build", "cargo"] }
-
 
 [dependencies]
 anyhow      = { workspace = true }

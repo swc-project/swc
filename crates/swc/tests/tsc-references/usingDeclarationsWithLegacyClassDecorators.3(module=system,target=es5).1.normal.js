@@ -6,20 +6,21 @@ System.register([
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
     "use strict";
-    var _class_call_check, _ts_decorate, _ts_add_disposable_resource, _ts_dispose_resources, env;
+    var C, _class_call_check, _ts_add_disposable_resource, _ts_decorate, _ts_dispose_resources, before, env;
+    _export("default", void 0);
     return {
         setters: [
-            function(_class_call_check1) {
-                _class_call_check = _class_call_check1._;
+            function(_class_call_check_ns) {
+                _class_call_check = _class_call_check_ns._;
             },
-            function(_ts_decorate1) {
-                _ts_decorate = _ts_decorate1._;
+            function(_ts_decorate_ns) {
+                _ts_decorate = _ts_decorate_ns._;
             },
-            function(_ts_add_disposable_resource1) {
-                _ts_add_disposable_resource = _ts_add_disposable_resource1._;
+            function(_ts_add_disposable_resource_ns) {
+                _ts_add_disposable_resource = _ts_add_disposable_resource_ns._;
             },
-            function(_ts_dispose_resources1) {
-                _ts_dispose_resources = _ts_dispose_resources1._;
+            function(_ts_dispose_resources_ns) {
+                _ts_dispose_resources = _ts_dispose_resources_ns._;
             }
         ],
         execute: function() {
@@ -29,14 +30,14 @@ System.register([
                 hasError: false
             };
             try {
-                var before = _ts_add_disposable_resource(env, null, false);
-                var C = function C() {
+                before = _ts_add_disposable_resource(env, null, false);
+                C = function C() {
                     "use strict";
                     _class_call_check(this, C);
-                };
-                _export("default", C = _ts_decorate([
+                }, _export("default", C), C;
+                C = _ts_decorate([
                     dec
-                ], C));
+                ], C), _export("default", C), C;
             } catch (e) {
                 env.error = e;
                 env.hasError = true;

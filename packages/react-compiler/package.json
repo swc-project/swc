@@ -45,14 +45,20 @@
     "provenance": true
   },
   "types": "./index.d.ts",
+  "files": [
+    "binding.d.ts",
+    "binding.js",
+    "index.d.ts",
+    "index.js"
+  ],
   "scripts": {
     "artifacts": "napi artifacts --npm-dir scripts/npm",
     "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
     "pack": "wasm-pack",
     "build:ts": "tsc -d",
-    "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir . --release",
-    "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir .",
-    "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' echo 'no test'",
+    "build": "tsc -d && napi build --platform --js ./binding.js --dts ./binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir . --release",
+    "build:dev": "tsc -d && napi build --platform --js ./binding.js --dts ./binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir .",
+    "test": "node --test tests/lint.test.cjs",
     "version": "napi version --npm-dir scripts/npm"
   },
   "funding": {

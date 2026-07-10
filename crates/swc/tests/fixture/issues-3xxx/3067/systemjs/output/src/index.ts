@@ -6,7 +6,7 @@ System.register([
     "use strict";
     var displayB, displayC, merge;
     async function display() {
-        const displayA = await _context.import('./inner/a').then((c)=>c.displayA);
+        const displayA = await _context.import("./inner/a/index.mjs").then((c)=>c.displayA);
         console.log(displayA());
         console.log(displayB());
         console.log(displayC());
@@ -16,14 +16,14 @@ System.register([
     }
     return {
         setters: [
-            function(_index) {
-                displayB = _index.displayB;
+            function(_b_ns) {
+                displayB = _b_ns.displayB;
             },
-            function(_index) {
-                displayC = _index.displayC;
+            function(_c_ns) {
+                displayC = _c_ns.displayC;
             },
-            function(_lodash) {
-                merge = _lodash.merge;
+            function(_lodash_ns) {
+                merge = _lodash_ns.merge;
             }
         ],
         execute: function() {

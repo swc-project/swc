@@ -35,7 +35,7 @@ swc_ecma_ast = { version = "25.0.0", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "41.1.2", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_utils = { version = "31.0.1", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "31.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "25.0.0", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "23.0.0", path = "../swc_estree_ast" }
 swc_node_comments = { version = "24.0.0", path = "../swc_node_comments/" }
@@ -44,10 +44,10 @@ swc_node_comments = { version = "24.0.0", path = "../swc_node_comments/" }
 codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "69.0.0", path = "../swc", default-features = false }
+swc                 = { version = "71.0.0", path = "../swc", default-features = false }
 swc_ecma_ast        = { version = "25.0.0", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "41.1.2", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "56.0.0", path = "../swc_ecma_transforms/" }
+swc_ecma_transforms = { version = "58.0.0", path = "../swc_ecma_transforms/" }
 testing             = { version = "24.0.1", path = "../testing" }
 walkdir             = { workspace = true }
 

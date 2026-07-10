@@ -4,17 +4,19 @@ System.register([
 ], function(_export, _context) {
     var _async_to_generator;
     return _export({
+        cl1: void 0,
+        cl2: void 0,
         fn: function() {
             return _async_to_generator(function*() {
                 yield _context.import('./test');
             })();
         },
-        cl1: void 0,
-        cl2: void 0
+        l: void 0,
+        obj: void 0
     }), {
         setters: [
-            function(_async_to_generator1) {
-                _async_to_generator = _async_to_generator1._;
+            function(_async_to_generator_ns) {
+                _async_to_generator = _async_to_generator_ns._;
             }
         ],
         execute: function() {

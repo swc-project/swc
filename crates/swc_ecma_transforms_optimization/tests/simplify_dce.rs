@@ -817,3 +817,123 @@ noop!(
     wt()
     "
 );
+
+optimized_out!(
+    class_extends_cycle_unused,
+    "
+    class A {
+        method() {
+            new B().method();
+        }
+    }
+    class B extends A {
+        method() {
+            new A().method();
+        }
+    }
+    "
+);
+
+noop!(
+    class_extends_cycle_tdz_preserved,
+    "
+    class A extends B {}
+    class B extends A {}
+    "
+);
+
+noop!(
+    class_extends_cycle_with_side_effect_preserved,
+    "
+    class A {
+        static {
+            console.log('side effect');
+        }
+        method() {
+            new B().method();
+        }
+    }
+    class B extends A {
+        method() {
+            new A().method();
+        }
+    }
+    "
+);
+
+// A `static` field initializer that reads a class declared later (which extends
+// this one) reads that class while it is still in the temporal dead zone, so
+// evaluating this class throws. Both classes must be preserved even though
+// nothing else references them — eliminating them would drop the required
+// throw. Regression test for the cycle TDZ guard (issue #11934 follow-up).
+noop!(
+    class_static_field_reads_later_class_tdz,
+    "class A { static x = B; } class B extends A {}"
+);
+
+// A decorated class is kept observable by its decorator independently of any
+// cycle. A subclass extending it must not collapse the cycle, or the decorated
+// sibling's reference would dangle. Regression guard (issue #11934 follow-up).
+noop!(
+    class_extends_cycle_decorated_super_preserved,
+    "@dec class A { m(){ return B; } } class B extends A { m(){ return A; } }"
+);
+
+fn tr_retain(unresolved_mark: Mark) -> impl Pass {
+    Repeat::new(dce(
+        Config {
+            top_level: true,
+            top_retain: vec!["A".into()],
+            ..Default::default()
+        },
+        unresolved_mark,
+    ))
+}
+
+// A class kept by `top_retain` stays externally reachable, so a cycle it
+// belongs to must not be collapsed even if the other member looks unused.
+// Regression guard (issue #11934 follow-up).
+test!(
+    Syntax::Es(EsSyntax {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            resolver(unresolved_mark, Mark::new(), false),
+            tr_retain(unresolved_mark),
+        )
+    },
+    class_extends_cycle_top_retain_preserved,
+    "class A { m(){ return B; } } class B extends A { m(){ return A; } }"
+);
+
+// A `static` private field initializer is evaluated at definition time, just
+// like a public one. Reading a class declared later (which extends this one)
+// reads it while still in the TDZ, so both classes must be preserved.
+// Regression guard (issue #11934 follow-up).
+noop!(
+    class_static_private_field_reads_later_class_tdz,
+    "class A { static #x = B; } class B extends A {}"
+);
+
+// A nested class expression in a `static` initializer evaluates its own
+// `extends` clause at definition time. In `class A { static x = class extends
+// B {} } class B extends A {}`, defining A reads B while B is still in its TDZ,
+// so the A/B cycle must be preserved. The enclosing class is non-trivial (it
+// has a static initializer), so the backward-extends optimization does not
+// apply. Regression guard (issue #11934 follow-up).
+noop!(
+    class_extends_cycle_nested_heritage_preserved,
+    "class A { static x = class extends B {}; } class B extends A {}"
+);
+
+// A member decorator is evaluated when its class is defined. A subclass with a
+// decorated member is therefore non-trivial and must not collapse its `extends`
+// cycle, or the decorator's effect on a dropped class would be lost.
+// Regression guard (issue #11934 follow-up).
+noop!(
+    class_extends_cycle_member_decorated_preserved,
+    "class A { m(){ return B; } } class B extends A { @dec m(){ return A; } }"
+);

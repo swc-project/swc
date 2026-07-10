@@ -565,6 +565,12 @@ impl Optimizer<'_> {
                     return false;
                 }
 
+                if let Some(scope) = self.data.get_scope(f.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL) {
+                        return false;
+                    }
+                }
+
                 if f.params.iter().any(|param| !param.is_ident()) {
                     return false;
                 }
@@ -608,7 +614,13 @@ impl Optimizer<'_> {
 
                 let body = f.function.body.as_ref().unwrap();
 
-                if contains_this_expr(body) || self.data.used_arguments(f.function.ctxt) {
+                if let Some(scope) = self.data.get_scope(f.function.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::USED_ARGUMENTS)) {
+                        return false;
+                    }
+                }
+
+                if contains_this_expr(body) {
                     return false;
                 }
             }
@@ -861,8 +873,24 @@ impl Optimizer<'_> {
         param_ids: impl ExactSizeIterator<Item = &'a Ident> + Clone,
         args: &[ExprOrSpread],
     ) -> bool {
-        // Don't create top-level variables.
+        if param_ids.len() == 0 {
+            return true;
+        }
+
         if !self.may_add_ident() {
+            // cannot add new ident, but sometimes inline or unused pass could remove those
+            // new vars
+            // but not when there's eval
+
+            if self
+                .data
+                .get_scope(self.ctx.scope)
+                .unwrap()
+                .contains(ScopeData::HAS_EVAL_CALL)
+            {
+                return false;
+            }
+
             for (idx, pid) in param_ids.clone().enumerate() {
                 if let Some(usage) = self.data.vars.get(&pid.to_id()) {
                     let arg = args.get(idx).map(|a| &*a.expr);
@@ -983,17 +1011,6 @@ impl Optimizer<'_> {
         }
 
         if !self.can_extract_param(param_ids.clone(), args) {
-            return false;
-        }
-
-        // Abort on eval.
-        // See https://github.com/swc-project/swc/pull/6478
-        //
-        // We completely abort on eval, because we cannot know whether a variable in
-        // upper scope will be afftected by eval.
-        // https://github.com/swc-project/swc/issues/6628
-        if self.data.top.contains(ScopeData::HAS_EVAL_CALL) {
-            log_abort!("iife: [x] Aborting because of eval");
             return false;
         }
 

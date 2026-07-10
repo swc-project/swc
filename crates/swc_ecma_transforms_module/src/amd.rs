@@ -20,13 +20,16 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith
 
 pub use super::util::Config as InnerConfig;
 use crate::{
-    module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
+    module_record::{
+        LocalExportEntries, ModuleRecordEntryReducer, ModuleRequestUsage, ModuleSyntaxExtractor,
+        RequestedModule, RequestedModules,
+    },
     module_ref_rewriter::{rewrite_import_bindings, ImportMap},
     path::Resolver,
     top_level_this::top_level_this,
     util::{
-        define_es_module, emit_export_stmts, local_name_for_src, sort_export_obj_prop_list,
-        use_strict, ImportInterop, VecStmtLike,
+        define_es_module, emit_export_stmts, local_name_for_src, sort_export_bindings, use_strict,
+        ImportInterop, VecStmtLike,
     },
     SpanCtx,
 };
@@ -193,26 +196,31 @@ where
 
         let import_interop = self.config.import_interop();
 
-        let mut strip = ModuleDeclStrip::new(self.const_var_kind);
-        n.body.visit_mut_with(&mut strip);
+        let mut extractor = ModuleSyntaxExtractor::new(self.const_var_kind);
+        n.body.visit_mut_with(&mut extractor);
 
-        let ModuleDeclStrip {
-            link,
-            export,
+        let ModuleSyntaxExtractor {
+            requested_modules,
+            local_export_entries,
             export_assign,
-            has_module_decl,
+            has_module_syntax,
             ..
-        } = strip;
+        } = extractor;
 
         let is_export_assign = export_assign.is_some();
 
-        if has_module_decl && !import_interop.is_none() && !is_export_assign {
+        if has_module_syntax && !import_interop.is_none() && !is_export_assign {
             stmts.push(define_es_module(self.exports()))
         }
 
         let mut import_map = Default::default();
 
-        stmts.extend(self.handle_import_export(&mut import_map, link, export, is_export_assign));
+        stmts.extend(self.handle_import_export(
+            &mut import_map,
+            requested_modules,
+            local_export_entries,
+            is_export_assign,
+        ));
 
         stmts.extend(n.body.take().into_iter().filter_map(|item| match item {
             ModuleItem::Stmt(stmt) if !stmt.is_empty() => Some(stmt),
@@ -338,6 +346,9 @@ where
                 let mut require = self.require.clone();
                 require.span = *import_span;
 
+                // `import()` is specified as an ImportCall. AMD lowers it to a
+                // promise around async `require([arg], ...)`.
+                // Spec: https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-import-calls
                 *n = amd_dynamic_import(
                     *span,
                     args.take(),
@@ -353,6 +364,11 @@ where
                         .map(|p| p.kind == MetaPropKind::ImportMeta)
                         .unwrap_or_default() =>
             {
+                // `import.meta` is host-populated in the spec. AMD lowers
+                // supported host fields to loader-specific values.
+                // Spec:
+                // - https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-hostgetimportmetaproperties
+                // - https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-hostfinalizeimportmeta
                 let p = match prop {
                     MemberProp::Ident(IdentName { sym, .. }) => Cow::Borrowed(&**sym),
                     MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
@@ -459,27 +475,36 @@ where
     fn handle_import_export(
         &mut self,
         import_map: &mut ImportMap,
-        link: Link,
-        export: Export,
+        requested_modules: RequestedModules,
+        local_export_entries: LocalExportEntries,
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let import_interop = self.config.import_interop();
 
-        let mut stmts = Vec::with_capacity(link.len());
+        let mut stmts = Vec::with_capacity(requested_modules.len());
 
-        let mut export_obj_prop_list = export.into_iter().collect();
+        let mut export_bindings = local_export_entries.into_iter().collect();
 
-        link.into_iter().for_each(
-            |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                let is_node_default = !link_flag.has_named() && import_interop.is_node();
+        requested_modules.into_iter().for_each(
+            |(
+                request_key,
+                RequestedModule {
+                    span: src_span,
+                    entries: module_entries,
+                    usage: mut module_usage,
+                    ..
+                },
+            )| {
+                let src = request_key.src().clone();
+                let is_node_default = !module_usage.has_named() && import_interop.is_node();
 
                 if import_interop.is_none() {
-                    link_flag -= LinkFlag::NAMESPACE;
+                    module_usage -= ModuleRequestUsage::NAMESPACE;
                 }
 
-                let need_re_export = link_flag.export_star();
-                let need_interop = link_flag.interop();
-                let need_new_var = link_flag.need_raw_import();
+                let need_re_export = module_usage.has_star_export();
+                let need_interop = module_usage.needs_interop();
+                let need_new_var = module_usage.needs_raw_import_for_ts_import_equals();
 
                 let mod_ident = private_ident!(local_name_for_src(&src));
                 let new_var_ident = if need_new_var {
@@ -490,9 +515,9 @@ where
 
                 self.dep_list.push((mod_ident.clone(), src, src_span));
 
-                link_specifier_set.reduce(
+                module_entries.reduce(
                     import_map,
-                    &mut export_obj_prop_list,
+                    &mut export_bindings,
                     &new_var_ident,
                     &Some(mod_ident.clone()),
                     &mut false,
@@ -512,13 +537,15 @@ where
                 // _introp(mod);
                 if need_interop {
                     import_expr = match import_interop {
-                        ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
-                            helper_expr!(interop_require_wildcard)
-                        } else {
-                            helper_expr!(interop_require_default)
+                        ImportInterop::Swc if module_usage.needs_interop() => {
+                            if module_usage.needs_namespace_object() {
+                                helper_expr!(interop_require_wildcard)
+                            } else {
+                                helper_expr!(interop_require_default)
+                            }
+                            .as_call(PURE_SP, vec![import_expr.as_arg()])
                         }
-                        .as_call(PURE_SP, vec![import_expr.as_arg()]),
-                        ImportInterop::Node if link_flag.namespace() => {
+                        ImportInterop::Node if module_usage.needs_namespace_object() => {
                             helper_expr!(interop_require_wildcard)
                                 .as_call(PURE_SP, vec![import_expr.as_arg(), true.as_arg()])
                         }
@@ -547,12 +574,12 @@ where
 
         let mut export_stmts = Default::default();
 
-        if !export_obj_prop_list.is_empty() && !is_export_assign {
-            sort_export_obj_prop_list(&mut export_obj_prop_list);
+        if !export_bindings.is_empty() && !is_export_assign {
+            sort_export_bindings(&mut export_bindings);
 
             let exports = self.exports();
 
-            export_stmts = emit_export_stmts(exports, export_obj_prop_list);
+            export_stmts = emit_export_stmts(exports, export_bindings);
         }
 
         export_stmts.into_iter().chain(stmts)

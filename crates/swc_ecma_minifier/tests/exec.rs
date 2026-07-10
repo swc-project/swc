@@ -12503,3 +12503,33 @@ console.log(out);
     })
     .unwrap();
 }
+
+#[test]
+fn issue_11970_switch_default_before_empty_case() {
+    let src = r#"
+async function classify(code) {
+    switch (code) {
+        case "66":
+            return 1;
+        case "0":
+            break;
+        default:
+            return 1;
+    }
+
+    return 2;
+}
+
+(async () => {
+    console.log(await classify("66"));
+    console.log(await classify("0"));
+    console.log(await classify("x"));
+})();
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}

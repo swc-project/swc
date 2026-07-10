@@ -5,8 +5,8 @@ System.register([
     var foo;
     return _export("default", void 0), {
         setters: [
-            function(_b) {
-                foo = _b.default;
+            function(_b_ns) {
+                foo = _b_ns.default;
             }
         ],
         execute: function() {
@@ -24,8 +24,8 @@ System.register([
         new Foo();
     }), {
         setters: [
-            function(_a) {
-                Foo = _a.default;
+            function(_a_ns) {
+                Foo = _a_ns.default;
             }
         ],
         execute: function() {

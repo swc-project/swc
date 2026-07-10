@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = { workspace = true }
 name          = "swc_bundler"
 repository    = { workspace = true }
-version       = "51.0.1"
+version       = "52.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -48,9 +48,9 @@ swc_ecma_loader = { version = "24.0.1", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "41.1.2", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "44.0.3", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "47.0.1", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils = { version = "31.0.1", path = "../swc_ecma_utils" }
+swc_ecma_transforms_base = { version = "45.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "48.0.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_utils = { version = "31.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "25.0.0", path = "../swc_ecma_visit" }
 swc_graph_analyzer = { version = "14.0.2", path = "../swc_graph_analyzer/" }
 
@@ -67,14 +67,14 @@ swc_ecma_loader = { version = "24.0.1", path = "../swc_ecma_loader", features = 
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "56.0.1", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "57.0.1", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_transforms_base = { version = "44.0.3", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "45.0.0", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
-swc_ecma_transforms_proposal = { version = "44.0.1", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react = { version = "50.0.0", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "50.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_proposal = { version = "45.0.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react = { version = "51.0.0", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "51.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
 testing = { version = "24.0.1", path = "../testing" }

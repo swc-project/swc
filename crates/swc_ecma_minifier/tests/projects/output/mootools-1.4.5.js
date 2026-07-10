@@ -878,7 +878,7 @@ provides: [Browser, Window, Document]
 
 ...
 */ function() {
-    var document1 = this.document, window1 = document1.window = this, ua = navigator.userAgent.toLowerCase(), platform = navigator.platform.toLowerCase(), UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [
+    var XMLHTTP, MSXML2, MSXML, document1 = this.document, window1 = document1.window = this, ua = navigator.userAgent.toLowerCase(), platform = navigator.platform.toLowerCase(), UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [
         null,
         "unknown",
         0
@@ -899,23 +899,20 @@ provides: [Browser, Window, Document]
         },
         Plugins: {}
     };
-    Browser1[Browser1.name] = !0, Browser1[Browser1.name + parseInt(Browser1.version, 10)] = !0, Browser1.Platform[Browser1.Platform.name] = !0, // Request
-    Browser1.Request = function() {
-        var XMLHTTP = function() {
-            return new XMLHttpRequest();
-        }, MSXML2 = function() {
-            return new ActiveXObject("MSXML2.XMLHTTP");
-        }, MSXML = function() {
-            return new ActiveXObject("Microsoft.XMLHTTP");
-        };
-        return Function.attempt(function() {
-            return XMLHTTP(), XMLHTTP;
-        }, function() {
-            return MSXML2(), MSXML2;
-        }, function() {
-            return MSXML(), MSXML;
-        });
-    }(), Browser1.Features.xhr = !!Browser1.Request;
+    Browser1[Browser1.name] = !0, Browser1[Browser1.name + parseInt(Browser1.version, 10)] = !0, Browser1.Platform[Browser1.Platform.name] = !0, XMLHTTP = function() {
+        return new XMLHttpRequest();
+    }, MSXML2 = function() {
+        return new ActiveXObject("MSXML2.XMLHTTP");
+    }, MSXML = function() {
+        return new ActiveXObject("Microsoft.XMLHTTP");
+    }, // Request
+    Browser1.Request = Function.attempt(function() {
+        return XMLHTTP(), XMLHTTP;
+    }, function() {
+        return MSXML2(), MSXML2;
+    }, function() {
+        return MSXML(), MSXML;
+    }), Browser1.Features.xhr = !!Browser1.Request;
     // Flash detection
     var version = (Function.attempt(function() {
         return navigator.plugins["Shockwave Flash"].description;
@@ -2115,33 +2112,30 @@ function() {
         getWindow: function() {
             return this.window;
         },
-        id: function() {
-            var types = {
-                string: function(id, nocash, doc) {
-                    return (id = Slick.find(doc, "#" + id.replace(/(\W)/g, "\\$1"))) ? types.element(id, nocash) : null;
-                },
-                element: function(el, nocash) {
-                    if (Slick.uidOf(el), !nocash && !el.$family && !/^(?:object|embed)$/i.test(el.tagName)) {
-                        var fireEvent = el.fireEvent;
-                        // wrapping needed in IE7, or else crash
-                        el._fireEvent = function(type, event) {
-                            return fireEvent(type, event);
-                        }, Object.append(el, Element.Prototype);
-                    }
-                    return el;
-                },
-                object: function(obj, nocash, doc) {
-                    return obj.toElement ? types.element(obj.toElement(doc), nocash) : null;
+        id: ((types = {
+            string: function(id, nocash, doc) {
+                return (id = Slick.find(doc, "#" + id.replace(/(\W)/g, "\\$1"))) ? types.element(id, nocash) : null;
+            },
+            element: function(el, nocash) {
+                if (Slick.uidOf(el), !nocash && !el.$family && !/^(?:object|embed)$/i.test(el.tagName)) {
+                    var fireEvent = el.fireEvent;
+                    // wrapping needed in IE7, or else crash
+                    el._fireEvent = function(type, event) {
+                        return fireEvent(type, event);
+                    }, Object.append(el, Element.Prototype);
                 }
-            };
-            return types.textnode = types.whitespace = types.window = types.document = function(zero) {
-                return zero;
-            }, function(el, nocash, doc) {
-                if (el && el.$family && el.uniqueNumber) return el;
-                var type = typeOf(el);
-                return types[type] ? types[type](el, nocash, doc || document) : null;
-            };
-        }()
+                return el;
+            },
+            object: function(obj, nocash, doc) {
+                return obj.toElement ? types.element(obj.toElement(doc), nocash) : null;
+            }
+        }).textnode = types.whitespace = types.window = types.document = function(zero) {
+            return zero;
+        }, function(el, nocash, doc) {
+            if (el && el.$family && el.uniqueNumber) return el;
+            var type = typeOf(el);
+            return types[type] ? types[type](el, nocash, doc || document) : null;
+        })
     }), null == window.$ && Window.implement("$", function(el, nc) {
         return document.id(el, nc, this.document);
     }), Window.implement({
@@ -2162,7 +2156,7 @@ function() {
             return document.id(Slick.find(this, expression));
         }
     });
-    var contains = {
+    var types, div, set, translations, contains = {
         contains: function(element) {
             return Slick.contains(this, element);
         }
@@ -2355,9 +2349,7 @@ function() {
         var value = node.value;
         node.type = type, node.value = value;
     }), input = null;
-    /*</IE>*/ /* getProperty, setProperty */ /* <ltIE9> */ var pollutesGetAttribute = function(div) {
-        return div.random = "attribute", "attribute" == div.getAttribute("random");
-    }(document.createElement("div"));
+    /*</IE>*/ /* getProperty, setProperty */ /* <ltIE9> */ var pollutesGetAttribute = ((div = document.createElement("div")).random = "attribute", "attribute" == div.getAttribute("random"));
     /* <ltIE9> */ Element.implement({
         setProperty: function(name, value) {
             var setter = propertySetters[name.toLowerCase()];
@@ -2561,55 +2553,52 @@ function() {
         }
     };
     /*<ltIE9>*/ // technique by jdbarlett - http://jdbartlett.com/innershiv/
-    var div = document.createElement("div");
-    div.innerHTML = "<nav></nav>";
-    var supportsHTML5Elements = 1 == div.childNodes.length;
+    var div1 = document.createElement("div");
+    div1.innerHTML = "<nav></nav>";
+    var supportsHTML5Elements = 1 == div1.childNodes.length;
     if (!supportsHTML5Elements) for(var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(" "), fragment = document.createDocumentFragment(), l = tags.length; l--;)fragment.createElement(tags[l]);
-    div = null;
+    div1 = null;
     /*</ltIE9>*/ /*<IE>*/ var supportsTableInnerHTML = Function.attempt(function() {
         return document.createElement("table").innerHTML = "<tr><td></td></tr>", !0;
     }), tr = document.createElement("tr"), html = "<td></td>";
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
-    tr = null, supportsTableInnerHTML && supportsTRInnerHTML && supportsHTML5Elements || (Element.Properties.html.set = function(set) {
-        var translations = {
-            table: [
-                1,
-                "<table>",
-                "</table>"
-            ],
-            select: [
-                1,
-                "<select>",
-                "</select>"
-            ],
-            tbody: [
-                2,
-                "<table><tbody>",
-                "</tbody></table>"
-            ],
-            tr: [
-                3,
-                "<table><tbody><tr>",
-                "</tr></tbody></table>"
-            ]
-        };
-        return translations.thead = translations.tfoot = translations.tbody, function(html) {
-            var wrap = translations[this.get("tag")];
-            if (wrap || supportsHTML5Elements || (wrap = [
-                0,
-                "",
-                ""
-            ]), !wrap) return set.call(this, html);
-            var level = wrap[0], wrapper = document.createElement("div"), target = wrapper;
-            for(supportsHTML5Elements || fragment.appendChild(wrapper), wrapper.innerHTML = [
-                wrap[1],
-                html,
-                wrap[2]
-            ].flatten().join(""); level--;)target = target.firstChild;
-            this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment.removeChild(wrapper);
-        };
-    }(Element.Properties.html.set));
+    tr = null, supportsTableInnerHTML && supportsTRInnerHTML && supportsHTML5Elements || (Element.Properties.html.set = (set = Element.Properties.html.set, (translations = {
+        table: [
+            1,
+            "<table>",
+            "</table>"
+        ],
+        select: [
+            1,
+            "<select>",
+            "</select>"
+        ],
+        tbody: [
+            2,
+            "<table><tbody>",
+            "</tbody></table>"
+        ],
+        tr: [
+            3,
+            "<table><tbody><tr>",
+            "</tr></tbody></table>"
+        ]
+    }).thead = translations.tfoot = translations.tbody, function(html) {
+        var wrap = translations[this.get("tag")];
+        if (wrap || supportsHTML5Elements || (wrap = [
+            0,
+            "",
+            ""
+        ]), !wrap) return set.call(this, html);
+        var level = wrap[0], wrapper = document.createElement("div"), target = wrapper;
+        for(supportsHTML5Elements || fragment.appendChild(wrapper), wrapper.innerHTML = [
+            wrap[1],
+            html,
+            wrap[2]
+        ].flatten().join(""); level--;)target = target.firstChild;
+        this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment.removeChild(wrapper);
+    }));
     /*</IE>*/ /*<ltIE9>*/ var testForm = document.createElement("form");
     testForm.innerHTML = "<select><option>s</option></select>", "s" != testForm.firstChild.value && (Element.Properties.value = {
         set: function(value) {

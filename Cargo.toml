@@ -131,7 +131,6 @@ triomphe                  = "0.1.13"
 unicode-id-start          = "1.2.0"
 unicode-width             = "0.2.1"
 url                       = "2.5.4"
-vergen                    = { version = "9.0.0", default-features = false }
 walkdir                   = "2.4.0"
 wasi-common               = { version = "38", default-features = false }
 wasm-bindgen              = "0.2.100"
