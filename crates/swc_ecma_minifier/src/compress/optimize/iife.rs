@@ -576,6 +576,12 @@ impl Optimizer<'_> {
             }
         }
 
+        if contains_constructor_arg_observer(&function.params, ident)
+            || contains_constructor_arg_observer(body, ident)
+        {
+            return true;
+        }
+
         if contains_this_expr(&function.params) || contains_this_expr(body) {
             return true;
         }
@@ -1848,4 +1854,124 @@ where
     let mut v = ContainsNewTarget { found: false };
     n.visit_with(&mut v);
     v.found
+}
+
+struct ConstructorArgObserver<'a> {
+    found: bool,
+    fn_ident: Option<&'a Ident>,
+}
+
+impl ConstructorArgObserver<'_> {
+    fn prop_name_may_observe_args(&self, key: &PropName) -> bool {
+        match key {
+            PropName::Computed(key) => self.expr_may_observe_args(&key.expr),
+            _ => false,
+        }
+    }
+
+    fn key_may_observe_args(&self, key: &Key) -> bool {
+        match key {
+            Key::Public(key) => self.prop_name_may_observe_args(key),
+            Key::Private(_) => false,
+        }
+    }
+
+    fn expr_may_observe_args(&self, expr: &Expr) -> bool {
+        let mut v = ConstructorArgObserver {
+            found: false,
+            fn_ident: self.fn_ident,
+        };
+        expr.visit_with(&mut v);
+        v.found
+    }
+}
+
+fn contains_constructor_arg_observer<'a, N>(n: &N, ident: Option<&'a Ident>) -> bool
+where
+    N: VisitWith<ConstructorArgObserver<'a>>,
+{
+    let mut v = ConstructorArgObserver {
+        found: false,
+        fn_ident: ident,
+    };
+    n.visit_with(&mut v);
+    v.found
+}
+
+impl Visit for ConstructorArgObserver<'_> {
+    noop_visit_type!();
+
+    fn visit_call_expr(&mut self, n: &CallExpr) {
+        if let Callee::Expr(callee) = &n.callee {
+            if let Expr::Ident(ident) = &**callee {
+                if ident.sym == "eval" {
+                    self.found = true;
+                    return;
+                }
+            }
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_class(&mut self, class: &Class) {
+        if self.found {
+            return;
+        }
+
+        if let Some(super_class) = &class.super_class {
+            super_class.visit_with(self);
+
+            if self.found {
+                return;
+            }
+        }
+
+        for member in &class.body {
+            if self.found {
+                return;
+            }
+
+            let may_observe_args = match member {
+                ClassMember::Constructor(constructor) => {
+                    self.prop_name_may_observe_args(&constructor.key)
+                }
+                ClassMember::Method(method) => self.prop_name_may_observe_args(&method.key),
+                ClassMember::ClassProp(prop) => self.prop_name_may_observe_args(&prop.key),
+                ClassMember::AutoAccessor(accessor) => self.key_may_observe_args(&accessor.key),
+                _ => false,
+            };
+
+            if may_observe_args {
+                self.found = true;
+            }
+        }
+    }
+
+    fn visit_fn_expr(&mut self, _: &FnExpr) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_ident(&mut self, ident: &Ident) {
+        if ident.sym == "arguments" {
+            self.found = true;
+            return;
+        }
+
+        if let Some(fn_ident) = self.fn_ident {
+            if ident.to_id() == fn_ident.to_id() {
+                self.found = true;
+            }
+        }
+    }
+
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
+        if matches!(n.kind, MetaPropKind::NewTarget) {
+            self.found = true;
+        }
+    }
+
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
+        self.found = true;
+    }
 }

@@ -12627,6 +12627,73 @@ new function F(a = console.log(F.arguments.length)) {
 }
 
 #[test]
+fn issue_11684_new_function_expr_class_computed_key_arguments() {
+    let src = r#"
+new function() {
+    class C {
+        [console.log(arguments.length)]() {}
+    }
+}("keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_new_function_expr_class_computed_key_named_function_arguments() {
+    let src = r#"
+new function F() {
+    class C {
+        [console.log(F.arguments.length)]() {}
+    }
+}("keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_new_function_expr_class_computed_key_new_target_arguments() {
+    let src = r#"
+new function() {
+    class C {
+        [console.log(new.target.arguments.length)]() {}
+    }
+}("keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_new_function_expr_param_class_computed_key_arguments() {
+    let src = r#"
+new function(a = class C {
+    [console.log(arguments.length)]() {}
+}) {
+}(undefined, "keep");
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn issue_11970_switch_default_before_empty_case() {
     let src = r#"
 async function classify(code) {

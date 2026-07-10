@@ -66,3 +66,37 @@ var q = new function(a = console.log(this.constructor.arguments.length)) {
 
 var r = new function F(a = console.log(F.arguments.length)) {
 }(undefined, "keep");
+
+var s = new function() {
+    class C {
+        [console.log(arguments.length)]() {}
+    }
+}("keep");
+
+var t = new function F() {
+    class C {
+        [console.log(F.arguments.length)]() {}
+    }
+}("keep");
+
+var u = new function() {
+    class C {
+        [console.log(this.constructor.arguments.length)]() {}
+    }
+}("keep");
+
+var v = new function() {
+    class C {
+        [console.log(new.target.arguments.length)]() {}
+    }
+}("keep");
+
+var w = new function(a = class C {
+    [console.log(arguments.length)]() {}
+}) {
+}(undefined, "keep");
+
+var x = new function() {
+    class C extends (console.log(arguments.length), Object) {
+    }
+}("keep");

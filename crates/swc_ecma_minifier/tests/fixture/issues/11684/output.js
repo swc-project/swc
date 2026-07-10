@@ -26,4 +26,16 @@ new function() {
     console.log(new.target.arguments.length);
 }("keep"), new function() {
     with (obj)console.log(value);
-}("keep"), new function(a = console.log(new.target.arguments.length)) {}(void 0, "keep"), new function(a = console.log(this.constructor.arguments.length)) {}(void 0, "keep"), new function F(a = console.log(F.arguments.length)) {}(void 0, "keep");
+}("keep"), new function(a = console.log(new.target.arguments.length)) {}(void 0, "keep"), new function(a = console.log(this.constructor.arguments.length)) {}(void 0, "keep"), new function F(a = console.log(F.arguments.length)) {}(void 0, "keep"), new function() {
+    console.log(arguments.length);
+}("keep"), new function F() {
+    console.log(F.arguments.length);
+}("keep"), new function() {
+    console.log(this.constructor.arguments.length);
+}("keep"), new function() {
+    console.log(new.target.arguments.length);
+}("keep"), new function(a = class {
+    [console.log(arguments.length)]() {}
+}) {}(void 0, "keep"), new function() {
+    console.log(arguments.length);
+}("keep");
