@@ -34,9 +34,6 @@
         "dprint": "^0.35.3",
         "zx": "^7.2.1"
     },
-    "dependencies": {
-        "tslib": "^2.8.0"
-    },
     "exports": {
         "./package.json": "./package.json",
         "./esm/*": "./esm/*",

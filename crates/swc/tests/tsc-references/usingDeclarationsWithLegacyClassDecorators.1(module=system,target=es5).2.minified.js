@@ -1,8 +1,8 @@
 //// [usingDeclarationsWithLegacyClassDecorators.1.ts]
 System.register([
     "@swc/helpers/_/_class_call_check",
-    "@swc/helpers/_/_ts_decorate",
     "@swc/helpers/_/_ts_add_disposable_resource",
+    "@swc/helpers/_/_ts_decorate",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
     var C, _class_call_check, _ts_add_disposable_resource, _ts_decorate, _ts_dispose_resources, env;
@@ -11,11 +11,11 @@ System.register([
             function(_class_call_check_ns) {
                 _class_call_check = _class_call_check_ns._;
             },
-            function(_ts_decorate_ns) {
-                _ts_decorate = _ts_decorate_ns._;
-            },
             function(_ts_add_disposable_resource_ns) {
                 _ts_add_disposable_resource = _ts_add_disposable_resource_ns._;
+            },
+            function(_ts_decorate_ns) {
+                _ts_decorate = _ts_decorate_ns._;
             },
             function(_ts_dispose_resources_ns) {
                 _ts_dispose_resources = _ts_dispose_resources_ns._;
