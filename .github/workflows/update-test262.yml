@@ -1,0 +1,333 @@
+name: Update Test262 upstreams
+
+on:
+  workflow_call:
+    inputs:
+      test262_sha:
+        description: Optional full tc39/test262 commit SHA; defaults to its default branch
+        required: false
+        type: string
+    secrets:
+      BOT_GH_TOKEN:
+        description: Optional bot token used to push a branch and create the pull request
+        required: false
+  workflow_dispatch:
+    inputs:
+      test262_sha:
+        description: Optional full tc39/test262 commit SHA; defaults to its default branch
+        required: false
+        type: string
+
+env:
+  CI: 1
+  CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: "always"
+  GIT_AUTHOR_NAME: "SWC Bot"
+  GIT_AUTHOR_EMAIL: "bot@swc.rs"
+  GIT_COMMITTER_NAME: "SWC Bot"
+  GIT_COMMITTER_EMAIL: "bot@swc.rs"
+  GIT_EDITOR: "true"
+  RUST_LOG: "off"
+
+permissions: {}
+
+concurrency:
+  group: update-test262
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Update Test262 upstreams
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+
+      - name: Install Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+
+      - name: Resolve upstream revisions
+        id: revisions
+        env:
+          GH_TOKEN: ${{ secrets.BOT_GH_TOKEN || github.token }}
+          TEST262_SHA_INPUT: ${{ inputs.test262_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          resolve_default_revision() {
+            local repository="$1"
+            local default_branch
+            default_branch="$(gh api "repos/$repository" --jq .default_branch)"
+            gh api "repos/$repository/commits/$default_branch" --jq .sha
+          }
+
+          test262_sha="$TEST262_SHA_INPUT"
+          if [[ -z "$test262_sha" ]]; then
+            test262_sha="$(resolve_default_revision tc39/test262)"
+          fi
+
+          if [[ ! "$test262_sha" =~ ^[0-9a-fA-F]{40}$ ]]; then
+            echo "Test262 revision must be a full commit SHA" >&2
+            exit 1
+          fi
+
+          echo "test262=$test262_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Test262 fixtures
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: tools/test262/vendor
+          key: test262-${{ runner.os }}-${{ steps.revisions.outputs.test262 }}
+
+      - name: Update upstream pins and fixtures
+        run: >-
+          cargo test262 update
+          --test262 "${{ steps.revisions.outputs.test262 }}"
+
+      - name: Regenerate non-runtime baselines
+        run: |
+          mkdir -p target/test262
+          cargo test262 run parser lexer codegen source-map transforms minifier \
+            --offline --update --json > target/test262/update-summary.json
+
+      - name: Summarize baseline changes
+        run: |
+          python3 - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          suites = [
+              "parser",
+              "lexer",
+              "codegen",
+              "source-map",
+              "transforms",
+              "minifier",
+          ]
+
+          def previous_json(path):
+              result = subprocess.run(
+                  ["git", "show", f"HEAD:{path}"],
+                  check=False,
+                  capture_output=True,
+                  text=True,
+              )
+              return json.loads(result.stdout) if result.returncode == 0 else None
+
+          def failure_key(failure):
+              return (
+                  failure["path"],
+                  failure["pipeline"],
+                  failure["variant"],
+                  failure["kind"],
+                  failure["fingerprint"],
+              )
+
+          def brief_failure(failure):
+              summary = failure.get("summary", "").replace("`", "'")
+              if len(summary) > 240:
+                  summary = f"{summary[:240]}..."
+              return {
+                  "path": failure["path"],
+                  "pipeline": failure["pipeline"],
+                  "variant": failure["variant"],
+                  "kind": failure["kind"],
+                  "fingerprint": failure["fingerprint"],
+                  "summary": summary,
+              }
+
+          invocation = json.loads(
+              Path("target/test262/update-summary.json").read_text(encoding="utf-8")
+          )
+          statistics = []
+          deltas = []
+          for report in invocation["suites"]:
+              statistics.append({
+                  key: report[key]
+                  for key in (
+                      "suite",
+                      "total",
+                      "eligible",
+                      "passed",
+                      "known_failed",
+                      "skipped",
+                      "unsupported",
+                  )
+              })
+
+          for suite in suites:
+              path = f"tools/test262/baselines/{suite}.json"
+              current = json.loads(Path(path).read_text(encoding="utf-8"))
+              previous = previous_json(path)
+              old_failures = {} if previous is None else {
+                  failure_key(failure): failure for failure in previous["failures"]
+              }
+              new_failures = {
+                  failure_key(failure): failure for failure in current["failures"]
+              }
+              added = [
+                  new_failures[key]
+                  for key in sorted(new_failures.keys() - old_failures.keys())
+              ]
+              removed = [
+                  old_failures[key]
+                  for key in sorted(old_failures.keys() - new_failures.keys())
+              ]
+              deltas.append({
+                  "suite": suite,
+                  "previous_revision": None if previous is None else previous["upstream_revision"],
+                  "current_revision": current["upstream_revision"],
+                  "previous_known_failure_count": len(old_failures),
+                  "current_known_failure_count": len(new_failures),
+                  "known_failure_delta": len(new_failures) - len(old_failures),
+                  "new_failure_count": len(added),
+                  "unexpected_pass_count": len(removed),
+                  "new_failures": [brief_failure(failure) for failure in added[:3]],
+                  "unexpected_passes": [brief_failure(failure) for failure in removed[:3]],
+                  "truncated": len(added) > 3 or len(removed) > 3,
+              })
+
+          summary = {
+              "test262_revision": invocation["test262_revision"],
+              "statistics": statistics,
+              "baseline_changes": deltas,
+          }
+          Path("target/test262/update-delta.json").write_text(
+              json.dumps(summary, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Verify the Test262 tool
+        run: |
+          cargo test -p swc_test262 --all-features
+          cargo fmt --all -- --check
+          git diff --check
+
+      - name: Check update scope
+        shell: bash
+        run: |
+          unexpected_changes="$(git status --porcelain=v1 --untracked-files=all -- . \
+            ':(exclude)tools/test262/upstreams.toml' \
+            ':(exclude)tools/test262/baselines/**')"
+          if [[ -n "$unexpected_changes" ]]; then
+            echo "The updater changed files outside its allowed scope:" >&2
+            echo "$unexpected_changes" >&2
+            exit 1
+          fi
+
+      - name: Detect fixture changes
+        id: changes
+        shell: bash
+        run: |
+          changes="$(git status --porcelain=v1 --untracked-files=all -- \
+            tools/test262/upstreams.toml tools/test262/baselines)"
+          if [[ -z "$changes" ]]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "The requested revisions and baselines are already current."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prepare pull request body
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          RUNTIME_WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/test262-runtime.yml
+          TEST262_SHA: ${{ steps.revisions.outputs.test262 }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          import textwrap
+          from pathlib import Path
+
+          summary_path = Path("target/test262/update-delta.json")
+          summary = summary_path.read_text(encoding="utf-8").strip()
+
+          diff_stat = subprocess.run(
+              ["git", "diff", "--stat", "--", "tools/test262"],
+              check=True,
+              capture_output=True,
+              text=True,
+          ).stdout.strip()
+
+          body_template = textwrap.dedent("""\
+          <!-- Note: CI script will automatically rebase your PR so please do not rebase unless required -->
+
+          **Description:**
+
+          Updates the pinned conformance fixtures and regenerates the reviewed non-runtime failure baselines.
+
+          - `tc39/test262`: `__TEST262_SHA__`
+
+          <details>
+          <summary>Conformance statistics, new failures, and unexpected passes</summary>
+
+          ```json
+          __SUMMARY__
+          ```
+          </details>
+
+          <details>
+          <summary>Tracked diff summary</summary>
+
+          ```text
+          __DIFF_STAT__
+          ```
+          </details>
+
+          The [runtime conformance workflow](__RUNTIME_WORKFLOW_URL__) remains an independent manual/monitor check and can be dispatched from its Actions page.
+
+          **BREAKING CHANGE:**
+
+          None.
+
+          **Related issue (if exists):**
+
+          N/A
+          """)
+          body = (
+              body_template
+              .replace("__TEST262_SHA__", os.environ["TEST262_SHA"])
+              .replace("__RUNTIME_WORKFLOW_URL__", os.environ["RUNTIME_WORKFLOW_URL"])
+              .replace("__SUMMARY__", summary)
+              .replace("__DIFF_STAT__", diff_stat)
+          )
+
+          Path("target/test262-update-pr.md").write_text(body, encoding="utf-8")
+          PY
+
+      - name: Commit update and create pull request
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.BOT_GH_TOKEN || github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          branch="automation/test262-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git switch -c "$branch"
+          git add tools/test262/upstreams.toml tools/test262/baselines
+          git commit -m "chore(test262): update conformance fixtures"
+
+          gh auth setup-git
+          git push --set-upstream origin "$branch"
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title "chore(test262): update conformance fixtures" \
+            --body-file target/test262-update-pr.md

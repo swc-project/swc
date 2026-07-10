@@ -1,0 +1,67 @@
+name: Test262 runtime conformance
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+env:
+  CI: 1
+  CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: "always"
+  RUST_LOG: "off"
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  runtime:
+    name: Test262 runtime
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+
+      - name: Install Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+
+      - name: Cache Test262 fixtures
+        id: cache-test262
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: tools/test262/vendor
+          key: test262-${{ runner.os }}-${{ hashFiles('tools/test262/upstreams.toml') }}
+
+      - name: Populate missing Test262 fixture cache
+        if: steps.cache-test262.outputs.cache-hit != 'true'
+        run: cargo test262 setup --locked
+
+      - name: Verify Test262 fixtures offline
+        run: cargo test262 setup --locked --offline
+
+      - name: Run Test262 runtime conformance
+        run: |
+          mkdir -p target/test262
+          cargo test262 runtime --offline --json > target/test262/runtime-summary.json
+
+      - name: Upload Test262 runtime results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: test262-runtime-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            target/test262/runtime
+            target/test262/runtime-summary.json
+          if-no-files-found: warn
+          retention-days: 14

@@ -192,8 +192,6 @@ jobs:
           (cd bindings/${{ matrix.pkg }} && ./scripts/test.sh)
 
   list-cargo-tests:
-    if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     name: List crates
     runs-on: ubuntu-latest
     permissions:
@@ -215,6 +213,9 @@ jobs:
 
       - name: List crates
         id: list-tests
+        env:
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+          HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: echo "settings=$(npx zx ./scripts/github/get-test-matrix.mjs)" >> $GITHUB_OUTPUT
 
   cargo-test:
@@ -252,8 +253,9 @@ jobs:
         id: setup-node
         if: matrix.settings.crate != '__noop__'
         with:
-          node-version: "20"
+          node-version: ${{ matrix.settings.crate == 'swc_test262' && '22' || '20' }}
           install-dependencies: "false"
+          cache: ${{ matrix.settings.crate != 'swc_test262' && 'true' || 'false' }}
 
       # We explicitly do this to cache properly.
       - name: Install Rust
@@ -270,7 +272,7 @@ jobs:
           deno-version: v1.x
 
       - name: Install node dependencies
-        if: matrix.settings.crate != '__noop__'
+        if: matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_test262'
         shell: bash
         run: |
           corepack enable
@@ -282,7 +284,7 @@ jobs:
 
       - name: Save pnpm cache
         uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
-        if: github.ref == 'refs/heads/main' && matrix.settings.crate != '__noop__' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
+        if: github.ref == 'refs/heads/main' && matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_test262' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
           key: ${{ steps.setup-node.outputs.pnpm-cache-primary-key }}
@@ -294,7 +296,7 @@ jobs:
           echo "$(npm prefix -g)" >> $GITHUB_PATH
 
       - name: Verify dependencies
-        if: matrix.settings.crate != '__noop__'
+        if: matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_test262'
         shell: bash
         run: |
           jest --version && mocha --version
@@ -315,8 +317,16 @@ jobs:
             .swc-exec-cache
           key: swc-exec-cache-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
 
+      - name: Cache Test262 fixtures
+        id: cache-test262
+        if: matrix.settings.crate == 'swc_test262'
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: tools/test262/vendor
+          key: test262-${{ runner.os }}-${{ hashFiles('tools/test262/upstreams.toml') }}
+
       - name: Run cargo test
-        if: matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_plugin_backend_tests' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm' && matrix.settings.crate != 'hstr'
+        if: matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_plugin_backend_tests' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm' && matrix.settings.crate != 'hstr' && matrix.settings.crate != 'swc_test262'
         run: |
           cargo test -p ${{ matrix.settings.crate }}
 
@@ -361,6 +371,35 @@ jobs:
         if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader'
         run: |
           cargo test -p ${{ matrix.settings.crate }} --all-features
+
+      - name: Populate missing Test262 fixture cache
+        if: matrix.settings.crate == 'swc_test262' && steps.cache-test262.outputs.cache-hit != 'true'
+        run: cargo test262 setup --locked
+
+      - name: Verify Test262 fixtures offline
+        if: matrix.settings.crate == 'swc_test262'
+        run: cargo test262 setup --locked --offline
+
+      - name: Test the Test262 runner
+        if: matrix.settings.crate == 'swc_test262'
+        run: cargo test -p swc_test262 --all-features
+
+      - name: Run Test262 conformance
+        if: matrix.settings.crate == 'swc_test262'
+        run: cargo test262 --offline
+
+      - name: Verify Test262 baselines are unchanged
+        if: matrix.settings.crate == 'swc_test262'
+        run: git diff --exit-code -- tools/test262/baselines
+
+      - name: Upload Test262 conformance results
+        if: matrix.settings.crate == 'swc_test262' && failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: test262-conformance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: target/test262
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Run cargo test (transforms with stacker)
         if: matrix.settings.crate == 'swc_ecma_transforms'
