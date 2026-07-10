@@ -4,7 +4,10 @@ System.register([], function(_export, _context) {
     function testFunc() {
         return "test function";
     }
-    _export("testFunc", testFunc);
+    _export({
+        testFunc: testFunc,
+        testProp: void 0
+    });
     return {
         setters: [],
         execute: function() {

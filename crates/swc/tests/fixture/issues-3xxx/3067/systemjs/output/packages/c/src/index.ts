@@ -11,8 +11,8 @@ System.register([
     _export("displayC", displayC);
     return {
         setters: [
-            function(_something) {
-                something = _something.default;
+            function(_something_ns) {
+                something = _something_ns.default;
             }
         ],
         execute: function() {}

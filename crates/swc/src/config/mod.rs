@@ -1730,8 +1730,8 @@ impl ModuleConfig {
             Some(ModuleConfig::SystemJs(config)) => build_resolver(
                 base_url,
                 paths,
-                config.config.resolve_fully,
-                &config.config.out_file_extension,
+                config.resolve_fully,
+                &config.out_file_extension,
                 preserve_symlinks,
             ),
         };

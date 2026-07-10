@@ -5,17 +5,18 @@ System.register([
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
     "use strict";
-    var _ts_decorate, _ts_add_disposable_resource, _ts_dispose_resources, env;
+    var _class, _ts_add_disposable_resource, _ts_decorate, _ts_dispose_resources, after, env;
+    _export("default", void 0);
     return {
         setters: [
-            function(_ts_decorate1) {
-                _ts_decorate = _ts_decorate1._;
+            function(_ts_decorate_ns) {
+                _ts_decorate = _ts_decorate_ns._;
             },
-            function(_ts_add_disposable_resource1) {
-                _ts_add_disposable_resource = _ts_add_disposable_resource1._;
+            function(_ts_add_disposable_resource_ns) {
+                _ts_add_disposable_resource = _ts_add_disposable_resource_ns._;
             },
-            function(_ts_dispose_resources1) {
-                _ts_dispose_resources = _ts_dispose_resources1._;
+            function(_ts_dispose_resources_ns) {
+                _ts_dispose_resources = _ts_dispose_resources_ns._;
             }
         ],
         execute: function() {
@@ -25,12 +26,12 @@ System.register([
                 hasError: false
             };
             try {
-                var _class = class _class {
-                };
-                _export("default", _class = _ts_decorate([
+                _class = class _class {
+                }, _export("default", _class), _class;
+                _class = _ts_decorate([
                     dec
-                ], _class));
-                var after = _ts_add_disposable_resource(env, null, false);
+                ], _class), _export("default", _class), _class;
+                after = _ts_add_disposable_resource(env, null, false);
             } catch (e) {
                 env.error = e;
                 env.hasError = true;

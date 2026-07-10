@@ -3,12 +3,12 @@ System.register([
     "./b"
 ], function(_export, _context) {
     "use strict";
-    var foo, Foo;
+    var Foo, foo;
     _export("default", void 0);
     return {
         setters: [
-            function(_b) {
-                foo = _b.default;
+            function(_b_ns) {
+                foo = _b_ns.default;
             }
         ],
         execute: function() {
@@ -30,8 +30,8 @@ System.register([
     _export("default", foo);
     return {
         setters: [
-            function(_a) {
-                Foo = _a.default;
+            function(_a_ns) {
+                Foo = _a_ns.default;
             }
         ],
         execute: function() {

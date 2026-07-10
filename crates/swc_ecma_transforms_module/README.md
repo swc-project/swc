@@ -1,8 +1,11 @@
-# CommonJS, AMD, and UMD Module Transforms
+# Module Transforms
 
 This crate lowers ECMAScript module syntax into several legacy module formats.
-The CommonJS, AMD, and UMD passes share the same source-module collection model
-and then diverge only at the format-specific import/export emit boundary.
+The CommonJS, AMD, and UMD passes share one source-module collection and
+reduction model, then diverge at the format-specific import/export emit
+boundary. The SystemJS pass also reuses source-module collection, but it lowers
+the collected records into a SystemJS-specific IR instead of using the shared
+CommonJS-like reducer.
 
 ```mermaid
 flowchart TD
@@ -25,8 +28,9 @@ flowchart TD
     Rewrite --> Umd --> UmdOut
 ```
 
-SystemJS is implemented in the same crate, but it does not use the flow
-described here.
+SystemJS is documented separately below because its live-binding and execution
+model is organized around `System.register`, dependency setters, and an
+`execute` function.
 
 ## Shared Terminology
 
@@ -306,6 +310,51 @@ name settings. It resolves dependency request strings before emitting the CJS
 Unlike the CommonJS and AMD passes, the current UMD pass does not rewrite
 dynamic `import()` or `import.meta` itself in this module-transform stage.
 
+## SystemJS Flow
+
+The SystemJS pass lives in `src/system_js.rs` with private implementation
+modules in `src/system_js/`. Its public entry point is
+`system_js(resolver, unresolved_mark, config)`, and its public `Config` type is
+the shared `util::Config`.
+
+```mermaid
+flowchart LR
+    Ast["Module AST"] --> Extract["Extract records"]
+    Extract --> Lower["Lower to IR"]
+    Lower --> Rewrite["Scoped rewrites"]
+    Rewrite --> Emit["Emit System.register"]
+```
+
+SystemJS shares only the collection stage with the CommonJS-like passes. It runs
+`ModuleSyntaxExtractor` with `VarDeclKind::Var`, then lowers the collected
+`RequestedModules` and `LocalExportEntries` into a private SystemJS IR. It does
+not use `ModuleRecordEntryReducer`, `ImportMap`, export getter emission, or
+helper injection.
+
+`src/system_js.rs` owns the public pass, directive handling, strict mode, and
+top-level `this` rewrite. The private `src/system_js/` modules then own the
+format-specific stages:
+
+- `lower.rs` builds `SystemModule`: dependency slots, wrapper-scope bindings,
+  export announcements, and execute-time statements.
+- `rewrite.rs` is the scoped visitor boundary for `import.meta`, dynamic
+  `import()`, `__moduleName`, live-binding updates, and top-level-await
+  detection.
+- `emit.rs` is the only layer that creates the final `System.register(...)`
+  call.
+
+Lowering keeps SystemJS timing explicit. Dependency requests are merged in
+first-observed order, and each dependency slot owns the setter operations needed
+for imports and re-exports. Top-level function declarations stay in wrapper
+scope, while variable and class initializers run from `execute`. Import
+attributes stay attached to dependency slots and become the optional metadata
+argument to `System.register`.
+
+Local exports are announced before the returned `{ setters, execute }` object:
+function exports use their function values, and other exports start as `void 0`.
+Later writes to exported locals call `_export`; exported destructuring and loop
+heads use setter patterns so local bindings and exported values stay in sync.
+
 ## Helper Injection
 
 `src/import_analysis.rs` runs before module lowering to enable only the helpers
@@ -325,6 +374,8 @@ corresponding helper calls.
   emitter-facing import/export structures.
 - `common_js.rs`, `amd.rs`, and `umd.rs` own wrapper shape, dependency emission,
   interop application, and special runtime rewrites for their format.
+- `system_js.rs` owns the SystemJS facade, while `src/system_js/` owns its
+  private IR, lowering, rewrite traversal, and `System.register` emission.
 - `module_ref_rewriter.rs` owns replacing imported local binding references with
   the generated property access.
 - `util.rs` owns shared helper-building code such as `define_es_module`,
