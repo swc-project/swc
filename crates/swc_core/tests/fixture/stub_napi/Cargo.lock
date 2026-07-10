@@ -706,9 +706,9 @@ dependencies = [
 
 [[package]]
 name = "crossbeam-epoch"
-version = "0.9.18"
+version = "0.9.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5b82ac4a3c2ca9c3460964f020e1402edd5753411d7737aa39c3714ad1b5420e"
+checksum = "2d6914041f254d6e9176c01941b21115dcfb7089e55135a35411081bd106ef3f"
 dependencies = [
  "crossbeam-utils",
 ]
@@ -3215,7 +3215,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "69.0.0"
+version = "71.0.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -3292,7 +3292,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "51.0.1"
+version = "52.0.0"
 dependencies = [
  "anyhow",
  "crc",
@@ -3350,7 +3350,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "59.0.0"
+version = "60.0.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -3404,7 +3404,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "71.0.5"
+version = "73.0.0"
 dependencies = [
  "swc",
  "swc_allocator",
@@ -3472,7 +3472,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "51.0.0"
+version = "52.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -3487,7 +3487,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "40.0.1"
+version = "41.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -3497,7 +3497,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "50.0.0"
+version = "51.0.0"
 dependencies = [
  "arrayvec",
  "indexmap",
@@ -3522,7 +3522,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "45.0.0"
+version = "46.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_transformer",
@@ -3533,7 +3533,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "45.0.0"
+version = "46.0.0"
 dependencies = [
  "serde",
  "swc_common",
@@ -3546,7 +3546,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "46.0.0"
+version = "47.0.0"
 dependencies = [
  "serde",
  "swc_ecma_ast",
@@ -3558,7 +3558,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "45.0.0"
+version = "46.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -3570,7 +3570,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "48.0.0"
+version = "49.0.0"
 dependencies = [
  "serde",
  "swc_common",
@@ -3585,7 +3585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "45.0.0"
+version = "46.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_transformer",
@@ -3596,7 +3596,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "48.0.0"
+version = "49.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -3682,7 +3682,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "56.0.2"
+version = "57.0.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.9.1",
@@ -3733,7 +3733,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "57.0.0"
+version = "59.0.0"
 dependencies = [
  "anyhow",
  "foldhash 0.1.5",
@@ -3796,7 +3796,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transformer"
-version = "16.0.3"
+version = "17.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -3813,7 +3813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "56.0.0"
+version = "58.0.0"
 dependencies = [
  "par-core",
  "swc_common",
@@ -3830,7 +3830,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "44.0.4"
+version = "45.0.0"
 dependencies = [
  "better_scoped_tls",
  "indexmap",
@@ -3851,7 +3851,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "44.0.0"
+version = "45.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -3862,7 +3862,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "52.0.1"
+version = "53.0.0"
 dependencies = [
  "indexmap",
  "par-core",
@@ -3898,7 +3898,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "49.0.2"
+version = "51.0.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -3924,7 +3924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "47.0.2"
+version = "48.0.0"
 dependencies = [
  "bytes-str",
  "dashmap",
@@ -3946,7 +3946,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "44.0.1"
+version = "45.0.0"
 dependencies = [
  "either",
  "rustc-hash 2.1.1",
@@ -3962,7 +3962,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "50.0.0"
+version = "51.0.0"
 dependencies = [
  "base64",
  "bytes-str",
@@ -3985,7 +3985,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "50.0.0"
+version = "51.0.0"
 dependencies = [
  "bytes-str",
  "rustc-hash 2.1.1",
@@ -4078,7 +4078,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "70.0.0"
+version = "72.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",
@@ -4147,7 +4147,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "30.0.0"
+version = "30.0.1"
 dependencies = [
  "anyhow",
  "blake3",
