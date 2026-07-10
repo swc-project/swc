@@ -17,8 +17,8 @@ use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, EsSyntax, Syn
 use crate::{
     convert_ast::convert_program,
     convert_ast_reverse::convert_program_to_swc as convert_program_to_swc_with_preserved_ast,
-    convert_scope::SemanticBuilder, diagnostics::Severity, lint_source,
-    prefilter::has_react_like_functions, transform_source, SourceType,
+    convert_scope::SemanticBuilder, diagnostics::Severity, lint_source, transform_source,
+    SourceType,
 };
 
 fn convert_program_to_swc(file: &File) -> swc_ecma_ast::Program {
@@ -146,56 +146,6 @@ fn default_options() -> PluginOptions {
         profiling: false,
         debug: false,
     }
-}
-
-// ── Prefilter tests ─────────────────────────────────────────────────────────
-
-#[test]
-fn prefilter_detects_function_component() {
-    let program = parse_program("function MyComponent() { return <div />; }");
-    assert!(has_react_like_functions(&program));
-}
-
-#[test]
-fn prefilter_detects_arrow_component() {
-    let program = parse_program("const MyComponent = () => <div />;");
-    assert!(has_react_like_functions(&program));
-}
-
-#[test]
-fn prefilter_detects_hook() {
-    let program = parse_program("function useMyHook() { return 42; }");
-    assert!(has_react_like_functions(&program));
-}
-
-#[test]
-fn prefilter_detects_hook_assigned_to_variable() {
-    let program = parse_program("const useMyHook = function() { return 42; };");
-    assert!(has_react_like_functions(&program));
-}
-
-#[test]
-fn prefilter_rejects_non_react_program() {
-    let program = parse_program(
-        r#"
-        const x = 1;
-        function helper() { return x + 2; }
-        export { helper };
-        "#,
-    );
-    assert!(!has_react_like_functions(&program));
-}
-
-#[test]
-fn prefilter_rejects_lowercase_function() {
-    let program = parse_program("function myFunction() { return 42; }");
-    assert!(!has_react_like_functions(&program));
-}
-
-#[test]
-fn prefilter_rejects_use_prefix_without_uppercase() {
-    let program = parse_program("function useful() { return true; }");
-    assert!(!has_react_like_functions(&program));
 }
 
 // ── AST round-trip tests ────────────────────────────────────────────────────
@@ -1635,22 +1585,13 @@ fn transform_ref_access_error_is_not_swc_diagnostic_with_default_panic_threshold
 }
 
 #[test]
-fn transform_non_react_code_returns_none() {
-    let source = "const x = 1 + 2;";
-    let result = transform_source(source, Default::default(), default_options());
-    // Non-React code with compilation_mode "infer" should be skipped (prefilter)
-    assert!(result.program.is_none());
-    assert!(result.diagnostics.is_empty());
-}
-
-#[test]
 fn transform_compilation_mode_all_does_not_skip() {
     let source = "const x = 1 + 2;";
     let mut options = default_options();
     options.compilation_mode = "all".to_string();
     let result = transform_source(source, Default::default(), options);
     // With "all" mode, even non-React code should go through the compiler.
-    // It may not produce output, but it should not be skipped by prefilter.
+    // It may not produce output.
     let _ = result.program;
 }
 
