@@ -25,6 +25,7 @@ target/
 .DS_Store
 
 /node_modules/
+/tools/test262/vendor/
 
 # Flamegraph
 *.html

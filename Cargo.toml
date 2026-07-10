@@ -5,6 +5,7 @@ members = [
   "crates/*",
   "tools/generate-code",
   "tools/swc-releaser",
+  "tools/test262",
 ]
 resolver = "2"
 
@@ -102,6 +103,7 @@ relative-path             = "1.6.1"
 reqwest                   = "0.11.14"
 rustc-hash                = "2"
 ryu-js                    = "1.0.0"
+saphyr                    = "0.0.9"
 scoped-tls                = "1.0.1"
 semver                    = "1.0.20"
 seq-macro                 = "0.3"

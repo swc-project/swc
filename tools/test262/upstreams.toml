@@ -1,0 +1,3 @@
+[test262]
+url = "https://github.com/tc39/test262.git"
+revision = "de8e621cdba4f40cff3cf244e6cfb8cb48746b4a"

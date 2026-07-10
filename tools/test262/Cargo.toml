@@ -1,0 +1,43 @@
+[package]
+name = "swc_test262"
+version = "0.1.0"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[features]
+default = []
+suite-all = [
+  "suite-codegen",
+  "suite-lexer",
+  "suite-minifier",
+  "suite-parser",
+  "suite-runtime",
+  "suite-transforms",
+]
+suite-codegen = []
+suite-lexer = []
+suite-minifier = []
+suite-parser = ["dep:swc_common", "dep:swc_ecma_ast", "dep:swc_ecma_parser"]
+suite-runtime = []
+suite-transforms = []
+
+[dependencies]
+anyhow = { workspace = true }
+clap = { version = "4.5.9", features = ["derive"] }
+rayon = { workspace = true }
+globset = { workspace = true }
+saphyr = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+swc_common = { path = "../../crates/swc_common", features = ["tty-emitter"], optional = true }
+swc_ecma_ast = { path = "../../crates/swc_ecma_ast", features = ["serde-impl"], optional = true }
+swc_ecma_parser = { path = "../../crates/swc_ecma_parser", features = ["verify"], optional = true }
+toml = { workspace = true }
+walkdir = { workspace = true }
+
+[dev-dependencies]
+tempfile = "3"
