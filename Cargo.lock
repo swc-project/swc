@@ -2774,7 +2774,6 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "smartstring",
  "smol_str",
  "string_cache",
  "swc_malloc",
@@ -5616,17 +5615,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "smartstring"
-version = "1.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fb72c633efbaa2dd666986505016c32c3044395ceaf881518399d2f4127ee29"
-dependencies = [
- "autocfg",
- "static_assertions",
- "version_check",
-]
-
-[[package]]
 name = "smol_str"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6618,6 +6606,7 @@ dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
  "codspeed-criterion-compat",
+ "compact_str",
  "either",
  "num-bigint",
  "pathdiff",
@@ -6626,7 +6615,6 @@ dependencies = [
  "seq-macro",
  "serde",
  "serde_json",
- "smartstring",
  "stacker",
  "swc_atoms",
  "swc_common",
