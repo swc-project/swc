@@ -29,7 +29,7 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
     });
 }
 
-fn bench_next_module(b: &mut Bencher, source_type: SourceType, src: &'static str) {
+fn bench_next_module(b: &mut Bencher, source_type: SourceType, src: &str) {
     b.iter(|| {
         black_box(NextParser::new(src, source_type).parse());
     });
@@ -117,6 +117,13 @@ fn bench_files(c: &mut Criterion) {
 }
 
 fn bench_next_files(c: &mut Criterion) {
+    let escape_heavy = r#"{
+        const \u0061 = "\u{1F600}\x41\n";
+        const template = `escaped: \u{1F642} ${\u0061}`;
+        const regexp = /[\u{1F600}-\u{1F64F}]\w+/u;
+    }
+    "#
+    .repeat(1024);
     let cases = [
         (
             "colors",
@@ -172,6 +179,26 @@ fn bench_next_files(c: &mut Criterion) {
             "typescript",
             SourceType::module(),
             include_str!("./files/typescript.js"),
+        ),
+        (
+            "typescript-source",
+            SourceType::typescript(),
+            include_str!("../../swc/benches/assets/parser.ts"),
+        ),
+        (
+            "minified-js",
+            SourceType::module(),
+            include_str!("../../swc/tests/tsc-references/fixSignatureCaching.2.minified.js"),
+        ),
+        (
+            "numeric-heavy",
+            SourceType::module(),
+            include_str!("./files/numeric-separators.js"),
+        ),
+        (
+            "unicode-escape-heavy",
+            SourceType::module(),
+            escape_heavy.as_str(),
         ),
     ];
 
