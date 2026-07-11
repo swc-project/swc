@@ -6,7 +6,7 @@ use swc_ecma_parser;
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::DebugUsingDisplay;
 
-use self::swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};
+use self::swc_ecma_parser::{EsSyntax, LegacyParser as Parser, StringInput, Syntax};
 use super::*;
 use crate::{lit::get_quoted_utf16, text_writer::omit_trailing_semi};
 

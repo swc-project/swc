@@ -5,7 +5,8 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{
-    lexer::Lexer, unstable::Capturing, EsSyntax, Parser, StringInput, Syntax, TsSyntax,
+    lexer::Lexer, unstable::Capturing, EsSyntax, LegacyParser as Parser, StringInput, Syntax,
+    TsSyntax,
 };
 use swc_ts_fast_strip::{operate, Mode, Options, TransformConfig};
 use testing::NormalizedOutput;

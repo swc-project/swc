@@ -186,7 +186,7 @@ fn tsx_ast_matches_legacy_parser() {
 #[cfg(feature = "flow")]
 #[test]
 fn flow_ast_matches_legacy_parser() {
-    use swc_ecma_parser::{next::FlowOptions, FlowSyntax};
+    use swc_ecma_parser::{FlowOptions, FlowSyntax};
 
     let source = "// @flow\nexport const value: number = 1;";
     let options = ParseOptions {
