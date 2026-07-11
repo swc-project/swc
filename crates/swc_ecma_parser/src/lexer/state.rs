@@ -357,7 +357,7 @@ impl crate::input::Tokens for Lexer<'_> {
                 };
                 debug_assert!(self
                     .get_token_value()
-                    .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
+                    .is_some_and(|t| matches!(t, TokenValue::Str { .. } | TokenValue::RawStr)));
                 debug_assert!(token == Token::Str);
                 TokenAndSpan::new_with_flags(token, self.span(start), self.current_token_flags())
             }

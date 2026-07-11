@@ -26,6 +26,8 @@ pub enum TokenValue {
     Template(LexResult<Wtf8Atom>),
     // string
     Str(Wtf8Atom),
+    /// Unescaped string whose value is the source slice inside its quotes.
+    RawStr,
     // jsx text
     JsxText(Atom),
     // regexp
@@ -343,6 +345,12 @@ impl<'a> Token {
     #[inline(always)]
     pub fn str(value: Wtf8Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Str(value)));
+        Token::Str
+    }
+
+    #[inline(always)]
+    pub fn raw_str(lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::RawStr));
         Token::Str
     }
 

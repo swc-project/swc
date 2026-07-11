@@ -110,10 +110,16 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn expect_string_token_value(&mut self) -> Wtf8Atom {
-        let Some(crate::lexer::TokenValue::Str(value)) = self.iter.take_token_value() else {
-            unreachable!()
-        };
-        value
+        match self.iter.take_token_value() {
+            Some(crate::lexer::TokenValue::Str(value)) => value,
+            Some(crate::lexer::TokenValue::RawStr) => {
+                let span = self.cur.span;
+                debug_assert!(span.hi.0 >= span.lo.0 + 2);
+                let value_span = Span::new_with_checked(span.lo + BytePos(1), span.hi - BytePos(1));
+                Wtf8Atom::new(self.iter.read_string(value_span))
+            }
+            _ => unreachable!(),
+        }
     }
 
     pub fn expect_jsx_text_token_value(&mut self) -> Atom {

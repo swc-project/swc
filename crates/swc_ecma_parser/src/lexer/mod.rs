@@ -2343,7 +2343,7 @@ impl<'a> Lexer<'a> {
                 b'"' | b'\'' if fast_path_result == quote => {
                     let value_end = self.cur_pos();
 
-                    let value = if let Some(buf) = buf.as_mut() {
+                    let token = if let Some(buf) = buf.as_mut() {
                         // `buf` only exist when there has escape.
                         debug_assert!(unsafe { self.input_slice(start, value_end).contains('\\') });
                         let s = unsafe {
@@ -2352,14 +2352,13 @@ impl<'a> Lexer<'a> {
                             self.input_slice(slice_start, value_end)
                         };
                         buf.push_str(s);
-                        self.wtf8_atom(&**buf)
+                        Token::str(self.wtf8_atom(&**buf), self)
                     } else {
-                        let s = unsafe { self.input_slice(slice_start, value_end) };
-                        self.wtf8_atom(Wtf8::from_str(s))
+                        Token::raw_str(self)
                     };
 
                     self.bump(1); // cur is quote
-                    return Ok(Token::str(value, self));
+                    return Ok(token);
                 }
                 b'\\' => {
                     let end = self.cur_pos();
