@@ -9,6 +9,7 @@ include       = [
   "OXC_LICENSE",
   "src/**/*.rs",
   "examples/**/*.rs",
+  "fuzz/README.md",
 ]
 license       = { workspace = true }
 name          = "swc_ecma_parser"

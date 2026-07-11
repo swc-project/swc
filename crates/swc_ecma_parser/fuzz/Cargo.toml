@@ -1,0 +1,22 @@
+[package]
+edition = "2021"
+name = "swc_ecma_parser-fuzz"
+publish = false
+version = "0.0.0"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+swc_ecma_parser = { path = "..", features = ["flow", "verify"] }
+
+# Keep the fuzz package out of the parent workspace.
+[workspace]
+members = ["."]
+
+[[bin]]
+doc = false
+name = "parse"
+path = "fuzz_targets/parse.rs"
+test = false
