@@ -22,7 +22,7 @@ use swc_ecma_ast::{
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
-    attach_comments, ModuleKind, Parser, ParserReturn, SourceType, Syntax, Token as TokenAndSpan,
+    ModuleKind, Parser, ParserReturn, SourceType, Syntax, Token as TokenAndSpan,
     TokenKind as Token, TsSyntax,
 };
 use swc_ecma_transforms_base::{
@@ -256,27 +256,23 @@ pub fn operate(
         None => ModuleKind::Unambiguous,
     };
     let (source_type, parse_options) = SourceType::from_legacy(syntax, module_kind, target);
+    let parser = Parser::new(&fm.src, source_type)
+        .with_options(parse_options)
+        .with_start_pos(fm.start_pos);
+    let mut parsed = if should_capture_tokens {
+        parser.with_tokens().parse()
+    } else {
+        parser.parse()
+    };
+    parsed.attach_comments_to(&comments);
+
     let ParserReturn {
         program,
         diagnostics,
-        comments: parsed_comments,
         mut tokens,
         panicked,
         ..
-    } = Parser::new(&fm.src, source_type)
-        .with_options(parse_options)
-        .with_start_pos(fm.start_pos)
-        .with_tokens()
-        .parse();
-
-    attach_comments(
-        &fm.src,
-        fm.start_pos,
-        &comments,
-        parsed_comments,
-        &tokens,
-        &program,
-    );
+    } = parsed;
 
     if panicked || !diagnostics.is_empty() {
         for error in diagnostics {
@@ -290,10 +286,6 @@ pub fn operate(
             message: "Syntax error".to_string(),
             code: ErrorCode::InvalidSyntax,
         });
-    }
-
-    if !should_capture_tokens {
-        tokens.clear();
     }
 
     let mut program = program;
