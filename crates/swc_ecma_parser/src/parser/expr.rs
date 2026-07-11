@@ -74,6 +74,22 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     pub(crate) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
+        let max_depth = if self.input().is(Token::LParen) {
+            MAX_PAREN_PARSE_DEPTH
+        } else {
+            MAX_PARSE_DEPTH
+        };
+        if self.parse_depth >= max_depth {
+            return Err(self.max_parse_depth_error());
+        }
+
+        self.parse_depth += 1;
+        let result = self.parse_assignment_expr_inner();
+        self.parse_depth -= 1;
+        result
+    }
+
+    fn parse_assignment_expr_inner(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
         if self.input().is(Token::JSXTagStart) && self.input().syntax().typescript() {

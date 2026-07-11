@@ -51,6 +51,15 @@ mod verifier;
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
+/// This limit is intentionally platform-independent. Native builds may grow
+/// the stack for selected grammar productions, but wasm and ARM builds cannot
+/// rely on that support and must fail before exhausting the process stack.
+const MAX_PARSE_DEPTH: u16 = 256;
+const MAX_PAREN_PARSE_DEPTH: u16 = 32;
+const MAX_STMT_PARSE_DEPTH: u16 = 32;
+#[cfg(feature = "typescript")]
+const MAX_TYPE_PARSE_DEPTH: u16 = 64;
+
 #[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
@@ -67,6 +76,7 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
+    parse_depth: u16,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -189,6 +199,7 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
+            parse_depth: 0,
             #[cfg(feature = "flow")]
             allow_super_call: false,
         };
@@ -202,6 +213,11 @@ impl<I: Tokens> Parser<I> {
         }
 
         p
+    }
+
+    #[cold]
+    fn max_parse_depth_error(&self) -> Error {
+        Error::new(self.input.cur_span(), SyntaxError::ExceededMaxParseDepth)
     }
 
     pub fn take_errors(&mut self) -> Vec<Error> {

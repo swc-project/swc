@@ -6,8 +6,11 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{
-    error::SyntaxError, input::Tokens, lexer::Token, parser::util::IsSimpleParameterList, Context,
-    PResult, Parser,
+    error::SyntaxError,
+    input::Tokens,
+    lexer::Token,
+    parser::{util::IsSimpleParameterList, MAX_TYPE_PARSE_DEPTH},
+    Context, PResult, Parser,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -3640,6 +3643,17 @@ impl<I: Tokens> Parser<I> {
     ///
     /// `tsParseType`
     pub(crate) fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
+        if self.parse_depth >= MAX_TYPE_PARSE_DEPTH {
+            return Err(self.max_parse_depth_error());
+        }
+
+        self.parse_depth += 1;
+        let result = self.parse_ts_type_inner();
+        self.parse_depth -= 1;
+        result
+    }
+
+    fn parse_ts_type_inner(&mut self) -> PResult<Box<TsType>> {
         trace_cur!(self, parse_ts_type);
 
         debug_assert!(self.input().syntax().typescript());

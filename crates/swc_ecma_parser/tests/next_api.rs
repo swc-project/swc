@@ -104,6 +104,53 @@ fn flat_comments_attach_deterministically() {
     );
 }
 
+#[test]
+fn excessive_nesting_returns_fatal_diagnostic() {
+    let mut source = "(".repeat(300);
+    source.push('0');
+    source.push_str(&")".repeat(300));
+
+    let result = NextParser::new(&source, SourceType::script()).parse();
+
+    assert!(result.panicked);
+    assert!(result.diagnostics.iter().any(|error| matches!(
+        error.kind(),
+        swc_ecma_parser::error::SyntaxError::ExceededMaxParseDepth
+    )));
+}
+
+#[test]
+fn excessive_statement_nesting_returns_fatal_diagnostic() {
+    let mut source = "{".repeat(100);
+    source.push_str("let value = 1;");
+    source.push_str(&"}".repeat(100));
+
+    let result = NextParser::new(&source, SourceType::script()).parse();
+
+    assert!(result.panicked);
+    assert!(result.diagnostics.iter().any(|error| matches!(
+        error.kind(),
+        swc_ecma_parser::error::SyntaxError::ExceededMaxParseDepth
+    )));
+}
+
+#[cfg(feature = "typescript")]
+#[test]
+fn excessive_type_nesting_returns_fatal_diagnostic() {
+    let mut source = String::from("type Deep = ");
+    source.push_str(&"(".repeat(100));
+    source.push_str("string");
+    source.push_str(&")".repeat(100));
+
+    let result = NextParser::new(&source, SourceType::typescript()).parse();
+
+    assert!(result.panicked);
+    assert!(result.diagnostics.iter().any(|error| matches!(
+        error.kind(),
+        swc_ecma_parser::error::SyntaxError::ExceededMaxParseDepth
+    )));
+}
+
 #[cfg(feature = "typescript")]
 #[test]
 fn typescript_ast_matches_legacy_parser() {
