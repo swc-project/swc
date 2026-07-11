@@ -42,6 +42,7 @@ async function stageSource(sourceName, targetName, canonicalName) {
 
     const manifestPath = path.join(target, "package.json");
     const manifest = await readJson(manifestPath);
+    const sourceVersion = manifest.version;
     manifest.name = canonicalName;
     manifest.version = version;
     delete manifest.private;
@@ -50,6 +51,19 @@ async function stageSource(sourceName, targetName, canonicalName) {
         delete manifest.dependencies["@swc-internal/types-v2"];
         manifest.dependencies["@swc/types"] = version;
         manifest.optionalDependencies = { "@swc/wasm": version };
+
+        const loaderPath = path.join(target, "binding.js");
+        try {
+            const loader = await readFile(loaderPath, "utf8");
+            await writeFile(
+                loaderPath,
+                loader
+                    .replaceAll("@swc-internal/core-v2-", "@swc/core-")
+                    .replaceAll(sourceVersion, version)
+            );
+        } catch (error) {
+            if (error?.code !== "ENOENT") throw error;
+        }
     }
 
     await writeJson(manifestPath, manifest);
@@ -63,13 +77,23 @@ const platformTarget = path.join(output, "platform");
 await cp(platformSource, platformTarget, { recursive: true });
 
 const { readdir } = await import("node:fs/promises");
+const platformDependencies = {};
 for (const entry of await readdir(platformTarget, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue;
     const manifestPath = path.join(platformTarget, entry.name, "package.json");
     const manifest = await readJson(manifestPath);
     manifest.version = version;
     await writeJson(manifestPath, manifest);
+    platformDependencies[manifest.name] = version;
 }
+
+const stagedCoreManifestPath = path.join(output, "core/package.json");
+const stagedCoreManifest = await readJson(stagedCoreManifestPath);
+stagedCoreManifest.optionalDependencies = {
+    ...platformDependencies,
+    ...stagedCoreManifest.optionalDependencies,
+};
+await writeJson(stagedCoreManifestPath, stagedCoreManifest);
 
 const wasmPackage = path.join(root, "bindings/binding_core_wasm_v2/pkg");
 try {

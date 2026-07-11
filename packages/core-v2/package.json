@@ -48,8 +48,8 @@
     ],
     "scripts": {
         "artifacts": "napi artifacts --npm-dir scripts/npm",
-        "build": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node_v2 --js ./binding.js --dts ./binding.d.ts --release -o .",
-        "build:dev": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node_v2 --js ./binding.js --dts ./binding.d.ts -o .",
+        "build": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform --js-package-name @swc/core -p binding_core_node_v2 --js ./binding.js --dts ./binding.d.ts --release -o .",
+        "build:dev": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform --js-package-name @swc/core -p binding_core_node_v2 --js ./binding.js --dts ./binding.d.ts -o .",
         "build:ts": "tsc -d",
         "build:wasm": "wasm-pack build ../../bindings/binding_core_wasm_v2 --scope swc --target nodejs --features plugin",
         "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",

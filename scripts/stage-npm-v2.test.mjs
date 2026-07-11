@@ -34,6 +34,10 @@ test("stages canonical v2 package identities", async () => {
         assert.equal(core.private, undefined);
         assert.equal(core.dependencies["@swc/types"], "2.0.0-next.7");
         assert.equal(core.optionalDependencies["@swc/wasm"], "2.0.0-next.7");
+        assert.equal(
+            core.optionalDependencies["@swc/core-darwin-arm64"],
+            "2.0.0-next.7"
+        );
         assert.equal(types.name, "@swc/types");
         assert.equal(platform.name, "@swc/core-darwin-arm64");
         assert.equal(platform.version, "2.0.0-next.7");

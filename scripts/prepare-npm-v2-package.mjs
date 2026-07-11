@@ -11,6 +11,7 @@ if (!packageDirectory || !version || !canonicalName || !/^2\./.test(version)) {
 
 const manifestPath = path.resolve(packageDirectory, "package.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+const sourceVersion = manifest.version;
 manifest.name = canonicalName;
 manifest.version = version;
 delete manifest.private;
@@ -19,6 +20,19 @@ if (canonicalName === "@swc/core") {
     delete manifest.dependencies["@swc-internal/types-v2"];
     manifest.dependencies["@swc/types"] = version;
     manifest.optionalDependencies = { "@swc/wasm": version };
+
+    const loaderPath = path.resolve(packageDirectory, "binding.js");
+    try {
+        const loader = await readFile(loaderPath, "utf8");
+        await writeFile(
+            loaderPath,
+            loader
+                .replaceAll("@swc-internal/core-v2-", "@swc/core-")
+                .replaceAll(sourceVersion, version)
+        );
+    } catch (error) {
+        if (error?.code !== "ENOENT") throw error;
+    }
 }
 
 await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
