@@ -6,7 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{error::Error, lexer::Lexer, LegacyParser as Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith};
 

@@ -35,7 +35,7 @@ use swc_ecma_minifier::{
         MinifyOptions, TopLevelOptions,
     },
 };
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},

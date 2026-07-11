@@ -9,8 +9,8 @@ use crate::{
     error::SyntaxError,
     input::Tokens,
     lexer::Token,
-    parser::{util::IsSimpleParameterList, MAX_TYPE_PARSE_DEPTH},
-    Context, PResult, Parser,
+    parser::{util::IsSimpleParameterList, Parser, MAX_TYPE_PARSE_DEPTH},
+    Context, PResult,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

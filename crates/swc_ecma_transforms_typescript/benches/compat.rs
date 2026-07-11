@@ -1,7 +1,7 @@
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Module, Pass, Program};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{helpers, resolver};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::{fold_pass, Fold};

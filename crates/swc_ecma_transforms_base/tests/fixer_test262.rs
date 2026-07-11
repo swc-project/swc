@@ -12,7 +12,7 @@ use std::{
 use swc_atoms::atom;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, Syntax};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};

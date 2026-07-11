@@ -10,7 +10,7 @@ use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{
     lexer::Lexer,
     next::{ModuleKind, Parser as NextParser, SourceType},
-    EsSyntax, Parser as LegacyParser, StringInput, Syntax, TsSyntax,
+    EsSyntax, LegacyParser, StringInput, Syntax, TsSyntax,
 };
 
 fn assert_valid_fixture_parity(

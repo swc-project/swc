@@ -7,7 +7,7 @@ use rustc_hash::FxBuildHasher;
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolution;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 

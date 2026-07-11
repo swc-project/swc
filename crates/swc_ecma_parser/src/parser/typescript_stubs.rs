@@ -9,7 +9,7 @@
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
 
-use crate::{input::Tokens, lexer::Token, PResult, Parser};
+use crate::{input::Tokens, lexer::Token, parser::Parser, PResult};
 
 impl<I: Tokens> Parser<I> {
     pub(super) fn is_flow_reserved_type_name(_name: &str) -> bool {

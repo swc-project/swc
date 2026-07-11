@@ -7,7 +7,7 @@ use swc_ecma_parser::{
     next::{
         attach_comments, ModuleKind, ParseOptions, Parser as NextParser, ParserReturn, SourceType,
     },
-    EsSyntax, Parser as LegacyParser, StringInput, Syntax, TsSyntax,
+    EsSyntax, LegacyParser, StringInput, Syntax, TsSyntax,
 };
 
 fn legacy_parse(source: &str, syntax: Syntax, module_kind: ModuleKind) -> Program {

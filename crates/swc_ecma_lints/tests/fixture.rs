@@ -7,7 +7,7 @@ use swc_ecma_lints::{
     rule::Rule,
     rules::{all, LintParams},
 };
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, Syntax};
 use swc_ecma_transforms_base::resolver;
 
 #[testing::fixture("tests/pass/**/input.js")]

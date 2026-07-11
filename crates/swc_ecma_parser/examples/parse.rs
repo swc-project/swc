@@ -6,7 +6,9 @@ use swc_common::{
     SourceMap,
 };
 use swc_ecma_ast::Program;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
+use swc_ecma_parser::{
+    lexer::Lexer, EsSyntax, LegacyParser as Parser, StringInput, Syntax, TsSyntax,
+};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();

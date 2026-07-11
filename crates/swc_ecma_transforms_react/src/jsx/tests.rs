@@ -6,7 +6,7 @@ use std::{
 };
 
 use swc_ecma_codegen::{Config, Emitter};
-use swc_ecma_parser::{EsSyntax, Parser, StringInput};
+use swc_ecma_parser::{EsSyntax, LegacyParser as Parser, StringInput};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};
 use swc_ecma_transforms_compat::es2015::{arrow, classes};
 #[cfg(feature = "es3")]

@@ -2,8 +2,11 @@ use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use crate::{
-    error::SyntaxError, input::Tokens, lexer::Token, parser::class_and_fn::is_not_this, Context,
-    PResult, Parser,
+    error::SyntaxError,
+    input::Tokens,
+    lexer::Token,
+    parser::{class_and_fn::is_not_this, Parser},
+    Context, PResult,
 };
 
 fn prop_name_is(key: &PropName, expected: &str) -> bool {

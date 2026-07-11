@@ -3,7 +3,7 @@ extern crate swc_malloc;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{FileName, Span, DUMMY_SP};
 use swc_ecma_ast::Module;
-use swc_ecma_parser::{Parser, StringInput, Syntax};
+use swc_ecma_parser::{LegacyParser as Parser, StringInput, Syntax};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
 
 static SOURCE: &str = include_str!("files/angular-1.2.5.js");

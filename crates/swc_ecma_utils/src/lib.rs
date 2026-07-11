@@ -3862,7 +3862,7 @@ pub fn prop_name_from_str(span: Span, s: &str) -> PropName {
 #[cfg(test)]
 mod tests {
     use swc_common::{input::StringInput, BytePos};
-    use swc_ecma_parser::{Parser, Syntax};
+    use swc_ecma_parser::{LegacyParser as Parser, Syntax};
 
     use super::*;
 

@@ -12,7 +12,7 @@ use std::{
 use swc_common::{input::SourceFileInput, source_map::DefaultSourceMapGenConfig};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, Syntax};
 
 fn parse_and_gen(entry: &Path) {
     testing::run_test2(false, |cm, _| {

@@ -5,7 +5,7 @@ use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_parser::{
     lexer::Lexer,
     next::{Parser as NextParser, SourceType},
-    Parser, StringInput, Syntax, TsSyntax,
+    LegacyParser as Parser, StringInput, Syntax, TsSyntax,
 };
 
 fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {

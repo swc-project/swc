@@ -11,7 +11,7 @@ use swc_common::{
     Globals, Mark, SourceMap, GLOBALS,
 };
 use swc_ecma_codegen::to_code_default;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsSyntax};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::strip;
 

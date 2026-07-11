@@ -4,7 +4,7 @@ use swc_common::{sync::Lrc, FileName, FilePathMapping, SourceMap};
 use swc_compiler_base::{print, IdentCollector, PrintArgs, SourceMapsConfig};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::Config as CodegenConfig;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, Syntax};
 use swc_ecma_visit::VisitWith;
 
 fn parse_program(cm: Lrc<SourceMap>, src: &str) -> Program {

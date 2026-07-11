@@ -11,7 +11,7 @@ use std::{
 
 use common::Normalizer;
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, PResult, Syntax};
 use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,

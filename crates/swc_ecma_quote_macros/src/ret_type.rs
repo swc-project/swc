@@ -3,7 +3,7 @@ use std::any::type_name;
 use anyhow::{anyhow, bail, Context, Error};
 use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::{AssignTarget, EsVersion};
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, PResult, StringInput};
 use syn::{GenericArgument, PathArguments, Type};
 
 use crate::{ast::ToCode, ctxt::Ctx};

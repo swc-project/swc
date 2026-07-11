@@ -2,7 +2,7 @@ use swc_atoms::atom;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
-use crate::{error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, Parser};
+use crate::{error::SyntaxError, input::Tokens, lexer::Token, parser::Parser, Context, PResult};
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {

@@ -27,7 +27,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{to_code_default, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
     fixer,

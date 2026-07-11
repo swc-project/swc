@@ -11,8 +11,9 @@ use crate::{
     parser::{
         state::State,
         util::{IsInvalidClassName, IsSimpleParameterList},
+        Parser,
     },
-    Context, PResult, Parser,
+    Context, PResult,
 };
 
 struct MakeMethodArgs {

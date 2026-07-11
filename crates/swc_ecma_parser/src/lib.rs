@@ -18,8 +18,8 @@
 //!
 //! ## Error recovery
 //!
-//! The parser can recover from some parsing errors. For example, parser returns
-//! `Ok(Module)` for the code below, while emitting error to handler.
+//! The parser can recover from some parsing errors. Recovered and fatal
+//! diagnostics are returned together with the program.
 //!
 //! ```ts
 //! const CONST = 9000 % 2;
@@ -30,91 +30,37 @@
 //! }
 //! ```
 //!
-//! # Example (lexer)
-//!
-//! See `lexer.rs` in examples directory.
-//!
 //! # Example (parser)
 //!
 //! ```
-//! #[macro_use]
-//! extern crate swc_common;
-//! extern crate swc_ecma_parser;
-//! use swc_common::sync::Lrc;
-//! use swc_common::{
-//!     errors::{ColorConfig, Handler},
-//!     FileName, FilePathMapping, SourceMap,
-//! };
-//! use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+//! use swc_ecma_parser::{Parser, SourceType};
 //!
-//! fn main() {
-//!     let cm: Lrc<SourceMap> = Default::default();
-//!     let handler =
-//!         Handler::with_tty_emitter(ColorConfig::Auto, true, false,
-//!         Some(cm.clone()));
-//!
-//!     // Real usage
-//!     // let fm = cm
-//!     //     .load_file(Path::new("test.js"))
-//!     //     .expect("failed to load test.js");
-//!     let fm = cm.new_source_file(
-//!         FileName::Custom("test.js".into()).into(),
-//!         "function foo() {}",
-//!     );
-//!     let lexer = Lexer::new(
-//!         // We want to parse ecmascript
-//!         Syntax::Es(Default::default()),
-//!         // EsVersion defaults to es5
-//!         Default::default(),
-//!         StringInput::from(&*fm),
-//!         None,
-//!     );
-//!
-//!     let mut parser = Parser::new_from(lexer);
-//!
-//!     for e in parser.take_errors() {
-//!         e.into_diagnostic(&handler).emit();
-//!     }
-//!
-//!     let _module = parser
-//!         .parse_module()
-//!         .map_err(|mut e| {
-//!             // Unrecoverable fatal error occurred
-//!             e.into_diagnostic(&handler).emit()
-//!         })
-//!         .expect("failed to parser module");
-//! }
+//! let result = Parser::new("function foo() {}", SourceType::module()).parse();
+//! assert!(!result.panicked);
+//! assert!(result.diagnostics.is_empty());
 //! ```
 //!
 //! # Example (flow parser)
 //!
 //! ```
 //! # #[cfg(feature = "flow")] {
-//! use swc_common::{sync::Lrc, FileName, SourceMap};
-//! use swc_ecma_ast::EsVersion;
-//! use swc_ecma_parser::{parse_file_as_program, FlowSyntax, Syntax};
+//! use swc_ecma_parser::{FlowOptions, ParseOptions, Parser, SourceType};
 //!
-//! let cm: Lrc<SourceMap> = Default::default();
-//! let fm = cm.new_source_file(
-//!     FileName::Custom("test.js".into()).into(),
+//! let result = Parser::new(
 //!     "// @flow\nconst value: number = 1;",
-//! );
-//! let mut recovered_errors = Vec::new();
-//!
-//! let program = parse_file_as_program(
-//!     &fm,
-//!     Syntax::Flow(FlowSyntax {
+//!     SourceType::flow(),
+//! )
+//! .with_options(ParseOptions {
+//!     flow: FlowOptions {
 //!         require_directive: true,
 //!         ..Default::default()
-//!     }),
-//!     EsVersion::latest(),
-//!     None,
-//!     &mut recovered_errors,
-//! )
-//! .expect("flow should parse");
+//!     },
+//!     ..Default::default()
+//! })
+//! .parse();
 //!
-//! assert!(recovered_errors.is_empty());
-//! let _ = program;
+//! assert!(!result.panicked);
+//! assert!(result.diagnostics.is_empty());
 //! # }
 //! ```
 //!
@@ -189,7 +135,6 @@ mod context;
 pub mod error;
 mod legacy;
 pub mod lexer;
-#[doc(hidden)]
 pub mod next;
 mod parser;
 mod syntax;
@@ -197,7 +142,19 @@ mod syntax;
 pub use context::Context;
 pub use legacy::token;
 pub use lexer::Lexer;
-pub use parser::*;
+pub use next::{
+    FlowOptions, Language, LanguageVariant, ModuleKind, ParseOptions, Parser, ParserReturn,
+    SourceType, Token, TokenKind,
+};
+#[doc(hidden)]
+pub use parser::input;
+pub use parser::PResult;
+#[doc(hidden)]
+pub use parser::Parser as LegacyParser;
+#[cfg(feature = "typescript")]
+pub use parser::ParserCheckpoint;
+#[cfg(test)]
+pub use parser::{bench_parser, test_parser, test_parser_comment};
 pub use swc_common::input::{Input, StringInput};
 #[cfg(feature = "flow")]
 pub use syntax::FlowSyntax;
@@ -223,10 +180,10 @@ pub fn with_file_parser<T>(
     target: EsVersion,
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
-    op: impl for<'aa> FnOnce(&mut Parser<self::Lexer>) -> PResult<T>,
+    op: impl for<'aa> FnOnce(&mut LegacyParser<self::Lexer>) -> PResult<T>,
 ) -> PResult<T> {
     let lexer = self::Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
-    let mut p = Parser::new_from(lexer);
+    let mut p = LegacyParser::new_from(lexer);
     let ret = op(&mut p);
 
     recovered_errors.append(&mut p.take_errors());

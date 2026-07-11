@@ -29,7 +29,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MinifyOptions},
 };
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, Syntax};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     hygiene::hygiene,

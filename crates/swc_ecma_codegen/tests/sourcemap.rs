@@ -6,7 +6,7 @@ use swc_allocator::api::global::HashSet;
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_sourcemap::SourceMap;
 

@@ -3,7 +3,7 @@ extern crate swc_malloc;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{source_map::DefaultSourceMapGenConfig, FileName};
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{Parser, StringInput, Syntax};
+use swc_ecma_parser::{LegacyParser as Parser, StringInput, Syntax};
 
 const COLORS_JS: &str = r#"
 'use strict';
