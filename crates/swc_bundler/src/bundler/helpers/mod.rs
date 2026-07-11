@@ -1,9 +1,8 @@
 use std::sync::atomic::{AtomicBool, Ordering::SeqCst};
 
 use once_cell::sync::Lazy;
-use swc_common::{FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_parser::parse_file_as_module;
+use swc_ecma_parser::next::{Parser, SourceType};
 use swc_ecma_utils::{drop_span, prepend_stmts};
 
 #[derive(Debug, Default)]
@@ -13,18 +12,16 @@ pub(crate) struct Helpers {
 }
 
 fn parse(code: &'static str, name: &'static str) -> Vec<ModuleItem> {
-    let cm = SourceMap::new(FilePathMapping::empty());
-    let fm = cm.new_source_file(FileName::Custom(name.into()).into(), code);
-    parse_file_as_module(
-        &fm,
-        Default::default(),
-        Default::default(),
-        None,
-        &mut Vec::new(),
-    )
-    .map(|script| drop_span(script.body))
-    .map_err(|_| {})
-    .unwrap()
+    let parsed = Parser::new(code, SourceType::module()).parse();
+    assert!(
+        !parsed.panicked,
+        "failed to parse bundler helper {name}: {:?}",
+        parsed.diagnostics
+    );
+    match parsed.program {
+        Program::Module(module) => drop_span(module.body),
+        Program::Script(_) => unreachable!("module source type produced a script"),
+    }
 }
 
 macro_rules! define {

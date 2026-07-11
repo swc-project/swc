@@ -1,7 +1,10 @@
-use anyhow::{anyhow, bail, Result};
+use anyhow::{bail, Result};
 use swc_common::{errors::Handler, SourceFile};
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
+use swc_ecma_parser::{
+    next::{ModuleKind, Parser, SourceType},
+    Syntax, TsSyntax,
+};
 
 /// Parses a source file as JavaScript, TypeScript, or TSX and returns the SWC
 /// program tree. Recovered parser errors are treated as fatal so the CLI does
@@ -11,22 +14,21 @@ pub fn parse_source(file: &SourceFile, handler: &Handler) -> Result<Program> {
         tsx: true,
         ..Default::default()
     });
-    let mut errors = Vec::new();
-    let program = parse_file_as_program(file, syntax, EsVersion::latest(), None, &mut errors)
-        .map_err(|err| {
-            err.into_diagnostic(handler).emit();
-            anyhow!("Syntax Error")
-        })?;
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+    let parsed = Parser::new(&file.src, source_type)
+        .with_options(options)
+        .with_start_pos(file.start_pos)
+        .parse();
 
-    let mut has_recovered_error = false;
-    for err in errors {
+    let has_errors = !parsed.diagnostics.is_empty();
+    for err in parsed.diagnostics {
         err.into_diagnostic(handler).emit();
-        has_recovered_error = true;
     }
 
-    if has_recovered_error {
+    if parsed.panicked || has_errors {
         bail!("Syntax Error");
     }
 
-    Ok(program)
+    Ok(parsed.program)
 }

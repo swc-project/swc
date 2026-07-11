@@ -16,7 +16,6 @@ use swc_common::{
     FileName, Mark, DUMMY_SP,
 };
 use swc_ecma_ast::{noop_pass, EsVersion, Expr, Lit, Module, Program, Str};
-use swc_ecma_parser::{parse_file_as_module, Syntax};
 use swc_ecma_transforms::{
     helpers,
     optimization::{
@@ -112,14 +111,21 @@ impl SwcLoader {
                     .cm
                     .new_source_file(name.clone().into(), "module.exports = {}".to_string());
 
-                let module = parse_file_as_module(
-                    &fm,
-                    Syntax::Es(Default::default()),
-                    Default::default(),
-                    None,
-                    &mut Vec::new(),
+                let parsed = swc_ecma_parser::next::Parser::new(
+                    &fm.src,
+                    swc_ecma_parser::next::SourceType::module(),
                 )
-                .unwrap();
+                .with_start_pos(fm.start_pos)
+                .parse();
+                assert!(
+                    !parsed.panicked,
+                    "failed to parse built-in CommonJS module: {:?}",
+                    parsed.diagnostics
+                );
+                let module = match parsed.program {
+                    Program::Module(module) => module,
+                    Program::Script(_) => unreachable!("module source type produced a script"),
+                };
                 return Ok(ModuleData {
                     fm,
                     module,
