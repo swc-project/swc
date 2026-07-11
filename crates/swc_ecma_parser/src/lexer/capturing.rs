@@ -21,15 +21,6 @@ pub struct CapturingCheckpoint<I: Tokens> {
     inner: I::Checkpoint,
 }
 
-impl<I: Clone> Clone for Capturing<I> {
-    fn clone(&self) -> Self {
-        Capturing {
-            inner: self.inner.clone(),
-            captured: self.captured.clone(),
-        }
-    }
-}
-
 impl<I> Capturing<I> {
     #[cfg(feature = "unstable")]
     pub fn new(input: I) -> Self {
