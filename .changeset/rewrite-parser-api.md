@@ -22,4 +22,4 @@ swc_node_bundler: patch
 swc_ts_fast_strip: major
 ---
 
-feat(es/parser): Add the OXC-style parser API and migrate compiler parsing
+feat(es/parser): Replace the parser API with the OXC-style entry point and remove the abandoned lexer crate
