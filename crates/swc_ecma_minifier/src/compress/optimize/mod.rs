@@ -2540,6 +2540,8 @@ impl VisitMut for Optimizer<'_> {
             n.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        self.ignore_unused_args_of_new(n);
+
         // Try to replace global object with alias (after other transformations)
         if self
             .static_alias_state
