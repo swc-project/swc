@@ -16,7 +16,7 @@ pub(crate) struct LexerCheckpoint {
 
 /// Independent lexer used by the next parser.
 pub(crate) struct Lexer<'a, C: Config> {
-    source: Source<'a>,
+    pub(super) source: Source<'a>,
     token: PackedToken,
     config: C,
     had_line_break: bool,
@@ -103,6 +103,30 @@ impl<'a, C: Config> Lexer<'a, C> {
     /// Consume the lexer and return collected tokens.
     pub(crate) fn into_tokens(self) -> Vec<PackedToken> {
         self.config.into_tokens()
+    }
+
+    /// Finish a parser-directed token that starts at the current cursor.
+    pub(super) fn finish_external(&mut self, token: PackedToken) -> PackedToken {
+        self.token = token;
+        self.config.push(token);
+        self.had_line_break = false;
+        self.escaped = false;
+        token
+    }
+
+    /// Replace the current token after parser-directed re-lexing.
+    pub(super) fn replace_current(
+        &mut self,
+        kind: Kind,
+        span: Span,
+        had_line_break: bool,
+        escaped: bool,
+    ) -> PackedToken {
+        let token = PackedToken::new(kind, span, had_line_break, escaped);
+        self.token = token;
+        self.config.replace_last(token);
+        self.escaped = false;
+        token
     }
 
     fn skip_trivia(&mut self) {

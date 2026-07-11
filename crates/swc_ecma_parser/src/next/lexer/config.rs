@@ -28,6 +28,9 @@ pub(crate) trait Config: Default + 'static {
     /// Restore the retained token length during rewind.
     fn truncate(&mut self, len: usize);
 
+    /// Replace the most recently retained token after parser-directed re-lex.
+    fn replace_last(&mut self, token: PackedToken);
+
     /// Return retained tokens after parsing.
     fn into_tokens(self) -> Vec<PackedToken>;
 }
@@ -56,6 +59,9 @@ impl Config for NoTokens {
     fn truncate(&mut self, len: usize) {
         debug_assert_eq!(len, 0);
     }
+
+    #[inline(always)]
+    fn replace_last(&mut self, _token: PackedToken) {}
 
     #[inline]
     fn into_tokens(self) -> Vec<PackedToken> {
@@ -99,6 +105,16 @@ impl Config for WithTokens {
     #[inline(always)]
     fn truncate(&mut self, len: usize) {
         self.tokens.truncate(len);
+    }
+
+    #[inline(always)]
+    fn replace_last(&mut self, token: PackedToken) {
+        let last = self
+            .tokens
+            .last_mut()
+            .expect("re-lex requires a previously emitted token");
+        debug_assert_eq!(last.start(), token.start());
+        *last = token;
     }
 
     #[inline]
