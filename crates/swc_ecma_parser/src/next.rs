@@ -9,8 +9,6 @@
 //! `b6d2a29e47358a288dbfb2a635550243511ec497`. See `OXC_LICENSE` in this
 //! crate for the upstream MIT license.
 
-use std::fmt;
-
 use swc_common::{
     comments::{Comment, Comments},
     input::StringInput,
@@ -341,26 +339,13 @@ impl Default for ParseOptions {
 }
 
 /// Compact token kind returned by token-collecting parses.
-#[derive(Clone, Copy, PartialEq, Eq)]
-pub struct TokenKind(crate::lexer::Token);
-
-impl fmt::Debug for TokenKind {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Display::fmt(&self.0, f)
-    }
-}
-
-impl fmt::Display for TokenKind {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Display::fmt(&self.0, f)
-    }
-}
+pub use crate::lexer::Token as TokenKind;
 
 /// Token emitted in source order when token collection is enabled.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Token {
     /// Token category.
-    pub kind: TokenKind,
+    pub token: TokenKind,
     /// Token byte range.
     pub span: Span,
     /// Whether a line terminator occurred before this token.
@@ -370,7 +355,7 @@ pub struct Token {
 impl From<TokenAndSpan> for Token {
     fn from(token: TokenAndSpan) -> Self {
         Self {
-            kind: TokenKind(token.token),
+            token: token.token,
             span: token.span,
             had_line_break: token.had_line_break(),
         }

@@ -15,16 +15,18 @@ use swc_ecma_ast::{
     ClassProp, Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, Expr, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp,
     IfStmt, ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat, Param,
-    Pat, PrivateMethod, PrivateProp, Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
+    Pat, PrivateMethod, PrivateProp, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
     TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
     TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam,
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
-    lexer::Lexer,
-    unstable::{Capturing, Token, TokenAndSpan},
-    Parser, StringInput, Syntax, TsSyntax,
+    next::{
+        attach_comments, ModuleKind, Parser, ParserReturn, SourceType, Token as TokenAndSpan,
+        TokenKind as Token,
+    },
+    Syntax, TsSyntax,
 };
 use swc_ecma_transforms_base::{
     fixer::fixer,
@@ -251,61 +253,37 @@ pub fn operate(
 
     let comments = SingleThreadedComments::default();
 
-    let (program, errors, mut tokens) = if should_capture_tokens {
-        let lexer = Capturing::new(Lexer::new(
-            syntax,
-            target,
-            StringInput::from(&*fm),
-            Some(&comments),
-        ));
-        let mut parser = Parser::new_from(lexer);
-
-        let program = match options.module {
-            Some(true) => parser.parse_module().map(Program::Module),
-            Some(false) => parser.parse_script().map(Program::Script),
-            None => parser.parse_program(),
-        };
-        let errors = parser.take_errors();
-        let tokens = parser.input_mut().iter_mut().take();
-
-        (program, errors, tokens)
-    } else {
-        let lexer = Lexer::new(syntax, target, StringInput::from(&*fm), Some(&comments));
-        let mut parser = Parser::new_from(lexer);
-
-        let program = match options.module {
-            Some(true) => parser.parse_module().map(Program::Module),
-            Some(false) => parser.parse_script().map(Program::Script),
-            None => parser.parse_program(),
-        };
-        let errors = parser.take_errors();
-
-        (program, errors, Vec::new())
+    let module_kind = match options.module {
+        Some(true) => ModuleKind::Module,
+        Some(false) => ModuleKind::Script,
+        None => ModuleKind::Unambiguous,
     };
+    let (source_type, parse_options) = SourceType::from_legacy(syntax, module_kind, target);
+    let ParserReturn {
+        program,
+        diagnostics,
+        comments: parsed_comments,
+        mut tokens,
+        panicked,
+    } = Parser::new(&fm.src, source_type)
+        .with_options(parse_options)
+        .with_start_pos(fm.start_pos)
+        .with_tokens()
+        .parse();
 
-    let mut program = match program {
-        Ok(program) => program,
-        Err(err) => {
-            err.into_diagnostic(handler)
-                .code(DiagnosticId::Error("InvalidSyntax".into()))
-                .emit();
+    attach_comments(
+        &fm.src,
+        fm.start_pos,
+        &comments,
+        parsed_comments,
+        &tokens,
+        &program,
+    );
 
-            for e in errors {
-                e.into_diagnostic(handler)
-                    .code(DiagnosticId::Error("InvalidSyntax".into()))
-                    .emit();
-            }
-
-            return Err(TsError {
-                message: "Syntax error".to_string(),
-                code: ErrorCode::InvalidSyntax,
-            });
-        }
-    };
-
-    if !errors.is_empty() {
-        for e in errors {
-            e.into_diagnostic(handler)
+    if panicked || !diagnostics.is_empty() {
+        for error in diagnostics {
+            error
+                .into_diagnostic(handler)
                 .code(DiagnosticId::Error("InvalidSyntax".into()))
                 .emit();
         }
@@ -315,6 +293,12 @@ pub fn operate(
             code: ErrorCode::InvalidSyntax,
         });
     }
+
+    if !should_capture_tokens {
+        tokens.clear();
+    }
+
+    let mut program = program;
 
     match options.mode {
         Mode::StripOnly => {

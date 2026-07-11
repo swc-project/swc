@@ -113,6 +113,9 @@ impl crate::input::Tokens for Lexer<'_> {
 
     #[inline]
     fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        if let (Some(start), Some(comments)) = (start, self.comments_buffer.as_mut()) {
+            comments.rewind_to(start);
+        }
         self.state.next_regexp = start;
     }
 
