@@ -8,9 +8,9 @@ use std::{
 use anyhow::{bail, Context, Result};
 use flate2::{write::ZlibEncoder, Compression};
 use swc_common::{comments::SingleThreadedComments, errors::HANDLER, Mark, SourceFile, SourceMap};
-use swc_ecma_ast::{EsVersion, Module};
+use swc_ecma_ast::{EsVersion, Module, Program};
 use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter, WriteJs};
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
 
@@ -49,24 +49,35 @@ pub fn parse_js(fm: Arc<SourceFile>) -> Result<ModuleRecord> {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let mut errors = Vec::new();
     let comments = SingleThreadedComments::default();
-    let res = parse_file_as_module(
-        &fm,
+    let (source_type, options) = swc_ecma_parser::next::SourceType::from_legacy(
         Syntax::Es(Default::default()),
+        swc_ecma_parser::next::ModuleKind::Module,
         EsVersion::latest(),
-        Some(&comments),
-        &mut errors,
-    )
-    .map_err(|err| HANDLER.with(|handler| err.into_diagnostic(handler).emit()));
-
-    for err in errors {
+    );
+    let parsed = swc_ecma_parser::next::Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .with_tokens()
+        .parse();
+    let has_errors = !parsed.diagnostics.is_empty();
+    for err in parsed.diagnostics {
         HANDLER.with(|handler| err.into_diagnostic(handler).emit());
     }
-
-    let mut m = match res {
-        Ok(v) => v,
-        Err(()) => bail!("failed to parse a js file as a module"),
+    if parsed.panicked || has_errors {
+        bail!("failed to parse a js file as a module");
+    }
+    swc_ecma_parser::next::attach_comments(
+        &fm.src,
+        fm.start_pos,
+        &comments,
+        parsed.comments,
+        &parsed.tokens,
+        &parsed.program,
+    );
+    let mut m = match parsed.program {
+        Program::Module(module) => module,
+        Program::Script(_) => unreachable!("module source type produced a script"),
     };
 
     m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));

@@ -9,9 +9,7 @@ use clap::Args;
 use swc_common::{FileName, Mark, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::{text_writer::JsWriter, Config as CodegenConfig, Emitter};
-use swc_ecma_parser::{
-    error::Error as ParseError, parse_file_as_program, EsSyntax, FlowSyntax, Syntax,
-};
+use swc_ecma_parser::{error::Error as ParseError, EsSyntax, FlowSyntax, Syntax};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_transforms_typescript::typescript;
 
@@ -150,27 +148,20 @@ fn verify_file(
         )
     })?;
 
-    let mut parse_recovered_errors = Vec::new();
-    let parsed = parse_file_as_program(
-        &fm,
+    let (source_type, options) = swc_ecma_parser::next::SourceType::from_legacy(
         Syntax::Flow(flow_syntax),
+        swc_ecma_parser::next::ModuleKind::Unambiguous,
         EsVersion::latest(),
-        None,
-        &mut parse_recovered_errors,
-    )
-    .map_err(|err| {
-        FlowStripFailure::new(
-            path,
-            FailureStage::Parse,
-            parse_error_message(&err, &parse_recovered_errors),
-        )
-    })?;
-
-    if !parse_recovered_errors.is_empty() {
+    );
+    let parsed = swc_ecma_parser::next::Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    if !parsed.diagnostics.is_empty() {
         return Err(FlowStripFailure::new(
             path,
             FailureStage::Parse,
-            recovered_parse_message(&parse_recovered_errors),
+            recovered_parse_message(&parsed.diagnostics),
         ));
     }
 
@@ -178,6 +169,7 @@ fn verify_file(
     let top_level_mark = Mark::new();
 
     let transformed = parsed
+        .program
         .apply(resolver(unresolved_mark, top_level_mark, false))
         .apply(typescript::typescript(
             typescript::Config {
@@ -201,43 +193,24 @@ fn verify_file(
     }
 
     let output_fm = cm.new_source_file(FileName::Anon.into(), output);
-    let mut reparse_recovered_errors = Vec::new();
-    parse_file_as_program(
-        &output_fm,
+    let (source_type, options) = swc_ecma_parser::next::SourceType::from_legacy(
         Syntax::Es(es_reparse_syntax(flow_syntax.jsx)),
+        swc_ecma_parser::next::ModuleKind::Unambiguous,
         EsVersion::latest(),
-        None,
-        &mut reparse_recovered_errors,
-    )
-    .map_err(|err| {
-        FlowStripFailure::new(
-            path,
-            FailureStage::Reparse,
-            parse_error_message(&err, &reparse_recovered_errors),
-        )
-    })?;
-
-    if !reparse_recovered_errors.is_empty() {
+    );
+    let reparsed = swc_ecma_parser::next::Parser::new(&output_fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(output_fm.start_pos)
+        .parse();
+    if !reparsed.diagnostics.is_empty() {
         return Err(FlowStripFailure::new(
             path,
             FailureStage::Reparse,
-            recovered_parse_message(&reparse_recovered_errors),
+            recovered_parse_message(&reparsed.diagnostics),
         ));
     }
 
     Ok(())
-}
-
-fn parse_error_message(primary: &ParseError, recovered: &[ParseError]) -> String {
-    let mut message = format!("{primary:?}");
-    if let Some(first_recovered) = recovered.first() {
-        message.push_str("; recovered: ");
-        message.push_str(&format!("{first_recovered:?}"));
-        if recovered.len() > 1 {
-            message.push_str(&format!(" (+{} more)", recovered.len() - 1));
-        }
-    }
-    message
 }
 
 fn recovered_parse_message(recovered: &[ParseError]) -> String {
