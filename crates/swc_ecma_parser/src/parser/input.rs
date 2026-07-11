@@ -9,9 +9,7 @@ use crate::{
     Context,
 };
 
-/// Clone should be cheap if you are parsing typescript because typescript
-/// syntax requires backtracking.
-pub trait Tokens: Clone {
+pub trait Tokens {
     type Checkpoint;
 
     fn set_ctx(&mut self, ctx: Context);
@@ -84,14 +82,14 @@ pub trait Tokens: Clone {
 }
 
 /// This struct is responsible for managing current token and peeked token.
-#[derive(Clone)]
-pub struct Buffer<I> {
+pub struct Buffer<I: Tokens> {
     pub iter: I,
     /// Span of the previous token.
     pub prev_span: Span,
     pub cur: TokenAndSpan,
     /// Peeked token
     pub next: Option<NextTokenAndSpan>,
+    pub(super) next_checkpoint: Option<I::Checkpoint>,
 }
 
 impl<I: Tokens> Buffer<I> {
@@ -222,6 +220,7 @@ impl<I: Tokens> Buffer<I> {
             cur: TokenAndSpan::new(Token::Eof, prev_span, false),
             prev_span,
             next: None,
+            next_checkpoint: None,
         }
     }
 
@@ -277,6 +276,7 @@ impl<I: Tokens> Buffer<I> {
         );
 
         if self.next.is_none() {
+            let checkpoint = self.iter.checkpoint_save();
             let old = self.iter.take_token_value();
             let next_token = self.iter.next_token();
             self.next = Some(NextTokenAndSpan {
@@ -284,6 +284,7 @@ impl<I: Tokens> Buffer<I> {
                 value: self.iter.take_token_value(),
             });
             self.iter.set_token_value(old);
+            self.next_checkpoint = Some(checkpoint);
         }
 
         self.next.as_ref().map(|ts| ts.token_and_span.token)
@@ -310,11 +311,24 @@ impl<I: Tokens> Buffer<I> {
             let Some(next) = self.next.take() else {
                 unreachable!();
             };
+            self.next_checkpoint = None;
             self.iter.set_token_value(next.value);
             next.token_and_span
         };
         self.prev_span = self.cur.span;
         self.set_cur(next);
+    }
+
+    pub fn rewind_lookahead(&mut self) {
+        if self.next.take().is_some() {
+            let checkpoint = self
+                .next_checkpoint
+                .take()
+                .expect("peeked tokens must retain their lexer checkpoint");
+            self.iter.checkpoint_load(checkpoint);
+        } else {
+            debug_assert!(self.next_checkpoint.is_none());
+        }
     }
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
@@ -395,7 +409,7 @@ impl<I: Tokens> Buffer<I> {
             return;
         }
         let next = self.next_mut().take().unwrap();
-        let cur = self.get_cur();
+        let cur = *self.get_cur();
         let cur_token = cur.token;
         let token = if cur_token == Token::Gt {
             let next_token = next.token();
@@ -438,6 +452,7 @@ impl<I: Tokens> Buffer<I> {
             return;
         };
         let span = span.with_hi(next.span().hi);
+        self.next_checkpoint = None;
         let token = TokenAndSpan::new(token, span, cur.had_line_break());
         self.set_cur(token);
     }

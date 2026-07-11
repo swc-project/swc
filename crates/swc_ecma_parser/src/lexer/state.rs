@@ -43,6 +43,8 @@ pub struct LexerCheckpoint {
     ctx: Context,
     input_last_pos: BytePos,
     token_flags: TokenFlags,
+    errors_len: usize,
+    module_errors_len: usize,
 }
 
 impl crate::input::Tokens for Lexer<'_> {
@@ -54,6 +56,8 @@ impl crate::input::Tokens for Lexer<'_> {
             ctx: self.ctx,
             input_last_pos: self.input.last_pos(),
             token_flags: self.token_flags,
+            errors_len: self.errors.len(),
+            module_errors_len: self.module_errors.len(),
             comments_buffer: self
                 .comments_buffer
                 .as_ref()
@@ -66,6 +70,8 @@ impl crate::input::Tokens for Lexer<'_> {
         self.state = checkpoint.state;
         self.ctx = checkpoint.ctx;
         self.token_flags = checkpoint.token_flags;
+        self.errors.truncate(checkpoint.errors_len);
+        self.module_errors.truncate(checkpoint.module_errors_len);
         unsafe { self.input.reset_to(checkpoint.input_last_pos) };
         if let Some(comments_buffer) = self.comments_buffer.as_mut() {
             comments_buffer.checkpoint_load(checkpoint.comments_buffer);

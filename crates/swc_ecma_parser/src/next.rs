@@ -20,7 +20,7 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::{capturing::Capturing, Lexer, TokenAndSpan},
-    parser::{PResult, Parser as LegacyParser},
+    parser::{PResult, Parser as ParserEngine},
     EsSyntax, Syntax, TsSyntax,
 };
 
@@ -377,7 +377,7 @@ pub struct ParserReturn {
     pub panicked: bool,
 }
 
-/// OXC-style parser facade.
+/// OXC-style parser entry point.
 pub struct Parser<'a> {
     source: &'a str,
     source_type: SourceType,
@@ -436,7 +436,7 @@ impl<'a> Parser<'a> {
         let (result, diagnostics, comments, tokens) = if self.collect_tokens {
             let lexer =
                 Capturing::with_capacity(lexer, estimated_token_capacity(self.source.len()));
-            let mut parser = LegacyParser::new_from(lexer);
+            let mut parser = ParserEngine::new_from(lexer);
             let result = parse_program(&mut parser, self.source_type.module_kind);
             let diagnostics = parser.take_errors();
             let comments = parser.input_mut().iter.take_comments();
@@ -449,7 +449,7 @@ impl<'a> Parser<'a> {
                 .collect();
             (result, diagnostics, comments, tokens)
         } else {
-            let mut parser = LegacyParser::new_from(lexer);
+            let mut parser = ParserEngine::new_from(lexer);
             let result = parse_program(&mut parser, self.source_type.module_kind);
             let diagnostics = parser.take_errors();
             let comments = parser.input_mut().iter.take_comments();
@@ -521,7 +521,7 @@ impl<'a> Parser<'a> {
 }
 
 fn parse_program<I: Tokens>(
-    parser: &mut LegacyParser<I>,
+    parser: &mut ParserEngine<I>,
     module_kind: ModuleKind,
 ) -> PResult<Program> {
     match module_kind {

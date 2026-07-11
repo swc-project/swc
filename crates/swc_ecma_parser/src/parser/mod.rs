@@ -65,13 +65,11 @@ pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
     buffer_prev_span: Span,
     buffer_cur: TokenAndSpan,
-    buffer_next: Option<crate::lexer::NextTokenAndSpan>,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
 
 /// EcmaScript parser.
-#[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
@@ -103,22 +101,22 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cfg(all(feature = "typescript", feature = "flow"))]
-    fn checkpoint_save(&self) -> ParserCheckpoint<I> {
+    fn checkpoint_save(&mut self) -> ParserCheckpoint<I> {
+        self.input.rewind_lookahead();
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
             buffer_cur: self.input.cur,
-            buffer_next: self.input.next.clone(),
             buffer_prev_span: self.input.prev_span,
             allow_super_call: self.allow_super_call,
         }
     }
 
     #[cfg(all(feature = "typescript", not(feature = "flow")))]
-    fn checkpoint_save(&self) -> ParserCheckpoint<I> {
+    fn checkpoint_save(&mut self) -> ParserCheckpoint<I> {
+        self.input.rewind_lookahead();
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
             buffer_cur: self.input.cur,
-            buffer_next: self.input.next.clone(),
             buffer_prev_span: self.input.prev_span,
         }
     }
@@ -127,7 +125,8 @@ impl<I: Tokens> Parser<I> {
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
-        self.input.next = checkpoint.buffer_next;
+        self.input.next = None;
+        self.input.next_checkpoint = None;
         self.input.prev_span = checkpoint.buffer_prev_span;
         self.allow_super_call = checkpoint.allow_super_call;
     }
@@ -136,7 +135,8 @@ impl<I: Tokens> Parser<I> {
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
-        self.input.next = checkpoint.buffer_next;
+        self.input.next = None;
+        self.input.next_checkpoint = None;
         self.input.prev_span = checkpoint.buffer_prev_span;
     }
 
