@@ -119,6 +119,11 @@ pub mod unstable {
         capturing::Capturing,
         token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue},
     };
+
+    /// OXC-derived implementation under development.
+    pub mod next {
+        pub use crate::next::lexer::PackedToken;
+    }
 }
 
 use error::Error;
