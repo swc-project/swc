@@ -8,7 +8,7 @@ use serde_json::Value;
 use swc_atoms::{atom, Atom};
 use swc_common::{
     comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName, FilePathMapping, Mark,
-    SourceMap, DUMMY_SP,
+    SourceFile, SourceMap, DUMMY_SP,
 };
 use swc_config::regex::CachedRegex;
 use swc_html_ast::*;
@@ -24,6 +24,48 @@ use crate::option::{
 };
 
 pub mod option;
+
+fn parse_js_program(
+    file: &SourceFile,
+    syntax: swc_ecma_parser::Syntax,
+    target: swc_ecma_ast::EsVersion,
+    is_module: bool,
+    comments: Option<&SingleThreadedComments>,
+) -> Option<swc_ecma_ast::Program> {
+    use swc_ecma_parser::next::{ModuleKind, Parser, SourceType};
+
+    let module_kind = if is_module {
+        ModuleKind::Module
+    } else {
+        ModuleKind::Script
+    };
+    let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
+    let parser = Parser::new(&file.src, source_type)
+        .with_options(options)
+        .with_start_pos(file.start_pos);
+    let parsed = if comments.is_some() {
+        parser.with_tokens().parse()
+    } else {
+        parser.parse()
+    };
+
+    if parsed.panicked || !parsed.diagnostics.is_empty() {
+        return None;
+    }
+
+    if let Some(comments) = comments {
+        swc_ecma_parser::next::attach_comments(
+            &file.src,
+            file.start_pos,
+            comments,
+            parsed.comments,
+            &parsed.tokens,
+            &parsed.program,
+        );
+    }
+
+    Some(parsed.program)
+}
 
 static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("head", "profile"),
@@ -1816,40 +1858,13 @@ impl<C: MinifyCss> Minifier<'_, C> {
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
         // Left
-        let mut left_errors: Vec<_> = Vec::new();
         let left_fm = cm.new_source_file(FileName::Anon.into(), left);
         let syntax = swc_ecma_parser::Syntax::default();
         // Use the latest target for merging
         let target = swc_ecma_ast::EsVersion::latest();
 
-        let mut left_program = if is_modules {
-            match swc_ecma_parser::parse_file_as_module(
-                &left_fm,
-                syntax,
-                target,
-                Some(&comments),
-                &mut left_errors,
-            ) {
-                Ok(module) => swc_ecma_ast::Program::Module(module),
-                _ => return None,
-            }
-        } else {
-            match swc_ecma_parser::parse_file_as_script(
-                &left_fm,
-                syntax,
-                target,
-                Some(&comments),
-                &mut left_errors,
-            ) {
-                Ok(script) => swc_ecma_ast::Program::Script(script),
-                _ => return None,
-            }
-        };
-
-        // Avoid compress potential invalid JS
-        if !left_errors.is_empty() {
-            return None;
-        }
+        let mut left_program =
+            parse_js_program(&left_fm, syntax, target, is_modules, Some(&comments))?;
 
         let unresolved_mark = Mark::new();
         let left_top_level_mark = Mark::new();
@@ -1860,37 +1875,9 @@ impl<C: MinifyCss> Minifier<'_, C> {
         );
 
         // Right
-        let mut right_errors: Vec<_> = Vec::new();
         let right_fm = cm.new_source_file(FileName::Anon.into(), right);
-
-        let mut right_program = if is_modules {
-            match swc_ecma_parser::parse_file_as_module(
-                &right_fm,
-                syntax,
-                target,
-                Some(&comments),
-                &mut right_errors,
-            ) {
-                Ok(module) => swc_ecma_ast::Program::Module(module),
-                _ => return None,
-            }
-        } else {
-            match swc_ecma_parser::parse_file_as_script(
-                &right_fm,
-                syntax,
-                target,
-                Some(&comments),
-                &mut right_errors,
-            ) {
-                Ok(script) => swc_ecma_ast::Program::Script(script),
-                _ => return None,
-            }
-        };
-
-        // Avoid compress potential invalid JS
-        if !right_errors.is_empty() {
-            return None;
-        }
+        let mut right_program =
+            parse_js_program(&right_fm, syntax, target, is_modules, Some(&comments))?;
 
         let right_top_level_mark = Mark::new();
 
@@ -1961,8 +1948,6 @@ impl<C: MinifyCss> Minifier<'_, C> {
 
     // TODO source map url output for JS and CSS?
     fn minify_js(&self, data: String, is_module: bool, is_attribute: bool) -> Option<String> {
-        let mut errors: Vec<_> = Vec::new();
-
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon.into(), data);
         let mut options = self.get_js_options();
@@ -1973,42 +1958,13 @@ impl<C: MinifyCss> Minifier<'_, C> {
 
         let comments = SingleThreadedComments::default();
 
-        let mut program = if is_module {
-            match swc_ecma_parser::parse_file_as_module(
-                &fm,
-                options.parser.syntax,
-                options.parser.target,
-                if options.parser.comments {
-                    Some(&comments)
-                } else {
-                    None
-                },
-                &mut errors,
-            ) {
-                Ok(module) => swc_ecma_ast::Program::Module(module),
-                _ => return None,
-            }
-        } else {
-            match swc_ecma_parser::parse_file_as_script(
-                &fm,
-                options.parser.syntax,
-                options.parser.target,
-                if options.parser.comments {
-                    Some(&comments)
-                } else {
-                    None
-                },
-                &mut errors,
-            ) {
-                Ok(script) => swc_ecma_ast::Program::Script(script),
-                _ => return None,
-            }
-        };
-
-        // Avoid compress potential invalid JS
-        if !errors.is_empty() {
-            return None;
-        }
+        let mut program = parse_js_program(
+            &fm,
+            options.parser.syntax,
+            options.parser.target,
+            is_module,
+            options.parser.comments.then_some(&comments),
+        )?;
 
         if let Some(compress_options) = &mut options.minifier.compress {
             compress_options.module = is_module;
