@@ -471,6 +471,9 @@ jobs:
           submodules: true
       - name: Install Rust
         uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        with:
+          toolchain: nightly-2026-04-10
+          targets: wasm32-wasip1
       - uses: ./.github/actions/setup-node
         with:
           node-version: 20
@@ -482,6 +485,9 @@ jobs:
       - name: Test v2 native API
         working-directory: packages/core-v2
         run: pnpm test:native
+      - name: Test v1 plugin compatibility
+        working-directory: packages/core-v2
+        run: pnpm test:plugin-v1
 
   wasm-v2-test:
     name: Test wasm v2 preview

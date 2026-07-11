@@ -54,7 +54,8 @@
         "build:wasm": "wasm-pack build ../../bindings/binding_core_wasm_v2 --scope swc --target nodejs --features plugin",
         "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
         "test": "pnpm build:ts && node --test tests/api.test.js",
-        "test:native": "pnpm --dir ../core build:dev && pnpm build:dev && node --test tests/api.test.js tests/native.test.js"
+        "test:native": "pnpm --dir ../core build:dev && pnpm build:dev && node --test tests/api.test.js tests/native.test.js",
+        "test:plugin-v1": "cargo build --manifest-path ../core/e2e/fixtures/plugin_analyze/Cargo.toml --target wasm32-wasip1 && node --test tests/plugin-v1.test.js"
     },
     "dependencies": {
         "@swc/counter": "^0.1.3",
