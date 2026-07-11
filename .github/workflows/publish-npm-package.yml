@@ -44,6 +44,11 @@ on:
       skipPublishing:
         type: boolean
         required: true
+      npmTag:
+        description: "Override the configured npm dist-tag"
+        type: string
+        required: false
+        default: ""
 
 jobs:
   check-if-build-required:
@@ -68,7 +73,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$PACKAGE" in
-            core | html | minifier | react-compiler) ;;
+            core | core-v2 | html | minifier | react-compiler) ;;
             *)
               echo "Unsupported package: $PACKAGE" >&2
               exit 1
@@ -366,7 +371,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$PACKAGE" in
-            core | html | minifier | react-compiler) ;;
+            core | core-v2 | html | minifier | react-compiler) ;;
             *)
               echo "Unsupported package: $PACKAGE" >&2
               exit 1
@@ -403,7 +408,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$PACKAGE" in
-            core | html | minifier | react-compiler) ;;
+            core | core-v2 | html | minifier | react-compiler) ;;
             *)
               echo "Unsupported package: $PACKAGE" >&2
               exit 1
@@ -515,7 +520,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$PACKAGE" in
-            core | html | minifier | react-compiler) ;;
+            core | core-v2 | html | minifier | react-compiler) ;;
             *)
               echo "Unsupported package: $PACKAGE" >&2
               exit 1
@@ -598,7 +603,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$PACKAGE" in
-            core | html | minifier | react-compiler) ;;
+            core | core-v2 | html | minifier | react-compiler) ;;
             *)
               echo "Unsupported package: $PACKAGE" >&2
               exit 1
@@ -662,12 +667,13 @@ jobs:
 
       - name: Tag npm release
         env:
+          EXPLICIT_NPM_TAG: ${{ inputs.npmTag }}
           RELEASE_VERSION: ${{ inputs.version }}
         run: |
-          if [[ "$RELEASE_VERSION" != *"nightly"* ]]; then
-            echo "NPM_TAG=latest" >> "$GITHUB_ENV"
+          if [[ -n "$EXPLICIT_NPM_TAG" ]]; then
+            echo "NPM_TAG=$EXPLICIT_NPM_TAG" >> "$GITHUB_ENV"
           else
-            echo "NPM_TAG=nightly" >> "$GITHUB_ENV"
+            echo "NPM_TAG=$(node scripts/resolve-npm-tag.mjs "$RELEASE_VERSION")" >> "$GITHUB_ENV"
           fi
 
       - name: Install dependencies
@@ -679,6 +685,13 @@ jobs:
           pattern: "bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-*"
           path: ./packages/${{ inputs.package }}/artifacts
 
+      - name: Prepare v2 package identity
+        if: ${{ inputs.package == 'core-v2' }}
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          node scripts/prepare-npm-v2-package.mjs packages/core-v2 "$RELEASE_VERSION" @swc/core
+
       - name: List binaries
         shell: bash
         env:
@@ -686,6 +699,7 @@ jobs:
         run: ls -R "packages/$PACKAGE/artifacts"
 
       - name: Move binaries
+        if: ${{ inputs.package != 'core-v2' }}
         shell: bash
         env:
           PACKAGE: ${{ inputs.package }}
@@ -696,6 +710,11 @@ jobs:
           ls -R ./artifacts_cli
           npm run artifacts
 
+      - name: Prepare v2 native packages
+        if: ${{ inputs.package == 'core-v2' }}
+        working-directory: packages/core-v2
+        run: npm run artifacts
+
       - name: List npm
         shell: bash
         env:
@@ -703,18 +722,29 @@ jobs:
         run: ls -R "packages/$PACKAGE/scripts/npm"
 
       - name: Set fallback dependencies
+        if: ${{ inputs.package != 'core-v2' }}
         shell: bash
         run: |
           node ./scripts/update_fallback_dependencies.js
 
       - name: Publish
-        if: ${{ !inputs.skipPublishing }}
+        if: ${{ !inputs.skipPublishing && inputs.package != 'core-v2' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
           PACKAGE: ${{ inputs.package }}
         run: |
           pnpm --filter "./packages/$PACKAGE" prepack
           pnpm publish -r --filter "./packages/$PACKAGE" --filter "./packages/$PACKAGE/scripts/npm/*" --access public --tag "$NPM_TAG" --force --no-git-checks
+
+      - name: Publish v2 preview
+        if: ${{ !inputs.skipPublishing && inputs.package == 'core-v2' }}
+        working-directory: packages/core-v2
+        run: |
+          npm run prepack
+          for package_dir in scripts/npm/*; do
+            npm publish "$package_dir" --access public --tag "$NPM_TAG"
+          done
+          npm publish . --access public --tag "$NPM_TAG"
 
       - name: Upload CLI binaries to gh release
         if: ${{ !inputs.skipPublishing && inputs.package == 'core' }}
@@ -780,12 +810,13 @@ jobs:
 
       - name: Tag npm release
         env:
+          EXPLICIT_NPM_TAG: ${{ inputs.npmTag }}
           RELEASE_VERSION: ${{ inputs.version }}
         run: |
-          if [[ "$RELEASE_VERSION" != *"nightly"* ]]; then
-            echo "NPM_TAG=latest" >> "$GITHUB_ENV"
+          if [[ -n "$EXPLICIT_NPM_TAG" ]]; then
+            echo "NPM_TAG=$EXPLICIT_NPM_TAG" >> "$GITHUB_ENV"
           else
-            echo "NPM_TAG=nightly" >> "$GITHUB_ENV"
+            echo "NPM_TAG=$(node scripts/resolve-npm-tag.mjs "$RELEASE_VERSION")" >> "$GITHUB_ENV"
           fi
 
       - name: Setup node

@@ -17,9 +17,11 @@ use swc_core::{
 #[cfg(feature = "plugin")]
 mod analyze;
 mod ast_context;
+#[cfg(feature = "api_v1")]
 mod bundle;
 mod minify;
 mod parse;
+#[cfg(feature = "api_v1")]
 mod print;
 mod transform;
 mod util;

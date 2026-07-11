@@ -1,0 +1,22 @@
+{
+    "name": "@swc-internal/types-v2",
+    "version": "2.0.0-next.0",
+    "description": "Private workspace source for the SWC v2 JavaScript API types",
+    "private": true,
+    "license": "Apache-2.0",
+    "types": "./index.d.ts",
+    "files": [
+        "*.js",
+        "*.d.ts"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "test": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@swc/counter": "^0.1.3"
+    },
+    "devDependencies": {
+        "typescript": "^5.3.3"
+    }
+}

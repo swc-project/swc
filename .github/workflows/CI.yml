@@ -456,6 +456,57 @@ jobs:
         run: |
           pnpm test
 
+  node-v2-test:
+    name: Test node v2 preview
+    continue-on-error: true
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: macos-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+          submodules: true
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - uses: ./.github/actions/setup-node
+        with:
+          node-version: 20
+          install-dependencies: "false"
+      - name: Prepare
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+      - name: Test v2 native API
+        working-directory: packages/core-v2
+        run: pnpm test:native
+
+  wasm-v2-test:
+    name: Test wasm v2 preview
+    continue-on-error: true
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+          submodules: true
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - uses: ./.github/actions/setup-node
+        with:
+          node-version: 20
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Test v2 Wasm API
+        working-directory: bindings/binding_core_wasm_v2
+        run: ./scripts/test.sh
+
   react-compiler-test:
     name: Test react-compiler bindings - ${{ matrix.os }}
     if: >-
