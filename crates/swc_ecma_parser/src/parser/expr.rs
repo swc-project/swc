@@ -74,18 +74,16 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     pub(crate) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
-        let max_depth = if self.input().is(Token::LParen) {
-            MAX_PAREN_PARSE_DEPTH
-        } else {
-            MAX_PARSE_DEPTH
-        };
-        if self.expr_depth >= max_depth {
+        if !self.input().is(Token::LParen) {
+            return self.parse_assignment_expr_inner();
+        }
+        if self.paren_depth >= MAX_PAREN_PARSE_DEPTH {
             return Err(self.max_parse_depth_error());
         }
 
-        self.expr_depth += 1;
+        self.paren_depth += 1;
         let result = self.parse_assignment_expr_inner();
-        self.expr_depth -= 1;
+        self.paren_depth -= 1;
         result
     }
 

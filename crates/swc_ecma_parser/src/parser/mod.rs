@@ -53,7 +53,6 @@ pub type PResult<T> = Result<T, crate::error::Error>;
 
 /// These limits prevent parser-controlled recursion from exhausting the process
 /// stack.
-const MAX_PARSE_DEPTH: u16 = 256;
 // wasm runtimes provide enough stack for existing generated code with deeply
 // nested currency predicates. Native test threads use a smaller stack, so keep
 // their guard lower until parenthesized expressions are parsed iteratively.
@@ -61,9 +60,9 @@ const MAX_PARSE_DEPTH: u16 = 256;
 const MAX_PAREN_PARSE_DEPTH: u16 = 192;
 #[cfg(not(target_arch = "wasm32"))]
 const MAX_PAREN_PARSE_DEPTH: u16 = 32;
-const MAX_STMT_PARSE_DEPTH: u16 = 32;
+const MAX_BLOCK_PARSE_DEPTH: u16 = 32;
 #[cfg(feature = "typescript")]
-const MAX_TYPE_PARSE_DEPTH: u16 = 64;
+const MAX_PAREN_TYPE_PARSE_DEPTH: u16 = 64;
 
 #[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
@@ -79,10 +78,10 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
-    expr_depth: u16,
-    stmt_depth: u16,
+    paren_depth: u16,
+    block_depth: u16,
     #[cfg(feature = "typescript")]
-    type_depth: u16,
+    paren_type_depth: u16,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -201,10 +200,10 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
-            expr_depth: 0,
-            stmt_depth: 0,
+            paren_depth: 0,
+            block_depth: 0,
             #[cfg(feature = "typescript")]
-            type_depth: 0,
+            paren_type_depth: 0,
             #[cfg(feature = "flow")]
             allow_super_call: false,
         };
