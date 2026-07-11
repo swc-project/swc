@@ -100,13 +100,6 @@ impl<I: Tokens> Buffer<I> {
         word
     }
 
-    pub fn expect_word_token_value_ref(&self) -> &Atom {
-        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.get_token_value() else {
-            unreachable!("token_value: {:?}", self.iter.get_token_value())
-        };
-        word
-    }
-
     pub fn expect_number_token_value(&mut self) -> f64 {
         let Some(crate::lexer::TokenValue::Num(value)) = self.iter.take_token_value() else {
             unreachable!()
@@ -333,11 +326,7 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
         let cur = self.cur();
-        let word = if cur == Token::Ident {
-            self.expect_word_token_value()
-        } else {
-            cur.take_word(self)
-        };
+        let word = cur.take_word(self);
         self.bump();
         word
     }

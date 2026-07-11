@@ -316,10 +316,12 @@ impl crate::input::Tokens for Lexer<'_> {
         } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
             value
         } else {
-            unreachable!(
-                "`token_value` should be a word, but got: {:?}",
-                self.state.token_value
-            )
+            let prefix = unsafe {
+                // Safety: Both positions came from this source cursor and the
+                // identifier lexer leaves them on UTF-8 boundaries.
+                self.input_slice_str(start, prefix_end)
+            };
+            self.atom(prefix)
         };
         self.state.set_token_value(TokenValue::Word(v));
         TokenAndSpan::new_with_flags(Token::JSXName, self.span(start), self.current_token_flags())

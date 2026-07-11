@@ -371,8 +371,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn unknown_ident(value: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::Word(value)));
+    pub fn unknown_ident(value: Option<Atom>, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(value.map(TokenValue::Word));
         Token::Ident
     }
 
@@ -385,10 +385,11 @@ impl<'a> Token {
     pub fn take_word<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
         if self == Token::Ident {
             let value = buffer.get_token_value();
-            let Some(TokenValue::Word(word)) = value else {
-                unreachable!("{:#?}", value)
-            };
-            return word.clone();
+            if let Some(TokenValue::Word(word)) = value {
+                return word.clone();
+            }
+
+            return Atom::new(buffer.iter.read_string(buffer.cur.span));
         }
 
         let span = buffer.cur.span;
@@ -401,11 +402,6 @@ impl<'a> Token {
         let span = buffer.cur.span;
         let atom = Atom::new(buffer.iter.read_string(span));
         atom
-    }
-
-    #[inline(always)]
-    pub fn take_unknown_ident_ref<'b, I: Tokens>(&'b self, buffer: &'b Buffer<I>) -> &'b Atom {
-        buffer.expect_word_token_value_ref()
     }
 
     #[inline(always)]

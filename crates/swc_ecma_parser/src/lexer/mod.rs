@@ -2290,14 +2290,15 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.cur().is_some());
 
         let (s, has_escape) = self.read_word_as_str_with()?;
-        let atom = self.atom(s);
-        let word = Token::unknown_ident(atom, self);
-
         if has_escape {
             self.token_flags |= TokenFlags::UNICODE;
         }
 
-        Ok(word)
+        // Match OXC's lazy identifier representation: unescaped identifiers
+        // remain source slices until the parser creates an AST node. Escaped
+        // identifiers need their normalized value retained by the lexer.
+        let value = if has_escape { Some(self.atom(s)) } else { None };
+        Ok(Token::unknown_ident(value, self))
     }
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
@@ -2415,8 +2416,8 @@ impl<'a> Lexer<'a> {
                 Ok(word)
             }
         } else {
-            let atom = self.atom(s);
-            Ok(Token::unknown_ident(atom, self))
+            let value = if has_escape { Some(self.atom(s)) } else { None };
+            Ok(Token::unknown_ident(value, self))
         }
     }
 
