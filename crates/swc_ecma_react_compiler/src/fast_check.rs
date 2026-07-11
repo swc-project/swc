@@ -125,34 +125,14 @@ impl Visit for Finder {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::FileName;
-    use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax};
-    use testing::run_test2;
+    use swc_ecma_parser::next::{Parser, SourceType};
 
     use super::*;
 
     fn assert_required(code: &str, required: bool) {
-        run_test2(false, |cm, _| {
-            let fm =
-                cm.new_source_file(FileName::Custom("test.tsx".into()).into(), code.to_string());
-
-            let program = parse_file_as_program(
-                &fm,
-                Syntax::Es(EsSyntax {
-                    jsx: true,
-                    ..Default::default()
-                }),
-                Default::default(),
-                Default::default(),
-                &mut vec![],
-            )
-            .unwrap();
-
-            assert_eq!(is_required(&program), required);
-
-            Ok(())
-        })
-        .unwrap();
+        let parsed = Parser::new(code, SourceType::jsx()).parse();
+        assert!(!parsed.panicked, "parse failed: {:?}", parsed.diagnostics);
+        assert_eq!(is_required(&parsed.program), required);
     }
 
     #[test]

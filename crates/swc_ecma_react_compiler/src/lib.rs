@@ -28,7 +28,7 @@ pub use react_compiler::entrypoint::plugin_options::{
 };
 use react_compiler_hir::environment_config::EnvironmentConfig;
 pub use source_type::SourceType;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName};
+use swc_common::{comments::SingleThreadedComments, BytePos};
 use swc_ecma_ast::Program;
 
 use crate::{convert_ast::ConvertResult, convert_scope::SemanticBuilder};
@@ -191,23 +191,21 @@ fn parse_source(
     source_text: &str,
     syntax: swc_ecma_parser::Syntax,
 ) -> Result<(Program, SingleThreadedComments, SourceType), Box<DiagnosticMessage>> {
-    let cm = Lrc::new(swc_common::SourceMap::default());
-    let fm = cm.new_source_file(Lrc::new(FileName::Anon), source_text.to_string());
     let comments = SingleThreadedComments::default();
-    let mut errors = Vec::new();
     let is_typescript = syntax.typescript();
-    match swc_ecma_parser::parse_file_as_program(
-        &fm,
+    let (parser_source_type, parse_options) = swc_ecma_parser::next::SourceType::from_legacy(
         syntax,
+        swc_ecma_parser::next::ModuleKind::Unambiguous,
         swc_ecma_ast::EsVersion::latest(),
-        Some(&comments),
-        &mut errors,
-    ) {
-        Ok(program) => {
-            let source_type = SourceType::from_program(&program).with_typescript(is_typescript);
-            Ok((program, comments, source_type))
-        }
-        Err(error) => Err(Box::new(DiagnosticMessage {
+    );
+    let parsed = swc_ecma_parser::next::Parser::new(source_text, parser_source_type)
+        .with_options(parse_options)
+        .with_tokens()
+        .parse();
+
+    if parsed.panicked {
+        let error = parsed.diagnostics.last();
+        return Err(Box::new(DiagnosticMessage {
             severity: diagnostics::Severity::Error,
             message: format!("[ReactCompiler] Parse error: {error:?}"),
             span: None,
@@ -217,6 +215,18 @@ fn parse_source(
             description: None,
             loc: None,
             details: Vec::new(),
-        })),
+        }));
     }
+
+    swc_ecma_parser::next::attach_comments(
+        source_text,
+        BytePos(1),
+        &comments,
+        parsed.comments,
+        &parsed.tokens,
+        &parsed.program,
+    );
+    let source_type = SourceType::from_program(&parsed.program).with_typescript(is_typescript);
+
+    Ok((parsed.program, comments, source_type))
 }
