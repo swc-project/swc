@@ -8,17 +8,17 @@ use swc_ecma_parser::{
     EsSyntax, Parser as LegacyParser, StringInput, Syntax, TsSyntax,
 };
 
-fn assert_valid_fixture_parity(path: PathBuf, syntax: Syntax, module_kind: ModuleKind) {
+fn assert_valid_fixture_parity(
+    path: PathBuf,
+    syntax: Syntax,
+    module_kind: ModuleKind,
+    target: EsVersion,
+) {
     let source = fs::read_to_string(&path)
         .unwrap_or_else(|error| panic!("failed to read {}: {error}", path.display()));
     let start = BytePos(1);
     let end = start + BytePos(source.len() as u32);
-    let lexer = Lexer::new(
-        syntax,
-        EsVersion::Es2015,
-        StringInput::new(&source, start, end),
-        None,
-    );
+    let lexer = Lexer::new(syntax, target, StringInput::new(&source, start, end), None);
     let mut legacy = LegacyParser::new_from(lexer);
     let legacy_program = match module_kind {
         ModuleKind::Script => legacy.parse_script().map(Program::Script),
@@ -34,7 +34,7 @@ fn assert_valid_fixture_parity(path: PathBuf, syntax: Syntax, module_kind: Modul
         return;
     };
 
-    let (source_type, options) = SourceType::from_legacy(syntax, module_kind, EsVersion::Es2015);
+    let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
     let next = NextParser::new(&source, source_type)
         .with_options(options)
         .parse();
@@ -97,7 +97,7 @@ fn javascript(path: PathBuf) {
         ModuleKind::Unambiguous
     };
 
-    assert_valid_fixture_parity(path, Syntax::Es(syntax), module_kind);
+    assert_valid_fixture_parity(path, Syntax::Es(syntax), module_kind, EsVersion::Es2015);
 }
 
 #[testing::fixture("tests/jsx/basic/**/*.js")]
@@ -110,6 +110,7 @@ fn jsx(path: PathBuf) {
             ..EsSyntax::default()
         }),
         ModuleKind::Module,
+        EsVersion::Es2015,
     );
 }
 
@@ -128,7 +129,12 @@ fn typescript(path: PathBuf) {
         disallow_ambiguous_jsx_like: file_name.contains("cts") || file_name.contains("mts"),
     };
 
-    assert_valid_fixture_parity(path, Syntax::Typescript(syntax), ModuleKind::Unambiguous);
+    assert_valid_fixture_parity(
+        path,
+        Syntax::Typescript(syntax),
+        ModuleKind::Unambiguous,
+        EsVersion::Es2015,
+    );
 }
 
 #[cfg(feature = "flow")]
@@ -142,7 +148,23 @@ fn flow(path: PathBuf) {
         .and_then(|config| serde_json::from_str::<FlowSyntax>(&config).ok())
         .unwrap_or_default();
 
-    assert_valid_fixture_parity(path, Syntax::Flow(syntax), ModuleKind::Unambiguous);
+    assert_valid_fixture_parity(
+        path,
+        Syntax::Flow(syntax),
+        ModuleKind::Unambiguous,
+        EsVersion::Es2015,
+    );
+}
+
+#[testing::fixture("tests/test262-parser/pass/*.js")]
+fn test262(path: PathBuf) {
+    let module_kind = if path.to_string_lossy().ends_with(".module.js") {
+        ModuleKind::Module
+    } else {
+        ModuleKind::Script
+    };
+
+    assert_valid_fixture_parity(path, Syntax::default(), module_kind, EsVersion::latest());
 }
 
 #[cfg(feature = "verify")]
