@@ -4,12 +4,20 @@
 //! [`NoTokens`] compile to no-ops, leaving no collection branch in the default
 //! lexer hot loop.
 
-use super::PackedToken;
+use super::{
+    byte_handlers::{self, ByteHandlers},
+    PackedToken,
+};
 
 /// Compile-time lexer behavior used by the parser.
-pub(crate) trait Config: Default {
+pub(crate) trait Config: Default + 'static {
     /// Whether this configuration retains tokens.
     const CAPTURE_TOKENS: bool;
+
+    /// Byte dispatch table specialized for this configuration.
+    fn byte_handlers(&self) -> &'static ByteHandlers<Self>
+    where
+        Self: Sized;
 
     /// Record a token after it has been accepted by the lexer.
     fn push(&mut self, token: PackedToken);
@@ -30,6 +38,11 @@ pub(crate) struct NoTokens;
 
 impl Config for NoTokens {
     const CAPTURE_TOKENS: bool = false;
+
+    #[inline(always)]
+    fn byte_handlers(&self) -> &'static ByteHandlers<Self> {
+        &byte_handlers::NO_TOKENS
+    }
 
     #[inline(always)]
     fn push(&mut self, _token: PackedToken) {}
@@ -67,6 +80,11 @@ impl WithTokens {
 
 impl Config for WithTokens {
     const CAPTURE_TOKENS: bool = true;
+
+    #[inline(always)]
+    fn byte_handlers(&self) -> &'static ByteHandlers<Self> {
+        &byte_handlers::WITH_TOKENS
+    }
 
     #[inline(always)]
     fn push(&mut self, token: PackedToken) {
