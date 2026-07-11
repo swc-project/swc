@@ -45,8 +45,7 @@ mod table;
 pub(crate) mod token;
 mod whitespace;
 
-pub(crate) use state::TokenFlags;
-pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
+pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue};
 
 // ===== Byte match tables for comment scanning =====
 // Irregular line breaks - '\u{2028}' (LS) and '\u{2029}' (PS)
@@ -2288,7 +2287,7 @@ impl<'a> Lexer<'a> {
         let word = Token::unknown_ident(atom, self);
 
         if has_escape {
-            self.update_token_flags(|flags| *flags |= TokenFlags::UNICODE);
+            self.token_flags |= TokenFlags::UNICODE;
         }
 
         Ok(word)

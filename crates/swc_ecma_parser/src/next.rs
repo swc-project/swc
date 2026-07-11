@@ -372,7 +372,7 @@ impl From<TokenAndSpan> for Token {
         Self {
             kind: TokenKind(token.token),
             span: token.span,
-            had_line_break: token.had_line_break,
+            had_line_break: token.had_line_break(),
         }
     }
 }

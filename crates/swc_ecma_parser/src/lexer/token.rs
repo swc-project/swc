@@ -11,6 +11,14 @@ use crate::{
     Context, Lexer,
 };
 
+bitflags::bitflags! {
+    #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+    pub struct TokenFlags: u8 {
+        const LINE_BREAK = 1 << 0;
+        const UNICODE = 1 << 1;
+    }
+}
+
 #[derive(Debug, Clone)]
 pub enum TokenValue {
     /// unknown ident, jsx name and shebang
@@ -877,19 +885,31 @@ impl Display for Token {
 #[derive(Clone, Copy, Debug)]
 pub struct TokenAndSpan {
     pub token: Token,
-    /// Had a line break before this token?
-    pub had_line_break: bool,
+    flags: TokenFlags,
     pub span: Span,
 }
 
 impl TokenAndSpan {
     #[inline(always)]
     pub fn new(token: Token, span: Span, had_line_break: bool) -> Self {
-        Self {
-            token,
-            had_line_break,
-            span,
-        }
+        let mut flags = TokenFlags::empty();
+        flags.set(TokenFlags::LINE_BREAK, had_line_break);
+        Self::new_with_flags(token, span, flags)
+    }
+
+    #[inline(always)]
+    pub fn new_with_flags(token: Token, span: Span, flags: TokenFlags) -> Self {
+        Self { token, flags, span }
+    }
+
+    #[inline(always)]
+    pub fn had_line_break(self) -> bool {
+        self.flags.contains(TokenFlags::LINE_BREAK)
+    }
+
+    #[inline(always)]
+    pub fn flags(self) -> TokenFlags {
+        self.flags
     }
 }
 
@@ -912,6 +932,16 @@ impl NextTokenAndSpan {
 
     #[inline(always)]
     pub fn had_line_break(&self) -> bool {
-        self.token_and_span.had_line_break
+        self.token_and_span.had_line_break()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::TokenAndSpan;
+
+    #[test]
+    fn token_and_span_stays_packed() {
+        assert_eq!(std::mem::size_of::<TokenAndSpan>(), 12);
     }
 }

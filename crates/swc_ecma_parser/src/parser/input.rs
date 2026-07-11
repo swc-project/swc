@@ -4,7 +4,7 @@ use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
+    lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenValue},
     syntax::SyntaxFlags,
     Context,
 };
@@ -57,9 +57,6 @@ pub trait Tokens: Clone {
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.
     fn take_script_module_errors(&mut self) -> Vec<Error>;
-    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags));
-    fn token_flags(&self) -> TokenFlags;
-
     fn clone_token_value(&self) -> Option<TokenValue>;
     fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
@@ -362,7 +359,7 @@ impl<I: Tokens> Buffer<I> {
 
 impl<I: Tokens> Buffer<I> {
     pub fn had_line_break_before_cur(&self) -> bool {
-        self.cur.had_line_break
+        self.cur.had_line_break()
     }
 
     /// This returns true on eof.
@@ -441,7 +438,7 @@ impl<I: Tokens> Buffer<I> {
             return;
         };
         let span = span.with_hi(next.span().hi);
-        let token = TokenAndSpan::new(token, span, cur.had_line_break);
+        let token = TokenAndSpan::new(token, span, cur.had_line_break());
         self.set_cur(token);
     }
 
@@ -520,6 +517,6 @@ impl<I: Tokens> Buffer<I> {
 
     #[inline]
     pub fn token_flags(&self) -> crate::lexer::TokenFlags {
-        self.iter().token_flags()
+        self.cur.flags()
     }
 }
