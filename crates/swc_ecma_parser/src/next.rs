@@ -5,7 +5,7 @@
 //! products together. This lets the lexer and parser share one cursor without
 //! exposing their implementation details.
 
-use std::fmt;
+use std::{fmt, rc::Rc};
 
 use swc_common::{
     comments::{Comment, SingleThreadedComments},
@@ -508,16 +508,13 @@ fn empty_program(module_kind: ModuleKind, span: Span) -> Program {
 
 fn flatten_comments(comments: SingleThreadedComments) -> Vec<Comment> {
     let (leading, trailing) = comments.take_all();
-    let mut comments = {
-        let leading = leading.borrow();
-        let trailing = trailing.borrow();
-        let capacity = leading.values().map(Vec::len).sum::<usize>()
-            + trailing.values().map(Vec::len).sum::<usize>();
-        let mut comments = Vec::with_capacity(capacity);
-        comments.extend(leading.values().flatten().cloned());
-        comments.extend(trailing.values().flatten().cloned());
-        comments
-    };
+    let leading = take_comment_map(leading);
+    let trailing = take_comment_map(trailing);
+    let capacity = leading.values().map(Vec::len).sum::<usize>()
+        + trailing.values().map(Vec::len).sum::<usize>();
+    let mut comments = Vec::with_capacity(capacity);
+    comments.extend(leading.into_values().flatten());
+    comments.extend(trailing.into_values().flatten());
 
     comments.sort_unstable_by_key(|comment| {
         (
@@ -531,6 +528,15 @@ fn flatten_comments(comments: SingleThreadedComments) -> Vec<Comment> {
     });
     comments.dedup();
     comments
+}
+
+fn take_comment_map(
+    comments: swc_common::comments::SingleThreadedCommentsMap,
+) -> swc_common::comments::SingleThreadedCommentsMapInner {
+    match Rc::try_unwrap(comments) {
+        Ok(comments) => comments.into_inner(),
+        Err(comments) => std::mem::take(&mut *comments.borrow_mut()),
+    }
 }
 
 #[inline]

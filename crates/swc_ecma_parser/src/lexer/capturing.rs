@@ -31,6 +31,7 @@ impl<I: Clone> Clone for Capturing<I> {
 }
 
 impl<I> Capturing<I> {
+    #[cfg(feature = "unstable")]
     pub fn new(input: I) -> Self {
         Capturing {
             inner: input,
@@ -45,6 +46,7 @@ impl<I> Capturing<I> {
         }
     }
 
+    #[cfg(feature = "unstable")]
     pub fn tokens(&self) -> &[TokenAndSpan] {
         &self.captured
     }
