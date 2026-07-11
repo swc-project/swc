@@ -42,6 +42,15 @@ impl<'a> StringInput<'a> {
         self.remaining
     }
 
+    /// Consume this input and return its remaining source and absolute range.
+    ///
+    /// This preserves the source lifetime when a lexer replaces `StringInput`
+    /// with a specialized cursor instead of borrowing through `&self`.
+    #[inline]
+    pub fn into_parts(self) -> (&'a str, BytePos, BytePos) {
+        (self.remaining, self.last_pos, self.orig_end)
+    }
+
     #[inline(always)]
     /// Compared to [StringInput::slice], this function doesn't set
     /// `self.last_pos = end` because in most cases this property has been

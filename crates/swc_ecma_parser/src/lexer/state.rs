@@ -4,7 +4,7 @@ use swc_atoms::{wtf8::CodePoint, Atom};
 use swc_common::{comments::Comment, BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
-use super::{Context, Input, Lexer};
+use super::{Context, Lexer};
 use crate::{
     byte_search,
     error::{Error, SyntaxError},

@@ -5,7 +5,6 @@
 //! https://github.com/ratel-rust/ratel-core/blob/e55a1310ba69a3f5ce2a9a6eef643feced02ac08/ratel/src/lexer/mod.rs#L665
 
 use either::Either;
-use swc_common::input::Input;
 
 use super::{pos_span, LexResult, Lexer};
 use crate::{

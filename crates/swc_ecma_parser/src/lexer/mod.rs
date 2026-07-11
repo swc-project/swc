@@ -40,6 +40,7 @@ mod comments_buffer;
 mod jsx;
 mod number;
 pub(crate) mod search;
+mod source;
 mod state;
 mod table;
 pub(crate) mod token;
@@ -202,14 +203,13 @@ fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
     }
 }
 
-#[derive(Clone)]
 pub struct Lexer<'a> {
     comments: Option<&'a dyn Comments>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     comments_buffer: Option<CommentsBuffer>,
 
     pub ctx: Context,
-    input: StringInput<'a>,
+    input: source::Source<'a>,
     start_pos: BytePos,
 
     state: State,
@@ -225,12 +225,12 @@ pub struct Lexer<'a> {
 
 impl<'a> Lexer<'a> {
     #[inline(always)]
-    fn input(&self) -> &StringInput<'a> {
+    fn input(&self) -> &source::Source<'a> {
         &self.input
     }
 
     #[inline(always)]
-    fn input_mut(&mut self) -> &mut StringInput<'a> {
+    fn input_mut(&mut self) -> &mut source::Source<'a> {
         &mut self.input
     }
 
@@ -298,6 +298,7 @@ impl<'a> Lexer<'a> {
         comments: Option<&'a dyn Comments>,
     ) -> Self {
         let start_pos = input.last_pos();
+        let end_pos = input.end_pos();
         #[cfg(feature = "flow")]
         let mut syntax = syntax.into_flags();
         #[cfg(not(feature = "flow"))]
@@ -312,6 +313,11 @@ impl<'a> Lexer<'a> {
                 syntax |= SyntaxFlags::TS;
             }
         }
+
+        let (source_text, source_start, source_end) = input.into_parts();
+        debug_assert_eq!(source_start, start_pos);
+        debug_assert_eq!(source_end, end_pos);
+        let input = source::Source::new(source_text, source_start, source_end);
 
         Lexer {
             comments,
