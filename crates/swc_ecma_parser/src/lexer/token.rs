@@ -28,6 +28,8 @@ pub enum TokenValue {
     Str(Wtf8Atom),
     /// Unescaped string whose value is the source slice inside its quotes.
     RawStr,
+    /// Template whose cooked value is an unchanged source slice.
+    RawTemplate(Span),
     // jsx text
     JsxText(Atom),
     // regexp

@@ -144,10 +144,13 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn expect_template_token_value(&mut self) -> LexResult<Wtf8Atom> {
-        let Some(crate::lexer::TokenValue::Template(cooked)) = self.iter.take_token_value() else {
-            unreachable!()
-        };
-        cooked
+        match self.iter.take_token_value() {
+            Some(crate::lexer::TokenValue::Template(cooked)) => cooked,
+            Some(crate::lexer::TokenValue::RawTemplate(value_span)) => {
+                Ok(Wtf8Atom::new(self.iter.read_string(value_span)))
+            }
+            _ => unreachable!(),
+        }
     }
 
     pub fn expect_error_token_value(&mut self) -> Error {

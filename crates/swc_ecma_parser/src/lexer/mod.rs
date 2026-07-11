@@ -522,12 +522,12 @@ impl Lexer<'_> {
         started_with_backtick: bool,
     ) -> LexResult<Token> {
         debug_assert!(self.cur() == Some(if started_with_backtick { b'`' } else { b'}' }));
-        let mut cooked = Ok(Wtf8Buf::with_capacity(8));
+        let mut cooked: Option<LexResult<Wtf8Buf>> = None;
         self.bump(1); // `}` or `\``
         let mut cooked_slice_start = self.cur_pos();
         macro_rules! consume_cooked {
             () => {{
-                if let Ok(cooked) = &mut cooked {
+                if let Some(Ok(cooked)) = &mut cooked {
                     let last_pos = self.cur_pos();
                     cooked.push_str(unsafe {
                         // Safety: Both of start and last_pos are valid position because we got them
@@ -537,50 +537,82 @@ impl Lexer<'_> {
                 }
             }};
         }
+        macro_rules! ensure_cooked {
+            () => {{
+                if cooked.is_none() {
+                    let last_pos = self.cur_pos();
+                    let value = unsafe {
+                        // Safety: Both positions were produced by this source
+                        // cursor and are UTF-8 boundaries.
+                        self.input.slice(cooked_slice_start, last_pos)
+                    };
+                    cooked = Some(Ok(Wtf8Buf::from_str(value)));
+                } else {
+                    consume_cooked!();
+                }
+            }};
+        }
+
+        macro_rules! finish_cooked {
+            () => {{
+                if cooked.is_none() {
+                    TokenValue::RawTemplate(Span::new_with_checked(
+                        cooked_slice_start,
+                        self.cur_pos(),
+                    ))
+                } else {
+                    consume_cooked!();
+                    TokenValue::Template(
+                        cooked
+                            .take()
+                            .unwrap()
+                            .map(|value| self.atoms.wtf8_atom(&*value)),
+                    )
+                }
+            }};
+        }
 
         while let Some(c) = self.cur() {
             if c == b'`' {
-                consume_cooked!();
-                let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
+                let value = finish_cooked!();
                 self.bump(1); // `\``
                 return Ok(if started_with_backtick {
-                    self.set_token_value(Some(TokenValue::Template(cooked)));
+                    self.set_token_value(Some(value));
                     Token::NoSubstitutionTemplateLiteral
                 } else {
-                    self.set_token_value(Some(TokenValue::Template(cooked)));
+                    self.set_token_value(Some(value));
                     Token::TemplateTail
                 });
             } else if c == b'$' && self.input.peek() == Some(b'{') {
-                consume_cooked!();
-                let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
+                let value = finish_cooked!();
                 unsafe {
                     self.input.bump_bytes(2);
                 }
                 return Ok(if started_with_backtick {
-                    self.set_token_value(Some(TokenValue::Template(cooked)));
+                    self.set_token_value(Some(value));
                     Token::TemplateHead
                 } else {
-                    self.set_token_value(Some(TokenValue::Template(cooked)));
+                    self.set_token_value(Some(value));
                     Token::TemplateMiddle
                 });
             } else if c == b'\\' {
-                consume_cooked!();
+                ensure_cooked!();
 
                 match self.read_escaped_char(true) {
                     Ok(Some(escaped)) => {
-                        if let Ok(ref mut cooked) = cooked {
+                        if let Some(Ok(ref mut cooked)) = cooked {
                             cooked.push(escaped);
                         }
                     }
                     Ok(None) => {}
                     Err(error) => {
-                        cooked = Err(error);
+                        cooked = Some(Err(error));
                     }
                 }
 
                 cooked_slice_start = self.cur_pos();
             } else if c.is_line_terminator() {
-                consume_cooked!();
+                ensure_cooked!();
 
                 // For line terminators, we need the full char (can be multi-byte UTF-8)
                 let c_char = if c <= 0x7f {
@@ -604,7 +636,7 @@ impl Lexer<'_> {
 
                 self.bump(c_char.len_utf8());
 
-                if let Ok(ref mut cooked) = cooked {
+                if let Some(Ok(ref mut cooked)) = cooked {
                     cooked.push_char(c);
                 }
                 cooked_slice_start = self.cur_pos();
