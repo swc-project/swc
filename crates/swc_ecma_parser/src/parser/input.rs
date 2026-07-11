@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
@@ -130,10 +132,26 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn expect_bigint_token_value(&mut self) -> Box<num_bigint::BigInt> {
-        let Some(crate::lexer::TokenValue::BigInt(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::BigInt(radix)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        value
+        let raw = self.iter.read_string(self.cur.span);
+        let digits = raw.strip_suffix('n').expect("BigInt token must end in `n`");
+        let digits = if radix == 10 {
+            digits
+        } else {
+            debug_assert!(matches!(radix, 2 | 8 | 16));
+            &digits[2..]
+        };
+        let digits = if digits.contains('_') {
+            Cow::Owned(digits.replace('_', ""))
+        } else {
+            Cow::Borrowed(digits)
+        };
+        Box::new(
+            num_bigint::BigInt::parse_bytes(digits.as_bytes(), u32::from(radix))
+                .expect("lexer must validate BigInt digits"),
+        )
     }
 
     pub fn expect_regex_token_value(&mut self) -> BytePos {

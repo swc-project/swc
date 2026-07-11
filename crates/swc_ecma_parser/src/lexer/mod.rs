@@ -31,7 +31,7 @@ use crate::{
     },
     safe_byte_match_table,
     syntax::SyntaxFlags,
-    BigIntValue, Context, Syntax,
+    Context, Syntax,
 };
 
 pub(crate) mod capturing;
@@ -1161,7 +1161,7 @@ impl<'a> Lexer<'a> {
     /// Reads an integer, octal integer, or floating-point number
     fn read_number<const START_WITH_DOT: bool, const START_WITH_ZERO: bool>(
         &mut self,
-    ) -> LexResult<Either<f64, Box<BigIntValue>>> {
+    ) -> LexResult<Either<f64, u8>> {
         debug_assert!(!(START_WITH_DOT && START_WITH_ZERO));
         debug_assert!(self.cur().is_some());
 
@@ -1195,8 +1195,7 @@ impl<'a> Lexer<'a> {
             if (!START_WITH_ZERO || lazy_integer.end - lazy_integer.start == BytePos(1))
                 && self.eat(b'n')
             {
-                let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), 10).unwrap();
-                return Ok(Either::Right(Box::new(bigint_value)));
+                return Ok(Either::Right(10));
             }
 
             if START_WITH_ZERO {
@@ -1325,7 +1324,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
-    fn read_radix_number<const RADIX: u8>(&mut self) -> LexResult<Either<f64, Box<BigIntValue>>> {
+    fn read_radix_number<const RADIX: u8>(&mut self) -> LexResult<Either<f64, u8>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {RADIX}"
@@ -1353,15 +1352,7 @@ impl<'a> Lexer<'a> {
                 ));
             }
 
-            let Some(bigint_value) = num_bigint::BigInt::parse_bytes(s.as_bytes(), RADIX as _)
-            else {
-                // just a fallback in case there is anything we did not catch
-                return Err(Error::new(
-                    Span::new(lazy_integer.start, lazy_integer.end),
-                    SyntaxError::ExpectedDigit { radix: RADIX },
-                ));
-            };
-            return Ok(Either::Right(Box::new(bigint_value)));
+            return Ok(Either::Right(RADIX));
         }
         let s = remove_underscore(s, has_underscore);
         let val = parse_integer::<RADIX>(&s);
