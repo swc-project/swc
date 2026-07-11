@@ -104,10 +104,34 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn expect_number_token_value(&mut self) -> f64 {
-        let Some(crate::lexer::TokenValue::Num(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Num(radix)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        value
+        let raw = self.iter.read_string(self.cur.span);
+        let raw = if raw.contains('_') {
+            Cow::Owned(raw.replace('_', ""))
+        } else {
+            Cow::Borrowed(raw)
+        };
+        if radix == 10 {
+            raw.parse().expect("lexer must validate decimal literals")
+        } else {
+            let digits = if raw
+                .as_bytes()
+                .get(1)
+                .is_some_and(|byte| matches!(byte, b'b' | b'B' | b'o' | b'O' | b'x' | b'X'))
+            {
+                &raw[2..]
+            } else {
+                &raw
+            };
+            match radix {
+                2 => crate::lexer::parse_integer::<2>(digits),
+                8 => crate::lexer::parse_integer::<8>(digits),
+                16 => crate::lexer::parse_integer::<16>(digits),
+                _ => unreachable!("invalid numeric radix"),
+            }
+        }
     }
 
     pub fn expect_string_token_value(&mut self) -> Wtf8Atom {

@@ -3,7 +3,7 @@
 use std::{borrow::Cow, char, rc::Rc};
 
 use compact_str::CompactString;
-use either::Either::{self, Left, Right};
+use either::Either;
 use rustc_hash::FxHashMap;
 use swc_atoms::{
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
@@ -25,7 +25,7 @@ use crate::{
         char_ext::CharExt,
         comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBuffer},
         jsx::xhtml,
-        number::{parse_integer, LazyInteger},
+        number::LazyInteger,
         search::SafeByteMatchTable,
         state::State,
     },
@@ -47,6 +47,7 @@ mod table;
 pub(crate) mod token;
 mod whitespace;
 
+pub(crate) use number::parse_integer;
 pub use token::Token;
 pub(crate) use token::{TokenAndSpan, TokenFlags, TokenValue};
 
@@ -69,6 +70,12 @@ static SINGLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
 
 static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || b == b'_' || b == b'$'));
+
+#[derive(Clone, Copy)]
+enum NumericValue {
+    Number(u8),
+    BigInt(u8),
+}
 
 #[cfg(feature = "flow")]
 fn flow_pragma_in_comment(comment: &str) -> Option<bool> {
@@ -180,29 +187,6 @@ impl From<UnicodeEscape> for CodePoint {
 }
 
 pub type LexResult<T> = Result<T, crate::error::Error>;
-
-fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
-    if has_underscore {
-        debug_assert!(s.contains('_'));
-        // Numeric literal text in lexer hot paths is ASCII, so byte-level filtering
-        // avoids UTF-8 char iteration overhead.
-        let bytes = s.as_bytes();
-        let mut stripped = Vec::with_capacity(bytes.len().saturating_sub(1));
-
-        for &b in bytes {
-            if b != b'_' {
-                stripped.push(b);
-            }
-        }
-
-        // Safety: `stripped` is derived from valid UTF-8 by removing only `_` (0x5F),
-        // which is a single-byte ASCII code point.
-        Cow::Owned(unsafe { String::from_utf8_unchecked(stripped) })
-    } else {
-        debug_assert!(!s.contains('_'));
-        Cow::Borrowed(s)
-    }
-}
 
 pub struct Lexer<'a> {
     comments: Option<&'a dyn Comments>,
@@ -1018,13 +1002,13 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<f64> {
+    fn make_legacy_octal(&mut self, start: BytePos) -> LexResult<NumericValue> {
         self.ensure_not_ident()?;
         if self.syntax().typescript() && !self.syntax().flow() && self.target() >= EsVersion::Es5 {
             self.emit_error(start, SyntaxError::TS1085);
         }
         self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
-        Ok(val)
+        Ok(NumericValue::Number(8))
     }
 
     /// `op`- |total, radix, value| -> (total * radix + value, continue)
@@ -1161,25 +1145,17 @@ impl<'a> Lexer<'a> {
     /// Reads an integer, octal integer, or floating-point number
     fn read_number<const START_WITH_DOT: bool, const START_WITH_ZERO: bool>(
         &mut self,
-    ) -> LexResult<Either<f64, u8>> {
+    ) -> LexResult<NumericValue> {
         debug_assert!(!(START_WITH_DOT && START_WITH_ZERO));
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
-        let mut has_underscore = false;
-
-        let lazy_integer = if START_WITH_DOT {
+        if START_WITH_DOT {
             // first char is '.'
             debug_assert!(
                 self.cur().is_some_and(|c| c == b'.'),
                 "read_number<START_WITH_DOT = true> expects current char to be '.'"
             );
-            LazyInteger {
-                start,
-                end: start,
-                not_octal: true,
-                has_underscore: false,
-            }
         } else {
             debug_assert!(!START_WITH_DOT);
             debug_assert!(!START_WITH_ZERO || self.cur().unwrap() == b'0');
@@ -1195,7 +1171,7 @@ impl<'a> Lexer<'a> {
             if (!START_WITH_ZERO || lazy_integer.end - lazy_integer.start == BytePos(1))
                 && self.eat(b'n')
             {
-                return Ok(Either::Right(10));
+                return Ok(NumericValue::BigInt(10));
             }
 
             if START_WITH_ZERO {
@@ -1216,23 +1192,18 @@ impl<'a> Lexer<'a> {
                     //
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
-                        return self.make_legacy_octal(start, 0f64).map(Either::Left);
+                        return self.make_legacy_octal(start);
                     }
                 } else if lazy_integer.not_octal {
                     // if it contains '8' or '9', it's decimal.
                     self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                 } else {
                     // It's Legacy octal, and we should reinterpret value.
-                    let s = remove_underscore(s, lazy_integer.has_underscore);
-                    let val = parse_integer::<8>(&s);
-                    return self.make_legacy_octal(start, val).map(Either::Left);
+                    return self.make_legacy_octal(start);
                 }
             }
+        }
 
-            lazy_integer
-        };
-
-        has_underscore |= lazy_integer.has_underscore;
         // At this point, number cannot be an octal literal.
 
         let has_dot = self.cur() == Some(b'.');
@@ -1246,7 +1217,7 @@ impl<'a> Lexer<'a> {
             debug_assert!(!START_WITH_DOT || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
 
             // Read numbers after dot
-            self.read_digits::<_, (), 10>(|_, _, _| Ok(((), true)), true, &mut has_underscore)?;
+            self.read_digits::<_, (), 10>(|_, _, _| Ok(((), true)), true, &mut false)?;
         }
 
         let has_e = self.cur().is_some_and(|c| c == b'e' || c == b'E');
@@ -1271,27 +1242,12 @@ impl<'a> Lexer<'a> {
                 self.bump(1); // remove '+', '-'
             }
 
-            let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
-            has_underscore |= lazy_integer.has_underscore;
+            self.read_number_no_dot_as_str::<10>()?;
         }
-
-        let val = if has_dot || has_e {
-            let raw = unsafe {
-                // Safety: We got both start and end position from `self.input`
-                self.input_slice_str(start, self.cur_pos())
-            };
-
-            let raw = remove_underscore(raw, has_underscore);
-            raw.parse().expect("failed to parse float literal")
-        } else {
-            let s = unsafe { self.input_slice(lazy_integer.start, lazy_integer.end) };
-            let s = remove_underscore(s, has_underscore);
-            parse_integer::<10>(&s)
-        };
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left(val))
+        Ok(NumericValue::Number(10))
     }
 
     fn read_int_u32<const RADIX: u8>(&mut self, len: u8) -> LexResult<Option<u32>> {
@@ -1323,8 +1279,7 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// Returns `Left(value)` or `Right(BigInt)`
-    fn read_radix_number<const RADIX: u8>(&mut self) -> LexResult<Either<f64, u8>> {
+    fn read_radix_number<const RADIX: u8>(&mut self) -> LexResult<NumericValue> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {RADIX}"
@@ -1338,8 +1293,6 @@ impl<'a> Lexer<'a> {
         self.bump(1); // `cur` matches one of the bytes above
 
         let lazy_integer = self.read_number_no_dot_as_str::<RADIX>()?;
-        let has_underscore = lazy_integer.has_underscore;
-
         let s = unsafe {
             // Safety: We got both start and end position from `self.input`
             self.input_slice_str(lazy_integer.start, self.cur_pos())
@@ -1352,14 +1305,12 @@ impl<'a> Lexer<'a> {
                 ));
             }
 
-            return Ok(Either::Right(RADIX));
+            return Ok(NumericValue::BigInt(RADIX));
         }
-        let s = remove_underscore(s, has_underscore);
-        let val = parse_integer::<RADIX>(&s);
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left(val))
+        Ok(NumericValue::Number(RADIX))
     }
 
     /// Consume pending comments.
@@ -2135,8 +2086,10 @@ impl<'a> Lexer<'a> {
         };
         if next.is_ascii_digit() {
             return self.read_number::<true, false>().map(|v| match v {
-                Left(value) => Token::num(value, self),
-                Right(_) => unreachable!("read_number should not return bigint for leading dot"),
+                NumericValue::Number(radix) => Token::num(radix, self),
+                NumericValue::BigInt(_) => {
+                    unreachable!("read_number should not return bigint for leading dot")
+                }
             });
         }
 
@@ -2190,15 +2143,15 @@ impl<'a> Lexer<'a> {
             Some(b'b') | Some(b'B') => self.read_radix_number::<2>(),
             _ => {
                 return self.read_number::<false, true>().map(|v| match v {
-                    Left(value) => Token::num(value, self),
-                    Right(value) => Token::bigint(value, self),
+                    NumericValue::Number(radix) => Token::num(radix, self),
+                    NumericValue::BigInt(radix) => Token::bigint(radix, self),
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left(value) => Token::num(value, self),
-            Right(value) => Token::bigint(value, self),
+            NumericValue::Number(radix) => Token::num(radix, self),
+            NumericValue::BigInt(radix) => Token::bigint(radix, self),
         })
     }
 

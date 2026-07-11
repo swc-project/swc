@@ -4,9 +4,7 @@
 //!
 //! https://github.com/ratel-rust/ratel-core/blob/e55a1310ba69a3f5ce2a9a6eef643feced02ac08/ratel/src/lexer/mod.rs#L665
 
-use either::Either;
-
-use super::{pos_span, LexResult, Lexer};
+use super::{pos_span, LexResult, Lexer, NumericValue};
 use crate::{
     error::SyntaxError,
     lexer::{
@@ -280,12 +278,12 @@ const ZER: ByteHandler = |lexer| lexer.read_token_zero();
 const DIG: ByteHandler = |lexer| {
     debug_assert!(lexer.cur().is_some_and(|cur| cur != b'0'));
     lexer.read_number::<false, false>().map(|v| match v {
-        Either::Left(value) => {
-            lexer.state.set_token_value(TokenValue::Num(value));
+        NumericValue::Number(radix) => {
+            lexer.state.set_token_value(TokenValue::Num(radix));
             Token::Num
         }
-        Either::Right(value) => {
-            lexer.state.set_token_value(TokenValue::BigInt(value));
+        NumericValue::BigInt(radix) => {
+            lexer.state.set_token_value(TokenValue::BigInt(radix));
             Token::BigInt
         }
     })

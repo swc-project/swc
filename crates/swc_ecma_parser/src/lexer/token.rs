@@ -34,7 +34,8 @@ pub enum TokenValue {
     JsxText(Atom),
     // regexp
     Regex(BytePos),
-    Num(f64),
+    /// Validated numeric literal. Conversion from its source slice is deferred.
+    Num(u8),
     /// Validated BigInt literal. The radix is retained while conversion is
     /// deferred until the parser creates the AST node, matching OXC's
     /// lexer/parser boundary.
@@ -372,8 +373,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn num(value: f64, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::Num(value)));
+    pub fn num(radix: u8, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Num(radix)));
         Self::Num
     }
 
