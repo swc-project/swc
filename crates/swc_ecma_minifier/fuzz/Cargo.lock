@@ -1171,17 +1171,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "67b1b7a3b5fe4f1376887184045fcf45c69e92af734b7aaddc05fb777b6fbd03"
 
 [[package]]
-name = "smartstring"
-version = "1.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fb72c633efbaa2dd666986505016c32c3044395ceaf881518399d2f4127ee29"
-dependencies = [
- "autocfg",
- "static_assertions",
- "version_check",
-]
-
-[[package]]
 name = "stable_deref_trait"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1236,7 +1225,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "23.0.1"
+version = "23.0.2"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -1310,7 +1299,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "28.0.1"
+version = "28.0.2"
 dependencies = [
  "ascii",
  "compact_str",
@@ -1350,7 +1339,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "55.0.2"
+version = "57.0.1"
 dependencies = [
  "arrayvec",
  "bitflags",
@@ -1399,16 +1388,16 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "41.1.0"
+version = "41.1.2"
 dependencies = [
  "bitflags",
+ "compact_str",
  "either",
  "num-bigint",
  "phf",
  "rustc-hash",
  "seq-macro",
  "serde",
- "smartstring",
  "stacker",
  "swc_atoms",
  "swc_common",
@@ -1418,7 +1407,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "24.0.0"
+version = "24.0.1"
 dependencies = [
  "anyhow",
  "hex",
@@ -1429,7 +1418,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "44.0.2"
+version = "45.0.0"
 dependencies = [
  "better_scoped_tls",
  "indexmap",
@@ -1449,7 +1438,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "47.0.0"
+version = "48.0.0"
 dependencies = [
  "bytes-str",
  "dashmap",
@@ -1471,7 +1460,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "31.0.0"
+version = "31.0.2"
 dependencies = [
  "dragonbox_ecma",
  "indexmap",
@@ -1592,7 +1581,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "24.0.0"
+version = "24.0.1"
 dependencies = [
  "cargo_metadata",
  "difference",

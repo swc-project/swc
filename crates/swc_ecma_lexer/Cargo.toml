@@ -29,13 +29,13 @@ verify        = ["swc_ecma_visit"]
 
 [dependencies]
 bitflags    = { workspace = true }
+compact_str = { workspace = true }
 either      = { workspace = true }
 num-bigint  = { workspace = true }
 rustc-hash  = { workspace = true }
 seq-macro   = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 smallvec    = { workspace = true }
-smartstring = { workspace = true }
 tracing     = { workspace = true }
 
 swc_atoms       = { version = "9.0.3", path = "../swc_atoms" }
