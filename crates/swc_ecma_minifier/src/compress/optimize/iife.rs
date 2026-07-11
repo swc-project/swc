@@ -505,28 +505,29 @@ impl Optimizer<'_> {
             return;
         }
 
-        let (ident, function) = match &*n.callee {
-            Expr::Fn(FnExpr { ident, function }) => {
+        let function = match &*n.callee {
+            Expr::Fn(FnExpr {
+                ident: None,
+                function,
+            }) => {
                 if function.is_async || function.is_generator {
                     return;
                 }
 
-                (ident.as_ref(), function.as_ref())
+                function.as_ref()
             }
             _ => return,
         };
 
-        if self.new_function_constructor_args_may_be_observed(ident, function) {
+        if !function.params.is_empty() {
             return;
         }
 
-        let formal_len = function.params.len();
-        let has_rest_param = function
-            .params
-            .iter()
-            .any(|param| matches!(&param.pat, Pat::Rest(_)));
+        let Some(body) = function.body.as_ref() else {
+            return;
+        };
 
-        if has_rest_param {
+        if !is_known_safe_new_function_body(body) {
             return;
         }
 
@@ -534,19 +535,11 @@ impl Optimizer<'_> {
             return;
         };
 
-        if args.iter().any(|arg| arg.spread.is_some()) {
+        if args.is_empty() || args.iter().any(|arg| arg.spread.is_some()) {
             return;
         }
 
-        if args.len() <= formal_len {
-            return;
-        }
-
-        while args.len() > formal_len {
-            let Some(last) = args.last() else {
-                break;
-            };
-
+        while let Some(last) = args.last() {
             if last.expr.may_have_side_effects(self.ctx.expr_ctx) {
                 break;
             }
@@ -555,44 +548,6 @@ impl Optimizer<'_> {
             self.changed = true;
             report_change!("new_expr: Dropping a trailing pure argument of a function constructor");
         }
-    }
-
-    fn new_function_constructor_args_may_be_observed(
-        &self,
-        ident: Option<&Ident>,
-        function: &Function,
-    ) -> bool {
-        let Some(body) = function.body.as_ref() else {
-            return true;
-        };
-
-        if let Some(scope) = self.data.get_scope(function.ctxt) {
-            if scope.intersects(
-                ScopeData::USED_ARGUMENTS
-                    .union(ScopeData::HAS_EVAL_CALL)
-                    .union(ScopeData::HAS_WITH_STMT),
-            ) {
-                return true;
-            }
-        }
-
-        if contains_constructor_arg_observer(&function.params, ident)
-            || contains_constructor_arg_observer(body, ident)
-        {
-            return true;
-        }
-
-        if contains_this_expr(&function.params) || contains_this_expr(body) {
-            return true;
-        }
-
-        if let Some(ident) = ident {
-            if contains_ident_ref(&function.params, ident) || contains_ident_ref(body, ident) {
-                return true;
-            }
-        }
-
-        contains_new_target(&function.params) || contains_new_target(body)
     }
 
     #[cfg_attr(
@@ -1833,145 +1788,10 @@ impl Optimizer<'_> {
     }
 }
 
-struct ContainsNewTarget {
-    found: bool,
-}
-
-impl Visit for ContainsNewTarget {
-    noop_visit_type!();
-
-    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
-        if matches!(n.kind, MetaPropKind::NewTarget) {
-            self.found = true;
-        }
-    }
-}
-
-fn contains_new_target<N>(n: &N) -> bool
-where
-    N: VisitWith<ContainsNewTarget>,
-{
-    let mut v = ContainsNewTarget { found: false };
-    n.visit_with(&mut v);
-    v.found
-}
-
-struct ConstructorArgObserver<'a> {
-    found: bool,
-    fn_ident: Option<&'a Ident>,
-}
-
-impl ConstructorArgObserver<'_> {
-    fn prop_name_may_observe_args(&self, key: &PropName) -> bool {
-        match key {
-            PropName::Computed(key) => self.expr_may_observe_args(&key.expr),
-            _ => false,
-        }
-    }
-
-    fn key_may_observe_args(&self, key: &Key) -> bool {
-        match key {
-            Key::Public(key) => self.prop_name_may_observe_args(key),
-            Key::Private(_) => false,
-        }
-    }
-
-    fn expr_may_observe_args(&self, expr: &Expr) -> bool {
-        let mut v = ConstructorArgObserver {
-            found: false,
-            fn_ident: self.fn_ident,
-        };
-        expr.visit_with(&mut v);
-        v.found
-    }
-}
-
-fn contains_constructor_arg_observer<'a, N>(n: &N, ident: Option<&'a Ident>) -> bool
-where
-    N: VisitWith<ConstructorArgObserver<'a>>,
-{
-    let mut v = ConstructorArgObserver {
-        found: false,
-        fn_ident: ident,
-    };
-    n.visit_with(&mut v);
-    v.found
-}
-
-impl Visit for ConstructorArgObserver<'_> {
-    noop_visit_type!();
-
-    fn visit_call_expr(&mut self, n: &CallExpr) {
-        if let Callee::Expr(callee) = &n.callee {
-            if let Expr::Ident(ident) = &**callee {
-                if ident.sym == "eval" {
-                    self.found = true;
-                    return;
-                }
-            }
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_class(&mut self, class: &Class) {
-        if self.found {
-            return;
-        }
-
-        if let Some(super_class) = &class.super_class {
-            super_class.visit_with(self);
-
-            if self.found {
-                return;
-            }
-        }
-
-        for member in &class.body {
-            if self.found {
-                return;
-            }
-
-            let may_observe_args = match member {
-                ClassMember::Constructor(constructor) => {
-                    self.prop_name_may_observe_args(&constructor.key)
-                }
-                ClassMember::Method(method) => self.prop_name_may_observe_args(&method.key),
-                ClassMember::ClassProp(prop) => self.prop_name_may_observe_args(&prop.key),
-                ClassMember::AutoAccessor(accessor) => self.key_may_observe_args(&accessor.key),
-                _ => false,
-            };
-
-            if may_observe_args {
-                self.found = true;
-            }
-        }
-    }
-
-    fn visit_fn_expr(&mut self, _: &FnExpr) {}
-
-    fn visit_function(&mut self, _: &Function) {}
-
-    fn visit_ident(&mut self, ident: &Ident) {
-        if ident.sym == "arguments" {
-            self.found = true;
-            return;
-        }
-
-        if let Some(fn_ident) = self.fn_ident {
-            if ident.to_id() == fn_ident.to_id() {
-                self.found = true;
-            }
-        }
-    }
-
-    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
-        if matches!(n.kind, MetaPropKind::NewTarget) {
-            self.found = true;
-        }
-    }
-
-    fn visit_this_expr(&mut self, _: &ThisExpr) {
-        self.found = true;
+fn is_known_safe_new_function_body(body: &BlockStmt) -> bool {
+    match body.stmts.as_slice() {
+        [] => true,
+        [Stmt::Throw(ThrowStmt { arg, .. })] => matches!(&**arg, Expr::Lit(..)),
+        _ => false,
     }
 }
