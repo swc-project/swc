@@ -43,7 +43,9 @@ fn prepare_program_for_print(c: &Compiler, program_input: ProgramInput) -> Resul
         ProgramInput::WithContext {
             program,
             source_context,
-        } => prepare_program_with_context(c, program, source_context).map(|(_, program)| program),
+        } => {
+            prepare_program_with_context(&c.cm, program, source_context).map(|(_, program)| program)
+        }
         ProgramInput::Raw(program) => Ok(program),
     }
 }
