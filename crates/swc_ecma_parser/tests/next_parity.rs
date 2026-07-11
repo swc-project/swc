@@ -1,5 +1,10 @@
-use std::{fs, path::PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
+#[cfg(feature = "flow")]
+use serde::Deserialize;
 use swc_common::{BytePos, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{
@@ -153,6 +158,74 @@ fn flow(path: PathBuf) {
         Syntax::Flow(syntax),
         ModuleKind::Unambiguous,
         EsVersion::Es2015,
+    );
+}
+
+#[cfg(feature = "flow")]
+#[derive(Default, Deserialize)]
+#[serde(default)]
+struct HermesOptions {
+    enums: Option<bool>,
+    types: Option<bool>,
+    esproposal_decorators: Option<bool>,
+    components: Option<bool>,
+    pattern_matching: Option<bool>,
+}
+
+#[cfg(feature = "flow")]
+fn hermes_flow_syntax(path: &Path) -> swc_ecma_parser::FlowSyntax {
+    use swc_ecma_parser::FlowSyntax;
+
+    let corpus = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/flow-hermes/corpus");
+    let relative = path
+        .strip_prefix(&corpus)
+        .unwrap_or_else(|_| {
+            panic!(
+                "Hermes fixture is outside {}: {}",
+                corpus.display(),
+                path.display()
+            )
+        })
+        .to_string_lossy()
+        .replace('\\', "/");
+    let options_path = path.with_extension("options.json");
+    let options = fs::read_to_string(&options_path)
+        .ok()
+        .map(|source| {
+            serde_json::from_str::<HermesOptions>(&source).unwrap_or_else(|error| {
+                panic!("failed to parse {}: {error}", options_path.display())
+            })
+        })
+        .unwrap_or_default();
+
+    FlowSyntax {
+        // Hermes parses the entire Flow corpus with JSX enabled.
+        jsx: true,
+        all: false,
+        require_directive: matches!(options.types, Some(false)),
+        enums: options.enums.unwrap_or_else(|| {
+            relative.starts_with("enums/") && relative != "enums/declare-enum-option-off.js"
+        }),
+        decorators: options.esproposal_decorators.unwrap_or(false),
+        components: options.components.unwrap_or_else(|| {
+            relative.starts_with("components/") || relative.starts_with("hook_syntax/")
+        }),
+        pattern_matching: options
+            .pattern_matching
+            .unwrap_or_else(|| relative.starts_with("match/")),
+    }
+}
+
+#[cfg(feature = "flow")]
+#[testing::fixture("tests/flow-hermes/corpus/**/*.js")]
+fn flow_hermes(path: PathBuf) {
+    let syntax = hermes_flow_syntax(&path);
+
+    assert_valid_fixture_parity(
+        path,
+        Syntax::Flow(syntax),
+        ModuleKind::Unambiguous,
+        EsVersion::latest(),
     );
 }
 
