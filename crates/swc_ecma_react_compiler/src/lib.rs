@@ -28,7 +28,7 @@ pub use react_compiler::entrypoint::plugin_options::{
 };
 use react_compiler_hir::environment_config::EnvironmentConfig;
 pub use source_type::SourceType;
-use swc_common::{comments::SingleThreadedComments, BytePos};
+use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::Program;
 
 use crate::{convert_ast::ConvertResult, convert_scope::SemanticBuilder};
@@ -198,9 +198,8 @@ fn parse_source(
         swc_ecma_parser::ModuleKind::Unambiguous,
         swc_ecma_ast::EsVersion::latest(),
     );
-    let parsed = swc_ecma_parser::Parser::new(source_text, parser_source_type)
+    let mut parsed = swc_ecma_parser::Parser::new(source_text, parser_source_type)
         .with_options(parse_options)
-        .with_tokens()
         .parse();
 
     if parsed.panicked {
@@ -218,14 +217,7 @@ fn parse_source(
         }));
     }
 
-    swc_ecma_parser::attach_comments(
-        source_text,
-        BytePos(1),
-        &comments,
-        parsed.comments,
-        &parsed.tokens,
-        &parsed.program,
-    );
+    parsed.attach_comments_to(&comments);
     let source_type = SourceType::from_program(&parsed.program).with_typescript(is_typescript);
 
     Ok((parsed.program, comments, source_type))

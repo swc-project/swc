@@ -262,6 +262,7 @@ pub fn operate(
         comments: parsed_comments,
         mut tokens,
         panicked,
+        ..
     } = Parser::new(&fm.src, source_type)
         .with_options(parse_options)
         .with_start_pos(fm.start_pos)

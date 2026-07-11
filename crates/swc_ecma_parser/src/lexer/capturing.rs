@@ -1,6 +1,6 @@
 use std::mem;
 
-use swc_common::{comments::Comment, Span};
+use swc_common::Span;
 
 use crate::{
     error::Error,
@@ -126,7 +126,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.take_errors()
     }
 
-    fn take_comments(&mut self) -> Vec<Comment> {
+    fn take_comments(&mut self) -> super::comments_buffer::CommentData {
         self.inner.take_comments()
     }
 

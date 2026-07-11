@@ -36,7 +36,8 @@ use crate::{
 
 pub(crate) mod capturing;
 mod char_ext;
-mod comments_buffer;
+#[doc(hidden)]
+pub mod comments_buffer;
 mod jsx;
 mod number;
 pub(crate) mod search;

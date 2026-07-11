@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use swc_atoms::{wtf8::CodePoint, Atom};
-use swc_common::{comments::Comment, BytePos, Span};
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use super::{Context, Lexer};
@@ -11,7 +11,9 @@ use crate::{
     input::Tokens,
     lexer::{
         char_ext::CharExt,
-        comments_buffer::{BufferedCommentKind, CommentsBuffer, CommentsBufferCheckpoint},
+        comments_buffer::{
+            BufferedCommentKind, CommentData, CommentsBuffer, CommentsBufferCheckpoint,
+        },
         search::SafeByteMatchTable,
         token::{Token, TokenAndSpan, TokenFlags, TokenValue},
         LexResult,
@@ -146,10 +148,10 @@ impl crate::input::Tokens for Lexer<'_> {
         errors
     }
 
-    fn take_comments(&mut self) -> Vec<Comment> {
+    fn take_comments(&mut self) -> CommentData {
         self.comments_buffer
             .as_mut()
-            .map(CommentsBuffer::take_flat_comments)
+            .map(CommentsBuffer::take_comment_data)
             .unwrap_or_default()
     }
 

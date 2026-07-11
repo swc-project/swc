@@ -43,25 +43,14 @@ fn parse_js_program(
     let parser = Parser::new(&file.src, source_type)
         .with_options(options)
         .with_start_pos(file.start_pos);
-    let parsed = if comments.is_some() {
-        parser.with_tokens().parse()
-    } else {
-        parser.parse()
-    };
+    let mut parsed = parser.parse();
 
     if parsed.panicked || !parsed.diagnostics.is_empty() {
         return None;
     }
 
     if let Some(comments) = comments {
-        swc_ecma_parser::attach_comments(
-            &file.src,
-            file.start_pos,
-            comments,
-            parsed.comments,
-            &parsed.tokens,
-            &parsed.program,
-        );
+        parsed.attach_comments_to(comments);
     }
 
     Some(parsed.program)

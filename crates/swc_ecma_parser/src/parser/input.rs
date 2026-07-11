@@ -1,10 +1,12 @@
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{comments::Comment, BytePos, Span};
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenValue},
+    lexer::{
+        comments_buffer::CommentData, LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenValue,
+    },
     syntax::SyntaxFlags,
     Context,
 };
@@ -49,8 +51,8 @@ pub trait Tokens {
 
     fn take_errors(&mut self) -> Vec<Error>;
 
-    /// Take comments in source order.
-    fn take_comments(&mut self) -> Vec<Comment>;
+    /// Take comments and their lexer-computed attachment positions.
+    fn take_comments(&mut self) -> CommentData;
 
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.

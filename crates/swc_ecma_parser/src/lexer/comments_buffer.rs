@@ -13,6 +13,19 @@ pub enum BufferedCommentKind {
     Trailing,
 }
 
+#[derive(Debug, Clone, Copy)]
+pub(crate) struct CommentAttachment {
+    pub kind: BufferedCommentKind,
+    pub pos: BytePos,
+}
+
+#[doc(hidden)]
+#[derive(Default)]
+pub struct CommentData {
+    pub(crate) comments: Vec<Comment>,
+    pub(crate) attachments: Vec<CommentAttachment>,
+}
+
 #[derive(Default, Clone)]
 pub struct CommentsBuffer {
     comments: Vec<BufferedComment>,
@@ -131,7 +144,7 @@ impl CommentsBuffer {
         self.comments.drain(..)
     }
 
-    pub fn take_flat_comments(&mut self) -> Vec<Comment> {
+    pub fn take_comment_data(&mut self) -> CommentData {
         debug_assert!(self.pending_leading.is_empty());
         debug_assert!(
             self.comments
@@ -143,9 +156,18 @@ impl CommentsBuffer {
                 .map(|comment| comment.comment.span)
                 .collect::<Vec<_>>()
         );
-        self.comments
-            .drain(..)
-            .map(|comment| comment.comment)
-            .collect()
+        let mut comments = Vec::with_capacity(self.comments.len());
+        let mut attachments = Vec::with_capacity(self.comments.len());
+        for comment in self.comments.drain(..) {
+            comments.push(comment.comment);
+            attachments.push(CommentAttachment {
+                kind: comment.kind,
+                pos: comment.pos,
+            });
+        }
+        CommentData {
+            comments,
+            attachments,
+        }
     }
 }

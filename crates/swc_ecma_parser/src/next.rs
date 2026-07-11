@@ -19,7 +19,11 @@ use swc_ecma_ast::{EsVersion, Module, Program, Script};
 use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
-    lexer::{capturing::Capturing, Lexer, TokenAndSpan},
+    lexer::{
+        capturing::Capturing,
+        comments_buffer::{BufferedCommentKind, CommentAttachment, CommentData},
+        Lexer, TokenAndSpan,
+    },
     parser::{PResult, Parser as ParserEngine},
     EsSyntax, Syntax, TsSyntax,
 };
@@ -375,6 +379,31 @@ pub struct ParserReturn {
     pub tokens: Vec<Token>,
     /// Whether parsing terminated on an unrecoverable error.
     pub panicked: bool,
+    comment_attachments: Vec<CommentAttachment>,
+}
+
+impl ParserReturn {
+    /// Attach parser comments using positions recorded by the lexer.
+    ///
+    /// This consumes [`Self::comments`] without collecting or rescanning the
+    /// complete token stream.
+    #[doc(hidden)]
+    pub fn attach_comments_to(&mut self, destination: &dyn Comments) {
+        let comments = std::mem::take(&mut self.comments);
+        let attachments = std::mem::take(&mut self.comment_attachments);
+        debug_assert_eq!(comments.len(), attachments.len());
+
+        for (comment, attachment) in comments.into_iter().zip(attachments) {
+            match attachment.kind {
+                BufferedCommentKind::Leading => {
+                    destination.add_leading(attachment.pos, comment);
+                }
+                BufferedCommentKind::Trailing => {
+                    destination.add_trailing(attachment.pos, comment);
+                }
+            }
+        }
+    }
 }
 
 /// OXC-style parser entry point.
@@ -433,13 +462,13 @@ impl<'a> Parser<'a> {
         let input = StringInput::new(self.source, self.start_pos, end_pos);
         let lexer = Lexer::new_with_comments(syntax, self.options.target, input);
 
-        let (result, diagnostics, comments, tokens) = if self.collect_tokens {
+        let (result, diagnostics, comment_data, tokens) = if self.collect_tokens {
             let lexer =
                 Capturing::with_capacity(lexer, estimated_token_capacity(self.source.len()));
             let mut parser = ParserEngine::new_from(lexer);
             let result = parse_program(&mut parser, self.source_type.module_kind);
             let diagnostics = parser.take_errors();
-            let comments = parser.input_mut().iter.take_comments();
+            let comment_data = parser.input_mut().iter.take_comments();
             let tokens = parser
                 .input_mut()
                 .iter
@@ -447,19 +476,19 @@ impl<'a> Parser<'a> {
                 .into_iter()
                 .map(Token::from)
                 .collect();
-            (result, diagnostics, comments, tokens)
+            (result, diagnostics, comment_data, tokens)
         } else {
             let mut parser = ParserEngine::new_from(lexer);
             let result = parse_program(&mut parser, self.source_type.module_kind);
             let diagnostics = parser.take_errors();
-            let comments = parser.input_mut().iter.take_comments();
-            (result, diagnostics, comments, Vec::new())
+            let comment_data = parser.input_mut().iter.take_comments();
+            (result, diagnostics, comment_data, Vec::new())
         };
 
         finish_parse(
             result,
             diagnostics,
-            comments,
+            comment_data,
             tokens,
             self.source_type.module_kind,
             Span::new_with_checked(self.start_pos, end_pos),
@@ -516,6 +545,7 @@ impl<'a> Parser<'a> {
             comments: Vec::new(),
             tokens: Vec::new(),
             panicked: true,
+            comment_attachments: Vec::new(),
         }
     }
 }
@@ -535,11 +565,15 @@ fn parse_program<I: Tokens>(
 fn finish_parse(
     result: PResult<Program>,
     mut diagnostics: Vec<Error>,
-    comments: Vec<Comment>,
+    comment_data: CommentData,
     tokens: Vec<Token>,
     module_kind: ModuleKind,
     span: Span,
 ) -> ParserReturn {
+    let CommentData {
+        comments,
+        attachments: comment_attachments,
+    } = comment_data;
     match result {
         Ok(program) => ParserReturn {
             program,
@@ -547,6 +581,7 @@ fn finish_parse(
             comments,
             tokens,
             panicked: false,
+            comment_attachments,
         },
         Err(error) => {
             diagnostics.push(error);
@@ -556,6 +591,7 @@ fn finish_parse(
                 comments,
                 tokens,
                 panicked: true,
+                comment_attachments,
             }
         }
     }
