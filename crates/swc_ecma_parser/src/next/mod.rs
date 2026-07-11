@@ -9,5 +9,7 @@ mod api;
 // be unused until the cursor is connected to the first JavaScript grammar.
 #[allow(dead_code)]
 pub(crate) mod lexer;
+#[allow(dead_code)]
+pub(crate) mod parser;
 
 pub use api::*;
