@@ -6524,28 +6524,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_ecma_lexer"
-version = "40.0.1"
-dependencies = [
- "bitflags 2.10.0",
- "either",
- "num-bigint",
- "rustc-hash 2.1.1",
- "seq-macro",
- "serde",
- "smallvec",
- "smartstring",
- "stacker",
- "swc_atoms",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_parser",
- "swc_ecma_visit",
- "testing",
- "tracing",
-]
-
-[[package]]
 name = "swc_ecma_lints"
 version = "33.0.0"
 dependencies = [
@@ -6643,7 +6621,6 @@ dependencies = [
  "either",
  "num-bigint",
  "pathdiff",
- "phf",
  "pretty_assertions",
  "rustc-hash 2.1.1",
  "seq-macro",
