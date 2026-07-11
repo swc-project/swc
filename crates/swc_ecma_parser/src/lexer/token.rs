@@ -892,7 +892,7 @@ impl Display for Token {
     }
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct TokenAndSpan {
     pub token: Token,
     flags: TokenFlags,

@@ -666,19 +666,15 @@ impl TsStrip {
             return;
         }
 
-        let TokenAndSpan {
-            token,
-            had_line_break,
-            ..
-        } = &self.tokens[index + 1];
+        let next = &self.tokens[index + 1];
 
-        if !*had_line_break {
+        if !next.had_line_break() {
             return;
         }
 
         // https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-asi-interesting-cases-in-statement-lists
         // Add a semicolon if the next token is `[`, `(`, `/`, `+`, `-` or backtick.
-        match token {
+        match next.token {
             Token::LParen
             | Token::LBracket
             | Token::NoSubstitutionTemplateLiteral
@@ -703,12 +699,13 @@ impl TsStrip {
             return;
         }
 
-        if let TokenAndSpan {
-            // Only `(`, `[` and backtick affect ASI.
-            token: Token::LParen | Token::LBracket | Token::NoSubstitutionTemplateLiteral,
-            had_line_break: true,
-            ..
-        } = &self.tokens[index + 1]
+        let next = &self.tokens[index + 1];
+        if next.had_line_break()
+            && matches!(
+                next.token,
+                // Only `(`, `[` and backtick affect ASI.
+                Token::LParen | Token::LBracket | Token::NoSubstitutionTemplateLiteral
+            )
         {
             self.add_overwrite(span.lo, b';');
         }
@@ -724,7 +721,7 @@ impl TsStrip {
 
             let next = &self.tokens[index];
 
-            if next.had_line_break {
+            if next.had_line_break() {
                 return;
             }
 

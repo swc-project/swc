@@ -48,8 +48,8 @@ pub(crate) mod token;
 mod whitespace;
 
 pub(crate) use number::parse_integer;
-pub use token::Token;
-pub(crate) use token::{TokenAndSpan, TokenFlags, TokenValue};
+pub use token::{Token, TokenAndSpan};
+pub(crate) use token::{TokenFlags, TokenValue};
 
 // ===== Byte match tables for comment scanning =====
 // Irregular line breaks - '\u{2028}' (LS) and '\u{2029}' (PS)

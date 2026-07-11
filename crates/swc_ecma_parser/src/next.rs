@@ -22,7 +22,7 @@ use crate::{
     lexer::{
         capturing::Capturing,
         comments_buffer::{BufferedCommentKind, CommentAttachment, CommentData},
-        Lexer, TokenAndSpan,
+        Lexer,
     },
     parser::{PResult, Parser as ParserEngine},
     EsSyntax, Syntax, TsSyntax,
@@ -344,38 +344,11 @@ impl Default for ParseOptions {
 
 /// Compact token kind returned by token-collecting parses.
 pub use crate::lexer::Token as TokenKind;
-
 /// Token emitted in source order when token collection is enabled.
-#[derive(Clone, Copy, PartialEq, Eq)]
-pub struct Token {
-    /// Token category.
-    pub token: TokenKind,
-    /// Token byte range.
-    pub span: Span,
-    /// Whether a line terminator occurred before this token.
-    pub had_line_break: bool,
-}
-
-impl std::fmt::Debug for Token {
-    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        formatter
-            .debug_struct("TokenAndSpan")
-            .field("token", &self.token)
-            .field("span", &self.span)
-            .field("had_line_break", &self.had_line_break)
-            .finish()
-    }
-}
-
-impl From<TokenAndSpan> for Token {
-    fn from(token: TokenAndSpan) -> Self {
-        Self {
-            token: token.token,
-            span: token.span,
-            had_line_break: token.had_line_break(),
-        }
-    }
-}
+///
+/// The parser and public API share this representation so enabling token
+/// collection does not require a second allocation and conversion pass.
+pub use crate::lexer::TokenAndSpan as Token;
 
 /// Result of parsing a source file.
 pub struct ParserReturn {
@@ -480,13 +453,7 @@ impl<'a> Parser<'a> {
             let result = parse_program(&mut parser, self.source_type.module_kind);
             let diagnostics = parser.take_errors();
             let comment_data = parser.input_mut().iter.take_comments();
-            let tokens = parser
-                .input_mut()
-                .iter
-                .take()
-                .into_iter()
-                .map(Token::from)
-                .collect();
+            let tokens = parser.input_mut().iter.take();
             (result, diagnostics, comment_data, tokens)
         } else {
             let mut parser = ParserEngine::new_from(lexer);
