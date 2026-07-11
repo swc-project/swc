@@ -1858,12 +1858,14 @@ impl<I: Tokens> Parser<I> {
         include_decl: bool,
         handle_import_export: impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,
     ) -> PResult<Type> {
-        if self.parse_depth >= MAX_STMT_PARSE_DEPTH {
+        if self.parse_depth >= MAX_PARSE_DEPTH || self.stmt_depth >= MAX_STMT_PARSE_DEPTH {
             return Err(self.max_parse_depth_error());
         }
 
         self.parse_depth += 1;
+        self.stmt_depth += 1;
         let result = self.parse_stmt_like_inner(include_decl, handle_import_export);
+        self.stmt_depth -= 1;
         self.parse_depth -= 1;
         result
     }

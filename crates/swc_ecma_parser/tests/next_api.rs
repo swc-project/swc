@@ -131,6 +131,26 @@ fn excessive_statement_nesting_returns_fatal_diagnostic() {
     )));
 }
 
+#[test]
+fn mixed_statement_and_expression_depth_is_counted_separately() {
+    let mut source = String::new();
+    for _ in 0..24 {
+        source.push_str("consume(function () {");
+    }
+    source.push_str("let value = 1;");
+    for _ in 0..24 {
+        source.push_str("});");
+    }
+
+    let parsed = NextParser::new(&source, SourceType::module()).parse();
+    assert!(
+        !parsed.panicked,
+        "valid mixed recursion failed: {:?}",
+        parsed.diagnostics
+    );
+    assert!(parsed.diagnostics.is_empty());
+}
+
 #[cfg(feature = "typescript")]
 #[test]
 fn excessive_type_nesting_returns_fatal_diagnostic() {
