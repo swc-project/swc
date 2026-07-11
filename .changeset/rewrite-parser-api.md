@@ -1,4 +1,5 @@
 ---
+swc: patch
 swc_compiler_base: major
 swc_core: major
 swc_ecma_parser: major

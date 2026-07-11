@@ -149,7 +149,9 @@ use swc_ecma_loader::resolvers::{
 };
 use swc_ecma_minifier::option::{MangleCache, MinifyOptions, TopLevelOptions};
 use swc_ecma_parser::{
-    error::SyntaxError, parse_file_as_program, parse_file_as_script, EsSyntax, Syntax,
+    error::SyntaxError,
+    next::{attach_comments, ModuleKind, Parser as NextParser, ParserReturn, SourceType},
+    EsSyntax, Syntax,
 };
 use swc_ecma_transforms::{
     fixer,
@@ -244,6 +246,42 @@ fn emit_parser_recoverable_errors(
     }
 
     Err(Error::msg("Syntax Error"))
+}
+
+fn parse_with_next_parser(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    module_kind: ModuleKind,
+    collect_tokens: bool,
+) -> ParserReturn {
+    let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
+    let parser = NextParser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos);
+
+    if collect_tokens {
+        parser.with_tokens().parse()
+    } else {
+        parser.parse()
+    }
+}
+
+fn attach_next_parser_comments(
+    fm: &SourceFile,
+    comments: Option<&dyn Comments>,
+    result: &mut ParserReturn,
+) {
+    if let Some(comments) = comments {
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+    }
 }
 
 fn classify_flow_script_like_module(program: &Program) -> FlowScriptLikeModuleKind {
@@ -648,28 +686,38 @@ impl Compiler {
         }
 
         if matches!(is_module, IsModule::Bool(false)) {
-            let mut errors = Vec::new();
-            match parse_file_as_script(&fm, syntax, target, comments, &mut errors) {
-                Ok(script) => {
-                    emit_parser_recoverable_errors(handler, errors)?;
-                    return Ok((Program::Script(script), false));
-                }
-                Err(err) if matches!(err.kind(), SyntaxError::ImportExportInScript) => {}
-                Err(err) => {
-                    emit_parser_recoverable_errors(handler, errors)?;
-                    err.into_diagnostic(handler).emit();
-                    return Err(Error::msg("Syntax Error"));
-                }
+            let mut result =
+                parse_with_next_parser(&fm, syntax, target, ModuleKind::Script, comments.is_some());
+
+            if !result.panicked {
+                attach_next_parser_comments(&fm, comments, &mut result);
+                emit_parser_recoverable_errors(handler, result.diagnostics)?;
+                return Ok((result.program, false));
             }
 
-            let mut errors = Vec::new();
-            let program = parse_file_as_program(&fm, syntax, target, comments, &mut errors)
-                .map_err(|err| {
-                    err.into_diagnostic(handler).emit();
-                    Error::msg("Syntax Error")
-                })?;
+            if !matches!(
+                result.diagnostics.last().map(|error| error.kind()),
+                Some(SyntaxError::ImportExportInScript)
+            ) {
+                attach_next_parser_comments(&fm, comments, &mut result);
+                emit_parser_recoverable_errors(handler, result.diagnostics)?;
+                return Err(Error::msg("Syntax Error"));
+            }
 
-            emit_parser_recoverable_errors(handler, errors)?;
+            let mut result = parse_with_next_parser(
+                &fm,
+                syntax,
+                target,
+                ModuleKind::Unambiguous,
+                comments.is_some(),
+            );
+            attach_next_parser_comments(&fm, comments, &mut result);
+            emit_parser_recoverable_errors(handler, result.diagnostics)?;
+
+            if result.panicked {
+                return Err(Error::msg("Syntax Error"));
+            }
+            let program = result.program;
 
             match classify_flow_script_like_module(&program) {
                 FlowScriptLikeModuleKind::Script => Ok((program, false)),
