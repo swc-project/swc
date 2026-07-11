@@ -1,13 +1,16 @@
 use std::{env::args, io, path::Path};
 
-use swc_common::{input::SourceFileInput, sync::Lrc, FilePathMapping, Mark, SourceMap};
-use swc_ecma_ast::Module;
+use swc_common::{sync::Lrc, FilePathMapping, Mark, SourceMap};
+use swc_ecma_ast::{Module, Program};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MinifyOptions},
 };
-use swc_ecma_parser::{error::Error as ParseError, lexer::Lexer, Parser};
+use swc_ecma_parser::{
+    error::Error as ParseError,
+    next::{Parser, SourceType},
+};
 use swc_ecma_transforms::{fixer, hygiene::hygiene_with_config, resolver_with_mark};
 use swc_ecma_visit::FoldWith;
 
@@ -16,15 +19,20 @@ fn parse_js(cm: &Lrc<SourceMap>, filename: String) -> Result<Module, ParseError>
         .load_file(Path::new(&filename))
         .expect("Failed to load file");
 
-    let lexer = Lexer::new(
-        Default::default(),
-        Default::default(),
-        SourceFileInput::from(&*fm),
-        None,
-    );
-    let mut parser = Parser::new_from(lexer);
+    let mut parsed = Parser::new(&fm.src, SourceType::module())
+        .with_start_pos(fm.start_pos)
+        .parse();
+    if parsed.panicked {
+        return Err(parsed
+            .diagnostics
+            .pop()
+            .expect("a fatal parse must produce a diagnostic"));
+    }
 
-    parser.parse_module()
+    match parsed.program {
+        Program::Module(module) => Ok(module),
+        Program::Script(_) => unreachable!("module source type produced a script"),
+    }
 }
 
 fn print_js(cm: Lrc<SourceMap>, module: &Module) {
