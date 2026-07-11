@@ -4,6 +4,10 @@
 //! options are supplied up front, and parsing returns the AST and all side
 //! products together. This lets the lexer and parser share one cursor without
 //! exposing their implementation details.
+//!
+//! The organization is derived from OXC `oxc_parser` at commit
+//! `b6d2a29e47358a288dbfb2a635550243511ec497`. See `OXC_LICENSE` in this
+//! crate for the upstream MIT license.
 
 use std::fmt;
 
