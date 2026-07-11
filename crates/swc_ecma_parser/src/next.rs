@@ -7,7 +7,11 @@
 
 use std::fmt;
 
-use swc_common::{comments::Comment, input::StringInput, BytePos, Span};
+use swc_common::{
+    comments::{Comment, Comments},
+    input::StringInput,
+    BytePos, Span, Spanned,
+};
 use swc_ecma_ast::{EsVersion, Module, Program, Script};
 
 use crate::{
@@ -179,6 +183,88 @@ impl SourceType {
     /// Whether JSX or TSX is enabled.
     pub const fn is_jsx(self) -> bool {
         matches!(self.variant, LanguageVariant::Jsx)
+    }
+
+    /// Convert the legacy configuration while workspace consumers migrate.
+    #[doc(hidden)]
+    pub fn from_legacy(
+        syntax: Syntax,
+        module_kind: ModuleKind,
+        target: EsVersion,
+    ) -> (Self, ParseOptions) {
+        match syntax {
+            Syntax::Es(syntax) => (
+                Self {
+                    language: Language::JavaScript,
+                    module_kind,
+                    variant: if syntax.jsx {
+                        LanguageVariant::Jsx
+                    } else {
+                        LanguageVariant::Standard
+                    },
+                },
+                ParseOptions {
+                    target,
+                    decorators: syntax.decorators,
+                    decorators_before_export: syntax.decorators_before_export,
+                    function_bind: syntax.fn_bind,
+                    export_default_from: syntax.export_default_from,
+                    import_attributes: syntax.import_attributes,
+                    allow_super_outside_method: syntax.allow_super_outside_method,
+                    allow_return_outside_function: syntax.allow_return_outside_function,
+                    auto_accessors: syntax.auto_accessors,
+                    explicit_resource_management: syntax.explicit_resource_management,
+                    ..ParseOptions::default()
+                },
+            ),
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(syntax) => (
+                Self {
+                    language: if syntax.dts {
+                        Language::TypeScriptDefinition
+                    } else {
+                        Language::TypeScript
+                    },
+                    module_kind,
+                    variant: if syntax.tsx {
+                        LanguageVariant::Jsx
+                    } else {
+                        LanguageVariant::Standard
+                    },
+                },
+                ParseOptions {
+                    target,
+                    decorators: syntax.decorators,
+                    no_early_errors: syntax.no_early_errors,
+                    disallow_ambiguous_jsx_like: syntax.disallow_ambiguous_jsx_like,
+                    ..ParseOptions::default()
+                },
+            ),
+            #[cfg(feature = "flow")]
+            Syntax::Flow(syntax) => (
+                Self {
+                    language: Language::Flow,
+                    module_kind,
+                    variant: if syntax.jsx {
+                        LanguageVariant::Jsx
+                    } else {
+                        LanguageVariant::Standard
+                    },
+                },
+                ParseOptions {
+                    target,
+                    flow: FlowOptions {
+                        all: syntax.all,
+                        require_directive: syntax.require_directive,
+                        enums: syntax.enums,
+                        decorators: syntax.decorators,
+                        components: syntax.components,
+                        pattern_matching: syntax.pattern_matching,
+                    },
+                    ..ParseOptions::default()
+                },
+            ),
+        }
     }
 }
 
@@ -509,4 +595,56 @@ fn estimated_token_capacity(source_len: usize) -> usize {
     // conservative divisor limits reallocations without retaining a buffer
     // proportional to source size for whitespace-heavy files.
     source_len / 6
+}
+
+/// Attach flat parser comments to SWC's legacy comment store.
+///
+/// A comment following a token on the same line is trailing. All other
+/// comments are leading comments of the following token, or trailing comments
+/// of the final token when no following token exists.
+#[doc(hidden)]
+pub fn attach_comments(
+    source: &str,
+    start_pos: BytePos,
+    destination: &dyn Comments,
+    comments: Vec<Comment>,
+    tokens: &[Token],
+    program: &Program,
+) {
+    let mut token_index = 0;
+    for comment in comments {
+        while token_index < tokens.len() && tokens[token_index].span.hi <= comment.span.lo {
+            token_index += 1;
+        }
+
+        let previous = token_index.checked_sub(1).map(|index| tokens[index]);
+        let next = tokens[token_index..]
+            .iter()
+            .copied()
+            .find(|token| token.span.lo >= comment.span.hi);
+
+        if let Some(previous) = previous {
+            if !contains_line_break(source, start_pos, previous.span.hi, comment.span.lo) {
+                destination.add_trailing(previous.span.hi, comment);
+                continue;
+            }
+        }
+
+        if let Some(next) = next {
+            destination.add_leading(next.span.lo, comment);
+        } else if let Some(previous) = previous {
+            destination.add_trailing(previous.span.hi, comment);
+        } else {
+            destination.add_leading(program.span().lo, comment);
+        }
+    }
+}
+
+fn contains_line_break(source: &str, start_pos: BytePos, start: BytePos, end: BytePos) -> bool {
+    debug_assert!(start_pos <= start && start <= end);
+    let start = (start - start_pos).0 as usize;
+    let end = (end - start_pos).0 as usize;
+    source[start..end]
+        .chars()
+        .any(|character| matches!(character, '\n' | '\r' | '\u{2028}' | '\u{2029}'))
 }

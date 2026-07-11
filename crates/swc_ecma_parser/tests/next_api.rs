@@ -4,7 +4,9 @@ use swc_common::{
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{
     lexer::Lexer,
-    next::{ModuleKind, ParseOptions, Parser as NextParser, SourceType},
+    next::{
+        attach_comments, ModuleKind, ParseOptions, Parser as NextParser, ParserReturn, SourceType,
+    },
     EsSyntax, Parser as LegacyParser, StringInput, Syntax, TsSyntax,
 };
 
@@ -73,6 +75,33 @@ fn token_and_comment_collection_is_opt_in_and_ordered() {
         .iter()
         .all(|token| token.span.lo >= BytePos(41)));
     assert!(with_tokens.program.span().lo >= BytePos(41));
+}
+
+#[test]
+fn flat_comments_attach_deterministically() {
+    let source = "const a = 1; // trailing\n// leading\nconst b = 2;";
+    let start_pos = BytePos(17);
+    let ParserReturn {
+        program,
+        comments,
+        tokens,
+        ..
+    } = NextParser::new(source, SourceType::script())
+        .with_start_pos(start_pos)
+        .with_tokens()
+        .parse();
+    let destination = SingleThreadedComments::default();
+
+    attach_comments(source, start_pos, &destination, comments, &tokens, &program);
+
+    let (leading, trailing) = destination.borrow_all();
+    assert_eq!(leading.values().map(Vec::len).sum::<usize>(), 1);
+    assert_eq!(trailing.values().map(Vec::len).sum::<usize>(), 1);
+    assert_eq!(leading.values().flatten().next().unwrap().text, " leading");
+    assert_eq!(
+        trailing.values().flatten().next().unwrap().text,
+        " trailing"
+    );
 }
 
 #[cfg(feature = "typescript")]
