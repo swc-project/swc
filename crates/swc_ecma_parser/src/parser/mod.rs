@@ -51,10 +51,15 @@ mod verifier;
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
-/// This limit is intentionally platform-independent. Native builds may grow
-/// the stack for selected grammar productions, but wasm and ARM builds cannot
-/// rely on that support and must fail before exhausting the process stack.
+/// These limits prevent parser-controlled recursion from exhausting the process
+/// stack.
 const MAX_PARSE_DEPTH: u16 = 256;
+// wasm runtimes provide enough stack for existing generated code with deeply
+// nested currency predicates. Native test threads use a smaller stack, so keep
+// their guard lower until parenthesized expressions are parsed iteratively.
+#[cfg(target_arch = "wasm32")]
+const MAX_PAREN_PARSE_DEPTH: u16 = 192;
+#[cfg(not(target_arch = "wasm32"))]
 const MAX_PAREN_PARSE_DEPTH: u16 = 32;
 const MAX_STMT_PARSE_DEPTH: u16 = 32;
 #[cfg(feature = "typescript")]

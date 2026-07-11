@@ -346,7 +346,7 @@ impl Default for ParseOptions {
 pub use crate::lexer::Token as TokenKind;
 
 /// Token emitted in source order when token collection is enabled.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub struct Token {
     /// Token category.
     pub token: TokenKind,
@@ -354,6 +354,17 @@ pub struct Token {
     pub span: Span,
     /// Whether a line terminator occurred before this token.
     pub had_line_break: bool,
+}
+
+impl std::fmt::Debug for Token {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("TokenAndSpan")
+            .field("token", &self.token)
+            .field("span", &self.span)
+            .field("had_line_break", &self.had_line_break)
+            .finish()
+    }
 }
 
 impl From<TokenAndSpan> for Token {

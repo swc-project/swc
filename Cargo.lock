@@ -6610,7 +6610,6 @@ dependencies = [
  "either",
  "num-bigint",
  "pathdiff",
- "phf",
  "pretty_assertions",
  "rustc-hash 2.1.1",
  "seq-macro",
