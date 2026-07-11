@@ -6,7 +6,10 @@ use swc_core::{
     common::{errors::ColorConfig, FileName, Globals, Mark, SourceMap, GLOBALS},
     ecma::{
         ast::*,
-        parser::{unstable::Capturing, EsSyntax, Lexer, Parser, StringInput, Syntax, TsSyntax},
+        parser::{
+            next::{ModuleKind, Parser, ParserReturn, SourceType},
+            EsSyntax, Syntax, TsSyntax,
+        },
         transforms::base::resolver,
         visit::VisitMutWith,
     },
@@ -69,17 +72,25 @@ pub fn parse(input: &str, file_name: Option<String>) -> Result<Vec<String>, Stri
     };
     let target = EsVersion::latest();
 
-    let lexer = Capturing::new(Lexer::new(syntax, target, StringInput::from(&*fm), None));
-
-    let mut parser = Parser::new_from(lexer);
-
-    let program = if is_esm {
-        parser.parse_module().map(Program::Module)
+    let module_kind = if is_esm {
+        ModuleKind::Module
     } else if is_cjs {
-        parser.parse_commonjs().map(Program::Script)
+        ModuleKind::CommonJs
     } else {
-        parser.parse_program()
+        ModuleKind::Unambiguous
     };
+    let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
+    let ParserReturn {
+        program,
+        diagnostics,
+        tokens,
+        panicked,
+        ..
+    } = Parser::new(input, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .with_tokens()
+        .parse();
 
     let mut ast = try_with_handler(
         cm,
@@ -88,19 +99,18 @@ pub fn parse(input: &str, file_name: Option<String>) -> Result<Vec<String>, Stri
             ..Default::default()
         },
         |handler| {
-            for err in parser.take_errors() {
+            for err in diagnostics {
                 err.into_diagnostic(handler).emit();
             }
 
-            program.map_err(|err| {
-                err.into_diagnostic(handler).emit();
-                anyhow::anyhow!("Failed to parse the input")
-            })
+            if panicked || handler.has_errors() {
+                Err(anyhow::anyhow!("Failed to parse the input"))
+            } else {
+                Ok(program)
+            }
         },
     )
     .map_err(|err| err.to_pretty_string())?;
-
-    let tokens = parser.input_mut().iter_mut().take();
 
     GLOBALS.set(&Globals::default(), || {
         let unresolved_mark = Mark::new();

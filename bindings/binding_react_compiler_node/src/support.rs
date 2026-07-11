@@ -1,8 +1,5 @@
 use napi::bindgen_prelude::*;
-use swc_core::{
-    common::{sync::Lrc, FileName, SourceMap},
-    ecma::{ast::EsVersion, parser::Syntax},
-};
+use swc_core::ecma::parser::next::{ParseOptions, Parser, SourceType};
 
 struct IsReactCompilerRequiredTask {
     code: String,
@@ -23,26 +20,17 @@ impl Task for IsReactCompilerRequiredTask {
 }
 
 fn is_react_compiler_required_inner(code: &str) -> bool {
-    let cm = Lrc::new(SourceMap::default());
-    let fm = cm.new_source_file(FileName::Anon.into(), code.to_string());
-
-    let program = swc_core::ecma::parser::parse_file_as_program(
-        &fm,
-        Syntax::Typescript(swc_core::ecma::parser::TsSyntax {
+    let result = Parser::new(code, SourceType::tsx())
+        .with_options(ParseOptions {
             decorators: true,
-            tsx: true,
-            ..Default::default()
-        }),
-        EsVersion::latest(),
-        None,
-        &mut vec![],
-    );
-
-    let Ok(program) = program else {
+            ..ParseOptions::default()
+        })
+        .parse();
+    if result.panicked || !result.diagnostics.is_empty() {
         return false;
-    };
+    }
 
-    swc_ecma_react_compiler::fast_check::is_required(&program)
+    swc_ecma_react_compiler::fast_check::is_required(&result.program)
 }
 
 #[napi]
