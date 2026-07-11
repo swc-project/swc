@@ -1,4 +1,4 @@
-//! OXC-style parser API used while the parser internals are migrated.
+//! Public OXC-style parser API used while the parser internals are migrated.
 //!
 //! The API deliberately has a small surface: source classification and parser
 //! options are supplied up front, and parsing returns the AST and all side
