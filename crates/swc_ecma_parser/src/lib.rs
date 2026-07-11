@@ -189,6 +189,8 @@ mod context;
 pub mod error;
 mod legacy;
 pub mod lexer;
+#[doc(hidden)]
+pub mod next;
 mod parser;
 mod syntax;
 

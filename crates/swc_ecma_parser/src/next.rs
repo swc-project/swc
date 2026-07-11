@@ -1,0 +1,542 @@
+//! OXC-style parser API used while the parser internals are migrated.
+//!
+//! The API deliberately has a small surface: source classification and parser
+//! options are supplied up front, and parsing returns the AST and all side
+//! products together. This lets the lexer and parser share one cursor without
+//! exposing their implementation details.
+
+use std::fmt;
+
+use swc_common::{
+    comments::{Comment, SingleThreadedComments},
+    input::StringInput,
+    BytePos, Span,
+};
+use swc_ecma_ast::{EsVersion, Module, Program, Script};
+
+use crate::{
+    error::{Error, SyntaxError},
+    input::Tokens,
+    lexer::{capturing::Capturing, Lexer, TokenAndSpan},
+    parser::{PResult, Parser as LegacyParser},
+    EsSyntax, Syntax, TsSyntax,
+};
+
+/// Source language accepted by the parser.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Language {
+    /// JavaScript or JSX.
+    JavaScript,
+    /// TypeScript or TSX.
+    #[cfg(feature = "typescript")]
+    TypeScript,
+    /// TypeScript declaration source.
+    #[cfg(feature = "typescript")]
+    TypeScriptDefinition,
+    /// Flow source.
+    #[cfg(feature = "flow")]
+    Flow,
+}
+
+/// Module interpretation for a source file.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum ModuleKind {
+    /// ECMAScript script.
+    Script,
+    /// ECMAScript module.
+    Module,
+    /// Detect module syntax while parsing.
+    Unambiguous,
+    /// CommonJS source, which is parsed in a function-like context.
+    CommonJs,
+}
+
+/// Optional language extension for the source.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum LanguageVariant {
+    /// Standard source without JSX.
+    Standard,
+    /// JSX or TSX source.
+    Jsx,
+}
+
+/// Complete source classification used by [`Parser`].
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct SourceType {
+    language: Language,
+    module_kind: ModuleKind,
+    variant: LanguageVariant,
+}
+
+impl Default for SourceType {
+    fn default() -> Self {
+        Self::module()
+    }
+}
+
+impl SourceType {
+    /// JavaScript module source.
+    pub const fn module() -> Self {
+        Self {
+            language: Language::JavaScript,
+            module_kind: ModuleKind::Module,
+            variant: LanguageVariant::Standard,
+        }
+    }
+
+    /// JavaScript script source.
+    pub const fn script() -> Self {
+        Self {
+            language: Language::JavaScript,
+            module_kind: ModuleKind::Script,
+            variant: LanguageVariant::Standard,
+        }
+    }
+
+    /// JavaScript source whose module kind is detected while parsing.
+    pub const fn unambiguous() -> Self {
+        Self {
+            language: Language::JavaScript,
+            module_kind: ModuleKind::Unambiguous,
+            variant: LanguageVariant::Standard,
+        }
+    }
+
+    /// CommonJS source.
+    pub const fn common_js() -> Self {
+        Self {
+            language: Language::JavaScript,
+            module_kind: ModuleKind::CommonJs,
+            variant: LanguageVariant::Standard,
+        }
+    }
+
+    /// JavaScript module with JSX enabled.
+    pub const fn jsx() -> Self {
+        Self::module().with_jsx(true)
+    }
+
+    /// TypeScript source whose module kind is detected while parsing.
+    #[cfg(feature = "typescript")]
+    pub const fn typescript() -> Self {
+        Self {
+            language: Language::TypeScript,
+            module_kind: ModuleKind::Unambiguous,
+            variant: LanguageVariant::Standard,
+        }
+    }
+
+    /// TypeScript source with JSX enabled.
+    #[cfg(feature = "typescript")]
+    pub const fn tsx() -> Self {
+        Self::typescript().with_jsx(true)
+    }
+
+    /// TypeScript declaration source.
+    #[cfg(feature = "typescript")]
+    pub const fn type_definition() -> Self {
+        Self {
+            language: Language::TypeScriptDefinition,
+            module_kind: ModuleKind::Module,
+            variant: LanguageVariant::Standard,
+        }
+    }
+
+    /// Flow source whose module kind is detected while parsing.
+    #[cfg(feature = "flow")]
+    pub const fn flow() -> Self {
+        Self {
+            language: Language::Flow,
+            module_kind: ModuleKind::Unambiguous,
+            variant: LanguageVariant::Standard,
+        }
+    }
+
+    /// Return a copy with the requested module kind.
+    #[must_use]
+    pub const fn with_module_kind(mut self, module_kind: ModuleKind) -> Self {
+        self.module_kind = module_kind;
+        self
+    }
+
+    /// Return a copy with JSX enabled or disabled.
+    #[must_use]
+    pub const fn with_jsx(mut self, yes: bool) -> Self {
+        self.variant = if yes {
+            LanguageVariant::Jsx
+        } else {
+            LanguageVariant::Standard
+        };
+        self
+    }
+
+    /// Source language.
+    pub const fn language(self) -> Language {
+        self.language
+    }
+
+    /// Module interpretation.
+    pub const fn module_kind(self) -> ModuleKind {
+        self.module_kind
+    }
+
+    /// Whether JSX or TSX is enabled.
+    pub const fn is_jsx(self) -> bool {
+        matches!(self.variant, LanguageVariant::Jsx)
+    }
+}
+
+/// Flow-specific parser switches.
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+pub struct FlowOptions {
+    /// Parse all files as Flow without requiring a pragma.
+    pub all: bool,
+    /// Require a Flow pragma before enabling Flow types.
+    pub require_directive: bool,
+    /// Enable Flow enums.
+    pub enums: bool,
+    /// Enable Flow decorators.
+    pub decorators: bool,
+    /// Enable Flow component and hook syntax.
+    pub components: bool,
+    /// Enable Flow pattern matching syntax.
+    pub pattern_matching: bool,
+}
+
+/// Parser behavior independent of source classification.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ParseOptions {
+    /// ECMAScript target used for syntax validation.
+    pub target: EsVersion,
+    /// Enable decorators.
+    pub decorators: bool,
+    /// Allow decorators before exports.
+    pub decorators_before_export: bool,
+    /// Enable function-bind syntax.
+    pub function_bind: bool,
+    /// Enable export-default-from syntax.
+    pub export_default_from: bool,
+    /// Enable import attributes.
+    pub import_attributes: bool,
+    /// Allow `super` outside a method.
+    pub allow_super_outside_method: bool,
+    /// Allow top-level return statements.
+    pub allow_return_outside_function: bool,
+    /// Enable auto-accessors.
+    pub auto_accessors: bool,
+    /// Enable explicit resource management.
+    pub explicit_resource_management: bool,
+    /// Skip early errors where supported.
+    pub no_early_errors: bool,
+    /// Reject TypeScript syntax ambiguous with JSX.
+    pub disallow_ambiguous_jsx_like: bool,
+    /// Flow-specific switches.
+    pub flow: FlowOptions,
+}
+
+impl Default for ParseOptions {
+    fn default() -> Self {
+        Self {
+            target: EsVersion::latest(),
+            decorators: false,
+            decorators_before_export: false,
+            function_bind: false,
+            export_default_from: false,
+            import_attributes: true,
+            allow_super_outside_method: false,
+            allow_return_outside_function: false,
+            auto_accessors: false,
+            explicit_resource_management: false,
+            no_early_errors: false,
+            disallow_ambiguous_jsx_like: false,
+            flow: FlowOptions::default(),
+        }
+    }
+}
+
+/// Compact token kind returned by token-collecting parses.
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub struct TokenKind(crate::lexer::Token);
+
+impl fmt::Debug for TokenKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt::Display::fmt(&self.0, f)
+    }
+}
+
+impl fmt::Display for TokenKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt::Display::fmt(&self.0, f)
+    }
+}
+
+/// Token emitted in source order when token collection is enabled.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct Token {
+    /// Token category.
+    pub kind: TokenKind,
+    /// Token byte range.
+    pub span: Span,
+    /// Whether a line terminator occurred before this token.
+    pub had_line_break: bool,
+}
+
+impl From<TokenAndSpan> for Token {
+    fn from(token: TokenAndSpan) -> Self {
+        Self {
+            kind: TokenKind(token.token),
+            span: token.span,
+            had_line_break: token.had_line_break,
+        }
+    }
+}
+
+/// Result of parsing a source file.
+pub struct ParserReturn {
+    /// Parsed SWC AST. This is empty when parsing terminated fatally.
+    pub program: Program,
+    /// Recovered diagnostics followed by a fatal diagnostic, if any.
+    pub diagnostics: Vec<Error>,
+    /// Comments sorted by source position. Attachment compatibility is not
+    /// guaranteed.
+    pub comments: Vec<Comment>,
+    /// Tokens in source order, populated only after [`Parser::with_tokens`].
+    pub tokens: Vec<Token>,
+    /// Whether parsing terminated on an unrecoverable error.
+    pub panicked: bool,
+}
+
+/// OXC-style parser facade.
+pub struct Parser<'a> {
+    source: &'a str,
+    source_type: SourceType,
+    options: ParseOptions,
+    start_pos: BytePos,
+    collect_tokens: bool,
+}
+
+impl<'a> Parser<'a> {
+    /// Create a parser for `source`.
+    pub fn new(source: &'a str, source_type: SourceType) -> Self {
+        Self {
+            source,
+            source_type,
+            options: ParseOptions::default(),
+            // BytePos(0) is reserved for synthesized nodes.
+            start_pos: BytePos(1),
+            collect_tokens: false,
+        }
+    }
+
+    /// Replace parser options.
+    #[must_use]
+    pub fn with_options(mut self, options: ParseOptions) -> Self {
+        self.options = options;
+        self
+    }
+
+    /// Set the absolute byte position assigned to the first source byte.
+    #[must_use]
+    pub fn with_start_pos(mut self, start_pos: BytePos) -> Self {
+        self.start_pos = start_pos;
+        self
+    }
+
+    /// Collect tokens in [`ParserReturn`].
+    #[must_use]
+    pub fn with_tokens(mut self) -> Self {
+        self.collect_tokens = true;
+        self
+    }
+
+    /// Parse the complete source.
+    pub fn parse(self) -> ParserReturn {
+        let Some(source_len) = u32::try_from(self.source.len()).ok() else {
+            return self.overlong_source();
+        };
+        let Some(end_pos) = self.start_pos.0.checked_add(source_len).map(BytePos) else {
+            return self.overlong_source();
+        };
+
+        let syntax = self.syntax();
+        let comments = SingleThreadedComments::default();
+        let input = StringInput::new(self.source, self.start_pos, end_pos);
+        let lexer = Lexer::new(syntax, self.options.target, input, Some(&comments));
+
+        let (result, diagnostics, tokens) = if self.collect_tokens {
+            let lexer =
+                Capturing::with_capacity(lexer, estimated_token_capacity(self.source.len()));
+            let mut parser = LegacyParser::new_from(lexer);
+            let result = parse_program(&mut parser, self.source_type.module_kind);
+            let diagnostics = parser.take_errors();
+            let tokens = parser
+                .input_mut()
+                .iter
+                .take()
+                .into_iter()
+                .map(Token::from)
+                .collect();
+            (result, diagnostics, tokens)
+        } else {
+            let mut parser = LegacyParser::new_from(lexer);
+            let result = parse_program(&mut parser, self.source_type.module_kind);
+            let diagnostics = parser.take_errors();
+            (result, diagnostics, Vec::new())
+        };
+
+        finish_parse(
+            result,
+            diagnostics,
+            flatten_comments(comments),
+            tokens,
+            self.source_type.module_kind,
+            Span::new_with_checked(self.start_pos, end_pos),
+        )
+    }
+
+    fn syntax(&self) -> Syntax {
+        match self.source_type.language {
+            Language::JavaScript => Syntax::Es(EsSyntax {
+                jsx: self.source_type.is_jsx(),
+                fn_bind: self.options.function_bind,
+                decorators: self.options.decorators,
+                decorators_before_export: self.options.decorators_before_export,
+                export_default_from: self.options.export_default_from,
+                import_attributes: self.options.import_attributes,
+                allow_super_outside_method: self.options.allow_super_outside_method,
+                allow_return_outside_function: self.options.allow_return_outside_function,
+                auto_accessors: self.options.auto_accessors,
+                explicit_resource_management: self.options.explicit_resource_management,
+            }),
+            #[cfg(feature = "typescript")]
+            Language::TypeScript | Language::TypeScriptDefinition => Syntax::Typescript(TsSyntax {
+                tsx: self.source_type.is_jsx(),
+                decorators: self.options.decorators,
+                dts: matches!(self.source_type.language, Language::TypeScriptDefinition),
+                no_early_errors: self.options.no_early_errors,
+                disallow_ambiguous_jsx_like: self.options.disallow_ambiguous_jsx_like,
+            }),
+            #[cfg(feature = "flow")]
+            Language::Flow => Syntax::Flow(crate::FlowSyntax {
+                jsx: self.source_type.is_jsx(),
+                all: self.options.flow.all,
+                require_directive: self.options.flow.require_directive,
+                enums: self.options.flow.enums,
+                decorators: self.options.flow.decorators,
+                components: self.options.flow.components,
+                pattern_matching: self.options.flow.pattern_matching,
+            }),
+        }
+    }
+
+    #[cold]
+    fn overlong_source(&self) -> ParserReturn {
+        let span = Span::new_with_checked(self.start_pos, self.start_pos);
+        ParserReturn {
+            program: empty_program(self.source_type.module_kind, span),
+            diagnostics: vec![Error::new(
+                span,
+                SyntaxError::Unexpected {
+                    got: "source larger than the parser byte-position range".into(),
+                    expected: "source shorter than 4 GiB",
+                },
+            )],
+            comments: Vec::new(),
+            tokens: Vec::new(),
+            panicked: true,
+        }
+    }
+}
+
+fn parse_program<I: Tokens>(
+    parser: &mut LegacyParser<I>,
+    module_kind: ModuleKind,
+) -> PResult<Program> {
+    match module_kind {
+        ModuleKind::Script => parser.parse_script().map(Program::Script),
+        ModuleKind::Module => parser.parse_module().map(Program::Module),
+        ModuleKind::Unambiguous => parser.parse_program(),
+        ModuleKind::CommonJs => parser.parse_commonjs().map(Program::Script),
+    }
+}
+
+fn finish_parse(
+    result: PResult<Program>,
+    mut diagnostics: Vec<Error>,
+    comments: Vec<Comment>,
+    tokens: Vec<Token>,
+    module_kind: ModuleKind,
+    span: Span,
+) -> ParserReturn {
+    match result {
+        Ok(program) => ParserReturn {
+            program,
+            diagnostics,
+            comments,
+            tokens,
+            panicked: false,
+        },
+        Err(error) => {
+            diagnostics.push(error);
+            ParserReturn {
+                program: empty_program(module_kind, span),
+                diagnostics,
+                comments,
+                tokens,
+                panicked: true,
+            }
+        }
+    }
+}
+
+fn empty_program(module_kind: ModuleKind, span: Span) -> Program {
+    match module_kind {
+        ModuleKind::Module => Program::Module(Module {
+            span,
+            body: Vec::new(),
+            shebang: None,
+        }),
+        ModuleKind::Script | ModuleKind::Unambiguous | ModuleKind::CommonJs => {
+            Program::Script(Script {
+                span,
+                body: Vec::new(),
+                shebang: None,
+            })
+        }
+    }
+}
+
+fn flatten_comments(comments: SingleThreadedComments) -> Vec<Comment> {
+    let (leading, trailing) = comments.take_all();
+    let mut comments = {
+        let leading = leading.borrow();
+        let trailing = trailing.borrow();
+        let capacity = leading.values().map(Vec::len).sum::<usize>()
+            + trailing.values().map(Vec::len).sum::<usize>();
+        let mut comments = Vec::with_capacity(capacity);
+        comments.extend(leading.values().flatten().cloned());
+        comments.extend(trailing.values().flatten().cloned());
+        comments
+    };
+
+    comments.sort_unstable_by_key(|comment| {
+        (
+            comment.span.lo,
+            comment.span.hi,
+            match comment.kind {
+                swc_common::comments::CommentKind::Line => 0_u8,
+                swc_common::comments::CommentKind::Block => 1_u8,
+            },
+        )
+    });
+    comments.dedup();
+    comments
+}
+
+#[inline]
+fn estimated_token_capacity(source_len: usize) -> usize {
+    // Real-world JS/TS averages several bytes per significant token. A
+    // conservative divisor limits reallocations without retaining a buffer
+    // proportional to source size for whitespace-heavy files.
+    source_len / 6
+}

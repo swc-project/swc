@@ -34,7 +34,6 @@ use crate::{
     BigIntValue, Context, Syntax,
 };
 
-#[cfg(feature = "unstable")]
 pub(crate) mod capturing;
 mod char_ext;
 mod comments_buffer;
