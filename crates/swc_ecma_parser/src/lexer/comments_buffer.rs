@@ -84,4 +84,16 @@ impl CommentsBuffer {
     pub fn take_comments(&mut self) -> impl Iterator<Item = BufferedComment> + '_ {
         self.comments.drain(..)
     }
+
+    pub fn take_flat_comments(&mut self) -> Vec<Comment> {
+        debug_assert!(self.pending_leading.is_empty());
+        debug_assert!(self
+            .comments
+            .windows(2)
+            .all(|comments| comments[0].comment.span.lo <= comments[1].comment.span.lo));
+        self.comments
+            .drain(..)
+            .map(|comment| comment.comment)
+            .collect()
+    }
 }

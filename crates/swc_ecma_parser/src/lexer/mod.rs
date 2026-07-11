@@ -245,11 +245,6 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
-    fn comments(&self) -> Option<&'a dyn swc_common::comments::Comments> {
-        self.comments
-    }
-
-    #[inline(always)]
     fn comments_buffer(&self) -> Option<&CommentsBuffer> {
         self.comments_buffer.as_ref()
     }
@@ -286,6 +281,16 @@ impl<'a> Lexer<'a> {
 }
 
 impl<'a> Lexer<'a> {
+    pub(crate) fn new_with_comments(
+        syntax: Syntax,
+        target: EsVersion,
+        input: StringInput<'a>,
+    ) -> Self {
+        let mut lexer = Self::new(syntax, target, input, None);
+        lexer.comments_buffer = Some(CommentsBuffer::new());
+        lexer
+    }
+
     pub fn new(
         syntax: Syntax,
         target: EsVersion,
@@ -1333,9 +1338,10 @@ impl<'a> Lexer<'a> {
     #[cold]
     #[inline(never)]
     fn consume_pending_comments(&mut self) {
-        if let Some(comments) = self.comments() {
+        if self.comments_buffer.is_some() {
             let last = self.state.prev_hi;
             let start_pos = self.start_pos();
+            let comments = self.comments;
             let comments_buffer = self.comments_buffer_mut().unwrap();
 
             // if the file had no tokens and no shebang, then treat any
@@ -1349,14 +1355,16 @@ impl<'a> Lexer<'a> {
             // move the pending to the leading or trailing
             comments_buffer.pending_to_comment(kind, last);
 
-            // now fill the user's passed in comments
-            for comment in comments_buffer.take_comments() {
-                match comment.kind {
-                    BufferedCommentKind::Leading => {
-                        comments.add_leading(comment.pos, comment.comment);
-                    }
-                    BufferedCommentKind::Trailing => {
-                        comments.add_trailing(comment.pos, comment.comment);
+            if let Some(comments) = comments {
+                // now fill the user's passed in comments
+                for comment in comments_buffer.take_comments() {
+                    match comment.kind {
+                        BufferedCommentKind::Leading => {
+                            comments.add_leading(comment.pos, comment.comment);
+                        }
+                        BufferedCommentKind::Trailing => {
+                            comments.add_trailing(comment.pos, comment.comment);
+                        }
                     }
                 }
             }

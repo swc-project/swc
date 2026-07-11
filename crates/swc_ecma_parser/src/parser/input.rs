@@ -1,5 +1,5 @@
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{BytePos, Span};
+use swc_common::{comments::Comment, BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
@@ -50,6 +50,9 @@ pub trait Tokens: Clone {
     fn end_pos(&self) -> BytePos;
 
     fn take_errors(&mut self) -> Vec<Error>;
+
+    /// Take comments in source order.
+    fn take_comments(&mut self) -> Vec<Comment>;
 
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.
