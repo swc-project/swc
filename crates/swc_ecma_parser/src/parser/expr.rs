@@ -79,15 +79,13 @@ impl<I: Tokens> Parser<I> {
         } else {
             MAX_PARSE_DEPTH
         };
-        if self.parse_depth >= MAX_PARSE_DEPTH || self.expr_depth >= max_depth {
+        if self.expr_depth >= max_depth {
             return Err(self.max_parse_depth_error());
         }
 
-        self.parse_depth += 1;
         self.expr_depth += 1;
         let result = self.parse_assignment_expr_inner();
         self.expr_depth -= 1;
-        self.parse_depth -= 1;
         result
     }
 

@@ -74,8 +74,6 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
-    /// Combined grammar recursion across statements, expressions, and types.
-    parse_depth: u16,
     expr_depth: u16,
     stmt_depth: u16,
     #[cfg(feature = "typescript")]
@@ -204,7 +202,6 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
-            parse_depth: 0,
             expr_depth: 0,
             stmt_depth: 0,
             #[cfg(feature = "typescript")]
