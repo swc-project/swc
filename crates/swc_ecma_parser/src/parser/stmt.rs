@@ -360,7 +360,10 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(self.span(start), SyntaxError::UsingDeclNotEnabled);
         }
 
-        if !self.ctx().contains(Context::AllowUsingDecl) {
+        let top_level_script = self.ctx().contains(Context::TopLevel)
+            && !self.ctx().contains(Context::Module)
+            && !self.ctx().contains(Context::InFunction);
+        if top_level_script || !self.ctx().contains(Context::AllowUsingDecl) {
             self.emit_err(self.span(start), SyntaxError::UsingDeclNotAllowed);
         }
 

@@ -1891,29 +1891,8 @@ impl<I: Tokens> Parser<I> {
             return_if_arrow!(self, callee);
 
             if is_new_expr {
-                match *callee {
-                    Expr::OptChain(OptChainExpr {
-                        span,
-                        optional: true,
-                        ..
-                    }) => {
-                        syntax_error!(self, span, SyntaxError::OptChainCannotFollowConstructorCall)
-                    }
-                    Expr::Member(MemberExpr { ref obj, .. }) => {
-                        if let Expr::OptChain(OptChainExpr {
-                            span,
-                            optional: true,
-                            ..
-                        }) = **obj
-                        {
-                            syntax_error!(
-                                self,
-                                span,
-                                SyntaxError::OptChainCannotFollowConstructorCall
-                            )
-                        }
-                    }
-                    _ => {}
+                if let Some(span) = Self::optional_chain_in_new_callee(&callee) {
+                    syntax_error!(self, span, SyntaxError::OptChainCannotFollowConstructorCall)
                 }
             }
 
@@ -2002,6 +1981,40 @@ impl<I: Tokens> Parser<I> {
         };
 
         self.parse_subscripts_expr::<false>(obj, true)
+    }
+
+    fn optional_chain_in_new_callee(expr: &Expr) -> Option<Span> {
+        match expr {
+            Expr::OptChain(OptChainExpr {
+                span,
+                optional,
+                base,
+            }) => {
+                if *optional {
+                    Some(*span)
+                } else {
+                    match &**base {
+                        OptChainBase::Member(MemberExpr { obj, .. }) => {
+                            Self::optional_chain_in_new_callee(obj)
+                        }
+                        OptChainBase::Call(OptCall { callee, .. }) => {
+                            Self::optional_chain_in_new_callee(callee)
+                        }
+                    }
+                }
+            }
+            Expr::Member(MemberExpr { obj, .. }) => Self::optional_chain_in_new_callee(obj),
+            Expr::Paren(ParenExpr { expr, .. })
+            | Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr, .. }) => {
+                Self::optional_chain_in_new_callee(expr)
+            }
+            _ => None,
+        }
     }
 
     /// Parse `NewExpression`.
