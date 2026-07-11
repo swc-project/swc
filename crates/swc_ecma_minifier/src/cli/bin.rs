@@ -9,7 +9,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{
     error::Error as ParseError,
-    next::{Parser, SourceType},
+    Parser, SourceType,
 };
 use swc_ecma_transforms::{fixer, hygiene::hygiene_with_config, resolver_with_mark};
 use swc_ecma_visit::FoldWith;

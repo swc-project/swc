@@ -1,5 +1,5 @@
 use napi::bindgen_prelude::*;
-use swc_core::ecma::parser::next::{ParseOptions, Parser, SourceType};
+use swc_core::ecma::parser::{ParseOptions, Parser, SourceType};
 
 struct IsReactCompilerRequiredTask {
     code: String,

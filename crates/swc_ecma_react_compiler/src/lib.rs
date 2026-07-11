@@ -193,12 +193,12 @@ fn parse_source(
 ) -> Result<(Program, SingleThreadedComments, SourceType), Box<DiagnosticMessage>> {
     let comments = SingleThreadedComments::default();
     let is_typescript = syntax.typescript();
-    let (parser_source_type, parse_options) = swc_ecma_parser::next::SourceType::from_legacy(
+    let (parser_source_type, parse_options) = swc_ecma_parser::SourceType::from_legacy(
         syntax,
-        swc_ecma_parser::next::ModuleKind::Unambiguous,
+        swc_ecma_parser::ModuleKind::Unambiguous,
         swc_ecma_ast::EsVersion::latest(),
     );
-    let parsed = swc_ecma_parser::next::Parser::new(source_text, parser_source_type)
+    let parsed = swc_ecma_parser::Parser::new(source_text, parser_source_type)
         .with_options(parse_options)
         .with_tokens()
         .parse();
@@ -218,7 +218,7 @@ fn parse_source(
         }));
     }
 
-    swc_ecma_parser::next::attach_comments(
+    swc_ecma_parser::attach_comments(
         source_text,
         BytePos(1),
         &comments,

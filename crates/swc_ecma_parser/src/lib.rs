@@ -135,7 +135,7 @@ mod context;
 pub mod error;
 mod legacy;
 pub mod lexer;
-pub mod next;
+mod next;
 mod parser;
 mod syntax;
 
@@ -143,8 +143,8 @@ pub use context::Context;
 pub use legacy::token;
 pub use lexer::Lexer;
 pub use next::{
-    FlowOptions, Language, LanguageVariant, ModuleKind, ParseOptions, Parser, ParserReturn,
-    SourceType, Token, TokenKind,
+    attach_comments, FlowOptions, Language, LanguageVariant, ModuleKind, ParseOptions, Parser,
+    ParserReturn, SourceType, Token, TokenKind,
 };
 #[doc(hidden)]
 pub use parser::input;

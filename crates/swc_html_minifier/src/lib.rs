@@ -32,7 +32,7 @@ fn parse_js_program(
     is_module: bool,
     comments: Option<&SingleThreadedComments>,
 ) -> Option<swc_ecma_ast::Program> {
-    use swc_ecma_parser::next::{ModuleKind, Parser, SourceType};
+    use swc_ecma_parser::{ModuleKind, Parser, SourceType};
 
     let module_kind = if is_module {
         ModuleKind::Module
@@ -54,7 +54,7 @@ fn parse_js_program(
     }
 
     if let Some(comments) = comments {
-        swc_ecma_parser::next::attach_comments(
+        swc_ecma_parser::attach_comments(
             &file.src,
             file.start_pos,
             comments,

@@ -8,9 +8,8 @@ use serde::Deserialize;
 use swc_common::{BytePos, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{
-    lexer::Lexer,
-    next::{ModuleKind, Parser as NextParser, SourceType},
-    EsSyntax, LegacyParser, StringInput, Syntax, TsSyntax,
+    lexer::Lexer, EsSyntax, LegacyParser, ModuleKind, Parser as NextParser, SourceType,
+    StringInput, Syntax, TsSyntax,
 };
 
 fn assert_valid_fixture_parity(

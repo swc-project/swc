@@ -148,12 +148,12 @@ fn verify_file(
         )
     })?;
 
-    let (source_type, options) = swc_ecma_parser::next::SourceType::from_legacy(
+    let (source_type, options) = swc_ecma_parser::SourceType::from_legacy(
         Syntax::Flow(flow_syntax),
-        swc_ecma_parser::next::ModuleKind::Unambiguous,
+        swc_ecma_parser::ModuleKind::Unambiguous,
         EsVersion::latest(),
     );
-    let parsed = swc_ecma_parser::next::Parser::new(&fm.src, source_type)
+    let parsed = swc_ecma_parser::Parser::new(&fm.src, source_type)
         .with_options(options)
         .with_start_pos(fm.start_pos)
         .parse();
@@ -193,12 +193,12 @@ fn verify_file(
     }
 
     let output_fm = cm.new_source_file(FileName::Anon.into(), output);
-    let (source_type, options) = swc_ecma_parser::next::SourceType::from_legacy(
+    let (source_type, options) = swc_ecma_parser::SourceType::from_legacy(
         Syntax::Es(es_reparse_syntax(flow_syntax.jsx)),
-        swc_ecma_parser::next::ModuleKind::Unambiguous,
+        swc_ecma_parser::ModuleKind::Unambiguous,
         EsVersion::latest(),
     );
-    let reparsed = swc_ecma_parser::next::Parser::new(&output_fm.src, source_type)
+    let reparsed = swc_ecma_parser::Parser::new(&output_fm.src, source_type)
         .with_options(options)
         .with_start_pos(output_fm.start_pos)
         .parse();

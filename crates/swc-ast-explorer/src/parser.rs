@@ -1,10 +1,7 @@
 use anyhow::{bail, Result};
 use swc_common::{errors::Handler, SourceFile};
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::{
-    next::{ModuleKind, Parser, SourceType},
-    Syntax, TsSyntax,
-};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 
 /// Parses a source file as JavaScript, TypeScript, or TSX and returns the SWC
 /// program tree. Recovered parser errors are treated as fatal so the CLI does

@@ -2,7 +2,7 @@ use std::sync::atomic::{AtomicBool, Ordering::SeqCst};
 
 use once_cell::sync::Lazy;
 use swc_ecma_ast::*;
-use swc_ecma_parser::next::{Parser, SourceType};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_utils::{drop_span, prepend_stmts};
 
 #[derive(Debug, Default)]

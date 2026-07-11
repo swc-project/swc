@@ -50,12 +50,12 @@ pub fn parse_js(fm: Arc<SourceFile>) -> Result<ModuleRecord> {
     let top_level_mark = Mark::new();
 
     let comments = SingleThreadedComments::default();
-    let (source_type, options) = swc_ecma_parser::next::SourceType::from_legacy(
+    let (source_type, options) = swc_ecma_parser::SourceType::from_legacy(
         Syntax::Es(Default::default()),
-        swc_ecma_parser::next::ModuleKind::Module,
+        swc_ecma_parser::ModuleKind::Module,
         EsVersion::latest(),
     );
-    let parsed = swc_ecma_parser::next::Parser::new(&fm.src, source_type)
+    let parsed = swc_ecma_parser::Parser::new(&fm.src, source_type)
         .with_options(options)
         .with_start_pos(fm.start_pos)
         .with_tokens()
@@ -67,7 +67,7 @@ pub fn parse_js(fm: Arc<SourceFile>) -> Result<ModuleRecord> {
     if parsed.panicked || has_errors {
         bail!("failed to parse a js file as a module");
     }
-    swc_ecma_parser::next::attach_comments(
+    swc_ecma_parser::attach_comments(
         &fm.src,
         fm.start_pos,
         &comments,

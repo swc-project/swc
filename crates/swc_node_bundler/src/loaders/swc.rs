@@ -111,12 +111,10 @@ impl SwcLoader {
                     .cm
                     .new_source_file(name.clone().into(), "module.exports = {}".to_string());
 
-                let parsed = swc_ecma_parser::next::Parser::new(
-                    &fm.src,
-                    swc_ecma_parser::next::SourceType::module(),
-                )
-                .with_start_pos(fm.start_pos)
-                .parse();
+                let parsed =
+                    swc_ecma_parser::Parser::new(&fm.src, swc_ecma_parser::SourceType::module())
+                        .with_start_pos(fm.start_pos)
+                        .parse();
                 assert!(
                     !parsed.panicked,
                     "failed to parse built-in CommonJS module: {:?}",

@@ -3,11 +3,8 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{
-    lexer::Lexer,
-    next::{
-        attach_comments, ModuleKind, ParseOptions, Parser as NextParser, ParserReturn, SourceType,
-    },
-    EsSyntax, LegacyParser, StringInput, Syntax, TsSyntax,
+    attach_comments, lexer::Lexer, EsSyntax, LegacyParser, ModuleKind, ParseOptions,
+    Parser as NextParser, ParserReturn, SourceType, StringInput, Syntax, TsSyntax,
 };
 
 fn legacy_parse(source: &str, syntax: Syntax, module_kind: ModuleKind) -> Program {

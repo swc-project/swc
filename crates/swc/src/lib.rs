@@ -149,9 +149,8 @@ use swc_ecma_loader::resolvers::{
 };
 use swc_ecma_minifier::option::{MangleCache, MinifyOptions, TopLevelOptions};
 use swc_ecma_parser::{
-    error::SyntaxError,
-    next::{attach_comments, ModuleKind, Parser as NextParser, ParserReturn, SourceType},
-    EsSyntax, Syntax,
+    attach_comments, error::SyntaxError, EsSyntax, ModuleKind, Parser as NextParser, ParserReturn,
+    SourceType, Syntax,
 };
 use swc_ecma_transforms::{
     fixer,

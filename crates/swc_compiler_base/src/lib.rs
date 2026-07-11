@@ -25,10 +25,7 @@ use swc_ecma_codegen::{
     Emitter, Node,
 };
 use swc_ecma_minifier::js::JsMinifyCommentOption;
-use swc_ecma_parser::{
-    next::{attach_comments, ModuleKind, Parser, ParserReturn, SourceType},
-    Syntax,
-};
+use swc_ecma_parser::{attach_comments, ModuleKind, Parser, ParserReturn, SourceType, Syntax};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 mod source_map_scopes;

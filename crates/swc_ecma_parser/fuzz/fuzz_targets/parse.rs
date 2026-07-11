@@ -1,7 +1,7 @@
 #![no_main]
 
 use libfuzzer_sys::fuzz_target;
-use swc_ecma_parser::next::{ModuleKind, ParseOptions, Parser, SourceType};
+use swc_ecma_parser::{ModuleKind, ParseOptions, Parser, SourceType};
 
 fuzz_target!(|data: &[u8]| {
     let Some((&selector, source_bytes)) = data.split_first() else {

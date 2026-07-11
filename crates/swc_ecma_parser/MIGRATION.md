@@ -3,7 +3,7 @@
 The replacement parser follows the OXC-style single-entry API:
 
 ```rust
-use swc_ecma_parser::next::{Parser, SourceType};
+use swc_ecma_parser::{Parser, SourceType};
 
 let result = Parser::new("export const value = 1", SourceType::module()).parse();
 assert!(!result.panicked);

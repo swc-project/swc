@@ -125,7 +125,7 @@ impl Visit for Finder {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_parser::next::{Parser, SourceType};
+    use swc_ecma_parser::{Parser, SourceType};
 
     use super::*;
 

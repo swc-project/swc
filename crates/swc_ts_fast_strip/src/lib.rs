@@ -22,11 +22,8 @@ use swc_ecma_ast::{
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
-    next::{
-        attach_comments, ModuleKind, Parser, ParserReturn, SourceType, Token as TokenAndSpan,
-        TokenKind as Token,
-    },
-    Syntax, TsSyntax,
+    attach_comments, ModuleKind, Parser, ParserReturn, SourceType, Syntax, Token as TokenAndSpan,
+    TokenKind as Token, TsSyntax,
 };
 use swc_ecma_transforms_base::{
     fixer::fixer,
