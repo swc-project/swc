@@ -6,9 +6,7 @@ use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{
-        comments_buffer::CommentData, LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenValue,
-    },
+    lexer::{comments_buffer::CommentData, LexResult, Token, TokenAndSpan, TokenValue},
     syntax::SyntaxFlags,
     Context,
 };
@@ -85,15 +83,16 @@ pub trait Tokens {
         -> TokenAndSpan;
 }
 
-/// This struct is responsible for managing current token and peeked token.
+/// OXC-style parser cursor over the lexer.
+///
+/// Lookahead checkpoints the lexer, advances once, and immediately rewinds.
+/// Keeping only the current token prevents token values from living in a second
+/// cache.
 pub struct Buffer<I: Tokens> {
     pub iter: I,
     /// Span of the previous token.
     pub prev_span: Span,
     pub cur: TokenAndSpan,
-    /// Peeked token
-    pub next: Option<NextTokenAndSpan>,
-    pub(super) next_checkpoint: Option<I::Checkpoint>,
 }
 
 impl<I: Tokens> Buffer<I> {
@@ -241,29 +240,12 @@ impl<I: Tokens> Buffer<I> {
             iter: lexer,
             cur: TokenAndSpan::new(Token::Eof, prev_span, false),
             prev_span,
-            next: None,
-            next_checkpoint: None,
         }
     }
 
     #[inline(always)]
     pub fn set_cur(&mut self, token: TokenAndSpan) {
         self.cur = token
-    }
-
-    #[inline(always)]
-    pub fn next(&self) -> Option<&NextTokenAndSpan> {
-        self.next.as_ref()
-    }
-
-    #[inline(always)]
-    pub fn set_next(&mut self, token: Option<NextTokenAndSpan>) {
-        self.next = token;
-    }
-
-    #[inline(always)]
-    pub fn next_mut(&mut self) -> &mut Option<NextTokenAndSpan> {
-        &mut self.next
     }
 
     #[inline(always)]
@@ -297,23 +279,18 @@ impl<I: Tokens> Buffer<I> {
             "parser should not call peek() without knowing current token"
         );
 
-        if self.next.is_none() {
-            let checkpoint = self.iter.checkpoint_save();
-            let old = self.iter.take_token_value();
-            let next_token = self.iter.next_token();
-            self.next = Some(NextTokenAndSpan {
-                token_and_span: next_token,
-                value: self.iter.take_token_value(),
-            });
-            self.iter.set_token_value(old);
-            self.next_checkpoint = Some(checkpoint);
-        }
+        Some(self.peek_token_and_span().token)
+    }
 
-        self.next.as_ref().map(|ts| ts.token_and_span.token)
+    #[inline]
+    pub fn peek_token_and_span(&mut self) -> TokenAndSpan {
+        let checkpoint = self.iter.checkpoint_save();
+        let token = self.iter.next_token();
+        self.iter.checkpoint_load(checkpoint);
+        token
     }
 
     pub fn store(&mut self, token: Token) {
-        debug_assert!(self.next().is_none());
         debug_assert!(self.cur() != Token::Eof);
         let span = self.prev_span();
         let token = TokenAndSpan::new(token, span, false);
@@ -327,30 +304,9 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn bump(&mut self) {
-        let next = if self.next.is_none() {
-            self.iter.next_token()
-        } else {
-            let Some(next) = self.next.take() else {
-                unreachable!();
-            };
-            self.next_checkpoint = None;
-            self.iter.set_token_value(next.value);
-            next.token_and_span
-        };
+        let next = self.iter.next_token();
         self.prev_span = self.cur.span;
         self.set_cur(next);
-    }
-
-    pub fn rewind_lookahead(&mut self) {
-        if self.next.take().is_some() {
-            let checkpoint = self
-                .next_checkpoint
-                .take()
-                .expect("peeked tokens must retain their lexer checkpoint");
-            self.iter.checkpoint_load(checkpoint);
-        } else {
-            debug_assert!(self.next_checkpoint.is_none());
-        }
     }
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
@@ -396,11 +352,8 @@ impl<I: Tokens> Buffer<I> {
 
     /// This returns true on eof.
     pub fn has_linebreak_between_cur_and_peeked(&mut self) -> bool {
-        let _ = self.peek();
-        self.next().map(|item| item.had_line_break()).unwrap_or({
-            // return true on eof.
-            true
-        })
+        let token = self.peek_token_and_span();
+        token.token == Token::Eof || token.had_line_break()
     }
 
     pub fn cut_lshift(&mut self) {
@@ -418,19 +371,15 @@ impl<I: Tokens> Buffer<I> {
             self.is(Token::Lt) || self.is(Token::Gt),
             "parser should only call merge_lt_gt when encountering Less token"
         );
-        if self.peek().is_none() {
-            return;
-        }
         let span = self.cur_span();
-        let next = self.next().unwrap();
-        if span.hi != next.span().lo {
+        let next = self.peek_token_and_span();
+        if span.hi != next.span.lo {
             return;
         }
-        let next = self.next_mut().take().unwrap();
         let cur = *self.get_cur();
         let cur_token = cur.token;
         let token = if cur_token == Token::Gt {
-            let next_token = next.token();
+            let next_token = next.token;
             if next_token == Token::Gt {
                 // >>
                 Token::RShift
@@ -447,11 +396,10 @@ impl<I: Tokens> Buffer<I> {
                 // >>>=
                 Token::ZeroFillRShiftEq
             } else {
-                self.set_next(Some(next));
                 return;
             }
         } else if cur_token == Token::Lt {
-            let next_token = next.token();
+            let next_token = next.token;
             if next_token == Token::Lt {
                 // <<
                 Token::LShift
@@ -462,15 +410,15 @@ impl<I: Tokens> Buffer<I> {
                 // <<=
                 Token::LShiftEq
             } else {
-                self.set_next(Some(next));
                 return;
             }
         } else {
-            self.set_next(Some(next));
             return;
         };
-        let span = span.with_hi(next.span().hi);
-        self.next_checkpoint = None;
+        let consumed = self.iter.next_token();
+        debug_assert_eq!(consumed.token, next.token);
+        self.iter.set_token_value(None);
+        let span = span.with_hi(next.span.hi);
         let token = TokenAndSpan::new(token, span, cur.had_line_break());
         self.set_cur(token);
     }

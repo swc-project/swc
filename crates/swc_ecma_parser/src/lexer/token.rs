@@ -922,12 +922,14 @@ impl TokenAndSpan {
     }
 }
 
+#[cfg(feature = "unstable")]
 #[derive(Clone)]
 pub struct NextTokenAndSpan {
     pub token_and_span: TokenAndSpan,
     pub value: Option<TokenValue>,
 }
 
+#[cfg(feature = "unstable")]
 impl NextTokenAndSpan {
     #[inline(always)]
     pub fn token(&self) -> Token {

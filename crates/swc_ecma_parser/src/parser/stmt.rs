@@ -1056,13 +1056,8 @@ impl<I: Tokens> Parser<I> {
             return false;
         }
 
-        if self.input_mut().peek() != Some(Token::LParen) {
-            return false;
-        }
-
-        self.input()
-            .next()
-            .is_some_and(|next| self.input().cur_span().hi < next.span().lo)
+        let next = self.input_mut().peek_token_and_span();
+        next.token == Token::LParen && self.input().cur_span().hi < next.span.lo
     }
 
     fn flow_match_true_expr(&self, span: Span) -> Box<Expr> {

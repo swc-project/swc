@@ -110,7 +110,6 @@ impl<I: Tokens> Parser<I> {
 
     #[cfg(all(feature = "typescript", feature = "flow"))]
     fn checkpoint_save(&mut self) -> ParserCheckpoint<I> {
-        self.input.rewind_lookahead();
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
             buffer_cur: self.input.cur,
@@ -121,7 +120,6 @@ impl<I: Tokens> Parser<I> {
 
     #[cfg(all(feature = "typescript", not(feature = "flow")))]
     fn checkpoint_save(&mut self) -> ParserCheckpoint<I> {
-        self.input.rewind_lookahead();
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
             buffer_cur: self.input.cur,
@@ -133,8 +131,6 @@ impl<I: Tokens> Parser<I> {
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
-        self.input.next = None;
-        self.input.next_checkpoint = None;
         self.input.prev_span = checkpoint.buffer_prev_span;
         self.allow_super_call = checkpoint.allow_super_call;
     }
@@ -143,8 +139,6 @@ impl<I: Tokens> Parser<I> {
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
-        self.input.next = None;
-        self.input.next_checkpoint = None;
         self.input.prev_span = checkpoint.buffer_prev_span;
     }
 
