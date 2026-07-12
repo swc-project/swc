@@ -62,6 +62,10 @@ impl<C: Config> Parser<'_, C> {
                 self.parse_ts_enum_declaration(false)
             }
             #[cfg(feature = "typescript")]
+            Kind::Interface if self.context().contains(Context::TYPESCRIPT) => {
+                self.parse_ts_interface_declaration()
+            }
+            #[cfg(feature = "typescript")]
             Kind::Const
                 if self.context().contains(Context::TYPESCRIPT)
                     && self.lookahead(|parser| {

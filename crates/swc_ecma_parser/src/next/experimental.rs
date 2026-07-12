@@ -253,6 +253,10 @@ mod tests {
             "enum Direction { Up, Down = 2, Label = 'label', Computed = base + 1 } const enum \
              State { Ready = 1, Done }",
         );
+        assert_typescript_script_parity(
+            "interface Box<T> { readonly value: T; label?: string; nested: Result<T>; } type \
+             Point = { x: number; y?: number; 'name': string };",
+        );
     }
 
     #[test]

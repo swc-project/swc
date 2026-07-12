@@ -4,9 +4,10 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     Decl, Expr, Ident, IdentName, Lit, Stmt, TsArrayType, TsEntityName, TsEnumDecl, TsEnumMember,
-    TsEnumMemberId, TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
-    TsParenthesizedType, TsQualifiedName, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeParam,
-    TsTypeParamDecl, TsTypeParamInstantiation, TsTypeRef, TsUnionType,
+    TsEnumMemberId, TsInterfaceBody, TsInterfaceDecl, TsIntersectionType, TsKeywordType,
+    TsKeywordTypeKind, TsLit, TsLitType, TsParenthesizedType, TsPropertySignature, TsQualifiedName,
+    TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeParam, TsTypeParamDecl,
+    TsTypeParamInstantiation, TsTypeRef, TsUnionType,
 };
 
 use crate::{
@@ -16,6 +17,34 @@ use crate::{
 };
 
 impl<C: Config> Parser<'_, C> {
+    pub(crate) fn parse_ts_interface_declaration(&mut self) -> Result<Stmt, Error> {
+        let start = self.token().start();
+        debug_assert!(self.eat(Kind::Interface));
+        let token = self.token();
+        if !self.at_identifier_name() {
+            return Err(self.expected_error(Kind::Ident));
+        }
+        let id = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        self.advance();
+        let type_params = if self.at(Kind::Lt) {
+            Some(self.parse_ts_type_parameters()?)
+        } else {
+            None
+        };
+        let (body_span, body) = self.parse_ts_type_members()?;
+        Ok(Stmt::Decl(Decl::TsInterface(Box::new(TsInterfaceDecl {
+            span: Span::new_with_checked(start, body_span.hi),
+            id,
+            declare: false,
+            type_params,
+            extends: Vec::new(),
+            body: TsInterfaceBody {
+                span: body_span,
+                body,
+            },
+        }))))
+    }
+
     pub(crate) fn parse_ts_enum_declaration(&mut self, is_const: bool) -> Result<Stmt, Error> {
         let start = self.token().start();
         if is_const {
@@ -285,7 +314,62 @@ impl<C: Config> Parser<'_, C> {
                 type_ann,
             })));
         }
+        if self.at(Kind::LBrace) {
+            let (span, members) = self.parse_ts_type_members()?;
+            return Ok(Box::new(TsType::TsTypeLit(TsTypeLit { span, members })));
+        }
         self.parse_ts_type_reference()
+    }
+
+    fn parse_ts_type_members(&mut self) -> Result<(Span, Vec<TsTypeElement>), Error> {
+        let start = self.token().start();
+        if !self.expect(Kind::LBrace) {
+            return Err(self.expected_error(Kind::LBrace));
+        }
+        let mut members = Vec::with_capacity(8);
+        while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
+            let member_start = self.token().start();
+            let readonly = self.eat(Kind::Readonly);
+            let key_token = self.token();
+            let key = if self.at_identifier_name() {
+                let expression = Expr::Ident(Ident::new_no_ctxt(
+                    Atom::new(self.token_source(key_token)),
+                    key_token.span(),
+                ));
+                self.advance();
+                Box::new(expression)
+            } else if matches!(self.kind(), Kind::Str | Kind::Num) {
+                self.parse_primary_expression()?
+            } else {
+                return Err(self.expected_error(Kind::Ident));
+            };
+            let optional = self.eat(Kind::QuestionMark);
+            let type_ann = if self.at(Kind::Colon) {
+                Some(self.parse_ts_type_annotation()?)
+            } else {
+                None
+            };
+            let end = type_ann.as_ref().map_or(key.span().hi, |ann| ann.span.hi);
+            members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+                span: Span::new_with_checked(member_start, end),
+                readonly,
+                key,
+                computed: false,
+                optional,
+                type_ann,
+            }));
+            if !self.eat(Kind::Semi)
+                && !self.eat(Kind::Comma)
+                && !self.at(Kind::RBrace)
+                && !self.token().had_line_break()
+            {
+                return Err(self.expected_error(Kind::Semi));
+            }
+        }
+        if !self.expect(Kind::RBrace) {
+            return Err(self.expected_error(Kind::RBrace));
+        }
+        Ok((Span::new_with_checked(start, self.previous_end()), members))
     }
 
     fn parse_ts_type_reference(&mut self) -> Result<Box<TsType>, Error> {
