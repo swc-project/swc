@@ -4,9 +4,9 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
-    ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, Ident, IfStmt, Pat, ReturnStmt, Script, Stmt,
-    SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDecl, VarDeclKind, VarDeclOrExpr, VarDeclarator,
-    WhileStmt,
+    ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, Ident, IfStmt, LabeledStmt, Pat, ReturnStmt,
+    Script, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDecl, VarDeclKind, VarDeclOrExpr,
+    VarDeclarator, WhileStmt, WithStmt,
 };
 
 use crate::{
@@ -56,8 +56,46 @@ impl<C: Config> Parser<'_, C> {
             Kind::Var | Kind::Let | Kind::Const => self.parse_variable_statement(),
             Kind::While => self.parse_while_statement(),
             Kind::Do => self.parse_do_while_statement(),
+            Kind::With => self.parse_with_statement(),
+            _ if self.is_labeled_statement_start() => self.parse_labeled_statement(),
             _ => self.parse_expression_statement(),
         }
+    }
+
+    fn is_labeled_statement_start(&mut self) -> bool {
+        self.at_identifier_reference()
+            && self.lookahead(|parser| {
+                parser.advance();
+                parser.at(Kind::Colon)
+            })
+    }
+
+    fn parse_labeled_statement(&mut self) -> Result<Stmt, Error> {
+        let token = self.token();
+        debug_assert!(self.at_identifier_reference());
+        let label = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        self.advance();
+        if !self.expect(Kind::Colon) {
+            return Err(self.expected_error(Kind::Colon));
+        }
+        let body = Box::new(self.parse_statement()?);
+        Ok(Stmt::Labeled(LabeledStmt {
+            span: Span::new_with_checked(token.start(), body.span().hi),
+            label,
+            body,
+        }))
+    }
+
+    fn parse_with_statement(&mut self) -> Result<Stmt, Error> {
+        let start = self.token().start();
+        self.advance();
+        let object = self.parse_parenthesized_expression()?;
+        let body = Box::new(self.parse_statement()?);
+        Ok(Stmt::With(WithStmt {
+            span: Span::new_with_checked(start, body.span().hi),
+            obj: object,
+            body,
+        }))
     }
 
     fn parse_parenthesized_expression(&mut self) -> Result<Box<swc_ecma_ast::Expr>, Error> {
@@ -587,6 +625,23 @@ mod tests {
             panic!("expected alternate")
         };
         assert!(matches!(&**alternate, Stmt::DoWhile(_)));
+    }
+
+    #[test]
+    fn parses_labeled_and_with_statements_directly() {
+        let lexer = Lexer::new(
+            "outer: while (ready) break outer; with (scope) value;",
+            BytePos(1),
+            NoTokens,
+        )
+        .unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let script = parser.parse_script().unwrap();
+        assert!(matches!(
+            &script.body[0],
+            Stmt::Labeled(label) if label.label.sym == "outer" && matches!(&*label.body, Stmt::While(_))
+        ));
+        assert!(matches!(&script.body[1], Stmt::With(_)));
     }
 
     #[test]
