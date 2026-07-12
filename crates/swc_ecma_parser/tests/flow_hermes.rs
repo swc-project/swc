@@ -10,7 +10,7 @@ use std::{
 use serde::Deserialize;
 use swc_common::{SourceMap, Spanned};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{parse_file_as_program, FlowSyntax, Syntax};
+use swc_ecma_parser::{FlowSyntax, ModuleKind, Parser, SourceType, Syntax};
 
 #[derive(Debug, Default, Deserialize)]
 #[serde(default)]
@@ -190,28 +190,32 @@ fn hermes_flow_error_presence_parity() {
             .load_file(&js_path)
             .unwrap_or_else(|err| panic!("failed to load {}: {err}", js_path.display()));
 
-        let mut recovered = Vec::new();
-
         let parse_outcome = catch_unwind(AssertUnwindSafe(|| {
-            parse_file_as_program(
-                &fm,
+            let (source_type, options) = SourceType::from_legacy(
                 Syntax::Flow(flow_syntax),
+                ModuleKind::Unambiguous,
                 EsVersion::latest(),
-                None,
-                &mut recovered,
-            )
+            );
+            Parser::new(&fm.src, source_type)
+                .with_options(options)
+                .with_start_pos(fm.start_pos)
+                .parse()
         }));
 
         let mut fatal_error_kind = None;
         let mut fatal_error_span = None;
+        let mut recovered = Vec::new();
         let actual_has_error = match parse_outcome {
-            Ok(parse_result) => {
-                if let Err(err) = parse_result.as_ref() {
+            Ok(result) => {
+                if result.panicked {
+                    if let Some(err) = result.diagnostics.last() {
                     fatal_error_kind = Some(format!("{:?}", err.kind()));
                     let span = err.span();
                     fatal_error_span = Some((span.lo.0, span.hi.0));
+                    }
                 }
-                parse_result.is_err() || !recovered.is_empty()
+                recovered = result.diagnostics;
+                result.panicked || !recovered.is_empty()
             }
             Err(_) => {
                 panic_paths.push(rel.clone());

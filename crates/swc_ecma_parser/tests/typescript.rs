@@ -9,7 +9,7 @@ use std::{
 use pretty_assertions::assert_eq;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, PResult, Syntax, TsSyntax};
+use swc_ecma_parser::{attach_comments, ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
@@ -38,8 +38,8 @@ fn shifted(file: PathBuf) {
         );
     }
 
-    with_parser(false, &file, true, true, |p, comments| {
-        let program = p.parse_program()?.fold_with(&mut Normalizer {
+    with_parser(false, &file, true, true, false, |program, comments| {
+        let program = program.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
         });
@@ -182,8 +182,8 @@ fn run_spec(file: &Path, output_json: &Path) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
-    with_parser(false, file, true, false, |p, _| {
-        let program = p.parse_program()?.fold_with(&mut Normalizer {
+    with_parser(false, file, true, false, false, |program, _| {
+        let program = program.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
         });
@@ -235,10 +235,11 @@ fn with_parser<F, Ret>(
     file_name: &Path,
     no_early_errors: bool,
     shift: bool,
+    module_only: bool,
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer>, &SingleThreadedComments) -> PResult<Ret>,
+    F: FnOnce(Program, &SingleThreadedComments) -> Result<Ret, ()>,
 {
     let fname = pathdiff::diff_paths(
         file_name,
@@ -259,33 +260,43 @@ where
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-        let lexer = Lexer::new(
-            Syntax::Typescript(TsSyntax {
+        let syntax = Syntax::Typescript(TsSyntax {
                 dts: fname.ends_with(".d.ts"),
                 tsx: fname.contains("tsx"),
                 decorators: true,
                 no_early_errors,
                 disallow_ambiguous_jsx_like: fname.contains("cts") || fname.contains("mts"),
                 ..Default::default()
-            }),
-            EsVersion::Es2015,
-            (&*fm).into(),
-            Some(&comments),
+            });
+        let module_kind = if module_only {
+            ModuleKind::Module
+        } else {
+            ModuleKind::Unambiguous
+        };
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, module_kind, EsVersion::Es2015);
+        let mut result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            &comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
         );
-
-        let mut p = Parser::new_from(lexer);
-
-        let res = f(&mut p, &comments).map_err(|e| e.into_diagnostic(handler).emit());
-
-        for err in p.take_errors() {
-            err.into_diagnostic(handler).emit();
+        for error in result.diagnostics {
+            error.into_diagnostic(handler).emit();
         }
 
         if handler.has_errors() {
             return Err(());
         }
 
-        res
+        f(result.program, &comments)
     })
 }
 
@@ -306,9 +317,7 @@ fn errors(file: PathBuf) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
-    let module = with_parser(false, &file, false, false, |p, _| {
-        p.parse_typescript_module()
-    });
+    let module = with_parser(false, &file, false, false, true, |program, _| Ok(program));
 
     let err = module.expect_err("should fail, but parsed as");
     if err

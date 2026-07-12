@@ -9,7 +9,9 @@ use std::{
 
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, FlowSyntax, LegacyParser as Parser, PResult, Syntax};
+use swc_ecma_parser::{
+    attach_comments, FlowSyntax, ModuleKind, Parser, SourceType, Syntax,
+};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
@@ -46,8 +48,8 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
         eprintln!("\n\n========== Running flow test {file_name}\nSource:\n{input}\n");
     }
 
-    with_parser(false, file, config_path, |p, _| {
-        let program = p.parse_program()?.fold_with(&mut Normalizer {
+    with_parser(false, file, config_path, |program, _| {
+        let program = program.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
         });
@@ -70,7 +72,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer>, &SingleThreadedComments) -> PResult<Ret>,
+    F: FnOnce(Program, &SingleThreadedComments) -> Result<Ret, ()>,
 {
     ::testing::run_test(treat_error_as_bug, |cm, handler| {
         let comments = SingleThreadedComments::default();
@@ -100,26 +102,33 @@ where
             ..Default::default()
         });
 
-        let lexer = Lexer::new(
+        let (source_type, options) = SourceType::from_legacy(
             Syntax::Flow(syntax),
+            ModuleKind::Unambiguous,
             EsVersion::Es2015,
-            (&*fm).into(),
-            Some(&comments),
         );
-
-        let mut p = Parser::new_from(lexer);
-
-        let res = f(&mut p, &comments).map_err(|e| e.into_diagnostic(handler).emit());
-
-        for err in p.take_errors() {
-            err.into_diagnostic(handler).emit();
+        let mut result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            &comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+        for error in result.diagnostics {
+            error.into_diagnostic(handler).emit();
         }
 
         if handler.has_errors() {
             return Err(());
         }
 
-        res
+        f(result.program, &comments)
     })
 }
 
@@ -138,7 +147,7 @@ fn errors(file: PathBuf) {
         eprintln!("\n\n========== Running flow error test {file_name}\nSource:\n{input}\n");
     }
 
-    let module = with_parser(false, &file, &config_path, |p, _| p.parse_program());
+    let module = with_parser(false, &file, &config_path, |program, _| Ok(program));
     let err = module.expect_err("should fail, but parsed as");
 
     if err

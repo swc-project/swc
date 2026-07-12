@@ -3,11 +3,12 @@ use std::path::PathBuf;
 use swc_common::{
     comments::SingleThreadedComments,
     errors::{DiagnosticBuilder, Handler},
-    input::SourceFileInput,
     BytePos, Span,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, Syntax, TsSyntax};
+use swc_ecma_parser::{
+    attach_comments, EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax,
+};
 use swc_ecma_visit::{Visit, VisitWith};
 use testing::{fixture, Tester};
 
@@ -45,20 +46,26 @@ fn test(input: PathBuf) {
 
             let comments = SingleThreadedComments::default();
 
-            let lexer = Lexer::new(
-                syntax,
-                EsVersion::latest(),
-                SourceFileInput::from(&*fm),
-                Some(&comments),
+            let (source_type, options) =
+                SourceType::from_legacy(syntax, ModuleKind::Module, EsVersion::latest());
+            let mut result = Parser::new(&fm.src, source_type)
+                .with_options(options)
+                .with_start_pos(fm.start_pos)
+                .with_tokens()
+                .parse();
+            attach_comments(
+                &fm.src,
+                fm.start_pos,
+                &comments,
+                std::mem::take(&mut result.comments),
+                &result.tokens,
+                &result.program,
             );
-            let mut parser = Parser::new_from(lexer);
-
-            let module = parser.parse_module();
-            let module = match module {
-                Ok(v) => v,
-                Err(err) => {
-                    panic!("{err:?}")
-                }
+            if let Some(error) = result.diagnostics.first() {
+                panic!("{error:?}");
+            }
+            let Program::Module(module) = result.program else {
+                unreachable!("module source type must produce a module")
             };
 
             module.visit_with(&mut CommentPrinter {

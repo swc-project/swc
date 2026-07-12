@@ -8,27 +8,30 @@ use std::{
 use pretty_assertions::assert_eq;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, PResult, StringInput};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType};
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{run_test, StdErr};
 
 fn parse_module(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Module, ()> {
-    with_parser(cm, handler, file_name, |p| p.parse_module())
+    let Program::Module(module) = parse_program(cm, handler, file_name, ModuleKind::Module)? else {
+        unreachable!("module source type must produce a module")
+    };
+    Ok(module)
 }
 
 fn parse_script(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Script, ()> {
-    with_parser(cm, handler, file_name, |p| p.parse_script())
+    let Program::Script(script) = parse_program(cm, handler, file_name, ModuleKind::Script)? else {
+        unreachable!("script source type must produce a script")
+    };
+    Ok(script)
 }
 
-fn with_parser<F, Ret>(
+fn parse_program(
     cm: Lrc<SourceMap>,
     handler: &Handler,
     file_name: &Path,
-    f: F,
-) -> Result<Ret, ()>
-where
-    F: FnOnce(&mut Parser<Lexer>) -> PResult<Ret>,
-{
+    module_kind: ModuleKind,
+) -> Result<Program, ()> {
     let fm = cm
         .load_file(file_name)
         .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
@@ -56,19 +59,22 @@ where
         })
     };
 
-    let mut p = Parser::new(syntax, (&*fm).into(), None);
-
-    let res = f(&mut p).map_err(|e| e.into_diagnostic(handler).emit());
-
-    for e in p.take_errors() {
-        e.into_diagnostic(handler).emit();
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, module_kind, EsVersion::Es2015);
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    let failed = result.panicked || !result.diagnostics.is_empty();
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
     }
 
-    if handler.has_errors() {
+    if failed || handler.has_errors() {
         return Err(());
     }
 
-    res
+    Ok(result.program)
 }
 
 #[cfg(feature = "verify")]

@@ -8,7 +8,7 @@ use std::{
 
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, PResult, Syntax};
+use swc_ecma_parser::{attach_comments, EsSyntax, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
@@ -51,13 +51,7 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
-    with_parser(false, file, false, config_path, |p, _| {
-        let program = if is_commonjs {
-            p.parse_commonjs().map(Program::Script)?
-        } else {
-            p.parse_program()?
-        };
-
+    with_parser(false, file, false, config_path, is_commonjs, |program, _| {
         let program = program.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
@@ -100,10 +94,11 @@ fn with_parser<F, Ret>(
     file_name: &Path,
     shift: bool,
     config_path: &Path,
+    is_commonjs: bool,
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer>, &SingleThreadedComments) -> PResult<Ret>,
+    F: FnOnce(Program, &SingleThreadedComments) -> Result<Ret, ()>,
 {
     ::testing::run_test(treat_error_as_bug, |cm, handler| {
         if shift {
@@ -139,20 +134,34 @@ where
             })
         });
 
-        let lexer = Lexer::new(syntax, EsVersion::Es2015, (&*fm).into(), Some(&comments));
-
-        let mut p = Parser::new_from(lexer);
-
-        let res = f(&mut p, &comments).map_err(|e| e.into_diagnostic(handler).emit());
-
-        for err in p.take_errors() {
-            err.into_diagnostic(handler).emit();
+        let module_kind = if is_commonjs {
+            ModuleKind::CommonJs
+        } else {
+            ModuleKind::Unambiguous
+        };
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, module_kind, EsVersion::Es2015);
+        let mut result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            &comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+        for error in result.diagnostics {
+            error.into_diagnostic(handler).emit();
         }
 
         if handler.has_errors() {
             return Err(());
         }
 
-        res
+        f(result.program, &comments)
     })
 }

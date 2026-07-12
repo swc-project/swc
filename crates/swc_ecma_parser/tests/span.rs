@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 
-use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned};
+use swc_common::{errors::Handler, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, Syntax, TsSyntax};
+use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_ecma_visit::{Visit, VisitWith};
 
 #[testing::fixture("tests/span/**/*.js")]
@@ -20,9 +20,7 @@ fn span(entry: PathBuf) {
     let content = ::testing::run_test(false, |cm, handler| -> Result<(), _> {
         let src = cm.load_file(&entry).expect("failed to load file");
 
-        let comments = SingleThreadedComments::default();
-        let lexer = Lexer::new(
-            if file_name.ends_with(".js") {
+        let syntax = if file_name.ends_with(".js") {
                 Syntax::Es(EsSyntax {
                     jsx: true,
                     decorators: true,
@@ -35,20 +33,20 @@ fn span(entry: PathBuf) {
                     no_early_errors: true,
                     ..Default::default()
                 })
-            },
-            Default::default(),
-            (&*src).into(),
-            Some(&comments),
-        );
-        let mut parser: Parser<Lexer> = Parser::new_from(lexer);
-
-        {
-            let module = parser
-                .parse_module()
-                .map_err(|e| e.into_diagnostic(handler).emit())?;
-
-            Shower { handler }.visit_module(&module);
+            };
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Module, Default::default());
+        let result = Parser::new(&src.src, source_type)
+            .with_options(options)
+            .with_start_pos(src.start_pos)
+            .parse();
+        for error in result.diagnostics {
+            error.into_diagnostic(handler).emit();
         }
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
+        Shower { handler }.visit_module(&module);
 
         Err(())
     })
