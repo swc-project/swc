@@ -182,6 +182,12 @@ impl<'a, C: Config> Parser<'a, C> {
     pub(crate) fn fatal_error(&self) -> Option<&Error> {
         self.fatal_error.as_ref()
     }
+
+    /// Record a recoverable grammar diagnostic.
+    #[inline]
+    pub(crate) fn emit_error(&mut self, error: Error) {
+        self.diagnostics.push(error);
+    }
 }
 
 #[cfg(test)]

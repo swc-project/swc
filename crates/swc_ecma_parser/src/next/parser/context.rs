@@ -26,6 +26,10 @@ bitflags::bitflags! {
         const STRICT = 1 << 9;
         /// The source is parsed as a module.
         const MODULE = 1 << 10;
+        /// An unlabeled `break` statement is allowed.
+        const BREAK = 1 << 11;
+        /// An unlabeled `continue` statement is allowed.
+        const CONTINUE = 1 << 12;
     }
 }
 
