@@ -61,18 +61,6 @@ const MAX_PARSE_DEPTH: u16 = 256;
 const MAX_PAREN_PARSE_DEPTH: u16 = 192;
 #[cfg(not(target_arch = "wasm32"))]
 const MAX_PAREN_PARSE_DEPTH: u16 = 32;
-#[cfg(any(
-    target_arch = "wasm32",
-    target_arch = "arm",
-    not(feature = "stacker"),
-    miri
-))]
-const MAX_BLOCK_PARSE_DEPTH: u16 = 32;
-#[cfg(all(
-    not(any(target_arch = "wasm32", target_arch = "arm", miri)),
-    feature = "stacker"
-))]
-const MAX_BLOCK_PARSE_DEPTH: u16 = 128;
 const MAX_STMT_PARSE_DEPTH: u16 = 32;
 #[cfg(feature = "typescript")]
 const MAX_TYPE_PARSE_DEPTH: u16 = 64;
@@ -98,8 +86,6 @@ pub struct Parser<I: self::input::Tokens> {
     /// Unambiguous parsing starts in script context too, but module syntax may
     /// appear after an earlier top-level `using` declaration.
     explicit_script: bool,
-    paren_depth: u16,
-    block_depth: u16,
     /// Combined grammar recursion across statements, expressions, and types.
     parse_depth: u16,
     expr_depth: u16,
@@ -229,8 +215,6 @@ impl<I: Tokens> Parser<I> {
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
             explicit_script: false,
-            paren_depth: 0,
-            block_depth: 0,
             parse_depth: 0,
             expr_depth: 0,
             stmt_depth: 0,

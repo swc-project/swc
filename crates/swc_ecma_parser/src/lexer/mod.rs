@@ -47,7 +47,7 @@ mod whitespace;
 
 pub(crate) use state::TokenFlags;
 pub use token::Token;
-pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue};
+pub(crate) use token::{NextTokenAndSpan, TokenAndSpan, TokenValue};
 
 // ===== Byte match tables for comment scanning =====
 // Irregular line breaks - '\u{2028}' (LS) and '\u{2029}' (PS)

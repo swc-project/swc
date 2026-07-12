@@ -12,12 +12,9 @@
 use std::{fmt, rc::Rc};
 
 use swc_common::{
-    comments::{Comment, Comments},
+    comments::{Comment, Comments, SingleThreadedComments},
     input::StringInput,
     BytePos, Span, Spanned,
-    comments::{Comment, SingleThreadedComments},
-    input::StringInput,
-    BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Module, Program, Script};
 
@@ -374,7 +371,7 @@ impl std::fmt::Debug for Token {
     fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         formatter
             .debug_struct("TokenAndSpan")
-            .field("token", &self.token)
+            .field("token", &self.kind)
             .field("span", &self.span)
             .field("had_line_break", &self.had_line_break)
             .finish()

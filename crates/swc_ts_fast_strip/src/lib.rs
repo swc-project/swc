@@ -283,7 +283,7 @@ pub fn operate(
         (program, errors, Vec::new())
     };
 
-    let mut program = match program {
+    let program = match program {
         Ok(program) => program,
         Err(err) => {
             err.into_diagnostic(handler)

@@ -9,7 +9,7 @@ use swc_ecma_ast::{BigInt, Bool, Expr, Ident, Lit, Null, Number, ParenExpr, Rege
 
 use crate::{
     error::{Error, SyntaxError},
-    lexer::{parse_integer, Token as Kind},
+    lexer::Token as Kind,
     next::{lexer::config::Config, parser::cursor::Parser},
 };
 
@@ -137,6 +137,19 @@ fn parse_number(raw: &str) -> f64 {
         }
     }
     raw.parse().expect("lexer must validate decimal literals")
+}
+
+fn parse_integer<const RADIX: u8>(raw: &str) -> f64 {
+    debug_assert!(matches!(RADIX, 2 | 8 | 16));
+    raw.bytes().fold(0.0, |value, byte| {
+        let digit = match byte {
+            b'0'..=b'9' => byte - b'0',
+            b'a'..=b'f' => byte - b'a' + 10,
+            b'A'..=b'F' => byte - b'A' + 10,
+            _ => unreachable!("lexer must validate radix digits"),
+        };
+        value.mul_add(f64::from(RADIX), f64::from(digit))
+    })
 }
 
 fn parse_bigint(raw: &str) -> Box<BigIntValue> {
