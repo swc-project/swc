@@ -79,7 +79,7 @@ impl<C: Config> Parser<'_, C> {
         }
     }
 
-    fn expected_error(&self, expected: Kind) -> Error {
+    pub(crate) fn expected_error(&self, expected: Kind) -> Error {
         Error::new(
             self.token().span(),
             SyntaxError::Expected(expected.to_string(), self.kind().to_string()),

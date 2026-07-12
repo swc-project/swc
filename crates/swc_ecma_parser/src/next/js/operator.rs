@@ -48,7 +48,7 @@ impl<C: Config> Parser<'_, C> {
 
     fn parse_unary_expression(&mut self) -> Result<Box<Expr>, Error> {
         let Some(operator) = unary_operator(self.kind()) else {
-            return self.parse_primary_expression();
+            return self.parse_left_hand_side_expression();
         };
         let start = self.token().start();
         self.advance();
