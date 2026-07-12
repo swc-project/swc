@@ -1,7 +1,11 @@
 //! Conditional and assignment expressions.
 
-use swc_common::{Span, Spanned};
-use swc_ecma_ast::{AssignExpr, AssignOp, AssignTarget, CondExpr, Expr};
+use swc_atoms::Atom;
+use swc_common::{Span, Spanned, SyntaxContext};
+use swc_ecma_ast::{
+    ArrowExpr, AssignExpr, AssignOp, AssignTarget, BindingIdent, BlockStmtOrExpr, CondExpr, Expr,
+    Ident, Pat,
+};
 
 use crate::{
     error::{Error, SyntaxError},
@@ -16,7 +20,23 @@ impl<C: Config> Parser<'_, C> {
     }
 
     pub(crate) fn parse_assignment_expression(&mut self) -> Result<Box<Expr>, Error> {
+        if self.is_parenthesized_arrow_head() {
+            return self.parse_parenthesized_arrow_expression();
+        }
         let left = self.parse_conditional_expression()?;
+        if self.at(Kind::Arrow) {
+            let left_span = left.span();
+            let Expr::Ident(identifier) = *left else {
+                return Err(Error::new(left_span, SyntaxError::InvalidAssignTarget));
+            };
+            return self.parse_arrow_expression(
+                identifier.span.lo,
+                vec![Pat::Ident(BindingIdent {
+                    id: identifier,
+                    type_ann: None,
+                })],
+            );
+        }
         let Some(operator) = assignment_operator(self.kind()) else {
             return Ok(left);
         };
@@ -50,6 +70,76 @@ impl<C: Config> Parser<'_, C> {
             test,
             cons: consequent,
             alt: alternate,
+        })))
+    }
+
+    fn is_parenthesized_arrow_head(&mut self) -> bool {
+        if !self.at(Kind::LParen) {
+            return false;
+        }
+        self.lookahead(|parser| {
+            parser.advance();
+            if parser.eat(Kind::RParen) {
+                return parser.at(Kind::Arrow);
+            }
+            loop {
+                if !parser.at(Kind::Ident) {
+                    return false;
+                }
+                parser.advance();
+                if parser.eat(Kind::RParen) {
+                    return parser.at(Kind::Arrow);
+                }
+                if !parser.eat(Kind::Comma) {
+                    return false;
+                }
+            }
+        })
+    }
+
+    fn parse_parenthesized_arrow_expression(&mut self) -> Result<Box<Expr>, Error> {
+        let start = self.token().start();
+        self.advance();
+        let mut parameters = Vec::with_capacity(4);
+        while !self.at(Kind::RParen) {
+            let token = self.token();
+            if !self.at(Kind::Ident) {
+                return Err(self.expected_error(Kind::Ident));
+            }
+            parameters.push(Pat::Ident(BindingIdent {
+                id: Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span()),
+                type_ann: None,
+            }));
+            self.advance();
+            if !self.eat(Kind::Comma) {
+                break;
+            }
+        }
+        if !self.expect(Kind::RParen) {
+            return Err(self.expected_error(Kind::RParen));
+        }
+        self.parse_arrow_expression(start, parameters)
+    }
+
+    fn parse_arrow_expression(
+        &mut self,
+        start: swc_common::BytePos,
+        parameters: Vec<Pat>,
+    ) -> Result<Box<Expr>, Error> {
+        if !self.expect(Kind::Arrow) {
+            return Err(self.expected_error(Kind::Arrow));
+        }
+        let body = self.parse_assignment_expression()?;
+        let end = body.span().hi;
+        Ok(Box::new(Expr::Arrow(ArrowExpr {
+            span: Span::new_with_checked(start, end),
+            ctxt: SyntaxContext::empty(),
+            params: parameters,
+            body: Box::new(BlockStmtOrExpr::Expr(body)),
+            is_async: false,
+            is_generator: false,
+            type_params: None,
+            return_type: None,
         })))
     }
 }
@@ -111,5 +201,24 @@ mod tests {
         assert!(matches!(&*conditional.test, Expr::Bin(_)));
         assert!(matches!(&*conditional.cons, Expr::Ident(_)));
         assert!(matches!(&*conditional.alt, Expr::Ident(_)));
+    }
+
+    #[test]
+    fn parses_single_and_parenthesized_arrows() {
+        let single = parse("value => value + 1");
+        let Expr::Arrow(single) = &*single else {
+            panic!("expected arrow")
+        };
+        assert_eq!(single.params.len(), 1);
+        assert!(matches!(
+            &*single.body,
+            swc_ecma_ast::BlockStmtOrExpr::Expr(_)
+        ));
+
+        let parenthesized = parse("(left, right) => left + right");
+        let Expr::Arrow(parenthesized) = &*parenthesized else {
+            panic!("expected arrow")
+        };
+        assert_eq!(parenthesized.params.len(), 2);
     }
 }
