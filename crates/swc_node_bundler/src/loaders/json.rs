@@ -2,19 +2,30 @@ use std::sync::Arc;
 
 use anyhow::{anyhow, Error};
 use swc_atoms::atom;
-use swc_common::{SourceFile, DUMMY_SP};
+use swc_common::{BytePos, SourceFile, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{parse_file_as_expr, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 
 pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error> {
-    let expr = parse_file_as_expr(
-        fm,
-        Syntax::default(),
-        EsVersion::Es2020,
-        None,
-        &mut Vec::new(),
-    )
-    .map_err(|err| anyhow!("failed parse json as javascript object: {err:#?}"))?;
+    let wrapped = format!("({})", fm.src);
+    let result = Parser::new(&wrapped, SourceType::script())
+        .with_start_pos(BytePos(fm.start_pos.0.saturating_sub(1)))
+        .parse();
+    if let Some(error) = result.diagnostics.first() {
+        return Err(anyhow!(
+            "failed parse json as javascript object: {error:#?}"
+        ));
+    }
+    let Program::Script(mut script) = result.program else {
+        unreachable!("script source type must produce a script")
+    };
+    let Some(Stmt::Expr(statement)) = script.body.pop() else {
+        return Err(anyhow!("failed parse json as javascript object"));
+    };
+    let Expr::Paren(parenthesized) = *statement.expr else {
+        unreachable!("wrapped JSON expression must remain parenthesized")
+    };
+    let expr = parenthesized.expr;
 
     let export = ExprStmt {
         span: DUMMY_SP,

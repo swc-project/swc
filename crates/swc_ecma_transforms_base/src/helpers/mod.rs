@@ -30,21 +30,17 @@ fn parse(code: &str, path: &str) -> Vec<Stmt> {
         swc_common::FileName::Custom(path.into()).into(),
         code.to_string(),
     );
-    swc_ecma_parser::parse_file_as_script(
-        &fm,
-        Default::default(),
-        Default::default(),
-        None,
-        &mut Vec::new(),
-    )
-    .map(|mut script| {
-        script.body.visit_mut_with(&mut DropSpan);
-        script.body
-    })
-    .map_err(|e| {
-        unreachable!("Error occurred while parsing error: {:?}", e);
-    })
-    .unwrap()
+    let result = swc_ecma_parser::Parser::new(&fm.src, swc_ecma_parser::SourceType::script())
+        .with_start_pos(fm.start_pos)
+        .parse();
+    if let Some(error) = result.diagnostics.first() {
+        unreachable!("Error occurred while parsing helper: {error:?}");
+    }
+    let swc_ecma_ast::Program::Script(mut script) = result.program else {
+        unreachable!("script source type must produce a script")
+    };
+    script.body.visit_mut_with(&mut DropSpan);
+    script.body
 }
 
 better_scoped_tls::scoped_tls!(

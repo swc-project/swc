@@ -12,10 +12,10 @@ use swc_common::{
     errors::HANDLER,
     sync::Lrc,
     util::{move_map::MoveMap, take::Take},
-    FileName, SourceMap,
+    BytePos, FileName, SourceMap,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::parse_file_as_expr;
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
@@ -54,25 +54,32 @@ fn parse_option(cm: &SourceMap, name: &str, src: BytesStr) -> Arc<Expr> {
         return expr.clone();
     }
 
-    let expr = parse_file_as_expr(
-        &fm,
-        Default::default(),
-        Default::default(),
-        None,
-        &mut Vec::new(),
-    )
-    .map_err(|e| {
+    let wrapped = format!("({})", fm.src);
+    let result = Parser::new(&wrapped, SourceType::script())
+        .with_start_pos(BytePos(fm.start_pos.0.saturating_sub(1)))
+        .parse();
+    if let Some(error) = result.diagnostics.first() {
         if HANDLER.is_set() {
-            HANDLER.with(|h| e.into_diagnostic(h).emit())
+            HANDLER.with(|handler| error.clone().into_diagnostic(handler).emit());
         }
-    })
-    .map(drop_span)
-    .unwrap_or_else(|()| {
         panic!(
             "failed to parse jsx option {}: '{}' is not an expression",
             name, fm.src,
-        )
-    });
+        );
+    }
+    let Program::Script(mut script) = result.program else {
+        unreachable!("script source type must produce a script")
+    };
+    let Some(Stmt::Expr(statement)) = script.body.pop() else {
+        panic!(
+            "failed to parse jsx option {}: '{}' is not an expression",
+            name, fm.src,
+        );
+    };
+    let Expr::Paren(parenthesized) = *statement.expr else {
+        unreachable!("wrapped constant expression must remain parenthesized")
+    };
+    let expr = drop_span(parenthesized.expr);
 
     let expr = Arc::new(*expr);
 

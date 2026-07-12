@@ -4,8 +4,8 @@ use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, SourceMap};
-use swc_ecma_ast::{Expr, Ident};
-use swc_ecma_parser::{parse_file_as_expr, Syntax};
+use swc_ecma_ast::{Expr, Ident, Program, Stmt};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_utils::quote_ident;
 
 use super::super::util;
@@ -34,19 +34,24 @@ impl Config {
                             s,
                         );
 
-                        parse_file_as_expr(
-                            &fm,
-                            Syntax::default(),
-                            Default::default(),
-                            None,
-                            &mut Vec::new(),
-                        )
-                        .map_err(|e| {
+                        let result = Parser::new(&fm.src, SourceType::script())
+                            .with_start_pos(fm.start_pos)
+                            .parse();
+                        if let Some(error) = result.diagnostics.first() {
                             if HANDLER.is_set() {
-                                HANDLER.with(|h| e.into_diagnostic(h).emit())
+                                HANDLER.with(|handler| {
+                                    error.clone().into_diagnostic(handler).emit()
+                                });
                             }
-                        })
-                        .unwrap()
+                            panic!("invalid UMD global expression: {}", fm.src);
+                        }
+                        let Program::Script(mut script) = result.program else {
+                            unreachable!("script source type must produce a script")
+                        };
+                        let Some(Stmt::Expr(statement)) = script.body.pop() else {
+                            panic!("invalid UMD global expression: {}", fm.src);
+                        };
+                        statement.expr
                     };
                     (k, parse(v))
                 })

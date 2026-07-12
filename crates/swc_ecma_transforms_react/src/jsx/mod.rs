@@ -22,7 +22,7 @@ use swc_common::{
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_parser::{parse_file_as_expr, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_utils::{
     drop_span, prepend_stmt, private_ident, quote_ident, str::is_line_terminator, ExprFactory,
     StmtLike,
@@ -148,33 +148,36 @@ pub fn parse_expr_for_jsx(
 ) -> Box<Expr> {
     let fm = cm.new_source_file(cache_filename(name), src);
 
-    parse_file_as_expr(
-        &fm,
-        Syntax::default(),
-        Default::default(),
-        None,
-        &mut Vec::new(),
-    )
-    .map_err(|e| {
+    let result = Parser::new(&fm.src, SourceType::script())
+        .with_start_pos(fm.start_pos)
+        .parse();
+    if let Some(error) = result.diagnostics.first() {
         if HANDLER.is_set() {
-            HANDLER.with(|h| {
-                e.into_diagnostic(h)
+            HANDLER.with(|handler| {
+                error
+                    .clone()
+                    .into_diagnostic(handler)
                     .note("Failed to parse jsx pragma")
                     .emit()
-            })
+            });
         }
-    })
-    .map(drop_span)
-    .map(|mut expr| {
-        apply_mark(&mut expr, top_level_mark);
-        expr
-    })
-    .unwrap_or_else(|()| {
         panic!(
             "failed to parse jsx option {}: '{}' is not an expression",
             name, fm.src,
-        )
-    })
+        );
+    }
+    let Program::Script(mut script) = result.program else {
+        unreachable!("script source type must produce a script")
+    };
+    let Some(Stmt::Expr(statement)) = script.body.pop() else {
+        panic!(
+            "failed to parse jsx option {}: '{}' is not an expression",
+            name, fm.src,
+        );
+    };
+    let mut expression = drop_span(statement.expr);
+    apply_mark(&mut expression, top_level_mark);
+    expression
 }
 
 fn apply_mark(e: &mut Expr, mark: Mark) {
