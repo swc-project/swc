@@ -3,9 +3,9 @@
 use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    BindingIdent, BlockStmt, BreakStmt, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
-    ExprStmt, Ident, IfStmt, Pat, ReturnStmt, Script, Stmt, ThrowStmt, VarDecl, VarDeclKind,
-    VarDeclarator, WhileStmt,
+    BindingIdent, BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt,
+    EmptyStmt, ExprStmt, Ident, IfStmt, Pat, ReturnStmt, Script, Stmt, SwitchCase, SwitchStmt,
+    ThrowStmt, TryStmt, VarDecl, VarDeclKind, VarDeclarator, WhileStmt,
 };
 
 use crate::{
@@ -45,7 +45,9 @@ impl<C: Config> Parser<'_, C> {
             Kind::Debugger => self.parse_debugger_statement(),
             Kind::If => self.parse_if_statement(),
             Kind::Return => self.parse_return_statement(),
+            Kind::Switch => self.parse_switch_statement(),
             Kind::Throw => self.parse_throw_statement(),
+            Kind::Try => self.parse_try_statement(),
             Kind::Var | Kind::Let | Kind::Const => self.parse_variable_statement(),
             Kind::While => self.parse_while_statement(),
             Kind::Do => self.parse_do_while_statement(),
@@ -194,6 +196,122 @@ impl<C: Config> Parser<'_, C> {
             span: Span::new_with_checked(start, end),
             arg: argument,
         }))
+    }
+
+    fn parse_switch_statement(&mut self) -> Result<Stmt, Error> {
+        let start = self.token().start();
+        self.advance();
+        let discriminant = self.parse_parenthesized_expression()?;
+        if !self.expect(Kind::LBrace) {
+            return Err(self.expected_error(Kind::LBrace));
+        }
+
+        let mut cases = Vec::with_capacity(4);
+        while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
+            let case_start = self.token().start();
+            let test = if self.eat(Kind::Case) {
+                Some(self.parse_expression()?)
+            } else if self.eat(Kind::Default) {
+                None
+            } else {
+                return Err(self.expected_error(Kind::Case));
+            };
+            if !self.expect(Kind::Colon) {
+                return Err(self.expected_error(Kind::Colon));
+            }
+
+            let mut consequent = Vec::with_capacity(8);
+            while !matches!(
+                self.kind(),
+                Kind::Case | Kind::Default | Kind::RBrace | Kind::Eof
+            ) {
+                consequent.push(self.with_context(
+                    Context::BREAK,
+                    Context::empty(),
+                    Self::parse_statement,
+                )?);
+            }
+            let end = consequent
+                .last()
+                .map_or(self.previous_end(), |statement| statement.span().hi);
+            cases.push(SwitchCase {
+                span: Span::new_with_checked(case_start, end),
+                test,
+                cons: consequent,
+            });
+        }
+
+        if !self.expect(Kind::RBrace) {
+            return Err(self.expected_error(Kind::RBrace));
+        }
+        Ok(Stmt::Switch(SwitchStmt {
+            span: Span::new_with_checked(start, self.previous_end()),
+            discriminant,
+            cases,
+        }))
+    }
+
+    fn parse_try_statement(&mut self) -> Result<Stmt, Error> {
+        let start = self.token().start();
+        self.advance();
+        if !self.at(Kind::LBrace) {
+            return Err(self.expected_error(Kind::LBrace));
+        }
+        let block = self.parse_block_statement()?;
+
+        let catch_start = self.token().start();
+        let handler = if self.eat(Kind::Catch) {
+            let parameter = if self.eat(Kind::LParen) {
+                let token = self.token();
+                if !self.at(Kind::Ident) {
+                    return Err(self.expected_error(Kind::Ident));
+                }
+                let identifier =
+                    Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+                self.advance();
+                if !self.expect(Kind::RParen) {
+                    return Err(self.expected_error(Kind::RParen));
+                }
+                Some(Pat::Ident(BindingIdent {
+                    id: identifier,
+                    type_ann: None,
+                }))
+            } else {
+                None
+            };
+            if !self.at(Kind::LBrace) {
+                return Err(self.expected_error(Kind::LBrace));
+            }
+            let body = self.parse_block_statement()?;
+            Some(CatchClause {
+                span: Span::new_with_checked(catch_start, body.span.hi),
+                param: parameter,
+                body,
+            })
+        } else {
+            None
+        };
+
+        let finalizer = if self.eat(Kind::Finally) {
+            if !self.at(Kind::LBrace) {
+                return Err(self.expected_error(Kind::LBrace));
+            }
+            Some(self.parse_block_statement()?)
+        } else {
+            None
+        };
+        if handler.is_none() && finalizer.is_none() {
+            return Err(self.expected_error(Kind::Catch));
+        }
+        let end = finalizer
+            .as_ref()
+            .map_or_else(|| handler.as_ref().unwrap().span.hi, |block| block.span.hi);
+        Ok(Stmt::Try(Box::new(TryStmt {
+            span: Span::new_with_checked(start, end),
+            block,
+            handler,
+            finalizer,
+        })))
     }
 
     fn parse_while_statement(&mut self) -> Result<Stmt, Error> {
@@ -386,5 +504,25 @@ mod tests {
             error.kind(),
             crate::error::SyntaxError::LineBreakInThrow
         ));
+    }
+
+    #[test]
+    fn parses_switch_and_try_statements_directly() {
+        let source = "switch (value) { case 1: break; default: throw error; } try { work(); } \
+                      catch (error) { recover(error); } finally { cleanup(); }";
+        let lexer = Lexer::new(source, BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let script = parser.parse_script().unwrap();
+
+        let Stmt::Switch(switch_statement) = &script.body[0] else {
+            panic!("expected switch statement")
+        };
+        assert_eq!(switch_statement.cases.len(), 2);
+        assert!(switch_statement.cases[1].test.is_none());
+        let Stmt::Try(try_statement) = &script.body[1] else {
+            panic!("expected try statement")
+        };
+        assert!(try_statement.handler.is_some());
+        assert!(try_statement.finalizer.is_some());
     }
 }
