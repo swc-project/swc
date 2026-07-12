@@ -60,7 +60,18 @@ pub type PResult<T> = Result<T, crate::error::Error>;
 const MAX_PAREN_PARSE_DEPTH: u16 = 192;
 #[cfg(not(target_arch = "wasm32"))]
 const MAX_PAREN_PARSE_DEPTH: u16 = 32;
+#[cfg(any(
+    target_arch = "wasm32",
+    target_arch = "arm",
+    not(feature = "stacker"),
+    miri
+))]
 const MAX_BLOCK_PARSE_DEPTH: u16 = 32;
+#[cfg(all(
+    not(any(target_arch = "wasm32", target_arch = "arm", miri)),
+    feature = "stacker"
+))]
+const MAX_BLOCK_PARSE_DEPTH: u16 = 128;
 #[cfg(feature = "typescript")]
 const MAX_PAREN_TYPE_PARSE_DEPTH: u16 = 64;
 

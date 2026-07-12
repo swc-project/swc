@@ -133,9 +133,9 @@ fn excessive_nesting_returns_fatal_diagnostic() {
 
 #[test]
 fn excessive_statement_nesting_returns_fatal_diagnostic() {
-    let mut source = "{".repeat(100);
+    let mut source = "{".repeat(300);
     source.push_str("let value = 1;");
-    source.push_str(&"}".repeat(100));
+    source.push_str(&"}".repeat(300));
 
     let result = NextParser::new(&source, SourceType::script()).parse();
 
