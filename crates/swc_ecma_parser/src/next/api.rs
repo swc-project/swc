@@ -9,12 +9,15 @@
 //! `b6d2a29e47358a288dbfb2a635550243511ec497`. See `OXC_LICENSE` in this
 //! crate for the upstream MIT license.
 
-use std::fmt;
+use std::{fmt, rc::Rc};
 
 use swc_common::{
     comments::{Comment, Comments},
     input::StringInput,
     BytePos, Span, Spanned,
+    comments::{Comment, SingleThreadedComments},
+    input::StringInput,
+    BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Module, Program, Script};
 
@@ -456,16 +459,16 @@ impl<'a> Parser<'a> {
         };
 
         let syntax = self.syntax();
+        let comments = SingleThreadedComments::default();
         let input = StringInput::new(self.source, self.start_pos, end_pos);
-        let lexer = Lexer::new_with_comments(syntax, self.options.target, input);
+        let lexer = Lexer::new(syntax, self.options.target, input, Some(&comments));
 
-        let (result, diagnostics, comments, tokens) = if self.collect_tokens {
+        let (result, diagnostics, tokens) = if self.collect_tokens {
             let lexer =
                 Capturing::with_capacity(lexer, estimated_token_capacity(self.source.len()));
             let mut parser = LegacyParser::new_from(lexer);
             let result = parse_program(&mut parser, self.source_type.module_kind);
             let diagnostics = parser.take_errors();
-            let comments = parser.input_mut().iter.take_comments();
             let tokens = parser
                 .input_mut()
                 .iter
@@ -473,19 +476,18 @@ impl<'a> Parser<'a> {
                 .into_iter()
                 .map(Token::from)
                 .collect();
-            (result, diagnostics, comments, tokens)
+            (result, diagnostics, tokens)
         } else {
             let mut parser = LegacyParser::new_from(lexer);
             let result = parse_program(&mut parser, self.source_type.module_kind);
             let diagnostics = parser.take_errors();
-            let comments = parser.input_mut().iter.take_comments();
-            (result, diagnostics, comments, Vec::new())
+            (result, diagnostics, Vec::new())
         };
 
         finish_parse(
             result,
             diagnostics,
-            comments,
+            flatten_comments(comments),
             tokens,
             self.source_type.module_kind,
             Span::new_with_checked(self.start_pos, end_pos),
@@ -601,6 +603,39 @@ fn empty_program(module_kind: ModuleKind, span: Span) -> Program {
                 shebang: None,
             })
         }
+    }
+}
+
+fn flatten_comments(comments: SingleThreadedComments) -> Vec<Comment> {
+    let (leading, trailing) = comments.take_all();
+    let leading = take_comment_map(leading);
+    let trailing = take_comment_map(trailing);
+    let capacity = leading.values().map(Vec::len).sum::<usize>()
+        + trailing.values().map(Vec::len).sum::<usize>();
+    let mut comments = Vec::with_capacity(capacity);
+    comments.extend(leading.into_values().flatten());
+    comments.extend(trailing.into_values().flatten());
+
+    comments.sort_unstable_by_key(|comment| {
+        (
+            comment.span.lo,
+            comment.span.hi,
+            match comment.kind {
+                swc_common::comments::CommentKind::Line => 0_u8,
+                swc_common::comments::CommentKind::Block => 1_u8,
+            },
+        )
+    });
+    comments.dedup();
+    comments
+}
+
+fn take_comment_map(
+    comments: swc_common::comments::SingleThreadedCommentsMap,
+) -> swc_common::comments::SingleThreadedCommentsMapInner {
+    match Rc::try_unwrap(comments) {
+        Ok(comments) => comments.into_inner(),
+        Err(comments) => std::mem::take(&mut *comments.borrow_mut()),
     }
 }
 
