@@ -4,8 +4,8 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     CallExpr, Callee, ComputedPropName, Expr, ExprOrSpread, IdentName, Import, ImportPhase,
-    MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, Super, SuperProp, SuperPropExpr,
-    TaggedTpl,
+    MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, OptCall, OptChainBase,
+    OptChainExpr, Super, SuperProp, SuperPropExpr, TaggedTpl,
 };
 
 use crate::{
@@ -36,48 +36,30 @@ impl<C: Config> Parser<'_, C> {
             match self.kind() {
                 Kind::Dot => {
                     self.advance();
-                    let property_token = self.token();
-                    if !self.at_identifier_name() {
-                        return Err(self.expected_error(Kind::Ident));
-                    }
-                    let property = IdentName {
-                        span: property_token.span(),
-                        sym: Atom::new(self.token_source(property_token)),
-                    };
-                    self.advance();
-                    expression = Box::new(Expr::Member(MemberExpr {
-                        span: Span::new_with_checked(expression.span().lo, property.span.hi),
-                        obj: expression,
-                        prop: MemberProp::Ident(property),
-                    }));
+                    let property = self.parse_member_identifier()?;
+                    expression = Self::make_member(expression, property, false);
                 }
                 Kind::LBracket => {
-                    let bracket_start = self.token().start();
-                    self.advance();
-                    let property = self.parse_expression()?;
-                    if !self.expect(Kind::RBracket) {
-                        return Err(self.expected_error(Kind::RBracket));
-                    }
-                    let end = self.previous_end();
-                    expression = Box::new(Expr::Member(MemberExpr {
-                        span: Span::new_with_checked(expression.span().lo, end),
-                        obj: expression,
-                        prop: MemberProp::Computed(ComputedPropName {
-                            span: Span::new_with_checked(bracket_start, end),
-                            expr: property,
-                        }),
-                    }));
+                    let property = self.parse_computed_member()?;
+                    expression = Self::make_member(expression, property, false);
                 }
                 Kind::LParen if allow_call => {
-                    let start = expression.span().lo;
                     let arguments = self.parse_arguments()?;
-                    expression = Box::new(Expr::Call(CallExpr {
-                        span: Span::new_with_checked(start, self.previous_end()),
-                        ctxt: SyntaxContext::empty(),
-                        callee: Callee::Expr(expression),
-                        args: arguments,
-                        type_args: None,
-                    }));
+                    expression = Self::make_call(expression, arguments, self.previous_end(), false);
+                }
+                Kind::OptionalChain => {
+                    self.advance();
+                    if self.at(Kind::LBracket) {
+                        let property = self.parse_computed_member()?;
+                        expression = Self::make_member(expression, property, true);
+                    } else if allow_call && self.at(Kind::LParen) {
+                        let arguments = self.parse_arguments()?;
+                        expression =
+                            Self::make_call(expression, arguments, self.previous_end(), true);
+                    } else {
+                        let property = self.parse_member_identifier()?;
+                        expression = Self::make_member(expression, property, true);
+                    }
                 }
                 Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead => {
                     let start = expression.span().lo;
@@ -96,6 +78,83 @@ impl<C: Config> Parser<'_, C> {
         }
 
         Ok(expression)
+    }
+
+    fn parse_member_identifier(&mut self) -> Result<MemberProp, Error> {
+        let property_token = self.token();
+        if !self.at_identifier_name() {
+            return Err(self.expected_error(Kind::Ident));
+        }
+        let property = MemberProp::Ident(IdentName {
+            span: property_token.span(),
+            sym: Atom::new(self.token_source(property_token)),
+        });
+        self.advance();
+        Ok(property)
+    }
+
+    fn parse_computed_member(&mut self) -> Result<MemberProp, Error> {
+        let bracket_start = self.token().start();
+        debug_assert!(self.at(Kind::LBracket));
+        self.advance();
+        let property = self.parse_expression()?;
+        if !self.expect(Kind::RBracket) {
+            return Err(self.expected_error(Kind::RBracket));
+        }
+        Ok(MemberProp::Computed(ComputedPropName {
+            span: Span::new_with_checked(bracket_start, self.previous_end()),
+            expr: property,
+        }))
+    }
+
+    fn make_member(expression: Box<Expr>, property: MemberProp, optional: bool) -> Box<Expr> {
+        let span = Span::new_with_checked(expression.span().lo, property.span().hi);
+        let was_optional_chain = matches!(&*expression, Expr::OptChain(_));
+        let member = MemberExpr {
+            span,
+            obj: expression,
+            prop: property,
+        };
+        if optional || was_optional_chain {
+            Box::new(Expr::OptChain(OptChainExpr {
+                span,
+                optional,
+                base: Box::new(OptChainBase::Member(member)),
+            }))
+        } else {
+            Box::new(Expr::Member(member))
+        }
+    }
+
+    fn make_call(
+        expression: Box<Expr>,
+        arguments: Vec<ExprOrSpread>,
+        end: swc_common::BytePos,
+        optional: bool,
+    ) -> Box<Expr> {
+        let span = Span::new_with_checked(expression.span().lo, end);
+        let was_optional_chain = matches!(&*expression, Expr::OptChain(_));
+        if optional || was_optional_chain {
+            Box::new(Expr::OptChain(OptChainExpr {
+                span,
+                optional,
+                base: Box::new(OptChainBase::Call(OptCall {
+                    span,
+                    ctxt: SyntaxContext::empty(),
+                    callee: expression,
+                    args: arguments,
+                    type_args: None,
+                })),
+            }))
+        } else {
+            Box::new(Expr::Call(CallExpr {
+                span,
+                ctxt: SyntaxContext::empty(),
+                callee: Callee::Expr(expression),
+                args: arguments,
+                type_args: None,
+            }))
+        }
     }
 
     fn parse_new_expression(&mut self) -> Result<Box<Expr>, Error> {
@@ -237,7 +296,7 @@ impl<C: Config> Parser<'_, C> {
 #[cfg(test)]
 mod tests {
     use swc_common::BytePos;
-    use swc_ecma_ast::{Callee, Expr, MemberProp, MetaPropKind};
+    use swc_ecma_ast::{Callee, Expr, MemberProp, MetaPropKind, OptChainBase};
 
     use crate::next::{
         lexer::{config::NoTokens, core::Lexer},
@@ -316,5 +375,30 @@ mod tests {
             swc_ecma_ast::Stmt::Expr(statement)
                 if matches!(&*statement.expr, Expr::MetaProp(meta) if meta.kind == MetaPropKind::NewTarget)
         ));
+    }
+
+    #[test]
+    fn builds_and_propagates_optional_chains() {
+        let lexer = Lexer::new("source?.value.deep?.[key]?.(arg)", BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let expression = parser.parse_expression().unwrap();
+        let Expr::OptChain(call) = &*expression else {
+            panic!("expected optional call")
+        };
+        assert!(call.optional);
+        let OptChainBase::Call(call) = &*call.base else {
+            panic!("expected optional call base")
+        };
+        let Expr::OptChain(computed) = &*call.callee else {
+            panic!("expected optional computed member")
+        };
+        assert!(computed.optional);
+        let OptChainBase::Member(computed) = &*computed.base else {
+            panic!("expected computed member base")
+        };
+        let Expr::OptChain(deep) = &*computed.obj else {
+            panic!("expected propagated member chain")
+        };
+        assert!(!deep.optional);
     }
 }

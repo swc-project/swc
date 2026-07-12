@@ -176,6 +176,10 @@ mod tests {
              { return await task; }, async *stream() { yield await task; }, get value() { return \
              this._value; }, set value(next) { this._value = next; } };",
         );
+        assert_script_parity(
+            "const first = source?.value.deep?.[key]?.(argument).tail; const second = \
+             callback?.(); const third = source?.method();",
+        );
     }
 
     #[test]
