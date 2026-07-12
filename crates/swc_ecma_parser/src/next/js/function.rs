@@ -93,9 +93,6 @@ impl<C: Config> Parser<'_, C> {
         };
         #[cfg(not(feature = "typescript"))]
         let return_type = None;
-        if !self.at(Kind::LBrace) {
-            return Err(self.expected_error(Kind::LBrace));
-        }
         let mut body_context = Context::RETURN;
         if is_generator {
             body_context.insert(Context::YIELD);
@@ -103,12 +100,22 @@ impl<C: Config> Parser<'_, C> {
         if is_async {
             body_context.insert(Context::AWAIT);
         }
-        let body = self.with_context(
-            body_context,
-            Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
-            Self::parse_block_statement,
-        )?;
-        let span = Span::new_with_checked(start, body.span.hi);
+        let body = if self.at(Kind::LBrace) {
+            Some(self.with_context(
+                body_context,
+                Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
+                Self::parse_block_statement,
+            )?)
+        } else if self.context().contains(Context::TYPESCRIPT) {
+            self.consume_semicolon()?;
+            None
+        } else {
+            return Err(self.expected_error(Kind::LBrace));
+        };
+        let end = body
+            .as_ref()
+            .map_or(self.previous_end(), |body| body.span.hi);
+        let span = Span::new_with_checked(start, end);
         Ok((
             identifier,
             Box::new(Function {
@@ -116,7 +123,7 @@ impl<C: Config> Parser<'_, C> {
                 decorators: Vec::new(),
                 span,
                 ctxt: SyntaxContext::empty(),
-                body: Some(body),
+                body,
                 is_generator,
                 is_async,
                 type_params,

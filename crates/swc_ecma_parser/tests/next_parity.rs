@@ -40,13 +40,29 @@ fn assert_valid_fixture_parity(
 
     let next_program = match (syntax, &legacy_program) {
         #[cfg(feature = "typescript")]
-        (Syntax::Typescript(_), Program::Script(_)) => IndependentParser::new(&source)
-            .parse_typescript_script()
-            .map(Program::Script),
+        (Syntax::Typescript(config), Program::Script(_)) => {
+            if config.tsx {
+                IndependentParser::new(&source)
+                    .parse_typescript_tsx_script()
+                    .map(Program::Script)
+            } else {
+                IndependentParser::new(&source)
+                    .parse_typescript_script()
+                    .map(Program::Script)
+            }
+        }
         #[cfg(feature = "typescript")]
-        (Syntax::Typescript(_), Program::Module(_)) => IndependentParser::new(&source)
-            .parse_typescript_module()
-            .map(Program::Module),
+        (Syntax::Typescript(config), Program::Module(_)) => {
+            if config.tsx {
+                IndependentParser::new(&source)
+                    .parse_typescript_tsx_module()
+                    .map(Program::Module)
+            } else {
+                IndependentParser::new(&source)
+                    .parse_typescript_module()
+                    .map(Program::Module)
+            }
+        }
         #[cfg(feature = "flow")]
         (Syntax::Flow(_), _) => {
             let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);

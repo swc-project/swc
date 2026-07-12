@@ -126,6 +126,17 @@ impl<C: Config> Parser<'_, C> {
             Kind::LBracket => self.parse_array_literal(),
             Kind::LBrace => self.parse_object_literal(),
             Kind::Function => self.parse_function_expression(),
+            #[cfg(feature = "typescript")]
+            Kind::Lt
+                if self
+                    .context()
+                    .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                    && !self
+                        .context()
+                        .contains(crate::next::parser::context::Context::TSX) =>
+            {
+                self.parse_ts_type_assertion()
+            }
             Kind::Lt | Kind::JSXTagStart => self.parse_jsx_expression(),
             Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead => self
                 .parse_template_literal(false)

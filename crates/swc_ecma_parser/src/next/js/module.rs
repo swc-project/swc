@@ -6,7 +6,8 @@ use swc_ecma_ast::{
     DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr, ExportNamedSpecifier,
     ExportNamespaceSpecifier, ExportSpecifier, Expr, Ident, ImportDecl, ImportDefaultSpecifier,
     ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, Module, ModuleDecl,
-    ModuleExportName, ModuleItem, NamedExport, Stmt, Str,
+    ModuleExportName, ModuleItem, NamedExport, Stmt, Str, TsExportAssignment, TsExternalModuleRef,
+    TsImportEqualsDecl, TsModuleRef, TsNamespaceExportDecl,
 };
 
 use crate::{
@@ -34,9 +35,33 @@ impl<C: Config> Parser<'_, C> {
         })
     }
 
-    fn parse_import_declaration(&mut self) -> Result<ModuleDecl, Error> {
+    pub(crate) fn parse_import_declaration(&mut self) -> Result<ModuleDecl, Error> {
         let start = self.token().start();
         self.advance();
+        if self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.lookahead(|parser| {
+                if parser.at(Kind::Type) {
+                    parser.advance();
+                }
+                parser.advance();
+                parser.at(Kind::Eq)
+            })
+        {
+            return self.parse_ts_import_equals(start, false);
+        }
+        let type_only = self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.at(Kind::Type)
+            && self.lookahead(|parser| {
+                parser.advance();
+                !matches!(parser.kind(), Kind::Comma | Kind::From | Kind::Eq)
+            });
+        if type_only {
+            self.advance();
+        }
         let mut specifiers = Vec::with_capacity(4);
         if self.at(Kind::Str) {
             let source = self.parse_module_string()?;
@@ -45,7 +70,7 @@ impl<C: Config> Parser<'_, C> {
                 span: Span::new_with_checked(start, self.previous_end()),
                 specifiers,
                 src: Box::new(source),
-                type_only: false,
+                type_only,
                 with: None,
                 phase: Default::default(),
             }));
@@ -71,6 +96,17 @@ impl<C: Config> Parser<'_, C> {
             }));
         } else if self.eat(Kind::LBrace) {
             while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
+                let is_type_only = self
+                    .context()
+                    .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                    && self.at(Kind::Type)
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        !matches!(parser.kind(), Kind::Comma | Kind::RBrace | Kind::As)
+                    });
+                if is_type_only {
+                    self.advance();
+                }
                 let imported = self.parse_module_export_name()?;
                 let imported_span = imported.span();
                 let (local, explicit_imported) = if self.eat(Kind::As) {
@@ -85,7 +121,7 @@ impl<C: Config> Parser<'_, C> {
                     span: Span::new_with_checked(imported_span.lo, local.span.hi),
                     local,
                     imported: explicit_imported,
-                    is_type_only: false,
+                    is_type_only,
                 }));
                 if !self.eat(Kind::Comma) {
                     break;
@@ -105,15 +141,53 @@ impl<C: Config> Parser<'_, C> {
             span: Span::new_with_checked(start, self.previous_end()),
             specifiers,
             src: Box::new(source),
-            type_only: false,
+            type_only,
             with: None,
             phase: Default::default(),
         }))
     }
 
-    fn parse_export_declaration(&mut self) -> Result<ModuleDecl, Error> {
+    pub(crate) fn parse_export_declaration(&mut self) -> Result<ModuleDecl, Error> {
         let start = self.token().start();
         self.advance();
+        let type_only = self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.at(Kind::Type)
+            && self.lookahead(|parser| {
+                parser.advance();
+                matches!(parser.kind(), Kind::LBrace | Kind::Asterisk)
+            });
+        if type_only {
+            self.advance();
+        }
+        if self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+        {
+            if self.eat(Kind::Eq) {
+                let expr = self.parse_assignment_expression()?;
+                self.consume_semicolon()?;
+                return Ok(ModuleDecl::TsExportAssignment(TsExportAssignment {
+                    span: Span::new_with_checked(start, expr.span().hi),
+                    expr,
+                }));
+            }
+            if self.eat(Kind::As) {
+                if !self.expect(Kind::Namespace) {
+                    return Err(self.expected_error(Kind::Namespace));
+                }
+                let id = self.parse_module_identifier()?;
+                self.consume_semicolon()?;
+                return Ok(ModuleDecl::TsNamespaceExport(TsNamespaceExportDecl {
+                    span: Span::new_with_checked(start, self.previous_end()),
+                    id,
+                }));
+            }
+            if self.eat(Kind::Import) {
+                return self.parse_ts_import_equals(start, true);
+            }
+        }
         if self.eat(Kind::Default) {
             return self.parse_export_default(start);
         }
@@ -132,7 +206,7 @@ impl<C: Config> Parser<'_, C> {
                         name,
                     })],
                     src: Some(Box::new(source)),
-                    type_only: false,
+                    type_only,
                     with: None,
                 }));
             }
@@ -144,12 +218,12 @@ impl<C: Config> Parser<'_, C> {
             return Ok(ModuleDecl::ExportAll(ExportAll {
                 span: Span::new_with_checked(start, self.previous_end()),
                 src: Box::new(source),
-                type_only: false,
+                type_only,
                 with: None,
             }));
         }
         if self.eat(Kind::LBrace) {
-            return self.parse_named_export(start);
+            return self.parse_named_export(start, type_only);
         }
 
         let statement = self.parse_statement()?;
@@ -160,6 +234,42 @@ impl<C: Config> Parser<'_, C> {
             span: Span::new_with_checked(start, declaration.span().hi),
             decl: declaration,
         }))
+    }
+
+    fn parse_ts_import_equals(
+        &mut self,
+        start: swc_common::BytePos,
+        is_export: bool,
+    ) -> Result<ModuleDecl, Error> {
+        let is_type_only = self.eat(Kind::Type);
+        let id = self.parse_module_identifier()?;
+        if !self.expect(Kind::Eq) {
+            return Err(self.expected_error(Kind::Eq));
+        }
+        let module_ref = if self.at(Kind::Require) {
+            self.advance();
+            if !self.expect(Kind::LParen) {
+                return Err(self.expected_error(Kind::LParen));
+            }
+            let source = self.parse_module_string()?;
+            if !self.expect(Kind::RParen) {
+                return Err(self.expected_error(Kind::RParen));
+            }
+            TsModuleRef::TsExternalModuleRef(TsExternalModuleRef {
+                span: Span::new_with_checked(id.span.hi, self.previous_end()),
+                expr: source,
+            })
+        } else {
+            TsModuleRef::TsEntityName(self.parse_ts_entity_name()?)
+        };
+        self.consume_semicolon()?;
+        Ok(ModuleDecl::TsImportEquals(Box::new(TsImportEqualsDecl {
+            span: Span::new_with_checked(start, self.previous_end()),
+            is_export,
+            is_type_only,
+            id,
+            module_ref,
+        })))
     }
 
     fn parse_export_default(&mut self, start: swc_common::BytePos) -> Result<ModuleDecl, Error> {
@@ -192,9 +302,24 @@ impl<C: Config> Parser<'_, C> {
         }))
     }
 
-    fn parse_named_export(&mut self, start: swc_common::BytePos) -> Result<ModuleDecl, Error> {
+    fn parse_named_export(
+        &mut self,
+        start: swc_common::BytePos,
+        type_only: bool,
+    ) -> Result<ModuleDecl, Error> {
         let mut specifiers = Vec::with_capacity(4);
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
+            let is_type_only = self
+                .context()
+                .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                && self.at(Kind::Type)
+                && self.lookahead(|parser| {
+                    parser.advance();
+                    !matches!(parser.kind(), Kind::Comma | Kind::RBrace | Kind::As)
+                });
+            if is_type_only {
+                self.advance();
+            }
             let original = self.parse_module_export_name()?;
             let original_span = original.span();
             let exported = if self.eat(Kind::As) {
@@ -209,7 +334,7 @@ impl<C: Config> Parser<'_, C> {
                 span: Span::new_with_checked(original_span.lo, end),
                 orig: original,
                 exported,
-                is_type_only: false,
+                is_type_only,
             }));
             if !self.eat(Kind::Comma) {
                 break;
@@ -228,7 +353,7 @@ impl<C: Config> Parser<'_, C> {
             span: Span::new_with_checked(start, self.previous_end()),
             specifiers,
             src: source,
-            type_only: false,
+            type_only,
             with: None,
         }))
     }

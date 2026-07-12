@@ -44,6 +44,10 @@ impl<C: Config> Parser<'_, C> {
             Kind::Break | Kind::Continue => self.parse_jump_statement(),
             Kind::Class => self.parse_class_declaration(),
             #[cfg(feature = "typescript")]
+            Kind::Declare if self.context().contains(Context::TYPESCRIPT) => {
+                self.parse_ts_declare_statement()
+            }
+            #[cfg(feature = "typescript")]
             Kind::Abstract | Kind::Declare
                 if self.context().contains(Context::TYPESCRIPT)
                     && self.lookahead(|parser| {
@@ -78,6 +82,10 @@ impl<C: Config> Parser<'_, C> {
             Kind::Switch => self.parse_switch_statement(),
             Kind::Throw => self.parse_throw_statement(),
             Kind::Try => self.parse_try_statement(),
+            #[cfg(feature = "typescript")]
+            Kind::Namespace | Kind::Module if self.context().contains(Context::TYPESCRIPT) => {
+                self.parse_ts_module_declaration(false)
+            }
             #[cfg(feature = "typescript")]
             Kind::Type if self.context().contains(Context::TYPESCRIPT) => {
                 self.parse_ts_type_alias_declaration()
@@ -557,6 +565,37 @@ impl<C: Config> Parser<'_, C> {
         let declaration = self.parse_variable_declaration()?;
         self.consume_semicolon()?;
         Ok(Stmt::Decl(Decl::Var(declaration)))
+    }
+
+    #[cfg(feature = "typescript")]
+    fn parse_ts_declare_statement(&mut self) -> Result<Stmt, Error> {
+        debug_assert!(self.eat(Kind::Declare));
+        let abstract_class = self.eat(Kind::Abstract);
+        let mut statement = match self.kind() {
+            Kind::Var | Kind::Let | Kind::Const => self.parse_variable_statement()?,
+            Kind::Function | Kind::Async => self.parse_function_declaration()?,
+            Kind::Class => self.parse_class_declaration()?,
+            Kind::Interface => self.parse_ts_interface_declaration()?,
+            Kind::Type => self.parse_ts_type_alias_declaration()?,
+            Kind::Enum => self.parse_ts_enum_declaration(false)?,
+            Kind::Namespace | Kind::Module => self.parse_ts_module_declaration(true)?,
+            _ => return Err(self.expected_error(Kind::Var)),
+        };
+        if let Stmt::Decl(declaration) = &mut statement {
+            match declaration {
+                Decl::Var(value) => value.declare = true,
+                Decl::Fn(value) => value.declare = true,
+                Decl::Class(value) => {
+                    value.declare = true;
+                    value.class.is_abstract = abstract_class;
+                }
+                Decl::TsInterface(value) => value.declare = true,
+                Decl::TsTypeAlias(value) => value.declare = true,
+                Decl::TsEnum(value) => value.declare = true,
+                _ => {}
+            }
+        }
+        Ok(statement)
     }
 
     fn parse_variable_declaration(&mut self) -> Result<Box<VarDecl>, Error> {

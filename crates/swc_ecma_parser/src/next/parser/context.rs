@@ -32,6 +32,8 @@ bitflags::bitflags! {
         const CONTINUE = 1 << 12;
         /// TypeScript grammar productions are enabled.
         const TYPESCRIPT = 1 << 13;
+        /// TypeScript JSX grammar productions are enabled.
+        const TSX = 1 << 14;
     }
 }
 

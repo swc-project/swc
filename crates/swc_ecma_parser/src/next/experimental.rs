@@ -104,6 +104,38 @@ impl<'a> Parser<'a> {
         parser.parse_module()
     }
 
+    /// Parse a TSX script using only the new engine.
+    #[cfg(feature = "typescript")]
+    pub fn parse_typescript_tsx_script(self) -> Result<Script, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut parser = ParserImpl::new(
+            lexer,
+            Context::default() | Context::TYPESCRIPT | Context::TSX,
+        );
+        parser.parse_script()
+    }
+
+    /// Parse a TSX module using only the new engine.
+    #[cfg(feature = "typescript")]
+    pub fn parse_typescript_tsx_module(self) -> Result<Module, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut parser = ParserImpl::new(
+            lexer,
+            Context::default() | Context::TYPESCRIPT | Context::TSX | Context::MODULE,
+        );
+        parser.parse_module()
+    }
+
     /// Parse a script with statically enabled packed-token collection.
     pub fn parse_script_with_tokens(self) -> Result<ParserDetails, Error> {
         let lexer = Lexer::new(

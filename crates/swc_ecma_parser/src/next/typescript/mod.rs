@@ -5,9 +5,10 @@ use swc_ecma_ast::{
     Decl, Expr, Ident, IdentName, Lit, Stmt, TruePlusMinus, TsArrayType, TsConditionalType,
     TsConstructorType, TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsFnParam, TsFnType,
     TsIndexedAccessType, TsInferType, TsInterfaceBody, TsInterfaceDecl, TsIntersectionType,
-    TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsMappedType, TsOptionalType,
-    TsParenthesizedType, TsPropertySignature, TsQualifiedName, TsRestType, TsThisType,
-    TsThisTypeOrIdent, TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn,
+    TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsMappedType, TsModuleBlock, TsModuleDecl,
+    TsModuleName, TsNamespaceBody, TsNamespaceDecl, TsOptionalType, TsParenthesizedType,
+    TsPropertySignature, TsQualifiedName, TsRestType, TsThisType, TsThisTypeOrIdent,
+    TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
     TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl,
     TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery, TsTypeQueryExpr, TsTypeRef,
     TsUnionType,
@@ -23,6 +24,108 @@ use crate::{
 };
 
 impl<C: Config> Parser<'_, C> {
+    pub(crate) fn parse_ts_module_declaration(&mut self, declare: bool) -> Result<Stmt, Error> {
+        let start = self.token().start();
+        let namespace = self.at(Kind::Namespace);
+        self.advance();
+        let id = if self.at(Kind::Str) {
+            let expression = self.parse_primary_expression()?;
+            let Expr::Lit(Lit::Str(value)) = *expression else {
+                unreachable!()
+            };
+            TsModuleName::Str(value)
+        } else {
+            let token = self.token();
+            if !self.at_identifier_name() {
+                return Err(self.expected_error(Kind::Ident));
+            }
+            let ident = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+            self.advance();
+            TsModuleName::Ident(ident)
+        };
+        let body = if self.eat(Kind::Dot) {
+            Some(TsNamespaceBody::TsNamespaceDecl(
+                self.parse_ts_nested_namespace(declare)?,
+            ))
+        } else if self.at(Kind::LBrace) {
+            Some(TsNamespaceBody::TsModuleBlock(
+                self.parse_ts_module_block()?,
+            ))
+        } else {
+            self.consume_semicolon()?;
+            None
+        };
+        let end = body.as_ref().map_or(self.previous_end(), Spanned::span_hi);
+        Ok(Stmt::Decl(Decl::TsModule(Box::new(TsModuleDecl {
+            span: Span::new_with_checked(start, end),
+            declare,
+            global: false,
+            namespace,
+            id,
+            body,
+        }))))
+    }
+
+    fn parse_ts_nested_namespace(&mut self, declare: bool) -> Result<TsNamespaceDecl, Error> {
+        let token = self.token();
+        if !self.at_identifier_name() {
+            return Err(self.expected_error(Kind::Ident));
+        }
+        let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+        self.advance();
+        let body = if self.eat(Kind::Dot) {
+            TsNamespaceBody::TsNamespaceDecl(self.parse_ts_nested_namespace(declare)?)
+        } else {
+            TsNamespaceBody::TsModuleBlock(self.parse_ts_module_block()?)
+        };
+        Ok(TsNamespaceDecl {
+            span: Span::new_with_checked(token.start(), body.span_hi()),
+            declare,
+            global: false,
+            id,
+            body: Box::new(body),
+        })
+    }
+
+    fn parse_ts_module_block(&mut self) -> Result<TsModuleBlock, Error> {
+        let start = self.token().start();
+        if !self.expect(Kind::LBrace) {
+            return Err(self.expected_error(Kind::LBrace));
+        }
+        let mut body = Vec::with_capacity(8);
+        while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
+            body.push(match self.kind() {
+                Kind::Import => {
+                    swc_ecma_ast::ModuleItem::ModuleDecl(self.parse_import_declaration()?)
+                }
+                Kind::Export => {
+                    swc_ecma_ast::ModuleItem::ModuleDecl(self.parse_export_declaration()?)
+                }
+                _ => swc_ecma_ast::ModuleItem::Stmt(self.parse_statement()?),
+            });
+        }
+        if !self.expect(Kind::RBrace) {
+            return Err(self.expected_error(Kind::RBrace));
+        }
+        Ok(TsModuleBlock {
+            span: Span::new_with_checked(start, self.previous_end()),
+            body,
+        })
+    }
+
+    pub(crate) fn parse_ts_type_assertion(&mut self) -> Result<Box<Expr>, Error> {
+        let start = self.token().start();
+        self.advance();
+        let type_ann = self.parse_ts_type()?;
+        self.expect_ts_right_angle()?;
+        let expr = self.parse_unary_expression()?;
+        Ok(Box::new(Expr::TsTypeAssertion(TsTypeAssertion {
+            span: Span::new_with_checked(start, expr.span().hi),
+            expr,
+            type_ann,
+        })))
+    }
+
     pub(crate) fn parse_ts_interface_declaration(&mut self) -> Result<Stmt, Error> {
         let start = self.token().start();
         debug_assert!(self.eat(Kind::Interface));
@@ -719,7 +822,7 @@ impl<C: Config> Parser<'_, C> {
         )))
     }
 
-    fn parse_ts_entity_name(&mut self) -> Result<TsEntityName, Error> {
+    pub(crate) fn parse_ts_entity_name(&mut self) -> Result<TsEntityName, Error> {
         let start = self.token().start();
         let token = self.token();
         if !self.at_identifier_name() {

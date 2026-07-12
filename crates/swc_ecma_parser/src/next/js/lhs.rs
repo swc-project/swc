@@ -1,6 +1,8 @@
 //! Member and call expression chains.
 
 use swc_common::{Span, Spanned, SyntaxContext};
+#[cfg(feature = "typescript")]
+use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::{
     CallExpr, Callee, ComputedPropName, Expr, ExprOrSpread, IdentName, Import, ImportPhase,
     MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, OptCall, OptChainBase,
@@ -70,6 +72,19 @@ impl<C: Config> Parser<'_, C> {
                         tag: expression,
                         type_params: None,
                         tpl: Box::new(template),
+                    }));
+                }
+                #[cfg(feature = "typescript")]
+                Kind::Bang
+                    if self
+                        .context()
+                        .contains(crate::next::parser::context::Context::TYPESCRIPT) =>
+                {
+                    let start = expression.span().lo;
+                    self.advance();
+                    expression = Box::new(Expr::TsNonNull(TsNonNullExpr {
+                        span: Span::new_with_checked(start, self.previous_end()),
+                        expr: expression,
                     }));
                 }
                 _ => break,

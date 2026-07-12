@@ -85,7 +85,7 @@ impl<C: Config> Parser<'_, C> {
         Ok(left)
     }
 
-    fn parse_unary_expression(&mut self) -> Result<Box<Expr>, Error> {
+    pub(crate) fn parse_unary_expression(&mut self) -> Result<Box<Expr>, Error> {
         if matches!(self.kind(), Kind::PlusPlus | Kind::MinusMinus) {
             let start = self.token().start();
             let operator = update_operator(self.kind());
