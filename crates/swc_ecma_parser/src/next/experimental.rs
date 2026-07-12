@@ -1,7 +1,7 @@
 //! Temporary entry point for parity testing the independent parser.
 
 use swc_common::{BytePos, Span};
-use swc_ecma_ast::Script;
+use swc_ecma_ast::{Module, Script};
 
 use super::{
     lexer::{config::NoTokens, core::Lexer},
@@ -45,6 +45,18 @@ impl<'a> Parser<'a> {
         let mut parser = ParserImpl::new(lexer, Context::default());
         parser.parse_script()
     }
+
+    /// Parse a JavaScript module using only the new engine.
+    pub fn parse_module(self) -> Result<Module, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut parser = ParserImpl::new(lexer, Context::default() | Context::MODULE);
+        parser.parse_module()
+    }
 }
 
 #[cfg(test)]
@@ -63,5 +75,13 @@ mod tests {
 
         assert_eq!(script.span.lo, BytePos(17));
         assert!(matches!(script.body[0], Stmt::Decl(Decl::Var(_))));
+    }
+
+    #[test]
+    fn parses_module_without_reference_engine() {
+        let module = Parser::new("export const answer = 42;")
+            .parse_module()
+            .unwrap();
+        assert!(module.body[0].is_module_decl());
     }
 }

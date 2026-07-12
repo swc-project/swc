@@ -5,6 +5,7 @@ mod class;
 mod expression;
 mod function;
 mod lhs;
+mod module;
 mod object;
 mod operator;
 mod statement;
