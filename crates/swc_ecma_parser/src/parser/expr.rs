@@ -1991,6 +1991,10 @@ impl<I: Tokens> Parser<I> {
                 if *optional {
                     Some(*span)
                 } else {
+                    // Plugin builds consume a non-exhaustive AST enum from another crate,
+                    // while workspace builds can see that the two current variants are
+                    // exhaustive.
+                    #[allow(unreachable_patterns)]
                     match &**base {
                         OptChainBase::Member(MemberExpr { obj, .. }) => {
                             Self::optional_chain_in_new_callee(obj)
@@ -1998,12 +2002,15 @@ impl<I: Tokens> Parser<I> {
                         OptChainBase::Call(OptCall { callee, .. }) => {
                             Self::optional_chain_in_new_callee(callee)
                         }
+                        // `OptChainBase` is non-exhaustive for plugin builds.
+                        _ => None,
                     }
                 }
             }
             Expr::Member(MemberExpr { obj, .. }) => Self::optional_chain_in_new_callee(obj),
-            Expr::Paren(ParenExpr { expr, .. })
-            | Expr::TsAs(TsAsExpr { expr, .. })
+            // Parentheses terminate an optional chain, so `new (value?.member)()` is
+            // valid even though `new value?.member()` is not.
+            Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
