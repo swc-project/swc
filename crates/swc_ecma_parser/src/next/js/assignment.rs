@@ -3,8 +3,8 @@
 use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    ArrowExpr, AssignExpr, AssignOp, AssignTarget, BindingIdent, BlockStmtOrExpr, CondExpr, Expr,
-    Ident, Pat, SeqExpr, YieldExpr,
+    ArrowExpr, AssignExpr, AssignOp, BindingIdent, BlockStmtOrExpr, CondExpr, Expr, Ident, Pat,
+    SeqExpr, YieldExpr,
 };
 
 use crate::{
@@ -67,9 +67,7 @@ impl<C: Config> Parser<'_, C> {
             return Ok(left);
         };
         let start = left.span().lo;
-        let left = AssignTarget::try_from(left).map_err(|expression| {
-            Error::new(expression.span(), SyntaxError::InvalidAssignTarget)
-        })?;
+        let left = self.reparse_assignment_target(left)?;
         self.advance();
         let right = self.parse_assignment_expression()?;
         Ok(Box::new(Expr::Assign(AssignExpr {

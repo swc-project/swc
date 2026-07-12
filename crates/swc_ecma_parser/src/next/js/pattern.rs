@@ -3,8 +3,9 @@
 use swc_atoms::Atom;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
-    ArrayPat, AssignPat, AssignPatProp, BindingIdent, Ident, IdentName, KeyValuePatProp, ObjectPat,
-    ObjectPatProp, Pat, PropName, RestPat,
+    ArrayPat, AssignOp, AssignPat, AssignPatProp, AssignTarget, AssignTargetPat, BindingIdent,
+    Expr, Ident, IdentName, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, Prop, PropName,
+    RestPat, SimpleAssignTarget,
 };
 
 #[cfg(feature = "typescript")]
@@ -16,6 +17,135 @@ use crate::{
 };
 
 impl<C: Config> Parser<'_, C> {
+    /// Reinterpret an expression parsed before a `for-in`/`for-of` delimiter
+    /// as an assignment pattern without cloning the parser or source.
+    pub(crate) fn reparse_assignment_pattern(
+        &mut self,
+        expression: Box<Expr>,
+    ) -> Result<Pat, Error> {
+        let span = expression.span();
+        match *expression {
+            Expr::Ident(id) => Ok(Pat::Ident(BindingIdent { id, type_ann: None })),
+            Expr::Paren(parenthesis) => self.reparse_assignment_pattern(parenthesis.expr),
+            Expr::Array(array) => {
+                let mut elements = Vec::with_capacity(array.elems.len());
+                for element in array.elems {
+                    elements.push(match element {
+                        None => None,
+                        Some(element) if element.spread.is_some() => {
+                            let dot3_token = element.spread.unwrap();
+                            let argument = self.reparse_assignment_pattern(element.expr)?;
+                            Some(Pat::Rest(RestPat {
+                                span: Span::new_with_checked(dot3_token.lo, argument.span().hi),
+                                dot3_token,
+                                arg: Box::new(argument),
+                                type_ann: None,
+                            }))
+                        }
+                        Some(element) => Some(self.reparse_assignment_pattern(element.expr)?),
+                    });
+                }
+                Ok(Pat::Array(ArrayPat {
+                    span: array.span,
+                    elems: elements,
+                    optional: false,
+                    type_ann: None,
+                }))
+            }
+            Expr::Object(object) => {
+                let mut properties = Vec::with_capacity(object.props.len());
+                for property in object.props {
+                    properties.push(match property {
+                        swc_ecma_ast::PropOrSpread::Spread(spread) => {
+                            let argument = self.reparse_assignment_pattern(spread.expr)?;
+                            ObjectPatProp::Rest(RestPat {
+                                span: Span::new_with_checked(
+                                    spread.dot3_token.lo,
+                                    argument.span().hi,
+                                ),
+                                dot3_token: spread.dot3_token,
+                                arg: Box::new(argument),
+                                type_ann: None,
+                            })
+                        }
+                        swc_ecma_ast::PropOrSpread::Prop(property) => match *property {
+                            Prop::Shorthand(id) => ObjectPatProp::Assign(AssignPatProp {
+                                span: id.span,
+                                key: BindingIdent { id, type_ann: None },
+                                value: None,
+                            }),
+                            Prop::Assign(property) => ObjectPatProp::Assign(AssignPatProp {
+                                span: property.span,
+                                key: BindingIdent {
+                                    id: property.key,
+                                    type_ann: None,
+                                },
+                                value: Some(property.value),
+                            }),
+                            Prop::KeyValue(property) => ObjectPatProp::KeyValue(KeyValuePatProp {
+                                key: property.key,
+                                value: Box::new(self.reparse_assignment_pattern(property.value)?),
+                            }),
+                            _ => {
+                                return Err(Error::new(
+                                    span,
+                                    crate::error::SyntaxError::InvalidAssignTarget,
+                                ));
+                            }
+                        },
+                    });
+                }
+                Ok(Pat::Object(ObjectPat {
+                    span: object.span,
+                    props: properties,
+                    optional: false,
+                    type_ann: None,
+                }))
+            }
+            Expr::Assign(assignment) if assignment.op == AssignOp::Assign => {
+                let left = match assignment.left {
+                    AssignTarget::Simple(SimpleAssignTarget::Ident(identifier)) => {
+                        Pat::Ident(identifier)
+                    }
+                    AssignTarget::Simple(simple) => Pat::Expr(simple.into()),
+                    AssignTarget::Pat(AssignTargetPat::Array(array)) => Pat::Array(array),
+                    AssignTarget::Pat(AssignTargetPat::Object(object)) => Pat::Object(object),
+                    AssignTarget::Pat(AssignTargetPat::Invalid(invalid)) => Pat::Invalid(invalid),
+                };
+                Ok(Pat::Assign(AssignPat {
+                    span: assignment.span,
+                    left: Box::new(left),
+                    right: assignment.right,
+                }))
+            }
+            expression @ (Expr::Member(_) | Expr::SuperProp(_)) => {
+                Ok(Pat::Expr(Box::new(expression)))
+            }
+            _ => Err(Error::new(
+                span,
+                crate::error::SyntaxError::InvalidAssignTarget,
+            )),
+        }
+    }
+
+    pub(crate) fn reparse_assignment_target(
+        &mut self,
+        expression: Box<Expr>,
+    ) -> Result<AssignTarget, Error> {
+        match AssignTarget::try_from(expression) {
+            Ok(target) => Ok(target),
+            Err(expression) => {
+                let pattern = self.reparse_assignment_pattern(expression)?;
+                AssignTarget::try_from(pattern).map_err(|pattern| {
+                    Error::new(
+                        pattern.span(),
+                        crate::error::SyntaxError::InvalidAssignTarget,
+                    )
+                })
+            }
+        }
+    }
+
     /// Parse a binding identifier, array pattern, or object pattern.
     pub(crate) fn parse_binding_pattern(&mut self, allow_default: bool) -> Result<Pat, Error> {
         let pattern = match self.kind() {

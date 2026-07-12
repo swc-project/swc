@@ -127,6 +127,10 @@ impl<'a> Parser<'a> {
 
 #[cfg(test)]
 mod tests {
+    use std::fmt::Write;
+
+    use serde::Serialize;
+    use serde_json::Value;
     use swc_common::{BytePos, EqIgnoreSpan};
     use swc_ecma_ast::{Decl, Stmt};
 
@@ -136,7 +140,12 @@ mod tests {
     use crate::{lexer::Lexer, EsSyntax, LegacyParser, StringInput, Syntax};
 
     fn assert_script_parity(source: &str) {
-        let next = Parser::new(source).parse_script().unwrap();
+        let next = Parser::new(source).parse_script().unwrap_or_else(|error| {
+            panic!(
+                "independent parser failed with {error:?} for source starting with {:?}",
+                source.get(..source.len().min(120)).unwrap_or(source)
+            )
+        });
         let start = BytePos(1);
         let end = start + BytePos(source.len() as u32);
         let lexer = Lexer::new(
@@ -150,10 +159,81 @@ mod tests {
         );
         let mut legacy = LegacyParser::new_from(lexer);
         let legacy = legacy.parse_script().unwrap();
+        let difference = if next.eq_ignore_span(&legacy) {
+            None
+        } else {
+            first_ast_difference(&next, &legacy)
+        };
         assert!(
-            next.eq_ignore_span(&legacy),
-            "independent AST differs from reference AST for {source}"
+            difference.is_none(),
+            "independent AST differs from reference AST at {} for source starting with {:?}",
+            difference.unwrap_or_default(),
+            source.get(..source.len().min(120)).unwrap_or(source),
         );
+    }
+
+    fn first_ast_difference<T: Serialize>(left: &T, right: &T) -> Option<String> {
+        let mut left = serde_json::to_value(left).expect("AST must serialize");
+        let mut right = serde_json::to_value(right).expect("AST must serialize");
+        remove_ast_metadata(&mut left);
+        remove_ast_metadata(&mut right);
+        first_value_difference(&left, &right, "$".into())
+    }
+
+    fn remove_ast_metadata(value: &mut Value) {
+        match value {
+            Value::Array(values) => values.iter_mut().for_each(remove_ast_metadata),
+            Value::Object(values) => {
+                values.remove("span");
+                values.remove("ctxt");
+                values.values_mut().for_each(remove_ast_metadata);
+            }
+            _ => {}
+        }
+    }
+
+    fn first_value_difference(left: &Value, right: &Value, path: String) -> Option<String> {
+        match (left, right) {
+            (Value::Array(left), Value::Array(right)) => {
+                if left.len() != right.len() {
+                    return Some(format!("{path}.len ({} != {})", left.len(), right.len()));
+                }
+                left.iter()
+                    .zip(right)
+                    .enumerate()
+                    .find_map(|(index, (left, right))| {
+                        first_value_difference(left, right, format!("{path}[{index}]"))
+                    })
+            }
+            (Value::Object(left), Value::Object(right)) => {
+                for (key, left) in left {
+                    let Some(right) = right.get(key) else {
+                        return Some(format!("{path}.{key} missing on right"));
+                    };
+                    if let Some(difference) =
+                        first_value_difference(left, right, format!("{path}.{key}"))
+                    {
+                        return Some(difference);
+                    }
+                }
+                right
+                    .keys()
+                    .find(|key| !left.contains_key(*key))
+                    .map(|key| {
+                        format!(
+                            "{path}.{key} missing on left (left={}; right={})",
+                            Value::Object(left.clone()),
+                            Value::Object(right.clone())
+                        )
+                    })
+            }
+            _ if left == right => None,
+            _ => {
+                let mut difference = path;
+                let _ = write!(difference, " ({left} != {right})");
+                Some(difference)
+            }
+        }
     }
 
     #[cfg(feature = "typescript")]
@@ -172,6 +252,39 @@ mod tests {
         assert!(
             next.eq_ignore_span(&legacy),
             "independent TypeScript AST differs from reference AST for {source}"
+        );
+    }
+
+    fn assert_module_parity(source: &str) {
+        let next = Parser::new(source).parse_module().unwrap_or_else(|error| {
+            panic!(
+                "independent module parser failed with {error:?} for source starting with {:?}",
+                source.get(..source.len().min(120)).unwrap_or(source)
+            )
+        });
+        let start = BytePos(1);
+        let end = start + BytePos(source.len() as u32);
+        let lexer = Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..EsSyntax::default()
+            }),
+            Default::default(),
+            StringInput::new(source, start, end),
+            None,
+        );
+        let mut legacy = LegacyParser::new_from(lexer);
+        let legacy = legacy.parse_module().unwrap();
+        let difference = if next.eq_ignore_span(&legacy) {
+            None
+        } else {
+            first_ast_difference(&next, &legacy)
+        };
+        assert!(
+            difference.is_none(),
+            "independent module AST differs from reference AST at {} for source starting with {:?}",
+            difference.unwrap_or_default(),
+            source.get(..source.len().min(120)).unwrap_or(source),
         );
     }
 
@@ -218,6 +331,26 @@ mod tests {
             "const load = async source => await source.read(); const combine = async (left, right \
              = 1) => { return await left + right; };",
         );
+    }
+
+    #[test]
+    fn benchmark_javascript_ast_matches_reference_engine() {
+        for source in [
+            include_str!("../../benches/files/colors.js"),
+            include_str!("../../benches/files/angular-1.2.5.js"),
+            include_str!("../../benches/files/backbone-1.1.0.js"),
+            include_str!("../../benches/files/jquery-1.9.1.js"),
+            include_str!("../../benches/files/jquery.mobile-1.4.2.js"),
+            include_str!("../../benches/files/mootools-1.4.5.js"),
+            include_str!("../../benches/files/underscore-1.5.2.js"),
+            include_str!("../../benches/files/three-0.138.3.js"),
+            include_str!("../../benches/files/yui-3.12.0.js"),
+        ] {
+            assert_script_parity(source);
+        }
+        assert_module_parity(include_str!(
+            "../../../swc/tests/tsc-references/fixSignatureCaching.2.minified.js"
+        ));
     }
 
     #[test]

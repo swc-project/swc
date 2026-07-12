@@ -130,7 +130,11 @@ impl<'a, C: Config> Parser<'a, C> {
     /// the current JavaScript migration stage.
     #[inline(always)]
     pub(crate) fn at_identifier_reference(&self) -> bool {
-        self.at(Kind::Ident) || self.kind().is_known_ident()
+        self.at(Kind::Ident)
+            || self.kind().is_known_ident()
+            || self.at(Kind::Module)
+            || (self.at(Kind::Await) && !self.context.intersects(Context::AWAIT | Context::MODULE))
+            || (self.at(Kind::Yield) && !self.context.intersects(Context::YIELD | Context::STRICT))
     }
 
     /// Whether the current token is an IdentifierName, including keywords.

@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
-    ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, Ident, IfStmt, LabeledStmt, Pat, ReturnStmt,
+    ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, Ident, IfStmt, LabeledStmt, ReturnStmt,
     Script, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDecl, VarDeclKind, VarDeclOrExpr,
     VarDeclarator, WhileStmt, WithStmt,
 };
@@ -282,7 +282,9 @@ impl<C: Config> Parser<'_, C> {
             #[allow(unreachable_patterns)]
             let left = match init {
                 VarDeclOrExpr::VarDecl(declaration) => ForHead::VarDecl(declaration),
-                VarDeclOrExpr::Expr(expression) => ForHead::Pat(Box::new(Pat::Expr(expression))),
+                VarDeclOrExpr::Expr(expression) => {
+                    ForHead::Pat(Box::new(self.reparse_assignment_pattern(expression)?))
+                }
                 _ => return Err(self.expected_error(Kind::Ident)),
             };
             self.advance();
