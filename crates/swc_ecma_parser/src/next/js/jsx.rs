@@ -7,8 +7,8 @@ use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     Expr, Ident, IdentName, JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement,
     JSXClosingFragment, JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr,
-    JSXExprContainer, JSXFragment, JSXOpeningElement, JSXOpeningFragment, JSXSpreadChild, JSXText,
-    SpreadElement, Str,
+    JSXExprContainer, JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
+    JSXOpeningFragment, JSXSpreadChild, JSXText, SpreadElement, Str,
 };
 
 use crate::{
@@ -194,22 +194,62 @@ impl<C: Config> Parser<'_, C> {
 
     fn parse_jsx_element_name(&mut self) -> Result<JSXElementName, Error> {
         let (span, name) = self.parse_jsx_identifier()?;
-        Ok(JSXElementName::Ident(Ident::new_no_ctxt(name, span)))
+        let first = Ident::new_no_ctxt(name, span);
+        if self.eat(Kind::Colon) {
+            let (name_span, name) = self.parse_jsx_identifier()?;
+            return Ok(JSXElementName::JSXNamespacedName(JSXNamespacedName {
+                span: Span::new_with_checked(span.lo, name_span.hi),
+                ns: IdentName {
+                    span,
+                    sym: first.sym,
+                },
+                name: IdentName {
+                    span: name_span,
+                    sym: name,
+                },
+            }));
+        }
+        if !self.eat(Kind::Dot) {
+            return Ok(JSXElementName::Ident(first));
+        }
+
+        let (property_span, property) = self.parse_jsx_identifier()?;
+        let mut member = JSXMemberExpr {
+            span: Span::new_with_checked(span.lo, property_span.hi),
+            obj: JSXObject::Ident(first),
+            prop: IdentName {
+                span: property_span,
+                sym: property,
+            },
+        };
+        while self.eat(Kind::Dot) {
+            let (property_span, property) = self.parse_jsx_identifier()?;
+            member = JSXMemberExpr {
+                span: Span::new_with_checked(span.lo, property_span.hi),
+                obj: JSXObject::JSXMemberExpr(Box::new(member)),
+                prop: IdentName {
+                    span: property_span,
+                    sym: property,
+                },
+            };
+        }
+        Ok(JSXElementName::JSXMemberExpr(member))
     }
 
     fn parse_jsx_attribute(&mut self) -> Result<JSXAttrOrSpread, Error> {
         if self.at(Kind::LBrace) {
-            let start = self.token().span();
             self.advance();
-            if !self.expect(Kind::DotDotDot) {
+            if !self.at(Kind::DotDotDot) {
                 return Err(self.expected_error(Kind::DotDotDot));
             }
+            let dot3_token = self.token().span();
+            self.advance();
             let expression = self.parse_assignment_expression()?;
             if !self.expect(Kind::RBrace) {
                 return Err(self.expected_error(Kind::RBrace));
             }
             return Ok(JSXAttrOrSpread::SpreadElement(SpreadElement {
-                dot3_token: start,
+                dot3_token,
                 expr: expression,
             }));
         }

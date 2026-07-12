@@ -22,6 +22,14 @@ impl<C: Config> Parser<'_, C> {
     /// nodes.
     pub(crate) fn parse_script(&mut self) -> Result<Script, Error> {
         let start = self.token().start();
+        let shebang = if self.at(Kind::Shebang) {
+            let source = self.token_source(self.token());
+            let value = source.strip_prefix("#!").unwrap_or(source).into();
+            self.advance();
+            Some(value)
+        } else {
+            None
+        };
         let mut body = Vec::with_capacity(8);
         while !self.at(Kind::Eof) {
             body.push(self.parse_statement()?);
@@ -29,11 +37,15 @@ impl<C: Config> Parser<'_, C> {
         Ok(Script {
             span: Span::new_with_checked(start, self.token().end()),
             body,
-            shebang: None,
+            shebang,
         })
     }
 
     pub(crate) fn parse_statement(&mut self) -> Result<Stmt, Error> {
+        #[cfg(feature = "flow")]
+        if self.context().contains(Context::FLOW) && self.is_flow_match_start() {
+            return self.parse_flow_match_statement();
+        }
         match self.kind() {
             Kind::At => {
                 let start = self.token().start();
@@ -55,7 +67,30 @@ impl<C: Config> Parser<'_, C> {
             Kind::Break | Kind::Continue => self.parse_jump_statement(),
             Kind::Class => self.parse_class_declaration(),
             #[cfg(feature = "typescript")]
-            Kind::Declare if self.context().contains(Context::TYPESCRIPT) => {
+            Kind::Declare
+                if self.context().contains(Context::TYPESCRIPT)
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        matches!(
+                            parser.kind(),
+                            Kind::Abstract
+                                | Kind::Export
+                                | Kind::Global
+                                | Kind::Var
+                                | Kind::Let
+                                | Kind::Const
+                                | Kind::Function
+                                | Kind::Async
+                                | Kind::Class
+                                | Kind::Interface
+                                | Kind::Type
+                                | Kind::Enum
+                                | Kind::Namespace
+                                | Kind::Module
+                                | Kind::Ident
+                        )
+                    }) =>
+            {
                 self.parse_ts_declare_statement()
             }
             #[cfg(feature = "typescript")]
@@ -120,23 +155,56 @@ impl<C: Config> Parser<'_, C> {
             #[cfg(feature = "flow")]
             Kind::Ident
                 if self.context().contains(Context::FLOW)
-                    && self.token_source(self.token()) == "opaque" =>
+                    && self.token_source(self.token()) == "opaque"
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        parser.at(Kind::Type)
+                    }) =>
             {
                 self.parse_flow_opaque_type()
             }
             #[cfg(feature = "flow")]
             Kind::Ident
                 if self.context().contains(Context::FLOW)
-                    && self.token_source(self.token()) == "component" =>
+                    && self.token_source(self.token()) == "component"
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        if !parser.at_identifier_reference() {
+                            return false;
+                        }
+                        parser.advance();
+                        matches!(parser.kind(), Kind::LParen | Kind::Lt)
+                    }) =>
             {
                 self.parse_flow_component_declaration()
+            }
+            #[cfg(feature = "flow")]
+            Kind::Ident
+                if self.context().contains(Context::FLOW)
+                    && self.token_source(self.token()) == "hook"
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        if !parser.at_identifier_reference() {
+                            return false;
+                        }
+                        parser.advance();
+                        matches!(parser.kind(), Kind::LParen | Kind::Lt)
+                    }) =>
+            {
+                self.parse_flow_hook_declaration()
             }
             #[cfg(feature = "typescript")]
             Kind::Enum if self.context().contains(Context::TYPESCRIPT) => {
                 self.parse_ts_enum_declaration(false)
             }
             #[cfg(feature = "typescript")]
-            Kind::Interface if self.context().contains(Context::TYPESCRIPT) => {
+            Kind::Interface
+                if self.context().contains(Context::TYPESCRIPT)
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        parser.at_identifier_name()
+                    }) =>
+            {
                 self.parse_ts_interface_declaration()
             }
             #[cfg(feature = "typescript")]
@@ -609,7 +677,7 @@ impl<C: Config> Parser<'_, C> {
     }
 
     #[cfg(feature = "typescript")]
-    fn parse_ts_declare_statement(&mut self) -> Result<Stmt, Error> {
+    pub(crate) fn parse_ts_declare_statement(&mut self) -> Result<Stmt, Error> {
         let start = self.token().start();
         debug_assert!(self.eat(Kind::Declare));
         let abstract_class = self.eat(Kind::Abstract);
@@ -641,6 +709,8 @@ impl<C: Config> Parser<'_, C> {
                 self.kind(),
                 Kind::Function | Kind::Async | Kind::Class | Kind::Interface
             )
+            && !(self.at(Kind::Ident) && self.token_source(self.token()) == "component")
+            && !(self.at(Kind::Ident) && self.token_source(self.token()) == "hook")
         {
             let type_ann = self.parse_ts_type()?;
             self.consume_semicolon()?;
@@ -689,6 +759,28 @@ impl<C: Config> Parser<'_, C> {
             Kind::Type => self.parse_ts_type_alias_declaration()?,
             Kind::Enum => self.parse_ts_enum_declaration(false)?,
             Kind::Namespace | Kind::Module => self.parse_ts_module_declaration(true)?,
+            #[cfg(feature = "flow")]
+            Kind::Ident
+                if self.context().contains(Context::FLOW)
+                    && self.token_source(self.token()) == "component"
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        if !parser.at_identifier_reference() {
+                            return false;
+                        }
+                        parser.advance();
+                        matches!(parser.kind(), Kind::LParen | Kind::Lt)
+                    }) =>
+            {
+                self.parse_flow_declare_component()?
+            }
+            #[cfg(feature = "flow")]
+            Kind::Ident
+                if self.context().contains(Context::FLOW)
+                    && self.token_source(self.token()) == "hook" =>
+            {
+                self.parse_flow_declare_hook()?
+            }
             #[cfg(feature = "flow")]
             Kind::Ident
                 if self.context().contains(Context::FLOW)

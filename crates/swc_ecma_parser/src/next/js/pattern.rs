@@ -25,6 +25,9 @@ impl<C: Config> Parser<'_, C> {
         let span = expression.span();
         match *expression {
             Expr::Ident(id) => Ok(Pat::Ident(BindingIdent { id, type_ann: None })),
+            Expr::Paren(parenthesis) if self.context().contains(Context::FLOW) => {
+                Ok(Pat::Expr(Box::new(Expr::Paren(parenthesis))))
+            }
             Expr::Paren(parenthesis) => self.reparse_assignment_pattern(parenthesis.expr),
             Expr::Array(array) => {
                 let mut elements = Vec::with_capacity(array.elems.len());

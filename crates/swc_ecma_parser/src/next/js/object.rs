@@ -112,7 +112,13 @@ impl<C: Config> Parser<'_, C> {
             return self.parse_object_method(start, key, false, false, type_params);
         }
 
-        if !prefix_had_escape && matches!(prefix, Kind::Get | Kind::Set) {
+        if !prefix_had_escape
+            && matches!(prefix, Kind::Get | Kind::Set)
+            && !matches!(
+                self.kind(),
+                Kind::Comma | Kind::RBrace | Kind::Eq | Kind::Colon
+            )
+        {
             let accessor_key = self.parse_property_name()?;
             return self.parse_object_accessor(start, accessor_key, prefix == Kind::Get);
         }
@@ -123,7 +129,19 @@ impl<C: Config> Parser<'_, C> {
         {
             let is_generator = self.eat(Kind::Asterisk);
             let method_key = self.parse_property_name()?;
-            return self.parse_object_method(start, method_key, true, is_generator, None);
+            #[cfg(feature = "typescript")]
+            let type_params = if self
+                .context()
+                .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                && self.at(Kind::Lt)
+            {
+                Some(self.parse_ts_type_parameters()?)
+            } else {
+                None
+            };
+            #[cfg(not(feature = "typescript"))]
+            let type_params = None;
+            return self.parse_object_method(start, method_key, true, is_generator, type_params);
         }
 
         let PropName::Ident(name) = key else {

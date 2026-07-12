@@ -77,7 +77,9 @@ impl<C: Config> Parser<'_, C> {
         let type_params = None;
         let mut super_type_params = None;
         let super_class = if self.eat(Kind::Extends) {
-            if self.context().contains(Context::TYPESCRIPT) {
+            if self.at(Kind::Class) {
+                Some(self.parse_class_expression()?)
+            } else if self.context().contains(Context::TYPESCRIPT) {
                 let heritage = self.parse_ts_expression_with_type_arguments()?;
                 super_type_params = heritage.type_args;
                 Some(heritage.expr)
@@ -87,6 +89,18 @@ impl<C: Config> Parser<'_, C> {
         } else {
             None
         };
+        if self.context().contains(Context::FLOW)
+            && self.at(Kind::Ident)
+            && self.token_source(self.token()) == "mixins"
+        {
+            self.advance();
+            loop {
+                self.parse_ts_expression_with_type_arguments()?;
+                if !self.eat(Kind::Comma) {
+                    break;
+                }
+            }
+        }
         let mut implements = Vec::new();
         if self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::Implements) {
             loop {
@@ -152,6 +166,16 @@ impl<C: Config> Parser<'_, C> {
         let mut declare = false;
         let mut is_override = false;
         let mut is_auto_accessor = false;
+        if self.context().contains(Context::FLOW)
+            && self.at(Kind::Ident)
+            && self.token_source(self.token()) == "proto"
+            && self.lookahead(|parser| {
+                parser.advance();
+                !matches!(parser.kind(), Kind::Colon | Kind::LParen | Kind::Eq)
+            })
+        {
+            self.advance();
+        }
         if self.context().contains(Context::FLOW) {
             if self.eat(Kind::Plus) {
                 readonly = true;
@@ -217,6 +241,13 @@ impl<C: Config> Parser<'_, C> {
         {
             self.advance();
             is_static = true;
+        }
+        if self.context().contains(Context::FLOW) {
+            if self.eat(Kind::Plus) {
+                readonly = true;
+            } else {
+                self.eat(Kind::Minus);
+            }
         }
         if is_static && self.at(Kind::LBrace) {
             let body = self.parse_block_statement()?;
@@ -377,7 +408,10 @@ impl<C: Config> Parser<'_, C> {
             let return_type = None;
             if self.context().contains(Context::TYPESCRIPT)
                 && !self.at(Kind::LBrace)
-                && (self.eat(Kind::Semi) || self.token().had_line_break() || self.at(Kind::RBrace))
+                && (self.eat(Kind::Semi)
+                    || (self.context().contains(Context::FLOW) && self.eat(Kind::Comma))
+                    || self.token().had_line_break()
+                    || self.at(Kind::RBrace))
             {
                 let span = Span::new_with_checked(start, self.previous_end());
                 if is_constructor {
@@ -522,7 +556,11 @@ impl<C: Config> Parser<'_, C> {
             None
         };
         let end = value.as_ref().map_or(key_span.hi, |value| value.span().hi);
-        self.consume_semicolon()?;
+        if self.context().contains(Context::FLOW) && self.eat(Kind::Comma) {
+            // Flow permits comma-delimited ambient class members.
+        } else if !(self.context().contains(Context::FLOW) && self.at_identifier_reference()) {
+            self.consume_semicolon()?;
+        }
         let span = Span::new_with_checked(start, end);
         if is_auto_accessor {
             let key = match key {
@@ -579,7 +617,16 @@ impl<C: Config> Parser<'_, C> {
         matches!(self.kind(), Kind::Get | Kind::Set)
             && self.lookahead(|parser| {
                 parser.advance();
-                !matches!(parser.kind(), Kind::LParen | Kind::Lt)
+                !matches!(
+                    parser.kind(),
+                    Kind::LParen
+                        | Kind::Lt
+                        | Kind::Colon
+                        | Kind::Eq
+                        | Kind::Semi
+                        | Kind::Comma
+                        | Kind::RBrace
+                )
             })
     }
 
@@ -633,22 +680,72 @@ impl<C: Config> Parser<'_, C> {
             let parameter_start = decorators
                 .first()
                 .map_or(self.token().start(), |decorator| decorator.span.lo);
+            #[cfg(feature = "flow")]
+            let flow_bare_anonymous = self.context().contains(Context::FLOW_FUNCTION_TYPE)
+                && self.at_identifier_reference()
+                && !self.context().contains(Context::FLOW_OBJECT_SIGNATURE)
+                && !self.at_flow_type_parameter();
+            #[cfg(not(feature = "flow"))]
+            let flow_bare_anonymous = false;
             let flow_anonymous = ((self.context().contains(Context::FLOW_FUNCTION_TYPE)
                 && (self.at(Kind::LParen)
                     || self.at(Kind::LBrace)
                     || self.at(Kind::LBracket)
                     || self.at(Kind::QuestionMark)
+                    || matches!(
+                        self.kind(),
+                        Kind::Any
+                            | Kind::Unknown
+                            | Kind::Number
+                            | Kind::Object
+                            | Kind::Boolean
+                            | Kind::Bigint
+                            | Kind::String
+                            | Kind::Symbol
+                            | Kind::Void
+                            | Kind::Undefined
+                            | Kind::Null
+                            | Kind::Never
+                            | Kind::This
+                    )
+                    || (self.at(Kind::Ident)
+                        && self.token_source(self.token()) == "renders"
+                        && self.lookahead(|parser| {
+                            parser.advance();
+                            matches!(parser.kind(), Kind::Asterisk | Kind::QuestionMark)
+                        }))
                     || (self.at_identifier_reference()
                         && self.lookahead(|parser| {
                             parser.advance();
                             matches!(parser.kind(), Kind::Lt | Kind::Dot)
-                        }))))
-                || (self.context().contains(Context::FLOW) && self.at(Kind::LParen)))
+                        }))
+                    || flow_bare_anonymous))
+                || (self.context().contains(Context::FLOW)
+                    && matches!(
+                        self.kind(),
+                        Kind::LParen
+                            | Kind::This
+                            | Kind::Any
+                            | Kind::Unknown
+                            | Kind::Number
+                            | Kind::Object
+                            | Kind::Boolean
+                            | Kind::Bigint
+                            | Kind::String
+                            | Kind::Symbol
+                            | Kind::Void
+                            | Kind::Undefined
+                            | Kind::Null
+                            | Kind::Never
+                    )))
                 && !self.at(Kind::DotDotDot)
-                && !(self.at_identifier_reference()
+                && !((self.at_identifier_reference() || self.at(Kind::This))
                     && self.lookahead(|parser| {
                         parser.advance();
-                        matches!(parser.kind(), Kind::Colon | Kind::QuestionMark)
+                        if parser.at(Kind::Colon) {
+                            return true;
+                        }
+                        parser.eat(Kind::QuestionMark) && parser.at(Kind::Colon)
                     }));
             let mut pattern = if flow_anonymous {
                 let start = self.token().start();
@@ -731,6 +828,15 @@ impl<C: Config> Parser<'_, C> {
                         _ => {}
                     }
                 }
+            }
+            if self.eat(Kind::Eq) {
+                let start = pattern.span().lo;
+                let right = self.parse_assignment_expression()?;
+                pattern = swc_ecma_ast::Pat::Assign(swc_ecma_ast::AssignPat {
+                    span: Span::new_with_checked(start, right.span().hi),
+                    left: Box::new(pattern),
+                    right,
+                });
             }
             parameters.push(Param {
                 span: Span::new_with_checked(parameter_start, pattern.span().hi),

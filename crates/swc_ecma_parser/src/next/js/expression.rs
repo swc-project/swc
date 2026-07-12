@@ -25,14 +25,7 @@ impl<C: Config> Parser<'_, C> {
         let span = token.span();
         match token.kind() {
             #[cfg(feature = "flow")]
-            Kind::Ident
-                if self.context().contains(Context::FLOW)
-                    && self.token_source(token) == "match"
-                    && self.lookahead(|parser| {
-                        parser.advance();
-                        parser.at(Kind::LParen)
-                    }) =>
-            {
+            Kind::Ident if self.context().contains(Context::FLOW) && self.is_flow_match_start() => {
                 self.parse_flow_match_expression()
             }
             Kind::Async if self.is_async_function_start() => self.parse_function_expression(),

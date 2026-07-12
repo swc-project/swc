@@ -4,10 +4,10 @@ use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     Decl, DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, Ident, ImportDecl,
-    ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, Module,
-    ModuleDecl, ModuleExportName, ModuleItem, NamedExport, ObjectLit, Stmt, Str,
-    TsExportAssignment, TsExternalModuleRef, TsImportEqualsDecl, TsModuleRef,
+    ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, FnExpr, Ident,
+    ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier,
+    ImportStarAsSpecifier, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport,
+    ObjectLit, Stmt, Str, TsExportAssignment, TsExternalModuleRef, TsImportEqualsDecl, TsModuleRef,
     TsNamespaceExportDecl,
 };
 
@@ -21,10 +21,25 @@ impl<C: Config> Parser<'_, C> {
     /// Parse an ECMAScript module body.
     pub(crate) fn parse_module(&mut self) -> Result<Module, Error> {
         let start = self.token().start();
+        let shebang = if self.at(Kind::Shebang) {
+            let source = self.token_source(self.token());
+            let value = source.strip_prefix("#!").unwrap_or(source).into();
+            self.advance();
+            Some(value)
+        } else {
+            None
+        };
         let mut body = Vec::with_capacity(8);
         while !self.at(Kind::Eof) {
             body.push(match self.kind() {
-                Kind::Import => ModuleItem::ModuleDecl(self.parse_import_declaration()?),
+                Kind::Import
+                    if !self.lookahead(|parser| {
+                        parser.advance();
+                        matches!(parser.kind(), Kind::Dot | Kind::LParen)
+                    }) =>
+                {
+                    ModuleItem::ModuleDecl(self.parse_import_declaration()?)
+                }
                 Kind::Export => ModuleItem::ModuleDecl(self.parse_export_declaration()?),
                 #[cfg(feature = "flow")]
                 Kind::Declare
@@ -36,7 +51,7 @@ impl<C: Config> Parser<'_, C> {
                             parser.at(Kind::Export)
                         }) =>
                 {
-                    ModuleItem::ModuleDecl(self.parse_flow_declare_export()?)
+                    ModuleItem::Stmt(self.parse_ts_declare_statement()?)
                 }
                 Kind::At => {
                     let start = self.token().start();
@@ -50,7 +65,9 @@ impl<C: Config> Parser<'_, C> {
                             }) => {
                                 class.class.span =
                                     Span::new_with_checked(start, class.class.span.hi);
-                                class.class.decorators = decorators;
+                                let mut leading = decorators;
+                                leading.append(&mut class.class.decorators);
+                                class.class.decorators = leading;
                             }
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                                 decl: DefaultDecl::Class(class),
@@ -58,7 +75,9 @@ impl<C: Config> Parser<'_, C> {
                             }) => {
                                 class.class.span =
                                     Span::new_with_checked(start, class.class.span.hi);
-                                class.class.decorators = decorators;
+                                let mut leading = decorators;
+                                leading.append(&mut class.class.decorators);
+                                class.class.decorators = leading;
                             }
                             _ => return Err(self.expected_error(Kind::Class)),
                         }
@@ -79,7 +98,7 @@ impl<C: Config> Parser<'_, C> {
         Ok(Module {
             span: Span::new_with_checked(start, self.token().end()),
             body,
-            shebang: None,
+            shebang,
         })
     }
 
@@ -134,7 +153,12 @@ impl<C: Config> Parser<'_, C> {
             }));
         }
 
-        if self.at_identifier_reference() {
+        if self.at_identifier_reference()
+            || (self
+                .context()
+                .contains(crate::next::parser::context::Context::FLOW)
+                && self.at_identifier_name())
+        {
             let local = self.parse_module_identifier()?;
             specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
                 span: local.span,
@@ -322,24 +346,6 @@ impl<C: Config> Parser<'_, C> {
         }))
     }
 
-    #[cfg(feature = "flow")]
-    fn parse_flow_declare_export(&mut self) -> Result<ModuleDecl, Error> {
-        self.advance();
-        let mut declaration = self.parse_export_declaration()?;
-        if let ModuleDecl::ExportDecl(export) = &mut declaration {
-            match &mut export.decl {
-                Decl::Var(value) => value.declare = true,
-                Decl::Fn(value) => value.declare = true,
-                Decl::Class(value) => value.declare = true,
-                Decl::TsInterface(value) => value.declare = true,
-                Decl::TsTypeAlias(value) => value.declare = true,
-                Decl::TsEnum(value) => value.declare = true,
-                _ => {}
-            }
-        }
-        Ok(declaration)
-    }
-
     fn parse_ts_import_equals(
         &mut self,
         start: swc_common::BytePos,
@@ -377,6 +383,71 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn parse_export_default(&mut self, start: swc_common::BytePos) -> Result<ModuleDecl, Error> {
+        if self.at(Kind::At) {
+            let decorators = self.parse_decorators()?;
+            let expression = self.parse_class_expression()?;
+            let Expr::Class(mut class) = *expression else {
+                unreachable!("decorated default declaration must be a class")
+            };
+            class.class.decorators = decorators;
+            let end = class.class.span.hi;
+            return Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span: Span::new_with_checked(start, end),
+                decl: DefaultDecl::Class(class),
+            }));
+        }
+        #[cfg(feature = "flow")]
+        if self
+            .context()
+            .contains(crate::next::parser::context::Context::FLOW)
+            && self.at(Kind::Enum)
+        {
+            let Stmt::Decl(declaration) = self.parse_ts_enum_declaration(false)? else {
+                unreachable!("enum parser must produce a declaration")
+            };
+            return Ok(ModuleDecl::ExportDecl(ExportDecl {
+                span: Span::new_with_checked(start, declaration.span().hi),
+                decl: declaration,
+            }));
+        }
+        #[cfg(feature = "flow")]
+        if self
+            .context()
+            .contains(crate::next::parser::context::Context::FLOW)
+            && self.at(Kind::Ident)
+            && self.token_source(self.token()) == "component"
+        {
+            let Stmt::Decl(Decl::Fn(function)) = self.parse_flow_component_declaration()? else {
+                unreachable!("component parser must produce a function declaration")
+            };
+            let end = function.function.span.hi;
+            return Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span: Span::new_with_checked(start, end),
+                decl: DefaultDecl::Fn(FnExpr {
+                    ident: Some(function.ident),
+                    function: function.function,
+                }),
+            }));
+        }
+        #[cfg(feature = "flow")]
+        if self
+            .context()
+            .contains(crate::next::parser::context::Context::FLOW)
+            && self.at(Kind::Ident)
+            && self.token_source(self.token()) == "hook"
+        {
+            let Stmt::Decl(Decl::Fn(function)) = self.parse_flow_hook_declaration()? else {
+                unreachable!("hook parser must produce a function declaration")
+            };
+            let end = function.function.span.hi;
+            return Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span: Span::new_with_checked(start, end),
+                decl: DefaultDecl::Fn(FnExpr {
+                    ident: Some(function.ident),
+                    function: function.function,
+                }),
+            }));
+        }
         if self
             .context()
             .contains(crate::next::parser::context::Context::TYPESCRIPT)
@@ -532,7 +603,12 @@ impl<C: Config> Parser<'_, C> {
 
     fn parse_module_identifier(&mut self) -> Result<Ident, Error> {
         let token = self.token();
-        if !self.at_identifier_reference() {
+        if !self.at_identifier_reference()
+            && !(self
+                .context()
+                .contains(crate::next::parser::context::Context::FLOW)
+                && self.at_identifier_name())
+        {
             return Err(self.expected_error(Kind::Ident));
         }
         let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());

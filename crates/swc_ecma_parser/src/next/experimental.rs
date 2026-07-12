@@ -144,14 +144,18 @@ impl<'a> Parser<'a> {
     /// Parse Flow syntax with the independent cursor. Flow shares the common
     /// typed grammar core with TypeScript and adds its own productions on top.
     #[cfg(feature = "flow")]
-    pub fn parse_flow_script(self, jsx: bool) -> Result<Script, Error> {
+    pub fn parse_flow_script(self, jsx: bool, require_directive: bool) -> Result<Script, Error> {
         let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
             Error::new(
                 Span::new_with_checked(self.start_pos, self.start_pos),
                 SyntaxError::Eof,
             )
         })?;
-        let mut context = Context::default() | Context::TYPESCRIPT | Context::FLOW;
+        let flow_enabled = !require_directive || self.source.contains("@flow");
+        let mut context = Context::default();
+        if flow_enabled {
+            context.insert(Context::TYPESCRIPT | Context::FLOW);
+        }
         if jsx {
             context.insert(Context::TSX);
         }
@@ -161,18 +165,18 @@ impl<'a> Parser<'a> {
 
     /// Parse a Flow module with the independent cursor.
     #[cfg(feature = "flow")]
-    pub fn parse_flow_module(self, jsx: bool) -> Result<Module, Error> {
+    pub fn parse_flow_module(self, jsx: bool, require_directive: bool) -> Result<Module, Error> {
         let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
             Error::new(
                 Span::new_with_checked(self.start_pos, self.start_pos),
                 SyntaxError::Eof,
             )
         })?;
-        let mut context = Context::default()
-            | Context::TYPESCRIPT
-            | Context::FLOW
-            | Context::MODULE
-            | Context::AWAIT;
+        let flow_enabled = !require_directive || self.source.contains("@flow");
+        let mut context = Context::default() | Context::MODULE | Context::AWAIT;
+        if flow_enabled {
+            context.insert(Context::TYPESCRIPT | Context::FLOW);
+        }
         if jsx {
             context.insert(Context::TSX);
         }

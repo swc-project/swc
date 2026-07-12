@@ -1,9 +1,7 @@
 //! JavaScript function declarations and expressions.
 
-use swc_common::{Span, Spanned, SyntaxContext};
+use swc_common::{Span, SyntaxContext};
 use swc_ecma_ast::{Decl, Expr, FnDecl, FnExpr, Function, Ident, Stmt};
-#[cfg(feature = "flow")]
-use swc_ecma_ast::{ObjectPat, Param, Pat};
 
 use crate::{
     error::Error,
@@ -15,75 +13,6 @@ use crate::{
 };
 
 impl<C: Config> Parser<'_, C> {
-    #[cfg(feature = "flow")]
-    pub(crate) fn parse_flow_component_declaration(&mut self) -> Result<Stmt, Error> {
-        let start = self.token().start();
-        self.advance();
-        let token = self.token();
-        if !self.at_identifier_reference() {
-            return Err(self.expected_error(Kind::Ident));
-        }
-        let ident = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
-        self.advance();
-        let type_params = if self.at(Kind::Lt) {
-            Some(self.parse_ts_type_parameters()?)
-        } else {
-            None
-        };
-        if !self.expect(Kind::LParen) {
-            return Err(self.expected_error(Kind::LParen));
-        }
-        let parameter_start = start;
-        while !self.at(Kind::RParen) && !self.at(Kind::Eof) {
-            self.advance();
-        }
-        if !self.expect(Kind::RParen) {
-            return Err(self.expected_error(Kind::RParen));
-        }
-        let parameter_end = self.previous_end();
-        let return_type = if self.at(Kind::Ident) && self.token_source(self.token()) == "renders" {
-            let annotation_start = self.token().start();
-            self.advance();
-            let type_ann = self.parse_ts_type()?;
-            Some(Box::new(swc_ecma_ast::TsTypeAnn {
-                span: Span::new_with_checked(annotation_start, type_ann.span().hi),
-                type_ann,
-            }))
-        } else {
-            None
-        };
-        let body = self.with_context(
-            Context::RETURN,
-            Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
-            Self::parse_block_statement,
-        )?;
-        let span = Span::new_with_checked(start, body.span.hi);
-        Ok(Stmt::Decl(Decl::Fn(FnDecl {
-            ident,
-            declare: false,
-            function: Box::new(Function {
-                params: vec![Param {
-                    span: Span::new_with_checked(parameter_start, parameter_end),
-                    decorators: Vec::new(),
-                    pat: Pat::Object(ObjectPat {
-                        span: Span::new_with_checked(parameter_start, parameter_end),
-                        props: Vec::new(),
-                        optional: false,
-                        type_ann: None,
-                    }),
-                }],
-                decorators: Vec::new(),
-                span,
-                ctxt: SyntaxContext::empty(),
-                body: Some(body),
-                is_generator: false,
-                is_async: false,
-                type_params,
-                return_type,
-            }),
-        })))
-    }
-
     pub(crate) fn is_async_function_start(&mut self) -> bool {
         if !self.at(Kind::Async) {
             return false;
@@ -157,7 +86,30 @@ impl<C: Config> Parser<'_, C> {
             Self::parse_method_parameters,
         )?;
         #[cfg(feature = "typescript")]
-        let return_type = if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Colon) {
+        let flow_predicate_return = self.context().contains(Context::FLOW)
+            && self.at(Kind::Colon)
+            && self.lookahead(|parser| {
+                parser.advance();
+                parser.at(Kind::Percent)
+            });
+        let flow_predicate_span = self.token().span();
+        if flow_predicate_return {
+            self.advance();
+        }
+        let return_type = if flow_predicate_return {
+            Some(Box::new(swc_ecma_ast::TsTypeAnn {
+                span: flow_predicate_span,
+                type_ann: Box::new(swc_ecma_ast::TsType::TsKeywordType(
+                    swc_ecma_ast::TsKeywordType {
+                        span: flow_predicate_span,
+                        kind: swc_ecma_ast::TsKeywordTypeKind::TsAnyKeyword,
+                    },
+                )),
+            }))
+        } else if self.context().contains(Context::TYPESCRIPT)
+            && self.at(Kind::Colon)
+            && !flow_predicate_return
+        {
             Some(self.parse_ts_type_annotation()?)
         } else {
             None
@@ -165,17 +117,7 @@ impl<C: Config> Parser<'_, C> {
         #[cfg(not(feature = "typescript"))]
         let return_type = None;
         #[cfg(feature = "flow")]
-        if self.context().contains(Context::FLOW) && self.eat(Kind::Percent) {
-            if self.at_identifier_name() {
-                self.advance();
-            }
-            if self.eat(Kind::LParen) {
-                self.parse_expression()?;
-                if !self.expect(Kind::RParen) {
-                    return Err(self.expected_error(Kind::RParen));
-                }
-            }
-        }
+        self.skip_flow_predicate()?;
         let mut body_context = Context::RETURN;
         if is_generator {
             body_context.insert(Context::YIELD);
@@ -213,6 +155,22 @@ impl<C: Config> Parser<'_, C> {
                 return_type,
             }),
         ))
+    }
+
+    #[cfg(feature = "flow")]
+    pub(crate) fn skip_flow_predicate(&mut self) -> Result<(), Error> {
+        if self.context().contains(Context::FLOW) && self.eat(Kind::Percent) {
+            if self.at_identifier_name() {
+                self.advance();
+            }
+            if self.eat(Kind::LParen) {
+                self.parse_expression()?;
+                if !self.expect(Kind::RParen) {
+                    return Err(self.expected_error(Kind::RParen));
+                }
+            }
+        }
+        Ok(())
     }
 }
 

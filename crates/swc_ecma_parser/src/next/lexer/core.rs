@@ -546,6 +546,14 @@ impl<'a, C: Config> Lexer<'a, C> {
             b':' => self.single(Kind::Colon),
             b'~' => self.single(Kind::Tilde),
             b'@' => self.single(Kind::At),
+            b'#' if self.source.is_at_start() && self.source.peek() == Some(b'!') => {
+                while !matches!(self.source.cur(), None | Some(b'\r' | b'\n')) {
+                    let width = self.source.cur_as_char().map_or(1, char::len_utf8);
+                    // SAFETY: `width` is the complete current UTF-8 character.
+                    unsafe { self.source.bump_bytes(width) };
+                }
+                Kind::Shebang
+            }
             b'#' => self.single(Kind::Hash),
             b'.' => {
                 if self.source.peek().is_some_and(|next| next.is_ascii_digit()) {
@@ -710,9 +718,7 @@ impl<'a, C: Config> Lexer<'a, C> {
 
     fn less_than(&mut self) -> Kind {
         self.bump_ascii();
-        if self.eat(b'/') {
-            Kind::LessSlash
-        } else if self.eat(b'<') {
+        if self.eat(b'<') {
             if self.eat(b'=') {
                 Kind::LShiftEq
             } else {

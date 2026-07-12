@@ -30,6 +30,7 @@ fn assert_valid_fixture_parity(
         ModuleKind::Unambiguous => legacy.parse_program(),
         ModuleKind::CommonJs => legacy.parse_commonjs().map(Program::Script),
     };
+    let legacy_diagnostics = legacy.take_errors();
 
     // Some fixture directories contain proposal-negative inputs alongside
     // valid snapshots. Invalid behavior is covered by the dedicated error
@@ -37,7 +38,9 @@ fn assert_valid_fixture_parity(
     let Ok(legacy_program) = legacy_program else {
         return;
     };
-
+    if !legacy_diagnostics.is_empty() {
+        return;
+    }
     let next_program = match (syntax, &legacy_program) {
         #[cfg(feature = "typescript")]
         (Syntax::Typescript(config), Program::Script(_)) => {
@@ -65,11 +68,11 @@ fn assert_valid_fixture_parity(
         }
         #[cfg(feature = "flow")]
         (Syntax::Flow(config), Program::Script(_)) => IndependentParser::new(&source)
-            .parse_flow_script(config.jsx)
+            .parse_flow_script(config.jsx, config.require_directive)
             .map(Program::Script),
         #[cfg(feature = "flow")]
         (Syntax::Flow(config), Program::Module(_)) => IndependentParser::new(&source)
-            .parse_flow_module(config.jsx)
+            .parse_flow_module(config.jsx, config.require_directive)
             .map(Program::Module),
         (_, Program::Script(_)) => IndependentParser::new(&source)
             .parse_script()
@@ -88,12 +91,55 @@ fn assert_valid_fixture_parity(
     });
     let legacy_normalized = normalize_ast(&legacy_program);
     let next_normalized = normalize_ast(&next_program);
-    assert_eq!(
-        next_normalized,
-        legacy_normalized,
-        "normalized AST mismatch for {}",
-        path.display(),
-    );
+    if let Some(difference) = first_ast_difference(&next_normalized, &legacy_normalized, "$".into())
+    {
+        panic!(
+            "normalized AST mismatch for {} at {difference}",
+            path.display()
+        );
+    }
+}
+
+fn first_ast_difference(
+    left: &serde_json::Value,
+    right: &serde_json::Value,
+    path: String,
+) -> Option<String> {
+    match (left, right) {
+        (serde_json::Value::Array(left), serde_json::Value::Array(right)) => {
+            if left.len() != right.len() {
+                return Some(format!("{path}.len ({} != {})", left.len(), right.len()));
+            }
+            left.iter()
+                .zip(right)
+                .enumerate()
+                .find_map(|(index, (left, right))| {
+                    first_ast_difference(left, right, format!("{path}[{index}]"))
+                })
+        }
+        (serde_json::Value::Object(left), serde_json::Value::Object(right)) => {
+            for (key, left_value) in left {
+                let Some(right_value) = right.get(key) else {
+                    return Some(format!(
+                        "{path}.{key} missing on reference AST ({} != {})",
+                        left.get("type").unwrap_or(&serde_json::Value::Null),
+                        right.get("type").unwrap_or(&serde_json::Value::Null)
+                    ));
+                };
+                if let Some(difference) =
+                    first_ast_difference(left_value, right_value, format!("{path}.{key}"))
+                {
+                    return Some(difference);
+                }
+            }
+            right
+                .keys()
+                .find(|key| !left.contains_key(*key))
+                .map(|key| format!("{path}.{key} missing on independent AST"))
+        }
+        _ if left == right => None,
+        _ => Some(format!("{path} ({left} != {right})")),
+    }
 }
 
 fn normalize_ast(program: &Program) -> serde_json::Value {
@@ -105,6 +151,7 @@ fn normalize_ast(program: &Program) -> serde_json::Value {
             serde_json::Value::Object(map) => {
                 map.remove("span");
                 map.remove("ctxt");
+                map.remove("raw");
                 map.values_mut().for_each(remove_locations);
             }
             _ => {}

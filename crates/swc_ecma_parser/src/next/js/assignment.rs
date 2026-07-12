@@ -169,6 +169,16 @@ impl<C: Config> Parser<'_, C> {
             }
             #[cfg(feature = "typescript")]
             if parser.context().contains(Context::TYPESCRIPT) && parser.at(Kind::Colon) {
+                #[cfg(feature = "flow")]
+                if parser.context().contains(Context::FLOW)
+                    && parser.lookahead(|parser| {
+                        parser.advance();
+                        parser.at(Kind::Percent)
+                    })
+                {
+                    parser.advance();
+                    return parser.skip_flow_predicate().is_ok() && parser.at(Kind::Arrow);
+                }
                 return parser
                     .with_context(
                         Context::TS_ARROW_RETURN_TYPE,
@@ -323,7 +333,33 @@ impl<C: Config> Parser<'_, C> {
         is_async: bool,
     ) -> Result<Box<Expr>, Error> {
         #[cfg(feature = "typescript")]
-        let return_type = if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Colon) {
+        #[cfg(feature = "flow")]
+        let flow_predicate_return = self.context().contains(Context::FLOW)
+            && self.at(Kind::Colon)
+            && self.lookahead(|parser| {
+                parser.advance();
+                parser.at(Kind::Percent)
+            });
+        #[cfg(not(feature = "flow"))]
+        let flow_predicate_return = false;
+        let flow_predicate_span = self.token().span();
+        if flow_predicate_return {
+            self.advance();
+        }
+        let return_type = if flow_predicate_return {
+            Some(Box::new(swc_ecma_ast::TsTypeAnn {
+                span: flow_predicate_span,
+                type_ann: Box::new(swc_ecma_ast::TsType::TsKeywordType(
+                    swc_ecma_ast::TsKeywordType {
+                        span: flow_predicate_span,
+                        kind: swc_ecma_ast::TsKeywordTypeKind::TsAnyKeyword,
+                    },
+                )),
+            }))
+        } else if self.context().contains(Context::TYPESCRIPT)
+            && self.at(Kind::Colon)
+            && !flow_predicate_return
+        {
             Some(self.with_context(
                 Context::TS_ARROW_RETURN_TYPE,
                 Context::empty(),
@@ -334,6 +370,8 @@ impl<C: Config> Parser<'_, C> {
         };
         #[cfg(not(feature = "typescript"))]
         let return_type = None;
+        #[cfg(feature = "flow")]
+        self.skip_flow_predicate()?;
         if !self.expect(Kind::Arrow) {
             return Err(self.expected_error(Kind::Arrow));
         }

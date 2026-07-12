@@ -99,7 +99,22 @@ impl<C: Config> Parser<'_, C> {
                 arg: argument,
             })));
         }
-        if self.at(Kind::Await) && self.context().contains(Context::AWAIT) {
+        if self.at(Kind::Await)
+            && self.context().contains(Context::AWAIT)
+            && !(self.context().contains(Context::FLOW)
+                && self.lookahead(|parser| {
+                    parser.advance();
+                    matches!(
+                        parser.kind(),
+                        Kind::RParen
+                            | Kind::RBracket
+                            | Kind::RBrace
+                            | Kind::Semi
+                            | Kind::Comma
+                            | Kind::Colon
+                    )
+                }))
+        {
             let start = self.token().start();
             self.advance();
             let argument = self.parse_unary_expression()?;

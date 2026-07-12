@@ -21,6 +21,8 @@ pub(crate) struct ParserCheckpoint {
     previous_end: BytePos,
     context: Context,
     diagnostics_len: usize,
+    #[cfg(feature = "flow")]
+    flow_type_parameters_len: usize,
     fatal_error: Option<Error>,
 }
 
@@ -31,6 +33,8 @@ pub(crate) struct Parser<'a, C: Config> {
     previous_end: BytePos,
     context: Context,
     diagnostics: Vec<Error>,
+    #[cfg(feature = "flow")]
+    flow_type_parameters: Vec<Atom>,
     fatal_error: Option<Error>,
 }
 
@@ -44,6 +48,8 @@ impl<'a, C: Config> Parser<'a, C> {
             previous_end: token.start(),
             context,
             diagnostics: Vec::new(),
+            #[cfg(feature = "flow")]
+            flow_type_parameters: Vec::new(),
             fatal_error: None,
         }
     }
@@ -152,6 +158,29 @@ impl<'a, C: Config> Parser<'a, C> {
         self.context
     }
 
+    #[cfg(feature = "flow")]
+    pub(crate) fn flow_type_parameters_len(&self) -> usize {
+        self.flow_type_parameters.len()
+    }
+
+    #[cfg(feature = "flow")]
+    pub(crate) fn push_flow_type_parameter(&mut self, name: Atom) {
+        self.flow_type_parameters.push(name);
+    }
+
+    #[cfg(feature = "flow")]
+    pub(crate) fn truncate_flow_type_parameters(&mut self, len: usize) {
+        self.flow_type_parameters.truncate(len);
+    }
+
+    #[cfg(feature = "flow")]
+    pub(crate) fn at_flow_type_parameter(&self) -> bool {
+        let source = self.token_source(self.token);
+        self.flow_type_parameters
+            .iter()
+            .any(|name| name.as_ref() == source)
+    }
+
     /// Whether the current token has `kind`.
     #[inline(always)]
     pub(crate) fn at(&self, kind: Kind) -> bool {
@@ -166,7 +195,9 @@ impl<'a, C: Config> Parser<'a, C> {
             || self.kind().is_known_ident()
             || self.at(Kind::Module)
             || (self.at(Kind::Let) && !self.context.intersects(Context::STRICT | Context::MODULE))
-            || (self.at(Kind::Await) && !self.context.intersects(Context::AWAIT | Context::MODULE))
+            || (self.at(Kind::Await)
+                && (self.context.contains(Context::FLOW)
+                    || !self.context.intersects(Context::AWAIT | Context::MODULE)))
             || (self.at(Kind::Yield) && !self.context.intersects(Context::YIELD | Context::STRICT))
     }
 
@@ -232,6 +263,8 @@ impl<'a, C: Config> Parser<'a, C> {
             previous_end: self.previous_end,
             context: self.context,
             diagnostics_len: self.diagnostics.len(),
+            #[cfg(feature = "flow")]
+            flow_type_parameters_len: self.flow_type_parameters.len(),
             fatal_error: self.fatal_error.take(),
         }
     }
@@ -243,6 +276,9 @@ impl<'a, C: Config> Parser<'a, C> {
         self.previous_end = checkpoint.previous_end;
         self.context = checkpoint.context;
         self.diagnostics.truncate(checkpoint.diagnostics_len);
+        #[cfg(feature = "flow")]
+        self.flow_type_parameters
+            .truncate(checkpoint.flow_type_parameters_len);
         self.fatal_error = checkpoint.fatal_error;
     }
 

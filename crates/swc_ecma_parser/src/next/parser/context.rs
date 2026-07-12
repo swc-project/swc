@@ -41,6 +41,9 @@ bitflags::bitflags! {
         const FLOW = 1 << 16;
         /// Flow function-type parameters may omit binding names.
         const FLOW_FUNCTION_TYPE = 1 << 17;
+        /// The current Flow parameter list belongs to an object type member,
+        /// where a bare unbound identifier is a parameter name.
+        const FLOW_OBJECT_SIGNATURE = 1 << 18;
     }
 }
 
