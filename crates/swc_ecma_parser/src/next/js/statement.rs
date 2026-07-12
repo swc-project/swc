@@ -3,10 +3,10 @@
 use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    BindingIdent, BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt,
-    EmptyStmt, ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, Ident, IfStmt, Pat, ReturnStmt,
-    Script, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDecl, VarDeclKind, VarDeclOrExpr,
-    VarDeclarator, WhileStmt,
+    BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
+    ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, Ident, IfStmt, Pat, ReturnStmt, Script, Stmt,
+    SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDecl, VarDeclKind, VarDeclOrExpr, VarDeclarator,
+    WhileStmt,
 };
 
 use crate::{
@@ -372,20 +372,11 @@ impl<C: Config> Parser<'_, C> {
         let catch_start = self.token().start();
         let handler = if self.eat(Kind::Catch) {
             let parameter = if self.eat(Kind::LParen) {
-                let token = self.token();
-                if !self.at_identifier_reference() {
-                    return Err(self.expected_error(Kind::Ident));
-                }
-                let identifier =
-                    Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
-                self.advance();
+                let pattern = self.parse_binding_pattern(false)?;
                 if !self.expect(Kind::RParen) {
                     return Err(self.expected_error(Kind::RParen));
                 }
-                Some(Pat::Ident(BindingIdent {
-                    id: identifier,
-                    type_ann: None,
-                }))
+                Some(pattern)
             } else {
                 None
             };
@@ -478,15 +469,7 @@ impl<C: Config> Parser<'_, C> {
         let mut declarations = Vec::with_capacity(4);
 
         loop {
-            let identifier_token = self.token();
-            if !self.at_identifier_reference() {
-                return Err(self.expected_error(Kind::Ident));
-            }
-            let identifier = Ident::new_no_ctxt(
-                Atom::new(self.token_source(identifier_token)),
-                identifier_token.span(),
-            );
-            self.advance();
+            let pattern = self.parse_binding_pattern(false)?;
             let initializer = if self.eat(Kind::Eq) {
                 Some(self.parse_assignment_expression()?)
             } else {
@@ -494,13 +477,10 @@ impl<C: Config> Parser<'_, C> {
             };
             let end = initializer
                 .as_ref()
-                .map_or(identifier.span.hi, |expression| expression.span().hi);
+                .map_or(pattern.span().hi, |expression| expression.span().hi);
             declarations.push(VarDeclarator {
-                span: Span::new_with_checked(identifier.span.lo, end),
-                name: Pat::Ident(BindingIdent {
-                    id: identifier,
-                    type_ann: None,
-                }),
+                span: Span::new_with_checked(pattern.span().lo, end),
+                name: pattern,
                 init: initializer,
                 definite: false,
             });

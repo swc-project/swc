@@ -1,10 +1,9 @@
 //! Conditional and assignment expressions.
 
-use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     ArrowExpr, AssignExpr, AssignOp, AssignTarget, BindingIdent, BlockStmtOrExpr, CondExpr, Expr,
-    Ident, Pat, SeqExpr, YieldExpr,
+    Pat, SeqExpr, YieldExpr,
 };
 
 use crate::{
@@ -122,19 +121,27 @@ impl<C: Config> Parser<'_, C> {
         }
         self.lookahead(|parser| {
             parser.advance();
-            if parser.eat(Kind::RParen) {
-                return parser.at(Kind::Arrow);
-            }
+            let mut depth = 0u32;
             loop {
-                if !parser.at_identifier_reference() {
-                    return false;
-                }
-                parser.advance();
-                if parser.eat(Kind::RParen) {
-                    return parser.at(Kind::Arrow);
-                }
-                if !parser.eat(Kind::Comma) {
-                    return false;
+                match parser.kind() {
+                    Kind::LParen | Kind::LBracket | Kind::LBrace => {
+                        depth += 1;
+                        parser.advance();
+                    }
+                    Kind::RBracket | Kind::RBrace if depth != 0 => {
+                        depth -= 1;
+                        parser.advance();
+                    }
+                    Kind::RParen if depth == 0 => {
+                        parser.advance();
+                        return !parser.token().had_line_break() && parser.at(Kind::Arrow);
+                    }
+                    Kind::RParen => {
+                        depth -= 1;
+                        parser.advance();
+                    }
+                    Kind::Eof => return false,
+                    _ => parser.advance(),
                 }
             }
         })
@@ -145,15 +152,21 @@ impl<C: Config> Parser<'_, C> {
         self.advance();
         let mut parameters = Vec::with_capacity(4);
         while !self.at(Kind::RParen) {
-            let token = self.token();
-            if !self.at_identifier_reference() {
-                return Err(self.expected_error(Kind::Ident));
-            }
-            parameters.push(Pat::Ident(BindingIdent {
-                id: Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span()),
-                type_ann: None,
-            }));
-            self.advance();
+            let pattern = if self.at(Kind::DotDotDot) {
+                let dot3_token = self.token().span();
+                self.advance();
+                let argument = self.parse_binding_pattern(false)?;
+                let span = Span::new_with_checked(dot3_token.lo, argument.span().hi);
+                Pat::Rest(swc_ecma_ast::RestPat {
+                    span,
+                    dot3_token,
+                    arg: Box::new(argument),
+                    type_ann: None,
+                })
+            } else {
+                self.parse_binding_pattern(true)?
+            };
+            parameters.push(pattern);
             if !self.eat(Kind::Comma) {
                 break;
             }

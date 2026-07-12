@@ -8,5 +8,6 @@ mod lhs;
 mod module;
 mod object;
 mod operator;
+mod pattern;
 mod statement;
 mod template;

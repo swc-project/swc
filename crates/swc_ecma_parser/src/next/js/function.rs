@@ -1,8 +1,8 @@
 //! JavaScript function declarations and expressions.
 
 use swc_atoms::Atom;
-use swc_common::{Span, SyntaxContext};
-use swc_ecma_ast::{BindingIdent, Decl, Expr, FnDecl, FnExpr, Function, Ident, Param, Pat, Stmt};
+use swc_common::{Span, Spanned, SyntaxContext};
+use swc_ecma_ast::{Decl, Expr, FnDecl, FnExpr, Function, Ident, Param, Stmt};
 
 use crate::{
     error::Error,
@@ -67,19 +67,24 @@ impl<C: Config> Parser<'_, C> {
         }
         let mut parameters = Vec::with_capacity(4);
         while !self.at(Kind::RParen) && !self.at(Kind::Eof) {
-            let token = self.token();
-            if !self.at_identifier_reference() {
-                return Err(self.expected_error(Kind::Ident));
-            }
-            let identifier = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
-            self.advance();
-            parameters.push(Param {
-                span: token.span(),
-                decorators: Vec::new(),
-                pat: Pat::Ident(BindingIdent {
-                    id: identifier,
+            let pattern = if self.at(Kind::DotDotDot) {
+                let dot3_token = self.token().span();
+                self.advance();
+                let argument = self.parse_binding_pattern(false)?;
+                let span = Span::new_with_checked(dot3_token.lo, argument.span().hi);
+                swc_ecma_ast::Pat::Rest(swc_ecma_ast::RestPat {
+                    span,
+                    dot3_token,
+                    arg: Box::new(argument),
                     type_ann: None,
-                }),
+                })
+            } else {
+                self.parse_binding_pattern(true)?
+            };
+            parameters.push(Param {
+                span: pattern.span(),
+                decorators: Vec::new(),
+                pat: pattern,
             });
             if !self.eat(Kind::Comma) {
                 break;
