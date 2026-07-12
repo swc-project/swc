@@ -91,8 +91,15 @@ impl<C: Config> Parser<'_, C> {
         if !self.at(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));
         }
+        let mut body_context = Context::RETURN;
+        if is_generator {
+            body_context.insert(Context::YIELD);
+        }
+        if is_async {
+            body_context.insert(Context::AWAIT);
+        }
         let body = self.with_context(
-            Context::RETURN,
+            body_context,
             Context::TOP_LEVEL,
             Self::parse_block_statement,
         )?;
@@ -155,5 +162,35 @@ mod tests {
             panic!("expected async function expression")
         };
         assert!(expression.function.is_async);
+    }
+
+    #[test]
+    fn enables_yield_and_await_only_inside_matching_functions() {
+        let lexer = Lexer::new(
+            "function* generate() { yield* source; } async function load() { return await task; }",
+            BytePos(1),
+            NoTokens,
+        )
+        .unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let script = parser.parse_script().unwrap();
+
+        let Stmt::Decl(Decl::Fn(generator)) = &script.body[0] else {
+            panic!("expected generator declaration")
+        };
+        let generator_body = generator.function.body.as_ref().unwrap();
+        assert!(matches!(
+            &generator_body.stmts[0],
+            Stmt::Expr(statement) if matches!(&*statement.expr, Expr::Yield(yield_expression) if yield_expression.delegate)
+        ));
+
+        let Stmt::Decl(Decl::Fn(async_function)) = &script.body[1] else {
+            panic!("expected async declaration")
+        };
+        let async_body = async_function.function.body.as_ref().unwrap();
+        assert!(matches!(
+            &async_body.stmts[0],
+            Stmt::Return(statement) if matches!(statement.arg.as_deref(), Some(Expr::Await(_)))
+        ));
     }
 }

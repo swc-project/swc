@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     CallExpr, Callee, ComputedPropName, Expr, ExprOrSpread, IdentName, MemberExpr, MemberProp,
-    TaggedTpl,
+    NewExpr, TaggedTpl,
 };
 
 use crate::{
@@ -16,8 +16,19 @@ use crate::{
 impl<C: Config> Parser<'_, C> {
     /// Parse member, computed member, and call suffixes.
     pub(crate) fn parse_left_hand_side_expression(&mut self) -> Result<Box<Expr>, Error> {
-        let mut expression = self.parse_primary_expression()?;
+        let expression = if self.at(Kind::New) {
+            self.parse_new_expression()?
+        } else {
+            self.parse_primary_expression()?
+        };
+        self.parse_suffixes(expression, true)
+    }
 
+    fn parse_suffixes(
+        &mut self,
+        mut expression: Box<Expr>,
+        allow_call: bool,
+    ) -> Result<Box<Expr>, Error> {
         loop {
             match self.kind() {
                 Kind::Dot => {
@@ -54,7 +65,7 @@ impl<C: Config> Parser<'_, C> {
                         }),
                     }));
                 }
-                Kind::LParen => {
+                Kind::LParen if allow_call => {
                     let start = expression.span().lo;
                     let arguments = self.parse_arguments()?;
                     expression = Box::new(Expr::Call(CallExpr {
@@ -82,6 +93,29 @@ impl<C: Config> Parser<'_, C> {
         }
 
         Ok(expression)
+    }
+
+    fn parse_new_expression(&mut self) -> Result<Box<Expr>, Error> {
+        let start = self.token().start();
+        self.advance();
+        let callee = if self.at(Kind::New) {
+            self.parse_new_expression()?
+        } else {
+            let primary = self.parse_primary_expression()?;
+            self.parse_suffixes(primary, false)?
+        };
+        let arguments = if self.at(Kind::LParen) {
+            Some(self.parse_arguments()?)
+        } else {
+            None
+        };
+        Ok(Box::new(Expr::New(NewExpr {
+            span: Span::new_with_checked(start, self.previous_end()),
+            ctxt: SyntaxContext::empty(),
+            callee,
+            args: arguments,
+            type_args: None,
+        })))
     }
 
     fn parse_arguments(&mut self) -> Result<Vec<ExprOrSpread>, Error> {
@@ -145,5 +179,19 @@ mod tests {
             panic!("expected dotted member")
         };
         assert!(matches!(&dotted.prop, MemberProp::Ident(name) if name.sym == "bar"));
+    }
+
+    #[test]
+    fn builds_nested_new_and_member_expressions() {
+        let lexer = Lexer::new("new new Factory(1).value", BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let expression = parser.parse_expression().unwrap();
+        let Expr::Member(member) = &*expression else {
+            panic!("expected member expression")
+        };
+        let Expr::New(outer) = &*member.obj else {
+            panic!("expected outer new expression")
+        };
+        assert!(matches!(&*outer.callee, Expr::New(_)));
     }
 }

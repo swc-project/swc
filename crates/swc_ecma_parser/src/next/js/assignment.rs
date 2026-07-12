@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     ArrowExpr, AssignExpr, AssignOp, AssignTarget, BindingIdent, BlockStmtOrExpr, CondExpr, Expr,
-    Ident, Pat,
+    Ident, Pat, YieldExpr,
 };
 
 use crate::{
@@ -23,6 +23,9 @@ impl<C: Config> Parser<'_, C> {
     }
 
     pub(crate) fn parse_assignment_expression(&mut self) -> Result<Box<Expr>, Error> {
+        if self.at(Kind::Yield) && self.context().contains(Context::YIELD) {
+            return self.parse_yield_expression();
+        }
         if self.is_parenthesized_arrow_head() {
             return self.parse_parenthesized_arrow_expression();
         }
@@ -54,6 +57,27 @@ impl<C: Config> Parser<'_, C> {
             op: operator,
             left,
             right,
+        })))
+    }
+
+    fn parse_yield_expression(&mut self) -> Result<Box<Expr>, Error> {
+        let start = self.token().start();
+        self.advance();
+        if self.token().had_line_break()
+            || matches!(self.kind(), Kind::Semi | Kind::RBrace | Kind::Eof)
+        {
+            return Ok(Box::new(Expr::Yield(YieldExpr {
+                span: Span::new_with_checked(start, self.previous_end()),
+                arg: None,
+                delegate: false,
+            })));
+        }
+        let delegate = self.eat(Kind::Asterisk);
+        let argument = self.parse_assignment_expression()?;
+        Ok(Box::new(Expr::Yield(YieldExpr {
+            span: Span::new_with_checked(start, argument.span().hi),
+            arg: Some(argument),
+            delegate,
         })))
     }
 

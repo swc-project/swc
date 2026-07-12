@@ -1,7 +1,7 @@
 //! Unary and precedence-climbing binary expressions.
 
 use swc_common::{Span, Spanned};
-use swc_ecma_ast::{BinExpr, BinaryOp, Expr, UnaryExpr, UnaryOp};
+use swc_ecma_ast::{AwaitExpr, BinExpr, BinaryOp, Expr, UnaryExpr, UnaryOp, UpdateExpr, UpdateOp};
 
 use crate::{
     error::Error,
@@ -45,8 +45,44 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn parse_unary_expression(&mut self) -> Result<Box<Expr>, Error> {
+        if matches!(self.kind(), Kind::PlusPlus | Kind::MinusMinus) {
+            let start = self.token().start();
+            let operator = update_operator(self.kind());
+            self.advance();
+            let argument = self.parse_unary_expression()?;
+            ensure_update_target(&argument)?;
+            return Ok(Box::new(Expr::Update(UpdateExpr {
+                span: Span::new_with_checked(start, argument.span().hi),
+                op: operator,
+                prefix: true,
+                arg: argument,
+            })));
+        }
+        if self.at(Kind::Await) && self.context().contains(Context::AWAIT) {
+            let start = self.token().start();
+            self.advance();
+            let argument = self.parse_unary_expression()?;
+            return Ok(Box::new(Expr::Await(AwaitExpr {
+                span: Span::new_with_checked(start, argument.span().hi),
+                arg: argument,
+            })));
+        }
         let Some(operator) = unary_operator(self.kind()) else {
-            return self.parse_left_hand_side_expression();
+            let argument = self.parse_left_hand_side_expression()?;
+            if !matches!(self.kind(), Kind::PlusPlus | Kind::MinusMinus)
+                || self.token().had_line_break()
+            {
+                return Ok(argument);
+            }
+            ensure_update_target(&argument)?;
+            let operator = update_operator(self.kind());
+            self.advance();
+            return Ok(Box::new(Expr::Update(UpdateExpr {
+                span: Span::new_with_checked(argument.span().lo, self.previous_end()),
+                op: operator,
+                prefix: false,
+                arg: argument,
+            })));
         };
         let start = self.token().start();
         self.advance();
@@ -56,6 +92,26 @@ impl<C: Config> Parser<'_, C> {
             op: operator,
             arg: argument,
         })))
+    }
+}
+
+fn update_operator(kind: Kind) -> UpdateOp {
+    if kind == Kind::PlusPlus {
+        UpdateOp::PlusPlus
+    } else {
+        debug_assert_eq!(kind, Kind::MinusMinus);
+        UpdateOp::MinusMinus
+    }
+}
+
+fn ensure_update_target(expression: &Expr) -> Result<(), Error> {
+    if matches!(expression, Expr::Ident(_) | Expr::Member(_)) {
+        Ok(())
+    } else {
+        Err(Error::new(
+            expression.span(),
+            crate::error::SyntaxError::InvalidAssignTarget,
+        ))
     }
 }
 
@@ -156,5 +212,24 @@ mod tests {
             panic!("expected minus")
         };
         assert_eq!(minus.op, UnaryOp::Minus);
+    }
+
+    #[test]
+    fn builds_prefix_postfix_and_await_nodes() {
+        let lexer = Lexer::new("++value + item--", BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let expression = parser.parse_expression().unwrap();
+        let Expr::Bin(binary) = &*expression else {
+            panic!("expected binary expression")
+        };
+        assert!(matches!(&*binary.left, Expr::Update(update) if update.prefix));
+        assert!(matches!(&*binary.right, Expr::Update(update) if !update.prefix));
+
+        let lexer = Lexer::new("await task", BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default() | Context::AWAIT);
+        assert!(matches!(
+            &*parser.parse_expression().unwrap(),
+            Expr::Await(_)
+        ));
     }
 }
