@@ -100,6 +100,14 @@ impl<'a, C: Config> Parser<'a, C> {
         self.token
     }
 
+    /// Split a shift token so a nested TypeScript type argument can consume
+    /// one closing angle at a time.
+    #[inline]
+    pub(crate) fn re_lex_ts_right_angle(&mut self) -> PackedToken {
+        self.token = self.lexer.re_lex_ts_right_angle();
+        self.token
+    }
+
     /// End of the previously consumed token.
     #[inline(always)]
     pub(crate) fn previous_end(&self) -> BytePos {

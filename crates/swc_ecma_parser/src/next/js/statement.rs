@@ -53,6 +53,10 @@ impl<C: Config> Parser<'_, C> {
             Kind::Switch => self.parse_switch_statement(),
             Kind::Throw => self.parse_throw_statement(),
             Kind::Try => self.parse_try_statement(),
+            #[cfg(feature = "typescript")]
+            Kind::Type if self.context().contains(Context::TYPESCRIPT) => {
+                self.parse_ts_type_alias_declaration()
+            }
             Kind::Var | Kind::Let | Kind::Const => self.parse_variable_statement(),
             Kind::While => self.parse_while_statement(),
             Kind::Do => self.parse_do_while_statement(),

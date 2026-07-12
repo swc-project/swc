@@ -30,6 +30,8 @@ bitflags::bitflags! {
         const BREAK = 1 << 11;
         /// An unlabeled `continue` statement is allowed.
         const CONTINUE = 1 << 12;
+        /// TypeScript grammar productions are enabled.
+        const TYPESCRIPT = 1 << 13;
     }
 }
 

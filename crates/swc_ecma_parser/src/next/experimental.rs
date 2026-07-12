@@ -75,6 +75,19 @@ impl<'a> Parser<'a> {
         parser.parse_module()
     }
 
+    /// Parse a TypeScript script using only the new engine.
+    #[cfg(feature = "typescript")]
+    pub fn parse_typescript_script(self) -> Result<Script, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut parser = ParserImpl::new(lexer, Context::default() | Context::TYPESCRIPT);
+        parser.parse_script()
+    }
+
     /// Parse a script with statically enabled packed-token collection.
     pub fn parse_script_with_tokens(self) -> Result<ParserDetails, Error> {
         let lexer = Lexer::new(
@@ -118,6 +131,8 @@ mod tests {
     use swc_ecma_ast::{Decl, Stmt};
 
     use super::Parser;
+    #[cfg(feature = "typescript")]
+    use crate::TsSyntax;
     use crate::{lexer::Lexer, EsSyntax, LegacyParser, StringInput, Syntax};
 
     fn assert_script_parity(source: &str) {
@@ -138,6 +153,25 @@ mod tests {
         assert!(
             next.eq_ignore_span(&legacy),
             "independent AST differs from reference AST for {source}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    fn assert_typescript_script_parity(source: &str) {
+        let next = Parser::new(source).parse_typescript_script().unwrap();
+        let start = BytePos(1);
+        let end = start + BytePos(source.len() as u32);
+        let lexer = Lexer::new(
+            Syntax::Typescript(TsSyntax::default()),
+            Default::default(),
+            StringInput::new(source, start, end),
+            None,
+        );
+        let mut legacy = LegacyParser::new_from(lexer);
+        let legacy = legacy.parse_script().unwrap();
+        assert!(
+            next.eq_ignore_span(&legacy),
+            "independent TypeScript AST differs from reference AST for {source}"
         );
     }
 
@@ -190,6 +224,15 @@ mod tests {
     fn supported_jsx_ast_matches_reference_engine() {
         assert_script_parity(
             "const view = <App enabled value={answer}><Child /> text {item}</App>;",
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "typescript")]
+    fn supported_typescript_ast_matches_reference_engine() {
+        assert_typescript_script_parity(
+            "type Primitive = string | number; type Values = Primitive[] | null; type Nested = \
+             Promise<Result<string | 1>>; type Flag = true | false; type Both = Left & Right;",
         );
     }
 

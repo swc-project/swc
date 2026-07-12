@@ -15,5 +15,7 @@ pub(crate) mod js;
 pub(crate) mod lexer;
 #[allow(dead_code)]
 pub(crate) mod parser;
+#[cfg(feature = "typescript")]
+pub(crate) mod typescript;
 
 pub use api::*;

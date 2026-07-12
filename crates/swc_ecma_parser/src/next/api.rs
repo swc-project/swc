@@ -18,12 +18,14 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Module, Program, Script};
 
+#[cfg(feature = "typescript")]
+use crate::TsSyntax;
 use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::{capturing::Capturing, Lexer, TokenAndSpan},
     parser::{PResult, Parser as LegacyParser},
-    EsSyntax, Syntax, TsSyntax,
+    EsSyntax, Syntax,
 };
 
 /// Source language accepted by the parser.
