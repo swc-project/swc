@@ -2,6 +2,7 @@
 
 use std::hash::Hash;
 
+#[cfg(feature = "concurrent")]
 use rustc_hash::FxBuildHasher;
 #[cfg(not(feature = "concurrent"))]
 use rustc_hash::FxHashMap;

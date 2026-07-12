@@ -1,13 +1,8 @@
 use std::path::PathBuf;
 
-use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
-};
+use swc_common::{errors::Handler, sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{
-    lexer::Lexer, unstable::Capturing, EsSyntax, LegacyParser as Parser, StringInput, Syntax,
-    TsSyntax,
-};
+use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_ts_fast_strip::{operate, Mode, Options, TransformConfig};
 use testing::NormalizedOutput;
 
@@ -174,36 +169,12 @@ fn reparse(cm: &Lrc<SourceMap>, handler: &Handler, filename: &PathBuf, input: St
     });
     let target = EsVersion::latest();
 
-    let comments = SingleThreadedComments::default();
-
-    let lexer = Capturing::new(Lexer::new(
-        syntax,
-        target,
-        StringInput::from(&*fm),
-        Some(&comments),
-    ));
-
-    let mut parser = Parser::new_from(lexer);
-
-    let program = parser.parse_program();
-    let errors = parser.take_errors();
-
-    match program {
-        Ok(program) => program,
-        Err(err) => {
-            err.into_diagnostic(handler).emit();
-
-            for e in errors {
-                e.into_diagnostic(handler).emit();
-            }
-
-            return;
-        }
-    };
-
-    if !errors.is_empty() {
-        for e in errors {
-            e.into_diagnostic(handler).emit();
-        }
+    let (source_type, options) = SourceType::from_legacy(syntax, ModuleKind::Unambiguous, target);
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
     }
 }

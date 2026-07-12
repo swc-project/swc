@@ -4,19 +4,16 @@ use swc_common::{sync::Lrc, FileName, FilePathMapping, SourceMap};
 use swc_compiler_base::{print, IdentCollector, PrintArgs, SourceMapsConfig};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::Config as CodegenConfig;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_visit::VisitWith;
 
 fn parse_program(cm: Lrc<SourceMap>, src: &str) -> Program {
     let fm = cm.new_source_file(FileName::Real("input.js".into()).into(), src.to_owned());
-    let lexer = Lexer::new(
-        Syntax::Es(EsSyntax::default()),
-        EsVersion::Es2022,
-        (&*fm).into(),
-        None,
-    );
-    let mut parser = Parser::new_from(lexer);
-    Program::Module(parser.parse_module().expect("module should parse"))
+    let result = Parser::new(&fm.src, SourceType::module())
+        .with_start_pos(fm.start_pos)
+        .parse();
+    assert!(result.diagnostics.is_empty(), "module should parse");
+    result.program
 }
 
 fn print_map(

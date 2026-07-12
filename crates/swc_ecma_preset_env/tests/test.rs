@@ -14,16 +14,32 @@ use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use serde_json::Value;
 use swc_common::{
-    comments::SingleThreadedComments, errors::HANDLER, input::StringInput, FromVariant, Mark,
+    comments::SingleThreadedComments, errors::HANDLER, FromVariant, Mark, SourceFile,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{LegacyParser as Parser, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_preset_env::{transform_from_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_transforms::{fixer, helpers};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{visit_mut_pass, VisitMut};
 use testing::{NormalizedOutput, Tester};
+
+fn parse_module(fm: &SourceFile, handler: &swc_common::errors::Handler) -> Result<Module, ()> {
+    let result = Parser::new(&fm.src, SourceType::module())
+        .with_start_pos(fm.start_pos)
+        .parse();
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
+    }
+    if handler.has_errors() {
+        return Err(());
+    }
+    let Program::Module(module) = result.program else {
+        unreachable!("module source type must produce a module")
+    };
+    Ok(module)
+}
 
 /// options.json file
 #[derive(Debug, Deserialize)]
@@ -178,19 +194,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             let fm = cm
                 .load_file(&dir.join("input.mjs"))
                 .expect("failed to load file");
-            let mut p = Parser::new(
-                Syntax::Es(Default::default()),
-                StringInput::from(&*fm),
-                None,
-            );
-
-            let module = p
-                .parse_module()
-                .map_err(|e| e.into_diagnostic(&handler).emit())?;
-
-            for e in p.take_errors() {
-                e.into_diagnostic(&handler).emit()
-            }
+            let module = parse_module(&fm, &handler)?;
 
             let actual = helpers::HELPERS.set(&Default::default(), || {
                 HANDLER.set(&handler, || Program::Module(module).apply(pass))
@@ -221,19 +225,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     .load_file(&dir.join("output.mjs"))
                     .expect("failed to load output file");
 
-                let mut p = Parser::new(
-                    Syntax::Es(Default::default()),
-                    StringInput::from(&*fm),
-                    None,
-                );
-
-                let mut m = p
-                    .parse_module()
-                    .map_err(|e| e.into_diagnostic(&handler).emit())?;
-
-                for e in p.take_errors() {
-                    e.into_diagnostic(&handler).emit()
-                }
+                let mut m = parse_module(&fm, &handler)?;
 
                 m.body.sort_by(|a, b| match *a {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {

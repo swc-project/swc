@@ -30,7 +30,7 @@ use swc_ecma_loader::{
 use swc_ecma_minifier::option::{
     CompressOptions, ExtraOptions, MangleOptions, MinifyOptions, TopLevelOptions,
 };
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
 
@@ -227,19 +227,26 @@ impl Load for Loader {
             _ => unreachable!(),
         };
 
-        let module = parse_file_as_module(
-            &fm,
+        let (source_type, options) = SourceType::from_legacy(
             Syntax::Es(Default::default()),
+            ModuleKind::Module,
             EsVersion::Es2020,
-            None,
-            &mut Vec::new(),
-        )
-        .unwrap_or_else(|err| {
+        );
+        let result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .parse();
+        if !result.diagnostics.is_empty() {
             let handler =
                 Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(self.cm.clone()));
-            err.into_diagnostic(&handler).emit();
+            for error in result.diagnostics {
+                error.into_diagnostic(&handler).emit();
+            }
             panic!("failed to parse")
-        });
+        }
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
 
         Ok(ModuleData {
             fm,

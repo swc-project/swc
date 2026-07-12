@@ -4,7 +4,7 @@
 use swc_common::Mark;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code;
-use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_typescript::fast_dts::FastDts;
 
@@ -18,17 +18,19 @@ fn transform_dts_test(source: &str, expected: &str) {
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        let mut program = parse_file_as_program(
-            &fm,
-            Syntax::Typescript(TsSyntax {
-                ..Default::default()
-            }),
-            EsVersion::latest(),
-            None,
-            &mut Vec::new(),
-        )
-        .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, true)))
-        .unwrap();
+        let syntax = Syntax::Typescript(TsSyntax {
+            ..Default::default()
+        });
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+        let result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .parse();
+        assert!(result.diagnostics.is_empty());
+        let mut program = result
+            .program
+            .apply(resolver(unresolved_mark, top_level_mark, true));
 
         let mut checker = FastDts::new(fm.name.clone(), unresolved_mark, Default::default());
 

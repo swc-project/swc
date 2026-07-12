@@ -7,7 +7,7 @@ use rustc_hash::FxBuildHasher;
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolution;
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 
@@ -32,15 +32,13 @@ impl Load for Loader {
 
         let fm = self.cm.new_source_file(f.clone().into(), v.to_string());
 
-        let lexer = Lexer::new(
-            Default::default(),
-            EsVersion::Es2020,
-            StringInput::from(&*fm),
-            None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().unwrap();
+        let result = Parser::new(&fm.src, SourceType::module())
+            .with_start_pos(fm.start_pos)
+            .parse();
+        assert!(result.diagnostics.is_empty());
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
 
         Ok(ModuleData {
             fm,
@@ -85,14 +83,14 @@ impl Tester<'_> {
             s.to_string(),
         );
 
-        let lexer = Lexer::new(
-            Default::default(),
-            Default::default(),
-            StringInput::from(&*fm),
-            None,
-        );
-        let mut parser = Parser::new_from(lexer);
-        parser.parse_module().unwrap()
+        let result = Parser::new(&fm.src, SourceType::module())
+            .with_start_pos(fm.start_pos)
+            .parse();
+        assert!(result.diagnostics.is_empty());
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
+        module
     }
 
     #[allow(dead_code)]

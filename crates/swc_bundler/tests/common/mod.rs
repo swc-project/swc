@@ -18,7 +18,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_loader::resolve::Resolution;
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{
     helpers::{inject_helpers, Helpers, HELPERS},
     resolver,
@@ -114,23 +114,28 @@ impl Load for Loader {
             _ => unreachable!(),
         };
 
-        let module = parse_file_as_module(
-            &fm,
-            Syntax::Typescript(TsSyntax {
-                decorators: true,
-                tsx,
-                ..Default::default()
-            }),
-            EsVersion::Es2020,
-            None,
-            &mut Vec::new(),
-        )
-        .unwrap_or_else(|err| {
+        let syntax = Syntax::Typescript(TsSyntax {
+            decorators: true,
+            tsx,
+            ..Default::default()
+        });
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Module, EsVersion::Es2020);
+        let result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .parse();
+        if !result.diagnostics.is_empty() {
             let handler =
                 Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(self.cm.clone()));
-            err.into_diagnostic(&handler).emit();
+            for error in result.diagnostics {
+                error.into_diagnostic(&handler).emit();
+            }
             panic!("failed to parse")
-        });
+        }
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
 
         let module = HELPERS.set(&Helpers::new(false), || {
             Program::Module(module)

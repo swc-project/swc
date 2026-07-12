@@ -3,10 +3,10 @@ use std::{collections::HashMap, io::stdout};
 use anyhow::Error;
 use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
-use swc_ecma_ast::KeyValueProp;
+use swc_ecma_ast::{KeyValueProp, Program};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_loader::resolve::Resolution;
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 
 fn main() {
     let _log = testing::init();
@@ -69,14 +69,13 @@ impl Load for PathLoader {
 
         let fm = self.cm.load_file(file)?;
 
-        let module = parse_file_as_module(
-            &fm,
-            Syntax::Es(Default::default()),
-            Default::default(),
-            None,
-            &mut Vec::new(),
-        )
-        .expect("This should not happen");
+        let result = Parser::new(&fm.src, SourceType::module())
+            .with_start_pos(fm.start_pos)
+            .parse();
+        assert!(result.diagnostics.is_empty(), "This should not happen");
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
 
         Ok(ModuleData {
             fm,

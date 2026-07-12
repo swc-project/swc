@@ -1,7 +1,7 @@
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{comments::SingleThreadedComments, FileName, Mark};
 use swc_ecma_ast::Program;
-use swc_ecma_parser::{LegacyParser as Parser, StringInput, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_preset_env::{transform_from_env, Config};
 use swc_ecma_transforms::helpers::{Helpers, HELPERS};
 
@@ -10,15 +10,15 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
         HELPERS.set(&Helpers::new(true), || {
             let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
 
-            let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
-            let module = parser
-                .parse_module()
-                .map_err(|e| e.into_diagnostic(handler).emit())
-                .unwrap();
-
-            for e in parser.take_errors() {
-                e.into_diagnostic(handler).emit()
+            let result = Parser::new(&fm.src, SourceType::module())
+                .with_start_pos(fm.start_pos)
+                .parse();
+            for error in result.diagnostics {
+                error.into_diagnostic(handler).emit();
             }
+            let Program::Module(module) = result.program else {
+                unreachable!("module source type must produce a module")
+            };
 
             let mut folder = transform_from_env(
                 Mark::fresh(Mark::root()),
