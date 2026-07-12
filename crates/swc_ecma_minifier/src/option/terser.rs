@@ -6,15 +6,36 @@ use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_atoms::Atom;
-use swc_common::{sync::Lrc, FileName, SourceMap, DUMMY_SP};
+use swc_common::{sync::Lrc, BytePos, FileName, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::parse_file_as_expr;
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_utils::drop_span;
 
 use super::{
     default_passes, true_by_default, CompressExperimentalOptions, CompressOptions, TopLevelOptions,
 };
 use crate::option::PureGetterOption;
+
+fn parse_config_expression(cm: &SourceMap, input: String) -> Result<Box<Expr>, String> {
+    let fm = cm.new_source_file(FileName::Anon.into(), input);
+    let wrapped = format!("({})", fm.src);
+    let result = Parser::new(&wrapped, SourceType::script())
+        .with_start_pos(BytePos(fm.start_pos.0.saturating_sub(1)))
+        .parse();
+    if let Some(error) = result.diagnostics.first() {
+        return Err(format!("{error:?}"));
+    }
+    let Program::Script(mut script) = result.program else {
+        unreachable!("script source type must produce a script")
+    };
+    let Some(Stmt::Expr(statement)) = script.body.pop() else {
+        return Err("input is not an expression".into());
+    };
+    let Expr::Paren(parenthesized) = *statement.expr else {
+        unreachable!("wrapped configuration expression must remain parenthesized")
+    };
+    Ok(drop_span(parenthesized.expr))
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -289,16 +310,7 @@ impl TerserCompressorOptions {
                 .into_iter()
                 .map(|(k, v)| {
                     let parse = |input: String| {
-                        let fm = cm.new_source_file(FileName::Anon.into(), input);
-
-                        parse_file_as_expr(
-                            &fm,
-                            Default::default(),
-                            Default::default(),
-                            None,
-                            &mut Vec::new(),
-                        )
-                        .map(drop_span)
+                        parse_config_expression(&cm, input)
                         .unwrap_or_else(|err| {
                             panic!("failed to parse `global_defs.{k}` of minifier options: {err:?}")
                         })
@@ -402,16 +414,7 @@ impl TerserCompressorOptions {
                 .pure_funcs
                 .into_iter()
                 .map(|input| {
-                    let fm = cm.new_source_file(FileName::Anon.into(), input);
-
-                    parse_file_as_expr(
-                        &fm,
-                        Default::default(),
-                        Default::default(),
-                        None,
-                        &mut Vec::new(),
-                    )
-                    .map(drop_span)
+                    parse_config_expression(&cm, input)
                     .unwrap_or_else(|err| {
                         panic!("failed to parse `pure_funcs` of minifier options: {err:?}")
                     })

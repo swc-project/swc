@@ -24,10 +24,10 @@ use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
-    FileName, Mark, SourceMap,
+    BytePos, FileName, Mark, SourceMap,
 };
 #[cfg(feature = "react-compiler")]
-use swc_common::{BytePos, Span, Spanned};
+use swc_common::{Span, Spanned};
 pub use swc_compiler_base::SourceMapsConfig;
 pub use swc_config::is_module::IsModule;
 use swc_config::{
@@ -48,7 +48,7 @@ use swc_ecma_loader::resolvers::{
 };
 pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
-use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
+use swc_ecma_parser::{Parser, SourceType, Syntax, TsSyntax};
 use swc_ecma_preset_env::{Caniuse, Feature};
 pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
@@ -2178,24 +2178,23 @@ impl GlobalPassOption {
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
             let fm = cm.new_source_file(FileName::Anon.into(), src);
-
-            let mut errors = Vec::new();
-            let expr = parse_file_as_expr(
-                &fm,
-                Syntax::Es(Default::default()),
-                Default::default(),
-                None,
-                &mut errors,
-            );
-
-            for e in errors {
-                e.into_diagnostic(handler).emit()
+            let wrapped = format!("({})", fm.src);
+            let result = Parser::new(&wrapped, SourceType::script())
+                .with_start_pos(BytePos(fm.start_pos.0.saturating_sub(1)))
+                .parse();
+            for error in result.diagnostics {
+                error.into_diagnostic(handler).emit();
             }
-
-            match expr {
-                Ok(v) => v,
-                _ => panic!("{} is not a valid expression", fm.src),
-            }
+            let Program::Script(mut script) = result.program else {
+                unreachable!("script source type must produce a script")
+            };
+            let Some(swc_ecma_ast::Stmt::Expr(statement)) = script.body.pop() else {
+                panic!("{} is not a valid expression", fm.src);
+            };
+            let Expr::Paren(parenthesized) = *statement.expr else {
+                unreachable!("wrapped global expression must remain parenthesized")
+            };
+            parenthesized.expr
         }
 
         fn mk_map(
