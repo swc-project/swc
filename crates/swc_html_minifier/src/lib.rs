@@ -1845,6 +1845,10 @@ impl<C: MinifyCss> Minifier<'_, C> {
     fn merge_js(&self, left: String, right: String, is_modules: bool) -> Option<String> {
         let comments = SingleThreadedComments::default();
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+        let preserve_comments = match &self.options.minify_js {
+            MinifyJsOption::Bool(_) => false,
+            MinifyJsOption::Options(options) => options.parser.comments,
+        };
 
         // Left
         let left_fm = cm.new_source_file(FileName::Anon.into(), left);
@@ -1852,8 +1856,13 @@ impl<C: MinifyCss> Minifier<'_, C> {
         // Use the latest target for merging
         let target = swc_ecma_ast::EsVersion::latest();
 
-        let mut left_program =
-            parse_js_program(&left_fm, syntax, target, is_modules, Some(&comments))?;
+        let mut left_program = parse_js_program(
+            &left_fm,
+            syntax,
+            target,
+            is_modules,
+            preserve_comments.then_some(&comments),
+        )?;
 
         let unresolved_mark = Mark::new();
         let left_top_level_mark = Mark::new();
@@ -1865,8 +1874,13 @@ impl<C: MinifyCss> Minifier<'_, C> {
 
         // Right
         let right_fm = cm.new_source_file(FileName::Anon.into(), right);
-        let mut right_program =
-            parse_js_program(&right_fm, syntax, target, is_modules, Some(&comments))?;
+        let mut right_program = parse_js_program(
+            &right_fm,
+            syntax,
+            target,
+            is_modules,
+            preserve_comments.then_some(&comments),
+        )?;
 
         let right_top_level_mark = Mark::new();
 
@@ -1920,7 +1934,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
             let mut emitter = swc_ecma_codegen::Emitter {
                 cfg: swc_ecma_codegen::Config::default().with_target(target),
                 cm,
-                comments: Some(&comments),
+                comments: preserve_comments.then_some(&comments as _),
                 wr,
             };
 
