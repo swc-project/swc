@@ -346,7 +346,7 @@ pub struct TokenKind(crate::lexer::Token);
 
 impl fmt::Debug for TokenKind {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Display::fmt(&self.0, f)
+        fmt::Debug::fmt(&self.0, f)
     }
 }
 

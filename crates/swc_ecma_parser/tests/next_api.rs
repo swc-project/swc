@@ -75,6 +75,16 @@ fn token_and_comment_collection_is_opt_in_and_ordered() {
 }
 
 #[test]
+fn collected_tokens_preserve_legacy_debug_names() {
+    let result = NextParser::new("`value ${item}`; 1n;", SourceType::script())
+        .with_tokens()
+        .parse();
+    let tokens = format!("{:?}", result.tokens);
+    assert!(tokens.contains('`'));
+    assert!(tokens.contains("<bigint literal>"));
+}
+
+#[test]
 fn flat_comments_attach_deterministically() {
     let source = "const a = 1; // trailing\n// leading\nconst b = 2;";
     let start_pos = BytePos(17);
