@@ -180,6 +180,10 @@ mod tests {
             "const first = source?.value.deep?.[key]?.(argument).tail; const second = \
              callback?.(); const third = source?.method();",
         );
+        assert_script_parity(
+            "const load = async source => await source.read(); const combine = async (left, right \
+             = 1) => { return await left + right; };",
+        );
     }
 
     #[test]

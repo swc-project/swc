@@ -1,9 +1,10 @@
 //! Conditional and assignment expressions.
 
+use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     ArrowExpr, AssignExpr, AssignOp, AssignTarget, BindingIdent, BlockStmtOrExpr, CondExpr, Expr,
-    Pat, SeqExpr, YieldExpr,
+    Ident, Pat, SeqExpr, YieldExpr,
 };
 
 use crate::{
@@ -41,8 +42,11 @@ impl<C: Config> Parser<'_, C> {
         if self.at(Kind::Yield) && self.context().contains(Context::YIELD) {
             return self.parse_yield_expression();
         }
+        if self.is_async_arrow_head() {
+            return self.parse_async_arrow_expression();
+        }
         if self.is_parenthesized_arrow_head() {
-            return self.parse_parenthesized_arrow_expression();
+            return self.parse_parenthesized_arrow_expression(false);
         }
         let left = self.parse_conditional_expression()?;
         if self.at(Kind::Arrow) {
@@ -56,6 +60,7 @@ impl<C: Config> Parser<'_, C> {
                     id: identifier,
                     type_ann: None,
                 })],
+                false,
             );
         }
         let Some(operator) = assignment_operator(self.kind()) else {
@@ -115,6 +120,23 @@ impl<C: Config> Parser<'_, C> {
         })))
     }
 
+    fn is_async_arrow_head(&mut self) -> bool {
+        if !self.at(Kind::Async) || self.token().escaped() {
+            return false;
+        }
+        self.lookahead(|parser| {
+            parser.advance();
+            if parser.token().had_line_break() {
+                return false;
+            }
+            if parser.at_identifier_reference() {
+                parser.advance();
+                return !parser.token().had_line_break() && parser.at(Kind::Arrow);
+            }
+            parser.is_parenthesized_arrow_head()
+        })
+    }
+
     fn is_parenthesized_arrow_head(&mut self) -> bool {
         if !self.at(Kind::LParen) {
             return false;
@@ -147,8 +169,39 @@ impl<C: Config> Parser<'_, C> {
         })
     }
 
-    fn parse_parenthesized_arrow_expression(&mut self) -> Result<Box<Expr>, Error> {
+    fn parse_async_arrow_expression(&mut self) -> Result<Box<Expr>, Error> {
         let start = self.token().start();
+        debug_assert!(self.at(Kind::Async));
+        self.advance();
+        if self.at(Kind::LParen) {
+            return self.parse_parenthesized_arrow_expression_from(start, true);
+        }
+        let token = self.token();
+        if !self.at_identifier_reference() {
+            return Err(self.expected_error(Kind::Ident));
+        }
+        let identifier = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        self.advance();
+        self.parse_arrow_expression(
+            start,
+            vec![Pat::Ident(BindingIdent {
+                id: identifier,
+                type_ann: None,
+            })],
+            true,
+        )
+    }
+
+    fn parse_parenthesized_arrow_expression(&mut self, is_async: bool) -> Result<Box<Expr>, Error> {
+        let start = self.token().start();
+        self.parse_parenthesized_arrow_expression_from(start, is_async)
+    }
+
+    fn parse_parenthesized_arrow_expression_from(
+        &mut self,
+        start: swc_common::BytePos,
+        is_async: bool,
+    ) -> Result<Box<Expr>, Error> {
         self.advance();
         let mut parameters = Vec::with_capacity(4);
         while !self.at(Kind::RParen) {
@@ -174,25 +227,38 @@ impl<C: Config> Parser<'_, C> {
         if !self.expect(Kind::RParen) {
             return Err(self.expected_error(Kind::RParen));
         }
-        self.parse_arrow_expression(start, parameters)
+        self.parse_arrow_expression(start, parameters, is_async)
     }
 
     fn parse_arrow_expression(
         &mut self,
         start: swc_common::BytePos,
         parameters: Vec<Pat>,
+        is_async: bool,
     ) -> Result<Box<Expr>, Error> {
         if !self.expect(Kind::Arrow) {
             return Err(self.expected_error(Kind::Arrow));
         }
         let body = if self.at(Kind::LBrace) {
+            let mut context = Context::RETURN;
+            if is_async {
+                context.insert(Context::AWAIT);
+            }
             BlockStmtOrExpr::BlockStmt(self.with_context(
-                Context::RETURN,
+                context,
                 Context::TOP_LEVEL,
                 Self::parse_block_statement,
             )?)
         } else {
-            BlockStmtOrExpr::Expr(self.parse_assignment_expression()?)
+            BlockStmtOrExpr::Expr(if is_async {
+                self.with_context(
+                    Context::AWAIT,
+                    Context::empty(),
+                    Self::parse_assignment_expression,
+                )?
+            } else {
+                self.parse_assignment_expression()?
+            })
         };
         let end = body.span().hi;
         Ok(Box::new(Expr::Arrow(ArrowExpr {
@@ -200,7 +266,7 @@ impl<C: Config> Parser<'_, C> {
             ctxt: SyntaxContext::empty(),
             params: parameters,
             body: Box::new(body),
-            is_async: false,
+            is_async,
             is_generator: false,
             type_params: None,
             return_type: None,
@@ -301,5 +367,22 @@ mod tests {
             &*block.body,
             swc_ecma_ast::BlockStmtOrExpr::BlockStmt(_)
         ));
+
+        let asynchronous = parse("async (value) => await value");
+        let Expr::Arrow(asynchronous) = &*asynchronous else {
+            panic!("expected async arrow")
+        };
+        assert!(asynchronous.is_async);
+        assert!(matches!(
+            &*asynchronous.body,
+            swc_ecma_ast::BlockStmtOrExpr::Expr(expression)
+                if matches!(&**expression, Expr::Await(_))
+        ));
+
+        let single_async = parse("async value => { return await value; }");
+        let Expr::Arrow(single_async) = &*single_async else {
+            panic!("expected single-parameter async arrow")
+        };
+        assert!(single_async.is_async);
     }
 }
