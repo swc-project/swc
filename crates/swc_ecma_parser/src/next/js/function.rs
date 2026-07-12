@@ -24,7 +24,7 @@ impl<C: Config> Parser<'_, C> {
     }
 
     pub(crate) fn parse_function_declaration(&mut self) -> Result<Stmt, Error> {
-        let (identifier, function) = self.parse_function(true)?;
+        let (identifier, function) = self.parse_function(true, true)?;
         Ok(Stmt::Decl(Decl::Fn(FnDecl {
             ident: identifier.expect("function declaration must have a name"),
             declare: false,
@@ -33,16 +33,25 @@ impl<C: Config> Parser<'_, C> {
     }
 
     pub(crate) fn parse_function_expression(&mut self) -> Result<Box<Expr>, Error> {
-        let (identifier, function) = self.parse_function(false)?;
+        let (identifier, function) = self.parse_function(false, false)?;
         Ok(Box::new(Expr::Fn(FnExpr {
             ident: identifier,
             function,
         })))
     }
 
+    pub(crate) fn parse_default_function_declaration(&mut self) -> Result<FnExpr, Error> {
+        let (identifier, function) = self.parse_function(true, false)?;
+        Ok(FnExpr {
+            ident: identifier,
+            function,
+        })
+    }
+
     fn parse_function(
         &mut self,
         declaration: bool,
+        name_required: bool,
     ) -> Result<(Option<Ident>, Box<Function>), Error> {
         let start = self.token().start();
         let is_async = self.eat(Kind::Async);
@@ -58,7 +67,7 @@ impl<C: Config> Parser<'_, C> {
             let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
             self.advance();
             Some(identifier)
-        } else if declaration {
+        } else if name_required {
             return Err(self.expected_error(Kind::Ident));
         } else {
             None
@@ -73,7 +82,7 @@ impl<C: Config> Parser<'_, C> {
         #[cfg(not(feature = "typescript"))]
         let type_params = None;
 
-        let mut parameter_context = Context::empty();
+        let mut parameter_context = Context::NEW_TARGET;
         if is_generator {
             parameter_context.insert(Context::YIELD);
         }
@@ -118,7 +127,7 @@ impl<C: Config> Parser<'_, C> {
         let return_type = None;
         #[cfg(feature = "flow")]
         self.skip_flow_predicate()?;
-        let mut body_context = Context::RETURN;
+        let mut body_context = Context::RETURN | Context::NEW_TARGET;
         if is_generator {
             body_context.insert(Context::YIELD);
         }
@@ -131,12 +140,26 @@ impl<C: Config> Parser<'_, C> {
                 Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
                 Self::parse_block_statement,
             )?)
-        } else if self.context().contains(Context::TYPESCRIPT) {
+        } else if declaration && self.context().contains(Context::TYPESCRIPT) {
             self.consume_semicolon()?;
             None
         } else {
             return Err(self.expected_error(Kind::LBrace));
         };
+        if parameters
+            .iter()
+            .any(|parameter| !matches!(parameter.pat, swc_ecma_ast::Pat::Ident(_)))
+            && body.as_ref().is_some_and(|body| {
+                body.stmts.first().is_some_and(|statement| {
+                    matches!(statement, Stmt::Expr(expression) if matches!(&*expression.expr, Expr::Lit(swc_ecma_ast::Lit::Str(value)) if &*value.value == "use strict"))
+                })
+            })
+        {
+            self.emit_error(Error::new(
+                body.as_ref().unwrap().span,
+                crate::error::SyntaxError::IllegalLanguageModeDirective,
+            ));
+        }
         let end = body
             .as_ref()
             .map_or(self.previous_end(), |body| body.span.hi);

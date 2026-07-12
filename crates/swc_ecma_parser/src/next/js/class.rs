@@ -4,7 +4,7 @@ use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     Accessibility, AutoAccessor, BindingIdent, Class, ClassDecl, ClassExpr, ClassMember,
     ClassMethod, ClassProp, Constructor, Decl, Decorator, Expr, Function, Ident,
-    Key as ClassMemberKey, MethodKind, Param, ParamOrTsParamProp, PrivateMethod, PrivateName,
+    Key as ClassMemberKey, MethodKind, Param, ParamOrTsParamProp, Pat, PrivateMethod, PrivateName,
     PrivateProp, PropName, RestPat, StaticBlock, Stmt, Str, TsFnParam, TsIndexSignature,
     TsParamProp, TsParamPropParam,
 };
@@ -123,7 +123,14 @@ impl<C: Config> Parser<'_, C> {
                 continue;
             }
             body.push(self.with_context(
-                Context::STRICT,
+                Context::STRICT
+                    | Context::NEW_TARGET
+                    | Context::CLASS_MEMBER
+                    | if super_class.is_some() {
+                        Context::CLASS_HAS_SUPER
+                    } else {
+                        Context::empty()
+                    },
                 Context::TOP_LEVEL,
                 Self::parse_class_member,
             )?);
@@ -176,13 +183,17 @@ impl<C: Config> Parser<'_, C> {
         {
             self.advance();
         }
+        let mut flow_variance = false;
         if self.context().contains(Context::FLOW) {
             if self.eat(Kind::Plus) {
                 readonly = true;
+                flow_variance = true;
             } else {
-                self.eat(Kind::Minus);
+                flow_variance = self.eat(Kind::Minus);
             }
         }
+        let mut seen_modifiers = 0_u16;
+        let mut previous_modifier_rank = 0_u8;
         if self.context().contains(Context::TYPESCRIPT) {
             loop {
                 let modifier = self.kind();
@@ -215,6 +226,50 @@ impl<C: Config> Parser<'_, C> {
                 }) {
                     break;
                 }
+                let modifier_bit = 1_u16
+                    << match modifier {
+                        Kind::Static => 0,
+                        Kind::Public => 1,
+                        Kind::Protected => 2,
+                        Kind::Private => 3,
+                        Kind::Abstract => 4,
+                        Kind::Readonly => 5,
+                        Kind::Declare => 6,
+                        Kind::Override => 7,
+                        Kind::Accessor => 8,
+                        Kind::In => 9,
+                        Kind::Out => 10,
+                        _ => unreachable!(),
+                    };
+                if seen_modifiers & modifier_bit != 0 {
+                    self.emit_error(Error::new(
+                        self.token().span(),
+                        crate::error::SyntaxError::Expected(
+                            "non-duplicated class modifier".into(),
+                            modifier.to_string(),
+                        ),
+                    ));
+                }
+                let modifier_rank = match modifier {
+                    Kind::Public | Kind::Protected | Kind::Private => 1,
+                    Kind::Static => 2,
+                    Kind::Abstract | Kind::Declare => 3,
+                    Kind::Override => 4,
+                    Kind::Readonly | Kind::Accessor => 5,
+                    Kind::In | Kind::Out => previous_modifier_rank,
+                    _ => unreachable!(),
+                };
+                if modifier_rank < previous_modifier_rank {
+                    self.emit_error(Error::new(
+                        self.token().span(),
+                        crate::error::SyntaxError::Expected(
+                            "class modifiers in canonical order".into(),
+                            modifier.to_string(),
+                        ),
+                    ));
+                }
+                previous_modifier_rank = modifier_rank;
+                seen_modifiers |= modifier_bit;
                 self.advance();
                 match modifier {
                     Kind::Static => is_static = true,
@@ -245,8 +300,9 @@ impl<C: Config> Parser<'_, C> {
         if self.context().contains(Context::FLOW) {
             if self.eat(Kind::Plus) {
                 readonly = true;
+                flow_variance = true;
             } else {
-                self.eat(Kind::Minus);
+                flow_variance |= self.eat(Kind::Minus);
             }
         }
         if is_static && self.at(Kind::LBrace) {
@@ -347,6 +403,30 @@ impl<C: Config> Parser<'_, C> {
         };
         let key = self.parse_class_key()?;
         let key_span = key.span();
+        if declare && matches!(&key, ClassKey::Private(_)) {
+            self.emit_error(Error::new(
+                key_span,
+                crate::error::SyntaxError::Expected(
+                    "public name for a declare member".into(),
+                    "private name".into(),
+                ),
+            ));
+        }
+        if accessibility.is_some() && matches!(&key, ClassKey::Private(_)) {
+            self.emit_error(Error::new(
+                key_span,
+                crate::error::SyntaxError::Expected(
+                    "private name without an accessibility modifier".into(),
+                    "accessibility modifier on private name".into(),
+                ),
+            ));
+        }
+        if matches!(&key, ClassKey::Private(name) if name.name == "constructor") {
+            self.emit_error(Error::new(
+                key_span,
+                crate::error::SyntaxError::DuplicateConstructor,
+            ));
+        }
         let is_constructor = !is_static
             && !is_async
             && !is_generator
@@ -358,12 +438,35 @@ impl<C: Config> Parser<'_, C> {
             &key,
             ClassKey::Public(PropName::Str(name)) if name.value == "constructor"
             ));
+        if method_kind != MethodKind::Method
+            && matches!(&key, ClassKey::Public(PropName::Ident(name)) if name.sym == "constructor")
+        {
+            self.emit_error(Error::new(
+                key_span,
+                crate::error::SyntaxError::DuplicateConstructor,
+            ));
+        }
+        if is_override && (!self.context().contains(Context::CLASS_HAS_SUPER) || is_constructor) {
+            self.emit_error(Error::new(
+                key_span,
+                crate::error::SyntaxError::Expected(
+                    "override member in a derived class".into(),
+                    "override".into(),
+                ),
+            ));
+        }
 
         #[cfg(feature = "typescript")]
         let is_optional =
             self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::QuestionMark);
         #[cfg(not(feature = "typescript"))]
         let is_optional = false;
+        if is_optional && self.at(Kind::Bang) {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::Expected("either ? or !".into(), "both ? and !".into()),
+            ));
+        }
         #[cfg(feature = "typescript")]
         let method_type_params =
             if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Lt) {
@@ -375,7 +478,16 @@ impl<C: Config> Parser<'_, C> {
         let method_type_params = None;
 
         if self.at(Kind::LParen) {
-            let mut parameter_context = Context::empty();
+            if flow_variance || readonly || declare || (is_async && is_override) {
+                self.emit_error(Error::new(
+                    key_span,
+                    crate::error::SyntaxError::Expected(
+                        "valid method modifiers".into(),
+                        "invalid method modifier".into(),
+                    ),
+                ));
+            }
+            let mut parameter_context = Context::NEW_TARGET;
             if is_async {
                 parameter_context.insert(Context::AWAIT);
             }
@@ -469,7 +581,13 @@ impl<C: Config> Parser<'_, C> {
             if !self.at(Kind::LBrace) {
                 return Err(self.expected_error(Kind::LBrace));
             }
-            let mut method_context = Context::RETURN;
+            if member_abstract {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::TS1245,
+                ));
+            }
+            let mut method_context = Context::RETURN | Context::NEW_TARGET;
             if is_async {
                 method_context.insert(Context::AWAIT);
             }
@@ -478,7 +596,11 @@ impl<C: Config> Parser<'_, C> {
             }
             let body = self.with_context(
                 method_context,
-                Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
+                Context::TOP_LEVEL
+                    | Context::RETURN
+                    | Context::YIELD
+                    | Context::AWAIT
+                    | Context::CLASS_MEMBER,
                 Self::parse_block_statement,
             )?;
             let span = Span::new_with_checked(start, body.span.hi);
@@ -551,6 +673,12 @@ impl<C: Config> Parser<'_, C> {
         #[cfg(not(feature = "typescript"))]
         let type_ann = None;
         let value = if self.eat(Kind::Eq) {
+            if member_abstract {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::TS1267,
+                ));
+            }
             Some(self.parse_assignment_expression()?)
         } else {
             None
@@ -846,6 +974,12 @@ impl<C: Config> Parser<'_, C> {
             if !self.eat(Kind::Comma) {
                 break;
             }
+            if matches!(
+                parameters.last().map(|parameter| &parameter.pat),
+                Some(Pat::Rest(_))
+            ) {
+                return Err(self.expected_error(Kind::RParen));
+            }
         }
         if !self.expect(Kind::RParen) {
             return Err(self.expected_error(Kind::RParen));
@@ -866,6 +1000,7 @@ impl<C: Config> Parser<'_, C> {
             let mut accessibility = None;
             let mut readonly = false;
             let mut is_override = false;
+            let mut previous_modifier_rank = 0_u8;
             if self.context().contains(Context::TYPESCRIPT) {
                 loop {
                     let modifier = self.kind();
@@ -897,6 +1032,22 @@ impl<C: Config> Parser<'_, C> {
                         Kind::Override => is_override = true,
                         _ => unreachable!(),
                     }
+                    let modifier_rank = match modifier {
+                        Kind::Public | Kind::Protected | Kind::Private => 1,
+                        Kind::Override => 2,
+                        Kind::Readonly => 3,
+                        _ => unreachable!(),
+                    };
+                    if modifier_rank < previous_modifier_rank {
+                        self.emit_error(Error::new(
+                            self.token().span(),
+                            crate::error::SyntaxError::Expected(
+                                "parameter-property modifiers in canonical order".into(),
+                                modifier.to_string(),
+                            ),
+                        ));
+                    }
+                    previous_modifier_rank = modifier_rank;
                     self.advance();
                 }
             }

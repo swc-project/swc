@@ -416,7 +416,7 @@ impl<'a> Parser<'a> {
         };
 
         let context = self.context();
-        if self.collect_tokens {
+        let mut parsed = if self.collect_tokens {
             let lexer = Lexer::new(
                 self.source,
                 self.start_pos,
@@ -439,7 +439,17 @@ impl<'a> Parser<'a> {
                 self.source_type.module_kind,
                 Span::new_with_checked(self.start_pos, end_pos),
             )
+        };
+        if context.contains(Context::MODULE) && self.source.trim_start().starts_with("<!--") {
+            parsed.diagnostics.push(Error::new(
+                Span::new_with_checked(self.start_pos, end_pos),
+                SyntaxError::Unexpected {
+                    got: "HTML comment".into(),
+                    expected: "module source",
+                },
+            ));
         }
+        parsed
     }
 
     fn context(&self) -> Context {
@@ -460,12 +470,15 @@ impl<'a> Parser<'a> {
         if self.source_type.is_jsx() {
             context.insert(Context::TSX);
         }
+        if self.options.disallow_ambiguous_jsx_like {
+            context.insert(Context::DISALLOW_AMBIGUOUS_JSX_LIKE);
+        }
         match self.source_type.module_kind {
             ModuleKind::Module | ModuleKind::Unambiguous => {
                 context.insert(Context::MODULE | Context::AWAIT | Context::ALLOW_USING);
             }
             ModuleKind::CommonJs => {
-                context.insert(Context::RETURN | Context::ALLOW_USING);
+                context.insert(Context::RETURN | Context::NEW_TARGET | Context::ALLOW_USING);
             }
             ModuleKind::Script => {}
         }

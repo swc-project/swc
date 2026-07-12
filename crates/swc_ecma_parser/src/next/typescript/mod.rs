@@ -1,9 +1,10 @@
 //! TypeScript declarations and type productions.
 
-use swc_common::{BytePos, Span, Spanned, SyntaxContext};
+use swc_common::{BytePos, Span, Spanned};
+#[cfg(feature = "flow")]
+use swc_common::SyntaxContext;
 use swc_ecma_ast::{
-    AssignPat, BindingIdent, Decl, Expr, FnDecl, Function, Ident, IdentName, KeyValuePatProp, Lit,
-    ObjectPat, ObjectPatProp, Param, Pat, PropName, RestPat, Stmt, TruePlusMinus, TsArrayType,
+    BindingIdent, Decl, Expr, Ident, IdentName, Lit, Stmt, TruePlusMinus, TsArrayType,
     TsCallSignatureDecl, TsConditionalType, TsConstructSignatureDecl, TsConstructorType,
     TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExprWithTypeArgs, TsFnParam,
     TsFnType, TsGetterSignature, TsImportCallOptions, TsImportType, TsIndexSignature,
@@ -15,6 +16,11 @@ use swc_ecma_ast::{
     TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit, TsTypeOperator,
     TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate,
     TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionType,
+};
+#[cfg(feature = "flow")]
+use swc_ecma_ast::{
+    AssignPat, FnDecl, Function, KeyValuePatProp, ObjectPat, ObjectPatProp, Param, Pat, PropName,
+    RestPat,
 };
 
 use crate::{
@@ -441,6 +447,18 @@ impl<C: Config> Parser<'_, C> {
 
     pub(crate) fn parse_ts_type_assertion(&mut self) -> Result<Box<Expr>, Error> {
         let start = self.token().start();
+        if self
+            .context()
+            .contains(Context::DISALLOW_AMBIGUOUS_JSX_LIKE)
+        {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::Expected(
+                    "unambiguous TypeScript expression".into(),
+                    "angle-bracket type assertion".into(),
+                ),
+            ));
+        }
         self.advance();
         let type_ann = self.parse_ts_type()?;
         self.expect_ts_right_angle()?;
@@ -481,6 +499,18 @@ impl<C: Config> Parser<'_, C> {
         } else {
             None
         };
+        if type_params
+            .as_ref()
+            .is_some_and(|parameters| parameters.params.iter().any(|parameter| parameter.is_const))
+        {
+            self.emit_error(Error::new(
+                type_params.as_ref().unwrap().span,
+                crate::error::SyntaxError::Expected(
+                    "non-const interface type parameter".into(),
+                    "const".into(),
+                ),
+            ));
+        }
         let mut extends = Vec::new();
         if self.eat(Kind::Extends) {
             loop {
@@ -539,6 +569,15 @@ impl<C: Config> Parser<'_, C> {
                 (Box::new(expression), type_args)
             }
         };
+        if matches!(&*expr, Expr::OptChain(_)) {
+            self.emit_error(Error::new(
+                expr.span(),
+                crate::error::SyntaxError::Expected(
+                    "non-optional interface heritage expression".into(),
+                    "optional chain".into(),
+                ),
+            ));
+        }
         Ok(TsExprWithTypeArgs {
             span: Span::new_with_checked(expr.span().lo, self.previous_end()),
             expr,
@@ -817,14 +856,14 @@ impl<C: Config> Parser<'_, C> {
 
     fn with_flow_type_parameter_scope<T>(
         &mut self,
-        params: Option<&TsTypeParamDecl>,
+        _params: Option<&TsTypeParamDecl>,
         production: impl FnOnce(&mut Self) -> T,
     ) -> T {
         #[cfg(feature = "flow")]
         let previous_len = self.flow_type_parameters_len();
         #[cfg(feature = "flow")]
         if self.context().contains(Context::FLOW) {
-            if let Some(params) = params {
+            if let Some(params) = _params {
                 for parameter in &params.params {
                     self.push_flow_type_parameter(parameter.name.sym.clone());
                 }
@@ -846,6 +885,15 @@ impl<C: Config> Parser<'_, C> {
             Kind::Gt | Kind::RShift | Kind::ZeroFillRShift | Kind::Eof
         ) {
             let parameter_start = self.token().start();
+            if self.at(Kind::Public) {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Expected(
+                        "type parameter name".into(),
+                        "public".into(),
+                    ),
+                ));
+            }
             let mut is_in = false;
             let mut is_out = false;
             let mut is_const = false;
@@ -926,6 +974,12 @@ impl<C: Config> Parser<'_, C> {
         }
         let mut params = Vec::with_capacity(2);
         if matches!(self.kind(), Kind::Gt | Kind::RShift | Kind::ZeroFillRShift) {
+            if !self.context().contains(Context::FLOW) {
+                return Err(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::EmptyTypeArgumentList,
+                ));
+            }
             self.expect_ts_right_angle()?;
             return Ok(Box::new(TsTypeParamInstantiation {
                 span: Span::new_with_checked(start, self.previous_end()),
@@ -1091,6 +1145,7 @@ impl<C: Config> Parser<'_, C> {
 
     fn parse_ts_primary_type(&mut self) -> Result<Box<TsType>, Error> {
         let token = self.token();
+        #[cfg(feature = "flow")]
         if self.context().contains(Context::FLOW)
             && token.kind() == Kind::Ident
             && self.token_source(token) == "component"
@@ -1101,6 +1156,7 @@ impl<C: Config> Parser<'_, C> {
         {
             return self.parse_flow_component_type();
         }
+        #[cfg(feature = "flow")]
         if self.context().contains(Context::FLOW)
             && token.kind() == Kind::Ident
             && self.token_source(token) == "hook"
@@ -1689,6 +1745,7 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         self.advance();
         let mut elem_types = Vec::with_capacity(4);
+        let mut saw_optional = false;
         while !self.at(Kind::RBracket) && !self.at(Kind::Eof) {
             let element_start = self.token().start();
             if self.context().contains(Context::FLOW)
@@ -1754,6 +1811,15 @@ impl<C: Config> Parser<'_, C> {
                     type_ann: ty,
                 }));
             }
+            let is_optional = matches!(&*ty, TsType::TsOptionalType(_))
+                || matches!(&label, Some(swc_ecma_ast::Pat::Ident(identifier)) if identifier.id.optional);
+            if saw_optional && !is_optional && dot3_token.is_none() {
+                self.emit_error(Error::new(
+                    ty.span(),
+                    crate::error::SyntaxError::TsRequiredAfterOptional,
+                ));
+            }
+            saw_optional |= is_optional;
             elem_types.push(TsTupleElement {
                 span: Span::new_with_checked(element_start, ty.span().hi),
                 label,
@@ -1902,6 +1968,15 @@ impl<C: Config> Parser<'_, C> {
                     } else {
                         None
                     };
+                    if flow_exact && type_ann.is_none() {
+                        self.emit_error(Error::new(
+                            Span::new_with_checked(member_start, self.previous_end()),
+                            crate::error::SyntaxError::Expected(
+                                "exact object type without an inexact marker".into(),
+                                "...".into(),
+                            ),
+                        ));
+                    }
                     let end = type_ann
                         .as_ref()
                         .map_or(self.previous_end(), |annotation| annotation.span.hi);
@@ -1923,6 +1998,15 @@ impl<C: Config> Parser<'_, C> {
             }
 
             if self.at(Kind::LParen) || self.at(Kind::Lt) {
+                if readonly {
+                    self.emit_error(Error::new(
+                        self.token().span(),
+                        crate::error::SyntaxError::Expected(
+                            "non-readonly type method".into(),
+                            "readonly".into(),
+                        ),
+                    ));
+                }
                 let type_params = if self.at(Kind::Lt) {
                     Some(self.parse_ts_type_parameters()?)
                 } else {
@@ -2122,6 +2206,15 @@ impl<C: Config> Parser<'_, C> {
                     )
                 })
             {
+                if readonly {
+                    self.emit_error(Error::new(
+                        self.token().span(),
+                        crate::error::SyntaxError::Expected(
+                            "non-readonly type accessor".into(),
+                            "readonly".into(),
+                        ),
+                    ));
+                }
                 let getter = self.at(Kind::Get);
                 self.advance();
                 let key_token = self.token();
@@ -2203,6 +2296,15 @@ impl<C: Config> Parser<'_, C> {
                 None
             };
             if self.at(Kind::LParen) {
+                if readonly {
+                    self.emit_error(Error::new(
+                        self.token().span(),
+                        crate::error::SyntaxError::Expected(
+                            "non-readonly type method".into(),
+                            "readonly".into(),
+                        ),
+                    ));
+                }
                 let params = Self::ts_fn_params(self.parse_ts_object_signature_parameters()?);
                 let type_ann = if self.at(Kind::Colon) {
                     Some(self.parse_ts_type_annotation()?)

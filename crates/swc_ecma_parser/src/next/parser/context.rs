@@ -47,6 +47,16 @@ bitflags::bitflags! {
         /// Explicit resource management declarations are allowed in the
         /// current statement list.
         const ALLOW_USING = 1 << 19;
+        /// The immediately enclosing class has an `extends` clause.
+        const CLASS_HAS_SUPER = 1 << 20;
+        /// Expressions are being parsed as class fields or static blocks.
+        const CLASS_MEMBER = 1 << 21;
+        /// A cover initialized name may be reinterpreted by a surrounding
+        /// assignment-pattern production.
+        const COVER_PATTERN = 1 << 22;
+        /// Reject TypeScript productions whose leading angle brackets are
+        /// ambiguous with JSX syntax.
+        const DISALLOW_AMBIGUOUS_JSX_LIKE = 1 << 23;
     }
 }
 

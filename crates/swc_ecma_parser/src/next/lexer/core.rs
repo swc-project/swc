@@ -348,9 +348,15 @@ impl<'a, C: Config> Lexer<'a, C> {
         self.escaped = value.as_bytes().contains(&b'\\');
         if self.escaped {
             if let Some(decoded) = decode_identifier(value) {
-                self.escaped_identifiers.insert(start.0, Atom::new(decoded));
+                let mut characters = decoded.chars();
+                if characters.next().is_some_and(Ident::is_valid_start)
+                    && characters.all(Ident::is_valid_continue)
+                {
+                    self.escaped_identifiers.insert(start.0, Atom::new(decoded));
+                    return Kind::Ident;
+                }
             }
-            Kind::Ident
+            Kind::Error
         } else {
             keyword_kind(value).unwrap_or(Kind::Ident)
         }
@@ -445,7 +451,11 @@ impl<'a, C: Config> Lexer<'a, C> {
         }
 
         if self.eat(b'n') {
-            Kind::BigInt
+            if legacy_leading_zero {
+                Kind::Error
+            } else {
+                Kind::BigInt
+            }
         } else {
             Kind::Num
         }
@@ -465,8 +475,10 @@ impl<'a, C: Config> Lexer<'a, C> {
                     let end = self.source.cur_pos();
                     // SAFETY: Both positions came from this source cursor.
                     let raw = unsafe { self.source.slice_str(start, end) };
-                    self.escaped_strings
-                        .insert(start.0, Wtf8Atom::new(decode_string(raw)));
+                    let Some(value) = decode_string(raw) else {
+                        return Kind::Error;
+                    };
+                    self.escaped_strings.insert(start.0, Wtf8Atom::new(value));
                 }
                 return Kind::Str;
             }
@@ -918,7 +930,7 @@ fn keyword_kind(value: &str) -> Option<Kind> {
     })
 }
 
-fn decode_string(raw: &str) -> Wtf8Buf {
+fn decode_string(raw: &str) -> Option<Wtf8Buf> {
     debug_assert!(raw.len() >= 2);
     let mut output = Wtf8Buf::with_capacity(raw.len() - 2);
     let mut characters = raw[1..raw.len() - 1].chars();
@@ -961,45 +973,44 @@ fn decode_string(raw: &str) -> Wtf8Buf {
             }
             '\u{2028}' | '\u{2029}' => {}
             'x' => {
-                let value = read_hex_escape(&mut characters, 2);
+                let value = read_hex_escape(&mut characters, 2)?;
                 push_code_point(&mut output, value);
             }
             'u' => {
                 let value = if characters.clone().next() == Some('{') {
                     characters.next();
-                    let mut value = 0;
+                    let mut value = 0_u32;
                     for digit in characters.by_ref() {
                         if digit == '}' {
                             break;
                         }
-                        value = value * 16 + digit.to_digit(16).unwrap_or(0);
+                        value = value.checked_mul(16)?.checked_add(digit.to_digit(16)?)?;
                     }
                     value
                 } else {
-                    read_hex_escape(&mut characters, 4)
+                    read_hex_escape(&mut characters, 4)?
                 };
+                if value > 0x10ffff {
+                    return None;
+                }
                 push_code_point(&mut output, value);
             }
             other => output.push_char(other),
         }
     }
-    output
+    Some(output)
 }
 
 fn push_code_point(output: &mut Wtf8Buf, value: u32) {
     output.push(CodePoint::from_u32(value).unwrap_or_else(|| CodePoint::from_char('\u{fffd}')));
 }
 
-fn read_hex_escape(characters: &mut std::str::Chars<'_>, length: usize) -> u32 {
+fn read_hex_escape(characters: &mut std::str::Chars<'_>, length: usize) -> Option<u32> {
     let mut value = 0;
     for _ in 0..length {
-        value = value * 16
-            + characters
-                .next()
-                .and_then(|digit| digit.to_digit(16))
-                .unwrap_or(0);
+        value = value * 16 + characters.next()?.to_digit(16)?;
     }
-    value
+    Some(value)
 }
 
 #[cfg(test)]

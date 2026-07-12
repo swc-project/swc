@@ -56,10 +56,23 @@ impl<C: Config> Parser<'_, C> {
             }
             Expr::Object(object) => {
                 let mut properties = Vec::with_capacity(object.props.len());
-                for property in object.props {
+                let property_count = object.props.len();
+                for (index, property) in object.props.into_iter().enumerate() {
                     properties.push(match property {
                         swc_ecma_ast::PropOrSpread::Spread(spread) => {
+                            if index + 1 != property_count {
+                                return Err(Error::new(
+                                    spread.span(),
+                                    crate::error::SyntaxError::InvalidAssignTarget,
+                                ));
+                            }
                             let argument = self.reparse_assignment_pattern(spread.expr)?;
+                            if !matches!(argument, Pat::Ident(_) | Pat::Expr(_)) {
+                                return Err(Error::new(
+                                    argument.span(),
+                                    crate::error::SyntaxError::InvalidAssignTarget,
+                                ));
+                            }
                             ObjectPatProp::Rest(RestPat {
                                 span: Span::new_with_checked(
                                     spread.dot3_token.lo,
@@ -137,6 +150,12 @@ impl<C: Config> Parser<'_, C> {
         &mut self,
         expression: Box<Expr>,
     ) -> Result<AssignTarget, Error> {
+        if matches!(&*expression, Expr::OptChain(_)) {
+            return Err(Error::new(
+                expression.span(),
+                crate::error::SyntaxError::InvalidAssignTarget,
+            ));
+        }
         match AssignTarget::try_from(expression) {
             Ok(target) => Ok(target),
             Err(expression) => {
@@ -167,6 +186,34 @@ impl<C: Config> Parser<'_, C> {
                     return Err(self.expected_error(Kind::Ident));
                 }
                 let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+                if self.context().intersects(Context::STRICT | Context::MODULE)
+                    && matches!(&*identifier.sym, "eval" | "arguments")
+                {
+                    self.emit_error(Error::new(
+                        identifier.span,
+                        crate::error::SyntaxError::EvalAndArgumentsInStrict,
+                    ));
+                }
+                if self.context().intersects(Context::STRICT | Context::MODULE)
+                    && matches!(
+                        &*identifier.sym,
+                        "implements"
+                            | "interface"
+                            | "package"
+                            | "private"
+                            | "protected"
+                            | "public"
+                            | "static"
+                    )
+                {
+                    self.emit_error(Error::new(
+                        identifier.span,
+                        crate::error::SyntaxError::Expected(
+                            "non-reserved binding identifier".into(),
+                            identifier.sym.to_string(),
+                        ),
+                    ));
+                }
                 self.advance();
                 Pat::Ident(BindingIdent {
                     id: identifier,
@@ -220,6 +267,9 @@ impl<C: Config> Parser<'_, C> {
                 let dot3_token = self.token().span();
                 self.advance();
                 let argument = self.parse_binding_pattern(false)?;
+                if self.eat(Kind::Comma) {
+                    return Err(self.expected_error(Kind::RBracket));
+                }
                 let span = Span::new_with_checked(dot3_token.lo, argument.span().hi);
                 elements.push(Some(Pat::Rest(RestPat {
                     span,
@@ -227,7 +277,6 @@ impl<C: Config> Parser<'_, C> {
                     arg: Box::new(argument),
                     type_ann: None,
                 })));
-                self.eat(Kind::Comma);
                 break;
             }
             elements.push(Some(self.parse_binding_pattern(true)?));
@@ -255,6 +304,15 @@ impl<C: Config> Parser<'_, C> {
                 let dot3_token = self.token().span();
                 self.advance();
                 let argument = self.parse_binding_pattern(false)?;
+                if !matches!(argument, Pat::Ident(_)) {
+                    return Err(Error::new(
+                        argument.span(),
+                        crate::error::SyntaxError::InvalidAssignTarget,
+                    ));
+                }
+                if self.eat(Kind::Comma) {
+                    return Err(self.expected_error(Kind::RBrace));
+                }
                 let span = Span::new_with_checked(dot3_token.lo, argument.span().hi);
                 properties.push(ObjectPatProp::Rest(RestPat {
                     span,
@@ -262,7 +320,6 @@ impl<C: Config> Parser<'_, C> {
                     arg: Box::new(argument),
                     type_ann: None,
                 }));
-                self.eat(Kind::Comma);
                 break;
             }
 

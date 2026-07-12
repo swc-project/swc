@@ -150,6 +150,7 @@ impl<C: Config> Parser<'_, C> {
         let identifier = Ident::new_no_ctxt(name.sym, name.span);
         if self.eat(Kind::Eq) {
             let value = self.parse_assignment_expression()?;
+            self.set_cover_initialized_name(Span::new_with_checked(start, value.span().hi));
             return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
                 span: Span::new_with_checked(start, value.span().hi),
                 key: identifier,
@@ -207,7 +208,7 @@ impl<C: Config> Parser<'_, C> {
         is_generator: bool,
         type_params: Option<Box<swc_ecma_ast::TsTypeParamDecl>>,
     ) -> Result<PropOrSpread, Error> {
-        let mut parameter_context = crate::next::parser::context::Context::empty();
+        let mut parameter_context = crate::next::parser::context::Context::NEW_TARGET;
         if is_async {
             parameter_context.insert(crate::next::parser::context::Context::AWAIT);
         }
@@ -235,7 +236,8 @@ impl<C: Config> Parser<'_, C> {
         if !self.at(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));
         }
-        let mut context = crate::next::parser::context::Context::RETURN;
+        let mut context = crate::next::parser::context::Context::RETURN
+            | crate::next::parser::context::Context::NEW_TARGET;
         if is_async {
             context.insert(crate::next::parser::context::Context::AWAIT);
         }
@@ -274,7 +276,7 @@ impl<C: Config> Parser<'_, C> {
         is_getter: bool,
     ) -> Result<PropOrSpread, Error> {
         let mut parameters = self.with_context(
-            crate::next::parser::context::Context::empty(),
+            crate::next::parser::context::Context::NEW_TARGET,
             crate::next::parser::context::Context::YIELD
                 | crate::next::parser::context::Context::AWAIT,
             Self::parse_method_parameters,
@@ -298,7 +300,8 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::LBrace));
         }
         let body = self.with_context(
-            crate::next::parser::context::Context::RETURN,
+            crate::next::parser::context::Context::RETURN
+                | crate::next::parser::context::Context::NEW_TARGET,
             crate::next::parser::context::Context::TOP_LEVEL
                 | crate::next::parser::context::Context::RETURN
                 | crate::next::parser::context::Context::YIELD

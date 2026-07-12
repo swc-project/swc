@@ -4,7 +4,9 @@ use std::borrow::Cow;
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{Span, Spanned};
+use swc_common::Span;
+#[cfg(feature = "flow")]
+use swc_common::Spanned;
 use swc_ecma_ast::{
     BigInt, Bool, Expr, Ident, Lit, Null, Number, ParenExpr, PrivateName, Regex, Str, ThisExpr,
 };
@@ -24,6 +26,26 @@ impl<C: Config> Parser<'_, C> {
         let token = self.token();
         let span = token.span();
         match token.kind() {
+            Kind::Ident
+                if self.context().contains(Context::CLASS_MEMBER)
+                    && self.token_source(token) == "arguments" =>
+            {
+                Err(Error::new(span, SyntaxError::ArgumentsInClassField))
+            }
+            Kind::Interface
+            | Kind::Package
+            | Kind::Private
+            | Kind::Protected
+            | Kind::Public
+            | Kind::Implements
+            | Kind::Static
+                if self.context().intersects(Context::STRICT | Context::MODULE) =>
+            {
+                Err(Error::new(
+                    span,
+                    SyntaxError::InvalidIdentInStrict(self.identifier_atom(token)),
+                ))
+            }
             #[cfg(feature = "flow")]
             Kind::Ident if self.context().contains(Context::FLOW) && self.is_flow_match_start() => {
                 self.parse_flow_match_expression()
@@ -107,6 +129,29 @@ impl<C: Config> Parser<'_, C> {
                 };
                 let expression = Atom::new(&raw[1..flags_start]);
                 let flags = Atom::new(&raw[flags_start + 1..]);
+                let mut seen = 0_u16;
+                for flag in flags.chars() {
+                    let bit = match flag {
+                        'd' => 1 << 0,
+                        'g' => 1 << 1,
+                        'i' => 1 << 2,
+                        'm' => 1 << 3,
+                        's' => 1 << 4,
+                        'u' => 1 << 5,
+                        'v' => 1 << 6,
+                        'y' => 1 << 7,
+                        _ => {
+                            return Err(Error::new(token.span(), SyntaxError::UnknownRegExpFlags));
+                        }
+                    };
+                    if seen & bit != 0 {
+                        return Err(Error::new(
+                            token.span(),
+                            SyntaxError::DuplicatedRegExpFlags(flag),
+                        ));
+                    }
+                    seen |= bit;
+                }
                 self.advance();
                 Ok(Box::new(Expr::Lit(Lit::Regex(Regex {
                     span: token.span(),
@@ -117,7 +162,7 @@ impl<C: Config> Parser<'_, C> {
             Kind::LParen => {
                 let start = span.lo;
                 self.advance();
-                let mut expression = self.with_recursion(|parser| {
+                let expression = self.with_recursion(|parser| {
                     parser.with_context(
                         crate::next::parser::context::Context::IN,
                         crate::next::parser::context::Context::empty(),
@@ -125,18 +170,20 @@ impl<C: Config> Parser<'_, C> {
                     )
                 })?;
                 #[cfg(feature = "flow")]
-                if self
+                let expression = if self
                     .context()
                     .contains(crate::next::parser::context::Context::FLOW)
                     && self.at(Kind::Colon)
                 {
                     let type_ann = self.parse_ts_type_annotation()?;
-                    expression = Box::new(Expr::TsAs(swc_ecma_ast::TsAsExpr {
+                    Box::new(Expr::TsAs(swc_ecma_ast::TsAsExpr {
                         span: Span::new_with_checked(expression.span().lo, type_ann.span.hi),
                         expr: expression,
                         type_ann: type_ann.type_ann,
-                    }));
-                }
+                    }))
+                } else {
+                    expression
+                };
                 if !self.expect(Kind::RParen) {
                     return Err(self.expected_error(Kind::RParen));
                 }
@@ -159,7 +206,9 @@ impl<C: Config> Parser<'_, C> {
             {
                 self.parse_ts_type_assertion()
             }
-            Kind::Lt | Kind::JSXTagStart => self.parse_jsx_expression(),
+            Kind::Lt | Kind::JSXTagStart if self.context().contains(Context::TSX) => {
+                self.parse_jsx_expression()
+            }
             Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead => self
                 .parse_template_literal(false)
                 .map(|template| Box::new(Expr::Tpl(template))),

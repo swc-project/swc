@@ -31,8 +31,19 @@ impl<C: Config> Parser<'_, C> {
             None
         };
         let mut body = Vec::with_capacity(8);
+        let mut strict = false;
         while !self.at(Kind::Eof) {
-            body.push(self.parse_statement()?);
+            let statement = self.with_context(
+                if strict {
+                    Context::STRICT
+                } else {
+                    Context::empty()
+                },
+                Context::empty(),
+                Self::parse_statement,
+            )?;
+            strict |= is_use_strict_directive(&statement);
+            body.push(statement);
         }
         Ok(Script {
             span: Span::new_with_checked(start, self.token().end()),
@@ -264,11 +275,33 @@ impl<C: Config> Parser<'_, C> {
         let token = self.token();
         debug_assert!(self.at_identifier_reference());
         let label = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+        if self.has_active_label(&label.sym) {
+            self.emit_error(Error::new(
+                label.span,
+                crate::error::SyntaxError::DuplicateLabel(label.sym.clone()),
+            ));
+        }
         self.advance();
         if !self.expect(Kind::Colon) {
             return Err(self.expected_error(Kind::Colon));
         }
-        let body = Box::new(self.parse_statement()?);
+        if self.context().intersects(Context::STRICT | Context::MODULE) && self.at(Kind::Function) {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::Expected(
+                    "non-function labeled statement in strict mode".into(),
+                    "function".into(),
+                ),
+            ));
+        }
+        self.push_active_label(label.sym.clone());
+        let body = self.with_context(
+            Context::empty(),
+            Context::ALLOW_USING,
+            Self::parse_statement,
+        );
+        self.pop_active_label();
+        let body = Box::new(body?);
         Ok(Stmt::Labeled(LabeledStmt {
             span: Span::new_with_checked(token.start(), body.span().hi),
             label,
@@ -280,7 +313,11 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         self.advance();
         let object = self.parse_parenthesized_expression()?;
-        let body = Box::new(self.parse_statement()?);
+        let body = Box::new(self.with_context(
+            Context::empty(),
+            Context::ALLOW_USING,
+            Self::parse_statement,
+        )?);
         Ok(Stmt::With(WithStmt {
             span: Span::new_with_checked(start, body.span().hi),
             obj: object,
@@ -303,12 +340,27 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         self.advance();
         let mut statements = Vec::with_capacity(8);
+        let mut using_bindings = Vec::new();
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
-            statements.push(self.with_context(
+            let statement = self.with_context(
                 Context::ALLOW_USING,
                 Context::empty(),
                 Self::parse_statement,
-            )?);
+            )?;
+            if let Stmt::Decl(Decl::Using(declaration)) = &statement {
+                for declarator in &declaration.decls {
+                    if let swc_ecma_ast::Pat::Ident(binding) = &declarator.name {
+                        if using_bindings.iter().any(|name| name == &binding.id.sym) {
+                            self.emit_error(Error::new(
+                                binding.id.span,
+                                crate::error::SyntaxError::TS1114,
+                            ));
+                        }
+                        using_bindings.push(binding.id.sym.clone());
+                    }
+                }
+            }
+            statements.push(statement);
         }
         if !self.expect(Kind::RBrace) {
             return Err(self.expected_error(Kind::RBrace));
@@ -400,9 +452,17 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         self.advance();
         let test = self.parse_parenthesized_expression()?;
-        let consequent = Box::new(self.parse_statement()?);
+        let consequent = Box::new(self.with_context(
+            Context::empty(),
+            Context::ALLOW_USING,
+            Self::parse_statement,
+        )?);
         let alternate = if self.eat(Kind::Else) {
-            Some(Box::new(self.parse_statement()?))
+            Some(Box::new(self.with_context(
+                Context::empty(),
+                Context::ALLOW_USING,
+                Self::parse_statement,
+            )?))
         } else {
             None
         };
@@ -442,7 +502,7 @@ impl<C: Config> Parser<'_, C> {
             )?))
         } else {
             Some(VarDeclOrExpr::Expr(self.with_context(
-                Context::empty(),
+                Context::COVER_PATTERN,
                 Context::IN,
                 Self::parse_expression,
             )?))
@@ -452,6 +512,12 @@ impl<C: Config> Parser<'_, C> {
             let operator = self.kind();
             if is_await && operator != Kind::Of {
                 return Err(self.expected_error(Kind::Of));
+            }
+            if using_init.is_some() && operator == Kind::In {
+                return Err(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::UsingDeclNotAllowedForForInLoop,
+                ));
             }
             let left = if let Some(declaration) = using_init.take() {
                 ForHead::UsingDecl(declaration)
@@ -465,6 +531,18 @@ impl<C: Config> Parser<'_, C> {
                 match init {
                     VarDeclOrExpr::VarDecl(declaration) => ForHead::VarDecl(declaration),
                     VarDeclOrExpr::Expr(expression) => {
+                        self.take_cover_initialized_name();
+                        if !is_await
+                            && operator == Kind::Of
+                            && matches!(&*expression, swc_ecma_ast::Expr::Ident(id) if id.sym == "async")
+                            && self.source_slice(expression.span().lo, expression.span().hi)
+                                == "async"
+                        {
+                            return Err(Error::new(
+                                expression.span(),
+                                crate::error::SyntaxError::TS1106,
+                            ));
+                        }
                         ForHead::Pat(Box::new(self.reparse_assignment_pattern(expression)?))
                     }
                     _ => return Err(self.expected_error(Kind::Ident)),
@@ -477,7 +555,7 @@ impl<C: Config> Parser<'_, C> {
             }
             let body = Box::new(self.with_context(
                 Context::BREAK | Context::CONTINUE,
-                Context::empty(),
+                Context::ALLOW_USING,
                 Self::parse_statement,
             )?);
             let span = Span::new_with_checked(start, body.span().hi);
@@ -526,7 +604,7 @@ impl<C: Config> Parser<'_, C> {
         }
         let body = Box::new(self.with_context(
             Context::BREAK | Context::CONTINUE,
-            Context::empty(),
+            Context::ALLOW_USING,
             Self::parse_statement,
         )?);
         Ok(Stmt::For(ForStmt {
@@ -669,7 +747,7 @@ impl<C: Config> Parser<'_, C> {
         let test = self.parse_parenthesized_expression()?;
         let body = Box::new(self.with_context(
             Context::BREAK | Context::CONTINUE,
-            Context::empty(),
+            Context::ALLOW_USING,
             Self::parse_statement,
         )?);
         Ok(Stmt::While(WhileStmt {
@@ -684,7 +762,7 @@ impl<C: Config> Parser<'_, C> {
         self.advance();
         let body = Box::new(self.with_context(
             Context::BREAK | Context::CONTINUE,
-            Context::empty(),
+            Context::ALLOW_USING,
             Self::parse_statement,
         )?);
         if !self.expect(Kind::While) {
@@ -722,6 +800,23 @@ impl<C: Config> Parser<'_, C> {
             } else {
                 None
             };
+            if let swc_ecma_ast::Pat::Ident(binding) = &pattern {
+                if binding.id.sym == "await" {
+                    self.emit_error(Error::new(
+                        binding.id.span,
+                        crate::error::SyntaxError::Expected(
+                            "using binding other than await".into(),
+                            "await".into(),
+                        ),
+                    ));
+                }
+            }
+            if initializer.is_none() && !matches!(self.kind(), Kind::In | Kind::Of) {
+                self.emit_error(Error::new(
+                    pattern.span(),
+                    crate::error::SyntaxError::InitRequiredForUsingDecl,
+                ));
+            }
             let end = initializer
                 .as_ref()
                 .map_or(pattern.span().hi, |expression| expression.span().hi);
@@ -736,10 +831,7 @@ impl<C: Config> Parser<'_, C> {
             }
         }
         let span = Span::new_with_checked(start, self.previous_end());
-        if !self
-            .context()
-            .intersects(Context::ALLOW_USING | Context::MODULE)
-        {
+        if !self.context().contains(Context::ALLOW_USING) {
             self.emit_error(Error::new(
                 span,
                 crate::error::SyntaxError::UsingDeclNotAllowed,
@@ -754,6 +846,7 @@ impl<C: Config> Parser<'_, C> {
 
     #[cfg(feature = "typescript")]
     pub(crate) fn parse_ts_declare_statement(&mut self) -> Result<Stmt, Error> {
+        #[cfg(feature = "flow")]
         let start = self.token().start();
         debug_assert!(self.eat(Kind::Declare));
         let abstract_class = self.eat(Kind::Abstract);
@@ -951,6 +1044,12 @@ impl<C: Config> Parser<'_, C> {
             let mut pattern = self.parse_binding_pattern(false)?;
             #[cfg(feature = "typescript")]
             let definite = if self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::Bang) {
+                if !matches!(pattern, swc_ecma_ast::Pat::Ident(_)) {
+                    self.emit_error(Error::new(
+                        pattern.span(),
+                        crate::error::SyntaxError::TSTypeAnnotationAfterAssign,
+                    ));
+                }
                 if self.at(Kind::Colon) {
                     let type_ann = self.parse_ts_type_annotation()?;
                     match &mut pattern {
@@ -1015,6 +1114,10 @@ impl<C: Config> Parser<'_, C> {
             Err(self.expected_error(Kind::Semi))
         }
     }
+}
+
+fn is_use_strict_directive(statement: &Stmt) -> bool {
+    matches!(statement, Stmt::Expr(expression) if matches!(&*expression.expr, swc_ecma_ast::Expr::Lit(swc_ecma_ast::Lit::Str(value)) if &*value.value == "use strict"))
 }
 
 #[cfg(test)]

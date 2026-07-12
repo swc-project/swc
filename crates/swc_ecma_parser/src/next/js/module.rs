@@ -4,12 +4,14 @@ use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     Decl, DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, FnExpr, Ident,
+    ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, Ident,
     ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportPhase, ImportSpecifier,
     ImportStarAsSpecifier, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport,
     ObjectLit, Stmt, Str, TsExportAssignment, TsExternalModuleRef, TsImportEqualsDecl, TsModuleRef,
     TsNamespaceExportDecl,
 };
+#[cfg(feature = "flow")]
+use swc_ecma_ast::FnExpr;
 
 use crate::{
     error::Error,
@@ -63,6 +65,15 @@ impl<C: Config> Parser<'_, C> {
                                 decl: Decl::Class(class),
                                 ..
                             }) => {
+                                if !class.class.decorators.is_empty() {
+                                    self.emit_error(Error::new(
+                                        class.class.decorators[0].span,
+                                        crate::error::SyntaxError::Expected(
+                                            "one decorator position around export".into(),
+                                            "decorators on both sides of export".into(),
+                                        ),
+                                    ));
+                                }
                                 class.class.span =
                                     Span::new_with_checked(start, class.class.span.hi);
                                 let mut leading = decorators;
@@ -73,6 +84,15 @@ impl<C: Config> Parser<'_, C> {
                                 decl: DefaultDecl::Class(class),
                                 ..
                             }) => {
+                                if !class.class.decorators.is_empty() {
+                                    self.emit_error(Error::new(
+                                        class.class.decorators[0].span,
+                                        crate::error::SyntaxError::Expected(
+                                            "one decorator position around export".into(),
+                                            "decorators on both sides of export".into(),
+                                        ),
+                                    ));
+                                }
                                 class.class.span =
                                     Span::new_with_checked(start, class.class.span.hi);
                                 let mut leading = decorators;
@@ -144,10 +164,13 @@ impl<C: Config> Parser<'_, C> {
             let is_phase = match phase_word {
                 "defer" => self.lookahead(|parser| {
                     parser.advance();
-                    parser.at(Kind::Asterisk)
+                    matches!(parser.kind(), Kind::Asterisk | Kind::LBrace)
                 }),
                 "source" => self.lookahead(|parser| {
                     parser.advance();
+                    if matches!(parser.kind(), Kind::Asterisk | Kind::LBrace) {
+                        return true;
+                    }
                     if parser.at(Kind::From) {
                         parser.advance();
                         parser.at(Kind::From)
@@ -165,6 +188,15 @@ impl<C: Config> Parser<'_, C> {
                 };
                 self.advance();
             }
+        }
+        if phase == ImportPhase::Defer && self.at(Kind::LBrace) {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::Expected(
+                    "namespace import for import defer".into(),
+                    "named imports".into(),
+                ),
+            ));
         }
         let mut specifiers = Vec::with_capacity(4);
         if self.at(Kind::Str) {
@@ -238,9 +270,29 @@ impl<C: Config> Parser<'_, C> {
                             true
                         }));
                 if is_type_only {
+                    if type_only {
+                        self.emit_error(Error::new(
+                            self.token().span(),
+                            crate::error::SyntaxError::Expected(
+                                "one type-only import marker".into(),
+                                "type type".into(),
+                            ),
+                        ));
+                    }
                     self.advance();
                 }
                 let imported = self.parse_module_export_name()?;
+                if is_type_only
+                    && matches!(&imported, ModuleExportName::Ident(identifier) if identifier.sym == "import")
+                {
+                    self.emit_error(Error::new(
+                        imported.span(),
+                        crate::error::SyntaxError::Expected(
+                            "valid type-only imported binding".into(),
+                            "import".into(),
+                        ),
+                    ));
+                }
                 let imported_span = imported.span();
                 let (local, explicit_imported) = if self.eat(Kind::As) {
                     (self.parse_module_identifier()?, Some(imported))
@@ -520,11 +572,15 @@ impl<C: Config> Parser<'_, C> {
         if matches!(self.kind(), Kind::Function | Kind::Class)
             || (self.at(Kind::Async) && self.is_async_function_start())
         {
-            let expression = if self.at(Kind::Class) {
-                self.parse_class_expression()?
-            } else {
-                self.parse_function_expression()?
-            };
+            if !self.at(Kind::Class) {
+                let function = self.parse_default_function_declaration()?;
+                let end = function.function.span.hi;
+                return Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    span: Span::new_with_checked(start, end),
+                    decl: DefaultDecl::Fn(function),
+                }));
+            }
+            let expression = self.parse_class_expression()?;
             let end = expression.span().hi;
             let declaration = match *expression {
                 Expr::Class(class) => DefaultDecl::Class(class),
@@ -574,9 +630,28 @@ impl<C: Config> Parser<'_, C> {
                     true
                 });
             if is_type_only {
+                if type_only {
+                    self.emit_error(Error::new(
+                        self.token().span(),
+                        crate::error::SyntaxError::Expected(
+                            "one type-only export marker".into(),
+                            "type type".into(),
+                        ),
+                    ));
+                }
                 self.advance();
             }
             let original = self.parse_module_export_name()?;
+            if matches!(&original, ModuleExportName::Ident(identifier) if matches!(&*identifier.sym, "default" | "if" | "export"))
+            {
+                self.emit_error(Error::new(
+                    original.span(),
+                    crate::error::SyntaxError::Expected(
+                        "local export binding".into(),
+                        "reserved export name".into(),
+                    ),
+                ));
+            }
             let original_span = original.span();
             let exported = if self.eat(Kind::As) {
                 Some(self.parse_module_export_name()?)

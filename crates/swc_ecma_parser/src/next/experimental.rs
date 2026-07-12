@@ -63,6 +63,22 @@ impl<'a> Parser<'a> {
         parser.parse_script()
     }
 
+    /// Parse a CommonJS source with top-level return, `new.target`, and using
+    /// declarations enabled.
+    pub fn parse_commonjs(self) -> Result<Script, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut parser = ParserImpl::new(
+            lexer,
+            Context::default() | Context::RETURN | Context::NEW_TARGET | Context::ALLOW_USING,
+        );
+        parser.parse_script()
+    }
+
     /// Parse a JavaScript module using only the new engine.
     pub fn parse_module(self) -> Result<Module, Error> {
         let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
@@ -73,6 +89,33 @@ impl<'a> Parser<'a> {
         })?;
         let mut parser =
             ParserImpl::new(lexer, Context::default() | Context::MODULE | Context::AWAIT);
+        parser.parse_module()
+    }
+
+    /// Parse a JavaScript script with JSX enabled.
+    pub fn parse_jsx_script(self) -> Result<Script, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut parser = ParserImpl::new(lexer, Context::default() | Context::TSX);
+        parser.parse_script()
+    }
+
+    /// Parse a JavaScript module with JSX enabled.
+    pub fn parse_jsx_module(self) -> Result<Module, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut parser = ParserImpl::new(
+            lexer,
+            Context::default() | Context::TSX | Context::MODULE | Context::AWAIT,
+        );
         parser.parse_module()
     }
 
@@ -236,7 +279,7 @@ mod tests {
     use crate::{lexer::Lexer, EsSyntax, LegacyParser, StringInput, Syntax};
 
     fn assert_script_parity(source: &str) {
-        let next = Parser::new(source).parse_script().unwrap_or_else(|error| {
+        let next = Parser::new(source).parse_jsx_script().unwrap_or_else(|error| {
             panic!(
                 "independent parser failed with {error:?} for source starting with {:?}",
                 source.get(..source.len().min(120)).unwrap_or(source)

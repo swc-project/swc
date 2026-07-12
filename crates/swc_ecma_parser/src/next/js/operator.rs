@@ -73,6 +73,21 @@ impl<C: Config> Parser<'_, C> {
                 precedence + 1
             };
             let right = self.parse_binary_expression(right_minimum)?;
+            if operator == BinaryOp::Exp && matches!(&*left, Expr::Await(_) | Expr::Unary(_)) {
+                return Err(Error::new(
+                    left.span(),
+                    crate::error::SyntaxError::UnaryInExp {
+                        left: "unary expression".into(),
+                        left_span: left.span(),
+                    },
+                ));
+            }
+            if mixes_nullish_and_logical(operator, &left, &right) {
+                return Err(Error::new(
+                    Span::new_with_checked(left.span().lo, right.span().hi),
+                    crate::error::SyntaxError::NullishCoalescingWithLogicalOp,
+                ));
+            }
             let span = Span::new_with_checked(left.span().lo, right.span().hi);
             left = Box::new(Expr::Bin(BinExpr {
                 span,
@@ -143,11 +158,38 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         self.advance();
         let argument = self.parse_unary_expression()?;
+        if operator == UnaryOp::Delete
+            && matches!(&*argument, Expr::Ident(_))
+            && self.context().intersects(Context::STRICT | Context::MODULE)
+        {
+            return Err(Error::new(
+                Span::new_with_checked(start, argument.span().hi),
+                crate::error::SyntaxError::TS1102,
+            ));
+        }
         Ok(Box::new(Expr::Unary(UnaryExpr {
             span: Span::new_with_checked(start, argument.span().hi),
             op: operator,
             arg: argument,
         })))
+    }
+}
+
+fn mixes_nullish_and_logical(operator: BinaryOp, left: &Expr, right: &Expr) -> bool {
+    let child_operator = |expression: &Expr| match expression {
+        Expr::Bin(binary) => Some(binary.op),
+        _ => None,
+    };
+    match operator {
+        BinaryOp::NullishCoalescing => [child_operator(left), child_operator(right)]
+            .into_iter()
+            .flatten()
+            .any(|operator| matches!(operator, BinaryOp::LogicalAnd | BinaryOp::LogicalOr)),
+        BinaryOp::LogicalAnd | BinaryOp::LogicalOr => [child_operator(left), child_operator(right)]
+            .into_iter()
+            .flatten()
+            .any(|operator| operator == BinaryOp::NullishCoalescing),
+        _ => false,
     }
 }
 

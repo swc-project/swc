@@ -1,7 +1,10 @@
 use std::{
     fs,
-    path::{Path, PathBuf},
+    path::PathBuf,
 };
+
+#[cfg(feature = "flow")]
+use std::path::Path;
 
 #[cfg(feature = "flow")]
 use serde::Deserialize;
@@ -48,45 +51,61 @@ fn assert_valid_fixture_parity(
     if !legacy_diagnostics.is_empty() {
         return;
     }
-    let next_program = match (syntax, &legacy_program) {
-        #[cfg(feature = "typescript")]
-        (Syntax::Typescript(config), Program::Script(_)) => {
-            if config.tsx {
+    let next_program = if module_kind == ModuleKind::CommonJs {
+        IndependentParser::new(&source)
+            .parse_commonjs()
+            .map(Program::Script)
+    } else {
+        match (syntax, &legacy_program) {
+            #[cfg(feature = "typescript")]
+            (Syntax::Typescript(config), Program::Script(_)) => {
+                if config.tsx {
+                    IndependentParser::new(&source)
+                        .parse_typescript_tsx_script()
+                        .map(Program::Script)
+                } else {
+                    IndependentParser::new(&source)
+                        .parse_typescript_script()
+                        .map(Program::Script)
+                }
+            }
+            #[cfg(feature = "typescript")]
+            (Syntax::Typescript(config), Program::Module(_)) => {
+                if config.tsx {
+                    IndependentParser::new(&source)
+                        .parse_typescript_tsx_module()
+                        .map(Program::Module)
+                } else {
+                    IndependentParser::new(&source)
+                        .parse_typescript_module()
+                        .map(Program::Module)
+                }
+            }
+            #[cfg(feature = "flow")]
+            (Syntax::Flow(config), Program::Script(_)) => IndependentParser::new(&source)
+                .parse_flow_script(config.jsx, config.require_directive)
+                .map(Program::Script),
+            #[cfg(feature = "flow")]
+            (Syntax::Flow(config), Program::Module(_)) => IndependentParser::new(&source)
+                .parse_flow_module(config.jsx, config.require_directive)
+                .map(Program::Module),
+            (Syntax::Es(config), Program::Script(_)) if config.jsx => {
                 IndependentParser::new(&source)
-                    .parse_typescript_tsx_script()
-                    .map(Program::Script)
-            } else {
-                IndependentParser::new(&source)
-                    .parse_typescript_script()
+                    .parse_jsx_script()
                     .map(Program::Script)
             }
-        }
-        #[cfg(feature = "typescript")]
-        (Syntax::Typescript(config), Program::Module(_)) => {
-            if config.tsx {
+            (Syntax::Es(config), Program::Module(_)) if config.jsx => {
                 IndependentParser::new(&source)
-                    .parse_typescript_tsx_module()
-                    .map(Program::Module)
-            } else {
-                IndependentParser::new(&source)
-                    .parse_typescript_module()
+                    .parse_jsx_module()
                     .map(Program::Module)
             }
+            (_, Program::Script(_)) => IndependentParser::new(&source)
+                .parse_script()
+                .map(Program::Script),
+            (_, Program::Module(_)) => IndependentParser::new(&source)
+                .parse_module()
+                .map(Program::Module),
         }
-        #[cfg(feature = "flow")]
-        (Syntax::Flow(config), Program::Script(_)) => IndependentParser::new(&source)
-            .parse_flow_script(config.jsx, config.require_directive)
-            .map(Program::Script),
-        #[cfg(feature = "flow")]
-        (Syntax::Flow(config), Program::Module(_)) => IndependentParser::new(&source)
-            .parse_flow_module(config.jsx, config.require_directive)
-            .map(Program::Module),
-        (_, Program::Script(_)) => IndependentParser::new(&source)
-            .parse_script()
-            .map(Program::Script),
-        (_, Program::Module(_)) => IndependentParser::new(&source)
-            .parse_module()
-            .map(Program::Module),
     }
     .unwrap_or_else(|error| {
         panic!(

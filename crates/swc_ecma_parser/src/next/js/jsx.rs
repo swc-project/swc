@@ -90,6 +90,15 @@ impl<C: Config> Parser<'_, C> {
                 Kind::JSXText => {
                     let token = self.token();
                     let raw = Atom::new(self.token_source(token));
+                    if raw.contains('>') {
+                        self.emit_error(Error::new(
+                            token.span(),
+                            crate::error::SyntaxError::Unexpected {
+                                got: ">".into(),
+                                expected: "{'>'}",
+                            },
+                        ));
+                    }
                     let value = Atom::new(decode_jsx_entities(&raw));
                     children.push(JSXElementChild::JSXText(JSXText {
                         span: token.span(),
@@ -122,7 +131,10 @@ impl<C: Config> Parser<'_, C> {
         }
         let closing_start = self.previous_end() - swc_common::BytePos(2);
         let closing_name = self.parse_jsx_element_name()?;
-        self.split_jsx_right_angle();
+        if !jsx_element_names_equal(&opening.name, &closing_name) {
+            return Err(self.expected_error(Kind::Ident));
+        }
+        self.split_jsx_closing_right_angle();
         if !self.at(Kind::Gt) {
             return Err(self.expected_error(Kind::Gt));
         }
@@ -153,6 +165,15 @@ impl<C: Config> Parser<'_, C> {
                 Kind::JSXText => {
                     let token = self.token();
                     let raw = Atom::new(self.token_source(token));
+                    if raw.contains('>') {
+                        self.emit_error(Error::new(
+                            token.span(),
+                            crate::error::SyntaxError::Unexpected {
+                                got: ">".into(),
+                                expected: "{'>'}",
+                            },
+                        ));
+                    }
                     let value = Atom::new(decode_jsx_entities(&raw));
                     children.push(JSXElementChild::JSXText(JSXText {
                         span: token.span(),
@@ -181,7 +202,7 @@ impl<C: Config> Parser<'_, C> {
         let closing_start = self.token().start();
         self.advance();
         self.advance();
-        self.split_jsx_right_angle();
+        self.split_jsx_closing_right_angle();
         if !self.at(Kind::Gt) {
             return Err(self.expected_error(Kind::Gt));
         }
@@ -294,13 +315,13 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn parse_jsx_identifier(&mut self) -> Result<(Span, Atom), Error> {
-        if !self.at_identifier_name() {
+        if !self.at_identifier_name() || self.token().escaped() {
             return Err(self.expected_error(Kind::Ident));
         }
         let start = self.token().start();
         self.advance();
         while self.eat(Kind::Minus) {
-            if !self.at_identifier_name() {
+            if !self.at_identifier_name() || self.token().escaped() {
                 return Err(self.expected_error(Kind::Ident));
             }
             self.advance();
@@ -401,7 +422,7 @@ impl<C: Config> Parser<'_, C> {
             if !parser.eat(Kind::Slash) {
                 return false;
             }
-            parser.split_jsx_right_angle();
+            parser.split_jsx_closing_right_angle();
             parser.at(Kind::Gt)
         })
     }
@@ -415,9 +436,38 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn split_jsx_right_angle(&mut self) {
+        if self.at(Kind::GtEq) {
+            self.re_lex_jsx_right_angle();
+        }
+    }
+
+    fn split_jsx_closing_right_angle(&mut self) {
         if self.kind() != Kind::Gt && self.token_source(self.token()).starts_with('>') {
             self.re_lex_jsx_right_angle();
         }
+    }
+}
+
+fn jsx_element_names_equal(left: &JSXElementName, right: &JSXElementName) -> bool {
+    match (left, right) {
+        (JSXElementName::Ident(left), JSXElementName::Ident(right)) => left.sym == right.sym,
+        (JSXElementName::JSXMemberExpr(left), JSXElementName::JSXMemberExpr(right)) => {
+            jsx_objects_equal(&left.obj, &right.obj) && left.prop.sym == right.prop.sym
+        }
+        (JSXElementName::JSXNamespacedName(left), JSXElementName::JSXNamespacedName(right)) => {
+            left.ns.sym == right.ns.sym && left.name.sym == right.name.sym
+        }
+        _ => false,
+    }
+}
+
+fn jsx_objects_equal(left: &JSXObject, right: &JSXObject) -> bool {
+    match (left, right) {
+        (JSXObject::Ident(left), JSXObject::Ident(right)) => left.sym == right.sym,
+        (JSXObject::JSXMemberExpr(left), JSXObject::JSXMemberExpr(right)) => {
+            jsx_objects_equal(&left.obj, &right.obj) && left.prop.sym == right.prop.sym
+        }
+        _ => false,
     }
 }
 
@@ -482,7 +532,7 @@ mod tests {
     fn parses_jsx_elements_fragments_and_children_directly() {
         let source = "<App enabled value={answer} {...props}> hello <Child /> {item} <></></App>";
         let lexer = Lexer::new(source, BytePos(1), NoTokens).unwrap();
-        let mut parser = Parser::new(lexer, Context::default());
+        let mut parser = Parser::new(lexer, Context::default() | Context::TSX);
         let expression = parser.parse_expression().unwrap();
         let Expr::JSXElement(element) = &*expression else {
             panic!("expected JSX element")

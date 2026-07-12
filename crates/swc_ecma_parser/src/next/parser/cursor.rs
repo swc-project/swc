@@ -21,6 +21,7 @@ pub(crate) struct ParserCheckpoint {
     previous_end: BytePos,
     context: Context,
     diagnostics_len: usize,
+    cover_initialized_name: Option<swc_common::Span>,
     #[cfg(feature = "flow")]
     flow_type_parameters_len: usize,
     fatal_error: Option<Error>,
@@ -33,7 +34,9 @@ pub(crate) struct Parser<'a, C: Config> {
     previous_end: BytePos,
     context: Context,
     diagnostics: Vec<Error>,
+    cover_initialized_name: Option<swc_common::Span>,
     recursion_depth: u16,
+    active_labels: Vec<Atom>,
     #[cfg(feature = "flow")]
     flow_type_parameters: Vec<Atom>,
     fatal_error: Option<Error>,
@@ -49,7 +52,9 @@ impl<'a, C: Config> Parser<'a, C> {
             previous_end: token.start(),
             context,
             diagnostics: Vec::new(),
+            cover_initialized_name: None,
             recursion_depth: 0,
+            active_labels: Vec::new(),
             #[cfg(feature = "flow")]
             flow_type_parameters: Vec::new(),
             fatal_error: None,
@@ -165,6 +170,28 @@ impl<'a, C: Config> Parser<'a, C> {
     #[inline(always)]
     pub(crate) fn context(&self) -> Context {
         self.context
+    }
+
+    pub(crate) fn has_active_label(&self, label: &Atom) -> bool {
+        self.active_labels.iter().any(|active| active == label)
+    }
+
+    pub(crate) fn push_active_label(&mut self, label: Atom) {
+        self.active_labels.push(label);
+    }
+
+    pub(crate) fn pop_active_label(&mut self) {
+        self.active_labels.pop();
+    }
+
+    pub(crate) fn set_cover_initialized_name(&mut self, span: swc_common::Span) {
+        if self.cover_initialized_name.is_none() {
+            self.cover_initialized_name = Some(span);
+        }
+    }
+
+    pub(crate) fn take_cover_initialized_name(&mut self) -> Option<swc_common::Span> {
+        self.cover_initialized_name.take()
     }
 
     /// Run a recursive grammar production with native stack growth and an
@@ -296,6 +323,7 @@ impl<'a, C: Config> Parser<'a, C> {
             previous_end: self.previous_end,
             context: self.context,
             diagnostics_len: self.diagnostics.len(),
+            cover_initialized_name: self.cover_initialized_name,
             #[cfg(feature = "flow")]
             flow_type_parameters_len: self.flow_type_parameters.len(),
             fatal_error: self.fatal_error.take(),
@@ -309,6 +337,7 @@ impl<'a, C: Config> Parser<'a, C> {
         self.previous_end = checkpoint.previous_end;
         self.context = checkpoint.context;
         self.diagnostics.truncate(checkpoint.diagnostics_len);
+        self.cover_initialized_name = checkpoint.cover_initialized_name;
         #[cfg(feature = "flow")]
         self.flow_type_parameters
             .truncate(checkpoint.flow_type_parameters_len);

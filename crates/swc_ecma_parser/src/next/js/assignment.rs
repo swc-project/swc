@@ -52,7 +52,12 @@ impl<C: Config> Parser<'_, C> {
         if self.is_parenthesized_arrow_head() {
             return self.parse_parenthesized_arrow_expression(false);
         }
-        let left = self.parse_conditional_expression()?;
+        let left = self.with_context(
+            Context::COVER_PATTERN,
+            Context::empty(),
+            Self::parse_conditional_expression,
+        )?;
+        let cover_initialized_name = self.take_cover_initialized_name();
         if self.at(Kind::Arrow) {
             let left_span = left.span();
             let Expr::Ident(identifier) = *left else {
@@ -68,8 +73,21 @@ impl<C: Config> Parser<'_, C> {
             );
         }
         let Some(operator) = assignment_operator(self.kind()) else {
+            if let Some(span) = cover_initialized_name {
+                if self.context().contains(Context::COVER_PATTERN) {
+                    self.set_cover_initialized_name(span);
+                } else {
+                    return Err(Error::new(span, SyntaxError::InvalidAssignTarget));
+                }
+            }
             return Ok(left);
         };
+        if cover_initialized_name.is_some() && operator != AssignOp::Assign {
+            return Err(Error::new(
+                cover_initialized_name.unwrap(),
+                SyntaxError::InvalidAssignTarget,
+            ));
+        }
         let start = left.span().lo;
         let left = self.reparse_assignment_target(left)?;
         self.advance();
@@ -236,6 +254,21 @@ impl<C: Config> Parser<'_, C> {
         is_async: bool,
     ) -> Result<Box<Expr>, Error> {
         let type_params = self.parse_ts_type_parameters()?;
+        if self
+            .context()
+            .contains(Context::DISALLOW_AMBIGUOUS_JSX_LIKE)
+            && type_params.params.len() == 1
+            && type_params.params[0].constraint.is_none()
+            && type_params.params[0].default.is_none()
+        {
+            self.emit_error(Error::new(
+                type_params.span,
+                SyntaxError::Expected(
+                    "trailing comma or type constraint".into(),
+                    "ambiguous type parameter".into(),
+                ),
+            ));
+        }
         if !self.at(Kind::LParen) {
             return Err(self.expected_error(Kind::LParen));
         }
@@ -297,6 +330,9 @@ impl<C: Config> Parser<'_, C> {
             };
             #[cfg(feature = "typescript")]
             if self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::QuestionMark) {
+                if matches!(pattern, Pat::Rest(_)) {
+                    return Err(self.expected_error(Kind::RParen));
+                }
                 match &mut pattern {
                     Pat::Ident(pattern) => pattern.id.optional = true,
                     Pat::Array(pattern) => pattern.optional = true,
@@ -315,9 +351,13 @@ impl<C: Config> Parser<'_, C> {
                 }
             }
             normalize_arrow_parameter_pattern(&mut pattern);
+            let is_rest = matches!(pattern, Pat::Rest(_));
             parameters.push(pattern);
             if !self.eat(Kind::Comma) {
                 break;
+            }
+            if is_rest {
+                return Err(self.expected_error(Kind::RParen));
             }
         }
         if !self.expect(Kind::RParen) {
@@ -397,6 +437,16 @@ impl<C: Config> Parser<'_, C> {
                 Self::parse_assignment_expression,
             )?)
         };
+        if parameters
+            .iter()
+            .any(|parameter| !matches!(parameter, Pat::Ident(_)))
+            && matches!(&body, BlockStmtOrExpr::BlockStmt(block) if block.stmts.first().is_some_and(is_use_strict_statement))
+        {
+            self.emit_error(Error::new(
+                body.span(),
+                SyntaxError::IllegalLanguageModeDirective,
+            ));
+        }
         let end = body.span().hi;
         Ok(Box::new(Expr::Arrow(ArrowExpr {
             span: Span::new_with_checked(start, end),
@@ -409,6 +459,10 @@ impl<C: Config> Parser<'_, C> {
             return_type,
         })))
     }
+}
+
+fn is_use_strict_statement(statement: &swc_ecma_ast::Stmt) -> bool {
+    matches!(statement, swc_ecma_ast::Stmt::Expr(expression) if matches!(&*expression.expr, Expr::Lit(swc_ecma_ast::Lit::Str(value)) if &*value.value == "use strict"))
 }
 
 fn normalize_arrow_parameter_pattern(pattern: &mut Pat) {

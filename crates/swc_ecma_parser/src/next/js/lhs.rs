@@ -157,6 +157,16 @@ impl<C: Config> Parser<'_, C> {
                     }
                 }
                 Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead => {
+                    if matches!(&*expression, Expr::OptChain(_))
+                        && !self
+                            .context()
+                            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                    {
+                        return Err(Error::new(
+                            expression.span(),
+                            crate::error::SyntaxError::TaggedTplInOptChain,
+                        ));
+                    }
                     let start = expression.span().lo;
                     let template = self.parse_template_literal(true)?;
                     let end = template.span.hi;
@@ -307,6 +317,15 @@ impl<C: Config> Parser<'_, C> {
                 return Err(self.expected_error(Kind::Target));
             }
             self.advance();
+            if !self
+                .context()
+                .contains(crate::next::parser::context::Context::NEW_TARGET)
+            {
+                return Err(Error::new(
+                    Span::new_with_checked(start, property.end()),
+                    crate::error::SyntaxError::InvalidNewTarget,
+                ));
+            }
             return Ok(Box::new(Expr::MetaProp(MetaPropExpr {
                 span: Span::new_with_checked(start, property.end()),
                 kind: MetaPropKind::NewTarget,
@@ -414,6 +433,12 @@ impl<C: Config> Parser<'_, C> {
                     return Err(self.expected_error(Kind::LParen));
                 }
                 let arguments = self.parse_arguments()?;
+                if arguments.is_empty() || arguments.len() > 2 {
+                    return Err(Error::new(
+                        Span::new_with_checked(token.start(), self.previous_end()),
+                        crate::error::SyntaxError::ImportRequiresOneOrTwoArgs,
+                    ));
+                }
                 return Ok(Box::new(Expr::Call(CallExpr {
                     span: Span::new_with_checked(token.start(), self.previous_end()),
                     ctxt: SyntaxContext::empty(),
@@ -429,6 +454,12 @@ impl<C: Config> Parser<'_, C> {
                 return Err(self.expected_error(Kind::LParen));
             }
             let arguments = self.parse_arguments()?;
+            if arguments.is_empty() || arguments.len() > 2 {
+                return Err(Error::new(
+                    Span::new_with_checked(token.start(), self.previous_end()),
+                    crate::error::SyntaxError::ImportRequiresOneOrTwoArgs,
+                ));
+            }
             return Ok(Box::new(Expr::Call(CallExpr {
                 span: Span::new_with_checked(token.start(), self.previous_end()),
                 ctxt: SyntaxContext::empty(),
@@ -574,7 +605,7 @@ mod tests {
             NoTokens,
         )
         .unwrap();
-        let mut parser = Parser::new(lexer, Context::default());
+        let mut parser = Parser::new(lexer, Context::default() | Context::NEW_TARGET);
         let script = parser.parse_script().unwrap();
         assert!(matches!(
             &script.body[0],
