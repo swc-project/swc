@@ -12524,6 +12524,25 @@ console.log(count);
 }
 
 #[test]
+fn issue_11684_new_function_expr_drops_pure_args_after_side_effect() {
+    let src = r#"
+var count = 0;
+try {
+    new function() {
+        throw 1;
+    }(count++, "drop", 2);
+} catch (e) {}
+console.log(count);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn issue_11684_new_function_expr_spread_before_trailing_arg() {
     let src = r#"
 var xs = [];
