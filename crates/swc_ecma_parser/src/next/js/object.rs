@@ -66,7 +66,7 @@ impl<C: Config> Parser<'_, C> {
                 }));
             } else {
                 let token = self.token();
-                if !token.kind().is_word() {
+                if !self.at_identifier_name() {
                     return Err(self.expected_error(Kind::Ident));
                 }
                 let symbol = Atom::new(self.token_source(token));

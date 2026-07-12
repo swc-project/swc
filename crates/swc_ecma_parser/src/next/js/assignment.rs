@@ -83,7 +83,7 @@ impl<C: Config> Parser<'_, C> {
                 return parser.at(Kind::Arrow);
             }
             loop {
-                if !parser.at(Kind::Ident) {
+                if !parser.at_identifier_reference() {
                     return false;
                 }
                 parser.advance();
@@ -103,7 +103,7 @@ impl<C: Config> Parser<'_, C> {
         let mut parameters = Vec::with_capacity(4);
         while !self.at(Kind::RParen) {
             let token = self.token();
-            if !self.at(Kind::Ident) {
+            if !self.at_identifier_reference() {
                 return Err(self.expected_error(Kind::Ident));
             }
             parameters.push(Pat::Ident(BindingIdent {

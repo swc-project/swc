@@ -22,7 +22,7 @@ impl<C: Config> Parser<'_, C> {
                 Kind::Dot => {
                     self.advance();
                     let property_token = self.token();
-                    if !property_token.kind().is_word() {
+                    if !self.at_identifier_name() {
                         return Err(self.expected_error(Kind::Ident));
                     }
                     let property = IdentName {

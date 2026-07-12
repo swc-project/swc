@@ -19,7 +19,7 @@ impl<C: Config> Parser<'_, C> {
         let token = self.token();
         let span = token.span();
         match token.kind() {
-            Kind::Ident => {
+            kind if kind == Kind::Ident || kind.is_known_ident() => {
                 let symbol = Atom::new(self.token_source(token));
                 self.advance();
                 Ok(Box::new(Expr::Ident(Ident::new_no_ctxt(symbol, span))))

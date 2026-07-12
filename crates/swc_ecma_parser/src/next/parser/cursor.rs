@@ -89,6 +89,19 @@ impl<'a, C: Config> Parser<'a, C> {
         self.kind() == kind
     }
 
+    /// Whether the current token can be used as an identifier reference in
+    /// the current JavaScript migration stage.
+    #[inline(always)]
+    pub(crate) fn at_identifier_reference(&self) -> bool {
+        self.at(Kind::Ident) || self.kind().is_known_ident()
+    }
+
+    /// Whether the current token is an IdentifierName, including keywords.
+    #[inline(always)]
+    pub(crate) fn at_identifier_name(&self) -> bool {
+        self.kind().is_word()
+    }
+
     /// Consume the current token and read the next token.
     #[inline]
     pub(crate) fn advance(&mut self) {
