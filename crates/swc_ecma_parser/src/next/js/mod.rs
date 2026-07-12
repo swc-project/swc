@@ -3,5 +3,6 @@
 mod assignment;
 mod expression;
 mod lhs;
+mod object;
 mod operator;
 mod statement;

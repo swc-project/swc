@@ -75,6 +75,8 @@ impl<C: Config> Parser<'_, C> {
                     expr: expression,
                 })))
             }
+            Kind::LBracket => self.parse_array_literal(),
+            Kind::LBrace => self.parse_object_literal(),
             _ => Err(self.expected_error(Kind::Ident)),
         }
     }
