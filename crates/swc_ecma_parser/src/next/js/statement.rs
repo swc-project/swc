@@ -45,6 +45,7 @@ impl<C: Config> Parser<'_, C> {
             Kind::Break | Kind::Continue => self.parse_jump_statement(),
             Kind::Debugger => self.parse_debugger_statement(),
             Kind::For => self.parse_for_statement(),
+            Kind::Function => self.parse_function_declaration(),
             Kind::If => self.parse_if_statement(),
             Kind::Return => self.parse_return_statement(),
             Kind::Switch => self.parse_switch_statement(),
@@ -68,7 +69,7 @@ impl<C: Config> Parser<'_, C> {
         Ok(expression)
     }
 
-    fn parse_block_statement(&mut self) -> Result<BlockStmt, Error> {
+    pub(crate) fn parse_block_statement(&mut self) -> Result<BlockStmt, Error> {
         let start = self.token().start();
         self.advance();
         let mut statements = Vec::with_capacity(8);

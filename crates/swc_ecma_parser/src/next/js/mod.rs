@@ -2,6 +2,7 @@
 
 mod assignment;
 mod expression;
+mod function;
 mod lhs;
 mod object;
 mod operator;
