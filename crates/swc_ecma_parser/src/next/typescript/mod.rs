@@ -5,7 +5,7 @@ use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     Decl, Expr, Ident, IdentName, Lit, Stmt, TsArrayType, TsEntityName, TsIntersectionType,
     TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsParenthesizedType, TsQualifiedName,
-    TsType, TsTypeAliasDecl, TsTypeParamInstantiation, TsTypeRef, TsUnionType,
+    TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeParamInstantiation, TsTypeRef, TsUnionType,
 };
 
 use crate::{
@@ -42,6 +42,18 @@ impl<C: Config> Parser<'_, C> {
 
     pub(crate) fn parse_ts_type(&mut self) -> Result<Box<TsType>, Error> {
         self.parse_ts_union_type()
+    }
+
+    pub(crate) fn parse_ts_type_annotation(&mut self) -> Result<Box<TsTypeAnn>, Error> {
+        let start = self.token().start();
+        if !self.expect(Kind::Colon) {
+            return Err(self.expected_error(Kind::Colon));
+        }
+        let type_ann = self.parse_ts_type()?;
+        Ok(Box::new(TsTypeAnn {
+            span: Span::new_with_checked(start, type_ann.span().hi),
+            type_ann,
+        }))
     }
 
     fn parse_ts_union_type(&mut self) -> Result<Box<TsType>, Error> {

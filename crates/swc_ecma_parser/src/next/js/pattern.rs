@@ -7,6 +7,8 @@ use swc_ecma_ast::{
     ObjectPatProp, Pat, PropName, RestPat,
 };
 
+#[cfg(feature = "typescript")]
+use crate::next::parser::context::Context;
 use crate::{
     error::Error,
     lexer::Token as Kind,
@@ -32,6 +34,22 @@ impl<C: Config> Parser<'_, C> {
                     type_ann: None,
                 })
             }
+        };
+
+        #[cfg(feature = "typescript")]
+        let pattern = {
+            let mut pattern = pattern;
+            if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Colon) {
+                let type_ann = self.parse_ts_type_annotation()?;
+                match &mut pattern {
+                    Pat::Ident(pattern) => pattern.type_ann = Some(type_ann),
+                    Pat::Array(pattern) => pattern.type_ann = Some(type_ann),
+                    Pat::Object(pattern) => pattern.type_ann = Some(type_ann),
+                    Pat::Rest(pattern) => pattern.type_ann = Some(type_ann),
+                    _ => return Err(self.expected_error(Kind::Ident)),
+                }
+            }
+            pattern
         };
 
         if !allow_default || !self.eat(Kind::Eq) {

@@ -93,6 +93,14 @@ impl<C: Config> Parser<'_, C> {
         if !self.expect(Kind::RParen) {
             return Err(self.expected_error(Kind::RParen));
         }
+        #[cfg(feature = "typescript")]
+        let return_type = if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Colon) {
+            Some(self.parse_ts_type_annotation()?)
+        } else {
+            None
+        };
+        #[cfg(not(feature = "typescript"))]
+        let return_type = None;
         if !self.at(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));
         }
@@ -120,7 +128,7 @@ impl<C: Config> Parser<'_, C> {
                 is_generator,
                 is_async,
                 type_params: None,
-                return_type: None,
+                return_type,
             }),
         ))
     }

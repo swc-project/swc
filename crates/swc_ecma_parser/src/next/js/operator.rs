@@ -2,6 +2,8 @@
 
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{AwaitExpr, BinExpr, BinaryOp, Expr, UnaryExpr, UnaryOp, UpdateExpr, UpdateOp};
+#[cfg(feature = "typescript")]
+use swc_ecma_ast::{TsAsExpr, TsConstAssertion, TsSatisfiesExpr};
 
 use crate::{
     error::Error,
@@ -19,7 +21,46 @@ impl<C: Config> Parser<'_, C> {
     ) -> Result<Box<Expr>, Error> {
         let mut left = self.parse_unary_expression()?;
 
-        while let Some(operator) = binary_operator(self.kind(), self.context()) {
+        loop {
+            let Some(operator) = binary_operator(self.kind(), self.context()) else {
+                #[cfg(feature = "typescript")]
+                if self.context().contains(Context::TYPESCRIPT)
+                    && matches!(self.kind(), Kind::As | Kind::Satisfies)
+                    && !self.token().had_line_break()
+                {
+                    const TS_TYPE_OPERATOR_PRECEDENCE: u8 = 7;
+                    if TS_TYPE_OPERATOR_PRECEDENCE < minimum_precedence {
+                        break;
+                    }
+                    let start = left.span().lo;
+                    let operator = self.kind();
+                    self.advance();
+                    if operator == Kind::As && self.eat(Kind::Const) {
+                        left = Box::new(Expr::TsConstAssertion(TsConstAssertion {
+                            span: Span::new_with_checked(start, self.previous_end()),
+                            expr: left,
+                        }));
+                    } else {
+                        let type_ann = self.parse_ts_type()?;
+                        let span = Span::new_with_checked(start, type_ann.span().hi);
+                        left = if operator == Kind::As {
+                            Box::new(Expr::TsAs(TsAsExpr {
+                                span,
+                                expr: left,
+                                type_ann,
+                            }))
+                        } else {
+                            Box::new(Expr::TsSatisfies(TsSatisfiesExpr {
+                                span,
+                                expr: left,
+                                type_ann,
+                            }))
+                        };
+                    }
+                    continue;
+                }
+                break;
+            };
             let precedence = operator.precedence();
             if precedence < minimum_precedence {
                 break;

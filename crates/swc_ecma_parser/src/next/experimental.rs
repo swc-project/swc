@@ -232,7 +232,18 @@ mod tests {
     fn supported_typescript_ast_matches_reference_engine() {
         assert_typescript_script_parity(
             "type Primitive = string | number; type Values = Primitive[] | null; type Nested = \
-             Promise<Result<string | 1>>; type Flag = true | false; type Both = Left & Right;",
+             Promise<Result<string | 1>>; type Flag = true | false; type Both = Left & Right; \
+             const value: Primitive = source; let values: Array<number>; const { item }: Result = \
+             input;",
+        );
+        assert_typescript_script_parity(
+            "function convert(value: string | number): Result<string> { return value; } const map \
+             = (value: Input): Output => value; const load = async (source: Source): \
+             Promise<Result> => await source.read();",
+        );
+        assert_typescript_script_parity(
+            "const first = input as Result<string>; const second = { value: 1 } satisfies Shape; \
+             const third = value as const; const fourth = left + right as number;",
         );
     }
 

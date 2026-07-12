@@ -156,7 +156,19 @@ impl<C: Config> Parser<'_, C> {
                     }
                     Kind::RParen if depth == 0 => {
                         parser.advance();
-                        return !parser.token().had_line_break() && parser.at(Kind::Arrow);
+                        if parser.token().had_line_break() {
+                            return false;
+                        }
+                        if parser.at(Kind::Arrow) {
+                            return true;
+                        }
+                        #[cfg(feature = "typescript")]
+                        if parser.context().contains(Context::TYPESCRIPT) && parser.at(Kind::Colon)
+                        {
+                            return parser.parse_ts_type_annotation().is_ok()
+                                && parser.at(Kind::Arrow);
+                        }
+                        return false;
                     }
                     Kind::RParen => {
                         depth -= 1;
@@ -236,6 +248,14 @@ impl<C: Config> Parser<'_, C> {
         parameters: Vec<Pat>,
         is_async: bool,
     ) -> Result<Box<Expr>, Error> {
+        #[cfg(feature = "typescript")]
+        let return_type = if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Colon) {
+            Some(self.parse_ts_type_annotation()?)
+        } else {
+            None
+        };
+        #[cfg(not(feature = "typescript"))]
+        let return_type = None;
         if !self.expect(Kind::Arrow) {
             return Err(self.expected_error(Kind::Arrow));
         }
@@ -269,7 +289,7 @@ impl<C: Config> Parser<'_, C> {
             is_async,
             is_generator: false,
             type_params: None,
-            return_type: None,
+            return_type,
         })))
     }
 }
