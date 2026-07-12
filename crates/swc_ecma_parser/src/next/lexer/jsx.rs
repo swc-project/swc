@@ -1,11 +1,30 @@
 //! JSX child tokenization controlled by the parser.
 
-use swc_common::Span;
+use swc_common::{BytePos, Span};
 
 use super::{config::Config, core::Lexer, PackedToken};
 use crate::lexer::Token as Kind;
 
 impl<C: Config> Lexer<'_, C> {
+    /// Split a punctuation token beginning with `>` so JSX can consume the
+    /// tag delimiter without stealing a following `=` or another `>` from
+    /// child text or the surrounding JavaScript expression.
+    pub(crate) fn re_lex_jsx_right_angle(&mut self) -> PackedToken {
+        let current = self.token();
+        let start = current.start();
+        let end = BytePos(start.0 + 1);
+        debug_assert_eq!(self.token_source(current).as_bytes().first(), Some(&b'>'));
+        // SAFETY: The current punctuation token starts with the ASCII byte
+        // `>`, so the next byte is an in-bounds UTF-8 boundary.
+        unsafe { self.source.reset_to(end) };
+        self.replace_current(
+            Kind::Gt,
+            Span::new_with_checked(start, end),
+            current.had_line_break(),
+            false,
+        )
+    }
+
     /// Reinterpret a quoted JSX attribute value, where raw line terminators
     /// are permitted unlike in ECMAScript string literals.
     pub(crate) fn re_lex_jsx_attribute_string(&mut self) -> PackedToken {

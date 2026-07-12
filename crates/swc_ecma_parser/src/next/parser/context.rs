@@ -44,6 +44,9 @@ bitflags::bitflags! {
         /// The current Flow parameter list belongs to an object type member,
         /// where a bare unbound identifier is a parameter name.
         const FLOW_OBJECT_SIGNATURE = 1 << 18;
+        /// Explicit resource management declarations are allowed in the
+        /// current statement list.
+        const ALLOW_USING = 1 << 19;
     }
 }
 

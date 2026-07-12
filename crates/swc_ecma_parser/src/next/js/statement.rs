@@ -4,8 +4,8 @@ use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
     ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, Ident, IfStmt, LabeledStmt, ReturnStmt,
-    Script, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDecl, VarDeclKind, VarDeclOrExpr,
-    VarDeclarator, WhileStmt, WithStmt,
+    Script, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt, UsingDecl, VarDecl, VarDeclKind,
+    VarDeclOrExpr, VarDeclarator, WhileStmt, WithStmt,
 };
 
 use crate::{
@@ -63,7 +63,9 @@ impl<C: Config> Parser<'_, C> {
                 self.advance();
                 Ok(Stmt::Empty(EmptyStmt { span }))
             }
-            Kind::LBrace => self.parse_block_statement().map(Stmt::Block),
+            Kind::LBrace => self
+                .with_recursion(Self::parse_block_statement)
+                .map(Stmt::Block),
             Kind::Break | Kind::Continue => self.parse_jump_statement(),
             Kind::Class => self.parse_class_declaration(),
             #[cfg(feature = "typescript")]
@@ -219,6 +221,7 @@ impl<C: Config> Parser<'_, C> {
             }
             Kind::Var | Kind::Const => self.parse_variable_statement(),
             Kind::Let if self.is_let_declaration_start() => self.parse_variable_statement(),
+            Kind::Using if self.is_using_declaration_start() => self.parse_using_statement(false),
             Kind::While => self.parse_while_statement(),
             Kind::Do => self.parse_do_while_statement(),
             Kind::With => self.parse_with_statement(),
@@ -244,6 +247,16 @@ impl<C: Config> Parser<'_, C> {
             parser.advance();
             matches!(parser.kind(), Kind::LBracket | Kind::LBrace)
                 || parser.at_identifier_reference()
+        })
+    }
+
+    fn is_using_declaration_start(&mut self) -> bool {
+        debug_assert!(self.at(Kind::Using));
+        self.lookahead(|parser| {
+            parser.advance();
+            !parser.token().had_line_break()
+                && !parser.at(Kind::Of)
+                && (parser.at_identifier_reference() || parser.at(Kind::Using))
         })
     }
 
@@ -291,7 +304,11 @@ impl<C: Config> Parser<'_, C> {
         self.advance();
         let mut statements = Vec::with_capacity(8);
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
-            statements.push(self.parse_statement()?);
+            statements.push(self.with_context(
+                Context::ALLOW_USING,
+                Context::empty(),
+                Self::parse_statement,
+            )?);
         }
         if !self.expect(Kind::RBrace) {
             return Err(self.expected_error(Kind::RBrace));
@@ -408,7 +425,12 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::LParen));
         }
 
-        let init = if self.at(Kind::Semi) {
+        let mut using_init = if self.at(Kind::Using) && self.is_using_declaration_start() {
+            Some(self.parse_using_declaration(false)?)
+        } else {
+            None
+        };
+        let init = if using_init.is_some() || self.at(Kind::Semi) {
             None
         } else if matches!(self.kind(), Kind::Var | Kind::Const)
             || (self.at(Kind::Let) && self.is_let_declaration_start())
@@ -431,18 +453,22 @@ impl<C: Config> Parser<'_, C> {
             if is_await && operator != Kind::Of {
                 return Err(self.expected_error(Kind::Of));
             }
-            let Some(init) = init else {
-                return Err(self.expected_error(Kind::Ident));
-            };
-            // Plugin builds consume a non-exhaustive AST enum from another
-            // crate, while workspace builds see the current variants.
-            #[allow(unreachable_patterns)]
-            let left = match init {
-                VarDeclOrExpr::VarDecl(declaration) => ForHead::VarDecl(declaration),
-                VarDeclOrExpr::Expr(expression) => {
-                    ForHead::Pat(Box::new(self.reparse_assignment_pattern(expression)?))
+            let left = if let Some(declaration) = using_init.take() {
+                ForHead::UsingDecl(declaration)
+            } else {
+                let Some(init) = init else {
+                    return Err(self.expected_error(Kind::Ident));
+                };
+                // Plugin builds consume a non-exhaustive AST enum from
+                // another crate, while workspace builds see current variants.
+                #[allow(unreachable_patterns)]
+                match init {
+                    VarDeclOrExpr::VarDecl(declaration) => ForHead::VarDecl(declaration),
+                    VarDeclOrExpr::Expr(expression) => {
+                        ForHead::Pat(Box::new(self.reparse_assignment_pattern(expression)?))
+                    }
+                    _ => return Err(self.expected_error(Kind::Ident)),
                 }
-                _ => return Err(self.expected_error(Kind::Ident)),
             };
             self.advance();
             let right = self.parse_expression()?;
@@ -474,6 +500,9 @@ impl<C: Config> Parser<'_, C> {
         }
 
         if is_await {
+            return Err(self.expected_error(Kind::Of));
+        }
+        if using_init.is_some() {
             return Err(self.expected_error(Kind::Of));
         }
         if !self.expect(Kind::Semi) {
@@ -674,6 +703,53 @@ impl<C: Config> Parser<'_, C> {
         let declaration = self.parse_variable_declaration()?;
         self.consume_semicolon()?;
         Ok(Stmt::Decl(Decl::Var(declaration)))
+    }
+
+    fn parse_using_statement(&mut self, is_await: bool) -> Result<Stmt, Error> {
+        let declaration = self.parse_using_declaration(is_await)?;
+        self.consume_semicolon()?;
+        Ok(Stmt::Decl(Decl::Using(declaration)))
+    }
+
+    fn parse_using_declaration(&mut self, is_await: bool) -> Result<Box<UsingDecl>, Error> {
+        let start = self.token().start();
+        debug_assert!(self.eat(Kind::Using));
+        let mut declarations = Vec::with_capacity(2);
+        loop {
+            let pattern = self.parse_binding_pattern(false)?;
+            let initializer = if self.eat(Kind::Eq) {
+                Some(self.parse_assignment_expression()?)
+            } else {
+                None
+            };
+            let end = initializer
+                .as_ref()
+                .map_or(pattern.span().hi, |expression| expression.span().hi);
+            declarations.push(VarDeclarator {
+                span: Span::new_with_checked(pattern.span().lo, end),
+                name: pattern,
+                init: initializer,
+                definite: false,
+            });
+            if !self.eat(Kind::Comma) {
+                break;
+            }
+        }
+        let span = Span::new_with_checked(start, self.previous_end());
+        if !self
+            .context()
+            .intersects(Context::ALLOW_USING | Context::MODULE)
+        {
+            self.emit_error(Error::new(
+                span,
+                crate::error::SyntaxError::UsingDeclNotAllowed,
+            ));
+        }
+        Ok(Box::new(UsingDecl {
+            span,
+            is_await,
+            decls: declarations,
+        }))
     }
 
     #[cfg(feature = "typescript")]

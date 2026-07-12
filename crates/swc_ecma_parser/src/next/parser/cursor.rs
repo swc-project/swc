@@ -33,6 +33,7 @@ pub(crate) struct Parser<'a, C: Config> {
     previous_end: BytePos,
     context: Context,
     diagnostics: Vec<Error>,
+    recursion_depth: u16,
     #[cfg(feature = "flow")]
     flow_type_parameters: Vec<Atom>,
     fatal_error: Option<Error>,
@@ -48,6 +49,7 @@ impl<'a, C: Config> Parser<'a, C> {
             previous_end: token.start(),
             context,
             diagnostics: Vec::new(),
+            recursion_depth: 0,
             #[cfg(feature = "flow")]
             flow_type_parameters: Vec::new(),
             fatal_error: None,
@@ -146,6 +148,13 @@ impl<'a, C: Config> Parser<'a, C> {
         self.token
     }
 
+    /// Split a combined right-angle punctuation token at a JSX tag boundary.
+    #[inline]
+    pub(crate) fn re_lex_jsx_right_angle(&mut self) -> PackedToken {
+        self.token = self.lexer.re_lex_jsx_right_angle();
+        self.token
+    }
+
     /// End of the previously consumed token.
     #[inline(always)]
     pub(crate) fn previous_end(&self) -> BytePos {
@@ -156,6 +165,29 @@ impl<'a, C: Config> Parser<'a, C> {
     #[inline(always)]
     pub(crate) fn context(&self) -> Context {
         self.context
+    }
+
+    /// Run a recursive grammar production with native stack growth and an
+    /// explicit cross-platform nesting limit.
+    pub(crate) fn with_recursion<T>(
+        &mut self,
+        production: impl FnOnce(&mut Self) -> Result<T, Error>,
+    ) -> Result<T, Error> {
+        #[cfg(any(target_arch = "wasm32", target_arch = "arm"))]
+        const LIMIT: u16 = 128;
+        #[cfg(not(any(target_arch = "wasm32", target_arch = "arm")))]
+        const LIMIT: u16 = 1024;
+
+        if self.recursion_depth >= LIMIT {
+            return Err(Error::new(
+                self.token.span(),
+                SyntaxError::Expected("less deeply nested input".into(), self.kind().to_string()),
+            ));
+        }
+        self.recursion_depth += 1;
+        let result = crate::maybe_grow(256 * 1024, 1024 * 1024, || production(self));
+        self.recursion_depth -= 1;
+        result
     }
 
     #[cfg(feature = "flow")]
@@ -194,6 +226,7 @@ impl<'a, C: Config> Parser<'a, C> {
         self.at(Kind::Ident)
             || self.kind().is_known_ident()
             || self.at(Kind::Module)
+            || self.at(Kind::Of)
             || (self.at(Kind::Let) && !self.context.intersects(Context::STRICT | Context::MODULE))
             || (self.at(Kind::Await)
                 && (self.context.contains(Context::FLOW)

@@ -9,23 +9,23 @@
 //! `b6d2a29e47358a288dbfb2a635550243511ec497`. See `OXC_LICENSE` in this
 //! crate for the upstream MIT license.
 
-use std::{fmt, rc::Rc};
-
 use swc_common::{
-    comments::{Comment, Comments, SingleThreadedComments},
-    input::StringInput,
+    comments::{Comment, Comments},
     BytePos, Span, Spanned,
 };
-use swc_ecma_ast::{EsVersion, Module, Program, Script};
+use swc_ecma_ast::{EsVersion, Module, ModuleItem, Program, Script};
 
-#[cfg(feature = "typescript")]
-use crate::TsSyntax;
+use super::{
+    lexer::{
+        config::{Config, NoTokens, WithTokens},
+        core::{CommentKind as LexCommentKind, Lexer},
+        PackedToken,
+    },
+    parser::{context::Context, cursor::Parser as ParserImpl},
+};
 use crate::{
     error::{Error, SyntaxError},
-    input::Tokens,
-    lexer::{capturing::Capturing, Lexer, TokenAndSpan},
-    parser::{PResult, Parser as LegacyParser},
-    EsSyntax, Syntax,
+    Syntax,
 };
 
 /// Source language accepted by the parser.
@@ -342,53 +342,11 @@ impl Default for ParseOptions {
     }
 }
 
-/// Compact token kind returned by token-collecting parses.
-#[derive(Clone, Copy, PartialEq, Eq)]
-pub struct TokenKind(crate::lexer::Token);
+/// One-byte token category used by [`Token`].
+pub type TokenKind = crate::lexer::Token;
 
-impl fmt::Debug for TokenKind {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Debug::fmt(&self.0, f)
-    }
-}
-
-impl fmt::Display for TokenKind {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Display::fmt(&self.0, f)
-    }
-}
-
-/// Token emitted in source order when token collection is enabled.
-#[derive(Clone, Copy, PartialEq, Eq)]
-pub struct Token {
-    /// Token category.
-    pub kind: TokenKind,
-    /// Token byte range.
-    pub span: Span,
-    /// Whether a line terminator occurred before this token.
-    pub had_line_break: bool,
-}
-
-impl std::fmt::Debug for Token {
-    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        formatter
-            .debug_struct("TokenAndSpan")
-            .field("token", &self.kind)
-            .field("span", &self.span)
-            .field("had_line_break", &self.had_line_break)
-            .finish()
-    }
-}
-
-impl From<TokenAndSpan> for Token {
-    fn from(token: TokenAndSpan) -> Self {
-        Self {
-            kind: TokenKind(token.token),
-            span: token.span,
-            had_line_break: token.had_line_break,
-        }
-    }
-}
+/// Packed token emitted in source order when collection is enabled.
+pub type Token = PackedToken;
 
 /// Result of parsing a source file.
 pub struct ParserReturn {
@@ -457,75 +415,61 @@ impl<'a> Parser<'a> {
             return self.overlong_source();
         };
 
-        let syntax = self.syntax();
-        let comments = SingleThreadedComments::default();
-        let input = StringInput::new(self.source, self.start_pos, end_pos);
-        let lexer = Lexer::new(syntax, self.options.target, input, Some(&comments));
-
-        let (result, diagnostics, tokens) = if self.collect_tokens {
-            let lexer =
-                Capturing::with_capacity(lexer, estimated_token_capacity(self.source.len()));
-            let mut parser = LegacyParser::new_from(lexer);
-            let result = parse_program(&mut parser, self.source_type.module_kind);
-            let diagnostics = parser.take_errors();
-            let tokens = parser
-                .input_mut()
-                .iter
-                .take()
-                .into_iter()
-                .map(Token::from)
-                .collect();
-            (result, diagnostics, tokens)
+        let context = self.context();
+        if self.collect_tokens {
+            let lexer = Lexer::new(
+                self.source,
+                self.start_pos,
+                WithTokens::with_capacity(estimated_token_capacity(self.source.len())),
+            );
+            let Some(lexer) = lexer else {
+                return self.overlong_source();
+            };
+            finish_independent_parse(
+                ParserImpl::new(lexer, context),
+                self.source_type.module_kind,
+                Span::new_with_checked(self.start_pos, end_pos),
+            )
         } else {
-            let mut parser = LegacyParser::new_from(lexer);
-            let result = parse_program(&mut parser, self.source_type.module_kind);
-            let diagnostics = parser.take_errors();
-            (result, diagnostics, Vec::new())
-        };
-
-        finish_parse(
-            result,
-            diagnostics,
-            flatten_comments(comments),
-            tokens,
-            self.source_type.module_kind,
-            Span::new_with_checked(self.start_pos, end_pos),
-        )
+            let Some(lexer) = Lexer::new(self.source, self.start_pos, NoTokens) else {
+                return self.overlong_source();
+            };
+            finish_independent_parse(
+                ParserImpl::new(lexer, context),
+                self.source_type.module_kind,
+                Span::new_with_checked(self.start_pos, end_pos),
+            )
+        }
     }
 
-    fn syntax(&self) -> Syntax {
+    fn context(&self) -> Context {
+        let mut context = Context::default();
         match self.source_type.language {
-            Language::JavaScript => Syntax::Es(EsSyntax {
-                jsx: self.source_type.is_jsx(),
-                fn_bind: self.options.function_bind,
-                decorators: self.options.decorators,
-                decorators_before_export: self.options.decorators_before_export,
-                export_default_from: self.options.export_default_from,
-                import_attributes: self.options.import_attributes,
-                allow_super_outside_method: self.options.allow_super_outside_method,
-                allow_return_outside_function: self.options.allow_return_outside_function,
-                auto_accessors: self.options.auto_accessors,
-                explicit_resource_management: self.options.explicit_resource_management,
-            }),
+            Language::JavaScript => {}
             #[cfg(feature = "typescript")]
-            Language::TypeScript | Language::TypeScriptDefinition => Syntax::Typescript(TsSyntax {
-                tsx: self.source_type.is_jsx(),
-                decorators: self.options.decorators,
-                dts: matches!(self.source_type.language, Language::TypeScriptDefinition),
-                no_early_errors: self.options.no_early_errors,
-                disallow_ambiguous_jsx_like: self.options.disallow_ambiguous_jsx_like,
-            }),
+            Language::TypeScript | Language::TypeScriptDefinition => {
+                context.insert(Context::TYPESCRIPT);
+            }
             #[cfg(feature = "flow")]
-            Language::Flow => Syntax::Flow(crate::FlowSyntax {
-                jsx: self.source_type.is_jsx(),
-                all: self.options.flow.all,
-                require_directive: self.options.flow.require_directive,
-                enums: self.options.flow.enums,
-                decorators: self.options.flow.decorators,
-                components: self.options.flow.components,
-                pattern_matching: self.options.flow.pattern_matching,
-            }),
+            Language::Flow => {
+                if !self.options.flow.require_directive || self.source.contains("@flow") {
+                    context.insert(Context::TYPESCRIPT | Context::FLOW);
+                }
+            }
         }
+        if self.source_type.is_jsx() {
+            context.insert(Context::TSX);
+        }
+        match self.source_type.module_kind {
+            ModuleKind::Module | ModuleKind::Unambiguous => {
+                context.insert(Context::MODULE | Context::AWAIT | Context::ALLOW_USING);
+            }
+            ModuleKind::CommonJs => {
+                context.insert(Context::RETURN | Context::ALLOW_USING);
+            }
+            ModuleKind::Script => {}
+        }
+        context
     }
 
     #[cold]
@@ -547,26 +491,60 @@ impl<'a> Parser<'a> {
     }
 }
 
-fn parse_program<I: Tokens>(
-    parser: &mut LegacyParser<I>,
+fn parse_independent_program<C: Config>(
+    parser: &mut ParserImpl<'_, C>,
     module_kind: ModuleKind,
-) -> PResult<Program> {
+) -> Result<Program, Error> {
     match module_kind {
         ModuleKind::Script => parser.parse_script().map(Program::Script),
         ModuleKind::Module => parser.parse_module().map(Program::Module),
-        ModuleKind::Unambiguous => parser.parse_program(),
-        ModuleKind::CommonJs => parser.parse_commonjs().map(Program::Script),
+        ModuleKind::CommonJs => parser.parse_script().map(Program::Script),
+        ModuleKind::Unambiguous => parser.parse_module().map(|module| {
+            if module
+                .body
+                .iter()
+                .any(|item| matches!(item, ModuleItem::ModuleDecl(_)))
+            {
+                Program::Module(module)
+            } else {
+                Program::Script(Script {
+                    span: module.span,
+                    body: module
+                        .body
+                        .into_iter()
+                        .map(|item| match item {
+                            ModuleItem::Stmt(statement) => statement,
+                            ModuleItem::ModuleDecl(_) => unreachable!(),
+                        })
+                        .collect(),
+                    shebang: module.shebang,
+                })
+            }
+        }),
     }
 }
 
-fn finish_parse(
-    result: PResult<Program>,
-    mut diagnostics: Vec<Error>,
-    comments: Vec<Comment>,
-    tokens: Vec<Token>,
+fn finish_independent_parse<C: Config>(
+    mut parser: ParserImpl<'_, C>,
     module_kind: ModuleKind,
     span: Span,
 ) -> ParserReturn {
+    let result = parse_independent_program(&mut parser, module_kind);
+    let mut diagnostics = parser.diagnostics().to_vec();
+    let comments = parser
+        .comments()
+        .iter()
+        .copied()
+        .map(|comment| Comment {
+            kind: match comment.kind {
+                LexCommentKind::Line => swc_common::comments::CommentKind::Line,
+                LexCommentKind::Block => swc_common::comments::CommentKind::Block,
+            },
+            span: comment.span,
+            text: parser.comment_text(comment).into(),
+        })
+        .collect();
+    let tokens = parser.into_tokens();
     match result {
         Ok(program) => ParserReturn {
             program,
@@ -605,39 +583,6 @@ fn empty_program(module_kind: ModuleKind, span: Span) -> Program {
     }
 }
 
-fn flatten_comments(comments: SingleThreadedComments) -> Vec<Comment> {
-    let (leading, trailing) = comments.take_all();
-    let leading = take_comment_map(leading);
-    let trailing = take_comment_map(trailing);
-    let capacity = leading.values().map(Vec::len).sum::<usize>()
-        + trailing.values().map(Vec::len).sum::<usize>();
-    let mut comments = Vec::with_capacity(capacity);
-    comments.extend(leading.into_values().flatten());
-    comments.extend(trailing.into_values().flatten());
-
-    comments.sort_unstable_by_key(|comment| {
-        (
-            comment.span.lo,
-            comment.span.hi,
-            match comment.kind {
-                swc_common::comments::CommentKind::Line => 0_u8,
-                swc_common::comments::CommentKind::Block => 1_u8,
-            },
-        )
-    });
-    comments.dedup();
-    comments
-}
-
-fn take_comment_map(
-    comments: swc_common::comments::SingleThreadedCommentsMap,
-) -> swc_common::comments::SingleThreadedCommentsMapInner {
-    match Rc::try_unwrap(comments) {
-        Ok(comments) => comments.into_inner(),
-        Err(comments) => std::mem::take(&mut *comments.borrow_mut()),
-    }
-}
-
 #[inline]
 fn estimated_token_capacity(source_len: usize) -> usize {
     // Real-world JS/TS averages several bytes per significant token. A
@@ -662,7 +607,7 @@ pub fn attach_comments(
 ) {
     let mut token_index = 0;
     for comment in comments {
-        while token_index < tokens.len() && tokens[token_index].span.hi <= comment.span.lo {
+        while token_index < tokens.len() && tokens[token_index].span().hi <= comment.span.lo {
             token_index += 1;
         }
 
@@ -670,19 +615,19 @@ pub fn attach_comments(
         let next = tokens[token_index..]
             .iter()
             .copied()
-            .find(|token| token.span.lo >= comment.span.hi);
+            .find(|token| token.span().lo >= comment.span.hi);
 
         if let Some(previous) = previous {
-            if !contains_line_break(source, start_pos, previous.span.hi, comment.span.lo) {
-                destination.add_trailing(previous.span.hi, comment);
+            if !contains_line_break(source, start_pos, previous.span().hi, comment.span.lo) {
+                destination.add_trailing(previous.span().hi, comment);
                 continue;
             }
         }
 
         if let Some(next) = next {
-            destination.add_leading(next.span.lo, comment);
+            destination.add_leading(next.span().lo, comment);
         } else if let Some(previous) = previous {
-            destination.add_trailing(previous.span.hi, comment);
+            destination.add_trailing(previous.span().hi, comment);
         } else {
             destination.add_leading(program.span().lo, comment);
         }

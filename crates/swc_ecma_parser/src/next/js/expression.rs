@@ -117,11 +117,13 @@ impl<C: Config> Parser<'_, C> {
             Kind::LParen => {
                 let start = span.lo;
                 self.advance();
-                let mut expression = self.with_context(
-                    crate::next::parser::context::Context::IN,
-                    crate::next::parser::context::Context::empty(),
-                    Self::parse_expression,
-                )?;
+                let mut expression = self.with_recursion(|parser| {
+                    parser.with_context(
+                        crate::next::parser::context::Context::IN,
+                        crate::next::parser::context::Context::empty(),
+                        Self::parse_expression,
+                    )
+                })?;
                 #[cfg(feature = "flow")]
                 if self
                     .context()

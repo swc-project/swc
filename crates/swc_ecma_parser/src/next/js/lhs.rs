@@ -322,6 +322,12 @@ impl<C: Config> Parser<'_, C> {
             };
             self.parse_suffixes(primary, false)?
         };
+        if matches!(&*callee, Expr::OptChain(_)) {
+            return Err(Error::new(
+                callee.span(),
+                crate::error::SyntaxError::OptChainCannotFollowConstructorCall,
+            ));
+        }
         #[cfg(feature = "typescript")]
         let mut type_args = if self
             .context()
@@ -388,13 +394,35 @@ impl<C: Config> Parser<'_, C> {
         if self.eat(Kind::Import) {
             if self.eat(Kind::Dot) {
                 let property = self.token();
-                if !self.at_identifier_name() || self.token_source(property) != "meta" {
+                if !self.at_identifier_name() {
                     return Err(self.expected_error(Kind::Meta));
                 }
+                let phase = match self.token_source(property) {
+                    "meta" => {
+                        self.advance();
+                        return Ok(Box::new(Expr::MetaProp(MetaPropExpr {
+                            span: Span::new_with_checked(token.start(), property.end()),
+                            kind: MetaPropKind::ImportMeta,
+                        })));
+                    }
+                    "source" => ImportPhase::Source,
+                    "defer" => ImportPhase::Defer,
+                    _ => return Err(self.expected_error(Kind::Meta)),
+                };
                 self.advance();
-                return Ok(Box::new(Expr::MetaProp(MetaPropExpr {
-                    span: Span::new_with_checked(token.start(), property.end()),
-                    kind: MetaPropKind::ImportMeta,
+                if !self.at(Kind::LParen) {
+                    return Err(self.expected_error(Kind::LParen));
+                }
+                let arguments = self.parse_arguments()?;
+                return Ok(Box::new(Expr::Call(CallExpr {
+                    span: Span::new_with_checked(token.start(), self.previous_end()),
+                    ctxt: SyntaxContext::empty(),
+                    callee: Callee::Import(Import {
+                        span: Span::new_with_checked(token.start(), property.end()),
+                        phase,
+                    }),
+                    args: arguments,
+                    type_args: None,
                 })));
             }
             if !self.at(Kind::LParen) {

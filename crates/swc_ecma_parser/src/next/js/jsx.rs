@@ -27,6 +27,7 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         debug_assert!(matches!(self.kind(), Kind::Lt | Kind::JSXTagStart));
         self.advance();
+        self.split_jsx_right_angle();
         if self.at(Kind::Gt) {
             return self.parse_jsx_fragment(start, nested);
         }
@@ -53,6 +54,10 @@ impl<C: Config> Parser<'_, C> {
         let type_args = None;
         let mut attributes = Vec::with_capacity(8);
         while !matches!(self.kind(), Kind::Gt | Kind::Slash | Kind::Eof) {
+            self.split_jsx_right_angle();
+            if self.at(Kind::Gt) {
+                break;
+            }
             attributes.push(self.parse_jsx_attribute()?);
         }
 
@@ -117,6 +122,7 @@ impl<C: Config> Parser<'_, C> {
         }
         let closing_start = self.previous_end() - swc_common::BytePos(2);
         let closing_name = self.parse_jsx_element_name()?;
+        self.split_jsx_right_angle();
         if !self.at(Kind::Gt) {
             return Err(self.expected_error(Kind::Gt));
         }
@@ -175,6 +181,7 @@ impl<C: Config> Parser<'_, C> {
         let closing_start = self.token().start();
         self.advance();
         self.advance();
+        self.split_jsx_right_angle();
         if !self.at(Kind::Gt) {
             return Err(self.expected_error(Kind::Gt));
         }
@@ -254,10 +261,25 @@ impl<C: Config> Parser<'_, C> {
             }));
         }
         let (name_span, name_sym) = self.parse_jsx_identifier()?;
-        let name = JSXAttrName::Ident(IdentName {
-            span: name_span,
-            sym: name_sym,
-        });
+        let name = if self.eat(Kind::Colon) {
+            let (local_span, local) = self.parse_jsx_identifier()?;
+            JSXAttrName::JSXNamespacedName(JSXNamespacedName {
+                span: Span::new_with_checked(name_span.lo, local_span.hi),
+                ns: IdentName {
+                    span: name_span,
+                    sym: name_sym,
+                },
+                name: IdentName {
+                    span: local_span,
+                    sym: local,
+                },
+            })
+        } else {
+            JSXAttrName::Ident(IdentName {
+                span: name_span,
+                sym: name_sym,
+            })
+        };
         let value = if self.eat(Kind::Eq) {
             Some(self.parse_jsx_attribute_value()?)
         } else {
@@ -379,6 +401,7 @@ impl<C: Config> Parser<'_, C> {
             if !parser.eat(Kind::Slash) {
                 return false;
             }
+            parser.split_jsx_right_angle();
             parser.at(Kind::Gt)
         })
     }
@@ -388,6 +411,12 @@ impl<C: Config> Parser<'_, C> {
             self.advance_as_jsx_child();
         } else {
             self.advance();
+        }
+    }
+
+    fn split_jsx_right_angle(&mut self) {
+        if self.kind() != Kind::Gt && self.token_source(self.token()).starts_with('>') {
+            self.re_lex_jsx_right_angle();
         }
     }
 }

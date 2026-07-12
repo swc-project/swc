@@ -70,7 +70,7 @@ fn token_and_comment_collection_is_opt_in_and_ordered() {
     assert!(with_tokens
         .tokens
         .iter()
-        .all(|token| token.span.lo >= BytePos(41)));
+        .all(|token| token.span().lo >= BytePos(41)));
     assert!(with_tokens.program.span().lo >= BytePos(41));
 }
 

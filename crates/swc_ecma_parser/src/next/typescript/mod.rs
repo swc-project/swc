@@ -1147,8 +1147,11 @@ impl<C: Config> Parser<'_, C> {
             && token.kind() == Kind::Ident
             && self.token_source(token) == "renders"
         {
+            let renders_end = token.end();
             self.advance();
-            if matches!(self.kind(), Kind::Asterisk | Kind::QuestionMark) {
+            if self.at(Kind::Asterisk)
+                || (self.at(Kind::QuestionMark) && self.token().start() == renders_end)
+            {
                 self.advance();
             }
             return self.parse_ts_primary_type();

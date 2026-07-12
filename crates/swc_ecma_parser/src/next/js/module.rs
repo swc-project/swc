@@ -5,7 +5,7 @@ use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     Decl, DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, FnExpr, Ident,
-    ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier,
+    ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportPhase, ImportSpecifier,
     ImportStarAsSpecifier, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport,
     ObjectLit, Stmt, Str, TsExportAssignment, TsExternalModuleRef, TsImportEqualsDecl, TsModuleRef,
     TsNamespaceExportDecl,
@@ -138,6 +138,34 @@ impl<C: Config> Parser<'_, C> {
         if type_only {
             self.advance();
         }
+        let mut phase = ImportPhase::Evaluation;
+        if !type_only && self.at(Kind::Ident) {
+            let phase_word = self.token_source(self.token());
+            let is_phase = match phase_word {
+                "defer" => self.lookahead(|parser| {
+                    parser.advance();
+                    parser.at(Kind::Asterisk)
+                }),
+                "source" => self.lookahead(|parser| {
+                    parser.advance();
+                    if parser.at(Kind::From) {
+                        parser.advance();
+                        parser.at(Kind::From)
+                    } else {
+                        parser.at_identifier_name()
+                    }
+                }),
+                _ => false,
+            };
+            if is_phase {
+                phase = if phase_word == "source" {
+                    ImportPhase::Source
+                } else {
+                    ImportPhase::Defer
+                };
+                self.advance();
+            }
+        }
         let mut specifiers = Vec::with_capacity(4);
         if self.at(Kind::Str) {
             let source = self.parse_module_string()?;
@@ -149,11 +177,17 @@ impl<C: Config> Parser<'_, C> {
                 src: Box::new(source),
                 type_only,
                 with,
-                phase: Default::default(),
+                phase,
             }));
         }
 
-        if self.at_identifier_reference()
+        if phase == ImportPhase::Source {
+            let local = self.parse_module_identifier_name()?;
+            specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
+                span: local.span,
+                local,
+            }));
+        } else if self.at_identifier_reference()
             || (self
                 .context()
                 .contains(crate::next::parser::context::Context::FLOW)
@@ -251,7 +285,7 @@ impl<C: Config> Parser<'_, C> {
             src: Box::new(source),
             type_only,
             with,
-            phase: Default::default(),
+            phase,
         }))
     }
 
@@ -609,6 +643,16 @@ impl<C: Config> Parser<'_, C> {
                 .contains(crate::next::parser::context::Context::FLOW)
                 && self.at_identifier_name())
         {
+            return Err(self.expected_error(Kind::Ident));
+        }
+        let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+        self.advance();
+        Ok(identifier)
+    }
+
+    fn parse_module_identifier_name(&mut self) -> Result<Ident, Error> {
+        let token = self.token();
+        if !self.at_identifier_name() {
             return Err(self.expected_error(Kind::Ident));
         }
         let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());

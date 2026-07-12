@@ -1,7 +1,10 @@
 //! OXC-style lexer cursor, dispatch, and checkpoint state.
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{Atom, Wtf8Atom};
+use swc_atoms::{
+    wtf8::{CodePoint, Wtf8Buf},
+    Atom, Wtf8Atom,
+};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::Ident;
 
@@ -915,13 +918,13 @@ fn keyword_kind(value: &str) -> Option<Kind> {
     })
 }
 
-fn decode_string(raw: &str) -> String {
+fn decode_string(raw: &str) -> Wtf8Buf {
     debug_assert!(raw.len() >= 2);
-    let mut output = String::with_capacity(raw.len() - 2);
+    let mut output = Wtf8Buf::with_capacity(raw.len() - 2);
     let mut characters = raw[1..raw.len() - 1].chars();
     while let Some(character) = characters.next() {
         if character != '\\' {
-            output.push(character);
+            output.push_char(character);
             continue;
         }
 
@@ -929,12 +932,12 @@ fn decode_string(raw: &str) -> String {
             break;
         };
         match escaped {
-            'n' => output.push('\n'),
-            'r' => output.push('\r'),
-            't' => output.push('\t'),
-            'b' => output.push('\u{0008}'),
-            'f' => output.push('\u{000c}'),
-            'v' => output.push('\u{000b}'),
+            'n' => output.push_char('\n'),
+            'r' => output.push_char('\r'),
+            't' => output.push_char('\t'),
+            'b' => output.push_char('\u{0008}'),
+            'f' => output.push_char('\u{000c}'),
+            'v' => output.push_char('\u{000b}'),
             '0'..='7' => {
                 let mut value = escaped.to_digit(8).unwrap_or(0);
                 let remaining_digits = if escaped <= '3' { 2 } else { 1 };
@@ -948,7 +951,7 @@ fn decode_string(raw: &str) -> String {
                     characters.next();
                     value = value * 8 + digit;
                 }
-                output.push(char::from_u32(value).unwrap_or(char::REPLACEMENT_CHARACTER));
+                push_code_point(&mut output, value);
             }
             '\n' => {}
             '\r' => {
@@ -959,7 +962,7 @@ fn decode_string(raw: &str) -> String {
             '\u{2028}' | '\u{2029}' => {}
             'x' => {
                 let value = read_hex_escape(&mut characters, 2);
-                output.push(char::from_u32(value).unwrap_or(char::REPLACEMENT_CHARACTER));
+                push_code_point(&mut output, value);
             }
             'u' => {
                 let value = if characters.clone().next() == Some('{') {
@@ -975,12 +978,16 @@ fn decode_string(raw: &str) -> String {
                 } else {
                     read_hex_escape(&mut characters, 4)
                 };
-                output.push(char::from_u32(value).unwrap_or(char::REPLACEMENT_CHARACTER));
+                push_code_point(&mut output, value);
             }
-            other => output.push(other),
+            other => output.push_char(other),
         }
     }
     output
+}
+
+fn push_code_point(output: &mut Wtf8Buf, value: u32) {
+    output.push(CodePoint::from_u32(value).unwrap_or_else(|| CodePoint::from_char('\u{fffd}')));
 }
 
 fn read_hex_escape(characters: &mut std::str::Chars<'_>, length: usize) -> u32 {

@@ -8,8 +8,8 @@ use serde::Deserialize;
 use swc_common::{BytePos, Spanned};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{
-    lexer::Lexer, unstable::next::Parser as IndependentParser, EsSyntax, LegacyParser, ModuleKind,
-    Parser as NextParser, SourceType, StringInput, Syntax, TsSyntax,
+    error::Error, lexer::Lexer, unstable::next::Parser as IndependentParser, EsSyntax,
+    LegacyParser, ModuleKind, Parser as NextParser, SourceType, StringInput, Syntax, TsSyntax,
 };
 
 fn assert_valid_fixture_parity(
@@ -20,17 +20,24 @@ fn assert_valid_fixture_parity(
 ) {
     let source = fs::read_to_string(&path)
         .unwrap_or_else(|error| panic!("failed to read {}: {error}", path.display()));
-    let start = BytePos(1);
-    let end = start + BytePos(source.len() as u32);
-    let lexer = Lexer::new(syntax, target, StringInput::new(&source, start, end), None);
-    let mut legacy = LegacyParser::new_from(lexer);
-    let legacy_program = match module_kind {
-        ModuleKind::Script => legacy.parse_script().map(Program::Script),
-        ModuleKind::Module => legacy.parse_module().map(Program::Module),
-        ModuleKind::Unambiguous => legacy.parse_program(),
-        ModuleKind::CommonJs => legacy.parse_commonjs().map(Program::Script),
+    let (legacy_program, legacy_diagnostics) = if max_delimiter_depth(&source) > 32 {
+        // The reference parser lacks stack growth on parenthesized expression
+        // recursion. Give only those differential-oracle cases a larger test
+        // stack; the independent parser still uses its production stack guard.
+        std::thread::scope(|scope| {
+            std::thread::Builder::new()
+                .name("legacy-parity-parser".into())
+                .stack_size(16 * 1024 * 1024)
+                .spawn_scoped(scope, || {
+                    parse_legacy_program(&source, syntax, module_kind, target)
+                })
+                .expect("failed to spawn legacy parity parser")
+                .join()
+                .expect("legacy parity parser panicked")
+        })
+    } else {
+        parse_legacy_program(&source, syntax, module_kind, target)
     };
-    let legacy_diagnostics = legacy.take_errors();
 
     // Some fixture directories contain proposal-negative inputs alongside
     // valid snapshots. Invalid behavior is covered by the dedicated error
@@ -98,6 +105,41 @@ fn assert_valid_fixture_parity(
             path.display()
         );
     }
+}
+
+fn parse_legacy_program(
+    source: &str,
+    syntax: Syntax,
+    module_kind: ModuleKind,
+    target: EsVersion,
+) -> (Result<Program, Error>, Vec<Error>) {
+    let start = BytePos(1);
+    let end = start + BytePos(source.len() as u32);
+    let lexer = Lexer::new(syntax, target, StringInput::new(source, start, end), None);
+    let mut parser = LegacyParser::new_from(lexer);
+    let program = match module_kind {
+        ModuleKind::Script => parser.parse_script().map(Program::Script),
+        ModuleKind::Module => parser.parse_module().map(Program::Module),
+        ModuleKind::Unambiguous => parser.parse_program(),
+        ModuleKind::CommonJs => parser.parse_commonjs().map(Program::Script),
+    };
+    (program, parser.take_errors())
+}
+
+fn max_delimiter_depth(source: &str) -> usize {
+    let mut depth = 0usize;
+    let mut maximum = 0usize;
+    for byte in source.bytes() {
+        match byte {
+            b'(' | b'[' | b'{' => {
+                depth += 1;
+                maximum = maximum.max(depth);
+            }
+            b')' | b']' | b'}' => depth = depth.saturating_sub(1),
+            _ => {}
+        }
+    }
+    maximum
 }
 
 fn first_ast_difference(
