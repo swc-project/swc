@@ -15,16 +15,15 @@ use swc_ecma_ast::{
     ClassProp, Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, Expr, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp,
     IfStmt, ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat, Param,
-    Pat, PrivateMethod, PrivateProp, Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
+    Pat, PrivateMethod, PrivateProp, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
     TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
     TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam,
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
-    lexer::Lexer,
-    unstable::{Capturing, Token, TokenAndSpan},
-    LegacyParser as Parser, StringInput, Syntax, TsSyntax,
+    attach_comments, ModuleKind, Parser, SourceType, Syntax, Token as TokenAndSpan,
+    TokenKind as Token, TsSyntax,
 };
 use swc_ecma_transforms_base::{
     fixer::fixer,
@@ -251,57 +250,43 @@ pub fn operate(
 
     let comments = SingleThreadedComments::default();
 
-    let (program, errors, mut tokens) = if should_capture_tokens {
-        let lexer = Capturing::new(Lexer::new(
-            syntax,
-            target,
-            StringInput::from(&*fm),
-            Some(&comments),
-        ));
-        let mut parser = Parser::new_from(lexer);
-
-        let program = match options.module {
-            Some(true) => parser.parse_module().map(Program::Module),
-            Some(false) => parser.parse_script().map(Program::Script),
-            None => parser.parse_program(),
-        };
-        let errors = parser.take_errors();
-        let tokens = parser.input_mut().iter_mut().take();
-
-        (program, errors, tokens)
-    } else {
-        let lexer = Lexer::new(syntax, target, StringInput::from(&*fm), Some(&comments));
-        let mut parser = Parser::new_from(lexer);
-
-        let program = match options.module {
-            Some(true) => parser.parse_module().map(Program::Module),
-            Some(false) => parser.parse_script().map(Program::Script),
-            None => parser.parse_program(),
-        };
-        let errors = parser.take_errors();
-
-        (program, errors, Vec::new())
+    let module_kind = match options.module {
+        Some(true) => ModuleKind::Module,
+        Some(false) => ModuleKind::Script,
+        None => ModuleKind::Unambiguous,
     };
+    let (source_type, parse_options) = SourceType::from_legacy(syntax, module_kind, target);
+    let parser = Parser::new(&fm.src, source_type)
+        .with_options(parse_options)
+        .with_start_pos(fm.start_pos);
+    let mut result = if should_capture_tokens {
+        parser.with_tokens().parse()
+    } else {
+        parser.parse()
+    };
+    attach_comments(
+        &fm.src,
+        fm.start_pos,
+        &comments,
+        std::mem::take(&mut result.comments),
+        &result.tokens,
+        &result.program,
+    );
+    let mut tokens = result.tokens;
+    let errors = result.diagnostics;
 
-    let program = match program {
-        Ok(program) => program,
-        Err(err) => {
-            err.into_diagnostic(handler)
+    if result.panicked {
+        for e in errors {
+            e.into_diagnostic(handler)
                 .code(DiagnosticId::Error("InvalidSyntax".into()))
                 .emit();
-
-            for e in errors {
-                e.into_diagnostic(handler)
-                    .code(DiagnosticId::Error("InvalidSyntax".into()))
-                    .emit();
-            }
-
-            return Err(TsError {
-                message: "Syntax error".to_string(),
-                code: ErrorCode::InvalidSyntax,
-            });
         }
-    };
+        return Err(TsError {
+            message: "Syntax error".to_string(),
+            code: ErrorCode::InvalidSyntax,
+        });
+    }
+    let program = result.program;
 
     if !errors.is_empty() {
         for e in errors {
@@ -320,7 +305,7 @@ pub fn operate(
 
     match options.mode {
         Mode::StripOnly => {
-            tokens.sort_by_key(|t| t.span);
+            tokens.sort_by_key(|token| token.span());
 
             if deprecated_ts_module_as_error {
                 program.visit_with(&mut ErrorOnTsModule {
@@ -438,7 +423,7 @@ pub fn operate(
                 program.mutate(&mut resolver(unresolved_mark, top_level_mark, true));
 
                 if deprecated_ts_module_as_error {
-                    tokens.sort_by_key(|t| t.span);
+                    tokens.sort_by_key(|token| token.span());
 
                     program.visit_with(&mut ErrorOnTsModule {
                         src: &fm.src,
@@ -579,20 +564,20 @@ impl Visit for ErrorOnTsModule<'_> {
         if n.declare {
             let declare_index = self
                 .tokens
-                .binary_search_by_key(&pos, |t| t.span.lo)
+                .binary_search_by_key(&pos, |token| token.start())
                 .unwrap();
 
-            debug_assert_eq!(self.tokens[declare_index].token, Token::Declare);
+            debug_assert_eq!(self.tokens[declare_index].kind(), Token::Declare);
 
-            let TokenAndSpan { token, span, .. } = &self.tokens[declare_index + 1];
+            let token = self.tokens[declare_index + 1];
             // declare global
             // declare module
             // declare namespace
-            if matches!(token, Token::Namespace) {
+            if token.kind() == Token::Namespace {
                 return;
             }
 
-            pos = span.lo;
+            pos = token.start();
         } else if self.src.as_bytes()[pos.0 as usize - 1] != b'm' {
             return;
         }
@@ -648,7 +633,9 @@ impl TsStrip {
     }
 
     fn get_next_token_index(&self, pos: BytePos) -> usize {
-        let index = self.tokens.binary_search_by_key(&pos, |t| t.span.lo);
+        let index = self
+            .tokens
+            .binary_search_by_key(&pos, |token| token.start());
         match index {
             Ok(index) => index,
             Err(index) => index,
@@ -664,7 +651,9 @@ impl TsStrip {
     }
 
     fn get_prev_token_index(&self, pos: BytePos) -> usize {
-        let index = self.tokens.binary_search_by_key(&pos, |t| t.span.lo);
+        let index = self
+            .tokens
+            .binary_search_by_key(&pos, |token| token.start());
         match index {
             Ok(index) => index,
             Err(index) => index - 1,
@@ -682,11 +671,7 @@ impl TsStrip {
             return;
         }
 
-        let TokenAndSpan {
-            token: prev_token,
-            span: prev_span,
-            ..
-        } = &self.tokens[index - 1];
+        let prev_token = self.tokens[index - 1];
 
         let index = self.get_prev_token_index(span.hi - BytePos(1));
         if index == self.tokens.len() - 1 {
@@ -694,27 +679,23 @@ impl TsStrip {
             return;
         }
 
-        let TokenAndSpan {
-            token,
-            had_line_break,
-            ..
-        } = &self.tokens[index + 1];
+        let token = self.tokens[index + 1];
 
-        if !*had_line_break {
+        if !token.had_line_break() {
             return;
         }
 
         // https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-asi-interesting-cases-in-statement-lists
         // Add a semicolon if the next token is `[`, `(`, `/`, `+`, `-` or backtick.
-        match token {
+        match token.kind() {
             Token::LParen
             | Token::LBracket
             | Token::NoSubstitutionTemplateLiteral
             | Token::Plus
             | Token::Minus
             | Token::Regex => {
-                if prev_token == &Token::Semi {
-                    self.add_overwrite(prev_span.lo, b';');
+                if prev_token.kind() == Token::Semi {
+                    self.add_overwrite(prev_token.start(), b';');
                     return;
                 }
 
@@ -731,12 +712,12 @@ impl TsStrip {
             return;
         }
 
-        if let TokenAndSpan {
-            // Only `(`, `[` and backtick affect ASI.
-            token: Token::LParen | Token::LBracket | Token::NoSubstitutionTemplateLiteral,
-            had_line_break: true,
-            ..
-        } = &self.tokens[index + 1]
+        let next = self.tokens[index + 1];
+        if next.had_line_break()
+            && matches!(
+                next.kind(),
+                Token::LParen | Token::LBracket | Token::NoSubstitutionTemplateLiteral
+            )
         {
             self.add_overwrite(span.lo, b';');
         }
@@ -746,21 +727,22 @@ impl TsStrip {
         let mut index = self.get_next_token_index(start_pos);
 
         while start_pos < key_pos {
-            let TokenAndSpan { token, span, .. } = &self.tokens[index];
-            start_pos = span.hi;
+            let token = self.tokens[index];
+            let token_span = token.span();
+            start_pos = token_span.hi;
             index += 1;
 
             let next = &self.tokens[index];
 
-            if next.had_line_break {
+            if next.had_line_break() {
                 return;
             }
 
             // see ts_next_token_can_follow_modifier
             // class { public public() {} }
-            if !next.token.is_word()
+            if !next.kind().is_word()
                 && !matches!(
-                    next.token,
+                    next.kind(),
                     Token::LBracket
                         | Token::LBrace
                         | Token::Asterisk
@@ -774,15 +756,15 @@ impl TsStrip {
                 return;
             }
 
-            match token {
+            match token.kind() {
                 Token::Static => {
                     continue;
                 }
                 Token::Readonly | Token::Public | Token::Protected | Token::Private => {
-                    self.add_replacement(*span);
+                    self.add_replacement(token_span);
                 }
                 Token::Override => {
-                    self.add_replacement(*span);
+                    self.add_replacement(token_span);
                 }
                 _ => {
                     return;
@@ -800,10 +782,10 @@ impl TsStrip {
     }
 
     fn strip_token(&mut self, index: usize, expected: Token) {
-        let TokenAndSpan { token, span, .. } = &self.tokens[index];
-        debug_assert_eq!(*token, expected);
+        let token = self.tokens[index];
+        debug_assert_eq!(token.kind(), expected);
 
-        self.add_replacement(*span);
+        self.add_replacement(token.span());
     }
 
     // ```TypeScript
@@ -818,15 +800,15 @@ impl TsStrip {
     fn fix_asi_in_arrow_expr(&mut self, arrow_expr: &ArrowExpr) {
         if let Some(tp) = &arrow_expr.type_params {
             let l_paren = self.get_next_token(tp.span.hi);
-            debug_assert_eq!(l_paren.token, Token::LParen);
+            debug_assert_eq!(l_paren.kind(), Token::LParen);
 
-            let slice = self.get_src_slice(tp.span.with_hi(l_paren.span.lo));
+            let slice = self.get_src_slice(tp.span.with_hi(l_paren.start()));
 
             if !slice.chars().any(is_new_line) {
                 return;
             }
 
-            let l_paren_pos = l_paren.span.lo;
+            let l_paren_pos = l_paren.start();
             let l_lt_pos = tp.span.lo;
 
             self.add_overwrite(l_paren_pos, b' ');
@@ -862,7 +844,7 @@ impl TsStrip {
     }
 
     fn next_binary_op_after_assertion_chain(&self, assertion_span: Span) -> Option<BinaryOp> {
-        Self::binary_op_from_token(self.get_next_token_if_present(assertion_span.hi)?.token)
+        Self::binary_op_from_token(self.get_next_token_if_present(assertion_span.hi)?.kind())
     }
 
     fn binary_op_from_token(token: Token) -> Option<BinaryOp> {
@@ -978,8 +960,8 @@ impl Visit for TsStrip {
                 }
 
                 let l_paren = self.get_next_token(tp.span.hi);
-                debug_assert_eq!(l_paren.token, Token::LParen);
-                let l_paren_pos = l_paren.span.lo;
+                debug_assert_eq!(l_paren.kind(), Token::LParen);
+                let l_paren_pos = l_paren.start();
                 let l_lt_pos = tp.span.lo;
 
                 self.add_overwrite(l_paren_pos, b' ');
@@ -991,14 +973,14 @@ impl Visit for TsStrip {
             self.add_replacement(ret.span);
 
             let r_paren = self.get_prev_token(ret.span.lo - BytePos(1));
-            debug_assert_eq!(r_paren.token, Token::RParen);
+            debug_assert_eq!(r_paren.kind(), Token::RParen);
             let arrow = self.get_next_token(ret.span.hi);
-            debug_assert_eq!(arrow.token, Token::Arrow);
-            let span = span(r_paren.span.lo, arrow.span.lo);
+            debug_assert_eq!(arrow.kind(), Token::Arrow);
+            let span = span(r_paren.start(), arrow.start());
 
             let slice = self.get_src_slice(span);
             if slice.chars().any(is_new_line) {
-                self.add_replacement(r_paren.span);
+                self.add_replacement(r_paren.span());
 
                 // Instead of moving the arrow mark, we shift the right parenthesis to the next
                 // line. This is because there might be a line break after the right
@@ -1110,10 +1092,10 @@ impl Visit for TsStrip {
         if !n.implements.is_empty() {
             let implements =
                 self.get_prev_token(n.implements.first().unwrap().span.lo - BytePos(1));
-            debug_assert_eq!(implements.token, Token::Implements);
+            debug_assert_eq!(implements.kind(), Token::Implements);
 
             let last = n.implements.last().unwrap();
-            let span = span(implements.span.lo, last.span.hi);
+            let span = span(implements.start(), last.span.hi);
             self.add_replacement(span);
         }
 
@@ -1392,10 +1374,10 @@ impl Visit for TsStrip {
                 if import.is_type_only {
                     let mut span = import.span;
                     let comma = self.get_next_token(import.span.hi);
-                    if comma.token == Token::Comma {
-                        span = span.with_hi(comma.span.hi);
+                    if comma.kind() == Token::Comma {
+                        span = span.with_hi(comma.end());
                     } else {
-                        debug_assert_eq!(comma.token, Token::RBrace);
+                        debug_assert_eq!(comma.kind(), Token::RBrace);
                     }
                     self.add_replacement(span);
                 }
@@ -1415,10 +1397,10 @@ impl Visit for TsStrip {
                 if e.is_type_only {
                     let mut span = e.span;
                     let comma = self.get_next_token(e.span.hi);
-                    if comma.token == Token::Comma {
-                        span = span.with_hi(comma.span.hi);
+                    if comma.kind() == Token::Comma {
+                        span = span.with_hi(comma.end());
                     } else {
-                        debug_assert_eq!(comma.token, Token::RBrace);
+                        debug_assert_eq!(comma.kind(), Token::RBrace);
                     }
                     self.add_replacement(span);
                 }
@@ -1436,10 +1418,10 @@ impl Visit for TsStrip {
             let mut span = p.span;
 
             let comma = self.get_next_token(span.hi);
-            if comma.token == Token::Comma {
-                span = span.with_hi(comma.span.hi);
+            if comma.kind() == Token::Comma {
+                span = span.with_hi(comma.end());
             } else {
-                debug_assert_eq!(comma.token, Token::RParen);
+                debug_assert_eq!(comma.kind(), Token::RParen);
             }
             self.add_replacement(span);
 
@@ -1459,13 +1441,9 @@ impl Visit for TsStrip {
         }
 
         self.add_replacement(span(n.expr.span().hi, n.span.hi));
-        let TokenAndSpan {
-            token,
-            span: as_span,
-            ..
-        } = self.get_next_token(n.expr.span_hi());
-        debug_assert_eq!(token, &Token::As);
-        self.fix_asi_in_expr(span(as_span.lo, n.span.hi));
+        let token = *self.get_next_token(n.expr.span_hi());
+        debug_assert_eq!(token.kind(), Token::As);
+        self.fix_asi_in_expr(span(token.start(), n.span.hi));
 
         n.expr.visit_children_with(self);
     }
@@ -1583,13 +1561,9 @@ impl Visit for TsStrip {
 
         self.add_replacement(span(n.expr.span().hi, n.span.hi));
 
-        let TokenAndSpan {
-            token,
-            span: as_span,
-            ..
-        } = self.get_next_token(n.expr.span_hi());
-        debug_assert_eq!(token, &Token::Satisfies);
-        self.fix_asi_in_expr(span(as_span.lo, n.span.hi));
+        let token = *self.get_next_token(n.expr.span_hi());
+        debug_assert_eq!(token.kind(), Token::Satisfies);
+        self.fix_asi_in_expr(span(token.start(), n.span.hi));
 
         n.expr.visit_children_with(self);
     }
@@ -1688,13 +1662,13 @@ impl Visit for TsStrip {
     fn visit_getter_prop(&mut self, n: &GetterProp) {
         let l_parern_index = self.get_next_token_index(n.key.span_hi());
         let l_parern = &self.tokens[l_parern_index];
-        debug_assert_eq!(l_parern.token, Token::LParen);
+        debug_assert_eq!(l_parern.kind(), Token::LParen);
 
         let r_parern_pos = n.type_ann.as_ref().map_or(n.body.span_lo(), |t| t.span.lo) - BytePos(1);
         let r_parern = self.get_prev_token(r_parern_pos);
-        debug_assert_eq!(r_parern.token, Token::RParen);
+        debug_assert_eq!(r_parern.kind(), Token::RParen);
 
-        let span = span(l_parern.span.lo + BytePos(1), r_parern.span.hi - BytePos(1));
+        let span = span(l_parern.start() + BytePos(1), r_parern.end() - BytePos(1));
         self.add_replacement(span);
 
         n.visit_children_with(self);
@@ -1705,9 +1679,9 @@ impl Visit for TsStrip {
             self.add_replacement(this_param.span());
 
             let comma = self.get_prev_token(n.param.span_lo() - BytePos(1));
-            debug_assert_eq!(comma.token, Token::Comma);
+            debug_assert_eq!(comma.kind(), Token::Comma);
 
-            self.add_replacement(comma.span);
+            self.add_replacement(comma.span());
         }
 
         n.visit_children_with(self);
