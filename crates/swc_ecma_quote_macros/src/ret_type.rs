@@ -1,9 +1,6 @@
-use std::any::type_name;
-
 use anyhow::{anyhow, bail, Context, Error};
-use swc_common::{sync::Lrc, FileName, SourceMap};
-use swc_ecma_ast::{AssignTarget, EsVersion};
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, PResult, StringInput};
+use swc_ecma_ast::{AssignTarget, Expr, Pat, Program, Stmt};
+use swc_ecma_parser::{Parser, SourceType};
 use syn::{GenericArgument, PathArguments, Type};
 
 use crate::{ast::ToCode, ctxt::Ctx};
@@ -36,16 +33,37 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
     if let Type::Path(p) = ty {
         if let Some(ident) = p.path.get_ident() {
             match &*ident.to_string() {
-                "Expr" => return parse(input_str, &mut |p| p.parse_expr().map(|v| *v)),
-                "Pat" => return parse(input_str, &mut |p| p.parse_pat()),
-                "Stmt" => return parse(input_str, &mut |p| p.parse_stmt_list_item()),
-                "AssignTarget" => {
-                    return parse(input_str, &mut |p| {
-                        Ok(AssignTarget::try_from(p.parse_pat()?)
-                            .expect("failed to parse AssignTarget"))
-                    })
+                "Expr" => return parse_expression(input_str),
+                "Pat" => return parse_pattern(input_str),
+                "Stmt" => {
+                    let Program::Script(mut script) = parse_program(input_str, SourceType::script())?
+                    else {
+                        unreachable!("script source type must produce a script")
+                    };
+                    let statement = script
+                        .body
+                        .pop()
+                        .ok_or_else(|| anyhow!("input is not a statement"))?;
+                    return Ok(BoxWrapper(Box::new(statement)));
                 }
-                "ModuleItem" => return parse(input_str, &mut |p| p.parse_module_item()),
+                "AssignTarget" => {
+                    let pattern = parse_pattern_node(input_str)?;
+                    let target = AssignTarget::try_from(pattern)
+                        .expect("failed to parse AssignTarget");
+                    return Ok(BoxWrapper(Box::new(target)));
+                }
+                "ModuleItem" => {
+                    let Program::Module(mut module) =
+                        parse_program(input_str, SourceType::module())?
+                    else {
+                        unreachable!("module source type must produce a module")
+                    };
+                    let item = module
+                        .body
+                        .pop()
+                        .ok_or_else(|| anyhow!("input is not a module item"))?;
+                    return Ok(BoxWrapper(Box::new(item)));
+                }
                 _ => {}
             }
         }
@@ -54,27 +72,47 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
     bail!("Unknown quote type: {ty:?}");
 }
 
-fn parse<T>(
-    input_str: &str,
-    op: &mut dyn FnMut(&mut Parser<Lexer>) -> PResult<T>,
-) -> Result<BoxWrapper, Error>
-where
-    T: ToCode,
-{
-    let cm = Lrc::new(SourceMap::default());
-    let fm = cm.new_source_file(FileName::Anon.into(), input_str.to_string());
+fn parse_program(input: &str, source_type: SourceType) -> Result<Program, Error> {
+    let result = Parser::new(input, source_type).parse();
+    if let Some(error) = result.diagnostics.first() {
+        return Err(anyhow!("{error:?}"));
+    }
+    Ok(result.program)
+}
 
-    let lexer = Lexer::new(
-        Default::default(),
-        EsVersion::Es2020,
-        StringInput::from(&*fm),
-        None,
-    );
-    let mut parser = Parser::new_from(lexer);
-    op(&mut parser)
-        .map_err(|err| anyhow!("{err:?}"))
-        .with_context(|| format!("failed to parse input as `{}`", type_name::<T>()))
-        .map(|val| BoxWrapper(Box::new(val)))
+fn parse_expression(input: &str) -> Result<BoxWrapper, Error> {
+    let wrapped = format!("({input})");
+    let Program::Script(mut script) = parse_program(&wrapped, SourceType::script())? else {
+        unreachable!("script source type must produce a script")
+    };
+    let Some(Stmt::Expr(statement)) = script.body.pop() else {
+        bail!("input is not an expression")
+    };
+    let Expr::Paren(parenthesized) = *statement.expr else {
+        unreachable!("wrapped quote expression must remain parenthesized")
+    };
+    Ok(BoxWrapper(Box::new(*parenthesized.expr)))
+}
+
+fn parse_pattern(input: &str) -> Result<BoxWrapper, Error> {
+    Ok(BoxWrapper(Box::new(parse_pattern_node(input)?)))
+}
+
+fn parse_pattern_node(input: &str) -> Result<Pat, Error> {
+    let wrapped = format!("({input}) => {{}}");
+    let Program::Script(mut script) = parse_program(&wrapped, SourceType::script())? else {
+        unreachable!("script source type must produce a script")
+    };
+    let Some(Stmt::Expr(statement)) = script.body.pop() else {
+        bail!("input is not a pattern")
+    };
+    let Expr::Arrow(mut arrow) = *statement.expr else {
+        bail!("input is not a pattern")
+    };
+    if arrow.params.len() != 1 {
+        bail!("input is not a single pattern")
+    }
+    Ok(arrow.params.pop().unwrap())
 }
 
 fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
