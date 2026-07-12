@@ -3,8 +3,9 @@
 use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    CallExpr, Callee, ComputedPropName, Expr, ExprOrSpread, IdentName, MemberExpr, MemberProp,
-    NewExpr, TaggedTpl,
+    CallExpr, Callee, ComputedPropName, Expr, ExprOrSpread, IdentName, Import, ImportPhase,
+    MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, Super, SuperProp, SuperPropExpr,
+    TaggedTpl,
 };
 
 use crate::{
@@ -16,7 +17,9 @@ use crate::{
 impl<C: Config> Parser<'_, C> {
     /// Parse member, computed member, and call suffixes.
     pub(crate) fn parse_left_hand_side_expression(&mut self) -> Result<Box<Expr>, Error> {
-        let expression = if self.at(Kind::New) {
+        let expression = if matches!(self.kind(), Kind::Super | Kind::Import) {
+            self.parse_special_left_hand_side()?
+        } else if self.at(Kind::New) {
             self.parse_new_expression()?
         } else {
             self.parse_primary_expression()?
@@ -98,6 +101,17 @@ impl<C: Config> Parser<'_, C> {
     fn parse_new_expression(&mut self) -> Result<Box<Expr>, Error> {
         let start = self.token().start();
         self.advance();
+        if self.eat(Kind::Dot) {
+            let property = self.token();
+            if !self.at_identifier_name() || self.token_source(property) != "target" {
+                return Err(self.expected_error(Kind::Target));
+            }
+            self.advance();
+            return Ok(Box::new(Expr::MetaProp(MetaPropExpr {
+                span: Span::new_with_checked(start, property.end()),
+                kind: MetaPropKind::NewTarget,
+            })));
+        }
         let callee = if self.at(Kind::New) {
             self.parse_new_expression()?
         } else {
@@ -115,6 +129,79 @@ impl<C: Config> Parser<'_, C> {
             callee,
             args: arguments,
             type_args: None,
+        })))
+    }
+
+    fn parse_special_left_hand_side(&mut self) -> Result<Box<Expr>, Error> {
+        let token = self.token();
+        if self.eat(Kind::Import) {
+            if self.eat(Kind::Dot) {
+                let property = self.token();
+                if !self.at_identifier_name() || self.token_source(property) != "meta" {
+                    return Err(self.expected_error(Kind::Meta));
+                }
+                self.advance();
+                return Ok(Box::new(Expr::MetaProp(MetaPropExpr {
+                    span: Span::new_with_checked(token.start(), property.end()),
+                    kind: MetaPropKind::ImportMeta,
+                })));
+            }
+            if !self.at(Kind::LParen) {
+                return Err(self.expected_error(Kind::LParen));
+            }
+            let arguments = self.parse_arguments()?;
+            return Ok(Box::new(Expr::Call(CallExpr {
+                span: Span::new_with_checked(token.start(), self.previous_end()),
+                ctxt: SyntaxContext::empty(),
+                callee: Callee::Import(Import {
+                    span: token.span(),
+                    phase: ImportPhase::Evaluation,
+                }),
+                args: arguments,
+                type_args: None,
+            })));
+        }
+
+        debug_assert!(self.eat(Kind::Super));
+        let super_object = Super { span: token.span() };
+        if self.at(Kind::LParen) {
+            let arguments = self.parse_arguments()?;
+            return Ok(Box::new(Expr::Call(CallExpr {
+                span: Span::new_with_checked(token.start(), self.previous_end()),
+                ctxt: SyntaxContext::empty(),
+                callee: Callee::Super(super_object),
+                args: arguments,
+                type_args: None,
+            })));
+        }
+        let property = if self.eat(Kind::Dot) {
+            let property_token = self.token();
+            if !self.at_identifier_name() {
+                return Err(self.expected_error(Kind::Ident));
+            }
+            let property = SuperProp::Ident(IdentName {
+                span: property_token.span(),
+                sym: Atom::new(self.token_source(property_token)),
+            });
+            self.advance();
+            property
+        } else if self.eat(Kind::LBracket) {
+            let start = self.previous_end();
+            let expression = self.parse_expression()?;
+            if !self.expect(Kind::RBracket) {
+                return Err(self.expected_error(Kind::RBracket));
+            }
+            SuperProp::Computed(ComputedPropName {
+                span: Span::new_with_checked(start, self.previous_end()),
+                expr: expression,
+            })
+        } else {
+            return Err(self.expected_error(Kind::Dot));
+        };
+        Ok(Box::new(Expr::SuperProp(SuperPropExpr {
+            span: Span::new_with_checked(token.start(), self.previous_end()),
+            obj: super_object,
+            prop: property,
         })))
     }
 
@@ -150,7 +237,7 @@ impl<C: Config> Parser<'_, C> {
 #[cfg(test)]
 mod tests {
     use swc_common::BytePos;
-    use swc_ecma_ast::{Callee, Expr, MemberProp};
+    use swc_ecma_ast::{Callee, Expr, MemberProp, MetaPropKind};
 
     use crate::next::{
         lexer::{config::NoTokens, core::Lexer},
@@ -193,5 +280,41 @@ mod tests {
             panic!("expected outer new expression")
         };
         assert!(matches!(&*outer.callee, Expr::New(_)));
+    }
+
+    #[test]
+    fn builds_super_import_and_meta_expressions() {
+        let lexer = Lexer::new(
+            "super(value); super.member; import('dep'); import.meta; new.target;",
+            BytePos(1),
+            NoTokens,
+        )
+        .unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let script = parser.parse_script().unwrap();
+        assert!(matches!(
+            &script.body[0],
+            swc_ecma_ast::Stmt::Expr(statement)
+                if matches!(&*statement.expr, Expr::Call(call) if matches!(call.callee, Callee::Super(_)))
+        ));
+        assert!(matches!(
+            &script.body[1],
+            swc_ecma_ast::Stmt::Expr(statement) if matches!(&*statement.expr, Expr::SuperProp(_))
+        ));
+        assert!(matches!(
+            &script.body[2],
+            swc_ecma_ast::Stmt::Expr(statement)
+                if matches!(&*statement.expr, Expr::Call(call) if matches!(call.callee, Callee::Import(_)))
+        ));
+        assert!(matches!(
+            &script.body[3],
+            swc_ecma_ast::Stmt::Expr(statement)
+                if matches!(&*statement.expr, Expr::MetaProp(meta) if meta.kind == MetaPropKind::ImportMeta)
+        ));
+        assert!(matches!(
+            &script.body[4],
+            swc_ecma_ast::Stmt::Expr(statement)
+                if matches!(&*statement.expr, Expr::MetaProp(meta) if meta.kind == MetaPropKind::NewTarget)
+        ));
     }
 }
