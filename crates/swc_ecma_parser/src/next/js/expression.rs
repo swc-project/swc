@@ -55,10 +55,16 @@ impl<C: Config> Parser<'_, C> {
                     raw,
                 }))))
             }
-            Kind::Str if !token.escaped() => {
+            Kind::Str => {
                 let raw = self.token_source(token);
                 debug_assert!(raw.len() >= 2);
-                let value = Wtf8Atom::new(&raw[1..raw.len() - 1]);
+                let value = if token.escaped() {
+                    self.escaped_string(token)
+                        .expect("escaped string token must have a decoded value")
+                        .clone()
+                } else {
+                    Wtf8Atom::new(&raw[1..raw.len() - 1])
+                };
                 let raw = Some(Atom::new(raw));
                 self.advance();
                 Ok(Box::new(Expr::Lit(Lit::Str(Str { span, value, raw }))))

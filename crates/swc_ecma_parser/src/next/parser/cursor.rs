@@ -1,5 +1,6 @@
 //! Token cursor, expectation helpers, and checkpoint rewind.
 
+use swc_atoms::Wtf8Atom;
 use swc_common::BytePos;
 
 use super::context::Context;
@@ -63,6 +64,11 @@ impl<'a, C: Config> Parser<'a, C> {
     #[inline(always)]
     pub(crate) fn token_source(&self, token: PackedToken) -> &'a str {
         self.lexer.token_source(token)
+    }
+
+    /// Decoded string value retained only for escaped string tokens.
+    pub(crate) fn escaped_string(&self, token: PackedToken) -> Option<&Wtf8Atom> {
+        self.lexer.escaped_string(token)
     }
 
     /// End of the previously consumed token.

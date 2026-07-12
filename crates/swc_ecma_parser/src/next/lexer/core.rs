@@ -1,5 +1,7 @@
 //! OXC-style lexer cursor, dispatch, and checkpoint state.
 
+use rustc_hash::FxHashMap;
+use swc_atoms::Wtf8Atom;
 use swc_common::{BytePos, Span};
 
 use super::{config::Config, source::Source, PackedToken};
@@ -21,6 +23,7 @@ pub(crate) struct Lexer<'a, C: Config> {
     config: C,
     had_line_break: bool,
     escaped: bool,
+    escaped_strings: FxHashMap<u32, Wtf8Atom>,
 }
 
 impl<'a, C: Config> Lexer<'a, C> {
@@ -41,6 +44,7 @@ impl<'a, C: Config> Lexer<'a, C> {
             // The first token is treated as starting on a new line.
             had_line_break: true,
             escaped: false,
+            escaped_strings: FxHashMap::default(),
         })
     }
 
@@ -56,6 +60,11 @@ impl<'a, C: Config> Lexer<'a, C> {
         // SAFETY: Packed token spans are created exclusively from positions of
         // this source cursor and therefore are in bounds and UTF-8 aligned.
         unsafe { self.source.slice_str(token.start(), token.end()) }
+    }
+
+    /// Decoded value for a string token containing escapes.
+    pub(crate) fn escaped_string(&self, token: PackedToken) -> Option<&Wtf8Atom> {
+        self.escaped_strings.get(&token.start().0)
     }
 
     /// Read the next significant token.
@@ -256,6 +265,7 @@ impl<'a, C: Config> Lexer<'a, C> {
     }
 
     pub(super) fn read_string(&mut self) -> Kind {
+        let start = self.source.cur_pos();
         let quote = self.source.cur().unwrap_or(b'\0');
         // SAFETY: The byte handler only routes ASCII quote bytes here.
         unsafe { self.source.bump_bytes(1) };
@@ -264,6 +274,13 @@ impl<'a, C: Config> Lexer<'a, C> {
             if byte == quote {
                 // SAFETY: The closing quote is ASCII.
                 unsafe { self.source.bump_bytes(1) };
+                if self.escaped {
+                    let end = self.source.cur_pos();
+                    // SAFETY: Both positions came from this source cursor.
+                    let raw = unsafe { self.source.slice_str(start, end) };
+                    self.escaped_strings
+                        .insert(start.0, Wtf8Atom::new(decode_string(raw)));
+                }
                 return Kind::Str;
             }
             if matches!(byte, b'\r' | b'\n') {
@@ -662,6 +679,71 @@ fn keyword_kind(value: &str) -> Option<Kind> {
     })
 }
 
+fn decode_string(raw: &str) -> String {
+    debug_assert!(raw.len() >= 2);
+    let mut output = String::with_capacity(raw.len() - 2);
+    let mut characters = raw[1..raw.len() - 1].chars();
+    while let Some(character) = characters.next() {
+        if character != '\\' {
+            output.push(character);
+            continue;
+        }
+
+        let Some(escaped) = characters.next() else {
+            break;
+        };
+        match escaped {
+            'n' => output.push('\n'),
+            'r' => output.push('\r'),
+            't' => output.push('\t'),
+            'b' => output.push('\u{0008}'),
+            'f' => output.push('\u{000c}'),
+            'v' => output.push('\u{000b}'),
+            '0' => output.push('\0'),
+            '\n' => {}
+            '\r' => {
+                if characters.clone().next() == Some('\n') {
+                    characters.next();
+                }
+            }
+            'x' => {
+                let value = read_hex_escape(&mut characters, 2);
+                output.push(char::from_u32(value).unwrap_or(char::REPLACEMENT_CHARACTER));
+            }
+            'u' => {
+                let value = if characters.clone().next() == Some('{') {
+                    characters.next();
+                    let mut value = 0;
+                    for digit in characters.by_ref() {
+                        if digit == '}' {
+                            break;
+                        }
+                        value = value * 16 + digit.to_digit(16).unwrap_or(0);
+                    }
+                    value
+                } else {
+                    read_hex_escape(&mut characters, 4)
+                };
+                output.push(char::from_u32(value).unwrap_or(char::REPLACEMENT_CHARACTER));
+            }
+            other => output.push(other),
+        }
+    }
+    output
+}
+
+fn read_hex_escape(characters: &mut std::str::Chars<'_>, length: usize) -> u32 {
+    let mut value = 0;
+    for _ in 0..length {
+        value = value * 16
+            + characters
+                .next()
+                .and_then(|digit| digit.to_digit(16))
+                .unwrap_or(0);
+    }
+    value
+}
+
 #[cfg(test)]
 mod tests {
     use swc_common::BytePos;
@@ -743,5 +825,22 @@ mod tests {
         for expected in expected {
             assert_eq!(lexer.next_token().kind(), expected);
         }
+    }
+
+    #[test]
+    fn stores_only_decoded_escaped_strings() {
+        let mut lexer = Lexer::new("'plain' 'a\\n\\u{1f600}'", BytePos(1), NoTokens).unwrap();
+        let plain = lexer.next_token();
+        assert!(!plain.escaped());
+        assert!(lexer.escaped_string(plain).is_none());
+
+        let escaped = lexer.next_token();
+        assert!(escaped.escaped());
+        assert_eq!(
+            lexer
+                .escaped_string(escaped)
+                .and_then(|value| value.as_wtf8().as_str()),
+            Some("a\n😀")
+        );
     }
 }
