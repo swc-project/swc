@@ -43,7 +43,7 @@ impl Fold for HygieneVisualizer {
 fn main() {
     use std::{env, path::Path, process};
 
-    use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
+    use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 
     // Get command-line arguments
     let args: Vec<String> = env::args().collect();
@@ -87,17 +87,20 @@ fn main() {
 
     GLOBALS.set(&Default::default(), || {
         // Parse the file
-        let mut program = parse_file_as_program(
-            &source_file,
-            syntax,
-            Default::default(),
-            None,
-            &mut Vec::new(),
-        )
-        .unwrap_or_else(|e| {
-            eprintln!("Failed to parse file '{file_path}': {e:?}");
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Unambiguous, Default::default());
+        let result = Parser::new(&source_file.src, source_type)
+            .with_options(options)
+            .with_start_pos(source_file.start_pos)
+            .parse();
+        if !result.diagnostics.is_empty() {
+            eprintln!(
+                "Failed to parse file '{file_path}': {:?}",
+                result.diagnostics
+            );
             process::exit(1)
-        });
+        }
+        let mut program = result.program;
 
         // Apply resolver
         let unresolved_mark = Mark::new();

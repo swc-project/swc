@@ -8,7 +8,7 @@ use swc::{
 };
 use swc_common::FileName;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{parse_file_as_program, EsSyntax, FlowSyntax, Syntax};
+use swc_ecma_parser::{EsSyntax, FlowSyntax, ModuleKind, Parser, SourceType, Syntax};
 use testing::Tester;
 
 #[testing::fixture("../swc_ecma_parser/tests/flow/**/*.js")]
@@ -53,42 +53,27 @@ fn flow_strip_correctness(input: PathBuf) {
             );
 
             let output_fm = cm.new_source_file(FileName::Anon.into(), output.code);
-            let mut recovered_errors = vec![];
-
-            match parse_file_as_program(
-                &output_fm,
-                Syntax::Es(EsSyntax {
-                    jsx: flow_syntax.jsx,
-                    decorators: true,
-                    decorators_before_export: true,
-                    export_default_from: true,
-                    import_attributes: true,
-                    allow_super_outside_method: true,
-                    auto_accessors: true,
-                    explicit_resource_management: true,
-                    ..Default::default()
-                }),
-                EsVersion::latest(),
-                None,
-                &mut recovered_errors,
-            ) {
-                Ok(_) => {}
-                Err(err) => {
-                    err.into_diagnostic(&handler).emit();
-
-                    for recovered in recovered_errors {
-                        recovered.into_diagnostic(&handler).emit();
-                    }
-
-                    return Err(());
-                }
+            let syntax = Syntax::Es(EsSyntax {
+                jsx: flow_syntax.jsx,
+                decorators: true,
+                decorators_before_export: true,
+                export_default_from: true,
+                import_attributes: true,
+                allow_super_outside_method: true,
+                auto_accessors: true,
+                explicit_resource_management: true,
+                ..Default::default()
+            });
+            let (source_type, options) =
+                SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+            let result = Parser::new(&output_fm.src, source_type)
+                .with_options(options)
+                .with_start_pos(output_fm.start_pos)
+                .parse();
+            for error in result.diagnostics {
+                error.into_diagnostic(&handler).emit();
             }
-
-            if !recovered_errors.is_empty() {
-                for recovered in recovered_errors {
-                    recovered.into_diagnostic(&handler).emit();
-                }
-
+            if handler.has_errors() {
                 return Err(());
             }
 

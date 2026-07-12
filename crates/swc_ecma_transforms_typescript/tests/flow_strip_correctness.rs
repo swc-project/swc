@@ -3,7 +3,7 @@ use std::{fs::File, io::Read, path::PathBuf};
 use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code_default;
-use swc_ecma_parser::{parse_file_as_program, EsSyntax, FlowSyntax, Syntax};
+use swc_ecma_parser::{EsSyntax, FlowSyntax, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_transforms_typescript::typescript;
 
@@ -68,23 +68,22 @@ fn strip_flow_program(
     fm: Lrc<SourceFile>,
     flow_syntax: FlowSyntax,
 ) -> Result<String, ()> {
-    let mut recovered_errors = Vec::new();
-
-    let program = parse_file_as_program(
-        &fm,
+    let (source_type, options) = SourceType::from_legacy(
         Syntax::Flow(flow_syntax),
+        ModuleKind::Unambiguous,
         EsVersion::latest(),
-        None,
-        &mut recovered_errors,
-    )
-    .map_err(|err| err.into_diagnostic(handler).emit())?;
-
-    if !recovered_errors.is_empty() {
-        for recovered in recovered_errors {
-            recovered.into_diagnostic(handler).emit();
-        }
+    );
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
+    }
+    if handler.has_errors() {
         return Err(());
     }
+    let program = result.program;
 
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
@@ -111,31 +110,27 @@ fn assert_reparses_as_javascript(
     flow_syntax: FlowSyntax,
 ) -> Result<(), ()> {
     let output_fm = cm.new_source_file(FileName::Anon.into(), output);
-    let mut js_errors = Vec::new();
-
-    parse_file_as_program(
-        &output_fm,
-        Syntax::Es(EsSyntax {
-            jsx: flow_syntax.jsx,
-            decorators: true,
-            decorators_before_export: true,
-            export_default_from: true,
-            import_attributes: true,
-            allow_super_outside_method: true,
-            auto_accessors: true,
-            explicit_resource_management: true,
-            ..Default::default()
-        }),
-        EsVersion::latest(),
-        None,
-        &mut js_errors,
-    )
-    .map_err(|err| err.into_diagnostic(handler).emit())?;
-
-    if !js_errors.is_empty() {
-        for recovered in js_errors {
-            recovered.into_diagnostic(handler).emit();
-        }
+    let syntax = Syntax::Es(EsSyntax {
+        jsx: flow_syntax.jsx,
+        decorators: true,
+        decorators_before_export: true,
+        export_default_from: true,
+        import_attributes: true,
+        allow_super_outside_method: true,
+        auto_accessors: true,
+        explicit_resource_management: true,
+        ..Default::default()
+    });
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+    let result = Parser::new(&output_fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(output_fm.start_pos)
+        .parse();
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
+    }
+    if handler.has_errors() {
         return Err(());
     }
 

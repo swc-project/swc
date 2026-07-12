@@ -15,7 +15,7 @@ use std::{
 
 use swc_common::{sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::{Pass, Program};
-use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
+use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_ecma_visit::NodeRef;
 
 // Keep this list in sync with generated `swc_ecma_visit::NodeRef`. The
@@ -386,17 +386,27 @@ fn main() {
     let syntax = syntax_for_path(&file_path);
 
     GLOBALS.set(&Default::default(), || {
-        let mut errors = Vec::new();
-        let mut program =
-            parse_file_as_program(&source_file, syntax, Default::default(), None, &mut errors)
-                .unwrap_or_else(|err| {
-                    eprintln!("Failed to parse '{}': {err:?}", file_path.display());
-                    process::exit(1);
-                });
-
-        if !errors.is_empty() {
-            eprintln!("Parsed with {} recoverable error(s).", errors.len());
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Unambiguous, Default::default());
+        let result = Parser::new(&source_file.src, source_type)
+            .with_options(options)
+            .with_start_pos(source_file.start_pos)
+            .parse();
+        if result.panicked {
+            eprintln!(
+                "Failed to parse '{}': {:?}",
+                file_path.display(),
+                result.diagnostics
+            );
+            process::exit(1);
         }
+        if !result.diagnostics.is_empty() {
+            eprintln!(
+                "Parsed with {} recoverable error(s).",
+                result.diagnostics.len()
+            );
+        }
+        let mut program = result.program;
 
         let mut counter = NodeCounter::default();
         counter.process(&mut program);

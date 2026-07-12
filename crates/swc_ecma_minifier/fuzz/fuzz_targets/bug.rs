@@ -1,13 +1,13 @@
 #![no_main]
 use libfuzzer_sys::fuzz_target;
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
-use swc_ecma_ast::{Module, Program};
+use swc_ecma_ast::Module;
 use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
-use swc_ecma_parser::parse_file_as_module;
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::FoldWith;
@@ -37,18 +37,13 @@ fuzz_target!(|module: Module| {
 
         let fm = cm.new_source_file(FileName::Anon, code);
 
-        let mut program = parse_file_as_module(
-            &fm,
-            Default::default(),
-            Default::default(),
-            None,
-            &mut Vec::new(),
-        )
-        .map_err(|err| {
-            err.into_diagnostic(handler).emit();
-        })
-        .map(Program::Module)
-        .unwrap();
+        let result = Parser::new(&fm.src, SourceType::module())
+            .with_start_pos(fm.start_pos)
+            .parse();
+        for error in result.diagnostics {
+            error.into_diagnostic(handler).emit();
+        }
+        let mut program = result.program;
 
         program = program.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 

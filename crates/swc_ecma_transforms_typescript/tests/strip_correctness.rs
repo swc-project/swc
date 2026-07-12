@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::to_code_default;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, Syntax, TsSyntax};
+use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::typescript;
 
@@ -85,26 +85,30 @@ fn identity(entry: PathBuf) {
         let src = cm.load_file(&entry).expect("failed to load file");
         println!("{}", src.src);
 
-        let mut parser: Parser<Lexer> = Parser::new(
-            Syntax::Typescript(TsSyntax {
-                tsx: file_name.contains("tsx"),
-                decorators: true,
-                dts: false,
-                no_early_errors: false,
-                disallow_ambiguous_jsx_like: false,
-            }),
-            (&*src).into(),
-            None,
-        );
+        let syntax = Syntax::Typescript(TsSyntax {
+            tsx: file_name.contains("tsx"),
+            decorators: true,
+            dts: false,
+            no_early_errors: false,
+            disallow_ambiguous_jsx_like: false,
+        });
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Module, EsVersion::latest());
+        let result = Parser::new(&src.src, source_type)
+            .with_options(options)
+            .with_start_pos(src.start_pos)
+            .parse();
 
         let js_content = {
             // Parse source
-            let program = parser
-                .parse_typescript_module()
-                .map(|p| {
+            let program = if result.diagnostics.is_empty() {
+                let Program::Module(module) = result.program else {
+                    unreachable!("module source type must produce a module")
+                };
+                Some({
                     let unresolved_mark = Mark::new();
                     let top_level_mark = Mark::new();
-                    Program::Module(p)
+                    Program::Module(module)
                         .apply(resolver(unresolved_mark, top_level_mark, true))
                         .apply(typescript(
                             typescript::Config {
@@ -117,15 +121,17 @@ fn identity(entry: PathBuf) {
                         .apply(hygiene())
                         .apply(fixer(None))
                 })
-                .map_err(|e| {
-                    eprintln!("failed to parse as typescript module");
-                    e.into_diagnostic(handler).emit();
-                });
+            } else {
+                for error in result.diagnostics {
+                    error.into_diagnostic(handler).emit();
+                }
+                None
+            };
 
             // We are not testing parser issues
             let program = match program {
-                Ok(program) => program,
-                Err(_) => return Ok(()),
+                Some(program) => program,
+                None => return Ok(()),
             };
 
             to_code_default(cm.clone(), None, &program)
@@ -135,32 +141,35 @@ fn identity(entry: PathBuf) {
 
         let js_fm = cm.new_source_file(FileName::Anon.into(), js_content.clone());
 
-        let mut parser: Parser<Lexer> = Parser::new(
-            Syntax::Es(EsSyntax {
-                jsx: file_name.contains("tsx"),
-                decorators: true,
-                decorators_before_export: true,
-                export_default_from: true,
-                import_attributes: true,
-                allow_super_outside_method: true,
-                auto_accessors: true,
-                ..Default::default()
-            }),
-            (&*js_fm).into(),
-            None,
-        );
+        let syntax = Syntax::Es(EsSyntax {
+            jsx: file_name.contains("tsx"),
+            decorators: true,
+            decorators_before_export: true,
+            export_default_from: true,
+            import_attributes: true,
+            allow_super_outside_method: true,
+            auto_accessors: true,
+            ..Default::default()
+        });
 
         // It's very unscientific.
         // TODO: Change this with visitor
-        if js_content.contains("import") || js_content.contains("export") {
-            parser
-                .parse_module()
-                .unwrap_or_else(|err| panic!("{js_content} is invalid module\n{err:?}"));
+        let module_kind = if js_content.contains("import") || js_content.contains("export") {
+            ModuleKind::Module
         } else {
-            parser
-                .parse_script()
-                .unwrap_or_else(|err| panic!("{js_content} is invalid script\n{err:?}"));
-        }
+            ModuleKind::Script
+        };
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, module_kind, EsVersion::latest());
+        let result = Parser::new(&js_fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(js_fm.start_pos)
+            .parse();
+        assert!(
+            result.diagnostics.is_empty(),
+            "{js_content} is invalid JavaScript: {:?}",
+            result.diagnostics
+        );
 
         Ok(())
     })

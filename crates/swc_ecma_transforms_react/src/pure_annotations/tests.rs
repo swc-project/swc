@@ -1,6 +1,6 @@
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{LegacyParser as Parser, StringInput};
+use swc_ecma_parser::{attach_comments, Parser, SourceType};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_testing::Tester;
 
@@ -10,26 +10,29 @@ fn parse(
     tester: &mut Tester,
     src: &str,
 ) -> Result<(Program, Lrc<SourceMap>, Lrc<SingleThreadedComments>), ()> {
-    let syntax = ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
-        jsx: true,
-        ..Default::default()
-    });
     let source_map = Lrc::new(SourceMap::default());
     let source_file = source_map.new_source_file(FileName::Anon.into(), src.to_string());
 
     let comments = Lrc::new(SingleThreadedComments::default());
-    let program = {
-        let mut p = Parser::new(syntax, StringInput::from(&*source_file), Some(&comments));
-        let res = p
-            .parse_module()
-            .map_err(|e| e.into_diagnostic(tester.handler).emit());
-
-        for e in p.take_errors() {
-            e.into_diagnostic(tester.handler).emit()
-        }
-
-        Program::Module(res?)
-    };
+    let mut result = Parser::new(&source_file.src, SourceType::jsx())
+        .with_start_pos(source_file.start_pos)
+        .with_tokens()
+        .parse();
+    attach_comments(
+        &source_file.src,
+        source_file.start_pos,
+        &*comments,
+        std::mem::take(&mut result.comments),
+        &result.tokens,
+        &result.program,
+    );
+    for error in result.diagnostics {
+        error.into_diagnostic(tester.handler).emit();
+    }
+    if tester.handler.has_errors() {
+        return Err(());
+    }
+    let program = result.program;
 
     Ok((program, source_map, comments))
 }

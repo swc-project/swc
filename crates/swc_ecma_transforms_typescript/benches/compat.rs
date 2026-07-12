@@ -1,7 +1,7 @@
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Module, Pass, Program};
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_transforms_base::{helpers, resolver};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::{fold_pass, Fold};
@@ -10,19 +10,11 @@ static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
 fn module(cm: Lrc<SourceMap>) -> Program {
     let fm = cm.new_source_file(FileName::Anon.into(), SOURCE);
-    let lexer = Lexer::new(
-        Syntax::Typescript(Default::default()),
-        Default::default(),
-        StringInput::from(&*fm),
-        None,
-    );
-    let mut parser = Parser::new_from(lexer);
-
-    parser
-        .parse_module()
-        .map(Program::Module)
-        .map_err(|_| ())
-        .unwrap()
+    let result = Parser::new(&fm.src, SourceType::typescript())
+        .with_start_pos(fm.start_pos)
+        .parse();
+    assert!(result.diagnostics.is_empty());
+    result.program
 }
 
 fn run<V>(b: &mut Bencher, tr: impl Fn(Mark) -> V)

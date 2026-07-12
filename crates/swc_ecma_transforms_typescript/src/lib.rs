@@ -9,7 +9,7 @@
 //! use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, GLOBALS};
 //! use swc_ecma_ast::EsVersion;
 //! use swc_ecma_codegen::to_code_default;
-//! use swc_ecma_parser::{parse_file_as_program, FlowSyntax, Syntax};
+//! use swc_ecma_parser::{Parser, SourceType};
 //! use swc_ecma_transforms_base::{fixer::fixer, resolver};
 //! use swc_ecma_transforms_typescript::typescript;
 //!
@@ -18,17 +18,11 @@
 //!     FileName::Custom("input.js".into()).into(),
 //!     "const value: number = 1;",
 //! );
-//! let mut recovered_errors = Vec::new();
-//!
-//! let program = parse_file_as_program(
-//!     &fm,
-//!     Syntax::Flow(FlowSyntax::default()),
-//!     EsVersion::latest(),
-//!     None,
-//!     &mut recovered_errors,
-//! )
-//! .expect("flow should parse");
-//! assert!(recovered_errors.is_empty());
+//! let result = Parser::new(&fm.src, SourceType::flow())
+//!     .with_start_pos(fm.start_pos)
+//!     .parse();
+//! assert!(result.diagnostics.is_empty(), "flow should parse");
+//! let program = result.program;
 //!
 //! GLOBALS.set(&Globals::default(), || {
 //!     let unresolved_mark = Mark::new();

@@ -6,7 +6,7 @@ use swc::{
 };
 use swc_common::{errors::Handler, sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{parse_file_as_program, EsSyntax, FlowSyntax, Syntax};
+use swc_ecma_parser::{EsSyntax, FlowSyntax, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_transforms::react::{Options as ReactOptions, Runtime as ReactRuntime};
 
 pub(crate) fn compile_and_reparse_flow_file(
@@ -36,27 +36,19 @@ pub(crate) fn compile_and_reparse_flow_file(
     );
 
     let output_fm = cm.new_source_file(FileName::Anon.into(), output.code);
-    let mut recovered_errors = Vec::new();
-    let reparse_result = parse_file_as_program(
-        &output_fm,
+    let (source_type, options) = SourceType::from_legacy(
         Syntax::Es(es_reparse_syntax(flow_syntax.jsx)),
+        ModuleKind::Unambiguous,
         EsVersion::latest(),
-        None,
-        &mut recovered_errors,
     );
-
-    if let Err(err) = reparse_result {
-        err.into_diagnostic(handler).emit();
-        for recovered in recovered_errors {
-            recovered.into_diagnostic(handler).emit();
-        }
-        return Err(());
+    let result = Parser::new(&output_fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(output_fm.start_pos)
+        .parse();
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
     }
-
-    if !recovered_errors.is_empty() {
-        for recovered in recovered_errors {
-            recovered.into_diagnostic(handler).emit();
-        }
+    if handler.has_errors() {
         return Err(());
     }
 

@@ -6,8 +6,7 @@ use std::{
 use anyhow::Context;
 use serde_json::{Number, Value};
 use swc::SwcComments;
-use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_estree_ast::flavor::Flavor;
 use swc_estree_compat::babelify::Babelify;
 use testing::{assert_eq, json::diff_json_value, DebugUsingDisplay, NormalizedOutput};
@@ -16,15 +15,11 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.load_file(input).unwrap();
 
-        let lexer = Lexer::new(
-            Syntax::Es(Default::default()),
-            EsVersion::latest(),
-            StringInput::from(&*fm),
-            None,
-        );
-        let mut parser = Parser::new_from(lexer);
-
-        let program = parser.parse_program().unwrap();
+        let result = Parser::new(&fm.src, SourceType::unambiguous())
+            .with_start_pos(fm.start_pos)
+            .parse();
+        assert!(result.diagnostics.is_empty());
+        let program = result.program;
 
         let ctx = swc_estree_compat::babelify::Context {
             fm: fm.clone(),

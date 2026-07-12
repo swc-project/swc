@@ -11,7 +11,7 @@ use swc_common::{
     Globals, Mark, SourceMap, GLOBALS,
 };
 use swc_ecma_codegen::to_code_default;
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput, Syntax, TsSyntax};
+use swc_ecma_parser::{attach_comments, Parser, SourceType};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::strip;
 
@@ -34,26 +34,24 @@ fn main() {
 
     let comments = SingleThreadedComments::default();
 
-    let lexer = Lexer::new(
-        Syntax::Typescript(TsSyntax {
-            tsx: input.ends_with(".tsx"),
-            ..Default::default()
-        }),
-        Default::default(),
-        StringInput::from(&*fm),
-        Some(&comments),
+    let source_type = SourceType::typescript().with_jsx(input.ends_with(".tsx"));
+    let mut result = Parser::new(&fm.src, source_type)
+        .with_start_pos(fm.start_pos)
+        .with_tokens()
+        .parse();
+    attach_comments(
+        &fm.src,
+        fm.start_pos,
+        &comments,
+        std::mem::take(&mut result.comments),
+        &result.tokens,
+        &result.program,
     );
-
-    let mut parser = Parser::new_from(lexer);
-
-    for e in parser.take_errors() {
-        e.into_diagnostic(&handler).emit();
+    for error in result.diagnostics {
+        error.into_diagnostic(&handler).emit();
     }
-
-    let module = parser
-        .parse_program()
-        .map_err(|e| e.into_diagnostic(&handler).emit())
-        .expect("failed to parse module.");
+    assert!(!handler.has_errors(), "failed to parse module");
+    let module = result.program;
 
     let globals = Globals::default();
     GLOBALS.set(&globals, || {

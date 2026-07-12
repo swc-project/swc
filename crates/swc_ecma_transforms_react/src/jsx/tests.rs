@@ -6,7 +6,7 @@ use std::{
 };
 
 use swc_ecma_codegen::{Config, Emitter};
-use swc_ecma_parser::{EsSyntax, LegacyParser as Parser, StringInput};
+use swc_ecma_parser::{attach_comments, EsSyntax, Parser, SourceType, Syntax};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};
 use swc_ecma_transforms_compat::es2015::{arrow, classes};
 #[cfg(feature = "es3")]
@@ -1387,14 +1387,22 @@ fn test_script(src: &str, output: &Path, options: Options) {
             .cm
             .new_source_file(FileName::Real("input.js".into()).into(), src.to_string());
 
-        let syntax = Syntax::Es(EsSyntax {
-            jsx: true,
-            ..Default::default()
-        });
-
-        let mut parser = Parser::new(syntax, StringInput::from(&*fm), Some(&tester.comments));
-
-        let script = parser.parse_script().unwrap();
+        let mut result = Parser::new(&fm.src, SourceType::script().with_jsx(true))
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            &*tester.comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+        assert!(result.diagnostics.is_empty());
+        let Program::Script(script) = result.program else {
+            unreachable!("script source type must produce a script")
+        };
 
         let top_level_mark = Mark::new();
         let unresolved_mark = Mark::new();
