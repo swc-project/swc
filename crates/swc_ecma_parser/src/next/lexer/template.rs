@@ -15,6 +15,7 @@ impl<C: Config> Lexer<'_, C> {
         debug_assert_eq!(self.source.cur(), Some(b'}'));
         // SAFETY: The closing brace is ASCII.
         unsafe { self.source.bump_bytes(1) };
+        let mut escaped = false;
 
         let kind = loop {
             match self.source.cur() {
@@ -29,6 +30,7 @@ impl<C: Config> Lexer<'_, C> {
                     break Kind::TemplateMiddle;
                 }
                 Some(b'\\') => {
+                    escaped = true;
                     // SAFETY: The escape marker is ASCII.
                     unsafe { self.source.bump_bytes(1) };
                     if let Some(character) = self.source.cur_as_char() {
@@ -49,7 +51,7 @@ impl<C: Config> Lexer<'_, C> {
             kind,
             Span::new_with_checked(start, self.source.cur_pos()),
             current.had_line_break(),
-            false,
+            escaped,
         )
     }
 }
@@ -72,6 +74,7 @@ mod tests {
             lexer.re_lex_template_substitution_tail().kind(),
             Kind::TemplateMiddle
         );
+        assert_eq!(lexer.token_source(lexer.token()), "} middle ${");
         assert_eq!(lexer.next_token().kind(), Kind::Ident);
         assert_eq!(lexer.next_token().kind(), Kind::RBrace);
         assert_eq!(

@@ -78,6 +78,13 @@ impl<'a, C: Config> Parser<'a, C> {
         self.token
     }
 
+    /// Reinterpret the current closing brace as a template middle or tail.
+    #[inline]
+    pub(crate) fn re_lex_template_substitution_tail(&mut self) -> PackedToken {
+        self.token = self.lexer.re_lex_template_substitution_tail();
+        self.token
+    }
+
     /// End of the previously consumed token.
     #[inline(always)]
     pub(crate) fn previous_end(&self) -> BytePos {

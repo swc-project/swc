@@ -4,6 +4,7 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     CallExpr, Callee, ComputedPropName, Expr, ExprOrSpread, IdentName, MemberExpr, MemberProp,
+    TaggedTpl,
 };
 
 use crate::{
@@ -62,6 +63,18 @@ impl<C: Config> Parser<'_, C> {
                         callee: Callee::Expr(expression),
                         args: arguments,
                         type_args: None,
+                    }));
+                }
+                Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead => {
+                    let start = expression.span().lo;
+                    let template = self.parse_template_literal(true)?;
+                    let end = template.span.hi;
+                    expression = Box::new(Expr::TaggedTpl(TaggedTpl {
+                        span: Span::new_with_checked(start, end),
+                        ctxt: SyntaxContext::empty(),
+                        tag: expression,
+                        type_params: None,
+                        tpl: Box::new(template),
                     }));
                 }
                 _ => break,

@@ -8,3 +8,4 @@ mod lhs;
 mod object;
 mod operator;
 mod statement;
+mod template;

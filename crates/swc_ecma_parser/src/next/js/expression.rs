@@ -106,6 +106,9 @@ impl<C: Config> Parser<'_, C> {
             Kind::LBracket => self.parse_array_literal(),
             Kind::LBrace => self.parse_object_literal(),
             Kind::Function => self.parse_function_expression(),
+            Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead => self
+                .parse_template_literal(false)
+                .map(|template| Box::new(Expr::Tpl(template))),
             _ => Err(self.expected_error(Kind::Ident)),
         }
     }
