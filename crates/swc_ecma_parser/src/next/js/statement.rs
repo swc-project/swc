@@ -4,8 +4,9 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     BindingIdent, BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt,
-    EmptyStmt, ExprStmt, Ident, IfStmt, Pat, ReturnStmt, Script, Stmt, SwitchCase, SwitchStmt,
-    ThrowStmt, TryStmt, VarDecl, VarDeclKind, VarDeclarator, WhileStmt,
+    EmptyStmt, ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, Ident, IfStmt, Pat, ReturnStmt,
+    Script, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDecl, VarDeclKind, VarDeclOrExpr,
+    VarDeclarator, WhileStmt,
 };
 
 use crate::{
@@ -43,6 +44,7 @@ impl<C: Config> Parser<'_, C> {
             Kind::LBrace => self.parse_block_statement().map(Stmt::Block),
             Kind::Break | Kind::Continue => self.parse_jump_statement(),
             Kind::Debugger => self.parse_debugger_statement(),
+            Kind::For => self.parse_for_statement(),
             Kind::If => self.parse_if_statement(),
             Kind::Return => self.parse_return_statement(),
             Kind::Switch => self.parse_switch_statement(),
@@ -122,7 +124,7 @@ impl<C: Config> Parser<'_, C> {
             None
         } else {
             let token = self.token();
-            if !self.at(Kind::Ident) {
+            if !self.at_identifier_reference() {
                 return Err(self.expected_error(Kind::Ident));
             }
             let label = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
@@ -177,6 +179,111 @@ impl<C: Config> Parser<'_, C> {
             test,
             cons: consequent,
             alt: alternate,
+        }))
+    }
+
+    fn parse_for_statement(&mut self) -> Result<Stmt, Error> {
+        let start = self.token().start();
+        self.advance();
+        let is_await = self.eat(Kind::Await);
+        if !self.expect(Kind::LParen) {
+            return Err(self.expected_error(Kind::LParen));
+        }
+
+        let init = if self.at(Kind::Semi) {
+            None
+        } else if matches!(self.kind(), Kind::Var | Kind::Let | Kind::Const) {
+            Some(VarDeclOrExpr::VarDecl(self.with_context(
+                Context::empty(),
+                Context::IN,
+                Self::parse_variable_declaration,
+            )?))
+        } else {
+            Some(VarDeclOrExpr::Expr(self.with_context(
+                Context::empty(),
+                Context::IN,
+                Self::parse_expression,
+            )?))
+        };
+
+        if matches!(self.kind(), Kind::In | Kind::Of) {
+            let operator = self.kind();
+            if is_await && operator != Kind::Of {
+                return Err(self.expected_error(Kind::Of));
+            }
+            let Some(init) = init else {
+                return Err(self.expected_error(Kind::Ident));
+            };
+            // Plugin builds consume a non-exhaustive AST enum from another
+            // crate, while workspace builds see the current variants.
+            #[allow(unreachable_patterns)]
+            let left = match init {
+                VarDeclOrExpr::VarDecl(declaration) => ForHead::VarDecl(declaration),
+                VarDeclOrExpr::Expr(expression) => ForHead::Pat(Box::new(Pat::Expr(expression))),
+                _ => return Err(self.expected_error(Kind::Ident)),
+            };
+            self.advance();
+            let right = self.parse_expression()?;
+            if !self.expect(Kind::RParen) {
+                return Err(self.expected_error(Kind::RParen));
+            }
+            let body = Box::new(self.with_context(
+                Context::BREAK | Context::CONTINUE,
+                Context::empty(),
+                Self::parse_statement,
+            )?);
+            let span = Span::new_with_checked(start, body.span().hi);
+            return Ok(if operator == Kind::In {
+                Stmt::ForIn(ForInStmt {
+                    span,
+                    left,
+                    right,
+                    body,
+                })
+            } else {
+                Stmt::ForOf(ForOfStmt {
+                    span,
+                    is_await,
+                    left,
+                    right,
+                    body,
+                })
+            });
+        }
+
+        if is_await {
+            return Err(self.expected_error(Kind::Of));
+        }
+        if !self.expect(Kind::Semi) {
+            return Err(self.expected_error(Kind::Semi));
+        }
+        let test = if self.at(Kind::Semi) {
+            None
+        } else {
+            Some(self.parse_expression()?)
+        };
+        if !self.expect(Kind::Semi) {
+            return Err(self.expected_error(Kind::Semi));
+        }
+        let update = if self.at(Kind::RParen) {
+            None
+        } else {
+            Some(self.parse_expression()?)
+        };
+        if !self.expect(Kind::RParen) {
+            return Err(self.expected_error(Kind::RParen));
+        }
+        let body = Box::new(self.with_context(
+            Context::BREAK | Context::CONTINUE,
+            Context::empty(),
+            Self::parse_statement,
+        )?);
+        Ok(Stmt::For(ForStmt {
+            span: Span::new_with_checked(start, body.span().hi),
+            init,
+            test,
+            update,
+            body,
         }))
     }
 
@@ -263,7 +370,7 @@ impl<C: Config> Parser<'_, C> {
         let handler = if self.eat(Kind::Catch) {
             let parameter = if self.eat(Kind::LParen) {
                 let token = self.token();
-                if !self.at(Kind::Ident) {
+                if !self.at_identifier_reference() {
                     return Err(self.expected_error(Kind::Ident));
                 }
                 let identifier =
@@ -351,6 +458,12 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn parse_variable_statement(&mut self) -> Result<Stmt, Error> {
+        let declaration = self.parse_variable_declaration()?;
+        self.consume_semicolon()?;
+        Ok(Stmt::Decl(Decl::Var(declaration)))
+    }
+
+    fn parse_variable_declaration(&mut self) -> Result<Box<VarDecl>, Error> {
         let start = self.token().start();
         let kind = match self.kind() {
             Kind::Var => VarDeclKind::Var,
@@ -363,7 +476,7 @@ impl<C: Config> Parser<'_, C> {
 
         loop {
             let identifier_token = self.token();
-            if !self.at(Kind::Ident) {
+            if !self.at_identifier_reference() {
                 return Err(self.expected_error(Kind::Ident));
             }
             let identifier = Ident::new_no_ctxt(
@@ -393,14 +506,13 @@ impl<C: Config> Parser<'_, C> {
             }
         }
 
-        self.consume_semicolon()?;
-        Ok(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+        Ok(Box::new(VarDecl {
             span: Span::new_with_checked(start, self.previous_end()),
             ctxt: SyntaxContext::empty(),
             kind,
             declare: false,
             decls: declarations,
-        }))))
+        }))
     }
 
     fn parse_expression_statement(&mut self) -> Result<Stmt, Error> {
@@ -524,5 +636,22 @@ mod tests {
         };
         assert!(try_statement.handler.is_some());
         assert!(try_statement.finalizer.is_some());
+    }
+
+    #[test]
+    fn parses_for_statement_variants_directly() {
+        let source = "for (let index = 0; index < 3; index = index + 1) work(index); for (const \
+                      key in object) useKey(key); for await (const value of values) \
+                      consume(value);";
+        let lexer = Lexer::new(source, BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let script = parser.parse_script().unwrap();
+
+        assert!(matches!(script.body[0], Stmt::For(_)));
+        assert!(matches!(script.body[1], Stmt::ForIn(_)));
+        let Stmt::ForOf(for_of) = &script.body[2] else {
+            panic!("expected for-of statement")
+        };
+        assert!(for_of.is_await);
     }
 }
