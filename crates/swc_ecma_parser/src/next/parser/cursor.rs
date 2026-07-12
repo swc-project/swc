@@ -123,6 +123,14 @@ impl<'a, C: Config> Parser<'a, C> {
         self.token = self.lexer.next_token();
     }
 
+    /// Consume the current JSX boundary token and read a JSX child, retaining
+    /// whitespace as text instead of trivia.
+    #[inline]
+    pub(crate) fn advance_as_jsx_child(&mut self) {
+        self.previous_end = self.token.end();
+        self.token = self.lexer.next_jsx_child();
+    }
+
     /// Consume `kind` when present.
     #[inline]
     pub(crate) fn eat(&mut self, kind: Kind) -> bool {

@@ -4,6 +4,7 @@ mod assignment;
 mod class;
 mod expression;
 mod function;
+mod jsx;
 mod lhs;
 mod module;
 mod object;
