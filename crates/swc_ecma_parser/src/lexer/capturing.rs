@@ -1,11 +1,11 @@
 use std::mem;
 
-use swc_common::Span;
+use swc_common::{comments::Comment, Span};
 
 use crate::{
     error::Error,
     input::Tokens,
-    lexer::{token::TokenAndSpan, Token},
+    lexer::{token::TokenAndSpan, Token, TokenFlags},
     syntax::SyntaxFlags,
     Context,
 };
@@ -19,6 +19,15 @@ pub struct Capturing<I> {
 pub struct CapturingCheckpoint<I: Tokens> {
     pos: usize,
     inner: I::Checkpoint,
+}
+
+impl<I: Clone> Clone for Capturing<I> {
+    fn clone(&self) -> Self {
+        Capturing {
+            inner: self.inner.clone(),
+            captured: self.captured.clone(),
+        }
+    }
 }
 
 impl<I> Capturing<I> {
@@ -126,12 +135,20 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.take_errors()
     }
 
-    fn take_comments(&mut self) -> super::comments_buffer::CommentData {
+    fn take_comments(&mut self) -> Vec<Comment> {
         self.inner.take_comments()
     }
 
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         self.inner.take_script_module_errors()
+    }
+
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {
+        self.inner.update_token_flags(f);
+    }
+
+    fn token_flags(&self) -> TokenFlags {
+        self.inner.token_flags()
     }
 
     fn clone_token_value(&self) -> Option<super::TokenValue> {

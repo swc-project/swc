@@ -1056,8 +1056,13 @@ impl<I: Tokens> Parser<I> {
             return false;
         }
 
-        let next = self.input_mut().peek_token_and_span();
-        next.token == Token::LParen && self.input().cur_span().hi < next.span.lo
+        if self.input_mut().peek() != Some(Token::LParen) {
+            return false;
+        }
+
+        self.input()
+            .next()
+            .is_some_and(|next| self.input().cur_span().hi < next.span().lo)
     }
 
     fn flow_match_true_expr(&self, span: Span) -> Box<Expr> {
@@ -1853,16 +1858,15 @@ impl<I: Tokens> Parser<I> {
         include_decl: bool,
         handle_import_export: impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,
     ) -> PResult<Type> {
-        if !self.input().is(Token::LBrace) {
-            return self.parse_stmt_like_inner(include_decl, handle_import_export);
-        }
-        if self.block_depth >= MAX_BLOCK_PARSE_DEPTH {
+        if self.parse_depth >= MAX_PARSE_DEPTH || self.stmt_depth >= MAX_STMT_PARSE_DEPTH {
             return Err(self.max_parse_depth_error());
         }
 
-        self.block_depth += 1;
+        self.parse_depth += 1;
+        self.stmt_depth += 1;
         let result = self.parse_stmt_like_inner(include_decl, handle_import_export);
-        self.block_depth -= 1;
+        self.stmt_depth -= 1;
+        self.parse_depth -= 1;
         result
     }
 

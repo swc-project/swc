@@ -102,21 +102,6 @@ fn flat_comments_attach_deterministically() {
 }
 
 #[test]
-fn lexer_comment_attachments_do_not_require_tokens() {
-    let source = "const a = 1; // trailing\n// leading\nconst b = 2;";
-    let mut parsed = NextParser::new(source, SourceType::script()).parse();
-    let destination = SingleThreadedComments::default();
-
-    assert!(parsed.tokens.is_empty());
-    parsed.attach_comments_to(&destination);
-
-    let (leading, trailing) = destination.borrow_all();
-    assert_eq!(leading.values().map(Vec::len).sum::<usize>(), 1);
-    assert_eq!(trailing.values().map(Vec::len).sum::<usize>(), 1);
-    assert!(parsed.comments.is_empty());
-}
-
-#[test]
 fn excessive_nesting_returns_fatal_diagnostic() {
     let mut source = "(".repeat(300);
     source.push('0');

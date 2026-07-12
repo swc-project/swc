@@ -149,8 +149,8 @@ use swc_ecma_loader::resolvers::{
 };
 use swc_ecma_minifier::option::{MangleCache, MinifyOptions, TopLevelOptions};
 use swc_ecma_parser::{
-    error::SyntaxError, EsSyntax, ModuleKind, Parser as NextParser, ParserReturn, SourceType,
-    Syntax,
+    attach_comments, error::SyntaxError, EsSyntax, ModuleKind, Parser as NextParser, ParserReturn,
+    SourceType, Syntax,
 };
 use swc_ecma_transforms::{
     fixer,
@@ -252,18 +252,34 @@ fn parse_with_next_parser(
     syntax: Syntax,
     target: EsVersion,
     module_kind: ModuleKind,
+    collect_tokens: bool,
 ) -> ParserReturn {
     let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
     let parser = NextParser::new(&fm.src, source_type)
         .with_options(options)
         .with_start_pos(fm.start_pos);
 
-    parser.parse()
+    if collect_tokens {
+        parser.with_tokens().parse()
+    } else {
+        parser.parse()
+    }
 }
 
-fn attach_next_parser_comments(comments: Option<&dyn Comments>, result: &mut ParserReturn) {
+fn attach_next_parser_comments(
+    fm: &SourceFile,
+    comments: Option<&dyn Comments>,
+    result: &mut ParserReturn,
+) {
     if let Some(comments) = comments {
-        result.attach_comments_to(comments);
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
     }
 }
 
@@ -669,10 +685,11 @@ impl Compiler {
         }
 
         if matches!(is_module, IsModule::Bool(false)) {
-            let mut result = parse_with_next_parser(&fm, syntax, target, ModuleKind::Script);
+            let mut result =
+                parse_with_next_parser(&fm, syntax, target, ModuleKind::Script, comments.is_some());
 
             if !result.panicked {
-                attach_next_parser_comments(comments, &mut result);
+                attach_next_parser_comments(&fm, comments, &mut result);
                 emit_parser_recoverable_errors(handler, result.diagnostics)?;
                 return Ok((result.program, false));
             }
@@ -681,13 +698,19 @@ impl Compiler {
                 result.diagnostics.last().map(|error| error.kind()),
                 Some(SyntaxError::ImportExportInScript)
             ) {
-                attach_next_parser_comments(comments, &mut result);
+                attach_next_parser_comments(&fm, comments, &mut result);
                 emit_parser_recoverable_errors(handler, result.diagnostics)?;
                 return Err(Error::msg("Syntax Error"));
             }
 
-            let mut result = parse_with_next_parser(&fm, syntax, target, ModuleKind::Unambiguous);
-            attach_next_parser_comments(comments, &mut result);
+            let mut result = parse_with_next_parser(
+                &fm,
+                syntax,
+                target,
+                ModuleKind::Unambiguous,
+                comments.is_some(),
+            );
+            attach_next_parser_comments(&fm, comments, &mut result);
             emit_parser_recoverable_errors(handler, result.diagnostics)?;
 
             if result.panicked {

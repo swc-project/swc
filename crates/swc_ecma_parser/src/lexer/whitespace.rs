@@ -1,3 +1,5 @@
+use swc_common::input::Input;
+
 use crate::{byte_search, lexer::search::SafeByteMatchTable, safe_byte_match_table, Lexer};
 
 /// U+000B VERTICAL TAB, abbreviated `<VT>`.

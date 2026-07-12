@@ -53,6 +53,7 @@ pub type PResult<T> = Result<T, crate::error::Error>;
 
 /// These limits prevent parser-controlled recursion from exhausting the process
 /// stack.
+const MAX_PARSE_DEPTH: u16 = 256;
 // wasm runtimes provide enough stack for existing generated code with deeply
 // nested currency predicates. Native test threads use a smaller stack, so keep
 // their guard lower until parenthesized expressions are parsed iteratively.
@@ -72,19 +73,22 @@ const MAX_BLOCK_PARSE_DEPTH: u16 = 32;
     feature = "stacker"
 ))]
 const MAX_BLOCK_PARSE_DEPTH: u16 = 128;
+const MAX_STMT_PARSE_DEPTH: u16 = 32;
 #[cfg(feature = "typescript")]
-const MAX_PAREN_TYPE_PARSE_DEPTH: u16 = 64;
+const MAX_TYPE_PARSE_DEPTH: u16 = 64;
 
 #[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
     buffer_prev_span: Span,
     buffer_cur: TokenAndSpan,
+    buffer_next: Option<crate::lexer::NextTokenAndSpan>,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
 
 /// EcmaScript parser.
+#[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
@@ -96,8 +100,12 @@ pub struct Parser<I: self::input::Tokens> {
     explicit_script: bool,
     paren_depth: u16,
     block_depth: u16,
+    /// Combined grammar recursion across statements, expressions, and types.
+    parse_depth: u16,
+    expr_depth: u16,
+    stmt_depth: u16,
     #[cfg(feature = "typescript")]
-    paren_type_depth: u16,
+    type_depth: u16,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -124,20 +132,22 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cfg(all(feature = "typescript", feature = "flow"))]
-    fn checkpoint_save(&mut self) -> ParserCheckpoint<I> {
+    fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
             buffer_cur: self.input.cur,
+            buffer_next: self.input.next.clone(),
             buffer_prev_span: self.input.prev_span,
             allow_super_call: self.allow_super_call,
         }
     }
 
     #[cfg(all(feature = "typescript", not(feature = "flow")))]
-    fn checkpoint_save(&mut self) -> ParserCheckpoint<I> {
+    fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
             buffer_cur: self.input.cur,
+            buffer_next: self.input.next.clone(),
             buffer_prev_span: self.input.prev_span,
         }
     }
@@ -146,6 +156,7 @@ impl<I: Tokens> Parser<I> {
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
+        self.input.next = checkpoint.buffer_next;
         self.input.prev_span = checkpoint.buffer_prev_span;
         self.allow_super_call = checkpoint.allow_super_call;
     }
@@ -154,6 +165,7 @@ impl<I: Tokens> Parser<I> {
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
+        self.input.next = checkpoint.buffer_next;
         self.input.prev_span = checkpoint.buffer_prev_span;
     }
 
@@ -219,8 +231,11 @@ impl<I: Tokens> Parser<I> {
             explicit_script: false,
             paren_depth: 0,
             block_depth: 0,
+            parse_depth: 0,
+            expr_depth: 0,
+            stmt_depth: 0,
             #[cfg(feature = "typescript")]
-            paren_type_depth: 0,
+            type_depth: 0,
             #[cfg(feature = "flow")]
             allow_super_call: false,
         };

@@ -15,15 +15,16 @@ use swc_ecma_ast::{
     ClassProp, Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, Expr, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp,
     IfStmt, ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat, Param,
-    Pat, PrivateMethod, PrivateProp, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
+    Pat, PrivateMethod, PrivateProp, Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
     TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
     TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam,
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
-    ModuleKind, Parser, ParserReturn, SourceType, Syntax, Token as TokenAndSpan,
-    TokenKind as Token, TsSyntax,
+    lexer::Lexer,
+    unstable::{Capturing, Token, TokenAndSpan},
+    LegacyParser as Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_transforms_base::{
     fixer::fixer,
@@ -250,34 +251,61 @@ pub fn operate(
 
     let comments = SingleThreadedComments::default();
 
-    let module_kind = match options.module {
-        Some(true) => ModuleKind::Module,
-        Some(false) => ModuleKind::Script,
-        None => ModuleKind::Unambiguous,
-    };
-    let (source_type, parse_options) = SourceType::from_legacy(syntax, module_kind, target);
-    let parser = Parser::new(&fm.src, source_type)
-        .with_options(parse_options)
-        .with_start_pos(fm.start_pos);
-    let mut parsed = if should_capture_tokens {
-        parser.with_tokens().parse()
+    let (program, errors, mut tokens) = if should_capture_tokens {
+        let lexer = Capturing::new(Lexer::new(
+            syntax,
+            target,
+            StringInput::from(&*fm),
+            Some(&comments),
+        ));
+        let mut parser = Parser::new_from(lexer);
+
+        let program = match options.module {
+            Some(true) => parser.parse_module().map(Program::Module),
+            Some(false) => parser.parse_script().map(Program::Script),
+            None => parser.parse_program(),
+        };
+        let errors = parser.take_errors();
+        let tokens = parser.input_mut().iter_mut().take();
+
+        (program, errors, tokens)
     } else {
-        parser.parse()
+        let lexer = Lexer::new(syntax, target, StringInput::from(&*fm), Some(&comments));
+        let mut parser = Parser::new_from(lexer);
+
+        let program = match options.module {
+            Some(true) => parser.parse_module().map(Program::Module),
+            Some(false) => parser.parse_script().map(Program::Script),
+            None => parser.parse_program(),
+        };
+        let errors = parser.take_errors();
+
+        (program, errors, Vec::new())
     };
-    parsed.attach_comments_to(&comments);
 
-    let ParserReturn {
-        program,
-        diagnostics,
-        mut tokens,
-        panicked,
-        ..
-    } = parsed;
+    let mut program = match program {
+        Ok(program) => program,
+        Err(err) => {
+            err.into_diagnostic(handler)
+                .code(DiagnosticId::Error("InvalidSyntax".into()))
+                .emit();
 
-    if panicked || !diagnostics.is_empty() {
-        for error in diagnostics {
-            error
-                .into_diagnostic(handler)
+            for e in errors {
+                e.into_diagnostic(handler)
+                    .code(DiagnosticId::Error("InvalidSyntax".into()))
+                    .emit();
+            }
+
+            return Err(TsError {
+                message: "Syntax error".to_string(),
+                code: ErrorCode::InvalidSyntax,
+            });
+        }
+    };
+
+    if !errors.is_empty() {
+        for e in errors {
+            e.into_diagnostic(handler)
                 .code(DiagnosticId::Error("InvalidSyntax".into()))
                 .emit();
         }
@@ -666,15 +694,19 @@ impl TsStrip {
             return;
         }
 
-        let next = &self.tokens[index + 1];
+        let TokenAndSpan {
+            token,
+            had_line_break,
+            ..
+        } = &self.tokens[index + 1];
 
-        if !next.had_line_break() {
+        if !*had_line_break {
             return;
         }
 
         // https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-asi-interesting-cases-in-statement-lists
         // Add a semicolon if the next token is `[`, `(`, `/`, `+`, `-` or backtick.
-        match next.token {
+        match token {
             Token::LParen
             | Token::LBracket
             | Token::NoSubstitutionTemplateLiteral
@@ -699,13 +731,12 @@ impl TsStrip {
             return;
         }
 
-        let next = &self.tokens[index + 1];
-        if next.had_line_break()
-            && matches!(
-                next.token,
-                // Only `(`, `[` and backtick affect ASI.
-                Token::LParen | Token::LBracket | Token::NoSubstitutionTemplateLiteral
-            )
+        if let TokenAndSpan {
+            // Only `(`, `[` and backtick affect ASI.
+            token: Token::LParen | Token::LBracket | Token::NoSubstitutionTemplateLiteral,
+            had_line_break: true,
+            ..
+        } = &self.tokens[index + 1]
         {
             self.add_overwrite(span.lo, b';');
         }
@@ -721,7 +752,7 @@ impl TsStrip {
 
             let next = &self.tokens[index];
 
-            if next.had_line_break() {
+            if next.had_line_break {
                 return;
             }
 

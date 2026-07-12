@@ -25,7 +25,7 @@ use swc_ecma_codegen::{
     Emitter, Node,
 };
 use swc_ecma_minifier::js::JsMinifyCommentOption;
-use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax};
+use swc_ecma_parser::{attach_comments, ModuleKind, Parser, ParserReturn, SourceType, Syntax};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 mod source_map_scopes;
@@ -87,23 +87,40 @@ pub fn parse_js(
         let parser = Parser::new(&fm.src, source_type)
             .with_options(options)
             .with_start_pos(fm.start_pos);
-        let mut parsed = parser.parse();
+        let ParserReturn {
+            program,
+            diagnostics,
+            comments: parsed_comments,
+            tokens,
+            panicked,
+        } = if comments.is_some() {
+            parser.with_tokens().parse()
+        } else {
+            parser.parse()
+        };
 
-        let mut error = parsed.panicked;
-        for e in std::mem::take(&mut parsed.diagnostics) {
+        let mut error = panicked;
+        for e in diagnostics {
             e.into_diagnostic(handler).emit();
             error = true;
         }
 
         if let Some(comments) = comments {
-            parsed.attach_comments_to(comments);
+            attach_comments(
+                &fm.src,
+                fm.start_pos,
+                comments,
+                parsed_comments,
+                &tokens,
+                &program,
+            );
         }
 
         if error {
             return Err(anyhow::anyhow!("Syntax Error"));
         }
 
-        Ok(parsed.program)
+        Ok(program)
     })();
 
     if env::var("SWC_DEBUG").unwrap_or_default() == "1" {

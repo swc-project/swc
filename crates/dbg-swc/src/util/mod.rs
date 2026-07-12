@@ -55,18 +55,26 @@ pub fn parse_js(fm: Arc<SourceFile>) -> Result<ModuleRecord> {
         swc_ecma_parser::ModuleKind::Module,
         EsVersion::latest(),
     );
-    let mut parsed = swc_ecma_parser::Parser::new(&fm.src, source_type)
+    let parsed = swc_ecma_parser::Parser::new(&fm.src, source_type)
         .with_options(options)
         .with_start_pos(fm.start_pos)
+        .with_tokens()
         .parse();
     let has_errors = !parsed.diagnostics.is_empty();
-    for err in std::mem::take(&mut parsed.diagnostics) {
+    for err in parsed.diagnostics {
         HANDLER.with(|handler| err.into_diagnostic(handler).emit());
     }
     if parsed.panicked || has_errors {
         bail!("failed to parse a js file as a module");
     }
-    parsed.attach_comments_to(&comments);
+    swc_ecma_parser::attach_comments(
+        &fm.src,
+        fm.start_pos,
+        &comments,
+        parsed.comments,
+        &parsed.tokens,
+        &parsed.program,
+    );
     let mut m = match parsed.program {
         Program::Module(module) => module,
         Program::Script(_) => unreachable!("module source type produced a script"),

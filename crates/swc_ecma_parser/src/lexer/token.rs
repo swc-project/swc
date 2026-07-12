@@ -11,14 +11,6 @@ use crate::{
     Context, Lexer,
 };
 
-bitflags::bitflags! {
-    #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
-    pub struct TokenFlags: u8 {
-        const LINE_BREAK = 1 << 0;
-        const UNICODE = 1 << 1;
-    }
-}
-
 #[derive(Debug, Clone)]
 pub enum TokenValue {
     /// unknown ident, jsx name and shebang
@@ -26,20 +18,12 @@ pub enum TokenValue {
     Template(LexResult<Wtf8Atom>),
     // string
     Str(Wtf8Atom),
-    /// Unescaped string whose value is the source slice inside its quotes.
-    RawStr,
-    /// Template whose cooked value is an unchanged source slice.
-    RawTemplate(Span),
     // jsx text
     JsxText(Atom),
     // regexp
     Regex(BytePos),
-    /// Validated numeric literal. Conversion from its source slice is deferred.
-    Num(u8),
-    /// Validated BigInt literal. The radix is retained while conversion is
-    /// deferred until the parser creates the AST node, matching OXC's
-    /// lexer/parser boundary.
-    BigInt(u8),
+    Num(f64),
+    BigInt(Box<num_bigint::BigInt>),
     Error(crate::error::Error),
 }
 
@@ -355,12 +339,6 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn raw_str(lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::RawStr));
-        Token::Str
-    }
-
-    #[inline(always)]
     pub fn template(cooked: LexResult<Wtf8Atom>, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Template(cooked)));
         Token::Template
@@ -373,20 +351,20 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn num(radix: u8, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::Num(radix)));
+    pub fn num(value: f64, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Num(value)));
         Self::Num
     }
 
     #[inline(always)]
-    pub fn bigint(radix: u8, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::BigInt(radix)));
+    pub fn bigint(value: Box<num_bigint::BigInt>, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::BigInt(value)));
         Self::BigInt
     }
 
     #[inline(always)]
-    pub fn unknown_ident(value: Option<Atom>, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(value.map(TokenValue::Word));
+    pub fn unknown_ident(value: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Word(value)));
         Token::Ident
     }
 
@@ -399,11 +377,10 @@ impl<'a> Token {
     pub fn take_word<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
         if self == Token::Ident {
             let value = buffer.get_token_value();
-            if let Some(TokenValue::Word(word)) = value {
-                return word.clone();
-            }
-
-            return Atom::new(buffer.iter.read_string(buffer.cur.span));
+            let Some(TokenValue::Word(word)) = value else {
+                unreachable!("{:#?}", value)
+            };
+            return word.clone();
         }
 
         let span = buffer.cur.span;
@@ -416,6 +393,11 @@ impl<'a> Token {
         let span = buffer.cur.span;
         let atom = Atom::new(buffer.iter.read_string(span));
         atom
+    }
+
+    #[inline(always)]
+    pub fn take_unknown_ident_ref<'b, I: Tokens>(&'b self, buffer: &'b Buffer<I>) -> &'b Atom {
+        buffer.expect_word_token_value_ref()
     }
 
     #[inline(always)]
@@ -892,45 +874,31 @@ impl Display for Token {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug)]
 pub struct TokenAndSpan {
     pub token: Token,
-    flags: TokenFlags,
+    /// Had a line break before this token?
+    pub had_line_break: bool,
     pub span: Span,
 }
 
 impl TokenAndSpan {
     #[inline(always)]
     pub fn new(token: Token, span: Span, had_line_break: bool) -> Self {
-        let mut flags = TokenFlags::empty();
-        flags.set(TokenFlags::LINE_BREAK, had_line_break);
-        Self::new_with_flags(token, span, flags)
-    }
-
-    #[inline(always)]
-    pub fn new_with_flags(token: Token, span: Span, flags: TokenFlags) -> Self {
-        Self { token, flags, span }
-    }
-
-    #[inline(always)]
-    pub fn had_line_break(self) -> bool {
-        self.flags.contains(TokenFlags::LINE_BREAK)
-    }
-
-    #[inline(always)]
-    pub fn flags(self) -> TokenFlags {
-        self.flags
+        Self {
+            token,
+            had_line_break,
+            span,
+        }
     }
 }
 
-#[cfg(feature = "unstable")]
 #[derive(Clone)]
 pub struct NextTokenAndSpan {
     pub token_and_span: TokenAndSpan,
     pub value: Option<TokenValue>,
 }
 
-#[cfg(feature = "unstable")]
 impl NextTokenAndSpan {
     #[inline(always)]
     pub fn token(&self) -> Token {
@@ -944,16 +912,6 @@ impl NextTokenAndSpan {
 
     #[inline(always)]
     pub fn had_line_break(&self) -> bool {
-        self.token_and_span.had_line_break()
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::TokenAndSpan;
-
-    #[test]
-    fn token_and_span_stays_packed() {
-        assert_eq!(std::mem::size_of::<TokenAndSpan>(), 12);
+        self.token_and_span.had_line_break
     }
 }

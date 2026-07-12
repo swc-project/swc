@@ -9,6 +9,8 @@
 //! `b6d2a29e47358a288dbfb2a635550243511ec497`. See `OXC_LICENSE` in this
 //! crate for the upstream MIT license.
 
+use std::fmt;
+
 use swc_common::{
     comments::{Comment, Comments},
     input::StringInput,
@@ -19,12 +21,8 @@ use swc_ecma_ast::{EsVersion, Module, Program, Script};
 use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
-    lexer::{
-        capturing::Capturing,
-        comments_buffer::{BufferedCommentKind, CommentAttachment, CommentData},
-        Lexer,
-    },
-    parser::{PResult, Parser as ParserEngine},
+    lexer::{capturing::Capturing, Lexer, TokenAndSpan},
+    parser::{PResult, Parser as LegacyParser},
     EsSyntax, Syntax, TsSyntax,
 };
 
@@ -343,12 +341,52 @@ impl Default for ParseOptions {
 }
 
 /// Compact token kind returned by token-collecting parses.
-pub use crate::lexer::Token as TokenKind;
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub struct TokenKind(crate::lexer::Token);
+
+impl fmt::Debug for TokenKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt::Display::fmt(&self.0, f)
+    }
+}
+
+impl fmt::Display for TokenKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt::Display::fmt(&self.0, f)
+    }
+}
+
 /// Token emitted in source order when token collection is enabled.
-///
-/// The parser and public API share this representation so enabling token
-/// collection does not require a second allocation and conversion pass.
-pub use crate::lexer::TokenAndSpan as Token;
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub struct Token {
+    /// Token category.
+    pub kind: TokenKind,
+    /// Token byte range.
+    pub span: Span,
+    /// Whether a line terminator occurred before this token.
+    pub had_line_break: bool,
+}
+
+impl std::fmt::Debug for Token {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("TokenAndSpan")
+            .field("token", &self.token)
+            .field("span", &self.span)
+            .field("had_line_break", &self.had_line_break)
+            .finish()
+    }
+}
+
+impl From<TokenAndSpan> for Token {
+    fn from(token: TokenAndSpan) -> Self {
+        Self {
+            kind: TokenKind(token.token),
+            span: token.span,
+            had_line_break: token.had_line_break,
+        }
+    }
+}
 
 /// Result of parsing a source file.
 pub struct ParserReturn {
@@ -363,34 +401,9 @@ pub struct ParserReturn {
     pub tokens: Vec<Token>,
     /// Whether parsing terminated on an unrecoverable error.
     pub panicked: bool,
-    comment_attachments: Vec<CommentAttachment>,
 }
 
-impl ParserReturn {
-    /// Attach parser comments using positions recorded by the lexer.
-    ///
-    /// This consumes [`Self::comments`] without collecting or rescanning the
-    /// complete token stream.
-    #[doc(hidden)]
-    pub fn attach_comments_to(&mut self, destination: &dyn Comments) {
-        let comments = std::mem::take(&mut self.comments);
-        let attachments = std::mem::take(&mut self.comment_attachments);
-        debug_assert_eq!(comments.len(), attachments.len());
-
-        for (comment, attachment) in comments.into_iter().zip(attachments) {
-            match attachment.kind {
-                BufferedCommentKind::Leading => {
-                    destination.add_leading(attachment.pos, comment);
-                }
-                BufferedCommentKind::Trailing => {
-                    destination.add_trailing(attachment.pos, comment);
-                }
-            }
-        }
-    }
-}
-
-/// OXC-style parser entry point.
+/// OXC-style parser facade.
 pub struct Parser<'a> {
     source: &'a str,
     source_type: SourceType,
@@ -446,27 +459,33 @@ impl<'a> Parser<'a> {
         let input = StringInput::new(self.source, self.start_pos, end_pos);
         let lexer = Lexer::new_with_comments(syntax, self.options.target, input);
 
-        let (result, diagnostics, comment_data, tokens) = if self.collect_tokens {
+        let (result, diagnostics, comments, tokens) = if self.collect_tokens {
             let lexer =
                 Capturing::with_capacity(lexer, estimated_token_capacity(self.source.len()));
-            let mut parser = ParserEngine::new_from(lexer);
+            let mut parser = LegacyParser::new_from(lexer);
             let result = parse_program(&mut parser, self.source_type.module_kind);
             let diagnostics = parser.take_errors();
-            let comment_data = parser.input_mut().iter.take_comments();
-            let tokens = parser.input_mut().iter.take();
-            (result, diagnostics, comment_data, tokens)
+            let comments = parser.input_mut().iter.take_comments();
+            let tokens = parser
+                .input_mut()
+                .iter
+                .take()
+                .into_iter()
+                .map(Token::from)
+                .collect();
+            (result, diagnostics, comments, tokens)
         } else {
-            let mut parser = ParserEngine::new_from(lexer);
+            let mut parser = LegacyParser::new_from(lexer);
             let result = parse_program(&mut parser, self.source_type.module_kind);
             let diagnostics = parser.take_errors();
-            let comment_data = parser.input_mut().iter.take_comments();
-            (result, diagnostics, comment_data, Vec::new())
+            let comments = parser.input_mut().iter.take_comments();
+            (result, diagnostics, comments, Vec::new())
         };
 
         finish_parse(
             result,
             diagnostics,
-            comment_data,
+            comments,
             tokens,
             self.source_type.module_kind,
             Span::new_with_checked(self.start_pos, end_pos),
@@ -523,13 +542,12 @@ impl<'a> Parser<'a> {
             comments: Vec::new(),
             tokens: Vec::new(),
             panicked: true,
-            comment_attachments: Vec::new(),
         }
     }
 }
 
 fn parse_program<I: Tokens>(
-    parser: &mut ParserEngine<I>,
+    parser: &mut LegacyParser<I>,
     module_kind: ModuleKind,
 ) -> PResult<Program> {
     match module_kind {
@@ -543,15 +561,11 @@ fn parse_program<I: Tokens>(
 fn finish_parse(
     result: PResult<Program>,
     mut diagnostics: Vec<Error>,
-    comment_data: CommentData,
+    comments: Vec<Comment>,
     tokens: Vec<Token>,
     module_kind: ModuleKind,
     span: Span,
 ) -> ParserReturn {
-    let CommentData {
-        comments,
-        attachments: comment_attachments,
-    } = comment_data;
     match result {
         Ok(program) => ParserReturn {
             program,
@@ -559,7 +573,6 @@ fn finish_parse(
             comments,
             tokens,
             panicked: false,
-            comment_attachments,
         },
         Err(error) => {
             diagnostics.push(error);
@@ -569,7 +582,6 @@ fn finish_parse(
                 comments,
                 tokens,
                 panicked: true,
-                comment_attachments,
             }
         }
     }

@@ -1,17 +1,17 @@
-use std::borrow::Cow;
-
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{BytePos, Span};
+use swc_common::{comments::Comment, BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{comments_buffer::CommentData, LexResult, Token, TokenAndSpan, TokenValue},
+    lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
     Context,
 };
 
-pub trait Tokens {
+/// Clone should be cheap if you are parsing typescript because typescript
+/// syntax requires backtracking.
+pub trait Tokens: Clone {
     type Checkpoint;
 
     fn set_ctx(&mut self, ctx: Context);
@@ -51,12 +51,15 @@ pub trait Tokens {
 
     fn take_errors(&mut self) -> Vec<Error>;
 
-    /// Take comments and their lexer-computed attachment positions.
-    fn take_comments(&mut self) -> CommentData;
+    /// Take comments in source order.
+    fn take_comments(&mut self) -> Vec<Comment>;
 
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.
     fn take_script_module_errors(&mut self) -> Vec<Error>;
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags));
+    fn token_flags(&self) -> TokenFlags;
+
     fn clone_token_value(&self) -> Option<TokenValue>;
     fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
@@ -83,16 +86,15 @@ pub trait Tokens {
         -> TokenAndSpan;
 }
 
-/// OXC-style parser cursor over the lexer.
-///
-/// Lookahead checkpoints the lexer, advances once, and immediately rewinds.
-/// Keeping only the current token prevents token values from living in a second
-/// cache.
-pub struct Buffer<I: Tokens> {
+/// This struct is responsible for managing current token and peeked token.
+#[derive(Clone)]
+pub struct Buffer<I> {
     pub iter: I,
     /// Span of the previous token.
     pub prev_span: Span,
     pub cur: TokenAndSpan,
+    /// Peeked token
+    pub next: Option<NextTokenAndSpan>,
 }
 
 impl<I: Tokens> Buffer<I> {
@@ -103,48 +105,25 @@ impl<I: Tokens> Buffer<I> {
         word
     }
 
+    pub fn expect_word_token_value_ref(&self) -> &Atom {
+        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.get_token_value() else {
+            unreachable!("token_value: {:?}", self.iter.get_token_value())
+        };
+        word
+    }
+
     pub fn expect_number_token_value(&mut self) -> f64 {
-        let Some(crate::lexer::TokenValue::Num(radix)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Num(value)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        let raw = self.iter.read_string(self.cur.span);
-        let raw = if raw.contains('_') {
-            Cow::Owned(raw.replace('_', ""))
-        } else {
-            Cow::Borrowed(raw)
-        };
-        if radix == 10 {
-            raw.parse().expect("lexer must validate decimal literals")
-        } else {
-            let digits = if raw
-                .as_bytes()
-                .get(1)
-                .is_some_and(|byte| matches!(byte, b'b' | b'B' | b'o' | b'O' | b'x' | b'X'))
-            {
-                &raw[2..]
-            } else {
-                &raw
-            };
-            match radix {
-                2 => crate::lexer::parse_integer::<2>(digits),
-                8 => crate::lexer::parse_integer::<8>(digits),
-                16 => crate::lexer::parse_integer::<16>(digits),
-                _ => unreachable!("invalid numeric radix"),
-            }
-        }
+        value
     }
 
     pub fn expect_string_token_value(&mut self) -> Wtf8Atom {
-        match self.iter.take_token_value() {
-            Some(crate::lexer::TokenValue::Str(value)) => value,
-            Some(crate::lexer::TokenValue::RawStr) => {
-                let span = self.cur.span;
-                debug_assert!(span.hi.0 >= span.lo.0 + 2);
-                let value_span = Span::new_with_checked(span.lo + BytePos(1), span.hi - BytePos(1));
-                Wtf8Atom::new(self.iter.read_string(value_span))
-            }
-            _ => unreachable!(),
-        }
+        let Some(crate::lexer::TokenValue::Str(value)) = self.iter.take_token_value() else {
+            unreachable!()
+        };
+        value
     }
 
     pub fn expect_jsx_text_token_value(&mut self) -> Atom {
@@ -155,26 +134,10 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn expect_bigint_token_value(&mut self) -> Box<num_bigint::BigInt> {
-        let Some(crate::lexer::TokenValue::BigInt(radix)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::BigInt(value)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        let raw = self.iter.read_string(self.cur.span);
-        let digits = raw.strip_suffix('n').expect("BigInt token must end in `n`");
-        let digits = if radix == 10 {
-            digits
-        } else {
-            debug_assert!(matches!(radix, 2 | 8 | 16));
-            &digits[2..]
-        };
-        let digits = if digits.contains('_') {
-            Cow::Owned(digits.replace('_', ""))
-        } else {
-            Cow::Borrowed(digits)
-        };
-        Box::new(
-            num_bigint::BigInt::parse_bytes(digits.as_bytes(), u32::from(radix))
-                .expect("lexer must validate BigInt digits"),
-        )
+        value
     }
 
     pub fn expect_regex_token_value(&mut self) -> BytePos {
@@ -185,13 +148,10 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn expect_template_token_value(&mut self) -> LexResult<Wtf8Atom> {
-        match self.iter.take_token_value() {
-            Some(crate::lexer::TokenValue::Template(cooked)) => cooked,
-            Some(crate::lexer::TokenValue::RawTemplate(value_span)) => {
-                Ok(Wtf8Atom::new(self.iter.read_string(value_span)))
-            }
-            _ => unreachable!(),
-        }
+        let Some(crate::lexer::TokenValue::Template(cooked)) = self.iter.take_token_value() else {
+            unreachable!()
+        };
+        cooked
     }
 
     pub fn expect_error_token_value(&mut self) -> Error {
@@ -264,12 +224,28 @@ impl<I: Tokens> Buffer<I> {
             iter: lexer,
             cur: TokenAndSpan::new(Token::Eof, prev_span, false),
             prev_span,
+            next: None,
         }
     }
 
     #[inline(always)]
     pub fn set_cur(&mut self, token: TokenAndSpan) {
         self.cur = token
+    }
+
+    #[inline(always)]
+    pub fn next(&self) -> Option<&NextTokenAndSpan> {
+        self.next.as_ref()
+    }
+
+    #[inline(always)]
+    pub fn set_next(&mut self, token: Option<NextTokenAndSpan>) {
+        self.next = token;
+    }
+
+    #[inline(always)]
+    pub fn next_mut(&mut self) -> &mut Option<NextTokenAndSpan> {
+        &mut self.next
     }
 
     #[inline(always)]
@@ -303,18 +279,21 @@ impl<I: Tokens> Buffer<I> {
             "parser should not call peek() without knowing current token"
         );
 
-        Some(self.peek_token_and_span().token)
-    }
+        if self.next.is_none() {
+            let old = self.iter.take_token_value();
+            let next_token = self.iter.next_token();
+            self.next = Some(NextTokenAndSpan {
+                token_and_span: next_token,
+                value: self.iter.take_token_value(),
+            });
+            self.iter.set_token_value(old);
+        }
 
-    #[inline]
-    pub fn peek_token_and_span(&mut self) -> TokenAndSpan {
-        let checkpoint = self.iter.checkpoint_save();
-        let token = self.iter.next_token();
-        self.iter.checkpoint_load(checkpoint);
-        token
+        self.next.as_ref().map(|ts| ts.token_and_span.token)
     }
 
     pub fn store(&mut self, token: Token) {
+        debug_assert!(self.next().is_none());
         debug_assert!(self.cur() != Token::Eof);
         let span = self.prev_span();
         let token = TokenAndSpan::new(token, span, false);
@@ -328,14 +307,26 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn bump(&mut self) {
-        let next = self.iter.next_token();
+        let next = if self.next.is_none() {
+            self.iter.next_token()
+        } else {
+            let Some(next) = self.next.take() else {
+                unreachable!();
+            };
+            self.iter.set_token_value(next.value);
+            next.token_and_span
+        };
         self.prev_span = self.cur.span;
         self.set_cur(next);
     }
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
         let cur = self.cur();
-        let word = cur.take_word(self);
+        let word = if cur == Token::Ident {
+            self.expect_word_token_value()
+        } else {
+            cur.take_word(self)
+        };
         self.bump();
         word
     }
@@ -371,13 +362,16 @@ impl<I: Tokens> Buffer<I> {
 
 impl<I: Tokens> Buffer<I> {
     pub fn had_line_break_before_cur(&self) -> bool {
-        self.cur.had_line_break()
+        self.cur.had_line_break
     }
 
     /// This returns true on eof.
     pub fn has_linebreak_between_cur_and_peeked(&mut self) -> bool {
-        let token = self.peek_token_and_span();
-        token.token == Token::Eof || token.had_line_break()
+        let _ = self.peek();
+        self.next().map(|item| item.had_line_break()).unwrap_or({
+            // return true on eof.
+            true
+        })
     }
 
     pub fn cut_lshift(&mut self) {
@@ -395,15 +389,19 @@ impl<I: Tokens> Buffer<I> {
             self.is(Token::Lt) || self.is(Token::Gt),
             "parser should only call merge_lt_gt when encountering Less token"
         );
-        let span = self.cur_span();
-        let next = self.peek_token_and_span();
-        if span.hi != next.span.lo {
+        if self.peek().is_none() {
             return;
         }
-        let cur = *self.get_cur();
+        let span = self.cur_span();
+        let next = self.next().unwrap();
+        if span.hi != next.span().lo {
+            return;
+        }
+        let next = self.next_mut().take().unwrap();
+        let cur = self.get_cur();
         let cur_token = cur.token;
         let token = if cur_token == Token::Gt {
-            let next_token = next.token;
+            let next_token = next.token();
             if next_token == Token::Gt {
                 // >>
                 Token::RShift
@@ -420,10 +418,11 @@ impl<I: Tokens> Buffer<I> {
                 // >>>=
                 Token::ZeroFillRShiftEq
             } else {
+                self.set_next(Some(next));
                 return;
             }
         } else if cur_token == Token::Lt {
-            let next_token = next.token;
+            let next_token = next.token();
             if next_token == Token::Lt {
                 // <<
                 Token::LShift
@@ -434,16 +433,15 @@ impl<I: Tokens> Buffer<I> {
                 // <<=
                 Token::LShiftEq
             } else {
+                self.set_next(Some(next));
                 return;
             }
         } else {
+            self.set_next(Some(next));
             return;
         };
-        let consumed = self.iter.next_token();
-        debug_assert_eq!(consumed.token, next.token);
-        self.iter.set_token_value(None);
-        let span = span.with_hi(next.span.hi);
-        let token = TokenAndSpan::new(token, span, cur.had_line_break());
+        let span = span.with_hi(next.span().hi);
+        let token = TokenAndSpan::new(token, span, cur.had_line_break);
         self.set_cur(token);
     }
 
@@ -522,6 +520,6 @@ impl<I: Tokens> Buffer<I> {
 
     #[inline]
     pub fn token_flags(&self) -> crate::lexer::TokenFlags {
-        self.cur.flags()
+        self.iter().token_flags()
     }
 }
