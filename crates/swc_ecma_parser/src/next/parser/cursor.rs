@@ -71,6 +71,13 @@ impl<'a, C: Config> Parser<'a, C> {
         self.lexer.escaped_string(token)
     }
 
+    /// Reinterpret the current slash token as a regular expression literal.
+    #[inline]
+    pub(crate) fn re_lex_regex(&mut self) -> PackedToken {
+        self.token = self.lexer.re_lex_regex();
+        self.token
+    }
+
     /// End of the previously consumed token.
     #[inline(always)]
     pub(crate) fn previous_end(&self) -> BytePos {

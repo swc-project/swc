@@ -5,7 +5,7 @@ use std::borrow::Cow;
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::Span;
-use swc_ecma_ast::{BigInt, Bool, Expr, Ident, Lit, Null, Number, ParenExpr, Str, ThisExpr};
+use swc_ecma_ast::{BigInt, Bool, Expr, Ident, Lit, Null, Number, ParenExpr, Regex, Str, ThisExpr};
 
 use crate::{
     error::{Error, SyntaxError},
@@ -70,6 +70,26 @@ impl<C: Config> Parser<'_, C> {
                 let raw = Some(Atom::new(raw));
                 self.advance();
                 Ok(Box::new(Expr::Lit(Lit::Str(Str { span, value, raw }))))
+            }
+            Kind::Slash | Kind::DivEq => {
+                let token = self.re_lex_regex();
+                let raw = self.token_source(token);
+                let Some(flags_start) = raw
+                    .as_bytes()
+                    .iter()
+                    .rposition(|byte| *byte == b'/')
+                    .filter(|index| *index > 0)
+                else {
+                    return Err(Error::new(token.span(), SyntaxError::UnterminatedRegExp));
+                };
+                let expression = Atom::new(&raw[1..flags_start]);
+                let flags = Atom::new(&raw[flags_start + 1..]);
+                self.advance();
+                Ok(Box::new(Expr::Lit(Lit::Regex(Regex {
+                    span: token.span(),
+                    exp: expression,
+                    flags,
+                }))))
             }
             Kind::LParen => {
                 let start = span.lo;
@@ -185,5 +205,34 @@ mod tests {
         assert_eq!(parenthesis.span().lo, BytePos(1));
         assert_eq!(parenthesis.span().hi, BytePos(7));
         assert!(matches!(&*parenthesis.expr, Expr::Lit(Lit::Bool(_))));
+    }
+
+    #[test]
+    fn parser_directed_regex_keeps_division_separate() {
+        let lexer = Lexer::new("/a[b/]c/gi.test(value)", BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let expression = parser.parse_expression().unwrap();
+        let Expr::Call(call) = &*expression else {
+            panic!("expected regex method call")
+        };
+        let swc_ecma_ast::Callee::Expr(callee) = &call.callee else {
+            panic!("expected expression callee")
+        };
+        let Expr::Member(member) = &**callee else {
+            panic!("expected regex member")
+        };
+        let Expr::Lit(Lit::Regex(regex)) = &*member.obj else {
+            panic!("expected regex literal")
+        };
+        assert_eq!(regex.exp, "a[b/]c");
+        assert_eq!(regex.flags, "gi");
+
+        let lexer = Lexer::new("value / 2", BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let expression = parser.parse_expression().unwrap();
+        assert!(matches!(
+            &*expression,
+            Expr::Bin(binary) if binary.op == swc_ecma_ast::BinaryOp::Div
+        ));
     }
 }
