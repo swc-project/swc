@@ -245,6 +245,14 @@ mod tests {
             "const first = input as Result<string>; const second = { value: 1 } satisfies Shape; \
              const third = value as const; const fourth = left + right as number;",
         );
+        assert_typescript_script_parity(
+            "type Result<out T extends Value, E = Error> = Success<T> | Failure<E>; type \
+             Pair<const T, in U> = Container<T, U>;",
+        );
+        assert_typescript_script_parity(
+            "enum Direction { Up, Down = 2, Label = 'label', Computed = base + 1 } const enum \
+             State { Ready = 1, Done }",
+        );
     }
 
     #[test]

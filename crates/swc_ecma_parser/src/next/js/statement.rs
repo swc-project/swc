@@ -57,6 +57,20 @@ impl<C: Config> Parser<'_, C> {
             Kind::Type if self.context().contains(Context::TYPESCRIPT) => {
                 self.parse_ts_type_alias_declaration()
             }
+            #[cfg(feature = "typescript")]
+            Kind::Enum if self.context().contains(Context::TYPESCRIPT) => {
+                self.parse_ts_enum_declaration(false)
+            }
+            #[cfg(feature = "typescript")]
+            Kind::Const
+                if self.context().contains(Context::TYPESCRIPT)
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        parser.at(Kind::Enum)
+                    }) =>
+            {
+                self.parse_ts_enum_declaration(true)
+            }
             Kind::Var | Kind::Let | Kind::Const => self.parse_variable_statement(),
             Kind::While => self.parse_while_statement(),
             Kind::Do => self.parse_do_while_statement(),

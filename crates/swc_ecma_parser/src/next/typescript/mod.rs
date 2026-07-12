@@ -3,9 +3,10 @@
 use swc_atoms::Atom;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
-    Decl, Expr, Ident, IdentName, Lit, Stmt, TsArrayType, TsEntityName, TsIntersectionType,
-    TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsParenthesizedType, TsQualifiedName,
-    TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeParamInstantiation, TsTypeRef, TsUnionType,
+    Decl, Expr, Ident, IdentName, Lit, Stmt, TsArrayType, TsEntityName, TsEnumDecl, TsEnumMember,
+    TsEnumMemberId, TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
+    TsParenthesizedType, TsQualifiedName, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeParam,
+    TsTypeParamDecl, TsTypeParamInstantiation, TsTypeRef, TsUnionType,
 };
 
 use crate::{
@@ -15,6 +16,69 @@ use crate::{
 };
 
 impl<C: Config> Parser<'_, C> {
+    pub(crate) fn parse_ts_enum_declaration(&mut self, is_const: bool) -> Result<Stmt, Error> {
+        let start = self.token().start();
+        if is_const {
+            debug_assert!(self.eat(Kind::Const));
+        }
+        if !self.expect(Kind::Enum) {
+            return Err(self.expected_error(Kind::Enum));
+        }
+        let token = self.token();
+        if !self.at_identifier_name() {
+            return Err(self.expected_error(Kind::Ident));
+        }
+        let id = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        self.advance();
+        if !self.expect(Kind::LBrace) {
+            return Err(self.expected_error(Kind::LBrace));
+        }
+        let mut members = Vec::with_capacity(8);
+        while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
+            let member_start = self.token().start();
+            let token = self.token();
+            let id = if self.at(Kind::Str) {
+                let expression = self.parse_primary_expression()?;
+                let Expr::Lit(Lit::Str(value)) = *expression else {
+                    unreachable!("string enum member must produce a string literal")
+                };
+                TsEnumMemberId::Str(value)
+            } else if self.at_identifier_name() {
+                let id = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+                self.advance();
+                TsEnumMemberId::Ident(id)
+            } else {
+                return Err(self.expected_error(Kind::Ident));
+            };
+            let init = if self.eat(Kind::Eq) {
+                Some(self.parse_assignment_expression()?)
+            } else {
+                None
+            };
+            let end = init
+                .as_ref()
+                .map_or_else(|| id.span().hi, |expression| expression.span().hi);
+            members.push(TsEnumMember {
+                span: Span::new_with_checked(member_start, end),
+                id,
+                init,
+            });
+            if !self.eat(Kind::Comma) {
+                break;
+            }
+        }
+        if !self.expect(Kind::RBrace) {
+            return Err(self.expected_error(Kind::RBrace));
+        }
+        Ok(Stmt::Decl(Decl::TsEnum(Box::new(TsEnumDecl {
+            span: Span::new_with_checked(start, self.previous_end()),
+            declare: false,
+            is_const,
+            id,
+            members,
+        }))))
+    }
+
     pub(crate) fn parse_ts_type_alias_declaration(&mut self) -> Result<Stmt, Error> {
         let start = self.token().start();
         debug_assert!(self.at(Kind::Type));
@@ -25,6 +89,11 @@ impl<C: Config> Parser<'_, C> {
         }
         let id = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
         self.advance();
+        let type_params = if self.at(Kind::Lt) {
+            Some(self.parse_ts_type_parameters()?)
+        } else {
+            None
+        };
         if !self.expect(Kind::Eq) {
             return Err(self.expected_error(Kind::Eq));
         }
@@ -35,7 +104,7 @@ impl<C: Config> Parser<'_, C> {
             span: Span::new_with_checked(start, end),
             declare: false,
             id,
-            type_params: None,
+            type_params,
             type_ann,
         }))))
     }
@@ -53,6 +122,68 @@ impl<C: Config> Parser<'_, C> {
         Ok(Box::new(TsTypeAnn {
             span: Span::new_with_checked(start, type_ann.span().hi),
             type_ann,
+        }))
+    }
+
+    fn parse_ts_type_parameters(&mut self) -> Result<Box<TsTypeParamDecl>, Error> {
+        let start = self.token().start();
+        debug_assert!(self.at(Kind::Lt));
+        self.advance();
+        let mut params = Vec::with_capacity(2);
+        while !matches!(
+            self.kind(),
+            Kind::Gt | Kind::RShift | Kind::ZeroFillRShift | Kind::Eof
+        ) {
+            let parameter_start = self.token().start();
+            let mut is_in = false;
+            let mut is_out = false;
+            let mut is_const = false;
+            loop {
+                match self.kind() {
+                    Kind::In => is_in = true,
+                    Kind::Out => is_out = true,
+                    Kind::Const => is_const = true,
+                    _ => break,
+                }
+                self.advance();
+            }
+            let token = self.token();
+            if !self.at_identifier_name() {
+                return Err(self.expected_error(Kind::Ident));
+            }
+            let name = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+            self.advance();
+            let constraint = if self.eat(Kind::Extends) {
+                Some(self.parse_ts_type()?)
+            } else {
+                None
+            };
+            let default = if self.eat(Kind::Eq) {
+                Some(self.parse_ts_type()?)
+            } else {
+                None
+            };
+            let end = default
+                .as_ref()
+                .or(constraint.as_ref())
+                .map_or(name.span.hi, |ty| ty.span().hi);
+            params.push(TsTypeParam {
+                span: Span::new_with_checked(parameter_start, end),
+                name,
+                is_in,
+                is_out,
+                is_const,
+                constraint,
+                default,
+            });
+            if !self.eat(Kind::Comma) {
+                break;
+            }
+        }
+        self.expect_ts_right_angle()?;
+        Ok(Box::new(TsTypeParamDecl {
+            span: Span::new_with_checked(start, self.previous_end()),
+            params,
         }))
     }
 
