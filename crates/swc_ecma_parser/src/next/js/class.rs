@@ -302,7 +302,7 @@ impl<C: Config> Parser<'_, C> {
         Ok(ClassKey::Public(key))
     }
 
-    fn parse_method_parameters(&mut self) -> Result<Vec<Param>, Error> {
+    pub(crate) fn parse_method_parameters(&mut self) -> Result<Vec<Param>, Error> {
         if !self.expect(Kind::LParen) {
             return Err(self.expected_error(Kind::LParen));
         }

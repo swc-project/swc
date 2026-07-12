@@ -170,6 +170,12 @@ mod tests {
             "class Counter extends Base { static initial = 1; constructor(value) { this.value = \
              value; } get current() { return this.value; } }",
         );
+        assert_script_parity(
+            "const object = { plain, 'string': 2, 3: value, 4n: bigint, [key]: computed, \
+             method(value = 1, ...rest) { return value; }, *iterate() { yield 1; }, async load() \
+             { return await task; }, async *stream() { yield await task; }, get value() { return \
+             this._value; }, set value(next) { this._value = next; } };",
+        );
     }
 
     #[test]

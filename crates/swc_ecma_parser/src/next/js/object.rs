@@ -1,10 +1,11 @@
 //! Array and object literal productions.
 
 use swc_atoms::Atom;
-use swc_common::Span;
+use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    ArrayLit, Expr, ExprOrSpread, Ident, IdentName, KeyValueProp, ObjectLit, Prop, PropName,
-    PropOrSpread, SpreadElement,
+    ArrayLit, AssignProp, ComputedPropName, Expr, ExprOrSpread, Function, GetterProp, Ident,
+    IdentName, KeyValueProp, MethodProp, ObjectLit, Prop, PropName, PropOrSpread, SetterProp,
+    SpreadElement,
 };
 
 use crate::{
@@ -65,25 +66,7 @@ impl<C: Config> Parser<'_, C> {
                     expr: self.parse_assignment_expression()?,
                 }));
             } else {
-                let token = self.token();
-                if !self.at_identifier_name() {
-                    return Err(self.expected_error(Kind::Ident));
-                }
-                let symbol = Atom::new(self.token_source(token));
-                let identifier = Ident::new_no_ctxt(symbol.clone(), token.span());
-                self.advance();
-                let property = if self.eat(Kind::Colon) {
-                    Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(IdentName {
-                            span: token.span(),
-                            sym: symbol,
-                        }),
-                        value: self.parse_assignment_expression()?,
-                    })
-                } else {
-                    Prop::Shorthand(identifier)
-                };
-                properties.push(PropOrSpread::Prop(Box::new(property)));
+                properties.push(self.parse_object_property()?);
             }
 
             if !self.eat(Kind::Comma) {
@@ -98,6 +81,174 @@ impl<C: Config> Parser<'_, C> {
             span: Span::new_with_checked(start, self.previous_end()),
             props: properties,
         })))
+    }
+
+    fn parse_object_property(&mut self) -> Result<PropOrSpread, Error> {
+        let start = self.token().start();
+        if self.eat(Kind::Asterisk) {
+            let key = self.parse_property_name()?;
+            return self.parse_object_method(start, key, false, true);
+        }
+
+        let prefix = self.kind();
+        let prefix_had_escape = self.token().escaped();
+        let key = self.parse_property_name()?;
+        if self.eat(Kind::Colon) {
+            return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                key,
+                value: self.parse_assignment_expression()?,
+            }))));
+        }
+        if self.at(Kind::LParen) {
+            return self.parse_object_method(start, key, false, false);
+        }
+
+        if !prefix_had_escape && matches!(prefix, Kind::Get | Kind::Set) {
+            let accessor_key = self.parse_property_name()?;
+            return self.parse_object_accessor(start, accessor_key, prefix == Kind::Get);
+        }
+        if !prefix_had_escape
+            && prefix == Kind::Async
+            && !self.token().had_line_break()
+            && !matches!(self.kind(), Kind::Comma | Kind::RBrace | Kind::Eq)
+        {
+            let is_generator = self.eat(Kind::Asterisk);
+            let method_key = self.parse_property_name()?;
+            return self.parse_object_method(start, method_key, true, is_generator);
+        }
+
+        let PropName::Ident(name) = key else {
+            return Err(self.expected_error(Kind::Colon));
+        };
+        let identifier = Ident::new_no_ctxt(name.sym, name.span);
+        if self.eat(Kind::Eq) {
+            let value = self.parse_assignment_expression()?;
+            return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
+                span: Span::new_with_checked(start, value.span().hi),
+                key: identifier,
+                value,
+            }))));
+        }
+        Ok(PropOrSpread::Prop(Box::new(Prop::Shorthand(identifier))))
+    }
+
+    fn parse_property_name(&mut self) -> Result<PropName, Error> {
+        let token = self.token();
+        match token.kind() {
+            Kind::Str | Kind::Num | Kind::BigInt => {
+                let expression = self.parse_primary_expression()?;
+                match *expression {
+                    Expr::Lit(swc_ecma_ast::Lit::Str(value)) => Ok(PropName::Str(value)),
+                    Expr::Lit(swc_ecma_ast::Lit::Num(value)) => Ok(PropName::Num(value)),
+                    Expr::Lit(swc_ecma_ast::Lit::BigInt(value)) => Ok(PropName::BigInt(value)),
+                    _ => unreachable!("property literal token must produce a literal expression"),
+                }
+            }
+            Kind::LBracket => {
+                let start = token.start();
+                self.advance();
+                let expression = self.parse_assignment_expression()?;
+                if !self.expect(Kind::RBracket) {
+                    return Err(self.expected_error(Kind::RBracket));
+                }
+                Ok(PropName::Computed(ComputedPropName {
+                    span: Span::new_with_checked(start, self.previous_end()),
+                    expr: expression,
+                }))
+            }
+            _ if self.at_identifier_name() => {
+                let name = IdentName {
+                    span: token.span(),
+                    sym: Atom::new(self.token_source(token)),
+                };
+                self.advance();
+                Ok(PropName::Ident(name))
+            }
+            _ => Err(self.expected_error(Kind::Ident)),
+        }
+    }
+
+    fn parse_object_method(
+        &mut self,
+        start: swc_common::BytePos,
+        key: PropName,
+        is_async: bool,
+        is_generator: bool,
+    ) -> Result<PropOrSpread, Error> {
+        let parameters = self.parse_method_parameters()?;
+        if !self.at(Kind::LBrace) {
+            return Err(self.expected_error(Kind::LBrace));
+        }
+        let mut context = crate::next::parser::context::Context::RETURN;
+        if is_async {
+            context.insert(crate::next::parser::context::Context::AWAIT);
+        }
+        if is_generator {
+            context.insert(crate::next::parser::context::Context::YIELD);
+        }
+        let body = self.with_context(
+            context,
+            crate::next::parser::context::Context::TOP_LEVEL,
+            Self::parse_block_statement,
+        )?;
+        let span = Span::new_with_checked(start, body.span.hi);
+        Ok(PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
+            key,
+            function: Box::new(Function {
+                params: parameters,
+                decorators: Vec::new(),
+                span,
+                ctxt: SyntaxContext::empty(),
+                body: Some(body),
+                is_generator,
+                is_async,
+                type_params: None,
+                return_type: None,
+            }),
+        }))))
+    }
+
+    fn parse_object_accessor(
+        &mut self,
+        start: swc_common::BytePos,
+        key: PropName,
+        is_getter: bool,
+    ) -> Result<PropOrSpread, Error> {
+        let mut parameters = self.parse_method_parameters()?;
+        if (is_getter && !parameters.is_empty()) || (!is_getter && parameters.len() != 1) {
+            return Err(self.expected_error(Kind::LBrace));
+        }
+        if !self.at(Kind::LBrace) {
+            return Err(self.expected_error(Kind::LBrace));
+        }
+        let body = self.with_context(
+            crate::next::parser::context::Context::RETURN,
+            crate::next::parser::context::Context::TOP_LEVEL,
+            Self::parse_block_statement,
+        )?;
+        let span = Span::new_with_checked(start, body.span.hi);
+        let property = if is_getter {
+            Prop::Getter(GetterProp {
+                span,
+                key,
+                type_ann: None,
+                body: Some(body),
+            })
+        } else {
+            Prop::Setter(SetterProp {
+                span,
+                key,
+                this_param: None,
+                param: Box::new(
+                    parameters
+                        .pop()
+                        .expect("setter parameter was validated")
+                        .pat,
+                ),
+                body: Some(body),
+            })
+        };
+        Ok(PropOrSpread::Prop(Box::new(property)))
     }
 }
 
