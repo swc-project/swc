@@ -238,7 +238,7 @@ impl<C: Config> Parser<'_, C> {
         if !self.at_identifier_reference() {
             return Err(self.expected_error(Kind::Ident));
         }
-        let identifier = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
         self.advance();
         Ok(identifier)
     }
@@ -251,7 +251,7 @@ impl<C: Config> Parser<'_, C> {
         if !self.at_identifier_name() {
             return Err(self.expected_error(Kind::Ident));
         }
-        let identifier = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
         self.advance();
         Ok(ModuleExportName::Ident(identifier))
     }

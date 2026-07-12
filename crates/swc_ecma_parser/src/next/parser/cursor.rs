@@ -1,6 +1,6 @@
 //! Token cursor, expectation helpers, and checkpoint rewind.
 
-use swc_atoms::Wtf8Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::BytePos;
 
 use super::context::Context;
@@ -64,6 +64,17 @@ impl<'a, C: Config> Parser<'a, C> {
     #[inline(always)]
     pub(crate) fn token_source(&self, token: PackedToken) -> &'a str {
         self.lexer.token_source(token)
+    }
+
+    /// Return an identifier's semantic value, decoding only escaped tokens.
+    #[inline]
+    pub(crate) fn identifier_atom(&self, token: PackedToken) -> Atom {
+        if token.escaped() {
+            if let Some(value) = self.lexer.escaped_identifier(token) {
+                return value.clone();
+            }
+        }
+        Atom::new(self.lexer.token_source(token))
     }
 
     /// Decoded string value retained only for escaped string tokens.

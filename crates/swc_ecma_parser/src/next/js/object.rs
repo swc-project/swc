@@ -1,6 +1,5 @@
 //! Array and object literal productions.
 
-use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     ArrayLit, AssignProp, ComputedPropName, Expr, ExprOrSpread, Function, GetterProp, Ident,
@@ -159,7 +158,7 @@ impl<C: Config> Parser<'_, C> {
             _ if self.at_identifier_name() => {
                 let name = IdentName {
                     span: token.span(),
-                    sym: Atom::new(self.token_source(token)),
+                    sym: self.identifier_atom(token),
                 };
                 self.advance();
                 Ok(PropName::Ident(name))
@@ -175,7 +174,19 @@ impl<C: Config> Parser<'_, C> {
         is_async: bool,
         is_generator: bool,
     ) -> Result<PropOrSpread, Error> {
-        let parameters = self.parse_method_parameters()?;
+        let mut parameter_context = crate::next::parser::context::Context::empty();
+        if is_async {
+            parameter_context.insert(crate::next::parser::context::Context::AWAIT);
+        }
+        if is_generator {
+            parameter_context.insert(crate::next::parser::context::Context::YIELD);
+        }
+        let parameters = self.with_context(
+            parameter_context,
+            crate::next::parser::context::Context::YIELD
+                | crate::next::parser::context::Context::AWAIT,
+            Self::parse_method_parameters,
+        )?;
         if !self.at(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));
         }
@@ -188,7 +199,10 @@ impl<C: Config> Parser<'_, C> {
         }
         let body = self.with_context(
             context,
-            crate::next::parser::context::Context::TOP_LEVEL,
+            crate::next::parser::context::Context::TOP_LEVEL
+                | crate::next::parser::context::Context::RETURN
+                | crate::next::parser::context::Context::YIELD
+                | crate::next::parser::context::Context::AWAIT,
             Self::parse_block_statement,
         )?;
         let span = Span::new_with_checked(start, body.span.hi);
@@ -223,7 +237,10 @@ impl<C: Config> Parser<'_, C> {
         }
         let body = self.with_context(
             crate::next::parser::context::Context::RETURN,
-            crate::next::parser::context::Context::TOP_LEVEL,
+            crate::next::parser::context::Context::TOP_LEVEL
+                | crate::next::parser::context::Context::RETURN
+                | crate::next::parser::context::Context::YIELD
+                | crate::next::parser::context::Context::AWAIT,
             Self::parse_block_statement,
         )?;
         let span = Span::new_with_checked(start, body.span.hi);

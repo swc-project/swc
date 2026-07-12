@@ -1,6 +1,5 @@
 //! JavaScript function declarations and expressions.
 
-use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{Decl, Expr, FnDecl, FnExpr, Function, Ident, Param, Stmt};
 
@@ -51,9 +50,12 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::Function));
         }
         let is_generator = self.eat(Kind::Asterisk);
-        let identifier = if self.at_identifier_reference() {
+        let identifier = if self.at_identifier_reference()
+            || (self.at(Kind::Yield) && !is_generator && !self.context().contains(Context::STRICT))
+            || (self.at(Kind::Await) && !is_async && !self.context().contains(Context::MODULE))
+        {
             let token = self.token();
-            let identifier = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+            let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
             self.advance();
             Some(identifier)
         } else if declaration {
@@ -113,7 +115,7 @@ impl<C: Config> Parser<'_, C> {
         }
         let body = self.with_context(
             body_context,
-            Context::TOP_LEVEL,
+            Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
             Self::parse_block_statement,
         )?;
         let span = Span::new_with_checked(start, body.span.hi);

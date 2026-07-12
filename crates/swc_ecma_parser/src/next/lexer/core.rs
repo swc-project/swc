@@ -1,8 +1,9 @@
 //! OXC-style lexer cursor, dispatch, and checkpoint state.
 
 use rustc_hash::FxHashMap;
-use swc_atoms::Wtf8Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{BytePos, Span};
+use swc_ecma_ast::Ident;
 
 use super::{config::Config, source::Source, PackedToken};
 use crate::lexer::Token as Kind;
@@ -44,6 +45,7 @@ pub(crate) struct Lexer<'a, C: Config> {
     config: C,
     had_line_break: bool,
     escaped: bool,
+    escaped_identifiers: FxHashMap<u32, Atom>,
     escaped_strings: FxHashMap<u32, Wtf8Atom>,
     trivia: Vec<CommentRange>,
 }
@@ -66,6 +68,7 @@ impl<'a, C: Config> Lexer<'a, C> {
             // The first token is treated as starting on a new line.
             had_line_break: true,
             escaped: false,
+            escaped_identifiers: FxHashMap::default(),
             escaped_strings: FxHashMap::default(),
             trivia: Vec::new(),
         })
@@ -88,6 +91,11 @@ impl<'a, C: Config> Lexer<'a, C> {
     /// Decoded value for a string token containing escapes.
     pub(crate) fn escaped_string(&self, token: PackedToken) -> Option<&Wtf8Atom> {
         self.escaped_strings.get(&token.start().0)
+    }
+
+    /// Decoded value for an identifier token containing Unicode escapes.
+    pub(crate) fn escaped_identifier(&self, token: PackedToken) -> Option<&Atom> {
+        self.escaped_identifiers.get(&token.start().0)
     }
 
     /// Comments collected in source order.
@@ -202,6 +210,19 @@ impl<'a, C: Config> Lexer<'a, C> {
                     unsafe { self.source.bump_bytes(1) };
                     self.had_line_break = true;
                 }
+                (Some(byte), _) if !byte.is_ascii() => {
+                    let Some(character) = self.source.cur_as_char() else {
+                        return;
+                    };
+                    if matches!(character, '\u{2028}' | '\u{2029}') {
+                        self.had_line_break = true;
+                    } else if character != '\u{feff}' && !character.is_whitespace() {
+                        return;
+                    }
+                    // SAFETY: Consume the complete matched UTF-8 whitespace
+                    // or line-terminator character.
+                    unsafe { self.source.bump_bytes(character.len_utf8()) };
+                }
                 (Some(b'/'), Some(b'/')) => {
                     let start = self.source.cur_pos();
                     // SAFETY: The two matched slashes are ASCII.
@@ -261,16 +282,77 @@ impl<'a, C: Config> Lexer<'a, C> {
 
     pub(super) fn read_identifier(&mut self) -> Kind {
         let start = self.source.cur_pos();
-        self.source.uncons_while(is_identifier_continue);
+        let mut first = true;
+        while let Some(character) = self.source.cur_as_char() {
+            if character == '\\' {
+                if !self.consume_identifier_escape() {
+                    break;
+                }
+                first = false;
+                continue;
+            }
+            let valid = if first {
+                Ident::is_valid_start(character)
+            } else {
+                Ident::is_valid_continue(character)
+            };
+            if !valid {
+                break;
+            }
+            // SAFETY: Consume one complete valid identifier character.
+            unsafe { self.source.bump_bytes(character.len_utf8()) };
+            first = false;
+        }
         let end = self.source.cur_pos();
+        if start == end {
+            return self.read_invalid();
+        }
         // SAFETY: Both positions came from the source cursor.
         let value = unsafe { self.source.slice_str(start, end) };
         self.escaped = value.as_bytes().contains(&b'\\');
         if self.escaped {
+            if let Some(decoded) = decode_identifier(value) {
+                self.escaped_identifiers.insert(start.0, Atom::new(decoded));
+            }
             Kind::Ident
         } else {
             keyword_kind(value).unwrap_or(Kind::Ident)
         }
+    }
+
+    fn consume_identifier_escape(&mut self) -> bool {
+        let remaining = self.source.as_str().as_bytes();
+        if remaining.len() < 2 || remaining[0] != b'\\' || remaining[1] != b'u' {
+            return false;
+        }
+        let mut length = 2;
+        if remaining.get(length) == Some(&b'{') {
+            length += 1;
+            let digits_start = length;
+            while remaining
+                .get(length)
+                .is_some_and(|byte| byte.is_ascii_hexdigit())
+            {
+                length += 1;
+            }
+            if length == digits_start || remaining.get(length) != Some(&b'}') {
+                return false;
+            }
+            length += 1;
+        } else {
+            if remaining.len() < length + 4
+                || !remaining[length..length + 4]
+                    .iter()
+                    .all(u8::is_ascii_hexdigit)
+            {
+                return false;
+            }
+            length += 4;
+        }
+        // SAFETY: Identifier escapes are entirely ASCII and `length` was
+        // checked against the remaining source bytes.
+        unsafe { self.source.bump_bytes(length) };
+        true
     }
 
     pub(super) fn read_number(&mut self) -> Kind {
@@ -644,12 +726,54 @@ impl<'a, C: Config> Lexer<'a, C> {
     }
 }
 
-fn is_identifier_continue(character: char) -> bool {
-    character == '$'
-        || character == '_'
-        || character == '\\'
-        || character.is_ascii_alphanumeric()
-        || !character.is_ascii()
+/// Decode the two Unicode escape forms accepted in identifier names.
+///
+/// Plain identifiers never call this function, so the allocation remains off
+/// the common lexer path. Invalid escapes are left for parser diagnostics.
+fn decode_identifier(raw: &str) -> Option<String> {
+    let mut output = String::with_capacity(raw.len());
+    let mut characters = raw.chars();
+    while let Some(character) = characters.next() {
+        if character != '\\' {
+            output.push(character);
+            continue;
+        }
+        if characters.next()? != 'u' {
+            return None;
+        }
+        let value = if characters.clone().next() == Some('{') {
+            characters.next();
+            let mut value = 0_u32;
+            let mut digits = 0;
+            loop {
+                let character = characters.next()?;
+                if character == '}' {
+                    break;
+                }
+                value = value
+                    .checked_mul(16)?
+                    .checked_add(character.to_digit(16)?)?;
+                digits += 1;
+                if digits > 6 {
+                    return None;
+                }
+            }
+            if digits == 0 {
+                return None;
+            }
+            value
+        } else {
+            let mut value = 0_u32;
+            for _ in 0..4 {
+                value = value
+                    .checked_mul(16)?
+                    .checked_add(characters.next()?.to_digit(16)?)?;
+            }
+            value
+        };
+        output.push(char::from_u32(value)?);
+    }
+    Some(output)
 }
 
 fn keyword_kind(value: &str) -> Option<Kind> {
@@ -808,6 +932,7 @@ fn read_hex_escape(characters: &mut std::str::Chars<'_>, length: usize) -> u32 {
 
 #[cfg(test)]
 mod tests {
+    use swc_atoms::Atom;
     use swc_common::BytePos;
 
     use super::Lexer;
@@ -925,5 +1050,43 @@ mod tests {
                 .and_then(|value| value.as_wtf8().as_str()),
             Some("a\n😀")
         );
+    }
+
+    #[test]
+    fn decodes_escaped_identifiers_without_allocating_plain_identifiers() {
+        let mut lexer = Lexer::new("plain A\\u{42}C \\u0061a", BytePos(1), NoTokens).unwrap();
+        let plain = lexer.next_token();
+        assert!(!plain.escaped());
+        assert!(lexer.escaped_identifier(plain).is_none());
+
+        let braced = lexer.next_token();
+        assert!(braced.escaped());
+        assert_eq!(
+            lexer.escaped_identifier(braced).map(Atom::as_ref),
+            Some("ABC")
+        );
+
+        let fixed = lexer.next_token();
+        assert!(fixed.escaped());
+        assert_eq!(
+            lexer.escaped_identifier(fixed).map(Atom::as_ref),
+            Some("aa")
+        );
+    }
+
+    #[test]
+    fn recognizes_ecmascript_unicode_whitespace_and_line_terminators() {
+        let mut lexer =
+            Lexer::new("a\u{200a}\u{feff}b\u{2028}c\u{2029}d", BytePos(1), NoTokens).unwrap();
+        let a = lexer.next_token();
+        let b = lexer.next_token();
+        let c = lexer.next_token();
+        let d = lexer.next_token();
+
+        assert_eq!(lexer.token_source(a), "a");
+        assert_eq!(lexer.token_source(b), "b");
+        assert!(!b.had_line_break());
+        assert!(c.had_line_break());
+        assert!(d.had_line_break());
     }
 }

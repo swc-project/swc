@@ -1,6 +1,5 @@
 //! JavaScript statements and script bodies.
 
-use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
@@ -95,7 +94,7 @@ impl<C: Config> Parser<'_, C> {
     fn parse_labeled_statement(&mut self) -> Result<Stmt, Error> {
         let token = self.token();
         debug_assert!(self.at_identifier_reference());
-        let label = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        let label = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
         self.advance();
         if !self.expect(Kind::Colon) {
             return Err(self.expected_error(Kind::Colon));
@@ -190,7 +189,7 @@ impl<C: Config> Parser<'_, C> {
             if !self.at_identifier_reference() {
                 return Err(self.expected_error(Kind::Ident));
             }
-            let label = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+            let label = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
             self.advance();
             Some(label)
         };

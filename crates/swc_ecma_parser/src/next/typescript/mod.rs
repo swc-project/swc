@@ -1,6 +1,5 @@
 //! TypeScript declarations and type productions.
 
-use swc_atoms::Atom;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     Decl, Expr, Ident, IdentName, Lit, Stmt, TsArrayType, TsEntityName, TsEnumDecl, TsEnumMember,
@@ -24,7 +23,7 @@ impl<C: Config> Parser<'_, C> {
         if !self.at_identifier_name() {
             return Err(self.expected_error(Kind::Ident));
         }
-        let id = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
         self.advance();
         let type_params = if self.at(Kind::Lt) {
             Some(self.parse_ts_type_parameters()?)
@@ -57,7 +56,7 @@ impl<C: Config> Parser<'_, C> {
         if !self.at_identifier_name() {
             return Err(self.expected_error(Kind::Ident));
         }
-        let id = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
         self.advance();
         if !self.expect(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));
@@ -73,7 +72,7 @@ impl<C: Config> Parser<'_, C> {
                 };
                 TsEnumMemberId::Str(value)
             } else if self.at_identifier_name() {
-                let id = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+                let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
                 self.advance();
                 TsEnumMemberId::Ident(id)
             } else {
@@ -116,7 +115,7 @@ impl<C: Config> Parser<'_, C> {
         if !self.at_identifier_reference() {
             return Err(self.expected_error(Kind::Ident));
         }
-        let id = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
         self.advance();
         let type_params = if self.at(Kind::Lt) {
             Some(self.parse_ts_type_parameters()?)
@@ -180,7 +179,7 @@ impl<C: Config> Parser<'_, C> {
             if !self.at_identifier_name() {
                 return Err(self.expected_error(Kind::Ident));
             }
-            let name = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+            let name = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
             self.advance();
             let constraint = if self.eat(Kind::Extends) {
                 Some(self.parse_ts_type()?)
@@ -333,7 +332,7 @@ impl<C: Config> Parser<'_, C> {
             let key_token = self.token();
             let key = if self.at_identifier_name() {
                 let expression = Expr::Ident(Ident::new_no_ctxt(
-                    Atom::new(self.token_source(key_token)),
+                    self.identifier_atom(key_token),
                     key_token.span(),
                 ));
                 self.advance();
@@ -379,7 +378,7 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::Ident));
         }
         let mut type_name = TsEntityName::Ident(Ident::new_no_ctxt(
-            Atom::new(self.token_source(token)),
+            self.identifier_atom(token),
             token.span(),
         ));
         self.advance();
@@ -390,7 +389,7 @@ impl<C: Config> Parser<'_, C> {
             }
             let right = IdentName {
                 span: token.span(),
-                sym: Atom::new(self.token_source(token)),
+                sym: self.identifier_atom(token),
             };
             self.advance();
             type_name = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName {

@@ -1,6 +1,5 @@
 //! Conditional and assignment expressions.
 
-use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     ArrowExpr, AssignExpr, AssignOp, BindingIdent, BlockStmtOrExpr, CondExpr, Expr, Ident, Pat,
@@ -190,7 +189,7 @@ impl<C: Config> Parser<'_, C> {
         if !self.at_identifier_reference() {
             return Err(self.expected_error(Kind::Ident));
         }
-        let identifier = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+        let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
         self.advance();
         self.parse_arrow_expression(
             start,
@@ -264,19 +263,20 @@ impl<C: Config> Parser<'_, C> {
             }
             BlockStmtOrExpr::BlockStmt(self.with_context(
                 context,
-                Context::TOP_LEVEL,
+                Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
                 Self::parse_block_statement,
             )?)
         } else {
-            BlockStmtOrExpr::Expr(if is_async {
-                self.with_context(
-                    Context::AWAIT,
-                    Context::empty(),
-                    Self::parse_assignment_expression,
-                )?
+            let add = if is_async {
+                Context::AWAIT
             } else {
-                self.parse_assignment_expression()?
-            })
+                Context::empty()
+            };
+            BlockStmtOrExpr::Expr(self.with_context(
+                add,
+                Context::YIELD | Context::AWAIT,
+                Self::parse_assignment_expression,
+            )?)
         };
         let end = body.span().hi;
         Ok(Box::new(Expr::Arrow(ArrowExpr {

@@ -1,6 +1,5 @@
 //! JavaScript class declarations, expressions, and public members.
 
-use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     Class, ClassDecl, ClassExpr, ClassMember, ClassMethod, ClassProp, ComputedPropName,
@@ -40,7 +39,7 @@ impl<C: Config> Parser<'_, C> {
         self.advance();
         let identifier = if self.at_identifier_reference() {
             let token = self.token();
-            let identifier = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+            let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
             self.advance();
             Some(identifier)
         } else if declaration {
@@ -140,7 +139,18 @@ impl<C: Config> Parser<'_, C> {
             && matches!(&key, ClassKey::Public(PropName::Ident(name)) if name.sym == "constructor");
 
         if self.at(Kind::LParen) {
-            let parameters = self.parse_method_parameters()?;
+            let mut parameter_context = Context::empty();
+            if is_async {
+                parameter_context.insert(Context::AWAIT);
+            }
+            if is_generator {
+                parameter_context.insert(Context::YIELD);
+            }
+            let parameters = self.with_context(
+                parameter_context,
+                Context::YIELD | Context::AWAIT,
+                Self::parse_method_parameters,
+            )?;
             if !self.at(Kind::LBrace) {
                 return Err(self.expected_error(Kind::LBrace));
             }
@@ -153,7 +163,7 @@ impl<C: Config> Parser<'_, C> {
             }
             let body = self.with_context(
                 method_context,
-                Context::TOP_LEVEL,
+                Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
                 Self::parse_block_statement,
             )?;
             let span = Span::new_with_checked(start, body.span.hi);
@@ -273,7 +283,7 @@ impl<C: Config> Parser<'_, C> {
             }
             let key = PrivateName {
                 span: Span::new_with_checked(start, token.end()),
-                name: Atom::new(self.token_source(token)),
+                name: self.identifier_atom(token),
             };
             self.advance();
             return Ok(ClassKey::Private(key));
@@ -296,7 +306,7 @@ impl<C: Config> Parser<'_, C> {
         }
         let key = PropName::Ident(IdentName {
             span: token.span(),
-            sym: Atom::new(self.token_source(token)),
+            sym: self.identifier_atom(token),
         });
         self.advance();
         Ok(ClassKey::Public(key))

@@ -1,6 +1,5 @@
 //! JavaScript binding patterns shared by declarations and parameters.
 
-use swc_atoms::Atom;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     ArrayPat, AssignOp, AssignPat, AssignPatProp, AssignTarget, AssignTargetPat, BindingIdent,
@@ -156,8 +155,7 @@ impl<C: Config> Parser<'_, C> {
                 if !self.at_identifier_reference() {
                     return Err(self.expected_error(Kind::Ident));
                 }
-                let identifier =
-                    Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
+                let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
                 self.advance();
                 Pat::Ident(BindingIdent {
                     id: identifier,
@@ -257,7 +255,7 @@ impl<C: Config> Parser<'_, C> {
             if !self.at_identifier_name() {
                 return Err(self.expected_error(Kind::Ident));
             }
-            let symbol = Atom::new(self.token_source(token));
+            let symbol = self.identifier_atom(token);
             let key = PropName::Ident(IdentName {
                 span: token.span(),
                 sym: symbol.clone(),

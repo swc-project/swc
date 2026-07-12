@@ -22,7 +22,7 @@ impl<C: Config> Parser<'_, C> {
             Kind::Async if self.is_async_function_start() => self.parse_function_expression(),
             Kind::Class => self.parse_class_expression(),
             _ if self.at_identifier_reference() => {
-                let symbol = Atom::new(self.token_source(token));
+                let symbol = self.identifier_atom(token);
                 self.advance();
                 Ok(Box::new(Expr::Ident(Ident::new_no_ctxt(symbol, span))))
             }

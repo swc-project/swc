@@ -10,8 +10,11 @@ use std::{
 };
 
 use common::Normalizer;
+use swc_common::EqIgnoreSpan;
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, PResult, Syntax};
+use swc_ecma_parser::{
+    lexer::Lexer, unstable::next::Parser as NextParser, LegacyParser as Parser, PResult, Syntax,
+};
 use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -288,6 +291,14 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let expected = p(true);
                 assert_eq!(src, expected);
 
+                if env::var_os("SWC_NEXT_PARITY").is_some() {
+                    let next = normalize(NextParser::new(&input).parse_module().unwrap());
+                    assert!(
+                        next.eq_ignore_span(&src),
+                        "independent module AST differs for {file_name}"
+                    );
+                }
+
                 let json =
                     serde_json::to_string_pretty(&src).expect("failed to serialize module as json");
 
@@ -313,6 +324,13 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let src = p(false);
                 let expected = p(true);
                 assert_eq!(src, expected);
+                if env::var_os("SWC_NEXT_PARITY").is_some() {
+                    let next = normalize(NextParser::new(&input).parse_script().unwrap());
+                    assert!(
+                        next.eq_ignore_span(&src),
+                        "independent script AST differs for {file_name}"
+                    );
+                }
             }
 
             Ok(())

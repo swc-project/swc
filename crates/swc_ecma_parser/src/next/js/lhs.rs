@@ -1,6 +1,5 @@
 //! Member and call expression chains.
 
-use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     CallExpr, Callee, ComputedPropName, Expr, ExprOrSpread, IdentName, Import, ImportPhase,
@@ -87,7 +86,7 @@ impl<C: Config> Parser<'_, C> {
         }
         let property = MemberProp::Ident(IdentName {
             span: property_token.span(),
-            sym: Atom::new(self.token_source(property_token)),
+            sym: self.identifier_atom(property_token),
         });
         self.advance();
         Ok(property)
@@ -240,7 +239,7 @@ impl<C: Config> Parser<'_, C> {
             }
             let property = SuperProp::Ident(IdentName {
                 span: property_token.span(),
-                sym: Atom::new(self.token_source(property_token)),
+                sym: self.identifier_atom(property_token),
             });
             self.advance();
             property
