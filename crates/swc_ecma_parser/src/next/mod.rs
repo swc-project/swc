@@ -4,6 +4,7 @@
 //! reference parser can remain isolated while the new engine is brought up.
 
 mod api;
+pub(crate) mod experimental;
 #[allow(dead_code)]
 pub(crate) mod js;
 // The lexer is enabled production by production while the reference parser
