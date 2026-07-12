@@ -47,6 +47,14 @@ impl<C: Config> Parser<'_, C> {
         } else {
             None
         };
+        #[cfg(feature = "typescript")]
+        let type_params = if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Lt) {
+            Some(self.parse_ts_type_parameters()?)
+        } else {
+            None
+        };
+        #[cfg(not(feature = "typescript"))]
+        let type_params = None;
         let super_class = if self.eat(Kind::Extends) {
             Some(self.parse_expression()?)
         } else {
@@ -79,7 +87,7 @@ impl<C: Config> Parser<'_, C> {
                 body,
                 super_class,
                 is_abstract: false,
-                type_params: None,
+                type_params,
                 super_type_params: None,
                 implements: Vec::new(),
             }),
@@ -111,7 +119,17 @@ impl<C: Config> Parser<'_, C> {
         let is_async = if self.at(Kind::Async)
             && self.lookahead(|parser| {
                 parser.advance();
-                !parser.token().had_line_break() && !parser.at(Kind::LParen)
+                !parser.token().had_line_break()
+                    && !matches!(
+                        parser.kind(),
+                        Kind::LParen
+                            | Kind::Colon
+                            | Kind::QuestionMark
+                            | Kind::Bang
+                            | Kind::Eq
+                            | Kind::Semi
+                            | Kind::RBrace
+                    )
             }) {
             self.advance();
             true
@@ -140,9 +158,24 @@ impl<C: Config> Parser<'_, C> {
                 &key,
                 ClassKey::Public(PropName::Ident(name)) if name.sym == "constructor"
             ) || matches!(
-                &key,
-                ClassKey::Public(PropName::Str(name)) if name.value == "constructor"
+            &key,
+            ClassKey::Public(PropName::Str(name)) if name.value == "constructor"
             ));
+
+        #[cfg(feature = "typescript")]
+        let is_optional =
+            self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::QuestionMark);
+        #[cfg(not(feature = "typescript"))]
+        let is_optional = false;
+        #[cfg(feature = "typescript")]
+        let method_type_params =
+            if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Lt) {
+                Some(self.parse_ts_type_parameters()?)
+            } else {
+                None
+            };
+        #[cfg(not(feature = "typescript"))]
+        let method_type_params = None;
 
         if self.at(Kind::LParen) {
             let mut parameter_context = Context::empty();
@@ -157,6 +190,56 @@ impl<C: Config> Parser<'_, C> {
                 Context::YIELD | Context::AWAIT,
                 Self::parse_method_parameters,
             )?;
+            #[cfg(feature = "typescript")]
+            let return_type =
+                if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Colon) {
+                    Some(self.parse_ts_type_annotation()?)
+                } else {
+                    None
+                };
+            #[cfg(not(feature = "typescript"))]
+            let return_type = None;
+            if self.context().contains(Context::TYPESCRIPT)
+                && !self.at(Kind::LBrace)
+                && (self.eat(Kind::Semi) || self.token().had_line_break() || self.at(Kind::RBrace))
+            {
+                let span = Span::new_with_checked(start, self.previous_end());
+                let function = Box::new(Function {
+                    params: parameters,
+                    decorators: Vec::new(),
+                    span,
+                    ctxt: SyntaxContext::empty(),
+                    body: None,
+                    is_generator,
+                    is_async,
+                    type_params: method_type_params,
+                    return_type,
+                });
+                return Ok(match key {
+                    ClassKey::Public(key) => ClassMember::Method(ClassMethod {
+                        span,
+                        key,
+                        function,
+                        kind: method_kind,
+                        is_static,
+                        accessibility: None,
+                        is_abstract: false,
+                        is_optional,
+                        is_override: false,
+                    }),
+                    ClassKey::Private(key) => ClassMember::PrivateMethod(PrivateMethod {
+                        span,
+                        key,
+                        function,
+                        kind: method_kind,
+                        is_static,
+                        accessibility: None,
+                        is_abstract: false,
+                        is_optional,
+                        is_override: false,
+                    }),
+                });
+            }
             if !self.at(Kind::LBrace) {
                 return Err(self.expected_error(Kind::LBrace));
             }
@@ -198,8 +281,8 @@ impl<C: Config> Parser<'_, C> {
                 body: Some(body),
                 is_generator,
                 is_async,
-                type_params: None,
-                return_type: None,
+                type_params: method_type_params,
+                return_type,
             });
             return Ok(match key {
                 ClassKey::Public(key) => ClassMember::Method(ClassMethod {
@@ -210,7 +293,7 @@ impl<C: Config> Parser<'_, C> {
                     is_static,
                     accessibility: None,
                     is_abstract: false,
-                    is_optional: false,
+                    is_optional,
                     is_override: false,
                 }),
                 ClassKey::Private(key) => ClassMember::PrivateMethod(PrivateMethod {
@@ -221,7 +304,7 @@ impl<C: Config> Parser<'_, C> {
                     is_static,
                     accessibility: None,
                     is_abstract: false,
-                    is_optional: false,
+                    is_optional,
                     is_override: false,
                 }),
             });
@@ -230,6 +313,18 @@ impl<C: Config> Parser<'_, C> {
         if is_async || is_generator || method_kind != MethodKind::Method {
             return Err(self.expected_error(Kind::LParen));
         }
+        #[cfg(feature = "typescript")]
+        let definite = self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::Bang);
+        #[cfg(not(feature = "typescript"))]
+        let definite = false;
+        #[cfg(feature = "typescript")]
+        let type_ann = if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Colon) {
+            Some(self.parse_ts_type_annotation()?)
+        } else {
+            None
+        };
+        #[cfg(not(feature = "typescript"))]
+        let type_ann = None;
         let value = if self.eat(Kind::Eq) {
             Some(self.parse_assignment_expression()?)
         } else {
@@ -243,30 +338,30 @@ impl<C: Config> Parser<'_, C> {
                 span,
                 key,
                 value,
-                type_ann: None,
+                type_ann,
                 is_static,
                 decorators: Vec::new(),
                 accessibility: None,
                 is_abstract: false,
-                is_optional: false,
+                is_optional,
                 is_override: false,
                 readonly: false,
                 declare: false,
-                definite: false,
+                definite,
             }),
             ClassKey::Private(key) => ClassMember::PrivateProp(PrivateProp {
                 span,
                 ctxt: SyntaxContext::empty(),
                 key,
                 value,
-                type_ann: None,
+                type_ann,
                 is_static,
                 decorators: Vec::new(),
                 accessibility: None,
-                is_optional: false,
+                is_optional,
                 is_override: false,
                 readonly: false,
-                definite: false,
+                definite,
             }),
         })
     }
@@ -303,7 +398,7 @@ impl<C: Config> Parser<'_, C> {
         }
         let mut parameters = Vec::with_capacity(4);
         while !self.at(Kind::RParen) && !self.at(Kind::Eof) {
-            let pattern = if self.at(Kind::DotDotDot) {
+            let mut pattern = if self.at(Kind::DotDotDot) {
                 let dot3_token = self.token().span();
                 self.advance();
                 let argument = self.parse_binding_pattern(false)?;
@@ -317,6 +412,25 @@ impl<C: Config> Parser<'_, C> {
             } else {
                 self.parse_binding_pattern(true)?
             };
+            #[cfg(feature = "typescript")]
+            if self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::QuestionMark) {
+                match &mut pattern {
+                    swc_ecma_ast::Pat::Ident(pattern) => pattern.id.optional = true,
+                    swc_ecma_ast::Pat::Array(pattern) => pattern.optional = true,
+                    swc_ecma_ast::Pat::Object(pattern) => pattern.optional = true,
+                    _ => {}
+                }
+                if self.at(Kind::Colon) {
+                    let type_ann = self.parse_ts_type_annotation()?;
+                    match &mut pattern {
+                        swc_ecma_ast::Pat::Ident(pattern) => pattern.type_ann = Some(type_ann),
+                        swc_ecma_ast::Pat::Array(pattern) => pattern.type_ann = Some(type_ann),
+                        swc_ecma_ast::Pat::Object(pattern) => pattern.type_ann = Some(type_ann),
+                        swc_ecma_ast::Pat::Rest(pattern) => pattern.type_ann = Some(type_ann),
+                        _ => {}
+                    }
+                }
+            }
             parameters.push(Param {
                 span: pattern.span(),
                 decorators: Vec::new(),

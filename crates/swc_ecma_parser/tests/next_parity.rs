@@ -8,8 +8,8 @@ use serde::Deserialize;
 use swc_common::{BytePos, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{
-    lexer::Lexer, EsSyntax, LegacyParser, ModuleKind, Parser as NextParser, SourceType,
-    StringInput, Syntax, TsSyntax,
+    lexer::Lexer, unstable::next::Parser as IndependentParser, EsSyntax, LegacyParser, ModuleKind,
+    Parser as NextParser, SourceType, StringInput, Syntax, TsSyntax,
 };
 
 fn assert_valid_fixture_parity(
@@ -38,22 +38,47 @@ fn assert_valid_fixture_parity(
         return;
     };
 
-    let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
-    let next = NextParser::new(&source, source_type)
-        .with_options(options)
-        .parse();
-
+    let next_program = match (syntax, &legacy_program) {
+        #[cfg(feature = "typescript")]
+        (Syntax::Typescript(_), Program::Script(_)) => IndependentParser::new(&source)
+            .parse_typescript_script()
+            .map(Program::Script),
+        #[cfg(feature = "typescript")]
+        (Syntax::Typescript(_), Program::Module(_)) => IndependentParser::new(&source)
+            .parse_typescript_module()
+            .map(Program::Module),
+        #[cfg(feature = "flow")]
+        (Syntax::Flow(_), _) => {
+            let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
+            let next = NextParser::new(&source, source_type)
+                .with_options(options)
+                .parse();
+            if next.panicked {
+                Err(next
+                    .diagnostics
+                    .into_iter()
+                    .next()
+                    .expect("panicked parser must return a diagnostic"))
+            } else {
+                Ok(next.program)
+            }
+        }
+        (_, Program::Script(_)) => IndependentParser::new(&source)
+            .parse_script()
+            .map(Program::Script),
+        (_, Program::Module(_)) => IndependentParser::new(&source)
+            .parse_module()
+            .map(Program::Module),
+    }
+    .unwrap_or_else(|error| {
+        panic!(
+            "independent parser failed for {}: {:?}",
+            path.display(),
+            error.kind()
+        )
+    });
     assert!(
-        !next.panicked,
-        "next parser failed for {}: {:?}",
-        path.display(),
-        next.diagnostics
-            .iter()
-            .map(|error| error.kind())
-            .collect::<Vec<_>>()
-    );
-    assert!(
-        next.program.eq_ignore_span(&legacy_program),
+        next_program.eq_ignore_span(&legacy_program),
         "normalized AST mismatch for {}",
         path.display()
     );

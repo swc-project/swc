@@ -44,6 +44,11 @@ impl<C: Config> Parser<'_, C> {
         if self.is_async_arrow_head() {
             return self.parse_async_arrow_expression();
         }
+        #[cfg(feature = "typescript")]
+        if self.context().contains(Context::TYPESCRIPT) && self.is_ts_generic_arrow_head() {
+            let start = self.token().start();
+            return self.parse_ts_generic_arrow_expression(start, false);
+        }
         if self.is_parenthesized_arrow_head() {
             return self.parse_parenthesized_arrow_expression(false);
         }
@@ -139,6 +144,11 @@ impl<C: Config> Parser<'_, C> {
                 parser.advance();
                 return !parser.token().had_line_break() && parser.at(Kind::Arrow);
             }
+            #[cfg(feature = "typescript")]
+            if parser.context().contains(Context::TYPESCRIPT) && parser.at(Kind::Lt) {
+                return parser.parse_ts_type_parameters().is_ok()
+                    && parser.is_parenthesized_arrow_head();
+            }
             parser.is_parenthesized_arrow_head()
         })
     }
@@ -191,6 +201,10 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         debug_assert!(self.at(Kind::Async));
         self.advance();
+        #[cfg(feature = "typescript")]
+        if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Lt) {
+            return self.parse_ts_generic_arrow_expression(start, true);
+        }
         if self.at(Kind::LParen) {
             return self.parse_parenthesized_arrow_expression_from(start, true);
         }
@@ -208,6 +222,34 @@ impl<C: Config> Parser<'_, C> {
             })],
             true,
         )
+    }
+
+    #[cfg(feature = "typescript")]
+    fn is_ts_generic_arrow_head(&mut self) -> bool {
+        if !self.at(Kind::Lt) {
+            return false;
+        }
+        self.lookahead(|parser| {
+            parser.parse_ts_type_parameters().is_ok() && parser.is_parenthesized_arrow_head()
+        })
+    }
+
+    #[cfg(feature = "typescript")]
+    fn parse_ts_generic_arrow_expression(
+        &mut self,
+        start: swc_common::BytePos,
+        is_async: bool,
+    ) -> Result<Box<Expr>, Error> {
+        let type_params = self.parse_ts_type_parameters()?;
+        if !self.at(Kind::LParen) {
+            return Err(self.expected_error(Kind::LParen));
+        }
+        let mut expression = self.parse_parenthesized_arrow_expression_from(start, is_async)?;
+        let Expr::Arrow(arrow) = &mut *expression else {
+            unreachable!("generic arrow production must produce an arrow")
+        };
+        arrow.type_params = Some(type_params);
+        Ok(expression)
     }
 
     fn parse_parenthesized_arrow_expression(&mut self, is_async: bool) -> Result<Box<Expr>, Error> {

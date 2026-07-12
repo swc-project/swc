@@ -5,8 +5,8 @@ use swc_ecma_ast::{
     Decl, Expr, Ident, IdentName, Lit, Stmt, TsArrayType, TsEntityName, TsEnumDecl, TsEnumMember,
     TsEnumMemberId, TsInterfaceBody, TsInterfaceDecl, TsIntersectionType, TsKeywordType,
     TsKeywordTypeKind, TsLit, TsLitType, TsParenthesizedType, TsPropertySignature, TsQualifiedName,
-    TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeParam, TsTypeParamDecl,
-    TsTypeParamInstantiation, TsTypeRef, TsUnionType,
+    TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeElement, TsTypeLit,
+    TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypeRef, TsUnionType,
 };
 
 use crate::{
@@ -153,7 +153,7 @@ impl<C: Config> Parser<'_, C> {
         }))
     }
 
-    fn parse_ts_type_parameters(&mut self) -> Result<Box<TsTypeParamDecl>, Error> {
+    pub(crate) fn parse_ts_type_parameters(&mut self) -> Result<Box<TsTypeParamDecl>, Error> {
         let start = self.token().start();
         debug_assert!(self.at(Kind::Lt));
         self.advance();
@@ -313,11 +313,39 @@ impl<C: Config> Parser<'_, C> {
                 type_ann,
             })));
         }
+        if self.at(Kind::LBracket) {
+            return self.parse_ts_tuple_type();
+        }
         if self.at(Kind::LBrace) {
             let (span, members) = self.parse_ts_type_members()?;
             return Ok(Box::new(TsType::TsTypeLit(TsTypeLit { span, members })));
         }
         self.parse_ts_type_reference()
+    }
+
+    fn parse_ts_tuple_type(&mut self) -> Result<Box<TsType>, Error> {
+        let start = self.token().start();
+        self.advance();
+        let mut elem_types = Vec::with_capacity(4);
+        while !self.at(Kind::RBracket) && !self.at(Kind::Eof) {
+            let element_start = self.token().start();
+            let ty = self.parse_ts_type()?;
+            elem_types.push(TsTupleElement {
+                span: Span::new_with_checked(element_start, ty.span().hi),
+                label: None,
+                ty,
+            });
+            if !self.eat(Kind::Comma) {
+                break;
+            }
+        }
+        if !self.expect(Kind::RBracket) {
+            return Err(self.expected_error(Kind::RBracket));
+        }
+        Ok(Box::new(TsType::TsTupleType(TsTupleType {
+            span: Span::new_with_checked(start, self.previous_end()),
+            elem_types,
+        })))
     }
 
     fn parse_ts_type_members(&mut self) -> Result<(Span, Vec<TsTypeElement>), Error> {

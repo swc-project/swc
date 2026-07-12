@@ -64,6 +64,15 @@ impl<C: Config> Parser<'_, C> {
             None
         };
 
+        #[cfg(feature = "typescript")]
+        let type_params = if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Lt) {
+            Some(self.parse_ts_type_parameters()?)
+        } else {
+            None
+        };
+        #[cfg(not(feature = "typescript"))]
+        let type_params = None;
+
         let mut parameter_context = Context::empty();
         if is_generator {
             parameter_context.insert(Context::YIELD);
@@ -110,7 +119,7 @@ impl<C: Config> Parser<'_, C> {
                 body: Some(body),
                 is_generator,
                 is_async,
-                type_params: None,
+                type_params,
                 return_type,
             }),
         ))

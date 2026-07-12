@@ -88,6 +88,22 @@ impl<'a> Parser<'a> {
         parser.parse_script()
     }
 
+    /// Parse a TypeScript module using only the new engine.
+    #[cfg(feature = "typescript")]
+    pub fn parse_typescript_module(self) -> Result<Module, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut parser = ParserImpl::new(
+            lexer,
+            Context::default() | Context::TYPESCRIPT | Context::MODULE,
+        );
+        parser.parse_module()
+    }
+
     /// Parse a script with statically enabled packed-token collection.
     pub fn parse_script_with_tokens(self) -> Result<ParserDetails, Error> {
         let lexer = Lexer::new(
