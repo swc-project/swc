@@ -88,6 +88,14 @@ impl<'a, C: Config> Lexer<'a, C> {
         unsafe { self.source.slice_str(token.start(), token.end()) }
     }
 
+    /// Borrow an arbitrary parser-validated byte range from the input.
+    #[inline(always)]
+    pub(crate) fn source_slice(&self, start: BytePos, end: BytePos) -> &'a str {
+        // SAFETY: Callers pass token boundaries produced by this lexer, which
+        // are in bounds and UTF-8 aligned by the source cursor invariants.
+        unsafe { self.source.slice_str(start, end) }
+    }
+
     /// Decoded value for a string token containing escapes.
     pub(crate) fn escaped_string(&self, token: PackedToken) -> Option<&Wtf8Atom> {
         self.escaped_strings.get(&token.start().0)

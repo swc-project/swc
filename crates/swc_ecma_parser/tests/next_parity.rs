@@ -88,8 +88,9 @@ fn assert_valid_fixture_parity(
     }
     .unwrap_or_else(|error| {
         panic!(
-            "independent parser failed for {}: {:?}",
+            "independent parser failed for {} at {:?}: {:?}",
             path.display(),
+            error.span(),
             error.kind()
         )
     });

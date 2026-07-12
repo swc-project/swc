@@ -159,41 +159,26 @@ impl<C: Config> Parser<'_, C> {
         }
         self.lookahead(|parser| {
             parser.advance();
-            let mut depth = 0u32;
-            loop {
-                match parser.kind() {
-                    Kind::LParen | Kind::LBracket | Kind::LBrace => {
-                        depth += 1;
-                        parser.advance();
-                    }
-                    Kind::RBracket | Kind::RBrace if depth != 0 => {
-                        depth -= 1;
-                        parser.advance();
-                    }
-                    Kind::RParen if depth == 0 => {
-                        parser.advance();
-                        if parser.token().had_line_break() {
-                            return false;
-                        }
-                        if parser.at(Kind::Arrow) {
-                            return true;
-                        }
-                        #[cfg(feature = "typescript")]
-                        if parser.context().contains(Context::TYPESCRIPT) && parser.at(Kind::Colon)
-                        {
-                            return parser.parse_ts_type_annotation().is_ok()
-                                && parser.at(Kind::Arrow);
-                        }
-                        return false;
-                    }
-                    Kind::RParen => {
-                        depth -= 1;
-                        parser.advance();
-                    }
-                    Kind::Eof => return false,
-                    _ => parser.advance(),
-                }
+            if parser.parse_arrow_parameters_after_lparen().is_err()
+                || parser.token().had_line_break()
+            {
+                return false;
             }
+            if parser.at(Kind::Arrow) {
+                return true;
+            }
+            #[cfg(feature = "typescript")]
+            if parser.context().contains(Context::TYPESCRIPT) && parser.at(Kind::Colon) {
+                return parser
+                    .with_context(
+                        Context::TS_ARROW_RETURN_TYPE,
+                        Context::empty(),
+                        Self::parse_ts_type_annotation,
+                    )
+                    .is_ok()
+                    && parser.at(Kind::Arrow);
+            }
+            false
         })
     }
 
@@ -280,17 +265,45 @@ impl<C: Config> Parser<'_, C> {
             let mut pattern = if self.at(Kind::DotDotDot) {
                 let dot3_token = self.token().span();
                 self.advance();
-                let argument = self.parse_binding_pattern(false)?;
+                let mut argument = self.parse_binding_pattern(false)?;
+                #[cfg(feature = "typescript")]
+                let type_ann = match &mut argument {
+                    Pat::Ident(pattern) => pattern.type_ann.take(),
+                    Pat::Array(pattern) => pattern.type_ann.take(),
+                    Pat::Object(pattern) => pattern.type_ann.take(),
+                    _ => None,
+                };
+                #[cfg(not(feature = "typescript"))]
+                let type_ann = None;
                 let span = Span::new_with_checked(dot3_token.lo, argument.span().hi);
                 Pat::Rest(swc_ecma_ast::RestPat {
                     span,
                     dot3_token,
                     arg: Box::new(argument),
-                    type_ann: None,
+                    type_ann,
                 })
             } else {
                 self.parse_binding_pattern(true)?
             };
+            #[cfg(feature = "typescript")]
+            if self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::QuestionMark) {
+                match &mut pattern {
+                    Pat::Ident(pattern) => pattern.id.optional = true,
+                    Pat::Array(pattern) => pattern.optional = true,
+                    Pat::Object(pattern) => pattern.optional = true,
+                    _ => {}
+                }
+                if self.at(Kind::Colon) {
+                    let type_ann = self.parse_ts_type_annotation()?;
+                    match &mut pattern {
+                        Pat::Ident(pattern) => pattern.type_ann = Some(type_ann),
+                        Pat::Array(pattern) => pattern.type_ann = Some(type_ann),
+                        Pat::Object(pattern) => pattern.type_ann = Some(type_ann),
+                        Pat::Rest(pattern) => pattern.type_ann = Some(type_ann),
+                        _ => {}
+                    }
+                }
+            }
             normalize_arrow_parameter_pattern(&mut pattern);
             parameters.push(pattern);
             if !self.eat(Kind::Comma) {
@@ -311,7 +324,11 @@ impl<C: Config> Parser<'_, C> {
     ) -> Result<Box<Expr>, Error> {
         #[cfg(feature = "typescript")]
         let return_type = if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Colon) {
-            Some(self.parse_ts_type_annotation()?)
+            Some(self.with_context(
+                Context::TS_ARROW_RETURN_TYPE,
+                Context::empty(),
+                Self::parse_ts_type_annotation,
+            )?)
         } else {
             None
         };

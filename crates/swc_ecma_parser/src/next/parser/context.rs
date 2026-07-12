@@ -34,6 +34,9 @@ bitflags::bitflags! {
         const TYPESCRIPT = 1 << 13;
         /// TypeScript JSX grammar productions are enabled.
         const TSX = 1 << 14;
+        /// The first parenthesized layer of an arrow return annotation must
+        /// be parsed as a type rather than reinterpreted as a function type.
+        const TS_ARROW_RETURN_TYPE = 1 << 15;
     }
 }
 

@@ -84,7 +84,7 @@ impl<C: Config> Parser<'_, C> {
     }
 }
 
-fn template_element(
+pub(crate) fn template_element(
     token: crate::next::lexer::PackedToken,
     raw: &str,
     leading: BytePos,

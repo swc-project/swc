@@ -1,5 +1,7 @@
 //! JSX element and fragment productions with parser-directed child lexing.
 
+use std::borrow::Cow;
+
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
@@ -83,9 +85,10 @@ impl<C: Config> Parser<'_, C> {
                 Kind::JSXText => {
                     let token = self.token();
                     let raw = Atom::new(self.token_source(token));
+                    let value = Atom::new(decode_jsx_entities(&raw));
                     children.push(JSXElementChild::JSXText(JSXText {
                         span: token.span(),
-                        value: raw.clone(),
+                        value,
                         raw,
                     }));
                     self.advance_as_jsx_child();
@@ -144,9 +147,10 @@ impl<C: Config> Parser<'_, C> {
                 Kind::JSXText => {
                     let token = self.token();
                     let raw = Atom::new(self.token_source(token));
+                    let value = Atom::new(decode_jsx_entities(&raw));
                     children.push(JSXElementChild::JSXText(JSXText {
                         span: token.span(),
-                        value: raw.clone(),
+                        value,
                         raw,
                     }));
                     self.advance_as_jsx_child();
@@ -189,16 +193,8 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn parse_jsx_element_name(&mut self) -> Result<JSXElementName, Error> {
-        let token = self.token();
-        if !self.at_identifier_name() {
-            return Err(self.expected_error(Kind::Ident));
-        }
-        let name = JSXElementName::Ident(Ident::new_no_ctxt(
-            Atom::new(self.token_source(token)),
-            token.span(),
-        ));
-        self.advance();
-        Ok(name)
+        let (span, name) = self.parse_jsx_identifier()?;
+        Ok(JSXElementName::Ident(Ident::new_no_ctxt(name, span)))
     }
 
     fn parse_jsx_attribute(&mut self) -> Result<JSXAttrOrSpread, Error> {
@@ -217,29 +213,47 @@ impl<C: Config> Parser<'_, C> {
                 expr: expression,
             }));
         }
-        let token = self.token();
-        if !self.at_identifier_name() {
-            return Err(self.expected_error(Kind::Ident));
-        }
+        let (name_span, name_sym) = self.parse_jsx_identifier()?;
         let name = JSXAttrName::Ident(IdentName {
-            span: token.span(),
-            sym: Atom::new(self.token_source(token)),
+            span: name_span,
+            sym: name_sym,
         });
-        self.advance();
         let value = if self.eat(Kind::Eq) {
             Some(self.parse_jsx_attribute_value()?)
         } else {
             None
         };
-        let end = value.as_ref().map_or(token.end(), Spanned::span_hi);
+        let end = value.as_ref().map_or(name_span.hi, Spanned::span_hi);
         Ok(JSXAttrOrSpread::JSXAttr(JSXAttr {
-            span: Span::new_with_checked(token.start(), end),
+            span: Span::new_with_checked(name_span.lo, end),
             name,
             value,
         }))
     }
 
+    fn parse_jsx_identifier(&mut self) -> Result<(Span, Atom), Error> {
+        if !self.at_identifier_name() {
+            return Err(self.expected_error(Kind::Ident));
+        }
+        let start = self.token().start();
+        self.advance();
+        while self.eat(Kind::Minus) {
+            if !self.at_identifier_name() {
+                return Err(self.expected_error(Kind::Ident));
+            }
+            self.advance();
+        }
+        let end = self.previous_end();
+        Ok((
+            Span::new_with_checked(start, end),
+            Atom::new(self.source_slice(start, end)),
+        ))
+    }
+
     fn parse_jsx_attribute_value(&mut self) -> Result<JSXAttrValue, Error> {
+        if self.at(Kind::Error) {
+            self.re_lex_jsx_attribute_string();
+        }
         if self.at(Kind::Str) {
             let token = self.token();
             let raw = self.token_source(token);
@@ -248,7 +262,7 @@ impl<C: Config> Parser<'_, C> {
                     .expect("escaped JSX string must have a decoded value")
                     .clone()
             } else {
-                Wtf8Atom::new(&raw[1..raw.len() - 1])
+                Wtf8Atom::new(decode_jsx_entities(&raw[1..raw.len() - 1]))
             };
             self.advance();
             return Ok(JSXAttrValue::Str(Str {
@@ -336,6 +350,53 @@ impl<C: Config> Parser<'_, C> {
             self.advance();
         }
     }
+}
+
+fn decode_jsx_entities(value: &str) -> Cow<'_, str> {
+    if !value.as_bytes().contains(&b'&') {
+        return Cow::Borrowed(value);
+    }
+    let mut output = String::with_capacity(value.len());
+    let mut rest = value;
+    while let Some(index) = rest.find('&') {
+        output.push_str(&rest[..index]);
+        rest = &rest[index..];
+        let Some(end) = rest.get(1..).and_then(|value| value.find(';')) else {
+            output.push_str(rest);
+            rest = "";
+            break;
+        };
+        let entity = &rest[1..end + 1];
+        let decoded = entity
+            .strip_prefix("#x")
+            .or_else(|| entity.strip_prefix("#X"))
+            .and_then(|digits| u32::from_str_radix(digits, 16).ok())
+            .and_then(char::from_u32)
+            .or_else(|| {
+                entity
+                    .strip_prefix('#')
+                    .and_then(|digits| digits.parse::<u32>().ok())
+                    .and_then(char::from_u32)
+            })
+            .or(match entity {
+                "quot" => Some('"'),
+                "amp" => Some('&'),
+                "apos" => Some('\''),
+                "lt" => Some('<'),
+                "gt" => Some('>'),
+                "nbsp" => Some('\u{00a0}'),
+                _ => None,
+            });
+        if let Some(decoded) = decoded {
+            output.push(decoded);
+            rest = &rest[end + 2..];
+        } else {
+            output.push('&');
+            rest = &rest[1..];
+        }
+    }
+    output.push_str(rest);
+    Cow::Owned(output)
 }
 
 #[cfg(test)]

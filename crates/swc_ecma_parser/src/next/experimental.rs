@@ -71,7 +71,8 @@ impl<'a> Parser<'a> {
                 SyntaxError::Eof,
             )
         })?;
-        let mut parser = ParserImpl::new(lexer, Context::default() | Context::MODULE);
+        let mut parser =
+            ParserImpl::new(lexer, Context::default() | Context::MODULE | Context::AWAIT);
         parser.parse_module()
     }
 
@@ -99,7 +100,7 @@ impl<'a> Parser<'a> {
         })?;
         let mut parser = ParserImpl::new(
             lexer,
-            Context::default() | Context::TYPESCRIPT | Context::MODULE,
+            Context::default() | Context::TYPESCRIPT | Context::MODULE | Context::AWAIT,
         );
         parser.parse_module()
     }
@@ -131,7 +132,11 @@ impl<'a> Parser<'a> {
         })?;
         let mut parser = ParserImpl::new(
             lexer,
-            Context::default() | Context::TYPESCRIPT | Context::TSX | Context::MODULE,
+            Context::default()
+                | Context::TYPESCRIPT
+                | Context::TSX
+                | Context::MODULE
+                | Context::AWAIT,
         );
         parser.parse_module()
     }

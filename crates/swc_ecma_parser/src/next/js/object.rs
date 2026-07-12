@@ -202,6 +202,18 @@ impl<C: Config> Parser<'_, C> {
                 | crate::next::parser::context::Context::AWAIT,
             Self::parse_method_parameters,
         )?;
+        #[cfg(feature = "typescript")]
+        let return_type = if self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.at(Kind::Colon)
+        {
+            Some(self.parse_ts_type_annotation()?)
+        } else {
+            None
+        };
+        #[cfg(not(feature = "typescript"))]
+        let return_type = None;
         if !self.at(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));
         }
@@ -232,7 +244,7 @@ impl<C: Config> Parser<'_, C> {
                 is_generator,
                 is_async,
                 type_params,
-                return_type: None,
+                return_type,
             }),
         }))))
     }
@@ -249,6 +261,18 @@ impl<C: Config> Parser<'_, C> {
                 | crate::next::parser::context::Context::AWAIT,
             Self::parse_method_parameters,
         )?;
+        #[cfg(feature = "typescript")]
+        let type_ann = if self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.at(Kind::Colon)
+        {
+            Some(self.parse_ts_type_annotation()?)
+        } else {
+            None
+        };
+        #[cfg(not(feature = "typescript"))]
+        let type_ann = None;
         if (is_getter && !parameters.is_empty()) || (!is_getter && parameters.len() != 1) {
             return Err(self.expected_error(Kind::LBrace));
         }
@@ -268,7 +292,7 @@ impl<C: Config> Parser<'_, C> {
             Prop::Getter(GetterProp {
                 span,
                 key,
-                type_ann: None,
+                type_ann,
                 body: Some(body),
             })
         } else {

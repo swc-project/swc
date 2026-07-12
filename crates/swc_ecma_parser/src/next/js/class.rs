@@ -102,7 +102,10 @@ impl<C: Config> Parser<'_, C> {
 
         let mut body = Vec::with_capacity(32);
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
-            if self.eat(Kind::Semi) {
+            if self.at(Kind::Semi) {
+                let span = self.token().span();
+                self.advance();
+                body.push(ClassMember::Empty(swc_ecma_ast::EmptyStmt { span }));
                 continue;
             }
             body.push(self.with_context(
@@ -154,11 +157,14 @@ impl<C: Config> Parser<'_, C> {
                         | Kind::Declare
                         | Kind::Override
                         | Kind::Accessor
+                        | Kind::In
+                        | Kind::Out
                 ) || !self.lookahead(|parser| {
                     parser.advance();
                     !matches!(
                         parser.kind(),
                         Kind::LParen
+                            | Kind::Lt
                             | Kind::Colon
                             | Kind::QuestionMark
                             | Kind::Bang
@@ -180,6 +186,7 @@ impl<C: Config> Parser<'_, C> {
                     Kind::Declare => declare = true,
                     Kind::Override => is_override = true,
                     Kind::Accessor => is_auto_accessor = true,
+                    Kind::In | Kind::Out => {}
                     _ => unreachable!(),
                 }
             }
@@ -260,6 +267,26 @@ impl<C: Config> Parser<'_, C> {
             false
         };
         let is_generator = self.eat(Kind::Asterisk);
+        if self.context().contains(Context::TYPESCRIPT)
+            && self.at(Kind::Override)
+            && self.lookahead(|parser| {
+                parser.advance();
+                !matches!(
+                    parser.kind(),
+                    Kind::LParen
+                        | Kind::Lt
+                        | Kind::Colon
+                        | Kind::QuestionMark
+                        | Kind::Bang
+                        | Kind::Eq
+                        | Kind::Semi
+                        | Kind::RBrace
+                )
+            })
+        {
+            self.advance();
+            is_override = true;
+        }
         let method_kind = if !is_async && !is_generator && self.is_method_kind_prefix() {
             let kind = if self.at(Kind::Get) {
                 MethodKind::Getter

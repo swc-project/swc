@@ -94,11 +94,27 @@ impl<C: Config> Parser<'_, C> {
             Kind::Throw => self.parse_throw_statement(),
             Kind::Try => self.parse_try_statement(),
             #[cfg(feature = "typescript")]
-            Kind::Namespace | Kind::Module if self.context().contains(Context::TYPESCRIPT) => {
+            Kind::Namespace | Kind::Module
+                if self.context().contains(Context::TYPESCRIPT)
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        parser.at_identifier_name() || parser.at(Kind::Str)
+                    }) =>
+            {
                 self.parse_ts_module_declaration(false)
             }
             #[cfg(feature = "typescript")]
-            Kind::Type if self.context().contains(Context::TYPESCRIPT) => {
+            Kind::Global if self.context().contains(Context::TYPESCRIPT) => {
+                self.parse_ts_global_declaration(false)
+            }
+            #[cfg(feature = "typescript")]
+            Kind::Type
+                if self.context().contains(Context::TYPESCRIPT)
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        !parser.token().had_line_break() && parser.at_identifier_name()
+                    }) =>
+            {
                 self.parse_ts_type_alias_declaration()
             }
             #[cfg(feature = "typescript")]
@@ -582,6 +598,22 @@ impl<C: Config> Parser<'_, C> {
     fn parse_ts_declare_statement(&mut self) -> Result<Stmt, Error> {
         debug_assert!(self.eat(Kind::Declare));
         let abstract_class = self.eat(Kind::Abstract);
+        if self.at(Kind::Global) {
+            return self.parse_ts_global_declaration(true);
+        }
+        if self.at(Kind::Const)
+            && self.lookahead(|parser| {
+                parser.advance();
+                parser.at(Kind::Enum)
+            })
+        {
+            let mut statement = self.parse_ts_enum_declaration(true)?;
+            let Stmt::Decl(Decl::TsEnum(declaration)) = &mut statement else {
+                unreachable!("enum parser must produce an enum declaration")
+            };
+            declaration.declare = true;
+            return Ok(statement);
+        }
         let mut statement = match self.kind() {
             Kind::Var | Kind::Let | Kind::Const => self.parse_variable_statement()?,
             Kind::Function | Kind::Async => self.parse_function_declaration()?,
@@ -621,7 +653,24 @@ impl<C: Config> Parser<'_, C> {
         let mut declarations = Vec::with_capacity(4);
 
         loop {
-            let pattern = self.parse_binding_pattern(false)?;
+            let mut pattern = self.parse_binding_pattern(false)?;
+            #[cfg(feature = "typescript")]
+            let definite = if self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::Bang) {
+                if self.at(Kind::Colon) {
+                    let type_ann = self.parse_ts_type_annotation()?;
+                    match &mut pattern {
+                        swc_ecma_ast::Pat::Ident(pattern) => pattern.type_ann = Some(type_ann),
+                        swc_ecma_ast::Pat::Array(pattern) => pattern.type_ann = Some(type_ann),
+                        swc_ecma_ast::Pat::Object(pattern) => pattern.type_ann = Some(type_ann),
+                        _ => return Err(self.expected_error(Kind::Ident)),
+                    }
+                }
+                true
+            } else {
+                false
+            };
+            #[cfg(not(feature = "typescript"))]
+            let definite = false;
             let initializer = if self.eat(Kind::Eq) {
                 Some(self.parse_assignment_expression()?)
             } else {
@@ -634,7 +683,7 @@ impl<C: Config> Parser<'_, C> {
                 span: Span::new_with_checked(pattern.span().lo, end),
                 name: pattern,
                 init: initializer,
-                definite: false,
+                definite,
             });
             if !self.eat(Kind::Comma) {
                 break;

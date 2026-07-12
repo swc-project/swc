@@ -120,9 +120,12 @@ impl<C: Config> Parser<'_, C> {
                     right: assignment.right,
                 }))
             }
-            expression @ (Expr::Member(_) | Expr::SuperProp(_)) => {
-                Ok(Pat::Expr(Box::new(expression)))
-            }
+            expression @ (Expr::Member(_)
+            | Expr::SuperProp(_)
+            | Expr::TsNonNull(_)
+            | Expr::TsTypeAssertion(_)
+            | Expr::TsInstantiation(_)
+            | Expr::TsSatisfies(_)) => Ok(Pat::Expr(Box::new(expression))),
             _ => Err(Error::new(
                 span,
                 crate::error::SyntaxError::InvalidAssignTarget,

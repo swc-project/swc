@@ -11,4 +11,4 @@ mod object;
 mod operator;
 mod pattern;
 mod statement;
-mod template;
+pub(crate) mod template;

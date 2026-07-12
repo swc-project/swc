@@ -76,13 +76,58 @@ impl<C: Config> Parser<'_, C> {
                     }
                 }
                 #[cfg(feature = "typescript")]
-                Kind::Lt
+                Kind::Lt | Kind::LShift
                     if self
                         .context()
                         .contains(crate::next::parser::context::Context::TYPESCRIPT)
                         && allow_call
-                        && self.lookahead(|parser| parser.parse_ts_type_arguments().is_ok()) =>
+                        && self.lookahead(|parser| {
+                            if parser.at(Kind::LShift) {
+                                parser.re_lex_ts_left_angle();
+                            }
+                            if parser.parse_ts_type_arguments().is_err() {
+                                return false;
+                            }
+                            if matches!(
+                                parser.kind(),
+                                Kind::LParen
+                                    | Kind::NoSubstitutionTemplateLiteral
+                                    | Kind::TemplateHead
+                            ) {
+                                return true;
+                            }
+                            if matches!(
+                                parser.kind(),
+                                Kind::Lt
+                                    | Kind::Gt
+                                    | Kind::GtEq
+                                    | Kind::RShift
+                                    | Kind::Plus
+                                    | Kind::Minus
+                                    | Kind::LBracket
+                            ) {
+                                return false;
+                            }
+                            parser.token().had_line_break()
+                                || !matches!(
+                                    parser.kind(),
+                                    Kind::Ident
+                                        | Kind::This
+                                        | Kind::Num
+                                        | Kind::BigInt
+                                        | Kind::Str
+                                        | Kind::True
+                                        | Kind::False
+                                        | Kind::Null
+                                        | Kind::LBrace
+                                        | Kind::Class
+                                        | Kind::Function
+                                )
+                        }) =>
                 {
+                    if self.at(Kind::LShift) {
+                        self.re_lex_ts_left_angle();
+                    }
                     let start = expression.span().lo;
                     let type_args = self.parse_ts_type_arguments()?;
                     if allow_call && self.at(Kind::LParen) {
@@ -127,7 +172,8 @@ impl<C: Config> Parser<'_, C> {
                 Kind::Bang
                     if self
                         .context()
-                        .contains(crate::next::parser::context::Context::TYPESCRIPT) =>
+                        .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                        && !self.token().had_line_break() =>
                 {
                     let start = expression.span().lo;
                     self.advance();
@@ -280,9 +326,16 @@ impl<C: Config> Parser<'_, C> {
         let mut type_args = if self
             .context()
             .contains(crate::next::parser::context::Context::TYPESCRIPT)
-            && self.at(Kind::Lt)
-            && self.lookahead(|parser| parser.parse_ts_type_arguments().is_ok())
-        {
+            && matches!(self.kind(), Kind::Lt | Kind::LShift)
+            && self.lookahead(|parser| {
+                if parser.at(Kind::LShift) {
+                    parser.re_lex_ts_left_angle();
+                }
+                parser.parse_ts_type_arguments().is_ok()
+            }) {
+            if self.at(Kind::LShift) {
+                self.re_lex_ts_left_angle();
+            }
             Some(self.parse_ts_type_arguments()?)
         } else {
             None
@@ -310,6 +363,17 @@ impl<C: Config> Parser<'_, C> {
         } else {
             None
         };
+        #[cfg(feature = "typescript")]
+        if arguments.is_none() {
+            if let Some(type_args) = type_args.take() {
+                let callee_start = callee.span().lo;
+                callee = Box::new(Expr::TsInstantiation(TsInstantiation {
+                    span: Span::new_with_checked(callee_start, type_args.span.hi),
+                    expr: callee,
+                    type_args,
+                }));
+            }
+        }
         Ok(Box::new(Expr::New(NewExpr {
             span: Span::new_with_checked(start, self.previous_end()),
             ctxt: SyntaxContext::empty(),

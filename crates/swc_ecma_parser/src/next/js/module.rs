@@ -6,8 +6,9 @@ use swc_ecma_ast::{
     Decl, DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, Ident, ImportDecl,
     ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, Module,
-    ModuleDecl, ModuleExportName, ModuleItem, NamedExport, Stmt, Str, TsExportAssignment,
-    TsExternalModuleRef, TsImportEqualsDecl, TsModuleRef, TsNamespaceExportDecl,
+    ModuleDecl, ModuleExportName, ModuleItem, NamedExport, ObjectLit, Stmt, Str,
+    TsExportAssignment, TsExternalModuleRef, TsImportEqualsDecl, TsModuleRef,
+    TsNamespaceExportDecl,
 };
 
 use crate::{
@@ -25,6 +26,41 @@ impl<C: Config> Parser<'_, C> {
             body.push(match self.kind() {
                 Kind::Import => ModuleItem::ModuleDecl(self.parse_import_declaration()?),
                 Kind::Export => ModuleItem::ModuleDecl(self.parse_export_declaration()?),
+                Kind::At => {
+                    let start = self.token().start();
+                    let decorators = self.parse_decorators()?;
+                    if self.at(Kind::Export) {
+                        let mut declaration = self.parse_export_declaration()?;
+                        match &mut declaration {
+                            ModuleDecl::ExportDecl(ExportDecl {
+                                decl: Decl::Class(class),
+                                ..
+                            }) => {
+                                class.class.span =
+                                    Span::new_with_checked(start, class.class.span.hi);
+                                class.class.decorators = decorators;
+                            }
+                            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                                decl: DefaultDecl::Class(class),
+                                ..
+                            }) => {
+                                class.class.span =
+                                    Span::new_with_checked(start, class.class.span.hi);
+                                class.class.decorators = decorators;
+                            }
+                            _ => return Err(self.expected_error(Kind::Class)),
+                        }
+                        ModuleItem::ModuleDecl(declaration)
+                    } else {
+                        let mut statement = self.parse_statement()?;
+                        let Stmt::Decl(Decl::Class(class)) = &mut statement else {
+                            return Err(self.expected_error(Kind::Class));
+                        };
+                        class.class.span = Span::new_with_checked(start, class.class.span.hi);
+                        class.class.decorators = decorators;
+                        ModuleItem::Stmt(statement)
+                    }
+                }
                 _ => ModuleItem::Stmt(self.parse_statement()?),
             });
         }
@@ -57,7 +93,11 @@ impl<C: Config> Parser<'_, C> {
             && self.at(Kind::Type)
             && self.lookahead(|parser| {
                 parser.advance();
-                !matches!(parser.kind(), Kind::Comma | Kind::From | Kind::Eq)
+                if parser.at(Kind::From) {
+                    parser.advance();
+                    return parser.at(Kind::From);
+                }
+                !matches!(parser.kind(), Kind::Comma | Kind::Eq)
             });
         if type_only {
             self.advance();
@@ -65,13 +105,14 @@ impl<C: Config> Parser<'_, C> {
         let mut specifiers = Vec::with_capacity(4);
         if self.at(Kind::Str) {
             let source = self.parse_module_string()?;
+            let with = self.parse_import_attributes()?;
             self.consume_semicolon()?;
             return Ok(ModuleDecl::Import(ImportDecl {
                 span: Span::new_with_checked(start, self.previous_end()),
                 specifiers,
                 src: Box::new(source),
                 type_only,
-                with: None,
+                with,
                 phase: Default::default(),
             }));
         }
@@ -102,7 +143,19 @@ impl<C: Config> Parser<'_, C> {
                     && self.at(Kind::Type)
                     && self.lookahead(|parser| {
                         parser.advance();
-                        !matches!(parser.kind(), Kind::Comma | Kind::RBrace | Kind::As)
+                        if matches!(parser.kind(), Kind::Comma | Kind::RBrace) {
+                            return false;
+                        }
+                        if parser.eat(Kind::As) {
+                            if matches!(parser.kind(), Kind::Comma | Kind::RBrace) {
+                                return true;
+                            }
+                            if parser.eat(Kind::As) {
+                                return !matches!(parser.kind(), Kind::Comma | Kind::RBrace);
+                            }
+                            return false;
+                        }
+                        true
                     });
                 if is_type_only {
                     self.advance();
@@ -136,13 +189,14 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::From));
         }
         let source = self.parse_module_string()?;
+        let with = self.parse_import_attributes()?;
         self.consume_semicolon()?;
         Ok(ModuleDecl::Import(ImportDecl {
             span: Span::new_with_checked(start, self.previous_end()),
             specifiers,
             src: Box::new(source),
             type_only,
-            with: None,
+            with,
             phase: Default::default(),
         }))
     }
@@ -198,6 +252,7 @@ impl<C: Config> Parser<'_, C> {
                     return Err(self.expected_error(Kind::From));
                 }
                 let source = self.parse_module_string()?;
+                let with = self.parse_import_attributes()?;
                 self.consume_semicolon()?;
                 return Ok(ModuleDecl::ExportNamed(NamedExport {
                     span: Span::new_with_checked(start, self.previous_end()),
@@ -207,19 +262,20 @@ impl<C: Config> Parser<'_, C> {
                     })],
                     src: Some(Box::new(source)),
                     type_only,
-                    with: None,
+                    with,
                 }));
             }
             if !self.expect(Kind::From) {
                 return Err(self.expected_error(Kind::From));
             }
             let source = self.parse_module_string()?;
+            let with = self.parse_import_attributes()?;
             self.consume_semicolon()?;
             return Ok(ModuleDecl::ExportAll(ExportAll {
                 span: Span::new_with_checked(start, self.previous_end()),
                 src: Box::new(source),
                 type_only,
-                with: None,
+                with,
             }));
         }
         if self.eat(Kind::LBrace) {
@@ -350,7 +406,19 @@ impl<C: Config> Parser<'_, C> {
                 && self.at(Kind::Type)
                 && self.lookahead(|parser| {
                     parser.advance();
-                    !matches!(parser.kind(), Kind::Comma | Kind::RBrace | Kind::As)
+                    if matches!(parser.kind(), Kind::Comma | Kind::RBrace) {
+                        return false;
+                    }
+                    if parser.eat(Kind::As) {
+                        if matches!(parser.kind(), Kind::Comma | Kind::RBrace) {
+                            return true;
+                        }
+                        if parser.eat(Kind::As) {
+                            return !matches!(parser.kind(), Kind::Comma | Kind::RBrace);
+                        }
+                        return false;
+                    }
+                    true
                 });
             if is_type_only {
                 self.advance();
@@ -383,14 +451,35 @@ impl<C: Config> Parser<'_, C> {
         } else {
             None
         };
+        let with = self.parse_import_attributes()?;
         self.consume_semicolon()?;
         Ok(ModuleDecl::ExportNamed(NamedExport {
             span: Span::new_with_checked(start, self.previous_end()),
             specifiers,
             src: source,
             type_only,
-            with: None,
+            with,
         }))
+    }
+
+    fn parse_import_attributes(&mut self) -> Result<Option<Box<ObjectLit>>, Error> {
+        if !matches!(self.kind(), Kind::Assert | Kind::With)
+            || !self.lookahead(|parser| {
+                parser.advance();
+                parser.at(Kind::LBrace)
+            })
+        {
+            return Ok(None);
+        }
+        self.advance();
+        if !self.at(Kind::LBrace) {
+            return Err(self.expected_error(Kind::LBrace));
+        }
+        let expression = self.parse_object_literal()?;
+        let Expr::Object(attributes) = *expression else {
+            unreachable!("import attributes parser must produce an object")
+        };
+        Ok(Some(Box::new(attributes)))
     }
 
     fn parse_module_identifier(&mut self) -> Result<Ident, Error> {

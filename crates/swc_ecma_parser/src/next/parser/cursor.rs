@@ -66,6 +66,12 @@ impl<'a, C: Config> Parser<'a, C> {
         self.lexer.token_source(token)
     }
 
+    /// Borrow source text between two token boundaries.
+    #[inline(always)]
+    pub(crate) fn source_slice(&self, start: BytePos, end: BytePos) -> &'a str {
+        self.lexer.source_slice(start, end)
+    }
+
     /// Return an identifier's semantic value, decoding only escaped tokens.
     #[inline]
     pub(crate) fn identifier_atom(&self, token: PackedToken) -> Atom {
@@ -116,6 +122,21 @@ impl<'a, C: Config> Parser<'a, C> {
     #[inline]
     pub(crate) fn re_lex_ts_right_angle(&mut self) -> PackedToken {
         self.token = self.lexer.re_lex_ts_right_angle();
+        self.token
+    }
+
+    /// Split a left-shift token so nested generic syntax can consume one
+    /// opening angle without changing ordinary shift expressions.
+    #[inline]
+    pub(crate) fn re_lex_ts_left_angle(&mut self) -> PackedToken {
+        self.token = self.lexer.re_lex_ts_left_angle();
+        self.token
+    }
+
+    /// Reinterpret the current token as a multiline JSX attribute string.
+    #[inline]
+    pub(crate) fn re_lex_jsx_attribute_string(&mut self) -> PackedToken {
+        self.token = self.lexer.re_lex_jsx_attribute_string();
         self.token
     }
 
