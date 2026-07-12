@@ -11,13 +11,12 @@ use std::{
 use anyhow::Result;
 use par_iter::prelude::*;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap, GLOBALS};
-use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
-use swc_ecma_parser::parse_file_as_module;
+use swc_ecma_parser::{attach_comments, Parser, SourceType};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     resolver,
@@ -94,21 +93,28 @@ fn minify_all(files: &[PathBuf]) {
 
                 let comments = SingleThreadedComments::default();
 
-                let Ok(program) = parse_file_as_module(
-                    &fm,
-                    Default::default(),
-                    Default::default(),
-                    Some(&comments),
-                    &mut Vec::new(),
-                )
-                .map_err(|err| {
-                    err.into_diagnostic(handler).emit();
-                })
-                .map(Program::Module)
-                .map(|module| module.apply(&mut resolver(unresolved_mark, top_level_mark, false)))
-                .map(|module| module.apply(&mut paren_remover(None))) else {
+                let mut result = Parser::new(&fm.src, SourceType::module())
+                    .with_start_pos(fm.start_pos)
+                    .with_tokens()
+                    .parse();
+                attach_comments(
+                    &fm.src,
+                    fm.start_pos,
+                    &comments,
+                    std::mem::take(&mut result.comments),
+                    &result.tokens,
+                    &result.program,
+                );
+                for error in result.diagnostics {
+                    error.into_diagnostic(handler).emit();
+                }
+                if handler.has_errors() {
                     return Ok(());
-                };
+                }
+                let program = result
+                    .program
+                    .apply(&mut resolver(unresolved_mark, top_level_mark, false))
+                    .apply(&mut paren_remover(None));
 
                 let output = optimize(
                     program,

@@ -11,8 +11,10 @@ use swc_ecma_ast::{Tpl, TplElement};
 
 use crate::{
     error::{Error, SyntaxError},
-    next::lexer::TokenKind as Kind,
-    next::{lexer::config::Config, parser::cursor::Parser},
+    next::{
+        lexer::{config::Config, TokenKind as Kind},
+        parser::cursor::Parser,
+    },
 };
 
 impl<C: Config> Parser<'_, C> {

@@ -11,7 +11,9 @@ use std::{env, path::Path};
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter, Node};
-use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
+use swc_ecma_parser::{
+    attach_comments, EsSyntax, ModuleKind, Parser, SourceType as ParserSourceType, Syntax, TsSyntax,
+};
 use swc_ecma_react_compiler::{
     default_plugin_options,
     diagnostics::{DiagnosticMessage, Severity},
@@ -62,28 +64,34 @@ fn parse_program(
         source_text.to_string(),
     );
     let comments = SingleThreadedComments::default();
-    let mut errors = Vec::new();
     let syntax = syntax_for_path(path);
     let is_typescript = syntax.typescript();
-    let program = parse_file_as_program(
-        &fm,
-        syntax,
-        EsVersion::latest(),
-        Some(&comments),
-        &mut errors,
+    let (parser_source_type, options) =
+        ParserSourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+    let mut result = Parser::new(&fm.src, parser_source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .with_tokens()
+        .parse();
+    attach_comments(
+        &fm.src,
+        fm.start_pos,
+        &comments,
+        std::mem::take(&mut result.comments),
+        &result.tokens,
+        &result.program,
     );
 
-    if !errors.is_empty() {
+    if !result.diagnostics.is_empty() {
         let mut message = String::from("failed to parse input:");
-        for error in errors {
+        for error in result.diagnostics {
             message.push('\n');
             message.push_str(&error.kind().msg());
         }
         return Err(message);
     }
 
-    let program =
-        program.map_err(|error| format!("failed to parse input: {}", error.kind().msg()))?;
+    let program = result.program;
     let source_type = SourceType::from_program(&program).with_typescript(is_typescript);
     Ok((program, comments, source_type))
 }

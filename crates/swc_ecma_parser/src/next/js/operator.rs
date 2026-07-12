@@ -7,9 +7,8 @@ use swc_ecma_ast::{TsAsExpr, TsConstAssertion, TsSatisfiesExpr};
 
 use crate::{
     error::Error,
-    next::lexer::TokenKind as Kind,
     next::{
-        lexer::config::Config,
+        lexer::{config::Config, TokenKind as Kind},
         parser::{context::Context, cursor::Parser},
     },
 };

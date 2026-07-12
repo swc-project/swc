@@ -12,13 +12,24 @@ use swc_common::{
     errors::HANDLER,
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
     sync::Lazy,
-    FileName, Mark,
+    FileName, Mark, SourceFile,
 };
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
-use swc_ecma_parser::{parse_file_as_program, Syntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_plugin_runner::{plugin_module_bytes::CompiledPluginModuleBytes, runtime::Runtime};
 use testing::CARGO_TARGET_DIR;
+
+fn parse_program(fm: &SourceFile, syntax: Syntax) -> Program {
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    assert!(result.diagnostics.is_empty());
+    result.program
+}
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -82,14 +93,7 @@ fn internal(rt: Arc<dyn Runtime>, module: &'static CompiledPluginModuleBytes) {
 
         let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
-        let program = parse_file_as_program(
-            &fm,
-            Syntax::Es(Default::default()),
-            EsVersion::latest(),
-            None,
-            &mut Vec::new(),
-        )
-        .unwrap();
+        let program = parse_program(&fm, Syntax::Es(Default::default()));
 
         let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
             .expect("Should serializable");
@@ -154,14 +158,7 @@ fn internal(rt: Arc<dyn Runtime>, module: &'static CompiledPluginModuleBytes) {
         eprintln!("Second run start");
         let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
-        let program = parse_file_as_program(
-            &fm,
-            Syntax::Es(Default::default()),
-            EsVersion::latest(),
-            None,
-            &mut Vec::new(),
-        )
-        .unwrap();
+        let program = parse_program(&fm, Syntax::Es(Default::default()));
 
         let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
             .expect("Should serializable");

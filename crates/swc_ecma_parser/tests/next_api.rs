@@ -1,8 +1,6 @@
 use swc_common::{comments::SingleThreadedComments, BytePos, Spanned};
 use swc_ecma_ast::{Decl, ModuleDecl, ModuleItem, Program, Stmt};
-use swc_ecma_parser::{
-    attach_comments, ParseOptions, Parser, ParserReturn, SourceType,
-};
+use swc_ecma_parser::{attach_comments, ParseOptions, Parser, ParserReturn, SourceType};
 
 #[test]
 fn javascript_builds_direct_module_ast() {
@@ -90,7 +88,10 @@ fn typescript_builds_direct_ast() {
     let Program::Module(module) = parsed.program else {
         panic!("export must select a module")
     };
-    assert!(matches!(module.body.first(), Some(ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(_))))));
+    assert!(matches!(
+        module.body.first(),
+        Some(ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(_))))
+    ));
 }
 
 #[cfg(feature = "typescript")]

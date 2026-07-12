@@ -23,10 +23,10 @@ fn main() {
         let fm = cm.load_file(entry.path()).unwrap();
 
         let syntax = Syntax::Typescript(TsSyntax {
-                no_early_errors: true,
-                tsx: entry.path().to_string_lossy().ends_with(".tsx"),
-                ..Default::default()
-            });
+            no_early_errors: true,
+            tsx: entry.path().to_string_lossy().ends_with(".tsx"),
+            ..Default::default()
+        });
         let (source_type, options) =
             SourceType::from_legacy(syntax, ModuleKind::Module, Default::default());
         let result = Parser::new(&fm.src, source_type)

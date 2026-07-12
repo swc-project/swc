@@ -59,8 +59,7 @@ fn parse_program(
         })
     };
 
-    let (source_type, options) =
-        SourceType::from_legacy(syntax, module_kind, EsVersion::Es2015);
+    let (source_type, options) = SourceType::from_legacy(syntax, module_kind, EsVersion::Es2015);
     let result = Parser::new(&fm.src, source_type)
         .with_options(options)
         .with_start_pos(fm.start_pos)

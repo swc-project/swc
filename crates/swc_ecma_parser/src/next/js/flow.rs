@@ -10,9 +10,8 @@ use swc_ecma_ast::{
 
 use crate::{
     error::Error,
-    next::lexer::TokenKind as Kind,
     next::{
-        lexer::config::Config,
+        lexer::{config::Config, TokenKind as Kind},
         parser::{context::Context, cursor::Parser},
     },
 };

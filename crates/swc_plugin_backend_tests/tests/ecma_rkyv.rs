@@ -11,13 +11,24 @@ use serde_json::json;
 use swc_common::{
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
     sync::Lazy,
-    FileName, Mark,
+    FileName, Mark, SourceFile,
 };
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_plugin_runner::{plugin_module_bytes::CompiledPluginModuleBytes, runtime::Runtime};
 use testing::CARGO_TARGET_DIR;
 use tracing::info;
+
+fn parse_program(fm: &SourceFile, syntax: Syntax) -> Program {
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    assert!(result.diagnostics.is_empty());
+    result.program
+}
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -56,17 +67,13 @@ fn internal(input: PathBuf, rt: Arc<dyn Runtime>, module: &'static CompiledPlugi
         testing::run_test(false, |cm, _handler| {
             let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
-            let parsed = parse_file_as_program(
+            let parsed = parse_program(
                 &fm,
                 Syntax::Typescript(TsSyntax {
                     tsx: input.to_string_lossy().ends_with(".tsx"),
                     ..Default::default()
                 }),
-                EsVersion::latest(),
-                None,
-                &mut Vec::new(),
-            )
-            .unwrap();
+            );
 
             let program = PluginSerializedBytes::try_serialize(
                 &swc_common::plugin::serialized::VersionedSerializable::new(parsed.clone()),
@@ -117,14 +124,7 @@ fn internal(input: PathBuf, rt: Arc<dyn Runtime>, module: &'static CompiledPlugi
         testing::run_test(false, |cm, _handler| {
             let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
-            let parsed = parse_file_as_program(
-                &fm,
-                Syntax::Es(Default::default()),
-                EsVersion::latest(),
-                None,
-                &mut Vec::new(),
-            )
-            .unwrap();
+            let parsed = parse_program(&fm, Syntax::Es(Default::default()));
 
             let mut serialized_program = PluginSerializedBytes::try_serialize(
                 &swc_common::plugin::serialized::VersionedSerializable::new(parsed.clone()),

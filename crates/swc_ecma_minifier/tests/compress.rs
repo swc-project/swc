@@ -18,10 +18,9 @@ use serde::Deserialize;
 use swc_common::{
     comments::{Comments, SingleThreadedComments},
     errors::{Handler, HANDLER},
-    input::SourceFileInput,
     sync::Lrc,
     util::take::Take,
-    EqIgnoreSpan, FileName, Mark, SourceMap,
+    EqIgnoreSpan, FileName, Mark, SourceFile, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
@@ -35,7 +34,7 @@ use swc_ecma_minifier::{
         MinifyOptions, TopLevelOptions,
     },
 };
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, Syntax};
+use swc_ecma_parser::{attach_comments, EsSyntax, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
@@ -45,6 +44,46 @@ use swc_ecma_transforms_base::{
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 use testing::{assert_eq, unignore_fixture, DebugUsingDisplay, NormalizedOutput};
+
+fn parse_program(
+    fm: &SourceFile,
+    syntax: Syntax,
+    comments: Option<&dyn Comments>,
+    handler: &Handler,
+) -> Result<Program, ()> {
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+    let mut result = if comments.is_some() {
+        Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse()
+    } else {
+        Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .parse()
+    };
+    if let Some(comments) = comments {
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+    }
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
+    }
+    if handler.has_errors() {
+        Err(())
+    } else {
+        Ok(result.program)
+    }
+}
 
 fn load_txt(filename: &str) -> Vec<String> {
     let lines = read_to_string(filename).unwrap();
@@ -179,28 +218,21 @@ fn run(
 
         let minification_start = Instant::now();
 
-        let lexer = Lexer::new(
+        let program = parse_program(
+            &fm,
             Syntax::Es(EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
-            Default::default(),
-            SourceFileInput::from(&*fm),
             Some(&comments),
-        );
+            handler,
+        )
+        .map(|mut program| {
+            program.visit_mut_with(&mut paren_remover(Some(&comments)));
+            program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-        let mut parser = Parser::new_from(lexer);
-        let program = parser
-            .parse_program()
-            .map_err(|err| {
-                err.into_diagnostic(handler).emit();
-            })
-            .map(|mut program| {
-                program.visit_mut_with(&mut paren_remover(Some(&comments)));
-                program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
-
-                program
-            });
+            program
+        });
 
         // Ignore parser errors.
         //
@@ -526,16 +558,7 @@ fn fixture(input: PathBuf) {
         let expected = {
             let expected = read_to_string(dir.join("output.js")).unwrap();
             let fm = cm.new_source_file(FileName::Custom("expected.js".into()).into(), expected);
-            let lexer = Lexer::new(
-                Default::default(),
-                Default::default(),
-                SourceFileInput::from(&*fm),
-                None,
-            );
-            let mut parser = Parser::new_from(lexer);
-            let expected = parser.parse_program().map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })?;
+            let expected = parse_program(&fm, Default::default(), None, &handler)?;
             let mut expected = expected.apply(&mut fixer(None));
             expected = drop_span(expected);
 
@@ -579,19 +602,7 @@ fn fixture(input: PathBuf) {
                 let expected = {
                     let expected = read_to_string(dir.join("output.terser.js")).ok()?;
                     let fm = cm.new_source_file(FileName::Anon.into(), expected);
-                    let lexer = Lexer::new(
-                        Default::default(),
-                        Default::default(),
-                        SourceFileInput::from(&*fm),
-                        None,
-                    );
-                    let mut parser = Parser::new_from(lexer);
-                    let expected = parser
-                        .parse_program()
-                        .map_err(|err| {
-                            err.into_diagnostic(&handler).emit();
-                        })
-                        .ok()?;
+                    let expected = parse_program(&fm, Default::default(), None, &handler).ok()?;
                     let mut expected = expected.apply(fixer(None));
                     expected = drop_span(expected);
                     match &mut expected {

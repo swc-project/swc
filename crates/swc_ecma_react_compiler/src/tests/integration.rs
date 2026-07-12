@@ -12,7 +12,7 @@ use react_compiler_ast::{
 use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::Node;
-use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, EsSyntax, Syntax};
+use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType as ParserSourceType, Syntax};
 
 use crate::{
     convert_ast::convert_program,
@@ -42,56 +42,55 @@ fn assert_file_serializes_to_json(file: &File) {
         .is_some());
 }
 
-fn parse_program(source: &str) -> swc_ecma_ast::Program {
+fn parse(source: &str, syntax: Syntax, module_kind: ModuleKind) -> swc_ecma_ast::Program {
     let cm = Lrc::new(SourceMap::default());
     let fm = cm.new_source_file(Lrc::new(FileName::Anon), source.to_string());
-    let mut errors = vec![];
-    parse_file_as_program(
-        &fm,
+    let (source_type, options) =
+        ParserSourceType::from_legacy(syntax, module_kind, EsVersion::latest());
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    assert!(result.diagnostics.is_empty(), "Failed to parse");
+    result.program
+}
+
+fn parse_program(source: &str) -> swc_ecma_ast::Program {
+    parse(
+        source,
         Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
         }),
-        EsVersion::latest(),
-        None,
-        &mut errors,
+        ModuleKind::Unambiguous,
     )
-    .expect("Failed to parse")
 }
 
 fn parse_program_with_resource_management(source: &str) -> swc_ecma_ast::Program {
-    let cm = Lrc::new(SourceMap::default());
-    let fm = cm.new_source_file(Lrc::new(FileName::Anon), source.to_string());
-    let mut errors = vec![];
-    parse_file_as_program(
-        &fm,
+    parse(
+        source,
         Syntax::Es(EsSyntax {
             jsx: true,
             explicit_resource_management: true,
             ..Default::default()
         }),
-        EsVersion::latest(),
-        None,
-        &mut errors,
+        ModuleKind::Unambiguous,
     )
-    .expect("Failed to parse")
 }
 
 fn parse_module(source: &str) -> swc_ecma_ast::Module {
-    let cm = Lrc::new(SourceMap::default());
-    let fm = cm.new_source_file(Lrc::new(FileName::Anon), source.to_string());
-    let mut errors = vec![];
-    parse_file_as_module(
-        &fm,
+    let program = parse(
+        source,
         Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
         }),
-        EsVersion::latest(),
-        None,
-        &mut errors,
-    )
-    .expect("Failed to parse")
+        ModuleKind::Module,
+    );
+    let swc_ecma_ast::Program::Module(module) = program else {
+        unreachable!("module source type must produce a module")
+    };
+    module
 }
 
 fn source_pos(source: &str, needle: &str) -> u32 {
@@ -111,17 +110,11 @@ fn binding_id_at(info: &ScopeInfo, source: &str, name: &str, needle: &str) -> Bi
 }
 
 fn parse_ts_program(source: &str) -> swc_ecma_ast::Program {
-    let cm = Lrc::new(SourceMap::default());
-    let fm = cm.new_source_file(Lrc::new(FileName::Anon), source.to_string());
-    let mut errors = vec![];
-    parse_file_as_program(
-        &fm,
+    parse(
+        source,
         Syntax::Typescript(Default::default()),
-        EsVersion::latest(),
-        None,
-        &mut errors,
+        ModuleKind::Unambiguous,
     )
-    .expect("Failed to parse")
 }
 
 fn default_options() -> PluginOptions {
@@ -1740,17 +1733,11 @@ fn parse_ts_module(source: &str) -> swc_ecma_ast::Module {
         tsx: true,
         ..Default::default()
     };
-    let cm = Lrc::new(SourceMap::default());
-    let fm = cm.new_source_file(Lrc::new(FileName::Anon), source.to_string());
-    let mut errors = vec![];
-    parse_file_as_module(
-        &fm,
-        Syntax::Typescript(syntax),
-        EsVersion::latest(),
-        None,
-        &mut errors,
-    )
-    .expect("Failed to parse")
+    let program = parse(source, Syntax::Typescript(syntax), ModuleKind::Module);
+    let swc_ecma_ast::Program::Module(module) = program else {
+        unreachable!("module source type must produce a module")
+    };
+    module
 }
 
 fn convert_ts_source(source: &str) -> crate::convert_ast::ConvertResult {

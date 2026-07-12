@@ -16,9 +16,8 @@ use serde::Deserialize;
 use swc_common::{
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
-    input::SourceFileInput,
     sync::Lrc,
-    Mark, SourceMap,
+    Mark, SourceFile, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
@@ -29,7 +28,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MinifyOptions},
 };
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, LegacyParser as Parser, Syntax};
+use swc_ecma_parser::{attach_comments, EsSyntax, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     hygiene::hygiene,
@@ -37,6 +36,37 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_visit::VisitMutWith;
 use testing::assert_eq;
+
+fn parse_program(
+    fm: &SourceFile,
+    syntax: Syntax,
+    comments: &SingleThreadedComments,
+    handler: &Handler,
+) -> Result<Program, ()> {
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+    let mut result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .with_tokens()
+        .parse();
+    attach_comments(
+        &fm.src,
+        fm.start_pos,
+        comments,
+        std::mem::take(&mut result.comments),
+        &result.tokens,
+        &result.program,
+    );
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
+    }
+    if handler.has_errors() {
+        Err(())
+    } else {
+        Ok(result.program)
+    }
+}
 
 #[testing::fixture(
     "tests/terser/compress/**/input.js",
@@ -189,28 +219,21 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
 
         let minification_start = Instant::now();
 
-        let lexer = Lexer::new(
+        let program = parse_program(
+            &fm,
             Syntax::Es(EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
-            Default::default(),
-            SourceFileInput::from(&*fm),
-            Some(&comments),
-        );
+            &comments,
+            handler,
+        )
+        .map(|mut program| {
+            program.visit_mut_with(&mut paren_remover(Some(&comments)));
+            program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-        let mut parser = Parser::new_from(lexer);
-        let program = parser
-            .parse_program()
-            .map_err(|err| {
-                err.into_diagnostic(handler).emit();
-            })
-            .map(|mut program| {
-                program.visit_mut_with(&mut paren_remover(Some(&comments)));
-                program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
-
-                program
-            });
+            program
+        });
 
         // Ignore parser errors.
         //

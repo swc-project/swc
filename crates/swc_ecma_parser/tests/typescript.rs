@@ -261,13 +261,13 @@ where
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
         let syntax = Syntax::Typescript(TsSyntax {
-                dts: fname.ends_with(".d.ts"),
-                tsx: fname.contains("tsx"),
-                decorators: true,
-                no_early_errors,
-                disallow_ambiguous_jsx_like: fname.contains("cts") || fname.contains("mts"),
-                ..Default::default()
-            });
+            dts: fname.ends_with(".d.ts"),
+            tsx: fname.contains("tsx"),
+            decorators: true,
+            no_early_errors,
+            disallow_ambiguous_jsx_like: fname.contains("cts") || fname.contains("mts"),
+            ..Default::default()
+        });
         let module_kind = if module_only {
             ModuleKind::Module
         } else {

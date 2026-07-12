@@ -310,8 +310,7 @@ impl TerserCompressorOptions {
                 .into_iter()
                 .map(|(k, v)| {
                     let parse = |input: String| {
-                        parse_config_expression(&cm, input)
-                        .unwrap_or_else(|err| {
+                        parse_config_expression(&cm, input).unwrap_or_else(|err| {
                             panic!("failed to parse `global_defs.{k}` of minifier options: {err:?}")
                         })
                     };
@@ -414,8 +413,7 @@ impl TerserCompressorOptions {
                 .pure_funcs
                 .into_iter()
                 .map(|input| {
-                    parse_config_expression(&cm, input)
-                    .unwrap_or_else(|err| {
+                    parse_config_expression(&cm, input).unwrap_or_else(|err| {
                         panic!("failed to parse `pure_funcs` of minifier options: {err:?}")
                     })
                 })

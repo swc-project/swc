@@ -12,13 +12,21 @@ use swc_common::{
         metadata::TransformPluginMetadataContext,
         serialized::{PluginSerializedBytes, VersionedSerializable},
     },
-    FileName, FilePathMapping, Globals, Mark, SourceMap, GLOBALS,
+    FileName, FilePathMapping, Globals, Mark, SourceFile, SourceMap, GLOBALS,
 };
-use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::parse_file_as_program;
+use swc_ecma_ast::Program;
+use swc_ecma_parser::{Parser, SourceType};
 use swc_plugin_runner::runtime::Runtime;
 
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
+
+fn parse_program(fm: &SourceFile) -> Program {
+    let result = Parser::new(&fm.src, SourceType::unambiguous())
+        .with_start_pos(fm.start_pos)
+        .parse();
+    assert!(result.diagnostics.is_empty());
+    result.program
+}
 
 fn plugin_group(c: &mut Criterion) {
     let plugin_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -83,14 +91,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path, runtime: Arc<dyn Runtime>
                     SOURCE.to_string(),
                 );
 
-                let program = parse_file_as_program(
-                    &fm,
-                    Default::default(),
-                    EsVersion::latest(),
-                    None,
-                    &mut Vec::new(),
-                )
-                .unwrap();
+                let program = parse_program(&fm);
 
                 let program = VersionedSerializable::new(program);
                 let program_ser = PluginSerializedBytes::try_serialize(&program).unwrap();

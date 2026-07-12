@@ -1019,9 +1019,9 @@ mod tests {
     use swc_common::BytePos;
 
     use super::Lexer;
-    use crate::{
-        next::lexer::TokenKind as Kind,
-        next::lexer::config::{NoTokens, WithTokens},
+    use crate::next::lexer::{
+        config::{NoTokens, WithTokens},
+        TokenKind as Kind,
     };
 
     #[test]

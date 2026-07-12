@@ -69,15 +69,15 @@ fn bench_files(c: &mut Criterion) {
     });
 
     c.bench_function("es/parser/yui", |b| {
-        bench_module(b, SourceType::module(), include_str!("./files/yui-3.12.0.js"))
+        bench_module(
+            b,
+            SourceType::module(),
+            include_str!("./files/yui-3.12.0.js"),
+        )
     });
 
     c.bench_function("es/parser/cal-com", |b| {
-        bench_module(
-            b,
-            SourceType::tsx(),
-            include_str!("./files/cal.com.tsx"),
-        )
+        bench_module(b, SourceType::tsx(), include_str!("./files/cal.com.tsx"))
     });
 
     c.bench_function("es/parser/typescript", |b| {

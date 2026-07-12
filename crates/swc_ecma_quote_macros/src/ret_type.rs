@@ -36,7 +36,8 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
                 "Expr" => return parse_expression(input_str),
                 "Pat" => return parse_pattern(input_str),
                 "Stmt" => {
-                    let Program::Script(mut script) = parse_program(input_str, SourceType::script())?
+                    let Program::Script(mut script) =
+                        parse_program(input_str, SourceType::script())?
                     else {
                         unreachable!("script source type must produce a script")
                     };
@@ -48,8 +49,8 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
                 }
                 "AssignTarget" => {
                     let pattern = parse_pattern_node(input_str)?;
-                    let target = AssignTarget::try_from(pattern)
-                        .expect("failed to parse AssignTarget");
+                    let target =
+                        AssignTarget::try_from(pattern).expect("failed to parse AssignTarget");
                     return Ok(BoxWrapper(Box::new(target)));
                 }
                 "ModuleItem" => {

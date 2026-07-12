@@ -13,7 +13,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
-use swc_ecma_parser::parse_file_as_program;
+use swc_ecma_parser::{attach_comments, Parser, SourceType};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_utils::parallel::{Parallel, ParallelExt};
 use testing::NormalizedOutput;
@@ -138,19 +138,27 @@ fn run(src: &str) -> FileSize {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        let Ok(program) = parse_file_as_program(
-            &fm,
-            Default::default(),
-            Default::default(),
-            Some(&comments),
-            &mut Vec::new(),
-        )
-        .map_err(|err| {
-            err.into_diagnostic(&handler).emit();
-        })
-        .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, false))) else {
+        let mut result = Parser::new(&fm.src, SourceType::unambiguous())
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            &comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+        for error in result.diagnostics {
+            error.into_diagnostic(&handler).emit();
+        }
+        if handler.has_errors() {
             panic!("Failed to parse");
-        };
+        }
+        let program = result
+            .program
+            .apply(resolver(unresolved_mark, top_level_mark, false));
 
         let output = optimize(
             program,

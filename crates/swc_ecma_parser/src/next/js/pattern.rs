@@ -11,8 +11,10 @@ use swc_ecma_ast::{
 use crate::next::parser::context::Context;
 use crate::{
     error::Error,
-    next::lexer::TokenKind as Kind,
-    next::{lexer::config::Config, parser::cursor::Parser},
+    next::{
+        lexer::{config::Config, TokenKind as Kind},
+        parser::cursor::Parser,
+    },
 };
 
 impl<C: Config> Parser<'_, C> {

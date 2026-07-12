@@ -209,9 +209,9 @@ fn hermes_flow_error_presence_parity() {
             Ok(result) => {
                 if result.panicked {
                     if let Some(err) = result.diagnostics.last() {
-                    fatal_error_kind = Some(format!("{:?}", err.kind()));
-                    let span = err.span();
-                    fatal_error_span = Some((span.lo.0, span.hi.0));
+                        fatal_error_kind = Some(format!("{:?}", err.kind()));
+                        let span = err.span();
+                        fatal_error_span = Some((span.lo.0, span.hi.0));
                     }
                 }
                 recovered = result.diagnostics;

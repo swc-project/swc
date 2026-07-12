@@ -5,7 +5,7 @@ use swc_ecma_codegen::{
     Config, Emitter,
 };
 use swc_ecma_minifier::{optimize, option::ExtraOptions};
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use testing::NormalizedOutput;
 
 fn print(cm: Lrc<SourceMap>, m: &Module, config: Config) -> String {
@@ -35,14 +35,13 @@ fn assert_format(src: &str, expected: &str, opts: Config) {
     testing::run_test2(false, |cm, _| {
         let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
 
-        let program = parse_file_as_module(
-            &fm,
-            Syntax::Es(Default::default()),
-            Default::default(),
-            None,
-            &mut Vec::new(),
-        )
-        .unwrap();
+        let result = Parser::new(&fm.src, SourceType::module())
+            .with_start_pos(fm.start_pos)
+            .parse();
+        assert!(result.diagnostics.is_empty());
+        let Program::Module(program) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();

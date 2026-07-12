@@ -252,7 +252,6 @@ pub enum TokenKind {
     Eof,
 }
 
-
 impl TokenKind {
     #[inline(always)]
     pub const fn is_keyword(self) -> bool {

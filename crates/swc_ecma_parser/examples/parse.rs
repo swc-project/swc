@@ -5,9 +5,7 @@ use swc_common::{
     sync::Lrc,
     SourceMap,
 };
-use swc_ecma_parser::{
-    EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax,
-};
+use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();

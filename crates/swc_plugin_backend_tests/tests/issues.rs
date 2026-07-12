@@ -10,13 +10,24 @@ use rustc_hash::FxHashMap;
 use serde_json::json;
 use swc_common::{
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
-    Mark,
+    Mark, SourceFile,
 };
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::{parse_file_as_program, Syntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax};
 use swc_plugin_backend_wasmer::WasmerRuntime;
 use swc_plugin_runner::runtime::Runtime;
 use testing::CARGO_TARGET_DIR;
+
+fn parse_program(fm: &SourceFile, syntax: Syntax) -> Program {
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    assert!(result.diagnostics.is_empty());
+    result.program
+}
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path, crate_name: &str) -> Result<PathBuf, Error> {
@@ -70,14 +81,7 @@ fn issue_6404() -> Result<(), Error> {
                 .load_file("../swc_ecma_minifier/benches/full/typescript.js".as_ref())
                 .unwrap();
 
-            let program = parse_file_as_program(
-                &fm,
-                Syntax::Es(Default::default()),
-                EsVersion::latest(),
-                None,
-                &mut Vec::new(),
-            )
-            .unwrap();
+            let program = parse_program(&fm, Syntax::Es(Default::default()));
 
             let program =
                 PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))

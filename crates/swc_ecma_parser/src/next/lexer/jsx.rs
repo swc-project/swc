@@ -91,10 +91,7 @@ impl<C: Config> Lexer<'_, C> {
 mod tests {
     use swc_common::BytePos;
 
-    use crate::{
-        next::lexer::TokenKind as Kind,
-        next::lexer::{config::NoTokens, core::Lexer},
-    };
+    use crate::next::lexer::{config::NoTokens, core::Lexer, TokenKind as Kind};
 
     #[test]
     fn keeps_jsx_child_whitespace_in_text() {

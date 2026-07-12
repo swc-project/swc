@@ -1,17 +1,49 @@
 #![deny(warnings)]
 
 use swc_atoms::{wtf8::Wtf8, Atom};
-use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
+use swc_common::{sync::Lrc, BytePos, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_minifier::{
     eval::{EvalResult, Evaluator},
     marks::Marks,
 };
-use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsSyntax, Syntax};
+use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
+
+fn parse_module(fm: &SourceFile, syntax: Syntax) -> Module {
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, ModuleKind::Module, EsVersion::latest());
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    assert!(result.diagnostics.is_empty());
+    let Program::Module(module) = result.program else {
+        unreachable!("module source type must produce a module")
+    };
+    module
+}
+
+fn parse_expr(fm: &SourceFile) -> Box<Expr> {
+    let wrapped = format!("({})", fm.src);
+    let result = Parser::new(&wrapped, SourceType::script())
+        .with_start_pos(BytePos(fm.start_pos.0.saturating_sub(1)))
+        .parse();
+    assert!(result.diagnostics.is_empty());
+    let Program::Script(mut script) = result.program else {
+        unreachable!("script source type must produce a script")
+    };
+    let Some(Stmt::Expr(statement)) = script.body.pop() else {
+        panic!("input is not an expression")
+    };
+    let Expr::Paren(parenthesized) = *statement.expr else {
+        unreachable!("wrapped expression must remain parenthesized")
+    };
+    parenthesized.expr
+}
 
 fn convert_wtf8_to_raw(s: &Wtf8) -> String {
     let mut result = String::new();
@@ -33,25 +65,11 @@ fn eval(module: &str, expr: &str) -> Option<String> {
         let fm = cm.new_source_file(FileName::Anon.into(), module.to_string());
         let marks = Marks::new();
 
-        let module_ast = parse_file_as_module(
-            &fm,
-            Default::default(),
-            EsVersion::latest(),
-            None,
-            &mut Vec::new(),
-        )
-        .unwrap();
+        let module_ast = parse_module(&fm, Default::default());
 
         let expr_ast = {
             let fm = cm.new_source_file(FileName::Anon.into(), expr.to_string());
-            parse_file_as_expr(
-                &fm,
-                Default::default(),
-                EsVersion::latest(),
-                None,
-                &mut Vec::new(),
-            )
-            .unwrap()
+            parse_expr(&fm)
         };
 
         let mut evaluator = Evaluator::new(module_ast, marks);
@@ -121,17 +139,13 @@ impl PartialInliner {
             let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
             let marks = Marks::new();
 
-            let mut module = parse_file_as_module(
+            let mut module = parse_module(
                 &fm,
                 Syntax::Es(EsSyntax {
                     jsx: true,
                     ..Default::default()
                 }),
-                EsVersion::latest(),
-                None,
-                &mut Vec::new(),
-            )
-            .unwrap();
+            );
             module.visit_mut_with(&mut resolver(Mark::new(), Mark::new(), false));
 
             let mut inliner = PartialInliner {
@@ -154,17 +168,13 @@ impl PartialInliner {
             let expected_module = {
                 let fm = cm.new_source_file(FileName::Anon.into(), expected.to_string());
 
-                parse_file_as_module(
+                parse_module(
                     &fm,
                     Syntax::Es(EsSyntax {
                         jsx: true,
                         ..Default::default()
                     }),
-                    EsVersion::latest(),
-                    None,
-                    &mut Vec::new(),
                 )
-                .unwrap()
             };
             let expected = {
                 let mut buf = Vec::new();

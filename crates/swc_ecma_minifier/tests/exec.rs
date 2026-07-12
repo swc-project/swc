@@ -23,7 +23,7 @@ use swc_ecma_minifier::{
         ManglePropertiesOptions, MinifyOptions,
     },
 };
-use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
+use swc_ecma_parser::{attach_comments, EsSyntax, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_visit::VisitMutWith;
@@ -108,29 +108,40 @@ fn run(
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let program = parse_file_as_module(
-        &fm,
+    let (source_type, options) = SourceType::from_legacy(
         Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
         }),
+        ModuleKind::Module,
         Default::default(),
-        Some(&comments),
-        &mut Vec::new(),
-    )
-    .map_err(|err| {
-        err.into_diagnostic(handler).emit();
-    })
-    .map(Program::Module)
-    .map(|module| module.apply(&mut resolver(unresolved_mark, top_level_mark, false)));
+    );
+    let mut result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .with_tokens()
+        .parse();
+    attach_comments(
+        &fm.src,
+        fm.start_pos,
+        &comments,
+        std::mem::take(&mut result.comments),
+        &result.tokens,
+        &result.program,
+    );
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
+    }
 
     // Ignore parser errors.
     //
     // This is typically related to strict mode caused by module context.
-    let program = match program {
-        Ok(v) => v,
-        _ => return None,
-    };
+    if handler.has_errors() {
+        return None;
+    }
+    let program = result
+        .program
+        .apply(&mut resolver(unresolved_mark, top_level_mark, false));
 
     let run_hygiene = mangle.is_none();
 

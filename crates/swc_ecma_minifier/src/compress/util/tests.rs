@@ -1,6 +1,6 @@
-use swc_common::{util::take::Take, FileName, Mark, SyntaxContext};
+use swc_common::{util::take::Take, BytePos, FileName, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_parser::parse_file_as_expr;
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -26,16 +26,26 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
     testing::run_test2(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon.into(), s.to_string());
 
-        let mut e = parse_file_as_expr(
-            &fm,
-            Default::default(),
-            swc_ecma_ast::EsVersion::latest(),
-            None,
-            &mut Vec::new(),
-        )
-        .map_err(|e| {
-            e.into_diagnostic(&handler).emit();
-        })?;
+        let wrapped = format!("({})", fm.src);
+        let result = Parser::new(&wrapped, SourceType::script())
+            .with_start_pos(BytePos(fm.start_pos.0.saturating_sub(1)))
+            .parse();
+        for error in result.diagnostics {
+            error.into_diagnostic(&handler).emit();
+        }
+        if handler.has_errors() {
+            return Err(());
+        }
+        let Program::Script(mut script) = result.program else {
+            unreachable!("script source type must produce a script")
+        };
+        let Some(Stmt::Expr(statement)) = script.body.pop() else {
+            panic!("input is not an expression")
+        };
+        let Expr::Paren(parenthesized) = *statement.expr else {
+            unreachable!("wrapped expression must remain parenthesized")
+        };
+        let mut e = parenthesized.expr;
 
         e.visit_mut_with(&mut UnwrapParen);
 

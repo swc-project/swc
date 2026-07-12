@@ -2,21 +2,23 @@
 
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{Span, Spanned};
+#[cfg(feature = "flow")]
+use swc_ecma_ast::FnExpr;
 use swc_ecma_ast::{
     Decl, DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, Ident,
-    ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportPhase, ImportSpecifier,
+    ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, Ident, ImportDecl,
+    ImportDefaultSpecifier, ImportNamedSpecifier, ImportPhase, ImportSpecifier,
     ImportStarAsSpecifier, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport,
     ObjectLit, Stmt, Str, TsExportAssignment, TsExternalModuleRef, TsImportEqualsDecl, TsModuleRef,
     TsNamespaceExportDecl,
 };
-#[cfg(feature = "flow")]
-use swc_ecma_ast::FnExpr;
 
 use crate::{
     error::Error,
-    next::lexer::TokenKind as Kind,
-    next::{lexer::config::Config, parser::cursor::Parser},
+    next::{
+        lexer::{config::Config, TokenKind as Kind},
+        parser::cursor::Parser,
+    },
 };
 
 impl<C: Config> Parser<'_, C> {

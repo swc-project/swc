@@ -36,10 +36,7 @@ impl<C: Config> Lexer<'_, C> {
 mod tests {
     use swc_common::BytePos;
 
-    use crate::{
-        next::lexer::TokenKind as Kind,
-        next::lexer::{config::WithTokens, core::Lexer},
-    };
+    use crate::next::lexer::{config::WithTokens, core::Lexer, TokenKind as Kind};
 
     #[test]
     fn splits_right_shift_for_nested_type_arguments() {

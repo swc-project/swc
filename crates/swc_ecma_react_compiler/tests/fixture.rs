@@ -10,7 +10,9 @@ use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
     Emitter, Node,
 };
-use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
+use swc_ecma_parser::{
+    attach_comments, EsSyntax, ModuleKind, Parser, SourceType as ParserSourceType, Syntax, TsSyntax,
+};
 use swc_ecma_react_compiler::{default_plugin_options, transform, SourceType, TransformResult};
 use testing::{run_test2, NormalizedOutput};
 
@@ -66,35 +68,37 @@ fn parse_program(
         .load_file(input)
         .unwrap_or_else(|err| panic!("failed to load {}: {err}", input.display()));
     let comments = SingleThreadedComments::default();
-    let mut errors = Vec::new();
     let syntax = read_syntax(input);
     let is_typescript = syntax.typescript();
-    let program = parse_file_as_program(
-        &fm,
-        syntax,
-        EsVersion::latest(),
-        Some(&comments),
-        &mut errors,
+    let (parser_source_type, options) =
+        ParserSourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+    let mut result = Parser::new(&fm.src, parser_source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .with_tokens()
+        .parse();
+    attach_comments(
+        &fm.src,
+        fm.start_pos,
+        &comments,
+        std::mem::take(&mut result.comments),
+        &result.tokens,
+        &result.program,
     );
 
     assert!(
-        errors.is_empty(),
+        result.diagnostics.is_empty(),
         "failed to parse {}:\n{}",
         input.display(),
-        errors
+        result
+            .diagnostics
             .iter()
             .map(|error| error.kind().msg())
             .collect::<Vec<_>>()
             .join("\n")
     );
 
-    let program = program.unwrap_or_else(|error| {
-        panic!(
-            "failed to parse {}: {}",
-            input.display(),
-            error.kind().msg()
-        )
-    });
+    let program = result.program;
     let source_type = SourceType::from_program(&program).with_typescript(is_typescript);
 
     (program, comments, source_type)

@@ -6,7 +6,7 @@ use swc_ecma_parser;
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::DebugUsingDisplay;
 
-use self::swc_ecma_parser::{EsSyntax, LegacyParser as Parser, StringInput, Syntax};
+use self::swc_ecma_parser::{attach_comments, EsSyntax, ModuleKind, Parser, SourceType, Syntax};
 use super::*;
 use crate::{lit::get_quoted_utf16, text_writer::omit_trailing_semi};
 
@@ -63,16 +63,28 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
 
         let comments = Default::default();
         let res = {
-            let mut parser = Parser::new(syntax, StringInput::from(&*src), Some(&comments));
-            let res = parser
-                .parse_module()
-                .map_err(|e| e.into_diagnostic(handler).emit());
-
-            for err in parser.take_errors() {
-                err.into_diagnostic(handler).emit()
+            let (source_type, options) =
+                SourceType::from_legacy(syntax, ModuleKind::Module, cfg.target);
+            let mut result = Parser::new(&src.src, source_type)
+                .with_options(options)
+                .with_start_pos(src.start_pos)
+                .with_tokens()
+                .parse();
+            attach_comments(
+                &src.src,
+                src.start_pos,
+                &comments,
+                std::mem::take(&mut result.comments),
+                &result.tokens,
+                &result.program,
+            );
+            for error in result.diagnostics {
+                error.into_diagnostic(handler).emit();
             }
-
-            res?
+            let Program::Module(module) = result.program else {
+                unreachable!("module source type must produce a module")
+            };
+            module
         };
 
         let out = Builder { cfg, cm, comments }.text(from, |e| res.emit_with(e).unwrap());

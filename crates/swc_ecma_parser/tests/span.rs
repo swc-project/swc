@@ -21,19 +21,19 @@ fn span(entry: PathBuf) {
         let src = cm.load_file(&entry).expect("failed to load file");
 
         let syntax = if file_name.ends_with(".js") {
-                Syntax::Es(EsSyntax {
-                    jsx: true,
-                    decorators: true,
-                    ..Default::default()
-                })
-            } else {
-                Syntax::Typescript(TsSyntax {
-                    tsx: true,
-                    decorators: true,
-                    no_early_errors: true,
-                    ..Default::default()
-                })
-            };
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                decorators: true,
+                ..Default::default()
+            })
+        } else {
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                decorators: true,
+                no_early_errors: true,
+                ..Default::default()
+            })
+        };
         let (source_type, options) =
             SourceType::from_legacy(syntax, ModuleKind::Module, Default::default());
         let result = Parser::new(&src.src, source_type)

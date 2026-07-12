@@ -1,8 +1,13 @@
 //! TypeScript declarations and type productions.
 
-use swc_common::{BytePos, Span, Spanned};
 #[cfg(feature = "flow")]
 use swc_common::SyntaxContext;
+use swc_common::{BytePos, Span, Spanned};
+#[cfg(feature = "flow")]
+use swc_ecma_ast::{
+    AssignPat, FnDecl, Function, KeyValuePatProp, ObjectPat, ObjectPatProp, Param, Pat, PropName,
+    RestPat,
+};
 use swc_ecma_ast::{
     BindingIdent, Decl, Expr, Ident, IdentName, Lit, Stmt, TruePlusMinus, TsArrayType,
     TsCallSignatureDecl, TsConditionalType, TsConstructSignatureDecl, TsConstructorType,
@@ -17,17 +22,11 @@ use swc_ecma_ast::{
     TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate,
     TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionType,
 };
-#[cfg(feature = "flow")]
-use swc_ecma_ast::{
-    AssignPat, FnDecl, Function, KeyValuePatProp, ObjectPat, ObjectPatProp, Param, Pat, PropName,
-    RestPat,
-};
 
 use crate::{
     error::Error,
-    next::lexer::TokenKind as Kind,
     next::{
-        lexer::config::Config,
+        lexer::{config::Config, TokenKind as Kind},
         parser::{context::Context, cursor::Parser},
     },
 };

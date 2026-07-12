@@ -121,7 +121,7 @@ mod tests {
     use swc_common::{BytePos, Span};
 
     use super::{Config, NoTokens, WithTokens};
-    use crate::{next::lexer::TokenKind as Kind, next::lexer::PackedToken};
+    use crate::next::lexer::{PackedToken, TokenKind as Kind};
 
     fn token(start: u32) -> PackedToken {
         PackedToken::new(

@@ -5,13 +5,12 @@ extern crate swc_malloc;
 use std::{env::args, fs, path::Path, sync::Arc};
 
 use swc_common::{errors::HANDLER, sync::Lrc, Mark, SourceMap};
-use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions, SimpleMangleCache},
 };
-use swc_ecma_parser::parse_file_as_module;
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     resolver,
@@ -29,20 +28,16 @@ fn main() {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            let program = parse_file_as_module(
-                &fm,
-                Default::default(),
-                Default::default(),
-                None,
-                &mut Vec::new(),
-            )
-            .map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })
-            .map(Program::Module)
-            .map(|module| module.apply(resolver(unresolved_mark, top_level_mark, false)))
-            .map(|module| module.apply(paren_remover(None)))
-            .unwrap();
+            let result = Parser::new(&fm.src, SourceType::module())
+                .with_start_pos(fm.start_pos)
+                .parse();
+            for error in result.diagnostics {
+                error.into_diagnostic(&handler).emit();
+            }
+            let program = result
+                .program
+                .apply(resolver(unresolved_mark, top_level_mark, false))
+                .apply(paren_remover(None));
 
             let output = optimize(
                 program,

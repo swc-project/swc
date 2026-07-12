@@ -16,7 +16,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
-use swc_ecma_parser::parse_file_as_program;
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
@@ -52,16 +52,17 @@ fn parse(handler: &Handler, cm: Lrc<SourceMap>, path: &Path) -> Result<Program, 
 }
 
 fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Program, ()> {
-    parse_file_as_program(
-        &fm,
-        Default::default(),
-        EsVersion::latest(),
-        None,
-        &mut Vec::new(),
-    )
-    .map_err(|err| {
-        err.into_diagnostic(handler).emit();
-    })
+    let result = Parser::new(&fm.src, SourceType::unambiguous())
+        .with_start_pos(fm.start_pos)
+        .parse();
+    for error in result.diagnostics {
+        error.into_diagnostic(handler).emit();
+    }
+    if handler.has_errors() {
+        Err(())
+    } else {
+        Ok(result.program)
+    }
 }
 
 #[testing::fixture("tests/terser/**/input.js")]

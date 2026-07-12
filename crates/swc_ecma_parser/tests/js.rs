@@ -51,40 +51,47 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
-    with_parser(false, file, false, config_path, is_commonjs, |program, _| {
-        let program = program.fold_with(&mut Normalizer {
-            drop_span: false,
-            is_test262: false,
-        });
+    with_parser(
+        false,
+        file,
+        false,
+        config_path,
+        is_commonjs,
+        |program, _| {
+            let program = program.fold_with(&mut Normalizer {
+                drop_span: false,
+                is_test262: false,
+            });
 
-        // json
-        {
-            let json =
-                serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
+            // json
+            {
+                let json = serde_json::to_string_pretty(&program)
+                    .expect("failed to serialize module as json");
 
-            if StdErr::from(json).compare_to_file(output_json).is_err() {
-                panic!()
+                if StdErr::from(json).compare_to_file(output_json).is_err() {
+                    panic!()
+                }
             }
-        }
 
-        // cbor
-        {
-            use cbor4ii::core::{
-                dec::Decode,
-                enc::Encode,
-                utils::{BufWriter, SliceReader},
-            };
+            // cbor
+            {
+                use cbor4ii::core::{
+                    dec::Decode,
+                    enc::Encode,
+                    utils::{BufWriter, SliceReader},
+                };
 
-            let mut buf = BufWriter::new(Vec::new());
-            program.encode(&mut buf).unwrap();
+                let mut buf = BufWriter::new(Vec::new());
+                program.encode(&mut buf).unwrap();
 
-            let buf = buf.into_inner();
-            let mut buf = SliceReader::new(buf.as_slice());
-            let _program = Program::decode(&mut buf).unwrap();
-        }
+                let buf = buf.into_inner();
+                let mut buf = SliceReader::new(buf.as_slice());
+                let _program = Program::decode(&mut buf).unwrap();
+            }
 
-        Ok(())
-    })
+            Ok(())
+        },
+    )
     .map_err(|_| ())
     .unwrap();
 }

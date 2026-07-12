@@ -9,9 +9,7 @@ use std::{
 
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::*;
-use swc_ecma_parser::{
-    attach_comments, FlowSyntax, ModuleKind, Parser, SourceType, Syntax,
-};
+use swc_ecma_parser::{attach_comments, FlowSyntax, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 

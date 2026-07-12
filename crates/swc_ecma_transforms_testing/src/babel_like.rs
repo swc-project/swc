@@ -134,11 +134,8 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 src,
             );
 
-            let (source_type, options) = SourceType::from_legacy(
-                self.syntax,
-                ModuleKind::Unambiguous,
-                EsVersion::latest(),
-            );
+            let (source_type, options) =
+                SourceType::from_legacy(self.syntax, ModuleKind::Unambiguous, EsVersion::latest());
             let mut result = Parser::new(&fm.src, source_type)
                 .with_options(options)
                 .with_start_pos(fm.start_pos)

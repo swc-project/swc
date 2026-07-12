@@ -15,7 +15,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
-use swc_ecma_parser::parse_file_as_program;
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_utils::parallel::{Parallel, ParallelExt};
 use testing::CARGO_TARGET_DIR;
@@ -153,19 +153,18 @@ fn run(src: &str) {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        let Ok(program) = parse_file_as_program(
-            &fm,
-            Default::default(),
-            Default::default(),
-            None,
-            &mut Vec::new(),
-        )
-        .map_err(|err| {
-            err.into_diagnostic(&handler).emit();
-        })
-        .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, false))) else {
+        let result = Parser::new(&fm.src, SourceType::unambiguous())
+            .with_start_pos(fm.start_pos)
+            .parse();
+        for error in result.diagnostics {
+            error.into_diagnostic(&handler).emit();
+        }
+        if handler.has_errors() {
             return Ok(());
-        };
+        }
+        let program = result
+            .program
+            .apply(resolver(unresolved_mark, top_level_mark, false));
 
         let output = optimize(
             program,

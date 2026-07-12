@@ -665,7 +665,7 @@ mod tests {
         text_writer::{omit_trailing_semi, JsWriter, WriteJs},
         Config, Emitter,
     };
-    use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
+    use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType, Syntax};
     use swc_ecma_transforms_base::{fixer::fixer, resolver};
     use swc_ecma_visit::VisitMutWith;
 
@@ -684,14 +684,19 @@ mod tests {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            let mut module = parse_file_as_module(
-                &fm,
+            let (source_type, options) = SourceType::from_legacy(
                 Syntax::Es(EsSyntax::default()),
+                ModuleKind::Module,
                 EsVersion::latest(),
-                None,
-                &mut Vec::new(),
-            )
-            .expect("failed to parse");
+            );
+            let result = Parser::new(&fm.src, source_type)
+                .with_options(options)
+                .with_start_pos(fm.start_pos)
+                .parse();
+            assert!(result.diagnostics.is_empty(), "failed to parse");
+            let Program::Module(mut module) = result.program else {
+                unreachable!("module source type must produce a module")
+            };
 
             module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 

@@ -39,9 +39,8 @@ impl Config {
                             .parse();
                         if let Some(error) = result.diagnostics.first() {
                             if HANDLER.is_set() {
-                                HANDLER.with(|handler| {
-                                    error.clone().into_diagnostic(handler).emit()
-                                });
+                                HANDLER
+                                    .with(|handler| error.clone().into_diagnostic(handler).emit());
                             }
                             panic!("invalid UMD global expression: {}", fm.src);
                         }
