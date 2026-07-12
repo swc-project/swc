@@ -61,10 +61,32 @@ impl<'a> Parser<'a> {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::BytePos;
+    use swc_common::{BytePos, EqIgnoreSpan};
     use swc_ecma_ast::{Decl, Stmt};
 
     use super::Parser;
+    use crate::{lexer::Lexer, EsSyntax, LegacyParser, StringInput, Syntax};
+
+    fn assert_script_parity(source: &str) {
+        let next = Parser::new(source).parse_script().unwrap();
+        let start = BytePos(1);
+        let end = start + BytePos(source.len() as u32);
+        let lexer = Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..EsSyntax::default()
+            }),
+            Default::default(),
+            StringInput::new(source, start, end),
+            None,
+        );
+        let mut legacy = LegacyParser::new_from(lexer);
+        let legacy = legacy.parse_script().unwrap();
+        assert!(
+            next.eq_ignore_span(&legacy),
+            "independent AST differs from reference AST for {source}"
+        );
+    }
 
     #[test]
     fn parses_without_reference_engine() {
@@ -83,5 +105,24 @@ mod tests {
             .parse_module()
             .unwrap();
         assert!(module.body[0].is_module_decl());
+    }
+
+    #[test]
+    fn supported_javascript_ast_matches_reference_engine() {
+        assert_script_parity(
+            "const { value: [first = 1, ...rest] } = source; function* values(input) { yield* \
+             input; }",
+        );
+        assert_script_parity(
+            "class Counter extends Base { static initial = 1; constructor(value) { this.value = \
+             value; } get current() { return this.value; } }",
+        );
+    }
+
+    #[test]
+    fn supported_jsx_ast_matches_reference_engine() {
+        assert_script_parity(
+            "const view = <App enabled value={answer}><Child /> text {item}</App>;",
+        );
     }
 }
