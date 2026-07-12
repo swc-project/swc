@@ -43,6 +43,7 @@ impl<C: Config> Parser<'_, C> {
             }
             Kind::LBrace => self.parse_block_statement().map(Stmt::Block),
             Kind::Break | Kind::Continue => self.parse_jump_statement(),
+            Kind::Class => self.parse_class_declaration(),
             Kind::Debugger => self.parse_debugger_statement(),
             Kind::For => self.parse_for_statement(),
             Kind::Function => self.parse_function_declaration(),
@@ -527,7 +528,7 @@ impl<C: Config> Parser<'_, C> {
         }))
     }
 
-    fn consume_semicolon(&mut self) -> Result<(), Error> {
+    pub(crate) fn consume_semicolon(&mut self) -> Result<(), Error> {
         if self.eat(Kind::Semi)
             || self.at(Kind::RBrace)
             || self.at(Kind::Eof)

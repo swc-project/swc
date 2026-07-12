@@ -20,6 +20,7 @@ impl<C: Config> Parser<'_, C> {
         let span = token.span();
         match token.kind() {
             Kind::Async if self.is_async_function_start() => self.parse_function_expression(),
+            Kind::Class => self.parse_class_expression(),
             kind if kind == Kind::Ident || kind.is_known_ident() => {
                 let symbol = Atom::new(self.token_source(token));
                 self.advance();
