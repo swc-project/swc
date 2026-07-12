@@ -6,7 +6,7 @@ use serde_json::Value;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::{EsVersion, Pass, Program};
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{parse_file_as_program, Syntax};
+use swc_ecma_parser::{attach_comments, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_transforms_base::{
     assumptions::Assumptions,
     fixer::fixer,
@@ -134,32 +134,32 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 src,
             );
 
-            let mut errors = Vec::new();
-            let input_program = parse_file_as_program(
-                &fm,
+            let (source_type, options) = SourceType::from_legacy(
                 self.syntax,
+                ModuleKind::Unambiguous,
                 EsVersion::latest(),
-                Some(&comments),
-                &mut errors,
             );
-
-            let errored = !errors.is_empty();
-
-            for e in errors {
-                e.into_diagnostic(handler).emit();
+            let mut result = Parser::new(&fm.src, source_type)
+                .with_options(options)
+                .with_start_pos(fm.start_pos)
+                .with_tokens()
+                .parse();
+            attach_comments(
+                &fm.src,
+                fm.start_pos,
+                &comments,
+                std::mem::take(&mut result.comments),
+                &result.tokens,
+                &result.program,
+            );
+            let errored = result.panicked || !result.diagnostics.is_empty();
+            for error in result.diagnostics {
+                error.into_diagnostic(handler).emit();
             }
-
-            let input_program = match input_program {
-                Ok(v) => v,
-                Err(err) => {
-                    err.into_diagnostic(handler).emit();
-                    return Err(());
-                }
-            };
-
             if errored {
                 return Err(());
             }
+            let input_program = result.program;
 
             let helpers = Helpers::new(output_path.is_some());
             let (code_without_helper, output_program) = HELPERS.set(&helpers, || {

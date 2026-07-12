@@ -27,7 +27,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{to_code_default, Emitter};
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput, Syntax};
+use swc_ecma_parser::{attach_comments, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
     fixer,
@@ -116,40 +116,58 @@ impl Tester<'_> {
         (res, output)
     }
 
-    pub fn with_parser<F, T>(
+    fn parse_program(
         &mut self,
         file_name: &str,
         syntax: Syntax,
         src: &str,
-        op: F,
-    ) -> Result<T, ()>
-    where
-        F: FnOnce(&mut Parser<Lexer>) -> Result<T, swc_ecma_parser::error::Error>,
-    {
+        module_kind: ModuleKind,
+    ) -> Result<Program, ()> {
         let fm = self
             .cm
             .new_source_file(FileName::Real(file_name.into()).into(), src.to_string());
-
-        let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
-        let res = op(&mut p).map_err(|e| e.into_diagnostic(self.handler).emit());
-
-        for e in p.take_errors() {
-            e.into_diagnostic(self.handler).emit()
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, module_kind, EsVersion::latest());
+        let mut result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            &*self.comments,
+            take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+        let failed = result.panicked || !result.diagnostics.is_empty();
+        for error in result.diagnostics {
+            error.into_diagnostic(self.handler).emit();
         }
-
-        res
+        if failed {
+            Err(())
+        } else {
+            Ok(result.program)
+        }
     }
 
     pub fn parse_module(&mut self, file_name: &str, src: &str) -> Result<Module, ()> {
-        self.with_parser(file_name, Syntax::default(), src, |p| p.parse_module())
+        let Program::Module(module) =
+            self.parse_program(file_name, Syntax::default(), src, ModuleKind::Module)?
+        else {
+            unreachable!("module source type must produce a module")
+        };
+        Ok(module)
     }
 
     pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
-        let stmts = self.with_parser(file_name, Syntax::default(), src, |p| {
-            p.parse_script().map(|script| script.body)
-        })?;
-
-        Ok(stmts)
+        let Program::Script(script) =
+            self.parse_program(file_name, Syntax::default(), src, ModuleKind::Script)?
+        else {
+            unreachable!("script source type must produce a script")
+        };
+        Ok(script.body)
     }
 
     pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
@@ -167,17 +185,12 @@ impl Tester<'_> {
         is_module: Option<bool>,
         src: &str,
     ) -> Result<Program, ()> {
-        let program =
-            self.with_parser(
-                name,
-                syntax,
-                src,
-                |parser: &mut Parser<Lexer>| match is_module {
-                    Some(true) => parser.parse_module().map(Program::Module),
-                    Some(false) => parser.parse_script().map(Program::Script),
-                    None => parser.parse_program(),
-                },
-            )?;
+        let module_kind = match is_module {
+            Some(true) => ModuleKind::Module,
+            Some(false) => ModuleKind::Script,
+            None => ModuleKind::Unambiguous,
+        };
+        let program = self.parse_program(name, syntax, src, module_kind)?;
 
         Ok(program.apply(tr))
     }
