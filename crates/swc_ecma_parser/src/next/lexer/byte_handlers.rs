@@ -9,7 +9,7 @@ use super::{
     config::{Config, NoTokens, WithTokens},
     core::Lexer,
 };
-use crate::lexer::Token as Kind;
+use crate::next::lexer::TokenKind as Kind;
 
 pub(super) type ByteHandler<C> = fn(&mut Lexer<'_, C>) -> Kind;
 pub(super) type ByteHandlers<C> = [ByteHandler<C>; 256];

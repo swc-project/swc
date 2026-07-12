@@ -9,7 +9,7 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::Ident;
 
 use super::{config::Config, source::Source, PackedToken};
-use crate::lexer::Token as Kind;
+use crate::next::lexer::TokenKind as Kind;
 
 /// State required to restore a speculative lexical read.
 #[derive(Debug, Clone, Copy)]
@@ -1020,7 +1020,7 @@ mod tests {
 
     use super::Lexer;
     use crate::{
-        lexer::Token as Kind,
+        next::lexer::TokenKind as Kind,
         next::lexer::config::{NoTokens, WithTokens},
     };
 

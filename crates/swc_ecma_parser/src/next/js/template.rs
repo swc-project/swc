@@ -11,7 +11,7 @@ use swc_ecma_ast::{Tpl, TplElement};
 
 use crate::{
     error::{Error, SyntaxError},
-    lexer::Token as Kind,
+    next::lexer::TokenKind as Kind,
     next::{lexer::config::Config, parser::cursor::Parser},
 };
 

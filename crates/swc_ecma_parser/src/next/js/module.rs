@@ -15,7 +15,7 @@ use swc_ecma_ast::FnExpr;
 
 use crate::{
     error::Error,
-    lexer::Token as Kind,
+    next::lexer::TokenKind as Kind,
     next::{lexer::config::Config, parser::cursor::Parser},
 };
 

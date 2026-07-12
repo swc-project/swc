@@ -6,7 +6,7 @@ use swc_common::BytePos;
 use super::context::Context;
 use crate::{
     error::{Error, SyntaxError},
-    lexer::Token as Kind,
+    next::lexer::TokenKind as Kind,
     next::lexer::{
         config::Config,
         core::{CommentRange, Lexer, LexerCheckpoint},
@@ -389,7 +389,7 @@ mod tests {
 
     use super::Parser;
     use crate::{
-        lexer::Token as Kind,
+        next::lexer::TokenKind as Kind,
         next::{
             lexer::{config::NoTokens, core::Lexer},
             parser::context::Context,

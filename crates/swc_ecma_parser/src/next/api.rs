@@ -343,7 +343,7 @@ impl Default for ParseOptions {
 }
 
 /// One-byte token category used by [`Token`].
-pub type TokenKind = crate::lexer::Token;
+pub type TokenKind = super::lexer::TokenKind;
 
 /// Packed token emitted in source order when collection is enabled.
 pub type Token = PackedToken;

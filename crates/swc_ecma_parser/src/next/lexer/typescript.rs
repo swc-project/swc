@@ -3,7 +3,7 @@
 use swc_common::{BytePos, Span};
 
 use super::{config::Config, core::Lexer, PackedToken};
-use crate::lexer::Token as Kind;
+use crate::next::lexer::TokenKind as Kind;
 
 impl<C: Config> Lexer<'_, C> {
     /// Split the current shift token into a single TypeScript right angle.
@@ -37,7 +37,7 @@ mod tests {
     use swc_common::BytePos;
 
     use crate::{
-        lexer::Token as Kind,
+        next::lexer::TokenKind as Kind,
         next::lexer::{config::WithTokens, core::Lexer},
     };
 

@@ -8,7 +8,7 @@ use std::{fmt, mem};
 
 use swc_common::{BytePos, Span};
 
-use crate::lexer::Token as Kind;
+use crate::next::lexer::TokenKind as Kind;
 
 const START_SHIFT: u32 = 0;
 const END_SHIFT: u32 = 32;
@@ -97,7 +97,7 @@ mod tests {
     use swc_common::{BytePos, Span};
 
     use super::PackedToken;
-    use crate::lexer::Token as Kind;
+    use crate::next::lexer::TokenKind as Kind;
 
     #[test]
     fn round_trips_fields() {

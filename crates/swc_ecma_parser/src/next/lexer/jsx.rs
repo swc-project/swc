@@ -3,7 +3,7 @@
 use swc_common::{BytePos, Span};
 
 use super::{config::Config, core::Lexer, PackedToken};
-use crate::lexer::Token as Kind;
+use crate::next::lexer::TokenKind as Kind;
 
 impl<C: Config> Lexer<'_, C> {
     /// Split a punctuation token beginning with `>` so JSX can consume the
@@ -92,7 +92,7 @@ mod tests {
     use swc_common::BytePos;
 
     use crate::{
-        lexer::Token as Kind,
+        next::lexer::TokenKind as Kind,
         next::lexer::{config::NoTokens, core::Lexer},
     };
 

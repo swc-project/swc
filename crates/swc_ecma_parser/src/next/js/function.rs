@@ -5,7 +5,7 @@ use swc_ecma_ast::{Decl, Expr, FnDecl, FnExpr, Function, Ident, Stmt};
 
 use crate::{
     error::Error,
-    lexer::Token as Kind,
+    next::lexer::TokenKind as Kind,
     next::{
         lexer::config::Config,
         parser::{context::Context, cursor::Parser},
