@@ -89,6 +89,11 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
+    /// Whether the caller explicitly selected script parsing.
+    ///
+    /// Unambiguous parsing starts in script context too, but module syntax may
+    /// appear after an earlier top-level `using` declaration.
+    explicit_script: bool,
     paren_depth: u16,
     block_depth: u16,
     #[cfg(feature = "typescript")]
@@ -211,6 +216,7 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
+            explicit_script: false,
             paren_depth: 0,
             block_depth: 0,
             #[cfg(feature = "typescript")]
@@ -246,6 +252,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_script(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_script);
 
+        self.explicit_script = true;
         let ctx = (self.ctx() & !Context::Module) | Context::TopLevel;
         self.set_ctx(ctx);
 
