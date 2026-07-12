@@ -360,10 +360,7 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(self.span(start), SyntaxError::UsingDeclNotEnabled);
         }
 
-        let top_level_script = self.explicit_script
-            && self.ctx().contains(Context::TopLevel)
-            && !self.ctx().contains(Context::InFunction);
-        if top_level_script || !self.ctx().contains(Context::AllowUsingDecl) {
+        if !self.ctx().contains(Context::AllowUsingDecl) {
             self.emit_err(self.span(start), SyntaxError::UsingDeclNotAllowed);
         }
 
@@ -1854,23 +1851,6 @@ impl<I: Tokens> Parser<I> {
     /// Parse a statement, declaration or module item.
     #[inline(always)]
     pub(crate) fn parse_stmt_like<Type: From<Stmt>>(
-        &mut self,
-        include_decl: bool,
-        handle_import_export: impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,
-    ) -> PResult<Type> {
-        if self.parse_depth >= MAX_PARSE_DEPTH || self.stmt_depth >= MAX_STMT_PARSE_DEPTH {
-            return Err(self.max_parse_depth_error());
-        }
-
-        self.parse_depth += 1;
-        self.stmt_depth += 1;
-        let result = self.parse_stmt_like_inner(include_decl, handle_import_export);
-        self.stmt_depth -= 1;
-        self.parse_depth -= 1;
-        result
-    }
-
-    fn parse_stmt_like_inner<Type: From<Stmt>>(
         &mut self,
         include_decl: bool,
         handle_import_export: impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,

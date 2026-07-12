@@ -74,24 +74,6 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     pub(crate) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
-        let max_depth = if self.input().is(Token::LParen) {
-            MAX_PAREN_PARSE_DEPTH
-        } else {
-            MAX_PARSE_DEPTH
-        };
-        if self.parse_depth >= MAX_PARSE_DEPTH || self.expr_depth >= max_depth {
-            return Err(self.max_parse_depth_error());
-        }
-
-        self.parse_depth += 1;
-        self.expr_depth += 1;
-        let result = self.parse_assignment_expr_inner();
-        self.expr_depth -= 1;
-        self.parse_depth -= 1;
-        result
-    }
-
-    fn parse_assignment_expr_inner(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
         if self.input().is(Token::JSXTagStart) && self.input().syntax().typescript() {
@@ -1893,8 +1875,29 @@ impl<I: Tokens> Parser<I> {
             return_if_arrow!(self, callee);
 
             if is_new_expr {
-                if let Some(span) = Self::optional_chain_in_new_callee(&callee) {
-                    syntax_error!(self, span, SyntaxError::OptChainCannotFollowConstructorCall)
+                match *callee {
+                    Expr::OptChain(OptChainExpr {
+                        span,
+                        optional: true,
+                        ..
+                    }) => {
+                        syntax_error!(self, span, SyntaxError::OptChainCannotFollowConstructorCall)
+                    }
+                    Expr::Member(MemberExpr { ref obj, .. }) => {
+                        if let Expr::OptChain(OptChainExpr {
+                            span,
+                            optional: true,
+                            ..
+                        }) = **obj
+                        {
+                            syntax_error!(
+                                self,
+                                span,
+                                SyntaxError::OptChainCannotFollowConstructorCall
+                            )
+                        }
+                    }
+                    _ => {}
                 }
             }
 
@@ -1983,47 +1986,6 @@ impl<I: Tokens> Parser<I> {
         };
 
         self.parse_subscripts_expr::<false>(obj, true)
-    }
-
-    fn optional_chain_in_new_callee(expr: &Expr) -> Option<Span> {
-        match expr {
-            Expr::OptChain(OptChainExpr {
-                span,
-                optional,
-                base,
-            }) => {
-                if *optional {
-                    Some(*span)
-                } else {
-                    // Plugin builds consume a non-exhaustive AST enum from another crate,
-                    // while workspace builds can see that the two current variants are
-                    // exhaustive.
-                    #[allow(unreachable_patterns)]
-                    match &**base {
-                        OptChainBase::Member(MemberExpr { obj, .. }) => {
-                            Self::optional_chain_in_new_callee(obj)
-                        }
-                        OptChainBase::Call(OptCall { callee, .. }) => {
-                            Self::optional_chain_in_new_callee(callee)
-                        }
-                        // `OptChainBase` is non-exhaustive for plugin builds.
-                        _ => None,
-                    }
-                }
-            }
-            Expr::Member(MemberExpr { obj, .. }) => Self::optional_chain_in_new_callee(obj),
-            // Parentheses terminate an optional chain, so `new (value?.member)()` is
-            // valid even though `new value?.member()` is not.
-            Expr::TsAs(TsAsExpr { expr, .. })
-            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-            | Expr::TsInstantiation(TsInstantiation { expr, .. }) => {
-                Self::optional_chain_in_new_callee(expr)
-            }
-            _ => None,
-        }
     }
 
     /// Parse `NewExpression`.

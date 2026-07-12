@@ -51,20 +51,6 @@ mod verifier;
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
-/// These limits prevent parser-controlled recursion from exhausting the process
-/// stack.
-const MAX_PARSE_DEPTH: u16 = 256;
-// wasm runtimes provide enough stack for existing generated code with deeply
-// nested currency predicates. Native test threads use a smaller stack, so keep
-// their guard lower until parenthesized expressions are parsed iteratively.
-#[cfg(target_arch = "wasm32")]
-const MAX_PAREN_PARSE_DEPTH: u16 = 192;
-#[cfg(not(target_arch = "wasm32"))]
-const MAX_PAREN_PARSE_DEPTH: u16 = 32;
-const MAX_STMT_PARSE_DEPTH: u16 = 32;
-#[cfg(feature = "typescript")]
-const MAX_TYPE_PARSE_DEPTH: u16 = 64;
-
 #[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
@@ -81,17 +67,6 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
-    /// Whether the caller explicitly selected script parsing.
-    ///
-    /// Unambiguous parsing starts in script context too, but module syntax may
-    /// appear after an earlier top-level `using` declaration.
-    explicit_script: bool,
-    /// Combined grammar recursion across statements, expressions, and types.
-    parse_depth: u16,
-    expr_depth: u16,
-    stmt_depth: u16,
-    #[cfg(feature = "typescript")]
-    type_depth: u16,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -214,12 +189,6 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
-            explicit_script: false,
-            parse_depth: 0,
-            expr_depth: 0,
-            stmt_depth: 0,
-            #[cfg(feature = "typescript")]
-            type_depth: 0,
             #[cfg(feature = "flow")]
             allow_super_call: false,
         };
@@ -235,11 +204,6 @@ impl<I: Tokens> Parser<I> {
         p
     }
 
-    #[cold]
-    fn max_parse_depth_error(&self) -> Error {
-        Error::new(self.input.cur_span(), SyntaxError::ExceededMaxParseDepth)
-    }
-
     pub fn take_errors(&mut self) -> Vec<Error> {
         self.input.iter.take_errors()
     }
@@ -251,7 +215,6 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_script(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_script);
 
-        self.explicit_script = true;
         let ctx = (self.ctx() & !Context::Module) | Context::TopLevel;
         self.set_ctx(ctx);
 

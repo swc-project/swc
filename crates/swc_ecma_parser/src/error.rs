@@ -292,7 +292,6 @@ pub enum SyntaxError {
     ReservedTypeAssertion,
     ReservedArrowTypeParam,
     EmptyTypeArgumentList,
-    ExceededMaxParseDepth,
 }
 
 impl SyntaxError {
@@ -753,7 +752,6 @@ impl SyntaxError {
                 .into(),
             SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
             SyntaxError::EmptyTypeArgumentList => "Type argument list cannot be empty.".into(),
-            SyntaxError::ExceededMaxParseDepth => "Maximum parser depth exceeded".into(),
         }
     }
 }

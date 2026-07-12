@@ -25,7 +25,10 @@ use swc_ecma_codegen::{
     Emitter, Node,
 };
 use swc_ecma_minifier::js::JsMinifyCommentOption;
-use swc_ecma_parser::{attach_comments, ModuleKind, Parser, ParserReturn, SourceType, Syntax};
+use swc_ecma_parser::{
+    parse_file_as_commonjs, parse_file_as_module, parse_file_as_program, parse_file_as_script,
+    Syntax,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 mod source_map_scopes;
@@ -77,44 +80,34 @@ pub fn parse_js(
     comments: Option<&dyn Comments>,
 ) -> Result<Program, Error> {
     let mut res = (|| {
-        let module_kind = match is_module {
-            IsModule::Bool(true) => ModuleKind::Module,
-            IsModule::Bool(false) => ModuleKind::Script,
-            IsModule::CommonJS => ModuleKind::CommonJs,
-            IsModule::Unknown => ModuleKind::Unambiguous,
-        };
-        let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
-        let parser = Parser::new(&fm.src, source_type)
-            .with_options(options)
-            .with_start_pos(fm.start_pos);
-        let ParserReturn {
-            program,
-            diagnostics,
-            comments: parsed_comments,
-            tokens,
-            panicked,
-        } = if comments.is_some() {
-            parser.with_tokens().parse()
-        } else {
-            parser.parse()
+        let mut error = false;
+
+        let mut errors = std::vec::Vec::new();
+        let program_result = match is_module {
+            IsModule::Bool(true) => {
+                parse_file_as_module(&fm, syntax, target, comments, &mut errors)
+                    .map(Program::Module)
+            }
+            IsModule::Bool(false) => {
+                parse_file_as_script(&fm, syntax, target, comments, &mut errors)
+                    .map(Program::Script)
+            }
+            IsModule::CommonJS => {
+                parse_file_as_commonjs(&fm, syntax, target, comments, &mut errors)
+                    .map(Program::Script)
+            }
+            IsModule::Unknown => parse_file_as_program(&fm, syntax, target, comments, &mut errors),
         };
 
-        let mut error = panicked;
-        for e in diagnostics {
+        for e in errors {
             e.into_diagnostic(handler).emit();
             error = true;
         }
 
-        if let Some(comments) = comments {
-            attach_comments(
-                &fm.src,
-                fm.start_pos,
-                comments,
-                parsed_comments,
-                &tokens,
-                &program,
-            );
-        }
+        let program = program_result.map_err(|e| {
+            e.into_diagnostic(handler).emit();
+            Error::msg("Syntax Error")
+        })?;
 
         if error {
             return Err(anyhow::anyhow!("Syntax Error"));

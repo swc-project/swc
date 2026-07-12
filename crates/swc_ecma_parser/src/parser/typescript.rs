@@ -9,7 +9,7 @@ use crate::{
     error::SyntaxError,
     input::Tokens,
     lexer::Token,
-    parser::{util::IsSimpleParameterList, Parser, MAX_PARSE_DEPTH, MAX_TYPE_PARSE_DEPTH},
+    parser::{util::IsSimpleParameterList, Parser},
     Context, PResult,
 };
 
@@ -3643,19 +3643,6 @@ impl<I: Tokens> Parser<I> {
     ///
     /// `tsParseType`
     pub(crate) fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
-        if self.parse_depth >= MAX_PARSE_DEPTH || self.type_depth >= MAX_TYPE_PARSE_DEPTH {
-            return Err(self.max_parse_depth_error());
-        }
-
-        self.parse_depth += 1;
-        self.type_depth += 1;
-        let result = self.parse_ts_type_inner();
-        self.type_depth -= 1;
-        self.parse_depth -= 1;
-        result
-    }
-
-    fn parse_ts_type_inner(&mut self) -> PResult<Box<TsType>> {
         trace_cur!(self, parse_ts_type);
 
         debug_assert!(self.input().syntax().typescript());
