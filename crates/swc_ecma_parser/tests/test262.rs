@@ -10,11 +10,8 @@ use std::{
 };
 
 use common::Normalizer;
-use swc_common::EqIgnoreSpan;
 use swc_ecma_ast::*;
-use swc_ecma_parser::{
-    lexer::Lexer, unstable::next::Parser as NextParser, LegacyParser as Parser, PResult, Syntax,
-};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType};
 use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -291,12 +288,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let expected = p(true);
                 assert_eq!(src, expected);
 
-                let next = normalize(NextParser::new(&input).parse_module().unwrap());
-                assert!(
-                    next.eq_ignore_span(&src),
-                    "independent module AST differs for {file_name}"
-                );
-
                 let json =
                     serde_json::to_string_pretty(&src).expect("failed to serialize module as json");
 
@@ -322,12 +313,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let src = p(false);
                 let expected = p(true);
                 assert_eq!(src, expected);
-                let next = normalize(NextParser::new(&input).parse_script().unwrap());
-                assert!(
-                    next.eq_ignore_span(&src),
-                    "independent script AST differs for {file_name}\nlegacy: {src:#?}\nnext: \
-                     {next:#?}"
-                );
             }
 
             Ok(())
@@ -338,34 +323,42 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 }
 
 fn parse_script(file_name: &Path) -> Result<Script, NormalizedOutput> {
-    with_parser(file_name, |p| p.parse_script())
+    let Program::Script(script) = parse_program(file_name, ModuleKind::Script)? else {
+        unreachable!("script source type must produce a script")
+    };
+    Ok(script)
 }
 fn parse_module(file_name: &Path) -> Result<Module, NormalizedOutput> {
-    with_parser(file_name, |p| p.parse_module())
+    let Program::Module(module) = parse_program(file_name, ModuleKind::Module)? else {
+        unreachable!("module source type must produce a module")
+    };
+    Ok(module)
 }
 
-fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
-where
-    F: FnOnce(&mut Parser<Lexer>) -> PResult<Ret>,
-{
+fn parse_program(file_name: &Path, module_kind: ModuleKind) -> Result<Program, StdErr> {
     ::testing::run_test(false, |cm, handler| {
         let fm = cm
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-        let mut p = Parser::new(Syntax::default(), (&*fm).into(), None);
-
-        let res = f(&mut p).map_err(|e| e.into_diagnostic(handler).emit());
-
-        for e in p.take_errors() {
-            e.into_diagnostic(handler).emit();
+        let source_type = match module_kind {
+            ModuleKind::Script => SourceType::script(),
+            ModuleKind::Module => SourceType::module(),
+            _ => unreachable!(),
+        };
+        let result = Parser::new(&fm.src, source_type)
+            .with_start_pos(fm.start_pos)
+            .parse();
+        let failed = result.panicked || !result.diagnostics.is_empty();
+        for error in result.diagnostics {
+            error.into_diagnostic(handler).emit();
         }
 
-        if handler.has_errors() {
+        if failed || handler.has_errors() {
             return Err(());
         }
 
-        res
+        Ok(result.program)
     })
 }
 
