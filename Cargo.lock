@@ -5361,12 +5361,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "seq-macro"
-version = "0.3.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1bc711410fbe7399f390ca1c3b60ad0f53f80e95c5eb935e52268a0e2cd49acc"
-
-[[package]]
 name = "serde"
 version = "1.0.228"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6606,13 +6600,10 @@ dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
  "codspeed-criterion-compat",
- "compact_str",
- "either",
  "num-bigint",
  "pathdiff",
  "pretty_assertions",
  "rustc-hash 2.1.1",
- "seq-macro",
  "serde",
  "serde_json",
  "stacker",
@@ -6622,7 +6613,6 @@ dependencies = [
  "swc_ecma_visit",
  "swc_malloc",
  "testing",
- "tracing",
  "walkdir",
 ]
 

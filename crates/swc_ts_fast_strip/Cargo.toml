@@ -28,7 +28,6 @@ swc_ecma_ast = { version = "25.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "28.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "41.1.2", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
-  "unstable",
 ] }
 swc_ecma_transforms_base = { version = "45.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_react = { version = "51.0.0", path = "../swc_ecma_transforms_react" }

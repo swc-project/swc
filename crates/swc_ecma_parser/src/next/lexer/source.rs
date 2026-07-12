@@ -56,16 +56,6 @@ impl<'a> Source<'a> {
     }
 
     #[inline(always)]
-    pub(super) fn start_pos(&self) -> BytePos {
-        self.start_pos
-    }
-
-    #[inline(always)]
-    pub(super) fn end_pos(&self) -> BytePos {
-        self.end_pos
-    }
-
-    #[inline(always)]
     pub(super) fn cur(&self) -> Option<u8> {
         if self.current == self.end {
             None
@@ -82,16 +72,6 @@ impl<'a> Source<'a> {
         } else {
             // SAFETY: At least two bytes remain in the allocation.
             Some(unsafe { *self.current.add(1) })
-        }
-    }
-
-    #[inline(always)]
-    pub(super) fn peek_ahead(&self) -> Option<u8> {
-        if self.remaining_len() < 3 {
-            None
-        } else {
-            // SAFETY: At least three bytes remain in the allocation.
-            Some(unsafe { *self.current.add(2) })
         }
     }
 
@@ -124,11 +104,6 @@ impl<'a> Source<'a> {
         self.start_pos + BytePos(self.consumed_len() as u32)
     }
 
-    #[inline(always)]
-    pub(super) fn last_pos(&self) -> BytePos {
-        self.cur_pos()
-    }
-
     /// Return a source slice without changing the cursor.
     ///
     /// # Safety
@@ -143,21 +118,6 @@ impl<'a> Source<'a> {
         let end_offset = (end - self.start_pos).0 as usize;
         // SAFETY: The caller supplies in-bounds UTF-8 boundary offsets.
         unsafe { self.str_between(self.start.add(start_offset), self.start.add(end_offset)) }
-    }
-
-    /// Return a source slice and move the cursor to its end.
-    ///
-    /// # Safety
-    ///
-    /// Same requirements as [`Self::slice_str`].
-    #[inline(always)]
-    pub(super) unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
-        let value = unsafe { self.slice_str(start, end) };
-        let end_offset = (end - self.start_pos).0 as usize;
-        // SAFETY: `slice_str` validated the offset in debug builds and the
-        // caller guarantees it in release builds.
-        self.current = unsafe { self.start.add(end_offset) };
-        value
     }
 
     #[inline]
@@ -189,11 +149,6 @@ impl<'a> Source<'a> {
         let offset = (position - self.start_pos).0 as usize;
         // SAFETY: Caller guarantees `offset` is in bounds.
         self.current = unsafe { self.start.add(offset) };
-    }
-
-    #[inline(always)]
-    pub(super) fn is_byte(&self, byte: u8) -> bool {
-        self.cur() == Some(byte)
     }
 
     #[inline(always)]

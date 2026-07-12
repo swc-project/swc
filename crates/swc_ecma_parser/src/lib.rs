@@ -96,7 +96,6 @@
 //! [tc39/test262]:https://github.com/tc39/test262
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
-#![cfg_attr(test, feature(test))]
 #![deny(clippy::all)]
 #![deny(unused)]
 #![allow(unexpected_cfgs)]
@@ -107,122 +106,17 @@
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
 
-pub mod unstable {
-    //! This module expose tokens related to the `swc_ecma_parser::lexer`.
-    //!
-    //! These implementation tokens are less strict than the collected tokens
-    //! exposed by the default parser API and may change without notice.
-    //!
-    //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
-    #[cfg(feature = "unstable")]
-    pub use crate::lexer::{
-        capturing::Capturing,
-        token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue},
-    };
-
-    /// OXC-derived implementation under development.
-    pub mod next {
-        pub use crate::next::{
-            experimental::{Parser, ParserDetails},
-            lexer::PackedToken,
-        };
-    }
-}
-
-use error::Error;
-use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
-use swc_ecma_ast::*;
-
-mod context;
 pub mod error;
-pub mod lexer;
 mod next;
-mod parser;
 mod syntax;
 
-pub use context::Context;
-pub use lexer::Lexer;
 pub use next::{
     attach_comments, FlowOptions, Language, LanguageVariant, ModuleKind, ParseOptions, Parser,
     ParserReturn, SourceType, Token, TokenKind,
 };
-#[doc(hidden)]
-pub use parser::input;
-pub use parser::PResult;
-#[doc(hidden)]
-pub use parser::Parser as LegacyParser;
-#[cfg(feature = "typescript")]
-pub use parser::ParserCheckpoint;
-#[cfg(test)]
-pub use parser::{bench_parser, test_parser, test_parser_comment};
-pub use swc_common::input::{Input, StringInput};
 #[cfg(feature = "flow")]
 pub use syntax::FlowSyntax;
 pub use syntax::{EsSyntax, Syntax, SyntaxFlags, TsSyntax};
-
-#[cfg(test)]
-fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
-where
-    F: FnOnce(&swc_common::errors::Handler, StringInput<'_>) -> Result<Ret, ()>,
-{
-    use swc_common::FileName;
-
-    ::testing::run_test(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src.to_string());
-
-        f(handler, (&*fm).into())
-    })
-}
-
-pub fn with_file_parser<T>(
-    fm: &SourceFile,
-    syntax: Syntax,
-    target: EsVersion,
-    comments: Option<&dyn Comments>,
-    recovered_errors: &mut Vec<Error>,
-    op: impl for<'aa> FnOnce(&mut LegacyParser<self::Lexer>) -> PResult<T>,
-) -> PResult<T> {
-    let lexer = self::Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
-    let mut p = LegacyParser::new_from(lexer);
-    let ret = op(&mut p);
-
-    recovered_errors.append(&mut p.take_errors());
-
-    ret
-}
-
-macro_rules! expose {
-    (
-        $name:ident,
-        $T:ty,
-        $($t:tt)*
-    ) => {
-        /// Note: This is recommended way to parse a file.
-        ///
-        /// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
-        /// instantiation of generics occur in `swc_ecma_parser` crate.
-        pub fn $name(
-            fm: &SourceFile,
-            syntax: Syntax,
-            target: EsVersion,
-            comments: Option<&dyn Comments>,
-            recovered_errors: &mut Vec<Error>,
-        ) -> PResult<$T> {
-            with_file_parser(fm, syntax, target, comments, recovered_errors, $($t)*)
-        }
-    };
-}
-
-expose!(parse_file_as_expr, Box<Expr>, |p| {
-    // This allow to parse `import.meta`
-    let ctx = p.ctx();
-    p.set_ctx(ctx.union(Context::CanBeModule));
-    p.parse_expr()
-});
-expose!(parse_file_as_module, Module, |p| { p.parse_module() });
-expose!(parse_file_as_script, Script, |p| { p.parse_script() });
-expose!(parse_file_as_commonjs, Script, |p| { p.parse_commonjs() });
-expose!(parse_file_as_program, Program, |p| { p.parse_program() });
 
 #[inline(always)]
 #[cfg(any(

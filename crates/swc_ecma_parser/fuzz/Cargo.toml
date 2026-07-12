@@ -9,7 +9,7 @@ cargo-fuzz = true
 
 [dependencies]
 libfuzzer-sys = "0.4"
-swc_ecma_parser = { path = "..", features = ["flow", "verify"] }
+swc_ecma_parser = { path = "..", features = ["flow"] }
 
 # Keep the fuzz package out of the parent workspace.
 [workspace]
