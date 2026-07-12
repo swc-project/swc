@@ -3,9 +3,9 @@
 use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    BindingIdent, Class, ClassDecl, ClassExpr, ClassMember, ClassMethod, ClassProp, Constructor,
-    Decl, Expr, Function, Ident, IdentName, MethodKind, Param, ParamOrTsParamProp, Pat, PropName,
-    Stmt,
+    Class, ClassDecl, ClassExpr, ClassMember, ClassMethod, ClassProp, ComputedPropName,
+    Constructor, Decl, Expr, Function, Ident, IdentName, MethodKind, Param, ParamOrTsParamProp,
+    PrivateMethod, PrivateName, PrivateProp, PropName, RestPat, StaticBlock, Stmt,
 };
 
 use crate::{
@@ -102,31 +102,65 @@ impl<C: Config> Parser<'_, C> {
         } else {
             false
         };
-        let is_generator = self.eat(Kind::Asterisk);
-        let token = self.token();
-        if !self.at_identifier_name() {
-            return Err(self.expected_error(Kind::Ident));
+        if is_static && self.at(Kind::LBrace) {
+            let body = self.parse_block_statement()?;
+            return Ok(ClassMember::StaticBlock(StaticBlock {
+                span: Span::new_with_checked(start, body.span.hi),
+                body,
+            }));
         }
-        let symbol = Atom::new(self.token_source(token));
-        let is_constructor = !is_static && !is_generator && &*symbol == "constructor";
-        let key = PropName::Ident(IdentName {
-            span: token.span(),
-            sym: symbol,
-        });
-        self.advance();
+        let is_async = if self.at(Kind::Async)
+            && self.lookahead(|parser| {
+                parser.advance();
+                !parser.token().had_line_break() && !parser.at(Kind::LParen)
+            }) {
+            self.advance();
+            true
+        } else {
+            false
+        };
+        let is_generator = self.eat(Kind::Asterisk);
+        let method_kind = if !is_async && !is_generator && self.is_method_kind_prefix() {
+            let kind = if self.at(Kind::Get) {
+                MethodKind::Getter
+            } else {
+                MethodKind::Setter
+            };
+            self.advance();
+            kind
+        } else {
+            MethodKind::Method
+        };
+        let key = self.parse_class_key()?;
+        let key_span = key.span();
+        let is_constructor = !is_static
+            && !is_async
+            && !is_generator
+            && method_kind == MethodKind::Method
+            && matches!(&key, ClassKey::Public(PropName::Ident(name)) if name.sym == "constructor");
 
         if self.at(Kind::LParen) {
             let parameters = self.parse_method_parameters()?;
             if !self.at(Kind::LBrace) {
                 return Err(self.expected_error(Kind::LBrace));
             }
+            let mut method_context = Context::RETURN;
+            if is_async {
+                method_context.insert(Context::AWAIT);
+            }
+            if is_generator {
+                method_context.insert(Context::YIELD);
+            }
             let body = self.with_context(
-                Context::RETURN,
+                method_context,
                 Context::TOP_LEVEL,
                 Self::parse_block_statement,
             )?;
             let span = Span::new_with_checked(start, body.span.hi);
             if is_constructor {
+                let ClassKey::Public(key) = key else {
+                    unreachable!()
+                };
                 return Ok(ClassMember::Constructor(Constructor {
                     span,
                     ctxt: SyntaxContext::empty(),
@@ -140,30 +174,44 @@ impl<C: Config> Parser<'_, C> {
                     is_optional: false,
                 }));
             }
-            return Ok(ClassMember::Method(ClassMethod {
+            let function = Box::new(Function {
+                params: parameters,
+                decorators: Vec::new(),
                 span,
-                key,
-                function: Box::new(Function {
-                    params: parameters,
-                    decorators: Vec::new(),
+                ctxt: SyntaxContext::empty(),
+                body: Some(body),
+                is_generator,
+                is_async,
+                type_params: None,
+                return_type: None,
+            });
+            return Ok(match key {
+                ClassKey::Public(key) => ClassMember::Method(ClassMethod {
                     span,
-                    ctxt: SyntaxContext::empty(),
-                    body: Some(body),
-                    is_generator,
-                    is_async: false,
-                    type_params: None,
-                    return_type: None,
+                    key,
+                    function,
+                    kind: method_kind,
+                    is_static,
+                    accessibility: None,
+                    is_abstract: false,
+                    is_optional: false,
+                    is_override: false,
                 }),
-                kind: MethodKind::Method,
-                is_static,
-                accessibility: None,
-                is_abstract: false,
-                is_optional: false,
-                is_override: false,
-            }));
+                ClassKey::Private(key) => ClassMember::PrivateMethod(PrivateMethod {
+                    span,
+                    key,
+                    function,
+                    kind: method_kind,
+                    is_static,
+                    accessibility: None,
+                    is_abstract: false,
+                    is_optional: false,
+                    is_override: false,
+                }),
+            });
         }
 
-        if is_generator {
+        if is_async || is_generator || method_kind != MethodKind::Method {
             return Err(self.expected_error(Kind::LParen));
         }
         let value = if self.eat(Kind::Eq) {
@@ -171,23 +219,87 @@ impl<C: Config> Parser<'_, C> {
         } else {
             None
         };
-        let end = value.as_ref().map_or(token.end(), |value| value.span().hi);
+        let end = value.as_ref().map_or(key_span.hi, |value| value.span().hi);
         self.consume_semicolon()?;
-        Ok(ClassMember::ClassProp(ClassProp {
-            span: Span::new_with_checked(start, end),
-            key,
-            value,
-            type_ann: None,
-            is_static,
-            decorators: Vec::new(),
-            accessibility: None,
-            is_abstract: false,
-            is_optional: false,
-            is_override: false,
-            readonly: false,
-            declare: false,
-            definite: false,
-        }))
+        let span = Span::new_with_checked(start, end);
+        Ok(match key {
+            ClassKey::Public(key) => ClassMember::ClassProp(ClassProp {
+                span,
+                key,
+                value,
+                type_ann: None,
+                is_static,
+                decorators: Vec::new(),
+                accessibility: None,
+                is_abstract: false,
+                is_optional: false,
+                is_override: false,
+                readonly: false,
+                declare: false,
+                definite: false,
+            }),
+            ClassKey::Private(key) => ClassMember::PrivateProp(PrivateProp {
+                span,
+                ctxt: SyntaxContext::empty(),
+                key,
+                value,
+                type_ann: None,
+                is_static,
+                decorators: Vec::new(),
+                accessibility: None,
+                is_optional: false,
+                is_override: false,
+                readonly: false,
+                definite: false,
+            }),
+        })
+    }
+
+    fn is_method_kind_prefix(&mut self) -> bool {
+        matches!(self.kind(), Kind::Get | Kind::Set)
+            && self.lookahead(|parser| {
+                parser.advance();
+                !parser.at(Kind::LParen) && !parser.token().had_line_break()
+            })
+    }
+
+    fn parse_class_key(&mut self) -> Result<ClassKey, Error> {
+        if self.at(Kind::Hash) {
+            let start = self.token().start();
+            self.advance();
+            let token = self.token();
+            if !self.at_identifier_name() {
+                return Err(self.expected_error(Kind::Ident));
+            }
+            let key = PrivateName {
+                span: Span::new_with_checked(start, token.end()),
+                name: Atom::new(self.token_source(token)),
+            };
+            self.advance();
+            return Ok(ClassKey::Private(key));
+        }
+        if self.at(Kind::LBracket) {
+            let start = self.token().start();
+            self.advance();
+            let expression = self.parse_expression()?;
+            if !self.expect(Kind::RBracket) {
+                return Err(self.expected_error(Kind::RBracket));
+            }
+            return Ok(ClassKey::Public(PropName::Computed(ComputedPropName {
+                span: Span::new_with_checked(start, self.previous_end()),
+                expr: expression,
+            })));
+        }
+        let token = self.token();
+        if !self.at_identifier_name() {
+            return Err(self.expected_error(Kind::Ident));
+        }
+        let key = PropName::Ident(IdentName {
+            span: token.span(),
+            sym: Atom::new(self.token_source(token)),
+        });
+        self.advance();
+        Ok(ClassKey::Public(key))
     }
 
     fn parse_method_parameters(&mut self) -> Result<Vec<Param>, Error> {
@@ -196,19 +308,24 @@ impl<C: Config> Parser<'_, C> {
         }
         let mut parameters = Vec::with_capacity(4);
         while !self.at(Kind::RParen) && !self.at(Kind::Eof) {
-            let token = self.token();
-            if !self.at_identifier_reference() {
-                return Err(self.expected_error(Kind::Ident));
-            }
-            let identifier = Ident::new_no_ctxt(Atom::new(self.token_source(token)), token.span());
-            self.advance();
-            parameters.push(Param {
-                span: token.span(),
-                decorators: Vec::new(),
-                pat: Pat::Ident(BindingIdent {
-                    id: identifier,
+            let pattern = if self.at(Kind::DotDotDot) {
+                let dot3_token = self.token().span();
+                self.advance();
+                let argument = self.parse_binding_pattern(false)?;
+                let span = Span::new_with_checked(dot3_token.lo, argument.span().hi);
+                swc_ecma_ast::Pat::Rest(RestPat {
+                    span,
+                    dot3_token,
+                    arg: Box::new(argument),
                     type_ann: None,
-                }),
+                })
+            } else {
+                self.parse_binding_pattern(true)?
+            };
+            parameters.push(Param {
+                span: pattern.span(),
+                decorators: Vec::new(),
+                pat: pattern,
             });
             if !self.eat(Kind::Comma) {
                 break;
@@ -218,6 +335,20 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::RParen));
         }
         Ok(parameters)
+    }
+}
+
+enum ClassKey {
+    Public(PropName),
+    Private(PrivateName),
+}
+
+impl ClassKey {
+    fn span(&self) -> Span {
+        match self {
+            Self::Public(key) => key.span(),
+            Self::Private(key) => key.span,
+        }
     }
 }
 
@@ -255,6 +386,39 @@ mod tests {
         assert!(matches!(
             variable.decls[0].init.as_deref(),
             Some(Expr::Class(_))
+        ));
+    }
+
+    #[test]
+    fn parses_modern_class_members_directly() {
+        let source = "class Example { static { boot(); } #value = 1; async load({ item }) { \
+                      return await item; } get value() { return this.value; } set value(next) { \
+                      this.value = next; } *[iterator](...args) {} }";
+        let lexer = Lexer::new(source, BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let script = parser.parse_script().unwrap();
+        let Stmt::Decl(Decl::Class(declaration)) = &script.body[0] else {
+            panic!("expected class declaration")
+        };
+        assert!(matches!(
+            declaration.class.body[0],
+            ClassMember::StaticBlock(_)
+        ));
+        assert!(matches!(
+            declaration.class.body[1],
+            ClassMember::PrivateProp(_)
+        ));
+        assert!(matches!(
+            &declaration.class.body[2],
+            ClassMember::Method(method) if method.function.is_async
+        ));
+        assert!(matches!(
+            &declaration.class.body[3],
+            ClassMember::Method(method) if method.kind == swc_ecma_ast::MethodKind::Getter
+        ));
+        assert!(matches!(
+            &declaration.class.body[4],
+            ClassMember::Method(method) if method.kind == swc_ecma_ast::MethodKind::Setter
         ));
     }
 }
