@@ -50,6 +50,14 @@ impl<'a, C: Config> Lexer<'a, C> {
         self.token
     }
 
+    /// Borrow the original source covered by a token.
+    #[inline(always)]
+    pub(crate) fn token_source(&self, token: PackedToken) -> &'a str {
+        // SAFETY: Packed token spans are created exclusively from positions of
+        // this source cursor and therefore are in bounds and UTF-8 aligned.
+        unsafe { self.source.slice_str(token.start(), token.end()) }
+    }
+
     /// Read the next significant token.
     #[inline]
     pub(crate) fn next_token(&mut self) -> PackedToken {

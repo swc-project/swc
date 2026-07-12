@@ -59,6 +59,12 @@ impl<'a, C: Config> Parser<'a, C> {
         self.token.kind()
     }
 
+    /// Borrow source text for a token from the lexer's immutable input.
+    #[inline(always)]
+    pub(crate) fn token_source(&self, token: PackedToken) -> &'a str {
+        self.lexer.token_source(token)
+    }
+
     /// End of the previously consumed token.
     #[inline(always)]
     pub(crate) fn previous_end(&self) -> BytePos {
