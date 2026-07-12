@@ -94,7 +94,7 @@ impl<C: Config> Parser<'_, C> {
             Kind::LParen => {
                 let start = span.lo;
                 self.advance();
-                let expression = self.parse_primary_expression()?;
+                let expression = self.parse_expression()?;
                 if !self.expect(Kind::RParen) {
                     return Err(self.expected_error(Kind::RParen));
                 }

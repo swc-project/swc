@@ -133,7 +133,7 @@ impl<C: Config> Parser<'_, C> {
             };
             arguments.push(ExprOrSpread {
                 spread,
-                expr: self.parse_expression()?,
+                expr: self.parse_assignment_expression()?,
             });
             if !self.eat(Kind::Comma) {
                 break;

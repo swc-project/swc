@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     ArrowExpr, AssignExpr, AssignOp, AssignTarget, BindingIdent, BlockStmtOrExpr, CondExpr, Expr,
-    Ident, Pat, YieldExpr,
+    Ident, Pat, SeqExpr, YieldExpr,
 };
 
 use crate::{
@@ -19,7 +19,23 @@ use crate::{
 impl<C: Config> Parser<'_, C> {
     /// Parse a complete expression through assignment precedence.
     pub(crate) fn parse_expression(&mut self) -> Result<Box<Expr>, Error> {
-        self.parse_assignment_expression()
+        let first = self.parse_assignment_expression()?;
+        if !self.eat(Kind::Comma) {
+            return Ok(first);
+        }
+        let start = first.span().lo;
+        let mut expressions = Vec::with_capacity(2);
+        expressions.push(first);
+        loop {
+            expressions.push(self.parse_assignment_expression()?);
+            if !self.eat(Kind::Comma) {
+                break;
+            }
+        }
+        Ok(Box::new(Expr::Seq(SeqExpr {
+            span: Span::new_with_checked(start, expressions.last().unwrap().span().hi),
+            exprs: expressions,
+        })))
     }
 
     pub(crate) fn parse_assignment_expression(&mut self) -> Result<Box<Expr>, Error> {
@@ -225,6 +241,14 @@ mod tests {
         };
         assert_eq!(first.op, AssignOp::Assign);
         assert!(matches!(&*first.right, Expr::Assign(_)));
+    }
+
+    #[test]
+    fn parses_comma_sequence_at_expression_level() {
+        let lexer = Lexer::new("first = 1, second = 2", BytePos(1), NoTokens).unwrap();
+        let mut parser = Parser::new(lexer, Context::default());
+        let expression = parser.parse_expression().unwrap();
+        assert!(matches!(&*expression, Expr::Seq(sequence) if sequence.exprs.len() == 2));
     }
 
     #[test]
