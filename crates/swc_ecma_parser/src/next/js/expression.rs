@@ -5,7 +5,9 @@ use std::borrow::Cow;
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::Span;
-use swc_ecma_ast::{BigInt, Bool, Expr, Ident, Lit, Null, Number, ParenExpr, Regex, Str, ThisExpr};
+use swc_ecma_ast::{
+    BigInt, Bool, Expr, Ident, Lit, Null, Number, ParenExpr, PrivateName, Regex, Str, ThisExpr,
+};
 
 use crate::{
     error::{Error, SyntaxError},
@@ -29,6 +31,20 @@ impl<C: Config> Parser<'_, C> {
             Kind::This => {
                 self.advance();
                 Ok(Box::new(Expr::This(ThisExpr { span })))
+            }
+            Kind::Hash => {
+                let start = token.start();
+                self.advance();
+                let name = self.token();
+                if !self.at_identifier_name() {
+                    return Err(self.expected_error(Kind::Ident));
+                }
+                let private = PrivateName {
+                    span: Span::new_with_checked(start, name.end()),
+                    name: self.identifier_atom(name),
+                };
+                self.advance();
+                Ok(Box::new(Expr::PrivateName(private)))
             }
             Kind::Null => {
                 self.advance();

@@ -2,9 +2,10 @@
 
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    Class, ClassDecl, ClassExpr, ClassMember, ClassMethod, ClassProp, Constructor, Decl, Expr,
-    Function, Ident, MethodKind, Param, ParamOrTsParamProp, PrivateMethod, PrivateName,
-    PrivateProp, PropName, RestPat, StaticBlock, Stmt,
+    Accessibility, BindingIdent, Class, ClassDecl, ClassExpr, ClassMember, ClassMethod, ClassProp,
+    Constructor, Decl, Expr, Function, Ident, MethodKind, Param, ParamOrTsParamProp, PrivateMethod,
+    PrivateName, PrivateProp, PropName, RestPat, StaticBlock, Stmt, TsExprWithTypeArgs, TsFnParam,
+    TsIndexSignature,
 };
 
 use crate::{
@@ -37,7 +38,11 @@ impl<C: Config> Parser<'_, C> {
     fn parse_class(&mut self, declaration: bool) -> Result<(Option<Ident>, Box<Class>), Error> {
         let start = self.token().start();
         self.advance();
-        let identifier = if self.at_identifier_reference() {
+        let identifier = if self.at_identifier_reference()
+            && !(self.context().contains(Context::TYPESCRIPT)
+                && !declaration
+                && self.at(Kind::Implements))
+        {
             let token = self.token();
             let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
             self.advance();
@@ -55,11 +60,35 @@ impl<C: Config> Parser<'_, C> {
         };
         #[cfg(not(feature = "typescript"))]
         let type_params = None;
+        let mut super_type_params = None;
         let super_class = if self.eat(Kind::Extends) {
-            Some(self.parse_expression()?)
+            let expression = self.parse_left_hand_side_expression()?;
+            if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Lt) {
+                super_type_params = Some(self.parse_ts_type_arguments()?);
+            }
+            Some(expression)
         } else {
             None
         };
+        let mut implements = Vec::new();
+        if self.context().contains(Context::TYPESCRIPT) && self.eat(Kind::Implements) {
+            loop {
+                let expression = self.parse_left_hand_side_expression()?;
+                let type_args = if self.at(Kind::Lt) {
+                    Some(self.parse_ts_type_arguments()?)
+                } else {
+                    None
+                };
+                implements.push(TsExprWithTypeArgs {
+                    span: Span::new_with_checked(expression.span().lo, self.previous_end()),
+                    expr: expression,
+                    type_args,
+                });
+                if !self.eat(Kind::Comma) {
+                    break;
+                }
+            }
+        }
         if !self.expect(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));
         }
@@ -88,32 +117,114 @@ impl<C: Config> Parser<'_, C> {
                 super_class,
                 is_abstract: false,
                 type_params,
-                super_type_params: None,
-                implements: Vec::new(),
+                super_type_params,
+                implements,
             }),
         ))
     }
 
     fn parse_class_member(&mut self) -> Result<ClassMember, Error> {
         let start = self.token().start();
-        let is_static = if self.at(Kind::Static)
+        let mut is_static = false;
+        let mut accessibility = None;
+        let mut member_abstract = false;
+        let mut readonly = false;
+        let mut declare = false;
+        let mut is_override = false;
+        if self.context().contains(Context::TYPESCRIPT) {
+            loop {
+                let modifier = self.kind();
+                if !matches!(
+                    modifier,
+                    Kind::Static
+                        | Kind::Public
+                        | Kind::Protected
+                        | Kind::Private
+                        | Kind::Abstract
+                        | Kind::Readonly
+                        | Kind::Declare
+                        | Kind::Override
+                ) || !self.lookahead(|parser| {
+                    parser.advance();
+                    !matches!(
+                        parser.kind(),
+                        Kind::LParen
+                            | Kind::Colon
+                            | Kind::QuestionMark
+                            | Kind::Bang
+                            | Kind::Eq
+                            | Kind::Semi
+                            | Kind::RBrace
+                    )
+                }) {
+                    break;
+                }
+                self.advance();
+                match modifier {
+                    Kind::Static => is_static = true,
+                    Kind::Public => accessibility = Some(Accessibility::Public),
+                    Kind::Protected => accessibility = Some(Accessibility::Protected),
+                    Kind::Private => accessibility = Some(Accessibility::Private),
+                    Kind::Abstract => member_abstract = true,
+                    Kind::Readonly => readonly = true,
+                    Kind::Declare => declare = true,
+                    Kind::Override => is_override = true,
+                    _ => unreachable!(),
+                }
+            }
+        } else if self.at(Kind::Static)
             && self.lookahead(|parser| {
                 parser.advance();
                 !matches!(
                     parser.kind(),
                     Kind::LParen | Kind::Eq | Kind::Semi | Kind::RBrace
                 )
-            }) {
+            })
+        {
             self.advance();
-            true
-        } else {
-            false
-        };
+            is_static = true;
+        }
         if is_static && self.at(Kind::LBrace) {
             let body = self.parse_block_statement()?;
             return Ok(ClassMember::StaticBlock(StaticBlock {
                 span: Span::new_with_checked(start, body.span.hi),
                 body,
+            }));
+        }
+        if self.context().contains(Context::TYPESCRIPT)
+            && self.at(Kind::LBracket)
+            && self.lookahead(|parser| {
+                parser.advance();
+                parser.advance();
+                parser.at(Kind::Colon)
+            })
+        {
+            self.advance();
+            let token = self.token();
+            if !self.at_identifier_reference() {
+                return Err(self.expected_error(Kind::Ident));
+            }
+            let mut binding = BindingIdent {
+                id: Ident::new_no_ctxt(self.identifier_atom(token), token.span()),
+                type_ann: None,
+            };
+            self.advance();
+            binding.type_ann = Some(self.parse_ts_type_annotation()?);
+            if !self.expect(Kind::RBracket) {
+                return Err(self.expected_error(Kind::RBracket));
+            }
+            let type_ann = if self.at(Kind::Colon) {
+                Some(self.parse_ts_type_annotation()?)
+            } else {
+                None
+            };
+            self.eat(Kind::Semi);
+            return Ok(ClassMember::TsIndexSignature(TsIndexSignature {
+                params: vec![TsFnParam::Ident(binding)],
+                type_ann,
+                readonly,
+                is_static,
+                span: Span::new_with_checked(start, self.previous_end()),
             }));
         }
         let is_async = if self.at(Kind::Async)
@@ -204,6 +315,23 @@ impl<C: Config> Parser<'_, C> {
                 && (self.eat(Kind::Semi) || self.token().had_line_break() || self.at(Kind::RBrace))
             {
                 let span = Span::new_with_checked(start, self.previous_end());
+                if is_constructor {
+                    let ClassKey::Public(key) = key else {
+                        unreachable!()
+                    };
+                    return Ok(ClassMember::Constructor(Constructor {
+                        span,
+                        ctxt: SyntaxContext::empty(),
+                        key,
+                        params: parameters
+                            .into_iter()
+                            .map(ParamOrTsParamProp::Param)
+                            .collect(),
+                        body: None,
+                        accessibility,
+                        is_optional,
+                    }));
+                }
                 let function = Box::new(Function {
                     params: parameters,
                     decorators: Vec::new(),
@@ -222,10 +350,10 @@ impl<C: Config> Parser<'_, C> {
                         function,
                         kind: method_kind,
                         is_static,
-                        accessibility: None,
-                        is_abstract: false,
+                        accessibility,
+                        is_abstract: member_abstract,
                         is_optional,
-                        is_override: false,
+                        is_override,
                     }),
                     ClassKey::Private(key) => ClassMember::PrivateMethod(PrivateMethod {
                         span,
@@ -233,10 +361,10 @@ impl<C: Config> Parser<'_, C> {
                         function,
                         kind: method_kind,
                         is_static,
-                        accessibility: None,
-                        is_abstract: false,
+                        accessibility,
+                        is_abstract: member_abstract,
                         is_optional,
-                        is_override: false,
+                        is_override,
                     }),
                 });
             }
@@ -269,7 +397,7 @@ impl<C: Config> Parser<'_, C> {
                         .map(ParamOrTsParamProp::Param)
                         .collect(),
                     body: Some(body),
-                    accessibility: None,
+                    accessibility,
                     is_optional: false,
                 }));
             }
@@ -291,10 +419,10 @@ impl<C: Config> Parser<'_, C> {
                     function,
                     kind: method_kind,
                     is_static,
-                    accessibility: None,
-                    is_abstract: false,
+                    accessibility,
+                    is_abstract: member_abstract,
                     is_optional,
-                    is_override: false,
+                    is_override,
                 }),
                 ClassKey::Private(key) => ClassMember::PrivateMethod(PrivateMethod {
                     span,
@@ -302,10 +430,10 @@ impl<C: Config> Parser<'_, C> {
                     function,
                     kind: method_kind,
                     is_static,
-                    accessibility: None,
-                    is_abstract: false,
+                    accessibility,
+                    is_abstract: member_abstract,
                     is_optional,
-                    is_override: false,
+                    is_override,
                 }),
             });
         }
@@ -341,12 +469,12 @@ impl<C: Config> Parser<'_, C> {
                 type_ann,
                 is_static,
                 decorators: Vec::new(),
-                accessibility: None,
-                is_abstract: false,
+                accessibility,
+                is_abstract: member_abstract,
                 is_optional,
-                is_override: false,
-                readonly: false,
-                declare: false,
+                is_override,
+                readonly,
+                declare,
                 definite,
             }),
             ClassKey::Private(key) => ClassMember::PrivateProp(PrivateProp {
@@ -357,10 +485,10 @@ impl<C: Config> Parser<'_, C> {
                 type_ann,
                 is_static,
                 decorators: Vec::new(),
-                accessibility: None,
+                accessibility,
                 is_optional,
-                is_override: false,
-                readonly: false,
+                is_override,
+                readonly,
                 definite,
             }),
         })
@@ -370,7 +498,7 @@ impl<C: Config> Parser<'_, C> {
         matches!(self.kind(), Kind::Get | Kind::Set)
             && self.lookahead(|parser| {
                 parser.advance();
-                !parser.at(Kind::LParen) && !parser.token().had_line_break()
+                !matches!(parser.kind(), Kind::LParen | Kind::Lt)
             })
     }
 
@@ -401,13 +529,22 @@ impl<C: Config> Parser<'_, C> {
             let mut pattern = if self.at(Kind::DotDotDot) {
                 let dot3_token = self.token().span();
                 self.advance();
-                let argument = self.parse_binding_pattern(false)?;
+                let mut argument = self.parse_binding_pattern(false)?;
+                #[cfg(feature = "typescript")]
+                let type_ann = match &mut argument {
+                    swc_ecma_ast::Pat::Ident(pattern) => pattern.type_ann.take(),
+                    swc_ecma_ast::Pat::Array(pattern) => pattern.type_ann.take(),
+                    swc_ecma_ast::Pat::Object(pattern) => pattern.type_ann.take(),
+                    _ => None,
+                };
+                #[cfg(not(feature = "typescript"))]
+                let type_ann = None;
                 let span = Span::new_with_checked(dot3_token.lo, argument.span().hi);
                 swc_ecma_ast::Pat::Rest(RestPat {
                     span,
                     dot3_token,
                     arg: Box::new(argument),
-                    type_ann: None,
+                    type_ann,
                 })
             } else {
                 self.parse_binding_pattern(true)?

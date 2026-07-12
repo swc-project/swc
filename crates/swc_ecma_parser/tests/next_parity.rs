@@ -79,8 +79,8 @@ fn assert_valid_fixture_parity(
     });
     assert!(
         next_program.eq_ignore_span(&legacy_program),
-        "normalized AST mismatch for {}",
-        path.display()
+        "normalized AST mismatch for {}\nlegacy: {legacy_program:#?}\nnext: {next_program:#?}",
+        path.display(),
     );
 }
 

@@ -155,7 +155,12 @@ impl<C: Config> Parser<'_, C> {
             Kind::LBrace => Pat::Object(self.parse_object_binding_pattern()?),
             _ => {
                 let token = self.token();
-                if !self.at_identifier_reference() {
+                if !self.at_identifier_reference()
+                    && !(self
+                        .context()
+                        .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                        && self.at(Kind::This))
+                {
                     return Err(self.expected_error(Kind::Ident));
                 }
                 let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());

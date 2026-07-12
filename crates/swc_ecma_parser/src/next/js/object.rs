@@ -86,7 +86,7 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         if self.eat(Kind::Asterisk) {
             let key = self.parse_property_name()?;
-            return self.parse_object_method(start, key, false, true);
+            return self.parse_object_method(start, key, false, true, None);
         }
 
         let prefix = self.kind();
@@ -99,7 +99,17 @@ impl<C: Config> Parser<'_, C> {
             }))));
         }
         if self.at(Kind::LParen) {
-            return self.parse_object_method(start, key, false, false);
+            return self.parse_object_method(start, key, false, false, None);
+        }
+
+        #[cfg(feature = "typescript")]
+        if self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.at(Kind::Lt)
+        {
+            let type_params = Some(self.parse_ts_type_parameters()?);
+            return self.parse_object_method(start, key, false, false, type_params);
         }
 
         if !prefix_had_escape && matches!(prefix, Kind::Get | Kind::Set) {
@@ -113,7 +123,7 @@ impl<C: Config> Parser<'_, C> {
         {
             let is_generator = self.eat(Kind::Asterisk);
             let method_key = self.parse_property_name()?;
-            return self.parse_object_method(start, method_key, true, is_generator);
+            return self.parse_object_method(start, method_key, true, is_generator, None);
         }
 
         let PropName::Ident(name) = key else {
@@ -177,6 +187,7 @@ impl<C: Config> Parser<'_, C> {
         key: PropName,
         is_async: bool,
         is_generator: bool,
+        type_params: Option<Box<swc_ecma_ast::TsTypeParamDecl>>,
     ) -> Result<PropOrSpread, Error> {
         let mut parameter_context = crate::next::parser::context::Context::empty();
         if is_async {
@@ -220,7 +231,7 @@ impl<C: Config> Parser<'_, C> {
                 body: Some(body),
                 is_generator,
                 is_async,
-                type_params: None,
+                type_params,
                 return_type: None,
             }),
         }))))

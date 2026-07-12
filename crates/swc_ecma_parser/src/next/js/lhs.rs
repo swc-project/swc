@@ -4,7 +4,7 @@ use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     CallExpr, Callee, ComputedPropName, Expr, ExprOrSpread, IdentName, Import, ImportPhase,
     MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, OptCall, OptChainBase,
-    OptChainExpr, Super, SuperProp, SuperPropExpr, TaggedTpl,
+    OptChainExpr, PrivateName, Super, SuperProp, SuperPropExpr, TaggedTpl,
 };
 
 use crate::{
@@ -80,6 +80,20 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn parse_member_identifier(&mut self) -> Result<MemberProp, Error> {
+        if self.at(Kind::Hash) {
+            let start = self.token().start();
+            self.advance();
+            let token = self.token();
+            if !self.at_identifier_name() {
+                return Err(self.expected_error(Kind::Ident));
+            }
+            let property = MemberProp::PrivateName(PrivateName {
+                span: Span::new_with_checked(start, token.end()),
+                name: self.identifier_atom(token),
+            });
+            self.advance();
+            return Ok(property);
+        }
         let property_token = self.token();
         if !self.at_identifier_name() {
             return Err(self.expected_error(Kind::Ident));

@@ -43,6 +43,32 @@ impl<C: Config> Parser<'_, C> {
             Kind::LBrace => self.parse_block_statement().map(Stmt::Block),
             Kind::Break | Kind::Continue => self.parse_jump_statement(),
             Kind::Class => self.parse_class_declaration(),
+            #[cfg(feature = "typescript")]
+            Kind::Abstract | Kind::Declare
+                if self.context().contains(Context::TYPESCRIPT)
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        if parser.at(Kind::Abstract) || parser.at(Kind::Declare) {
+                            parser.advance();
+                        }
+                        parser.at(Kind::Class)
+                    }) =>
+            {
+                let mut declare = false;
+                let mut abstract_class = false;
+                while matches!(self.kind(), Kind::Abstract | Kind::Declare) {
+                    declare |= self.at(Kind::Declare);
+                    abstract_class |= self.at(Kind::Abstract);
+                    self.advance();
+                }
+                let mut statement = self.parse_class_declaration()?;
+                let Stmt::Decl(Decl::Class(class)) = &mut statement else {
+                    unreachable!("class modifier must produce a class declaration")
+                };
+                class.declare = declare;
+                class.class.is_abstract = abstract_class;
+                Ok(statement)
+            }
             Kind::Debugger => self.parse_debugger_statement(),
             Kind::For => self.parse_for_statement(),
             Kind::Function => self.parse_function_declaration(),
