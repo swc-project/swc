@@ -107,7 +107,6 @@
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
 
-#[cfg(feature = "unstable")]
 pub mod unstable {
     //! This module expose tokens related to the `swc_ecma_parser::lexer`.
     //!
@@ -115,6 +114,7 @@ pub mod unstable {
     //! exposed by the default parser API and may change without notice.
     //!
     //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
+    #[cfg(feature = "unstable")]
     pub use crate::lexer::{
         capturing::Capturing,
         token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue},

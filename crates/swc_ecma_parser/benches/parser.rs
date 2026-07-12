@@ -3,8 +3,8 @@ extern crate swc_malloc;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_parser::{
-    lexer::Lexer, LegacyParser as Parser, Parser as NextParser, SourceType, StringInput, Syntax,
-    TsSyntax,
+    lexer::Lexer, unstable::next::Parser as IndependentParser, Language, LegacyParser as Parser,
+    Parser as NextParser, SourceType, StringInput, Syntax, TsSyntax,
 };
 
 fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
@@ -29,9 +29,11 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
 }
 
 fn bench_next_module(b: &mut Bencher, source_type: SourceType, src: &str) {
-    b.iter(|| {
-        black_box(NextParser::new(src, source_type).parse());
-    });
+    if source_type.language() == Language::JavaScript {
+        b.iter(|| black_box(IndependentParser::new(src).parse_module()));
+    } else {
+        b.iter(|| black_box(NextParser::new(src, source_type).parse()));
+    }
 }
 
 fn bench_files(c: &mut Criterion) {

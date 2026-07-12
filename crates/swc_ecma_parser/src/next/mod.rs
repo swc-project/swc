@@ -4,7 +4,6 @@
 //! reference parser can remain isolated while the new engine is brought up.
 
 mod api;
-#[cfg(feature = "unstable")]
 pub(crate) mod experimental;
 #[allow(dead_code)]
 pub(crate) mod js;
