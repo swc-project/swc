@@ -112,7 +112,7 @@ impl<C: Config> Parser<'_, C> {
         })))
     }
 
-    fn parse_conditional_expression(&mut self) -> Result<Box<Expr>, Error> {
+    pub(crate) fn parse_conditional_expression(&mut self) -> Result<Box<Expr>, Error> {
         let test = self.parse_binary_expression(1)?;
         if !self.eat(Kind::QuestionMark) {
             return Ok(test);

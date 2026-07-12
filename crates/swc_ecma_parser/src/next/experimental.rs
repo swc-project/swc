@@ -141,6 +141,45 @@ impl<'a> Parser<'a> {
         parser.parse_module()
     }
 
+    /// Parse Flow syntax with the independent cursor. Flow shares the common
+    /// typed grammar core with TypeScript and adds its own productions on top.
+    #[cfg(feature = "flow")]
+    pub fn parse_flow_script(self, jsx: bool) -> Result<Script, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut context = Context::default() | Context::TYPESCRIPT | Context::FLOW;
+        if jsx {
+            context.insert(Context::TSX);
+        }
+        let mut parser = ParserImpl::new(lexer, context);
+        parser.parse_script()
+    }
+
+    /// Parse a Flow module with the independent cursor.
+    #[cfg(feature = "flow")]
+    pub fn parse_flow_module(self, jsx: bool) -> Result<Module, Error> {
+        let lexer = Lexer::new(self.source, self.start_pos, NoTokens).ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut context = Context::default()
+            | Context::TYPESCRIPT
+            | Context::FLOW
+            | Context::MODULE
+            | Context::AWAIT;
+        if jsx {
+            context.insert(Context::TSX);
+        }
+        let mut parser = ParserImpl::new(lexer, context);
+        parser.parse_module()
+    }
+
     /// Parse a script with statically enabled packed-token collection.
     pub fn parse_script_with_tokens(self) -> Result<ParserDetails, Error> {
         let lexer = Lexer::new(

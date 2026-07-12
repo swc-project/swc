@@ -5,8 +5,8 @@ use swc_ecma_ast::{
     Accessibility, AutoAccessor, BindingIdent, Class, ClassDecl, ClassExpr, ClassMember,
     ClassMethod, ClassProp, Constructor, Decl, Decorator, Expr, Function, Ident,
     Key as ClassMemberKey, MethodKind, Param, ParamOrTsParamProp, PrivateMethod, PrivateName,
-    PrivateProp, PropName, RestPat, StaticBlock, Stmt, TsFnParam, TsIndexSignature, TsParamProp,
-    TsParamPropParam,
+    PrivateProp, PropName, RestPat, StaticBlock, Stmt, Str, TsFnParam, TsIndexSignature,
+    TsParamProp, TsParamPropParam,
 };
 
 use crate::{
@@ -135,7 +135,16 @@ impl<C: Config> Parser<'_, C> {
 
     fn parse_class_member(&mut self) -> Result<ClassMember, Error> {
         let start = self.token().start();
-        let decorators = self.parse_decorators()?;
+        let decorators = if self.context().contains(Context::FLOW)
+            && self.at(Kind::At)
+            && self.lookahead(|parser| {
+                parser.advance();
+                parser.at(Kind::At)
+            }) {
+            Vec::new()
+        } else {
+            self.parse_decorators()?
+        };
         let mut is_static = false;
         let mut accessibility = None;
         let mut member_abstract = false;
@@ -143,6 +152,13 @@ impl<C: Config> Parser<'_, C> {
         let mut declare = false;
         let mut is_override = false;
         let mut is_auto_accessor = false;
+        if self.context().contains(Context::FLOW) {
+            if self.eat(Kind::Plus) {
+                readonly = true;
+            } else {
+                self.eat(Kind::Minus);
+            }
+        }
         if self.context().contains(Context::TYPESCRIPT) {
             loop {
                 let modifier = self.kind();
@@ -568,6 +584,28 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn parse_class_key(&mut self) -> Result<ClassKey, Error> {
+        if self.context().contains(Context::FLOW)
+            && self.at(Kind::At)
+            && self.lookahead(|parser| {
+                parser.advance();
+                parser.at(Kind::At)
+            })
+        {
+            let start = self.token().start();
+            self.advance();
+            self.advance();
+            let token = self.token();
+            if !self.at_identifier_name() {
+                return Err(self.expected_error(Kind::Ident));
+            }
+            let value = format!("@@{}", self.identifier_atom(token));
+            self.advance();
+            return Ok(ClassKey::Public(PropName::Str(Str {
+                span: Span::new_with_checked(start, token.end()),
+                value: value.into(),
+                raw: None,
+            })));
+        }
         if self.at(Kind::Hash) {
             let start = self.token().start();
             self.advance();
@@ -595,26 +633,83 @@ impl<C: Config> Parser<'_, C> {
             let parameter_start = decorators
                 .first()
                 .map_or(self.token().start(), |decorator| decorator.span.lo);
-            let mut pattern = if self.at(Kind::DotDotDot) {
+            let flow_anonymous = ((self.context().contains(Context::FLOW_FUNCTION_TYPE)
+                && (self.at(Kind::LParen)
+                    || self.at(Kind::LBrace)
+                    || self.at(Kind::LBracket)
+                    || self.at(Kind::QuestionMark)
+                    || (self.at_identifier_reference()
+                        && self.lookahead(|parser| {
+                            parser.advance();
+                            matches!(parser.kind(), Kind::Lt | Kind::Dot)
+                        }))))
+                || (self.context().contains(Context::FLOW) && self.at(Kind::LParen)))
+                && !self.at(Kind::DotDotDot)
+                && !(self.at_identifier_reference()
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        matches!(parser.kind(), Kind::Colon | Kind::QuestionMark)
+                    }));
+            let mut pattern = if flow_anonymous {
+                let start = self.token().start();
+                let type_ann = self.parse_ts_type()?;
+                swc_ecma_ast::Pat::Ident(BindingIdent {
+                    id: Ident::new_no_ctxt(
+                        format!("__flow_anon_param_{}", parameters.len()).into(),
+                        Span::new_with_checked(start, start),
+                    ),
+                    type_ann: Some(Box::new(swc_ecma_ast::TsTypeAnn {
+                        span: type_ann.span(),
+                        type_ann,
+                    })),
+                })
+            } else if self.at(Kind::DotDotDot) {
                 let dot3_token = self.token().span();
                 self.advance();
-                let mut argument = self.parse_binding_pattern(false)?;
-                #[cfg(feature = "typescript")]
-                let type_ann = match &mut argument {
-                    swc_ecma_ast::Pat::Ident(pattern) => pattern.type_ann.take(),
-                    swc_ecma_ast::Pat::Array(pattern) => pattern.type_ann.take(),
-                    swc_ecma_ast::Pat::Object(pattern) => pattern.type_ann.take(),
-                    _ => None,
-                };
-                #[cfg(not(feature = "typescript"))]
-                let type_ann = None;
-                let span = Span::new_with_checked(dot3_token.lo, argument.span().hi);
-                swc_ecma_ast::Pat::Rest(RestPat {
-                    span,
-                    dot3_token,
-                    arg: Box::new(argument),
-                    type_ann,
-                })
+                if self.context().contains(Context::FLOW_FUNCTION_TYPE)
+                    && !(self.at_identifier_reference()
+                        && self.lookahead(|parser| {
+                            parser.advance();
+                            parser.at(Kind::Colon)
+                        }))
+                {
+                    let type_ann = self.parse_ts_type()?;
+                    let end = type_ann.span().hi;
+                    let argument = swc_ecma_ast::Pat::Ident(BindingIdent {
+                        id: Ident::new_no_ctxt(
+                            format!("__flow_anon_param_{}", parameters.len()).into(),
+                            Span::new_with_checked(dot3_token.lo, dot3_token.lo),
+                        ),
+                        type_ann: Some(Box::new(swc_ecma_ast::TsTypeAnn {
+                            span: type_ann.span(),
+                            type_ann,
+                        })),
+                    });
+                    swc_ecma_ast::Pat::Rest(RestPat {
+                        span: Span::new_with_checked(dot3_token.lo, end),
+                        dot3_token,
+                        arg: Box::new(argument),
+                        type_ann: None,
+                    })
+                } else {
+                    let mut argument = self.parse_binding_pattern(false)?;
+                    #[cfg(feature = "typescript")]
+                    let type_ann = match &mut argument {
+                        swc_ecma_ast::Pat::Ident(pattern) => pattern.type_ann.take(),
+                        swc_ecma_ast::Pat::Array(pattern) => pattern.type_ann.take(),
+                        swc_ecma_ast::Pat::Object(pattern) => pattern.type_ann.take(),
+                        _ => None,
+                    };
+                    #[cfg(not(feature = "typescript"))]
+                    let type_ann = None;
+                    let span = Span::new_with_checked(dot3_token.lo, argument.span().hi);
+                    swc_ecma_ast::Pat::Rest(RestPat {
+                        span,
+                        dot3_token,
+                        arg: Box::new(argument),
+                        type_ann,
+                    })
+                }
             } else {
                 self.parse_binding_pattern(true)?
             };

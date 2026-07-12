@@ -3,7 +3,7 @@
 bitflags::bitflags! {
     /// Flags parameterizing recursive-descent productions.
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub(crate) struct Context: u16 {
+    pub(crate) struct Context: u32 {
         /// Relational expressions may contain the `in` operator.
         const IN = 1 << 0;
         /// Parse `yield` as an expression keyword.
@@ -37,6 +37,10 @@ bitflags::bitflags! {
         /// The first parenthesized layer of an arrow return annotation must
         /// be parsed as a type rather than reinterpreted as a function type.
         const TS_ARROW_RETURN_TYPE = 1 << 15;
+        /// Flow grammar productions are enabled.
+        const FLOW = 1 << 16;
+        /// Flow function-type parameters may omit binding names.
+        const FLOW_FUNCTION_TYPE = 1 << 17;
     }
 }
 

@@ -3,6 +3,8 @@
 mod assignment;
 mod class;
 mod expression;
+#[cfg(feature = "flow")]
+mod flow;
 mod function;
 mod jsx;
 mod lhs;

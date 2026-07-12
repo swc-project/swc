@@ -4,7 +4,7 @@ use std::borrow::Cow;
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     BigInt, Bool, Expr, Ident, Lit, Null, Number, ParenExpr, PrivateName, Regex, Str, ThisExpr,
 };
@@ -12,7 +12,10 @@ use swc_ecma_ast::{
 use crate::{
     error::{Error, SyntaxError},
     lexer::Token as Kind,
-    next::{lexer::config::Config, parser::cursor::Parser},
+    next::{
+        lexer::config::Config,
+        parser::{context::Context, cursor::Parser},
+    },
 };
 
 impl<C: Config> Parser<'_, C> {
@@ -21,6 +24,17 @@ impl<C: Config> Parser<'_, C> {
         let token = self.token();
         let span = token.span();
         match token.kind() {
+            #[cfg(feature = "flow")]
+            Kind::Ident
+                if self.context().contains(Context::FLOW)
+                    && self.token_source(token) == "match"
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        parser.at(Kind::LParen)
+                    }) =>
+            {
+                self.parse_flow_match_expression()
+            }
             Kind::Async if self.is_async_function_start() => self.parse_function_expression(),
             Kind::Class => self.parse_class_expression(),
             _ if self.at_identifier_reference() => {
@@ -110,11 +124,24 @@ impl<C: Config> Parser<'_, C> {
             Kind::LParen => {
                 let start = span.lo;
                 self.advance();
-                let expression = self.with_context(
+                let mut expression = self.with_context(
                     crate::next::parser::context::Context::IN,
                     crate::next::parser::context::Context::empty(),
                     Self::parse_expression,
                 )?;
+                #[cfg(feature = "flow")]
+                if self
+                    .context()
+                    .contains(crate::next::parser::context::Context::FLOW)
+                    && self.at(Kind::Colon)
+                {
+                    let type_ann = self.parse_ts_type_annotation()?;
+                    expression = Box::new(Expr::TsAs(swc_ecma_ast::TsAsExpr {
+                        span: Span::new_with_checked(expression.span().lo, type_ann.span.hi),
+                        expr: expression,
+                        type_ann: type_ann.type_ann,
+                    }));
+                }
                 if !self.expect(Kind::RParen) {
                     return Err(self.expected_error(Kind::RParen));
                 }

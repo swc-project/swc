@@ -5,7 +5,7 @@ use std::{
 
 #[cfg(feature = "flow")]
 use serde::Deserialize;
-use swc_common::{BytePos, EqIgnoreSpan, Spanned};
+use swc_common::{BytePos, Spanned};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{
     lexer::Lexer, unstable::next::Parser as IndependentParser, EsSyntax, LegacyParser, ModuleKind,
@@ -64,21 +64,13 @@ fn assert_valid_fixture_parity(
             }
         }
         #[cfg(feature = "flow")]
-        (Syntax::Flow(_), _) => {
-            let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
-            let next = NextParser::new(&source, source_type)
-                .with_options(options)
-                .parse();
-            if next.panicked {
-                Err(next
-                    .diagnostics
-                    .into_iter()
-                    .next()
-                    .expect("panicked parser must return a diagnostic"))
-            } else {
-                Ok(next.program)
-            }
-        }
+        (Syntax::Flow(config), Program::Script(_)) => IndependentParser::new(&source)
+            .parse_flow_script(config.jsx)
+            .map(Program::Script),
+        #[cfg(feature = "flow")]
+        (Syntax::Flow(config), Program::Module(_)) => IndependentParser::new(&source)
+            .parse_flow_module(config.jsx)
+            .map(Program::Module),
         (_, Program::Script(_)) => IndependentParser::new(&source)
             .parse_script()
             .map(Program::Script),
@@ -94,11 +86,34 @@ fn assert_valid_fixture_parity(
             error.kind()
         )
     });
-    assert!(
-        next_program.eq_ignore_span(&legacy_program),
-        "normalized AST mismatch for {}\nlegacy: {legacy_program:#?}\nnext: {next_program:#?}",
+    let legacy_normalized = normalize_ast(&legacy_program);
+    let next_normalized = normalize_ast(&next_program);
+    assert_eq!(
+        next_normalized,
+        legacy_normalized,
+        "normalized AST mismatch for {}",
         path.display(),
     );
+}
+
+fn normalize_ast(program: &Program) -> serde_json::Value {
+    fn remove_locations(value: &mut serde_json::Value) {
+        match value {
+            serde_json::Value::Array(values) => {
+                values.iter_mut().for_each(remove_locations);
+            }
+            serde_json::Value::Object(map) => {
+                map.remove("span");
+                map.remove("ctxt");
+                map.values_mut().for_each(remove_locations);
+            }
+            _ => {}
+        }
+    }
+
+    let mut value = serde_json::to_value(program).expect("AST must be serializable");
+    remove_locations(&mut value);
+    value
 }
 
 fn assert_invalid_fixture_terminates(path: PathBuf, syntax: Syntax, module_kind: ModuleKind) {

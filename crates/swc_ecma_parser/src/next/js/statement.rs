@@ -117,6 +117,20 @@ impl<C: Config> Parser<'_, C> {
             {
                 self.parse_ts_type_alias_declaration()
             }
+            #[cfg(feature = "flow")]
+            Kind::Ident
+                if self.context().contains(Context::FLOW)
+                    && self.token_source(self.token()) == "opaque" =>
+            {
+                self.parse_flow_opaque_type()
+            }
+            #[cfg(feature = "flow")]
+            Kind::Ident
+                if self.context().contains(Context::FLOW)
+                    && self.token_source(self.token()) == "component" =>
+            {
+                self.parse_flow_component_declaration()
+            }
             #[cfg(feature = "typescript")]
             Kind::Enum if self.context().contains(Context::TYPESCRIPT) => {
                 self.parse_ts_enum_declaration(false)
@@ -596,8 +610,61 @@ impl<C: Config> Parser<'_, C> {
 
     #[cfg(feature = "typescript")]
     fn parse_ts_declare_statement(&mut self) -> Result<Stmt, Error> {
+        let start = self.token().start();
         debug_assert!(self.eat(Kind::Declare));
         let abstract_class = self.eat(Kind::Abstract);
+        #[cfg(feature = "flow")]
+        let flow_export = self.context().contains(Context::FLOW) && self.eat(Kind::Export);
+        #[cfg(feature = "flow")]
+        let flow_default = flow_export && self.eat(Kind::Default);
+        #[cfg(feature = "flow")]
+        if flow_export
+            && (self.at(Kind::LBrace)
+                || self.at(Kind::Asterisk)
+                || (flow_default
+                    && ((matches!(self.kind(), Kind::Function | Kind::Class)
+                        && self.lookahead(|parser| {
+                            parser.advance();
+                            matches!(parser.kind(), Kind::LParen | Kind::LBrace)
+                        }))
+                        || (self.at(Kind::Async)
+                            && self.lookahead(|parser| {
+                                parser.advance();
+                                parser.eat(Kind::Function) && parser.at(Kind::LParen)
+                            })))))
+        {
+            return self.parse_flow_declare_export_fallback(start, flow_default);
+        }
+        #[cfg(feature = "flow")]
+        if flow_default
+            && !matches!(
+                self.kind(),
+                Kind::Function | Kind::Async | Kind::Class | Kind::Interface
+            )
+        {
+            let type_ann = self.parse_ts_type()?;
+            self.consume_semicolon()?;
+            return Ok(self.flow_synthetic_type_alias(
+                start,
+                "__flow_default_export".into(),
+                type_ann,
+            ));
+        }
+        #[cfg(feature = "flow")]
+        if self.context().contains(Context::FLOW)
+            && self.at(Kind::Module)
+            && self.lookahead(|parser| {
+                parser.advance();
+                if !parser.eat(Kind::Dot) || !parser.at_identifier_name() {
+                    return false;
+                }
+                let exports = parser.token_source(parser.token()) == "exports";
+                parser.advance();
+                exports && parser.at(Kind::Colon)
+            })
+        {
+            return self.parse_flow_module_exports(start);
+        }
         if self.at(Kind::Global) {
             return self.parse_ts_global_declaration(true);
         }
@@ -622,6 +689,13 @@ impl<C: Config> Parser<'_, C> {
             Kind::Type => self.parse_ts_type_alias_declaration()?,
             Kind::Enum => self.parse_ts_enum_declaration(false)?,
             Kind::Namespace | Kind::Module => self.parse_ts_module_declaration(true)?,
+            #[cfg(feature = "flow")]
+            Kind::Ident
+                if self.context().contains(Context::FLOW)
+                    && self.token_source(self.token()) == "opaque" =>
+            {
+                self.parse_flow_opaque_type()?
+            }
             _ => return Err(self.expected_error(Kind::Var)),
         };
         if let Stmt::Decl(declaration) = &mut statement {
@@ -639,6 +713,59 @@ impl<C: Config> Parser<'_, C> {
             }
         }
         Ok(statement)
+    }
+
+    #[cfg(feature = "flow")]
+    fn parse_flow_declare_export_fallback(
+        &mut self,
+        start: swc_common::BytePos,
+        is_default: bool,
+    ) -> Result<Stmt, Error> {
+        let mut depth = 0u32;
+        loop {
+            if self.at(Kind::Eof) || (depth == 0 && self.token().had_line_break()) {
+                break;
+            }
+            match self.kind() {
+                Kind::LBrace | Kind::LParen | Kind::LBracket => depth += 1,
+                Kind::RBrace | Kind::RParen | Kind::RBracket => depth = depth.saturating_sub(1),
+                Kind::Semi if depth == 0 => {
+                    self.advance();
+                    break;
+                }
+                _ => {}
+            }
+            self.advance();
+        }
+        let name = if is_default {
+            "__flow_default_export".into()
+        } else {
+            format!("__flow_declare_export_{}", start.0).into()
+        };
+        let any = Box::new(swc_ecma_ast::TsType::TsKeywordType(
+            swc_ecma_ast::TsKeywordType {
+                span: Span::new_with_checked(start, self.previous_end()),
+                kind: swc_ecma_ast::TsKeywordTypeKind::TsAnyKeyword,
+            },
+        ));
+        Ok(self.flow_synthetic_type_alias(start, name, any))
+    }
+
+    #[cfg(feature = "flow")]
+    fn flow_synthetic_type_alias(
+        &self,
+        start: swc_common::BytePos,
+        name: swc_atoms::Atom,
+        type_ann: Box<swc_ecma_ast::TsType>,
+    ) -> Stmt {
+        let end = type_ann.span().hi;
+        Stmt::Decl(Decl::TsTypeAlias(Box::new(swc_ecma_ast::TsTypeAliasDecl {
+            span: Span::new_with_checked(start, end),
+            declare: true,
+            id: Ident::new_no_ctxt(name, Span::new_with_checked(start, end)),
+            type_params: None,
+            type_ann,
+        })))
     }
 
     fn parse_variable_declaration(&mut self) -> Result<Box<VarDecl>, Error> {

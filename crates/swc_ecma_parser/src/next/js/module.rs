@@ -26,6 +26,18 @@ impl<C: Config> Parser<'_, C> {
             body.push(match self.kind() {
                 Kind::Import => ModuleItem::ModuleDecl(self.parse_import_declaration()?),
                 Kind::Export => ModuleItem::ModuleDecl(self.parse_export_declaration()?),
+                #[cfg(feature = "flow")]
+                Kind::Declare
+                    if self
+                        .context()
+                        .contains(crate::next::parser::context::Context::FLOW)
+                        && self.lookahead(|parser| {
+                            parser.advance();
+                            parser.at(Kind::Export)
+                        }) =>
+                {
+                    ModuleItem::ModuleDecl(self.parse_flow_declare_export()?)
+                }
                 Kind::At => {
                     let start = self.token().start();
                     let decorators = self.parse_decorators()?;
@@ -87,18 +99,23 @@ impl<C: Config> Parser<'_, C> {
         {
             return self.parse_ts_import_equals(start, false);
         }
-        let type_only = self
+        let flow_typeof = self
             .context()
-            .contains(crate::next::parser::context::Context::TYPESCRIPT)
-            && self.at(Kind::Type)
-            && self.lookahead(|parser| {
-                parser.advance();
-                if parser.at(Kind::From) {
+            .contains(crate::next::parser::context::Context::FLOW)
+            && self.at(Kind::TypeOf);
+        let type_only = flow_typeof
+            || (self
+                .context()
+                .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                && self.at(Kind::Type)
+                && self.lookahead(|parser| {
                     parser.advance();
-                    return parser.at(Kind::From);
-                }
-                !matches!(parser.kind(), Kind::Comma | Kind::Eq)
-            });
+                    if parser.at(Kind::From) {
+                        parser.advance();
+                        return parser.at(Kind::From);
+                    }
+                    !matches!(parser.kind(), Kind::Comma | Kind::Eq)
+                }));
         if type_only {
             self.advance();
         }
@@ -137,26 +154,31 @@ impl<C: Config> Parser<'_, C> {
             }));
         } else if self.eat(Kind::LBrace) {
             while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
-                let is_type_only = self
+                let flow_typeof = self
                     .context()
-                    .contains(crate::next::parser::context::Context::TYPESCRIPT)
-                    && self.at(Kind::Type)
-                    && self.lookahead(|parser| {
-                        parser.advance();
-                        if matches!(parser.kind(), Kind::Comma | Kind::RBrace) {
-                            return false;
-                        }
-                        if parser.eat(Kind::As) {
+                    .contains(crate::next::parser::context::Context::FLOW)
+                    && self.at(Kind::TypeOf);
+                let is_type_only = flow_typeof
+                    || (self
+                        .context()
+                        .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                        && self.at(Kind::Type)
+                        && self.lookahead(|parser| {
+                            parser.advance();
                             if matches!(parser.kind(), Kind::Comma | Kind::RBrace) {
-                                return true;
+                                return false;
                             }
                             if parser.eat(Kind::As) {
-                                return !matches!(parser.kind(), Kind::Comma | Kind::RBrace);
+                                if matches!(parser.kind(), Kind::Comma | Kind::RBrace) {
+                                    return true;
+                                }
+                                if parser.eat(Kind::As) {
+                                    return !matches!(parser.kind(), Kind::Comma | Kind::RBrace);
+                                }
+                                return false;
                             }
-                            return false;
-                        }
-                        true
-                    });
+                            true
+                        }));
                 if is_type_only {
                     self.advance();
                 }
@@ -164,6 +186,14 @@ impl<C: Config> Parser<'_, C> {
                 let imported_span = imported.span();
                 let (local, explicit_imported) = if self.eat(Kind::As) {
                     (self.parse_module_identifier()?, Some(imported))
+                } else if flow_typeof {
+                    let ModuleExportName::Ident(identifier) = imported else {
+                        return Err(self.expected_error(Kind::Ident));
+                    };
+                    (
+                        identifier.clone(),
+                        Some(ModuleExportName::Ident(identifier)),
+                    )
                 } else {
                     let ModuleExportName::Ident(identifier) = imported else {
                         return Err(self.expected_error(Kind::As));
@@ -290,6 +320,24 @@ impl<C: Config> Parser<'_, C> {
             span: Span::new_with_checked(start, declaration.span().hi),
             decl: declaration,
         }))
+    }
+
+    #[cfg(feature = "flow")]
+    fn parse_flow_declare_export(&mut self) -> Result<ModuleDecl, Error> {
+        self.advance();
+        let mut declaration = self.parse_export_declaration()?;
+        if let ModuleDecl::ExportDecl(export) = &mut declaration {
+            match &mut export.decl {
+                Decl::Var(value) => value.declare = true,
+                Decl::Fn(value) => value.declare = true,
+                Decl::Class(value) => value.declare = true,
+                Decl::TsInterface(value) => value.declare = true,
+                Decl::TsTypeAlias(value) => value.declare = true,
+                Decl::TsEnum(value) => value.declare = true,
+                _ => {}
+            }
+        }
+        Ok(declaration)
     }
 
     fn parse_ts_import_equals(
