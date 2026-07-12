@@ -10,7 +10,10 @@ use swc_ecma_ast::{
 use crate::{
     error::{Error, SyntaxError},
     lexer::Token as Kind,
-    next::{lexer::config::Config, parser::cursor::Parser},
+    next::{
+        lexer::config::Config,
+        parser::{context::Context, cursor::Parser},
+    },
 };
 
 impl<C: Config> Parser<'_, C> {
@@ -129,13 +132,21 @@ impl<C: Config> Parser<'_, C> {
         if !self.expect(Kind::Arrow) {
             return Err(self.expected_error(Kind::Arrow));
         }
-        let body = self.parse_assignment_expression()?;
+        let body = if self.at(Kind::LBrace) {
+            BlockStmtOrExpr::BlockStmt(self.with_context(
+                Context::RETURN,
+                Context::TOP_LEVEL,
+                Self::parse_block_statement,
+            )?)
+        } else {
+            BlockStmtOrExpr::Expr(self.parse_assignment_expression()?)
+        };
         let end = body.span().hi;
         Ok(Box::new(Expr::Arrow(ArrowExpr {
             span: Span::new_with_checked(start, end),
             ctxt: SyntaxContext::empty(),
             params: parameters,
-            body: Box::new(BlockStmtOrExpr::Expr(body)),
+            body: Box::new(body),
             is_async: false,
             is_generator: false,
             type_params: None,
@@ -220,5 +231,14 @@ mod tests {
             panic!("expected arrow")
         };
         assert_eq!(parenthesized.params.len(), 2);
+
+        let block = parse("value => { return value; }");
+        let Expr::Arrow(block) = &*block else {
+            panic!("expected block arrow")
+        };
+        assert!(matches!(
+            &*block.body,
+            swc_ecma_ast::BlockStmtOrExpr::BlockStmt(_)
+        ));
     }
 }

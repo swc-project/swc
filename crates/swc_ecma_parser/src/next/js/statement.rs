@@ -46,6 +46,7 @@ impl<C: Config> Parser<'_, C> {
             Kind::Debugger => self.parse_debugger_statement(),
             Kind::For => self.parse_for_statement(),
             Kind::Function => self.parse_function_declaration(),
+            Kind::Async if self.is_async_function_start() => self.parse_function_declaration(),
             Kind::If => self.parse_if_statement(),
             Kind::Return => self.parse_return_statement(),
             Kind::Switch => self.parse_switch_statement(),

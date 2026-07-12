@@ -14,6 +14,16 @@ use crate::{
 };
 
 impl<C: Config> Parser<'_, C> {
+    pub(crate) fn is_async_function_start(&mut self) -> bool {
+        if !self.at(Kind::Async) {
+            return false;
+        }
+        self.lookahead(|parser| {
+            parser.advance();
+            !parser.token().had_line_break() && parser.at(Kind::Function)
+        })
+    }
+
     pub(crate) fn parse_function_declaration(&mut self) -> Result<Stmt, Error> {
         let (identifier, function) = self.parse_function(true)?;
         Ok(Stmt::Decl(Decl::Fn(FnDecl {
@@ -36,7 +46,10 @@ impl<C: Config> Parser<'_, C> {
         declaration: bool,
     ) -> Result<(Option<Ident>, Box<Function>), Error> {
         let start = self.token().start();
-        self.advance();
+        let is_async = self.eat(Kind::Async);
+        if !self.expect(Kind::Function) {
+            return Err(self.expected_error(Kind::Function));
+        }
         let is_generator = self.eat(Kind::Asterisk);
         let identifier = if self.at_identifier_reference() {
             let token = self.token();
@@ -93,7 +106,7 @@ impl<C: Config> Parser<'_, C> {
                 ctxt: SyntaxContext::empty(),
                 body: Some(body),
                 is_generator,
-                is_async: false,
+                is_async,
                 type_params: None,
                 return_type: None,
             }),
@@ -114,8 +127,8 @@ mod tests {
     #[test]
     fn parses_function_declarations_and_expressions_directly() {
         let lexer = Lexer::new(
-            "function* generate(value) { return value; } const identity = function (value) { \
-             return value; };",
+            "async function* generate(value) { return value; } const identity = function (value) \
+             { return value; }; const asyncIdentity = async function (value) { return value; };",
             BytePos(1),
             NoTokens,
         )
@@ -127,6 +140,7 @@ mod tests {
             panic!("expected function declaration")
         };
         assert!(declaration.function.is_generator);
+        assert!(declaration.function.is_async);
         let Stmt::Decl(Decl::Var(variable)) = &script.body[1] else {
             panic!("expected variable declaration")
         };
@@ -134,5 +148,12 @@ mod tests {
             variable.decls[0].init.as_deref(),
             Some(Expr::Fn(_))
         ));
+        let Stmt::Decl(Decl::Var(variable)) = &script.body[2] else {
+            panic!("expected async function expression declaration")
+        };
+        let Some(Expr::Fn(expression)) = variable.decls[0].init.as_deref() else {
+            panic!("expected async function expression")
+        };
+        assert!(expression.function.is_async);
     }
 }
