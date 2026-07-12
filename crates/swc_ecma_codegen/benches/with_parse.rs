@@ -2,8 +2,9 @@ extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{source_map::DefaultSourceMapGenConfig, FileName};
+use swc_ecma_ast::Program;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{LegacyParser as Parser, StringInput, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 
 const COLORS_JS: &str = r#"
 'use strict';
@@ -83,15 +84,15 @@ fn bench_emitter(b: &mut Bencher, s: &'static str) {
     let _ = ::testing::run_test(true, |cm, handler| {
         b.iter(|| {
             let fm = cm.new_source_file(FileName::Anon.into(), s);
-            let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
-            let module = parser
-                .parse_module()
-                .map_err(|e| e.into_diagnostic(handler).emit())
-                .unwrap();
-
-            for err in parser.take_errors() {
-                err.into_diagnostic(handler).emit();
+            let result = Parser::new(&fm.src, SourceType::module())
+                .with_start_pos(fm.start_pos)
+                .parse();
+            for error in result.diagnostics {
+                error.into_diagnostic(handler).emit();
             }
+            let Program::Module(module) = result.program else {
+                unreachable!("module source type must produce a module")
+            };
 
             let mut src_map_buf = Vec::new();
             let mut buf = Vec::new();

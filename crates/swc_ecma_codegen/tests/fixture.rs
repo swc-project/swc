@@ -10,7 +10,7 @@ use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
     Emitter,
 };
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_parser::{attach_comments, ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use testing::{run_test2, NormalizedOutput};
 
 const fn true_by_default() -> bool {
@@ -61,19 +61,31 @@ fn run(input: &Path, minify: bool) {
         let fm = cm.load_file(input).unwrap();
         let comments = SingleThreadedComments::default();
 
-        let m = parse_file_as_module(
-            &fm,
-            Syntax::Typescript(TsSyntax {
-                decorators: true,
-                tsx: true,
-                dts,
-                ..Default::default()
-            }),
-            EsVersion::latest(),
-            Some(&comments),
-            &mut Vec::new(),
-        )
-        .expect("failed to parse input as a module");
+        let syntax = Syntax::Typescript(TsSyntax {
+            decorators: true,
+            tsx: true,
+            dts,
+            ..Default::default()
+        });
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Module, EsVersion::latest());
+        let mut result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            &comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+        assert!(result.diagnostics.is_empty(), "failed to parse input");
+        let swc_ecma_ast::Program::Module(m) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
 
         let mut buf = Vec::new();
 

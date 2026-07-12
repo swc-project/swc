@@ -1,13 +1,13 @@
 use std::path::PathBuf;
 
-use swc_common::{errors::HANDLER, input::SourceFileInput, Mark, SyntaxContext};
+use swc_common::{errors::HANDLER, Mark, SyntaxContext};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_lints::{
     config::LintConfig,
     rule::Rule,
     rules::{all, LintParams},
 };
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, Syntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_transforms_base::resolver;
 
 #[testing::fixture("tests/pass/**/input.js")]
@@ -17,25 +17,24 @@ fn pass(input: PathBuf) {
         let fm = cm.load_file(&input).unwrap();
         let es_version = EsVersion::latest();
 
-        let lexer = Lexer::new(
-            if input.extension().unwrap() == "ts" {
-                Syntax::Typescript(Default::default())
-            } else if input.extension().unwrap() == "tsx" {
-                Syntax::Typescript(swc_ecma_parser::TsSyntax {
-                    tsx: true,
-                    ..Default::default()
-                })
-            } else {
-                Syntax::Es(Default::default())
-            },
-            es_version,
-            SourceFileInput::from(&*fm),
-            None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-
-        let mut program = parser.parse_program().unwrap();
+        let syntax = if input.extension().unwrap() == "ts" {
+            Syntax::Typescript(Default::default())
+        } else if input.extension().unwrap() == "tsx" {
+            Syntax::Typescript(swc_ecma_parser::TsSyntax {
+                tsx: true,
+                ..Default::default()
+            })
+        } else {
+            Syntax::Es(Default::default())
+        };
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Unambiguous, es_version);
+        let result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .parse();
+        assert!(result.diagnostics.is_empty());
+        let mut program = result.program;
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 

@@ -3,10 +3,10 @@ use std::{fs::read_to_string, path::PathBuf};
 use base64::prelude::{Engine, BASE64_STANDARD};
 use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
-use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
-use swc_ecma_ast::EsVersion;
+use swc_common::source_map::SourceMapGenConfig;
+use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_sourcemap::SourceMap;
 
@@ -306,14 +306,20 @@ fn identity(entry: PathBuf) {
         println!("Expected code:\n{expected_code}");
         let expected_tokens = print_source_map(&expected_map);
 
-        let comments = SingleThreadedComments::default();
-        let lexer = Lexer::new(
-            Syntax::default(),
-            Default::default(),
-            (&*fm).into(),
-            Some(&comments),
-        );
-        let mut parser: Parser<Lexer> = Parser::new_from(lexer);
+        let source_type = if is_module {
+            SourceType::module()
+        } else {
+            SourceType::script()
+        };
+        let result = Parser::new(&fm.src, source_type)
+            .with_start_pos(fm.start_pos)
+            .parse();
+        for error in result.diagnostics {
+            error.into_diagnostic(handler).emit();
+        }
+        if handler.has_errors() {
+            return Err(());
+        }
         let mut src_map = Vec::new();
 
         {
@@ -337,22 +343,9 @@ fn identity(entry: PathBuf) {
             };
 
             // Parse source
-            if is_module {
-                emitter
-                    .emit_module(
-                        &parser
-                            .parse_module()
-                            .map_err(|e| e.into_diagnostic(handler).emit())?,
-                    )
-                    .unwrap();
-            } else {
-                emitter
-                    .emit_script(
-                        &parser
-                            .parse_script()
-                            .map_err(|e| e.into_diagnostic(handler).emit())?,
-                    )
-                    .unwrap();
+            match &result.program {
+                Program::Module(module) => emitter.emit_module(module).unwrap(),
+                Program::Script(script) => emitter.emit_script(script).unwrap(),
             }
         }
 

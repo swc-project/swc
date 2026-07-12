@@ -30,6 +30,7 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 default       = ["typescript", "stacker"]
 flow          = ["typescript"]
 typescript    = []
+verify        = []
 
 [dependencies]
 bitflags       = { workspace = true }

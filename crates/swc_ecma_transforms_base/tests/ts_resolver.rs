@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::{Visit, VisitWith};
 use testing::fixture;
@@ -17,21 +17,24 @@ fn no_empty(input: PathBuf) {
     testing::run_test2(false, |cm, _handler| {
         let fm = cm.load_file(&input).expect("failed to load file");
 
-        let module = match parse_file_as_module(
-            &fm,
-            Syntax::Typescript(TsSyntax {
-                tsx: input.ends_with("tsx"),
-                decorators: true,
-                no_early_errors: true,
-                ..Default::default()
-            }),
-            EsVersion::latest(),
-            None,
-            &mut Vec::new(),
-        ) {
-            Ok(v) => v,
-            // We are not testing parser
-            Err(..) => return Ok(()),
+        let syntax = Syntax::Typescript(TsSyntax {
+            tsx: input.ends_with("tsx"),
+            decorators: true,
+            no_early_errors: true,
+            ..Default::default()
+        });
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Module, EsVersion::latest());
+        let result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .parse();
+        if !result.diagnostics.is_empty() {
+            // We are not testing the parser.
+            return Ok(());
+        };
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
         };
 
         let module = Program::Module(module).apply(resolver(Mark::new(), Mark::new(), true));

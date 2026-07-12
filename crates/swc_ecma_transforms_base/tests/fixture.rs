@@ -3,9 +3,7 @@ use std::path::{Path, PathBuf};
 use swc_common::{sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{
-    lexer::Lexer, EsSyntax, LegacyParser as Parser, StringInput, Syntax, TsSyntax,
-};
+use swc_ecma_parser::{EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::{visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith};
 use testing::{fixture, run_test2, NormalizedOutput};
@@ -44,12 +42,19 @@ where
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
 
-        let lexer = Lexer::new(syntax, EsVersion::latest(), StringInput::from(&*fm), None);
-        let mut parser = Parser::new_from(lexer);
-
-        let program = parser
-            .parse_program()
-            .map_err(|err| err.into_diagnostic(&handler).emit())?;
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Unambiguous, EsVersion::latest());
+        let result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .parse();
+        for error in result.diagnostics {
+            error.into_diagnostic(&handler).emit();
+        }
+        if handler.has_errors() {
+            return Err(());
+        }
+        let program = result.program;
 
         let mut folder = op();
 

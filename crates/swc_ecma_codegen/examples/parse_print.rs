@@ -21,7 +21,9 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter, Node};
-use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax, TsSyntax};
+use swc_ecma_parser::{
+    attach_comments, EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax,
+};
 
 fn main() {
     if let Err(err) = run() {
@@ -102,17 +104,25 @@ fn syntax_for_path(path: &Path) -> Syntax {
 }
 
 fn parse_module(input: &Input, comments: &SingleThreadedComments) -> Result<Module, String> {
-    let mut errors = Vec::new();
-    let module = parse_file_as_module(
-        &input.file,
-        input.syntax,
-        EsVersion::latest(),
-        Some(comments as &dyn Comments),
-        &mut errors,
+    let (source_type, options) =
+        SourceType::from_legacy(input.syntax, ModuleKind::Module, EsVersion::latest());
+    let mut result = Parser::new(&input.file.src, source_type)
+        .with_options(options)
+        .with_start_pos(input.file.start_pos)
+        .with_tokens()
+        .parse();
+    attach_comments(
+        &input.file.src,
+        input.file.start_pos,
+        comments as &dyn Comments,
+        std::mem::take(&mut result.comments),
+        &result.tokens,
+        &result.program,
     );
 
-    if !errors.is_empty() {
-        let messages = errors
+    if !result.diagnostics.is_empty() {
+        let messages = result
+            .diagnostics
             .into_iter()
             .map(|err| err.kind().msg())
             .collect::<Vec<_>>()
@@ -120,7 +130,10 @@ fn parse_module(input: &Input, comments: &SingleThreadedComments) -> Result<Modu
         return Err(format!("failed to parse input:\n{messages}"));
     }
 
-    module.map_err(|err| format!("failed to parse input: {}", err.kind().msg()))
+    let swc_ecma_ast::Program::Module(module) = result.program else {
+        unreachable!("module source type must produce a module")
+    };
+    Ok(module)
 }
 
 fn emit_module(

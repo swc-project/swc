@@ -5,7 +5,7 @@ extern crate swc_malloc;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{errors::HANDLER, FileName, Mark};
 use swc_ecma_ast::Program;
-use swc_ecma_parser::{LegacyParser as Parser, StringInput, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_transforms_base::helpers;
 
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
@@ -17,12 +17,12 @@ macro_rules! tr {
             HANDLER.set(&handler, || {
                 let fm = cm.new_source_file(FileName::Anon.into(), SOURCE);
 
-                let mut parser = Parser::new(
-                    Syntax::Typescript(Default::default()),
-                    StringInput::from(&*fm),
-                    None,
-                );
-                let module = parser.parse_module().map_err(|_| ()).unwrap();
+                let result = Parser::new(&fm.src, SourceType::typescript())
+                    .with_start_pos(fm.start_pos)
+                    .parse();
+                let Program::Module(module) = result.program else {
+                    unreachable!("TypeScript source type must produce a module")
+                };
                 helpers::HELPERS.set(&Default::default(), || {
                     $b.iter(|| {
                         let module = Program::Module(module.clone());

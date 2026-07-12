@@ -6,7 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{error::Error, lexer::Lexer, LegacyParser as Parser, StringInput, Syntax};
+use swc_ecma_parser::{attach_comments, ModuleKind, Parser, SourceType, Syntax};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -41,40 +41,57 @@ impl Tester<'_> {
         }
     }
 
-    pub fn with_parser<F, T>(
+    fn parse_program(
         &mut self,
         file_name: &str,
         syntax: Syntax,
+        module_kind: ModuleKind,
         src: &str,
-        op: F,
-    ) -> Result<T, ()>
-    where
-        F: FnOnce(&mut Parser<Lexer>) -> Result<T, Error>,
-    {
+    ) -> Result<Program, ()> {
         let fm = self
             .cm
             .new_source_file(FileName::Real(file_name.into()).into(), src.to_string());
-
-        let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
-        let res = op(&mut p).map_err(|e| e.into_diagnostic(self.handler).emit());
-
-        for e in p.take_errors() {
-            e.into_diagnostic(self.handler).emit()
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, module_kind, EsVersion::latest());
+        let mut result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            &*self.comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+        for error in result.diagnostics {
+            error.into_diagnostic(self.handler).emit();
         }
-
-        res
+        if self.handler.has_errors() {
+            Err(())
+        } else {
+            Ok(result.program)
+        }
     }
 
     pub fn parse_module(&mut self, file_name: &str, src: &str) -> Result<Module, ()> {
-        self.with_parser(file_name, Syntax::default(), src, |p| p.parse_module())
+        let Program::Module(module) =
+            self.parse_program(file_name, Syntax::default(), ModuleKind::Module, src)?
+        else {
+            unreachable!("module source type must produce a module")
+        };
+        Ok(module)
     }
 
     pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
-        let stmts = self.with_parser(file_name, Syntax::default(), src, |p| {
-            p.parse_script().map(|script| script.body)
-        })?;
-
-        Ok(stmts)
+        let Program::Script(script) =
+            self.parse_program(file_name, Syntax::default(), ModuleKind::Script, src)?
+        else {
+            unreachable!("script source type must produce a script")
+        };
+        Ok(script.body)
     }
 
     pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
@@ -95,17 +112,29 @@ impl Tester<'_> {
             .cm
             .new_source_file(FileName::Real(name.into()).into(), src.to_string());
 
-        let module = {
-            let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
-            let res = p
-                .parse_module()
-                .map_err(|e| e.into_diagnostic(self.handler).emit());
-
-            for e in p.take_errors() {
-                e.into_diagnostic(self.handler).emit()
-            }
-
-            res?
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Module, EsVersion::latest());
+        let mut result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &fm.src,
+            fm.start_pos,
+            &*self.comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
+        );
+        for error in result.diagnostics {
+            error.into_diagnostic(self.handler).emit();
+        }
+        if self.handler.has_errors() {
+            return Err(());
+        }
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
         };
 
         let module = Program::Module(module).apply(tr).apply(DropSpan);

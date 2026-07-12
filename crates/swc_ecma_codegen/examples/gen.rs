@@ -3,25 +3,21 @@ extern crate swc_malloc;
 
 use std::{env, fs, path::Path, time::Instant};
 
-use swc_common::input::SourceFileInput;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 
 fn parse_and_gen(entry: &Path) {
     testing::run_test2(false, |cm, _| {
         let fm = cm.load_file(entry).unwrap();
 
-        let lexer = Lexer::new(
-            Syntax::Typescript(Default::default()),
-            EsVersion::latest(),
-            SourceFileInput::from(&*fm),
-            None,
-        );
-        let mut parser = Parser::new_from(lexer);
-        let m = parser
-            .parse_module()
-            .expect("failed to parse input as a module");
+        let result = Parser::new(&fm.src, SourceType::typescript())
+            .with_start_pos(fm.start_pos)
+            .parse();
+        assert!(result.diagnostics.is_empty());
+        let Program::Module(m) = result.program else {
+            unreachable!("TypeScript source type must produce a module")
+        };
 
         let code = {
             let mut buf = Vec::new();

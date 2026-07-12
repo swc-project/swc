@@ -1,7 +1,6 @@
 use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom};
 use swc_common::{hygiene::*, DUMMY_SP};
-use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{assert_eq, DebugUsingDisplay};
@@ -116,9 +115,7 @@ where
 
         let expected = {
             let expected = tester
-                .with_parser("expected.js", Syntax::default(), expected, |p| {
-                    p.parse_module()
-                })
+                .parse_module("expected.js", expected)
                 .map(Program::Module)?;
             tester.print(&expected)
         };
@@ -1832,9 +1829,7 @@ fn rename_keep_contexts() {
 
         let expected = {
             let expected = tester
-                .with_parser("expected.js", Syntax::default(), expected, |p| {
-                    p.parse_module()
-                })
+                .parse_module("expected.js", expected)
                 .map(Program::Module)?;
             tester.print(&expected)
         };

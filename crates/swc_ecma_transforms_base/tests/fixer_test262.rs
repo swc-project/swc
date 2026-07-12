@@ -12,7 +12,7 @@ use std::{
 use swc_atoms::atom;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, Syntax};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
@@ -173,8 +173,20 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     let mut wr = Buf(Arc::new(RwLock::new(Vec::new())));
                     let mut wr2 = Buf(Arc::new(RwLock::new(Vec::new())));
 
-                    let mut parser: Parser<Lexer> =
-                        Parser::new(Syntax::default(), (&*src).into(), None);
+                    let source_type = if module {
+                        SourceType::module()
+                    } else {
+                        SourceType::script()
+                    };
+                    let result = Parser::new(&src.src, source_type)
+                        .with_start_pos(src.start_pos)
+                        .parse();
+                    for error in result.diagnostics {
+                        error.into_diagnostic(handler).emit();
+                    }
+                    if handler.has_errors() {
+                        return Err(());
+                    }
 
                     {
                         let mut emitter = Emitter {
@@ -197,61 +209,23 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             comments: None,
                         };
 
-                        // Parse source
-
-                        let mut e_parser: Parser<Lexer> =
-                            Parser::new(Syntax::default(), (&*expected).into(), None);
-
-                        if module {
-                            let module = parser
-                                .parse_module()
-                                .map(normalize)
-                                .map(Program::Module)
-                                .map(|p| p.apply(fixer(None)))
-                                .map_err(|e| {
-                                    e.into_diagnostic(handler).emit();
-                                })?;
-                            let module2 = e_parser
-                                .parse_module()
-                                .map(normalize)
-                                .map(Program::Module)
-                                .map_err(|e| {
-                                    e.into_diagnostic(handler).emit();
-                                })
-                                .expect("failed to parse reference file");
-                            if module == module2 {
-                                return Ok(());
-                            }
-                            emitter.emit_program(&module).unwrap();
-                            expected_emitter.emit_program(&module2).unwrap();
-                        } else {
-                            let script = parser
-                                .parse_script()
-                                .map(normalize)
-                                .map(Program::Script)
-                                .map(|p| p.apply(fixer(None)))
-                                .map_err(|e| {
-                                    e.into_diagnostic(handler).emit();
-                                })?;
-                            let script2 = e_parser
-                                .parse_script()
-                                .map(normalize)
-                                .map(Program::Script)
-                                .map(|p| p.apply(fixer(None)))
-                                .map_err(|e| {
-                                    e.into_diagnostic(handler).emit();
-                                })?;
-
-                            if script == script2 {
-                                return Ok(());
-                            }
-                            emitter.emit_program(&script).unwrap();
-                            expected_emitter.emit_program(&script2).unwrap();
+                        let expected_result = Parser::new(&expected.src, source_type)
+                            .with_start_pos(expected.start_pos)
+                            .parse();
+                        for error in expected_result.diagnostics {
+                            error.into_diagnostic(handler).emit();
                         }
-                    }
+                        if handler.has_errors() {
+                            return Err(());
+                        }
 
-                    for e in parser.take_errors() {
-                        e.into_diagnostic(handler).emit();
+                        let actual = normalize(result.program).apply(fixer(None));
+                        let expected = normalize(expected_result.program);
+                        if actual == expected {
+                            return Ok(());
+                        }
+                        emitter.emit_program(&actual).unwrap();
+                        expected_emitter.emit_program(&expected).unwrap();
                     }
 
                     let output = String::from_utf8_lossy(&wr.0.read().unwrap()).to_string();

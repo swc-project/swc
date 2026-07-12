@@ -1,7 +1,7 @@
 use swc_common::{errors::HANDLER, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_lints::{rule::Rule, rules::LintParams};
-use swc_ecma_parser::Syntax;
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_transforms_base::resolver;
 
 fn main() {
@@ -12,20 +12,16 @@ fn main() {
         HANDLER.set(handler, || {
             let fm = cm.load_file("examples/all.js".as_ref()).unwrap();
 
-            let module = swc_ecma_parser::parse_file_as_module(
-                &fm,
-                Syntax::default(),
-                EsVersion::latest(),
-                None,
-                &mut Vec::new(),
-            );
-            let mut program = match module {
-                Ok(v) => Program::Module(v),
-                Err(err) => {
-                    err.into_diagnostic(handler).emit();
-                    return Err(());
-                }
-            };
+            let result = Parser::new(&fm.src, SourceType::module())
+                .with_start_pos(fm.start_pos)
+                .parse();
+            for error in result.diagnostics {
+                error.into_diagnostic(handler).emit();
+            }
+            if handler.has_errors() {
+                return Err(());
+            }
+            let mut program = result.program;
 
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();

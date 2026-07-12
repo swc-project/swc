@@ -4,9 +4,9 @@ use std::{
 };
 
 use swc_common::comments::SingleThreadedComments;
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, Syntax};
+use swc_ecma_parser::{attach_comments, Parser, SourceType};
 use testing::NormalizedOutput;
 
 const IGNORED_PASS_TESTS: &[&str] = &[
@@ -112,13 +112,29 @@ fn do_test(entry: &Path, minify: bool) {
         );
 
         let comments = SingleThreadedComments::default();
-        let lexer = Lexer::new(
-            Syntax::default(),
-            Default::default(),
-            (&*src).into(),
-            Some(&comments),
+        let source_type = if module {
+            SourceType::module()
+        } else {
+            SourceType::script()
+        };
+        let mut result = Parser::new(&src.src, source_type)
+            .with_start_pos(src.start_pos)
+            .with_tokens()
+            .parse();
+        attach_comments(
+            &src.src,
+            src.start_pos,
+            &comments,
+            std::mem::take(&mut result.comments),
+            &result.tokens,
+            &result.program,
         );
-        let mut parser: Parser<Lexer> = Parser::new_from(lexer);
+        for error in result.diagnostics {
+            error.into_diagnostic(handler).emit();
+        }
+        if handler.has_errors() {
+            return Err(());
+        }
 
         {
             let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
@@ -142,22 +158,9 @@ fn do_test(entry: &Path, minify: bool) {
             };
 
             // Parse source
-            if module {
-                emitter
-                    .emit_module(
-                        &parser
-                            .parse_module()
-                            .map_err(|e| e.into_diagnostic(handler).emit())?,
-                    )
-                    .unwrap();
-            } else {
-                emitter
-                    .emit_script(
-                        &parser
-                            .parse_script()
-                            .map_err(|e| e.into_diagnostic(handler).emit())?,
-                    )
-                    .unwrap();
+            match &result.program {
+                Program::Module(module) => emitter.emit_module(module).unwrap(),
+                Program::Script(script) => emitter.emit_script(script).unwrap(),
             }
         }
         let ref_file = format!("{}", ref_dir.join(&file_name).display());

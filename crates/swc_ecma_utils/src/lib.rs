@@ -3861,8 +3861,7 @@ pub fn prop_name_from_str(span: Span, s: &str) -> PropName {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{input::StringInput, BytePos};
-    use swc_ecma_parser::{LegacyParser as Parser, Syntax};
+    use swc_ecma_parser::{Parser, SourceType};
 
     use super::*;
 
@@ -3907,13 +3906,12 @@ mod tests {
     }
 
     fn parse_module(text: &str) -> Module {
-        let syntax = Syntax::Es(Default::default());
-        let mut p = Parser::new(
-            syntax,
-            StringInput::new(text, BytePos(0), BytePos(text.len() as u32)),
-            None,
-        );
-        p.parse_module().unwrap()
+        let result = Parser::new(text, SourceType::module()).parse();
+        assert!(result.diagnostics.is_empty());
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
+        module
     }
 
     fn has_top_level_await(text: &str) -> bool {
