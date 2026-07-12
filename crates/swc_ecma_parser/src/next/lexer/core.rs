@@ -13,7 +13,28 @@ pub(crate) struct LexerCheckpoint {
     position: BytePos,
     token: PackedToken,
     tokens_len: usize,
+    trivia_len: usize,
     had_line_break: bool,
+}
+
+/// Source-backed comment retained without allocating its text.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) struct CommentRange {
+    /// Comment kind.
+    pub(crate) kind: CommentKind,
+    /// Full range including comment delimiters.
+    pub(crate) span: Span,
+    text_start: BytePos,
+    text_end: BytePos,
+}
+
+/// Lexical comment delimiter kind.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum CommentKind {
+    /// `//` line comment.
+    Line,
+    /// `/* */` block comment.
+    Block,
 }
 
 /// Independent lexer used by the next parser.
@@ -24,6 +45,7 @@ pub(crate) struct Lexer<'a, C: Config> {
     had_line_break: bool,
     escaped: bool,
     escaped_strings: FxHashMap<u32, Wtf8Atom>,
+    trivia: Vec<CommentRange>,
 }
 
 impl<'a, C: Config> Lexer<'a, C> {
@@ -45,6 +67,7 @@ impl<'a, C: Config> Lexer<'a, C> {
             had_line_break: true,
             escaped: false,
             escaped_strings: FxHashMap::default(),
+            trivia: Vec::new(),
         })
     }
 
@@ -65,6 +88,18 @@ impl<'a, C: Config> Lexer<'a, C> {
     /// Decoded value for a string token containing escapes.
     pub(crate) fn escaped_string(&self, token: PackedToken) -> Option<&Wtf8Atom> {
         self.escaped_strings.get(&token.start().0)
+    }
+
+    /// Comments collected in source order.
+    pub(crate) fn comments(&self) -> &[CommentRange] {
+        &self.trivia
+    }
+
+    /// Borrow comment text without its delimiters.
+    pub(crate) fn comment_text(&self, comment: CommentRange) -> &'a str {
+        // SAFETY: Comment boundaries are produced by this source cursor and
+        // always lie on UTF-8 boundaries.
+        unsafe { self.source.slice_str(comment.text_start, comment.text_end) }
     }
 
     /// Read the next significant token.
@@ -101,6 +136,7 @@ impl<'a, C: Config> Lexer<'a, C> {
             position: self.source.cur_pos(),
             token: self.token,
             tokens_len: self.config.len(),
+            trivia_len: self.trivia.len(),
             had_line_break: self.had_line_break,
         }
     }
@@ -113,6 +149,7 @@ impl<'a, C: Config> Lexer<'a, C> {
         unsafe { self.source.reset_to(checkpoint.position) };
         self.token = checkpoint.token;
         self.config.truncate(checkpoint.tokens_len);
+        self.trivia.truncate(checkpoint.trivia_len);
         self.had_line_break = checkpoint.had_line_break;
         self.escaped = false;
     }
@@ -166,26 +203,44 @@ impl<'a, C: Config> Lexer<'a, C> {
                     self.had_line_break = true;
                 }
                 (Some(b'/'), Some(b'/')) => {
+                    let start = self.source.cur_pos();
                     // SAFETY: The two matched slashes are ASCII.
                     unsafe { self.source.bump_bytes(2) };
+                    let text_start = self.source.cur_pos();
                     self.source
                         .uncons_while(|character| !matches!(character, '\r' | '\n'));
+                    let end = self.source.cur_pos();
+                    self.trivia.push(CommentRange {
+                        kind: CommentKind::Line,
+                        span: Span::new_with_checked(start, end),
+                        text_start,
+                        text_end: end,
+                    });
                 }
                 (Some(b'/'), Some(b'*')) => {
+                    let start = self.source.cur_pos();
                     // SAFETY: The two matched bytes are ASCII.
                     unsafe { self.source.bump_bytes(2) };
-                    self.skip_block_comment();
+                    let text_start = self.source.cur_pos();
+                    self.skip_block_comment(start, text_start);
                 }
                 _ => return,
             }
         }
     }
 
-    fn skip_block_comment(&mut self) {
+    fn skip_block_comment(&mut self, start: BytePos, text_start: BytePos) {
         while let Some(byte) = self.source.cur() {
             if byte == b'*' && self.source.peek() == Some(b'/') {
+                let text_end = self.source.cur_pos();
                 // SAFETY: The matched terminator consists of two ASCII bytes.
                 unsafe { self.source.bump_bytes(2) };
+                self.trivia.push(CommentRange {
+                    kind: CommentKind::Block,
+                    span: Span::new_with_checked(start, self.source.cur_pos()),
+                    text_start,
+                    text_end,
+                });
                 return;
             }
             if matches!(byte, b'\r' | b'\n') {
@@ -195,6 +250,13 @@ impl<'a, C: Config> Lexer<'a, C> {
             // SAFETY: `width` belongs to the complete current UTF-8 character.
             unsafe { self.source.bump_bytes(width) };
         }
+        let end = self.source.cur_pos();
+        self.trivia.push(CommentRange {
+            kind: CommentKind::Block,
+            span: Span::new_with_checked(start, end),
+            text_start,
+            text_end: end,
+        });
     }
 
     pub(super) fn read_identifier(&mut self) -> Kind {
@@ -794,6 +856,27 @@ mod tests {
         assert_eq!(tokens.len(), 2);
         assert_eq!(tokens[0].kind(), Kind::Let);
         assert_eq!(tokens[1].kind(), Kind::Ident);
+    }
+
+    #[test]
+    fn collects_source_backed_comments_and_rewinds_trivia() {
+        let mut lexer = Lexer::new(
+            "value /* block */ // line\nother",
+            BytePos(1),
+            WithTokens::default(),
+        )
+        .unwrap();
+        assert_eq!(lexer.next_token().kind(), Kind::Ident);
+        let checkpoint = lexer.checkpoint();
+        assert_eq!(lexer.next_token().kind(), Kind::Ident);
+        assert_eq!(lexer.comments().len(), 2);
+        assert_eq!(lexer.comment_text(lexer.comments()[0]), " block ");
+        assert_eq!(lexer.comment_text(lexer.comments()[1]), " line");
+
+        lexer.rewind(checkpoint);
+        assert!(lexer.comments().is_empty());
+        assert_eq!(lexer.next_token().kind(), Kind::Ident);
+        assert_eq!(lexer.comments().len(), 2);
     }
 
     #[test]
