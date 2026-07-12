@@ -3,11 +3,11 @@
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
-    DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr, ExportNamedSpecifier,
-    ExportNamespaceSpecifier, ExportSpecifier, Expr, Ident, ImportDecl, ImportDefaultSpecifier,
-    ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, Module, ModuleDecl,
-    ModuleExportName, ModuleItem, NamedExport, Stmt, Str, TsExportAssignment, TsExternalModuleRef,
-    TsImportEqualsDecl, TsModuleRef, TsNamespaceExportDecl,
+    Decl, DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
+    ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, Ident, ImportDecl,
+    ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, Module,
+    ModuleDecl, ModuleExportName, ModuleItem, NamedExport, Stmt, Str, TsExportAssignment,
+    TsExternalModuleRef, TsImportEqualsDecl, TsModuleRef, TsNamespaceExportDecl,
 };
 
 use crate::{
@@ -273,6 +273,41 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn parse_export_default(&mut self, start: swc_common::BytePos) -> Result<ModuleDecl, Error> {
+        if self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.at(Kind::Interface)
+        {
+            let Stmt::Decl(Decl::TsInterface(interface)) = self.parse_ts_interface_declaration()?
+            else {
+                unreachable!("interface parser must produce an interface declaration")
+            };
+            return Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span: Span::new_with_checked(start, interface.span.hi),
+                decl: DefaultDecl::TsInterfaceDecl(interface),
+            }));
+        }
+        if self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.at(Kind::Abstract)
+            && self.lookahead(|parser| {
+                parser.advance();
+                parser.at(Kind::Class)
+            })
+        {
+            self.advance();
+            let expression = self.parse_class_expression()?;
+            let Expr::Class(mut class) = *expression else {
+                unreachable!("class parser must produce a class expression")
+            };
+            class.class.is_abstract = true;
+            let end = class.class.span.hi;
+            return Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span: Span::new_with_checked(start, end),
+                decl: DefaultDecl::Class(class),
+            }));
+        }
         if matches!(self.kind(), Kind::Function | Kind::Class)
             || (self.at(Kind::Async) && self.is_async_function_start())
         {

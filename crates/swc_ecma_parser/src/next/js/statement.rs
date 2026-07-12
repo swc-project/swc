@@ -35,6 +35,17 @@ impl<C: Config> Parser<'_, C> {
 
     pub(crate) fn parse_statement(&mut self) -> Result<Stmt, Error> {
         match self.kind() {
+            Kind::At => {
+                let start = self.token().start();
+                let decorators = self.parse_decorators()?;
+                let mut statement = self.parse_statement()?;
+                let Stmt::Decl(Decl::Class(class)) = &mut statement else {
+                    return Err(self.expected_error(Kind::Class));
+                };
+                class.class.span = Span::new_with_checked(start, class.class.span.hi);
+                class.class.decorators = decorators;
+                Ok(statement)
+            }
             Kind::Semi => {
                 let span = self.token().span();
                 self.advance();

@@ -2,16 +2,17 @@
 
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
-    Decl, Expr, Ident, IdentName, Lit, Stmt, TruePlusMinus, TsArrayType, TsConditionalType,
-    TsConstructorType, TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsFnParam, TsFnType,
-    TsIndexedAccessType, TsInferType, TsInterfaceBody, TsInterfaceDecl, TsIntersectionType,
-    TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsMappedType, TsModuleBlock, TsModuleDecl,
-    TsModuleName, TsNamespaceBody, TsNamespaceDecl, TsOptionalType, TsParenthesizedType,
-    TsPropertySignature, TsQualifiedName, TsRestType, TsThisType, TsThisTypeOrIdent,
-    TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-    TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl,
-    TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery, TsTypeQueryExpr, TsTypeRef,
-    TsUnionType,
+    BindingIdent, Decl, Expr, Ident, IdentName, Lit, Stmt, TruePlusMinus, TsArrayType,
+    TsCallSignatureDecl, TsConditionalType, TsConstructSignatureDecl, TsConstructorType,
+    TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExprWithTypeArgs, TsFnParam,
+    TsFnType, TsIndexSignature, TsIndexedAccessType, TsInferType, TsInterfaceBody, TsInterfaceDecl,
+    TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsMappedType,
+    TsMethodSignature, TsModuleBlock, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNamespaceDecl,
+    TsOptionalType, TsParenthesizedType, TsPropertySignature, TsQualifiedName, TsRestType,
+    TsThisType, TsThisTypeOrIdent, TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn,
+    TsTypeAssertion, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeParam,
+    TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery, TsTypeQueryExpr,
+    TsTypeRef, TsUnionType,
 };
 
 use crate::{
@@ -140,18 +141,51 @@ impl<C: Config> Parser<'_, C> {
         } else {
             None
         };
+        let mut extends = Vec::new();
+        if self.eat(Kind::Extends) {
+            loop {
+                extends.push(self.parse_ts_expression_with_type_arguments()?);
+                if !self.eat(Kind::Comma) {
+                    break;
+                }
+            }
+        }
         let (body_span, body) = self.parse_ts_type_members()?;
         Ok(Stmt::Decl(Decl::TsInterface(Box::new(TsInterfaceDecl {
             span: Span::new_with_checked(start, body_span.hi),
             id,
             declare: false,
             type_params,
-            extends: Vec::new(),
+            extends,
             body: TsInterfaceBody {
                 span: body_span,
                 body,
             },
         }))))
+    }
+
+    pub(crate) fn parse_ts_expression_with_type_arguments(
+        &mut self,
+    ) -> Result<TsExprWithTypeArgs, Error> {
+        let parsed = self.parse_left_hand_side_expression()?;
+        let (expr, type_args) = match *parsed {
+            Expr::TsInstantiation(instantiation) => {
+                (instantiation.expr, Some(instantiation.type_args))
+            }
+            expression => {
+                let type_args = if self.at(Kind::Lt) {
+                    Some(self.parse_ts_type_arguments()?)
+                } else {
+                    None
+                };
+                (Box::new(expression), type_args)
+            }
+        };
+        Ok(TsExprWithTypeArgs {
+            span: Span::new_with_checked(expr.span().lo, self.previous_end()),
+            expr,
+            type_args,
+        })
     }
 
     pub(crate) fn parse_ts_enum_declaration(&mut self, is_const: bool) -> Result<Stmt, Error> {
@@ -861,20 +895,156 @@ impl<C: Config> Parser<'_, C> {
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
             let member_start = self.token().start();
             let readonly = self.eat(Kind::Readonly);
+
+            if self.at(Kind::LParen) || self.at(Kind::Lt) {
+                let type_params = if self.at(Kind::Lt) {
+                    Some(self.parse_ts_type_parameters()?)
+                } else {
+                    None
+                };
+                let params = Self::ts_fn_params(self.parse_method_parameters()?);
+                let type_ann = if self.at(Kind::Colon) {
+                    Some(self.parse_ts_type_annotation()?)
+                } else {
+                    None
+                };
+                let end = type_ann
+                    .as_ref()
+                    .map_or(self.previous_end(), |annotation| annotation.span.hi);
+                members.push(TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
+                    span: Span::new_with_checked(member_start, end),
+                    params,
+                    type_ann,
+                    type_params,
+                }));
+                self.parse_ts_type_member_separator()?;
+                continue;
+            }
+
+            if self.at(Kind::New)
+                && self.lookahead(|parser| {
+                    parser.advance();
+                    matches!(parser.kind(), Kind::LParen | Kind::Lt)
+                })
+            {
+                self.advance();
+                let type_params = if self.at(Kind::Lt) {
+                    Some(self.parse_ts_type_parameters()?)
+                } else {
+                    None
+                };
+                let params = Self::ts_fn_params(self.parse_method_parameters()?);
+                let type_ann = if self.at(Kind::Colon) {
+                    Some(self.parse_ts_type_annotation()?)
+                } else {
+                    None
+                };
+                let end = type_ann
+                    .as_ref()
+                    .map_or(self.previous_end(), |annotation| annotation.span.hi);
+                members.push(TsTypeElement::TsConstructSignatureDecl(
+                    TsConstructSignatureDecl {
+                        span: Span::new_with_checked(member_start, end),
+                        params,
+                        type_ann,
+                        type_params,
+                    },
+                ));
+                self.parse_ts_type_member_separator()?;
+                continue;
+            }
+
+            if self.at(Kind::LBracket)
+                && self.lookahead(|parser| {
+                    parser.advance();
+                    if !parser.at_identifier_name() {
+                        return false;
+                    }
+                    parser.advance();
+                    parser.at(Kind::Colon)
+                })
+            {
+                self.advance();
+                let token = self.token();
+                let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+                self.advance();
+                let type_ann = self.parse_ts_type_annotation()?;
+                let parameter = TsFnParam::Ident(BindingIdent {
+                    id,
+                    type_ann: Some(type_ann),
+                });
+                if !self.expect(Kind::RBracket) {
+                    return Err(self.expected_error(Kind::RBracket));
+                }
+                let result = if self.at(Kind::Colon) {
+                    Some(self.parse_ts_type_annotation()?)
+                } else {
+                    None
+                };
+                let end = result
+                    .as_ref()
+                    .map_or(self.previous_end(), |annotation| annotation.span.hi);
+                members.push(TsTypeElement::TsIndexSignature(TsIndexSignature {
+                    params: vec![parameter],
+                    type_ann: result,
+                    readonly,
+                    is_static: false,
+                    span: Span::new_with_checked(member_start, end),
+                }));
+                self.parse_ts_type_member_separator()?;
+                continue;
+            }
+
             let key_token = self.token();
-            let key = if self.at_identifier_name() {
+            let (key, computed) = if self.eat(Kind::LBracket) {
+                let key = self.parse_expression()?;
+                if !self.expect(Kind::RBracket) {
+                    return Err(self.expected_error(Kind::RBracket));
+                }
+                (key, true)
+            } else if self.at_identifier_name() {
                 let expression = Expr::Ident(Ident::new_no_ctxt(
                     self.identifier_atom(key_token),
                     key_token.span(),
                 ));
                 self.advance();
-                Box::new(expression)
-            } else if matches!(self.kind(), Kind::Str | Kind::Num) {
-                self.parse_primary_expression()?
+                (Box::new(expression), false)
+            } else if matches!(self.kind(), Kind::Str | Kind::Num | Kind::BigInt) {
+                (self.parse_primary_expression()?, false)
             } else {
                 return Err(self.expected_error(Kind::Ident));
             };
             let optional = self.eat(Kind::QuestionMark);
+            let type_params = if self.at(Kind::Lt) {
+                Some(self.parse_ts_type_parameters()?)
+            } else {
+                None
+            };
+            if self.at(Kind::LParen) {
+                let params = Self::ts_fn_params(self.parse_method_parameters()?);
+                let type_ann = if self.at(Kind::Colon) {
+                    Some(self.parse_ts_type_annotation()?)
+                } else {
+                    None
+                };
+                let end = type_ann
+                    .as_ref()
+                    .map_or(self.previous_end(), |annotation| annotation.span.hi);
+                members.push(TsTypeElement::TsMethodSignature(TsMethodSignature {
+                    span: Span::new_with_checked(member_start, end),
+                    key,
+                    computed,
+                    optional,
+                    params,
+                    type_ann,
+                    type_params,
+                }));
+                self.parse_ts_type_member_separator()?;
+                continue;
+            }
+            if type_params.is_some() {
+                return Err(self.expected_error(Kind::LParen));
+            }
             let type_ann = if self.at(Kind::Colon) {
                 Some(self.parse_ts_type_annotation()?)
             } else {
@@ -885,22 +1055,40 @@ impl<C: Config> Parser<'_, C> {
                 span: Span::new_with_checked(member_start, end),
                 readonly,
                 key,
-                computed: false,
+                computed,
                 optional,
                 type_ann,
             }));
-            if !self.eat(Kind::Semi)
-                && !self.eat(Kind::Comma)
-                && !self.at(Kind::RBrace)
-                && !self.token().had_line_break()
-            {
-                return Err(self.expected_error(Kind::Semi));
-            }
+            self.parse_ts_type_member_separator()?;
         }
         if !self.expect(Kind::RBrace) {
             return Err(self.expected_error(Kind::RBrace));
         }
         Ok((Span::new_with_checked(start, self.previous_end()), members))
+    }
+
+    fn parse_ts_type_member_separator(&mut self) -> Result<(), Error> {
+        if !self.eat(Kind::Semi)
+            && !self.eat(Kind::Comma)
+            && !self.at(Kind::RBrace)
+            && !self.token().had_line_break()
+        {
+            return Err(self.expected_error(Kind::Semi));
+        }
+        Ok(())
+    }
+
+    fn ts_fn_params(params: Vec<swc_ecma_ast::Param>) -> Vec<TsFnParam> {
+        params
+            .into_iter()
+            .map(|param| match param.pat {
+                swc_ecma_ast::Pat::Ident(value) => TsFnParam::Ident(value),
+                swc_ecma_ast::Pat::Array(value) => TsFnParam::Array(value),
+                swc_ecma_ast::Pat::Rest(value) => TsFnParam::Rest(value),
+                swc_ecma_ast::Pat::Object(value) => TsFnParam::Object(value),
+                _ => unreachable!("type member parameters are binding patterns"),
+            })
+            .collect()
     }
 
     fn parse_ts_type_reference(&mut self) -> Result<Box<TsType>, Error> {

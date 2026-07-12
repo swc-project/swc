@@ -1,13 +1,13 @@
 //! Member and call expression chains.
 
 use swc_common::{Span, Spanned, SyntaxContext};
-#[cfg(feature = "typescript")]
-use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::{
     CallExpr, Callee, ComputedPropName, Expr, ExprOrSpread, IdentName, Import, ImportPhase,
     MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, OptCall, OptChainBase,
     OptChainExpr, PrivateName, Super, SuperProp, SuperPropExpr, TaggedTpl,
 };
+#[cfg(feature = "typescript")]
+use swc_ecma_ast::{TsInstantiation, TsNonNullExpr, TsTypeParamInstantiation};
 
 use crate::{
     error::Error,
@@ -57,9 +57,58 @@ impl<C: Config> Parser<'_, C> {
                         let arguments = self.parse_arguments()?;
                         expression =
                             Self::make_call(expression, arguments, self.previous_end(), true);
+                    } else if self
+                        .context()
+                        .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                        && self.at(Kind::Lt)
+                    {
+                        let type_args = self.parse_ts_type_arguments()?;
+                        if !self.at(Kind::LParen) {
+                            return Err(self.expected_error(Kind::LParen));
+                        }
+                        let arguments = self.parse_arguments()?;
+                        expression =
+                            Self::make_call(expression, arguments, self.previous_end(), true);
+                        Self::set_call_type_args(&mut expression, type_args);
                     } else {
                         let property = self.parse_member_identifier()?;
                         expression = Self::make_member(expression, property, true);
+                    }
+                }
+                #[cfg(feature = "typescript")]
+                Kind::Lt
+                    if self
+                        .context()
+                        .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                        && allow_call
+                        && self.lookahead(|parser| parser.parse_ts_type_arguments().is_ok()) =>
+                {
+                    let start = expression.span().lo;
+                    let type_args = self.parse_ts_type_arguments()?;
+                    if allow_call && self.at(Kind::LParen) {
+                        let arguments = self.parse_arguments()?;
+                        expression =
+                            Self::make_call(expression, arguments, self.previous_end(), false);
+                        Self::set_call_type_args(&mut expression, type_args);
+                    } else if matches!(
+                        self.kind(),
+                        Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead
+                    ) {
+                        let template = self.parse_template_literal(true)?;
+                        let end = template.span.hi;
+                        expression = Box::new(Expr::TaggedTpl(TaggedTpl {
+                            span: Span::new_with_checked(start, end),
+                            ctxt: SyntaxContext::empty(),
+                            tag: expression,
+                            type_params: Some(type_args),
+                            tpl: Box::new(template),
+                        }));
+                    } else {
+                        expression = Box::new(Expr::TsInstantiation(TsInstantiation {
+                            span: Span::new_with_checked(start, self.previous_end()),
+                            expr: expression,
+                            type_args,
+                        }));
                     }
                 }
                 Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead => {
@@ -189,6 +238,20 @@ impl<C: Config> Parser<'_, C> {
         }
     }
 
+    #[cfg(feature = "typescript")]
+    fn set_call_type_args(expression: &mut Box<Expr>, type_args: Box<TsTypeParamInstantiation>) {
+        match &mut **expression {
+            Expr::Call(call) => call.type_args = Some(type_args),
+            Expr::OptChain(chain) => {
+                let OptChainBase::Call(call) = &mut *chain.base else {
+                    unreachable!("optional generic call must produce a call chain")
+                };
+                call.type_args = Some(type_args);
+            }
+            _ => unreachable!("generic call must produce a call expression"),
+        }
+    }
+
     fn parse_new_expression(&mut self) -> Result<Box<Expr>, Error> {
         let start = self.token().start();
         self.advance();
@@ -203,7 +266,7 @@ impl<C: Config> Parser<'_, C> {
                 kind: MetaPropKind::NewTarget,
             })));
         }
-        let callee = if self.at(Kind::New) {
+        let mut callee = if self.at(Kind::New) {
             self.parse_new_expression()?
         } else {
             let primary = if self.at(Kind::Super) {
@@ -213,6 +276,35 @@ impl<C: Config> Parser<'_, C> {
             };
             self.parse_suffixes(primary, false)?
         };
+        #[cfg(feature = "typescript")]
+        let mut type_args = if self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.at(Kind::Lt)
+            && self.lookahead(|parser| parser.parse_ts_type_arguments().is_ok())
+        {
+            Some(self.parse_ts_type_arguments()?)
+        } else {
+            None
+        };
+        #[cfg(not(feature = "typescript"))]
+        let mut type_args = None;
+        #[cfg(feature = "typescript")]
+        if matches!(
+            self.kind(),
+            Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead
+        ) {
+            let template = self.parse_template_literal(true)?;
+            let tag_start = callee.span().lo;
+            let end = template.span.hi;
+            callee = Box::new(Expr::TaggedTpl(TaggedTpl {
+                span: Span::new_with_checked(tag_start, end),
+                ctxt: SyntaxContext::empty(),
+                tag: callee,
+                type_params: type_args.take(),
+                tpl: Box::new(template),
+            }));
+        }
         let arguments = if self.at(Kind::LParen) {
             Some(self.parse_arguments()?)
         } else {
@@ -223,7 +315,7 @@ impl<C: Config> Parser<'_, C> {
             ctxt: SyntaxContext::empty(),
             callee,
             args: arguments,
-            type_args: None,
+            type_args,
         })))
     }
 

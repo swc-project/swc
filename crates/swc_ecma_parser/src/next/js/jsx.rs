@@ -37,6 +37,18 @@ impl<C: Config> Parser<'_, C> {
         nested: bool,
     ) -> Result<Box<Expr>, Error> {
         let name = self.parse_jsx_element_name()?;
+        #[cfg(feature = "typescript")]
+        let type_args = if self
+            .context()
+            .contains(crate::next::parser::context::Context::TYPESCRIPT)
+            && self.at(Kind::Lt)
+        {
+            Some(self.parse_ts_type_arguments()?)
+        } else {
+            None
+        };
+        #[cfg(not(feature = "typescript"))]
+        let type_args = None;
         let mut attributes = Vec::with_capacity(8);
         while !matches!(self.kind(), Kind::Gt | Kind::Slash | Kind::Eof) {
             attributes.push(self.parse_jsx_attribute()?);
@@ -52,7 +64,7 @@ impl<C: Config> Parser<'_, C> {
             span: Span::new_with_checked(start, opening_end),
             attrs: attributes,
             self_closing,
-            type_args: None,
+            type_args,
         };
         if self_closing {
             self.advance_after_jsx(nested);
