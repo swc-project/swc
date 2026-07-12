@@ -1,9 +1,9 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{FileName, Span, DUMMY_SP};
-use swc_ecma_ast::Module;
-use swc_ecma_parser::{LegacyParser as Parser, StringInput, Syntax};
+use swc_common::{Span, DUMMY_SP};
+use swc_ecma_ast::{Module, Program};
+use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
 
 static SOURCE: &str = include_str!("files/angular-1.2.5.js");
@@ -12,11 +12,11 @@ fn run<F>(b: &mut Bencher, mut op: F)
 where
     F: FnMut(Module) -> Module,
 {
-    let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE);
-
-        let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
-        let module = parser.parse_module().map_err(|_| ()).unwrap();
+    let _ = ::testing::run_test(false, |_cm, _| {
+        let result = Parser::new(SOURCE, SourceType::module()).parse();
+        let Program::Module(module) = result.program else {
+            unreachable!("module source type must produce a module")
+        };
         b.iter(|| {
             let module = module.clone();
             let module = op(module);

@@ -3,7 +3,7 @@ use swc_common::{
     sync::Lrc,
     FileName, SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput, Syntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();
@@ -19,25 +19,18 @@ fn main() {
         "interface Foo {}",
     );
 
-    let lexer = Lexer::new(
+    let (source_type, options) = SourceType::from_legacy(
         Syntax::Typescript(Default::default()),
+        ModuleKind::Module,
         Default::default(),
-        StringInput::from(&*fm),
-        None,
     );
-
-    // let capturing = Capturing::new(lexer);
-
-    let mut parser = Parser::new_from(lexer);
-
-    for e in parser.take_errors() {
-        e.into_diagnostic(&handler).emit();
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    for error in result.diagnostics {
+        error.into_diagnostic(&handler).emit();
     }
-
-    let _module = parser
-        .parse_typescript_module()
-        .map_err(|e| e.into_diagnostic(&handler).emit())
-        .expect("Failed to parse module.");
-
-    // println!("Tokens: {:?}", parser.input().take());
+    assert!(!result.panicked, "Failed to parse module.");
+    let _module = result.program;
 }

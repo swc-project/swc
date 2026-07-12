@@ -1,51 +1,22 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{comments::SingleThreadedComments, FileName};
-use swc_ecma_parser::{
-    lexer::Lexer, unstable::next::Parser as IndependentParser, Language, LegacyParser as Parser,
-    Parser as NextParser, SourceType, StringInput, Syntax, TsSyntax,
-};
+use swc_ecma_parser::{Parser, SourceType};
 
-fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
-    let _ = ::testing::run_test(false, |cm, _| {
-        let comments = SingleThreadedComments::default();
-        let fm = cm.new_source_file(FileName::Anon.into(), src);
-
-        b.iter(|| {
-            let _ = black_box({
-                let lexer = Lexer::new(
-                    syntax,
-                    Default::default(),
-                    StringInput::from(&*fm),
-                    Some(&comments),
-                );
-                let mut parser = Parser::new_from(lexer);
-                parser.parse_module()
-            });
-        });
-        Ok(())
-    });
-}
-
-fn bench_next_module(b: &mut Bencher, source_type: SourceType, src: &str) {
-    if source_type.language() == Language::JavaScript {
-        b.iter(|| black_box(IndependentParser::new(src).parse_module()));
-    } else {
-        b.iter(|| black_box(NextParser::new(src, source_type).parse()));
-    }
+fn bench_module(b: &mut Bencher, source_type: SourceType, src: &str) {
+    b.iter(|| black_box(Parser::new(src, source_type).parse()));
 }
 
 fn bench_files(c: &mut Criterion) {
     c.bench_function("es/parser/colors", |b| {
         // Copied from ratel-rust
-        bench_module(b, Default::default(), include_str!("./files/colors.js"))
+        bench_module(b, SourceType::module(), include_str!("./files/colors.js"))
     });
 
     c.bench_function("es/parser/angular", |b| {
         bench_module(
             b,
-            Default::default(),
+            SourceType::module(),
             include_str!("./files/angular-1.2.5.js"),
         )
     });
@@ -53,7 +24,7 @@ fn bench_files(c: &mut Criterion) {
     c.bench_function("es/parser/backbone", |b| {
         bench_module(
             b,
-            Default::default(),
+            SourceType::module(),
             include_str!("./files/backbone-1.1.0.js"),
         )
     });
@@ -61,7 +32,7 @@ fn bench_files(c: &mut Criterion) {
     c.bench_function("es/parser/jquery", |b| {
         bench_module(
             b,
-            Default::default(),
+            SourceType::module(),
             include_str!("./files/jquery-1.9.1.js"),
         )
     });
@@ -69,14 +40,14 @@ fn bench_files(c: &mut Criterion) {
     c.bench_function("es/parser/jquery mobile", |b| {
         bench_module(
             b,
-            Default::default(),
+            SourceType::module(),
             include_str!("./files/jquery.mobile-1.4.2.js"),
         )
     });
     c.bench_function("es/parser/mootools", |b| {
         bench_module(
             b,
-            Default::default(),
+            SourceType::module(),
             include_str!("./files/mootools-1.4.5.js"),
         )
     });
@@ -84,7 +55,7 @@ fn bench_files(c: &mut Criterion) {
     c.bench_function("es/parser/underscore", |b| {
         bench_module(
             b,
-            Default::default(),
+            SourceType::module(),
             include_str!("./files/underscore-1.5.2.js"),
         )
     });
@@ -92,32 +63,33 @@ fn bench_files(c: &mut Criterion) {
     c.bench_function("es/parser/three", |b| {
         bench_module(
             b,
-            Default::default(),
+            SourceType::module(),
             include_str!("./files/three-0.138.3.js"),
         )
     });
 
     c.bench_function("es/parser/yui", |b| {
-        bench_module(b, Default::default(), include_str!("./files/yui-3.12.0.js"))
+        bench_module(b, SourceType::module(), include_str!("./files/yui-3.12.0.js"))
     });
 
     c.bench_function("es/parser/cal-com", |b| {
         bench_module(
             b,
-            Syntax::Typescript(TsSyntax {
-                tsx: true,
-                ..Default::default()
-            }),
+            SourceType::tsx(),
             include_str!("./files/cal.com.tsx"),
         )
     });
 
     c.bench_function("es/parser/typescript", |b| {
-        bench_module(b, Default::default(), include_str!("./files/typescript.js"))
+        bench_module(
+            b,
+            SourceType::module(),
+            include_str!("./files/typescript.js"),
+        )
     });
 }
 
-fn bench_next_files(c: &mut Criterion) {
+fn bench_extended_files(c: &mut Criterion) {
     let escape_heavy = r#"{
         const \u0061 = "\u{1F600}\x41\n";
         const template = `escaped: \u{1F642} ${\u0061}`;
@@ -204,15 +176,15 @@ fn bench_next_files(c: &mut Criterion) {
     ];
 
     for (name, source_type, source) in cases {
-        let benchmark_name = format!("es/parser-next/{name}");
+        let benchmark_name = format!("es/parser/extended/{name}");
         c.bench_function(&benchmark_name, |b| {
-            bench_next_module(b, source_type, source);
+            bench_module(b, source_type, source);
         });
     }
 
     #[cfg(feature = "flow")]
-    c.bench_function("es/parser-next/react-native-flow", |b| {
-        bench_next_module(
+    c.bench_function("es/parser/extended/react-native-flow", |b| {
+        bench_module(
             b,
             SourceType::flow().with_jsx(true),
             include_str!(
@@ -223,5 +195,5 @@ fn bench_next_files(c: &mut Criterion) {
     });
 }
 
-criterion_group!(benches, bench_files, bench_next_files);
+criterion_group!(benches, bench_files, bench_extended_files);
 criterion_main!(benches);

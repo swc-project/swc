@@ -5,9 +5,8 @@ use swc_common::{
     sync::Lrc,
     SourceMap,
 };
-use swc_ecma_ast::Program;
 use swc_ecma_parser::{
-    lexer::Lexer, EsSyntax, LegacyParser as Parser, StringInput, Syntax, TsSyntax,
+    EsSyntax, ModuleKind, Parser, SourceType, Syntax, TsSyntax,
 };
 
 fn main() {
@@ -64,31 +63,24 @@ fn main() {
         })
     };
 
-    let lexer = Lexer::new(syntax, Default::default(), StringInput::from(&*fm), None);
-
-    let mut parser = Parser::new_from(lexer);
-
-    let program = if is_esm {
-        parser
-            .parse_module()
-            .map(Program::Module)
-            .map_err(|e| e.into_diagnostic(&handler).emit())
+    let module_kind = if is_esm {
+        ModuleKind::Module
     } else if is_commonjs {
-        parser
-            .parse_commonjs()
-            .map(Program::Script)
-            .map_err(|e| e.into_diagnostic(&handler).emit())
+        ModuleKind::CommonJs
     } else {
-        parser
-            .parse_program()
-            .map_err(|e| e.into_diagnostic(&handler).emit())
+        ModuleKind::Unambiguous
     };
-
-    for e in parser.take_errors() {
-        e.into_diagnostic(&handler).emit();
+    let (source_type, options) = SourceType::from_legacy(syntax, module_kind, Default::default());
+    let result = Parser::new(&fm.src, source_type)
+        .with_options(options)
+        .with_start_pos(fm.start_pos)
+        .parse();
+    let failed = result.panicked || !result.diagnostics.is_empty();
+    for error in result.diagnostics {
+        error.into_diagnostic(&handler).emit();
     }
-
-    let program = program.expect("Failed to parse program.");
+    assert!(!failed, "Failed to parse program.");
+    let program = result.program;
 
     eprintln!("Parsed program:\n {program:#?}");
 }

@@ -6,7 +6,7 @@ use std::{env, path::PathBuf, time::Instant};
 
 use codspeed_criterion_compat::black_box;
 use swc_common::{errors::HANDLER, GLOBALS};
-use swc_ecma_parser::parse_file_as_module;
+use swc_ecma_parser::{Parser, SourceType};
 use walkdir::WalkDir;
 
 fn main() {
@@ -24,17 +24,13 @@ fn main() {
                         GLOBALS.set(globals, || {
                             let fm = cm.load_file(&path).expect("failed to load file");
 
-                            let program = parse_file_as_module(
-                                &fm,
-                                Default::default(),
-                                Default::default(),
-                                None,
-                                &mut Vec::new(),
-                            )
-                            .map_err(|err| {
-                                err.into_diagnostic(&handler).emit();
-                            })
-                            .unwrap();
+                            let result = Parser::new(&fm.src, SourceType::module())
+                                .with_start_pos(fm.start_pos)
+                                .parse();
+                            for error in result.diagnostics {
+                                error.into_diagnostic(&handler).emit();
+                            }
+                            let program = result.program;
 
                             black_box(program);
 

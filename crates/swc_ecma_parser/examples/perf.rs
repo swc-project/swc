@@ -4,7 +4,7 @@ use std::{collections::hash_map::DefaultHasher, hash::Hash};
 
 use codspeed_criterion_compat::black_box;
 use swc_common::{sync::Lrc, SourceMap};
-use swc_ecma_parser::{lexer::Lexer, LegacyParser as Parser, StringInput, Syntax, TsSyntax};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 
 fn main() {
     let mut cnt = 0;
@@ -22,26 +22,19 @@ fn main() {
 
         let fm = cm.load_file(entry.path()).unwrap();
 
-        let lexer = Lexer::new(
-            Syntax::Typescript(TsSyntax {
+        let syntax = Syntax::Typescript(TsSyntax {
                 no_early_errors: true,
                 tsx: entry.path().to_string_lossy().ends_with(".tsx"),
                 ..Default::default()
-            }),
-            Default::default(),
-            StringInput::from(&*fm),
-            None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-
-        let module = parser.parse_typescript_module();
-
-        if let Ok(module) = &module {
-            module.hash(&mut hasher);
-        }
-
-        let _ = black_box(module);
+            });
+        let (source_type, options) =
+            SourceType::from_legacy(syntax, ModuleKind::Module, Default::default());
+        let result = Parser::new(&fm.src, source_type)
+            .with_options(options)
+            .with_start_pos(fm.start_pos)
+            .parse();
+        result.program.hash(&mut hasher);
+        let _ = black_box(result);
 
         cnt += 1;
     }

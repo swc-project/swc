@@ -1,20 +1,19 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{input::StringInput, FileName};
-use swc_ecma_parser::{lexer::Lexer, Syntax, TsSyntax};
+use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::{ModuleKind, Parser, SourceType, Syntax, TsSyntax};
 
 fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
-    let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), src);
-
-        b.iter(|| {
-            let lexer = Lexer::new(syntax, Default::default(), StringInput::from(&*fm), None);
-            for t in lexer {
-                black_box(t);
-            }
-        });
-        Ok(())
+    let (source_type, options) =
+        SourceType::from_legacy(syntax, ModuleKind::Module, EsVersion::latest());
+    b.iter(|| {
+        black_box(
+            Parser::new(src, source_type)
+                .with_options(options)
+                .with_tokens()
+                .parse(),
+        );
     });
 }
 
