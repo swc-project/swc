@@ -13,12 +13,10 @@ use crate::{
 };
 
 impl<C: Config> Parser<'_, C> {
-    /// Parse a JavaScript expression through the binary operator layer.
-    pub(crate) fn parse_expression(&mut self) -> Result<Box<Expr>, Error> {
-        self.parse_binary_expression(1)
-    }
-
-    fn parse_binary_expression(&mut self, minimum_precedence: u8) -> Result<Box<Expr>, Error> {
+    pub(crate) fn parse_binary_expression(
+        &mut self,
+        minimum_precedence: u8,
+    ) -> Result<Box<Expr>, Error> {
         let mut left = self.parse_unary_expression()?;
 
         while let Some(operator) = binary_operator(self.kind(), self.context()) {
@@ -118,7 +116,7 @@ mod tests {
     fn parse(source: &str) -> Box<Expr> {
         let lexer = Lexer::new(source, BytePos(1), NoTokens).unwrap();
         let mut parser = Parser::new(lexer, Context::default());
-        parser.parse_expression().unwrap()
+        parser.parse_binary_expression(1).unwrap()
     }
 
     #[test]
