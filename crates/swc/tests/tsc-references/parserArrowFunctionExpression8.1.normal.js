@@ -5,7 +5,6 @@ x ? (y)=>({
     }) : (z)=>({
         z
     } // Legal JS
-     // Legal JS
     );
 //// [fileTs.ts]
 x ? (y)=>({
