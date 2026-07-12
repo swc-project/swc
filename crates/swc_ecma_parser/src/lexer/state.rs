@@ -182,7 +182,7 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
-        let mut start = self.cur_pos();
+        self.token_start = self.cur_pos();
         let token = match self.read_shebang() {
             Ok(Some(shebang)) => {
                 self.state.set_token_value(TokenValue::Word(shebang));
@@ -192,7 +192,7 @@ impl crate::input::Tokens for Lexer<'_> {
             Ok(None) => {
                 self.state.had_line_break = true;
                 self.skip_space();
-                start = self.input.cur_pos();
+                self.token_start = self.input.cur_pos();
                 self.read_token()
             }
             Err(error) => Err(error),
@@ -205,6 +205,7 @@ impl crate::input::Tokens for Lexer<'_> {
                 Token::Error
             }
         };
+        let start = self.token_start;
         self.finish_next_token(self.span(start), token)
     }
 
@@ -408,14 +409,18 @@ impl Lexer<'_> {
     fn read_next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
         if let Some(next_regexp) = self.state.next_regexp {
             *start = next_regexp;
+            self.token_start = next_regexp;
             return self.read_regexp(next_regexp);
         }
 
         self.state.had_line_break = false;
         self.skip_space();
         *start = self.input.cur_pos();
+        self.token_start = *start;
 
-        self.read_token()
+        let token = self.read_token();
+        *start = self.token_start;
+        token
     }
 
     #[inline(always)]

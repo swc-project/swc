@@ -196,6 +196,12 @@ pub struct Lexer<'a> {
     pub ctx: Context,
     input: source::Source<'a>,
     start_pos: BytePos,
+    /// Start of the token currently being scanned.
+    ///
+    /// Legacy HTML comments and conflict markers restart tokenization from
+    /// inside a byte handler. Keeping the restarted position here ensures
+    /// source-backed token values use only the final token's slice.
+    token_start: BytePos,
 
     state: State,
     token_flags: TokenFlags,
@@ -310,6 +316,7 @@ impl<'a> Lexer<'a> {
             ctx: Default::default(),
             input,
             start_pos,
+            token_start: start_pos,
             state: State::new(start_pos),
             syntax,
             target,
@@ -332,6 +339,12 @@ impl<'a> Lexer<'a> {
         handler(self)
     }
 
+    #[inline]
+    fn restart_token(&mut self) -> LexResult<Token> {
+        self.token_start = self.cur_pos();
+        self.read_token()
+    }
+
     fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
 
@@ -346,7 +359,7 @@ impl<'a> Lexer<'a> {
                 self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
                 self.skip_line_comment(0);
                 self.skip_space();
-                return self.read_token();
+                return self.restart_token();
             }
 
             if C == b'+' {
@@ -389,7 +402,7 @@ impl<'a> Lexer<'a> {
                         self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
                         self.skip_line_comment(4);
                         self.skip_space();
-                        return self.read_token();
+                        return self.restart_token();
                     }
 
                     Token::EqEqEq
@@ -439,7 +452,7 @@ impl Lexer<'_> {
             self.skip_space();
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
 
-            return self.read_token();
+            return self.restart_token();
         }
 
         let mut op = if C == b'<' { Token::Lt } else { Token::Gt };
@@ -489,7 +502,7 @@ impl Lexer<'_> {
             self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
             self.skip_line_comment(5);
             self.skip_space();
-            return self.read_token();
+            return self.restart_token();
         }
 
         Ok(token)
