@@ -52,6 +52,18 @@ fn collected_tokens_expose_packed_kind_names() {
 }
 
 #[test]
+fn invalid_numeric_literals_report_diagnostics_without_panicking() {
+    for source in ["0e0n;", ".1n;", "1.n;", "1.0n;", "0xgn;", "0b2n;"] {
+        let parsed = std::panic::catch_unwind(|| Parser::new(source, SourceType::script()).parse())
+            .unwrap_or_else(|_| panic!("parser panicked for {source:?}"));
+        assert!(
+            !parsed.diagnostics.is_empty(),
+            "parser accepted invalid numeric literal {source:?}"
+        );
+    }
+}
+
+#[test]
 fn flat_comments_attach_deterministically() {
     let source = "const a = 1; // trailing\n// leading\nconst b = 2;";
     let start_pos = BytePos(17);

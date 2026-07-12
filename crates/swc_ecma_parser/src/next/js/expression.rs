@@ -85,14 +85,30 @@ impl<C: Config> Parser<'_, C> {
             }
             Kind::Num => {
                 let raw = self.token_source(token);
-                let value = parse_number(raw);
+                let Some(value) = parse_number(raw) else {
+                    return Err(Error::new(
+                        span,
+                        SyntaxError::Unexpected {
+                            got: raw.into(),
+                            expected: "a valid numeric literal",
+                        },
+                    ));
+                };
                 let raw = Some(Atom::new(raw));
                 self.advance();
                 Ok(Box::new(Expr::Lit(Lit::Num(Number { span, value, raw }))))
             }
             Kind::BigInt => {
                 let raw = self.token_source(token);
-                let value = parse_bigint(raw);
+                let Some(value) = parse_bigint(raw) else {
+                    return Err(Error::new(
+                        span,
+                        SyntaxError::Unexpected {
+                            got: raw.into(),
+                            expected: "a valid BigInt literal",
+                        },
+                    ));
+                };
                 let raw = Some(Atom::new(raw));
                 self.advance();
                 Ok(Box::new(Expr::Lit(Lit::BigInt(BigInt {
@@ -223,7 +239,7 @@ impl<C: Config> Parser<'_, C> {
     }
 }
 
-fn parse_number(raw: &str) -> f64 {
+fn parse_number(raw: &str) -> Option<f64> {
     let raw = if raw.contains('_') {
         Cow::Owned(raw.replace('_', ""))
     } else {
@@ -241,26 +257,27 @@ fn parse_number(raw: &str) -> f64 {
     if bytes.len() > 1 && bytes[0] == b'0' && bytes.iter().all(|byte| matches!(byte, b'0'..=b'7')) {
         return parse_integer::<8>(&raw);
     }
-    raw.parse().expect("lexer must validate decimal literals")
+    raw.parse().ok()
 }
 
-fn parse_integer<const RADIX: u8>(raw: &str) -> f64 {
+fn parse_integer<const RADIX: u8>(raw: &str) -> Option<f64> {
     debug_assert!(matches!(RADIX, 2 | 8 | 16));
-    raw.bytes().fold(0.0, |value, byte| {
+    if raw.is_empty() {
+        return None;
+    }
+    raw.bytes().try_fold(0.0_f64, |value, byte| {
         let digit = match byte {
             b'0'..=b'9' => byte - b'0',
             b'a'..=b'f' => byte - b'a' + 10,
             b'A'..=b'F' => byte - b'A' + 10,
-            _ => unreachable!("lexer must validate radix digits"),
+            _ => return None,
         };
-        value.mul_add(f64::from(RADIX), f64::from(digit))
+        (digit < RADIX).then(|| value.mul_add(f64::from(RADIX), f64::from(digit)))
     })
 }
 
-fn parse_bigint(raw: &str) -> Box<BigIntValue> {
-    let digits = raw
-        .strip_suffix('n')
-        .expect("BigInt token must end with `n`");
+fn parse_bigint(raw: &str) -> Option<Box<BigIntValue>> {
+    let digits = raw.strip_suffix('n')?;
     let (radix, digits) = if digits.len() > 2 && digits.as_bytes()[0] == b'0' {
         match digits.as_bytes()[1] {
             b'b' | b'B' => (2, &digits[2..]),
@@ -276,10 +293,7 @@ fn parse_bigint(raw: &str) -> Box<BigIntValue> {
     } else {
         Cow::Borrowed(digits)
     };
-    Box::new(
-        BigIntValue::parse_bytes(digits.as_bytes(), radix)
-            .expect("lexer must validate BigInt literals"),
-    )
+    BigIntValue::parse_bytes(digits.as_bytes(), radix).map(Box::new)
 }
 
 #[cfg(test)]
