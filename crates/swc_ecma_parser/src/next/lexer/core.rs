@@ -193,6 +193,14 @@ impl<'a, C: Config> Lexer<'a, C> {
 
     fn skip_trivia(&mut self) {
         loop {
+            if self.source.is_str("<!--") {
+                self.skip_html_line_comment(4);
+                continue;
+            }
+            if self.had_line_break && self.source.is_str("-->") {
+                self.skip_html_line_comment(3);
+                continue;
+            }
             match (self.source.cur(), self.source.peek()) {
                 (Some(b' ' | b'\t' | 0x0b | 0x0c), _) => {
                     // SAFETY: The matched whitespace is one ASCII byte.
@@ -248,6 +256,22 @@ impl<'a, C: Config> Lexer<'a, C> {
                 _ => return,
             }
         }
+    }
+
+    fn skip_html_line_comment(&mut self, delimiter_len: usize) {
+        let start = self.source.cur_pos();
+        // SAFETY: Callers matched the complete ASCII HTML comment delimiter.
+        unsafe { self.source.bump_bytes(delimiter_len) };
+        let text_start = self.source.cur_pos();
+        self.source
+            .uncons_while(|character| !matches!(character, '\r' | '\n' | '\u{2028}' | '\u{2029}'));
+        let end = self.source.cur_pos();
+        self.trivia.push(CommentRange {
+            kind: CommentKind::Line,
+            span: Span::new_with_checked(start, end),
+            text_start,
+            text_end: end,
+        });
     }
 
     fn skip_block_comment(&mut self, start: BytePos, text_start: BytePos) {
@@ -437,6 +461,10 @@ impl<'a, C: Config> Lexer<'a, C> {
                 if let Some(character) = self.source.cur_as_char() {
                     // SAFETY: Consume the complete escaped UTF-8 character.
                     unsafe { self.source.bump_bytes(character.len_utf8()) };
+                    if character == '\r' {
+                        // SAFETY: A matching LF after CR is one ASCII byte.
+                        unsafe { self.source.eat_byte(b'\n') };
+                    }
                 }
                 continue;
             }
@@ -885,13 +913,28 @@ fn decode_string(raw: &str) -> String {
             'b' => output.push('\u{0008}'),
             'f' => output.push('\u{000c}'),
             'v' => output.push('\u{000b}'),
-            '0' => output.push('\0'),
+            '0'..='7' => {
+                let mut value = escaped.to_digit(8).unwrap_or(0);
+                let remaining_digits = if escaped <= '3' { 2 } else { 1 };
+                for _ in 0..remaining_digits {
+                    let Some(next) = characters.clone().next() else {
+                        break;
+                    };
+                    let Some(digit) = next.to_digit(8) else {
+                        break;
+                    };
+                    characters.next();
+                    value = value * 8 + digit;
+                }
+                output.push(char::from_u32(value).unwrap_or(char::REPLACEMENT_CHARACTER));
+            }
             '\n' => {}
             '\r' => {
                 if characters.clone().next() == Some('\n') {
                     characters.next();
                 }
             }
+            '\u{2028}' | '\u{2029}' => {}
             'x' => {
                 let value = read_hex_escape(&mut characters, 2);
                 output.push(char::from_u32(value).unwrap_or(char::REPLACEMENT_CHARACTER));
@@ -1053,6 +1096,26 @@ mod tests {
     }
 
     #[test]
+    fn decodes_annex_b_octal_and_line_continuation_escapes() {
+        let mut lexer = Lexer::new(
+            "'\\1111' '\\712' 'a\\\r\nb' 'a\\\u{2028}b'",
+            BytePos(1),
+            NoTokens,
+        )
+        .unwrap();
+        for expected in ["I1", "92", "ab", "ab"] {
+            let token = lexer.next_token();
+            assert_eq!(token.kind(), Kind::Str);
+            assert_eq!(
+                lexer
+                    .escaped_string(token)
+                    .and_then(|value| value.as_wtf8().as_str()),
+                Some(expected)
+            );
+        }
+    }
+
+    #[test]
     fn decodes_escaped_identifiers_without_allocating_plain_identifiers() {
         let mut lexer = Lexer::new("plain A\\u{42}C \\u0061a", BytePos(1), NoTokens).unwrap();
         let plain = lexer.next_token();
@@ -1088,5 +1151,22 @@ mod tests {
         assert!(!b.had_line_break());
         assert!(c.had_line_break());
         assert!(d.had_line_break());
+    }
+
+    #[test]
+    fn skips_annex_b_html_comments_at_their_grammar_boundaries() {
+        let mut lexer = Lexer::new("a<!-- tail\n+b\n  --> tail\nc", BytePos(1), NoTokens).unwrap();
+        let a = lexer.next_token();
+        let plus = lexer.next_token();
+        let b = lexer.next_token();
+        let c = lexer.next_token();
+
+        assert_eq!(lexer.token_source(a), "a");
+        assert_eq!(plus.kind(), Kind::Plus);
+        assert!(plus.had_line_break());
+        assert_eq!(lexer.token_source(b), "b");
+        assert_eq!(lexer.token_source(c), "c");
+        assert!(c.had_line_break());
+        assert_eq!(lexer.comments().len(), 2);
     }
 }
