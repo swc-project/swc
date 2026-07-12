@@ -94,7 +94,11 @@ impl<C: Config> Parser<'_, C> {
             Kind::LParen => {
                 let start = span.lo;
                 self.advance();
-                let expression = self.parse_expression()?;
+                let expression = self.with_context(
+                    crate::next::parser::context::Context::IN,
+                    crate::next::parser::context::Context::empty(),
+                    Self::parse_expression,
+                )?;
                 if !self.expect(Kind::RParen) {
                     return Err(self.expected_error(Kind::RParen));
                 }
@@ -136,6 +140,9 @@ fn parse_number(raw: &str) -> f64 {
             b'x' | b'X' => return parse_integer::<16>(&raw[2..]),
             _ => {}
         }
+    }
+    if bytes.len() > 1 && bytes[0] == b'0' && bytes.iter().all(|byte| matches!(byte, b'0'..=b'7')) {
+        return parse_integer::<8>(&raw);
     }
     raw.parse().expect("lexer must validate decimal literals")
 }
@@ -205,6 +212,12 @@ mod tests {
         };
         assert_eq!(number.value, 255.0);
         assert_eq!(number.raw.as_deref(), Some("0xff"));
+
+        let legacy_octal = parse("0012");
+        let Expr::Lit(Lit::Num(number)) = &*legacy_octal else {
+            panic!("expected number")
+        };
+        assert_eq!(number.value, 10.0);
 
         let string = parse("'hello'");
         let Expr::Lit(Lit::Str(string)) = &*string else {

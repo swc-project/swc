@@ -146,7 +146,9 @@ fn update_operator(kind: Kind) -> UpdateOp {
 }
 
 fn ensure_update_target(expression: &Expr) -> Result<(), Error> {
-    if matches!(expression, Expr::Ident(_) | Expr::Member(_)) {
+    if matches!(expression, Expr::Ident(_) | Expr::Member(_))
+        || matches!(expression, Expr::Paren(parenthesis) if ensure_update_target(&parenthesis.expr).is_ok())
+    {
         Ok(())
     } else {
         Err(Error::new(

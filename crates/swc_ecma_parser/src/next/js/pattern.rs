@@ -3,8 +3,8 @@
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     ArrayPat, AssignOp, AssignPat, AssignPatProp, AssignTarget, AssignTargetPat, BindingIdent,
-    Expr, Ident, IdentName, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, Prop, PropName,
-    RestPat, SimpleAssignTarget,
+    Expr, Ident, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, Prop, PropName, RestPat,
+    SimpleAssignTarget,
 };
 
 #[cfg(feature = "typescript")]
@@ -43,6 +43,9 @@ impl<C: Config> Parser<'_, C> {
                         }
                         Some(element) => Some(self.reparse_assignment_pattern(element.expr)?),
                     });
+                }
+                while elements.last().is_some_and(Option::is_none) {
+                    elements.pop();
                 }
                 Ok(Pat::Array(ArrayPat {
                     span: array.span,
@@ -184,7 +187,11 @@ impl<C: Config> Parser<'_, C> {
             return Ok(pattern);
         }
         let start = pattern.span().lo;
-        let right = self.parse_assignment_expression()?;
+        let right = self.with_context(
+            crate::next::parser::context::Context::IN,
+            crate::next::parser::context::Context::empty(),
+            Self::parse_assignment_expression,
+        )?;
         Ok(Pat::Assign(AssignPat {
             span: Span::new_with_checked(start, right.span().hi),
             left: Box::new(pattern),
@@ -252,15 +259,7 @@ impl<C: Config> Parser<'_, C> {
             }
 
             let token = self.token();
-            if !self.at_identifier_name() {
-                return Err(self.expected_error(Kind::Ident));
-            }
-            let symbol = self.identifier_atom(token);
-            let key = PropName::Ident(IdentName {
-                span: token.span(),
-                sym: symbol.clone(),
-            });
-            self.advance();
+            let key = self.parse_property_name()?;
             if self.eat(Kind::Colon) {
                 let value = self.parse_binding_pattern(true)?;
                 properties.push(ObjectPatProp::KeyValue(KeyValuePatProp {
@@ -268,6 +267,9 @@ impl<C: Config> Parser<'_, C> {
                     value: Box::new(value),
                 }));
             } else {
+                let PropName::Ident(name) = key else {
+                    return Err(self.expected_error(Kind::Colon));
+                };
                 let value = if self.eat(Kind::Eq) {
                     Some(self.parse_assignment_expression()?)
                 } else {
@@ -279,7 +281,7 @@ impl<C: Config> Parser<'_, C> {
                 properties.push(ObjectPatProp::Assign(AssignPatProp {
                     span: Span::new_with_checked(token.start(), end),
                     key: BindingIdent {
-                        id: Ident::new_no_ctxt(symbol, token.span()),
+                        id: Ident::new_no_ctxt(name.sym, name.span),
                         type_ann: None,
                     },
                     value,

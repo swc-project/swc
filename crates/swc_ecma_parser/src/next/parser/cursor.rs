@@ -144,6 +144,7 @@ impl<'a, C: Config> Parser<'a, C> {
         self.at(Kind::Ident)
             || self.kind().is_known_ident()
             || self.at(Kind::Module)
+            || (self.at(Kind::Let) && !self.context.intersects(Context::STRICT | Context::MODULE))
             || (self.at(Kind::Await) && !self.context.intersects(Context::AWAIT | Context::MODULE))
             || (self.at(Kind::Yield) && !self.context.intersects(Context::YIELD | Context::STRICT))
     }

@@ -2,9 +2,9 @@
 
 use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    Class, ClassDecl, ClassExpr, ClassMember, ClassMethod, ClassProp, ComputedPropName,
-    Constructor, Decl, Expr, Function, Ident, IdentName, MethodKind, Param, ParamOrTsParamProp,
-    PrivateMethod, PrivateName, PrivateProp, PropName, RestPat, StaticBlock, Stmt,
+    Class, ClassDecl, ClassExpr, ClassMember, ClassMethod, ClassProp, Constructor, Decl, Expr,
+    Function, Ident, MethodKind, Param, ParamOrTsParamProp, PrivateMethod, PrivateName,
+    PrivateProp, PropName, RestPat, StaticBlock, Stmt,
 };
 
 use crate::{
@@ -136,7 +136,13 @@ impl<C: Config> Parser<'_, C> {
             && !is_async
             && !is_generator
             && method_kind == MethodKind::Method
-            && matches!(&key, ClassKey::Public(PropName::Ident(name)) if name.sym == "constructor");
+            && (matches!(
+                &key,
+                ClassKey::Public(PropName::Ident(name)) if name.sym == "constructor"
+            ) || matches!(
+                &key,
+                ClassKey::Public(PropName::Str(name)) if name.value == "constructor"
+            ));
 
         if self.at(Kind::LParen) {
             let mut parameter_context = Context::empty();
@@ -288,28 +294,7 @@ impl<C: Config> Parser<'_, C> {
             self.advance();
             return Ok(ClassKey::Private(key));
         }
-        if self.at(Kind::LBracket) {
-            let start = self.token().start();
-            self.advance();
-            let expression = self.parse_expression()?;
-            if !self.expect(Kind::RBracket) {
-                return Err(self.expected_error(Kind::RBracket));
-            }
-            return Ok(ClassKey::Public(PropName::Computed(ComputedPropName {
-                span: Span::new_with_checked(start, self.previous_end()),
-                expr: expression,
-            })));
-        }
-        let token = self.token();
-        if !self.at_identifier_name() {
-            return Err(self.expected_error(Kind::Ident));
-        }
-        let key = PropName::Ident(IdentName {
-            span: token.span(),
-            sym: self.identifier_atom(token),
-        });
-        self.advance();
-        Ok(ClassKey::Public(key))
+        self.parse_property_name().map(ClassKey::Public)
     }
 
     pub(crate) fn parse_method_parameters(&mut self) -> Result<Vec<Param>, Error> {

@@ -131,7 +131,7 @@ impl<C: Config> Parser<'_, C> {
         Ok(PropOrSpread::Prop(Box::new(Prop::Shorthand(identifier))))
     }
 
-    fn parse_property_name(&mut self) -> Result<PropName, Error> {
+    pub(crate) fn parse_property_name(&mut self) -> Result<PropName, Error> {
         let token = self.token();
         match token.kind() {
             Kind::Str | Kind::Num | Kind::BigInt => {
@@ -146,7 +146,11 @@ impl<C: Config> Parser<'_, C> {
             Kind::LBracket => {
                 let start = token.start();
                 self.advance();
-                let expression = self.parse_assignment_expression()?;
+                let expression = self.with_context(
+                    crate::next::parser::context::Context::IN,
+                    crate::next::parser::context::Context::empty(),
+                    Self::parse_assignment_expression,
+                )?;
                 if !self.expect(Kind::RBracket) {
                     return Err(self.expected_error(Kind::RBracket));
                 }
@@ -228,7 +232,12 @@ impl<C: Config> Parser<'_, C> {
         key: PropName,
         is_getter: bool,
     ) -> Result<PropOrSpread, Error> {
-        let mut parameters = self.parse_method_parameters()?;
+        let mut parameters = self.with_context(
+            crate::next::parser::context::Context::empty(),
+            crate::next::parser::context::Context::YIELD
+                | crate::next::parser::context::Context::AWAIT,
+            Self::parse_method_parameters,
+        )?;
         if (is_getter && !parameters.is_empty()) || (!is_getter && parameters.len() != 1) {
             return Err(self.expected_error(Kind::LBrace));
         }

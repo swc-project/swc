@@ -96,7 +96,11 @@ impl<C: Config> Parser<'_, C> {
         let bracket_start = self.token().start();
         debug_assert!(self.at(Kind::LBracket));
         self.advance();
-        let property = self.parse_expression()?;
+        let property = self.with_context(
+            crate::next::parser::context::Context::IN,
+            crate::next::parser::context::Context::empty(),
+            Self::parse_expression,
+        )?;
         if !self.expect(Kind::RBracket) {
             return Err(self.expected_error(Kind::RBracket));
         }
@@ -173,7 +177,11 @@ impl<C: Config> Parser<'_, C> {
         let callee = if self.at(Kind::New) {
             self.parse_new_expression()?
         } else {
-            let primary = self.parse_primary_expression()?;
+            let primary = if self.at(Kind::Super) {
+                self.parse_special_left_hand_side()?
+            } else {
+                self.parse_primary_expression()?
+            };
             self.parse_suffixes(primary, false)?
         };
         let arguments = if self.at(Kind::LParen) {
@@ -276,9 +284,14 @@ impl<C: Config> Parser<'_, C> {
             } else {
                 None
             };
+            let expression = self.with_context(
+                crate::next::parser::context::Context::IN,
+                crate::next::parser::context::Context::empty(),
+                Self::parse_assignment_expression,
+            )?;
             arguments.push(ExprOrSpread {
                 spread,
-                expr: self.parse_assignment_expression()?,
+                expr: expression,
             });
             if !self.eat(Kind::Comma) {
                 break;

@@ -74,7 +74,8 @@ impl<C: Config> Parser<'_, C> {
             {
                 self.parse_ts_enum_declaration(true)
             }
-            Kind::Var | Kind::Let | Kind::Const => self.parse_variable_statement(),
+            Kind::Var | Kind::Const => self.parse_variable_statement(),
+            Kind::Let if self.is_let_declaration_start() => self.parse_variable_statement(),
             Kind::While => self.parse_while_statement(),
             Kind::Do => self.parse_do_while_statement(),
             Kind::With => self.parse_with_statement(),
@@ -89,6 +90,18 @@ impl<C: Config> Parser<'_, C> {
                 parser.advance();
                 parser.at(Kind::Colon)
             })
+    }
+
+    fn is_let_declaration_start(&mut self) -> bool {
+        debug_assert!(self.at(Kind::Let));
+        if self.context().intersects(Context::STRICT | Context::MODULE) {
+            return true;
+        }
+        self.lookahead(|parser| {
+            parser.advance();
+            matches!(parser.kind(), Kind::LBracket | Kind::LBrace)
+                || parser.at_identifier_reference()
+        })
     }
 
     fn parse_labeled_statement(&mut self) -> Result<Stmt, Error> {
@@ -254,7 +267,9 @@ impl<C: Config> Parser<'_, C> {
 
         let init = if self.at(Kind::Semi) {
             None
-        } else if matches!(self.kind(), Kind::Var | Kind::Let | Kind::Const) {
+        } else if matches!(self.kind(), Kind::Var | Kind::Const)
+            || (self.at(Kind::Let) && self.is_let_declaration_start())
+        {
             Some(VarDeclOrExpr::VarDecl(self.with_context(
                 Context::empty(),
                 Context::IN,

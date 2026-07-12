@@ -288,10 +288,11 @@ impl<'a, C: Config> Lexer<'a, C> {
                 });
                 return;
             }
-            if matches!(byte, b'\r' | b'\n') {
+            let character = self.source.cur_as_char();
+            if matches!(character, Some('\r' | '\n' | '\u{2028}' | '\u{2029}')) {
                 self.had_line_break = true;
             }
-            let width = self.source.cur_as_char().map_or(1, char::len_utf8);
+            let width = character.map_or(1, char::len_utf8);
             // SAFETY: `width` belongs to the complete current UTF-8 character.
             unsafe { self.source.bump_bytes(width) };
         }
@@ -407,12 +408,19 @@ impl<'a, C: Config> Lexer<'a, C> {
             }
         }
 
+        let remaining = self.source.as_str().as_bytes();
+        let legacy_leading_zero = remaining.first() == Some(&b'0')
+            && remaining.get(1).is_some_and(|byte| byte.is_ascii_digit())
+            && remaining
+                .iter()
+                .take_while(|byte| byte.is_ascii_digit())
+                .all(|byte| matches!(byte, b'0'..=b'7'));
         if self.source.cur() == Some(b'.') {
             self.bump_ascii();
             self.consume_ascii_while(|byte| byte.is_ascii_digit() || byte == b'_');
         } else {
             self.consume_ascii_while(|byte| byte.is_ascii_digit() || byte == b'_');
-            if self.eat(b'.') {
+            if !legacy_leading_zero && self.eat(b'.') {
                 self.consume_ascii_while(|byte| byte.is_ascii_digit() || byte == b'_');
             }
         }
@@ -1060,7 +1068,7 @@ mod tests {
 
     #[test]
     fn keeps_numeric_and_punctuation_boundaries() {
-        let mut lexer = Lexer::new("1foo .. ?.1 ... 0xffn", BytePos(1), NoTokens).unwrap();
+        let mut lexer = Lexer::new("1foo .. ?.1 ... 0xffn 01.a", BytePos(1), NoTokens).unwrap();
         let expected = [
             Kind::Num,
             Kind::Ident,
@@ -1070,6 +1078,9 @@ mod tests {
             Kind::Num,
             Kind::DotDotDot,
             Kind::BigInt,
+            Kind::Num,
+            Kind::Dot,
+            Kind::Ident,
             Kind::Eof,
         ];
 

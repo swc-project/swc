@@ -81,7 +81,16 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         self.advance();
         if self.token().had_line_break()
-            || matches!(self.kind(), Kind::Semi | Kind::RBrace | Kind::Eof)
+            || matches!(
+                self.kind(),
+                Kind::Semi
+                    | Kind::RParen
+                    | Kind::RBracket
+                    | Kind::RBrace
+                    | Kind::Comma
+                    | Kind::Colon
+                    | Kind::Eof
+            )
         {
             return Ok(Box::new(Expr::Yield(YieldExpr {
                 span: Span::new_with_checked(start, self.previous_end()),
@@ -212,9 +221,21 @@ impl<C: Config> Parser<'_, C> {
         is_async: bool,
     ) -> Result<Box<Expr>, Error> {
         self.advance();
+        let add = if is_async {
+            Context::AWAIT
+        } else {
+            Context::empty()
+        };
+        let parameters = self.with_context(add, Context::YIELD | Context::AWAIT, |parser| {
+            parser.parse_arrow_parameters_after_lparen()
+        })?;
+        self.parse_arrow_expression(start, parameters, is_async)
+    }
+
+    fn parse_arrow_parameters_after_lparen(&mut self) -> Result<Vec<Pat>, Error> {
         let mut parameters = Vec::with_capacity(4);
         while !self.at(Kind::RParen) {
-            let pattern = if self.at(Kind::DotDotDot) {
+            let mut pattern = if self.at(Kind::DotDotDot) {
                 let dot3_token = self.token().span();
                 self.advance();
                 let argument = self.parse_binding_pattern(false)?;
@@ -228,6 +249,7 @@ impl<C: Config> Parser<'_, C> {
             } else {
                 self.parse_binding_pattern(true)?
             };
+            normalize_arrow_parameter_pattern(&mut pattern);
             parameters.push(pattern);
             if !self.eat(Kind::Comma) {
                 break;
@@ -236,7 +258,7 @@ impl<C: Config> Parser<'_, C> {
         if !self.expect(Kind::RParen) {
             return Err(self.expected_error(Kind::RParen));
         }
-        self.parse_arrow_expression(start, parameters, is_async)
+        Ok(parameters)
     }
 
     fn parse_arrow_expression(
@@ -289,6 +311,35 @@ impl<C: Config> Parser<'_, C> {
             type_params: None,
             return_type,
         })))
+    }
+}
+
+fn normalize_arrow_parameter_pattern(pattern: &mut Pat) {
+    match pattern {
+        Pat::Array(array) => {
+            for pattern in array.elems.iter_mut().flatten() {
+                normalize_arrow_parameter_pattern(pattern);
+            }
+            while array.elems.last().is_some_and(Option::is_none) {
+                array.elems.pop();
+            }
+        }
+        Pat::Object(object) => {
+            for property in &mut object.props {
+                match property {
+                    swc_ecma_ast::ObjectPatProp::KeyValue(property) => {
+                        normalize_arrow_parameter_pattern(&mut property.value);
+                    }
+                    swc_ecma_ast::ObjectPatProp::Rest(rest) => {
+                        normalize_arrow_parameter_pattern(&mut rest.arg);
+                    }
+                    swc_ecma_ast::ObjectPatProp::Assign(_) => {}
+                }
+            }
+        }
+        Pat::Assign(assign) => normalize_arrow_parameter_pattern(&mut assign.left),
+        Pat::Rest(rest) => normalize_arrow_parameter_pattern(&mut rest.arg),
+        Pat::Ident(_) | Pat::Expr(_) | Pat::Invalid(_) => {}
     }
 }
 

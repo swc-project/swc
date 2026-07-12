@@ -291,13 +291,11 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let expected = p(true);
                 assert_eq!(src, expected);
 
-                if env::var_os("SWC_NEXT_PARITY").is_some() {
-                    let next = normalize(NextParser::new(&input).parse_module().unwrap());
-                    assert!(
-                        next.eq_ignore_span(&src),
-                        "independent module AST differs for {file_name}"
-                    );
-                }
+                let next = normalize(NextParser::new(&input).parse_module().unwrap());
+                assert!(
+                    next.eq_ignore_span(&src),
+                    "independent module AST differs for {file_name}"
+                );
 
                 let json =
                     serde_json::to_string_pretty(&src).expect("failed to serialize module as json");
@@ -324,13 +322,12 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let src = p(false);
                 let expected = p(true);
                 assert_eq!(src, expected);
-                if env::var_os("SWC_NEXT_PARITY").is_some() {
-                    let next = normalize(NextParser::new(&input).parse_script().unwrap());
-                    assert!(
-                        next.eq_ignore_span(&src),
-                        "independent script AST differs for {file_name}"
-                    );
-                }
+                let next = normalize(NextParser::new(&input).parse_script().unwrap());
+                assert!(
+                    next.eq_ignore_span(&src),
+                    "independent script AST differs for {file_name}\nlegacy: {src:#?}\nnext: \
+                     {next:#?}"
+                );
             }
 
             Ok(())
