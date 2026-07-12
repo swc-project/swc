@@ -122,7 +122,10 @@ pub mod unstable {
 
     /// OXC-derived implementation under development.
     pub mod next {
-        pub use crate::next::{experimental::Parser, lexer::PackedToken};
+        pub use crate::next::{
+            experimental::{Parser, ParserDetails},
+            lexer::PackedToken,
+        };
     }
 }
 

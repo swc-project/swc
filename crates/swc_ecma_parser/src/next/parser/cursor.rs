@@ -9,7 +9,7 @@ use crate::{
     lexer::Token as Kind,
     next::lexer::{
         config::Config,
-        core::{Lexer, LexerCheckpoint},
+        core::{CommentRange, Lexer, LexerCheckpoint},
         PackedToken,
     },
 };
@@ -69,6 +69,21 @@ impl<'a, C: Config> Parser<'a, C> {
     /// Decoded string value retained only for escaped string tokens.
     pub(crate) fn escaped_string(&self, token: PackedToken) -> Option<&Wtf8Atom> {
         self.lexer.escaped_string(token)
+    }
+
+    /// Source-order comments retained by the lexer.
+    pub(crate) fn comments(&self) -> &[CommentRange] {
+        self.lexer.comments()
+    }
+
+    /// Borrow the source text of a retained comment.
+    pub(crate) fn comment_text(&self, comment: CommentRange) -> &'a str {
+        self.lexer.comment_text(comment)
+    }
+
+    /// Consume the parser and move out the statically collected token vector.
+    pub(crate) fn into_tokens(self) -> Vec<PackedToken> {
+        self.lexer.into_tokens()
     }
 
     /// Reinterpret the current slash token as a regular expression literal.

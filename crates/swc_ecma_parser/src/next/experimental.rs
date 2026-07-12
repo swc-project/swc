@@ -1,10 +1,17 @@
 //! Temporary entry point for parity testing the independent parser.
 
-use swc_common::{BytePos, Span};
+use swc_common::{
+    comments::{Comment, CommentKind},
+    BytePos, Span,
+};
 use swc_ecma_ast::{Module, Script};
 
 use super::{
-    lexer::{config::NoTokens, core::Lexer},
+    lexer::{
+        config::{NoTokens, WithTokens},
+        core::{CommentKind as LexCommentKind, Lexer},
+        PackedToken,
+    },
     parser::{context::Context, cursor::Parser as ParserImpl},
 };
 use crate::error::{Error, SyntaxError};
@@ -16,6 +23,16 @@ use crate::error::{Error, SyntaxError};
 pub struct Parser<'a> {
     source: &'a str,
     start_pos: BytePos,
+}
+
+/// Side products returned by the independent token-collecting path.
+pub struct ParserDetails {
+    /// Parsed script.
+    pub script: Script,
+    /// Flat comments in source order.
+    pub comments: Vec<Comment>,
+    /// Packed tokens moved directly from the lexer.
+    pub tokens: Vec<PackedToken>,
 }
 
 impl<'a> Parser<'a> {
@@ -56,6 +73,42 @@ impl<'a> Parser<'a> {
         })?;
         let mut parser = ParserImpl::new(lexer, Context::default() | Context::MODULE);
         parser.parse_module()
+    }
+
+    /// Parse a script with statically enabled packed-token collection.
+    pub fn parse_script_with_tokens(self) -> Result<ParserDetails, Error> {
+        let lexer = Lexer::new(
+            self.source,
+            self.start_pos,
+            WithTokens::with_capacity(self.source.len() / 6),
+        )
+        .ok_or_else(|| {
+            Error::new(
+                Span::new_with_checked(self.start_pos, self.start_pos),
+                SyntaxError::Eof,
+            )
+        })?;
+        let mut parser = ParserImpl::new(lexer, Context::default());
+        let script = parser.parse_script()?;
+        let comments = parser
+            .comments()
+            .iter()
+            .copied()
+            .map(|comment| Comment {
+                kind: match comment.kind {
+                    LexCommentKind::Line => CommentKind::Line,
+                    LexCommentKind::Block => CommentKind::Block,
+                },
+                span: comment.span,
+                text: parser.comment_text(comment).into(),
+            })
+            .collect();
+        let tokens = parser.into_tokens();
+        Ok(ParserDetails {
+            script,
+            comments,
+            tokens,
+        })
     }
 }
 
@@ -124,5 +177,16 @@ mod tests {
         assert_script_parity(
             "const view = <App enabled value={answer}><Child /> text {item}</App>;",
         );
+    }
+
+    #[test]
+    fn moves_packed_tokens_and_materializes_comments_on_demand() {
+        let result = Parser::new("// first\nconst value = 1; /* last */")
+            .parse_script_with_tokens()
+            .unwrap();
+        assert!(!result.tokens.is_empty());
+        assert_eq!(result.comments.len(), 2);
+        assert_eq!(result.comments[0].text, " first");
+        assert_eq!(result.comments[1].text, " last ");
     }
 }
