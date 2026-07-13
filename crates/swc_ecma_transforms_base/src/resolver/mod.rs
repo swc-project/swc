@@ -1,3 +1,5 @@
+use std::{cell::RefCell, rc::Rc};
+
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
@@ -9,6 +11,113 @@ use swc_ecma_visit::{
 use tracing::{debug, span, Level};
 
 use crate::scope::{DeclKind, IdentType, ScopeKind};
+
+/// Shared "exported names" scope for a TypeScript namespace, keyed by
+/// `(enclosing_export_mark_or_top_level_mark, namespace_name)`.  Re-opened
+/// namespaces look up the same entry, so identifiers introduced by `export`
+/// in earlier declarations are visible (with a stable `SyntaxContext`) from
+/// later declaration bodies.  Non-exported declarations stay local to each
+/// re-open's own body scope and never enter this map.  Interior mutability
+/// lets sibling re-opens accumulate into the same storage even though the
+/// scope tree is stack-allocated.
+#[derive(Debug, Default)]
+struct NamespaceExportScope {
+    mark: Mark,
+    declared_symbols: FxHashMap<Atom, DeclKind>,
+    declared_types: FxHashSet<Atom>,
+}
+
+type NamespaceExportScopeRef = Rc<RefCell<NamespaceExportScope>>;
+
+type NamespaceBodyCache = Rc<RefCell<FxHashMap<(Mark, Atom), NamespaceExportScopeRef>>>;
+
+/// Names that are exported by *this* re-open of a TS namespace, collected
+/// in a single pre-pass over the body before hoisting.  The hoister uses
+/// these to route same-body re-declarations into the shared export scope
+/// regardless of the order in which `export ...` and its peer declarations
+/// appear (so `var a; export var a = 1;` merges the same way as
+/// `export var a = 1; var a;`).  This also means non-exported re-opens of
+/// a sibling-exported name (e.g. `export enum E {}` in body 1 and
+/// `enum E {}` in body 2) stay isolated, since pre-scan looks at the
+/// *current* body only.
+#[derive(Debug, Default)]
+struct NamespaceExportNames {
+    values: FxHashSet<Atom>,
+    types: FxHashSet<Atom>,
+}
+
+type NamespaceExportNamesRef = Rc<NamespaceExportNames>;
+
+/// Collect the names that the given namespace body exports.  Only the
+/// top-level `export ...` declarations of the body are inspected; nested
+/// scopes are handled by their own pre-scan when they are visited.
+///
+/// `export import A = ...` (parsed as `TsImportEqualsDecl { is_export: true,
+/// .. }`) is also recognised so that the alias name is routed to the merged
+/// export scope alongside `export var`, `export class`, etc.  Without this,
+/// the alias would be treated as body-local and references from sibling
+/// re-opens of the same namespace would fall through to outer/unresolved
+/// bindings, violating TypeScript's namespace-merge semantics.
+fn pre_scan_namespace_exports(body: &TsNamespaceBody) -> NamespaceExportNames {
+    let mut scan = NamespaceExportNames::default();
+    if let TsNamespaceBody::TsModuleBlock(block) = body {
+        block.body.iter().for_each(|item| match item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
+                add_decl_export_names(&export.decl, &mut scan);
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) if import.is_export => {
+                // An exported import alias behaves like an exported namespace
+                // for merge purposes: visible in value-space (and in
+                // type-space when not a type-only alias) from sibling
+                // re-opens of the enclosing namespace.
+                if !import.is_type_only {
+                    scan.values.insert(import.id.sym.clone());
+                }
+                scan.types.insert(import.id.sym.clone());
+            }
+            _ => {}
+        });
+    }
+    scan
+}
+
+fn add_decl_export_names(decl: &Decl, scan: &mut NamespaceExportNames) {
+    match decl {
+        Decl::Var(v) => v.decls.iter().for_each(|d| {
+            find_pat_ids::<_, Id>(&d.name)
+                .into_iter()
+                .for_each(|(sym, _)| {
+                    scan.values.insert(sym);
+                });
+        }),
+        Decl::Fn(f) => {
+            scan.values.insert(f.ident.sym.clone());
+        }
+        Decl::Class(c) => {
+            scan.values.insert(c.ident.sym.clone());
+            scan.types.insert(c.ident.sym.clone());
+        }
+        Decl::TsEnum(e) => {
+            scan.values.insert(e.id.sym.clone());
+            scan.types.insert(e.id.sym.clone());
+        }
+        Decl::TsTypeAlias(a) => {
+            scan.types.insert(a.id.sym.clone());
+        }
+        Decl::TsInterface(i) => {
+            scan.types.insert(i.id.sym.clone());
+        }
+        Decl::TsModule(m) => {
+            if let TsModuleName::Ident(id) = &m.id {
+                scan.values.insert(id.sym.clone());
+                scan.types.insert(id.sym.clone());
+            }
+        }
+        Decl::Using(_) => {}
+        #[cfg(swc_ast_unknown)]
+        _ => {}
+    }
+}
 
 #[cfg(test)]
 mod tests;
@@ -154,6 +263,9 @@ pub fn resolver(
             unresolved_mark,
             top_level_mark,
         },
+        namespace_bodies: Rc::new(RefCell::new(FxHashMap::default())),
+        namespace_export: None,
+        namespace_export_names: None,
     })
 }
 
@@ -173,6 +285,15 @@ struct Scope<'a> {
 
     /// All types declared in the scope
     declared_types: FxHashSet<Atom>,
+
+    /// When this scope is the *body* of a TypeScript namespace, `shared`
+    /// points at the namespace's merged "exported names" storage.  Reference
+    /// lookups walking the scope chain consult `shared.declared_symbols` /
+    /// `declared_types` in addition to `self.declared_symbols` so that
+    /// identifiers exported from an earlier re-open of the same namespace
+    /// resolve here, while non-exported declarations in this body remain
+    /// private to this re-open.
+    shared: Option<NamespaceExportScopeRef>,
 }
 
 impl<'a> Scope<'a> {
@@ -183,13 +304,20 @@ impl<'a> Scope<'a> {
             mark,
             declared_symbols: Default::default(),
             declared_types: Default::default(),
+            shared: None,
         }
     }
 
-    fn is_declared(&self, symbol: &Atom) -> Option<&DeclKind> {
-        self.declared_symbols
-            .get(symbol)
-            .or_else(|| self.parent?.is_declared(symbol))
+    fn is_declared(&self, symbol: &Atom) -> Option<DeclKind> {
+        if let Some(kind) = self.declared_symbols.get(symbol).copied() {
+            return Some(kind);
+        }
+        if let Some(shared) = &self.shared {
+            if let Some(kind) = shared.borrow().declared_symbols.get(symbol).copied() {
+                return Some(kind);
+            }
+        }
+        self.parent?.is_declared(symbol)
     }
 }
 
@@ -208,6 +336,30 @@ struct Resolver<'a> {
     strict_mode: bool,
 
     config: InnerConfig,
+
+    /// Cache of merged "exported names" scopes, keyed by
+    /// `(enclosing_export_or_outer_mark, namespace_name)`.  Shared across
+    /// sibling scopes so that re-opened TypeScript namespaces accumulate
+    /// their exports into the same `NamespaceExportScope`.
+    namespace_bodies: NamespaceBodyCache,
+
+    /// When inside a TypeScript namespace body, the merged export scope of
+    /// the immediately enclosing namespace.  `modify` writes here (instead
+    /// of `current`) for any binding whose name is part of
+    /// [`Self::namespace_export_names`] (i.e. is exported by the current
+    /// body), so exported declarations land on the namespace's shared
+    /// scope while non-exported re-opens stay on the per-re-open body
+    /// scope.
+    namespace_export: Option<NamespaceExportScopeRef>,
+
+    /// Set of names exported by the immediately enclosing namespace body,
+    /// computed once before hoisting starts.  Used by `modify` to decide
+    /// whether a binding should be routed into the merged export scope.
+    /// Looking at the *current body's* exports (not the cumulative export
+    /// scope) is important: it lets same-body redeclarations such as
+    /// `export var a = 1; for (var a; …)` merge while keeping sibling
+    /// re-opens that don't export the name isolated from each other.
+    namespace_export_names: Option<NamespaceExportNamesRef>,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -230,6 +382,9 @@ impl<'a> Resolver<'a> {
             config,
             decl_kind: DeclKind::Lexical,
             strict_mode: false,
+            namespace_bodies: Rc::new(RefCell::new(FxHashMap::default())),
+            namespace_export: None,
+            namespace_export_names: None,
         }
     }
 
@@ -250,6 +405,19 @@ impl<'a> Resolver<'a> {
             in_ts_module: self.in_ts_module,
             decl_kind: self.decl_kind,
             strict_mode: self.strict_mode,
+            namespace_bodies: self.namespace_bodies.clone(),
+            // The enclosing namespace's export scope is still relevant
+            // inside any nested scope (a function body inside a namespace,
+            // for example, may itself declare further nested namespaces
+            // that need to merge across re-opens of the outer namespace).
+            namespace_export: self.namespace_export.clone(),
+            // The pre-scanned export name set applies only to declarations
+            // that live *directly* in the enclosing namespace body.  A
+            // nested block or function body inside the body is a fresh
+            // scope, so a `let x` or `var x` declared there must not be
+            // re-routed into the namespace's export scope even if `x`
+            // happens to be exported at the namespace level.
+            namespace_export_names: None,
         };
 
         op(&mut child);
@@ -272,36 +440,42 @@ impl<'a> Resolver<'a> {
 
     fn mark_for_ref_inner(&self, sym: &Atom, stop_an_fn_scope: bool) -> Option<Mark> {
         if self.config.handle_types && self.in_type {
-            let mut mark = self.current.mark;
             let mut scope = Some(&self.current);
 
             while let Some(cur) = scope {
                 // if cur.declared_types.contains(sym) ||
                 // cur.hoisted_symbols.borrow().contains(sym) {
                 if cur.declared_types.contains(sym) {
-                    if mark == Mark::root() {
+                    if cur.mark == Mark::root() {
                         break;
                     }
-                    return Some(mark);
+                    return Some(cur.mark);
+                }
+
+                // A namespace body's merged "exported names" scope sits
+                // alongside the body in the chain; check it before walking
+                // to the enclosing scope so that exported types declared by
+                // a sibling re-open of the same namespace are visible here.
+                if let Some(shared) = &cur.shared {
+                    let exp = shared.borrow();
+                    if exp.declared_types.contains(sym) {
+                        return Some(exp.mark);
+                    }
                 }
 
                 if cur.kind == ScopeKind::Fn && stop_an_fn_scope {
                     return None;
                 }
 
-                if let Some(parent) = &cur.parent {
-                    mark = parent.mark;
-                }
                 scope = cur.parent;
             }
         }
 
-        let mut mark = self.current.mark;
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
             if cur.declared_symbols.contains_key(sym) {
-                if mark == Mark::root() {
+                if cur.mark == Mark::root() {
                     return None;
                 }
 
@@ -309,21 +483,29 @@ impl<'a> Resolver<'a> {
                     // https://tc39.es/ecma262/multipage/global-object.html#sec-value-properties-of-the-global-object-infinity
                     // non configurable global value
                     "undefined" | "NaN" | "Infinity"
-                        if mark == self.config.top_level_mark && !self.is_module =>
+                        if cur.mark == self.config.top_level_mark && !self.is_module =>
                     {
                         Some(self.config.unresolved_mark)
                     }
-                    _ => Some(mark),
+                    _ => Some(cur.mark),
                 };
+            }
+
+            // Mirror of the type-lookup branch above: an exported value
+            // declared in a sibling re-open of the same namespace lives in
+            // the merged export scope rather than this body's own
+            // `declared_symbols`.
+            if let Some(shared) = &cur.shared {
+                let exp = shared.borrow();
+                if exp.declared_symbols.contains_key(sym) {
+                    return Some(exp.mark);
+                }
             }
 
             if cur.kind == ScopeKind::Fn && stop_an_fn_scope {
                 return None;
             }
 
-            if let Some(parent) = &cur.parent {
-                mark = parent.mark;
-            }
             scope = cur.parent;
         }
 
@@ -331,6 +513,21 @@ impl<'a> Resolver<'a> {
     }
 
     /// Modifies a binding identifier.
+    ///
+    /// In a TS namespace body, a binding is routed to the namespace's
+    /// merged export scope (`namespace_export`) when its name appears in
+    /// the pre-scanned [`Self::namespace_export_names`] set for the
+    /// current body.  Otherwise the binding lands on `self.current` and
+    /// stays local to this re-open.
+    ///
+    /// The pre-scan looks only at the body's own `export` declarations,
+    /// so:
+    ///
+    /// - `export var a = 1; for (var a; …)` puts both `a`s on the export scope
+    ///   (TypeScript's var-merge inside one body); and
+    /// - `namespace N { export enum E { … } }` followed by `namespace N { enum
+    ///   E { … } }` keeps the second `E` private to the second re-open, since
+    ///   the second body never exports `E`.
     fn modify(&mut self, id: &mut Ident, kind: DeclKind) {
         if cfg!(debug_assertions) && LOG {
             #[cfg(debug_assertions)]
@@ -344,13 +541,38 @@ impl<'a> Resolver<'a> {
             return;
         }
 
-        if self.in_type {
-            self.current.declared_types.insert(id.sym.clone());
-        } else {
-            self.current.declared_symbols.insert(id.sym.clone(), kind);
-        }
+        let route_to_export = self
+            .namespace_export_names
+            .as_ref()
+            .and_then(|names| {
+                let listed = if self.in_type {
+                    names.types.contains(&id.sym)
+                } else {
+                    names.values.contains(&id.sym)
+                };
+                listed.then_some(self.namespace_export.as_ref())
+            })
+            .flatten();
 
-        let mark = self.current.mark;
+        let mark = match route_to_export {
+            Some(export_scope) => {
+                let mut export = export_scope.borrow_mut();
+                if self.in_type {
+                    export.declared_types.insert(id.sym.clone());
+                } else {
+                    export.declared_symbols.insert(id.sym.clone(), kind);
+                }
+                export.mark
+            }
+            None => {
+                if self.in_type {
+                    self.current.declared_types.insert(id.sym.clone());
+                } else {
+                    self.current.declared_symbols.insert(id.sym.clone(), kind);
+                }
+                self.current.mark
+            }
+        };
 
         if mark != Mark::root() {
             id.ctxt = id.ctxt.apply_mark(mark);
@@ -366,6 +588,33 @@ impl<'a> Resolver<'a> {
 
         if mark != Mark::root() {
             *ctxt = ctxt.apply_mark(mark)
+        }
+    }
+
+    /// Records a TypeScript type binding in the merged export scope when
+    /// the name is exported by the current namespace body (per the
+    /// pre-scanned [`Self::namespace_export_names`]).  Mirrors the
+    /// [`Self::modify`] routing for callers that only need the side-table
+    /// insert without applying a [`Mark`] to an identifier (the class
+    /// hoister, in particular).
+    fn declare_type_in_current(&mut self, name: Atom) {
+        let route_to_export = self
+            .namespace_export_names
+            .as_ref()
+            .and_then(|names| {
+                names
+                    .types
+                    .contains(&name)
+                    .then_some(self.namespace_export.as_ref())
+            })
+            .flatten();
+        match route_to_export {
+            Some(export_scope) => {
+                export_scope.borrow_mut().declared_types.insert(name);
+            }
+            None => {
+                self.current.declared_types.insert(name);
+            }
         }
     }
 
@@ -1422,17 +1671,85 @@ impl VisitMut for Resolver<'_> {
             return;
         }
 
-        match &mut decl.id {
+        let namespace_name = match &mut decl.id {
             TsModuleName::Ident(i) => {
                 self.modify(i, DeclKind::Lexical);
+                Some(i.sym.clone())
             }
-            TsModuleName::Str(_) => {}
+            TsModuleName::Str(_) => None,
             #[cfg(swc_ast_unknown)]
-            _ => {}
-        }
+            _ => None,
+        };
+
+        // Cache-key parent mark selection:
+        //
+        // * Top-level namespaces (`self.namespace_export` is `None`): use
+        //   `self.current.mark`.  The enclosing scope's mark is itself stable
+        //   (top-level / file mark) so sibling re-opens collide on the same cache entry
+        //   and merge.
+        //
+        // * Nested namespaces *exported* from the enclosing body: use the enclosing
+        //   namespace's stable export mark.  Both `Inner` declarations in `namespace
+        //   Outer { export namespace Inner {} } namespace Outer { export namespace
+        //   Inner {} }` then key to the same entry, mirroring TypeScript's
+        //   namespace-merge rule for exported nested namespaces.
+        //
+        // * Nested namespaces *not exported* from the enclosing body: use
+        //   `self.current.mark`, which is the per-re-open body mark of the outer
+        //   namespace.  Two outer re-opens hold distinct body marks, so their
+        //   non-exported `Inner` children land in disjoint cache entries and stay
+        //   isolated, matching TypeScript's rule that non-exported members are local to
+        //   each declaration body.
+        let nested_is_exported = namespace_name.as_ref().is_some_and(|name| {
+            self.namespace_export_names
+                .as_ref()
+                .is_some_and(|names| names.values.contains(name) || names.types.contains(name))
+        });
+        let cache_parent_mark = if nested_is_exported {
+            self.namespace_export
+                .as_ref()
+                .map(|exp| exp.borrow().mark)
+                .unwrap_or(self.current.mark)
+        } else {
+            self.current.mark
+        };
+        let cache_key = namespace_name.map(|name| (cache_parent_mark, name));
+
+        // Look up (or create) the shared export scope.  We hold the cache
+        // borrow only long enough to obtain the `Rc`; subsequent reads /
+        // writes go through the inner `RefCell`.
+        let export_scope: Option<NamespaceExportScopeRef> = cache_key.as_ref().map(|key| {
+            self.namespace_bodies
+                .borrow_mut()
+                .entry(key.clone())
+                .or_insert_with(|| {
+                    Rc::new(RefCell::new(NamespaceExportScope {
+                        mark: Mark::fresh(self.config.top_level_mark),
+                        ..Default::default()
+                    }))
+                })
+                .clone()
+        });
+
+        // Pre-scan this body's exports.  Doing it once up front makes the
+        // routing decision in `modify` order-independent and avoids
+        // leaking exports across re-opens of the same namespace.
+        let export_names: Option<NamespaceExportNamesRef> = decl
+            .body
+            .as_ref()
+            .map(|body| Rc::new(pre_scan_namespace_exports(body)));
 
         self.with_child(ScopeKind::Block, |child| {
             child.in_ts_module = true;
+
+            // Attach the shared export scope so that lookups for
+            // sibling-declared exports succeed, and route the body's own
+            // exported declarations into the same shared storage.
+            if let Some(exp) = export_scope {
+                child.current.shared = Some(exp.clone());
+                child.namespace_export = Some(exp);
+            }
+            child.namespace_export_names = export_names;
 
             decl.body.visit_mut_children_with(child);
         });
@@ -1721,9 +2038,7 @@ impl VisitMut for Hoister<'_, '_> {
 
         if self.resolver.config.handle_types {
             self.resolver
-                .current
-                .declared_types
-                .insert(node.ident.sym.clone());
+                .declare_type_in_current(node.ident.sym.clone());
         }
     }
 
