@@ -14,7 +14,7 @@ describe("parse", () => {
         expect(result[0]).toMatch(/Module|Script/);
         expect(result[0]).toContain("Stmt");
         // Second element should be the tokens
-        expect(result[1]).toContain("TokenAndSpan");
+        expect(result[1]).toContain("PackedToken");
     });
 
     it("should parse TypeScript code with type annotations", () => {
@@ -25,7 +25,7 @@ describe("parse", () => {
         expect(result[0]).toMatch(/Module|Script/);
         expect(result[0]).toContain("TsTypeAnn");
         // Should have tokens
-        expect(result[1]).toContain("TokenAndSpan");
+        expect(result[1]).toContain("PackedToken");
     });
 
     it("should parse JSX code", () => {
@@ -70,7 +70,7 @@ describe("parse", () => {
         expect(result).toHaveLength(2);
         expect(result[0]).toContain("ArrowExpr");
         // Check for arrow token
-        expect(result[1]).toContain("=>");
+        expect(result[1]).toContain("kind: Arrow");
     });
 
     it("should parse async/await", () => {
@@ -80,7 +80,7 @@ describe("parse", () => {
         expect(result[0]).toContain("AwaitExpr");
         expect(result[0]).toContain("FnDecl");
         // Tokens should be present
-        expect(result[1]).toContain("TokenAndSpan");
+        expect(result[1]).toContain("PackedToken");
     });
 
     it("should parse class declarations", () => {
@@ -90,7 +90,7 @@ describe("parse", () => {
         expect(result[0]).toContain("ClassDecl");
         expect(result[0]).toContain("Constructor");
         // Check for class keyword in tokens
-        expect(result[1]).toContain("class");
+        expect(result[1]).toContain("kind: Class");
     });
 
     it("should parse template literals", () => {
@@ -99,7 +99,7 @@ describe("parse", () => {
         expect(result).toHaveLength(2);
         expect(result[0]).toContain("Tpl");
         // Check for template tokens
-        expect(result[1]).toContain("`");
+        expect(result[1]).toContain("kind: TemplateHead");
     });
 
     it("should handle syntax errors gracefully", () => {
@@ -169,7 +169,7 @@ describe("parse", () => {
         expect(result).toHaveLength(2);
         expect(result[0]).toContain("SpreadElement");
         // Check for spread token
-        expect(result[1]).toContain("...");
+        expect(result[1]).toContain("kind: DotDotDot");
     });
 
     it("should parse optional chaining", () => {
@@ -187,7 +187,7 @@ describe("parse", () => {
         expect(result[0]).toContain("BinExpr");
         expect(result[0]).toContain('op: "??"');
         // Check for nullish coalescing token
-        expect(result[1]).toContain("??");
+        expect(result[1]).toContain("kind: NullishCoalescing");
     });
 
     it("should parse BigInt literals", () => {
@@ -196,7 +196,7 @@ describe("parse", () => {
         expect(result).toHaveLength(2);
         expect(result[0]).toContain("BigInt");
         // Check for BigInt token
-        expect(result[1]).toContain("<bigint literal>");
+        expect(result[1]).toContain("kind: BigInt");
     });
 
     it("should parse private class fields", () => {

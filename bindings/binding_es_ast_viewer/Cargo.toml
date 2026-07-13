@@ -17,7 +17,7 @@ features = [
   "common",
   "ecma_visit",
   "ecma_transforms",
-  "ecma_parser",
+  "ecma_parser_typescript",
 ]
 path = "../../crates/swc_core"
 

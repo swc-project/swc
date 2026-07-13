@@ -31,7 +31,7 @@ describe("transform", () => {
                     {},
                 ),
             ).resolves.toMatchSnapshot();
-            expect(
+            await expect(
                 swc.transform(
                     `declare enum Foo {
                     a = 2,

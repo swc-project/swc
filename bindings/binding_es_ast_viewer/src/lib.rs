@@ -6,7 +6,7 @@ use swc_core::{
     common::{errors::ColorConfig, FileName, Globals, Mark, SourceMap, GLOBALS},
     ecma::{
         ast::*,
-        parser::{EsSyntax, ModuleKind, Parser, ParserReturn, SourceType, Syntax, TsSyntax},
+        parser::{ModuleKind, ParseOptions, Parser, ParserReturn, SourceType},
         transforms::base::resolver,
         visit::VisitMutWith,
     },
@@ -46,8 +46,11 @@ pub fn parse(input: &str, file_name: Option<String>) -> Result<Vec<String>, Stri
         .map(|e| e == "ts" || e == "tsx" || e == "mts" || e == "cts" || e == "mtsx" || e == "ctsx")
         .unwrap_or_default();
 
-    let is_d_ts =
-        is_ts && matches!(iter.next(), Some("d" | "D")) || matches!(iter.next(), Some("d" | "D"));
+    let lower_file_name = file_name.to_ascii_lowercase();
+    let is_d_ts = is_ts
+        && [".d.ts", ".d.mts", ".d.cts"]
+            .iter()
+            .any(|suffix| lower_file_name.ends_with(suffix));
 
     let cm: Arc<SourceMap> = Default::default();
     let fm = cm.new_source_file(
@@ -55,19 +58,17 @@ pub fn parse(input: &str, file_name: Option<String>) -> Result<Vec<String>, Stri
         input.to_string(),
     );
 
-    let syntax = if is_ts {
-        Syntax::Typescript(TsSyntax {
-            tsx: is_jsx,
-            dts: is_d_ts,
-            ..Default::default()
-        })
+    let source_type = if is_d_ts {
+        SourceType::type_definition()
+    } else if is_ts && is_jsx {
+        SourceType::tsx()
+    } else if is_ts {
+        SourceType::typescript()
+    } else if is_jsx {
+        SourceType::jsx()
     } else {
-        Syntax::Es(EsSyntax {
-            jsx: is_jsx,
-            ..Default::default()
-        })
+        SourceType::unambiguous()
     };
-    let target = EsVersion::latest();
 
     let module_kind = if is_esm {
         ModuleKind::Module
@@ -76,7 +77,11 @@ pub fn parse(input: &str, file_name: Option<String>) -> Result<Vec<String>, Stri
     } else {
         ModuleKind::Unambiguous
     };
-    let (source_type, options) = SourceType::from_legacy(syntax, module_kind, target);
+    let source_type = source_type.with_module_kind(module_kind);
+    let options = ParseOptions {
+        target: EsVersion::latest(),
+        ..Default::default()
+    };
     let ParserReturn {
         program,
         diagnostics,

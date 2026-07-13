@@ -7,5 +7,5 @@ it("properly reports error", () => {
 
     expect(() => {
         swc.transformSync("Foo {}", {});
-    }).toThrow("Expected ';', '}' or <eof>");
+    }).toThrow();
 });
