@@ -565,6 +565,16 @@ impl<C: Config> Parser<'_, C> {
                         },
                     ));
                 }
+                let namespace = ExportSpecifier::Namespace(ExportNamespaceSpecifier {
+                    span: name.span(),
+                    name,
+                });
+                if self.eat(Kind::Comma) {
+                    if !self.expect(Kind::LBrace) {
+                        return Err(self.expected_error(Kind::LBrace));
+                    }
+                    return self.parse_named_export_with(start, type_only, vec![namespace]);
+                }
                 if !self.expect(Kind::From) {
                     return Err(self.expected_error(Kind::From));
                 }
@@ -573,10 +583,7 @@ impl<C: Config> Parser<'_, C> {
                 self.consume_semicolon()?;
                 return Ok(ModuleDecl::ExportNamed(NamedExport {
                     span: Span::new_with_checked(start, self.previous_end()),
-                    specifiers: vec![ExportSpecifier::Namespace(ExportNamespaceSpecifier {
-                        span: name.span(),
-                        name,
-                    })],
+                    specifiers: vec![namespace],
                     src: Some(Box::new(source)),
                     type_only,
                     with,
@@ -784,7 +791,15 @@ impl<C: Config> Parser<'_, C> {
         start: swc_common::BytePos,
         type_only: bool,
     ) -> Result<ModuleDecl, Error> {
-        let mut specifiers = Vec::with_capacity(4);
+        self.parse_named_export_with(start, type_only, Vec::with_capacity(4))
+    }
+
+    fn parse_named_export_with(
+        &mut self,
+        start: swc_common::BytePos,
+        type_only: bool,
+        mut specifiers: Vec<ExportSpecifier>,
+    ) -> Result<ModuleDecl, Error> {
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
             let is_type_only = self
                 .context()

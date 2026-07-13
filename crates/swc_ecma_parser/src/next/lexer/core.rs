@@ -386,6 +386,14 @@ impl<'a, C: Config> Lexer<'a, C> {
                     return Kind::Ident;
                 }
             }
+            // Keep a lone fixed-width surrogate escape source-backed. SWC's
+            // code generator historically round-trips this recovery case
+            // even though Rust strings cannot represent the decoded scalar.
+            if let Some(surrogate) = single_surrogate_escape(value) {
+                self.escaped_identifiers
+                    .insert(start.0, Atom::new(format!("\\u{surrogate:04X}")));
+                return Kind::Ident;
+            }
             Kind::Error
         } else {
             keyword_kind(value).unwrap_or(Kind::Ident)
@@ -871,6 +879,15 @@ fn decode_identifier(raw: &str) -> Option<String> {
     Some(output)
 }
 
+fn single_surrogate_escape(raw: &str) -> Option<u16> {
+    let digits = raw.strip_prefix("\\u")?;
+    if digits.len() != 4 || !digits.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return None;
+    }
+    let value = u16::from_str_radix(digits, 16).ok()?;
+    (0xd800..=0xdfff).contains(&value).then_some(value)
+}
+
 fn keyword_kind(value: &str) -> Option<Kind> {
     Some(match value {
         "abstract" => Kind::Abstract,
@@ -1197,7 +1214,8 @@ mod tests {
 
     #[test]
     fn decodes_escaped_identifiers_without_allocating_plain_identifiers() {
-        let mut lexer = Lexer::new("plain A\\u{42}C \\u0061a", BytePos(1), NoTokens).unwrap();
+        let mut lexer =
+            Lexer::new("plain A\\u{42}C \\u0061a \\ud83d", BytePos(1), NoTokens).unwrap();
         let plain = lexer.next_token();
         assert!(!plain.escaped());
         assert!(lexer.escaped_identifier(plain).is_none());
@@ -1214,6 +1232,13 @@ mod tests {
         assert_eq!(
             lexer.escaped_identifier(fixed).map(Atom::as_ref),
             Some("aa")
+        );
+
+        let surrogate = lexer.next_token();
+        assert_eq!(surrogate.kind(), Kind::Ident);
+        assert_eq!(
+            lexer.escaped_identifier(surrogate).map(Atom::as_ref),
+            Some("\\uD83D")
         );
     }
 
