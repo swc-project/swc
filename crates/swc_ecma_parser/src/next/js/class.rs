@@ -177,13 +177,15 @@ impl<C: Config> Parser<'_, C> {
         for member in body {
             match member {
                 ClassMember::Constructor(constructor) => {
-                    if has_constructor {
+                    // TypeScript overload signatures have no body and may
+                    // precede the single constructor implementation.
+                    if constructor.body.is_some() && has_constructor {
                         self.emit_error(Error::new(
                             constructor.span,
                             crate::error::SyntaxError::DuplicateConstructor,
                         ));
                     }
-                    has_constructor = true;
+                    has_constructor |= constructor.body.is_some();
                 }
                 ClassMember::Method(method) => {
                     let name = public_class_key_name(&method.key);

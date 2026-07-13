@@ -27,7 +27,11 @@ fn transform_dts_test(source: &str, expected: &str) {
             .with_options(options)
             .with_start_pos(fm.start_pos)
             .parse();
-        assert!(result.diagnostics.is_empty());
+        assert!(
+            result.diagnostics.is_empty(),
+            "parser diagnostics: {:?}",
+            result.diagnostics
+        );
         let mut program = result
             .program
             .apply(resolver(unresolved_mark, top_level_mark, true));

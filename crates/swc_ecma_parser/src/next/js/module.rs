@@ -17,7 +17,7 @@ use crate::{
     error::Error,
     next::{
         lexer::{config::Config, TokenKind as Kind},
-        parser::cursor::Parser,
+        parser::{context::Context, cursor::Parser},
     },
 };
 
@@ -153,8 +153,9 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn validate_duplicate_exports(&mut self, body: &[ModuleItem]) {
-        let mut exports = Vec::<(Atom, Span)>::with_capacity(8);
-        let mut candidates = Vec::<(Atom, Span)>::with_capacity(4);
+        let typescript = self.context().contains(Context::TYPESCRIPT);
+        let mut exports = Vec::<(Atom, Span, bool)>::with_capacity(8);
+        let mut candidates = Vec::<(Atom, Span, bool)>::with_capacity(4);
         for item in body {
             candidates.clear();
             let ModuleItem::ModuleDecl(declaration) = item else {
@@ -164,14 +165,17 @@ impl<C: Config> Parser<'_, C> {
                 ModuleDecl::ExportDecl(export) => match &export.decl {
                     Decl::Var(variable) => {
                         for declarator in &variable.decls {
-                            collect_export_pattern_names(&declarator.name, &mut candidates);
+                            let mut names = Vec::new();
+                            collect_export_pattern_names(&declarator.name, &mut names);
+                            candidates
+                                .extend(names.into_iter().map(|(name, span)| (name, span, false)));
                         }
                     }
                     Decl::Fn(function) => {
-                        candidates.push((function.ident.sym.clone(), function.ident.span));
+                        candidates.push((function.ident.sym.clone(), function.ident.span, true));
                     }
                     Decl::Class(class) => {
-                        candidates.push((class.ident.sym.clone(), class.ident.span));
+                        candidates.push((class.ident.sym.clone(), class.ident.span, false));
                     }
                     _ => {}
                 },
@@ -180,25 +184,40 @@ impl<C: Config> Parser<'_, C> {
                         match specifier {
                             ExportSpecifier::Named(named) => {
                                 let name = named.exported.as_ref().unwrap_or(&named.orig);
-                                candidates.push((name.atom().into_owned(), name.span()));
+                                candidates.push((name.atom().into_owned(), name.span(), false));
                             }
-                            ExportSpecifier::Namespace(namespace) => candidates
-                                .push((namespace.name.atom().into_owned(), namespace.name.span())),
-                            ExportSpecifier::Default(default) => candidates
-                                .push((default.exported.sym.clone(), default.exported.span)),
+                            ExportSpecifier::Namespace(namespace) => candidates.push((
+                                namespace.name.atom().into_owned(),
+                                namespace.name.span(),
+                                false,
+                            )),
+                            ExportSpecifier::Default(default) => candidates.push((
+                                default.exported.sym.clone(),
+                                default.exported.span,
+                                false,
+                            )),
                         }
                     }
                 }
                 ModuleDecl::ExportDefaultDecl(default) => {
-                    candidates.push(("default".into(), default.span));
+                    candidates.push((
+                        "default".into(),
+                        default.span,
+                        matches!(default.decl, DefaultDecl::Fn(_)),
+                    ));
                 }
                 ModuleDecl::ExportDefaultExpr(default) => {
-                    candidates.push(("default".into(), default.span));
+                    candidates.push(("default".into(), default.span, false));
                 }
                 _ => {}
             }
-            for (name, span) in candidates.drain(..) {
-                if exports.iter().any(|(previous, _)| previous == &name) {
+            for (name, span, function) in candidates.drain(..) {
+                if let Some((_, _, previous_function)) =
+                    exports.iter().find(|(previous, _, _)| previous == &name)
+                {
+                    if typescript && function && *previous_function {
+                        continue;
+                    }
                     self.emit_error(Error::new(
                         span,
                         crate::error::SyntaxError::Unexpected {
@@ -207,7 +226,7 @@ impl<C: Config> Parser<'_, C> {
                         },
                     ));
                 } else {
-                    exports.push((name, span));
+                    exports.push((name, span, function));
                 }
             }
         }
