@@ -1,7 +1,7 @@
   x Module
    ,-[$DIR/tests/span/js/expr/string-literal.js:1:1]
  1 | export * from "test";
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/string-literal.js:1:1]

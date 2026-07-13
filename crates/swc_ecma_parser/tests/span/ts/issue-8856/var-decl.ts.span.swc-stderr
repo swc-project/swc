@@ -1,7 +1,12 @@
+  x 'const' declarations must be initialized
+   ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
+ 1 | const a: number
+   :       ^^^^^^^^^
+   `----
   x Module
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]

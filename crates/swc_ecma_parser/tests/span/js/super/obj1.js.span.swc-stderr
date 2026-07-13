@@ -1,4 +1,171 @@
-  x Invalid access to super
+  x Module
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x ModuleItem
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x Stmt
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x Decl
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x VarDecl
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x VarDeclarator
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x Pat
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | let o2 = {
+   :     ^^
+ 2 |     a: function a() {
+   `----
+  x Ident
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | let o2 = {
+   :     ^^
+ 2 |     a: function a() {
+   `----
+  x Expr
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x ObjectLit
+   ,-[$DIR/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x PropOrSpread
+   ,-[$DIR/tests/span/js/super/obj1.js:2:1]
+ 1 |     let o2 = {
+ 2 | ,->     a: function a() {
+ 3 | |           super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x Prop
+   ,-[$DIR/tests/span/js/super/obj1.js:2:1]
+ 1 |     let o2 = {
+ 2 | ,->     a: function a() {
+ 3 | |           super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x KeyValueProp
+   ,-[$DIR/tests/span/js/super/obj1.js:2:1]
+ 1 |     let o2 = {
+ 2 | ,->     a: function a() {
+ 3 | |           super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x PropName
+   ,-[$DIR/tests/span/js/super/obj1.js:2:1]
+ 1 | let o2 = {
+ 2 |     a: function a() {
+   :     ^
+ 3 |         super.x;
+   `----
+  x Expr
+   ,-[$DIR/tests/span/js/super/obj1.js:2:1]
+ 1 |     let o2 = {
+ 2 | ,->     a: function a() {
+ 3 | |           super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x FnExpr
+   ,-[$DIR/tests/span/js/super/obj1.js:2:1]
+ 1 |     let o2 = {
+ 2 | ,->     a: function a() {
+ 3 | |           super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x Ident
+   ,-[$DIR/tests/span/js/super/obj1.js:2:1]
+ 1 | let o2 = {
+ 2 |     a: function a() {
+   :                 ^
+ 3 |         super.x;
+   `----
+  x Function
+   ,-[$DIR/tests/span/js/super/obj1.js:2:1]
+ 1 |     let o2 = {
+ 2 | ,->     a: function a() {
+ 3 | |           super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x BlockStmt
+   ,-[$DIR/tests/span/js/super/obj1.js:2:1]
+ 1 |     let o2 = {
+ 2 | ,->     a: function a() {
+ 3 | |           super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x Stmt
+   ,-[$DIR/tests/span/js/super/obj1.js:3:1]
+ 2 |     a: function a() {
+ 3 |         super.x;
+   :         ^^^^^^^
+ 4 |     },
+   `----
+  x ExprStmt
+   ,-[$DIR/tests/span/js/super/obj1.js:3:1]
+ 2 |     a: function a() {
+ 3 |         super.x;
+   :         ^^^^^^^
+ 4 |     },
+   `----
+  x Expr
+   ,-[$DIR/tests/span/js/super/obj1.js:3:1]
+ 2 |     a: function a() {
+ 3 |         super.x;
+   :         ^^^^^^^
+ 4 |     },
+   `----
+  x Super
    ,-[$DIR/tests/span/js/super/obj1.js:3:1]
  2 |     a: function a() {
  3 |         super.x;

@@ -50,14 +50,14 @@
    ,-[$DIR/tests/span/js/stmt/throw.js:2:1]
  1 | function foo() {
  2 |     throw 'foo';
-   :     ^^^^^^^^^^^^
+   :     ^^^^^^^^^^^
  3 | }
    `----
   x ThrowStmt
    ,-[$DIR/tests/span/js/stmt/throw.js:2:1]
  1 | function foo() {
  2 |     throw 'foo';
-   :     ^^^^^^^^^^^^
+   :     ^^^^^^^^^^^
  3 | }
    `----
   x Expr

@@ -125,21 +125,21 @@
    ,-[$DIR/tests/span/js/super/obj3.js:3:1]
  2 |     a() {
  3 |         let o1 = { b: super.b };
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^
+   :         ^^^^^^^^^^^^^^^^^^^^^^^
  4 |     },
    `----
   x Decl
    ,-[$DIR/tests/span/js/super/obj3.js:3:1]
  2 |     a() {
  3 |         let o1 = { b: super.b };
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^
+   :         ^^^^^^^^^^^^^^^^^^^^^^^
  4 |     },
    `----
   x VarDecl
    ,-[$DIR/tests/span/js/super/obj3.js:3:1]
  2 |     a() {
  3 |         let o1 = { b: super.b };
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^
+   :         ^^^^^^^^^^^^^^^^^^^^^^^
  4 |     },
    `----
   x VarDeclarator

@@ -54,14 +54,14 @@
    ,-[$DIR/tests/span/js/decl/export-decl.js:2:1]
  1 | export * from "./a.js";
  2 | export * as a from "./a.js";
-   :        ^^^^^^
+   :             ^
  3 | export {};
    `----
   x ExportNamespaceSpecifier
    ,-[$DIR/tests/span/js/decl/export-decl.js:2:1]
  1 | export * from "./a.js";
  2 | export * as a from "./a.js";
-   :        ^^^^^^
+   :             ^
  3 | export {};
    `----
   x Ident

@@ -46,7 +46,7 @@
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/type/fn.ts:1:1]
  1 | type A = () => void;
-   :             ^^^^^^^
+   :          ^^^^^^^^^^
    `----
   x TsType
    ,-[$DIR/tests/span/ts/type/fn.ts:1:1]

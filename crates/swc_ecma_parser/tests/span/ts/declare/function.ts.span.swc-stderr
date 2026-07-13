@@ -1,7 +1,7 @@
   x Module
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]

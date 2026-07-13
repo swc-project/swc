@@ -51,12 +51,12 @@
   x Stmt
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
-   :                      ^^^^
+   :                      ^^^
    `----
   x ExprStmt
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
-   :                      ^^^^
+   :                      ^^^
    `----
   x Expr
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]

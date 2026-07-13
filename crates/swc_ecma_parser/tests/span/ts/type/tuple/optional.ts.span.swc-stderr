@@ -1,7 +1,7 @@
   x Module
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
@@ -71,12 +71,12 @@
   x Pat
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
-   :                            ^^^^^^^
+   :                            ^^^^^^
    `----
   x Ident
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
-   :                            ^^^^^^^
+   :                            ^^^^^^
    `----
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]

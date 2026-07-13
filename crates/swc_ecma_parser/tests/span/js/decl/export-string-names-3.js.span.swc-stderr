@@ -1,7 +1,7 @@
   x Module
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]

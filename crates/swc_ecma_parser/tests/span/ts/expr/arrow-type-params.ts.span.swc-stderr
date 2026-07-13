@@ -1,27 +1,27 @@
   x Module
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T,>(value: T): any => {};
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T,>(value: T): any => {};
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Stmt
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T,>(value: T): any => {};
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Decl
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T,>(value: T): any => {};
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x VarDecl
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T,>(value: T): any => {};
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x VarDeclarator
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
@@ -56,7 +56,7 @@
   x Ident
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T,>(value: T): any => {};
-   :                ^^^^^^^^
+   :                ^^^^^
    `----
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]

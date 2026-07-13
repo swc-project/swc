@@ -50,14 +50,14 @@
    ,-[$DIR/tests/span/js/stmt/return.js:2:1]
  1 | function foo() {
  2 |     return 'foo';
-   :     ^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^
  3 | }
    `----
   x ReturnStmt
    ,-[$DIR/tests/span/js/stmt/return.js:2:1]
  1 | function foo() {
  2 |     return 'foo';
-   :     ^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^
  3 | }
    `----
   x Expr

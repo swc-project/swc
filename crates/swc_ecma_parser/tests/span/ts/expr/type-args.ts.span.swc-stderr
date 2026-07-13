@@ -6,17 +6,17 @@
   x ModuleItem
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Stmt
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Expr
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]

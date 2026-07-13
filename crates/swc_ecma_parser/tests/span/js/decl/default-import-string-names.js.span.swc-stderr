@@ -1,7 +1,7 @@
   x Module
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]

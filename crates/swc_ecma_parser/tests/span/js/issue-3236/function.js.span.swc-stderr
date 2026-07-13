@@ -1,3 +1,9 @@
+  x Illegal 'use strict' directive in function with non-simple parameter list.
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
   x Module
    ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
  1 | ,-> function f(a = 0) {
@@ -98,14 +104,14 @@
    ,-[$DIR/tests/span/js/issue-3236/function.js:2:1]
  1 | function f(a = 0) {
  2 |     "use strict";
-   :     ^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^
  3 | }
    `----
   x ExprStmt
    ,-[$DIR/tests/span/js/issue-3236/function.js:2:1]
  1 | function f(a = 0) {
  2 |     "use strict";
-   :     ^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^
  3 | }
    `----
   x Expr

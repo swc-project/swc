@@ -6,19 +6,19 @@
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
-   : ^^^^^^^^^^^
+   : ^^^^^^^^^^
  2 | (new Date).toString()
    `----
   x Stmt
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
-   : ^^^^^^^^^^^
+   : ^^^^^^^^^^
  2 | (new Date).toString()
    `----
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
-   : ^^^^^^^^^^^
+   : ^^^^^^^^^^
  2 | (new Date).toString()
    `----
   x Expr

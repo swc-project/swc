@@ -1,7 +1,7 @@
   x Module
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
-   : ^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]

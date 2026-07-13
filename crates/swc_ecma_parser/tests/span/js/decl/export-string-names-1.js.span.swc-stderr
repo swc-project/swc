@@ -6,25 +6,25 @@
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
-   : ^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^
  2 | export { foo as "str" };
    `----
   x Stmt
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
-   : ^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^
  2 | export { foo as "str" };
    `----
   x Decl
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
-   : ^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^
  2 | export { foo as "str" };
    `----
   x VarDecl
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
-   : ^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^
  2 | export { foo as "str" };
    `----
   x VarDeclarator

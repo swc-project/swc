@@ -1,29 +1,28 @@
   x Module
     ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
-  9 | // a
- 10 | console.log(1);
-    : ^^^^^^^^^^^^^^^
- 11 | // b
+  9 |     // a
+ 10 | ,-> console.log(1);
+ 11 | `-> // b
     `----
   x ModuleItem
     ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^
  11 | // b
     `----
   x Stmt
     ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^
  11 | // b
     `----
   x ExprStmt
     ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^
  11 | // b
     `----
   x Expr

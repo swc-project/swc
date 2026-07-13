@@ -1,7 +1,7 @@
   x Module
    ,-[$DIR/tests/span/ts/issue-8856/param.ts:1:1]
  1 | function b(a: number = 1) { }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/ts/issue-8856/param.ts:1:1]

@@ -1,7 +1,7 @@
   x Module
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]

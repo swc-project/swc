@@ -46,7 +46,7 @@
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
-   :                 ^^^^^^^
+   :          ^^^^^^^^^^^^^^
    `----
   x TsType
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
