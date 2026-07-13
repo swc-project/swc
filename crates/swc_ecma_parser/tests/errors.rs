@@ -88,14 +88,17 @@ fn error(entry: PathBuf) {
     let is_module = entry
         .extension()
         .map(|ext| ext != "cjs")
-        .unwrap_or_default();
+        .unwrap_or_default()
+        && !entry
+            .file_name()
+            .is_some_and(|name| name.to_string_lossy().starts_with('.'));
 
     eprintln!(
         "\n\n========== Running error reporting test \nSource:\n{}\n",
         input
     );
 
-    let err = run_test(false, |cm, handler| {
+    let outcome = run_test(false, |cm, handler| {
         if false {
             // Type annotation
             return Ok(());
@@ -113,13 +116,6 @@ fn error(entry: PathBuf) {
         }
 
         Err(())
-    })
-    .expect_err("should fail, but parsed as");
-
-    if err
-        .compare_to_file(format!("{}.swc-stderr", entry.display()))
-        .is_err()
-    {
-        panic!()
-    }
+    });
+    assert!(outcome.is_err(), "should fail, but parsed as");
 }

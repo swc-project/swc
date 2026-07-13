@@ -38,7 +38,8 @@ impl<C: Config> Parser<'_, C> {
             | Kind::Public
             | Kind::Implements
             | Kind::Static
-                if self.context().intersects(Context::STRICT | Context::MODULE) =>
+                if self.context().intersects(Context::STRICT | Context::MODULE)
+                    && !self.context().contains(Context::FLOW) =>
             {
                 Err(Error::new(
                     span,
@@ -53,6 +54,7 @@ impl<C: Config> Parser<'_, C> {
             Kind::Class => self.parse_class_expression(),
             _ if self.at_identifier_reference() => {
                 let symbol = self.identifier_atom(token);
+                self.validate_identifier_reference(&Ident::new_no_ctxt(symbol.clone(), span));
                 self.advance();
                 Ok(Box::new(Expr::Ident(Ident::new_no_ctxt(symbol, span))))
             }
@@ -67,11 +69,30 @@ impl<C: Config> Parser<'_, C> {
                 if !self.at_identifier_name() {
                     return Err(self.expected_error(Kind::Ident));
                 }
+                if name.start() != token.end() {
+                    self.emit_error(Error::new(
+                        Span::new_with_checked(token.start(), name.end()),
+                        SyntaxError::Unexpected {
+                            got: "whitespace after #".into(),
+                            expected: "private name adjacent to #",
+                        },
+                    ));
+                }
                 let private = PrivateName {
                     span: Span::new_with_checked(start, name.end()),
                     name: self.identifier_atom(name),
                 };
+                self.record_private_use(private.name.clone(), private.span);
                 self.advance();
+                if !self.at(Kind::In) {
+                    self.emit_error(Error::new(
+                        private.span,
+                        SyntaxError::Unexpected {
+                            got: "bare private name".into(),
+                            expected: "private name as a member or left operand of in",
+                        },
+                    ));
+                }
                 Ok(Box::new(Expr::PrivateName(private)))
             }
             Kind::Null => {
@@ -85,6 +106,17 @@ impl<C: Config> Parser<'_, C> {
             }
             Kind::Num => {
                 let raw = self.token_source(token);
+                if !has_valid_numeric_separators(raw)
+                    || (is_legacy_integer_literal(raw) && self.context().contains(Context::STRICT))
+                {
+                    return Err(Error::new(
+                        span,
+                        SyntaxError::Unexpected {
+                            got: raw.into(),
+                            expected: "a valid numeric literal",
+                        },
+                    ));
+                }
                 let Some(value) = parse_number(raw) else {
                     return Err(Error::new(
                         span,
@@ -237,6 +269,37 @@ impl<C: Config> Parser<'_, C> {
             SyntaxError::Expected(expected.to_string(), self.kind().to_string()),
         )
     }
+}
+
+fn has_valid_numeric_separators(raw: &str) -> bool {
+    if !raw.as_bytes().contains(&b'_') {
+        return true;
+    }
+    let bytes = raw.as_bytes();
+    if bytes.first() == Some(&b'0')
+        && bytes
+            .get(1)
+            .is_some_and(|byte| byte.is_ascii_digit() || *byte == b'_')
+    {
+        return false;
+    }
+    bytes.iter().enumerate().all(|(index, byte)| {
+        if *byte != b'_' {
+            return true;
+        }
+        index > 0
+            && bytes
+                .get(index - 1)
+                .is_some_and(|previous| previous.is_ascii_hexdigit())
+            && bytes
+                .get(index + 1)
+                .is_some_and(|next| next.is_ascii_hexdigit())
+    })
+}
+
+pub(crate) fn is_legacy_integer_literal(raw: &str) -> bool {
+    let bytes = raw.as_bytes();
+    bytes.len() > 1 && bytes[0] == b'0' && bytes.iter().all(u8::is_ascii_digit)
 }
 
 fn parse_number(raw: &str) -> Option<f64> {

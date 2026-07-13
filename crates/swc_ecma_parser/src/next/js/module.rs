@@ -9,8 +9,8 @@ use swc_ecma_ast::{
     ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr, Ident, ImportDecl,
     ImportDefaultSpecifier, ImportNamedSpecifier, ImportPhase, ImportSpecifier,
     ImportStarAsSpecifier, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport,
-    ObjectLit, Stmt, Str, TsExportAssignment, TsExternalModuleRef, TsImportEqualsDecl, TsModuleRef,
-    TsNamespaceExportDecl,
+    ObjectLit, Pat, Stmt, Str, TsExportAssignment, TsExternalModuleRef, TsImportEqualsDecl,
+    TsModuleRef, TsNamespaceExportDecl,
 };
 
 use crate::{
@@ -34,6 +34,7 @@ impl<C: Config> Parser<'_, C> {
             None
         };
         let mut body = Vec::with_capacity(8);
+        let mut strict = false;
         while !self.at(Kind::Eof) {
             body.push(match self.kind() {
                 Kind::Import
@@ -67,7 +68,11 @@ impl<C: Config> Parser<'_, C> {
                                 decl: Decl::Class(class),
                                 ..
                             }) => {
-                                if !class.class.decorators.is_empty() {
+                                if !class.class.decorators.is_empty()
+                                    && !self
+                                        .context()
+                                        .contains(crate::next::parser::context::Context::FLOW)
+                                {
                                     self.emit_error(Error::new(
                                         class.class.decorators[0].span,
                                         crate::error::SyntaxError::Expected(
@@ -86,7 +91,11 @@ impl<C: Config> Parser<'_, C> {
                                 decl: DefaultDecl::Class(class),
                                 ..
                             }) => {
-                                if !class.class.decorators.is_empty() {
+                                if !class.class.decorators.is_empty()
+                                    && !self
+                                        .context()
+                                        .contains(crate::next::parser::context::Context::FLOW)
+                                {
                                     self.emit_error(Error::new(
                                         class.class.decorators[0].span,
                                         crate::error::SyntaxError::Expected(
@@ -109,19 +118,99 @@ impl<C: Config> Parser<'_, C> {
                         let Stmt::Decl(Decl::Class(class)) = &mut statement else {
                             return Err(self.expected_error(Kind::Class));
                         };
+                        if class.declare {
+                            self.emit_error(Error::new(
+                                class.class.span,
+                                crate::error::SyntaxError::Unexpected {
+                                    got: "decorated declare class".into(),
+                                    expected: "non-ambient decorated class",
+                                },
+                            ));
+                        }
                         class.class.span = Span::new_with_checked(start, class.class.span.hi);
                         class.class.decorators = decorators;
                         ModuleItem::Stmt(statement)
                     }
                 }
-                _ => ModuleItem::Stmt(self.parse_statement()?),
+                _ => ModuleItem::Stmt(self.with_context(
+                    if strict {
+                        crate::next::parser::context::Context::STRICT
+                    } else {
+                        crate::next::parser::context::Context::empty()
+                    },
+                    crate::next::parser::context::Context::empty(),
+                    Self::parse_statement,
+                )?),
             });
+            strict |= matches!(body.last(), Some(ModuleItem::Stmt(Stmt::Expr(expression))) if matches!(&*expression.expr, Expr::Lit(swc_ecma_ast::Lit::Str(value)) if &*value.value == "use strict"));
         }
+        self.validate_duplicate_exports(&body);
         Ok(Module {
             span: Span::new_with_checked(start, self.token().end()),
             body,
             shebang,
         })
+    }
+
+    fn validate_duplicate_exports(&mut self, body: &[ModuleItem]) {
+        let mut exports = Vec::<(Atom, Span)>::with_capacity(8);
+        let mut candidates = Vec::<(Atom, Span)>::with_capacity(4);
+        for item in body {
+            candidates.clear();
+            let ModuleItem::ModuleDecl(declaration) = item else {
+                continue;
+            };
+            match declaration {
+                ModuleDecl::ExportDecl(export) => match &export.decl {
+                    Decl::Var(variable) => {
+                        for declarator in &variable.decls {
+                            collect_export_pattern_names(&declarator.name, &mut candidates);
+                        }
+                    }
+                    Decl::Fn(function) => {
+                        candidates.push((function.ident.sym.clone(), function.ident.span));
+                    }
+                    Decl::Class(class) => {
+                        candidates.push((class.ident.sym.clone(), class.ident.span));
+                    }
+                    _ => {}
+                },
+                ModuleDecl::ExportNamed(export) => {
+                    for specifier in &export.specifiers {
+                        match specifier {
+                            ExportSpecifier::Named(named) => {
+                                let name = named.exported.as_ref().unwrap_or(&named.orig);
+                                candidates.push((name.atom().into_owned(), name.span()));
+                            }
+                            ExportSpecifier::Namespace(namespace) => candidates
+                                .push((namespace.name.atom().into_owned(), namespace.name.span())),
+                            ExportSpecifier::Default(default) => candidates
+                                .push((default.exported.sym.clone(), default.exported.span)),
+                        }
+                    }
+                }
+                ModuleDecl::ExportDefaultDecl(default) => {
+                    candidates.push(("default".into(), default.span));
+                }
+                ModuleDecl::ExportDefaultExpr(default) => {
+                    candidates.push(("default".into(), default.span));
+                }
+                _ => {}
+            }
+            for (name, span) in candidates.drain(..) {
+                if exports.iter().any(|(previous, _)| previous == &name) {
+                    self.emit_error(Error::new(
+                        span,
+                        crate::error::SyntaxError::Unexpected {
+                            got: name.to_string(),
+                            expected: "unique module export name",
+                        },
+                    ));
+                } else {
+                    exports.push((name, span));
+                }
+            }
+        }
     }
 
     pub(crate) fn parse_import_declaration(&mut self) -> Result<ModuleDecl, Error> {
@@ -202,6 +291,19 @@ impl<C: Config> Parser<'_, C> {
         }
         let mut specifiers = Vec::with_capacity(4);
         if self.at(Kind::Str) {
+            if self
+                .context()
+                .contains(crate::next::parser::context::Context::FLOW)
+                && type_only
+            {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "type-only side-effect import".into(),
+                        expected: "type import binding",
+                    },
+                ));
+            }
             let source = self.parse_module_string()?;
             let with = self.parse_import_attributes()?;
             self.consume_semicolon()?;
@@ -228,6 +330,9 @@ impl<C: Config> Parser<'_, C> {
                 && self.at_identifier_name())
         {
             let local = self.parse_module_identifier()?;
+            if type_only {
+                self.validate_flow_type_binding(&local);
+            }
             specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
                 span: local.span,
                 local,
@@ -240,6 +345,21 @@ impl<C: Config> Parser<'_, C> {
                 return Err(self.expected_error(Kind::As));
             }
             let local = self.parse_module_identifier()?;
+            if type_only {
+                self.validate_flow_type_binding(&local);
+                if self
+                    .context()
+                    .contains(crate::next::parser::context::Context::FLOW)
+                {
+                    self.emit_error(Error::new(
+                        local.span,
+                        crate::error::SyntaxError::Unexpected {
+                            got: "namespace type import".into(),
+                            expected: "default or named Flow type import",
+                        },
+                    ));
+                }
+            }
             specifiers.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
                 span: local.span,
                 local,
@@ -312,6 +432,22 @@ impl<C: Config> Parser<'_, C> {
                     };
                     (identifier, None)
                 };
+                if type_only || is_type_only {
+                    self.validate_flow_type_binding(&local);
+                }
+                if self
+                    .context()
+                    .contains(crate::next::parser::context::Context::FLOW)
+                    && local.sym == "default"
+                {
+                    self.emit_error(Error::new(
+                        local.span,
+                        crate::error::SyntaxError::Unexpected {
+                            got: "default import binding".into(),
+                            expected: "non-reserved local import binding",
+                        },
+                    ));
+                }
                 specifiers.push(ImportSpecifier::Named(ImportNamedSpecifier {
                     span: Span::new_with_checked(imported_span.lo, local.span.hi),
                     local,
@@ -390,6 +526,19 @@ impl<C: Config> Parser<'_, C> {
         if self.eat(Kind::Asterisk) {
             if self.eat(Kind::As) {
                 let name = self.parse_module_export_name()?;
+                if type_only
+                    && self
+                        .context()
+                        .contains(crate::next::parser::context::Context::FLOW)
+                {
+                    self.emit_error(Error::new(
+                        name.span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "Flow type namespace export".into(),
+                            expected: "named Flow type exports",
+                        },
+                    ));
+                }
                 if !self.expect(Kind::From) {
                     return Err(self.expected_error(Kind::From));
                 }
@@ -644,16 +793,6 @@ impl<C: Config> Parser<'_, C> {
                 self.advance();
             }
             let original = self.parse_module_export_name()?;
-            if matches!(&original, ModuleExportName::Ident(identifier) if matches!(&*identifier.sym, "default" | "if" | "export"))
-            {
-                self.emit_error(Error::new(
-                    original.span(),
-                    crate::error::SyntaxError::Expected(
-                        "local export binding".into(),
-                        "reserved export name".into(),
-                    ),
-                ));
-            }
             let original_span = original.span();
             let exported = if self.eat(Kind::As) {
                 Some(self.parse_module_export_name()?)
@@ -681,6 +820,22 @@ impl<C: Config> Parser<'_, C> {
         } else {
             None
         };
+        if source.is_none() {
+            for specifier in &specifiers {
+                if let ExportSpecifier::Named(named) = specifier {
+                    if matches!(&named.orig, ModuleExportName::Ident(identifier) if matches!(&*identifier.sym, "default" | "if" | "for" | "export"))
+                    {
+                        self.emit_error(Error::new(
+                            named.orig.span(),
+                            crate::error::SyntaxError::Expected(
+                                "local export binding".into(),
+                                "reserved export name".into(),
+                            ),
+                        ));
+                    }
+                }
+            }
+        }
         let with = self.parse_import_attributes()?;
         self.consume_semicolon()?;
         Ok(ModuleDecl::ExportNamed(NamedExport {
@@ -770,6 +925,35 @@ impl<C: Config> Parser<'_, C> {
         };
         self.advance();
         Ok(string)
+    }
+}
+
+fn collect_export_pattern_names(pattern: &Pat, names: &mut Vec<(Atom, Span)>) {
+    match pattern {
+        Pat::Ident(binding) => names.push((binding.id.sym.clone(), binding.id.span)),
+        Pat::Array(array) => {
+            for element in array.elems.iter().flatten() {
+                collect_export_pattern_names(element, names);
+            }
+        }
+        Pat::Object(object) => {
+            for property in &object.props {
+                match property {
+                    swc_ecma_ast::ObjectPatProp::Assign(assign) => {
+                        names.push((assign.key.id.sym.clone(), assign.key.id.span));
+                    }
+                    swc_ecma_ast::ObjectPatProp::KeyValue(key_value) => {
+                        collect_export_pattern_names(&key_value.value, names);
+                    }
+                    swc_ecma_ast::ObjectPatProp::Rest(rest) => {
+                        collect_export_pattern_names(&rest.arg, names);
+                    }
+                }
+            }
+        }
+        Pat::Assign(assign) => collect_export_pattern_names(&assign.left, names),
+        Pat::Rest(rest) => collect_export_pattern_names(&rest.arg, names),
+        Pat::Invalid(_) | Pat::Expr(_) => {}
     }
 }
 

@@ -445,6 +445,15 @@ impl<C: Config> Parser<'_, C> {
             if !self.expect(Kind::Comma) {
                 return Err(self.expected_error(Kind::Comma));
             }
+            if rest.is_some() && !self.at(Kind::RBrace) {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "pattern after object rest".into(),
+                        expected: "object rest as final pattern",
+                    },
+                ));
+            }
         }
         if !self.expect(Kind::RBrace) {
             return Err(self.expected_error(Kind::RBrace));
@@ -474,6 +483,15 @@ impl<C: Config> Parser<'_, C> {
                 }
                 if !self.expect(Kind::Comma) {
                     return Err(self.expected_error(Kind::Comma));
+                }
+                if !self.at(Kind::RBracket) {
+                    self.emit_error(Error::new(
+                        self.token().span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "pattern after array rest".into(),
+                            expected: "array rest as final pattern",
+                        },
+                    ));
                 }
                 continue;
             }
@@ -693,6 +711,15 @@ impl<C: Config> Parser<'_, C> {
     pub(crate) fn parse_flow_match_expression(&mut self) -> Result<Box<Expr>, Error> {
         let start = self.token().start();
         let span = self.token().span();
+        if !self.context().contains(Context::FLOW_PATTERN_MATCHING) {
+            self.emit_error(Error::new(
+                span,
+                crate::error::SyntaxError::Unexpected {
+                    got: "match expression".into(),
+                    expected: "Flow pattern matching option",
+                },
+            ));
+        }
         let subject = self.flow_match_parse_subject(start)?;
         if !self.expect(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));

@@ -3,7 +3,7 @@
 bitflags::bitflags! {
     /// Flags parameterizing recursive-descent productions.
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub(crate) struct Context: u32 {
+    pub(crate) struct Context: u64 {
         /// Relational expressions may contain the `in` operator.
         const IN = 1 << 0;
         /// Parse `yield` as an expression keyword.
@@ -57,6 +57,24 @@ bitflags::bitflags! {
         /// Reject TypeScript productions whose leading angle brackets are
         /// ambiguous with JSX syntax.
         const DISALLOW_AMBIGUOUS_JSX_LIKE = 1 << 23;
+        /// The current production is parsing formal parameters.
+        const PARAMETERS = 1 << 24;
+        /// Flow enum syntax is enabled.
+        const FLOW_ENUMS = 1 << 25;
+        /// Flow component and hook syntax is enabled.
+        const FLOW_COMPONENTS = 1 << 26;
+        /// Flow pattern matching syntax is enabled.
+        const FLOW_PATTERN_MATCHING = 1 << 27;
+        /// Flow decorator syntax is enabled.
+        const FLOW_DECORATORS = 1 << 28;
+        /// A Flow type is being parsed inside a type-argument list.
+        const FLOW_TYPE_ARGUMENT = 1 << 29;
+        /// The current function-like production is async.
+        const ASYNC = 1 << 30;
+        /// A direct `super()` call is allowed in the current constructor body.
+        const SUPER_CALL = 1 << 31;
+        /// A Flow type predicate is being parsed in a function return position.
+        const FLOW_RETURN_TYPE = 1 << 32;
     }
 }
 

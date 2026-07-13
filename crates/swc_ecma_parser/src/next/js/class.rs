@@ -22,6 +22,17 @@ impl<C: Config> Parser<'_, C> {
         let mut decorators = Vec::new();
         while self.at(Kind::At) {
             let start = self.token().start();
+            if self.context().contains(Context::FLOW)
+                && !self.context().contains(Context::FLOW_DECORATORS)
+            {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "decorator".into(),
+                        expected: "Flow decorators option",
+                    },
+                ));
+            }
             self.advance();
             let expression = self.parse_left_hand_side_expression()?;
             decorators.push(Decorator {
@@ -113,6 +124,7 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::LBrace));
         }
 
+        self.begin_private_scope();
         let mut body = Vec::with_capacity(32);
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
             if self.at(Kind::Semi) {
@@ -137,6 +149,8 @@ impl<C: Config> Parser<'_, C> {
         if !self.expect(Kind::RBrace) {
             return Err(self.expected_error(Kind::RBrace));
         }
+        self.end_private_scope();
+        self.validate_class_body(&body);
         Ok((
             identifier,
             Box::new(Class {
@@ -151,6 +165,121 @@ impl<C: Config> Parser<'_, C> {
                 implements,
             }),
         ))
+    }
+
+    fn validate_class_body(&mut self, body: &[ClassMember]) {
+        let mut has_constructor = false;
+        let mut private_names: Vec<(swc_atoms::Atom, u8)> = Vec::new();
+
+        for member in body {
+            match member {
+                ClassMember::Constructor(constructor) => {
+                    if has_constructor {
+                        self.emit_error(Error::new(
+                            constructor.span,
+                            crate::error::SyntaxError::DuplicateConstructor,
+                        ));
+                    }
+                    has_constructor = true;
+                }
+                ClassMember::Method(method) => {
+                    let name = public_class_key_name(&method.key);
+                    if !method.is_static && name == Some("constructor") {
+                        if method.function.is_async || method.function.is_generator {
+                            self.emit_error(Error::new(
+                                method.span,
+                                crate::error::SyntaxError::DuplicateConstructor,
+                            ));
+                        }
+                    }
+                    if method.is_static && name == Some("prototype") {
+                        self.emit_error(Error::new(
+                            method.span,
+                            crate::error::SyntaxError::Expected(
+                                "non-prototype static class member".into(),
+                                "prototype".into(),
+                            ),
+                        ));
+                    }
+                    if method.kind == MethodKind::Getter && method.function.type_params.is_some() {
+                        self.emit_error(Error::new(
+                            method.span,
+                            crate::error::SyntaxError::Expected(
+                                "getter without type parameters".into(),
+                                "polymorphic getter".into(),
+                            ),
+                        ));
+                    }
+                }
+                ClassMember::ClassProp(property) => {
+                    let name = public_class_key_name(&property.key);
+                    if name == Some("constructor")
+                        || (property.is_static && name == Some("prototype"))
+                        || (self.context().contains(Context::FLOW) && property.is_optional)
+                        || (property.declare && property.value.is_some())
+                        || (self.context().contains(Context::FLOW | Context::AMBIENT)
+                            && property.type_ann.is_none())
+                    {
+                        self.emit_error(Error::new(
+                            property.span,
+                            crate::error::SyntaxError::Expected(
+                                "valid class property".into(),
+                                name.unwrap_or("optional property").into(),
+                            ),
+                        ));
+                    }
+                }
+                ClassMember::PrivateProp(property) => {
+                    self.validate_private_name(
+                        &mut private_names,
+                        &property.key.name,
+                        1,
+                        property.span,
+                    );
+                }
+                ClassMember::PrivateMethod(method) => {
+                    let flag = match method.kind {
+                        MethodKind::Getter => 2,
+                        MethodKind::Setter => 4,
+                        MethodKind::Method => 8,
+                    };
+                    self.validate_private_name(
+                        &mut private_names,
+                        &method.key.name,
+                        flag,
+                        method.span,
+                    );
+                }
+                _ => {}
+            }
+        }
+    }
+
+    fn validate_private_name(
+        &mut self,
+        private_names: &mut Vec<(swc_atoms::Atom, u8)>,
+        name: &swc_atoms::Atom,
+        flag: u8,
+        span: Span,
+    ) {
+        if let Some((_, previous)) = private_names
+            .iter_mut()
+            .find(|(previous_name, _)| previous_name == name)
+        {
+            let accessor_pair = (*previous | flag) == 6 && (*previous & flag) == 0;
+            if !accessor_pair {
+                self.emit_error(Error::new(
+                    span,
+                    crate::error::SyntaxError::Expected(
+                        "unique private name".into(),
+                        name.to_string(),
+                    ),
+                ));
+            }
+            *previous |= flag;
+        } else {
+            private_names.push((name.clone(), flag));
+        }
     }
 
     fn parse_class_member(&mut self) -> Result<ClassMember, Error> {
@@ -180,6 +309,26 @@ impl<C: Config> Parser<'_, C> {
                 !matches!(parser.kind(), Kind::Colon | Kind::LParen | Kind::Eq)
             })
         {
+            let invalid_target = self.lookahead(|parser| {
+                parser.advance();
+                if parser.at(Kind::LBracket) {
+                    return true;
+                }
+                if parser.at_identifier_name() {
+                    parser.advance();
+                    return matches!(parser.kind(), Kind::LParen | Kind::Lt);
+                }
+                false
+            });
+            if invalid_target {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "proto modifier on non-property".into(),
+                        expected: "proto modifier only on a declare class property",
+                    },
+                ));
+            }
             self.advance();
         }
         let mut flow_variance = false;
@@ -249,6 +398,17 @@ impl<C: Config> Parser<'_, C> {
                         ),
                     ));
                 }
+                if self.context().contains(Context::FLOW)
+                    && matches!(modifier, Kind::Public | Kind::Protected | Kind::Private)
+                {
+                    self.emit_error(Error::new(
+                        self.token().span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: modifier.to_string(),
+                            expected: "Flow class member without TypeScript accessibility",
+                        },
+                    ));
+                }
                 let modifier_rank = match modifier {
                     Kind::Public | Kind::Protected | Kind::Private => 1,
                     Kind::Static => 2,
@@ -258,7 +418,8 @@ impl<C: Config> Parser<'_, C> {
                     Kind::In | Kind::Out => previous_modifier_rank,
                     _ => unreachable!(),
                 };
-                if modifier_rank < previous_modifier_rank {
+                if modifier_rank < previous_modifier_rank && !self.context().contains(Context::FLOW)
+                {
                     self.emit_error(Error::new(
                         self.token().span(),
                         crate::error::SyntaxError::Expected(
@@ -402,7 +563,10 @@ impl<C: Config> Parser<'_, C> {
         };
         let key = self.parse_class_key()?;
         let key_span = key.span();
-        if declare && matches!(&key, ClassKey::Private(_)) {
+        if declare
+            && !self.context().contains(Context::FLOW)
+            && matches!(&key, ClassKey::Private(_))
+        {
             self.emit_error(Error::new(
                 key_span,
                 crate::error::SyntaxError::Expected(
@@ -437,7 +601,8 @@ impl<C: Config> Parser<'_, C> {
             &key,
             ClassKey::Public(PropName::Str(name)) if name.value == "constructor"
             ));
-        if method_kind != MethodKind::Method
+        if !is_static
+            && method_kind != MethodKind::Method
             && matches!(&key, ClassKey::Public(PropName::Ident(name)) if name.sym == "constructor")
         {
             self.emit_error(Error::new(
@@ -486,9 +651,12 @@ impl<C: Config> Parser<'_, C> {
                     ),
                 ));
             }
-            let mut parameter_context = Context::NEW_TARGET;
+            let mut parameter_context = Context::NEW_TARGET | Context::PARAMETERS;
+            if self.context().contains(Context::FLOW | Context::AMBIENT) {
+                parameter_context.insert(Context::FLOW_FUNCTION_TYPE);
+            }
             if is_async {
-                parameter_context.insert(Context::AWAIT);
+                parameter_context.insert(Context::AWAIT | Context::ASYNC);
             }
             if is_generator {
                 parameter_context.insert(Context::YIELD);
@@ -497,21 +665,40 @@ impl<C: Config> Parser<'_, C> {
             let parameters = if is_constructor {
                 constructor_parameters = Some(self.with_context(
                     parameter_context,
-                    Context::YIELD | Context::AWAIT,
+                    Context::YIELD | Context::AWAIT | Context::ASYNC,
                     Self::parse_constructor_parameters,
                 )?);
                 Vec::new()
             } else {
                 self.with_context(
                     parameter_context,
-                    Context::YIELD | Context::AWAIT,
+                    Context::YIELD | Context::AWAIT | Context::ASYNC,
                     Self::parse_method_parameters,
                 )?
             };
+            if self.context().contains(Context::FLOW)
+                && matches!(method_kind, MethodKind::Getter | MethodKind::Setter)
+            {
+                for parameter in &parameters {
+                    if is_this_pattern(&parameter.pat) {
+                        self.emit_error(Error::new(
+                            parameter.span,
+                            crate::error::SyntaxError::Unexpected {
+                                got: "this parameter on accessor".into(),
+                                expected: "accessor without an explicit this parameter",
+                            },
+                        ));
+                    }
+                }
+            }
             #[cfg(feature = "typescript")]
             let return_type =
                 if self.context().contains(Context::TYPESCRIPT) && self.at(Kind::Colon) {
-                    Some(self.parse_ts_type_annotation()?)
+                    Some(self.with_context(
+                        Context::FLOW_RETURN_TYPE,
+                        Context::empty(),
+                        Self::parse_ts_type_annotation,
+                    )?)
                 } else {
                     None
                 };
@@ -588,10 +775,13 @@ impl<C: Config> Parser<'_, C> {
             }
             let mut method_context = Context::RETURN | Context::NEW_TARGET;
             if is_async {
-                method_context.insert(Context::AWAIT);
+                method_context.insert(Context::AWAIT | Context::ASYNC);
             }
             if is_generator {
                 method_context.insert(Context::YIELD);
+            }
+            if is_constructor {
+                method_context.insert(Context::SUPER_CALL);
             }
             let body = self.with_context(
                 method_context,
@@ -599,6 +789,8 @@ impl<C: Config> Parser<'_, C> {
                     | Context::RETURN
                     | Context::YIELD
                     | Context::AWAIT
+                    | Context::ASYNC
+                    | Context::SUPER_CALL
                     | Context::CLASS_MEMBER,
                 Self::parse_block_statement,
             )?;
@@ -781,16 +973,27 @@ impl<C: Config> Parser<'_, C> {
             })));
         }
         if self.at(Kind::Hash) {
-            let start = self.token().start();
+            let hash = self.token();
+            let start = hash.start();
             self.advance();
             let token = self.token();
             if !self.at_identifier_name() {
                 return Err(self.expected_error(Kind::Ident));
             }
+            if token.start() != hash.end() {
+                self.emit_error(Error::new(
+                    Span::new_with_checked(hash.start(), token.end()),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "whitespace after #".into(),
+                        expected: "private name adjacent to #",
+                    },
+                ));
+            }
             let key = PrivateName {
                 span: Span::new_with_checked(start, token.end()),
                 name: self.identifier_atom(token),
             };
+            self.record_private_declaration(key.name.clone(), key.span);
             self.advance();
             return Ok(ClassKey::Private(key));
         }
@@ -851,7 +1054,6 @@ impl<C: Config> Parser<'_, C> {
                     && matches!(
                         self.kind(),
                         Kind::LParen
-                            | Kind::This
                             | Kind::Any
                             | Kind::Unknown
                             | Kind::Number
@@ -964,6 +1166,35 @@ impl<C: Config> Parser<'_, C> {
                     left: Box::new(pattern),
                     right,
                 });
+            }
+            if self.context().contains(Context::FLOW) && is_this_pattern(&pattern) {
+                if !parameters.is_empty() {
+                    self.emit_error(Error::new(
+                        pattern.span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "non-leading this parameter".into(),
+                            expected: "this as the first parameter",
+                        },
+                    ));
+                }
+                if !this_pattern_has_annotation(&pattern) {
+                    self.emit_error(Error::new(
+                        pattern.span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "untyped this parameter".into(),
+                            expected: "type annotation on this parameter",
+                        },
+                    ));
+                }
+                if matches!(&pattern, Pat::Ident(binding) if binding.id.optional) {
+                    self.emit_error(Error::new(
+                        pattern.span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "optional this parameter".into(),
+                            expected: "required this parameter",
+                        },
+                    ));
+                }
             }
             parameters.push(Param {
                 span: Span::new_with_checked(parameter_start, pattern.span().hi),
@@ -1088,6 +1319,15 @@ impl<C: Config> Parser<'_, C> {
                     _ => {}
                 }
             }
+            if self.context().contains(Context::FLOW) && is_this_pattern(&pattern) {
+                self.emit_error(Error::new(
+                    pattern.span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "this parameter in constructor".into(),
+                        expected: "constructor without an explicit this parameter",
+                    },
+                ));
+            }
             let span = Span::new_with_checked(parameter_start, pattern.span().hi);
             if accessibility.is_some() || readonly || is_override {
                 let param = match pattern {
@@ -1121,6 +1361,24 @@ impl<C: Config> Parser<'_, C> {
     }
 }
 
+fn is_this_pattern(pattern: &Pat) -> bool {
+    match pattern {
+        Pat::Ident(binding) => binding.id.sym == "this",
+        Pat::Assign(assignment) => is_this_pattern(&assignment.left),
+        Pat::Rest(rest) => is_this_pattern(&rest.arg),
+        _ => false,
+    }
+}
+
+fn this_pattern_has_annotation(pattern: &Pat) -> bool {
+    match pattern {
+        Pat::Ident(binding) => binding.type_ann.is_some(),
+        Pat::Assign(assignment) => this_pattern_has_annotation(&assignment.left),
+        Pat::Rest(rest) => rest.type_ann.is_some() || this_pattern_has_annotation(&rest.arg),
+        _ => false,
+    }
+}
+
 enum ClassKey {
     Public(PropName),
     Private(PrivateName),
@@ -1132,6 +1390,14 @@ impl ClassKey {
             Self::Public(key) => key.span(),
             Self::Private(key) => key.span,
         }
+    }
+}
+
+fn public_class_key_name(key: &PropName) -> Option<&str> {
+    match key {
+        PropName::Ident(identifier) => Some(&identifier.sym),
+        PropName::Str(string) => string.value.as_str(),
+        _ => None,
     }
 }
 

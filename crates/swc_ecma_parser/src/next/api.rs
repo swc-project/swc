@@ -449,6 +449,15 @@ impl<'a> Parser<'a> {
                 },
             ));
         }
+        if context.contains(Context::FLOW) && has_malformed_flow_comment_syntax(self.source) {
+            parsed.diagnostics.push(Error::new(
+                Span::new_with_checked(self.start_pos, end_pos),
+                SyntaxError::Unexpected {
+                    got: "malformed Flow comment syntax".into(),
+                    expected: "complete Flow comment annotation",
+                },
+            ));
+        }
         parsed
     }
 
@@ -464,6 +473,18 @@ impl<'a> Parser<'a> {
             Language::Flow => {
                 if !self.options.flow.require_directive || self.source.contains("@flow") {
                     context.insert(Context::TYPESCRIPT | Context::FLOW);
+                    if self.options.flow.enums {
+                        context.insert(Context::FLOW_ENUMS);
+                    }
+                    if self.options.flow.components {
+                        context.insert(Context::FLOW_COMPONENTS);
+                    }
+                    if self.options.flow.pattern_matching {
+                        context.insert(Context::FLOW_PATTERN_MATCHING);
+                    }
+                    if self.options.flow.decorators {
+                        context.insert(Context::FLOW_DECORATORS);
+                    }
                 }
             }
         }
@@ -502,6 +523,23 @@ impl<'a> Parser<'a> {
             panicked: true,
         }
     }
+}
+
+fn has_malformed_flow_comment_syntax(source: &str) -> bool {
+    let source = source.trim();
+    if let Some(body) = source.strip_prefix("/*::") {
+        let Some(body) = body.strip_suffix("*/") else {
+            return true;
+        };
+        return body.contains("/*") && !body.contains("*-/");
+    }
+    if let Some(body) = source.strip_prefix("/*:") {
+        let Some(body) = body.strip_suffix("*/") else {
+            return true;
+        };
+        return body.trim().is_empty();
+    }
+    false
 }
 
 fn parse_independent_program<C: Config>(

@@ -65,6 +65,19 @@ impl<C: Config> Parser<'_, C> {
                 break;
             }
 
+            if self.context().contains(Context::FLOW)
+                && operator == BinaryOp::Lt
+                && is_jsx_comparison_left(&left)
+            {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "comparison immediately after JSX".into(),
+                        expected: "JSX expression not followed by < comparison",
+                    },
+                ));
+            }
+
             self.advance();
             let right_minimum = if operator == BinaryOp::Exp {
                 precedence
@@ -129,6 +142,15 @@ impl<C: Config> Parser<'_, C> {
                     )
                 }))
         {
+            if self.context().contains(Context::PARAMETERS) {
+                return Err(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "await".into(),
+                        expected: "formal parameter expression without await",
+                    },
+                ));
+            }
             let start = self.token().start();
             self.advance();
             let argument = self.parse_unary_expression()?;
@@ -160,10 +182,20 @@ impl<C: Config> Parser<'_, C> {
         if operator == UnaryOp::Delete
             && matches!(&*argument, Expr::Ident(_))
             && self.context().intersects(Context::STRICT | Context::MODULE)
+            && !self.context().contains(Context::FLOW)
         {
             return Err(Error::new(
                 Span::new_with_checked(start, argument.span().hi),
                 crate::error::SyntaxError::TS1102,
+            ));
+        }
+        if operator == UnaryOp::Delete && is_private_member(&argument) {
+            return Err(Error::new(
+                Span::new_with_checked(start, argument.span().hi),
+                crate::error::SyntaxError::Unexpected {
+                    got: "private class member".into(),
+                    expected: "deletable expression",
+                },
             ));
         }
         Ok(Box::new(Expr::Unary(UnaryExpr {
@@ -171,6 +203,14 @@ impl<C: Config> Parser<'_, C> {
             op: operator,
             arg: argument,
         })))
+    }
+}
+
+fn is_private_member(expression: &Expr) -> bool {
+    match expression {
+        Expr::Member(member) => matches!(member.prop, swc_ecma_ast::MemberProp::PrivateName(_)),
+        Expr::Paren(parenthesized) => is_private_member(&parenthesized.expr),
+        _ => false,
     }
 }
 
@@ -211,6 +251,14 @@ fn ensure_update_target(expression: &Expr) -> Result<(), Error> {
             expression.span(),
             crate::error::SyntaxError::InvalidAssignTarget,
         ))
+    }
+}
+
+fn is_jsx_comparison_left(expression: &Expr) -> bool {
+    match expression {
+        Expr::JSXElement(_) | Expr::JSXFragment(_) => true,
+        Expr::Paren(parenthesized) => is_jsx_comparison_left(&parenthesized.expr),
+        _ => false,
     }
 }
 

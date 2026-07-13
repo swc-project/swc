@@ -64,6 +64,15 @@ impl<C: Config> Parser<'_, C> {
         {
             let token = self.token();
             let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+            if self.context().contains(Context::FLOW) && identifier.sym == "enum" {
+                self.emit_error(Error::new(
+                    identifier.span,
+                    crate::error::SyntaxError::Unexpected {
+                        got: "enum".into(),
+                        expected: "non-reserved function name",
+                    },
+                ));
+            }
             self.advance();
             Some(identifier)
         } else if name_required {
@@ -81,18 +90,38 @@ impl<C: Config> Parser<'_, C> {
         #[cfg(not(feature = "typescript"))]
         let type_params = None;
 
-        let mut parameter_context = Context::NEW_TARGET;
+        let mut parameter_context = Context::NEW_TARGET | Context::PARAMETERS;
         if is_generator {
             parameter_context.insert(Context::YIELD);
         }
         if is_async {
-            parameter_context.insert(Context::AWAIT);
+            parameter_context.insert(Context::AWAIT | Context::ASYNC);
         }
         let parameters = self.with_context(
             parameter_context,
-            Context::YIELD | Context::AWAIT,
+            Context::YIELD | Context::AWAIT | Context::ASYNC,
             Self::parse_method_parameters,
         )?;
+        let non_simple_parameters = parameters
+            .iter()
+            .any(|parameter| !matches!(parameter.pat, swc_ecma_ast::Pat::Ident(_)));
+        if non_simple_parameters || self.context().contains(Context::STRICT) {
+            let mut names = Vec::with_capacity(parameters.len());
+            for parameter in &parameters {
+                if let swc_ecma_ast::Pat::Ident(binding) = &parameter.pat {
+                    if names.iter().any(|name| name == &binding.id.sym) {
+                        self.emit_error(Error::new(
+                            binding.id.span,
+                            crate::error::SyntaxError::Unexpected {
+                                got: binding.id.sym.to_string(),
+                                expected: "unique formal parameter name",
+                            },
+                        ));
+                    }
+                    names.push(binding.id.sym.clone());
+                }
+            }
+        }
         #[cfg(feature = "typescript")]
         let flow_predicate_return = self.context().contains(Context::FLOW)
             && self.at(Kind::Colon)
@@ -118,7 +147,11 @@ impl<C: Config> Parser<'_, C> {
             && self.at(Kind::Colon)
             && !flow_predicate_return
         {
-            Some(self.parse_ts_type_annotation()?)
+            Some(self.with_context(
+                Context::FLOW_RETURN_TYPE,
+                Context::empty(),
+                Self::parse_ts_type_annotation,
+            )?)
         } else {
             None
         };
@@ -131,15 +164,23 @@ impl<C: Config> Parser<'_, C> {
             body_context.insert(Context::YIELD);
         }
         if is_async {
-            body_context.insert(Context::AWAIT);
+            body_context.insert(Context::AWAIT | Context::ASYNC);
         }
         let body = if self.at(Kind::LBrace) {
             Some(self.with_context(
                 body_context,
-                Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
+                Context::TOP_LEVEL
+                    | Context::RETURN
+                    | Context::YIELD
+                    | Context::AWAIT
+                    | Context::ASYNC,
                 Self::parse_block_statement,
             )?)
-        } else if declaration && self.context().contains(Context::TYPESCRIPT) {
+        } else if declaration
+            && self.context().contains(Context::TYPESCRIPT)
+            && (!self.context().contains(Context::FLOW)
+                || self.context().contains(Context::AMBIENT))
+        {
             self.consume_semicolon()?;
             None
         } else {

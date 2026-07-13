@@ -1,7 +1,7 @@
 //! Token cursor, expectation helpers, and checkpoint rewind.
 
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
 
 use super::context::Context;
 use crate::{
@@ -23,7 +23,16 @@ pub(crate) struct ParserCheckpoint {
     cover_initialized_name: Option<swc_common::Span>,
     #[cfg(feature = "flow")]
     flow_type_parameters_len: usize,
+    private_events_len: usize,
+    private_depth: usize,
     fatal_error: Option<Error>,
+}
+
+struct PrivateEvent {
+    depth: usize,
+    name: Atom,
+    span: Span,
+    declaration: bool,
 }
 
 /// Recursive-descent parser cursor over the independent lexer.
@@ -35,9 +44,11 @@ pub(crate) struct Parser<'a, C: Config> {
     diagnostics: Vec<Error>,
     cover_initialized_name: Option<swc_common::Span>,
     recursion_depth: u16,
-    active_labels: Vec<Atom>,
+    active_labels: Vec<(Atom, bool)>,
     #[cfg(feature = "flow")]
     flow_type_parameters: Vec<Atom>,
+    private_events: Vec<PrivateEvent>,
+    private_depth: usize,
     fatal_error: Option<Error>,
 }
 
@@ -56,6 +67,8 @@ impl<'a, C: Config> Parser<'a, C> {
             active_labels: Vec::new(),
             #[cfg(feature = "flow")]
             flow_type_parameters: Vec::new(),
+            private_events: Vec::new(),
+            private_depth: 0,
             fatal_error: None,
         }
     }
@@ -172,15 +185,92 @@ impl<'a, C: Config> Parser<'a, C> {
     }
 
     pub(crate) fn has_active_label(&self, label: &Atom) -> bool {
-        self.active_labels.iter().any(|active| active == label)
+        self.active_labels.iter().any(|(active, _)| active == label)
     }
 
-    pub(crate) fn push_active_label(&mut self, label: Atom) {
-        self.active_labels.push(label);
+    pub(crate) fn active_label_allows_continue(&self, label: &Atom) -> bool {
+        self.active_labels
+            .iter()
+            .rev()
+            .find(|(active, _)| active == label)
+            .is_some_and(|(_, iteration)| *iteration)
+    }
+
+    pub(crate) fn push_active_label(&mut self, label: Atom, iteration: bool) {
+        self.active_labels.push((label, iteration));
     }
 
     pub(crate) fn pop_active_label(&mut self) {
         self.active_labels.pop();
+    }
+
+    pub(crate) fn begin_private_scope(&mut self) {
+        self.private_depth += 1;
+    }
+
+    pub(crate) fn record_private_declaration(&mut self, name: Atom, span: Span) {
+        self.private_events.push(PrivateEvent {
+            depth: self.private_depth,
+            name,
+            span,
+            declaration: true,
+        });
+    }
+
+    pub(crate) fn record_private_use(&mut self, name: Atom, span: Span) {
+        if self.private_depth == 0 {
+            self.emit_error(Error::new(
+                span,
+                SyntaxError::Unexpected {
+                    got: name.to_string(),
+                    expected: "private name declared by an enclosing class",
+                },
+            ));
+            return;
+        }
+        self.private_events.push(PrivateEvent {
+            depth: self.private_depth,
+            name,
+            span,
+            declaration: false,
+        });
+    }
+
+    pub(crate) fn end_private_scope(&mut self) {
+        let depth = self.private_depth;
+        let declarations: Vec<_> = self
+            .private_events
+            .iter()
+            .filter(|event| event.depth == depth && event.declaration)
+            .map(|event| event.name.clone())
+            .collect();
+        let mut unresolved = Vec::new();
+        for event in &mut self.private_events {
+            if event.depth != depth || event.declaration {
+                continue;
+            }
+            if declarations.iter().any(|name| name == &event.name) {
+                event.depth = usize::MAX;
+            } else if depth > 1 {
+                event.depth -= 1;
+            } else {
+                unresolved.push((event.name.clone(), event.span));
+                event.depth = usize::MAX;
+            }
+        }
+        self.private_events.retain(|event| {
+            event.depth != usize::MAX && !(event.depth == depth && event.declaration)
+        });
+        self.private_depth -= 1;
+        for (name, span) in unresolved {
+            self.emit_error(Error::new(
+                span,
+                SyntaxError::Unexpected {
+                    got: name.to_string(),
+                    expected: "private name declared by an enclosing class",
+                },
+            ));
+        }
     }
 
     pub(crate) fn set_cover_initialized_name(&mut self, span: swc_common::Span) {
@@ -325,6 +415,8 @@ impl<'a, C: Config> Parser<'a, C> {
             cover_initialized_name: self.cover_initialized_name,
             #[cfg(feature = "flow")]
             flow_type_parameters_len: self.flow_type_parameters.len(),
+            private_events_len: self.private_events.len(),
+            private_depth: self.private_depth,
             fatal_error: self.fatal_error.take(),
         }
     }
@@ -340,6 +432,8 @@ impl<'a, C: Config> Parser<'a, C> {
         #[cfg(feature = "flow")]
         self.flow_type_parameters
             .truncate(checkpoint.flow_type_parameters_len);
+        self.private_events.truncate(checkpoint.private_events_len);
+        self.private_depth = checkpoint.private_depth;
         self.fatal_error = checkpoint.fatal_error;
     }
 

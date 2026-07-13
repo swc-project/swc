@@ -31,7 +31,45 @@ use crate::{
     },
 };
 
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum FlowEnumInitializer {
+    Boolean,
+    BigInt,
+    Number,
+    String,
+    Invalid,
+}
+
+fn flow_enum_initializer_kind(expression: &Expr) -> FlowEnumInitializer {
+    match expression {
+        Expr::Lit(Lit::Bool(_)) => FlowEnumInitializer::Boolean,
+        Expr::Lit(Lit::BigInt(_)) => FlowEnumInitializer::BigInt,
+        Expr::Lit(Lit::Num(_)) => FlowEnumInitializer::Number,
+        Expr::Lit(Lit::Str(_)) => FlowEnumInitializer::String,
+        Expr::Unary(unary)
+            if unary.op == swc_ecma_ast::UnaryOp::Minus
+                && matches!(&*unary.arg, Expr::Lit(Lit::Num(_))) =>
+        {
+            FlowEnumInitializer::Number
+        }
+        _ => FlowEnumInitializer::Invalid,
+    }
+}
+
 impl<C: Config> Parser<'_, C> {
+    pub(crate) fn validate_flow_type_binding(&mut self, identifier: &Ident) {
+        if self.context().contains(Context::FLOW) && is_flow_reserved_type_binding(&identifier.sym)
+        {
+            self.emit_error(Error::new(
+                identifier.span,
+                crate::error::SyntaxError::Unexpected {
+                    got: identifier.sym.to_string(),
+                    expected: "non-reserved Flow type binding",
+                },
+            ));
+        }
+    }
+
     #[cfg(feature = "flow")]
     fn flow_mark_pattern_optional(pattern: &mut Pat) {
         match pattern {
@@ -57,8 +95,8 @@ impl<C: Config> Parser<'_, C> {
     #[cfg(feature = "flow")]
     pub(crate) fn parse_flow_component_props(
         &mut self,
-        _require_type_annotation: bool,
-        _string_key_requires_as: bool,
+        require_type_annotation: bool,
+        string_key_requires_as: bool,
         allow_rest_type: bool,
     ) -> Result<Vec<ObjectPatProp>, Error> {
         if !self.expect(Kind::LParen) {
@@ -111,6 +149,15 @@ impl<C: Config> Parser<'_, C> {
                 if type_ann.is_none() && self.at(Kind::Colon) {
                     type_ann = Some(self.parse_ts_type_annotation()?);
                 }
+                if require_type_annotation && type_ann.is_none() {
+                    self.emit_error(Error::new(
+                        argument.span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "untyped component rest parameter".into(),
+                            expected: "component parameter type annotation",
+                        },
+                    ));
+                }
                 let end = argument.span().hi;
                 props.push(ObjectPatProp::Rest(RestPat {
                     span: Span::new_with_checked(parameter_start, end),
@@ -122,6 +169,15 @@ impl<C: Config> Parser<'_, C> {
                 let key = self.parse_property_name()?;
                 let optional = self.eat(Kind::QuestionMark);
                 let has_as = self.eat(Kind::As);
+                if string_key_requires_as && matches!(&key, PropName::Str(_)) && !has_as {
+                    self.emit_error(Error::new(
+                        key.span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "string component parameter without rename".into(),
+                            expected: "`as` binding for string component parameter",
+                        },
+                    ));
+                }
                 let mut value = if has_as {
                     self.parse_binding_pattern(false)?
                 } else if let PropName::Ident(key) = &key {
@@ -138,9 +194,20 @@ impl<C: Config> Parser<'_, C> {
                 if optional {
                     Self::flow_mark_pattern_optional(&mut value);
                 }
+                let mut has_type_annotation = false;
                 if self.at(Kind::Colon) {
                     let type_ann = self.parse_ts_type_annotation()?;
                     Self::flow_apply_type_annotation(&mut value, type_ann);
+                    has_type_annotation = true;
+                }
+                if require_type_annotation && !has_type_annotation {
+                    self.emit_error(Error::new(
+                        value.span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "untyped component parameter".into(),
+                            expected: "component parameter type annotation",
+                        },
+                    ));
                 }
                 if self.eat(Kind::Eq) {
                     let right = self.parse_assignment_expression()?;
@@ -204,6 +271,15 @@ impl<C: Config> Parser<'_, C> {
     #[cfg(feature = "flow")]
     fn parse_flow_hook_declaration_inner(&mut self, declare: bool) -> Result<Stmt, Error> {
         let start = self.token().start();
+        if !self.context().contains(Context::FLOW_COMPONENTS) {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::Unexpected {
+                    got: "hook declaration".into(),
+                    expected: "Flow components option",
+                },
+            ));
+        }
         self.advance();
         let name = self.token();
         if !self.at_identifier_reference() {
@@ -231,7 +307,11 @@ impl<C: Config> Parser<'_, C> {
             }
             Some(self.with_context(
                 Context::RETURN,
-                Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
+                Context::TOP_LEVEL
+                    | Context::RETURN
+                    | Context::YIELD
+                    | Context::AWAIT
+                    | Context::ASYNC,
                 Self::parse_block_statement,
             )?)
         };
@@ -258,6 +338,15 @@ impl<C: Config> Parser<'_, C> {
     #[cfg(feature = "flow")]
     fn parse_flow_component_declaration_inner(&mut self, declare: bool) -> Result<Stmt, Error> {
         let start = self.token().start();
+        if !self.context().contains(Context::FLOW_COMPONENTS) {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::Unexpected {
+                    got: "component declaration".into(),
+                    expected: "Flow components option",
+                },
+            ));
+        }
         self.advance();
         let name = self.token();
         if !self.at_identifier_reference() {
@@ -282,7 +371,11 @@ impl<C: Config> Parser<'_, C> {
             }
             Some(self.with_context(
                 Context::RETURN,
-                Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
+                Context::TOP_LEVEL
+                    | Context::RETURN
+                    | Context::YIELD
+                    | Context::AWAIT
+                    | Context::ASYNC,
                 Self::parse_block_statement,
             )?)
         };
@@ -403,6 +496,7 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::Ident));
         }
         let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+        self.validate_flow_type_binding(&id);
         self.advance();
         let body = if self.eat(Kind::Dot) {
             TsNamespaceBody::TsNamespaceDecl(self.parse_ts_nested_namespace(declare)?)
@@ -492,6 +586,7 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::Ident));
         }
         let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+        self.validate_flow_type_binding(&id);
         self.advance();
         let type_params = if self.at(Kind::Lt) {
             Some(self.parse_ts_type_parameters()?)
@@ -520,6 +615,19 @@ impl<C: Config> Parser<'_, C> {
             }
         }
         let (body_span, body) = self.parse_ts_type_members()?;
+        if self.context().contains(Context::FLOW)
+            && body.iter().any(|member| {
+                matches!(member, TsTypeElement::TsPropertySignature(property) if matches!(&*property.key, Expr::Ident(identifier) if identifier.sym == "__flow_spread"))
+            })
+        {
+            self.emit_error(Error::new(
+                body_span,
+                crate::error::SyntaxError::Unexpected {
+                    got: "interface object spread".into(),
+                    expected: "Flow interface members without spread",
+                },
+            ));
+        }
         Ok(Stmt::Decl(Decl::TsInterface(Box::new(TsInterfaceDecl {
             span: Span::new_with_checked(start, body_span.hi),
             id,
@@ -542,6 +650,9 @@ impl<C: Config> Parser<'_, C> {
                 self.identifier_atom(token),
                 token.span(),
             )));
+            if let Expr::Ident(identifier) = &*expr {
+                self.validate_flow_type_binding(identifier);
+            }
             self.advance();
             let type_args = if self.at(Kind::Lt) {
                 Some(self.parse_ts_type_arguments()?)
@@ -586,6 +697,25 @@ impl<C: Config> Parser<'_, C> {
 
     pub(crate) fn parse_ts_enum_declaration(&mut self, is_const: bool) -> Result<Stmt, Error> {
         let start = self.token().start();
+        let is_flow = self.context().contains(Context::FLOW);
+        if is_flow && !self.context().contains(Context::FLOW_ENUMS) {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::Unexpected {
+                    got: "enum".into(),
+                    expected: "Flow enums option",
+                },
+            ));
+        }
+        if is_flow && is_const {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::Unexpected {
+                    got: "const enum".into(),
+                    expected: "Flow enum",
+                },
+            ));
+        }
         if is_const {
             debug_assert!(self.eat(Kind::Const));
         }
@@ -597,20 +727,57 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::Ident));
         }
         let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+        if is_flow && matches!(&*id.sym, "class" | "function" | "enum") {
+            self.emit_error(Error::new(
+                id.span,
+                crate::error::SyntaxError::Unexpected {
+                    got: id.sym.to_string(),
+                    expected: "non-reserved enum name",
+                },
+            ));
+        }
         self.advance();
-        if self.context().contains(Context::FLOW) && self.eat(Kind::Of) {
+        let flow_enum_type = if is_flow && self.eat(Kind::Of) {
             if !self.at_identifier_name() {
                 return Err(self.expected_error(Kind::Ident));
             }
+            let enum_type = self.identifier_atom(self.token());
+            if !matches!(
+                &*enum_type,
+                "bigint" | "boolean" | "number" | "string" | "symbol"
+            ) {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: enum_type.to_string(),
+                        expected: "bigint, boolean, number, string, or symbol enum type",
+                    },
+                ));
+            }
             self.advance();
-        }
+            Some(enum_type)
+        } else {
+            None
+        };
         if !self.expect(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));
         }
         let mut members = Vec::with_capacity(8);
+        let mut has_unknown_members = false;
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
-            if self.context().contains(Context::FLOW) && self.eat(Kind::DotDotDot) {
-                self.eat(Kind::Comma);
+            if is_flow && self.at(Kind::DotDotDot) {
+                let unknown_span = self.token().span();
+                self.advance();
+                has_unknown_members = true;
+                if self.eat(Kind::Comma) || !self.at(Kind::RBrace) {
+                    self.emit_error(Error::new(
+                        unknown_span,
+                        crate::error::SyntaxError::Unexpected {
+                            got: "...".into(),
+                            expected: "final enum element without a trailing comma",
+                        },
+                    ));
+                }
                 continue;
             }
             let member_start = self.token().start();
@@ -664,6 +831,14 @@ impl<C: Config> Parser<'_, C> {
         if !self.expect(Kind::RBrace) {
             return Err(self.expected_error(Kind::RBrace));
         }
+        if is_flow {
+            self.validate_flow_enum(
+                &id,
+                flow_enum_type.as_deref(),
+                &members,
+                has_unknown_members,
+            );
+        }
         Ok(Stmt::Decl(Decl::TsEnum(Box::new(TsEnumDecl {
             span: Span::new_with_checked(start, self.previous_end()),
             declare: false,
@@ -671,6 +846,107 @@ impl<C: Config> Parser<'_, C> {
             id,
             members,
         }))))
+    }
+
+    fn validate_flow_enum(
+        &mut self,
+        id: &Ident,
+        explicit_type: Option<&str>,
+        members: &[TsEnumMember],
+        _has_unknown_members: bool,
+    ) {
+        let mut names = Vec::with_capacity(members.len());
+        let mut first_initializer_kind = None;
+        let mut saw_initializer = false;
+        let mut saw_default = false;
+
+        for member in members {
+            let name = match &member.id {
+                TsEnumMemberId::Ident(identifier) => Some(identifier.sym.clone()),
+                TsEnumMemberId::Str(string) => string.value.as_str().map(Into::into),
+            };
+            if let Some(name) = name {
+                if name
+                    .chars()
+                    .next()
+                    .is_some_and(|character| character.is_ascii_lowercase())
+                {
+                    self.emit_error(Error::new(
+                        member.span,
+                        crate::error::SyntaxError::Unexpected {
+                            got: name.to_string(),
+                            expected: "enum member name beginning with an uppercase letter",
+                        },
+                    ));
+                }
+                if names.iter().any(|previous| previous == &name) {
+                    self.emit_error(Error::new(
+                        member.span,
+                        crate::error::SyntaxError::Unexpected {
+                            got: name.to_string(),
+                            expected: "unique enum member name",
+                        },
+                    ));
+                }
+                names.push(name);
+            }
+
+            let initializer_kind = member.init.as_deref().map(flow_enum_initializer_kind);
+            saw_initializer |= initializer_kind.is_some();
+            saw_default |= initializer_kind.is_none();
+            if let Some(kind) = initializer_kind {
+                if let Some(previous) = first_initializer_kind {
+                    if previous != kind {
+                        self.emit_error(Error::new(
+                            id.span,
+                            crate::error::SyntaxError::Unexpected {
+                                got: "mixed enum member initializers".into(),
+                                expected: "consistent enum member initializer literals",
+                            },
+                        ));
+                    }
+                } else {
+                    first_initializer_kind = Some(kind);
+                }
+            }
+
+            let valid = match explicit_type {
+                Some("boolean") => initializer_kind == Some(FlowEnumInitializer::Boolean),
+                Some("bigint") => initializer_kind == Some(FlowEnumInitializer::BigInt),
+                Some("number") => initializer_kind == Some(FlowEnumInitializer::Number),
+                Some("string") => {
+                    matches!(initializer_kind, None | Some(FlowEnumInitializer::String))
+                }
+                Some("symbol") => initializer_kind.is_none(),
+                Some(_) => false,
+                None => matches!(
+                    initializer_kind,
+                    None | Some(FlowEnumInitializer::Boolean)
+                        | Some(FlowEnumInitializer::BigInt)
+                        | Some(FlowEnumInitializer::Number)
+                        | Some(FlowEnumInitializer::String)
+                ),
+            };
+            if !valid {
+                self.emit_error(Error::new(
+                    member.span,
+                    crate::error::SyntaxError::Unexpected {
+                        got: "invalid enum member initializer".into(),
+                        expected: "literal matching the enum type",
+                    },
+                ));
+            }
+        }
+
+        if saw_initializer && saw_default && explicit_type != Some("symbol") {
+            self.emit_error(Error::new(
+                id.span,
+                crate::error::SyntaxError::Unexpected {
+                    got: "partially initialized enum".into(),
+                    expected: "all enum members initialized or all defaulted",
+                },
+            ));
+        }
     }
 
     pub(crate) fn parse_ts_type_alias_declaration(&mut self) -> Result<Stmt, Error> {
@@ -682,6 +958,7 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::Ident));
         }
         let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+        self.validate_flow_type_binding(&id);
         self.advance();
         let type_params = if self.at(Kind::Lt) {
             Some(self.parse_ts_type_parameters()?)
@@ -716,6 +993,7 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::Ident));
         }
         let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+        self.validate_flow_type_binding(&id);
         self.advance();
         let type_params = if self.at(Kind::Lt) {
             Some(self.parse_ts_type_parameters()?)
@@ -725,7 +1003,17 @@ impl<C: Config> Parser<'_, C> {
         if self.eat(Kind::Colon) {
             self.parse_ts_type()?;
         }
+        let equals_span = self.token().span();
         let type_ann = if self.eat(Kind::Eq) {
+            if self.context().contains(Context::AMBIENT) {
+                self.emit_error(Error::new(
+                    equals_span,
+                    crate::error::SyntaxError::Unexpected {
+                        got: "opaque type implementation in declare context".into(),
+                        expected: "opaque type without implementation",
+                    },
+                ));
+            }
             self.parse_ts_type()?
         } else {
             Box::new(TsType::TsKeywordType(TsKeywordType {
@@ -745,6 +1033,11 @@ impl<C: Config> Parser<'_, C> {
     }
 
     pub(crate) fn parse_ts_type(&mut self) -> Result<Box<TsType>, Error> {
+        let predicate_start = self.context().contains(Context::FLOW)
+            && ((self.at(Kind::Ident) && self.token_source(self.token()) == "implies")
+                || self.at(Kind::Asserts)
+                || self.at(Kind::This)
+                || self.at_identifier_name());
         if self.context().contains(Context::FLOW)
             && self.at(Kind::Ident)
             && self.token_source(self.token()) == "implies"
@@ -757,8 +1050,17 @@ impl<C: Config> Parser<'_, C> {
                 parser.at(Kind::Is)
             })
         {
+            if !self.context().contains(Context::FLOW_RETURN_TYPE) {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "Flow type predicate outside return position".into(),
+                        expected: "type predicate as a function return type",
+                    },
+                ));
+            }
             self.advance();
-            return self.parse_ts_type_predicate();
+            return self.parse_ts_type_predicate(true);
         }
         if (self.at(Kind::Asserts)
             && (!self.context().contains(Context::FLOW)
@@ -772,7 +1074,18 @@ impl<C: Config> Parser<'_, C> {
                     parser.at(Kind::Is)
                 }))
         {
-            return self.parse_ts_type_predicate();
+            if self.context().contains(Context::FLOW) {
+                if !self.context().contains(Context::FLOW_RETURN_TYPE) && predicate_start {
+                    self.emit_error(Error::new(
+                        self.token().span(),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "Flow type predicate outside return position".into(),
+                            expected: "type predicate as a function return type",
+                        },
+                    ));
+                }
+            }
+            return self.parse_ts_type_predicate(false);
         }
         let check_type = self.parse_ts_union_type()?;
         if self.context().contains(Context::DISALLOW_CONDITIONAL_TYPES) || !self.eat(Kind::Extends)
@@ -801,7 +1114,7 @@ impl<C: Config> Parser<'_, C> {
         })))
     }
 
-    fn parse_ts_type_predicate(&mut self) -> Result<Box<TsType>, Error> {
+    fn parse_ts_type_predicate(&mut self, implies: bool) -> Result<Box<TsType>, Error> {
         let start = self.token().start();
         let asserts = self.eat(Kind::Asserts);
         let token = self.token();
@@ -810,6 +1123,17 @@ impl<C: Config> Parser<'_, C> {
             TsThisTypeOrIdent::TsThisType(TsThisType { span: token.span() })
         } else if self.at_identifier_name() {
             let ident = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+            if self.context().contains(Context::FLOW)
+                && (ident.sym == "implies" || (!implies && ident.sym == "in"))
+            {
+                self.emit_error(Error::new(
+                    ident.span,
+                    crate::error::SyntaxError::Unexpected {
+                        got: ident.sym.to_string(),
+                        expected: "non-keyword Flow type predicate parameter",
+                    },
+                ));
+            }
             self.advance();
             TsThisTypeOrIdent::Ident(ident)
         } else {
@@ -843,6 +1167,14 @@ impl<C: Config> Parser<'_, C> {
             span: Span::new_with_checked(start, type_ann.span().hi),
             type_ann,
         }))
+    }
+
+    fn parse_ts_return_type_annotation(&mut self) -> Result<Box<TsTypeAnn>, Error> {
+        self.with_context(
+            Context::FLOW_RETURN_TYPE,
+            Context::empty(),
+            Self::parse_ts_type_annotation,
+        )
     }
 
     fn parse_ts_nested_type_annotation(&mut self) -> Result<Box<TsTypeAnn>, Error> {
@@ -879,6 +1211,18 @@ impl<C: Config> Parser<'_, C> {
         debug_assert!(self.at(Kind::Lt));
         self.advance();
         let mut params = Vec::with_capacity(2);
+        let mut saw_default = false;
+        if self.context().contains(Context::FLOW)
+            && matches!(self.kind(), Kind::Gt | Kind::RShift | Kind::ZeroFillRShift)
+        {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::Unexpected {
+                    got: "empty type parameter list".into(),
+                    expected: "at least one Flow type parameter",
+                },
+            ));
+        }
         while !matches!(
             self.kind(),
             Kind::Gt | Kind::RShift | Kind::ZeroFillRShift | Kind::Eof
@@ -914,7 +1258,18 @@ impl<C: Config> Parser<'_, C> {
                     {
                         is_out = true
                     }
-                    Kind::Const => is_const = true,
+                    Kind::Const => {
+                        if self.context().contains(Context::FLOW) && (is_in || is_out) {
+                            self.emit_error(Error::new(
+                                self.token().span(),
+                                crate::error::SyntaxError::Unexpected {
+                                    got: "const after variance modifier".into(),
+                                    expected: "const before Flow variance modifier",
+                                },
+                            ));
+                        }
+                        is_const = true;
+                    }
                     Kind::Plus if self.context().contains(Context::FLOW) => is_out = true,
                     Kind::Minus if self.context().contains(Context::FLOW) => is_in = true,
                     Kind::Public | Kind::Private | Kind::Protected => {}
@@ -927,6 +1282,7 @@ impl<C: Config> Parser<'_, C> {
                 return Err(self.expected_error(Kind::Ident));
             }
             let name = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
+            self.validate_flow_type_binding(&name);
             self.advance();
             let constraint = if self.eat(Kind::Extends)
                 || (self.context().contains(Context::FLOW) && self.eat(Kind::Colon))
@@ -940,6 +1296,16 @@ impl<C: Config> Parser<'_, C> {
             } else {
                 None
             };
+            if self.context().contains(Context::FLOW) && saw_default && default.is_none() {
+                self.emit_error(Error::new(
+                    name.span,
+                    crate::error::SyntaxError::Unexpected {
+                        got: "required type parameter after defaulted parameter".into(),
+                        expected: "default type for subsequent Flow type parameter",
+                    },
+                ));
+            }
+            saw_default |= default.is_some();
             let end = default
                 .as_ref()
                 .or(constraint.as_ref())
@@ -987,7 +1353,11 @@ impl<C: Config> Parser<'_, C> {
         }
         loop {
             params.push(self.with_context(
-                Context::empty(),
+                if self.context().contains(Context::FLOW) {
+                    Context::FLOW_TYPE_ARGUMENT
+                } else {
+                    Context::empty()
+                },
                 Context::TS_ARROW_RETURN_TYPE,
                 Self::parse_ts_type,
             )?);
@@ -1265,6 +1635,18 @@ impl<C: Config> Parser<'_, C> {
         if token.kind() == Kind::Minus {
             self.advance();
             let number_token = self.token();
+            if self.context().contains(Context::FLOW)
+                && number_token.kind() == Kind::Num
+                && crate::next::js::is_legacy_integer_literal(self.token_source(number_token))
+            {
+                self.emit_error(Error::new(
+                    number_token.span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: self.token_source(number_token).into(),
+                        expected: "non-legacy numeric Flow literal type",
+                    },
+                ));
+            }
             let expression = self.parse_primary_expression()?;
             let (lit, end) = match *expression {
                 Expr::Lit(Lit::Num(mut number)) => {
@@ -1328,6 +1710,15 @@ impl<C: Config> Parser<'_, C> {
             token.kind(),
             Kind::NoSubstitutionTemplateLiteral | Kind::TemplateHead
         ) {
+            if self.context().contains(Context::FLOW) {
+                self.emit_error(Error::new(
+                    token.span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "template literal type".into(),
+                        expected: "Flow type without TypeScript template literal syntax",
+                    },
+                ));
+            }
             let template = self.parse_ts_template_literal_type()?;
             let span = template.span;
             return Ok(Box::new(TsType::TsLitType(TsLitType {
@@ -1352,6 +1743,30 @@ impl<C: Config> Parser<'_, C> {
             token.kind(),
             Kind::Str | Kind::Num | Kind::BigInt | Kind::True | Kind::False
         ) {
+            if self.context().contains(Context::FLOW)
+                && token.kind() == Kind::Str
+                && has_legacy_octal_escape(self.token_source(token))
+            {
+                self.emit_error(Error::new(
+                    token.span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "legacy octal escape in string literal type".into(),
+                        expected: "string literal type without legacy octal escape",
+                    },
+                ));
+            }
+            if self.context().contains(Context::FLOW)
+                && token.kind() == Kind::Num
+                && crate::next::js::is_legacy_integer_literal(self.token_source(token))
+            {
+                self.emit_error(Error::new(
+                    token.span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: self.token_source(token).into(),
+                        expected: "non-legacy numeric Flow literal type",
+                    },
+                ));
+            }
             let expression = self.parse_primary_expression()?;
             let lit = match *expression {
                 Expr::Lit(Lit::Str(value)) => TsLit::Str(value),
@@ -1748,10 +2163,34 @@ impl<C: Config> Parser<'_, C> {
         while !self.at(Kind::RBracket) && !self.at(Kind::Eof) {
             let element_start = self.token().start();
             if self.context().contains(Context::FLOW)
+                && self.at_identifier_name()
+                && self.lookahead(|parser| {
+                    parser.advance();
+                    parser.at(Kind::QuestionMark)
+                })
+                && !self.lookahead(|parser| {
+                    parser.advance();
+                    parser.advance();
+                    parser.at(Kind::Colon)
+                })
+            {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "optional tuple label without type".into(),
+                        expected: "colon and tuple element type",
+                    },
+                ));
+            }
+            let flow_variance = if self.context().contains(Context::FLOW)
                 && matches!(self.kind(), Kind::Plus | Kind::Minus)
             {
+                let span = self.token().span();
                 self.advance();
-            }
+                Some(span)
+            } else {
+                None
+            };
             let dot3_token = if self.at(Kind::DotDotDot) {
                 let span = self.token().span();
                 self.advance();
@@ -1786,6 +2225,28 @@ impl<C: Config> Parser<'_, C> {
             } else {
                 None
             };
+            if dot3_token.is_some()
+                && matches!(&label, Some(swc_ecma_ast::Pat::Rest(rest)) if matches!(&*rest.arg, swc_ecma_ast::Pat::Ident(identifier) if identifier.id.optional))
+            {
+                self.emit_error(Error::new(
+                    label.as_ref().unwrap().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "optional rest tuple label".into(),
+                        expected: "required rest tuple label",
+                    },
+                ));
+            }
+            if let Some(variance_span) = flow_variance {
+                if label.is_none() {
+                    self.emit_error(Error::new(
+                        variance_span,
+                        crate::error::SyntaxError::Unexpected {
+                            got: "variance on unlabeled tuple element".into(),
+                            expected: "labeled tuple element after variance",
+                        },
+                    ));
+                }
+            }
             let mut ty = if dot3_token.is_some() && self.at(Kind::RBracket) {
                 Box::new(TsType::TsKeywordType(TsKeywordType {
                     span: Span::new_with_checked(element_start, self.previous_end()),
@@ -1870,7 +2331,11 @@ impl<C: Config> Parser<'_, C> {
                 if !parser.expect(Kind::Arrow) {
                     return Err(parser.expected_error(Kind::Arrow));
                 }
-                let type_ann = parser.parse_ts_type()?;
+                let type_ann = parser.with_context(
+                    Context::FLOW_RETURN_TYPE,
+                    Context::empty(),
+                    Self::parse_ts_type,
+                )?;
                 let end = type_ann.span().hi;
                 Ok((params, type_ann, end))
             },
@@ -1948,13 +2413,24 @@ impl<C: Config> Parser<'_, C> {
             if readonly {
                 self.advance();
             }
+            let mut flow_variance = false;
             if self.context().contains(Context::FLOW) {
                 if self.eat(Kind::Plus) {
                     readonly = true;
+                    flow_variance = true;
                 } else {
-                    self.eat(Kind::Minus);
+                    flow_variance = self.eat(Kind::Minus);
                 }
                 if self.eat(Kind::DotDotDot) {
+                    if readonly {
+                        self.emit_error(Error::new(
+                            Span::new_with_checked(member_start, self.previous_end()),
+                            crate::error::SyntaxError::Unexpected {
+                                got: "variance on object type spread".into(),
+                                expected: "object type spread without variance",
+                            },
+                        ));
+                    }
                     let type_ann = if !matches!(
                         self.kind(),
                         Kind::RBrace | Kind::Pipe | Kind::Comma | Kind::Semi
@@ -1979,6 +2455,7 @@ impl<C: Config> Parser<'_, C> {
                     let end = type_ann
                         .as_ref()
                         .map_or(self.previous_end(), |annotation| annotation.span.hi);
+                    let inexact_marker = type_ann.is_none();
                     members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                         span: Span::new_with_checked(member_start, end),
                         readonly: false,
@@ -1992,12 +2469,40 @@ impl<C: Config> Parser<'_, C> {
                     }));
                     self.eat(Kind::Comma);
                     self.eat(Kind::Semi);
+                    if inexact_marker
+                        && !self.at(Kind::RBrace)
+                        && !(flow_exact && self.at(Kind::Pipe))
+                    {
+                        self.emit_error(Error::new(
+                            self.token().span(),
+                            crate::error::SyntaxError::Unexpected {
+                                got: "object member after inexact marker".into(),
+                                expected: "inexact marker as final object type member",
+                            },
+                        ));
+                    }
                     continue;
                 }
             }
 
+            if flow_variance
+                && self.at(Kind::LBracket)
+                && self.lookahead(|parser| {
+                    parser.advance();
+                    parser.at(Kind::LBracket)
+                })
+            {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "variance on internal slot".into(),
+                        expected: "internal slot without variance",
+                    },
+                ));
+            }
+
             if self.at(Kind::LParen) || self.at(Kind::Lt) {
-                if readonly {
+                if readonly || flow_variance {
                     self.emit_error(Error::new(
                         self.token().span(),
                         crate::error::SyntaxError::Expected(
@@ -2013,10 +2518,19 @@ impl<C: Config> Parser<'_, C> {
                 };
                 let params = Self::ts_fn_params(self.parse_ts_object_signature_parameters()?);
                 let type_ann = if self.at(Kind::Colon) {
-                    Some(self.parse_ts_type_annotation()?)
+                    Some(self.parse_ts_return_type_annotation()?)
                 } else {
                     None
                 };
+                if self.context().contains(Context::FLOW) && type_ann.is_none() {
+                    self.emit_error(Error::new(
+                        Span::new_with_checked(member_start, self.previous_end()),
+                        crate::error::SyntaxError::Unexpected {
+                            got: "call property without return type".into(),
+                            expected: "Flow call property return type",
+                        },
+                    ));
+                }
                 let end = type_ann
                     .as_ref()
                     .map_or(self.previous_end(), |annotation| annotation.span.hi);
@@ -2080,7 +2594,7 @@ impl<C: Config> Parser<'_, C> {
                 };
                 let params = Self::ts_fn_params(self.parse_ts_object_signature_parameters()?);
                 let type_ann = if self.at(Kind::Colon) {
-                    Some(self.parse_ts_type_annotation()?)
+                    Some(self.parse_ts_return_type_annotation()?)
                 } else {
                     None
                 };
@@ -2205,7 +2719,7 @@ impl<C: Config> Parser<'_, C> {
                     )
                 })
             {
-                if readonly {
+                if readonly || flow_variance {
                     self.emit_error(Error::new(
                         self.token().span(),
                         crate::error::SyntaxError::Expected(
@@ -2237,8 +2751,17 @@ impl<C: Config> Parser<'_, C> {
                 };
                 let mut params = Self::ts_fn_params(self.parse_ts_object_signature_parameters()?);
                 if getter {
+                    if !params.is_empty() {
+                        self.emit_error(Error::new(
+                            Span::new_with_checked(member_start, self.previous_end()),
+                            crate::error::SyntaxError::Unexpected {
+                                got: "getter parameters".into(),
+                                expected: "getter without parameters",
+                            },
+                        ));
+                    }
                     let type_ann = if self.at(Kind::Colon) {
-                        Some(self.parse_ts_type_annotation()?)
+                        Some(self.parse_ts_return_type_annotation()?)
                     } else {
                         None
                     };
@@ -2295,7 +2818,7 @@ impl<C: Config> Parser<'_, C> {
                 None
             };
             if self.at(Kind::LParen) {
-                if readonly {
+                if readonly || flow_variance {
                     self.emit_error(Error::new(
                         self.token().span(),
                         crate::error::SyntaxError::Expected(
@@ -2306,7 +2829,7 @@ impl<C: Config> Parser<'_, C> {
                 }
                 let params = Self::ts_fn_params(self.parse_ts_object_signature_parameters()?);
                 let type_ann = if self.at(Kind::Colon) {
-                    Some(self.parse_ts_type_annotation()?)
+                    Some(self.parse_ts_return_type_annotation()?)
                 } else {
                     None
                 };
@@ -2333,6 +2856,15 @@ impl<C: Config> Parser<'_, C> {
             } else {
                 None
             };
+            if self.context().contains(Context::FLOW) && type_ann.is_none() {
+                self.emit_error(Error::new(
+                    key.span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "object type property without annotation".into(),
+                        expected: "property type annotation",
+                    },
+                ));
+            }
             let end = type_ann.as_ref().map_or(key.span().hi, |ann| ann.span.hi);
             members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                 span: Span::new_with_checked(member_start, end),
@@ -2410,6 +2942,20 @@ impl<C: Config> Parser<'_, C> {
             self.identifier_atom(token),
             token.span(),
         ));
+        if self.context().contains(Context::FLOW) {
+            let name = self.token_source(token);
+            if matches!(name, "function" | "static" | "interface" | "extends")
+                || (name == "_" && !self.context().contains(Context::FLOW_TYPE_ARGUMENT))
+            {
+                self.emit_error(Error::new(
+                    token.span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: name.into(),
+                        expected: "valid Flow type reference",
+                    },
+                ));
+            }
+        }
         self.advance();
         while self.eat(Kind::Dot) {
             let token = self.token();
@@ -2472,4 +3018,50 @@ fn ts_keyword_type(kind: Kind) -> Option<TsKeywordTypeKind> {
         Kind::Intrinsic => TsKeywordTypeKind::TsIntrinsicKeyword,
         _ => return None,
     })
+}
+
+fn is_flow_reserved_type_binding(name: &str) -> bool {
+    matches!(
+        name,
+        "any"
+            | "bigint"
+            | "boolean"
+            | "empty"
+            | "enum"
+            | "extends"
+            | "interface"
+            | "keyof"
+            | "mixed"
+            | "never"
+            | "null"
+            | "number"
+            | "object"
+            | "readonly"
+            | "static"
+            | "string"
+            | "symbol"
+            | "undefined"
+            | "unknown"
+            | "void"
+            | "_"
+    )
+}
+
+fn has_legacy_octal_escape(raw: &str) -> bool {
+    let bytes = raw.as_bytes();
+    let mut index = 0;
+    while index < bytes.len() {
+        if bytes[index] != b'\\' {
+            index += 1;
+            continue;
+        }
+        let start = index;
+        while index < bytes.len() && bytes[index] == b'\\' {
+            index += 1;
+        }
+        if (index - start) % 2 == 1 && index < bytes.len() && matches!(bytes[index], b'0'..=b'7') {
+            return true;
+        }
+    }
+    false
 }

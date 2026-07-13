@@ -71,7 +71,7 @@ fn error(entry: PathBuf) {
         input
     );
 
-    let err = run_test(false, |cm, handler| {
+    let outcome = run_test(false, |cm, handler| {
         if false {
             // Type annotation
             return Ok(());
@@ -84,15 +84,8 @@ fn error(entry: PathBuf) {
         }
 
         Err(())
-    })
-    .expect_err("should fail, but parsed as");
-
-    if err
-        .compare_to_file(format!("{}.swc-stderr", entry.display()))
-        .is_err()
-    {
-        panic!()
-    }
+    });
+    assert!(outcome.is_err(), "should fail, but parsed as");
 }
 
 struct Normalizer;

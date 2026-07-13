@@ -101,6 +101,15 @@ impl<C: Config> Parser<'_, C> {
                             },
                         ));
                     }
+                    if raw.contains('}') {
+                        self.emit_error(Error::new(
+                            token.span(),
+                            crate::error::SyntaxError::Unexpected {
+                                got: "}".into(),
+                                expected: "{'}'}",
+                            },
+                        ));
+                    }
                     let value = Atom::new(decode_jsx_entities(&raw));
                     children.push(JSXElementChild::JSXText(JSXText {
                         span: token.span(),
@@ -173,6 +182,15 @@ impl<C: Config> Parser<'_, C> {
                             crate::error::SyntaxError::Unexpected {
                                 got: ">".into(),
                                 expected: "{'>'}",
+                            },
+                        ));
+                    }
+                    if raw.contains('}') {
+                        self.emit_error(Error::new(
+                            token.span(),
+                            crate::error::SyntaxError::Unexpected {
+                                got: "}".into(),
+                                expected: "{'}'}",
                             },
                         ));
                     }

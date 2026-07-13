@@ -210,9 +210,13 @@ impl<C: Config> Parser<'_, C> {
         is_generator: bool,
         type_params: Option<Box<swc_ecma_ast::TsTypeParamDecl>>,
     ) -> Result<PropOrSpread, Error> {
-        let mut parameter_context = crate::next::parser::context::Context::NEW_TARGET;
+        let mut parameter_context = crate::next::parser::context::Context::NEW_TARGET
+            | crate::next::parser::context::Context::PARAMETERS;
         if is_async {
-            parameter_context.insert(crate::next::parser::context::Context::AWAIT);
+            parameter_context.insert(
+                crate::next::parser::context::Context::AWAIT
+                    | crate::next::parser::context::Context::ASYNC,
+            );
         }
         if is_generator {
             parameter_context.insert(crate::next::parser::context::Context::YIELD);
@@ -220,7 +224,8 @@ impl<C: Config> Parser<'_, C> {
         let parameters = self.with_context(
             parameter_context,
             crate::next::parser::context::Context::YIELD
-                | crate::next::parser::context::Context::AWAIT,
+                | crate::next::parser::context::Context::AWAIT
+                | crate::next::parser::context::Context::ASYNC,
             Self::parse_method_parameters,
         )?;
         #[cfg(feature = "typescript")]
@@ -229,7 +234,11 @@ impl<C: Config> Parser<'_, C> {
             .contains(crate::next::parser::context::Context::TYPESCRIPT)
             && self.at(Kind::Colon)
         {
-            Some(self.parse_ts_type_annotation()?)
+            Some(self.with_context(
+                crate::next::parser::context::Context::FLOW_RETURN_TYPE,
+                crate::next::parser::context::Context::empty(),
+                Self::parse_ts_type_annotation,
+            )?)
         } else {
             None
         };
@@ -241,7 +250,10 @@ impl<C: Config> Parser<'_, C> {
         let mut context = crate::next::parser::context::Context::RETURN
             | crate::next::parser::context::Context::NEW_TARGET;
         if is_async {
-            context.insert(crate::next::parser::context::Context::AWAIT);
+            context.insert(
+                crate::next::parser::context::Context::AWAIT
+                    | crate::next::parser::context::Context::ASYNC,
+            );
         }
         if is_generator {
             context.insert(crate::next::parser::context::Context::YIELD);
@@ -251,7 +263,8 @@ impl<C: Config> Parser<'_, C> {
             crate::next::parser::context::Context::TOP_LEVEL
                 | crate::next::parser::context::Context::RETURN
                 | crate::next::parser::context::Context::YIELD
-                | crate::next::parser::context::Context::AWAIT,
+                | crate::next::parser::context::Context::AWAIT
+                | crate::next::parser::context::Context::ASYNC,
             Self::parse_block_statement,
         )?;
         let span = Span::new_with_checked(start, body.span.hi);
@@ -280,7 +293,8 @@ impl<C: Config> Parser<'_, C> {
         let mut parameters = self.with_context(
             crate::next::parser::context::Context::NEW_TARGET,
             crate::next::parser::context::Context::YIELD
-                | crate::next::parser::context::Context::AWAIT,
+                | crate::next::parser::context::Context::AWAIT
+                | crate::next::parser::context::Context::ASYNC,
             Self::parse_method_parameters,
         )?;
         #[cfg(feature = "typescript")]
@@ -289,7 +303,11 @@ impl<C: Config> Parser<'_, C> {
             .contains(crate::next::parser::context::Context::TYPESCRIPT)
             && self.at(Kind::Colon)
         {
-            Some(self.parse_ts_type_annotation()?)
+            Some(self.with_context(
+                crate::next::parser::context::Context::FLOW_RETURN_TYPE,
+                crate::next::parser::context::Context::empty(),
+                Self::parse_ts_type_annotation,
+            )?)
         } else {
             None
         };
@@ -307,7 +325,8 @@ impl<C: Config> Parser<'_, C> {
             crate::next::parser::context::Context::TOP_LEVEL
                 | crate::next::parser::context::Context::RETURN
                 | crate::next::parser::context::Context::YIELD
-                | crate::next::parser::context::Context::AWAIT,
+                | crate::next::parser::context::Context::AWAIT
+                | crate::next::parser::context::Context::ASYNC,
             Self::parse_block_statement,
         )?;
         let span = Span::new_with_checked(start, body.span.hi);

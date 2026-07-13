@@ -3,6 +3,7 @@
 mod assignment;
 mod class;
 mod expression;
+pub(crate) use expression::is_legacy_integer_literal;
 #[cfg(feature = "flow")]
 mod flow;
 mod function;

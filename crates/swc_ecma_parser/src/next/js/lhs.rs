@@ -13,7 +13,7 @@ use crate::{
     error::Error,
     next::{
         lexer::{config::Config, TokenKind as Kind},
-        parser::cursor::Parser,
+        parser::{context::Context, cursor::Parser},
     },
 };
 
@@ -203,16 +203,29 @@ impl<C: Config> Parser<'_, C> {
 
     fn parse_member_identifier(&mut self) -> Result<MemberProp, Error> {
         if self.at(Kind::Hash) {
-            let start = self.token().start();
+            let hash = self.token();
+            let start = hash.start();
             self.advance();
             let token = self.token();
             if !self.at_identifier_name() {
                 return Err(self.expected_error(Kind::Ident));
             }
+            if token.start() != hash.end() {
+                self.emit_error(Error::new(
+                    Span::new_with_checked(hash.start(), token.end()),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "whitespace after #".into(),
+                        expected: "private name adjacent to #",
+                    },
+                ));
+            }
             let property = MemberProp::PrivateName(PrivateName {
                 span: Span::new_with_checked(start, token.end()),
                 name: self.identifier_atom(token),
             });
+            if let MemberProp::PrivateName(private) = &property {
+                self.record_private_use(private.name.clone(), private.span);
+            }
             self.advance();
             return Ok(property);
         }
@@ -441,6 +454,7 @@ impl<C: Config> Parser<'_, C> {
                         crate::error::SyntaxError::ImportRequiresOneOrTwoArgs,
                     ));
                 }
+                self.validate_import_options(&arguments);
                 return Ok(Box::new(Expr::Call(CallExpr {
                     span: Span::new_with_checked(token.start(), self.previous_end()),
                     ctxt: SyntaxContext::empty(),
@@ -462,6 +476,7 @@ impl<C: Config> Parser<'_, C> {
                     crate::error::SyntaxError::ImportRequiresOneOrTwoArgs,
                 ));
             }
+            self.validate_import_options(&arguments);
             return Ok(Box::new(Expr::Call(CallExpr {
                 span: Span::new_with_checked(token.start(), self.previous_end()),
                 ctxt: SyntaxContext::empty(),
@@ -477,6 +492,15 @@ impl<C: Config> Parser<'_, C> {
         debug_assert!(self.eat(Kind::Super));
         let super_object = Super { span: token.span() };
         if self.at(Kind::LParen) {
+            if !self.context().contains(Context::SUPER_CALL) {
+                self.emit_error(Error::new(
+                    token.span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "super()".into(),
+                        expected: "direct super call in a derived constructor",
+                    },
+                ));
+            }
             let arguments = self.parse_arguments()?;
             return Ok(Box::new(Expr::Call(CallExpr {
                 span: Span::new_with_checked(token.start(), self.previous_end()),
@@ -515,6 +539,20 @@ impl<C: Config> Parser<'_, C> {
             obj: super_object,
             prop: property,
         })))
+    }
+
+    fn validate_import_options(&mut self, arguments: &[ExprOrSpread]) {
+        if let Some(options) = arguments.get(1) {
+            if !matches!(&*options.expr, Expr::Object(_)) {
+                self.emit_error(Error::new(
+                    options.expr.span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "non-object dynamic import options".into(),
+                        expected: "object literal import options",
+                    },
+                ));
+            }
+        }
     }
 
     fn parse_arguments(&mut self) -> Result<Vec<ExprOrSpread>, Error> {

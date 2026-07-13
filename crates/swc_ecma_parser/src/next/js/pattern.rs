@@ -7,17 +7,59 @@ use swc_ecma_ast::{
     SimpleAssignTarget,
 };
 
-#[cfg(feature = "typescript")]
-use crate::next::parser::context::Context;
 use crate::{
     error::Error,
     next::{
         lexer::{config::Config, TokenKind as Kind},
-        parser::cursor::Parser,
+        parser::{context::Context, cursor::Parser},
     },
 };
 
 impl<C: Config> Parser<'_, C> {
+    pub(crate) fn validate_identifier_reference(&mut self, identifier: &Ident) {
+        let strict = self.context().contains(Context::STRICT)
+            || (self.context().contains(Context::MODULE)
+                && !self.context().contains(Context::FLOW));
+        let invalid = (self.context().contains(Context::ASYNC) && identifier.sym == "await")
+            || (self.context().contains(Context::YIELD) && identifier.sym == "yield")
+            || (self.context().contains(Context::FLOW) && identifier.sym == "enum")
+            || (self.context().contains(Context::FLOW_FUNCTION_TYPE) && identifier.sym == "static")
+            || (strict
+                && matches!(
+                    &*identifier.sym,
+                    "yield"
+                        | "implements"
+                        | "interface"
+                        | "package"
+                        | "private"
+                        | "protected"
+                        | "public"
+                        | "static"
+                ));
+        if invalid {
+            self.emit_error(Error::new(
+                identifier.span,
+                crate::error::SyntaxError::Expected(
+                    "non-reserved identifier reference".into(),
+                    identifier.sym.to_string(),
+                ),
+            ));
+        }
+    }
+
+    fn validate_binding_identifier(&mut self, identifier: &Ident) {
+        self.validate_identifier_reference(identifier);
+        let strict = self.context().contains(Context::STRICT)
+            || (self.context().contains(Context::MODULE)
+                && !self.context().contains(Context::FLOW));
+        if strict && matches!(&*identifier.sym, "eval" | "arguments") {
+            self.emit_error(Error::new(
+                identifier.span,
+                crate::error::SyntaxError::EvalAndArgumentsInStrict,
+            ));
+        }
+    }
+
     /// Reinterpret an expression parsed before a `for-in`/`for-of` delimiter
     /// as an assignment pattern without cloning the parser or source.
     pub(crate) fn reparse_assignment_pattern(
@@ -26,7 +68,10 @@ impl<C: Config> Parser<'_, C> {
     ) -> Result<Pat, Error> {
         let span = expression.span();
         match *expression {
-            Expr::Ident(id) => Ok(Pat::Ident(BindingIdent { id, type_ann: None })),
+            Expr::Ident(id) => {
+                self.validate_binding_identifier(&id);
+                Ok(Pat::Ident(BindingIdent { id, type_ann: None }))
+            }
             Expr::Paren(parenthesis) => Ok(Pat::Expr(Box::new(Expr::Paren(parenthesis)))),
             Expr::Array(array) => {
                 let mut elements = Vec::with_capacity(array.elems.len());
@@ -86,19 +131,25 @@ impl<C: Config> Parser<'_, C> {
                             })
                         }
                         swc_ecma_ast::PropOrSpread::Prop(property) => match *property {
-                            Prop::Shorthand(id) => ObjectPatProp::Assign(AssignPatProp {
-                                span: id.span,
-                                key: BindingIdent { id, type_ann: None },
-                                value: None,
-                            }),
-                            Prop::Assign(property) => ObjectPatProp::Assign(AssignPatProp {
-                                span: property.span,
-                                key: BindingIdent {
-                                    id: property.key,
-                                    type_ann: None,
-                                },
-                                value: Some(property.value),
-                            }),
+                            Prop::Shorthand(id) => {
+                                self.validate_binding_identifier(&id);
+                                ObjectPatProp::Assign(AssignPatProp {
+                                    span: id.span,
+                                    key: BindingIdent { id, type_ann: None },
+                                    value: None,
+                                })
+                            }
+                            Prop::Assign(property) => {
+                                self.validate_binding_identifier(&property.key);
+                                ObjectPatProp::Assign(AssignPatProp {
+                                    span: property.span,
+                                    key: BindingIdent {
+                                        id: property.key,
+                                        type_ann: None,
+                                    },
+                                    value: Some(property.value),
+                                })
+                            }
                             Prop::KeyValue(property) => ObjectPatProp::KeyValue(KeyValuePatProp {
                                 key: property.key,
                                 value: Box::new(self.reparse_assignment_pattern(property.value)?),
@@ -188,34 +239,7 @@ impl<C: Config> Parser<'_, C> {
                     return Err(self.expected_error(Kind::Ident));
                 }
                 let identifier = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
-                if self.context().intersects(Context::STRICT | Context::MODULE)
-                    && matches!(&*identifier.sym, "eval" | "arguments")
-                {
-                    self.emit_error(Error::new(
-                        identifier.span,
-                        crate::error::SyntaxError::EvalAndArgumentsInStrict,
-                    ));
-                }
-                if self.context().intersects(Context::STRICT | Context::MODULE)
-                    && matches!(
-                        &*identifier.sym,
-                        "implements"
-                            | "interface"
-                            | "package"
-                            | "private"
-                            | "protected"
-                            | "public"
-                            | "static"
-                    )
-                {
-                    self.emit_error(Error::new(
-                        identifier.span,
-                        crate::error::SyntaxError::Expected(
-                            "non-reserved binding identifier".into(),
-                            identifier.sym.to_string(),
-                        ),
-                    ));
-                }
+                self.validate_binding_identifier(&identifier);
                 self.advance();
                 Pat::Ident(BindingIdent {
                     id: identifier,
@@ -337,6 +361,7 @@ impl<C: Config> Parser<'_, C> {
                 let PropName::Ident(name) = key else {
                     return Err(self.expected_error(Kind::Colon));
                 };
+                self.validate_binding_identifier(&Ident::new_no_ctxt(name.sym.clone(), name.span));
                 let value = if self.eat(Kind::Eq) {
                     Some(self.parse_assignment_expression()?)
                 } else {

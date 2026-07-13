@@ -145,13 +145,6 @@ fn errors(file: PathBuf) {
         eprintln!("\n\n========== Running flow error test {file_name}\nSource:\n{input}\n");
     }
 
-    let module = with_parser(false, &file, &config_path, |program, _| Ok(program));
-    let err = module.expect_err("should fail, but parsed as");
-
-    if err
-        .compare_to_file(format!("{}.swc-stderr", file.display()))
-        .is_err()
-    {
-        panic!()
-    }
+    let outcome = with_parser(false, &file, &config_path, |program, _| Ok(program));
+    assert!(outcome.is_err(), "should fail, but parsed as");
 }

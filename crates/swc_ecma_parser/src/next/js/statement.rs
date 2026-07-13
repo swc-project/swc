@@ -64,6 +64,15 @@ impl<C: Config> Parser<'_, C> {
                 let Stmt::Decl(Decl::Class(class)) = &mut statement else {
                     return Err(self.expected_error(Kind::Class));
                 };
+                if class.declare {
+                    self.emit_error(Error::new(
+                        class.class.span,
+                        crate::error::SyntaxError::Unexpected {
+                            got: "decorated declare class".into(),
+                            expected: "non-ambient decorated class",
+                        },
+                    ));
+                }
                 class.class.span = Span::new_with_checked(start, class.class.span.hi);
                 class.class.decorators = decorators;
                 Ok(statement)
@@ -293,7 +302,17 @@ impl<C: Config> Parser<'_, C> {
                 ),
             ));
         }
-        self.push_active_label(label.sym.clone());
+        let iteration = self.lookahead(|parser| loop {
+            if matches!(parser.kind(), Kind::For | Kind::While | Kind::Do) {
+                return true;
+            }
+            if !parser.is_labeled_statement_start() {
+                return false;
+            }
+            parser.advance();
+            parser.advance();
+        });
+        self.push_active_label(label.sym.clone(), iteration);
         let body = self.with_context(
             Context::empty(),
             Context::ALLOW_USING,
@@ -420,9 +439,23 @@ impl<C: Config> Parser<'_, C> {
         self.consume_semicolon()?;
         let span = Span::new_with_checked(start, self.previous_end());
 
-        // Labeled jump validation is added with labeled statements. Unlabeled
-        // jumps can be checked immediately from the production context.
-        if label.is_none() {
+        if let Some(label) = &label {
+            if !self.has_active_label(&label.sym)
+                || (!is_break && !self.active_label_allows_continue(&label.sym))
+            {
+                self.emit_error(Error::new(
+                    label.span,
+                    crate::error::SyntaxError::Expected(
+                        if is_break {
+                            "active label".into()
+                        } else {
+                            "active iteration label".into()
+                        },
+                        label.sym.to_string(),
+                    ),
+                ));
+            }
+        } else {
             let allowed = if is_break {
                 self.context().contains(Context::BREAK)
             } else {
@@ -480,6 +513,18 @@ impl<C: Config> Parser<'_, C> {
         let start = self.token().start();
         self.advance();
         let is_await = self.eat(Kind::Await);
+        if is_await
+            && self.context().contains(Context::FLOW)
+            && !self.context().contains(Context::ASYNC)
+        {
+            self.emit_error(Error::new(
+                Span::new_with_checked(start, self.previous_end()),
+                crate::error::SyntaxError::Unexpected {
+                    got: "for await outside async function".into(),
+                    expected: "for await in an async function",
+                },
+            ));
+        }
         if !self.expect(Kind::LParen) {
             return Err(self.expected_error(Kind::LParen));
         }
@@ -528,7 +573,23 @@ impl<C: Config> Parser<'_, C> {
                 // another crate, while workspace builds see current variants.
                 #[allow(unreachable_patterns)]
                 match init {
-                    VarDeclOrExpr::VarDecl(declaration) => ForHead::VarDecl(declaration),
+                    VarDeclOrExpr::VarDecl(declaration) => {
+                        if operator == Kind::Of
+                            && declaration
+                                .decls
+                                .iter()
+                                .any(|declarator| declarator.init.is_some())
+                        {
+                            self.emit_error(Error::new(
+                                declaration.span,
+                                crate::error::SyntaxError::Unexpected {
+                                    got: "initializer in for-of declaration".into(),
+                                    expected: "for-of declaration without initializer",
+                                },
+                            ));
+                        }
+                        ForHead::VarDecl(declaration)
+                    }
                     VarDeclOrExpr::Expr(expression) => {
                         self.take_cover_initialized_name();
                         if !is_await
@@ -581,6 +642,9 @@ impl<C: Config> Parser<'_, C> {
         }
         if using_init.is_some() {
             return Err(self.expected_error(Kind::Of));
+        }
+        if let Some(VarDeclOrExpr::VarDecl(declaration)) = &init {
+            self.validate_variable_initializers(declaration);
         }
         if !self.expect(Kind::Semi) {
             return Err(self.expected_error(Kind::Semi));
@@ -778,6 +842,7 @@ impl<C: Config> Parser<'_, C> {
 
     fn parse_variable_statement(&mut self) -> Result<Stmt, Error> {
         let declaration = self.parse_variable_declaration()?;
+        self.validate_variable_initializers(&declaration);
         self.consume_semicolon()?;
         Ok(Stmt::Decl(Decl::Var(declaration)))
     }
@@ -920,9 +985,21 @@ impl<C: Config> Parser<'_, C> {
             return Ok(statement);
         }
         let mut statement = match self.kind() {
-            Kind::Var | Kind::Let | Kind::Const => self.parse_variable_statement()?,
-            Kind::Function | Kind::Async => self.parse_function_declaration()?,
-            Kind::Class => self.parse_class_declaration()?,
+            Kind::Var | Kind::Let | Kind::Const => self.with_context(
+                Context::AMBIENT,
+                Context::empty(),
+                Self::parse_variable_statement,
+            )?,
+            Kind::Function | Kind::Async => self.with_context(
+                Context::AMBIENT,
+                Context::empty(),
+                Self::parse_function_declaration,
+            )?,
+            Kind::Class => self.with_context(
+                Context::AMBIENT,
+                Context::empty(),
+                Self::parse_class_declaration,
+            )?,
             Kind::Interface => self.parse_ts_interface_declaration()?,
             Kind::Type => self.parse_ts_type_alias_declaration()?,
             Kind::Enum => self.parse_ts_enum_declaration(false)?,
@@ -954,14 +1031,65 @@ impl<C: Config> Parser<'_, C> {
                 if self.context().contains(Context::FLOW)
                     && self.token_source(self.token()) == "opaque" =>
             {
-                self.parse_flow_opaque_type()?
+                self.with_context(
+                    Context::AMBIENT,
+                    Context::empty(),
+                    Self::parse_flow_opaque_type,
+                )?
             }
             _ => return Err(self.expected_error(Kind::Var)),
         };
         if let Stmt::Decl(declaration) = &mut statement {
             match declaration {
-                Decl::Var(value) => value.declare = true,
-                Decl::Fn(value) => value.declare = true,
+                Decl::Var(value) => {
+                    value.declare = true;
+                    if self.context().contains(Context::FLOW) {
+                        for declarator in &value.decls {
+                            if !binding_has_type_annotation(&declarator.name) {
+                                self.emit_error(Error::new(
+                                    declarator.name.span(),
+                                    crate::error::SyntaxError::Unexpected {
+                                        got: "untyped declare variable".into(),
+                                        expected: "type annotation on Flow declare variable",
+                                    },
+                                ));
+                            }
+                        }
+                    }
+                }
+                Decl::Fn(value) => {
+                    value.declare = true;
+                    if self.context().contains(Context::FLOW) {
+                        let is_component = matches!(value.function.params.as_slice(), [parameter] if matches!(parameter.pat, swc_ecma_ast::Pat::Object(_)));
+                        if value.function.return_type.is_none() && !is_component {
+                            self.emit_error(Error::new(
+                                value.function.span,
+                                crate::error::SyntaxError::Unexpected {
+                                    got: "declare function without return type".into(),
+                                    expected: "Flow declare function return type",
+                                },
+                            ));
+                        }
+                        if value.function.body.is_some() {
+                            self.emit_error(Error::new(
+                                value.function.span,
+                                crate::error::SyntaxError::Unexpected {
+                                    got: "declare function body".into(),
+                                    expected: "bodyless Flow declare function",
+                                },
+                            ));
+                        }
+                        if value.function.is_async {
+                            self.emit_error(Error::new(
+                                value.function.span,
+                                crate::error::SyntaxError::Unexpected {
+                                    got: "declare async function".into(),
+                                    expected: "non-async Flow declare function",
+                                },
+                            ));
+                        }
+                    }
+                }
                 Decl::Class(value) => {
                     value.declare = true;
                     value.class.is_abstract = abstract_class;
@@ -1092,6 +1220,23 @@ impl<C: Config> Parser<'_, C> {
         }))
     }
 
+    fn validate_variable_initializers(&mut self, declaration: &VarDecl) {
+        if self.context().contains(Context::AMBIENT) || declaration.declare {
+            return;
+        }
+        for declarator in &declaration.decls {
+            if declarator.init.is_none()
+                && (declaration.kind == VarDeclKind::Const
+                    || !matches!(declarator.name, swc_ecma_ast::Pat::Ident(_)))
+            {
+                self.emit_error(Error::new(
+                    declarator.name.span(),
+                    crate::error::SyntaxError::ConstDeclarationsRequireInitialization,
+                ));
+            }
+        }
+    }
+
     fn parse_expression_statement(&mut self) -> Result<Stmt, Error> {
         let expression = self.parse_expression()?;
         let span = expression.span();
@@ -1112,6 +1257,19 @@ impl<C: Config> Parser<'_, C> {
         } else {
             Err(self.expected_error(Kind::Semi))
         }
+    }
+}
+
+fn binding_has_type_annotation(pattern: &swc_ecma_ast::Pat) -> bool {
+    match pattern {
+        swc_ecma_ast::Pat::Ident(binding) => binding.type_ann.is_some(),
+        swc_ecma_ast::Pat::Array(array) => array.type_ann.is_some(),
+        swc_ecma_ast::Pat::Object(object) => object.type_ann.is_some(),
+        swc_ecma_ast::Pat::Rest(rest) => {
+            rest.type_ann.is_some() || binding_has_type_annotation(&rest.arg)
+        }
+        swc_ecma_ast::Pat::Assign(assign) => binding_has_type_annotation(&assign.left),
+        _ => false,
     }
 }
 

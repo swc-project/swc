@@ -38,6 +38,15 @@ impl<C: Config> Parser<'_, C> {
 
     pub(crate) fn parse_assignment_expression(&mut self) -> Result<Box<Expr>, Error> {
         if self.at(Kind::Yield) && self.context().contains(Context::YIELD) {
+            if self.context().contains(Context::PARAMETERS) {
+                return Err(Error::new(
+                    self.token().span(),
+                    SyntaxError::Unexpected {
+                        got: "yield".into(),
+                        expected: "formal parameter expression without yield",
+                    },
+                ));
+            }
             return self.parse_yield_expression();
         }
         if self.is_async_arrow_head() {
@@ -58,6 +67,15 @@ impl<C: Config> Parser<'_, C> {
         )?;
         let cover_initialized_name = self.take_cover_initialized_name();
         if self.at(Kind::Arrow) {
+            if self.token().had_line_break() {
+                return Err(Error::new(
+                    self.token().span(),
+                    SyntaxError::Unexpected {
+                        got: "arrow after line break".into(),
+                        expected: "arrow on the same line as its parameter",
+                    },
+                ));
+            }
             let left_span = left.span();
             let Expr::Ident(identifier) = *left else {
                 return Err(Error::new(left_span, SyntaxError::InvalidAssignTarget));
@@ -198,7 +216,7 @@ impl<C: Config> Parser<'_, C> {
                 }
                 return parser
                     .with_context(
-                        Context::TS_ARROW_RETURN_TYPE,
+                        Context::TS_ARROW_RETURN_TYPE | Context::FLOW_RETURN_TYPE,
                         Context::empty(),
                         Self::parse_ts_type_annotation,
                     )
@@ -291,11 +309,16 @@ impl<C: Config> Parser<'_, C> {
     ) -> Result<Box<Expr>, Error> {
         self.advance();
         let add = if is_async {
-            Context::AWAIT
+            Context::AWAIT | Context::ASYNC | Context::PARAMETERS
+        } else {
+            Context::PARAMETERS
+        };
+        let remove = if is_async {
+            Context::YIELD
         } else {
             Context::empty()
         };
-        let parameters = self.with_context(add, Context::YIELD | Context::AWAIT, |parser| {
+        let parameters = self.with_context(add, remove, |parser| {
             parser.parse_arrow_parameters_after_lparen()
         })?;
         self.parse_arrow_expression(start, parameters, is_async)
@@ -371,6 +394,19 @@ impl<C: Config> Parser<'_, C> {
         parameters: Vec<Pat>,
         is_async: bool,
     ) -> Result<Box<Expr>, Error> {
+        if self.context().contains(Context::FLOW) {
+            for parameter in &parameters {
+                if is_this_arrow_parameter(parameter) {
+                    self.emit_error(Error::new(
+                        parameter.span(),
+                        SyntaxError::Unexpected {
+                            got: "this parameter in arrow function".into(),
+                            expected: "arrow function without an explicit this parameter",
+                        },
+                    ));
+                }
+            }
+        }
         #[cfg(feature = "typescript")]
         #[cfg(feature = "flow")]
         let flow_predicate_return = self.context().contains(Context::FLOW)
@@ -400,7 +436,7 @@ impl<C: Config> Parser<'_, C> {
             && !flow_predicate_return
         {
             Some(self.with_context(
-                Context::TS_ARROW_RETURN_TYPE,
+                Context::TS_ARROW_RETURN_TYPE | Context::FLOW_RETURN_TYPE,
                 Context::empty(),
                 Self::parse_ts_type_annotation,
             )?)
@@ -417,22 +453,26 @@ impl<C: Config> Parser<'_, C> {
         let body = if self.at(Kind::LBrace) {
             let mut context = Context::RETURN;
             if is_async {
-                context.insert(Context::AWAIT);
+                context.insert(Context::AWAIT | Context::ASYNC);
             }
             BlockStmtOrExpr::BlockStmt(self.with_context(
                 context,
-                Context::TOP_LEVEL | Context::RETURN | Context::YIELD | Context::AWAIT,
+                Context::TOP_LEVEL
+                    | Context::RETURN
+                    | Context::YIELD
+                    | Context::AWAIT
+                    | Context::ASYNC,
                 Self::parse_block_statement,
             )?)
         } else {
             let add = if is_async {
-                Context::AWAIT
+                Context::AWAIT | Context::ASYNC
             } else {
                 Context::empty()
             };
             BlockStmtOrExpr::Expr(self.with_context(
                 add,
-                Context::YIELD | Context::AWAIT,
+                Context::YIELD | Context::AWAIT | Context::ASYNC,
                 Self::parse_assignment_expression,
             )?)
         };
@@ -457,6 +497,15 @@ impl<C: Config> Parser<'_, C> {
             type_params: None,
             return_type,
         })))
+    }
+}
+
+fn is_this_arrow_parameter(pattern: &Pat) -> bool {
+    match pattern {
+        Pat::Ident(binding) => binding.id.sym == "this",
+        Pat::Assign(assignment) => is_this_arrow_parameter(&assignment.left),
+        Pat::Rest(rest) => is_this_arrow_parameter(&rest.arg),
+        _ => false,
     }
 }
 
