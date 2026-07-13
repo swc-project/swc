@@ -717,7 +717,8 @@ pub fn attach_comments(
 fn token_can_end_expression(kind: TokenKind) -> bool {
     matches!(
         kind,
-        TokenKind::RParen
+        TokenKind::Semi
+            | TokenKind::RParen
             | TokenKind::RBracket
             | TokenKind::RBrace
             | TokenKind::PlusPlus
