@@ -182,7 +182,13 @@ impl<C: Config> Parser<'_, C> {
                 self.parse_ts_module_declaration(false)
             }
             #[cfg(feature = "typescript")]
-            Kind::Global if self.context().contains(Context::TYPESCRIPT) => {
+            Kind::Global
+                if self.context().contains(Context::TYPESCRIPT)
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        parser.at(Kind::LBrace)
+                    }) =>
+            {
                 self.parse_ts_global_declaration(false)
             }
             #[cfg(feature = "typescript")]

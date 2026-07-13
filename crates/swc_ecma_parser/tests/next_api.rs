@@ -157,4 +157,14 @@ fn flow_builds_direct_typed_ast() {
     assert_eq!(SourceType::flow().language(), Language::Flow);
     assert!(!parsed.panicked);
     assert!(parsed.diagnostics.is_empty());
+
+    let runtime_global = Parser::new(
+        "/** @flow strict */\nglobal.ErrorUtils = {};\nexport type ErrorUtilsT = typeof \
+         global.ErrorUtils;",
+        SourceType::flow(),
+    )
+    .with_options(options)
+    .parse();
+    assert!(!runtime_global.panicked);
+    assert!(runtime_global.diagnostics.is_empty());
 }
