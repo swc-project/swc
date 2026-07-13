@@ -13,7 +13,13 @@ bench      = false
 crate-type = ["cdylib"]
 
 [features]
-nightly = ["swc_ts_fast_strip/nightly"]
+nightly        = ["swc_ts_fast_strip/nightly"]
+nodejs-support = [
+  "dep:serde_json",
+  "dep:swc_ecma_ast",
+  "dep:swc_ecma_parser",
+  "dep:swc_ecma_visit",
+]
 
 [dependencies]
 anyhow = { workspace = true }
@@ -22,11 +28,11 @@ miette = { workspace = true }
 owo-colors = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }
-serde_json = { workspace = true }
+serde_json = { workspace = true, optional = true }
 swc_common = { path = "../../crates/swc_common" }
-swc_ecma_ast = { path = "../../crates/swc_ecma_ast" }
-swc_ecma_parser = { path = "../../crates/swc_ecma_parser" }
-swc_ecma_visit = { path = "../../crates/swc_ecma_visit" }
+swc_ecma_ast = { path = "../../crates/swc_ecma_ast", optional = true }
+swc_ecma_parser = { path = "../../crates/swc_ecma_parser", optional = true }
+swc_ecma_visit = { path = "../../crates/swc_ecma_visit", optional = true }
 swc_error_reporters = { path = "../../crates/swc_error_reporters" }
 swc_ts_fast_strip = { path = "../../crates/swc_ts_fast_strip", features = [
   "wasm-bindgen",

@@ -63,6 +63,8 @@ jobs:
 
       - run: cargo clippy --all --all-targets -- -D warnings
 
+      - run: cargo clippy -p binding_typescript_wasm --all-targets --features nodejs-support -- -D warnings
+
   cargo-deny:
     name: Check license of dependencies
     runs-on: ubuntu-latest

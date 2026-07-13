@@ -1,39 +1,44 @@
-import fs from 'node:fs/promises';
+import fs from "node:fs/promises";
+import path from "node:path";
 
+const [
+    outDir = "pkg",
+    packageName = "@swc/wasm-typescript",
+    packageDescription,
+] = process.argv.slice(2);
 
-const rawWasmFile = await fs.readFile('pkg/wasm_bg.wasm');
-const origJsFile = await fs.readFile('pkg/wasm.js', 'utf8');
+const rawWasmPath = path.join(outDir, "wasm_bg.wasm");
+const wasmJsPath = path.join(outDir, "wasm.js");
+const packageJsonPath = path.join(outDir, "package.json");
+const rawWasmFile = await fs.readFile(rawWasmPath);
+const origJsFile = await fs.readFile(wasmJsPath, "utf8");
 
-const base64 = rawWasmFile.toString('base64');
+const base64 = rawWasmFile.toString("base64");
 
 const patchedJsFile = origJsFile
-    .replace(`const path = require('path').join(__dirname, 'wasm_bg.wasm');`, '')
-    .replace(', fatal: true', '')
-    .replace(`const bytes = require('fs').readFileSync(path);`, `
+    .replace(
+        `const path = require('path').join(__dirname, 'wasm_bg.wasm');`,
+        ""
+    )
+    .replace(", fatal: true", "")
+    .replace(
+        `const bytes = require('fs').readFileSync(path);`,
+        `
 const { Buffer } = require('node:buffer');
-const bytes = Buffer.from('${base64}', 'base64');`) + `
+const bytes = Buffer.from('${base64}', 'base64');`
+    );
 
-const __swcNodejs = Object.freeze({
-    transformModuleSyntax: module.exports.__nodejsTransformModuleSyntax,
-    getFirstExpression: module.exports.__nodejsGetFirstExpression,
-    isValidSyntax: module.exports.__nodejsIsValidSyntax,
-    isRecoverableError: module.exports.__nodejsIsRecoverableError,
-});
-delete module.exports.__nodejsTransformModuleSyntax;
-delete module.exports.__nodejsGetFirstExpression;
-delete module.exports.__nodejsIsValidSyntax;
-delete module.exports.__nodejsIsRecoverableError;
-module.exports.nodejs = __swcNodejs;
-`;
-
-await fs.writeFile('pkg/wasm.js', patchedJsFile);
+await fs.writeFile(wasmJsPath, patchedJsFile);
 
 // Remove wasm file
-await fs.unlink('pkg/wasm_bg.wasm');
+await fs.unlink(rawWasmPath);
 
 // Remove wasm from .files section of package.json
-const pkgJsonFile = await fs.readFile('pkg/package.json', 'utf8');
+const pkgJsonFile = await fs.readFile(packageJsonPath, "utf8");
 const pkgJson = JSON.parse(pkgJsonFile);
-pkgJson.name = '@swc/wasm-typescript';
-pkgJson.files = pkgJson.files.filter(file => file !== 'wasm_bg.wasm');
-await fs.writeFile('pkg/package.json', JSON.stringify(pkgJson, null, 2));
+pkgJson.name = packageName;
+if (packageDescription) {
+    pkgJson.description = packageDescription;
+}
+pkgJson.files = pkgJson.files.filter((file) => file !== "wasm_bg.wasm");
+await fs.writeFile(packageJsonPath, JSON.stringify(pkgJson, null, 2));

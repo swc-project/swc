@@ -20,6 +20,7 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
 
 mod error_reporter;
+#[cfg(feature = "nodejs-support")]
 mod nodejs;
 
 /// Custom interface definitions for the @swc/wasm's public interface instead of
@@ -28,18 +29,22 @@ mod nodejs;
 const INTERFACE_DEFINITIONS: &'static str = r#"
 export declare function transform(src: string | Uint8Array, opts?: Options): Promise<TransformOutput>;
 export declare function transformSync(src: string | Uint8Array, opts?: Options): TransformOutput;
-export declare namespace nodejs {
-    function transformModuleSyntax(src: string | Uint8Array): ModuleSyntaxTransformOutput;
-    function getFirstExpression(src: string | Uint8Array, startColumn: number): string;
-    function isValidSyntax(src: string | Uint8Array): boolean;
-    function isRecoverableError(src: string | Uint8Array): boolean;
-
-    interface ModuleSyntaxTransformOutput {
-        code: string;
-        hadModuleSyntax: boolean;
-    }
-}
 export type { Options, TransformOutput };
+"#;
+
+/// Node.js-specific helpers exposed only by `@swc/nodejs-support-wasm`.
+#[cfg(feature = "nodejs-support")]
+#[wasm_bindgen(typescript_custom_section)]
+const NODEJS_SUPPORT_INTERFACE_DEFINITIONS: &'static str = r#"
+export declare function transformModuleSyntax(src: string | Uint8Array): ModuleSyntaxTransformOutput;
+export declare function getFirstExpression(src: string | Uint8Array, startColumn: number): string;
+export declare function isValidSyntax(src: string | Uint8Array): boolean;
+export declare function isRecoverableError(src: string | Uint8Array): boolean;
+
+export interface ModuleSyntaxTransformOutput {
+    code: string;
+    hadModuleSyntax: boolean;
+}
 "#;
 
 #[wasm_bindgen(skip_typescript)]
@@ -65,7 +70,8 @@ pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsVal
     }
 }
 
-#[wasm_bindgen(js_name = "__nodejsTransformModuleSyntax", skip_typescript)]
+#[cfg(feature = "nodejs-support")]
+#[wasm_bindgen(js_name = "transformModuleSyntax", skip_typescript)]
 pub fn nodejs_transform_module_syntax(input: JsValue) -> Result<JsValue, JsValue> {
     let input = coerce_input(input)?;
     let output = nodejs::transform_module_syntax(input);
@@ -73,21 +79,24 @@ pub fn nodejs_transform_module_syntax(input: JsValue) -> Result<JsValue, JsValue
     Ok(serde_wasm_bindgen::to_value(&output)?)
 }
 
-#[wasm_bindgen(js_name = "__nodejsGetFirstExpression", skip_typescript)]
+#[cfg(feature = "nodejs-support")]
+#[wasm_bindgen(js_name = "getFirstExpression", skip_typescript)]
 pub fn nodejs_get_first_expression(input: JsValue, start_column: u32) -> Result<String, JsValue> {
     let input = coerce_input(input)?;
 
     Ok(nodejs::get_first_expression(input, start_column))
 }
 
-#[wasm_bindgen(js_name = "__nodejsIsValidSyntax", skip_typescript)]
+#[cfg(feature = "nodejs-support")]
+#[wasm_bindgen(js_name = "isValidSyntax", skip_typescript)]
 pub fn nodejs_is_valid_syntax(input: JsValue) -> Result<bool, JsValue> {
     let input = coerce_input(input)?;
 
     Ok(nodejs::is_valid_syntax(input))
 }
 
-#[wasm_bindgen(js_name = "__nodejsIsRecoverableError", skip_typescript)]
+#[cfg(feature = "nodejs-support")]
+#[wasm_bindgen(js_name = "isRecoverableError", skip_typescript)]
 pub fn nodejs_is_recoverable_error(input: JsValue) -> Result<bool, JsValue> {
     let input = coerce_input(input)?;
 
