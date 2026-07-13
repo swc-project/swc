@@ -5,13 +5,14 @@ use std::{env, fs, path::Path, time::Instant};
 
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{Parser, SourceType};
+use swc_ecma_parser::{ModuleKind, Parser, SourceType};
 
 fn parse_and_gen(entry: &Path) {
     testing::run_test2(false, |cm, _| {
         let fm = cm.load_file(entry).unwrap();
 
-        let result = Parser::new(&fm.src, SourceType::typescript())
+        let source_type = SourceType::typescript().with_module_kind(ModuleKind::Module);
+        let result = Parser::new(&fm.src, source_type)
             .with_start_pos(fm.start_pos)
             .parse();
         assert!(result.diagnostics.is_empty());
