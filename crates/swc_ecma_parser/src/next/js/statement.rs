@@ -961,7 +961,8 @@ impl<C: Config> Parser<'_, C> {
 
     fn parse_using_declaration(&mut self, is_await: bool) -> Result<Box<UsingDecl>, Error> {
         let start = self.token().start();
-        debug_assert!(self.eat(Kind::Using));
+        debug_assert!(self.at(Kind::Using));
+        self.advance();
         let mut declarations = Vec::with_capacity(2);
         loop {
             let pattern = self.parse_binding_pattern(false)?;
@@ -1016,9 +1017,9 @@ impl<C: Config> Parser<'_, C> {
 
     #[cfg(feature = "typescript")]
     pub(crate) fn parse_ts_declare_statement(&mut self) -> Result<Stmt, Error> {
-        #[cfg(feature = "flow")]
         let start = self.token().start();
-        debug_assert!(self.eat(Kind::Declare));
+        debug_assert!(self.at(Kind::Declare));
+        self.advance();
         let abstract_class = self.eat(Kind::Abstract);
         #[cfg(feature = "flow")]
         let flow_export = self.context().contains(Context::FLOW) && self.eat(Kind::Export);
@@ -1077,7 +1078,9 @@ impl<C: Config> Parser<'_, C> {
             return self.parse_flow_module_exports(start);
         }
         if self.at(Kind::Global) {
-            return self.parse_ts_global_declaration(true);
+            let mut statement = self.parse_ts_global_declaration(true)?;
+            set_declare_start(&mut statement, start);
+            return Ok(statement);
         }
         if self.at(Kind::Const)
             && self.lookahead(|parser| {
@@ -1090,6 +1093,7 @@ impl<C: Config> Parser<'_, C> {
                 unreachable!("enum parser must produce an enum declaration")
             };
             declaration.declare = true;
+            set_declare_start(&mut statement, start);
             return Ok(statement);
         }
         let mut statement = match self.kind() {
@@ -1208,6 +1212,7 @@ impl<C: Config> Parser<'_, C> {
                 _ => {}
             }
         }
+        set_declare_start(&mut statement, start);
         Ok(statement)
     }
 
@@ -1397,6 +1402,23 @@ fn binding_has_type_annotation(pattern: &swc_ecma_ast::Pat) -> bool {
         }
         swc_ecma_ast::Pat::Assign(assign) => binding_has_type_annotation(&assign.left),
         _ => false,
+    }
+}
+
+#[cfg(feature = "typescript")]
+fn set_declare_start(statement: &mut Stmt, start: swc_common::BytePos) {
+    let Stmt::Decl(declaration) = statement else {
+        return;
+    };
+    match declaration {
+        Decl::Class(value) => value.class.span.lo = start,
+        Decl::Fn(value) => value.function.span.lo = start,
+        Decl::Var(value) => value.span.lo = start,
+        Decl::TsInterface(value) => value.span.lo = start,
+        Decl::TsTypeAlias(value) => value.span.lo = start,
+        Decl::TsEnum(value) => value.span.lo = start,
+        Decl::TsModule(value) => value.span.lo = start,
+        _ => {}
     }
 }
 

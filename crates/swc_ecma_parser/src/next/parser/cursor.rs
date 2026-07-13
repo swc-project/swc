@@ -333,7 +333,7 @@ impl<'a, C: Config> Parser<'a, C> {
         production: impl FnOnce(&mut Self) -> Result<T, Error>,
     ) -> Result<T, Error> {
         #[cfg(any(target_arch = "wasm32", target_arch = "arm"))]
-        const LIMIT: u16 = 128;
+        const LIMIT: u16 = 512;
         #[cfg(not(any(target_arch = "wasm32", target_arch = "arm")))]
         const LIMIT: u16 = 1024;
 

@@ -497,7 +497,8 @@ impl<C: Config> Parser<'_, C> {
             })));
         }
 
-        debug_assert!(self.eat(Kind::Super));
+        debug_assert!(self.at(Kind::Super));
+        self.advance();
         let super_object = Super { span: token.span() };
         if self.at(Kind::LParen) {
             if !self.context().contains(Context::SUPER_CALL) {

@@ -435,7 +435,8 @@ impl<C: Config> Parser<'_, C> {
 
     pub(crate) fn parse_ts_global_declaration(&mut self, declare: bool) -> Result<Stmt, Error> {
         let token = self.token();
-        debug_assert!(self.eat(Kind::Global));
+        debug_assert!(self.at(Kind::Global));
+        self.advance();
         let id = Ident::new_no_ctxt(self.identifier_atom(token), token.span());
         let body = self.parse_ts_module_block()?;
         Ok(Stmt::Decl(Decl::TsModule(Box::new(TsModuleDecl {
@@ -580,7 +581,8 @@ impl<C: Config> Parser<'_, C> {
 
     pub(crate) fn parse_ts_interface_declaration(&mut self) -> Result<Stmt, Error> {
         let start = self.token().start();
-        debug_assert!(self.eat(Kind::Interface));
+        debug_assert!(self.at(Kind::Interface));
+        self.advance();
         let token = self.token();
         if !self.at_identifier_name() {
             return Err(self.expected_error(Kind::Ident));
@@ -717,7 +719,8 @@ impl<C: Config> Parser<'_, C> {
             ));
         }
         if is_const {
-            debug_assert!(self.eat(Kind::Const));
+            debug_assert!(self.at(Kind::Const));
+            self.advance();
         }
         if !self.expect(Kind::Enum) {
             return Err(self.expected_error(Kind::Enum));
@@ -970,8 +973,8 @@ impl<C: Config> Parser<'_, C> {
         }
         let type_ann =
             self.with_flow_type_parameter_scope(type_params.as_deref(), Self::parse_ts_type)?;
-        let end = type_ann.span().hi;
         self.consume_semicolon()?;
+        let end = self.previous_end();
         Ok(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
             span: Span::new_with_checked(start, end),
             declare: false,
@@ -1021,8 +1024,8 @@ impl<C: Config> Parser<'_, C> {
                 kind: TsKeywordTypeKind::TsAnyKeyword,
             }))
         };
-        let end = type_ann.span().hi;
         self.consume_semicolon()?;
+        let end = self.previous_end();
         Ok(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
             span: Span::new_with_checked(start, end),
             declare: false,

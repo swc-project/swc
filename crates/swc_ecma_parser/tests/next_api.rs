@@ -108,6 +108,28 @@ fn typescript_builds_direct_ast() {
 
 #[cfg(feature = "typescript")]
 #[test]
+fn production_prefixes_are_consumed_in_release_builds() {
+    let source = "interface Box { value: string } declare const value: string; const enum Flag { \
+                  Yes } declare global {}";
+
+    for with_tokens in [false, true] {
+        let parser = Parser::new(source, SourceType::typescript());
+        let parsed = if with_tokens {
+            parser.with_tokens().parse()
+        } else {
+            parser.parse()
+        };
+        assert!(!parsed.panicked, "token collection: {with_tokens}");
+        assert!(
+            parsed.diagnostics.is_empty(),
+            "token collection: {with_tokens}, diagnostics: {:?}",
+            parsed.diagnostics
+        );
+    }
+}
+
+#[cfg(feature = "typescript")]
+#[test]
 fn tsx_builds_direct_jsx_ast() {
     let source = "export const view = <Box value={1 satisfies number} />;";
     let parsed = Parser::new(source, SourceType::tsx()).parse();
