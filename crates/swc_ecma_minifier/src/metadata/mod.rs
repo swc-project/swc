@@ -11,6 +11,12 @@ use swc_ecma_visit::{
 
 use crate::{option::CompressOptions, usage_analyzer::marks::Marks};
 
+mod pure_annotation_boundary;
+
+pub(crate) use pure_annotation_boundary::{
+    finalizer as pure_annotation_boundary_finalizer, marker as pure_annotation_boundary_marker,
+};
+
 #[cfg(test)]
 mod tests;
 

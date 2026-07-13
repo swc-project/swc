@@ -1,0 +1,26 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": true
+    },
+    "target": "es2022",
+    "transform": {
+      "react": {
+        "runtime": "classic"
+      }
+    },
+    "minify": {
+      "compress": true,
+      "mangle": false,
+      "format": {
+        "comments": true
+      }
+    }
+  },
+  "module": {
+    "type": "es6"
+  },
+  "minify": false,
+  "isModule": true
+}

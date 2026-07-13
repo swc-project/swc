@@ -2,7 +2,12 @@ use std::mem;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::atom;
-use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
+use swc_common::{
+    comments::{Comments, NoopComments},
+    sync::Lrc,
+    util::take::Take,
+    Mark, SourceMap, Span, Spanned,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
@@ -17,10 +22,23 @@ macro_rules! static_str {
 }
 
 pub fn typescript(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
+    typescript_with_comments(config, NoopComments, unresolved_mark, top_level_mark)
+}
+
+pub fn typescript_with_comments<C>(
+    config: Config,
+    comments: C,
+    unresolved_mark: Mark,
+    top_level_mark: Mark,
+) -> impl Pass
+where
+    C: Comments,
+{
     debug_assert_ne!(unresolved_mark, top_level_mark);
 
     TypeScript {
         config,
+        comments,
         unresolved_mark,
         top_level_mark,
         id_usage: Default::default(),
@@ -31,15 +49,26 @@ pub fn strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     typescript(Config::default(), unresolved_mark, top_level_mark)
 }
 
-pub(crate) struct TypeScript {
+pub fn strip_with_comments<C>(comments: C, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass
+where
+    C: Comments,
+{
+    typescript_with_comments(Config::default(), comments, unresolved_mark, top_level_mark)
+}
+
+pub(crate) struct TypeScript<C> {
     pub config: Config,
+    comments: C,
     pub unresolved_mark: Mark,
     pub top_level_mark: Mark,
 
     id_usage: FxHashSet<Id>,
 }
 
-impl Pass for TypeScript {
+impl<C> Pass for TypeScript<C>
+where
+    C: Comments,
+{
     fn process(&mut self, n: &mut Program) {
         let last_module_span = n
             .as_module()
@@ -55,6 +84,7 @@ impl Pass for TypeScript {
         );
 
         n.mutate(transform(
+            Some(&self.comments),
             self.unresolved_mark,
             self.top_level_mark,
             semantic,
@@ -73,7 +103,7 @@ impl Pass for TypeScript {
     }
 }
 
-impl TypeScript {
+impl<C> TypeScript<C> {
     fn get_last_module_span(&self, n: &Module) -> Option<Span> {
         if self.config.no_empty_export {
             return None;
@@ -256,6 +286,7 @@ where
 
         n.mutate(&mut TypeScript {
             config: mem::take(&mut self.config),
+            comments: &self.comments,
             unresolved_mark: self.unresolved_mark,
             top_level_mark: self.top_level_mark,
             id_usage: mem::take(&mut self.id_usage),

@@ -99,6 +99,7 @@ impl Optimizer<'_> {
         {
             if let Expr::Call(CallExpr {
                 span: call_span,
+                ctxt,
                 callee: Callee::Expr(callee),
                 args,
                 ..
@@ -107,6 +108,7 @@ impl Optimizer<'_> {
                 if let Expr::Fn(..) = &**callee {
                     cond.test = CallExpr {
                         span: *call_span,
+                        ctxt: *ctxt,
                         callee: callee.take().as_callee(),
                         args: args.take(),
                         ..Default::default()

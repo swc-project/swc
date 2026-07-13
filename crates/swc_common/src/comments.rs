@@ -90,7 +90,7 @@ pub trait Comments {
     /// If `flag` is `PURE`, this method will look for `@__PURE__` and
     /// `#__PURE__`.
     fn has_flag(&self, lo: BytePos, flag: &str) -> bool {
-        let cmts = self.take_leading(lo);
+        let cmts = self.get_leading(lo);
 
         let ret = if let Some(comments) = &cmts {
             (|| {
@@ -118,10 +118,6 @@ pub trait Comments {
         } else {
             false
         };
-
-        if let Some(cmts) = cmts {
-            self.add_leading_comments(lo, cmts);
-        }
 
         ret
     }
@@ -712,8 +708,8 @@ mod tests {
             self.0.move_leading(from, to);
         }
 
-        fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
-            self.0.take_leading(pos)
+        fn take_leading(&self, _: BytePos) -> Option<Vec<Comment>> {
+            panic!("has_flag should not take comments")
         }
 
         fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
@@ -750,7 +746,7 @@ mod tests {
     }
 
     #[test]
-    fn default_has_flag_restores_leading_comments() {
+    fn default_has_flag_reads_leading_comments_without_taking_them() {
         let comments = DefaultHasFlagComments::default();
         let pos = BytePos(1);
         let pure_comment = Comment {

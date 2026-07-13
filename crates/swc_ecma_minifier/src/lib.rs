@@ -49,7 +49,7 @@ pub use crate::pass::global_defs::globals_defs;
 use crate::usage_analyzer::marks::Marks;
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
-    metadata::info_marker,
+    metadata::{info_marker, pure_annotation_boundary_finalizer, pure_annotation_boundary_marker},
     mode::Minification,
     option::{CompressOptions, ExtraOptions, MinifyOptions},
     pass::{
@@ -119,6 +119,11 @@ pub fn optimize(
             ));
         }
     }
+
+    n.visit_mut_with(&mut pure_annotation_boundary_marker(
+        comments,
+        marks.pure_annotation_boundary,
+    ));
 
     if options.compress.is_some() {
         n.visit_mut_with(&mut info_marker(
@@ -217,6 +222,10 @@ pub fn optimize(
     }
 
     n.visit_mut_with(&mut merge_exports());
+
+    n.visit_mut_with(&mut pure_annotation_boundary_finalizer(
+        marks.pure_annotation_boundary,
+    ));
 
     if let Some(ref mut t) = timings {
         t.section("hygiene");

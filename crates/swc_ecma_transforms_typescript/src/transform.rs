@@ -3,8 +3,8 @@ use std::{iter, mem};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{
-    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
-    DUMMY_SP,
+    comments::Comments, errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span,
+    Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::rename;
@@ -51,7 +51,9 @@ use crate::{
 /// [parameter properties]: https://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties
 /// [export and import require]: https://www.typescriptlang.org/docs/handbook/modules.html#export--and-import--require
 #[derive(Default)]
-pub(crate) struct Transform {
+pub(crate) struct Transform<'a> {
+    comments: Option<&'a dyn Comments>,
+
     unresolved_ctxt: SyntaxContext,
     top_level_ctxt: SyntaxContext,
 
@@ -80,7 +82,8 @@ pub(crate) struct Transform {
 }
 
 #[allow(clippy::too_many_arguments)]
-pub fn transform(
+pub fn transform<'a>(
+    comments: Option<&'a dyn Comments>,
     unresolved_mark: Mark,
     top_level_mark: Mark,
     semantic: SemanticInfo,
@@ -90,8 +93,9 @@ pub fn transform(
     verbatim_module_syntax: bool,
     native_class_properties: bool,
     flow_syntax: bool,
-) -> impl Pass {
+) -> impl 'a + Pass {
     visit_mut_pass(Transform {
+        comments,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         semantic,
@@ -105,7 +109,24 @@ pub fn transform(
     })
 }
 
-impl VisitMut for Transform {
+impl Transform<'_> {
+    /// Transfers comments attached to erased TypeScript syntax to the runtime
+    /// expression that replaces it.
+    fn move_comments(&self, from: Span, to: Span) {
+        let Some(comments) = self.comments else {
+            return;
+        };
+
+        if from.lo != to.lo && from.lo.can_have_comment() && to.lo.can_have_comment() {
+            comments.move_leading(from.lo, to.lo);
+        }
+        if from.hi != to.hi && from.hi.can_have_comment() && to.hi.can_have_comment() {
+            comments.move_trailing(from.hi, to.hi);
+        }
+    }
+}
+
+impl VisitMut for Transform<'_> {
     noop_visit_mut_type!();
 
     crate::type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
@@ -437,13 +458,14 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
-        while let Expr::TsAs(TsAsExpr { expr, .. })
-        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-        | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-        | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-        | Expr::TsInstantiation(TsInstantiation { expr, .. })
-        | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) = node
+        while let Expr::TsAs(TsAsExpr { span, expr, .. })
+        | Expr::TsNonNull(TsNonNullExpr { span, expr, .. })
+        | Expr::TsTypeAssertion(TsTypeAssertion { span, expr, .. })
+        | Expr::TsConstAssertion(TsConstAssertion { span, expr, .. })
+        | Expr::TsInstantiation(TsInstantiation { span, expr, .. })
+        | Expr::TsSatisfies(TsSatisfiesExpr { span, expr, .. }) = node
         {
+            self.move_comments(*span, expr.span());
             *node = *expr.take();
         }
 
@@ -492,12 +514,13 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
-        while let SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
-        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
-        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
-        | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
-        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = node
+        while let SimpleAssignTarget::TsAs(TsAsExpr { span, expr, .. })
+        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { span, expr, .. })
+        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { span, expr, .. })
+        | SimpleAssignTarget::TsInstantiation(TsInstantiation { span, expr, .. })
+        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { span, expr, .. }) = node
         {
+            self.move_comments(*span, expr.span());
             *node = expr.take().try_into().unwrap();
         }
 
@@ -679,7 +702,7 @@ enum FoldedDecl {
     Expr(Stmt),
 }
 
-impl Transform {
+impl Transform<'_> {
     fn normalize_flow_static_constructor_key(
         &self,
         key: &mut PropName,
@@ -1078,7 +1101,7 @@ impl InitArg<'_> {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     fn transform_ts_enum(
         &mut self,
         ts_enum: TsEnumDecl,
@@ -1248,7 +1271,7 @@ impl Transform {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     fn transform_ts_module(&self, ts_module: TsModuleDecl, is_export: bool) -> FoldedDecl {
         debug_assert!(!ts_module.declare);
         debug_assert!(!ts_module.global);
@@ -1475,7 +1498,7 @@ impl Transform {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     fn reorder_class_prop_decls_and_inits(
         &mut self,
         class_member_list: &mut Vec<ClassMember>,
@@ -1595,7 +1618,7 @@ impl Transform {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     // Foo.x = x;
     fn assign_prop(id: &Id, prop: &Ident, span: Span) -> Stmt {
         let expr = prop
@@ -1628,7 +1651,7 @@ impl Transform {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     fn enter_expr_for_inline_enum(&mut self, node: &mut Expr) {
         if self.is_lhs {
             return;

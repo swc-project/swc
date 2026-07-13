@@ -953,7 +953,12 @@ impl Options {
 
                     (
                         Optional::new(
-                            typescript::typescript(ts_config, unresolved_mark, top_level_mark),
+                            typescript::typescript_with_comments(
+                                ts_config,
+                                comments.map(|v| v as &dyn Comments),
+                                unresolved_mark,
+                                top_level_mark,
+                            ),
                             syntax.typescript() && !jsx_enabled,
                         ),
                         Optional::new(

@@ -4,6 +4,9 @@
 ((/* #__PURE__ */ factory())<T>).run();
 (<Factory>/* #__PURE__ */ typeAssertion()).run();
 (<const>/* #__PURE__ */ constAssertion()).run();
+(/* #__PURE__ */ <Factory>typeAssertionBeforeWrapper()).run();
+(/* #__PURE__ */ <const>constAssertionBeforeWrapper()).run();
+(/* #__PURE__ */ <Factory><Factory>nestedTypeAssertion()).run();
 (/* #__PURE__ */ nonNull()!).run();
 (/* #__PURE__ */ asExpression() as Factory).run();
 (/* #__PURE__ */ satisfiesExpression() satisfies Factory).run();

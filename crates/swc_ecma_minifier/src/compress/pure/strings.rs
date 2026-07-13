@@ -701,6 +701,7 @@ mod tests {
                 const_ann: Mark::new(),
                 noinline: Mark::new(),
                 pure: Mark::new(),
+                pure_annotation_boundary: Mark::new(),
                 fake_block: Mark::new(),
             };
 

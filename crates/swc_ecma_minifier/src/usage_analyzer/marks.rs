@@ -13,6 +13,10 @@ pub struct Marks {
     /// Check for `/*#__PURE__*/`
     pub pure: Mark,
 
+    /// A PURE-annotated invocation whose range may need an explicit
+    /// parenthesis boundary after optimization.
+    pub pure_annotation_boundary: Mark,
+
     /// This is applied to [swc_ecma_ast::BlockStmt] which is injected to
     /// preserve the side effects.
     pub fake_block: Mark,
@@ -33,6 +37,7 @@ impl Marks {
             const_ann: m(),
             noinline: m(),
             pure: m(),
+            pure_annotation_boundary: m(),
             fake_block: m(),
             top_level_ctxt: SyntaxContext::empty().apply_mark(m()),
             unresolved_mark: m(),

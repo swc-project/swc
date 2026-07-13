@@ -6,7 +6,7 @@ use ansi_term::Color;
 use anyhow::Error;
 use serde::Deserialize;
 use swc_common::{
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::{Handler, HANDLER},
     sync::Lrc,
     FileName, Mark, SourceMap,
@@ -68,6 +68,16 @@ fn print<N: swc_ecma_codegen::Node>(
     minify: bool,
     skip_semi: bool,
 ) -> String {
+    print_with_comments(cm, nodes, None, minify, skip_semi)
+}
+
+fn print_with_comments<N: swc_ecma_codegen::Node>(
+    cm: Lrc<SourceMap>,
+    nodes: &[N],
+    comments: Option<&dyn Comments>,
+    minify: bool,
+    skip_semi: bool,
+) -> String {
     let mut buf = Vec::new();
 
     {
@@ -79,7 +89,7 @@ fn print<N: swc_ecma_codegen::Node>(
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config::default().with_minify(minify),
             cm,
-            comments: None,
+            comments,
             wr,
         };
 
@@ -98,10 +108,22 @@ fn run(
     config: Option<&str>,
     mangle: Option<MangleOptions>,
 ) -> Option<Program> {
+    let comments = SingleThreadedComments::default();
+
+    run_with_comments(cm, handler, input, config, mangle, &comments)
+}
+
+fn run_with_comments(
+    cm: Lrc<SourceMap>,
+    handler: &Handler,
+    input: &str,
+    config: Option<&str>,
+    mangle: Option<MangleOptions>,
+    comments: &SingleThreadedComments,
+) -> Option<Program> {
     let compress_config = config.map(|config| parse_compressor_config(cm.clone(), config).1);
 
     let fm = cm.new_source_file(FileName::Anon.into(), input.to_string());
-    let comments = SingleThreadedComments::default();
 
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
@@ -115,7 +137,7 @@ fn run(
             ..Default::default()
         }),
         Default::default(),
-        Some(&comments),
+        Some(comments),
         &mut Vec::new(),
     )
     .map_err(|err| {
@@ -137,7 +159,7 @@ fn run(
     let mut output = optimize(
         program,
         cm,
-        Some(&comments),
+        Some(comments),
         None,
         &MinifyOptions {
             compress: compress_config,
@@ -290,6 +312,154 @@ fn run_default_exec_test(input_src: &str) {
     }"#;
 
     run_exec_test(input_src, config, false);
+}
+
+#[test]
+fn issue_12019_pure_annotation_boundary_survives_recompression() {
+    let src = r#"
+let count = 0;
+const increment = () => count++;
+
+(/*#__PURE__*/ new Set([1])).forEach(increment);
+(/*#__PURE__*/ ((new Set([1])))).forEach(increment);
+(/* KEEP */ (/*#__PURE__*/ ((new Set([1]))))).forEach(increment);
+(0, /*#__PURE__*/ new Set([1])).forEach(increment);
+(true && /*#__PURE__*/ new Set([1])).forEach(increment);
+(true ? /*#__PURE__*/ new Set([1]) : new Set()).forEach(increment);
+(null ?? /*#__PURE__*/ new Set([1])).forEach(increment);
+
+let assigned;
+(assigned = /*#__PURE__*/ new Set([1])).forEach(increment);
+([/*#__PURE__*/ new Set([1])][0]).forEach(increment);
+
+const inlined = /*#__PURE__*/ new Set([1]);
+inlined.forEach(increment);
+
+console.log(count);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+    let expected_output = stdout_of(src).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        HANDLER.set(&handler, || {
+            let first_comments = SingleThreadedComments::default();
+            let first = run_with_comments(
+                cm.clone(),
+                &handler,
+                src,
+                Some(config),
+                None,
+                &first_comments,
+            )
+            .expect("the first minifier pass should parse");
+            let first =
+                print_with_comments(cm.clone(), &[first], Some(&first_comments), false, false);
+
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("First optimized code"),
+                first
+            );
+            assert!(
+                first.contains("#__PURE__"),
+                "the first pass must retain PURE annotations for the reparse check"
+            );
+            assert_eq!(
+                DebugUsingDisplay(
+                    &stdout_of(&first).expect("the first optimized code should execute")
+                ),
+                DebugUsingDisplay(&expected_output)
+            );
+
+            let second_comments = SingleThreadedComments::default();
+            let second = run_with_comments(
+                cm.clone(),
+                &handler,
+                &first,
+                Some(config),
+                None,
+                &second_comments,
+            )
+            .expect("the emitted code should reparse");
+            let second = print_with_comments(cm, &[second], Some(&second_comments), false, false);
+
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("Second optimized code"),
+                second
+            );
+            assert_eq!(
+                DebugUsingDisplay(
+                    &stdout_of(&second).expect("the recompressed code should execute")
+                ),
+                DebugUsingDisplay(&expected_output)
+            );
+
+            Ok(())
+        })
+    })
+    .unwrap();
+}
+
+#[test]
+fn issue_12019_pure_annotation_boundary_survives_mangle_only() {
+    let src = r#"
+let count = 0;
+(/*#__PURE__*/ new Set([1])).forEach(() => count++);
+console.log(count);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+    let expected_output = stdout_of(src).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        HANDLER.set(&handler, || {
+            let first_comments = SingleThreadedComments::default();
+            let first = run_with_comments(
+                cm.clone(),
+                &handler,
+                src,
+                None,
+                Some(MangleOptions::default()),
+                &first_comments,
+            )
+            .expect("the mangle-only pass should parse");
+            let first =
+                print_with_comments(cm.clone(), &[first], Some(&first_comments), false, false);
+
+            assert!(
+                first.contains("(/*#__PURE__*/ new Set(["),
+                "mangle-only output must retain the PURE annotation boundary: {first}"
+            );
+
+            let second_comments = SingleThreadedComments::default();
+            let second = run_with_comments(
+                cm.clone(),
+                &handler,
+                &first,
+                Some(config),
+                None,
+                &second_comments,
+            )
+            .expect("the mangle-only output should reparse");
+            let second = print_with_comments(cm, &[second], Some(&second_comments), false, false);
+
+            assert_eq!(
+                DebugUsingDisplay(
+                    &stdout_of(&second).expect("the recompressed code should execute")
+                ),
+                DebugUsingDisplay(&expected_output)
+            );
+
+            Ok(())
+        })
+    })
+    .unwrap();
 }
 
 #[test]

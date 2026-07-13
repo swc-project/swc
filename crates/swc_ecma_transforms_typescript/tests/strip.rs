@@ -15,11 +15,30 @@ use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_react::jsx;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{
-    tsx, typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig, TsxConfig,
+    tsx, typescript, typescript_with_comments, ImportsNotUsedAsValues, TsImportExportAssignConfig,
+    TsxConfig,
 };
 
 fn tr(t: &mut Tester) -> impl Pass {
     tr_config(t, None, None, false)
+}
+
+fn tr_with_comments(t: &mut Tester) -> impl Pass {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
+    (
+        resolver(unresolved_mark, top_level_mark, true),
+        typescript_with_comments(
+            typescript::Config {
+                no_empty_export: true,
+                ..Default::default()
+            },
+            t.comments.clone(),
+            unresolved_mark,
+            top_level_mark,
+        ),
+    )
 }
 
 fn tr_config(
@@ -132,6 +151,21 @@ macro_rules! test_with_config {
         );
     };
 }
+
+test!(
+    Syntax::Typescript(Default::default()),
+    tr_with_comments,
+    comments_on_erased_expression_wrappers,
+    r#"
+(/* #__PURE__ */ <any>factory()).run();
+(/* #__PURE__ */ <const>constFactory()).run();
+(/* #__PURE__ */ <any><unknown>nestedFactory()).run();
+const leading = /* before assertion */ <any>/* before value */ value;
+const trailing = (value as any /* after assertion */);
+(/* before target */ <any>target) = value;
+(target as any /* after target */) = value;
+"#
+);
 
 test!(
     Syntax::Typescript(Default::default()),

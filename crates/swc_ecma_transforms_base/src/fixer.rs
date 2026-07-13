@@ -41,9 +41,9 @@ struct Fixer<'a> {
     ctx: Context,
     /// A hash map to preserve original span.
     ///
-    /// Key is span of inner expression, and value is span of the paren
-    /// expression.
-    span_map: IndexMap<Span, Span, BuildHasherDefault<FxHasher>>,
+    /// Key is the span of the inner expression, and the value contains the
+    /// spans of removed parentheses from outermost to innermost.
+    span_map: IndexMap<Span, Vec<Span>, BuildHasherDefault<FxHasher>>,
 
     in_for_stmt_head: bool,
     in_opt_chain: bool,
@@ -138,7 +138,9 @@ impl Fixer<'_> {
         self.preserve_annotation_boundary = old;
     }
 
-    fn has_pure_annotation(&self, mut expr: &Expr) -> bool {
+    fn is_pure_annotation_owner(&self, mut expr: &Expr) -> bool {
+        let mut has_pure_annotation = false;
+
         loop {
             let span = expr.span();
 
@@ -148,13 +150,24 @@ impl Fixer<'_> {
                         .comments
                         .is_some_and(|comments| comments.has_flag(span.lo, "PURE")))
             {
-                return true;
+                has_pure_annotation = true;
             }
 
-            let Some(inner) = Self::transparent_annotation_inner(expr) else {
-                return false;
-            };
-            expr = inner;
+            match expr {
+                Expr::Call(..) | Expr::New(..) | Expr::TaggedTpl(..) => {
+                    return has_pure_annotation;
+                }
+                Expr::OptChain(chain) if matches!(&*chain.base, OptChainBase::Call(..)) => {
+                    return has_pure_annotation;
+                }
+                Expr::Paren(paren) => expr = &paren.expr,
+                _ => {
+                    let Some(inner) = Self::transparent_annotation_inner(expr) else {
+                        return false;
+                    };
+                    expr = inner;
+                }
+            }
         }
     }
 
@@ -698,9 +711,11 @@ impl VisitMut for Fixer<'_> {
 
         n.visit_mut_children_with(self);
         if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain(RangeFull).rev() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
+            for (to, removed_spans) in self.span_map.drain(RangeFull) {
+                for from in removed_spans.into_iter().rev() {
+                    c.move_leading(from.lo, to.lo);
+                    c.move_trailing(from.hi, to.hi);
+                }
             }
         }
     }
@@ -784,9 +799,11 @@ impl VisitMut for Fixer<'_> {
 
         n.visit_mut_children_with(self);
         if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain(RangeFull).rev() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
+            for (to, removed_spans) in self.span_map.drain(RangeFull) {
+                for from in removed_spans.into_iter().rev() {
+                    c.move_leading(from.lo, to.lo);
+                    c.move_trailing(from.hi, to.hi);
+                }
             }
         }
     }
@@ -1153,8 +1170,8 @@ impl Fixer<'_> {
 
         let mut span = e.span();
 
-        if let Some(new_span) = self.span_map.shift_remove(&span) {
-            span = new_span;
+        if let Some(removed_spans) = self.span_map.shift_remove(&span) {
+            span = removed_spans[0];
         }
 
         if span.is_pure() {
@@ -1174,7 +1191,9 @@ impl Fixer<'_> {
                 }
 
                 Expr::Paren(paren)
-                    if preserve_annotation_boundary && self.has_pure_annotation(&paren.expr) =>
+                    if paren.span.is_preserved_paren()
+                        || preserve_annotation_boundary
+                            && self.is_pure_annotation_owner(&paren.expr) =>
                 {
                     // PURE annotations make these parentheses a semantic boundary: removing
                     // them would extend the annotation across an expression continuation.
@@ -1187,10 +1206,12 @@ impl Fixer<'_> {
                     ..
                 }) => {
                     let expr_span = expr.span();
-                    let paren_span = *paren_span;
+                    let mut removed_spans =
+                        self.span_map.shift_remove(paren_span).unwrap_or_default();
+                    removed_spans.push(*paren_span);
                     *e = *expr.take();
 
-                    self.span_map.insert(expr_span, paren_span);
+                    self.span_map.insert(expr_span, removed_spans);
                 }
 
                 _ => return,
@@ -1313,10 +1334,14 @@ fn will_eat_else_token(s: &Stmt) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{source_map::PURE_SP, DUMMY_SP};
+    use swc_common::{
+        comments::{Comment, CommentKind, Comments, SingleThreadedComments},
+        source_map::{PRESERVED_PAREN_SP, PURE_SP},
+        BytePos, Span, DUMMY_SP,
+    };
     use swc_ecma_ast::{
-        noop_pass, CallExpr, Callee, Expr, ForHead, Ident, MemberExpr, ModuleItem, ParenExpr, Pat,
-        Program, Stmt, TsNonNullExpr,
+        noop_pass, ArrayLit, CallExpr, Callee, Expr, ExprStmt, ForHead, Ident, MemberExpr,
+        ModuleItem, ParenExpr, Pat, Program, Script, Stmt, TsNonNullExpr,
     };
     use swc_ecma_parser::Syntax;
     use swc_ecma_visit::VisitMutWith;
@@ -1405,7 +1430,120 @@ mod tests {
     }
 
     #[test]
-    fn annotation_boundary_propagates_through_transparent_ts_wrapper() {
+    fn paren_remover_normalizes_nested_pure_annotation_boundary() {
+        let mut continuation = member_with_object(parenthesized(parenthesized(pure_call())));
+        continuation.visit_mut_with(&mut paren_remover(None));
+
+        let Expr::Member(member) = continuation else {
+            panic!("expected member expression");
+        };
+        let Expr::Paren(boundary) = *member.obj else {
+            panic!("expected annotation boundary");
+        };
+        assert!(matches!(*boundary.expr, Expr::Call(..)));
+    }
+
+    #[test]
+    fn paren_remover_moves_comments_from_all_nested_parentheses() {
+        let comments = SingleThreadedComments::default();
+        let keep_pos = BytePos(13);
+        let pure_pos = BytePos(28);
+        let owner_span = Span::new(BytePos(30), BytePos(39));
+
+        comments.add_leading(
+            keep_pos,
+            Comment {
+                kind: CommentKind::Block,
+                span: DUMMY_SP,
+                text: " KEEP ".into(),
+            },
+        );
+        comments.add_pure_comment(pure_pos);
+
+        let owner = CallExpr {
+            span: owner_span,
+            callee: Callee::Expr(Box::new(
+                Ident::new_no_ctxt("factory".into(), owner_span).into(),
+            )),
+            ..Default::default()
+        }
+        .into();
+        let nested = Expr::Paren(ParenExpr {
+            span: Span::new(BytePos(29), BytePos(40)),
+            expr: Box::new(owner),
+        });
+        let annotated = Expr::Paren(ParenExpr {
+            span: Span::new(pure_pos, BytePos(41)),
+            expr: Box::new(nested),
+        });
+        let commented = Expr::Paren(ParenExpr {
+            span: Span::new(keep_pos, BytePos(42)),
+            expr: Box::new(annotated),
+        });
+        let boundary = Expr::Paren(ParenExpr {
+            span: Span::new(BytePos(1), BytePos(43)),
+            expr: Box::new(commented),
+        });
+        let mut program = Program::Script(Script {
+            body: vec![Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(member_with_object(boundary)),
+            })],
+            ..Default::default()
+        });
+
+        program.visit_mut_with(&mut paren_remover(Some(&comments)));
+
+        let leading = comments
+            .get_leading(owner_span.lo)
+            .expect("nested comments should move to the annotation owner");
+        assert_eq!(leading.len(), 2);
+        assert_eq!(&*leading[0].text, " KEEP ");
+        assert!(comments.has_flag(owner_span.lo, "PURE"));
+
+        program.visit_mut_with(&mut paren_remover(Some(&comments)));
+
+        let Program::Script(script) = program else {
+            unreachable!()
+        };
+        let Stmt::Expr(stmt) = &script.body[0] else {
+            unreachable!()
+        };
+        let Expr::Member(member) = &*stmt.expr else {
+            unreachable!()
+        };
+        assert!(matches!(&*member.obj, Expr::Paren(..)));
+    }
+
+    #[test]
+    fn paren_remover_does_not_preserve_annotated_non_owner() {
+        let array = ArrayLit {
+            span: PURE_SP,
+            ..Default::default()
+        }
+        .into();
+        let mut continuation = member_with_object(parenthesized(array));
+        continuation.visit_mut_with(&mut paren_remover(None));
+
+        let Expr::Member(member) = continuation else {
+            panic!("expected member expression");
+        };
+        assert!(matches!(*member.obj, Expr::Array(..)));
+    }
+
+    #[test]
+    fn fixer_keeps_materialized_annotation_boundary() {
+        let mut boundary = Expr::Paren(ParenExpr {
+            span: PRESERVED_PAREN_SP,
+            expr: Box::new(pure_call()),
+        });
+        boundary.visit_mut_with(&mut paren_remover(None));
+
+        assert!(matches!(boundary, Expr::Paren(..)));
+    }
+
+    #[test]
+    fn annotation_boundary_is_normalized_around_transparent_ts_wrapper() {
         let wrapped = TsNonNullExpr {
             span: DUMMY_SP,
             expr: Box::new(parenthesized(pure_call())),
@@ -1417,10 +1555,13 @@ mod tests {
         let Expr::Member(member) = continuation else {
             panic!("expected member expression");
         };
-        let Expr::TsNonNull(wrapper) = *member.obj else {
+        let Expr::Paren(boundary) = *member.obj else {
+            panic!("expected annotation boundary");
+        };
+        let Expr::TsNonNull(wrapper) = *boundary.expr else {
             panic!("expected TypeScript non-null expression");
         };
-        assert!(matches!(*wrapper.expr, Expr::Paren(..)));
+        assert!(matches!(*wrapper.expr, Expr::Call(..)));
     }
 
     #[test]
