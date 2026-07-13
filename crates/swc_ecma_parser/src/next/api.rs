@@ -587,6 +587,16 @@ fn finish_independent_parse<C: Config>(
 ) -> ParserReturn {
     let result = parse_independent_program(&mut parser, module_kind);
     let mut diagnostics = parser.diagnostics().to_vec();
+    diagnostics.extend_from_slice(parser.lexer_diagnostics());
+    if module_kind == ModuleKind::Module {
+        diagnostics.extend(
+            parser
+                .legacy_comments()
+                .iter()
+                .copied()
+                .map(|span| Error::new(span, SyntaxError::LegacyCommentInModule)),
+        );
+    }
     if module_kind == ModuleKind::Module
         && target < EsVersion::Es2022
         && parser.saw_top_level_await()

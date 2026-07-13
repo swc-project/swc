@@ -107,7 +107,8 @@ impl<C: Config> Parser<'_, C> {
             Kind::Num => {
                 let raw = self.token_source(token);
                 if !has_valid_numeric_separators(raw)
-                    || (is_legacy_integer_literal(raw) && self.context().contains(Context::STRICT))
+                    || (is_legacy_integer_literal(raw)
+                        && self.context().intersects(Context::STRICT | Context::MODULE))
                 {
                     return Err(Error::new(
                         span,
@@ -128,6 +129,11 @@ impl<C: Config> Parser<'_, C> {
                 };
                 let raw = Some(Atom::new(raw));
                 self.advance();
+                if self.token().start() == span.hi
+                    && (self.at_identifier_name() || self.at(Kind::In))
+                {
+                    return Err(Error::new(span, SyntaxError::IdentAfterNum));
+                }
                 Ok(Box::new(Expr::Lit(Lit::Num(Number { span, value, raw }))))
             }
             Kind::BigInt => {
@@ -151,6 +157,11 @@ impl<C: Config> Parser<'_, C> {
             }
             Kind::Str => {
                 let raw = self.token_source(token);
+                if self.context().intersects(Context::STRICT | Context::MODULE)
+                    && string_has_legacy_octal_escape(raw)
+                {
+                    return Err(Error::new(span, SyntaxError::LegacyOctal));
+                }
                 debug_assert!(raw.len() >= 2);
                 let value = if token.escaped() {
                     self.escaped_string(token)
@@ -166,6 +177,13 @@ impl<C: Config> Parser<'_, C> {
             Kind::Slash | Kind::DivEq => {
                 let token = self.re_lex_regex();
                 let raw = self.token_source(token);
+                if raw
+                    .as_bytes()
+                    .windows(2)
+                    .any(|pair| pair == [b'\\', b'\n'] || pair == [b'\\', b'\r'])
+                {
+                    return Err(Error::new(token.span(), SyntaxError::UnterminatedRegExp));
+                }
                 let Some(flags_start) = raw
                     .as_bytes()
                     .iter()
@@ -300,6 +318,25 @@ fn has_valid_numeric_separators(raw: &str) -> bool {
 pub(crate) fn is_legacy_integer_literal(raw: &str) -> bool {
     let bytes = raw.as_bytes();
     bytes.len() > 1 && bytes[0] == b'0' && bytes.iter().all(u8::is_ascii_digit)
+}
+
+pub(crate) fn string_has_legacy_octal_escape(raw: &str) -> bool {
+    let bytes = raw.as_bytes();
+    let mut index = 1;
+    while index + 1 < bytes.len() {
+        if bytes[index] != b'\\' {
+            index += 1;
+            continue;
+        }
+        let escaped = bytes[index + 1];
+        if matches!(escaped, b'1'..=b'7')
+            || (escaped == b'0' && bytes.get(index + 2).is_some_and(u8::is_ascii_digit))
+        {
+            return true;
+        }
+        index += 2;
+    }
+    false
 }
 
 fn parse_number(raw: &str) -> Option<f64> {

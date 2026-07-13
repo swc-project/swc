@@ -107,6 +107,9 @@ impl<C: Config> Parser<'_, C> {
         }
         let start = left.span().lo;
         let left = self.reparse_assignment_target(left)?;
+        if operator != AssignOp::Assign && matches!(left, swc_ecma_ast::AssignTarget::Pat(_)) {
+            return Err(Error::new(left.span(), SyntaxError::InvalidAssignTarget));
+        }
         self.advance();
         let right = self.parse_assignment_expression()?;
         Ok(Box::new(Expr::Assign(AssignExpr {

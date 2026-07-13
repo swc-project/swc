@@ -124,6 +124,14 @@ impl<'a, C: Config> Parser<'a, C> {
         self.lexer.comments()
     }
 
+    pub(crate) fn lexer_diagnostics(&self) -> &[Error] {
+        self.lexer.diagnostics()
+    }
+
+    pub(crate) fn legacy_comments(&self) -> &[Span] {
+        self.lexer.legacy_comments()
+    }
+
     /// Borrow the source text of a retained comment.
     pub(crate) fn comment_text(&self, comment: CommentRange) -> &'a str {
         self.lexer.comment_text(comment)
@@ -230,6 +238,13 @@ impl<'a, C: Config> Parser<'a, C> {
 
     pub(crate) fn pop_active_label(&mut self) {
         self.active_labels.pop();
+    }
+
+    pub(crate) fn with_fresh_labels<T>(&mut self, production: impl FnOnce(&mut Self) -> T) -> T {
+        let labels = std::mem::take(&mut self.active_labels);
+        let result = production(self);
+        self.active_labels = labels;
+        result
     }
 
     pub(crate) fn begin_private_scope(&mut self) {

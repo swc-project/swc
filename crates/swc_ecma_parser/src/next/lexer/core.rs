@@ -9,7 +9,10 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::Ident;
 
 use super::{config::Config, source::Source, PackedToken};
-use crate::next::lexer::TokenKind as Kind;
+use crate::{
+    error::{Error, SyntaxError},
+    next::lexer::TokenKind as Kind,
+};
 
 /// State required to restore a speculative lexical read.
 #[derive(Debug, Clone, Copy)]
@@ -18,6 +21,8 @@ pub(crate) struct LexerCheckpoint {
     token: PackedToken,
     tokens_len: usize,
     trivia_len: usize,
+    diagnostics_len: usize,
+    legacy_comments_len: usize,
     had_line_break: bool,
 }
 
@@ -51,6 +56,8 @@ pub(crate) struct Lexer<'a, C: Config> {
     escaped_identifiers: FxHashMap<u32, Atom>,
     escaped_strings: FxHashMap<u32, Wtf8Atom>,
     trivia: Vec<CommentRange>,
+    diagnostics: Vec<Error>,
+    legacy_comments: Vec<Span>,
 }
 
 impl<'a, C: Config> Lexer<'a, C> {
@@ -74,6 +81,8 @@ impl<'a, C: Config> Lexer<'a, C> {
             escaped_identifiers: FxHashMap::default(),
             escaped_strings: FxHashMap::default(),
             trivia: Vec::new(),
+            diagnostics: Vec::new(),
+            legacy_comments: Vec::new(),
         })
     }
 
@@ -112,6 +121,16 @@ impl<'a, C: Config> Lexer<'a, C> {
     /// Comments collected in source order.
     pub(crate) fn comments(&self) -> &[CommentRange] {
         &self.trivia
+    }
+
+    /// Lexical diagnostics produced independently of parser context.
+    pub(crate) fn diagnostics(&self) -> &[Error] {
+        &self.diagnostics
+    }
+
+    /// HTML-style comment delimiters, which are invalid in modules only.
+    pub(crate) fn legacy_comments(&self) -> &[Span] {
+        &self.legacy_comments
     }
 
     /// Borrow comment text without its delimiters.
@@ -156,6 +175,8 @@ impl<'a, C: Config> Lexer<'a, C> {
             token: self.token,
             tokens_len: self.config.len(),
             trivia_len: self.trivia.len(),
+            diagnostics_len: self.diagnostics.len(),
+            legacy_comments_len: self.legacy_comments.len(),
             had_line_break: self.had_line_break,
         }
     }
@@ -169,6 +190,9 @@ impl<'a, C: Config> Lexer<'a, C> {
         self.token = checkpoint.token;
         self.config.truncate(checkpoint.tokens_len);
         self.trivia.truncate(checkpoint.trivia_len);
+        self.diagnostics.truncate(checkpoint.diagnostics_len);
+        self.legacy_comments
+            .truncate(checkpoint.legacy_comments_len);
         self.had_line_break = checkpoint.had_line_break;
         self.escaped = false;
     }
@@ -277,6 +301,8 @@ impl<'a, C: Config> Lexer<'a, C> {
         self.source
             .uncons_while(|character| !matches!(character, '\r' | '\n' | '\u{2028}' | '\u{2029}'));
         let end = self.source.cur_pos();
+        self.legacy_comments
+            .push(Span::new_with_checked(start, end));
         self.trivia.push(CommentRange {
             kind: CommentKind::Line,
             span: Span::new_with_checked(start, end),
@@ -308,6 +334,10 @@ impl<'a, C: Config> Lexer<'a, C> {
             unsafe { self.source.bump_bytes(width) };
         }
         let end = self.source.cur_pos();
+        self.diagnostics.push(Error::new(
+            Span::new_with_checked(start, end),
+            SyntaxError::UnterminatedBlockComment,
+        ));
         self.trivia.push(CommentRange {
             kind: CommentKind::Block,
             span: Span::new_with_checked(start, end),
@@ -980,11 +1010,18 @@ fn decode_string(raw: &str) -> Option<Wtf8Buf> {
                 let value = if characters.clone().next() == Some('{') {
                     characters.next();
                     let mut value = 0_u32;
+                    let mut digits = 0_u8;
+                    let mut terminated = false;
                     for digit in characters.by_ref() {
                         if digit == '}' {
+                            terminated = true;
                             break;
                         }
                         value = value.checked_mul(16)?.checked_add(digit.to_digit(16)?)?;
+                        digits = digits.checked_add(1)?;
+                    }
+                    if digits == 0 || !terminated {
+                        return None;
                     }
                     value
                 } else {

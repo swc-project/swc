@@ -431,6 +431,7 @@ impl<C: Config> Parser<'_, C> {
                     let ModuleExportName::Ident(identifier) = imported else {
                         return Err(self.expected_error(Kind::As));
                     };
+                    self.validate_binding_identifier(&identifier);
                     (identifier, None)
                 };
                 if type_only || is_type_only {

@@ -47,7 +47,7 @@ impl<C: Config> Parser<'_, C> {
         }
     }
 
-    fn validate_binding_identifier(&mut self, identifier: &Ident) {
+    pub(crate) fn validate_binding_identifier(&mut self, identifier: &Ident) {
         self.validate_identifier_reference(identifier);
         let strict = self.context().contains(Context::STRICT)
             || (self.context().contains(Context::MODULE)
@@ -56,6 +56,50 @@ impl<C: Config> Parser<'_, C> {
             self.emit_error(Error::new(
                 identifier.span,
                 crate::error::SyntaxError::EvalAndArgumentsInStrict,
+            ));
+        }
+        if matches!(
+            &*identifier.sym,
+            "break"
+                | "case"
+                | "catch"
+                | "class"
+                | "const"
+                | "continue"
+                | "debugger"
+                | "default"
+                | "delete"
+                | "do"
+                | "else"
+                | "enum"
+                | "export"
+                | "extends"
+                | "false"
+                | "finally"
+                | "for"
+                | "function"
+                | "if"
+                | "import"
+                | "in"
+                | "instanceof"
+                | "new"
+                | "null"
+                | "return"
+                | "super"
+                | "switch"
+                | "this"
+                | "throw"
+                | "true"
+                | "try"
+                | "typeof"
+                | "var"
+                | "void"
+                | "while"
+                | "with"
+        ) {
+            self.emit_error(Error::new(
+                identifier.span,
+                crate::error::SyntaxError::ExpectedIdent,
             ));
         }
     }
@@ -72,13 +116,24 @@ impl<C: Config> Parser<'_, C> {
                 self.validate_binding_identifier(&id);
                 Ok(Pat::Ident(BindingIdent { id, type_ann: None }))
             }
-            Expr::Paren(parenthesis) => Ok(Pat::Expr(Box::new(Expr::Paren(parenthesis)))),
+            Expr::Paren(parenthesis)
+                if is_valid_parenthesized_assignment_target(&parenthesis.expr) =>
+            {
+                Ok(Pat::Expr(Box::new(Expr::Paren(parenthesis))))
+            }
             Expr::Array(array) => {
                 let mut elements = Vec::with_capacity(array.elems.len());
-                for element in array.elems {
+                let element_count = array.elems.len();
+                for (index, element) in array.elems.into_iter().enumerate() {
                     elements.push(match element {
                         None => None,
                         Some(element) if element.spread.is_some() => {
+                            if index + 1 != element_count {
+                                return Err(Error::new(
+                                    element.expr.span(),
+                                    crate::error::SyntaxError::CommaAfterRestElement,
+                                ));
+                            }
                             let dot3_token = element.spread.unwrap();
                             let argument = self.reparse_assignment_pattern(element.expr)?;
                             Some(Pat::Rest(RestPat {
@@ -208,6 +263,23 @@ impl<C: Config> Parser<'_, C> {
                 expression.span(),
                 crate::error::SyntaxError::InvalidAssignTarget,
             ));
+        }
+        if matches!(&*expression, Expr::Array(_) | Expr::Object(_)) {
+            let pattern = self.reparse_assignment_pattern(expression)?;
+            return AssignTarget::try_from(pattern).map_err(|pattern| {
+                Error::new(
+                    pattern.span(),
+                    crate::error::SyntaxError::InvalidAssignTarget,
+                )
+            });
+        }
+        if let Expr::Paren(parenthesized) = &*expression {
+            if !is_valid_parenthesized_assignment_target(&parenthesized.expr) {
+                return Err(Error::new(
+                    expression.span(),
+                    crate::error::SyntaxError::InvalidAssignTarget,
+                ));
+            }
         }
         match AssignTarget::try_from(expression) {
             Ok(target) => Ok(target),
@@ -392,6 +464,20 @@ impl<C: Config> Parser<'_, C> {
             optional: false,
             type_ann: None,
         })
+    }
+}
+
+fn is_valid_parenthesized_assignment_target(expression: &Expr) -> bool {
+    match expression {
+        Expr::Ident(_) | Expr::Member(_) | Expr::SuperProp(_) => true,
+        Expr::Paren(parenthesized) => is_valid_parenthesized_assignment_target(&parenthesized.expr),
+        Expr::TsAs(expression) => is_valid_parenthesized_assignment_target(&expression.expr),
+        Expr::TsNonNull(expression) => is_valid_parenthesized_assignment_target(&expression.expr),
+        Expr::TsSatisfies(expression) => is_valid_parenthesized_assignment_target(&expression.expr),
+        Expr::TsTypeAssertion(expression) => {
+            is_valid_parenthesized_assignment_target(&expression.expr)
+        }
+        _ => false,
     }
 }
 

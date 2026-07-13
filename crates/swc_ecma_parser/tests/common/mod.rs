@@ -2,6 +2,7 @@ use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
+#[allow(dead_code)]
 pub fn assert_json_ast_matches_file(actual: &str, expected_path: &std::path::Path) {
     if !expected_path.exists() || expected_path.to_string_lossy().contains("stack-overflow") {
         return;
@@ -17,6 +18,7 @@ pub fn assert_json_ast_matches_file(actual: &str, expected_path: &std::path::Pat
     pretty_assertions::assert_eq!(actual, expected, "fixture: {}", expected_path.display());
 }
 
+#[allow(dead_code)]
 fn remove_spans(value: &mut serde_json::Value) {
     match value {
         serde_json::Value::Array(values) => {

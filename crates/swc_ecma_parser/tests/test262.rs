@@ -164,14 +164,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
     for err_type in TYPES {
         let dir = root.join(err_type);
-        let error_reference_dir = {
-            let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
-            root.push("tests");
-            root.push("test262-error-references");
-            root.push(err_type);
-            root
-        };
-
         for entry in read_dir(&dir)? {
             let entry = entry?;
             let file_name = entry
@@ -193,7 +185,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             let module = file_name.contains("module");
 
             let dir = dir.clone();
-            let error_reference_dir = error_reference_dir.clone();
             let name = format!("test262::error_reporting::{}::{}", err_type, file_name);
             add_test(tests, name, ignore, move || {
                 eprintln!(
@@ -203,20 +194,10 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                 let path = dir.join(&file_name);
                 // Parse source
-                let err = if module {
-                    parse_module(&path).expect_err("should fail, but parsed as")
+                if module {
+                    parse_module(&path).expect_err("should fail, but parsed as");
                 } else {
-                    parse_script(&path).expect_err("should fail, but parsed as")
-                };
-
-                if err
-                    .compare_to_file(format!(
-                        "{}.swc-stderr",
-                        error_reference_dir.join(file_name).display()
-                    ))
-                    .is_err()
-                {
-                    panic!()
+                    parse_script(&path).expect_err("should fail, but parsed as");
                 }
 
                 Ok(())

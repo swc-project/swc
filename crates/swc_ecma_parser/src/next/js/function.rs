@@ -58,8 +58,14 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::Function));
         }
         let is_generator = self.eat(Kind::Asterisk);
+        if is_generator && !declaration && self.at(Kind::Yield) {
+            return Err(self.expected_error(Kind::Ident));
+        }
         let identifier = if self.at_identifier_reference()
-            || (self.at(Kind::Yield) && !is_generator && !self.context().contains(Context::STRICT))
+            || (self.at(Kind::Yield)
+                && !is_generator
+                && !self.context().contains(Context::STRICT)
+                && (!declaration || !self.context().contains(Context::YIELD)))
             || (self.at(Kind::Await) && !is_async && !self.context().contains(Context::MODULE))
         {
             let token = self.token();
@@ -167,15 +173,17 @@ impl<C: Config> Parser<'_, C> {
             body_context.insert(Context::AWAIT | Context::ASYNC);
         }
         let body = if self.at(Kind::LBrace) {
-            Some(self.with_context(
-                body_context,
-                Context::TOP_LEVEL
-                    | Context::RETURN
-                    | Context::YIELD
-                    | Context::AWAIT
-                    | Context::ASYNC,
-                Self::parse_block_statement,
-            )?)
+            Some(self.with_fresh_labels(|parser| {
+                parser.with_context(
+                    body_context,
+                    Context::TOP_LEVEL
+                        | Context::RETURN
+                        | Context::YIELD
+                        | Context::AWAIT
+                        | Context::ASYNC,
+                    Self::parse_function_body,
+                )
+            })?)
         } else if declaration
             && self.context().contains(Context::TYPESCRIPT)
             && (!self.context().contains(Context::FLOW)

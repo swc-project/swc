@@ -31,6 +31,8 @@ impl<C: Config> Parser<'_, C> {
         };
         let mut body = Vec::with_capacity(8);
         let mut strict = false;
+        let mut directive_octal_spans = Vec::new();
+        let mut in_directive_prologue = true;
         while !self.at(Kind::Eof) {
             let statement = self.with_context(
                 if strict {
@@ -41,7 +43,13 @@ impl<C: Config> Parser<'_, C> {
                 Context::empty(),
                 Self::parse_statement,
             )?;
-            strict |= is_use_strict_directive(&statement);
+            update_directive_prologue(
+                self,
+                &statement,
+                &mut strict,
+                &mut in_directive_prologue,
+                &mut directive_octal_spans,
+            );
             body.push(statement);
         }
         Ok(Script {
@@ -334,6 +342,7 @@ impl<C: Config> Parser<'_, C> {
         );
         self.pop_active_label();
         let body = Box::new(body?);
+        self.validate_single_statement_body(&body, true);
         Ok(Stmt::Labeled(LabeledStmt {
             span: Span::new_with_checked(token.start(), body.span().hi),
             label,
@@ -350,6 +359,7 @@ impl<C: Config> Parser<'_, C> {
             Context::ALLOW_USING,
             Self::parse_statement,
         )?);
+        self.validate_single_statement_body(&body, false);
         Ok(Stmt::With(WithStmt {
             span: Span::new_with_checked(start, body.span().hi),
             obj: object,
@@ -369,16 +379,41 @@ impl<C: Config> Parser<'_, C> {
     }
 
     pub(crate) fn parse_block_statement(&mut self) -> Result<BlockStmt, Error> {
+        self.parse_block_statement_impl(false)
+    }
+
+    pub(crate) fn parse_function_body(&mut self) -> Result<BlockStmt, Error> {
+        self.parse_block_statement_impl(true)
+    }
+
+    fn parse_block_statement_impl(&mut self, function_body: bool) -> Result<BlockStmt, Error> {
         let start = self.token().start();
         self.advance();
         let mut statements = Vec::with_capacity(8);
         let mut using_bindings = Vec::new();
+        let mut strict = self.context().contains(Context::STRICT);
+        let mut directive_octal_spans = Vec::new();
+        let mut in_directive_prologue = function_body;
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
             let statement = self.with_context(
-                Context::ALLOW_USING,
+                Context::ALLOW_USING
+                    | if strict {
+                        Context::STRICT
+                    } else {
+                        Context::empty()
+                    },
                 Context::empty(),
                 Self::parse_statement,
             )?;
+            if function_body {
+                update_directive_prologue(
+                    self,
+                    &statement,
+                    &mut strict,
+                    &mut in_directive_prologue,
+                    &mut directive_octal_spans,
+                );
+            }
             if let Stmt::Decl(Decl::Using(declaration)) = &statement {
                 for declarator in &declaration.decls {
                     if let swc_ecma_ast::Pat::Ident(binding) = &declarator.name {
@@ -406,6 +441,12 @@ impl<C: Config> Parser<'_, C> {
 
     fn parse_return_statement(&mut self) -> Result<Stmt, Error> {
         let start = self.token().start();
+        if !self.context().contains(Context::RETURN) {
+            self.emit_error(Error::new(
+                self.token().span(),
+                crate::error::SyntaxError::ReturnNotAllowed,
+            ));
+        }
         self.advance();
         let argument = if self.token().had_line_break()
             || matches!(self.kind(), Kind::Semi | Kind::RBrace | Kind::Eof)
@@ -503,12 +544,15 @@ impl<C: Config> Parser<'_, C> {
             Context::ALLOW_USING,
             Self::parse_statement,
         )?);
+        self.validate_single_statement_body(&consequent, true);
         let alternate = if self.eat(Kind::Else) {
-            Some(Box::new(self.with_context(
+            let alternate = Box::new(self.with_context(
                 Context::empty(),
                 Context::ALLOW_USING,
                 Self::parse_statement,
-            )?))
+            )?);
+            self.validate_single_statement_body(&alternate, true);
+            Some(alternate)
         } else {
             None
         };
@@ -588,6 +632,26 @@ impl<C: Config> Parser<'_, C> {
                 #[allow(unreachable_patterns)]
                 match init {
                     VarDeclOrExpr::VarDecl(declaration) => {
+                        if operator == Kind::In {
+                            if declaration.decls.len() != 1 {
+                                self.emit_error(Error::new(
+                                    declaration.span,
+                                    crate::error::SyntaxError::TooManyVarInForInHead,
+                                ));
+                            }
+                            if declaration.decls.iter().any(|declarator| {
+                                declarator.init.is_some()
+                                    && (declaration.kind != VarDeclKind::Var
+                                        || self
+                                            .context()
+                                            .intersects(Context::STRICT | Context::MODULE))
+                            }) {
+                                self.emit_error(Error::new(
+                                    declaration.span,
+                                    crate::error::SyntaxError::VarInitializerInForInHead,
+                                ));
+                            }
+                        }
                         if operator == Kind::Of
                             && declaration
                                 .decls
@@ -638,6 +702,7 @@ impl<C: Config> Parser<'_, C> {
                 Context::ALLOW_USING,
                 Self::parse_statement,
             )?);
+            self.validate_single_statement_body(&body, false);
             let span = Span::new_with_checked(start, body.span().hi);
             return Ok(if operator == Kind::In {
                 Stmt::ForIn(ForInStmt {
@@ -662,6 +727,12 @@ impl<C: Config> Parser<'_, C> {
         }
         if using_init.is_some() {
             return Err(self.expected_error(Kind::Of));
+        }
+        if let Some(span) = self.take_cover_initialized_name() {
+            self.emit_error(Error::new(
+                span,
+                crate::error::SyntaxError::InvalidAssignTarget,
+            ));
         }
         if let Some(VarDeclOrExpr::VarDecl(declaration)) = &init {
             self.validate_variable_initializers(declaration);
@@ -690,6 +761,7 @@ impl<C: Config> Parser<'_, C> {
             Context::ALLOW_USING,
             Self::parse_statement,
         )?);
+        self.validate_single_statement_body(&body, false);
         Ok(Stmt::For(ForStmt {
             span: Span::new_with_checked(start, body.span().hi),
             init,
@@ -726,11 +798,20 @@ impl<C: Config> Parser<'_, C> {
         }
 
         let mut cases = Vec::with_capacity(4);
+        let mut default_span = None;
         while !self.at(Kind::RBrace) && !self.at(Kind::Eof) {
             let case_start = self.token().start();
             let test = if self.eat(Kind::Case) {
                 Some(self.parse_expression()?)
             } else if self.eat(Kind::Default) {
+                if let Some(previous) = default_span {
+                    self.emit_error(Error::new(
+                        Span::new_with_checked(case_start, self.previous_end()),
+                        crate::error::SyntaxError::MultipleDefault { previous },
+                    ));
+                } else {
+                    default_span = Some(Span::new_with_checked(case_start, self.previous_end()));
+                }
                 None
             } else {
                 return Err(self.expected_error(Kind::Case));
@@ -833,6 +914,7 @@ impl<C: Config> Parser<'_, C> {
             Context::ALLOW_USING,
             Self::parse_statement,
         )?);
+        self.validate_single_statement_body(&body, false);
         Ok(Stmt::While(WhileStmt {
             span: Span::new_with_checked(start, body.span().hi),
             test,
@@ -848,6 +930,7 @@ impl<C: Config> Parser<'_, C> {
             Context::ALLOW_USING,
             Self::parse_statement,
         )?);
+        self.validate_single_statement_body(&body, false);
         if !self.expect(Kind::While) {
             return Err(self.expected_error(Kind::While));
         }
@@ -1283,6 +1366,25 @@ impl<C: Config> Parser<'_, C> {
             Err(self.expected_error(Kind::Semi))
         }
     }
+
+    fn validate_single_statement_body(&mut self, statement: &Stmt, allow_annex_b_function: bool) {
+        let invalid = match statement {
+            Stmt::Decl(Decl::Class(_) | Decl::Using(_)) => true,
+            Stmt::Decl(Decl::Var(declaration)) => declaration.kind != VarDeclKind::Var,
+            Stmt::Decl(Decl::Fn(function)) => {
+                function.function.is_generator
+                    || !allow_annex_b_function
+                    || self.context().intersects(Context::STRICT | Context::MODULE)
+            }
+            _ => false,
+        };
+        if invalid {
+            self.emit_error(Error::new(
+                statement.span(),
+                crate::error::SyntaxError::DeclNotAllowed,
+            ));
+        }
+    }
 }
 
 fn binding_has_type_annotation(pattern: &swc_ecma_ast::Pat) -> bool {
@@ -1298,8 +1400,37 @@ fn binding_has_type_annotation(pattern: &swc_ecma_ast::Pat) -> bool {
     }
 }
 
-fn is_use_strict_directive(statement: &Stmt) -> bool {
-    matches!(statement, Stmt::Expr(expression) if matches!(&*expression.expr, swc_ecma_ast::Expr::Lit(swc_ecma_ast::Lit::Str(value)) if &*value.value == "use strict"))
+fn update_directive_prologue<C: Config>(
+    parser: &mut Parser<'_, C>,
+    statement: &Stmt,
+    strict: &mut bool,
+    in_directive_prologue: &mut bool,
+    octal_spans: &mut Vec<Span>,
+) {
+    if !*in_directive_prologue {
+        return;
+    }
+    let Stmt::Expr(expression) = statement else {
+        *in_directive_prologue = false;
+        return;
+    };
+    let swc_ecma_ast::Expr::Lit(swc_ecma_ast::Lit::Str(value)) = &*expression.expr else {
+        *in_directive_prologue = false;
+        return;
+    };
+    if value
+        .raw
+        .as_deref()
+        .is_some_and(super::expression::string_has_legacy_octal_escape)
+    {
+        octal_spans.push(value.span);
+    }
+    if &*value.value == "use strict" {
+        *strict = true;
+        for span in octal_spans.drain(..) {
+            parser.emit_error(Error::new(span, crate::error::SyntaxError::LegacyOctal));
+        }
+    }
 }
 
 #[cfg(test)]

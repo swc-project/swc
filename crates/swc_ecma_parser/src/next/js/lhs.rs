@@ -356,6 +356,12 @@ impl<C: Config> Parser<'_, C> {
             };
             self.parse_suffixes(primary, false)?
         };
+        if matches!(&*callee, Expr::Call(call) if matches!(call.callee, Callee::Super(_))) {
+            return Err(Error::new(
+                callee.span(),
+                crate::error::SyntaxError::InvalidSuper,
+            ));
+        }
         if matches!(&*callee, Expr::OptChain(_)) {
             return Err(Error::new(
                 callee.span(),

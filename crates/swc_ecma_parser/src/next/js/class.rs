@@ -664,6 +664,9 @@ impl<C: Config> Parser<'_, C> {
             if is_generator {
                 parameter_context.insert(Context::YIELD);
             }
+            if is_constructor && self.context().contains(Context::CLASS_HAS_SUPER) {
+                parameter_context.insert(Context::SUPER_CALL);
+            }
             let mut constructor_parameters = None;
             let parameters = if is_constructor {
                 constructor_parameters = Some(self.with_context(
@@ -679,6 +682,19 @@ impl<C: Config> Parser<'_, C> {
                     Self::parse_method_parameters,
                 )?
             };
+            if method_kind == MethodKind::Getter && !parameters.is_empty() {
+                self.emit_error(Error::new(key_span, crate::error::SyntaxError::GetterParam));
+            }
+            if method_kind == MethodKind::Setter {
+                if parameters.len() != 1 {
+                    self.emit_error(Error::new(key_span, crate::error::SyntaxError::SetterParam));
+                } else if matches!(parameters[0].pat, Pat::Rest(_)) {
+                    self.emit_error(Error::new(
+                        parameters[0].span,
+                        crate::error::SyntaxError::RestPatInSetter,
+                    ));
+                }
+            }
             if self.context().contains(Context::FLOW)
                 && matches!(method_kind, MethodKind::Getter | MethodKind::Setter)
             {
@@ -795,7 +811,7 @@ impl<C: Config> Parser<'_, C> {
                     | Context::ASYNC
                     | Context::SUPER_CALL
                     | Context::CLASS_MEMBER,
-                Self::parse_block_statement,
+                Self::parse_function_body,
             )?;
             let span = Span::new_with_checked(start, body.span.hi);
             if is_constructor {
@@ -1161,7 +1177,14 @@ impl<C: Config> Parser<'_, C> {
                     }
                 }
             }
+            let is_rest = matches!(pattern, Pat::Rest(_));
             if self.eat(Kind::Eq) {
+                if is_rest {
+                    return Err(Error::new(
+                        pattern.span(),
+                        crate::error::SyntaxError::NonLastRestParam,
+                    ));
+                }
                 let start = pattern.span().lo;
                 let right = self.parse_assignment_expression()?;
                 pattern = swc_ecma_ast::Pat::Assign(swc_ecma_ast::AssignPat {

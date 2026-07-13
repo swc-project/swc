@@ -265,7 +265,7 @@ impl<C: Config> Parser<'_, C> {
                 | crate::next::parser::context::Context::YIELD
                 | crate::next::parser::context::Context::AWAIT
                 | crate::next::parser::context::Context::ASYNC,
-            Self::parse_block_statement,
+            Self::parse_function_body,
         )?;
         let span = Span::new_with_checked(start, body.span.hi);
         Ok(PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
@@ -316,6 +316,12 @@ impl<C: Config> Parser<'_, C> {
         if (is_getter && !parameters.is_empty()) || (!is_getter && parameters.len() != 1) {
             return Err(self.expected_error(Kind::LBrace));
         }
+        if !is_getter && matches!(parameters[0].pat, swc_ecma_ast::Pat::Rest(_)) {
+            return Err(Error::new(
+                parameters[0].span,
+                crate::error::SyntaxError::RestPatInSetter,
+            ));
+        }
         if !self.at(Kind::LBrace) {
             return Err(self.expected_error(Kind::LBrace));
         }
@@ -327,7 +333,7 @@ impl<C: Config> Parser<'_, C> {
                 | crate::next::parser::context::Context::YIELD
                 | crate::next::parser::context::Context::AWAIT
                 | crate::next::parser::context::Context::ASYNC,
-            Self::parse_block_statement,
+            Self::parse_function_body,
         )?;
         let span = Span::new_with_checked(start, body.span.hi);
         let property = if is_getter {
