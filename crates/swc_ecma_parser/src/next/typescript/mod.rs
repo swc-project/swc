@@ -1077,16 +1077,17 @@ impl<C: Config> Parser<'_, C> {
                     parser.at(Kind::Is)
                 }))
         {
-            if self.context().contains(Context::FLOW) {
-                if !self.context().contains(Context::FLOW_RETURN_TYPE) && predicate_start {
-                    self.emit_error(Error::new(
-                        self.token().span(),
-                        crate::error::SyntaxError::Unexpected {
-                            got: "Flow type predicate outside return position".into(),
-                            expected: "type predicate as a function return type",
-                        },
-                    ));
-                }
+            if self.context().contains(Context::FLOW)
+                && !self.context().contains(Context::FLOW_RETURN_TYPE)
+                && predicate_start
+            {
+                self.emit_error(Error::new(
+                    self.token().span(),
+                    crate::error::SyntaxError::Unexpected {
+                        got: "Flow type predicate outside return position".into(),
+                        expected: "type predicate as a function return type",
+                    },
+                ));
             }
             return self.parse_ts_type_predicate(false);
         }

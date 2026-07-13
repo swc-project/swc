@@ -187,13 +187,14 @@ impl<C: Config> Parser<'_, C> {
                 }
                 ClassMember::Method(method) => {
                     let name = public_class_key_name(&method.key);
-                    if !method.is_static && name == Some("constructor") {
-                        if method.function.is_async || method.function.is_generator {
-                            self.emit_error(Error::new(
-                                method.span,
-                                crate::error::SyntaxError::DuplicateConstructor,
-                            ));
-                        }
+                    if !method.is_static
+                        && name == Some("constructor")
+                        && (method.function.is_async || method.function.is_generator)
+                    {
+                        self.emit_error(Error::new(
+                            method.span,
+                            crate::error::SyntaxError::DuplicateConstructor,
+                        ));
                     }
                     if method.is_static && name == Some("prototype") {
                         self.emit_error(Error::new(
