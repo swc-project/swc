@@ -19,6 +19,7 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
         in_opt_chain: Default::default(),
+        preserve_annotation_boundary: Default::default(),
         remove_only: false,
     })
 }
@@ -30,6 +31,7 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
         in_opt_chain: Default::default(),
+        preserve_annotation_boundary: Default::default(),
         remove_only: true,
     })
 }
@@ -45,6 +47,9 @@ struct Fixer<'a> {
 
     in_for_stmt_head: bool,
     in_opt_chain: bool,
+    /// One-shot flag consumed when visiting the head of an expression
+    /// continuation.
+    preserve_annotation_boundary: bool,
 
     remove_only: bool,
 }
@@ -122,6 +127,48 @@ impl Fixer<'_> {
             | Expr::Await(..)
             | Expr::Yield(..) => self.wrap(e),
             _ => (),
+        }
+    }
+
+    /// Visits a callee, member object, or tag whose following syntax could
+    /// extend an annotation's effective range.
+    fn visit_mut_expr_with_annotation_boundary(&mut self, expr: &mut Expr) {
+        let old = mem::replace(&mut self.preserve_annotation_boundary, true);
+        expr.visit_mut_with(self);
+        self.preserve_annotation_boundary = old;
+    }
+
+    fn has_pure_annotation(&self, mut expr: &Expr) -> bool {
+        loop {
+            let span = expr.span();
+
+            if span.is_pure()
+                || (!span.is_dummy_ignoring_cmt()
+                    && self
+                        .comments
+                        .is_some_and(|comments| comments.has_flag(span.lo, "PURE")))
+            {
+                return true;
+            }
+
+            let Some(inner) = Self::transparent_annotation_inner(expr) else {
+                return false;
+            };
+            expr = inner;
+        }
+    }
+
+    /// Returns the runtime expression of a TypeScript wrapper erased by later
+    /// transforms.
+    fn transparent_annotation_inner(expr: &Expr) -> Option<&Expr> {
+        match expr {
+            Expr::TsTypeAssertion(expr) => Some(&expr.expr),
+            Expr::TsConstAssertion(expr) => Some(&expr.expr),
+            Expr::TsNonNull(expr) => Some(&expr.expr),
+            Expr::TsAs(expr) => Some(&expr.expr),
+            Expr::TsInstantiation(expr) => Some(&expr.expr),
+            Expr::TsSatisfies(expr) => Some(&expr.expr),
+            _ => None,
         }
     }
 }
@@ -408,7 +455,10 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
 
-        node.callee.visit_mut_with(self);
+        match &mut node.callee {
+            Callee::Expr(callee) => self.visit_mut_expr_with_annotation_boundary(callee),
+            callee => callee.visit_mut_with(self),
+        }
         if let Callee::Expr(e) = &mut node.callee {
             match &**e {
                 Expr::OptChain(_) if !self.in_opt_chain => self.wrap(e),
@@ -483,6 +533,8 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = self.ctx;
+        let preserve_annotation_boundary =
+            mem::replace(&mut self.preserve_annotation_boundary, false);
 
         if ctx == Context::Default {
             match e {
@@ -498,9 +550,13 @@ impl VisitMut for Fixer<'_> {
                 _ => self.ctx = Context::FreeExpr,
             }
         }
-        self.unwrap_expr(e);
+        self.unwrap_expr(e, preserve_annotation_boundary);
 
+        let preserve_for_child =
+            preserve_annotation_boundary && Self::transparent_annotation_inner(e).is_some();
+        let old = mem::replace(&mut self.preserve_annotation_boundary, preserve_for_child);
         maybe_grow_default(|| e.visit_mut_children_with(self));
+        self.preserve_annotation_boundary = old;
 
         self.ctx = ctx;
         self.wrap_with_paren_if_required(e)
@@ -606,7 +662,8 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.visit_mut_children_with(self);
+        self.visit_mut_expr_with_annotation_boundary(&mut n.obj);
+        n.prop.visit_mut_with(self);
 
         match *n.obj {
             Expr::Object(..) if self.ctx == Context::ForcedExpr => {}
@@ -681,7 +738,7 @@ impl VisitMut for Fixer<'_> {
         let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
         let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
 
-        node.callee.visit_mut_with(self);
+        self.visit_mut_expr_with_annotation_boundary(&mut node.callee);
         self.wrap_callee(&mut node.callee);
 
         self.in_opt_chain = in_opt_chain;
@@ -766,7 +823,9 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_tagged_tpl(&mut self, e: &mut TaggedTpl) {
-        e.visit_mut_children_with(self);
+        self.visit_mut_expr_with_annotation_boundary(&mut e.tag);
+        e.type_params.visit_mut_with(self);
+        e.tpl.visit_mut_with(self);
 
         match &*e.tag {
             Expr::Object(..) if self.ctx == Context::Default => {
@@ -1107,11 +1166,19 @@ impl Fixer<'_> {
     }
 
     /// Removes paren
-    fn unwrap_expr(&mut self, e: &mut Expr) {
+    fn unwrap_expr(&mut self, e: &mut Expr, preserve_annotation_boundary: bool) {
         loop {
             match e {
                 Expr::Seq(SeqExpr { exprs, .. }) if exprs.len() == 1 => {
                     *e = *exprs[0].take();
+                }
+
+                Expr::Paren(paren)
+                    if preserve_annotation_boundary && self.has_pure_annotation(&paren.expr) =>
+                {
+                    // PURE annotations make these parentheses a semantic boundary: removing
+                    // them would extend the annotation across an expression continuation.
+                    return;
                 }
 
                 Expr::Paren(ParenExpr {
@@ -1246,8 +1313,13 @@ fn will_eat_else_token(s: &Stmt) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_ast::{noop_pass, ForHead, ModuleItem, Pat, Program, Stmt};
+    use swc_common::{source_map::PURE_SP, DUMMY_SP};
+    use swc_ecma_ast::{
+        noop_pass, CallExpr, Callee, Expr, ForHead, Ident, MemberExpr, ModuleItem, ParenExpr, Pat,
+        Program, Stmt, TsNonNullExpr,
+    };
     use swc_ecma_parser::Syntax;
+    use swc_ecma_visit::VisitMutWith;
 
     use super::paren_remover;
 
@@ -1288,6 +1360,86 @@ mod tests {
         };
 
         assert_eq!(&*ident.sym, expected);
+    }
+
+    fn pure_call() -> Expr {
+        CallExpr {
+            span: PURE_SP,
+            callee: Callee::Expr(Box::new(
+                Ident::new_no_ctxt("factory".into(), DUMMY_SP).into(),
+            )),
+            ..Default::default()
+        }
+        .into()
+    }
+
+    fn parenthesized(expr: Expr) -> Expr {
+        ParenExpr {
+            span: DUMMY_SP,
+            expr: Box::new(expr),
+        }
+        .into()
+    }
+
+    fn member_with_object(obj: Expr) -> Expr {
+        MemberExpr {
+            obj: Box::new(obj),
+            ..Default::default()
+        }
+        .into()
+    }
+
+    #[test]
+    fn paren_remover_preserves_synthetic_pure_annotation_boundary() {
+        let mut continuation = member_with_object(parenthesized(pure_call()));
+        continuation.visit_mut_with(&mut paren_remover(None));
+
+        let Expr::Member(member) = continuation else {
+            panic!("expected member expression");
+        };
+        assert!(matches!(*member.obj, Expr::Paren(..)));
+
+        let mut standalone = parenthesized(pure_call());
+        standalone.visit_mut_with(&mut paren_remover(None));
+        assert!(matches!(standalone, Expr::Call(..)));
+    }
+
+    #[test]
+    fn annotation_boundary_propagates_through_transparent_ts_wrapper() {
+        let wrapped = TsNonNullExpr {
+            span: DUMMY_SP,
+            expr: Box::new(parenthesized(pure_call())),
+        }
+        .into();
+        let mut continuation = member_with_object(parenthesized(wrapped));
+        continuation.visit_mut_with(&mut paren_remover(None));
+
+        let Expr::Member(member) = continuation else {
+            panic!("expected member expression");
+        };
+        let Expr::TsNonNull(wrapper) = *member.obj else {
+            panic!("expected TypeScript non-null expression");
+        };
+        assert!(matches!(*wrapper.expr, Expr::Paren(..)));
+    }
+
+    #[test]
+    fn annotation_boundary_is_detected_through_transparent_ts_wrapper() {
+        let wrapped = TsNonNullExpr {
+            span: DUMMY_SP,
+            expr: Box::new(pure_call()),
+        }
+        .into();
+        let mut continuation = member_with_object(parenthesized(wrapped));
+        continuation.visit_mut_with(&mut paren_remover(None));
+
+        let Expr::Member(member) = continuation else {
+            panic!("expected member expression");
+        };
+        let Expr::Paren(boundary) = *member.obj else {
+            panic!("expected annotation boundary");
+        };
+        assert!(matches!(*boundary.expr, Expr::TsNonNull(..)));
     }
 
     #[test]

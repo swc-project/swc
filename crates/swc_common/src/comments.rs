@@ -120,7 +120,7 @@ pub trait Comments {
         };
 
         if let Some(cmts) = cmts {
-            self.add_trailing_comments(lo, cmts);
+            self.add_leading_comments(lo, cmts);
         }
 
         ret
@@ -687,3 +687,81 @@ better_scoped_tls::scoped_tls!(
     #[doc(hidden)]
     pub static COMMENTS: Box<dyn Comments>
 );
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[derive(Default)]
+    struct DefaultHasFlagComments(SingleThreadedComments);
+
+    impl Comments for DefaultHasFlagComments {
+        fn add_leading(&self, pos: BytePos, cmt: Comment) {
+            self.0.add_leading(pos, cmt);
+        }
+
+        fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+            self.0.add_leading_comments(pos, comments);
+        }
+
+        fn has_leading(&self, pos: BytePos) -> bool {
+            self.0.has_leading(pos)
+        }
+
+        fn move_leading(&self, from: BytePos, to: BytePos) {
+            self.0.move_leading(from, to);
+        }
+
+        fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+            self.0.take_leading(pos)
+        }
+
+        fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+            self.0.get_leading(pos)
+        }
+
+        fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+            self.0.add_trailing(pos, cmt);
+        }
+
+        fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+            self.0.add_trailing_comments(pos, comments);
+        }
+
+        fn has_trailing(&self, pos: BytePos) -> bool {
+            self.0.has_trailing(pos)
+        }
+
+        fn move_trailing(&self, from: BytePos, to: BytePos) {
+            self.0.move_trailing(from, to);
+        }
+
+        fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+            self.0.take_trailing(pos)
+        }
+
+        fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+            self.0.get_trailing(pos)
+        }
+
+        fn add_pure_comment(&self, pos: BytePos) {
+            self.0.add_pure_comment(pos);
+        }
+    }
+
+    #[test]
+    fn default_has_flag_restores_leading_comments() {
+        let comments = DefaultHasFlagComments::default();
+        let pos = BytePos(1);
+        let pure_comment = Comment {
+            kind: CommentKind::Block,
+            span: DUMMY_SP,
+            text: atom!("#__PURE__"),
+        };
+        comments.add_leading(pos, pure_comment.clone());
+
+        assert!(comments.has_flag(pos, "PURE"));
+        assert_eq!(comments.get_leading(pos), Some(vec![pure_comment]));
+        assert!(!comments.has_trailing(pos));
+    }
+}

@@ -1,0 +1,10 @@
+((/* #__PURE__ */ factory())!).run();
+((/* #__PURE__ */ factory()) as Factory).run();
+((/* #__PURE__ */ factory()) satisfies Factory).run();
+((/* #__PURE__ */ factory())<T>).run();
+(<Factory>/* #__PURE__ */ typeAssertion()).run();
+(<const>/* #__PURE__ */ constAssertion()).run();
+(/* #__PURE__ */ nonNull()!).run();
+(/* #__PURE__ */ asExpression() as Factory).run();
+(/* #__PURE__ */ satisfiesExpression() satisfies Factory).run();
+(/* #__PURE__ */ instantiation()<T>).run();
