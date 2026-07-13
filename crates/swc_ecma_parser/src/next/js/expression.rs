@@ -108,7 +108,9 @@ impl<C: Config> Parser<'_, C> {
                 let raw = self.token_source(token);
                 if !has_valid_numeric_separators(raw)
                     || (is_legacy_integer_literal(raw)
-                        && self.context().intersects(Context::STRICT | Context::MODULE))
+                        && (self.context().contains(Context::STRICT)
+                            || (self.context().contains(Context::MODULE)
+                                && !self.context().contains(Context::FLOW))))
                 {
                     return Err(Error::new(
                         span,
@@ -129,7 +131,8 @@ impl<C: Config> Parser<'_, C> {
                 };
                 let raw = Some(Atom::new(raw));
                 self.advance();
-                if self.token().start() == span.hi
+                if !self.context().contains(Context::FLOW)
+                    && self.token().start() == span.hi
                     && (self.at_identifier_name() || self.at(Kind::In))
                 {
                     return Err(Error::new(span, SyntaxError::IdentAfterNum));
@@ -157,7 +160,9 @@ impl<C: Config> Parser<'_, C> {
             }
             Kind::Str => {
                 let raw = self.token_source(token);
-                if self.context().intersects(Context::STRICT | Context::MODULE)
+                if (self.context().contains(Context::STRICT)
+                    || (self.context().contains(Context::MODULE)
+                        && !self.context().contains(Context::FLOW)))
                     && string_has_legacy_octal_escape(raw)
                 {
                     return Err(Error::new(span, SyntaxError::LegacyOctal));

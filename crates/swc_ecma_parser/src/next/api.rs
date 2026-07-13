@@ -693,10 +693,12 @@ pub fn attach_comments(
         let next = tokens[token_index..]
             .iter()
             .copied()
-            .find(|token| token.span().lo >= comment.span.hi);
+            .find(|token| token.kind() != TokenKind::Eof && token.span().lo >= comment.span.hi);
 
         if let Some(previous) = previous {
-            if !contains_line_break(source, start_pos, previous.span().hi, comment.span.lo) {
+            if token_can_end_expression(previous.kind())
+                && !contains_line_break(source, start_pos, previous.span().hi, comment.span.lo)
+            {
                 destination.add_trailing(previous.span().hi, comment);
                 continue;
             }
@@ -704,12 +706,36 @@ pub fn attach_comments(
 
         if let Some(next) = next {
             destination.add_leading(next.span().lo, comment);
-        } else if let Some(previous) = previous {
-            destination.add_trailing(previous.span().hi, comment);
+        } else if previous.is_some() {
+            destination.add_trailing(program.span().hi, comment);
         } else {
             destination.add_leading(program.span().lo, comment);
         }
     }
+}
+
+fn token_can_end_expression(kind: TokenKind) -> bool {
+    matches!(
+        kind,
+        TokenKind::RParen
+            | TokenKind::RBracket
+            | TokenKind::RBrace
+            | TokenKind::PlusPlus
+            | TokenKind::MinusMinus
+            | TokenKind::Ident
+            | TokenKind::Str
+            | TokenKind::Num
+            | TokenKind::BigInt
+            | TokenKind::Regex
+            | TokenKind::NoSubstitutionTemplateLiteral
+            | TokenKind::TemplateTail
+            | TokenKind::JSXText
+            | TokenKind::This
+            | TokenKind::Super
+            | TokenKind::True
+            | TokenKind::False
+            | TokenKind::Null
+    )
 }
 
 fn contains_line_break(source: &str, start_pos: BytePos, start: BytePos, end: BytePos) -> bool {
