@@ -1243,6 +1243,96 @@ impl Optimizer<'_> {
             }
         }
     }
+
+    pub(crate) fn ignore_unused_args_of_new(&mut self, e: &mut NewExpr) {
+        if !self.options.unused && !self.options.reduce_vars {
+            return;
+        }
+
+        let args = if let Some(args) = &mut e.args {
+            args
+        } else {
+            return;
+        };
+
+        if args.iter().any(|a| a.spread.is_some()) {
+            return;
+        }
+
+        let callee = &mut *e.callee;
+
+        match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                if let Some(scope) = self.data.get_scope(function.ctxt) {
+                    if scope.intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL)) {
+                        return;
+                    }
+                }
+            }
+            Expr::Class(c) => {
+                for m in &c.class.body {
+                    if let Some(scope) =
+                        m.as_constructor().and_then(|c| self.data.get_scope(c.ctxt))
+                    {
+                        if scope
+                            .intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+            _ => (),
+        }
+
+        let params_len = match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                let params = &function.params;
+
+                if !params.iter().any(|p| p.pat.is_rest()) {
+                    params.len()
+                } else {
+                    return;
+                }
+            }
+            Expr::Class(ClassExpr { class, .. }) => {
+                let c = class
+                    .body
+                    .iter()
+                    .filter_map(|c| c.as_constructor())
+                    .find(|c| c.body.is_some());
+
+                if let Some(c) = c {
+                    if !c
+                        .params
+                        .iter()
+                        .any(|p| p.as_param().and_then(|p| p.pat.as_rest()).is_some())
+                    {
+                        c.params.len()
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+            _ => return,
+        };
+
+        if args.len() > params_len {
+            for i in (params_len..args.len()).rev() {
+                if let Some(arg) = args.get_mut(i) {
+                    let new = self.ignore_return_value(&mut arg.expr);
+
+                    if let Some(new) = new {
+                        *arg.expr = new;
+                    } else {
+                        args.remove(i);
+                    }
+                }
+            }
+        }
+    }
 }
 
 fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
