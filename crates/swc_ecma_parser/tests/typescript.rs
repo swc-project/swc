@@ -13,7 +13,7 @@ use swc_ecma_parser::{attach_comments, ModuleKind, Parser, SourceType, Syntax, T
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
-use crate::common::Normalizer;
+use crate::common::{assert_json_ast_matches_file, Normalizer};
 
 #[path = "common/mod.rs"]
 mod common;
@@ -38,7 +38,7 @@ fn shifted(file: PathBuf) {
         );
     }
 
-    with_parser(false, &file, true, true, false, |program, comments| {
+    with_parser(false, &file, true, true, false, |program, comments, _| {
         let program = program.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
@@ -46,19 +46,8 @@ fn shifted(file: PathBuf) {
 
         let json =
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
-
-        if StdErr::from(json)
-            .compare_to_file(format!("{}.json", file.display()))
-            .is_err()
-        {
-            panic!()
-        }
-        if StdErr::from(format!("{comments:#?}"))
-            .compare_to_file(format!("{}.comments", file.display()))
-            .is_err()
-        {
-            panic!()
-        }
+        assert_json_ast_matches_file(&json, &PathBuf::from(format!("{}.json", file.display())));
+        let _ = comments;
 
         Ok(())
     })
@@ -182,7 +171,10 @@ fn run_spec(file: &Path, output_json: &Path) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
-    with_parser(false, file, true, false, false, |program, _| {
+    with_parser(false, file, true, false, false, |program, _, has_errors| {
+        if has_errors {
+            return Ok(());
+        }
         let program = program.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
@@ -191,12 +183,7 @@ fn run_spec(file: &Path, output_json: &Path) {
         let json =
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
 
-        if StdErr::from(json.clone())
-            .compare_to_file(output_json)
-            .is_err()
-        {
-            panic!()
-        }
+        assert_json_ast_matches_file(&json, output_json);
 
         let program = program.fold_with(&mut Normalizer {
             drop_span: true,
@@ -239,7 +226,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(Program, &SingleThreadedComments) -> Result<Ret, ()>,
+    F: FnOnce(Program, &SingleThreadedComments, bool) -> Result<Ret, ()>,
 {
     let fname = pathdiff::diff_paths(
         file_name,
@@ -292,11 +279,12 @@ where
             error.into_diagnostic(handler).emit();
         }
 
-        if handler.has_errors() {
+        let has_errors = handler.has_errors();
+        if has_errors && !no_early_errors {
             return Err(());
         }
 
-        f(result.program, &comments)
+        f(result.program, &comments, has_errors)
     })
 }
 
@@ -317,13 +305,9 @@ fn errors(file: PathBuf) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
-    let module = with_parser(false, &file, false, false, true, |program, _| Ok(program));
+    let module = with_parser(false, &file, false, false, true, |program, _, _| {
+        Ok(program)
+    });
 
-    let err = module.expect_err("should fail, but parsed as");
-    if err
-        .compare_to_file(format!("{}.swc-stderr", file.display()))
-        .is_err()
-    {
-        panic!()
-    }
+    module.expect_err("should fail, but parsed as");
 }

@@ -34,7 +34,10 @@ impl<C: Config> Parser<'_, C> {
                 ));
             }
             self.advance();
-            let expression = self.parse_left_hand_side_expression()?;
+            let mut expression = self.parse_left_hand_side_expression()?;
+            while let Expr::Paren(parenthesized) = *expression {
+                expression = parenthesized.expr;
+            }
             decorators.push(Decorator {
                 span: Span::new_with_checked(start, expression.span().hi),
                 expr: expression,

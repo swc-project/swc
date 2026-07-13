@@ -429,6 +429,7 @@ impl<'a> Parser<'a> {
                 ParserImpl::new(lexer, context),
                 self.source_type.module_kind,
                 Span::new_with_checked(self.start_pos, end_pos),
+                self.options.target,
             )
         } else {
             let Some(lexer) = Lexer::new(self.source, self.start_pos, NoTokens) else {
@@ -438,6 +439,7 @@ impl<'a> Parser<'a> {
                 ParserImpl::new(lexer, context),
                 self.source_type.module_kind,
                 Span::new_with_checked(self.start_pos, end_pos),
+                self.options.target,
             )
         };
         if context.contains(Context::MODULE) && self.source.trim_start().starts_with("<!--") {
@@ -555,6 +557,8 @@ fn parse_independent_program<C: Config>(
                 .body
                 .iter()
                 .any(|item| matches!(item, ModuleItem::ModuleDecl(_)))
+                || parser.saw_top_level_await()
+                || parser.saw_module_syntax()
             {
                 Program::Module(module)
             } else {
@@ -579,9 +583,22 @@ fn finish_independent_parse<C: Config>(
     mut parser: ParserImpl<'_, C>,
     module_kind: ModuleKind,
     span: Span,
+    target: EsVersion,
 ) -> ParserReturn {
     let result = parse_independent_program(&mut parser, module_kind);
     let mut diagnostics = parser.diagnostics().to_vec();
+    if module_kind == ModuleKind::Module
+        && target < EsVersion::Es2022
+        && parser.saw_top_level_await()
+    {
+        diagnostics.push(Error::new(
+            span,
+            SyntaxError::Unexpected {
+                got: "top-level await".into(),
+                expected: "ES2022 or newer target",
+            },
+        ));
+    }
     let comments = parser
         .comments()
         .iter()

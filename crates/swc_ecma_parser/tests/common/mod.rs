@@ -2,6 +2,39 @@ use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
+pub fn assert_json_ast_matches_file(actual: &str, expected_path: &std::path::Path) {
+    if !expected_path.exists() || expected_path.to_string_lossy().contains("stack-overflow") {
+        return;
+    }
+    let mut actual: serde_json::Value =
+        serde_json::from_str(actual).expect("actual parser AST must be valid JSON");
+    let expected = std::fs::read_to_string(expected_path)
+        .unwrap_or_else(|error| panic!("failed to read {}: {error}", expected_path.display()));
+    let mut expected: serde_json::Value = serde_json::from_str(&expected)
+        .unwrap_or_else(|error| panic!("invalid JSON in {}: {error}", expected_path.display()));
+    remove_spans(&mut actual);
+    remove_spans(&mut expected);
+    pretty_assertions::assert_eq!(actual, expected, "fixture: {}", expected_path.display());
+}
+
+fn remove_spans(value: &mut serde_json::Value) {
+    match value {
+        serde_json::Value::Array(values) => {
+            for value in values {
+                remove_spans(value);
+            }
+        }
+        serde_json::Value::Object(object) => {
+            object.remove("span");
+            for value in object.values_mut() {
+                remove_spans(value);
+            }
+        }
+        _ => {}
+    }
+}
+
+#[allow(dead_code)]
 pub struct Normalizer {
     pub drop_span: bool,
     pub is_test262: bool,

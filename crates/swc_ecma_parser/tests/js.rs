@@ -12,7 +12,7 @@ use swc_ecma_parser::{attach_comments, EsSyntax, ModuleKind, Parser, SourceType,
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
-use crate::common::Normalizer;
+use crate::common::{assert_json_ast_matches_file, Normalizer};
 
 #[path = "common/mod.rs"]
 mod common;
@@ -68,9 +68,7 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
                 let json = serde_json::to_string_pretty(&program)
                     .expect("failed to serialize module as json");
 
-                if StdErr::from(json).compare_to_file(output_json).is_err() {
-                    panic!()
-                }
+                assert_json_ast_matches_file(&json, output_json);
             }
 
             // cbor

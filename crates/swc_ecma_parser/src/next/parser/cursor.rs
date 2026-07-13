@@ -25,6 +25,8 @@ pub(crate) struct ParserCheckpoint {
     flow_type_parameters_len: usize,
     private_events_len: usize,
     private_depth: usize,
+    saw_top_level_await: bool,
+    saw_module_syntax: bool,
     fatal_error: Option<Error>,
 }
 
@@ -49,6 +51,8 @@ pub(crate) struct Parser<'a, C: Config> {
     flow_type_parameters: Vec<Atom>,
     private_events: Vec<PrivateEvent>,
     private_depth: usize,
+    saw_top_level_await: bool,
+    saw_module_syntax: bool,
     fatal_error: Option<Error>,
 }
 
@@ -69,6 +73,8 @@ impl<'a, C: Config> Parser<'a, C> {
             flow_type_parameters: Vec::new(),
             private_events: Vec::new(),
             private_depth: 0,
+            saw_top_level_await: false,
+            saw_module_syntax: false,
             fatal_error: None,
         }
     }
@@ -182,6 +188,28 @@ impl<'a, C: Config> Parser<'a, C> {
     #[inline(always)]
     pub(crate) fn context(&self) -> Context {
         self.context
+    }
+
+    #[inline]
+    pub(crate) fn record_top_level_await(&mut self) {
+        if self.context.contains(Context::TOP_LEVEL) && !self.context.contains(Context::ASYNC) {
+            self.saw_top_level_await = true;
+        }
+    }
+
+    #[inline]
+    pub(crate) fn saw_top_level_await(&self) -> bool {
+        self.saw_top_level_await
+    }
+
+    #[inline]
+    pub(crate) fn record_module_syntax(&mut self) {
+        self.saw_module_syntax = true;
+    }
+
+    #[inline]
+    pub(crate) fn saw_module_syntax(&self) -> bool {
+        self.saw_module_syntax
     }
 
     pub(crate) fn has_active_label(&self, label: &Atom) -> bool {
@@ -417,6 +445,8 @@ impl<'a, C: Config> Parser<'a, C> {
             flow_type_parameters_len: self.flow_type_parameters.len(),
             private_events_len: self.private_events.len(),
             private_depth: self.private_depth,
+            saw_top_level_await: self.saw_top_level_await,
+            saw_module_syntax: self.saw_module_syntax,
             fatal_error: self.fatal_error.take(),
         }
     }
@@ -434,6 +464,8 @@ impl<'a, C: Config> Parser<'a, C> {
             .truncate(checkpoint.flow_type_parameters_len);
         self.private_events.truncate(checkpoint.private_events_len);
         self.private_depth = checkpoint.private_depth;
+        self.saw_top_level_await = checkpoint.saw_top_level_await;
+        self.saw_module_syntax = checkpoint.saw_module_syntax;
         self.fatal_error = checkpoint.fatal_error;
     }
 

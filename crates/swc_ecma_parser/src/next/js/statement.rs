@@ -92,6 +92,9 @@ impl<C: Config> Parser<'_, C> {
                 if self.context().contains(Context::TYPESCRIPT)
                     && self.lookahead(|parser| {
                         parser.advance();
+                        if parser.token().had_line_break() {
+                            return false;
+                        }
                         matches!(
                             parser.kind(),
                             Kind::Abstract
@@ -122,7 +125,7 @@ impl<C: Config> Parser<'_, C> {
                         if parser.at(Kind::Abstract) || parser.at(Kind::Declare) {
                             parser.advance();
                         }
-                        parser.at(Kind::Class)
+                        !parser.token().had_line_break() && parser.at(Kind::Class)
                     }) =>
             {
                 let mut declare = false;
@@ -150,11 +153,22 @@ impl<C: Config> Parser<'_, C> {
             Kind::Throw => self.parse_throw_statement(),
             Kind::Try => self.parse_try_statement(),
             #[cfg(feature = "typescript")]
-            Kind::Namespace | Kind::Module
+            Kind::Namespace
                 if self.context().contains(Context::TYPESCRIPT)
                     && self.lookahead(|parser| {
                         parser.advance();
-                        parser.at_identifier_name() || parser.at(Kind::Str)
+                        parser.at_identifier_name()
+                    }) =>
+            {
+                self.parse_ts_module_declaration(false)
+            }
+            #[cfg(feature = "typescript")]
+            Kind::Module
+                if self.context().contains(Context::TYPESCRIPT)
+                    && self.lookahead(|parser| {
+                        parser.advance();
+                        !parser.token().had_line_break()
+                            && (parser.at_identifier_reference() || parser.at(Kind::Str))
                     }) =>
             {
                 self.parse_ts_module_declaration(false)
@@ -603,7 +617,13 @@ impl<C: Config> Parser<'_, C> {
                                 crate::error::SyntaxError::TS1106,
                             ));
                         }
-                        ForHead::Pat(Box::new(self.reparse_assignment_pattern(expression)?))
+                        if operator == Kind::In
+                            && matches!(&*expression, swc_ecma_ast::Expr::Assign(_))
+                        {
+                            ForHead::Pat(Box::new(swc_ecma_ast::Pat::Expr(expression)))
+                        } else {
+                            ForHead::Pat(Box::new(self.reparse_assignment_pattern(expression)?))
+                        }
                     }
                     _ => return Err(self.expected_error(Kind::Ident)),
                 }
@@ -848,6 +868,9 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn parse_using_statement(&mut self, is_await: bool) -> Result<Stmt, Error> {
+        if is_await {
+            self.record_top_level_await();
+        }
         let declaration = self.parse_using_declaration(is_await)?;
         self.consume_semicolon()?;
         Ok(Stmt::Decl(Decl::Using(declaration)))
@@ -918,6 +941,8 @@ impl<C: Config> Parser<'_, C> {
         let flow_export = self.context().contains(Context::FLOW) && self.eat(Kind::Export);
         #[cfg(feature = "flow")]
         let flow_default = flow_export && self.eat(Kind::Default);
+        #[cfg(not(feature = "flow"))]
+        let flow_default = false;
         #[cfg(feature = "flow")]
         if flow_export
             && (self.at(Kind::LBrace)
@@ -1079,7 +1104,7 @@ impl<C: Config> Parser<'_, C> {
                                 },
                             ));
                         }
-                        if value.function.is_async {
+                        if value.function.is_async && !flow_default {
                             self.emit_error(Error::new(
                                 value.function.span,
                                 crate::error::SyntaxError::Unexpected {

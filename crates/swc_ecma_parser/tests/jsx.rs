@@ -8,7 +8,12 @@ use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, SourceType};
 use swc_ecma_visit::{Fold, FoldWith};
-use testing::{run_test, StdErr};
+use testing::run_test;
+
+use crate::common::assert_json_ast_matches_file;
+
+#[path = "common/mod.rs"]
+mod common;
 
 fn parse_module(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Module, ()> {
     let fm = cm
@@ -42,12 +47,7 @@ fn references(entry: PathBuf) {
         let module = parse_module(cm, handler, &entry)?.fold_with(&mut Normalizer);
         let json =
             serde_json::to_string_pretty(&module).expect("failed to serialize module as json");
-        if StdErr::from(json.clone())
-            .compare_to_file(format!("{}.json", entry.display()))
-            .is_err()
-        {
-            panic!()
-        }
+        assert_json_ast_matches_file(&json, &PathBuf::from(format!("{}.json", entry.display())));
 
         let deser = serde_json::from_str::<Module>(&json)
             .unwrap_or_else(|err| {

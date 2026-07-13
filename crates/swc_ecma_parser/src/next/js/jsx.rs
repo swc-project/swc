@@ -92,21 +92,20 @@ impl<C: Config> Parser<'_, C> {
                 Kind::JSXText => {
                     let token = self.token();
                     let raw = Atom::new(self.token_source(token));
-                    if raw.contains('>') {
-                        self.emit_error(Error::new(
-                            token.span(),
-                            crate::error::SyntaxError::Unexpected {
-                                got: ">".into(),
-                                expected: "{'>'}",
-                            },
-                        ));
-                    }
                     if raw.contains('}') {
                         self.emit_error(Error::new(
                             token.span(),
                             crate::error::SyntaxError::Unexpected {
                                 got: "}".into(),
                                 expected: "{'}'}",
+                            },
+                        ));
+                    }
+                    if jsx_text_has_invalid_raw_gt(&raw) {
+                        self.emit_error(Error::new(
+                            token.span(),
+                            crate::error::SyntaxError::UnexpectedTokenWithSuggestions {
+                                candidate_list: vec!["`{'>'}`", "`&gt;`"],
                             },
                         ));
                     }
@@ -176,21 +175,20 @@ impl<C: Config> Parser<'_, C> {
                 Kind::JSXText => {
                     let token = self.token();
                     let raw = Atom::new(self.token_source(token));
-                    if raw.contains('>') {
-                        self.emit_error(Error::new(
-                            token.span(),
-                            crate::error::SyntaxError::Unexpected {
-                                got: ">".into(),
-                                expected: "{'>'}",
-                            },
-                        ));
-                    }
                     if raw.contains('}') {
                         self.emit_error(Error::new(
                             token.span(),
                             crate::error::SyntaxError::Unexpected {
                                 got: "}".into(),
                                 expected: "{'}'}",
+                            },
+                        ));
+                    }
+                    if jsx_text_has_invalid_raw_gt(&raw) {
+                        self.emit_error(Error::new(
+                            token.span(),
+                            crate::error::SyntaxError::UnexpectedTokenWithSuggestions {
+                                candidate_list: vec!["`{'>'}`", "`&gt;`"],
                             },
                         ));
                     }
@@ -489,6 +487,13 @@ fn jsx_objects_equal(left: &JSXObject, right: &JSXObject) -> bool {
         }
         _ => false,
     }
+}
+
+#[inline]
+fn jsx_text_has_invalid_raw_gt(text: &str) -> bool {
+    text.as_bytes().iter().enumerate().any(|(index, byte)| {
+        *byte == b'>' && index.checked_sub(1).map(|i| text.as_bytes()[i]) != Some(b'-')
+    })
 }
 
 fn decode_jsx_entities(value: &str) -> Cow<'_, str> {

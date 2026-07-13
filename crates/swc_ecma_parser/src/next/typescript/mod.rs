@@ -1652,11 +1652,13 @@ impl<C: Config> Parser<'_, C> {
                 Expr::Lit(Lit::Num(mut number)) => {
                     number.value = -number.value;
                     number.span = Span::new_with_checked(token.start(), number_token.end());
+                    number.raw = number.raw.map(|raw| format!("-{raw}").into());
                     (TsLit::Number(number), number_token.end())
                 }
                 Expr::Lit(Lit::BigInt(mut bigint)) => {
                     bigint.value = Box::new(-*bigint.value);
                     bigint.span = Span::new_with_checked(token.start(), number_token.end());
+                    bigint.raw = bigint.raw.map(|raw| format!("-{raw}").into());
                     (TsLit::BigInt(bigint), number_token.end())
                 }
                 _ => return Err(self.expected_error(Kind::Num)),

@@ -350,6 +350,7 @@ impl<C: Config> Parser<'_, C> {
                 if self
                     .context()
                     .contains(crate::next::parser::context::Context::FLOW)
+                    && !flow_typeof
                 {
                     self.emit_error(Error::new(
                         local.span,

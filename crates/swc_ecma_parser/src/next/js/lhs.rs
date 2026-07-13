@@ -261,7 +261,7 @@ impl<C: Config> Parser<'_, C> {
 
     fn make_member(expression: Box<Expr>, property: MemberProp, optional: bool) -> Box<Expr> {
         let span = Span::new_with_checked(expression.span().lo, property.span().hi);
-        let was_optional_chain = matches!(&*expression, Expr::OptChain(_));
+        let was_optional_chain = continues_optional_chain(&expression);
         let member = MemberExpr {
             span,
             obj: expression,
@@ -285,7 +285,7 @@ impl<C: Config> Parser<'_, C> {
         optional: bool,
     ) -> Box<Expr> {
         let span = Span::new_with_checked(expression.span().lo, end);
-        let was_optional_chain = matches!(&*expression, Expr::OptChain(_));
+        let was_optional_chain = continues_optional_chain(&expression);
         if optional || was_optional_chain {
             Box::new(Expr::OptChain(OptChainExpr {
                 span,
@@ -433,6 +433,7 @@ impl<C: Config> Parser<'_, C> {
                 }
                 let phase = match self.token_source(property) {
                     "meta" => {
+                        self.record_module_syntax();
                         self.advance();
                         return Ok(Box::new(Expr::MetaProp(MetaPropExpr {
                             span: Span::new_with_checked(token.start(), property.end()),
@@ -443,6 +444,7 @@ impl<C: Config> Parser<'_, C> {
                     "defer" => ImportPhase::Defer,
                     _ => return Err(self.expected_error(Kind::Meta)),
                 };
+                self.record_module_syntax();
                 self.advance();
                 if !self.at(Kind::LParen) {
                     return Err(self.expected_error(Kind::LParen));
@@ -542,6 +544,9 @@ impl<C: Config> Parser<'_, C> {
     }
 
     fn validate_import_options(&mut self, arguments: &[ExprOrSpread]) {
+        if !self.context().contains(Context::FLOW) {
+            return;
+        }
         if let Some(options) = arguments.get(1) {
             if !matches!(&*options.expr, Expr::Object(_)) {
                 self.emit_error(Error::new(
@@ -586,6 +591,14 @@ impl<C: Config> Parser<'_, C> {
             return Err(self.expected_error(Kind::RParen));
         }
         Ok(arguments)
+    }
+}
+
+fn continues_optional_chain(expression: &Expr) -> bool {
+    match expression {
+        Expr::OptChain(_) => true,
+        Expr::TsNonNull(non_null) => continues_optional_chain(&non_null.expr),
+        _ => false,
     }
 }
 

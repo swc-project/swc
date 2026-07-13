@@ -152,6 +152,7 @@ impl<C: Config> Parser<'_, C> {
                 ));
             }
             let start = self.token().start();
+            self.record_top_level_await();
             self.advance();
             let argument = self.parse_unary_expression()?;
             return Ok(Box::new(Expr::Await(AwaitExpr {
@@ -183,6 +184,7 @@ impl<C: Config> Parser<'_, C> {
             && matches!(&*argument, Expr::Ident(_))
             && self.context().intersects(Context::STRICT | Context::MODULE)
             && !self.context().contains(Context::FLOW)
+            && !self.context().contains(Context::TYPESCRIPT)
         {
             return Err(Error::new(
                 Span::new_with_checked(start, argument.span().hi),
