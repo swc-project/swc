@@ -6,7 +6,7 @@ use swc_config::file_pattern::FilePattern;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
-    FunctionFactory, IsDirective,
+    FunctionFactory,
 };
 
 use crate::{
@@ -33,7 +33,7 @@ pub struct Config {
     /// swc will emit `cjs-module-lexer` detectable annotation with this option
     /// enabled.
     ///
-    /// Defaults to `true` if import_interop is Node, else `false`
+    /// Defaults to `true` if `import_interop` is Node, else `false`
     #[serde(default)]
     pub export_interop_annotation: Option<bool>,
     #[serde(default)]
@@ -52,6 +52,7 @@ pub struct Config {
 }
 
 impl Config {
+    #[must_use]
     pub fn default_js_ext() -> String {
         "js".to_string()
     }
@@ -100,12 +101,14 @@ impl From<bool> for ImportInterop {
 
 impl Config {
     #[inline(always)]
+    #[must_use]
     pub fn import_interop(&self) -> ImportInterop {
         self.import_interop
             .unwrap_or_else(|| self.no_interop.into())
     }
 
     #[inline(always)]
+    #[must_use]
     pub fn export_interop_annotation(&self) -> bool {
         self.export_interop_annotation
             .unwrap_or_else(|| self.import_interop == Some(ImportInterop::Node))
@@ -119,6 +122,7 @@ pub struct LazyObjectConfig {
 }
 
 impl LazyObjectConfig {
+    #[must_use]
     pub fn is_lazy(&self, src: &Atom) -> bool {
         self.patterns.iter().any(|pat| pat.is_match(src))
     }
@@ -133,6 +137,7 @@ pub enum Lazy {
 }
 
 impl Lazy {
+    #[must_use]
     pub fn is_lazy(&self, src: &Atom) -> bool {
         match *self {
             Lazy::Bool(false) => false,
@@ -157,14 +162,14 @@ pub(super) fn local_name_for_src(src: &Atom) -> Atom {
         .unwrap_or(src);
 
     let id = match Ident::verify_symbol(src) {
-        Ok(_) => src.into(),
+        Ok(()) => src.into(),
         Err(err) => err,
     };
 
-    if !id.starts_with('_') {
-        format!("_{id}").into()
-    } else {
+    if id.starts_with('_') {
         id.into()
+    } else {
+        format!("_{id}").into()
     }
 }
 
@@ -207,35 +212,6 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
         .as_arg(),
     )
     .into_stmt()
-}
-
-pub(super) trait VecStmtLike {
-    type StmtLike: IsDirective;
-
-    fn as_ref(&self) -> &[Self::StmtLike];
-
-    fn has_use_strict(&self) -> bool {
-        self.as_ref()
-            .iter()
-            .take_while(|s| s.directive_continue())
-            .any(IsDirective::is_use_strict)
-    }
-}
-
-impl VecStmtLike for [ModuleItem] {
-    type StmtLike = ModuleItem;
-
-    fn as_ref(&self) -> &[Self::StmtLike] {
-        self
-    }
-}
-
-impl VecStmtLike for [Stmt] {
-    type StmtLike = Stmt;
-
-    fn as_ref(&self) -> &[Self::StmtLike] {
-        self
-    }
 }
 
 pub(super) fn use_strict() -> Stmt {

@@ -31,12 +31,8 @@ define([
 //// [foo_2.ts]
 define([
     "require",
-    "exports",
     "./foo_1"
-], function(require, exports, _foo_1) {
+], function(require, foo) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    var x = _foo_1; // Cause a runtime dependency
+    var x = foo; // Cause a runtime dependency
 });

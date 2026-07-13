@@ -17,14 +17,10 @@ define([
 //// [foo_1.ts]
 define([
     "require",
-    "exports",
     "./foo_0"
-], function(require, exports, _foo_0) {
+], function(require, foo) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    if (_foo_0.answer === 42) {
-        var x = new _foo_0();
+    if (foo.answer === 42) {
+        var x = new foo();
     }
 });

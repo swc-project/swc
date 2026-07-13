@@ -10,6 +10,7 @@ use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 ///
 /// `jsx_preserve` corresponds to TypeScript's `jsx: "preserve"`: when set,
 /// `.tsx` specifiers are rewritten to `.jsx` instead of `.js`.
+#[must_use]
 pub fn typescript_import_rewriter(jsx_preserve: bool) -> impl Pass {
     visit_mut_pass(Rewriter { jsx_preserve })
 }

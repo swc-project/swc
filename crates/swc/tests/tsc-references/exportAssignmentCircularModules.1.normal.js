@@ -2,10 +2,10 @@
 define([
     "require",
     "./foo_1"
-], function(require, _foo_1) {
+], function(require, foo1) {
     "use strict";
     (function(Foo) {
-        Foo.x = _foo_1.x;
+        Foo.x = foo1.x;
     })(Foo || (Foo = {}));
     var Foo;
     return Foo;
@@ -14,10 +14,10 @@ define([
 define([
     "require",
     "./foo_2"
-], function(require, _foo_2) {
+], function(require, foo2) {
     "use strict";
     (function(Foo) {
-        Foo.x = _foo_2.x;
+        Foo.x = foo2.x;
     })(Foo || (Foo = {}));
     var Foo;
     return Foo;
@@ -26,10 +26,10 @@ define([
 define([
     "require",
     "./foo_0"
-], function(require, _foo_0) {
+], function(require, foo0) {
     "use strict";
     (function(Foo) {
-        Foo.x = _foo_0.x;
+        Foo.x = foo0.x;
     })(Foo || (Foo = {}));
     var Foo;
     return Foo;

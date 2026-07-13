@@ -18,9 +18,6 @@ var C1 = function C1() {
 C1.s1 = true;
 //// [foo_1.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 var foo = require("./foo_0");
 if (foo.C1.s1) {
 // Should cause runtime import

@@ -8,5 +8,5 @@
             this.x = 5;
         }
     }
-    module.exports = Foo;
+    return Foo;
 });

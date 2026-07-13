@@ -8,6 +8,7 @@ use swc_ecma_visit::{
 
 use crate::{module_record::ModuleRequestUsage, util::ImportInterop, wtf8::str_to_atom};
 
+#[must_use]
 pub fn import_analyzer(import_interop: ImportInterop, ignore_dynamic: bool) -> impl Pass {
     visit_mut_pass(ImportAnalyzer {
         import_interop,
@@ -38,7 +39,7 @@ impl Visit for ImportAnalyzer {
     noop_visit_type!(fail);
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
-        for item in n.iter() {
+        for item in n {
             if item.is_module_decl() {
                 item.visit_with(self);
             }
@@ -46,7 +47,10 @@ impl Visit for ImportAnalyzer {
 
         let flag_record = &self.flag_record;
 
-        if flag_record.values().any(|flag| flag.has_star_export()) {
+        if flag_record
+            .values()
+            .any(super::module_record::ModuleRequestUsage::has_star_export)
+        {
             enable_helper!(export_star);
         }
 
@@ -64,13 +68,13 @@ impl Visit for ImportAnalyzer {
 
         if flag_record
             .values()
-            .any(|flag| flag.needs_namespace_object())
+            .any(super::module_record::ModuleRequestUsage::needs_namespace_object)
         {
             enable_helper!(interop_require_wildcard);
         } else if !self.ignore_dynamic {
             // `import/export * as foo from "foo"` not found
             // but it may be used with dynamic import
-            for item in n.iter() {
+            for item in n {
                 if item.is_stmt() {
                     item.visit_with(self);
                 }

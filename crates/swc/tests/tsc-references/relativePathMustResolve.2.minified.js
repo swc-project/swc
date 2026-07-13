@@ -9,6 +9,4 @@ Object.defineProperty(exports, "__esModule", {
 });
 var x = 42;
 //// [foo_1.ts]
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), require("./test/foo").x;
+require("./test/foo").x;
