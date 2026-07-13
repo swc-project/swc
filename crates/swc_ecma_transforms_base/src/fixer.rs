@@ -71,6 +71,28 @@ enum Context {
 }
 
 impl Fixer<'_> {
+    /// Returns `true` if the given expression has a leading annotation comment
+    /// (e.g. `/* @__PURE__ */`, `/* #__PURE__ */`,
+    /// `/* @__NO_SIDE_EFFECTS__ */`) whose effective range would change if we
+    /// dropped surrounding parentheses.
+    ///
+    /// This matters for cases like `(/* @__PURE__ */ new Set(x)).forEach(cb)`.
+    /// Without the parens, downstream tools may treat the annotation as
+    /// applying to the whole chained call, which can cause the `.forEach(cb)`
+    /// side effect to be dropped by DCE.
+    fn has_range_sensitive_annotation(&self, expr: &Expr) -> bool {
+        let Some(comments) = self.comments else {
+            return false;
+        };
+
+        let span = expr.span();
+        if span.is_dummy() {
+            return false;
+        }
+
+        comments.has_flag(span.lo, "PURE") || comments.has_flag(span.lo, "NO_SIDE_EFFECTS")
+    }
+
     /// `Pat::Expr` is needed for parenthesized for-head expressions, but a
     /// bare identifier should use the same pattern shape as `for (x of y)`.
     fn normalize_for_head_pat(n: &mut ForHead) {
@@ -631,6 +653,15 @@ impl VisitMut for Fixer<'_> {
             Expr::OptChain(..) if !self.in_opt_chain => {
                 self.wrap(&mut n.obj);
             }
+            // Preserve parentheses around expressions that carry a leading
+            // annotation like `/* @__PURE__ */` so downstream tools do not
+            // interpret the annotation as applying to the full chained
+            // expression. See issue #12019.
+            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
+                if self.has_range_sensitive_annotation(&n.obj) =>
+            {
+                self.wrap_preserving_leading_annotation(&mut n.obj);
+            }
             _ => {}
         }
     }
@@ -1104,6 +1135,25 @@ impl Fixer<'_> {
 
         let expr = Box::new(e.take());
         *e = ParenExpr { expr, span }.into();
+    }
+
+    /// Wrap with a paren while keeping any leading annotation comment
+    /// (e.g. `/* @__PURE__ */`) attached to the inner expression, so it
+    /// prints as `(/* @__PURE__ */ <expr>)` rather than
+    /// `/* @__PURE__ */ (<expr>)`. The outer `ParenExpr` uses a dummy span
+    /// so the codegen does not emit the inner expression's leading comments
+    /// before the opening paren.
+    fn wrap_preserving_leading_annotation(&mut self, e: &mut Expr) {
+        if self.remove_only {
+            return;
+        }
+
+        let expr = Box::new(e.take());
+        *e = ParenExpr {
+            expr,
+            span: DUMMY_SP,
+        }
+        .into();
     }
 
     /// Removes paren
