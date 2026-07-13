@@ -1196,7 +1196,7 @@ impl<C: Config> Parser<'_, C> {
                     right,
                 });
             }
-            if self.context().contains(Context::FLOW) && is_this_pattern(&pattern) {
+            if self.context().contains(Context::TYPESCRIPT) && is_this_pattern(&pattern) {
                 if !parameters.is_empty() {
                     self.emit_error(Error::new(
                         pattern.span(),
@@ -1348,7 +1348,7 @@ impl<C: Config> Parser<'_, C> {
                     _ => {}
                 }
             }
-            if self.context().contains(Context::FLOW) && is_this_pattern(&pattern) {
+            if self.context().contains(Context::TYPESCRIPT) && is_this_pattern(&pattern) {
                 self.emit_error(Error::new(
                     pattern.span(),
                     crate::error::SyntaxError::Unexpected {

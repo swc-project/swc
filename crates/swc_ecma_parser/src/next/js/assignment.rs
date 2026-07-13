@@ -397,7 +397,7 @@ impl<C: Config> Parser<'_, C> {
         parameters: Vec<Pat>,
         is_async: bool,
     ) -> Result<Box<Expr>, Error> {
-        if self.context().contains(Context::FLOW) {
+        if self.context().contains(Context::TYPESCRIPT) {
             for parameter in &parameters {
                 if is_this_arrow_parameter(parameter) {
                     self.emit_error(Error::new(

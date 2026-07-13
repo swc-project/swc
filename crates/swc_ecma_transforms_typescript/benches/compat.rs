@@ -13,7 +13,11 @@ fn module(cm: Lrc<SourceMap>) -> Program {
     let result = Parser::new(&fm.src, SourceType::typescript())
         .with_start_pos(fm.start_pos)
         .parse();
-    assert!(result.diagnostics.is_empty());
+    assert!(
+        result.diagnostics.is_empty(),
+        "parser diagnostics: {:?}",
+        result.diagnostics
+    );
     result.program
 }
 

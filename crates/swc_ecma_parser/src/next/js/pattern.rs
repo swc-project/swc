@@ -58,7 +58,11 @@ impl<C: Config> Parser<'_, C> {
                 crate::error::SyntaxError::EvalAndArgumentsInStrict,
             ));
         }
-        if !(self.context().contains(Context::FLOW) && identifier.sym == "this")
+        let explicit_this_parameter = identifier.sym == "this"
+            && self
+                .context()
+                .contains(Context::TYPESCRIPT | Context::PARAMETERS);
+        if !explicit_this_parameter
             && matches!(
                 &*identifier.sym,
                 "break"
@@ -307,7 +311,7 @@ impl<C: Config> Parser<'_, C> {
                 if !self.at_identifier_reference()
                     && !(self
                         .context()
-                        .contains(crate::next::parser::context::Context::TYPESCRIPT)
+                        .contains(Context::TYPESCRIPT | Context::PARAMETERS)
                         && self.at(Kind::This))
                 {
                     return Err(self.expected_error(Kind::Ident));
