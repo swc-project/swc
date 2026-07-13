@@ -1,7 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const typescriptWasm = require("../pkg");
-const nodejsSupport = require("../nodejs-support");
+const nodejsSupport = require("../pkg");
 
 function validatedImport(specifier, exports) {
     let out = `__nodeREPLDynamicImport(${JSON.stringify(specifier)})`;
@@ -21,12 +20,6 @@ function validatedImport(specifier, exports) {
 }
 
 describe("@swc/nodejs-support-wasm", () => {
-    it("keeps Node.js-specific helpers out of @swc/wasm-typescript", () => {
-        expect(typescriptWasm.nodejs).toBeUndefined();
-        expect(typescriptWasm.transformModuleSyntax).toBeUndefined();
-        expect(typescriptWasm.__nodejsTransformModuleSyntax).toBeUndefined();
-    });
-
     it("exposes the TypeScript transform and Node.js helpers at the top level", () => {
         expect(typeof nodejsSupport.transform).toBe("function");
         expect(typeof nodejsSupport.transformSync).toBe("function");
@@ -40,19 +33,28 @@ describe("@swc/nodejs-support-wasm", () => {
 
     it("preserves the existing TypeScript transform behavior", async () => {
         const source = "export const value: number = 1;";
-        const expected = await typescriptWasm.transform(source, {});
+        const expected = {
+            code: "export const value         = 1;",
+            map: undefined,
+        };
 
-        expect(nodejsSupport.transformSync(source, {})).toEqual(
-            typescriptWasm.transformSync(source, {})
-        );
+        expect(nodejsSupport.transformSync(source, {})).toEqual(expected);
         await expect(nodejsSupport.transform(source, {})).resolves.toEqual(
             expected
         );
 
         const bytes = new TextEncoder().encode(source);
-        expect(nodejsSupport.transformSync(bytes, {})).toEqual(
-            nodejsSupport.transformSync(source, {})
+        expect(nodejsSupport.transformSync(bytes, {})).toEqual(expected);
+        await expect(nodejsSupport.transform(bytes, {})).resolves.toEqual(
+            expected
         );
+    });
+
+    it("preserves TypeScript transform errors", async () => {
+        expect(() => nodejsSupport.transformSync("enum Foo {}", {})).toThrow();
+        await expect(
+            nodejsSupport.transform("enum Foo {}", {})
+        ).rejects.toBeDefined();
     });
 
     it("transforms module syntax without exposing an AST", () => {
@@ -134,16 +136,12 @@ describe("@swc/nodejs-support-wasm", () => {
     });
 
     it("generates package metadata and top-level TypeScript declarations", () => {
-        const packageDir = path.join(__dirname, "../nodejs-support");
+        const packageDir = path.join(__dirname, "../pkg");
         const packageJson = JSON.parse(
             fs.readFileSync(path.join(packageDir, "package.json"), "utf8")
         );
         const types = fs.readFileSync(
             path.join(packageDir, "wasm.d.ts"),
-            "utf8"
-        );
-        const legacyTypes = fs.readFileSync(
-            path.join(__dirname, "../pkg/wasm.d.ts"),
             "utf8"
         );
 
@@ -161,6 +159,5 @@ describe("@swc/nodejs-support-wasm", () => {
         expect(types).toContain("export interface ModuleSyntaxTransformOutput");
         expect(types).not.toContain("namespace nodejs");
         expect(types).not.toContain("__nodejsTransformModuleSyntax");
-        expect(legacyTypes).not.toContain("transformModuleSyntax");
     });
 });

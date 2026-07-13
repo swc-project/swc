@@ -3,7 +3,7 @@
 set -eu
 
 ./scripts/build.sh
-npx rstest $@
+npx rstest "$@"
 
 ./scripts/build.sh --features nightly
-npx rstest $@
+npx rstest "$@"

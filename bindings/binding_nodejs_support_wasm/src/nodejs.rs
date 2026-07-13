@@ -1,8 +1,7 @@
-//! Node.js-specific helpers for `@swc/wasm-typescript`.
+//! Node.js-specific helpers for `@swc/nodejs-support-wasm`.
 //!
 //! These functions intentionally expose only the compact operations Node needs
-//! from Rust. They avoid serializing SWC ASTs into JavaScript while keeping the
-//! public package API under the `nodejs` namespace.
+//! from Rust and avoid serializing SWC ASTs into JavaScript.
 
 use serde::Serialize;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, Spanned};

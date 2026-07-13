@@ -290,6 +290,12 @@ importers:
         specifier: ^0.7.8
         version: 0.7.8
 
+  bindings/binding_nodejs_support_wasm:
+    devDependencies:
+      '@rstest/core':
+        specifier: ^0.7.8
+        version: 0.7.8
+
   bindings/binding_typescript_wasm:
     devDependencies:
       '@rstest/core':
