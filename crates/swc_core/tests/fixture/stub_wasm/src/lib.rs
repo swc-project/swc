@@ -10,5 +10,10 @@ build_parse_sync!(#[wasm_bindgen(js_name = "parseSync")]);
 build_parse!(#[wasm_bindgen(js_name = "parse")]);
 build_print_sync!(#[wasm_bindgen(js_name = "printSync")]);
 build_print!(#[wasm_bindgen(js_name = "print")]);
-build_transform_sync!(#[wasm_bindgen(js_name = "transformSync")]);
+// Compile the custom-pass overload; binding_core_wasm covers the default path.
+build_transform_sync!(
+    #[wasm_bindgen(js_name = "transformSync")],
+    |_| swc_core::ecma::ast::noop_pass(),
+    |_| swc_core::ecma::ast::noop_pass()
+);
 build_transform!(#[wasm_bindgen(js_name = "transform")]);

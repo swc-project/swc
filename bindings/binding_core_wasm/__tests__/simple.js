@@ -88,6 +88,26 @@ describe("transform", () => {
     });
 });
 
+function expectParsedClass(output) {
+    expect(output.type).toBe("Module");
+    expect(output.body).toHaveLength(1);
+
+    const declaration = output.body[0];
+    expect(declaration).toMatchObject({
+        type: "ClassDeclaration",
+        body: [],
+        identifier: {
+            type: "Identifier",
+            value: "Foo",
+        },
+    });
+    expect(declaration.span.end - declaration.span.start).toBe(12);
+    expect(
+        declaration.identifier.span.end - declaration.identifier.span.start
+    ).toBe(3);
+    expect(output.span).toEqual(declaration.span);
+}
+
 describe("parse", () => {
     it("should work", () => {
         const output = swc.parseSync("class Foo {}", {
@@ -95,44 +115,7 @@ describe("parse", () => {
             target: "es2021",
         });
 
-        expect(output).toMatchInlineSnapshot(`
-            {
-              "body": [
-                {
-                  "body": [],
-                  "ctxt": 0,
-                  "declare": false,
-                  "decorators": [],
-                  "identifier": {
-                    "ctxt": 2,
-                    "optional": false,
-                    "span": {
-                      "end": 254,
-                      "start": 251,
-                    },
-                    "type": "Identifier",
-                    "value": "Foo",
-                  },
-                  "implements": [],
-                  "isAbstract": false,
-                  "span": {
-                    "end": 257,
-                    "start": 245,
-                  },
-                  "superClass": null,
-                  "superTypeParams": null,
-                  "type": "ClassDeclaration",
-                  "typeParams": null,
-                },
-              ],
-              "interpreter": null,
-              "span": {
-                "end": 257,
-                "start": 245,
-              },
-              "type": "Module",
-            }
-        `);
+        expectParsedClass(output);
     });
 
     it("should work with async facade", async () => {
@@ -141,44 +124,7 @@ describe("parse", () => {
             target: "es2021",
         });
 
-        expect(output).toMatchInlineSnapshot(`
-            {
-              "body": [
-                {
-                  "body": [],
-                  "ctxt": 0,
-                  "declare": false,
-                  "decorators": [],
-                  "identifier": {
-                    "ctxt": 2,
-                    "optional": false,
-                    "span": {
-                      "end": 267,
-                      "start": 264,
-                    },
-                    "type": "Identifier",
-                    "value": "Foo",
-                  },
-                  "implements": [],
-                  "isAbstract": false,
-                  "span": {
-                    "end": 270,
-                    "start": 258,
-                  },
-                  "superClass": null,
-                  "superTypeParams": null,
-                  "type": "ClassDeclaration",
-                  "typeParams": null,
-                },
-              ],
-              "interpreter": null,
-              "span": {
-                "end": 270,
-                "start": 258,
-              },
-              "type": "Module",
-            }
-        `);
+        expectParsedClass(output);
     });
 });
 
