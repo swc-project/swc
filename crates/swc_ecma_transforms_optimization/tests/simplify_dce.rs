@@ -972,3 +972,8 @@ noop!(
     eval_preserves_toplevel_binding_from_nested_eval,
     "var x = 1; function f(s) { return eval(s); } f('x');"
 );
+
+to!(
+    eval_preserves_toplevel_var_hoisted_from_block,
+    "if (true) { var x = 1; } eval('x');"
+);
