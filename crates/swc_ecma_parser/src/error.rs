@@ -41,6 +41,7 @@ impl Error {
 #[non_exhaustive]
 pub enum SyntaxError {
     Eof,
+    TooManyNestedExpressions,
     DeclNotAllowed,
 
     UsingDeclNotAllowed,
@@ -532,6 +533,7 @@ impl SyntaxError {
             SyntaxError::TS1141 => "literal in an import type should be string literal".into(),
 
             SyntaxError::Eof => "Unexpected eof".into(),
+            SyntaxError::TooManyNestedExpressions => "Too many nested expressions".into(),
 
             SyntaxError::TS2703 => {
                 "The operand of a delete operator must be a property reference.".into()

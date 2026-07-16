@@ -516,6 +516,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_object_expr(&mut self) -> PResult<Expr> {
+        self.with_expression_nesting(Self::parse_object_expr_inner)
+    }
+
+    fn parse_object_expr_inner(&mut self) -> PResult<Expr> {
         self.parse_object(Self::parse_expr_object_prop, Self::make_expr_object)
     }
 }

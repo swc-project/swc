@@ -540,6 +540,10 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
+        self.with_expression_nesting(Self::parse_array_lit_inner)
+    }
+
+    fn parse_array_lit_inner(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_array_lit);
 
         let start = self.input().cur_pos();
@@ -987,6 +991,10 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(skip_all)
     )]
     pub(crate) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
+        self.with_expression_nesting(|parser| parser.parse_args_inner(is_dynamic_import))
+    }
+
+    fn parse_args_inner(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(self, parse_args);
 
         self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
@@ -2619,6 +2627,16 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn parse_paren_expr_or_arrow_fn(
+        &mut self,
+        can_be_arrow: bool,
+        async_span: Option<Span>,
+    ) -> PResult<Box<Expr>> {
+        self.with_expression_nesting(|parser| {
+            parser.parse_paren_expr_or_arrow_fn_inner(can_be_arrow, async_span)
+        })
+    }
+
+    fn parse_paren_expr_or_arrow_fn_inner(
         &mut self,
         can_be_arrow: bool,
         async_span: Option<Span>,

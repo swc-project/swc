@@ -67,6 +67,13 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
+    #[cfg(any(
+        target_arch = "wasm32",
+        target_arch = "arm",
+        not(feature = "stacker"),
+        miri
+    ))]
+    expression_nesting: u8,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -90,6 +97,43 @@ impl<I: Tokens> Parser<I> {
     #[inline(always)]
     fn state_mut(&mut self) -> &mut State {
         &mut self.state
+    }
+
+    #[inline]
+    fn with_expression_nesting<T>(
+        &mut self,
+        parse: impl FnOnce(&mut Self) -> PResult<T>,
+    ) -> PResult<T> {
+        // Structural expressions recurse through the parser. Grow the stack where
+        // supported, and use a conservative limit on targets without `stacker`.
+        #[cfg(any(
+            target_arch = "wasm32",
+            target_arch = "arm",
+            not(feature = "stacker"),
+            miri
+        ))]
+        {
+            const MAX_EXPRESSION_NESTING: u8 = 64;
+
+            if self.expression_nesting >= MAX_EXPRESSION_NESTING {
+                return Err(Error::new(
+                    self.input().cur_span(),
+                    SyntaxError::TooManyNestedExpressions,
+                ));
+            }
+            self.expression_nesting += 1;
+            let result = parse(self);
+            self.expression_nesting -= 1;
+            result
+        }
+
+        #[cfg(all(
+            not(any(target_arch = "wasm32", target_arch = "arm", miri)),
+            feature = "stacker"
+        ))]
+        {
+            crate::maybe_grow(256 * 1024, 1024 * 1024, || parse(self))
+        }
     }
 
     #[cfg(all(feature = "typescript", feature = "flow"))]
@@ -189,6 +233,13 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
+            #[cfg(any(
+                target_arch = "wasm32",
+                target_arch = "arm",
+                not(feature = "stacker"),
+                miri
+            ))]
+            expression_nesting: 0,
             #[cfg(feature = "flow")]
             allow_super_call: false,
         };
