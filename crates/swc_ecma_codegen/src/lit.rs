@@ -6,6 +6,7 @@ use swc_atoms::wtf8::{CodePoint, Wtf8};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
+use swc_ecma_utils::number::minify_number;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
@@ -557,78 +558,6 @@ pub fn get_quoted_utf16(v: &Wtf8, ascii_only: bool, target: EsVersion) -> (Ascii
     }
 
     (quote_char, CowStr::Owned(buf))
-}
-
-pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
-    // ddddd -> 0xhhhh
-    // len(0xhhhh) == len(ddddd)
-    // 10000000 <= num <= 0xffffff
-    'hex: {
-        if num.fract() == 0.0 && num.abs() <= u64::MAX as f64 {
-            let int = num.abs() as u64;
-
-            if int < 10000000 {
-                break 'hex;
-            }
-
-            // use scientific notation
-            if int % 1000 == 0 {
-                break 'hex;
-            }
-
-            *detect_dot = false;
-            return format!(
-                "{}{:#x}",
-                if num.is_sign_negative() { "-" } else { "" },
-                int
-            );
-        }
-    }
-
-    let mut num = num.to_string();
-
-    if num.contains(".") {
-        *detect_dot = false;
-    }
-
-    if let Some(num) = num.strip_prefix("0.") {
-        let cnt = clz(num);
-        if cnt > 2 {
-            return format!("{}e-{}", &num[cnt..], num.len());
-        }
-        return format!(".{num}");
-    }
-
-    if let Some(num) = num.strip_prefix("-0.") {
-        let cnt = clz(num);
-        if cnt > 2 {
-            return format!("-{}e-{}", &num[cnt..], num.len());
-        }
-        return format!("-.{num}");
-    }
-
-    if num.ends_with("000") {
-        *detect_dot = false;
-
-        let cnt = num
-            .as_bytes()
-            .iter()
-            .rev()
-            .skip(3)
-            .take_while(|&&c| c == b'0')
-            .count()
-            + 3;
-
-        num.truncate(num.len() - cnt);
-        num.push('e');
-        num.push_str(&cnt.to_string());
-    }
-
-    num
-}
-
-fn clz(s: &str) -> usize {
-    s.as_bytes().iter().take_while(|&&c| c == b'0').count()
 }
 
 pub trait Print {

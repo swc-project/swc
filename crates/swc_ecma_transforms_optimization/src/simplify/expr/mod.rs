@@ -16,8 +16,10 @@ use swc_ecma_transforms_base::{
     perf::{cpu_count, Parallel, ParallelExt},
 };
 use swc_ecma_utils::{
-    is_literal, number::JsNumber, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType,
-    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
+    is_literal,
+    number::{minify_number, JsNumber},
+    prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType, ObjectType,
+    StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -1435,29 +1437,35 @@ fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
 /// Try to fold arithmetic binary operators
 fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
     /// Replace only if it becomes shorter
-    macro_rules! try_replace {
-        ($value:expr) => {{
-            let (ls, rs) = (left.span(), right.span());
-            if ls.is_dummy() || rs.is_dummy() {
-                Known($value)
-            } else {
-                let new_len = format!("{}", $value).len();
-                if right.span().hi() > left.span().lo() {
-                    let orig_len =
-                        right.span().hi() - right.span().lo() + left.span().hi() - left.span().lo();
-                    if new_len <= orig_len.0 as usize + 1 {
-                        Known($value)
-                    } else {
-                        Unknown
-                    }
-                } else {
-                    Known($value)
-                }
-            }
-        }};
-        (i32, $value:expr) => {
-            try_replace!($value as f64)
-        };
+    fn try_replace(lv: f64, rv: f64, value: f64) -> Value<f64> {
+        let new_len = minify_number(value, &mut false).len();
+
+        let orig_len =
+            minify_number(lv, &mut false).len() + 1 + minify_number(rv, &mut false).len();
+
+        if new_len <= orig_len {
+            Known(value)
+        } else {
+            Unknown
+        }
+    }
+
+    fn try_replace_i32(lv: f64, rv: f64, value: i32) -> Value<f64> {
+        let new_len = value.to_string().len();
+
+        let orig_len = minify_number(lv, &mut false)
+            .len()
+            .min(to_int32(lv).to_string().len())
+            + 1
+            + minify_number(rv, &mut false)
+                .len()
+                .min(to_int32(rv).to_string().len());
+
+        if new_len <= orig_len {
+            Known(value as f64)
+        } else {
+            Unknown
+        }
     }
 
     let (lv, rv) = (
@@ -1476,7 +1484,7 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
     match op {
         op!(bin, "+") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return try_replace!(lv + rv);
+                return try_replace(lv, rv, lv + rv);
             }
 
             if lv == Known(0.0) {
@@ -1489,7 +1497,7 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
         }
         op!(bin, "-") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return try_replace!(lv - rv);
+                return try_replace(lv, rv, lv - rv);
             }
 
             // 0 - x => -x
@@ -1506,7 +1514,7 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
         }
         op!("*") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return try_replace!(lv * rv);
+                return try_replace(lv, rv, lv * rv);
             }
             // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
             // advantage of that without some kind of non-NaN proof.  So the special cases
@@ -1526,7 +1534,7 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
                 if rv == 0.0 {
                     return Unknown;
                 }
-                return try_replace!(lv / rv);
+                return try_replace(lv, rv, lv / rv);
             }
 
             // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
@@ -1545,10 +1553,10 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
             }
 
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                let lv: JsNumber = lv.into();
-                let rv: JsNumber = rv.into();
-                let result: f64 = lv.pow(rv).into();
-                return try_replace!(result);
+                let js_lv: JsNumber = lv.into();
+                let js_rv: JsNumber = rv.into();
+                let result: f64 = js_lv.pow(js_rv).into();
+                return try_replace(lv, rv, result);
             }
 
             return Unknown;
@@ -1561,14 +1569,14 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
     };
 
     match op {
-        op!("&") => try_replace!(i32, to_int32(lv) & to_int32(rv)),
-        op!("|") => try_replace!(i32, to_int32(lv) | to_int32(rv)),
-        op!("^") => try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
+        op!("&") => try_replace_i32(lv, rv, to_int32(lv) & to_int32(rv)),
+        op!("|") => try_replace_i32(lv, rv, to_int32(lv) | to_int32(rv)),
+        op!("^") => try_replace_i32(lv, rv, to_int32(lv) ^ to_int32(rv)),
         op!("%") => {
             if rv == 0.0 {
                 return Unknown;
             }
-            try_replace!(lv % rv)
+            try_replace(lv, rv, lv % rv)
         }
         _ => unreachable!("unknown binary operator: {:?}", op),
     }

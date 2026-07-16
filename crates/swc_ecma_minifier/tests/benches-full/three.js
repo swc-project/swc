@@ -6297,7 +6297,7 @@ function(global, factory) {
         }, shadowMaterialVertical = new ShaderMaterial({
             defines: {
                 SAMPLE_RATE: 0.25,
-                HALF_SAMPLE_RATE: 0.125
+                HALF_SAMPLE_RATE: 1.0 / 8.0
             },
             uniforms: {
                 shadow_pass: {

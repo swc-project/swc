@@ -22393,7 +22393,7 @@
                 return Buffer(value, encodingOrOffset, length);
             }), Safer.alloc || (Safer.alloc = function(size, fill, encoding) {
                 if ('number' != typeof size) throw TypeError('The "size" argument must be of type number. Received type ' + typeof size);
-                if (size < 0 || size >= 2 * 1073741824) throw RangeError('The value "' + size + '" is invalid for option "size"');
+                if (size < 0 || size >= 2147483648) throw RangeError('The value "' + size + '" is invalid for option "size"');
                 var buf = Buffer(size);
                 return fill && 0 !== fill.length ? 'string' == typeof encoding ? buf.fill(fill, encoding) : buf.fill(fill) : buf.fill(0), buf;
             }), !safer.kStringMaxLength) try {

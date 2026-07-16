@@ -794,7 +794,7 @@
             });
             /* harmony import */ var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./define.js */ "../../../node_modules/d3-color/src/define.js");
             function Color() {}
-            var darker = 0.7, brighter = 1.4285714285714286, reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
+            var darker = 0.7, brighter = 1 / 0.7, reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
                 reI,
                 reI,
                 reI
@@ -1304,12 +1304,12 @@
             }), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bounceInOut", function() {
                 return bounceInOut;
             });
-            var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
+            var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b5 = 9 / 11, b6 = 10 / 11, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
             function bounceIn(t) {
                 return 1 - bounceOut(1 - t);
             }
             function bounceOut(t) {
-                return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+                return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + 0.75 : t < b6 ? b0 * (t -= b5) * t + 0.9375 : b0 * (t -= b8) * t + b9;
             }
             function bounceInOut(t) {
                 return ((t *= 2) <= 1 ? 1 - bounceOut(1 - t) : bounceOut(t - 1) + 1) / 2;

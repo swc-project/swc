@@ -188,6 +188,78 @@ impl std::ops::Not for JsNumber {
     }
 }
 
+fn clz(s: &str) -> usize {
+    s.as_bytes().iter().take_while(|&&c| c == b'0').count()
+}
+
+pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
+    // ddddd -> 0xhhhh
+    // len(0xhhhh) == len(ddddd)
+    // 10000000 <= num <= 0xffffff
+    'hex: {
+        if num.fract() == 0.0 && num.abs() <= u64::MAX as f64 {
+            let int = num.abs() as u64;
+
+            if int < 10000000 {
+                break 'hex;
+            }
+
+            // use scientific notation
+            if int % 1000 == 0 {
+                break 'hex;
+            }
+
+            *detect_dot = false;
+            return format!(
+                "{}{:#x}",
+                if num.is_sign_negative() { "-" } else { "" },
+                int
+            );
+        }
+    }
+
+    let mut num = num.to_string();
+
+    if num.contains(".") {
+        *detect_dot = false;
+    }
+
+    if let Some(num) = num.strip_prefix("0.") {
+        let cnt = clz(num);
+        if cnt > 2 {
+            return format!("{}e-{}", &num[cnt..], num.len());
+        }
+        return format!(".{num}");
+    }
+
+    if let Some(num) = num.strip_prefix("-0.") {
+        let cnt = clz(num);
+        if cnt > 2 {
+            return format!("-{}e-{}", &num[cnt..], num.len());
+        }
+        return format!("-.{num}");
+    }
+
+    if num.ends_with("000") {
+        *detect_dot = false;
+
+        let cnt = num
+            .as_bytes()
+            .iter()
+            .rev()
+            .skip(3)
+            .take_while(|&&c| c == b'0')
+            .count()
+            + 3;
+
+        num.truncate(num.len() - cnt);
+        num.push('e');
+        num.push_str(&cnt.to_string());
+    }
+
+    num
+}
+
 #[cfg(test)]
 mod test_js_number {
     use super::*;
