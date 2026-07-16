@@ -1318,6 +1318,26 @@ impl Optimizer<'_> {
                     return;
                 }
             }
+            Expr::Ident(i) => {
+                if let Some(scope) = self.data.get_scope(i.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                        return;
+                    }
+                }
+
+                if let Some(data) = self.data.get_var_data(i.to_id()) {
+                    if let (true, Some(Value::Known(count))) = (
+                        data.flags.intersects(VarUsageInfoFlags::DECLARED),
+                        data.param_count,
+                    ) {
+                        count as usize
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
             _ => return,
         };
 

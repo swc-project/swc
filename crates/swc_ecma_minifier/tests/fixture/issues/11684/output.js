@@ -3,4 +3,4 @@ n = new function() {
 }();
 class A {
 }
-g.foo = A, n = new A(1, 2, 3);
+g.foo = A, n = new A();
