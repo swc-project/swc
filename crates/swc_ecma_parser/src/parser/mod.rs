@@ -73,7 +73,7 @@ pub struct Parser<I: self::input::Tokens> {
         not(feature = "stacker"),
         miri
     ))]
-    expression_nesting: u8,
+    expression_nesting: u16,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -113,7 +113,12 @@ impl<I: Tokens> Parser<I> {
             miri
         ))]
         {
-            const MAX_EXPRESSION_NESTING: u8 = 64;
+            // Wasm has enough stack for existing real-world inputs beyond the
+            // conservative native fallback, but still needs a finite guard.
+            #[cfg(target_arch = "wasm32")]
+            const MAX_EXPRESSION_NESTING: u16 = 256;
+            #[cfg(not(target_arch = "wasm32"))]
+            const MAX_EXPRESSION_NESTING: u16 = 64;
 
             if self.expression_nesting >= MAX_EXPRESSION_NESTING {
                 return Err(Error::new(

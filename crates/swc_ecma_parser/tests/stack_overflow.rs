@@ -82,3 +82,22 @@ fn deeply_nested_expressions_return_an_error_without_stacker() {
         .join()
         .expect("parser should reject the input without overflowing its stack");
 }
+
+#[cfg(target_arch = "wasm32")]
+#[test]
+fn wasm_accepts_existing_real_world_nesting_depth() {
+    let depth = 180;
+    let source = format!("{}0{}", "(".repeat(depth), ")".repeat(depth));
+    let end = BytePos(source.len() as u32);
+    let mut parser = Parser::new(
+        Syntax::default(),
+        StringInput::new(&source, BytePos(0), end),
+        None,
+    );
+
+    let expr = parser
+        .parse_expr()
+        .expect("moderately nested wasm expression should parse");
+    assert!(parser.take_errors().is_empty());
+    std::mem::forget(expr);
+}
