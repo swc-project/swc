@@ -1164,6 +1164,18 @@ impl VisitMut for TreeShaker {
                     nontrivial_classes: Default::default(),
                 };
                 m.visit_with(&mut analyzer);
+
+                // A direct `eval` can reference any binding in its enclosing
+                // lexical scope chain, up to the top level. `found_direct_eval`
+                // is propagated to the root scope, but unlike function scopes
+                // (see `with_scope`), the root never consumed it, so top-level
+                // declarations reachable by a direct `eval` were dropped.
+                // Preserve them here.
+                if analyzer.scope.found_direct_eval {
+                    for id in collect_decls(&*m) {
+                        analyzer.data.used_names.entry(id).or_default().usage += 1;
+                    }
+                }
             }
             data.subtract_cycles();
             self.data = data;
@@ -1233,6 +1245,18 @@ impl VisitMut for TreeShaker {
                     nontrivial_classes: Default::default(),
                 };
                 m.visit_with(&mut analyzer);
+
+                // A direct `eval` can reference any binding in its enclosing
+                // lexical scope chain, up to the top level. `found_direct_eval`
+                // is propagated to the root scope, but unlike function scopes
+                // (see `with_scope`), the root never consumed it, so top-level
+                // declarations reachable by a direct `eval` were dropped.
+                // Preserve them here.
+                if analyzer.scope.found_direct_eval {
+                    for id in collect_decls(&*m) {
+                        analyzer.data.used_names.entry(id).or_default().usage += 1;
+                    }
+                }
             }
             data.subtract_cycles();
             self.data = data;
