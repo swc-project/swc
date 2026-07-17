@@ -20,16 +20,16 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 bench = false
 
 [dependencies]
-ascii           = { workspace = true }
-compact_str     = { workspace = true }
-dragonbox_ecma  = { workspace = true }
-memchr          = { workspace = true }
-num-bigint      = { workspace = true, features = ["serde"] }
-once_cell       = { workspace = true }
-regex           = { workspace = true }
-rustc-hash      = { workspace = true }
-serde           = { workspace = true }
-tracing         = { workspace = true }
+ascii          = { workspace = true }
+compact_str    = { workspace = true }
+dragonbox_ecma = { workspace = true }
+memchr         = { workspace = true }
+num-bigint     = { workspace = true, features = ["serde"] }
+once_cell      = { workspace = true }
+regex          = { workspace = true }
+rustc-hash     = { workspace = true }
+serde          = { workspace = true }
+tracing        = { workspace = true }
 
 swc_allocator = { version = "4.0.1", path = "../swc_allocator", default-features = false, features = [
   "hashbrown",
@@ -38,6 +38,7 @@ swc_atoms = { version = "9.0.3", path = "../swc_atoms" }
 swc_common = { version = "23.0.2", path = "../swc_common" }
 swc_ecma_ast = { version = "25.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen_macros = { version = "2.0.2", path = "../swc_ecma_codegen_macros" }
+swc_ecma_utils = { version = "31.0.2", path = "../swc_ecma_utils" }
 
 [dev-dependencies]
 base64                    = { workspace = true }
@@ -51,8 +52,8 @@ swc_common = { version = "23.0.2", path = "../swc_common", features = [
 swc_ecma_parser = { version = "41.1.2", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "24.0.1", path = "../swc_ecma_testing" }
 swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
-testing = { version = "24.0.1", path = "../testing" }
 swc_sourcemap = { workspace = true }
+testing = { version = "24.0.1", path = "../testing" }
 
 [[bench]]
 harness = false

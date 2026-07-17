@@ -6329,6 +6329,7 @@ dependencies = [
  "swc_ecma_codegen_macros",
  "swc_ecma_parser",
  "swc_ecma_testing",
+ "swc_ecma_utils",
  "swc_malloc",
  "swc_sourcemap",
  "testing",

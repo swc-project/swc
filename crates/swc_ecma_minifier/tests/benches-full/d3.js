@@ -1128,7 +1128,7 @@ function(global, factory) {
         var value = this._.on.apply(this._, arguments);
         return value === this._ ? this : value;
     };
-    var reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
+    var brighter = 1 / 0.7, reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
         reI,
         reI,
         reI
@@ -1387,7 +1387,7 @@ function(global, factory) {
         toString: color_formatRgb
     }), define1(Rgb, rgb, extend(Color, {
         brighter: function(k) {
-            return k = null == k ? 1.4285714285714286 : Math.pow(1.4285714285714286, k), new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
+            return k = null == k ? brighter : Math.pow(brighter, k), new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
         },
         darker: function(k) {
             return k = null == k ? 0.7 : Math.pow(0.7, k), new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
@@ -1404,7 +1404,7 @@ function(global, factory) {
         toString: rgb_formatRgb
     })), define1(Hsl, hsl, extend(Color, {
         brighter: function(k) {
-            return k = null == k ? 1.4285714285714286 : Math.pow(1.4285714285714286, k), new Hsl(this.h, this.s, this.l * k, this.opacity);
+            return k = null == k ? brighter : Math.pow(brighter, k), new Hsl(this.h, this.s, this.l * k, this.opacity);
         },
         darker: function(k) {
             return k = null == k ? 0.7 : Math.pow(0.7, k), new Hsl(this.h, this.s, this.l * k, this.opacity);
@@ -1518,7 +1518,7 @@ function(global, factory) {
     }
     define1(Cubehelix, cubehelix, extend(Color, {
         brighter: function(k) {
-            return k = null == k ? 1.4285714285714286 : Math.pow(1.4285714285714286, k), new Cubehelix(this.h, this.s, this.l * k, this.opacity);
+            return k = null == k ? brighter : Math.pow(brighter, k), new Cubehelix(this.h, this.s, this.l * k, this.opacity);
         },
         darker: function(k) {
             return k = null == k ? 0.7 : Math.pow(0.7, k), new Cubehelix(this.h, this.s, this.l * k, this.opacity);
@@ -2270,9 +2270,9 @@ function(global, factory) {
     function circleInOut(t) {
         return ((t *= 2) <= 1 ? 1 - Math.sqrt(1 - t * t) : Math.sqrt(1 - (t -= 2) * t) + 1) / 2;
     }
-    var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
+    var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b5 = 9 / 11, b6 = 10 / 11, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
     function bounceOut(t) {
-        return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+        return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + 0.75 : t < b6 ? b0 * (t -= b5) * t + 0.9375 : b0 * (t -= b8) * t + b9;
     }
     var backIn = function custom(s) {
         function backIn(t) {
@@ -5285,20 +5285,20 @@ function(global, factory) {
         }, graticule.extentMajor([
             [
                 -180,
-                -89.999999
+                -90 + 1e-6
             ],
             [
                 180,
-                89.999999
+                90 - 1e-6
             ]
         ]).extentMinor([
             [
                 -180,
-                -80.000001
+                -80 - 1e-6
             ],
             [
                 180,
-                80.000001
+                80 + 1e-6
             ]
         ]);
     }
@@ -5968,7 +5968,7 @@ function(global, factory) {
     function equalEarthRaw(lambda, phi) {
         var l = asin(M * sin$1(phi)), l2 = l * l, l6 = l2 * l2 * l2;
         return [
-            lambda * cos$1(l) / (M * (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2))),
+            lambda * cos$1(l) / (M * (1.340264 + -3 * 0.081106 * l2 + l6 * (7 * 0.000893 + 0.034164 * l2))),
             l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2))
         ];
     }
@@ -6216,9 +6216,9 @@ function(global, factory) {
         for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (x1 - x0) / parent.value; ++i < n;)(node = nodes[i]).y0 = y0, node.y1 = y1, node.x0 = x0, node.x1 = x0 += node.value * k;
     }
     equalEarthRaw.invert = function(x, y) {
-        for(var delta, fy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
+        for(var delta, fy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + -3 * 0.081106 * l2 + l6 * (7 * 0.000893 + 0.034164 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
         return [
-            M * x * (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)) / cos$1(l),
+            M * x * (1.340264 + -3 * 0.081106 * l2 + l6 * (7 * 0.000893 + 0.034164 * l2)) / cos$1(l),
             asin(sin$1(l) / M)
         ];
     }, gnomonicRaw.invert = azimuthalInvert(atan), naturalEarth1Raw.invert = function(x, y) {
@@ -10173,7 +10173,7 @@ function(global, factory) {
     }, exports1.geoMercatorRaw = mercatorRaw, exports1.geoNaturalEarth1 = function() {
         return projection(naturalEarth1Raw).scale(175.295);
     }, exports1.geoNaturalEarth1Raw = naturalEarth1Raw, exports1.geoOrthographic = function() {
-        return projection(orthographicRaw).scale(249.5).clipAngle(90.000001);
+        return projection(orthographicRaw).scale(249.5).clipAngle(90 + 1e-6);
     }, exports1.geoOrthographicRaw = orthographicRaw, exports1.geoPath = function(projection, context) {
         var projectionStream, contextStream, pointRadius = 4.5;
         function path(object) {
