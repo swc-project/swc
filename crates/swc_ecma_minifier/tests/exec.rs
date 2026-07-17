@@ -306,6 +306,112 @@ fn concat_tpl_keeps_delimiter_after_interpolation() {
 }
 
 #[test]
+fn issue_11684_named_constructor_arguments() {
+    let src = r#"
+        const effects = [];
+        const effect = value => {
+            effects.push(value);
+            return value;
+        };
+
+        function FunctionCtor(value) {
+            this.value = value;
+        }
+
+        class ClassCtor {
+            constructor(value) {
+                this.value = value;
+            }
+        }
+
+        function ArgumentsCtor() {
+            this.values = Array.from(arguments);
+        }
+
+        class RestCtor {
+            constructor(...values) {
+                this.values = values;
+            }
+        }
+
+        const functionValue = new FunctionCtor(
+            effect("function-used"),
+            0,
+            effect("function-extra-a"),
+            1,
+            effect("function-extra-b")
+        );
+        const classValue = new ClassCtor(
+            effect("class-used"),
+            0,
+            effect("class-extra-a"),
+            1,
+            effect("class-extra-b")
+        );
+        const argumentsValue = new ArgumentsCtor(1, 2, 3);
+        const restValue = new RestCtor(1, 2, 3);
+
+        console.log(JSON.stringify({
+            effects,
+            functionValue: functionValue.value,
+            classValue: classValue.value,
+            argumentsValue: argumentsValue.values,
+            restValue: restValue.values,
+        }));
+        "#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": false
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_nested_eval_preserves_constructor_arguments() {
+    let src = r#"
+        class ReplacementClass {
+            constructor(value) {
+                this.value = value;
+            }
+        }
+
+        function ReplacementFunction(value) {
+            this.value = value;
+        }
+
+        class OuterClass {}
+
+        function constructOuterClassAfterEval() {
+            // Direct eval in a child scope can replace an outer constructor binding.
+            eval("OuterClass = ReplacementClass");
+            return new OuterClass("class-eval", "extra");
+        }
+
+        function OuterFunction() {}
+
+        function constructOuterFunctionAfterEval() {
+            eval("OuterFunction = ReplacementFunction");
+            return new OuterFunction("function-eval", "extra");
+        }
+
+        const classValue = constructOuterClassAfterEval();
+        const functionValue = constructOuterFunctionAfterEval();
+
+        console.log(JSON.stringify({
+            classValue: classValue.value,
+            functionValue: functionValue.value,
+        }));
+        "#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": false
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn next_feedback_1_capture_1() {
     let src = r###"
 const arr = [];
