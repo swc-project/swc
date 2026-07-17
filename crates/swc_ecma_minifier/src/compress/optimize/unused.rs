@@ -1162,6 +1162,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.bit_ctx.intersects(BitCtx::InWithStmt) {
+            return;
+        }
+
         if e.args.iter().any(|a| a.spread.is_some()) {
             return;
         }
@@ -1248,6 +1252,10 @@ impl Optimizer<'_> {
 
     pub(crate) fn ignore_unused_args_of_new(&mut self, e: &mut NewExpr) {
         if !self.options.unused && !self.options.reduce_vars {
+            return;
+        }
+
+        if self.ctx.bit_ctx.intersects(BitCtx::InWithStmt) {
             return;
         }
 

@@ -14,7 +14,7 @@ function constructLocal() {
     }
     return out.Local = Global, new Global(1, 2);
 }
-out.Global = Global, out.global = new Global(1), out.constructUnknown = constructUnknown, out.constructLocal = constructLocal;
+out.Global = Global, out.global = new Global(1, 2, 3), out.constructUnknown = constructUnknown, out.constructLocal = constructLocal;
 class MutableClass {
 }
 function MutableFunction() {}
@@ -37,4 +37,4 @@ condition && (SameArity = class {
     constructor(value){
         this.value = value;
     }
-}), out.SameArity = SameArity, out.sameArity = new SameArity(1), out.constructAfterEval = constructAfterEval;
+}), out.SameArity = SameArity, out.sameArity = new SameArity(1, 2, 3), out.constructAfterEval = constructAfterEval;
