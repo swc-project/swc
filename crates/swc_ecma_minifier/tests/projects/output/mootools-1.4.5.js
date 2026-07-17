@@ -1430,7 +1430,7 @@ requires: Slick.Parser
                 for(feature in features)this[feature] = features[feature];
                 return;
             }
-            features = featuresCache[rootUid] = {}, features.root = root, features.isXMLDocument = this.isXML(document1), features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1;
+            (features = featuresCache[rootUid] = {}).root = root, features.isXMLDocument = this.isXML(document1), features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1;
             var starSelectsClosed, starSelectsComments, brokenSecondClassNameGEBCN, cachedGetElementsByClassName, brokenFormAttributeGetter, selected, id = "slick_uniqueid", testNode = document1.createElement("div"), testRoot = document1.body || document1.getElementsByTagName("body")[0] || root;
             testRoot.appendChild(testNode);
             // on non-HTML documents innerHTML and getElementsById doesnt work properly
@@ -2447,15 +2447,12 @@ function() {
             var queryString = [];
             return this.getElements("input, select, textarea").each(function(el) {
                 var type = el.type;
-                if (el.name && !el.disabled && "submit" != type && "reset" != type && "file" != type && "image" != type) {
-                    var value = "select" == el.get("tag") ? el.getSelected().map(function(opt) {
-                        // IE
-                        return document.id(opt).get("value");
-                    }) : "radio" != type && "checkbox" != type || el.checked ? el.get("value") : null;
-                    Array.from(value).each(function(val) {
-                        void 0 !== val && queryString.push(encodeURIComponent(el.name) + "=" + encodeURIComponent(val));
-                    });
-                }
+                el.name && !el.disabled && "submit" != type && "reset" != type && "file" != type && "image" != type && Array.from("select" == el.get("tag") ? el.getSelected().map(function(opt) {
+                    // IE
+                    return document.id(opt).get("value");
+                }) : "radio" != type && "checkbox" != type || el.checked ? el.get("value") : null).each(function(val) {
+                    void 0 !== val && queryString.push(encodeURIComponent(el.name) + "=" + encodeURIComponent(val));
+                });
             }), queryString.join("&");
         }
     });
@@ -3057,7 +3054,7 @@ provides: [Element.Delegation]
             if (stored) {
                 for(var _uid in stored)if (stored[_uid].fn == fn && stored[_uid].match == match) return this;
             }
-            var _type = type, _match = match, _fn = fn, _map = map[type] || {};
+            var _type = type, _match = match, _map = map[type] || {};
             type = _map.base || _type, match = function(target) {
                 return Slick.match(target, _match);
             };
@@ -3075,7 +3072,7 @@ provides: [Element.Delegation]
             };
             return stored || (stored = {}), stored[uid] = {
                 match: _match,
-                fn: _fn,
+                fn: fn,
                 delegator: delegator
             }, storage[_type] = stored, addEvent.call(this, type, delegator, _map.capture);
         },
@@ -3163,10 +3160,9 @@ provides: [Element.Dimensions]
             for(var isOffsetCheck = "static" == styleString(element, "position") ? isOffsetStatic : isOffset; element = element.parentNode;)if (isOffsetCheck(element)) return element;
             return null;
         } : function() {
-            var element = this;
-            if (isBody(element) || "fixed" == styleString(element, "position")) return null;
+            if (isBody(this) || "fixed" == styleString(this, "position")) return null;
             try {
-                return element.offsetParent;
+                return this.offsetParent;
             } catch (e) {}
             return null;
         },
@@ -3519,19 +3515,16 @@ provides: Fx.CSS
         var to = {}, selectorTest = RegExp("^" + selector.escapeRegExp() + "$");
         return Array.each(document.styleSheets, function(sheet, j) {
             var href = sheet.href;
-            if (!(href && href.contains("://")) || href.contains(document.domain)) {
-                var rules = sheet.rules || sheet.cssRules;
-                Array.each(rules, function(rule, i) {
-                    if (rule.style) {
-                        var selectorText = rule.selectorText ? rule.selectorText.replace(/^\w+/, function(m) {
-                            return m.toLowerCase();
-                        }) : null;
-                        selectorText && selectorTest.test(selectorText) && Object.each(Element.Styles, function(value, style) {
-                            rule.style[style] && !Element.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
-                        });
-                    }
-                });
-            }
+            (!(href && href.contains("://")) || href.contains(document.domain)) && Array.each(sheet.rules || sheet.cssRules, function(rule, i) {
+                if (rule.style) {
+                    var selectorText = rule.selectorText ? rule.selectorText.replace(/^\w+/, function(m) {
+                        return m.toLowerCase();
+                    }) : null;
+                    selectorText && selectorTest.test(selectorText) && Object.each(Element.Styles, function(value, style) {
+                        rule.style[style] && !Element.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
+                    });
+                }
+            });
         }), Fx.CSS.Cache[selector] = to;
     }
 }), Fx.CSS.Cache = {}, Fx.CSS.Parsers = {
