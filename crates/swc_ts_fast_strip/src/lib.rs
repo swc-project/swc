@@ -15,11 +15,11 @@ use swc_ecma_ast::{
     ClassProp, Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, Expr, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp,
     IfStmt, ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat, Param,
-    Pat, PrivateMethod, PrivateProp, Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
-    TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
-    TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam,
-    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
-    TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
+    Pat, PrivateMethod, PrivateProp, Program, SetterProp, Stmt, TsAsExpr, TsConstAssertion,
+    TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation,
+    TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
+    VarDeclarator, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -804,32 +804,51 @@ impl TsStrip {
         self.add_replacement(*span);
     }
 
-    // ```TypeScript
-    // return/yield/throw <T>
-    //     (v: T) => v;
-    // ```
+    // Stripping the type parameters can expose a line break that either makes
+    // JavaScript invalid (`async`, `throw`) or changes its parsing (`return`,
+    // `yield`):
     //
     // ```TypeScript
-    // return/yield/throw (
-    //      v   ) => v;
+    // const f = async<T>
+    // (value: T) => value;
+    //
+    // return <T>
+    // (value: T) => value;
     // ```
-    fn fix_asi_in_arrow_expr(&mut self, arrow_expr: &ArrowExpr) {
-        if let Some(tp) = &arrow_expr.type_params {
-            let l_paren = self.get_next_token(tp.span.hi);
-            debug_assert_eq!(l_paren.token, Token::LParen);
+    //
+    // Move the existing opening parenthesis into the type parameter slot so
+    // the output keeps the same byte length and line breaks:
+    //
+    // ```JavaScript
+    // const f = async(
+    //  value   ) => value;
+    //
+    // return (
+    //  value   ) => value;
+    // ```
+    fn move_arrow_opening_paren(&mut self, arrow_expr: &ArrowExpr, type_params: Span) {
+        let type_params_index = self.get_next_token_index(type_params.lo);
+        let follows_restricted_keyword = type_params_index > 0
+            && !self.tokens[type_params_index].had_line_break
+            && matches!(
+                self.tokens[type_params_index - 1].token,
+                Token::Return | Token::Yield | Token::Throw
+            );
 
-            let slice = self.get_src_slice(tp.span.with_hi(l_paren.span.lo));
-
-            if !slice.chars().any(is_new_line) {
-                return;
-            }
-
-            let l_paren_pos = l_paren.span.lo;
-            let l_lt_pos = tp.span.lo;
-
-            self.add_overwrite(l_paren_pos, b' ');
-            self.add_overwrite(l_lt_pos, b'(');
+        if !arrow_expr.is_async && !follows_restricted_keyword {
+            return;
         }
+
+        let l_paren = self.get_next_token(type_params.hi);
+        debug_assert_eq!(l_paren.token, Token::LParen);
+
+        let slice = self.get_src_slice(type_params.with_hi(l_paren.span.lo));
+        if !slice.chars().any(is_new_line) {
+            return;
+        }
+
+        self.add_overwrite(l_paren.span.lo, b' ');
+        self.add_overwrite(type_params.lo, b'(');
     }
 
     fn assertion_chain_would_change_binary_grouping(
@@ -951,38 +970,9 @@ impl Visit for TsStrip {
     }
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        'type_params: {
-            // ```TypeScript
-            // let f = async <
-            //    T
-            // >(v: T) => v;
-            // ```
-
-            // ```TypeScript
-            // let f = async (
-            //
-            //   v   ) => v;
-            // ```
-            if let Some(tp) = &n.type_params {
-                self.add_replacement(tp.span);
-
-                if !n.is_async {
-                    break 'type_params;
-                }
-
-                let slice = self.get_src_slice(tp.span);
-                if !slice.chars().any(is_new_line) {
-                    break 'type_params;
-                }
-
-                let l_paren = self.get_next_token(tp.span.hi);
-                debug_assert_eq!(l_paren.token, Token::LParen);
-                let l_paren_pos = l_paren.span.lo;
-                let l_lt_pos = tp.span.lo;
-
-                self.add_overwrite(l_paren_pos, b' ');
-                self.add_overwrite(l_lt_pos, b'(');
-            }
+        if let Some(type_params) = &n.type_params {
+            self.add_replacement(type_params.span);
+            self.move_arrow_opening_paren(n, type_params.span);
         }
 
         if let Some(ret) = &n.return_type {
@@ -1026,61 +1016,6 @@ impl Visit for TsStrip {
 
         n.params.visit_with(self);
         n.body.visit_with(self);
-    }
-
-    fn visit_return_stmt(&mut self, n: &ReturnStmt) {
-        let Some(arg) = n.arg.as_deref() else {
-            return;
-        };
-
-        arg.visit_with(self);
-
-        let Some(arrow_expr) = arg.as_arrow() else {
-            return;
-        };
-
-        if arrow_expr.is_async {
-            // We have already handled type parameters in `visit_arrow_expr`.
-            return;
-        }
-
-        self.fix_asi_in_arrow_expr(arrow_expr);
-    }
-
-    fn visit_yield_expr(&mut self, n: &YieldExpr) {
-        let Some(arg) = &n.arg else {
-            return;
-        };
-
-        arg.visit_with(self);
-
-        let Some(arrow_expr) = arg.as_arrow() else {
-            return;
-        };
-
-        if arrow_expr.is_async {
-            // We have already handled type parameters in `visit_arrow_expr`.
-            return;
-        }
-
-        self.fix_asi_in_arrow_expr(arrow_expr);
-    }
-
-    fn visit_throw_stmt(&mut self, n: &ThrowStmt) {
-        let arg = &n.arg;
-
-        arg.visit_with(self);
-
-        let Some(arrow_expr) = arg.as_arrow() else {
-            return;
-        };
-
-        if arrow_expr.is_async {
-            // We have already handled type parameters in `visit_arrow_expr`.
-            return;
-        }
-
-        self.fix_asi_in_arrow_expr(arrow_expr);
     }
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
