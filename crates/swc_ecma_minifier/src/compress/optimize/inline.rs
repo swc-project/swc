@@ -41,8 +41,10 @@ impl Optimizer<'_> {
             self.may_remove_ident(ident)
         );
 
-        if self.data.top.contains(ScopeData::HAS_EVAL_CALL) {
-            return;
+        if let Some(scope) = self.data.get_scope(self.ctx.var_scope) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
         }
 
         // We will inline if possible.
@@ -65,13 +67,20 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if self.data.top.contains(ScopeData::USED_ARGUMENTS)
+            let used_arguments = self
+                .data
+                .get_scope(self.ctx.var_scope)
+                .unwrap()
+                .contains(ScopeData::USED_ARGUMENTS);
+
+            if used_arguments
                 && usage
                     .flags
                     .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
             {
                 return;
             }
+
             if usage
                 .flags
                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
@@ -664,15 +673,13 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self
-            .data
-            .top
-            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
-        {
-            return;
-        }
-
         let id = i.to_id();
+
+        if let Some(scope) = self.data.get_scope(self.ctx.var_scope) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
+        }
 
         if let Some(usage) = self.data.vars.get(&id) {
             if usage

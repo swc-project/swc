@@ -707,7 +707,8 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .top
+            .get_scope(self.ctx.var_scope)
+            .unwrap()
             .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
         {
             return;
@@ -753,7 +754,8 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .top
+            .get_scope(self.ctx.var_scope)
+            .unwrap()
             .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
         {
             return;

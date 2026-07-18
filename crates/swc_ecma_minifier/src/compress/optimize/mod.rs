@@ -79,7 +79,8 @@ pub(super) fn optimizer<'a>(
             in_strict: options.module,
             remaining_depth: 6,
         },
-        scope: SyntaxContext::default(),
+        scope: marks.top_level_ctxt,
+        var_scope: marks.top_level_ctxt,
         bit_ctx: BitCtx::default(),
     };
 
@@ -110,6 +111,9 @@ struct Ctx {
 
     /// Current scope.
     scope: SyntaxContext,
+
+    /// fn or top level scope
+    var_scope: SyntaxContext,
 
     bit_ctx: BitCtx,
 }
@@ -373,10 +377,6 @@ impl Optimizer<'_> {
     }
 
     fn may_add_ident(&self) -> bool {
-        if self.ctx.in_top_level() && self.data.top.contains(ScopeData::HAS_EVAL_CALL) {
-            return false;
-        }
-
         // in class field
         if self.ctx.bit_ctx.contains(BitCtx::InClass)
             && !self
@@ -393,7 +393,7 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .get_scope(self.ctx.scope)
+            .get_scope(self.ctx.var_scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL)
         {
@@ -1518,6 +1518,7 @@ impl VisitMut for Optimizer<'_> {
                     .with(BitCtx::InFnLike, true)
                     .with(BitCtx::TopLevel, false),
                 scope: n.ctxt,
+                var_scope: n.ctxt,
                 ..self.ctx.clone()
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1807,6 +1808,21 @@ impl VisitMut for Optimizer<'_> {
             }
             ClassMember::PrivateMethod(private_method) => {
                 private_method.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+
+            ClassMember::StaticBlock(s) => {
+                let ctx = Ctx {
+                    bit_ctx: self
+                        .ctx
+                        .bit_ctx
+                        .with(BitCtx::TopLevel, false)
+                        .with(BitCtx::InBlock, true)
+                        .with(BitCtx::InParam, false),
+                    scope: s.body.ctxt,
+                    var_scope: s.body.ctxt,
+                    ..self.ctx.clone()
+                };
+                n.visit_mut_children_with(&mut *self.with_ctx(ctx));
             }
 
             _ => {
@@ -2336,6 +2352,7 @@ impl VisitMut for Optimizer<'_> {
                     .with(BitCtx::InFnLike, true)
                     .with(BitCtx::TopLevel, false),
                 scope: n.ctxt,
+                var_scope: n.ctxt,
                 ..self.ctx.clone()
             };
             let optimizer = &mut *self.with_ctx(ctx);

@@ -44,8 +44,13 @@ where
         top_scope.merge(scope.clone(), true);
     }
 
-    v.data.top_scope().merge(top_scope.clone(), false);
-    v.data.scope(SyntaxContext::empty()).merge(top_scope, false);
+    v.data
+        .scope(
+            marks
+                .map(|m| m.top_level_ctxt)
+                .unwrap_or(SyntaxContext::empty()),
+        )
+        .merge(top_scope, false);
 
     v.data
 }

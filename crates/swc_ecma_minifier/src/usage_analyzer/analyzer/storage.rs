@@ -18,8 +18,6 @@ pub trait Storage: Sized {
 
     fn scopes(&self) -> &[Self::ScopeData];
 
-    fn top_scope(&mut self) -> &mut Self::ScopeData;
-
     fn var_or_default(&mut self, id: Id) -> &mut Self::VarData;
 
     fn merge(&mut self, kind: ScopeKind, child: Self);
