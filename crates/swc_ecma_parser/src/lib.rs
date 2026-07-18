@@ -163,16 +163,13 @@
 
 #[cfg(feature = "unstable")]
 pub mod unstable {
-    //! This module expose tokens related to the `swc_ecma_parser::lexer`.
+    //! This module exposes token types related to the `swc_ecma_parser::lexer`.
     //!
-    //! Unlike the tokens re-exported from `swc_ecma_lexer`, the token kinds
-    //! defined in the `swc_ecma_parser` here are non-strict for higher
+    //! The lexer separates token kinds from token values for higher
     //! performance.
     //!
-    //! Although it's marked as unstable, we can ensure that we will not
-    //! introduce too many breaking changes. And we also encourage the
-    //! applications to migrate to the lexer and tokens in terms of
-    //! the performance.
+    //! These APIs are marked as unstable, but applications that need direct
+    //! access to lexer tokens are encouraged to use them.
     //!
     //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
     pub use crate::lexer::{
@@ -187,13 +184,11 @@ use swc_ecma_ast::*;
 
 mod context;
 pub mod error;
-mod legacy;
 pub mod lexer;
 mod parser;
 mod syntax;
 
 pub use context::Context;
-pub use legacy::token;
 pub use lexer::Lexer;
 pub use parser::*;
 pub use swc_common::input::{Input, StringInput};

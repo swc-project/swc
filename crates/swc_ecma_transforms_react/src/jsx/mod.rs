@@ -1685,8 +1685,8 @@ fn is_valid_entity(chars: &[char]) -> bool {
 /// Check if name is a known HTML entity
 fn is_known_html_entity(name: &str) -> bool {
     // Common HTML entities that decode to whitespace or other characters
-    // This list matches the entities defined in swc_ecma_lexer jsx.rs xhtml!
-    // macro
+    // This list matches the entities defined by the xhtml! macro in
+    // swc_ecma_parser's lexer/jsx.rs.
     matches!(
         name,
         "nbsp"
