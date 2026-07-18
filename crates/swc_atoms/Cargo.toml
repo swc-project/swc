@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_atoms"
 repository    = { workspace = true }
-version       = "9.0.3"
+version       = "10.0.0"
 
 [lib]
 bench = false
@@ -22,4 +22,4 @@ once_cell     = { workspace = true }
 serde         = { workspace = true }
 shrink-to-fit = { workspace = true, optional = true }
 
-hstr = { version = "3.0.6", path = "../hstr", features = ["serde"] }
+hstr = { version = "4.0.0", path = "../hstr", features = ["serde"] }
