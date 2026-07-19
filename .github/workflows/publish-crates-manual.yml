@@ -37,7 +37,7 @@ jobs:
         with:
           cache: "false"
 
-      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         with:
           toolchain: nightly-2025-05-06
 

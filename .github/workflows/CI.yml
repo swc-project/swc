@@ -36,7 +36,7 @@ jobs:
           persist-credentials: false
 
       # We explicitly do this to cache properly.
-      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         with:
           toolchain: nightly-2026-04-10
           components: rustfmt
@@ -53,7 +53,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         with:
           toolchain: nightly-2026-04-10
           components: rustfmt
@@ -73,7 +73,7 @@ jobs:
           persist-credentials: false
           submodules: true
 
-      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         with:
           toolchain: nightly-2026-04-10
           components: clippy
@@ -93,7 +93,7 @@ jobs:
           persist-credentials: false
 
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
 
       - name: Install cargo-deny
         uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
@@ -115,7 +115,7 @@ jobs:
           persist-credentials: false
 
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
 
       - name: Install cargo-shear
         uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
@@ -147,7 +147,7 @@ jobs:
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         # MSRV is current stable for ES crates and nightly for other languages.
 
       - uses: ./.github/actions/setup-node
@@ -179,7 +179,7 @@ jobs:
           persist-credentials: false
 
       # We explicitly do this to cache properly.
-      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -258,7 +258,7 @@ jobs:
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         if: matrix.settings.crate != '__noop__'
         with:
           toolchain: nightly-2026-04-10
@@ -419,7 +419,7 @@ jobs:
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
 
       - uses: ./.github/actions/setup-node
         id: setup-node
@@ -478,7 +478,7 @@ jobs:
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
 
       - uses: ./.github/actions/setup-node
         id: setup-node
