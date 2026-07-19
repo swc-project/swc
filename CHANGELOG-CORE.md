@@ -7,6 +7,9 @@
 
 - Update rust-toolchain action pin ([#12036](https://github.com/swc-project/swc/issues/12036)) ([d1a1e23](https://github.com/swc-project/swc/commit/d1a1e23756a156e5c99113dc528d3c09684c39cd))
 
+
+- Use Node.js 24 for wasm publishing ([#12038](https://github.com/swc-project/swc/issues/12038)) ([516bf3c](https://github.com/swc-project/swc/commit/516bf3c7a2a0366c1f378a515053ee7df6918f8c))
+
 ## [swc_core@v74.0.1] - 2026-07-19
 
 ### Bug Fixes
@@ -2516,9 +2519,6 @@
 
 ### Performance
 
-
-
-- **(es/minifier)** Remove visitor of CharFreqAnalyzer ([#10928](https://github.com/swc-project/swc/issues/10928)) ([65534ff](https://github.com/swc-project/swc/commit/65534ff998036ca881e27ed13074df7d2cadae5d))
 
 
 - **(es/minifier)** Remove pre-compress pass ([#10932](https://github.com/swc-project/swc/issues/10932)) ([c7f0e4d](https://github.com/swc-project/swc/commit/c7f0e4d5e6c0d6492e750d662711f9b495bc280d))
