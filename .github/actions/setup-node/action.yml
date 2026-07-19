@@ -4,7 +4,7 @@ inputs:
   node-version:
     description: "Node version to install"
     required: false
-    default: "20"
+    default: "24"
   install-dependencies:
     description: "Install pnpm dependencies after restoring the pnpm cache"
     required: false
