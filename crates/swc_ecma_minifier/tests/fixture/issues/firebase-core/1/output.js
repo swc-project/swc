@@ -626,7 +626,7 @@
             }
             function I(a) {
                 let b = Sb();
-                D(b, new Tb(b, a));
+                D(b, new Tb(b));
             }
             function Ub(a, b) {
                 z.call(this, H.STAT_EVENT, a), this.stat = b;
@@ -1430,7 +1430,7 @@
                     if (b.i) if (1 == d) {
                         c = b.s ? b.s.length : 0, b = Date.now() - b.F;
                         var e = a.C;
-                        D(d = Sb(), new Vb(d, c, b, e)), Hc(a);
+                        D(d = Sb(), new Vb(d, c)), Hc(a);
                     } else Gc(a);
                     else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (b1 = b, !(Cc(a.i) >= a.i.j - !!a.m) && (a.m ? (a.l = b1.D.concat(a.l), !0) : 1 != a.G && 2 != a.G && !(a.C >= (a.Xa ? 0 : a.Ya)) && (a.m = K(q(a.Ha, a, b1), Od(a, a.C)), a.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
                         case 1:
@@ -1672,7 +1672,7 @@
             }, Z.prototype.wa = function(a) {
                 D(this.g, new Ud(a));
             }, Z.prototype.va = function(a) {
-                D(this.g, new Vd(a));
+                D(this.g, new Vd());
             }, Z.prototype.ua = function() {
                 D(this.g, "b");
             }, Td.prototype.createWebChannel = Td.prototype.g, Y.prototype.send = Y.prototype.u, Y.prototype.open = Y.prototype.m, Y.prototype.close = Y.prototype.close, Wb.NO_ERROR = 0, Wb.TIMEOUT = 8, Wb.HTTP_ERROR = 6, Xb.COMPLETE = "complete", $b.EventType = L, L.OPEN = "a", L.CLOSE = "b", L.ERROR = "c", L.MESSAGE = "d", C.prototype.listen = C.prototype.N, X.prototype.listenOnce = X.prototype.O, X.prototype.getLastError = X.prototype.La, X.prototype.getLastErrorCode = X.prototype.Da, X.prototype.getStatus = X.prototype.ba, X.prototype.getResponseJson = X.prototype.Qa, X.prototype.getResponseText = X.prototype.ga, X.prototype.send = X.prototype.ea;

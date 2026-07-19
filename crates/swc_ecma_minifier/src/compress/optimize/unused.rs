@@ -1162,6 +1162,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.bit_ctx.intersects(BitCtx::InWithStmt) {
+            return;
+        }
+
         if e.args.iter().any(|a| a.spread.is_some()) {
             return;
         }
@@ -1251,6 +1255,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.bit_ctx.intersects(BitCtx::InWithStmt) {
+            return;
+        }
+
         let args = if let Some(args) = &mut e.args {
             args
         } else {
@@ -1311,6 +1319,26 @@ impl Optimizer<'_> {
                         .any(|p| p.as_param().and_then(|p| p.pat.as_rest()).is_some())
                     {
                         c.params.len()
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+            Expr::Ident(i) => {
+                if let Some(scope) = self.data.get_scope(i.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                        return;
+                    }
+                }
+
+                if let Some(data) = self.data.get_var_data(i.to_id()) {
+                    if let (true, Some(Value::Known(count))) = (
+                        data.flags.intersects(VarUsageInfoFlags::DECLARED),
+                        data.param_count,
+                    ) {
+                        count as usize
                     } else {
                         return;
                     }

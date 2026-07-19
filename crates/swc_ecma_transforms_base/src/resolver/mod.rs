@@ -720,6 +720,7 @@ impl VisitMut for Resolver<'_> {
         }
 
         self.with_child(ScopeKind::Fn, |child| {
+            child.mark_block(&mut c.ctxt);
             let old = child.ident_type;
             child.ident_type = IdentType::Binding;
             {

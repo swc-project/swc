@@ -230,6 +230,68 @@ where
             });
         }
     }
+
+    fn store_function_arity(&mut self, id: Id, function: &Function) {
+        let scope = self.data.scope(function.ctxt);
+
+        let known = !scope.used_arguments()
+            && !scope.used_eval()
+            && !function.params.iter().any(|p| p.pat.is_rest());
+
+        let arity = if known {
+            Self::param_count_to_value(function.params.len())
+        } else {
+            Value::Unknown
+        };
+
+        self.data.var_or_default(id).store_param_count(arity);
+    }
+
+    fn store_arrow_arity(&mut self, id: Id, arrow: &ArrowExpr) {
+        let scope = self.data.scope(arrow.ctxt);
+        let known = !scope.used_eval() && !arrow.params.iter().any(|p| p.is_rest());
+
+        let arity = if known {
+            Self::param_count_to_value(arrow.params.len())
+        } else {
+            Value::Unknown
+        };
+
+        self.data.var_or_default(id).store_param_count(arity);
+    }
+
+    fn store_class_arity(&mut self, id: Id, class: &Class) {
+        let constructor = class
+            .body
+            .iter()
+            .filter_map(|s| s.as_constructor())
+            .find(|c| c.body.is_some());
+
+        let arity = if let Some(c) = constructor {
+            let scope = self.data.scope(c.ctxt);
+            let known = !scope.used_arguments()
+                && !scope.used_eval()
+                && !c
+                    .params
+                    .iter()
+                    .filter_map(|p| p.as_param())
+                    .any(|p| p.pat.is_rest());
+
+            if known {
+                Self::param_count_to_value(c.params.len())
+            } else {
+                Value::Unknown
+            }
+        } else {
+            if class.super_class.is_some() {
+                Value::Unknown
+            } else {
+                Value::Known(0)
+            }
+        };
+
+        self.data.var_or_default(id).store_param_count(arity);
+    }
 }
 
 impl<S> Visit for UsageAnalyzer<S>
@@ -342,28 +404,13 @@ where
         if let (Some(id), op!("=")) = (&n.left.as_ident(), n.op) {
             match &*n.right {
                 Expr::Fn(n) => {
-                    let scope = self.data.scope(n.function.ctxt);
-                    let known = !scope.used_arguments()
-                        && !scope.used_eval()
-                        && !n.function.params.iter().any(|p| p.pat.is_rest());
-                    let data = self.data.var_or_default(id.id.to_id());
-
-                    if known {
-                        data.store_param_count(Self::param_count_to_value(n.function.params.len()));
-                    } else {
-                        data.store_param_count(Value::Unknown);
-                    }
+                    self.store_function_arity(id.id.to_id(), &n.function);
                 }
                 Expr::Arrow(n) => {
-                    let scope = self.data.scope(n.ctxt);
-                    let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
-                    let data = self.data.var_or_default(id.id.to_id());
-
-                    if known {
-                        data.store_param_count(Self::param_count_to_value(n.params.len()));
-                    } else {
-                        data.store_param_count(Value::Unknown)
-                    }
+                    self.store_arrow_arity(id.id.to_id(), n);
+                }
+                Expr::Class(c) => {
+                    self.store_class_arity(id.id.to_id(), &c.class);
                 }
                 _ => self
                     .data
@@ -613,6 +660,8 @@ where
         self.used_recursively
             .insert(id.clone(), RecursiveUsage::FnOrClass);
         n.visit_children_with(self);
+
+        self.store_class_arity(n.ident.to_id(), &n.class);
 
         self.used_recursively.remove(&id);
     }
@@ -880,18 +929,7 @@ where
             }
         }
 
-        let scope = self.data.scope(n.function.ctxt);
-        let known = !scope.used_arguments()
-            && !scope.used_eval()
-            && !n.function.params.iter().any(|p| p.pat.is_rest());
-
-        let data = self.data.var_or_default(n.ident.to_id());
-
-        if known {
-            data.store_param_count(Self::param_count_to_value(n.function.params.len()));
-        } else {
-            data.store_param_count(Value::Unknown);
-        }
+        self.store_function_arity(id, &n.function);
     }
 
     #[cfg_attr(
@@ -1503,30 +1541,13 @@ where
 
                 match init {
                     Expr::Fn(n) => {
-                        let scope = self.data.scope(n.function.ctxt);
-                        let known = !scope.used_arguments()
-                            && !scope.used_eval()
-                            && !n.function.params.iter().any(|p| p.pat.is_rest());
-                        let data = self.data.var_or_default(var.id.to_id());
-
-                        if known {
-                            data.store_param_count(Self::param_count_to_value(
-                                n.function.params.len(),
-                            ));
-                        } else {
-                            data.store_param_count(Value::Unknown);
-                        }
+                        self.store_function_arity(var.id.to_id(), &n.function);
                     }
                     Expr::Arrow(n) => {
-                        let scope = self.data.scope(n.ctxt);
-                        let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
-                        let data = self.data.var_or_default(var.id.to_id());
-
-                        if known {
-                            data.store_param_count(Self::param_count_to_value(n.params.len()));
-                        } else {
-                            data.store_param_count(Value::Unknown)
-                        }
+                        self.store_arrow_arity(var.id.to_id(), n);
+                    }
+                    Expr::Class(c) => {
+                        self.store_class_arity(var.id.to_id(), &c.class);
                     }
                     _ => self
                         .data

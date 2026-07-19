@@ -7769,7 +7769,7 @@
             var promise = new Internal(), state = getInternalState(promise);
             this.promise = promise, this.resolve = bind(internalResolve, state), this.reject = bind(internalReject, state);
         }, newPromiseCapabilityModule.f = newPromiseCapability = function(C) {
-            return C === PromiseConstructor || C === PromiseWrapper ? new OwnPromiseCapability(C) : newGenericPromiseCapability(C);
+            return C === PromiseConstructor || C === PromiseWrapper ? new OwnPromiseCapability() : newGenericPromiseCapability(C);
         }, !IS_PURE && isCallable(NativePromise) && NativePromisePrototype !== Object.prototype)) {
             nativeThen = NativePromisePrototype.then, SUBCLASSING || (// make `Promise#then` return a polyfilled `Promise` for native promise-based APIs
             redefine(NativePromisePrototype, "then", function(onFulfilled, onRejected) {
