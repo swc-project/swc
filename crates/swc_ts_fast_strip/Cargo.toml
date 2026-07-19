@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ts_fast_strip"
 repository    = { workspace = true }
-version       = "55.0.0"
+version       = "55.0.1"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
@@ -30,7 +30,7 @@ swc_ecma_parser = { version = "42.0.0", path = "../swc_ecma_parser", default-fea
   "typescript",
   "unstable",
 ] }
-swc_ecma_transforms_base = { version = "46.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "46.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_react = { version = "52.0.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_typescript = { version = "52.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "26.0.0", path = "../swc_ecma_visit" }

@@ -24,7 +24,7 @@ swc_ecma_ast = { version = "26.0.0", path = "../swc_ecma_ast" }
 swc_ecma_compat_regexp = { version = "7.0.0", path = "../swc_ecma_compat_regexp" }
 swc_ecma_hooks = { version = "0.10.0", path = "../swc_ecma_hooks" }
 swc_ecma_regexp = { version = "0.13.0", path = "../swc_ecma_regexp" }
-swc_ecma_transforms_base = { version = "46.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "46.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils = { version = "32.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "26.0.0", path = "../swc_ecma_visit", features = [
     "path",
