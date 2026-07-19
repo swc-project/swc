@@ -412,6 +412,25 @@ impl VisitMut for Fixer<'_> {
         if let Callee::Expr(e) = &mut node.callee {
             match &**e {
                 Expr::OptChain(_) if !self.in_opt_chain => self.wrap(e),
+                // Preserve parentheses around callees that carry a leading
+                // annotation like `/* @__PURE__ */` so downstream tools do not
+                // interpret the annotation as applying to the outer chained
+                // call expression. See issue #12019.
+                Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if !self.remove_only => {
+                    let span = e.span();
+                    let has_annotation = !span.is_dummy()
+                        && self.comments.is_some_and(|c| {
+                            c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
+                        });
+                    if has_annotation {
+                        let expr = e.take();
+                        *e = ParenExpr {
+                            expr,
+                            span: DUMMY_SP,
+                        }
+                        .into();
+                    }
+                }
                 _ => self.wrap_callee(e),
             }
         }
@@ -630,6 +649,25 @@ impl VisitMut for Fixer<'_> {
             }
             Expr::OptChain(..) if !self.in_opt_chain => {
                 self.wrap(&mut n.obj);
+            }
+            // Preserve parentheses around expressions that carry a leading
+            // annotation like `/* @__PURE__ */` so downstream tools do not
+            // interpret the annotation as applying to the full chained
+            // expression. See issue #12019.
+            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if !self.remove_only => {
+                let span = n.obj.span();
+                let has_annotation = !span.is_dummy()
+                    && self.comments.is_some_and(|c| {
+                        c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
+                    });
+                if has_annotation {
+                    let expr = n.obj.take();
+                    n.obj = ParenExpr {
+                        expr,
+                        span: DUMMY_SP,
+                    }
+                    .into();
+                }
             }
             _ => {}
         }
