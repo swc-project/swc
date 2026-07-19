@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.15.46] - 2026-07-19
 
 ### Bug Fixes
 
@@ -1991,9 +1991,6 @@
 
 ### Performance
 
-
-
-- **(es/minifier)** Remove pre-compress pass ([#10932](https://github.com/swc-project/swc/issues/10932)) ([c7f0e4d](https://github.com/swc-project/swc/commit/c7f0e4d5e6c0d6492e750d662711f9b495bc280d))
 
 
 - **(es/minifier)** Use bitflag for var kind ([#10940](https://github.com/swc-project/swc/issues/10940)) ([4317988](https://github.com/swc-project/swc/commit/43179889525734f9a129d68dc4381fba881d1e66))
