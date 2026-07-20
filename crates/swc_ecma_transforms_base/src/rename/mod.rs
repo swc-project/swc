@@ -311,6 +311,24 @@ where
             }
         }
 
+        // Drop identity mappings before apply. Operator already no-ops when
+        // `sym == ident.sym`, so they only inflate the apply walk.
+        //
+        // Identities must still be inserted into `map` *during* analysis so
+        // later scopes can skip via `to.get(id)`. Without that (e.g. hygiene
+        // alone, no resolver), the same Id is reprocessed in every scope and
+        // the reverse map blows up.
+        //
+        // Keep identities when `keep_class_names` is set: Operator uses that
+        // flag to rewrite `class Foo` into `let Foo = class Foo`, and on the
+        // old path those identity entries were what kept the map non-empty so
+        // Operator ran. Minifier `keep_classnames` preserves class Ids instead
+        // (they never enter the map), so this does not reintroduce apply work
+        // for those fixtures.
+        if !self.config.keep_class_names {
+            map.retain(|id, v| v.atom() != &id.0);
+        }
+
         map
     }
 
