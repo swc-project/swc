@@ -151,10 +151,11 @@ pub fn ast_serde(
     print("ast_serde", item)
 }
 
-/// Alias for
-/// `#[derive(Spanned, Fold, Clone, Debug, PartialEq)]` for a struct and
-/// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an
-/// enum.
+/// Adds the standard AST node derives and serialization metadata.
+///
+/// Structs derive `PartialEq` by default. Pass `no_partial_eq` after the node
+/// tag when the type provides a manual implementation:
+/// `#[ast_node("CustomNode", no_partial_eq)]`.
 #[proc_macro_attribute]
 pub fn ast_node(
     args: proc_macro::TokenStream,
@@ -289,9 +290,14 @@ pub fn ast_node(
                 .as_ref()
                 .map(|args| ast_node_macro::expand_struct(args.clone(), input.clone()));
 
+            let partial_eq = match &args {
+                Some(args) if args.no_partial_eq => None,
+                _ => Some(quote!(PartialEq,)),
+            };
+
             item.extend(quote!(
                 #[allow(clippy::derive_partial_eq_without_eq)]
-                #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
+                #[derive(::swc_common::Spanned, Clone, Debug, #partial_eq)]
                 #[cfg_attr(
                     feature = "serde-impl",
                     derive(::serde::Serialize, ::serde::Deserialize)
