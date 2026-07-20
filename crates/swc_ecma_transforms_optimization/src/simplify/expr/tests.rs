@@ -474,7 +474,7 @@ fn test_unary_ops_1() {
 #[test]
 fn test_unary_ops_2() {
     fold("a=+0", "a=0");
-    fold("a=+Infinity", "a=Infinity");
+    fold("a=+Infinity", "a=1 / 0");
     fold("a=+NaN", "a=NaN");
     fold("a=+-7", "a=-7");
     fold("a=+.5", "a=0.5");
@@ -859,10 +859,10 @@ fn test_fold_arithmetic3_2() {
 
 #[test]
 fn test_fold_arithmetic_infinity() {
-    fold("x=-Infinity-2", "x=-Infinity");
-    fold("x=Infinity-2", "x=Infinity");
-    fold("x=Infinity*5", "x=Infinity");
-    fold("x = Infinity ** 2", "x = Infinity");
+    fold("x=-Infinity-2", "x=-1 / 0");
+    fold("x=Infinity-2", "x=1 / 0");
+    fold("x=Infinity*5", "x=1 / 0");
+    fold("x = Infinity ** 2", "x = 1 / 0");
     fold("x = Infinity ** -2", "x = 0");
 }
 
@@ -1375,7 +1375,7 @@ fn test_fold_arithmetic_with_strings() {
     fold("'4' / 2", "2");
     fold("'11' % 2", "1");
     fold("'10' ** 2", "100");
-    fold("'Infinity' * 2", "Infinity");
+    fold("'Infinity' * 2", "1 / 0");
     fold("'NaN' * 2", "NaN");
 
     // Right side of expression is a string
@@ -1383,7 +1383,7 @@ fn test_fold_arithmetic_with_strings() {
     fold("4 / '2'", "2");
     fold("11 % '2'", "1");
     fold("10 ** '2'", "100");
-    fold("2 * 'Infinity'", "Infinity");
+    fold("2 * 'Infinity'", "1 / 0");
     fold("2 * 'NaN'", "NaN");
 
     // Both sides are strings
@@ -1391,7 +1391,7 @@ fn test_fold_arithmetic_with_strings() {
     fold("'4' / '2'", "2");
     fold("'11' % '2'", "1");
     fold("'10' ** '2'", "100");
-    fold("'Infinity' * '2'", "Infinity");
+    fold("'Infinity' * '2'", "1 / 0");
     fold("'NaN' * '2'", "NaN");
 }
 

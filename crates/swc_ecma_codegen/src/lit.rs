@@ -10,7 +10,41 @@ use swc_ecma_utils::number::minify_number;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
-use crate::{text_writer::WriteJs, CowStr, Emitter, SourceMapperExt};
+use crate::{text_writer::WriteJs, CowStr, Emitter, ExprPrecedence, SourceMapperExt};
+
+#[derive(Clone, Copy)]
+enum NonFiniteNumber {
+    NaN,
+    PositiveInfinity,
+    NegativeInfinity,
+}
+
+impl NonFiniteNumber {
+    #[inline]
+    fn from_value(value: f64) -> Self {
+        debug_assert!(!value.is_finite());
+
+        if value.is_nan() {
+            Self::NaN
+        } else if value.is_sign_positive() {
+            Self::PositiveInfinity
+        } else {
+            Self::NegativeInfinity
+        }
+    }
+
+    #[inline]
+    fn division_text(self, minify: bool) -> &'static str {
+        match (self, minify) {
+            (Self::NaN, false) => "0 / 0",
+            (Self::PositiveInfinity, false) => "1 / 0",
+            (Self::NegativeInfinity, false) => "-1 / 0",
+            (Self::NaN, true) => "0/0",
+            (Self::PositiveInfinity, true) => "1/0",
+            (Self::NegativeInfinity, true) => "-1/0",
+        }
+    }
+}
 
 #[node_impl]
 impl MacroNode for Lit {
@@ -30,7 +64,9 @@ impl MacroNode for Lit {
             Lit::Null(Null { .. }) => keyword!(emitter, "null"),
             Lit::Str(ref s) => emit!(s),
             Lit::BigInt(ref s) => emit!(s),
-            Lit::Num(ref n) => emit!(n),
+            Lit::Num(ref n) => {
+                emitter.emit_num_lit_expr(n, ExprPrecedence::LOWEST, false)?;
+            }
             Lit::Regex(ref n) => {
                 punct!(emitter, "/");
                 // Encode non-ASCII characters in regex pattern when ascii_only is enabled
@@ -219,6 +255,77 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
+    /// Emits a numeric literal in expression position.
+    ///
+    /// Readable output preserves a non-finite value's raw text when present.
+    /// Otherwise, non-finite values use division expressions, with spaces
+    /// omitted in minified output. Positive infinity uses an overflow literal
+    /// when division would require parentheses, avoiding an opening
+    /// parenthesis that could interact with automatic semicolon insertion.
+    /// Other generated expressions are parenthesized here because the fixer
+    /// cannot see code-generation-only expressions.
+    pub(crate) fn emit_num_lit_expr(
+        &mut self,
+        num: &Number,
+        precedence: ExprPrecedence,
+        detect_dot: bool,
+    ) -> std::result::Result<bool, io::Error> {
+        if num.value.is_finite() {
+            return self.emit_num_lit_internal(num, detect_dot);
+        }
+
+        if !self.cfg.minify && num.raw.is_some() {
+            return self.emit_num_lit_internal(num, detect_dot);
+        }
+
+        self.wr.commit_pending_semi()?;
+        self.emit_leading_comments_of_span(num.span(), false)?;
+
+        srcmap!(self, num, true);
+
+        let kind = NonFiniteNumber::from_value(num.value);
+        let requires_parentheses = precedence >= ExprPrecedence::MULTIPLICATIVE;
+        let (text, wrap) =
+            if requires_parentheses && matches!(kind, NonFiniteNumber::PositiveInfinity) {
+                ("2e308", false)
+            } else {
+                (kind.division_text(self.cfg.minify), requires_parentheses)
+            };
+
+        if wrap {
+            punct!(self, "(");
+        }
+        self.wr.write_str_lit(num.span, text)?;
+        if wrap {
+            punct!(self, ")");
+        }
+
+        Ok(false)
+    }
+
+    pub(crate) fn non_finite_expr_starts_with_alpha_num(
+        &self,
+        num: &Number,
+        precedence: ExprPrecedence,
+    ) -> bool {
+        debug_assert!(!num.value.is_finite());
+
+        if !self.cfg.minify {
+            if let Some(raw) = &num.raw {
+                return raw
+                    .as_bytes()
+                    .first()
+                    .is_some_and(u8::is_ascii_alphanumeric);
+            }
+        }
+
+        if precedence >= ExprPrecedence::MULTIPLICATIVE {
+            return num.value == f64::INFINITY;
+        }
+
+        !num.value.is_sign_negative() || num.value.is_nan()
+    }
+
     /// `1.toString` is an invalid property access,
     /// should emit a dot after the literal if return true
     pub fn emit_num_lit_internal(

@@ -170,6 +170,324 @@ fn test_identical(from: &str) {
     test_from_to(from, from)
 }
 
+fn constructed_number(value: f64, raw: Option<&str>) -> Box<Expr> {
+    Box::new(Expr::Lit(Lit::Num(Number {
+        span: DUMMY_SP,
+        value,
+        raw: raw.map(Atom::from),
+    })))
+}
+
+fn constructed_ident(sym: &str) -> Box<Expr> {
+    Box::new(Expr::Ident(Ident::new_no_ctxt(sym.into(), DUMMY_SP)))
+}
+
+fn constructed_binary(op: BinaryOp, left: Box<Expr>, right: Box<Expr>) -> Expr {
+    Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        op,
+        left,
+        right,
+    })
+}
+
+fn emit_constructed_node<N>(node: &N, minify: bool) -> String
+where
+    N: Node,
+{
+    ::testing::run_test(false, |cm, _| {
+        let comments = Default::default();
+        let output = Builder {
+            cfg: Config {
+                minify,
+                ..Default::default()
+            },
+            cm,
+            comments,
+        }
+        .text("", |emitter| node.emit_with(emitter).unwrap());
+
+        Ok(output)
+    })
+    .unwrap()
+}
+
+fn assert_valid_constructed_expr(code: &str, syntax: Syntax) {
+    let source = format!("const value = {code};");
+    parse_then_emit(&source, Default::default(), syntax);
+}
+
+#[test]
+fn emit_non_finite_number_literals() {
+    let cases = [
+        (f64::NAN, "0 / 0", "0/0"),
+        (f64::INFINITY, "1 / 0", "1/0"),
+        (f64::NEG_INFINITY, "-1 / 0", "-1/0"),
+    ];
+
+    for (value, readable, minified) in cases {
+        let readable_output = emit_constructed_node(&*constructed_number(value, None), false);
+        let minified_output = emit_constructed_node(&*constructed_number(value, None), true);
+
+        assert_eq!(readable_output, readable);
+        assert_eq!(minified_output, minified);
+        assert_valid_constructed_expr(&readable_output, Syntax::default());
+        assert_valid_constructed_expr(&minified_output, Syntax::default());
+    }
+
+    assert_eq!(
+        emit_constructed_node(&*constructed_number(f64::INFINITY, Some("1e999")), false),
+        "1e999"
+    );
+    assert_eq!(
+        emit_constructed_node(&*constructed_number(f64::INFINITY, Some("1e999")), true),
+        "1/0"
+    );
+    assert_eq!(
+        emit_constructed_node(&*constructed_number(f64::NAN, Some("NaN")), false),
+        "NaN"
+    );
+    assert_eq!(
+        emit_constructed_node(&*constructed_number(f64::NAN, Some("NaN")), true),
+        "0/0"
+    );
+    assert_eq!(
+        emit_constructed_node(&*constructed_number(f64::INFINITY, Some("Infinity")), false),
+        "Infinity"
+    );
+    assert_eq!(
+        emit_constructed_node(&*constructed_number(f64::INFINITY, Some("Infinity")), true),
+        "1/0"
+    );
+
+    let property_name = PropName::Num(Number {
+        span: DUMMY_SP,
+        value: f64::NAN,
+        raw: None,
+    });
+    assert_eq!(emit_constructed_node(&property_name, true), "NaN");
+}
+
+#[test]
+fn emit_non_finite_number_precedence() {
+    let ident = || constructed_ident("x");
+    let infinity = || constructed_number(f64::INFINITY, None);
+
+    let cases = [
+        (
+            constructed_binary(op!(bin, "+"), infinity(), ident()),
+            "1 / 0 + x",
+            "1/0+x",
+        ),
+        (
+            constructed_binary(op!("*"), infinity(), ident()),
+            "1 / 0 * x",
+            "1/0*x",
+        ),
+        (
+            constructed_binary(op!("*"), ident(), infinity()),
+            "x * 2e308",
+            "x*2e308",
+        ),
+        (
+            constructed_binary(op!("/"), ident(), infinity()),
+            "x / 2e308",
+            "x/2e308",
+        ),
+        (
+            constructed_binary(op!("**"), infinity(), ident()),
+            "2e308 ** x",
+            "2e308**x",
+        ),
+        (
+            constructed_binary(op!("**"), ident(), infinity()),
+            "x ** 2e308",
+            "x**2e308",
+        ),
+    ];
+
+    for (expr, readable, minified) in cases {
+        for (minify, expected) in [(false, readable), (true, minified)] {
+            let output = emit_constructed_node(&expr, minify);
+            assert_eq!(output, expected);
+            assert_valid_constructed_expr(&output, Syntax::default());
+        }
+    }
+
+    let not_nan = Expr::Unary(UnaryExpr {
+        span: DUMMY_SP,
+        op: op!("!"),
+        arg: constructed_number(f64::NAN, None),
+    });
+    assert_eq!(emit_constructed_node(&not_nan, false), "!(0 / 0)");
+    assert_eq!(emit_constructed_node(&not_nan, true), "!(0/0)");
+
+    let await_infinity = Expr::Await(AwaitExpr {
+        span: DUMMY_SP,
+        arg: infinity(),
+    });
+    assert_eq!(emit_constructed_node(&await_infinity, false), "await 2e308");
+    assert_eq!(emit_constructed_node(&await_infinity, true), "await 2e308");
+
+    let divide_by_infinity =
+        constructed_binary(op!("/"), constructed_number(1.0, None), infinity());
+    let divide_by_infinity = emit_constructed_node(&divide_by_infinity, true);
+    let not_nan = emit_constructed_node(&not_nan, true);
+    let code = format!("console.log({divide_by_infinity}, {not_nan})");
+    assert_eq!(run_node(&code), "0 true\n");
+}
+
+#[test]
+fn emit_non_finite_number_postfix_contexts() {
+    let member = |value| {
+        Expr::Member(MemberExpr {
+            span: DUMMY_SP,
+            obj: constructed_number(value, None),
+            prop: MemberProp::Ident(IdentName::new("x".into(), DUMMY_SP)),
+        })
+    };
+
+    assert_eq!(emit_constructed_node(&member(f64::NAN), false), "(0 / 0).x");
+    assert_eq!(
+        emit_constructed_node(&member(f64::INFINITY), false),
+        "2e308.x"
+    );
+    let raw_overflow_member = Expr::Member(MemberExpr {
+        span: DUMMY_SP,
+        obj: constructed_number(f64::INFINITY, Some("2e308")),
+        prop: MemberProp::Ident(IdentName::new("x".into(), DUMMY_SP)),
+    });
+    assert_eq!(
+        emit_constructed_node(&raw_overflow_member, false),
+        "2e308.x"
+    );
+    assert_eq!(
+        emit_constructed_node(&member(f64::NEG_INFINITY), false),
+        "(-1 / 0).x"
+    );
+    assert_eq!(
+        emit_constructed_node(&member(f64::INFINITY), true),
+        "2e308.x"
+    );
+
+    let call = Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        callee: Callee::Expr(constructed_number(f64::INFINITY, None)),
+        args: vec![],
+        type_args: None,
+    });
+    let call_output = emit_constructed_node(&call, true);
+    assert_eq!(call_output, "2e308()");
+    assert_valid_constructed_expr(&call_output, Syntax::default());
+
+    let optional_member = Expr::OptChain(OptChainExpr {
+        span: DUMMY_SP,
+        optional: true,
+        base: Box::new(OptChainBase::Member(MemberExpr {
+            span: DUMMY_SP,
+            obj: constructed_number(f64::INFINITY, None),
+            prop: MemberProp::Ident(IdentName::new("x".into(), DUMMY_SP)),
+        })),
+    });
+    let optional_member_output = emit_constructed_node(&optional_member, true);
+    assert_eq!(optional_member_output, "2e308?.x");
+    assert_valid_constructed_expr(&optional_member_output, Syntax::default());
+
+    let new = Expr::New(NewExpr {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        callee: constructed_number(f64::INFINITY, None),
+        args: None,
+        type_args: None,
+    });
+    let new_output = emit_constructed_node(&new, true);
+    assert_eq!(new_output, "new 2e308");
+    assert_valid_constructed_expr(&new_output, Syntax::default());
+
+    let tagged = Expr::TaggedTpl(TaggedTpl {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        tag: constructed_number(f64::INFINITY, None),
+        type_params: None,
+        tpl: Box::new(Tpl {
+            span: DUMMY_SP,
+            exprs: vec![],
+            quasis: vec![TplElement {
+                span: DUMMY_SP,
+                tail: true,
+                cooked: None,
+                raw: "".into(),
+            }],
+        }),
+    });
+    let tagged_output = emit_constructed_node(&tagged, true);
+    assert_eq!(tagged_output, "2e308``");
+    assert_valid_constructed_expr(&tagged_output, Syntax::default());
+
+    let class = Expr::Class(ClassExpr {
+        ident: None,
+        class: Box::new(Class {
+            super_class: Some(constructed_number(f64::INFINITY, None)),
+            ..Default::default()
+        }),
+    });
+    let class_output = emit_constructed_node(&class, true);
+    assert_eq!(class_output, "class extends 2e308{}");
+    assert_valid_constructed_expr(&class_output, Syntax::default());
+}
+
+#[test]
+fn emit_non_finite_number_typescript_contexts() {
+    let type_ann = || {
+        Box::new(TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsAnyKeyword,
+        }))
+    };
+
+    let assertion = Expr::TsTypeAssertion(TsTypeAssertion {
+        span: DUMMY_SP,
+        expr: constructed_number(f64::INFINITY, None),
+        type_ann: type_ann(),
+    });
+    assert_eq!(emit_constructed_node(&assertion, true), "<any>2e308");
+
+    let non_null = Expr::TsNonNull(TsNonNullExpr {
+        span: DUMMY_SP,
+        expr: constructed_number(f64::INFINITY, None),
+    });
+    assert_eq!(emit_constructed_node(&non_null, true), "2e308!");
+
+    let instantiation = Expr::TsInstantiation(TsInstantiation {
+        span: DUMMY_SP,
+        expr: constructed_number(f64::INFINITY, None),
+        type_args: Box::new(TsTypeParamInstantiation {
+            span: DUMMY_SP,
+            params: vec![type_ann()],
+        }),
+    });
+    assert_eq!(emit_constructed_node(&instantiation, true), "2e308<any>");
+
+    let number_type = TsType::TsLitType(TsLitType {
+        span: DUMMY_SP,
+        lit: TsLit::Number(Number {
+            span: DUMMY_SP,
+            value: f64::NAN,
+            raw: None,
+        }),
+    });
+    assert_eq!(emit_constructed_node(&number_type, true), "NaN");
+
+    for output in [
+        emit_constructed_node(&assertion, true),
+        emit_constructed_node(&non_null, true),
+        emit_constructed_node(&instantiation, true),
+    ] {
+        assert_valid_constructed_expr(&output, Syntax::Typescript(Default::default()));
+    }
+}
+
 fn test_from_to_custom_config(from: &str, to: &str, cfg: Config, syntax: Syntax) {
     let out = parse_then_emit(
         from,

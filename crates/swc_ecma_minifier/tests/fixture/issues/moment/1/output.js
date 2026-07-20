@@ -1804,7 +1804,7 @@ function(global, factory) {
         for(i = 0, l = eras.length; i < l; ++i)switch("string" == typeof eras[i].since && (// truncate time
         date = hooks(eras[i].since).startOf("day"), eras[i].since = date.valueOf()), typeof eras[i].until){
             case "undefined":
-                eras[i].until = Infinity;
+                eras[i].until = 1 / 0;
                 break;
             case "string":
                 // truncate time
@@ -1900,7 +1900,7 @@ function(global, factory) {
         eras: [
             {
                 since: "0001-01-01",
-                until: Infinity,
+                until: 1 / 0,
                 offset: 1,
                 name: "Anno Domini",
                 narrow: "AD",

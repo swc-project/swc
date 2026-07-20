@@ -1110,19 +1110,19 @@ function(global, factory) {
         function Box3(min, max) {
             Object.defineProperty(this, 'isBox3', {
                 value: !0
-            }), this.min = void 0 !== min ? min : new Vector3(Infinity, Infinity, Infinity), this.max = void 0 !== max ? max : new Vector3(-1 / 0, -1 / 0, -1 / 0);
+            }), this.min = void 0 !== min ? min : new Vector3(1 / 0, 1 / 0, 1 / 0), this.max = void 0 !== max ? max : new Vector3(-1 / 0, -1 / 0, -1 / 0);
         }
         var _proto = Box3.prototype;
         return _proto.set = function(min, max) {
             return this.min.copy(min), this.max.copy(max), this;
         }, _proto.setFromArray = function(array) {
-            for(var minX = Infinity, minY = Infinity, minZ = Infinity, maxX = -1 / 0, maxY = -1 / 0, maxZ = -1 / 0, i = 0, l = array.length; i < l; i += 3){
+            for(var minX = 1 / 0, minY = 1 / 0, minZ = 1 / 0, maxX = -1 / 0, maxY = -1 / 0, maxZ = -1 / 0, i = 0, l = array.length; i < l; i += 3){
                 var x = array[i], y = array[i + 1], z = array[i + 2];
                 x < minX && (minX = x), y < minY && (minY = y), z < minZ && (minZ = z), x > maxX && (maxX = x), y > maxY && (maxY = y), z > maxZ && (maxZ = z);
             }
             return this.min.set(minX, minY, minZ), this.max.set(maxX, maxY, maxZ), this;
         }, _proto.setFromBufferAttribute = function(attribute) {
-            for(var minX = Infinity, minY = Infinity, minZ = Infinity, maxX = -1 / 0, maxY = -1 / 0, maxZ = -1 / 0, i = 0, l = attribute.count; i < l; i++){
+            for(var minX = 1 / 0, minY = 1 / 0, minZ = 1 / 0, maxX = -1 / 0, maxY = -1 / 0, maxZ = -1 / 0, i = 0, l = attribute.count; i < l; i++){
                 var x = attribute.getX(i), y = attribute.getY(i), z = attribute.getZ(i);
                 x < minX && (minX = x), y < minY && (minY = y), z < minZ && (minZ = z), x > maxX && (maxX = x), y > maxY && (maxY = y), z > maxZ && (maxZ = z);
             }
@@ -1141,7 +1141,7 @@ function(global, factory) {
         }, _proto.copy = function(box) {
             return this.min.copy(box.min), this.max.copy(box.max), this;
         }, _proto.makeEmpty = function() {
-            return this.min.x = this.min.y = this.min.z = Infinity, this.max.x = this.max.y = this.max.z = -1 / 0, this;
+            return this.min.x = this.min.y = this.min.z = 1 / 0, this.max.x = this.max.y = this.max.z = -1 / 0, this;
         }, _proto.isEmpty = function() {
             // this is a more robust check for empty than ( volume <= 0 ) because volume can get positive with two negative axes
             return this.max.x < this.min.x || this.max.y < this.min.y || this.max.z < this.min.z;
@@ -2966,7 +2966,7 @@ function(global, factory) {
             null === this.boundingBox && (this.boundingBox = new Box3());
             var position = this.attributes.position, morphAttributesPosition = this.morphAttributes.position;
             if (position && position.isGLBufferAttribute) {
-                console.error('THREE.BufferGeometry.computeBoundingBox(): GLBufferAttribute requires a manual bounding box. Alternatively set "mesh.frustumCulled" to "false".', this), this.boundingBox.set(new Vector3(-1 / 0, -1 / 0, -1 / 0), new Vector3(Infinity, Infinity, Infinity));
+                console.error('THREE.BufferGeometry.computeBoundingBox(): GLBufferAttribute requires a manual bounding box. Alternatively set "mesh.frustumCulled" to "false".', this), this.boundingBox.set(new Vector3(-1 / 0, -1 / 0, -1 / 0), new Vector3(1 / 0, 1 / 0, 1 / 0));
                 return;
             }
             if (void 0 !== position) {
@@ -14497,7 +14497,7 @@ function(global, factory) {
         function Box2(min, max) {
             Object.defineProperty(this, 'isBox2', {
                 value: !0
-            }), this.min = void 0 !== min ? min : new Vector2(Infinity, Infinity), this.max = void 0 !== max ? max : new Vector2(-1 / 0, -1 / 0);
+            }), this.min = void 0 !== min ? min : new Vector2(1 / 0, 1 / 0), this.max = void 0 !== max ? max : new Vector2(-1 / 0, -1 / 0);
         }
         var _proto = Box2.prototype;
         return _proto.set = function(min, max) {
@@ -14514,7 +14514,7 @@ function(global, factory) {
         }, _proto.copy = function(box) {
             return this.min.copy(box.min), this.max.copy(box.max), this;
         }, _proto.makeEmpty = function() {
-            return this.min.x = this.min.y = Infinity, this.max.x = this.max.y = -1 / 0, this;
+            return this.min.x = this.min.y = 1 / 0, this.max.x = this.max.y = -1 / 0, this;
         }, _proto.isEmpty = function() {
             // this is a more robust check for empty than ( volume <= 0 ) because volume can get positive with two negative axes
             return this.max.x < this.min.x || this.max.y < this.min.y;

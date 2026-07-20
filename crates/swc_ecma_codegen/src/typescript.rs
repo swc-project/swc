@@ -4,6 +4,7 @@ use swc_ecma_codegen_macros::node_impl;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
+use crate::ExprPrecedence;
 
 #[node_impl]
 impl MacroNode for ParamOrTsParamProp {
@@ -819,7 +820,7 @@ impl MacroNode for TsNonNullExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::POSTFIX)?;
         punct!(emitter, "!");
         Ok(())
     }
@@ -1135,7 +1136,7 @@ impl MacroNode for TsTypeAssertion {
         punct!(emitter, "<");
         emit!(self.type_ann);
         punct!(emitter, ">");
-        emit!(self.expr);
+        emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::EXPONENTIATION)?;
         Ok(())
     }
 }
@@ -1422,7 +1423,7 @@ impl MacroNode for TsInstantiation {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::POSTFIX)?;
 
         emit!(self.type_args);
         Ok(())
