@@ -26,8 +26,7 @@ use react_compiler::entrypoint::compile_result::LoggerEvent;
 pub use react_compiler::entrypoint::plugin_options::{
     CompilerTarget, DynamicGatingConfig, GatingConfig, PluginOptions,
 };
-// Re-exported so integrations needn't depend on the upstream `react_compiler_hir` crate.
-pub use react_compiler_hir::environment_config::EnvironmentConfig;
+use react_compiler_hir::environment_config::EnvironmentConfig;
 pub use source_type::SourceType;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName};
 use swc_ecma_ast::Program;

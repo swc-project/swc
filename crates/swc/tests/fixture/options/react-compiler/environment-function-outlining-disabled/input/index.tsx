@@ -1,14 +1,12 @@
 import * as React from 'react';
-function createFoo() {
-  function Bar() {
-    return 'Bar';
-  }
-  return function Foo() {
-    'use memo';
-    const renderBar = React.useCallback(() => {
-      return <Bar />;
-    }, []);
 
-    return renderBar();
-  }
+export function Counter() {
+  'use memo';
+  // This callback captures no local variables (only the `console` global), so
+  // it is safe to outline into a top-level helper when outlining is enabled.
+  const onClick = React.useCallback(() => {
+    console.log('clicked');
+  }, []);
+
+  return <button onClick={onClick} />;
 }

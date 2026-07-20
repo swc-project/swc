@@ -1914,7 +1914,7 @@ impl ReactCompilerConfig {
             options.dynamic_gating = Some(dynamic_gating.into());
         }
         if let Some(environment) = self.environment {
-            environment.apply_to(&mut options.environment);
+            environment.apply_to(&mut options);
         }
 
         options
@@ -2051,19 +2051,23 @@ impl From<ReactCompilerDynamicGatingConfig> for swc_ecma_react_compiler::Dynamic
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ReactCompilerEnvironmentConfig {
     /// Extract anonymous functions that do not close over local variables into
-    /// top-level helper functions. Maps to
-    /// `EnvironmentConfig::enable_function_outlining` (default `true`).
+    /// top-level helper functions. Maps to the compiler's
+    /// `environment.enable_function_outlining` (default `true`).
     #[serde(default)]
     pub enable_function_outlining: Option<bool>,
 }
 
 #[cfg(feature = "react-compiler")]
 impl ReactCompilerEnvironmentConfig {
-    /// Apply the set (`Some`) overrides onto the compiler's environment config,
+    /// Apply the set (`Some`) overrides onto the compiler options' environment,
     /// leaving unset fields at their existing (default) values.
-    fn apply_to(self, env: &mut swc_ecma_react_compiler::EnvironmentConfig) {
+    ///
+    /// This mutates the public `environment` field in place rather than naming
+    /// the upstream `EnvironmentConfig` type, so the config layer does not
+    /// require that type to be re-exported.
+    fn apply_to(self, options: &mut swc_ecma_react_compiler::PluginOptions) {
         if let Some(enable_function_outlining) = self.enable_function_outlining {
-            env.enable_function_outlining = enable_function_outlining;
+            options.environment.enable_function_outlining = enable_function_outlining;
         }
     }
 }

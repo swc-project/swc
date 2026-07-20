@@ -1012,6 +1012,13 @@ export interface ReactCompilerOptions {
      * Dynamically-gated compilation.
      */
     dynamicGating?: ReactCompilerDynamicGatingConfig;
+
+    /**
+     * Curated subset of the compiler's `environment` options.
+     *
+     * Unset fields leave the compiler defaults intact.
+     */
+    environment?: ReactCompilerEnvironmentConfig;
 }
 
 export interface ReactCompilerGatingConfig {
@@ -1031,6 +1038,16 @@ export interface ReactCompilerDynamicGatingConfig {
      * Module the gating import comes from.
      */
     source: string;
+}
+
+export interface ReactCompilerEnvironmentConfig {
+    /**
+     * Extract anonymous functions that do not close over local variables into
+     * top-level helper functions.
+     *
+     * Defaults to `true`.
+     */
+    enableFunctionOutlining?: boolean;
 }
 
 export interface ReactConfig {
