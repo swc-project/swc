@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom, Wtf8Atom};
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -26,15 +26,34 @@ pub(crate) type TsEnumRecord = FxHashMap<TsEnumRecordKey, TsEnumRecordValue>;
 #[derive(Debug, Clone)]
 pub(crate) enum TsEnumRecordValue {
     String(Atom),
-    Number(JsNumber),
+    Number(Number),
     Opaque(Box<Expr>),
     Void,
 }
 
 impl TsEnumRecordValue {
+    /// Creates a computed number. Computations intentionally discard source
+    /// spelling so code generation can choose the canonical representation.
+    fn number(value: impl Into<f64>) -> Self {
+        Self::Number(Number {
+            span: DUMMY_SP,
+            value: value.into(),
+            raw: None,
+        })
+    }
+
+    /// Creates a number converted directly from an AST value.
+    fn converted_number(value: impl Into<f64>, raw: Option<Atom>) -> Self {
+        Self::Number(Number {
+            span: DUMMY_SP,
+            value: value.into(),
+            raw,
+        })
+    }
+
     pub fn inc(&self) -> Self {
         match self {
-            Self::Number(num) => Self::Number((**num + 1.0).into()),
+            Self::Number(num) => Self::number(num.value + 1.0),
             _ => Self::Void,
         }
     }
@@ -59,37 +78,7 @@ impl From<TsEnumRecordValue> for Expr {
     fn from(value: TsEnumRecordValue) -> Self {
         match value {
             TsEnumRecordValue::String(string) => Lit::Str(string.into()).into(),
-            TsEnumRecordValue::Number(num) if num.is_nan() => Ident {
-                span: DUMMY_SP,
-                sym: atom!("NaN"),
-                ..Default::default()
-            }
-            .into(),
-            TsEnumRecordValue::Number(num) if num.is_infinite() => {
-                let value: Expr = Ident {
-                    span: DUMMY_SP,
-                    sym: atom!("Infinity"),
-                    ..Default::default()
-                }
-                .into();
-
-                if num.is_sign_negative() {
-                    UnaryExpr {
-                        span: DUMMY_SP,
-                        op: op!(unary, "-"),
-                        arg: value.into(),
-                    }
-                    .into()
-                } else {
-                    value
-                }
-            }
-            TsEnumRecordValue::Number(num) => Lit::Num(Number {
-                span: DUMMY_SP,
-                value: *num,
-                raw: None,
-            })
-            .into(),
+            TsEnumRecordValue::Number(num) => Lit::Num(num).into(),
             TsEnumRecordValue::Void => *Expr::undefined(DUMMY_SP),
             TsEnumRecordValue::Opaque(expr) => *expr,
         }
@@ -98,7 +87,7 @@ impl From<TsEnumRecordValue> for Expr {
 
 impl From<f64> for TsEnumRecordValue {
     fn from(value: f64) -> Self {
-        Self::Number(value.into())
+        Self::number(value)
     }
 }
 
@@ -117,7 +106,7 @@ impl EnumValueComputer<'_> {
     fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
         match *expr {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(atom_from_wtf8_atom(&s.value)),
-            Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value.into()),
+            Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n),
             Expr::Ident(ref ident) if ident.ctxt == self.unresolved_ctxt => {
                 if let Some(value) = self.record.get(&TsEnumRecordKey {
                     enum_id: self.enum_id.clone(),
@@ -135,8 +124,13 @@ impl EnumValueComputer<'_> {
                     }
                 } else {
                     match ident.sym.as_ref() {
-                        "Infinity" => TsEnumRecordValue::Number(f64::INFINITY.into()),
-                        "NaN" => TsEnumRecordValue::Number(f64::NAN.into()),
+                        "Infinity" => TsEnumRecordValue::converted_number(
+                            f64::INFINITY,
+                            Some(ident.sym.clone()),
+                        ),
+                        "NaN" => {
+                            TsEnumRecordValue::converted_number(f64::NAN, Some(ident.sym.clone()))
+                        }
                         _ => TsEnumRecordValue::Opaque(expr),
                     }
                 }
@@ -177,9 +171,9 @@ impl EnumValueComputer<'_> {
         };
 
         match expr.op {
-            op!(unary, "+") => TsEnumRecordValue::Number(num),
-            op!(unary, "-") => TsEnumRecordValue::Number(-num),
-            op!("~") => TsEnumRecordValue::Number(!num),
+            op!(unary, "+") => TsEnumRecordValue::number(num.value),
+            op!(unary, "-") => TsEnumRecordValue::number(-num.value),
+            op!("~") => TsEnumRecordValue::number(!JsNumber::from(num.value)),
             _ => unreachable!(),
         }
     }
@@ -209,6 +203,8 @@ impl EnumValueComputer<'_> {
 
         match (left, right, expr.op) {
             (TsEnumRecordValue::Number(left), TsEnumRecordValue::Number(right), op) => {
+                let left = JsNumber::from(left.value);
+                let right = JsNumber::from(right.value);
                 let value = match op {
                     op!(bin, "+") => left + right,
                     op!(bin, "-") => left - right,
@@ -225,18 +221,18 @@ impl EnumValueComputer<'_> {
                     _ => unreachable!(),
                 };
 
-                TsEnumRecordValue::Number(value)
+                TsEnumRecordValue::number(value)
             }
             (TsEnumRecordValue::String(left), TsEnumRecordValue::String(right), op!(bin, "+")) => {
                 TsEnumRecordValue::String(format!("{left}{right}").into())
             }
             (TsEnumRecordValue::Number(left), TsEnumRecordValue::String(right), op!(bin, "+")) => {
-                let left = left.to_js_string();
+                let left = left.value.to_js_string();
 
                 TsEnumRecordValue::String(format!("{left}{right}").into())
             }
             (TsEnumRecordValue::String(left), TsEnumRecordValue::Number(right), op!(bin, "+")) => {
-                let right = right.to_js_string();
+                let right = right.value.to_js_string();
 
                 TsEnumRecordValue::String(format!("{left}{right}").into())
             }
@@ -305,7 +301,7 @@ impl EnumValueComputer<'_> {
 
             let expr = match expr {
                 TsEnumRecordValue::String(s) => s.to_string(),
-                TsEnumRecordValue::Number(n) => n.to_js_string(),
+                TsEnumRecordValue::Number(n) => n.value.to_js_string(),
                 _ => return opaque_expr,
             };
 

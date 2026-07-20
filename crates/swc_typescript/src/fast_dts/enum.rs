@@ -1,25 +1,45 @@
 use core::f64;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
-use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
+use swc_atoms::Atom;
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    BinExpr, BinaryOp, Expr, Ident, Lit, Number, Str, TsEnumDecl, TsEnumMemberId, UnaryExpr,
-    UnaryOp,
+    BinExpr, BinaryOp, Expr, Lit, Number, Str, TsEnumDecl, TsEnumMemberId, UnaryExpr, UnaryOp,
 };
-use swc_ecma_utils::number::JsNumber;
+use swc_ecma_utils::number::{JsNumber, ToJsString};
 
 use super::{util::ast_ext::MemberPropExt, FastDts};
 
 #[derive(Debug, Clone)]
 enum ConstantValue {
-    Number(f64),
+    Number(Number),
     String(String),
+}
+
+impl ConstantValue {
+    /// Creates a computed number. Computations intentionally discard source
+    /// spelling so code generation can choose the canonical representation.
+    fn number(value: f64) -> Self {
+        Self::Number(Number {
+            span: DUMMY_SP,
+            value,
+            raw: None,
+        })
+    }
+
+    /// Creates a number converted directly from an AST value.
+    fn converted_number(value: f64, raw: Option<Atom>) -> Self {
+        Self::Number(Number {
+            span: DUMMY_SP,
+            value,
+            raw,
+        })
+    }
 }
 
 impl FastDts {
     pub(crate) fn transform_enum(&mut self, decl: &mut TsEnumDecl) {
-        let mut prev_init_value = Some(ConstantValue::Number(-1.0));
+        let mut prev_init_value = Some(ConstantValue::number(-1.0));
         let mut prev_members = FxHashMap::default();
         for member in &mut decl.members {
             let value = if let Some(init_expr) = &member.init {
@@ -29,7 +49,7 @@ impl FastDts {
                 }
                 computed_value
             } else if let Some(ConstantValue::Number(v)) = prev_init_value {
-                Some(ConstantValue::Number(v + 1.0))
+                Some(ConstantValue::number(v.value + 1.0))
             } else {
                 None
             };
@@ -51,33 +71,7 @@ impl FastDts {
 
             member.init = value.map(|value| {
                 Box::new(match value {
-                    ConstantValue::Number(v) => {
-                        let is_neg = v < 0.0;
-                        let expr = if v.is_infinite() {
-                            Expr::Ident(Ident {
-                                span: DUMMY_SP,
-                                sym: atom!("Infinity"),
-                                ctxt: SyntaxContext::empty(),
-                                optional: false,
-                            })
-                        } else {
-                            Expr::Lit(Lit::Num(Number {
-                                span: DUMMY_SP,
-                                value: v,
-                                raw: Some(v.to_string().into()),
-                            }))
-                        };
-
-                        if is_neg {
-                            Expr::Unary(UnaryExpr {
-                                span: DUMMY_SP,
-                                arg: Box::new(expr),
-                                op: UnaryOp::Minus,
-                            })
-                        } else {
-                            expr
-                        }
-                    }
+                    ConstantValue::Number(number) => Expr::Lit(Lit::Num(number)),
                     ConstantValue::String(s) => Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
                         value: s.clone().into(),
@@ -97,7 +91,7 @@ impl FastDts {
         match expr {
             Expr::Lit(lit) => match lit {
                 Lit::Str(s) => Some(ConstantValue::String(s.value.to_string_lossy().to_string())),
-                Lit::Num(number) => Some(ConstantValue::Number(number.value)),
+                Lit::Num(number) => Some(ConstantValue::Number(number.clone())),
                 Lit::Null(_) | Lit::BigInt(_) | Lit::Bool(_) | Lit::Regex(_) | Lit::JSXText(_) => {
                     None
                 }
@@ -118,9 +112,15 @@ impl FastDts {
             }
             Expr::Ident(ident) => {
                 if ident.sym == "Infinity" {
-                    Some(ConstantValue::Number(f64::INFINITY))
+                    Some(ConstantValue::converted_number(
+                        f64::INFINITY,
+                        Some(ident.sym.clone()),
+                    ))
                 } else if ident.sym == "NaN" {
-                    Some(ConstantValue::Number(f64::NAN))
+                    Some(ConstantValue::converted_number(
+                        f64::NAN,
+                        Some(ident.sym.clone()),
+                    ))
                 } else {
                     prev_members.get(&ident.sym).cloned()
                 }
@@ -156,12 +156,12 @@ impl FastDts {
     ) -> Option<ConstantValue> {
         let value = self.evaluate(&expr.arg, enum_name, prev_members)?;
         let value = match value {
-            ConstantValue::Number(n) => n,
+            ConstantValue::Number(n) => n.value,
             ConstantValue::String(_) => {
                 let value = if expr.op == UnaryOp::Minus {
-                    ConstantValue::Number(f64::NAN)
+                    ConstantValue::number(f64::NAN)
                 } else if expr.op == UnaryOp::Tilde {
-                    ConstantValue::Number(-1.0)
+                    ConstantValue::number(-1.0)
                 } else {
                     value
                 };
@@ -170,9 +170,9 @@ impl FastDts {
         };
 
         match expr.op {
-            UnaryOp::Minus => Some(ConstantValue::Number(-value)),
-            UnaryOp::Plus => Some(ConstantValue::Number(value)),
-            UnaryOp::Tilde => Some(ConstantValue::Number((!JsNumber::from(value)).into())),
+            UnaryOp::Minus => Some(ConstantValue::number(-value)),
+            UnaryOp::Plus => Some(ConstantValue::number(value)),
+            UnaryOp::Tilde => Some(ConstantValue::number((!JsNumber::from(value)).into())),
             _ => None,
         }
     }
@@ -191,12 +191,12 @@ impl FastDts {
                 || matches!(right, ConstantValue::String(_)))
         {
             let left_string = match left {
-                ConstantValue::Number(number) => number.to_string(),
+                ConstantValue::Number(number) => number.value.to_js_string(),
                 ConstantValue::String(s) => s,
             };
 
             let right_string = match right {
-                ConstantValue::Number(number) => number.to_string(),
+                ConstantValue::Number(number) => number.value.to_js_string(),
                 ConstantValue::String(s) => s,
             };
 
@@ -206,12 +206,12 @@ impl FastDts {
         }
 
         let left = JsNumber::from(match left {
-            ConstantValue::Number(n) => n,
+            ConstantValue::Number(n) => n.value,
             ConstantValue::String(_) => return None,
         });
 
         let right = JsNumber::from(match right {
-            ConstantValue::Number(n) => n,
+            ConstantValue::Number(n) => n.value,
             ConstantValue::String(_) => return None,
         });
 
@@ -223,13 +223,13 @@ impl FastDts {
             BinaryOp::Sub => Some(left - right),
             BinaryOp::Mul => Some(left * right),
             BinaryOp::Div => Some(left / right),
-            BinaryOp::Mod => Some(left & right),
+            BinaryOp::Mod => Some(left % right),
             BinaryOp::BitOr => Some(left | right),
             BinaryOp::BitXor => Some(left ^ right),
             BinaryOp::BitAnd => Some(left & right),
             BinaryOp::Exp => Some(left.pow(right)),
             _ => None,
         }
-        .map(|number| ConstantValue::Number(number.into()))
+        .map(|number| ConstantValue::number(number.into()))
     }
 }
