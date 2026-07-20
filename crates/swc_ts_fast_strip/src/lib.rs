@@ -708,6 +708,7 @@ impl TsStrip {
             Token::LParen
             | Token::LBracket
             | Token::NoSubstitutionTemplateLiteral
+            | Token::TemplateHead
             | Token::Plus
             | Token::Minus
             | Token::Regex => {
@@ -731,7 +732,11 @@ impl TsStrip {
 
         if let TokenAndSpan {
             // Only `(`, `[` and backtick affect ASI.
-            token: Token::LParen | Token::LBracket | Token::NoSubstitutionTemplateLiteral,
+            token:
+                Token::LParen
+                | Token::LBracket
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::TemplateHead,
             had_line_break: true,
             ..
         } = &self.tokens[index + 1]
