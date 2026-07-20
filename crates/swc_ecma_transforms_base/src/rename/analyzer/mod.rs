@@ -1,4 +1,4 @@
-use swc_common::Mark;
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 
 use self::scope::{Scope, ScopeKind};
@@ -18,6 +18,12 @@ pub(super) struct Analyzer {
     pub(super) var_belong_to_fn_scope: bool,
     pub(super) in_catch_params: bool,
     pub(super) scope: Scope,
+    /// Context for declarations that belong directly to `scope`.
+    ///
+    /// With direct `eval`, declarations created from the same source scope must
+    /// keep their printed names. Declarations moved from an inner scope are
+    /// still safe to rename, and the context lets us distinguish the two.
+    pub(super) scope_ctxt: Option<SyntaxContext>,
     /// If we try add variables declared by `var` to the block scope,
     /// variables will be added to `hoisted_vars` and merged to latest
     /// function scope in the end.
@@ -43,6 +49,7 @@ impl Analyzer {
             top_level_mark,
             skip_first_fn_or_class_decl,
             is_first_node: true,
+            scope_ctxt: Some(SyntaxContext::empty().apply_mark(top_level_mark)),
             hoisted_vars: Vec::with_capacity(32),
             mangle,
             ..Default::default()
@@ -53,12 +60,14 @@ impl Analyzer {
         if belong_to_fn_scope {
             match self.scope.kind {
                 ScopeKind::Fn => {
-                    self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
+                    self.scope
+                        .add_decl(&id, self.has_eval, self.top_level_mark, self.scope_ctxt);
                 }
                 ScopeKind::Block => self.hoisted_vars.push(id),
             }
         } else {
-            self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
+            self.scope
+                .add_decl(&id, self.has_eval, self.top_level_mark, self.scope_ctxt);
         }
     }
 
@@ -85,10 +94,11 @@ impl Analyzer {
         self.scope.reserve_usage(len);
     }
 
-    fn enter_scope(&mut self, kind: ScopeKind) -> Self {
+    fn enter_scope(&mut self, kind: ScopeKind, scope_ctxt: Option<SyntaxContext>) -> Self {
         let mut analyer = Analyzer {
             has_eval: self.has_eval,
             top_level_mark: self.top_level_mark,
+            scope_ctxt,
             is_pat_decl: self.is_pat_decl,
             var_belong_to_fn_scope: false,
             in_catch_params: false,
@@ -105,12 +115,12 @@ impl Analyzer {
         analyer // old analyzer
     }
 
-    pub(super) fn enter_fn_scope(&mut self) -> Self {
-        self.enter_scope(ScopeKind::Fn)
+    pub(super) fn enter_fn_scope(&mut self, scope_ctxt: SyntaxContext) -> Self {
+        self.enter_scope(ScopeKind::Fn, Some(scope_ctxt))
     }
 
-    pub(super) fn enter_block_scope(&mut self) -> Self {
-        self.enter_scope(ScopeKind::Block)
+    pub(super) fn enter_block_scope(&mut self, scope_ctxt: Option<SyntaxContext>) -> Self {
+        self.enter_scope(ScopeKind::Block, scope_ctxt)
     }
 
     pub(super) fn exit_scope(&mut self, mut v: Self) {

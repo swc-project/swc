@@ -292,6 +292,45 @@ fn run_default_exec_test(input_src: &str) {
     run_exec_test(input_src, config, false);
 }
 
+fn run_compress_and_mangle_exec_test(input_src: &str, config: &str) {
+    let expected_output = stdout_of(input_src).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "compress-and-mangle").entered();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            input_src,
+            Some(config),
+            Some(MangleOptions {
+                top_level: Some(true),
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 #[test]
 fn concat_tpl_keeps_delimiter_after_interpolation() {
     run_default_exec_test(
@@ -12467,6 +12506,88 @@ console.log(out.poisoned);
 "#;
 
     run_default_exec_test(src);
+}
+
+#[test]
+fn issue_11977_iife_param_extraction_does_not_collide_with_var() {
+    let src = r#"
+var d = class {};
+var __turbopack_context__ = {
+    z: function(value) {
+        return value;
+    }
+};
+var ErrorType = 1;
+var i = {};
+var serverOnlyRequire;
+var Subscription = function() {
+  function Subscription1(listeners, listener) {}
+  Subscription1.prototype.add = function(subscription) {
+    if (this.unsubscribed) {}
+  };
+}();
+try {
+  serverOnlyRequire = eval('require');
+} catch (err) {}
+var __require = /* @__PURE__ */ ((x)=>("TURBOPACK compile-time truthy", 1) ? __turbopack_context__.z : "TURBOPACK unreachable")(function(x) {
+})(ErrorType || {});
+var isRequestError = (error)=>{
+  let u = i.getKey ?? ((p, s)=>`x`), f = async ()=>{
+    try {} catch (s) {}
+  };
+};
+var x = class extends d {};
+console.log(typeof x, x === x);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_compress_and_mangle_exec_test(src, config);
+}
+
+#[test]
+fn issue_11977_iife_param_extraction_does_not_collide_in_function() {
+    let src = r#"
+var g = {};
+var d = class {};
+var __turbopack_context__ = {
+    z: function(value) {
+        return value;
+    }
+};
+var ErrorType = 1;
+var i = {};
+var serverOnlyRequire;
+g.foo = function() {
+var Subscription = function() {
+  function Subscription1(listeners, listener) {}
+  Subscription1.prototype.add = function(subscription) {
+    if (this.unsubscribed) {}
+  };
+}();
+try {
+  serverOnlyRequire = eval('require');
+} catch (err) {}
+var __require = /* @__PURE__ */ ((x)=>("TURBOPACK compile-time truthy", 1) ? __turbopack_context__.z : "TURBOPACK unreachable")(function(x) {
+})(ErrorType || {});
+var isRequestError = (error)=>{
+  let u = i.getKey ?? ((p, s)=>`x`), f = async ()=>{
+    try {} catch (s) {}
+  };
+};
+var x = class extends d {};
+console.log(typeof x, x === x);
+};
+g.foo();
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_compress_and_mangle_exec_test(src, config);
 }
 
 #[test]

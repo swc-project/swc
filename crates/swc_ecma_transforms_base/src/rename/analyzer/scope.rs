@@ -7,7 +7,7 @@ use indexmap::IndexSet;
 use par_iter::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::{atom, Atom};
-use swc_common::Mark;
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
@@ -41,11 +41,19 @@ pub(super) struct ScopeData {
     /// because we merge every items in children to current scope.
     all: FxHashSet<Id>,
 
+    preserved: FxHashSet<Id>,
+
     queue: FxIndexSet<Id>,
 }
 
 impl Scope {
-    pub(super) fn add_decl(&mut self, id: &Id, has_eval: bool, top_level_mark: Mark) {
+    pub(super) fn add_decl(
+        &mut self,
+        id: &Id,
+        has_eval: bool,
+        top_level_mark: Mark,
+        eval_preserve_ctxt: Option<SyntaxContext>,
+    ) {
         if id.0 == atom!("arguments") {
             return;
         }
@@ -53,8 +61,16 @@ impl Scope {
         self.data.all.insert(id.clone());
 
         if !self.data.queue.contains(id) {
-            if has_eval && id.1.outer().is_descendant_of(top_level_mark) {
-                return;
+            if has_eval {
+                let should_preserve = match eval_preserve_ctxt {
+                    Some(ctxt) => id.1 == ctxt,
+                    None => id.1.outer().is_descendant_of(top_level_mark),
+                };
+
+                if should_preserve {
+                    self.data.preserved.insert(id.clone());
+                    return;
+                }
             }
 
             self.data.queue.insert(id.clone());
@@ -103,6 +119,7 @@ impl Scope {
         let queue = take(&mut self.data.queue);
 
         // let mut cloned_reverse = reverse.clone();
+        self.reserve_preserved_symbols(reverse);
 
         self.rename_one_scope_in_normal_mode(
             renamer,
@@ -220,6 +237,7 @@ impl Scope {
         let queue = take(&mut self.data.queue);
 
         let mut cloned_reverse = reverse.next();
+        self.reserve_preserved_symbols(&mut cloned_reverse);
 
         self.rename_one_scope_in_mangle_mode(
             renamer,
@@ -330,5 +348,11 @@ impl Scope {
     pub fn rename_cost(&self) -> usize {
         let children = &self.children;
         self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
+    }
+
+    fn reserve_preserved_symbols(&self, reverse: &mut ReverseMap) {
+        for id in &self.data.preserved {
+            reverse.push_entry(id.0.clone(), id.clone());
+        }
     }
 }
