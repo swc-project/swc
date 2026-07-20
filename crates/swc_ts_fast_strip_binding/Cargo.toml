@@ -19,7 +19,7 @@ owo-colors          = { workspace = true }
 serde               = { workspace = true, features = ["derive"] }
 swc_common          = { version = "24.0.0", path = "../../crates/swc_common" }
 swc_error_reporters = { version = "26.0.0", path = "../../crates/swc_error_reporters" }
-swc_ts_fast_strip   = { version = "55.0.1", path = "../../crates/swc_ts_fast_strip" }
+swc_ts_fast_strip   = { version = "55.0.2", path = "../../crates/swc_ts_fast_strip" }
 tracing             = { workspace = true }
 unicode-width       = { workspace = true }
 
