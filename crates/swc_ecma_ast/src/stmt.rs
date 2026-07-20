@@ -10,7 +10,7 @@ use crate::{
 
 /// Use when only block statements are allowed.
 #[ast_node("BlockStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BlockStmt {
@@ -33,7 +33,7 @@ impl Take for BlockStmt {
 }
 
 #[ast_node(no_clone)]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Stmt {
@@ -214,7 +214,7 @@ impl Take for Stmt {
 }
 
 #[ast_node("ExpressionStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ExprStmt {
@@ -224,7 +224,7 @@ pub struct ExprStmt {
 }
 
 #[ast_node("EmptyStatement")]
-#[derive(Eq, Hash, Copy, EqIgnoreSpan)]
+#[derive(Eq, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct EmptyStmt {
@@ -233,7 +233,7 @@ pub struct EmptyStmt {
 }
 
 #[ast_node("DebuggerStatement")]
-#[derive(Eq, Hash, Copy, EqIgnoreSpan)]
+#[derive(Eq, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct DebuggerStmt {
@@ -241,7 +241,7 @@ pub struct DebuggerStmt {
 }
 
 #[ast_node("WithStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct WithStmt {
@@ -252,7 +252,7 @@ pub struct WithStmt {
 }
 
 #[ast_node("ReturnStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ReturnStmt {
@@ -266,7 +266,7 @@ pub struct ReturnStmt {
 }
 
 #[ast_node("LabeledStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct LabeledStmt {
@@ -276,7 +276,7 @@ pub struct LabeledStmt {
 }
 
 #[ast_node("BreakStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BreakStmt {
@@ -290,7 +290,7 @@ pub struct BreakStmt {
 }
 
 #[ast_node("ContinueStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ContinueStmt {
@@ -304,7 +304,7 @@ pub struct ContinueStmt {
 }
 
 #[ast_node("IfStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct IfStmt {
@@ -323,7 +323,7 @@ pub struct IfStmt {
 }
 
 #[ast_node("SwitchStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SwitchStmt {
@@ -333,7 +333,7 @@ pub struct SwitchStmt {
 }
 
 #[ast_node("ThrowStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ThrowStmt {
@@ -343,7 +343,7 @@ pub struct ThrowStmt {
 }
 
 #[ast_node("TryStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TryStmt {
@@ -367,7 +367,7 @@ pub struct TryStmt {
 }
 
 #[ast_node("WhileStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct WhileStmt {
@@ -377,7 +377,7 @@ pub struct WhileStmt {
 }
 
 #[ast_node("DoWhileStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct DoWhileStmt {
@@ -387,7 +387,7 @@ pub struct DoWhileStmt {
 }
 
 #[ast_node("ForStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForStmt {
@@ -418,7 +418,7 @@ pub struct ForStmt {
 }
 
 #[ast_node("ForInStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForInStmt {
@@ -429,7 +429,7 @@ pub struct ForInStmt {
 }
 
 #[ast_node("ForOfStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForOfStmt {
@@ -453,7 +453,7 @@ impl Take for ForOfStmt {
 }
 
 #[ast_node("SwitchCase")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SwitchCase {
@@ -482,7 +482,7 @@ impl Take for SwitchCase {
 }
 
 #[ast_node("CatchClause")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct CatchClause {
@@ -503,7 +503,7 @@ pub struct CatchClause {
 
 /// A head for for-in and for-of loop.
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum ForHead {
@@ -533,7 +533,7 @@ impl Default for ForHead {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]

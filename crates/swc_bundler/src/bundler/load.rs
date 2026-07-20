@@ -235,46 +235,35 @@ where
             let mut files = Vec::new();
 
             let mut exports = Exports::default();
+            exports.items.extend(raw.items);
 
-            let items = raw
-                .items
+            let reexports = raw
+                .reexports
                 .into_par_iter()
                 .map(|(src, ss)| -> Result<_, Error> {
                     self.run(|| {
-                        let info = match src {
-                            Some(src) => {
-                                let name = self.resolve(base, &src.value.to_string_lossy())?;
-                                let (id, local_mark, export_mark) =
-                                    self.scope.module_id_gen.gen(&name);
-                                Some((id, local_mark, export_mark, name, src))
-                            }
-                            None => None,
-                        };
+                        let src: Str = src.into();
+                        let name = self.resolve(base, &src.value.to_string_lossy())?;
+                        let (id, local_mark, export_mark) = self.scope.module_id_gen.gen(&name);
 
-                        Ok((info, ss))
+                        Ok(((id, local_mark, export_mark, name, src), ss))
                     })
                 })
                 .collect::<Vec<_>>();
 
-            for res in items {
-                let (info, specifiers) = res?;
+            for res in reexports {
+                let ((id, local_mark, export_mark, name, src), specifiers) = res?;
 
-                match info {
-                    None => exports.items.extend(specifiers),
-                    Some((id, local_mark, export_mark, name, src)) => {
-                        //
-                        let src = Source {
-                            is_loaded_synchronously: true,
-                            is_unconditional: false,
-                            module_id: id,
-                            local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
-                            export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
-                            src,
-                        };
-                        exports.reexports.push((src.clone(), specifiers));
-                        files.push((src, name));
-                    }
-                }
+                let src = Source {
+                    is_loaded_synchronously: true,
+                    is_unconditional: false,
+                    module_id: id,
+                    local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
+                    export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
+                    src,
+                };
+                exports.reexports.push((src.clone(), specifiers));
+                files.push((src, name));
             }
 
             Ok((exports, files))
@@ -413,7 +402,7 @@ pub(crate) enum Specifier {
     },
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct Source {
     pub is_loaded_synchronously: bool,
     pub is_unconditional: bool,

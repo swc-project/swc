@@ -332,7 +332,7 @@ where
 
 /// Represents a invalid node.
 #[ast_node("Invalid")]
-#[derive(Eq, Default, Hash, Copy, EqIgnoreSpan)]
+#[derive(Eq, Default, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Invalid {

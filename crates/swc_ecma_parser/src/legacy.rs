@@ -163,7 +163,7 @@ pub mod token {
         Other,
     }
 
-    #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+    #[derive(Debug, Copy, Clone, PartialEq, Eq)]
     pub enum TokenKind {
         Word(WordKind),
         Arrow,

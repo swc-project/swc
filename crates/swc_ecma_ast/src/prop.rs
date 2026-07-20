@@ -12,7 +12,7 @@ use crate::{
 };
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Prop {
@@ -41,7 +41,7 @@ pub enum Prop {
 bridge_from!(Prop, Ident, IdentName);
 
 #[ast_node("KeyValueProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct KeyValueProp {
@@ -53,7 +53,7 @@ pub struct KeyValueProp {
 }
 
 #[ast_node("AssignmentProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct AssignProp {
@@ -63,7 +63,7 @@ pub struct AssignProp {
 }
 
 #[ast_node("GetterProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct GetterProp {
@@ -83,7 +83,7 @@ pub struct GetterProp {
     pub body: Option<BlockStmt>,
 }
 #[ast_node("SetterProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SetterProp {
@@ -103,7 +103,7 @@ pub struct SetterProp {
     pub body: Option<BlockStmt>,
 }
 #[ast_node("MethodProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct MethodProp {
@@ -115,7 +115,7 @@ pub struct MethodProp {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum PropName {
@@ -172,7 +172,7 @@ impl From<PropName> for MemberProp {
 }
 
 #[ast_node("Computed")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ComputedPropName {

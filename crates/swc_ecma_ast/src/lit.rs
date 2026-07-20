@@ -1,7 +1,6 @@
 use std::{
     borrow::Cow,
     fmt::{self, Display, Formatter},
-    hash::{Hash, Hasher},
 };
 
 use is_macro::Is;
@@ -15,7 +14,7 @@ use swc_common::{ast_node, errors::HANDLER, util::take::Take, EqIgnoreSpan, Span
 use crate::{jsx::JSXText, TplElement};
 
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan, Is)]
+#[derive(Eq, EqIgnoreSpan, Is)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Lit {
@@ -83,7 +82,7 @@ impl Lit {
 }
 
 #[ast_node("BigIntLiteral")]
-#[derive(Eq, Hash)]
+#[derive(Eq)]
 pub struct BigInt {
     pub span: Span,
     #[cfg_attr(feature = "encoding-impl", encoding(with = "EncodeBigInt2"))]
@@ -162,7 +161,7 @@ impl From<BigIntValue> for BigInt {
 
 /// A string literal.
 #[ast_node("StringLiteral")]
-#[derive(Eq, Hash)]
+#[derive(Eq)]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Str {
     pub span: Span,
@@ -433,7 +432,7 @@ bridge_from!(Str, Atom, Cow<'_, str>);
 ///
 /// All of `Box<Expr>`, `Expr`, `Lit`, `Bool` implements `From<bool>`.
 #[ast_node("BooleanLiteral")]
-#[derive(Copy, Eq, Hash, EqIgnoreSpan)]
+#[derive(Copy, Eq, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Bool {
@@ -461,7 +460,7 @@ impl From<bool> for Bool {
 }
 
 #[ast_node("NullLiteral")]
-#[derive(Copy, Eq, Hash, EqIgnoreSpan)]
+#[derive(Copy, Eq, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Null {
@@ -475,7 +474,7 @@ impl Take for Null {
 }
 
 #[ast_node("RegExpLiteral")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, EqIgnoreSpan)]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Regex {
     pub span: Span,
@@ -527,8 +526,6 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
 pub struct Number {
     pub span: Span,
     /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.
-    ///
-    /// If you store `NaN` in this field, a hash map will behave strangely.
     pub value: f64,
 
     /// Use `None` value only for transformations to avoid recalculate
@@ -545,30 +542,6 @@ impl Eq for Number {}
 impl EqIgnoreSpan for Number {
     fn eq_ignore_span(&self, other: &Self) -> bool {
         self.value == other.value && self.value.is_sign_positive() == other.value.is_sign_positive()
-    }
-}
-
-#[allow(clippy::derived_hash_with_manual_eq)]
-#[allow(unnecessary_transmutes)]
-impl Hash for Number {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        fn integer_decode(val: f64) -> (u64, i16, i8) {
-            let bits: u64 = val.to_bits();
-            let sign: i8 = if bits >> 63 == 0 { 1 } else { -1 };
-            let mut exponent: i16 = ((bits >> 52) & 0x7ff) as i16;
-            let mantissa = if exponent == 0 {
-                (bits & 0xfffffffffffff) << 1
-            } else {
-                (bits & 0xfffffffffffff) | 0x10000000000000
-            };
-
-            exponent -= 1023 + 52;
-            (mantissa, exponent, sign)
-        }
-
-        self.span.hash(state);
-        integer_decode(self.value).hash(state);
-        self.raw.hash(state);
     }
 }
 

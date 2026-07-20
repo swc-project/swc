@@ -5,7 +5,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Program {
@@ -22,7 +22,7 @@ impl Take for Program {
 }
 
 #[ast_node("Module")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Module {
     pub span: Span,
@@ -62,7 +62,7 @@ impl Take for Module {
 }
 
 #[ast_node("Script")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Script {
     pub span: Span,
@@ -102,7 +102,7 @@ impl Take for Script {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum ModuleItem {

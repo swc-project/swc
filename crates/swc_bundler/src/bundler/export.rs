@@ -1,7 +1,7 @@
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_atoms::{atom, Atom};
-use swc_common::{FileName, SyntaxContext};
+use swc_atoms::{atom, Atom, Wtf8Atom};
+use swc_common::{FileName, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -42,8 +42,71 @@ where
 
 #[derive(Debug, Default)]
 pub(super) struct RawExports {
-    /// Key is None if it's exported from the module itself.
-    pub items: IndexMap<Option<Str>, Vec<Specifier>, FxBuildHasher>,
+    /// Exports declared by the module itself.
+    pub items: Vec<Specifier>,
+
+    /// Exports forwarded from exactly matching source nodes, in declaration
+    /// order.
+    pub reexports: IndexMap<RawExportSource, Vec<Specifier>, FxBuildHasher>,
+}
+
+impl RawExports {
+    /// Returns the group for an exactly matching source node.
+    ///
+    /// A private key preserves ordered-map performance and semantics without
+    /// requiring [`Str`] to implement `Hash`.
+    fn reexports_for(&mut self, src: Str) -> &mut Vec<Specifier> {
+        self.reexports.entry(src.into()).or_default()
+    }
+}
+
+/// Hashable representation used only by the bundler's export index.
+///
+/// Exhaustive conversions ensure this key stays aligned with [`Str`] if the
+/// AST node gains or loses fields.
+#[derive(Debug, PartialEq, Eq, Hash)]
+pub(super) struct RawExportSource {
+    span: Span,
+    value: Wtf8Atom,
+    raw: Option<Atom>,
+}
+
+impl From<Str> for RawExportSource {
+    fn from(src: Str) -> Self {
+        let Str { span, value, raw } = src;
+
+        Self { span, value, raw }
+    }
+}
+
+impl From<RawExportSource> for Str {
+    fn from(src: RawExportSource) -> Self {
+        let RawExportSource { span, value, raw } = src;
+
+        Self { span, value, raw }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_common::DUMMY_SP;
+
+    use super::*;
+
+    #[test]
+    fn groups_identical_reexport_sources() {
+        let src = Str {
+            span: DUMMY_SP,
+            value: "dependency".into(),
+            raw: None,
+        };
+        let mut exports = RawExports::default();
+
+        let _ = exports.reexports_for(src.clone());
+        let _ = exports.reexports_for(src);
+
+        assert_eq!(exports.reexports.len(), 1);
+    }
 }
 
 #[derive(Debug, Default)]
@@ -151,7 +214,7 @@ where
             //                return ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
             //            }
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) => {
-                let v = self.info.items.entry(None).or_default();
+                let v = &mut self.info.items;
                 v.push({
                     let i = match decl.decl {
                         Decl::Class(ref c) => &c.ident,
@@ -179,25 +242,17 @@ where
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(_decl)) => {
-                self.info
-                    .items
-                    .entry(None)
-                    .or_default()
-                    .push(Specifier::Specific {
-                        local: Id::new(atom!("default"), SyntaxContext::empty()),
-                        alias: None,
-                    });
+                self.info.items.push(Specifier::Specific {
+                    local: Id::new(atom!("default"), SyntaxContext::empty()),
+                    alias: None,
+                });
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(_expr)) => {
-                self.info
-                    .items
-                    .entry(None)
-                    .or_default()
-                    .push(Specifier::Specific {
-                        local: Id::new(atom!("default"), SyntaxContext::empty()),
-                        alias: None,
-                    });
+                self.info.items.push(Specifier::Specific {
+                    local: Id::new(atom!("default"), SyntaxContext::empty()),
+                    alias: None,
+                });
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
@@ -207,11 +262,11 @@ where
                 });
                 let mut need_wrapping = false;
 
-                let v = self
-                    .info
-                    .items
-                    .entry(named.src.clone().map(|v| *v))
-                    .or_default();
+                let v = if let Some(src) = named.src.clone() {
+                    self.info.reexports_for(*src)
+                } else {
+                    &mut self.info.items
+                };
                 for s in &mut named.specifiers {
                     match s {
                         ExportSpecifier::Namespace(n) => {
@@ -309,7 +364,7 @@ where
                     .encode(&mut all.with);
                 }
 
-                self.info.items.entry(Some(*all.src.clone())).or_default();
+                let _ = self.info.reexports_for(*all.src.clone());
             }
             _ => {}
         }

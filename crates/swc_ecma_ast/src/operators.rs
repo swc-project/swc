@@ -1,7 +1,7 @@
 use string_enum::StringEnum;
 use swc_common::EqIgnoreSpan;
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
@@ -113,7 +113,7 @@ impl BinaryOp {
     }
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
@@ -189,7 +189,7 @@ impl AssignOp {
     }
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
@@ -205,7 +205,7 @@ pub enum UpdateOp {
     MinusMinus,
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(

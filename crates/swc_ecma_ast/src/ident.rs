@@ -15,7 +15,7 @@ use swc_common::{
 use crate::{typescript::TsTypeAnn, Expr};
 
 /// Identifier used as a pattern.
-#[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Clone, Debug, PartialEq, Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
@@ -155,7 +155,7 @@ bridge_from!(BindingIdent, Ident, Id);
 /// There's a type named [Id] which only contains minimal information to
 /// distinguish identifiers.
 #[ast_node("Identifier")]
-#[derive(Eq, Hash, Default)]
+#[derive(Eq, Default)]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Ident {
     pub span: Span,
@@ -391,7 +391,7 @@ impl Ident {
 }
 
 #[ast_node("Identifier")]
-#[derive(Eq, Hash, Default, EqIgnoreSpan)]
+#[derive(Eq, Default, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct IdentName {
@@ -552,7 +552,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
 }
 
 #[ast_node("PrivateName")]
-#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Eq, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct PrivateName {

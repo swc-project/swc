@@ -1,13 +1,12 @@
 #![cfg_attr(not(feature = "extra-serde"), allow(unused))]
 
 use std::{
-    hash::{Hash, Hasher},
     ops::{Deref, DerefMut},
     sync::Arc,
 };
 
 use parking_lot::RwLock;
-use rustc_hash::{FxHashMap, FxHasher};
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
 use swc_common::Mark;
@@ -40,7 +39,7 @@ pub struct ExtraOptions {
     pub mangle_name_cache: Option<Arc<dyn MangleCache>>,
 }
 
-#[derive(Debug, Default, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Default, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "extra-serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "extra-serde", serde(rename_all = "camelCase"))]
 #[cfg_attr(feature = "extra-serde", serde(deny_unknown_fields))]
@@ -156,15 +155,15 @@ impl Default for CompressExperimentalOptions {
     }
 }
 
-/// Please do not rely on Hash for GlobalDefs.
-/// This implementation uses XOR to combine per-pair hashes, which may lead to
-/// hash collisions in some cases.
+/// Global expression replacements applied before compression.
+///
+/// Entries are matched in order, and the first matching expression wins.
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
-pub struct GlobalDefs(pub FxHashMap<Box<Expr>, Box<Expr>>);
+pub struct GlobalDefs(pub Vec<(Box<Expr>, Box<Expr>)>);
 
 impl From<FxHashMap<Box<Expr>, Box<Expr>>> for GlobalDefs {
     fn from(value: FxHashMap<Box<Expr>, Box<Expr>>) -> Self {
-        GlobalDefs(value)
+        GlobalDefs(value.into_iter().collect())
     }
 }
 
@@ -175,7 +174,7 @@ impl FromIterator<(Box<Expr>, Box<Expr>)> for GlobalDefs {
 }
 
 impl Deref for GlobalDefs {
-    type Target = FxHashMap<Box<Expr>, Box<Expr>>;
+    type Target = Vec<(Box<Expr>, Box<Expr>)>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -188,29 +187,8 @@ impl DerefMut for GlobalDefs {
     }
 }
 
-impl Hash for GlobalDefs {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        // Use iteration order-independent hash combination.
-        // Method: Mix all key-value pair hashes with XOR, and include the length for
-        // distinction.
-        let mut hash = 0u64;
-        for (k, v) in &self.0 {
-            // let mut pair_hasher = std::collections::hash_map::DefaultHasher::new();
-            let mut pair_hasher = FxHasher::default();
-            k.hash(&mut pair_hasher);
-            v.hash(&mut pair_hasher);
-            // XOR ensures order independence: a ^ b == b ^ a
-            hash ^= pair_hasher.finish();
-        }
-        // Mix length to prevent conflicts like `[("a",1),("b",2)]` and
-        // `[("a",1),("b",2),("a",1),("b",2)]`
-        self.0.len().hash(state);
-        hash.hash(state);
-    }
-}
-
 /// https://terser.org/docs/api-reference.html#compress-options
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "extra-serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "extra-serde", serde(rename_all = "camelCase"))]
 #[cfg_attr(feature = "extra-serde", serde(deny_unknown_fields))]

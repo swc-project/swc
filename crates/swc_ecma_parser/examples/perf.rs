@@ -1,14 +1,11 @@
 extern crate swc_malloc;
 
-use std::{collections::hash_map::DefaultHasher, hash::Hash};
-
 use codspeed_criterion_compat::black_box;
 use swc_common::{sync::Lrc, SourceMap};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsSyntax};
 
 fn main() {
     let mut cnt = 0;
-    let mut hasher = DefaultHasher::new();
 
     for entry in walkdir::WalkDir::new("tests/typescript") {
         let entry = entry.unwrap();
@@ -37,15 +34,10 @@ fn main() {
 
         let module = parser.parse_typescript_module();
 
-        if let Ok(module) = &module {
-            module.hash(&mut hasher);
-        }
-
         let _ = black_box(module);
 
         cnt += 1;
     }
 
     eprintln!("Parsed {cnt} files");
-    eprintln!("Hash: {hasher:?}");
 }

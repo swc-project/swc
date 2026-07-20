@@ -52,7 +52,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
 
 // Fake Program
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, EqIgnoreSpan)]
 enum Program2 {
     #[tag("Module")]
     Module(Module),
@@ -63,7 +63,7 @@ enum Program2 {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, EqIgnoreSpan)]
 struct SourceString {
     span: Span,
     #[not_spanned]
