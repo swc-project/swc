@@ -311,6 +311,15 @@ where
             }
         }
 
+        // Drop identity mappings before apply. Operator already no-ops when
+        // `sym == ident.sym`, so they only inflate the apply walk.
+        //
+        // Identities must still be inserted into `map` *during* analysis so
+        // later scopes can skip via `to.get(id)`. Without that (e.g. hygiene
+        // alone, no resolver), the same Id is reprocessed in every scope and
+        // the reverse map blows up.
+        map.retain(|id, v| v.atom() != &id.0);
+
         map
     }
 
@@ -319,6 +328,14 @@ where
             self.previous_cache = cache.into_owned();
             self.total_map = Some(Default::default());
         }
+    }
+
+    /// Whether the rename Operator should run.
+    ///
+    /// After stripping identities, an empty map no longer means "nothing to
+    /// do" — `keep_class_names` still needs a visit.
+    fn should_apply_rename_map(&self, map: &FxHashMap<Id, V>) -> bool {
+        !map.is_empty() || self.config.keep_class_names
     }
 }
 
@@ -334,7 +351,7 @@ macro_rules! unit {
             } else {
                 let map = self.get_map(n, false, false, false);
 
-                if !map.is_empty() {
+                if self.should_apply_rename_map(&map) {
                     n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
                 }
             }
@@ -377,7 +394,7 @@ where
                 self.preserved.remove(&id);
             }
 
-            if !map.is_empty() {
+            if self.should_apply_rename_map(&map) {
                 n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
             }
         }
@@ -395,7 +412,7 @@ where
                 self.preserved.remove(&id);
             }
 
-            if !map.is_empty() {
+            if self.should_apply_rename_map(&map) {
                 n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
             }
         }
@@ -453,7 +470,7 @@ where
             m.visit_mut_children_with(self);
         }
 
-        if !map.is_empty() {
+        if self.should_apply_rename_map(&map) {
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
         }
 
@@ -473,7 +490,7 @@ where
             m.visit_mut_children_with(self);
         }
 
-        if !map.is_empty() {
+        if self.should_apply_rename_map(&map) {
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
         }
 
