@@ -46,6 +46,7 @@ pub struct FastDts {
     is_top_level: bool,
     used_refs: UsedRefs,
     internal_annotations: Option<FxHashSet<BytePos>>,
+    enum_evaluation_context: r#enum::EnumEvaluationContext,
 }
 
 #[derive(Debug, Default)]
@@ -65,6 +66,7 @@ impl FastDts {
             is_top_level: true,
             used_refs: UsedRefs::default(),
             internal_annotations,
+            enum_evaluation_context: Default::default(),
         }
     }
 
@@ -81,6 +83,8 @@ impl FastDts {
 
 impl FastDts {
     pub fn transform(&mut self, program: &mut Program) -> Vec<DtsIssue> {
+        self.enum_evaluation_context = Default::default();
+        self.collect_enum_member_names(program);
         match program {
             Program::Module(module) => self.transform_module_body(&mut module.body, false),
             Program::Script(script) => self.transform_script(script),
