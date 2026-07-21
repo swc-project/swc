@@ -53,6 +53,13 @@ impl std::ops::Deref for JsNumber {
 }
 
 impl JsNumber {
+    /// Applies ECMAScript `ToUint16` conversion.
+    ///
+    /// <https://tc39.es/ecma262/#sec-touint16>
+    pub fn to_uint16(self) -> u16 {
+        self.as_uint32() as u16
+    }
+
     // https://tc39.es/ecma262/#sec-toint32
     fn as_int32(&self) -> i32 {
         self.as_uint32() as i32
@@ -311,6 +318,20 @@ mod test_js_number {
         assert_eq!(JsNumber(f64::INFINITY).as_uint32(), 0);
         assert_eq!(JsNumber(f64::NEG_INFINITY).as_uint32(), 0);
         assert_eq!(JsNumber(-8.0).as_uint32(), 4294967288);
+    }
+
+    #[test]
+    fn test_to_uint16() {
+        assert_eq!(JsNumber(65.9).to_uint16(), 65);
+        assert_eq!(JsNumber(-1.0).to_uint16(), 65535);
+        assert_eq!(JsNumber(-65535.9).to_uint16(), 1);
+        assert_eq!(JsNumber(65536.0).to_uint16(), 0);
+        assert_eq!(JsNumber(65537.0).to_uint16(), 1);
+        assert_eq!(JsNumber(f64::NAN).to_uint16(), 0);
+        assert_eq!(JsNumber(f64::INFINITY).to_uint16(), 0);
+        assert_eq!(JsNumber(f64::NEG_INFINITY).to_uint16(), 0);
+        assert_eq!(JsNumber(4294967361.0).to_uint16(), 65);
+        assert_eq!(JsNumber(-4294967231.0).to_uint16(), 65);
     }
 
     #[test]

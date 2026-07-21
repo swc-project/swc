@@ -3,7 +3,7 @@ use std::num::FpCategory;
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Value::Known};
+use swc_ecma_utils::{number::JsNumber, ExprExt, Value::Known};
 
 use super::{BitCtx, Optimizer};
 use crate::{
@@ -334,7 +334,7 @@ impl Optimizer<'_> {
                         }
 
                         if let Known(char_code) = args[0].expr.as_pure_number(self.ctx.expr_ctx) {
-                            let v = char_code.floor() as u32;
+                            let v = u32::from(JsNumber::from(char_code).to_uint16());
 
                             if let Some(v) = char::from_u32(v) {
                                 if !v.is_ascii() {
@@ -342,7 +342,7 @@ impl Optimizer<'_> {
                                 }
                                 self.changed = true;
                                 report_change!(
-                                    "evaluate: Evaluated `String.charCodeAt({})` as `{}`",
+                                    "evaluate: Evaluated `String.fromCharCode({})` as `{}`",
                                     char_code,
                                     v
                                 );
