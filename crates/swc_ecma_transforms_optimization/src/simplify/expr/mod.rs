@@ -17,7 +17,7 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_utils::{
     is_literal,
-    number::{minify_number, JsNumber},
+    number::{minify_number, parse_canonical_index, JsNumber, ToJsString},
     prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType, ObjectType,
     StringType, SymbolType, UndefinedType, Value,
 };
@@ -606,6 +606,31 @@ fn need_zero_for_this(e: &Expr) -> bool {
     e.directness_matters() || e.is_seq()
 }
 
+/// A statically known property key with optional metadata for literal indexing.
+///
+/// `property_key` is always the exact ECMAScript property key. `index` is only
+/// populated for canonical non-negative decimal keys that can index a literal
+/// array or string without reinterpreting the property key.
+struct KnownMemberKey {
+    property_key: Atom,
+    index: Option<usize>,
+}
+
+impl KnownMemberKey {
+    fn from_number(value: f64) -> Self {
+        Self::from_property_key(Atom::from(value.to_js_string()))
+    }
+
+    fn from_property_key(property_key: Atom) -> Self {
+        let index = parse_canonical_index(property_key.as_str());
+
+        Self {
+            property_key,
+            index,
+        }
+    }
+}
+
 /// Gets the value of the given key from the given object properties, if the key
 /// exists. If the key does exist, `Some` is returned and the property is
 /// removed from the given properties.
@@ -687,24 +712,17 @@ pub fn optimize_member_expr(
         _ => return,
     };
 
-    #[derive(Clone, PartialEq, Debug)]
     enum KnownOp {
         /// [a, b].length
         Len,
 
-        /// [a, b][0]
-        ///
-        /// {0.5: "bar"}[0.5]
-        /// Note: callers need to check `v.fract() == 0.0` in some cases.
-        /// ie non-integer indexes for arrays result in `undefined`
-        /// but not for objects (because indexing an object
-        /// returns the value of the key, ie `0.5` will not
-        /// return `undefined` if a key `0.5` exists
-        /// and its value is not `undefined`).
-        Index(f64),
-
-        /// ({}).foo
-        IndexStr(Atom),
+        /// A known ECMAScript property key.
+        Key {
+            key: KnownMemberKey,
+            // Numeric keys preserve the existing object-folding eligibility;
+            // other keys still require a fully literal object.
+            requires_literal_object: bool,
+        },
     }
     let op = match prop {
         MemberProp::Ident(IdentName { sym, .. }) if &**sym == "length" && !obj.is_object() => {
@@ -715,7 +733,10 @@ pub fn optimize_member_expr(
                 return;
             }
 
-            KnownOp::IndexStr(sym.clone())
+            KnownOp::Key {
+                key: KnownMemberKey::from_property_key(sym.clone()),
+                requires_literal_object: true,
+            }
         }
         MemberProp::Computed(ComputedPropName { expr, .. }) => {
             if is_callee {
@@ -724,17 +745,19 @@ pub fn optimize_member_expr(
 
             if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
                 // x[5]
-                KnownOp::Index(*value)
+                KnownOp::Key {
+                    key: KnownMemberKey::from_number(*value),
+                    requires_literal_object: false,
+                }
             } else if let Known(s) = expr.as_pure_string(expr_ctx) {
                 if s == "length" && !obj.is_object() {
                     // Length of non-object type
                     KnownOp::Len
-                } else if let Ok(n) = s.parse::<f64>() {
-                    // x['0'] is treated as x[0]
-                    KnownOp::Index(n)
                 } else {
-                    // x[''] or x[...] where ... is an expression like [], ie x[[]]
-                    KnownOp::IndexStr(s.into())
+                    KnownOp::Key {
+                        key: KnownMemberKey::from_property_key(s.into()),
+                        requires_literal_object: true,
+                    }
                 }
             } else {
                 return;
@@ -771,14 +794,18 @@ pub fn optimize_member_expr(
             }
 
             // 'foo'[1]
-            KnownOp::Index(idx) => {
-                if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
+            KnownOp::Key { key, .. } => {
+                let Some(index) = key.index else {
+                    return;
+                };
+
+                if index >= value.len() {
                     // Prototype changes affect indexing if the index is out of bounds, so we
                     // don't replace out-of-bound indexes.
                     return;
                 }
 
-                let c = nth_char(value, idx as _);
+                let c = nth_char(value, index);
                 *changed = true;
 
                 // `nth_char` always returns a code point within the UTF-16 range.
@@ -792,11 +819,6 @@ pub fn optimize_member_expr(
                 })
                 .into()
             }
-
-            // 'foo'['']
-            //
-            // Handled in compress
-            KnownOp::IndexStr(..) => {}
         },
 
         // [1, 2, 3].length
@@ -837,22 +859,23 @@ pub fn optimize_member_expr(
                     .into();
                 }
 
-                KnownOp::Index(idx) => {
-                    // If the fraction part is non-zero, or if the index is out of bounds,
-                    // then we handle this in compress as Array's prototype may be modified.
-                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
+                KnownOp::Key { key, .. } => {
+                    let Some(index) = key.index else {
+                        return;
+                    };
+
+                    // Out-of-bound indexes are handled in compress because Array's
+                    // prototype may be modified.
+                    if index >= elems.len() {
                         return;
                     }
 
                     // Don't change if after has side effects.
                     let after_has_side_effect =
-                        elems
-                            .iter()
-                            .skip((idx as usize + 1) as _)
-                            .any(|elem| match elem {
-                                Some(elem) => elem.expr.may_have_side_effects(expr_ctx),
-                                None => false,
-                            });
+                        elems.iter().skip(index + 1).any(|elem| match elem {
+                            Some(elem) => elem.expr.may_have_side_effects(expr_ctx),
+                            None => false,
+                        });
 
                     if after_has_side_effect {
                         return;
@@ -861,7 +884,7 @@ pub fn optimize_member_expr(
                     *changed = true;
 
                     // elements before target element
-                    let before: Vec<Option<ExprOrSpread>> = elems.drain(..(idx as usize)).collect();
+                    let before: Vec<Option<ExprOrSpread>> = elems.drain(..index).collect();
                     let mut iter = elems.take().into_iter();
                     // element at idx
                     let e = iter.next().flatten();
@@ -903,9 +926,6 @@ pub fn optimize_member_expr(
                     exprs.push(val);
                     *expr = *Expr::from_exprs(exprs);
                 }
-
-                // Handled in compress
-                KnownOp::IndexStr(..) => {}
             }
         }
 
@@ -915,8 +935,14 @@ pub fn optimize_member_expr(
         Expr::Object(ObjectLit { props, span }) => {
             // get key
             let key = match op {
-                KnownOp::Index(i) => Atom::from(i.to_string()),
-                KnownOp::IndexStr(key) if key != *"yield" && is_literal(props) => key,
+                KnownOp::Key {
+                    key,
+                    requires_literal_object,
+                } if key.property_key != *"yield"
+                    && (!requires_literal_object || is_literal(props)) =>
+                {
+                    key.property_key
+                }
                 _ => return,
             };
 

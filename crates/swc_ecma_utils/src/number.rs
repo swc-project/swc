@@ -10,6 +10,25 @@ impl ToJsString for f64 {
     }
 }
 
+/// Parses the canonical non-negative decimal representation of a `usize`.
+///
+/// This does not apply numeric coercion, so distinct ECMAScript property keys
+/// such as `"01"`, `"1.0"`, and `"+1"` are not reinterpreted as the index `1`.
+pub fn parse_canonical_index(property_key: &str) -> Option<usize> {
+    let bytes = property_key.as_bytes();
+    let is_canonical = match bytes {
+        [b'0'] => true,
+        [b'1'..=b'9', rest @ ..] => rest.iter().all(u8::is_ascii_digit),
+        _ => false,
+    };
+
+    if !is_canonical {
+        return None;
+    }
+
+    property_key.parse().ok()
+}
+
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct JsNumber(f64);
 
@@ -263,6 +282,17 @@ pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
 #[cfg(test)]
 mod test_js_number {
     use super::*;
+
+    #[test]
+    fn test_parse_canonical_index() {
+        assert_eq!(parse_canonical_index("0"), Some(0));
+        assert_eq!(parse_canonical_index("42"), Some(42));
+        assert_eq!(parse_canonical_index(""), None);
+        assert_eq!(parse_canonical_index("01"), None);
+        assert_eq!(parse_canonical_index("1.0"), None);
+        assert_eq!(parse_canonical_index("+1"), None);
+        assert_eq!(parse_canonical_index("-0"), None);
+    }
 
     #[test]
     fn test_as_int32() {

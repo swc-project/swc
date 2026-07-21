@@ -3,7 +3,7 @@ use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    number::ToJsString,
+    number::{parse_canonical_index, ToJsString},
     unicode::{is_high_surrogate, is_low_surrogate},
     ExprExt, IsEmpty, Type, Value,
 };
@@ -412,7 +412,9 @@ impl Pure<'_> {
             MemberProp::Computed(p) => {
                 if let Expr::Lit(Lit::Str(s)) = &*p.expr {
                     if let Some(value) = s.value.as_str() {
-                        if let Ok(value) = value.parse::<u32>() {
+                        if let Some(value) =
+                            parse_canonical_index(value).and_then(|value| u32::try_from(value).ok())
+                        {
                             p.expr = Lit::Num(Number {
                                 span: s.span,
                                 value: value as f64,

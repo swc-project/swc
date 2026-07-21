@@ -348,6 +348,14 @@ fn custom_fixture(input: PathBuf) {
 
         println!("{}", input.display());
 
+        if let Ok(expected_stdout) = read_to_string(dir.join("expected.stdout")) {
+            let actual = stdout_of(&output).expect("failed to execute the optimized code");
+            assert_eq!(
+                DebugUsingDisplay(&actual),
+                DebugUsingDisplay(&expected_stdout)
+            );
+        }
+
         NormalizedOutput::from(output)
             .compare_to_file(dir.join("output.js"))
             .unwrap();
