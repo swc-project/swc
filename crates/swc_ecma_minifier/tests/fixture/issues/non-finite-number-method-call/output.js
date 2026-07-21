@@ -1,0 +1,14 @@
+console.log(1.23.toFixed(-1));
+console.log(1.23.toFixed(-1 / 0));
+console.log(2e308.toFixed(-1));
+console.log((0 / 0).toFixed(-1));
+console.log("1");
+console.log("1");
+console.log(1.23.toExponential(-1));
+console.log("Infinity");
+console.log("NaN");
+console.log("1e+0");
+console.log("1e+0");
+console.log(1.23.toPrecision(-1));
+console.log("Infinity");
+console.log("NaN");

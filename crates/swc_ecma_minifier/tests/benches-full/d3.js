@@ -6,7 +6,7 @@ function(global, factory) {
 }(this, function(exports1) {
     'use strict';
     function ascending(a, b) {
-        return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
+        return a < b ? -1 : a > b ? 1 : a >= b ? 0 : 0 / 0;
     }
     function bisector(f) {
         let delta = f, compare = f;
@@ -34,7 +34,7 @@ function(global, factory) {
         };
     }
     function number(x) {
-        return null === x ? NaN : +x;
+        return null === x ? 0 / 0 : +x;
     }
     let ascendingBisect = bisector(ascending), bisectRight = ascendingBisect.right, bisectLeft = ascendingBisect.left, bisectCenter = bisector(number).center;
     function count(values, valueof) {
@@ -551,7 +551,7 @@ function(global, factory) {
         return node.__data__;
     }
     function ascending$1(a, b) {
-        return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
+        return a < b ? -1 : a > b ? 1 : a >= b ? 0 : 0 / 0;
     }
     function defaultView(node) {
         return node.ownerDocument && node.ownerDocument.defaultView // node is a Node
@@ -1325,13 +1325,13 @@ function(global, factory) {
          : (m = reHslPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) // hsl(120, 50%, 50%)
          : (m = reHslaPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) // hsla(120, 50%, 50%, 1)
          : named.hasOwnProperty(format) ? rgbn(named[format]) // eslint-disable-line no-prototype-builtins
-         : "transparent" === format ? new Rgb(NaN, NaN, NaN, 0) : null;
+         : "transparent" === format ? new Rgb(0 / 0, 0 / 0, 0 / 0, 0) : null;
     }
     function rgbn(n) {
         return new Rgb(n >> 16 & 0xff, n >> 8 & 0xff, 0xff & n, 1);
     }
     function rgba(r, g, b, a) {
-        return a <= 0 && (r = g = b = NaN), new Rgb(r, g, b, a);
+        return a <= 0 && (r = g = b = 0 / 0), new Rgb(r, g, b, a);
     }
     function rgbConvert(o) {
         return (o instanceof Color || (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
@@ -1353,13 +1353,13 @@ function(global, factory) {
         return ((value = Math.max(0, Math.min(255, Math.round(value) || 0))) < 16 ? "0" : "") + value.toString(16);
     }
     function hsla(h, s, l, a) {
-        return a <= 0 ? h = s = l = NaN : l <= 0 || l >= 1 ? h = s = NaN : s <= 0 && (h = NaN), new Hsl(h, s, l, a);
+        return a <= 0 ? h = s = l = 0 / 0 : l <= 0 || l >= 1 ? h = s = 0 / 0 : s <= 0 && (h = 0 / 0), new Hsl(h, s, l, a);
     }
     function hslConvert(o) {
         if (o instanceof Hsl) return new Hsl(o.h, o.s, o.l, o.opacity);
         if (o instanceof Color || (o = color(o)), !o) return new Hsl;
         if (o instanceof Hsl) return o;
-        var r = (o = o.rgb()).r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r, g, b), max = Math.max(r, g, b), h = NaN, s = max - min, l = (max + min) / 2;
+        var r = (o = o.rgb()).r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r, g, b), max = Math.max(r, g, b), h = 0 / 0, s = max - min, l = (max + min) / 2;
         return s ? (h = r === max ? (g - b) / s + (g < b) * 6 : g === max ? (b - r) / s + 2 : (r - g) / s + 4, s /= l < 0.5 ? max + min : 2 - max - min, h *= 60) : s = l > 0 && l < 1 ? 0 : h, new Hsl(h, s, l, o.opacity);
     }
     function hsl(h, s, l, opacity) {
@@ -1449,7 +1449,7 @@ function(global, factory) {
     }
     function hclConvert(o) {
         if (o instanceof Hcl) return new Hcl(o.h, o.c, o.l, o.opacity);
-        if (o instanceof Lab || (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(NaN, 0 < o.l && o.l < 100 ? 0 : NaN, o.l, o.opacity);
+        if (o instanceof Lab || (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(0 / 0, 0 < o.l && o.l < 100 ? 0 : 0 / 0, o.l, o.opacity);
         var h = Math.atan2(o.b, o.a) * degrees;
         return new Hcl(h < 0 ? h + 360 : h, Math.sqrt(o.a * o.a + o.b * o.b), o.l, o.opacity);
     }
@@ -1491,7 +1491,7 @@ function(global, factory) {
         return 1 == arguments.length ? function(o) {
             if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
             o instanceof Rgb || (o = rgbConvert(o));
-            var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * degrees - 120 : NaN;
+            var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * degrees - 120 : 0 / 0;
             return new Cubehelix(h < 0 ? h + 360 : h, s, l, o.opacity);
         }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
     }
@@ -3359,7 +3359,7 @@ function(global, factory) {
                 r < minRadius && (i2 = i, minRadius = r);
             }
             let i2x = coords[2 * i2], i2y = coords[2 * i2 + 1];
-            if (minRadius === 1 / 0) {
+            if (1 / 0 === minRadius) {
                 // order collinear points by dx (or dy if all x are identical)
                 // and return the list as a hull
                 for(let i = 0; i < n; i++)this._dists[i] = coords[2 * i] - coords[0] || coords[2 * i + 1] - coords[1];
@@ -3977,7 +3977,7 @@ function(global, factory) {
         return d[1];
     }
     function quadtree(nodes, x, y) {
-        var tree = new Quadtree(null == x ? defaultX$1 : x, null == y ? defaultY$1 : y, NaN, NaN, NaN, NaN);
+        var tree = new Quadtree(null == x ? defaultX$1 : x, null == y ? defaultY$1 : y, 0 / 0, 0 / 0, 0 / 0, 0 / 0);
         return null == nodes ? tree : tree.addAll(nodes);
     }
     function Quadtree(x, y, x0, y0, x1, y1) {
@@ -4184,7 +4184,7 @@ function(global, factory) {
         ];
     }
     function exponent$1(x) {
-        return (x = formatDecimalParts(Math.abs(x))) ? x[1] : NaN;
+        return (x = formatDecimalParts(Math.abs(x))) ? x[1] : 0 / 0;
     }
     // [[fill]align][sign][symbol][0][width][,][.precision][~][type]
     var re = /^(?:(.)?([<>=^]))?([+\-( ])?([$#])?(0)?(\d+)?(,)?(\.\d+)?(~)?([a-z%])?$/i;
@@ -4883,7 +4883,7 @@ function(global, factory) {
     // intersections or the line was empty; 1 - no intersections; 2 - there were
     // intersections, and the first and last segments should be rejoined.
     function(stream) {
-        var clean, lambda0 = NaN, phi0 = NaN, sign0 = NaN; // no intersections
+        var clean, lambda0 = 0 / 0, phi0 = 0 / 0, sign0 = 0 / 0; // no intersections
         return {
             lineStart: function() {
                 stream.lineStart(), clean = 1;
@@ -4893,7 +4893,7 @@ function(global, factory) {
                 1e-6 > abs$2(delta - pi$3) ? (stream.point(lambda0, phi0 = (phi0 + phi1) / 2 > 0 ? halfPi$2 : -halfPi$2), stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), stream.point(lambda1, phi0), clean = 0) : sign0 !== sign1 && delta >= pi$3 && (1e-6 > abs$2(lambda0 - sign0) && (lambda0 -= 1e-6 * sign0), 1e-6 > abs$2(lambda1 - sign1) && (lambda1 -= 1e-6 * sign1), lambda01 = lambda0, phi01 = phi0, phi0 = abs$2(sinLambda0Lambda1 = sin$1(lambda01 - (lambda11 = lambda1))) > 1e-6 ? atan((sin$1(phi01) * (cosPhi1 = cos$1(phi1)) * sin$1(lambda11) - sin$1(phi1) * (cosPhi0 = cos$1(phi01)) * sin$1(lambda01)) / (cosPhi0 * cosPhi1 * sinLambda0Lambda1)) : (phi01 + phi1) / 2, stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), clean = 0), stream.point(lambda0 = lambda1, phi0 = phi1), sign0 = sign1;
             },
             lineEnd: function() {
-                stream.lineEnd(), lambda0 = phi0 = NaN;
+                stream.lineEnd(), lambda0 = phi0 = 0 / 0;
             },
             clean: function() {
                 return 2 - clean; // if intersections, rejoin first and last segments
@@ -5015,7 +5015,7 @@ function(global, factory) {
             var segments, polygon, ring, x__, y__, v__, x_, y_, v_, first, clean, activeStream = stream, bufferStream = clipBuffer(), clipStream = {
                 point: point,
                 lineStart: function() {
-                    clipStream.point = linePoint, polygon && polygon.push(ring = []), first = !0, v_ = !1, x_ = y_ = NaN;
+                    clipStream.point = linePoint, polygon && polygon.push(ring = []), first = !0, v_ = !1, x_ = y_ = 0 / 0;
                 },
                 lineEnd: // TODO rather than special-case polygons, simply handle them separately.
                 // Ideally, coincident intersection points should be jittered to avoid
@@ -5329,7 +5329,7 @@ function(global, factory) {
     function areaRingEnd$1() {
         areaPoint$1(x00, y00);
     }
-    var x00$1, y00$1, x0$3, y0$3, x0$2 = 1 / 0, y0$2 = 1 / 0, x1 = -1 / 0, y1 = x1, boundsStream$1 = {
+    var x00$1, y00$1, x0$3, y0$3, x0$2 = 1 / 0, y0$2 = 1 / 0, x1 = -1 / 0, y1 = -1 / 0, boundsStream$1 = {
         point: function(x, y) {
             x < x0$2 && (x0$2 = x), x > x1 && (x1 = x), y < y0$2 && (y0$2 = y), y > y1 && (y1 = y);
         },
@@ -5371,8 +5371,8 @@ function(global, factory) {
                 X0$1 / Z0$1,
                 Y0$1 / Z0$1
             ] : [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ];
             return X0$1 = Y0$1 = Z0$1 = X1$1 = Y1$1 = Z1$1 = X2$1 = Y2$1 = Z2$1 = 0, centroid;
         }
@@ -5418,13 +5418,13 @@ function(global, factory) {
             this._line = 0;
         },
         polygonEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
             this._point = 0;
         },
         lineEnd: function() {
-            0 === this._line && this._context.closePath(), this._point = NaN;
+            0 === this._line && this._context.closePath(), this._point = 0 / 0;
         },
         point: function(x, y) {
             switch(this._point){
@@ -5532,13 +5532,13 @@ function(global, factory) {
             this._line = 0;
         },
         polygonEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
             this._point = 0;
         },
         lineEnd: function() {
-            0 === this._line && this._string.push("Z"), this._point = NaN;
+            0 === this._line && this._string.push("Z"), this._point = 0 / 0;
         },
         point: function(x, y) {
             switch(this._point){
@@ -5606,7 +5606,7 @@ function(global, factory) {
                     x = project(x, y), stream.point(x[0], x[1]);
                 }
                 function lineStart() {
-                    x0 = NaN, resampleStream.point = linePoint, stream.lineStart();
+                    x0 = 0 / 0, resampleStream.point = linePoint, stream.lineStart();
                 }
                 function linePoint(lambda, phi) {
                     var c = cartesian([
@@ -5822,7 +5822,7 @@ function(global, factory) {
     function azimuthalRaw(scale) {
         return function(x, y) {
             var cx = cos$1(x), cy = cos$1(y), k = scale(cx * cy);
-            return k === 1 / 0 ? [
+            return 1 / 0 === k ? [
                 2,
                 0
             ] : [
@@ -6690,7 +6690,7 @@ function(global, factory) {
         var x;
         return (b -= a *= 1) ? function(x) {
             return (x - a) / b;
-        } : (x = isNaN(b) ? NaN : 0.5, function() {
+        } : (x = isNaN(b) ? 0 / 0 : 0.5, function() {
             return x;
         });
     }
@@ -6842,7 +6842,7 @@ function(global, factory) {
             } else z = ticks(i, j, Math.min(j - i, n)).map(pows);
             return r ? z.reverse() : z;
         }, scale.tickFormat = function(count, specifier) {
-            if (null == specifier && (specifier = 10 === base ? ".0e" : ","), "function" != typeof specifier && (specifier = exports1.format(specifier)), count === 1 / 0) return specifier;
+            if (null == specifier && (specifier = 10 === base ? ".0e" : ","), "function" != typeof specifier && (specifier = exports1.format(specifier)), 1 / 0 === count) return specifier;
             null == count && (count = 10);
             var k = Math.max(1, base * count / scale.ticks().length); // TODO fast estimate?
             return function(d) {
@@ -8056,7 +8056,7 @@ function(global, factory) {
         }, area;
     }
     function descending$1(a, b) {
-        return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+        return b < a ? -1 : b > a ? 1 : b >= a ? 0 : 0 / 0;
     }
     function identity$8(d) {
         return d;
@@ -8066,7 +8066,7 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
             this._point = 0;
@@ -8246,10 +8246,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._y0 = this._y1 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._y0 = this._y1 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8279,7 +8279,7 @@ function(global, factory) {
         areaStart: noop$3,
         areaEnd: noop$3,
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8314,10 +8314,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._y0 = this._y1 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._y0 = this._y1 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
@@ -8374,10 +8374,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8420,7 +8420,7 @@ function(global, factory) {
         areaStart: noop$3,
         areaEnd: noop$3,
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8467,10 +8467,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
@@ -8522,10 +8522,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8572,7 +8572,7 @@ function(global, factory) {
         areaStart: noop$3,
         areaEnd: noop$3,
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = NaN, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = 0 / 0, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8623,10 +8623,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
         },
         lineEnd: function() {
             (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
@@ -8763,10 +8763,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._y0 = this._y1 = this._t0 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._y0 = this._y1 = this._t0 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8779,7 +8779,7 @@ function(global, factory) {
             (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
         },
         point: function(x, y) {
-            var t1 = NaN;
+            var t1 = 0 / 0;
             if (y *= 1, (x *= 1) !== this._x1 || y !== this._y1) {
                 switch(this._point){
                     case 0:
@@ -8817,7 +8817,7 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
             this._x = [], this._y = [];
@@ -8836,10 +8836,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x = this._y = NaN, this._point = 0;
+            this._x = this._y = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             0 < this._t && this._t < 1 && 2 === this._point && this._context.lineTo(this._x, this._y), (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line >= 0 && (this._t = 1 - this._t, this._line = 1 - this._line);
@@ -9216,7 +9216,7 @@ function(global, factory) {
             var number, m, value = object[key].trim();
             if (value) if ("true" === value) value = !0;
             else if ("false" === value) value = !1;
-            else if ("NaN" === value) value = NaN;
+            else if ("NaN" === value) value = 0 / 0;
             else if (isNaN(number = +value)) if (!(m = value.match(/^([-+]\d{2})?\d{4}(-\d{2}(-\d{2})?)?(T\d{2}:\d{2}(:\d{2}(\.\d{3})?)?(Z|[-+]\d{2}:\d{2})?)?$/))) continue;
             else fixtz && m[4] && !m[7] && (value = value.replace(/-/g, "/").replace(/T/, " ")), value = new Date(value);
             else value = number;
@@ -9434,7 +9434,7 @@ function(global, factory) {
     }, exports1.curveStepBefore = function(context) {
         return new Step(context, 0);
     }, exports1.descending = function(a, b) {
-        return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+        return b < a ? -1 : b > a ? 1 : b >= a ? 0 : 0 / 0;
     }, exports1.deviation = deviation, exports1.difference = function(values, ...others) {
         for (let other of (values = new Set(values), others))for (let value of other)values.delete(value);
         return values;
@@ -9986,14 +9986,14 @@ function(global, factory) {
             // The final bounding box will be the inverse of this gap.
             for(deltaMax = -1 / 0, n = merged.length - 1, i = 0, a = merged[n]; i <= n; a = b, ++i)b = merged[i], (delta = angle(a[1], b[0])) > deltaMax && (deltaMax = delta, lambda0$1 = b[0], lambda1 = a[1]);
         }
-        return ranges = range$1 = null, lambda0$1 === 1 / 0 || phi0 === 1 / 0 ? [
+        return ranges = range$1 = null, 1 / 0 === lambda0$1 || 1 / 0 === phi0 ? [
             [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ],
             [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ]
         ] : [
             [
@@ -10010,8 +10010,8 @@ function(global, factory) {
         var x = +X2, y = +Y2, z = +Z2, m = hypot(x, y, z);
         return(// If the area-weighted ccentroid is undefined, fall back to length-weighted ccentroid.
         m < 1e-12 && (x = X1, y = Y1, z = Z1, W1 < 1e-6 && (x = X0, y = Y0, z = Z0), (m = hypot(x, y, z)) < 1e-12) ? [
-            NaN,
-            NaN
+            0 / 0,
+            0 / 0
         ] : [
             atan2(y, x) * degrees$2,
             asin(z / m) * degrees$2
@@ -10543,8 +10543,8 @@ function(global, factory) {
         return scale.invertExtent = function(y) {
             var i = range.indexOf(y);
             return i < 0 ? [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ] : [
                 i > 0 ? thresholds[i - 1] : domain[0],
                 i < thresholds.length ? thresholds[i] : domain[domain.length - 1]
@@ -10587,8 +10587,8 @@ function(global, factory) {
         }, scale.invertExtent = function(y) {
             var i = range.indexOf(y);
             return i < 0 ? [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ] : i < 1 ? [
                 x0,
                 domain[0]

@@ -6,7 +6,7 @@
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */ (function() {
-    /** Error message constants. */ var undefined, FUNC_ERROR_TEXT = 'Expected a function', HASH_UNDEFINED = '__lodash_hash_undefined__', PLACEHOLDER = '__lodash_placeholder__', INFINITY = 1 / 0, NAN = 0 / 0, wrapFlags = [
+    /** Error message constants. */ var undefined, FUNC_ERROR_TEXT = 'Expected a function', HASH_UNDEFINED = '__lodash_hash_undefined__', PLACEHOLDER = '__lodash_placeholder__', wrapFlags = [
         [
             'ary',
             128
@@ -384,7 +384,7 @@
    * @returns {number} Returns the mean.
    */ function baseMean(array, iteratee) {
         var length = null == array ? 0 : array.length;
-        return length ? baseSum(array, iteratee) / length : NAN;
+        return length ? baseSum(array, iteratee) / length : 0 / 0;
     }
     /**
    * The base implementation of `_.property` without support for deep paths.
@@ -2487,7 +2487,7 @@
      * @param {*} value The value to process.
      * @returns {number} Returns the number.
      */ function baseToNumber(value) {
-            return 'number' == typeof value ? value : isSymbol(value) ? NAN : +value;
+            return 'number' == typeof value ? value : isSymbol(value) ? 0 / 0 : +value;
         }
         /**
      * The base implementation of `_.toString` which doesn't convert nullish
@@ -2503,7 +2503,7 @@
             return arrayMap(value, baseToString) + '';
             if (isSymbol(value)) return symbolToString ? symbolToString.call(value) : '';
             var result = value + '';
-            return '0' == result && 1 / value == -INFINITY ? '-0' : result;
+            return '0' == result && 1 / value == -1 / 0 ? '-0' : result;
         }
         /**
      * The base implementation of `_.uniqBy` without support for iteratee shorthands.
@@ -3142,7 +3142,7 @@
      */ var createSet = Set && 1 / setToArray(new Set([
             ,
             -0
-        ]))[1] == INFINITY ? function(values) {
+        ]))[1] == 1 / 0 ? function(values) {
             return new Set(values);
         } : noop;
         /**
@@ -3748,7 +3748,7 @@
      */ function toKey(value) {
             if ('string' == typeof value || isSymbol(value)) return value;
             var result = value + '';
-            return '0' == result && 1 / value == -INFINITY ? '-0' : result;
+            return '0' == result && 1 / value == -1 / 0 ? '-0' : result;
         }
         /**
      * Converts `func` to its source code.
@@ -5434,7 +5434,7 @@
      * _.toFinite('3.2');
      * // => 3.2
      */ function toFinite(value) {
-            return value ? (value = toNumber(value)) === INFINITY || value === -INFINITY ? (value < 0 ? -1 : 1) * 1.7976931348623157e+308 : value == value ? value : 0 : 0 === value ? value : 0;
+            return value ? 1 / 0 === (value = toNumber(value)) || -1 / 0 === value ? (value < 0 ? -1 : 1) * 1.7976931348623157e+308 : value == value ? value : 0 : 0 === value ? value : 0;
         }
         /**
      * Converts `value` to an integer.
@@ -5518,7 +5518,7 @@
      * // => 3.2
      */ function toNumber(value) {
             if ('number' == typeof value) return value;
-            if (isSymbol(value)) return NAN;
+            if (isSymbol(value)) return 0 / 0;
             if (isObject(value)) {
                 var other = 'function' == typeof value.valueOf ? value.valueOf() : value;
                 value = isObject(other) ? other + '' : other;
@@ -5526,7 +5526,7 @@
             if ('string' != typeof value) return 0 === value ? value : +value;
             value = baseTrim(value);
             var isBinary = reIsBinary.test(value);
-            return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
+            return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? 0 / 0 : +value;
         }
         /**
      * Converts `value` to a plain object flattening inherited enumerable string
@@ -6898,7 +6898,7 @@
      * _.flatMapDeep([1, 2], duplicate);
      * // => [1, 1, 2, 2]
      */ function(collection, iteratee) {
-            return baseFlatten(map(collection, iteratee), INFINITY);
+            return baseFlatten(map(collection, iteratee), 1 / 0);
         }, lodash.flatMapDepth = /**
      * This method is like `_.flatMap` except that it recursively flattens the
      * mapped results up to `depth` times.
@@ -6935,7 +6935,7 @@
      * _.flattenDeep([1, [2, [3, [4]], 5]]);
      * // => [1, 2, 3, 4, 5]
      */ function(array) {
-            return (null == array ? 0 : array.length) ? baseFlatten(array, INFINITY) : [];
+            return (null == array ? 0 : array.length) ? baseFlatten(array, 1 / 0) : [];
         }, lodash.flattenDepth = /**
      * Recursively flatten `array` up to `depth` times.
      *

@@ -1,7 +1,7 @@
 var v = [
     0,
     1,
-    NaN,
+    0 / 0,
     1 / 0,
     null,
     void 0,

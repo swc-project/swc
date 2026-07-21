@@ -8374,7 +8374,7 @@
                             var cmp, e, i, more, n, prod, prodL, q, qc, rem, remL, rem0, xi, xL, yc0, yL, yz, s = x.s == y.s ? 1 : -1, xc = x.c, yc = y.c;
                             // Either NaN, Infinity or 0?
                             if (!xc || !xc[0] || !yc || !yc[0]) return new BigNumber(// Return NaN if either NaN, or both Infinity or 0.
-                            !x.s || !y.s || (xc ? yc && xc[0] == yc[0] : !yc) ? NaN : // Return ±0 if x is ±0 or y is ±Infinity, or return ±Infinity as y is ±0.
+                            !x.s || !y.s || (xc ? yc && xc[0] == yc[0] : !yc) ? 0 / 0 : // Return ±0 if x is ±0 or y is ±Infinity, or return ±Infinity as y is ±0.
                             xc && 0 == xc[0] || !yc ? 0 * s : s / 0);
                             // Result exponent may be one less then the current value of e.
                             // The coefficients of the BigNumbers from convertBase may have trailing zeros.
@@ -8545,7 +8545,7 @@
                         y = new BigNumber(Math.pow(+valueOf(x), nIsBig ? 2 - isOdd(n) : +valueOf(n))), m ? y.mod(m) : y);
                         if (nIsNeg = n.s < 0, m) {
                             // x % m returns NaN if abs(m) is zero, or m is NaN.
-                            if (m.c ? !m.c[0] : !m.s) return new BigNumber(NaN);
+                            if (m.c ? !m.c[0] : !m.s) return new BigNumber(0 / 0);
                             (isModExp = !nIsNeg && x.isInteger() && m.isInteger()) && (x = x.mod(m));
                         // Overflow to ±Infinity: >=2**1e10 or >=1.0000024**1e15.
                         // Underflow to ±0: <=0.79**1e10 or <=0.9999975**1e15.
@@ -8656,13 +8656,13 @@
      */ P.minus = function(y, b) {
                         var i, j, t, xLTy, a = this.s;
                         // Either NaN?
-                        if (b = (y = new BigNumber(y, b)).s, !a || !b) return new BigNumber(NaN);
+                        if (b = (y = new BigNumber(y, b)).s, !a || !b) return new BigNumber(0 / 0);
                         // Signs differ?
                         if (a != b) return y.s = -b, this.plus(y);
                         var xe = this.e / 14, ye = y.e / 14, xc = this.c, yc = y.c;
                         if (!xe || !ye) {
                             // Either Infinity?
-                            if (!xc || !yc) return xc ? (y.s = -b, y) : new BigNumber(yc ? this : NaN);
+                            if (!xc || !yc) return xc ? (y.s = -b, y) : new BigNumber(yc ? this : 0 / 0);
                             // Either zero?
                             if (!xc[0] || !yc[0]) // Return y if y is non-zero, x if x is non-zero, or zero if both are zero.
                             return yc[0] ? (y.s = -b, y) : new BigNumber(xc[0] ? this : // IEEE 754 (2008) 6.3: n - n = -0 when rounding to -Infinity
@@ -8722,7 +8722,7 @@
                         return(// Return NaN if x is Infinity or NaN, or y is NaN or zero.
                         (y = new BigNumber(y, b), this.c && y.s && (!y.c || y.c[0])) ? y.c && (!this.c || this.c[0]) ? (9 == MODULO_MODE ? (// Euclidian division: q = sign(y) * floor(x / abs(y))
                         // r = x - qy    where  0 <= r < abs(y)
-                        s = y.s, y.s = 1, q = div(this, y, 0, 3), y.s = s, q.s *= s) : q = div(this, y, 0, MODULO_MODE), (y = this.minus(q.times(y))).c[0] || 1 != MODULO_MODE || (y.s = this.s), y) : new BigNumber(this) : new BigNumber(NaN));
+                        s = y.s, y.s = 1, q = div(this, y, 0, 3), y.s = s, q.s *= s) : q = div(this, y, 0, MODULO_MODE), (y = this.minus(q.times(y))).c[0] || 1 != MODULO_MODE || (y.s = this.s), y) : new BigNumber(this) : new BigNumber(0 / 0));
                     }, /*
      *  n * 0 = 0
      *  n * N = N
@@ -8783,7 +8783,7 @@
      */ P.plus = function(y, b) {
                         var t, a = this.s;
                         // Either NaN?
-                        if (b = (y = new BigNumber(y, b)).s, !a || !b) return new BigNumber(NaN);
+                        if (b = (y = new BigNumber(y, b)).s, !a || !b) return new BigNumber(0 / 0);
                         // Signs differ?
                         if (a != b) return y.s = -b, this.minus(y);
                         var xe = this.e / 14, ye = y.e / 14, xc = this.c, yc = y.c;
@@ -8853,13 +8853,13 @@
      */ P.squareRoot = P.sqrt = function() {
                         var m, n, r, rep, t, c = this.c, s = this.s, e = this.e, dp = DECIMAL_PLACES + 4, half = new BigNumber('0.5');
                         // Negative/NaN/Infinity/zero?
-                        if (1 !== s || !c || !c[0]) return new BigNumber(!s || s < 0 && (!c || c[0]) ? NaN : c ? this : 1 / 0);
+                        if (1 !== s || !c || !c[0]) return new BigNumber(!s || s < 0 && (!c || c[0]) ? 0 / 0 : c ? this : 1 / 0);
                         // Check for zero.
                         // r could be zero if MIN_EXP is changed after the this value was created.
                         // This would cause a division by zero (x/t) and hence Infinity below, which would cause
                         // coeffToString to throw.
                         if (0 == // Initial estimate.
-                        (s = Math.sqrt(+valueOf(this))) || s == 1 / 0 ? (((n = coeffToString(c)).length + e) % 2 == 0 && (n += '0'), s = Math.sqrt(+n), e = bitFloor((e + 1) / 2) - (e < 0 || e % 2), r = new BigNumber(n = s == 1 / 0 ? '5e' + e : (n = s.toExponential()).slice(0, n.indexOf('e') + 1) + e)) : r = new BigNumber(s + ''), r.c[0]) // Newton-Raphson iteration.
+                        (s = Math.sqrt(+valueOf(this))) || 1 / 0 == s ? (((n = coeffToString(c)).length + e) % 2 == 0 && (n += '0'), s = Math.sqrt(+n), e = bitFloor((e + 1) / 2) - (e < 0 || e % 2), r = new BigNumber(n = 1 / 0 == s ? '5e' + e : (n = s.toExponential()).slice(0, n.indexOf('e') + 1) + e)) : r = new BigNumber(s + ''), r.c[0]) // Newton-Raphson iteration.
                         {
                             for((s = (e = r.e) + dp) < 3 && (s = 0);;)if (t = r, r = half.times(t.plus(div(this, t, dp, 1))), coeffToString(t.c).slice(0, s) === (n = coeffToString(r.c)).slice(0, s)) {
                                 // The 4th rounding digit may be in error by -1 so if the 4 rounding digits
@@ -10419,7 +10419,7 @@
                             // Wait for both requests to complete
                             if (void 0 === keys || void 0 === values) return;
                             let length = Math.max(keys.length, values.length);
-                            0 === length || size === 1 / 0 ? this[kFinished] = !0 : this[kPosition] = keys[length - 1], // Resize
+                            0 === length || 1 / 0 === size ? this[kFinished] = !0 : this[kPosition] = keys[length - 1], // Resize
                             entries.length = length;
                             // Merge keys and values
                             for(let i = 0; i < length; i++){
@@ -15831,13 +15831,13 @@
                 for(m = e & (1 << -nBits) - 1, e >>= -nBits, nBits += mLen; nBits > 0; m = 256 * m + buffer[offset + i], i += d, nBits -= 8);
                 if (0 === e) e = 1 - eBias;
                 else {
-                    if (e === eMax) return m ? NaN : 1 / 0 * (s ? -1 : 1);
+                    if (e === eMax) return m ? 0 / 0 : (s ? -1 : 1) * 2e308;
                     m += Math.pow(2, mLen), e -= eBias;
                 }
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
             }, exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
                 var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 5.960464477539062e-8 * (23 === mLen), i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = +(value < 0 || 0 === value && 1 / value < 0);
-                for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = +!!isNaN(value), e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
+                for(isNaN(value = Math.abs(value)) || 1 / 0 === value ? (m = +!!isNaN(value), e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
                 for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 0xff & e, i += d, e /= 256, eLen -= 8);
                 buffer[offset + i - d] |= 128 * s;
             };
@@ -26408,7 +26408,7 @@ function _get9(dt, pos) {
                 async run(instance) {
                     for(this._inst = instance, this._values = [
                         // JS values that Go currently has references to, indexed by reference id
-                        NaN,
+                        0 / 0,
                         0,
                         null,
                         !0,

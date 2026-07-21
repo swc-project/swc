@@ -79,7 +79,7 @@ function(global, factory) {
         return m._isValid;
     }
     function createInvalid(flags) {
-        var m = createUTC(NaN);
+        var m = createUTC(0 / 0);
         return null != flags ? extend(getParsingFlags(m), flags) : getParsingFlags(m).userInvalidated = !0, m;
     }
     some = Array.prototype.some ? Array.prototype.some : function(fun) {
@@ -97,7 +97,7 @@ function(global, factory) {
     }
     // Moment prototype object
     function Moment(config) {
-        copyConfig(this, config), this._d = new Date(null != config._d ? config._d.getTime() : NaN), this.isValid() || (this._d = new Date(NaN)), !1 === updateInProgress && (updateInProgress = !0, hooks.updateOffset(this), updateInProgress = !1);
+        copyConfig(this, config), this._d = new Date(null != config._d ? config._d.getTime() : 0 / 0), this.isValid() || (this._d = new Date(0 / 0)), !1 === updateInProgress && (updateInProgress = !0, hooks.updateOffset(this), updateInProgress = !1);
     }
     function isMoment(obj) {
         return obj instanceof Moment || null != obj && null != obj._isAMomentObject;
@@ -213,7 +213,7 @@ function(global, factory) {
         };
     }
     function get(mom, unit) {
-        return mom.isValid() ? mom._d["get" + (mom._isUTC ? "UTC" : "") + unit]() : NaN;
+        return mom.isValid() ? mom._d["get" + (mom._isUTC ? "UTC" : "") + unit]() : 0 / 0;
     }
     function set$1(mom, unit, value) {
         mom.isValid() && !isNaN(value) && ("FullYear" === unit && isLeapYear(mom.year()) && 1 === mom.month() && 29 === mom.date() ? (value = toInt(value), mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](value, mom.month(), daysInMonth(value, mom.month()))) : mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](value));
@@ -245,7 +245,7 @@ function(global, factory) {
         });
     }
     function daysInMonth(year, month) {
-        if (isNaN(year) || isNaN(month)) return NaN;
+        if (isNaN(year) || isNaN(month)) return 0 / 0;
         var modMonth = (month % 12 + 12) % 12;
         return year += (month - modMonth) / 12, 1 === modMonth ? isLeapYear(year) ? 29 : 28 : 31 - modMonth % 7 % 2;
     }
@@ -905,7 +905,7 @@ function(global, factory) {
         function(config) {
             var tempConfig, bestMoment, scoreToBeat, i, currentScore, validFormatFound, bestFormatIsValid = !1;
             if (0 === config._f.length) {
-                getParsingFlags(config).invalidFormat = !0, config._d = new Date(NaN);
+                getParsingFlags(config).invalidFormat = !0, config._d = new Date(0 / 0);
                 return;
             }
             for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), // if there is any input that was not parsed add a penalty for that format
@@ -1120,7 +1120,7 @@ function(global, factory) {
         mom.isValid() && (updateOffset = null == updateOffset || updateOffset, months && setMonth(mom, get(mom, "Month") + months * isAdding), days && set$1(mom, "Date", get(mom, "Date") + days * isAdding), milliseconds && mom._d.setTime(mom._d.valueOf() + milliseconds * isAdding), updateOffset && hooks.updateOffset(mom, days || months));
     }
     createDuration.fn = Duration.prototype, createDuration.invalid = function() {
-        return createDuration(NaN);
+        return createDuration(0 / 0);
     };
     var add = createAdder(1, "add"), subtract = createAdder(-1, "subtract");
     function isString(input) {
@@ -1410,7 +1410,7 @@ function(global, factory) {
         return new Moment(this);
     }, proto.diff = function(input, units, asFloat) {
         var that, zoneDelta, output;
-        if (!this.isValid() || !(that = cloneWithOffset(input, this)).isValid()) return NaN;
+        if (!this.isValid() || !(that = cloneWithOffset(input, this)).isValid()) return 0 / 0;
         switch(zoneDelta = (that.utcOffset() - this.utcOffset()) * 6e4, units = normalizeUnits(units)){
             case "year":
                 output = monthDiff(this, that) / 12;
@@ -1673,15 +1673,15 @@ function(global, factory) {
         return weeksInYear(this.isoWeekYear(), 1, 4);
     }, proto.date = getSetDayOfMonth, proto.day = proto.days = // MOMENTS
     function(input) {
-        if (!this.isValid()) return null != input ? this : NaN;
+        if (!this.isValid()) return null != input ? this : 0 / 0;
         var input1, locale, day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
         return null == input ? day : (input1 = input, locale = this.localeData(), input = "string" != typeof input1 ? input1 : isNaN(input1) ? "number" == typeof (input1 = locale.weekdaysParse(input1)) ? input1 : null : parseInt(input1, 10), this.add(input - day, "d"));
     }, proto.weekday = function(input) {
-        if (!this.isValid()) return null != input ? this : NaN;
+        if (!this.isValid()) return null != input ? this : 0 / 0;
         var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
         return null == input ? weekday : this.add(input - weekday, "d");
     }, proto.isoWeekday = function(input) {
-        if (!this.isValid()) return null != input ? this : NaN;
+        if (!this.isValid()) return null != input ? this : 0 / 0;
         // behaves the same as moment#day except
         // as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
         // as a setter, sunday should belong to the previous week.
@@ -1706,7 +1706,7 @@ function(global, factory) {
     // there is no such time in the given timezone.
     function(input, keepLocalTime, keepMinutes) {
         var localAdjust, offset = this._offset || 0;
-        if (!this.isValid()) return null != input ? this : NaN;
+        if (!this.isValid()) return null != input ? this : 0 / 0;
         if (null == input) return this._isUTC ? offset : getDateOffset(this);
         if ("string" == typeof input) {
             if (null === (input = offsetFromString(matchShortOffset, input))) return this;
@@ -1947,7 +1947,7 @@ function(global, factory) {
     var asMilliseconds = makeAs("ms"), asSeconds = makeAs("s"), asMinutes = makeAs("m"), asHours = makeAs("h"), asDays = makeAs("d"), asWeeks = makeAs("w"), asMonths = makeAs("M"), asQuarters = makeAs("Q"), asYears = makeAs("y");
     function makeGetter(name) {
         return function() {
-            return this.isValid() ? this._data[name] : NaN;
+            return this.isValid() ? this._data[name] : 0 / 0;
         };
     }
     var milliseconds = makeGetter("milliseconds"), seconds = makeGetter("seconds"), minutes = makeGetter("minutes"), hours = makeGetter("hours"), days = makeGetter("days"), months = makeGetter("months"), years = makeGetter("years"), round = Math.round, thresholds = {
@@ -1995,7 +1995,7 @@ function(global, factory) {
     function(input, value) {
         return addSubtract$1(this, input, value, -1);
     }, proto$2.as = function(units) {
-        if (!this.isValid()) return NaN;
+        if (!this.isValid()) return 0 / 0;
         var days, months, milliseconds = this._milliseconds;
         if ("month" === (units = normalizeUnits(units)) || "quarter" === units || "year" === units) switch(days = this._days + milliseconds / 864e5, months = this._months + daysToMonths(days), units){
             case "month":
@@ -2025,7 +2025,7 @@ function(global, factory) {
         }
     }, proto$2.asMilliseconds = asMilliseconds, proto$2.asSeconds = asSeconds, proto$2.asMinutes = asMinutes, proto$2.asHours = asHours, proto$2.asDays = asDays, proto$2.asWeeks = asWeeks, proto$2.asMonths = asMonths, proto$2.asQuarters = asQuarters, proto$2.asYears = asYears, proto$2.valueOf = // TODO: Use this.as('ms')?
     function() {
-        return this.isValid() ? this._milliseconds + 864e5 * this._days + this._months % 12 * 2592e6 + 31536e6 * toInt(this._months / 12) : NaN;
+        return this.isValid() ? this._milliseconds + 864e5 * this._days + this._months % 12 * 2592e6 + 31536e6 * toInt(this._months / 12) : 0 / 0;
     }, proto$2._bubble = function() {
         var seconds, minutes, hours, years, monthsFromDays, milliseconds = this._milliseconds, days = this._days, months = this._months, data = this._data;
         return milliseconds >= 0 && days >= 0 && months >= 0 || milliseconds <= 0 && days <= 0 && months <= 0 || (milliseconds += 864e5 * absCeil(monthsToDays(months) + days), days = 0, months = 0), // The following code bubbles up values, see the tests for
@@ -2036,7 +2036,7 @@ function(global, factory) {
     }, proto$2.clone = function() {
         return createDuration(this);
     }, proto$2.get = function(units) {
-        return units = normalizeUnits(units), this.isValid() ? this[units + "s"]() : NaN;
+        return units = normalizeUnits(units), this.isValid() ? this[units + "s"]() : 0 / 0;
     }, proto$2.milliseconds = milliseconds, proto$2.seconds = seconds, proto$2.minutes = minutes, proto$2.hours = hours, proto$2.days = days, proto$2.weeks = function() {
         return absFloor(this.days() / 7);
     }, proto$2.months = months, proto$2.years = years, proto$2.humanize = function(argWithSuffix, argThresholds) {

@@ -7927,7 +7927,7 @@ function(global, factory) {
             for(var vector = new Vector4(), skinWeight = this.geometry.attributes.skinWeight, i = 0, l = skinWeight.count; i < l; i++){
                 vector.x = skinWeight.getX(i), vector.y = skinWeight.getY(i), vector.z = skinWeight.getZ(i), vector.w = skinWeight.getW(i);
                 var scale = 1.0 / vector.manhattanLength();
-                scale !== 1 / 0 ? vector.multiplyScalar(scale) : vector.set(1, 0, 0, 0), skinWeight.setXYZW(i, vector.x, vector.y, vector.z, vector.w);
+                1 / 0 !== scale ? vector.multiplyScalar(scale) : vector.set(1, 0, 0, 0), skinWeight.setXYZW(i, vector.x, vector.y, vector.z, vector.w);
             }
         },
         updateMatrixWorld: function(force) {

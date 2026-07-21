@@ -736,7 +736,7 @@ impl VisitMut for Remover {
                                     (
                                         &Expr::Lit(Lit::Num(Number { value: test, .. })),
                                         &Expr::Lit(Lit::Num(Number { value: d, .. })),
-                                    ) => (test - d).abs() < 1e-10,
+                                    ) => test == d || (test - d).abs() < 1e-10,
                                     (
                                         &Expr::Lit(Lit::Bool(Bool { value: test, .. })),
                                         &Expr::Lit(Lit::Bool(Bool { value: d, .. })),

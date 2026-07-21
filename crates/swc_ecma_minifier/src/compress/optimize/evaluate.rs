@@ -1,13 +1,12 @@
-use std::num::FpCategory;
-
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{number::JsNumber, ExprExt, Value::Known};
 
 use super::{BitCtx, Optimizer};
 use crate::{
-    compress::util::eval_as_number, program_data::VarUsageInfoFlags, DISABLE_BUGGY_PASSES,
+    compress::util::eval_as_number, program_data::VarUsageInfoFlags, util::make_number,
+    DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `evaluate`.
@@ -111,7 +110,7 @@ impl Optimizer<'_> {
 
         enum IdentGlobal {
             Undefined,
-            Infinity,
+            Number(f64),
         }
 
         let ident_global = match e {
@@ -119,8 +118,11 @@ impl Optimizer<'_> {
             Expr::Ident(i) if &*i.sym == "undefined" && !self.is_declared_ident(i) => {
                 Some((i.span, IdentGlobal::Undefined))
             }
+            Expr::Ident(i) if &*i.sym == "NaN" && !self.is_declared_ident(i) => {
+                Some((i.span, IdentGlobal::Number(f64::NAN)))
+            }
             Expr::Ident(i) if &*i.sym == "Infinity" && !self.is_declared_ident(i) => {
-                Some((i.span, IdentGlobal::Infinity))
+                Some((i.span, IdentGlobal::Number(f64::INFINITY)))
             }
             _ => None,
         };
@@ -132,26 +134,10 @@ impl Optimizer<'_> {
                     self.changed = true;
                     *e = *Expr::undefined(span);
                 }
-                IdentGlobal::Infinity => {
-                    report_change!("evaluate: `Infinity` -> `1 / 0`");
+                IdentGlobal::Number(value) => {
+                    report_change!("evaluate: Global numeric constant -> numeric literal");
                     self.changed = true;
-                    *e = BinExpr {
-                        span,
-                        op: op!("/"),
-                        left: Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 1.0,
-                            raw: None,
-                        })
-                        .into(),
-                        right: Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 0.0,
-                            raw: None,
-                        })
-                        .into(),
-                    }
-                    .into();
+                    *e = make_number(span, value);
                 }
             }
             return;
@@ -182,39 +168,19 @@ impl Optimizer<'_> {
                         .into();
                     }
                     "NaN" => {
-                        report_change!("evaluate: `Number.NaN` -> `NaN`");
+                        report_change!("evaluate: `Number.NaN` -> numeric literal");
                         self.changed = true;
-                        *e = Ident::new(
-                            atom!("NaN"),
-                            *span,
-                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                        )
-                        .into();
+                        *e = make_number(*span, f64::NAN);
                     }
                     "POSITIVE_INFINITY" => {
-                        report_change!("evaluate: `Number.POSITIVE_INFINITY` -> `Infinity`");
+                        report_change!("evaluate: `Number.POSITIVE_INFINITY` -> numeric literal");
                         self.changed = true;
-                        *e = Ident::new(
-                            atom!("Infinity"),
-                            *span,
-                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                        )
-                        .into();
+                        *e = make_number(*span, f64::INFINITY);
                     }
                     "NEGATIVE_INFINITY" => {
-                        report_change!("evaluate: `Number.NEGATIVE_INFINITY` -> `-Infinity`");
+                        report_change!("evaluate: `Number.NEGATIVE_INFINITY` -> numeric literal");
                         self.changed = true;
-                        *e = UnaryExpr {
-                            span: *span,
-                            op: op!(unary, "-"),
-                            arg: Ident::new(
-                                atom!("Infinity"),
-                                *span,
-                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into(),
-                        }
-                        .into();
+                        *e = make_number(*span, f64::NEG_INFINITY);
                     }
                     _ => {}
                 }
@@ -450,23 +416,7 @@ impl Optimizer<'_> {
             if let Some(value) = eval_as_number(self.ctx.expr_ctx, e) {
                 self.changed = true;
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
-
-                if value.is_nan() {
-                    *e = Ident::new(
-                        atom!("NaN"),
-                        e.span(),
-                        SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                    )
-                    .into();
-                    return;
-                }
-
-                *e = Lit::Num(Number {
-                    span: e.span(),
-                    value,
-                    raw: None,
-                })
-                .into();
+                *e = make_number(e.span(), value);
                 return;
             }
         }
@@ -482,19 +432,9 @@ impl Optimizer<'_> {
                         report_change!("evaluate: Evaluated `{:?} ** {:?}`", l, r);
 
                         if l.is_nan() || r.is_nan() {
-                            *e = Ident::new(
-                                atom!("NaN"),
-                                bin.span,
-                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into();
+                            *e = make_number(bin.span, f64::NAN);
                         } else {
-                            *e = Lit::Num(Number {
-                                span: bin.span,
-                                value: l.powf(r),
-                                raw: None,
-                            })
-                            .into();
+                            *e = make_number(bin.span, l.powf(r));
                         };
                     }
                 }
@@ -505,31 +445,11 @@ impl Optimizer<'_> {
 
                 let rn = bin.right.as_pure_number(self.ctx.expr_ctx);
                 if let (Known(ln), Known(rn)) = (ln, rn) {
-                    // Prefer `0/0` over NaN.
-                    if ln == 0.0 && rn == 0.0 {
-                        return;
-                    }
-                    // Prefer `1/0` over Infinity.
-                    if ln == 1.0 && rn == 0.0 {
-                        return;
-                    }
-
-                    // It's NaN
-                    if let (FpCategory::Normal, FpCategory::Zero) = (ln.classify(), rn.classify()) {
+                    let value = ln / rn;
+                    if !value.is_finite() {
                         self.changed = true;
-                        report_change!("evaluate: `{} / 0` => `Infinity`", ln);
-
-                        // Sign does not matter for NaN
-                        *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                            Ident::new_no_ctxt(atom!("Infinity"), bin.span).into()
-                        } else {
-                            UnaryExpr {
-                                span: bin.span,
-                                op: op!(unary, "-"),
-                                arg: Ident::new_no_ctxt(atom!("Infinity"), bin.span).into(),
-                            }
-                            .into()
-                        };
+                        report_change!("evaluate: Evaluated `{} / {}`", ln, rn);
+                        *e = make_number(bin.span, value);
                     }
                 }
             }

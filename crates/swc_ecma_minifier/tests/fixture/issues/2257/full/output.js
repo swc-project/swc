@@ -3276,7 +3276,7 @@
             }) || !fails(function() {
                 new NativeArrayBuffer(-1);
             }) || fails(function() {
-                return new NativeArrayBuffer(), new NativeArrayBuffer(1.5), new NativeArrayBuffer(NaN), INCORRECT_ARRAY_BUFFER_NAME && !CONFIGURABLE_FUNCTION_NAME;
+                return new NativeArrayBuffer(), new NativeArrayBuffer(1.5), new NativeArrayBuffer(0 / 0), INCORRECT_ARRAY_BUFFER_NAME && !CONFIGURABLE_FUNCTION_NAME;
             })) {
                 for(var key, ArrayBufferPrototype = /* eslint-enable no-new -- required for testing */ ($ArrayBuffer = function(length) {
                     return anInstance(this, $ArrayBuffer), new NativeArrayBuffer(toIndex(length));
@@ -4036,7 +4036,7 @@
         module.exports = fails(function() {
             return "0385-07-25T07:06:39.999Z" != nativeDateToISOString.call(new Date(-50000000000000 - 1));
         }) || !fails(function() {
-            nativeDateToISOString.call(new Date(NaN));
+            nativeDateToISOString.call(new Date(0 / 0));
         }) ? function() {
             if (!isFinite(getTime.call(this))) throw RangeError("Invalid time value");
             var year = this.getUTCFullYear(), milliseconds = this.getUTCMilliseconds(), sign = year < 0 ? "-" : year > 9999 ? "+" : "";
@@ -4488,7 +4488,7 @@
         module.exports = {
             pack: function(number, mantissaLength, bytes) {
                 var exponent, mantissa, c, buffer = Array(bytes), exponentLength = 8 * bytes - mantissaLength - 1, eMax = (1 << exponentLength) - 1, eBias = eMax >> 1, rt = 23 === mantissaLength ? pow(2, -24) - pow(2, -77) : 0, sign = +(number < 0 || 0 === number && 1 / number < 0), index = 0;
-                for((number = abs(number)) != number || number === 1 / 0 ? (// eslint-disable-next-line no-self-compare -- NaN check
+                for((number = abs(number)) != number || 1 / 0 === number ? (// eslint-disable-next-line no-self-compare -- NaN check
                 mantissa = +(number != number), exponent = eMax) : (exponent = floor(log(number) / LN2), number * (c = pow(2, -exponent)) < 1 && (exponent--, c *= 2), exponent + eBias >= 1 ? number += rt / c : number += rt * pow(2, 1 - eBias), number * c >= 2 && (exponent++, c /= 2), exponent + eBias >= eMax ? (mantissa = 0, exponent = eMax) : exponent + eBias >= 1 ? (mantissa = (number * c - 1) * pow(2, mantissaLength), exponent += eBias) : (mantissa = number * pow(2, eBias - 1) * pow(2, mantissaLength), exponent = 0)); mantissaLength >= 8; buffer[index++] = 255 & mantissa, mantissa /= 256, mantissaLength -= 8);
                 for(exponent = exponent << mantissaLength | mantissa, exponentLength += mantissaLength; exponentLength > 0; buffer[index++] = 255 & exponent, exponent /= 256, exponentLength -= 8);
                 return buffer[--index] |= 128 * sign, buffer;
@@ -4499,7 +4499,7 @@
                 for(mantissa = exponent & (1 << -nBits) - 1, exponent >>= -nBits, nBits += mantissaLength; nBits > 0; mantissa = 256 * mantissa + buffer[index], index--, nBits -= 8);
                 if (0 === exponent) exponent = 1 - eBias;
                 else {
-                    if (exponent === eMax) return mantissa ? NaN : sign ? -1 / 0 : 1 / 0;
+                    if (exponent === eMax) return mantissa ? 0 / 0 : sign ? -1 / 0 : 1 / 0;
                     mantissa += pow(2, mantissaLength), exponent -= eBias;
                 }
                 return (sign ? -1 : 1) * mantissa * pow(2, exponent - mantissaLength);
@@ -5519,7 +5519,7 @@
         // https://tc39.es/ecma262/#sec-string.prototype.repeat
         module.exports = function(count) {
             var str = toString1(requireObjectCoercible(this)), result = "", n = toInteger(count);
-            if (n < 0 || n == 1 / 0) throw RangeError("Wrong number of repetitions");
+            if (n < 0 || 1 / 0 == n) throw RangeError("Wrong number of repetitions");
             for(; n > 0; (n >>>= 1) && (str += str))1 & n && (result += str);
             return result;
         };
@@ -6549,7 +6549,7 @@
             target: "Date",
             proto: !0,
             forced: fails(function() {
-                return null !== new Date(NaN).toJSON() || 1 !== Date.prototype.toJSON.call({
+                return null !== new Date(0 / 0).toJSON() || 1 !== Date.prototype.toJSON.call({
                     toISOString: function() {
                         return 1;
                     }
@@ -6573,7 +6573,7 @@
         var redefine = __webpack_require__(78109), DatePrototype = Date.prototype, INVALID_DATE = "Invalid Date", TO_STRING = "toString", nativeDateToString = DatePrototype[TO_STRING], getTime = DatePrototype.getTime;
         // `Date.prototype.toString` method
         // https://tc39.es/ecma262/#sec-date.prototype.tostring
-        String(new Date(NaN)) != INVALID_DATE && redefine(DatePrototype, TO_STRING, function() {
+        String(new Date(0 / 0)) != INVALID_DATE && redefine(DatePrototype, TO_STRING, function() {
             var value = getTime.call(this);
             // eslint-disable-next-line no-self-compare -- NaN check
             return value == value ? nativeDateToString.call(this) : INVALID_DATE;
@@ -6692,10 +6692,10 @@
             stat: !0,
             forced: !$acosh || // V8 bug: https://code.google.com/p/v8/issues/detail?id=3509
             710 != Math.floor($acosh(Number.MAX_VALUE)) || // Tor Browser bug: Math.acosh(Infinity) -> NaN
-            $acosh(1 / 0) != 1 / 0
+            1 / 0 != $acosh(1 / 0)
         }, {
             acosh: function(x) {
-                return (x *= 1) < 1 ? NaN : x > 94906265.62425156 ? log(x) + LN2 : log1p(x - 1 + sqrt(x - 1) * sqrt(x + 1));
+                return (x *= 1) < 1 ? 0 / 0 : x > 94906265.62425156 ? log(x) + LN2 : log1p(x - 1 + sqrt(x - 1) * sqrt(x + 1));
             }
         });
     /***/ },
@@ -6762,7 +6762,7 @@
         $({
             target: "Math",
             stat: !0,
-            forced: !$cosh || $cosh(710) === 1 / 0
+            forced: !$cosh || 1 / 0 === $cosh(710)
         }, {
             cosh: function(x) {
                 var t = expm1(abs(x) - 1) + 1;
@@ -6800,12 +6800,12 @@
         $({
             target: "Math",
             stat: !0,
-            forced: !!$hypot && $hypot(1 / 0, NaN) !== 1 / 0
+            forced: !!$hypot && 1 / 0 !== $hypot(1 / 0, 0 / 0)
         }, {
             // eslint-disable-next-line no-unused-vars -- required for `.length`
             hypot: function(value1, value2) {
                 for(var arg, div, sum = 0, i = 0, aLen = arguments.length, larg = 0; i < aLen;)arg = abs(arguments[i++]), larg < arg ? (sum = sum * (div = larg / arg) * div + 1, larg = arg) : arg > 0 ? sum += (div = arg / larg) * div : sum += arg;
-                return larg === 1 / 0 ? 1 / 0 : larg * sqrt(sum);
+                return 1 / 0 === larg ? 1 / 0 : larg * sqrt(sum);
             }
         });
     /***/ },
@@ -6901,7 +6901,7 @@
         }, {
             tanh: function(x) {
                 var a = expm1(x *= 1), b = expm1(-x);
-                return a == 1 / 0 ? 1 : b == 1 / 0 ? -1 : (a - b) / (exp(x) + exp(-x));
+                return 1 / 0 == a ? 1 : 1 / 0 == b ? -1 : (a - b) / (exp(x) + exp(-x));
             }
         });
     /***/ },
@@ -6930,7 +6930,7 @@
             var first, third, radix, maxCode, digits, length, index, code, it = toPrimitive(argument, "number");
             if ("string" == typeof it && it.length > 2) {
                 if (43 === (first = (it = trim(it)).charCodeAt(0)) || 45 === first) {
-                    if (88 === (third = it.charCodeAt(2)) || 120 === third) return NaN; // Number('+0x1') should be NaN, old V8 fix
+                    if (88 === (third = it.charCodeAt(2)) || 120 === third) return 0 / 0; // Number('+0x1') should be NaN, old V8 fix
                 } else if (48 === first) {
                     switch(it.charCodeAt(1)){
                         case 66:
@@ -6946,7 +6946,7 @@
                     }
                     for(length = (digits = it.slice(2)).length, index = 0; index < length; index++)// parseInt parses a string to a first unavailable symbol
                     // but ToNumber should return NaN if a string contains unavailable symbols
-                    if ((code = digits.charCodeAt(index)) < 48 || code > maxCode) return NaN;
+                    if ((code = digits.charCodeAt(index)) < 48 || code > maxCode) return 0 / 0;
                     return parseInt(digits, radix);
                 }
             }
@@ -8920,7 +8920,7 @@
         }, {
             substr: function(start, length) {
                 var intLength, intEnd, that = toString1(requireObjectCoercible(this)), size = that.length, intStart = toInteger(start);
-                return (intStart === 1 / 0 && (intStart = 0), intStart < 0 && (intStart = max(size + intStart, 0)), (intLength = void 0 === length ? size : toInteger(length)) <= 0 || intLength === 1 / 0) ? "" : (intEnd = min(intStart + intLength, size), intStart >= intEnd ? "" : slice.call(that, intStart, intEnd));
+                return (1 / 0 === intStart && (intStart = 0), intStart < 0 && (intStart = max(size + intStart, 0)), (intLength = void 0 === length ? size : toInteger(length)) <= 0 || 1 / 0 === intLength) ? "" : (intEnd = min(intStart + intLength, size), intStart >= intEnd ? "" : slice.call(that, intStart, intEnd));
             }
         });
     /***/ },
