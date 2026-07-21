@@ -1375,11 +1375,7 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
                     *changed = true;
                     *expr = Lit::Num(Number {
                         span: *span,
-                        value: if value < 0.0 {
-                            !(value as i32 as u32) as i32 as f64
-                        } else {
-                            !(value as u32) as i32 as f64
-                        },
+                        value: (!JsNumber::from(value)).into(),
                         raw: None,
                     })
                     .into();
