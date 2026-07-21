@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{Atom, Wtf8Atom};
+use swc_atoms::{wtf8::Wtf8Buf, Atom, Wtf8Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -7,25 +7,17 @@ use swc_ecma_utils::{
     ExprFactory,
 };
 
-#[inline]
-fn atom_from_wtf8_atom(value: &Wtf8Atom) -> Atom {
-    value
-        .as_str()
-        .map(Atom::from)
-        .unwrap_or_else(|| Atom::from(value.to_string_lossy()))
-}
-
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub(crate) struct TsEnumRecordKey {
     pub enum_id: Id,
-    pub member_name: Atom,
+    pub member_name: Wtf8Atom,
 }
 
 pub(crate) type TsEnumRecord = FxHashMap<TsEnumRecordKey, TsEnumRecordValue>;
 
 #[derive(Debug, Clone)]
 pub(crate) enum TsEnumRecordValue {
-    String(Atom),
+    String(Wtf8Atom),
     Number(Number),
     Opaque(Box<Expr>),
     Void,
@@ -72,6 +64,16 @@ impl TsEnumRecordValue {
     pub fn has_value(&self) -> bool {
         !matches!(self, TsEnumRecordValue::Void)
     }
+
+    fn push_to_string(&self, output: &mut Wtf8Buf) -> bool {
+        match self {
+            Self::String(value) => output.push_wtf8(value),
+            Self::Number(value) => output.push_str(&value.value.to_js_string()),
+            Self::Opaque(_) | Self::Void => return false,
+        }
+
+        true
+    }
 }
 
 impl From<TsEnumRecordValue> for Expr {
@@ -97,6 +99,24 @@ pub(crate) struct EnumValueComputer<'a> {
     pub record: &'a TsEnumRecord,
 }
 
+/// Returns a statically known enum member key without discarding lone
+/// surrogates.
+pub(crate) fn static_enum_member_name(property: &MemberProp) -> Option<Wtf8Atom> {
+    match property {
+        MemberProp::Ident(ident) => Some(ident.sym.clone().into()),
+        MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
+            Expr::Lit(Lit::Str(string)) => Some(string.value.clone()),
+            Expr::Tpl(template) if template.exprs.is_empty() && template.quasis.len() == 1 => {
+                template.quasis[0].cooked.clone()
+            }
+            _ => None,
+        },
+        MemberProp::PrivateName(_) => None,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    }
+}
+
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl EnumValueComputer<'_> {
     pub fn compute(&self, expr: Box<Expr>) -> TsEnumRecordValue {
@@ -105,12 +125,12 @@ impl EnumValueComputer<'_> {
 
     fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
         match *expr {
-            Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(atom_from_wtf8_atom(&s.value)),
+            Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n),
             Expr::Ident(ref ident) if ident.ctxt == self.unresolved_ctxt => {
                 if let Some(value) = self.record.get(&TsEnumRecordKey {
                     enum_id: self.enum_id.clone(),
-                    member_name: ident.sym.clone(),
+                    member_name: ident.sym.clone().into(),
                 }) {
                     if value.is_const() {
                         value.clone()
@@ -201,6 +221,14 @@ impl EnumValueComputer<'_> {
         let left = self.compute_rec(expr.left);
         let right = self.compute_rec(expr.right);
 
+        if expr.op == BinaryOp::Add && (left.is_string() || right.is_string()) {
+            let mut value = Wtf8Buf::new();
+
+            if left.push_to_string(&mut value) && right.push_to_string(&mut value) {
+                return TsEnumRecordValue::String(Wtf8Atom::from(&*value));
+            }
+        }
+
         match (left, right, expr.op) {
             (TsEnumRecordValue::Number(left), TsEnumRecordValue::Number(right), op) => {
                 let left = JsNumber::from(left.value);
@@ -223,19 +251,6 @@ impl EnumValueComputer<'_> {
 
                 TsEnumRecordValue::number(value)
             }
-            (TsEnumRecordValue::String(left), TsEnumRecordValue::String(right), op!(bin, "+")) => {
-                TsEnumRecordValue::String(format!("{left}{right}").into())
-            }
-            (TsEnumRecordValue::Number(left), TsEnumRecordValue::String(right), op!(bin, "+")) => {
-                let left = left.value.to_js_string();
-
-                TsEnumRecordValue::String(format!("{left}{right}").into())
-            }
-            (TsEnumRecordValue::String(left), TsEnumRecordValue::Number(right), op!(bin, "+")) => {
-                let right = right.value.to_js_string();
-
-                TsEnumRecordValue::String(format!("{left}{right}").into())
-            }
             (left, right, _) => {
                 let mut origin_expr = origin_expr;
 
@@ -253,22 +268,10 @@ impl EnumValueComputer<'_> {
     }
 
     fn compute_member(&self, expr: MemberExpr) -> TsEnumRecordValue {
-        if matches!(expr.prop, MemberProp::PrivateName(..)) {
-            return TsEnumRecordValue::Opaque(expr.into());
-        }
-
         let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
 
-        let member_name = match expr.prop {
-            MemberProp::Ident(ident) => ident.sym,
-            MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                let Expr::Lit(Lit::Str(s)) = *expr else {
-                    return opaque_expr;
-                };
-
-                atom_from_wtf8_atom(&s.value)
-            }
-            _ => return opaque_expr,
+        let Some(member_name) = static_enum_member_name(&expr.prop) else {
+            return opaque_expr;
         };
 
         let Expr::Ident(ident) = *expr.obj else {
@@ -292,23 +295,27 @@ impl EnumValueComputer<'_> {
 
         let mut quasis_iter = quasis.into_iter();
 
-        let Some(mut string) = quasis_iter.next().map(|q| q.raw.to_string()) else {
+        let Some(first_quasi) = quasis_iter.next() else {
             return opaque_expr;
         };
+        let Some(first_cooked) = first_quasi.cooked.as_ref() else {
+            return opaque_expr;
+        };
+        let mut string = Wtf8Buf::from(first_cooked);
 
         for (q, expr) in quasis_iter.zip(exprs) {
             let expr = self.compute_rec(expr);
 
-            let expr = match expr {
-                TsEnumRecordValue::String(s) => s.to_string(),
-                TsEnumRecordValue::Number(n) => n.value.to_js_string(),
-                _ => return opaque_expr,
+            if !expr.push_to_string(&mut string) {
+                return opaque_expr;
+            }
+            let Some(cooked) = q.cooked.as_ref() else {
+                return opaque_expr;
             };
 
-            string.push_str(&expr);
-            string.push_str(&q.raw);
+            string.push_wtf8(cooked);
         }
 
-        TsEnumRecordValue::String(string.into())
+        TsEnumRecordValue::String(Wtf8Atom::from(&*string))
     }
 }

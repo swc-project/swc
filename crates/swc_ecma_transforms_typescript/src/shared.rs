@@ -1,12 +1,12 @@
-use swc_atoms::Atom;
+use swc_atoms::Wtf8Atom;
 use swc_ecma_ast::{Ident, TsEntityName, TsEnumMemberId};
 
-/// Returns enum member key as an atom for record lookup.
+/// Returns an enum member name without discarding lone surrogates.
 #[inline]
-pub(crate) fn enum_member_id_atom(id: &TsEnumMemberId) -> Atom {
+pub(crate) fn enum_member_name(id: &TsEnumMemberId) -> Wtf8Atom {
     match id {
-        TsEnumMemberId::Ident(ident) => ident.sym.clone(),
-        TsEnumMemberId::Str(str_lit) => str_lit.value.to_atom_lossy().into_owned(),
+        TsEnumMemberId::Ident(ident) => ident.sym.clone().into(),
+        TsEnumMemberId::Str(str_lit) => str_lit.value.clone(),
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }

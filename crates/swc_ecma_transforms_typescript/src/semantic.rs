@@ -6,7 +6,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
     retain::{should_retain_decl, IsConcrete},
-    shared::{enum_member_id_atom, get_module_ident},
+    shared::{enum_member_name, get_module_ident},
     ts_enum::{EnumValueComputer, TsEnumRecord, TsEnumRecordKey, TsEnumRecordValue},
 };
 
@@ -277,7 +277,7 @@ impl SemanticAnalyzer {
                     // name as the runtime string value. The AST does not retain
                     // the explicit `of string` kind, so `Void` acts as the
                     // sentinel for Flow's default string mode here.
-                    TsEnumRecordValue::String(enum_member_id_atom(&member.id))
+                    TsEnumRecordValue::String(enum_member_name(&member.id))
                 } else {
                     default_init.clone()
                 }
@@ -572,7 +572,7 @@ impl Visit for SemanticAnalyzer {
 
             default_init = value.inc();
 
-            let member_name = enum_member_id_atom(&member.id);
+            let member_name = enum_member_name(&member.id);
             let key = TsEnumRecordKey {
                 enum_id: id.to_id(),
                 member_name,
