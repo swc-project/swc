@@ -12,6 +12,9 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use super::Optimizer;
 use crate::compress::optimize::is_left_access_to_arguments;
 
+/// Matches Terser's `index < argnames.length + 5` condition.
+const MAX_INJECTED_PARAMS: usize = 5;
+
 /// Methods related to the option `arguments`.
 impl Optimizer<'_> {
     ///
@@ -122,7 +125,7 @@ impl Optimizer<'_> {
             prevent: false,
         };
 
-        // We visit body two time, to use simpler logic in `inject_params_if_required`
+        // Visit the body twice to keep parameter injection local to each access.
         f.body.visit_mut_children_with(&mut v);
         f.body.visit_mut_children_with(&mut v);
 
@@ -138,11 +141,19 @@ struct ArgReplacer<'a> {
 }
 
 impl ArgReplacer<'_> {
-    fn inject_params_if_required(&mut self, idx: usize) {
+    /// Materializes only a bounded number of missing parameters.
+    fn inject_params_if_within_limit(&mut self, idx: usize) {
         if idx < self.params.len() || self.keep_fargs {
             return;
         }
-        let new_args = idx + 1 - self.params.len();
+        let Some(required_len) = idx.checked_add(1) else {
+            return;
+        };
+        let new_args = required_len - self.params.len();
+
+        if new_args > MAX_INJECTED_PARAMS {
+            return;
+        }
 
         self.changed = true;
         report_change!("arguments: Injecting {} parameters", new_args);
@@ -187,7 +198,7 @@ impl VisitMut for ArgReplacer<'_> {
             return;
         };
 
-        self.inject_params_if_required(idx);
+        self.inject_params_if_within_limit(idx);
 
         if let Some(param) = self.params.get(idx) {
             if let Pat::Ident(i) = &param.pat {
