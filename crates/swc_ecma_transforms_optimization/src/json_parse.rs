@@ -116,6 +116,21 @@ fn wtf8_to_json_string(value: &Wtf8Atom) -> String {
     result
 }
 
+/// Converts a finite ECMAScript number without using a saturating integer cast.
+///
+/// JSON-literal eligibility guarantees that `value` is finite.
+fn json_number(value: f64) -> serde_json::Number {
+    let is_i64 = value.fract() == 0.0 && value >= i64::MIN as f64 && value < i64::MAX as f64;
+    let preserves_zero_sign = value != 0.0 || value.is_sign_positive();
+
+    if is_i64 && preserves_zero_sign {
+        return (value as i64).into();
+    }
+
+    serde_json::Number::from_f64(value)
+        .unwrap_or_else(|| unreachable!("non-finite numbers are not JSON literals"))
+}
+
 fn jsonify(e: Expr) -> Value {
     match e {
         Expr::Object(obj) => Value::Object(
@@ -144,16 +159,7 @@ fn jsonify(e: Expr) -> Value {
                 .collect(),
         ),
         Expr::Lit(Lit::Str(Str { value, .. })) => Value::String(wtf8_to_json_string(&value)),
-        Expr::Lit(Lit::Num(Number { value, .. })) => {
-            if value.fract() == 0.0 {
-                Value::Number((value as i64).into())
-            } else {
-                match serde_json::Number::from_f64(value) {
-                    Some(n) => Value::Number(n),
-                    None => Value::Number((value as i64).into()),
-                }
-            }
-        }
+        Expr::Lit(Lit::Num(Number { value, .. })) => Value::Number(json_number(value)),
         Expr::Lit(Lit::Null(..)) => Value::Null,
         Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
         Expr::Tpl(Tpl { quasis, .. }) => Value::String(match quasis.first() {
