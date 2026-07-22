@@ -1,6 +1,6 @@
 use std::iter::repeat_with;
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     find_pat_ids, is_valid_prop_ident,
@@ -10,7 +10,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Optimizer;
-use crate::compress::optimize::is_left_access_to_arguments;
+use crate::{compress::optimize::is_left_access_to_arguments, util::size::SizeWithCtxt};
 
 /// Methods related to the option `arguments`.
 impl Optimizer<'_> {
@@ -120,9 +120,10 @@ impl Optimizer<'_> {
             changed: false,
             keep_fargs: self.options.keep_fargs,
             prevent: false,
+            unresolved_ctxt: self.ctx.expr_ctx.unresolved_ctxt,
         };
 
-        // We visit body two time, to use simpler logic in `inject_params_if_required`
+        // Visit the body twice to keep parameter injection local to each access.
         f.body.visit_mut_children_with(&mut v);
         f.body.visit_mut_children_with(&mut v);
 
@@ -135,14 +136,27 @@ struct ArgReplacer<'a> {
     changed: bool,
     keep_fargs: bool,
     prevent: bool,
+    unresolved_ctxt: SyntaxContext,
 }
 
 impl ArgReplacer<'_> {
-    fn inject_params_if_required(&mut self, idx: usize) {
+    /// Materializes parameters only when replacing this access does not grow
+    /// the estimated output size.
+    fn inject_params_if_profitable(&mut self, idx: usize, max_growth: usize) {
         if idx < self.params.len() || self.keep_fargs {
             return;
         }
-        let new_args = idx + 1 - self.params.len();
+        let Some(required_len) = idx.checked_add(1) else {
+            return;
+        };
+        let new_args = required_len - self.params.len();
+        let Some(growth) = injected_params_size(self.params.len(), new_args) else {
+            return;
+        };
+
+        if growth > max_growth {
+            return;
+        }
 
         self.changed = true;
         report_change!("arguments: Injecting {} parameters", new_args);
@@ -186,8 +200,9 @@ impl VisitMut for ArgReplacer<'_> {
         let Some(idx) = argument_access_index(n) else {
             return;
         };
+        let max_growth = n.size(self.unresolved_ctxt).saturating_sub(1);
 
-        self.inject_params_if_required(idx);
+        self.inject_params_if_profitable(idx, max_growth);
 
         if let Some(param) = self.params.get(idx) {
             if let Pat::Ident(i) = &param.pat {
@@ -222,6 +237,18 @@ impl VisitMut for ArgReplacer<'_> {
             c.visit_mut_with(self);
         }
     }
+}
+
+/// Estimates the bytes added to a parameter list by single-byte generated
+/// bindings and their separators.
+fn injected_params_size(existing: usize, added: usize) -> Option<usize> {
+    let separators = if existing == 0 {
+        added.checked_sub(1)?
+    } else {
+        added
+    };
+
+    added.checked_add(separators)
 }
 
 /// Returns an `arguments` index only when the property key is already in its
