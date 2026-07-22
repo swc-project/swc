@@ -1,4 +1,7 @@
+use std::collections::VecDeque;
+
 use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Wtf8Atom;
 use swc_common::{Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
@@ -17,6 +20,8 @@ pub(crate) struct SemanticInfo {
     pub id_value: FxHashSet<Id>,
     pub exported_binding: FxHashMap<Id, Option<Id>>,
     pub enum_record: TsEnumRecord,
+    pub enum_member_names: FxHashMap<Id, FxHashSet<Wtf8Atom>>,
+    pub enum_member_values: FxHashMap<Id, VecDeque<TsEnumRecordValue>>,
     pub const_enum: FxHashSet<Id>,
     pub namespace_import_equals_usage: FxHashSet<Span>,
 }
@@ -49,10 +54,14 @@ pub(crate) fn analyze_program(
     seed_usage: FxHashSet<Id>,
     flow_syntax: bool,
 ) -> SemanticInfo {
+    let mut enum_member_name_collector = EnumMemberNameCollector::default();
+    program.visit_with(&mut enum_member_name_collector);
+
     let mut analyzer = SemanticAnalyzer {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         info: SemanticInfo {
             usage: seed_usage,
+            enum_member_names: enum_member_name_collector.names,
             ..Default::default()
         },
         import_chain: Default::default(),
@@ -65,6 +74,30 @@ pub(crate) fn analyze_program(
     program.visit_with(&mut analyzer);
 
     analyzer.finish()
+}
+
+#[derive(Default)]
+struct EnumMemberNameCollector {
+    names: FxHashMap<Id, FxHashSet<Wtf8Atom>>,
+}
+
+impl Visit for EnumMemberNameCollector {
+    noop_visit_type!();
+
+    fn visit_expr(&mut self, node: &Expr) {
+        maybe_grow_default(|| node.visit_children_with(self));
+    }
+
+    fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
+        let names = self.names.entry(node.id.to_id()).or_default();
+        names.extend(
+            node.members
+                .iter()
+                .map(|member| enum_member_name(&member.id)),
+        );
+
+        node.visit_children_with(self);
+    }
 }
 
 struct SemanticAnalyzer {
@@ -257,9 +290,12 @@ impl SemanticAnalyzer {
         enum_id: &Id,
         default_init: &TsEnumRecordValue,
         record: &TsEnumRecord,
+        enum_member_names: &FxHashMap<Id, FxHashSet<Wtf8Atom>>,
         unresolved_ctxt: SyntaxContext,
         flow_syntax: bool,
     ) -> TsEnumRecordValue {
+        let current_member_name = enum_member_name(&member.id);
+
         member
             .init
             .map(|expr| {
@@ -267,6 +303,8 @@ impl SemanticAnalyzer {
                     enum_id,
                     unresolved_ctxt,
                     record,
+                    enum_member_names,
+                    current_member_name: &current_member_name,
                 }
                 .compute(expr)
             })
@@ -559,13 +597,13 @@ impl Visit for SemanticAnalyzer {
         } else {
             0.0.into()
         };
-
         for member in members {
             let value = Self::transform_ts_enum_member(
                 member.clone(),
                 &id.to_id(),
                 &default_init,
                 &self.info.enum_record,
+                &self.info.enum_member_names,
                 self.unresolved_ctxt,
                 self.flow_syntax,
             );
@@ -578,7 +616,12 @@ impl Visit for SemanticAnalyzer {
                 member_name,
             };
 
-            self.info.enum_record.insert(key, value);
+            self.info
+                .enum_member_values
+                .entry(id.to_id())
+                .or_default()
+                .push_back(value.clone());
+            self.info.enum_record.entry(key).or_insert(value);
         }
     }
 
@@ -655,6 +698,7 @@ mod tests {
             &id("E"),
             &TsEnumRecordValue::Void,
             &Default::default(),
+            &Default::default(),
             SyntaxContext::empty(),
             true,
         );
@@ -671,6 +715,7 @@ mod tests {
             enum_member("A"),
             &id("E"),
             &TsEnumRecordValue::from(2.0),
+            &Default::default(),
             &Default::default(),
             SyntaxContext::empty(),
             false,

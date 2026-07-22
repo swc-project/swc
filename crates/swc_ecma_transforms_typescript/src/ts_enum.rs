@@ -1,4 +1,4 @@
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{wtf8::Wtf8Buf, Atom, Wtf8Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -97,6 +97,8 @@ pub(crate) struct EnumValueComputer<'a> {
     pub enum_id: &'a Id,
     pub unresolved_ctxt: SyntaxContext,
     pub record: &'a TsEnumRecord,
+    pub enum_member_names: &'a FxHashMap<Id, FxHashSet<Wtf8Atom>>,
+    pub current_member_name: &'a Wtf8Atom,
 }
 
 /// Returns a statically known enum member key without discarding lone
@@ -128,9 +130,10 @@ impl EnumValueComputer<'_> {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n),
             Expr::Ident(ref ident) if ident.ctxt == self.unresolved_ctxt => {
+                let member_name: Wtf8Atom = ident.sym.clone().into();
                 if let Some(value) = self.record.get(&TsEnumRecordKey {
                     enum_id: self.enum_id.clone(),
-                    member_name: ident.sym.clone().into(),
+                    member_name: member_name.clone(),
                 }) {
                     if value.is_const() {
                         value.clone()
@@ -141,6 +144,14 @@ impl EnumValueComputer<'_> {
                                 .make_member(ident.clone().into())
                                 .into(),
                         )
+                    }
+                } else if self.is_known_member(self.enum_id, &member_name) {
+                    if member_name == *self.current_member_name {
+                        TsEnumRecordValue::Opaque(expr)
+                    } else {
+                        // TypeScript reports a use-before-declaration error and
+                        // uses zero as the enum evaluator's recovery value.
+                        TsEnumRecordValue::number(0)
                     }
                 } else {
                     match ident.sym.as_ref() {
@@ -170,6 +181,12 @@ impl EnumValueComputer<'_> {
             | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => self.compute_rec(expr),
             _ => TsEnumRecordValue::Opaque(expr),
         }
+    }
+
+    fn is_known_member(&self, enum_id: &Id, member_name: &Wtf8Atom) -> bool {
+        self.enum_member_names
+            .get(enum_id)
+            .is_some_and(|member_names| member_names.contains(member_name))
     }
 
     fn compute_unary(&self, expr: UnaryExpr) -> TsEnumRecordValue {
@@ -278,14 +295,29 @@ impl EnumValueComputer<'_> {
             return opaque_expr;
         };
 
-        self.record
-            .get(&TsEnumRecordKey {
-                enum_id: ident.to_id(),
-                member_name,
-            })
-            .cloned()
-            .filter(TsEnumRecordValue::has_value)
-            .unwrap_or(opaque_expr)
+        let enum_id = ident.to_id();
+        let key = TsEnumRecordKey {
+            enum_id: enum_id.clone(),
+            member_name: member_name.clone(),
+        };
+
+        if let Some(value) = self.record.get(&key) {
+            return if value.is_const() {
+                value.clone()
+            } else {
+                opaque_expr
+            };
+        }
+
+        if self.is_known_member(&enum_id, &member_name)
+            && !(enum_id == *self.enum_id && member_name == *self.current_member_name)
+        {
+            // See the corresponding recovery behavior for unqualified member
+            // references above.
+            return TsEnumRecordValue::number(0);
+        }
+
+        opaque_expr
     }
 
     fn compute_tpl(&self, expr: Tpl) -> TsEnumRecordValue {

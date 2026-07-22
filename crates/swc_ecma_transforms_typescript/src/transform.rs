@@ -1102,30 +1102,33 @@ impl Transform {
 
         let member_names = self
             .semantic
-            .enum_record
-            .keys()
-            .filter(|k| k.enum_id == id.to_id())
-            .map(|k| k.member_name.clone())
-            .collect();
-
-        let enum_computer = EnumValueComputer {
-            enum_id: &id.to_id(),
-            unresolved_ctxt: self.unresolved_ctxt,
-            record: &self.semantic.enum_record,
+            .enum_member_names
+            .get(&id.to_id())
+            .expect("enum member names should be collected before transforming enums");
+        let enum_id = id.to_id();
+        let member_values = if members.is_empty() {
+            Vec::new()
+        } else {
+            let values = self
+                .semantic
+                .enum_member_values
+                .get_mut(&enum_id)
+                .expect("enum member values should be recorded during semantic analysis");
+            (0..members.len())
+                .map(|_| {
+                    values
+                        .pop_front()
+                        .expect("each enum member should have one semantic value")
+                })
+                .collect::<Vec<_>>()
         };
 
         let member_list: Vec<_> = members
             .into_iter()
-            .map(|m| {
+            .zip(member_values)
+            .map(|(m, mut value)| {
                 let span = m.span;
                 let name = enum_member_name(&m.id);
-
-                let key = TsEnumRecordKey {
-                    enum_id: id.to_id(),
-                    member_name: name.clone(),
-                };
-
-                let mut value = self.semantic.enum_record.get(&key).unwrap().clone();
 
                 if matches!(value, TsEnumRecordValue::Opaque(..)) {
                     if let Some(init) = m.init {
@@ -1133,12 +1136,19 @@ impl Transform {
                         // references can be rewritten to runtime property
                         // accesses. Implicit Flow enum members do not have an
                         // initializer, so keep the semantic value as-is.
+                        let enum_computer = EnumValueComputer {
+                            enum_id: &enum_id,
+                            unresolved_ctxt: self.unresolved_ctxt,
+                            record: &self.semantic.enum_record,
+                            enum_member_names: &self.semantic.enum_member_names,
+                            current_member_name: &name,
+                        };
                         let mut recomputed = enum_computer.compute(init);
                         if let TsEnumRecordValue::Opaque(expr) = &mut recomputed {
                             expr.visit_mut_with(&mut RefRewriter {
                                 query: EnumMemberRefQuery {
                                     enum_id: &id.to_id(),
-                                    member_names: &member_names,
+                                    member_names,
                                     unresolved_ctxt: self.unresolved_ctxt,
                                 },
                             });

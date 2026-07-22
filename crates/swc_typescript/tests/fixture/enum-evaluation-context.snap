@@ -1,0 +1,183 @@
+```==================== .D.TS ====================
+
+export declare enum Direct {
+    Known = 1,
+    Unknown,
+    Typed,
+    Imported,
+    Mutable,
+    Function,
+    Class
+}
+export declare enum Binary {
+    KnownUnknown,
+    UnknownKnown,
+    KnownMutable,
+    MutableKnown,
+    KnownMember = 2,
+    UnknownMember
+}
+export declare enum Template {
+    Known = "1",
+    Unknown,
+    KnownUnknown,
+    UnknownKnown,
+    KnownPlusUnknown,
+    UnknownPlusKnown
+}
+export declare enum Propagation {
+    External = 1,
+    FromExternal = 2,
+    Implicit = 3,
+    FromImplicit = 4,
+    Reset = 10,
+    FromReset = 11
+}
+export declare enum DuplicateMembers {
+    A = 1,
+    A = 5,
+    B = 6,
+    C = 2
+}
+export declare enum MergedMembers {
+    A = 1
+}
+export declare enum MergedMembers {
+    B = 2,
+    C = 3
+}
+export declare enum ForwardReference {
+    A = 1,
+    Later = 1
+}
+export declare enum QualifiedForwardReference {
+    A = 1,
+    Later = 1
+}
+export declare enum SelfReference {
+    A,
+    B
+}
+export declare enum OpaqueMembers {
+    A,
+    B,
+    C
+}
+export declare enum UnsupportedEvaluation {
+    UnaryString,
+    OptionalMember = 1
+}
+export declare enum ShadowedGlobals {
+    Positive = 0,
+    Infinity = 1,
+    NotANumber = 0,
+    NaN = 2
+}
+export declare enum Globals {
+    Positive = Infinity,
+    NotANumber = NaN
+}
+
+
+==================== Errors ====================
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:15:1]
+ 14 | export enum Direct {
+ 15 |     Known = known,
+    :     ^^^^^^^^^^^^^
+ 16 |     Unknown = unknown,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:16:1]
+ 15 |     Known = known,
+ 16 |     Unknown = unknown,
+    :     ^^^^^^^^^^^^^^^^^
+ 17 |     Typed = typed,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:25:1]
+ 24 | export enum Binary {
+ 25 |     KnownUnknown = known + Missing,
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     UnknownKnown = Missing + known,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:26:1]
+ 25 |     KnownUnknown = known + Missing,
+ 26 |     UnknownKnown = Missing + known,
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 27 |     KnownMutable = known + mutable,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:27:1]
+ 26 |     UnknownKnown = Missing + known,
+ 27 |     KnownMutable = known + mutable,
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 28 |     MutableKnown = mutable + known,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:28:1]
+ 27 |     KnownMutable = known + mutable,
+ 28 |     MutableKnown = mutable + known,
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 29 |     KnownMember = Direct.Known + 1,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:29:1]
+ 28 |     MutableKnown = mutable + known,
+ 29 |     KnownMember = Direct.Known + 1,
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 30 |     UnknownMember = Direct.Unknown + 1,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:30:1]
+ 29 |     KnownMember = Direct.Known + 1,
+ 30 |     UnknownMember = Direct.Unknown + 1,
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 | }
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:34:1]
+ 33 | export enum Template {
+ 34 |     Known = `${known}`,
+    :     ^^^^^^^^^^^^^^^^^^
+ 35 |     Unknown = `${unknown}`,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:43:1]
+ 42 | export enum Propagation {
+ 43 |     External = known,
+    :     ^^^^^^^^^^^^^^^^
+ 44 |     FromExternal = External + 1,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:44:1]
+ 43 |     External = known,
+ 44 |     FromExternal = External + 1,
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 45 |     Implicit,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:63:1]
+ 62 | export enum MergedMembers {
+ 63 |     B = A + 1,
+    :     ^^^^^^^^^
+ 64 |     C = MergedMembers.A + 2,
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:64:1]
+ 63 |     B = A + 1,
+ 64 |     C = MergedMembers.A + 2,
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 65 | }
+    `----
+  x TS9020: Enum member initializers must be computable without references to external symbols with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/enum-evaluation-context.ts:90:1]
+ 89 |     UnaryString = -"1",
+ 90 |     OptionalMember = Direct?.Known,
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 91 | }
+    `----
+
+
+```

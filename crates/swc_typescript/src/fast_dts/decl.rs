@@ -40,6 +40,8 @@ impl FastDts {
                 self.transform_fn(&mut fn_decl.function, Some(fn_decl.ident.span));
             }
             Decl::Var(var) => {
+                self.register_enum_external_constants(var);
+
                 if var.declare {
                     return;
                 }
