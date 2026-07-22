@@ -670,7 +670,7 @@ mod tests {
         let value = SemanticAnalyzer::transform_ts_enum_member(
             enum_member("A"),
             &id("E"),
-            &TsEnumRecordValue::Number(2.0.into()),
+            &TsEnumRecordValue::from(2.0),
             &Default::default(),
             SyntaxContext::empty(),
             false,
@@ -679,6 +679,6 @@ mod tests {
         let TsEnumRecordValue::Number(value) = value else {
             panic!("expected defaulted TypeScript enum member to stay numeric");
         };
-        assert_eq!(*value, 2.0);
+        assert_eq!(value.value, 2.0);
     }
 }
