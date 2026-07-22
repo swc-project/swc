@@ -1816,8 +1816,8 @@ pub struct TransformConfig {
 /// Public `.swcrc` configuration for React Compiler.
 ///
 /// This intentionally mirrors only a curated subset of upstream
-/// `PluginOptions`; the deep `environment` configuration is kept internal for
-/// the first SWC integration.
+/// `PluginOptions`. The nested `environment` object likewise exposes only a
+/// curated subset of the compiler's environment configuration.
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ReactCompilerConfig {
@@ -1859,6 +1859,9 @@ pub struct ReactCompilerConfig {
 
     #[serde(default)]
     pub dynamic_gating: Option<ReactCompilerDynamicGatingConfig>,
+
+    #[serde(default)]
+    pub environment: Option<ReactCompilerEnvironmentConfig>,
 }
 
 #[cfg(feature = "react-compiler")]
@@ -1909,6 +1912,9 @@ impl ReactCompilerConfig {
         }
         if let Some(dynamic_gating) = self.dynamic_gating {
             options.dynamic_gating = Some(dynamic_gating.into());
+        }
+        if let Some(environment) = self.environment {
+            environment.apply_to(&mut options);
         }
 
         options
@@ -2030,6 +2036,38 @@ impl From<ReactCompilerDynamicGatingConfig> for swc_ecma_react_compiler::Dynamic
     fn from(config: ReactCompilerDynamicGatingConfig) -> Self {
         Self {
             source: config.source,
+        }
+    }
+}
+
+/// Curated subset of the React Compiler `environment` options exposed through
+/// the SWC config, mirroring Babel's `reactCompiler.environment` object.
+///
+/// Only fields wired end-to-end into the compiler are exposed here. A field
+/// left unset (`None`) leaves the compiler default untouched, so a partial
+/// object such as `{ "enableFunctionOutlining": false }` overrides only that
+/// setting.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ReactCompilerEnvironmentConfig {
+    /// Extract anonymous functions that do not close over local variables into
+    /// top-level helper functions. Maps to the compiler's
+    /// `environment.enable_function_outlining` (default `true`).
+    #[serde(default)]
+    pub enable_function_outlining: Option<bool>,
+}
+
+#[cfg(feature = "react-compiler")]
+impl ReactCompilerEnvironmentConfig {
+    /// Apply the set (`Some`) overrides onto the compiler options' environment,
+    /// leaving unset fields at their existing (default) values.
+    ///
+    /// This mutates the public `environment` field in place rather than naming
+    /// the upstream `EnvironmentConfig` type, so the config layer does not
+    /// require that type to be re-exported.
+    fn apply_to(self, options: &mut swc_ecma_react_compiler::PluginOptions) {
+        if let Some(enable_function_outlining) = self.enable_function_outlining {
+            options.environment.enable_function_outlining = enable_function_outlining;
         }
     }
 }

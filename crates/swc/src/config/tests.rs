@@ -115,3 +115,31 @@ fn react_compiler_config_object() {
         Some("shared-runtime")
     );
 }
+
+#[test]
+fn react_compiler_config_environment_enable_function_outlining() {
+    let config = transform_config(
+        r#"{
+            "jsc": {
+                "transform": {
+                    "reactCompiler": {
+                        "environment": {
+                            "enableFunctionOutlining": false
+                        }
+                    }
+                }
+            }
+        }"#,
+    );
+
+    let Some(BoolOr::Data(config)) = config.react_compiler.into_inner() else {
+        panic!("expected object config");
+    };
+
+    assert_eq!(
+        config
+            .environment
+            .and_then(|environment| environment.enable_function_outlining),
+        Some(false)
+    );
+}
