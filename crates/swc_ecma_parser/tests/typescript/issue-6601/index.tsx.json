@@ -3233,6 +3233,7 @@
               "start": 2780,
               "end": 3020
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -3504,6 +3505,7 @@
               "start": 3059,
               "end": 3201
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "BooleanLiteral",
               "span": {
@@ -3690,6 +3692,7 @@
               "start": 3240,
               "end": 3401
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "CallExpression",
               "span": {

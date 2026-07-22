@@ -29411,6 +29411,7 @@
                                   "start": 61718,
                                   "end": 62267
                                 },
+                                "bodyCtxt": 0,
                                 "discriminant": {
                                   "type": "UnaryExpression",
                                   "span": {
@@ -30877,6 +30878,7 @@
                                   "start": 63904,
                                   "end": 64344
                                 },
+                                "bodyCtxt": 0,
                                 "discriminant": {
                                   "type": "CallExpression",
                                   "span": {
@@ -34486,6 +34488,7 @@
                                   "start": 68301,
                                   "end": 68531
                                 },
+                                "bodyCtxt": 0,
                                 "discriminant": {
                                   "type": "CallExpression",
                                   "span": {
