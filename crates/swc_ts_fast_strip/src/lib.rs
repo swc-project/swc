@@ -4,7 +4,7 @@ use anyhow::Context;
 use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
 use swc_common::{
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::{DiagnosticId, Handler, HANDLER},
     source_map::DefaultSourceMapGenConfig,
     sync::Lrc,
@@ -253,14 +253,15 @@ pub fn operate(
     let syntax = Syntax::Typescript(options.parser);
     let target = EsVersion::latest();
 
-    let comments = SingleThreadedComments::default();
+    let comments = matches!(&options.mode, Mode::Transform).then(SingleThreadedComments::default);
+    let lexer_comments = comments.as_ref().map(|comments| comments as &dyn Comments);
 
-    let (program, errors, mut tokens) = if should_capture_tokens {
+    let (program, errors, tokens) = if should_capture_tokens {
         let lexer = Capturing::new(Lexer::new(
             syntax,
             target,
             StringInput::from(&*fm),
-            Some(&comments),
+            lexer_comments,
         ));
         let mut parser = Parser::new_from(lexer);
 
@@ -274,7 +275,7 @@ pub fn operate(
 
         (program, errors, tokens)
     } else {
-        let lexer = Lexer::new(syntax, target, StringInput::from(&*fm), Some(&comments));
+        let lexer = Lexer::new(syntax, target, StringInput::from(&*fm), lexer_comments);
         let mut parser = Parser::new_from(lexer);
 
         let program = match options.module {
@@ -286,6 +287,12 @@ pub fn operate(
 
         (program, errors, Vec::new())
     };
+    debug_assert!(
+        tokens
+            .windows(2)
+            .all(|tokens| tokens[0].span.lo < tokens[1].span.lo),
+        "captured tokens must be ordered by source position"
+    );
 
     let mut program = match program {
         Ok(program) => program,
@@ -322,8 +329,6 @@ pub fn operate(
 
     match options.mode {
         Mode::StripOnly => {
-            tokens.sort_by_key(|t| t.span);
-
             if deprecated_ts_module_as_error {
                 program.visit_with(&mut ErrorOnTsModule {
                     src: &fm.src,
@@ -367,6 +372,7 @@ pub fn operate(
         }
 
         Mode::Transform => {
+            let comments = comments.expect("transform mode must collect comments");
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
@@ -374,8 +380,6 @@ pub fn operate(
                 program.mutate(&mut resolver(unresolved_mark, top_level_mark, true));
 
                 if deprecated_ts_module_as_error {
-                    tokens.sort_by_key(|t| t.span);
-
                     program.visit_with(&mut ErrorOnTsModule {
                         src: &fm.src,
                         source_start: fm.start_pos,
