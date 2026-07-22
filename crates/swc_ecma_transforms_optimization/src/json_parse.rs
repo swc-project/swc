@@ -3,7 +3,7 @@ use swc_atoms::Wtf8Atom;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_utils::{calc_literal_cost, member_expr, ExprFactory};
+use swc_ecma_utils::{calc_literal_cost, member_expr, number::ToJsString, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 /// Transform to optimize performance of literals.
@@ -130,7 +130,7 @@ fn jsonify(e: Expr) -> Value {
                     let key = match p.key {
                         PropName::Str(s) => wtf8_to_json_string(&s.value),
                         PropName::Ident(id) => id.sym.to_string(),
-                        PropName::Num(n) => format!("{}", n.value),
+                        PropName::Num(n) => n.value.to_js_string(),
                         _ => unreachable!(),
                     };
                     (key, value)

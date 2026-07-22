@@ -6,6 +6,7 @@ use swc_ecma_ast::{
     BindingIdent, ComputedPropName, Expr, Ident, Lit, MemberProp, ObjectPatProp, Pat, Prop,
     PropName, TsTypeAnn,
 };
+use swc_ecma_utils::number::ToJsString;
 
 pub trait ExprExit {
     fn get_root_ident(&self) -> Option<&Ident>;
@@ -144,7 +145,7 @@ impl PropNameExit for PropName {
         match self {
             PropName::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
             PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str()?)),
-            PropName::Num(number) => Some(Cow::Owned(number.value.to_string())),
+            PropName::Num(number) => Some(Cow::Owned(number.value.to_js_string())),
             PropName::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
             PropName::Computed(computed_prop_name) => computed_prop_name.static_name(),
             #[cfg(swc_ast_unknown)]
@@ -167,7 +168,7 @@ impl PropNameExit for ComputedPropName {
                 Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str()?)),
                 Lit::Bool(b) => Some(Cow::Owned(b.value.to_string())),
                 Lit::Null(_) => Some(Cow::Borrowed("null")),
-                Lit::Num(number) => Some(Cow::Owned(number.value.to_string())),
+                Lit::Num(number) => Some(Cow::Owned(number.value.to_js_string())),
                 Lit::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
                 Lit::Regex(regex) => Some(Cow::Owned(regex.exp.to_string())),
                 Lit::JSXText(_) => None,

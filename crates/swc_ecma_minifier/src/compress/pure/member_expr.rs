@@ -5,7 +5,10 @@ use swc_ecma_ast::{
     ArrayLit, Expr, ExprOrSpread, IdentName, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
     PropOrSpread, SeqExpr, Str,
 };
-use swc_ecma_utils::{prop_name_eq, ExprExt, Known};
+use swc_ecma_utils::{
+    number::{parse_canonical_index, ToJsString},
+    prop_name_eq, ExprExt, Known,
+};
 
 use super::Pure;
 use crate::compress::pure::Ctx;
@@ -150,6 +153,31 @@ fn is_string_symbol(sym: &str) -> bool {
     STRING_SYMBOLS.contains(sym) || is_object_symbol(sym)
 }
 
+/// A statically known property key with optional metadata for literal indexing.
+///
+/// `property_key` is always the exact ECMAScript property key. `index` is only
+/// populated for canonical non-negative decimal keys that can index a literal
+/// array or string without reinterpreting the property key.
+struct KnownMemberKey {
+    property_key: Atom,
+    index: Option<usize>,
+}
+
+impl KnownMemberKey {
+    fn from_number(value: f64) -> Self {
+        Self::from_property_key(Atom::from(value.to_js_string()))
+    }
+
+    fn from_property_key(property_key: Atom) -> Self {
+        let index = parse_canonical_index(property_key.as_str());
+
+        Self {
+            property_key,
+            index,
+        }
+    }
+}
+
 /// Checks if the given key exists in the given properties, taking the
 /// `__proto__` property and order of keys into account (the order of keys
 /// matters for nested `__proto__` properties).
@@ -258,29 +286,13 @@ impl Pure<'_> {
             return None;
         }
 
-        /// Taken from `simplify::expr`.
-        ///
-        /// `x.length` is handled as `IndexStr`, since `x.length` calls for
-        /// String and Array are handled in `simplify::expr` (the `length`
-        /// prototype for both of these types cannot be changed).
-        #[derive(Clone, PartialEq)]
-        enum KnownOp {
-            // [a, b][2]
-            //
-            // ({})[1]
-            Index(f64),
-
-            /// ({}).foo
-            ///
-            /// ({}).length
-            IndexStr(Atom),
-        }
-
         let op = match prop {
-            MemberProp::Ident(IdentName { sym, .. }) => KnownOp::IndexStr(sym.clone()),
+            MemberProp::Ident(IdentName { sym, .. }) => {
+                KnownMemberKey::from_property_key(sym.clone())
+            }
 
             MemberProp::Computed(c) => match &*c.expr {
-                Expr::Lit(Lit::Num(n)) => KnownOp::Index(n.value),
+                Expr::Lit(Lit::Num(n)) => KnownMemberKey::from_number(n.value),
 
                 Expr::Ident(..) => {
                     return None;
@@ -291,11 +303,7 @@ impl Pure<'_> {
                         return None;
                     };
 
-                    if let Ok(n) = s.parse::<f64>() {
-                        KnownOp::Index(n)
-                    } else {
-                        KnownOp::IndexStr(Atom::from(s))
-                    }
+                    KnownMemberKey::from_property_key(Atom::from(s))
                 }
             },
 
@@ -328,9 +336,9 @@ impl Pure<'_> {
             }
 
             Expr::Lit(Lit::Str(Str { value, span, .. })) => {
-                match op {
-                    KnownOp::Index(idx) => {
-                        if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
+                match op.index {
+                    Some(index) => {
+                        if index >= value.len() {
                             Some(*Expr::undefined(*span))
                         } else {
                             // idx is in bounds, this is handled in simplify
@@ -338,7 +346,9 @@ impl Pure<'_> {
                         }
                     }
 
-                    KnownOp::IndexStr(key) => {
+                    None => {
+                        let key = op.property_key;
+
                         if key == "length" {
                             // handled in simplify::expr
                             return None;
@@ -365,9 +375,9 @@ impl Pure<'_> {
                     return None;
                 }
 
-                match op {
-                    KnownOp::Index(idx) => {
-                        if idx >= 0.0 && (idx as usize) < elems.len() && idx.fract() == 0.0 {
+                match op.index {
+                    Some(index) => {
+                        if index < elems.len() {
                             // idx is in bounds, handled in simplify
                             return None;
                         }
@@ -400,7 +410,9 @@ impl Pure<'_> {
                         })
                     }
 
-                    KnownOp::IndexStr(key) if key != "length" /* handled in simplify */ => {
+                    None if op.property_key != "length" /* handled in simplify */ => {
+                        let key = op.property_key;
+
                         // If the property is a known symbol, e.g. [].push
                         let is_known_symbol = is_array_symbol(&key);
 
@@ -490,13 +502,10 @@ impl Pure<'_> {
                 }
 
                 // Get key as Atom
-                let key = match op {
-                    KnownOp::Index(i) => Atom::from(i.to_string()),
-                    KnownOp::IndexStr(key) if key != *"yield" => key,
-                    _ => {
-                        return None;
-                    }
-                };
+                let key = op.property_key;
+                if key == "yield" {
+                    return None;
+                }
 
                 // Check if key exists
                 let exists = does_key_exist(&key, props);
