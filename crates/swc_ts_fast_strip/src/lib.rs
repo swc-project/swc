@@ -37,6 +37,10 @@ use swc_ecma_visit::{Visit, VisitWith};
 #[cfg(feature = "wasm-bindgen")]
 use wasm_bindgen::prelude::*;
 
+use crate::strip::StripEditPlan;
+
+mod strip;
+
 #[derive(Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Options {
@@ -323,6 +327,7 @@ pub fn operate(
             if deprecated_ts_module_as_error {
                 program.visit_with(&mut ErrorOnTsModule {
                     src: &fm.src,
+                    source_start: fm.start_pos,
                     tokens: &tokens,
                 });
                 if handler.has_errors() {
@@ -334,7 +339,7 @@ pub fn operate(
             }
 
             // Strip typescript types
-            let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
+            let mut ts_strip = TsStrip::new(fm.src.clone(), fm.start_pos, tokens);
 
             program.visit_with(&mut ts_strip);
             if handler.has_errors() {
@@ -344,83 +349,16 @@ pub fn operate(
                 });
             }
 
-            let replacements = ts_strip.replacements;
-            let overwrites = ts_strip.overwrites;
+            let edits = ts_strip.edits;
 
-            if replacements.is_empty() && overwrites.is_empty() {
+            if edits.is_empty() {
                 return Ok(TransformOutput {
                     code: fm.src.to_string(),
                     map: Default::default(),
                 });
             }
 
-            let source = fm.src.clone();
-            let mut code = fm.src.to_string().into_bytes();
-
-            for r in replacements {
-                let (start, end) = (r.0 .0 as usize - 1, r.1 .0 as usize - 1);
-
-                for (i, c) in source[start..end].char_indices() {
-                    let i = start + i;
-                    match c {
-                        // https://262.ecma-international.org/#sec-white-space
-                        '\u{0009}' | '\u{0000B}' | '\u{000C}' | '\u{FEFF}' => continue,
-                        // Space_Separator
-                        '\u{0020}' | '\u{00A0}' | '\u{1680}' | '\u{2000}' | '\u{2001}'
-                        | '\u{2002}' | '\u{2003}' | '\u{2004}' | '\u{2005}' | '\u{2006}'
-                        | '\u{2007}' | '\u{2008}' | '\u{2009}' | '\u{200A}' | '\u{202F}'
-                        | '\u{205F}' | '\u{3000}' => continue,
-                        // https://262.ecma-international.org/#sec-line-terminators
-                        '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}' => continue,
-                        _ => match c.len_utf8() {
-                            1 => {
-                                // Space 0020
-                                code[i] = 0x20;
-                            }
-                            2 => {
-                                // No-Break Space 00A0
-                                code[i] = 0xc2;
-                                code[i + 1] = 0xa0;
-                            }
-                            3 => {
-                                // En Space 2002
-                                code[i] = 0xe2;
-                                code[i + 1] = 0x80;
-                                code[i + 2] = 0x82;
-                            }
-                            4 => {
-                                // We do not have a 4-byte space character in the Unicode standard.
-
-                                // Space 0020
-                                code[i] = 0x20;
-                                // ZWNBSP FEFF
-                                code[i + 1] = 0xef;
-                                code[i + 2] = 0xbb;
-                                code[i + 3] = 0xbf;
-                            }
-                            _ => unreachable!(),
-                        },
-                    }
-                }
-            }
-
-            for (i, v) in overwrites {
-                code[i.0 as usize - 1] = v;
-            }
-
-            #[cfg(debug_assertions)]
-            let code = {
-                String::from_utf8(code).map_err(|err| TsError {
-                    message: format!("failed to convert to utf-8: {err}"),
-                    code: ErrorCode::Unknown,
-                })?
-            };
-            #[cfg(not(debug_assertions))]
-            let code = {
-                // SAFETY: We've already validated that the source is valid utf-8
-                // and our operations are limited to character-level string replacements.
-                unsafe { String::from_utf8_unchecked(code) }
-            };
+            let code = edits.render(fm.start_pos, &fm.src);
 
             Ok(TransformOutput {
                 code,
@@ -440,6 +378,7 @@ pub fn operate(
 
                     program.visit_with(&mut ErrorOnTsModule {
                         src: &fm.src,
+                        source_start: fm.start_pos,
                         tokens: &tokens,
                     });
                     if handler.has_errors() {
@@ -541,6 +480,7 @@ pub fn operate(
 
 struct ErrorOnTsModule<'a> {
     src: &'a str,
+    source_start: BytePos,
     tokens: &'a [TokenAndSpan],
 }
 
@@ -591,8 +531,11 @@ impl Visit for ErrorOnTsModule<'_> {
             }
 
             pos = span.lo;
-        } else if self.src.as_bytes()[pos.0 as usize - 1] != b'm' {
-            return;
+        } else {
+            let offset = (pos.0 - self.source_start.0) as usize;
+            if self.src.as_bytes()[offset] != b'm' {
+                return;
+            }
         }
 
         if HANDLER.is_set() {
@@ -611,22 +554,17 @@ impl Visit for ErrorOnTsModule<'_> {
 
 struct TsStrip {
     src: BytesStr,
-
-    /// Replaced with whitespace
-    replacements: Vec<(BytePos, BytePos)>,
-
-    // should be string, but we use u8 for only `)` usage.
-    overwrites: Vec<(BytePos, u8)>,
-
+    source_start: BytePos,
+    edits: StripEditPlan,
     tokens: std::vec::Vec<TokenAndSpan>,
 }
 
 impl TsStrip {
-    fn new(src: BytesStr, tokens: std::vec::Vec<TokenAndSpan>) -> Self {
+    fn new(src: BytesStr, source_start: BytePos, tokens: std::vec::Vec<TokenAndSpan>) -> Self {
         TsStrip {
             src,
-            replacements: Default::default(),
-            overwrites: Default::default(),
+            source_start,
+            edits: Default::default(),
             tokens,
         }
     }
@@ -634,15 +572,17 @@ impl TsStrip {
 
 impl TsStrip {
     fn add_replacement(&mut self, span: Span) {
-        self.replacements.push((span.lo, span.hi));
+        self.edits.erase(span);
     }
 
-    fn add_overwrite(&mut self, pos: BytePos, value: u8) {
-        self.overwrites.push((pos, value));
+    fn add_overwrite(&mut self, pos: BytePos, value: char) {
+        self.edits.overwrite(pos, value);
     }
 
     fn get_src_slice(&self, span: Span) -> &str {
-        &self.src[(span.lo.0 - 1) as usize..(span.hi.0 - 1) as usize]
+        let start = (span.lo.0 - self.source_start.0) as usize;
+        let end = (span.hi.0 - self.source_start.0) as usize;
+        &self.src[start..end]
     }
 
     fn get_next_token_index(&self, pos: BytePos) -> usize {
@@ -713,11 +653,11 @@ impl TsStrip {
             | Token::Minus
             | Token::Regex => {
                 if prev_token == &Token::Semi {
-                    self.add_overwrite(prev_span.lo, b';');
+                    self.add_overwrite(prev_span.lo, ';');
                     return;
                 }
 
-                self.add_overwrite(span.lo, b';');
+                self.add_overwrite(span.lo, ';');
             }
 
             _ => {}
@@ -741,7 +681,7 @@ impl TsStrip {
             ..
         } = &self.tokens[index + 1]
         {
-            self.add_overwrite(span.lo, b';');
+            self.add_overwrite(span.lo, ';');
         }
     }
 
@@ -852,8 +792,8 @@ impl TsStrip {
             return;
         }
 
-        self.add_overwrite(l_paren.span.lo, b' ');
-        self.add_overwrite(type_params.lo, b'(');
+        self.add_overwrite(l_paren.span.lo, ' ');
+        self.add_overwrite(type_params.lo, '(');
     }
 
     fn assertion_chain_would_change_binary_grouping(
@@ -1010,12 +950,14 @@ impl Visit for TsStrip {
                 // ```
 
                 let mut pos = ret.span.hi - BytePos(1);
-                while !self.src.as_bytes()[pos.0 as usize - 1].is_utf8_char_boundary() {
-                    self.add_overwrite(pos, b' ');
+                while !self
+                    .src
+                    .is_char_boundary((pos.0 - self.source_start.0) as usize)
+                {
                     pos = pos - BytePos(1);
                 }
 
-                self.add_overwrite(pos, b')');
+                self.add_overwrite(pos, ')');
             }
         }
 
@@ -1120,7 +1062,7 @@ impl Visit for TsStrip {
                     .filter(|k| matches!(k.sym.as_ref(), "in" | "instanceof"))
                     .is_some())
         {
-            self.add_overwrite(start_pos, b';');
+            self.add_overwrite(start_pos, ';');
         }
 
         n.visit_children_with(self);
@@ -1155,7 +1097,7 @@ impl Visit for TsStrip {
                     // `get: number`
                     // `get;       `
                     if let Some(type_ann) = &n.type_ann {
-                        self.add_overwrite(type_ann.span.lo, b';');
+                        self.add_overwrite(type_ann.span.lo, ';');
                     }
                 }
             }
@@ -1175,7 +1117,7 @@ impl Visit for TsStrip {
                     .filter(|k| matches!(k.sym.as_ref(), "in" | "instanceof"))
                     .is_some())
         {
-            self.add_overwrite(start_pos, b';');
+            self.add_overwrite(start_pos, ';');
         }
 
         n.visit_children_with(self);
@@ -1573,12 +1515,12 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.cons.is_ts_declare() {
-            self.add_overwrite(n.cons.span_lo(), b';');
+            self.add_overwrite(n.cons.span_lo(), ';');
         }
 
         if let Some(alt) = &n.alt {
             if alt.is_ts_declare() {
-                self.add_overwrite(alt.span_lo(), b';');
+                self.add_overwrite(alt.span_lo(), ';');
             }
         }
     }
@@ -1587,7 +1529,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1595,7 +1537,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1603,7 +1545,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1611,7 +1553,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1619,7 +1561,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1751,19 +1693,6 @@ impl IsUninstantiated for Decl {
 impl IsUninstantiated for DefaultDecl {
     fn is_uninstantiated(&self) -> bool {
         matches!(self, Self::TsInterfaceDecl(..))
-    }
-}
-
-trait U8Helper {
-    fn is_utf8_char_boundary(&self) -> bool;
-}
-
-impl U8Helper for u8 {
-    // Copy from std::core::num::u8
-    #[inline]
-    fn is_utf8_char_boundary(&self) -> bool {
-        // This is bit magic equivalent to: b < 128 || b >= 192
-        (*self as i8) >= -0x40
     }
 }
 
