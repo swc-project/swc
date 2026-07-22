@@ -16,7 +16,7 @@ impl_struct!(LabeledStmt, [span, label, body]);
 impl_struct!(BreakStmt, [span, label]);
 impl_struct!(ContinueStmt, [span, label]);
 impl_struct!(IfStmt, [span, test, cons, alt]);
-impl_struct!(SwitchStmt, [span, discriminant, cases]);
+impl_struct!(SwitchStmt, [span, body_ctxt, discriminant, cases]);
 impl_struct!(ThrowStmt, [span, arg]);
 impl_struct!(TryStmt, [span, block, handler, finalizer]);
 impl_struct!(WhileStmt, [span, test, body]);

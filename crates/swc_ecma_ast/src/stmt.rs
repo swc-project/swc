@@ -328,6 +328,7 @@ pub struct IfStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SwitchStmt {
     pub span: Span,
+    pub body_ctxt: SyntaxContext,
     pub discriminant: Box<Expr>,
     pub cases: Vec<SwitchCase>,
 }

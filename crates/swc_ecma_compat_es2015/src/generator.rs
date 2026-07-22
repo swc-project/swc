@@ -2111,6 +2111,7 @@ impl Generator {
                     self.emit_stmt(
                         SwitchStmt {
                             span: DUMMY_SP,
+                            body_ctxt: Default::default(),
                             discriminant: expression.clone().into(),
                             cases: take(&mut pending_clauses),
                         }
@@ -2987,6 +2988,7 @@ impl Generator {
             let label_expr = self.state.clone().make_member(quote_ident!("label"));
             let switch_stmt = SwitchStmt {
                 span: DUMMY_SP,
+                body_ctxt: Default::default(),
                 discriminant: label_expr.into(),
                 cases: clauses,
             };
@@ -3085,7 +3087,7 @@ impl Generator {
                 // blocks, so we surround the statements in
                 // generated `with` blocks to create the same environment.
 
-                for (_i, with_block) in with_block_stack.iter().enumerate().rev() {
+                for with_block in with_block_stack.iter().rev() {
                     let b = with_block.borrow();
                     let with_block = match &*b {
                         CodeBlock::With(v) => v,

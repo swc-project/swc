@@ -999,6 +999,7 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     Ok(SwitchStmt {
         span: p.span(switch_start),
+        body_ctxt: Default::default(),
         discriminant,
         cases,
     }
