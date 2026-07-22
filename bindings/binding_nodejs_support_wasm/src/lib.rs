@@ -118,7 +118,8 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonD
 #[derive(Clone)]
 struct JsonErrorWriter {
     errors: Arc<Mutex<Vec<JsonDiagnostic>>>,
-    reporter: SwcReportHandler,
+    /// Successful transforms never need the graphical diagnostic reporter.
+    reporter: Option<SwcReportHandler>,
     cm: Lrc<SourceMap>,
 }
 
@@ -128,25 +129,7 @@ where
 {
     let wr = JsonErrorWriter {
         errors: Default::default(),
-        reporter: SwcReportHandler::default().with_theme(GraphicalTheme {
-            characters: ThemeCharacters {
-                hbar: ' ',
-                vbar: ' ',
-                xbar: ' ',
-                vbar_break: ' ',
-                ltop: ' ',
-                rtop: ' ',
-                mtop: ' ',
-                lbot: ' ',
-                rbot: ' ',
-                mbot: ' ',
-                error: "".into(),
-                warning: "".into(),
-                advice: "".into(),
-                ..ThemeCharacters::ascii()
-            },
-            styles: ThemeStyles::none(),
-        }),
+        reporter: None,
         cm,
     };
     let emitter: Box<dyn Emitter> = Box::new(wr.clone());
@@ -171,7 +154,8 @@ impl Emitter for JsonErrorWriter {
 
         let snippet = d.span.primary_span().and_then(|span| {
             let mut snippet = String::new();
-            match self.reporter.render_report(
+            let reporter = self.reporter.get_or_insert_with(json_reporter);
+            match reporter.render_report(
                 &mut snippet,
                 &Snippet {
                     source_code: &to_pretty_source_code(&self.cm, true),
@@ -225,6 +209,28 @@ impl Emitter for JsonErrorWriter {
     fn take_diagnostics(&mut self) -> Vec<String> {
         Default::default()
     }
+}
+
+fn json_reporter() -> SwcReportHandler {
+    SwcReportHandler::default().with_theme(GraphicalTheme {
+        characters: ThemeCharacters {
+            hbar: ' ',
+            vbar: ' ',
+            xbar: ' ',
+            vbar_break: ' ',
+            ltop: ' ',
+            rtop: ' ',
+            mtop: ' ',
+            lbot: ' ',
+            rbot: ' ',
+            mbot: ' ',
+            error: "".into(),
+            warning: "".into(),
+            advice: "".into(),
+            ..ThemeCharacters::ascii()
+        },
+        styles: ThemeStyles::none(),
+    })
 }
 
 #[derive(Serialize)]
