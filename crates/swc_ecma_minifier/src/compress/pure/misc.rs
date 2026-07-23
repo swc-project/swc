@@ -1152,17 +1152,19 @@ impl Pure<'_> {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
                     Expr::Lit(Lit::Num(num)) => {
-                        if num.value <= 5_f64 && num.value >= 0_f64 {
-                            Some(
-                                ArrayLit {
-                                    span: *span,
-                                    elems: vec![None; num.value as usize],
-                                }
-                                .into(),
-                            )
-                        } else {
-                            None
+                        let length = num.value;
+
+                        if !(0_f64..=5_f64).contains(&length) || length.fract() != 0_f64 {
+                            return None;
                         }
+
+                        Some(
+                            ArrayLit {
+                                span: *span,
+                                elems: vec![None; length as usize],
+                            }
+                            .into(),
+                        )
                     }
                     Expr::Lit(_) => Some(
                         ArrayLit {
