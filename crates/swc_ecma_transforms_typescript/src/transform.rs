@@ -1,7 +1,7 @@
-use std::{iter, mem};
+use std::{borrow::Borrow, iter, mem};
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{
     errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
     DUMMY_SP,
@@ -21,8 +21,8 @@ use crate::{
     config::TsImportExportAssignConfig,
     retain::{should_retain_module_item, should_retain_stmt},
     semantic::SemanticInfo,
-    shared::enum_member_id_atom,
-    ts_enum::{EnumValueComputer, TsEnumRecordKey, TsEnumRecordValue},
+    shared::enum_member_name,
+    ts_enum::{static_enum_member_name, EnumValueComputer, TsEnumRecordKey, TsEnumRecordValue},
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
 
@@ -1118,7 +1118,7 @@ impl Transform {
             .into_iter()
             .map(|m| {
                 let span = m.span;
-                let name = enum_member_id_atom(&m.id);
+                let name = enum_member_name(&m.id);
 
                 let key = TsEnumRecordKey {
                     enum_id: id.to_id(),
@@ -1643,7 +1643,7 @@ impl Transform {
                 return;
             }
 
-            let Some(member_name) = get_member_key(prop) else {
+            let Some(member_name) = static_enum_member_name(prop) else {
                 return;
             };
 
@@ -1901,13 +1901,13 @@ impl QueryRef for ExportQuery {
 
 struct EnumMemberRefQuery<'a> {
     enum_id: &'a Id,
-    member_names: &'a FxHashSet<Atom>,
+    member_names: &'a FxHashSet<Wtf8Atom>,
     unresolved_ctxt: SyntaxContext,
 }
 
 impl QueryRef for EnumMemberRefQuery<'_> {
     fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
-        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(&ident.sym) {
+        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(ident.sym.borrow()) {
             Some(
                 self.enum_id
                     .clone()
@@ -1924,7 +1924,7 @@ impl QueryRef for EnumMemberRefQuery<'_> {
     }
 
     fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
-        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(&ident.sym) {
+        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(ident.sym.borrow()) {
             Some(
                 JSXMemberExpr {
                     span: DUMMY_SP,
@@ -1941,7 +1941,7 @@ impl QueryRef for EnumMemberRefQuery<'_> {
 
 struct EnumMemberItem {
     span: Span,
-    name: Atom,
+    name: Wtf8Atom,
     value: TsEnumRecordValue,
 }
 
@@ -1953,20 +1953,19 @@ impl EnumMemberItem {
     fn build_assign(self, enum_id: &Id) -> Stmt {
         let is_string = self.value.is_string();
         let value: Expr = self.value.into();
+        let name: Expr = Str::from(self.name).into();
 
         let inner_assign = value.make_assign_to(
             op!("="),
             Ident::from(enum_id.clone())
-                .computed_member(self.name.clone())
+                .computed_member(name.clone())
                 .into(),
         );
 
         let outer_assign = if is_string {
             inner_assign
         } else {
-            let value: Expr = self.name.clone().into();
-
-            value.make_assign_to(
+            name.make_assign_to(
                 op!("="),
                 Ident::from(enum_id.clone())
                     .computed_member(inner_assign)
@@ -2008,26 +2007,5 @@ fn get_enum_id(e: &Expr) -> Option<Id> {
         Some(ident.to_id())
     } else {
         None
-    }
-}
-
-fn get_member_key(prop: &MemberProp) -> Option<Atom> {
-    match prop {
-        MemberProp::Ident(ident) => Some(ident.sym.clone()),
-        MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-            Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.to_atom_lossy().into_owned()),
-            Expr::Tpl(Tpl { exprs, quasis, .. }) => match (exprs.len(), quasis.len()) {
-                (0, 1) => quasis[0]
-                    .cooked
-                    .as_ref()
-                    .map(|cooked| cooked.to_atom_lossy().into_owned())
-                    .or_else(|| Some(quasis[0].raw.clone())),
-                _ => None,
-            },
-            _ => None,
-        },
-        MemberProp::PrivateName(_) => None,
-        #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes"),
     }
 }

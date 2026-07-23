@@ -1,6 +1,6 @@
-use std::borrow::Cow;
+use std::borrow::{Borrow, Cow};
 
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::Mark;
 use swc_ecma_ast::{
     BindingIdent, ComputedPropName, Expr, Ident, Lit, MemberProp, ObjectPatProp, Pat, Prop,
@@ -234,17 +234,17 @@ impl PropNameExit for Prop {
 }
 
 pub trait MemberPropExt {
-    fn static_name(&self) -> Option<&Atom>;
+    fn static_name(&self) -> Option<&Wtf8Atom>;
 }
 
 impl MemberPropExt for MemberProp {
-    fn static_name(&self) -> Option<&Atom> {
+    fn static_name(&self) -> Option<&Wtf8Atom> {
         match self {
-            MemberProp::Ident(ident_name) => Some(&ident_name.sym),
+            MemberProp::Ident(ident_name) => Some(ident_name.sym.borrow()),
             MemberProp::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
-                Expr::Lit(Lit::Str(s)) => s.value.as_atom(),
+                Expr::Lit(Lit::Str(s)) => Some(&s.value),
                 Expr::Tpl(tpl) if tpl.quasis.len() == 1 && tpl.exprs.is_empty() => {
-                    Some(&tpl.quasis[0].raw)
+                    tpl.quasis[0].cooked.as_ref()
                 }
                 _ => None,
             },
