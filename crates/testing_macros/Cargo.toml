@@ -28,3 +28,6 @@ relative-path = { workspace = true }
 [dependencies.syn]
 features  = ["fold", "parsing", "full", "extra-traits"]
 workspace = true
+
+[dev-dependencies]
+tempfile = { workspace = true }
