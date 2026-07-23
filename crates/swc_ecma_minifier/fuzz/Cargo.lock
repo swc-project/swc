@@ -58,7 +58,7 @@ checksum = "d92bec98840b8f03a5ff5413de5293bfcd8bf96467cf5452609f939ec6f5de16"
 
 [[package]]
 name = "ast_node"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "quote",
  "swc_macros_common",
@@ -353,9 +353,9 @@ checksum = "1d674e81391d1e1ab681a28d99df07927c6d4aa5b027d7da16ba32d1d21ecd99"
 
 [[package]]
 name = "foldhash"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2"
+checksum = "77ce24cb58228fbb8aa041425bb1050850ac19177686ea6e0f41a70416f56fdb"
 
 [[package]]
 name = "form_urlencoded"
@@ -432,20 +432,14 @@ dependencies = [
 
 [[package]]
 name = "hashbrown"
-version = "0.15.5"
+version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1"
+checksum = "5419bdc4f6a9207fbeba6d11b604d481addf78ecd10c11ad51e76c2f6482748d"
 dependencies = [
  "allocator-api2",
  "equivalent",
  "foldhash",
 ]
-
-[[package]]
-name = "hashbrown"
-version = "0.16.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5419bdc4f6a9207fbeba6d11b604d481addf78ecd10c11ad51e76c2f6482748d"
 
 [[package]]
 name = "heck"
@@ -467,7 +461,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "3.0.6"
+version = "4.0.0"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -1017,11 +1011,11 @@ checksum = "7a2d987857b319362043e95f5353c0535c1f58eec5336fdfcf626430af7def58"
 
 [[package]]
 name = "regress"
-version = "0.10.4"
+version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "145bb27393fe455dd64d6cbc8d059adfa392590a45eadf079c01b11857e7b010"
+checksum = "158a764437582235e3501f683b93a0a6f8d825d04a789dbe5ed30b8799b8908a"
 dependencies = [
- "hashbrown 0.15.5",
+ "hashbrown 0.16.0",
  "memchr",
 ]
 
@@ -1206,7 +1200,7 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "4.0.1"
+version = "5.0.0"
 dependencies = [
  "allocator-api2",
  "bumpalo",
@@ -1216,7 +1210,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "9.0.3"
+version = "10.0.0"
 dependencies = [
  "hstr",
  "once_cell",
@@ -1225,7 +1219,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "23.0.2"
+version = "24.0.0"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -1280,7 +1274,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "25.0.0"
+version = "26.0.0"
 dependencies = [
  "arbitrary",
  "bitflags",
@@ -1299,7 +1293,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "28.0.2"
+version = "29.0.0"
 dependencies = [
  "ascii",
  "compact_str",
@@ -1315,6 +1309,7 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen_macros",
+ "swc_ecma_utils",
  "tracing",
 ]
 
@@ -1329,7 +1324,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_hooks"
-version = "0.9.0"
+version = "0.10.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -1339,7 +1334,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "57.0.1"
+version = "58.0.1"
 dependencies = [
  "arrayvec",
  "bitflags",
@@ -1388,7 +1383,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "41.1.2"
+version = "42.0.0"
 dependencies = [
  "bitflags",
  "compact_str",
@@ -1407,7 +1402,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "24.0.1"
+version = "25.0.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -1418,7 +1413,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "45.0.0"
+version = "46.0.1"
 dependencies = [
  "better_scoped_tls",
  "indexmap",
@@ -1438,7 +1433,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "48.0.0"
+version = "49.0.0"
 dependencies = [
  "bytes-str",
  "dashmap",
@@ -1460,7 +1455,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "31.0.2"
+version = "32.0.0"
 dependencies = [
  "dragonbox_ecma",
  "indexmap",
@@ -1477,7 +1472,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "25.0.0"
+version = "26.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -1499,7 +1494,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "25.0.0"
+version = "26.0.0"
 dependencies = [
  "anyhow",
  "miette",
@@ -1581,7 +1576,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "24.0.1"
+version = "25.0.0"
 dependencies = [
  "cargo_metadata",
  "difference",
