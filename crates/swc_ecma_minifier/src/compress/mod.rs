@@ -25,7 +25,7 @@ use crate::{
     compress::hoist_decls::decl_hoister,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
-    program_data::analyze,
+    program_data::ProgramData,
     usage_analyzer::marks::Marks,
     util::force_dump_program,
 };
@@ -52,6 +52,7 @@ where
         pass: 1,
         mode,
         static_alias_state: Default::default(),
+        program_data: ProgramData::default(),
     }
 }
 
@@ -66,6 +67,9 @@ struct Compressor<'a> {
 
     /// State for static alias optimization, shared across passes.
     static_alias_state: StaticAliasState,
+
+    /// Reused across hoist + compress iterations.
+    program_data: ProgramData,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -88,7 +92,7 @@ impl Compressor<'_> {
         );
 
         if self.options.hoist_vars || self.options.hoist_fns {
-            let data = analyze(&*n, Some(self.marks), false);
+            self.program_data.analyze(n, Some(self.marks), false);
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
@@ -96,7 +100,7 @@ impl Compressor<'_> {
                     hoist_vars: self.options.hoist_vars,
                     _top_level: self.options.top_level(),
                 },
-                &data,
+                &self.program_data,
             );
             n.visit_mut_with(&mut v);
             self.changed |= v.changed();
@@ -179,7 +183,7 @@ impl Compressor<'_> {
         }
 
         {
-            let mut data = analyze(&*n, Some(self.marks), false);
+            self.program_data.analyze(n, Some(self.marks), false);
 
             // TODO: reset_opt_flags
             //
@@ -189,7 +193,7 @@ impl Compressor<'_> {
                 self.marks,
                 self.options,
                 self.mangle_options,
-                &mut data,
+                &mut self.program_data,
                 self.mode,
                 &mut self.static_alias_state,
             );

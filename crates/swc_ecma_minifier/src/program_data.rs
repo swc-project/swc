@@ -1,4 +1,4 @@
-use std::collections::hash_map::Entry;
+use std::{collections::hash_map::Entry, mem::take};
 
 use indexmap::IndexSet;
 use rustc_hash::{FxBuildHasher, FxHashMap};
@@ -23,16 +23,9 @@ pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>, collect_property_atoms: bo
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
-    let data = if collect_property_atoms {
-        ProgramData {
-            property_atoms: Some(Vec::with_capacity(128)),
-            ..Default::default()
-        }
-    } else {
-        ProgramData::default()
-    };
-
-    analyze_with_custom_storage(data, n, marks)
+    let mut data = ProgramData::default();
+    data.analyze(n, marks, collect_property_atoms);
+    data
 }
 
 /// Analyzed info of a whole program we are working on.
@@ -45,6 +38,38 @@ pub(crate) struct ProgramData {
     scopes: Vec<ScopeData>,
 
     pub(crate) property_atoms: Option<Vec<Wtf8Atom>>,
+}
+
+impl ProgramData {
+    /// Re-analyze `n`, retaining top-level collection capacities.
+    pub(crate) fn analyze<N>(&mut self, n: &N, marks: Option<Marks>, collect_property_atoms: bool)
+    where
+        N: VisitWith<UsageAnalyzer<ProgramData>>,
+    {
+        self.clear_retaining_capacity(collect_property_atoms);
+        // `analyze_with_custom_storage` takes ownership; put the result back.
+        let storage = take(self);
+        *self = analyze_with_custom_storage(storage, n, marks);
+    }
+
+    /// Drop analyzed facts while keeping backing allocation capacity.
+    ///
+    /// `scopes` must be cleared (not zeroed in place): [`Storage::scopes`]
+    /// merges every slot, so leftover high ctxt entries from a prior run
+    /// would be observed again.
+    fn clear_retaining_capacity(&mut self, collect_property_atoms: bool) {
+        self.vars.clear();
+        self.initialized_vars.clear();
+        self.scopes.clear();
+
+        if collect_property_atoms {
+            self.property_atoms
+                .get_or_insert_with(|| Vec::with_capacity(128))
+                .clear();
+        } else {
+            self.property_atoms = None;
+        }
+    }
 }
 
 bitflags::bitflags! {
