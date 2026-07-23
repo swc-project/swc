@@ -591,15 +591,14 @@ where
 }
 
 /// Gets the `idx`-th UTF-16 code unit from the given [Wtf8].
-/// Surrogate pairs are splitted into high and low surrogates and counted
+/// Surrogate pairs are split into high and low surrogates and counted
 /// separately.
-fn nth_char(s: &Wtf8, idx: usize) -> CodePoint {
-    match s.to_ill_formed_utf16().nth(idx) {
-        Some(c) =>
-        // SAFETY: `IllFormedUtf16CodeUnits` always returns code units in the range of UTF-16.
-        unsafe { CodePoint::from_u32_unchecked(c as u32) },
-        None => unreachable!("string is too short"),
-    }
+fn nth_char(s: &Wtf8, idx: usize) -> Option<CodePoint> {
+    s.to_ill_formed_utf16().nth(idx).map(|c| {
+        // SAFETY: `IllFormedUtf16CodeUnits` always returns code units in the range of
+        // UTF-16.
+        unsafe { CodePoint::from_u32_unchecked(c as u32) }
+    })
 }
 
 fn need_zero_for_this(e: &Expr) -> bool {
@@ -799,13 +798,17 @@ pub fn optimize_member_expr(
                     return;
                 };
 
+                // WTF-8 byte length is an upper bound for UTF-16 code-unit length.
                 if index >= value.len() {
-                    // Prototype changes affect indexing if the index is out of bounds, so we
-                    // don't replace out-of-bound indexes.
                     return;
                 }
 
-                let c = nth_char(value, index);
+                // Prototype changes affect indexing if the index is out of bounds, so we
+                // don't replace out-of-bound indexes. This lookup must use UTF-16 code units,
+                // which are JavaScript's string indexing units, rather than WTF-8 bytes.
+                let Some(c) = nth_char(value, index) else {
+                    return;
+                };
                 *changed = true;
 
                 // `nth_char` always returns a code point within the UTF-16 range.
