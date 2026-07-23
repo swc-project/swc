@@ -19,6 +19,30 @@ use crate::{
     util::ValueExt,
 };
 
+/// Formats an integer with `radix_fmt` only where its exact integer output is
+/// also a valid ECMAScript `Number::toString` result.
+fn format_integer_in_radix(value: f64, radix: u8) -> Option<String> {
+    const MAX_SAFE_INTEGER: f64 = 9_007_199_254_740_991_f64;
+
+    let magnitude = value.abs();
+    let is_safe_integer = magnitude <= MAX_SAFE_INTEGER;
+    let is_supported_binary_radix = radix.is_power_of_two() && magnitude < u128::MAX as f64;
+
+    if !is_safe_integer && !is_supported_binary_radix {
+        return None;
+    }
+
+    let digits = Radix::new(magnitude as u128, radix).to_string();
+    if value >= 0_f64 {
+        return Some(digits);
+    }
+
+    let mut output = String::with_capacity(digits.len() + 1);
+    output.push('-');
+    output.push_str(&digits);
+    Some(output)
+}
+
 impl Pure<'_> {
     ///
     /// - `1 == 1` => `true`
@@ -668,26 +692,17 @@ impl Pure<'_> {
 
             if num.value.fract() == 0.0 && (2.0..=36.0).contains(&base) && base.fract() == 0.0 {
                 let base = base.floor() as u8;
-
-                self.changed = true;
-
-                let value = {
-                    let x = num.value;
-                    if x < 0. {
-                        // I don't know if u128 is really needed, but it works.
-                        format!("-{}", Radix::new(-x as u128, base))
-                    } else {
-                        Radix::new(x as u128, base).to_string()
-                    }
-                }
-                .into();
+                let Some(value) = format_integer_in_radix(num.value, base) else {
+                    return;
+                };
 
                 *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
-                    value,
+                    value: value.into(),
                 })
-                .into()
+                .into();
+                self.changed = true;
             }
         }
     }
