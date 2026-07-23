@@ -292,13 +292,32 @@ impl Pure<'_> {
             }
         }
 
+        // Spreading a primitive of these types copies zero own enumerable
+        // properties (`ToObject` on them yields a wrapper whose properties are
+        // all non-enumerable), so `{ ...x }` where `x` is one of them
+        // contributes nothing.
+        //
+        // Strings are intentionally EXCLUDED: they expose indexed own
+        // enumerable properties (`{ ..."ab" }` === `{ 0: "a", 1: "b" }`).
+        // Objects, arrays, functions, etc. are also excluded as they carry
+        // real properties.
+        fn spreads_no_props(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+            matches!(
+                expr.get_type(expr_ctx),
+                Value::Known(Type::Undefined | Type::Null | Type::Bool | Type::Num | Type::Symbol)
+            )
+        }
+
         fn can_flatten_spread_expr(expr: &Expr, expr_ctx: ExprCtx) -> bool {
             match expr {
                 Expr::Object(ObjectLit { props, .. }) => {
                     props.iter().all(|p| can_flatten_spread_prop(p, expr_ctx))
                 }
-                Expr::Lit(Lit::Null(_)) => true,
-                _ => false,
+                // Spreading a side-effect-free expression that has no own
+                // enumerable properties contributes nothing. We require purity
+                // so that we never discard observable side effects
+                // (e.g. `{ ...void foo() }`).
+                _ => spreads_no_props(expr, expr_ctx) && !expr.may_have_side_effects(expr_ctx),
             }
         }
 
@@ -374,16 +393,12 @@ impl Pure<'_> {
                 PropOrSpread::Spread(SpreadElement { expr, .. })
                     if can_flatten_spread_expr(&expr, self.expr_ctx) =>
                 {
-                    match *expr {
-                        Expr::Object(ObjectLit { props, .. }) => {
-                            for p in props {
-                                new_props.push(p);
-                            }
-                        }
-
-                        Expr::Lit(Lit::Null(_)) => {}
-
-                        _ => {}
+                    // A plain object literal is flattened into the target; any
+                    // other flattenable spread is a no-property primitive
+                    // (including `null`) that contributes nothing, so it is
+                    // simply dropped.
+                    if let Expr::Object(ObjectLit { props, .. }) = *expr {
+                        new_props.extend(props);
                     }
                 }
 
