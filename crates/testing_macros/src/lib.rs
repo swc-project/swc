@@ -38,10 +38,11 @@ mod fixture;
 ///
 /// ## Ignoring a test
 ///
-/// If the path to the file contains a component starts with `.` (dot), it will
-/// be ignore. This convention is widely used in many projects (including other
-/// languages), as a file or a directory starting with `.` means hidden file in
-/// unix system.
+/// If the fixture path relative to the crate's `Cargo.toml` contains a
+/// component that starts with `.` (dot), it will be ignored. Ancestors of the
+/// crate are not considered. This convention is widely used in many projects
+/// (including other languages), as a file or a directory starting with `.`
+/// means a hidden file in unix systems.
 ///
 /// Note that they are added as a test `#[ignore]`, so you can use
 /// `cargo test -- --ignored` or `cargo test -- --include-ignored` to run those
