@@ -7517,6 +7517,7 @@ name = "swc_ts_fast_strip_binding"
 version = "0.20.0"
 dependencies = [
  "anyhow",
+ "codspeed-criterion-compat",
  "miette",
  "owo-colors",
  "serde",
