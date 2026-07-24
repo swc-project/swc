@@ -1,5 +1,5 @@
 use std::{
-    collections::{hash_map::Entry, HashMap},
+    collections::{hash_map::Entry, HashMap, HashSet},
     env,
     path::{Path, PathBuf},
     process::Command,
@@ -54,6 +54,25 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     }
 
     let (versions, graph) = get_data()?;
+    let removable_changeset_files = removable_rust_changeset_files(&changeset, &versions);
+
+    let rust_releases = changeset
+        .releases
+        .into_iter()
+        .filter_map(|(pkg_name, release)| {
+            if versions.contains_key(pkg_name.as_str()) {
+                Some((pkg_name, release))
+            } else {
+                eprintln!("Skipping non-Cargo changeset package: {pkg_name}");
+                None
+            }
+        })
+        .collect::<Vec<_>>();
+
+    if rust_releases.is_empty() {
+        eprintln!("No Rust changeset found");
+        return Ok(());
+    }
     let mut new_versions = VersionMap::new();
 
     let mut worker = Bump {
@@ -62,7 +81,7 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         new_versions: &mut new_versions,
     };
 
-    for (pkg_name, release) in changeset.releases {
+    for (pkg_name, release) in rust_releases {
         let is_breaking = worker
             .is_breaking(pkg_name.as_str(), release.change_type())
             .with_context(|| format!("failed to check if package {pkg_name} is breaking"))?;
@@ -83,10 +102,15 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         if !dry_run {
             for file in std::fs::read_dir(&changeset_dir)? {
                 let file = file?;
+                let path = file.path();
                 if file.file_type()?.is_file()
-                    && file.path().extension().unwrap_or_default() == "md"
+                    && path.extension().unwrap_or_default() == "md"
+                    && file
+                        .file_name()
+                        .to_str()
+                        .is_some_and(|name| removable_changeset_files.contains(name))
                 {
-                    std::fs::remove_file(file.path())?;
+                    std::fs::remove_file(path)?;
                 }
             }
         }
@@ -102,6 +126,32 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     git_tag_core(dry_run).context("failed to tag core")?;
 
     Ok(())
+}
+
+fn removable_rust_changeset_files(
+    changeset: &changesets::ChangeSet,
+    versions: &VersionMap,
+) -> HashSet<String> {
+    let mut files = HashMap::<String, bool>::new();
+
+    for (pkg_name, release) in &changeset.releases {
+        let is_rust_release = versions.contains_key(pkg_name.as_str());
+        for change in &release.changes {
+            match files.entry(change.unique_id.to_file_name()) {
+                Entry::Vacant(entry) => {
+                    entry.insert(is_rust_release);
+                }
+                Entry::Occupied(mut entry) => {
+                    *entry.get_mut() &= is_rust_release;
+                }
+            }
+        }
+    }
+
+    files
+        .into_iter()
+        .filter_map(|(file, is_rust_only)| is_rust_only.then_some(file))
+        .collect()
 }
 
 fn run_cargo_set_version(pkg_name: &str, version: &Version, dry_run: bool) -> Result<()> {
@@ -362,4 +412,45 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
     }
 
     Ok((versions, graph))
+}
+
+#[cfg(test)]
+mod tests {
+    use changesets::{PackageChange, Release, UniqueId};
+
+    use super::*;
+
+    fn release(pkg_name: &str, file_name: &str) -> (String, Release) {
+        (
+            pkg_name.to_string(),
+            Release {
+                package_name: pkg_name.to_string(),
+                changes: vec![PackageChange {
+                    unique_id: UniqueId::from(file_name),
+                    change_type: ChangeType::Patch,
+                    summary: String::new(),
+                }],
+            },
+        )
+    }
+
+    #[test]
+    fn removes_only_changeset_files_with_rust_releases() {
+        let changeset = changesets::ChangeSet {
+            releases: HashMap::from([
+                release("swc_core", "rust-only"),
+                release("swc_common", "mixed"),
+                release("@swc/core", "mixed"),
+                release("@swc/html", "npm-only"),
+            ]),
+        };
+        let versions = HashMap::from([
+            ("swc_core".to_string(), Version::parse("1.0.0").unwrap()),
+            ("swc_common".to_string(), Version::parse("1.0.0").unwrap()),
+        ]);
+
+        let removable = removable_rust_changeset_files(&changeset, &versions);
+
+        assert_eq!(removable, HashSet::from(["rust_only.md".to_string()]));
+    }
 }

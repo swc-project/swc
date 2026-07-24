@@ -424,7 +424,7 @@ jobs:
       - uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: 18
+          node-version: 20
           install-dependencies: "false"
 
       - name: Set platform name
@@ -483,7 +483,7 @@ jobs:
       - uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: 18
+          node-version: 20
           install-dependencies: "false"
 
       - name: Prepare

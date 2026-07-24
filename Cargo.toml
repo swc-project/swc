@@ -3,6 +3,7 @@ members = [
   "xtask",
   "bindings/*",
   "crates/*",
+  "tools/swc-compressed-binding-tool",
   "tools/generate-code",
   "tools/swc-releaser",
 ]
@@ -42,6 +43,7 @@ copyless                  = "0.1.5"
 crc                       = "2.1.0"
 criterion                 = "0.5.1"
 dashmap                   = "6.1.0"
+decmpfs                   = { version = "0.1.0", default-features = false }
 dialoguer                 = "0.10.2"
 difference                = "2"
 dragonbox_ecma            = "0.1.0"
@@ -61,6 +63,7 @@ jsonc-parser              = "0.26.2"
 kstring                   = "2.0.0"
 lazy_static               = "1.4.0"
 lexical                   = "6.1.0"
+libloading                = "0.8.1"
 lightningcss              = "1.0.0-alpha.68"
 lru                       = "0.16.1"
 memchr                    = "2.6.1"
@@ -68,6 +71,7 @@ miette                    = "7.6.0"
 napi                      = { version = "3", default-features = false }
 napi-build                = "2"
 napi-derive               = { version = "3", default-features = false }
+napi-sys                  = "3"
 new_debug_unreachable     = "1.0.6"
 nom                       = "7.1.3"
 ntest                     = "0.7.2"
@@ -131,6 +135,7 @@ wasm-bindgen-futures      = "0.4.50"
 wasmer                    = { version = "6.1.0-rc.3", default-features = false }
 wasmer-wasix              = { version = "0.601.0-rc.3", default-features = false }
 wasmtime                  = { version = "38", default-features = false }
+zstd                      = "0.13.3"
 
 
 cbor4ii         = "1.2"
