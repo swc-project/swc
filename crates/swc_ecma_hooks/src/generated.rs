@@ -1275,6 +1275,16 @@ pub trait VisitHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `Option < Box < TsThisParam > >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `Option < Box < TsThisParam > >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Box < TsType > >` before visiting its \
              children."]
     #[inline]
@@ -2161,6 +2171,14 @@ pub trait VisitHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_setter_signature(&mut self, node: &TsSetterSignature, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsThisParam` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_this_param(&mut self, node: &TsThisParam, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsThisParam` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_this_param(&mut self, node: &TsThisParam, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsThisType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -4326,6 +4344,18 @@ where
     }
 
     #[inline]
+    fn enter_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>, ctx: &mut C) {
+        self.first.enter_opt_ts_this_param(node, ctx);
+        self.second.enter_opt_ts_this_param(node, ctx);
+    }
+
+    #[inline]
+    fn exit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>, ctx: &mut C) {
+        self.second.exit_opt_ts_this_param(node, ctx);
+        self.first.exit_opt_ts_this_param(node, ctx);
+    }
+
+    #[inline]
     fn enter_opt_ts_type(&mut self, node: &Option<Box<TsType>>, ctx: &mut C) {
         self.first.enter_opt_ts_type(node, ctx);
         self.second.enter_opt_ts_type(node, ctx);
@@ -5591,6 +5621,18 @@ where
     fn exit_ts_setter_signature(&mut self, node: &TsSetterSignature, ctx: &mut C) {
         self.second.exit_ts_setter_signature(node, ctx);
         self.first.exit_ts_setter_signature(node, ctx);
+    }
+
+    #[inline]
+    fn enter_ts_this_param(&mut self, node: &TsThisParam, ctx: &mut C) {
+        self.first.enter_ts_this_param(node, ctx);
+        self.second.enter_ts_this_param(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_this_param(&mut self, node: &TsThisParam, ctx: &mut C) {
+        self.second.exit_ts_this_param(node, ctx);
+        self.first.exit_ts_this_param(node, ctx);
     }
 
     #[inline]
@@ -8491,6 +8533,22 @@ where
     }
 
     #[inline]
+    fn enter_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ts_this_param(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ts_this_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ts_this_param(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ts_this_param(node, ctx),
+        }
+    }
+
+    #[inline]
     fn enter_opt_ts_type(&mut self, node: &Option<Box<TsType>>, ctx: &mut C) {
         match self {
             Self::Left(hook) => hook.enter_opt_ts_type(node, ctx),
@@ -10175,6 +10233,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_ts_setter_signature(node, ctx),
             Self::Right(hook) => hook.exit_ts_setter_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_this_param(&mut self, node: &TsThisParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_this_param(node, ctx),
+            Self::Right(hook) => hook.enter_ts_this_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_this_param(&mut self, node: &TsThisParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_this_param(node, ctx),
+            Self::Right(hook) => hook.exit_ts_this_param(node, ctx),
         }
     }
 
@@ -12935,6 +13009,20 @@ where
     }
 
     #[inline]
+    fn enter_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_opt_ts_this_param(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_opt_ts_this_param(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_opt_ts_type(&mut self, node: &Option<Box<TsType>>, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_opt_ts_type(node, ctx);
@@ -14409,6 +14497,20 @@ where
     fn exit_ts_setter_signature(&mut self, node: &TsSetterSignature, ctx: &mut C) {
         if let Some(hook) = self {
             hook.exit_ts_setter_signature(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn enter_ts_this_param(&mut self, node: &TsThisParam, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_this_param(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_this_param(&mut self, node: &TsThisParam, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_this_param(node, ctx);
         }
     }
 
@@ -16237,6 +16339,15 @@ impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
             .exit_opt_ts_namespace_body(node, &mut self.context);
     }
 
+    #[doc = "Visits a node of type `Option < Box < TsThisParam > >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        self.hook.enter_opt_ts_this_param(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_opt_ts_this_param(node, &mut self.context);
+    }
+
     #[doc = "Visits a node of type `Option < Box < TsType > >` using the hook's enter and exit \
              methods."]
     #[inline]
@@ -17129,6 +17240,14 @@ impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
         self.hook.enter_ts_setter_signature(node, &mut self.context);
         node.visit_children_with(self);
         self.hook.exit_ts_setter_signature(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `TsThisParam` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        self.hook.enter_ts_this_param(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_ts_this_param(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsThisType` using the hook's enter and exit methods."]
@@ -18748,6 +18867,16 @@ pub trait VisitMutHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `Option < Box < TsThisParam > >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `Option < Box < TsThisParam > >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Box < TsType > >` before visiting its \
              children."]
     #[inline]
@@ -19655,6 +19784,14 @@ pub trait VisitMutHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_setter_signature(&mut self, node: &mut TsSetterSignature, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsThisParam` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_this_param(&mut self, node: &mut TsThisParam, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsThisParam` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_this_param(&mut self, node: &mut TsThisParam, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsThisType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -21842,6 +21979,18 @@ where
     }
 
     #[inline]
+    fn enter_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>, ctx: &mut C) {
+        self.first.enter_opt_ts_this_param(node, ctx);
+        self.second.enter_opt_ts_this_param(node, ctx);
+    }
+
+    #[inline]
+    fn exit_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>, ctx: &mut C) {
+        self.second.exit_opt_ts_this_param(node, ctx);
+        self.first.exit_opt_ts_this_param(node, ctx);
+    }
+
+    #[inline]
     fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, ctx: &mut C) {
         self.first.enter_opt_ts_type(node, ctx);
         self.second.enter_opt_ts_type(node, ctx);
@@ -23123,6 +23272,18 @@ where
     fn exit_ts_setter_signature(&mut self, node: &mut TsSetterSignature, ctx: &mut C) {
         self.second.exit_ts_setter_signature(node, ctx);
         self.first.exit_ts_setter_signature(node, ctx);
+    }
+
+    #[inline]
+    fn enter_ts_this_param(&mut self, node: &mut TsThisParam, ctx: &mut C) {
+        self.first.enter_ts_this_param(node, ctx);
+        self.second.enter_ts_this_param(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_this_param(&mut self, node: &mut TsThisParam, ctx: &mut C) {
+        self.second.exit_ts_this_param(node, ctx);
+        self.first.exit_ts_this_param(node, ctx);
     }
 
     #[inline]
@@ -26043,6 +26204,22 @@ where
     }
 
     #[inline]
+    fn enter_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ts_this_param(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ts_this_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ts_this_param(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ts_this_param(node, ctx),
+        }
+    }
+
+    #[inline]
     fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, ctx: &mut C) {
         match self {
             Self::Left(hook) => hook.enter_opt_ts_type(node, ctx),
@@ -27743,6 +27920,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_ts_setter_signature(node, ctx),
             Self::Right(hook) => hook.exit_ts_setter_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_this_param(&mut self, node: &mut TsThisParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_this_param(node, ctx),
+            Self::Right(hook) => hook.enter_ts_this_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_this_param(&mut self, node: &mut TsThisParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_this_param(node, ctx),
+            Self::Right(hook) => hook.exit_ts_this_param(node, ctx),
         }
     }
 
@@ -30523,6 +30716,20 @@ where
     }
 
     #[inline]
+    fn enter_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_opt_ts_this_param(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_opt_ts_this_param(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_opt_ts_type(node, ctx);
@@ -32013,6 +32220,20 @@ where
     fn exit_ts_setter_signature(&mut self, node: &mut TsSetterSignature, ctx: &mut C) {
         if let Some(hook) = self {
             hook.exit_ts_setter_signature(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn enter_ts_this_param(&mut self, node: &mut TsThisParam, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_this_param(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_this_param(&mut self, node: &mut TsThisParam, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_this_param(node, ctx);
         }
     }
 
@@ -33849,6 +34070,15 @@ impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
             .exit_opt_ts_namespace_body(node, &mut self.context);
     }
 
+    #[doc = "Visits a node of type `Option < Box < TsThisParam > >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        self.hook.enter_opt_ts_this_param(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_ts_this_param(node, &mut self.context);
+    }
+
     #[doc = "Visits a node of type `Option < Box < TsType > >` using the hook's enter and exit \
              methods."]
     #[inline]
@@ -34741,6 +34971,14 @@ impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
         self.hook.enter_ts_setter_signature(node, &mut self.context);
         node.visit_mut_children_with(self);
         self.hook.exit_ts_setter_signature(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `TsThisParam` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        self.hook.enter_ts_this_param(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_ts_this_param(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsThisType` using the hook's enter and exit methods."]

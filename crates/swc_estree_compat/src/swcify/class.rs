@@ -8,7 +8,10 @@ use swc_estree_ast::{
 };
 
 use super::Context;
-use crate::swcify::Swcify;
+use crate::swcify::{
+    function::{swcify_function_params, SwcifiedFunctionParams},
+    Swcify,
+};
 
 impl Swcify for ClassBody {
     type Output = Vec<ClassMember>;
@@ -40,11 +43,15 @@ impl Swcify for swc_estree_ast::ClassMethod {
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self.kind.unwrap_or(ClassMethodKind::Method) {
             ClassMethodKind::Get | ClassMethodKind::Set | ClassMethodKind::Method => {
+                let SwcifiedFunctionParams { this_param, params } =
+                    swcify_function_params(self.params, ctx);
+
                 swc_ecma_ast::ClassMethod {
                     span: ctx.span(&self.base),
                     key: self.key.swcify(ctx),
                     function: Function {
-                        params: self.params.swcify(ctx),
+                        this_param,
+                        params,
                         decorators: self.decorators.swcify(ctx).unwrap_or_default(),
                         span: ctx.span(&self.base),
                         body: Some(self.body.swcify(ctx)),
@@ -97,11 +104,15 @@ impl Swcify for swc_estree_ast::ClassPrivateMethod {
     type Output = swc_ecma_ast::PrivateMethod;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
+        let SwcifiedFunctionParams { this_param, params } =
+            swcify_function_params(self.params, ctx);
+
         swc_ecma_ast::PrivateMethod {
             span: ctx.span(&self.base),
             key: self.key.swcify(ctx),
             function: Function {
-                params: self.params.swcify(ctx),
+                this_param,
+                params,
                 decorators: self.decorators.swcify(ctx).unwrap_or_default(),
                 span: ctx.span(&self.base),
                 body: Some(self.body.swcify(ctx)),
