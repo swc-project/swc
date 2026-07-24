@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
@@ -214,7 +214,7 @@ pub enum JSXAttrValue {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXText {
     pub span: Span,
-    pub value: Atom,
+    pub value: Wtf8Atom,
     pub raw: Atom,
 }
 
@@ -223,7 +223,7 @@ pub struct JSXText {
 impl<'a> arbitrary::Arbitrary<'a> for JSXText {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
-        let value = u.arbitrary::<String>()?.into();
+        let value = u.arbitrary::<Wtf8Atom>()?.into();
         let raw = u.arbitrary::<String>()?.into();
 
         Ok(Self { span, value, raw })

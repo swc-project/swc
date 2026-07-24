@@ -19,7 +19,7 @@ pub enum TokenValue {
     // string
     Str(Wtf8Atom),
     // jsx text
-    JsxText(Atom),
+    JsxText(Wtf8Atom),
     // regexp
     Regex(BytePos),
     Num(f64),

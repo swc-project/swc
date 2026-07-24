@@ -1,4 +1,4 @@
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::ast_serde;
 
 use crate::{
@@ -219,7 +219,7 @@ pub struct JSXSpreadAttribute {
 pub struct JSXText {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub value: Atom,
+    pub value: Wtf8Atom,
 }
 
 #[derive(Debug, Clone, PartialEq)]
