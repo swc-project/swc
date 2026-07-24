@@ -414,15 +414,28 @@ where
         Ok(())
     }
 
+    fn emit_fn_params(&mut self, node: &Function) -> Result {
+        punct!(self, "(");
+        if let Some(this_param) = &node.this_param {
+            emit!(self, this_param);
+            if !node.params.is_empty() {
+                punct!(self, ",");
+                formatting_space!(self);
+            }
+        }
+        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
+        punct!(self, ")");
+
+        Ok(())
+    }
+
     /// prints `(b){}` from `function a(b){}`
     fn emit_fn_trailing(&mut self, node: &Function) -> Result {
         if let Some(type_params) = &node.type_params {
             emit!(self, type_params);
         }
 
-        punct!(self, "(");
-        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        punct!(self, ")");
+        self.emit_fn_params(node)?;
 
         if let Some(ty) = &node.return_type {
             punct!(self, ":");

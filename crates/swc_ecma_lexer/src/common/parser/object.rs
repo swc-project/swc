@@ -13,13 +13,20 @@ use crate::{
         parser::{
             buffer::Buffer,
             class_and_fn::parse_fn_args_body,
-            is_not_this,
+            params_without_leading_this,
             pat::{parse_formal_params, parse_unique_formal_params},
             typescript::eat_any_ts_modifier,
         },
     },
     error::SyntaxError,
 };
+
+fn ts_this_param_to_pat(param: TsThisParam) -> Pat {
+    Pat::Ident(BindingIdent {
+        id: Ident::new_no_ctxt("this".into(), param.this_span),
+        type_ann: param.type_ann,
+    })
+}
 
 fn parse_object<'a, P: Parser<'a>, Object, ObjectProp>(
     p: &mut P,
@@ -316,7 +323,8 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                             |p| {
                                 let params = parse_formal_params(p)?;
 
-                                if params.iter().any(is_not_this) {
+                                let runtime_params = params_without_leading_this(&params);
+                                if !runtime_params.is_empty() {
                                     p.emit_err(key_span, SyntaxError::GetterParam);
                                 }
 
@@ -353,16 +361,14 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                                 |p| {
                                     let params = parse_formal_params(p)?;
 
-                                    if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                                    let runtime_params = params_without_leading_this(&params);
+                                    if runtime_params.len() != 1 {
                                         p.emit_err(key_span, SyntaxError::SetterParam);
                                     }
 
-                                    if !params.is_empty() {
-                                        if let Pat::Rest(..) = params[0].pat {
-                                            p.emit_err(
-                                                params[0].span(),
-                                                SyntaxError::RestPatInSetter,
-                                            );
+                                    if let Some(param) = runtime_params.first() {
+                                        if let Pat::Rest(..) = param.pat {
+                                            p.emit_err(param.span(), SyntaxError::RestPatInSetter);
                                         }
                                     }
 
@@ -380,12 +386,13 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                             .map(|v| *v)
                             .map(
                                 |Function {
-                                     mut params, body, ..
+                                     this_param,
+                                     params,
+                                     body,
+                                     ..
                                  }| {
-                                    let mut this = None;
-                                    if params.len() >= 2 {
-                                        this = Some(params.remove(0).pat);
-                                    }
+                                    let this = this_param
+                                        .map(|this_param| ts_this_param_to_pat(*this_param));
 
                                     let param = Box::new(
                                         params.into_iter().next().map(|v| v.pat).unwrap_or_else(

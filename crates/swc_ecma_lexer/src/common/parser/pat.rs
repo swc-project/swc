@@ -22,6 +22,27 @@ use crate::{
     error::SyntaxError,
 };
 
+/// Returns the identifier for a direct `this` pattern or a single assignment
+/// layer whose left-hand side is a direct `this` pattern.
+fn direct_ts_this_ident(pat: &Pat) -> Option<&Ident> {
+    let ident = match pat {
+        Pat::Ident(BindingIdent { id, .. }) => id,
+        Pat::Assign(AssignPat { left, .. }) => {
+            let Pat::Ident(BindingIdent { id, .. }) = &**left else {
+                return None;
+            };
+            id
+        }
+        _ => return None,
+    };
+
+    if ident.sym.as_ref() != "this" {
+        return None;
+    }
+
+    Some(ident)
+}
+
 /// argument of arrow is pattern, although idents in pattern is already
 /// checked if is a keyword, it should also be checked if is arguments or
 /// eval
@@ -372,27 +393,40 @@ fn reparse_expr_as_pat_inner<'a>(
 }
 
 pub(super) fn parse_binding_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
+    parse_binding_element_with_initializer(p).map(|(pat, _)| pat)
+}
+
+/// Returns the span of an initializer owned by this binding element.
+/// Initializers nested in destructuring patterns are not propagated.
+fn parse_binding_element_with_initializer<'a, P: Parser<'a>>(
+    p: &mut P,
+) -> PResult<(Pat, Option<Span>)> {
     trace_cur!(p, parse_binding_element);
 
     let start = p.cur_pos();
     let left = parse_binding_pat_or_ident(p, false)?;
 
     if p.input_mut().eat(&P::Token::EQUAL) {
+        let initializer_span = p.input().prev_span();
+
         let right = p.allow_in_expr(parse_assignment_expr)?;
 
         if p.ctx().contains(Context::InDeclare) {
             p.emit_err(p.span(start), SyntaxError::TS2371);
         }
 
-        return Ok(AssignPat {
-            span: p.span(start),
-            left: Box::new(left),
-            right,
-        }
-        .into());
+        return Ok((
+            AssignPat {
+                span: p.span(start),
+                left: Box::new(left),
+                right,
+            }
+            .into(),
+            Some(initializer_span),
+        ));
     }
 
-    Ok(left)
+    Ok((left, None))
 }
 
 pub fn parse_binding_pat_or_ident<'a, P: Parser<'a>>(
@@ -486,11 +520,26 @@ fn parse_formal_param_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
     let has_modifier = eat_any_ts_modifier(p)?;
 
     let pat_start = p.cur_pos();
-    let mut pat = parse_binding_element(p)?;
+    let (mut pat, initializer_span) = parse_binding_element_with_initializer(p)?;
+    let is_direct_ts_this_param =
+        p.syntax().typescript() && !p.syntax().flow() && direct_ts_this_ident(&pat).is_some();
+    if let (true, Some(initializer_span)) = (is_direct_ts_this_param, initializer_span) {
+        p.emit_err(
+            initializer_span,
+            SyntaxError::Expected(",".into(), "=".into()),
+        );
+    }
     let mut opt = false;
 
     if p.input().syntax().typescript() {
         if p.input_mut().eat(&P::Token::QUESTION) {
+            if is_direct_ts_this_param {
+                p.emit_err(
+                    p.input().prev_span(),
+                    SyntaxError::Expected(",".into(), "?".into()),
+                );
+            }
+
             match pat {
                 Pat::Ident(BindingIdent {
                     id: Ident {
@@ -560,8 +609,15 @@ fn parse_formal_param_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
     }
 
     let pat = if p.input_mut().eat(&P::Token::EQUAL) {
+        if is_direct_ts_this_param && !opt {
+            p.emit_err(
+                p.input().prev_span(),
+                SyntaxError::Expected(",".into(), "=".into()),
+            );
+        }
+
         // `=` cannot follow optional parameter.
-        if opt {
+        if opt && !is_direct_ts_this_param {
             p.emit_err(pat.span(), SyntaxError::TS1015);
         }
 
@@ -749,6 +805,15 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
             if is_rest && p.input().is(&P::Token::RPAREN) {
                 p.emit_err(p.input().prev_span(), SyntaxError::CommaAfterRestElement);
             }
+        }
+    }
+
+    if p.syntax().typescript() && !p.syntax().flow() {
+        for param in params.iter().skip(1) {
+            let Some(ident) = direct_ts_this_ident(&param.pat) else {
+                continue;
+            };
+            p.emit_err(ident.span, SyntaxError::TS2680);
         }
     }
 

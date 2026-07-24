@@ -1513,23 +1513,27 @@ impl<'a> ConvertCtx<'a> {
                     type_parameters: None,
                     predicate: None,
                 }),
-                swc::Prop::Setter(s) => ObjectExpressionProperty::ObjectMethod(ObjectMethod {
-                    base: self.make_base_node(s.span),
-                    method: false,
-                    kind: ObjectMethodKind::Set,
-                    key: Box::new(self.convert_prop_name(&s.key)),
-                    params: vec![self.convert_pat(&s.param)],
-                    body: self
-                        .convert_block_stmt_as_optional_function_body(s.body.as_ref(), s.span),
-                    computed: self.convert_prop_name_computed(&s.key),
-                    id: None,
-                    generator: false,
-                    is_async: false,
-                    decorators: None,
-                    return_type: None,
-                    type_parameters: None,
-                    predicate: None,
-                }),
+                swc::Prop::Setter(s) => {
+                    self.preserved_ast.borrow_mut().save_setter(s);
+
+                    ObjectExpressionProperty::ObjectMethod(ObjectMethod {
+                        base: self.make_base_node(s.span),
+                        method: false,
+                        kind: ObjectMethodKind::Set,
+                        key: Box::new(self.convert_prop_name(&s.key)),
+                        params: vec![self.convert_pat(&s.param)],
+                        body: self
+                            .convert_block_stmt_as_optional_function_body(s.body.as_ref(), s.span),
+                        computed: self.convert_prop_name_computed(&s.key),
+                        id: None,
+                        generator: false,
+                        is_async: false,
+                        decorators: None,
+                        return_type: None,
+                        type_parameters: None,
+                        predicate: None,
+                    })
+                }
                 swc::Prop::Method(m) => {
                     self.preserved_ast.borrow_mut().save_function(&m.function);
 

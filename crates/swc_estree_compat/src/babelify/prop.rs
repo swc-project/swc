@@ -95,11 +95,17 @@ impl Babelify for SetterProp {
     type Output = ObjectMethod;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let mut params = Vec::with_capacity(1 + usize::from(self.this_param.is_some()));
+        if let Some(this_param) = self.this_param {
+            params.push(this_param.babelify(ctx).into());
+        }
+        params.push(self.param.babelify(ctx).into());
+
         ObjectMethod {
             base: ctx.base(self.span),
             kind: ObjectMethodKind::Set,
             key: self.key.babelify(ctx),
-            params: vec![self.param.babelify(ctx).into()],
+            params,
             body: self.body.unwrap().babelify(ctx),
             return_type: Default::default(),
             computed: Default::default(),

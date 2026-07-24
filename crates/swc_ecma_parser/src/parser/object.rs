@@ -2,8 +2,8 @@ use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use crate::{
-    error::SyntaxError, input::Tokens, lexer::Token, parser::class_and_fn::is_not_this, Context,
-    PResult, Parser,
+    error::SyntaxError, input::Tokens, lexer::Token,
+    parser::class_and_fn::params_without_leading_this, Context, PResult, Parser,
 };
 
 fn prop_name_is(key: &PropName, expected: &str) -> bool {
@@ -12,6 +12,13 @@ fn prop_name_is(key: &PropName, expected: &str) -> bool {
         PropName::Str(value) => value.value == *expected,
         _ => false,
     }
+}
+
+fn ts_this_param_to_pat(param: TsThisParam) -> Pat {
+    Pat::Ident(BindingIdent {
+        id: Ident::new_no_ctxt("this".into(), param.this_span),
+        type_ann: param.type_ann,
+    })
 }
 
 impl<I: Tokens> Parser<I> {
@@ -388,7 +395,8 @@ impl<I: Tokens> Parser<I> {
                                     |p| {
                                         let params = p.parse_formal_params()?;
 
-                                        if params.iter().any(is_not_this) {
+                                        let runtime_params = params_without_leading_this(&params);
+                                        if !runtime_params.is_empty() {
                                             p.emit_err(key_span, SyntaxError::GetterParam);
                                         }
 
@@ -424,14 +432,15 @@ impl<I: Tokens> Parser<I> {
                                     |p| {
                                         let params = p.parse_formal_params()?;
 
-                                        if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                                        let runtime_params = params_without_leading_this(&params);
+                                        if runtime_params.len() != 1 {
                                             p.emit_err(key_span, SyntaxError::SetterParam);
                                         }
 
-                                        if !params.is_empty() {
-                                            if let Pat::Rest(..) = params[0].pat {
+                                        if let Some(param) = runtime_params.first() {
+                                            if let Pat::Rest(..) = param.pat {
                                                 p.emit_err(
-                                                    params[0].span(),
+                                                    param.span(),
                                                     SyntaxError::RestPatInSetter,
                                                 );
                                             }
@@ -451,12 +460,13 @@ impl<I: Tokens> Parser<I> {
                                 .map(|v| *v)
                                 .map(
                                     |Function {
-                                         mut params, body, ..
+                                         this_param,
+                                         params,
+                                         body,
+                                         ..
                                      }| {
-                                        let mut this = None;
-                                        if params.len() >= 2 {
-                                            this = Some(params.remove(0).pat);
-                                        }
+                                        let this = this_param
+                                            .map(|this_param| ts_this_param_to_pat(*this_param));
 
                                         let param = Box::new(
                                             params

@@ -371,6 +371,157 @@ fn issue_10598_valid_non_tsx() {
 }
 
 #[test]
+fn invalid_this_parameter_patterns_are_preserved() {
+    test_parser(
+        "function valid(this: Context) {}
+function optional(this?: Context) {}
+function initialized(this = value) {}
+function optionalInitialized(this?: Context = value) {}
+function nestedObject({ this = value }) {}
+function nestedArray([this = value]) {}
+function misplaced(value: unknown, this: Context, this: OtherContext) {}
+function misplacedInitialized(value: unknown, this = fallback) {}
+class Accessors {
+    constructor(this = fallback) {}
+    get value(this?: Context) {
+        return fallback;
+    }
+    set value(this?: Context, value: number) {}
+}
+const object = {
+    get value(this?: Context) {
+        return fallback;
+    },
+    set value(this?: Context, value: number) {}
+};",
+        Syntax::Typescript(TsSyntax::default()),
+        |p| {
+            let module = p.parse_typescript_module()?;
+
+            let errors = p.take_errors();
+            assert_eq!(
+                errors
+                    .iter()
+                    .filter(|error| matches!(
+                        error.kind(),
+                        SyntaxError::Expected(expected, got)
+                            if expected == "," && got == "?"
+                    ))
+                    .count(),
+                6,
+                "errors: {errors:#?}"
+            );
+            assert_eq!(
+                errors
+                    .iter()
+                    .filter(|error| matches!(
+                        error.kind(),
+                        SyntaxError::Expected(expected, got)
+                            if expected == "," && got == "="
+                    ))
+                    .count(),
+                3,
+                "errors: {errors:#?}"
+            );
+            assert_eq!(
+                errors
+                    .iter()
+                    .filter(|error| matches!(error.kind(), SyntaxError::TS2680))
+                    .count(),
+                3,
+                "errors: {errors:#?}"
+            );
+            assert!(
+                errors
+                    .iter()
+                    .all(|error| !matches!(error.kind(), SyntaxError::TS1015)),
+                "errors: {errors:#?}"
+            );
+            assert_eq!(
+                errors
+                    .iter()
+                    .filter(|error| matches!(error.kind(), SyntaxError::GetterParam))
+                    .count(),
+                2,
+                "errors: {errors:#?}"
+            );
+            assert_eq!(
+                errors
+                    .iter()
+                    .filter(|error| matches!(error.kind(), SyntaxError::SetterParam))
+                    .count(),
+                2,
+                "errors: {errors:#?}"
+            );
+
+            let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(valid))) = &module.body[0] else {
+                panic!("expected a function declaration")
+            };
+            assert!(valid.function.this_param.is_some());
+
+            let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(optional))) = &module.body[1] else {
+                panic!("expected a function declaration")
+            };
+            assert!(optional.function.this_param.is_none());
+            let Pat::Ident(optional_this) = &optional.function.params[0].pat else {
+                panic!("expected an identifier parameter")
+            };
+            assert!(optional_this.id.optional);
+
+            let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(initialized))) = &module.body[2] else {
+                panic!("expected a function declaration")
+            };
+            assert!(initialized.function.this_param.is_none());
+            assert!(matches!(
+                &initialized.function.params[0].pat,
+                Pat::Assign(..)
+            ));
+
+            let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(optional_initialized))) = &module.body[3]
+            else {
+                panic!("expected a function declaration")
+            };
+            assert!(optional_initialized.function.this_param.is_none());
+            let Pat::Assign(optional_initialized_this) =
+                &optional_initialized.function.params[0].pat
+            else {
+                panic!("expected an assignment parameter")
+            };
+            let Pat::Ident(optional_initialized_this) = &*optional_initialized_this.left else {
+                panic!("expected an identifier parameter")
+            };
+            assert!(optional_initialized_this.id.optional);
+
+            Ok(module)
+        },
+    );
+}
+
+#[test]
+fn type_signature_this_initializer_error() {
+    test_parser(
+        "type Signature = (this = fallback) => void;",
+        Syntax::Typescript(TsSyntax::default()),
+        |p| {
+            p.parse_typescript_module()
+                .expect_err("a function type parameter cannot have an initializer");
+
+            let errors = p.take_errors();
+            assert!(
+                errors.iter().any(|error| matches!(
+                    error.kind(),
+                    SyntaxError::Expected(expected, got)
+                        if expected == "," && got == "="
+                )),
+                "errors: {errors:#?}"
+            );
+
+            Ok(())
+        },
+    );
+}
+
+#[test]
 fn issue_2853_1() {
     test_parser("const a = \"\\0a\";", Default::default(), |p| {
         let program = p.parse_program()?;

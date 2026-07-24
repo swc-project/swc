@@ -1,0 +1,58 @@
+```==================== .D.TS ====================
+
+export declare class PrivateAccessors {
+    private get getter();
+    private set setter(value);
+}
+export declare function untypedDeclaration(this): void;
+export declare const untypedExpression: (this) => void;
+export declare class UntypedMethod {
+    method(this): void;
+}
+export declare class UntypedSetter {
+    set value(this, value: string);
+}
+export declare const untypedObjectMethod: {
+    method(this): void;
+};
+
+
+==================== Errors ====================
+  x TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/this-param.ts:9:1]
+  8 | }
+  9 | export function untypedDeclaration(this): void {}
+    :                                    ^^^^
+ 10 | export const untypedExpression = function (this): void {};
+    `----
+  x TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/this-param.ts:10:1]
+  9 | export function untypedDeclaration(this): void {}
+ 10 | export const untypedExpression = function (this): void {};
+    :                                            ^^^^
+ 11 | export class UntypedMethod {
+    `----
+  x TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/this-param.ts:12:1]
+ 11 | export class UntypedMethod {
+ 12 |     method(this): void {}
+    :            ^^^^
+ 13 | }
+    `----
+  x TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/this-param.ts:15:1]
+ 14 | export class UntypedSetter {
+ 15 |     set value(this, value: string) {}
+    :               ^^^^
+ 16 | }
+    `----
+  x TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/this-param.ts:18:1]
+ 17 | export const untypedObjectMethod = {
+ 18 |     method(this): void {},
+    :            ^^^^
+ 19 | };
+    `----
+
+
+```
