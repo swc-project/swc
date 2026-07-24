@@ -1687,6 +1687,7 @@ impl<I: Tokens> Parser<I> {
             ident: None,
             function: Box::new(Function {
                 span,
+                this_param: None,
                 params: Vec::new(),
                 decorators: Vec::new(),
                 body: Some(BlockStmt {

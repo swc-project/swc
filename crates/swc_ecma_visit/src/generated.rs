@@ -1037,6 +1037,13 @@ pub trait Visit {
     fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
         <Option<TsNamespaceBody> as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::visit_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        <Option<Box<TsThisParam>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
              [`Option < Box < TsType > >::visit_children_with`]. If you want to recurse, you need \
              to call it manually."]
@@ -1761,6 +1768,13 @@ pub trait Visit {
     #[inline]
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
         <TsSetterSignature as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        <TsThisParam as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::visit_children_with`]. If you want to recurse, you need to call it \
@@ -2797,6 +2811,11 @@ where
     }
 
     #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        <V as Visit>::visit_opt_ts_this_param(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_opt_ts_type(&mut self, node: &Option<Box<TsType>>) {
         <V as Visit>::visit_opt_ts_type(&mut **self, node)
     }
@@ -3322,6 +3341,11 @@ where
     #[inline]
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
         <V as Visit>::visit_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        <V as Visit>::visit_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -4279,6 +4303,11 @@ where
     }
 
     #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        <V as Visit>::visit_opt_ts_this_param(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_opt_ts_type(&mut self, node: &Option<Box<TsType>>) {
         <V as Visit>::visit_opt_ts_type(&mut **self, node)
     }
@@ -4804,6 +4833,11 @@ where
     #[inline]
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
         <V as Visit>::visit_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        <V as Visit>::visit_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -6234,6 +6268,14 @@ where
     }
 
     #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_opt_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_opt_ts_this_param(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_opt_ts_type(&mut self, node: &Option<Box<TsType>>) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_ts_type(visitor, node),
@@ -7095,6 +7137,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_setter_signature(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_setter_signature(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_ts_this_param(visitor, node),
         }
     }
 
@@ -8631,6 +8681,14 @@ where
     }
 
     #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        if self.enabled {
+            <V as Visit>::visit_opt_ts_this_param(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_opt_ts_type(&mut self, node: &Option<Box<TsType>>) {
         if self.enabled {
             <V as Visit>::visit_opt_ts_type(&mut self.visitor, node)
@@ -9469,6 +9527,14 @@ where
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
         if self.enabled {
             <V as Visit>::visit_ts_setter_signature(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        if self.enabled {
+            <V as Visit>::visit_ts_this_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -11349,6 +11415,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Function {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -11359,6 +11426,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for Function {
                 type_params,
                 return_type,
             } => {
+                {
+                    <Option<Box<TsThisParam>> as VisitWith<V>>::visit_with(this_param, visitor)
+                };
                 {
                     <Vec<Param> as VisitWith<V>>::visit_with(params, visitor)
                 };
@@ -14866,6 +14936,32 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsSetterSignature {
         }
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for TsThisParam {
+    #[doc = "Calls [Visit`::visit_ts_this_param`] with `self`."]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_this_param(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(this_span, visitor)
+                };
+                {
+                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for TsThisType {
     #[doc = "Calls [Visit`::visit_ts_this_type`] with `self`."]
     fn visit_with(&self, visitor: &mut V) {
@@ -16150,6 +16246,21 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<TsNamespaceBody> {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Some(inner) => <TsNamespaceBody as VisitWith<V>>::visit_with(inner, visitor),
+            None => {}
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [Visit`::visit_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_ts_this_param(visitor, self)
+    }
+
+    #[inline]
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            Some(inner) => <Box<TsThisParam> as VisitWith<V>>::visit_with(inner, visitor),
             None => {}
         }
     }
@@ -18317,6 +18428,19 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::visit_children_with_ast_path`]. If you want \
+             to recurse, you need to call it manually."]
+    #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Box<TsThisParam>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
              [`Option < Box < TsType > >::visit_children_with_ast_path`]. If you want to recurse, \
              you need to call it manually."]
@@ -19562,6 +19686,19 @@ pub trait VisitAstPath {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <TsSetterSignature as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <TsThisParam as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -21367,6 +21504,15 @@ where
     }
 
     #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_this_param(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_opt_ts_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Box<TsType>>,
@@ -22261,6 +22407,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -23932,6 +24087,15 @@ where
     }
 
     #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_this_param(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_opt_ts_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Box<TsType>>,
@@ -24826,6 +24990,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -27530,6 +27703,22 @@ where
     }
 
     #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_opt_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_opt_ts_this_param(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_opt_ts_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Box<TsType>>,
@@ -29137,6 +29326,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_ts_setter_signature(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_ts_this_param(visitor, node, __ast_path)
             }
         }
     }
@@ -31548,6 +31753,18 @@ where
     }
 
     #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_opt_ts_this_param(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_opt_ts_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Box<TsType>>,
@@ -32767,6 +32984,18 @@ where
     ) {
         if self.enabled {
             <V as VisitAstPath>::visit_ts_setter_signature(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_ts_this_param(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -37028,6 +37257,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
     ) {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -37038,6 +37268,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
                 type_params,
                 return_type,
             } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Function(
+                        self,
+                        self::fields::FunctionField::ThisParam,
+                    ));
+                    <Option<Box<TsThisParam>> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        this_param,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Function(
                         self,
@@ -45472,6 +45713,66 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsSetterSignature {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsThisParam {
+    #[doc = "Calls [VisitAstPath`::visit_ts_this_param`] with `self`."]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_this_param(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsThisParam(
+                        self,
+                        self::fields::TsThisParamField::Span,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsThisParam(
+                        self,
+                        self::fields::TsThisParamField::ThisSpan,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        this_span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsThisParam(
+                        self,
+                        self::fields::TsThisParamField::TypeAnn,
+                    ));
+                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsThisType {
     #[doc = "Calls [VisitAstPath`::visit_ts_this_type`] with `self`."]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -48319,6 +48620,33 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<TsNamespaceBody> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_this_param(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            Some(inner) => <Box<TsThisParam> as VisitWithAstPath<V>>::visit_with_ast_path(
+                inner, visitor, __ast_path,
+            ),
+            None => {}
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsType>> {
     #[doc = "Calls [VisitAstPath`::visit_opt_ts_type`] with `self`. (Extra impl)"]
     #[inline]
@@ -50133,6 +50461,13 @@ pub trait VisitMut {
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
         <Option<TsNamespaceBody> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::visit_mut_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        <Option<Box<TsThisParam>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
              [`Option < Box < TsType > >::visit_mut_children_with`]. If you want to recurse, you \
              need to call it manually."]
@@ -50869,6 +51204,13 @@ pub trait VisitMut {
     #[inline]
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
         <TsSetterSignature as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        <TsThisParam as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -51906,6 +52248,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        <V as VisitMut>::visit_mut_opt_ts_this_param(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
         <V as VisitMut>::visit_mut_opt_ts_type(&mut **self, node)
     }
@@ -52431,6 +52778,11 @@ where
     #[inline]
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
         <V as VisitMut>::visit_mut_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        <V as VisitMut>::visit_mut_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -53388,6 +53740,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        <V as VisitMut>::visit_mut_opt_ts_this_param(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
         <V as VisitMut>::visit_mut_opt_ts_type(&mut **self, node)
     }
@@ -53913,6 +54270,11 @@ where
     #[inline]
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
         <V as VisitMut>::visit_mut_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        <V as VisitMut>::visit_mut_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -55479,6 +55841,18 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMut::visit_mut_opt_ts_this_param(visitor, node)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::visit_mut_opt_ts_this_param(visitor, node)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_ts_type(visitor, node),
@@ -56472,6 +56846,14 @@ where
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_ts_setter_signature(visitor, node)
             }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_this_param(visitor, node),
         }
     }
 
@@ -58048,6 +58430,14 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_opt_ts_this_param(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
         if self.enabled {
             <V as VisitMut>::visit_mut_opt_ts_type(&mut self.visitor, node)
@@ -58886,6 +59276,14 @@ where
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
         if self.enabled {
             <V as VisitMut>::visit_mut_ts_setter_signature(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_ts_this_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -60789,6 +61187,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -60799,6 +61198,11 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
                 type_params,
                 return_type,
             } => {
+                {
+                    <Option<Box<TsThisParam>> as VisitMutWith<V>>::visit_mut_with(
+                        this_param, visitor,
+                    )
+                };
                 {
                     <Vec<Param> as VisitMutWith<V>>::visit_mut_with(params, visitor)
                 };
@@ -64345,6 +64749,32 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsSetterSignature {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsThisParam {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_this_param`] with `self`."]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_this_param(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(this_span, visitor)
+                };
+                {
+                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsThisType {
     #[doc = "Calls [VisitMut`::visit_mut_ts_this_type`] with `self`."]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -65632,6 +66062,21 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<TsNamespaceBody> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Some(inner) => <TsNamespaceBody as VisitMutWith<V>>::visit_mut_with(inner, visitor),
+            None => {}
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_ts_this_param(visitor, self)
+    }
+
+    #[inline]
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            Some(inner) => <Box<TsThisParam> as VisitMutWith<V>>::visit_mut_with(inner, visitor),
             None => {}
         }
     }
@@ -67564,6 +68009,19 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::visit_mut_children_with_ast_path`]. If you \
+             want to recurse, you need to call it manually."]
+    #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <Option<Box<TsThisParam>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
              [`Option < Box < TsType > >::visit_mut_children_with_ast_path`]. If you want to \
              recurse, you need to call it manually."]
@@ -68701,6 +69159,15 @@ pub trait VisitMutAstPath {
         __ast_path: &mut AstKindPath,
     ) {
         <TsSetterSignature as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        <TsThisParam as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -70102,6 +70569,15 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_this_param(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_opt_ts_type(
         &mut self,
         node: &mut Option<Box<TsType>>,
@@ -70832,6 +71308,11 @@ where
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -72075,6 +72556,15 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_this_param(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_opt_ts_type(
         &mut self,
         node: &mut Option<Box<TsType>>,
@@ -72805,6 +73295,11 @@ where
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -75099,6 +75594,22 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_opt_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_opt_ts_this_param(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_ts_type(
         &mut self,
         node: &mut Option<Box<TsType>>,
@@ -76562,6 +77073,18 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_ts_setter_signature(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_ts_this_param(visitor, node, __ast_path)
             }
         }
     }
@@ -78653,6 +79176,18 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_opt_ts_this_param(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_ts_type(
         &mut self,
         node: &mut Option<Box<TsType>>,
@@ -79812,6 +80347,14 @@ where
                 node,
                 __ast_path,
             )
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_ts_this_param(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -83254,6 +83797,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -83264,6 +83808,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
                 type_params,
                 return_type,
             } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
+                        self::fields::FunctionField::ThisParam,
+                    ));
+                    <Option<Box<TsThisParam>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        this_param,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
                         self::fields::FunctionField::Params(usize::MAX),
@@ -89968,6 +90522,55 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsSetterSignature {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsThisParam {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_this_param`] with `self`."]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_this_param(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::Span,
+                    ));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::ThisSpan,
+                    ));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        this_span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::TypeAnn,
+                    ));
+                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsThisType {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_this_type`] with `self`."]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
@@ -92162,6 +92765,25 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<TsNamespaceB
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_this_param(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            Some(inner) => <Box<TsThisParam> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                inner, visitor, __ast_path,
+            ),
+            None => {}
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsType>> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ts_type`] with `self`. (Extra impl)"]
     #[inline]
@@ -93759,6 +94381,16 @@ pub trait Fold {
     ) -> Option<TsNamespaceBody> {
         <Option<TsNamespaceBody> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::fold_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        <Option<Box<TsThisParam>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
              [`Option < Box < TsType > >::fold_children_with`]. If you want to recurse, you need \
              to call it manually."]
@@ -94506,6 +95138,13 @@ pub trait Fold {
     #[inline]
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
         <TsSetterSignature as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        <TsThisParam as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::fold_children_with`]. If you want to recurse, you need to call it \
@@ -95573,6 +96212,14 @@ where
     }
 
     #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        <V as Fold>::fold_opt_ts_this_param(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_opt_ts_type(&mut self, node: Option<Box<TsType>>) -> Option<Box<TsType>> {
         <V as Fold>::fold_opt_ts_type(&mut **self, node)
     }
@@ -96125,6 +96772,11 @@ where
     #[inline]
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
         <V as Fold>::fold_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        <V as Fold>::fold_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -97115,6 +97767,14 @@ where
     }
 
     #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        <V as Fold>::fold_opt_ts_this_param(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_opt_ts_type(&mut self, node: Option<Box<TsType>>) -> Option<Box<TsType>> {
         <V as Fold>::fold_opt_ts_type(&mut **self, node)
     }
@@ -97667,6 +98327,11 @@ where
     #[inline]
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
         <V as Fold>::fold_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        <V as Fold>::fold_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -99116,6 +99781,17 @@ where
     }
 
     #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_opt_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_opt_ts_this_param(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_opt_ts_type(&mut self, node: Option<Box<TsType>>) -> Option<Box<TsType>> {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_ts_type(visitor, node),
@@ -99992,6 +100668,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_setter_signature(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_setter_signature(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_ts_this_param(visitor, node),
         }
     }
 
@@ -101711,6 +102395,18 @@ where
     }
 
     #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        if self.enabled {
+            <V as Fold>::fold_opt_ts_this_param(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_opt_ts_type(&mut self, node: Option<Box<TsType>>) -> Option<Box<TsType>> {
         if self.enabled {
             <V as Fold>::fold_opt_ts_type(&mut self.visitor, node)
@@ -102680,6 +103376,15 @@ where
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
         if self.enabled {
             <V as Fold>::fold_ts_setter_signature(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        if self.enabled {
+            <V as Fold>::fold_ts_this_param(&mut self.visitor, node)
         } else {
             node
         }
@@ -104606,6 +105311,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -104616,6 +105322,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
                 type_params,
                 return_type,
             } => {
+                let this_param =
+                    { <Option<Box<TsThisParam>> as FoldWith<V>>::fold_with(this_param, visitor) };
                 let params = { <Vec<Param> as FoldWith<V>>::fold_with(params, visitor) };
                 let decorators =
                     { <Vec<Decorator> as FoldWith<V>>::fold_with(decorators, visitor) };
@@ -104628,6 +105336,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
                 let return_type =
                     { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(return_type, visitor) };
                 Function {
+                    this_param,
                     params,
                     decorators,
                     span,
@@ -108093,6 +108802,33 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsSetterSignature {
         }
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for TsThisParam {
+    #[doc = "Calls [Fold`::fold_ts_this_param`] with `self`."]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_this_param(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let this_span =
+                    { <swc_common::Span as FoldWith<V>>::fold_with(this_span, visitor) };
+                let type_ann =
+                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
+                TsThisParam {
+                    span,
+                    this_span,
+                    type_ann,
+                }
+            }
+        }
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for TsThisType {
     #[doc = "Calls [Fold`::fold_ts_this_type`] with `self`."]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -109330,6 +110066,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<TsNamespaceBody> {
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.map(|inner| <TsNamespaceBody as FoldWith<V>>::fold_with(inner, visitor))
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [Fold`::fold_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_ts_this_param(visitor, self)
+    }
+
+    #[inline]
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.map(|inner| <Box<TsThisParam> as FoldWith<V>>::fold_with(inner, visitor))
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsType>> {
@@ -111207,6 +111955,19 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::fold_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        <Option<Box<TsThisParam>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
              [`Option < Box < TsType > >::fold_children_with_ast_path`]. If you want to recurse, \
              you need to call it manually."]
@@ -112338,6 +113099,17 @@ pub trait FoldAstPath {
         <TsSetterSignature as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        <TsThisParam as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::fold_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -113857,6 +114629,15 @@ where
     }
 
     #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        <V as FoldAstPath>::fold_opt_ts_this_param(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_opt_ts_type(
         &mut self,
         node: Option<Box<TsType>>,
@@ -114663,6 +115444,15 @@ where
         __ast_path: &mut AstKindPath,
     ) -> TsSetterSignature {
         <V as FoldAstPath>::fold_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        <V as FoldAstPath>::fold_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -116062,6 +116852,15 @@ where
     }
 
     #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        <V as FoldAstPath>::fold_opt_ts_this_param(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_opt_ts_type(
         &mut self,
         node: Option<Box<TsType>>,
@@ -116868,6 +117667,15 @@ where
         __ast_path: &mut AstKindPath,
     ) -> TsSetterSignature {
         <V as FoldAstPath>::fold_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        <V as FoldAstPath>::fold_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -119270,6 +120078,22 @@ where
     }
 
     #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_opt_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_opt_ts_this_param(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_opt_ts_type(
         &mut self,
         node: Option<Box<TsType>>,
@@ -120759,6 +121583,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_ts_setter_signature(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_ts_this_param(visitor, node, __ast_path)
             }
         }
     }
@@ -123040,6 +123880,19 @@ where
     }
 
     #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        if self.enabled {
+            <V as FoldAstPath>::fold_opt_ts_this_param(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_opt_ts_type(
         &mut self,
         node: Option<Box<TsType>>,
@@ -124271,6 +125124,19 @@ where
     ) -> TsSetterSignature {
         if self.enabled {
             <V as FoldAstPath>::fold_ts_setter_signature(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        if self.enabled {
+            <V as FoldAstPath>::fold_ts_this_param(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -128007,6 +128873,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -128017,6 +128884,16 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                 type_params,
                 return_type,
             } => {
+                let this_param = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
+                        self::fields::FunctionField::ThisParam,
+                    ));
+                    <Option<Box<TsThisParam>> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        this_param,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 let params = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
                         self::fields::FunctionField::Params(usize::MAX),
@@ -128085,6 +128962,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                     )
                 };
                 Function {
+                    this_param,
                     params,
                     decorators,
                     span,
@@ -135240,6 +136118,60 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsSetterSignature {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsThisParam {
+    #[doc = "Calls [FoldAstPath`::fold_ts_this_param`] with `self`."]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_this_param(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                let span = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::Span,
+                    ));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let this_span = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::ThisSpan,
+                    ));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        this_span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let type_ann = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::TypeAnn,
+                    ));
+                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                TsThisParam {
+                    span,
+                    this_span,
+                    type_ann,
+                }
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsThisType {
     #[doc = "Calls [FoldAstPath`::fold_ts_this_type`] with `self`."]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
@@ -137525,6 +138457,22 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<TsNamespaceBody> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_ts_this_param(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        self.map(|inner| {
+            <Box<TsThisParam> as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsType>> {
     #[doc = "Calls [FoldAstPath`::fold_opt_ts_type`] with `self`. (Extra impl)"]
     #[inline]
@@ -139334,6 +140282,8 @@ pub mod fields {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum FunctionField {
+        #[doc = "Represents [`Function::this_param`]"]
+        ThisParam,
         #[doc = "Represents [`Function::params`]"]
         Params(usize),
         #[doc = "Represents [`Function::decorators`]"]
@@ -142020,6 +142970,23 @@ pub mod fields {
         #[doc = "Represents [`TsSetterSignature::param`]"]
         Param,
     }
+    impl TsThisParamField {
+        pub(crate) fn set_index(&mut self, index: usize) {
+            match self {
+                _ => swc_visit::wrong_ast_path(),
+            }
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+    pub enum TsThisParamField {
+        #[doc = "Represents [`TsThisParam::span`]"]
+        Span,
+        #[doc = "Represents [`TsThisParam::this_span`]"]
+        ThisSpan,
+        #[doc = "Represents [`TsThisParam::type_ann`]"]
+        TypeAnn,
+    }
     impl TsThisTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
@@ -142875,6 +143842,7 @@ pub mod fields {
         TsRestType(TsRestTypeField),
         TsSatisfiesExpr(TsSatisfiesExprField),
         TsSetterSignature(TsSetterSignatureField),
+        TsThisParam(TsThisParamField),
         TsThisType(TsThisTypeField),
         TsThisTypeOrIdent(TsThisTypeOrIdentField),
         TsTplLitType(TsTplLitTypeField),
@@ -143116,6 +144084,7 @@ pub mod fields {
                 Self::TsRestType(v) => v.set_index(index),
                 Self::TsSatisfiesExpr(v) => v.set_index(index),
                 Self::TsSetterSignature(v) => v.set_index(index),
+                Self::TsThisParam(v) => v.set_index(index),
                 Self::TsThisType(v) => v.set_index(index),
                 Self::TsThisTypeOrIdent(v) => v.set_index(index),
                 Self::TsTplLitType(v) => v.set_index(index),
@@ -143363,6 +144332,7 @@ pub mod fields {
         TsRestType(&'ast TsRestType, TsRestTypeField),
         TsSatisfiesExpr(&'ast TsSatisfiesExpr, TsSatisfiesExprField),
         TsSetterSignature(&'ast TsSetterSignature, TsSetterSignatureField),
+        TsThisParam(&'ast TsThisParam, TsThisParamField),
         TsThisType(&'ast TsThisType, TsThisTypeField),
         TsThisTypeOrIdent(&'ast TsThisTypeOrIdent, TsThisTypeOrIdentField),
         TsTplLitType(&'ast TsTplLitType, TsTplLitTypeField),
@@ -143616,6 +144586,7 @@ pub mod fields {
                 Self::TsRestType(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsSatisfiesExpr(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsSetterSignature(_, __field_kind) => __field_kind.set_index(index),
+                Self::TsThisParam(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsThisType(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsThisTypeOrIdent(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsTplLitType(_, __field_kind) => __field_kind.set_index(index),
@@ -143978,6 +144949,7 @@ pub mod fields {
                 Self::TsSetterSignature(_, __field_kind) => {
                     AstParentKind::TsSetterSignature(*__field_kind)
                 }
+                Self::TsThisParam(_, __field_kind) => AstParentKind::TsThisParam(*__field_kind),
                 Self::TsThisType(_, __field_kind) => AstParentKind::TsThisType(*__field_kind),
                 Self::TsThisTypeOrIdent(_, __field_kind) => {
                     AstParentKind::TsThisTypeOrIdent(*__field_kind)
@@ -145048,6 +146020,11 @@ impl<'ast> From<&'ast TsSetterSignature> for NodeRef<'ast> {
         NodeRef::TsSetterSignature(node)
     }
 }
+impl<'ast> From<&'ast TsThisParam> for NodeRef<'ast> {
+    fn from(node: &'ast TsThisParam) -> Self {
+        NodeRef::TsThisParam(node)
+    }
+}
 impl<'ast> From<&'ast TsThisType> for NodeRef<'ast> {
     fn from(node: &'ast TsThisType) -> Self {
         NodeRef::TsThisType(node)
@@ -145422,6 +146399,7 @@ pub enum NodeRef<'ast> {
     TsRestType(&'ast TsRestType),
     TsSatisfiesExpr(&'ast TsSatisfiesExpr),
     TsSetterSignature(&'ast TsSetterSignature),
+    TsThisParam(&'ast TsThisParam),
     TsThisType(&'ast TsThisType),
     TsThisTypeOrIdent(&'ast TsThisTypeOrIdent),
     TsTplLitType(&'ast TsTplLitType),
@@ -146091,6 +147069,10 @@ impl<'ast> NodeRef<'ast> {
             }
             NodeRef::Function(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(node.this_param.iter().flat_map(|item| {
+                        let item = &*item;
+                        ::std::iter::once(NodeRef::TsThisParam(&item))
+                    }))
                     .chain(
                         node.params
                             .iter()
@@ -147469,6 +148451,15 @@ impl<'ast> NodeRef<'ast> {
                         ::std::iter::once(NodeRef::Expr(&item))
                     })
                     .chain(::std::iter::once(NodeRef::TsFnParam(&node.param)));
+                Box::new(iterator)
+            }
+            NodeRef::TsThisParam(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
+                    node.type_ann.iter().flat_map(|item| {
+                        let item = &*item;
+                        ::std::iter::once(NodeRef::TsTypeAnn(&item))
+                    }),
+                );
                 Box::new(iterator)
             }
             NodeRef::TsThisType(node) => {
