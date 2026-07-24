@@ -43,7 +43,7 @@ use swc_ecma_transforms_base::{
     resolver,
 };
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::{assert_eq, unignore_fixture, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -363,6 +363,59 @@ fn custom_fixture(input: PathBuf) {
         Ok(())
     })
     .unwrap()
+}
+
+#[derive(Default)]
+struct NonFiniteLiteralValidator {
+    nan_count: usize,
+    positive_infinity_count: usize,
+    negative_infinity_count: usize,
+    non_finite_ident_count: usize,
+    non_finite_raw_count: usize,
+}
+
+impl Visit for NonFiniteLiteralValidator {
+    fn visit_ident(&mut self, ident: &Ident) {
+        if matches!(&*ident.sym, "NaN" | "Infinity") {
+            self.non_finite_ident_count += 1;
+        }
+    }
+
+    fn visit_number(&mut self, number: &Number) {
+        if number.value.is_nan() {
+            self.nan_count += 1;
+        } else if number.value == f64::INFINITY {
+            self.positive_infinity_count += 1;
+        } else if number.value == f64::NEG_INFINITY {
+            self.negative_infinity_count += 1;
+        }
+
+        if !number.value.is_finite() && number.raw.is_some() {
+            self.non_finite_raw_count += 1;
+        }
+    }
+}
+
+#[testing::fixture("tests/fixture/non-finite-number-literals/input.js")]
+fn non_finite_number_literals_are_canonical(input: PathBuf) {
+    let config = find_config(input.parent().unwrap());
+
+    testing::run_test2(false, |cm, handler| {
+        let comments = SingleThreadedComments::default();
+        let output = run(cm, &handler, &input, &config, Some(&comments), None, false)
+            .expect("failed to optimize fixture");
+        let mut validator = NonFiniteLiteralValidator::default();
+        output.visit_with(&mut validator);
+
+        assert_eq!(validator.non_finite_ident_count, 0);
+        assert_eq!(validator.nan_count, 5);
+        assert_eq!(validator.positive_infinity_count, 3);
+        assert_eq!(validator.negative_infinity_count, 3);
+        assert_eq!(validator.non_finite_raw_count, 0);
+
+        Ok(())
+    })
+    .unwrap();
 }
 
 #[testing::fixture("tests/projects/files/*.js")]

@@ -5,8 +5,8 @@ console.log([
     "\0",
     "\x01",
     "\0",
-    String.fromCharCode(1 / 0),
-    String.fromCharCode(-1 / 0),
+    "\0",
+    "\0",
     "A",
     "A"
 ].map((value)=>value.charCodeAt(0)).join(","));

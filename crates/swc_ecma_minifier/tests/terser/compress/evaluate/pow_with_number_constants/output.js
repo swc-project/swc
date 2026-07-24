@@ -1,10 +1,10 @@
-var a = NaN;
+var a = 0 / 0;
 var b = 1;
 var c = 1;
-var d = NaN;
+var d = 0 / 0;
 var e = 1 / 0;
 var f = 0;
-var g = NaN;
+var g = 0 / 0;
 var h = 1 / 0;
 var i = -1 / 0;
 var j = 0.125;

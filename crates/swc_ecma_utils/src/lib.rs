@@ -1182,7 +1182,7 @@ impl Visit for LiteralVisitor {
     }
 
     fn visit_number(&mut self, node: &Number) {
-        if !self.allow_non_json_value && node.value.is_infinite() {
+        if !self.allow_non_json_value && !node.value.is_finite() {
             self.is_lit = false;
         }
     }
@@ -2761,8 +2761,10 @@ fn is_array_lit(expr: &Expr) -> bool {
 }
 
 fn is_nan(expr: &Expr) -> bool {
-    // NaN is special
-    expr.is_ident_ref_to("NaN")
+    match expr {
+        Expr::Lit(Lit::Num(number)) => number.value.is_nan(),
+        _ => expr.is_ident_ref_to("NaN"),
+    }
 }
 
 fn is_undefined(expr: &Expr, ctx: ExprCtx) -> bool {
@@ -2800,18 +2802,24 @@ fn as_pure_bool(expr: &Expr, ctx: ExprCtx) -> BoolValue {
     }
 }
 
+/// Returns whether a number is truthy according to ECMAScript semantics.
+#[inline]
+fn is_truthy_number(value: f64) -> bool {
+    !matches!(value.classify(), FpCategory::Nan | FpCategory::Zero)
+}
+
 fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
     let Some(ctx) = ctx.consume_depth() else {
         return (MayBeImpure, Unknown);
     };
 
     if let Expr::Ident(i) = expr {
-        if &*i.sym == "NaN" {
-            return (Pure, Known(false));
-        }
-
         if i.ctxt != ctx.unresolved_ctxt {
             return (Pure, Unknown);
+        }
+
+        if &*i.sym == "NaN" {
+            return (Pure, Known(false));
         }
 
         if &*i.sym == "undefined" {
@@ -2869,7 +2877,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         }) => {
             let v = arg.as_pure_number(ctx);
             match v {
-                Known(n) => Known(!matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)),
+                Known(n) => Known(is_truthy_number(-n)),
                 Unknown => return (MayBeImpure, Unknown),
             }
         }
@@ -2896,13 +2904,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             return (
                 lp + rp,
                 match (ln, rn) {
-                    (Known(ln), Known(rn)) => {
-                        if ln == rn {
-                            Known(false)
-                        } else {
-                            Known(true)
-                        }
-                    }
+                    (Known(ln), Known(rn)) => Known(is_truthy_number(ln - rn)),
                     _ => Unknown,
                 },
             );
@@ -2919,17 +2921,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
 
             match (lv, rv) {
                 (Known(lv), Known(rv)) => {
-                    // NaN is false
-                    if lv == 0.0 && rv == 0.0 {
-                        return (Pure, Known(false));
-                    }
-                    // Infinity is true.
-                    if rv == 0.0 {
-                        return (Pure, Known(true));
-                    }
-                    let v = lv / rv;
-
-                    return (Pure, Known(v != 0.0));
+                    return (Pure, Known(is_truthy_number(lv / rv)));
                 }
                 _ => Unknown,
             }
@@ -3038,9 +3030,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             return (
                 Pure,
                 Known(match *lit {
-                    Lit::Num(Number { value: n, .. }) => {
-                        !matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)
-                    }
+                    Lit::Num(Number { value: n, .. }) => is_truthy_number(n),
                     Lit::BigInt(ref v) => v
                         .value
                         .to_string()
@@ -3861,10 +3851,21 @@ pub fn prop_name_from_str(span: Span, s: &str) -> PropName {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{input::StringInput, BytePos};
+    use swc_common::{input::StringInput, BytePos, DUMMY_SP};
     use swc_ecma_parser::{Parser, Syntax};
 
     use super::*;
+
+    #[test]
+    fn number_literal_nan_is_recognized() {
+        let expr = Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: f64::NAN,
+            raw: None,
+        }));
+
+        assert!(expr.is_nan());
+    }
 
     #[test]
     fn test_collect_decls() {

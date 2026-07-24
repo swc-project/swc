@@ -1,10 +1,54 @@
-use swc_common::{Mark, SyntaxContext};
+use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_transforms_testing::test_transform;
 use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::visit_mut_pass;
 
 use super::SimplifyExpr;
+
+fn assert_non_finite_number(op: BinaryOp, left: f64, right: f64, expected: f64) {
+    let mut expr = BinExpr {
+        span: DUMMY_SP,
+        op,
+        left: Lit::Num(Number {
+            span: DUMMY_SP,
+            value: left,
+            raw: None,
+        })
+        .into(),
+        right: Lit::Num(Number {
+            span: DUMMY_SP,
+            value: right,
+            raw: None,
+        })
+        .into(),
+    }
+    .into();
+    let mut changed = false;
+
+    super::optimize_bin_expr(
+        ExprCtx {
+            unresolved_ctxt: SyntaxContext::empty(),
+            is_unresolved_ref_safe: true,
+            in_strict: false,
+            remaining_depth: 4,
+        },
+        &mut expr,
+        &mut changed,
+    );
+
+    assert!(changed);
+    let Expr::Lit(Lit::Num(number)) = expr else {
+        panic!("expected a numeric literal, got {expr:?}");
+    };
+    assert!(number.raw.is_none());
+    if expected.is_nan() {
+        assert!(number.value.is_nan());
+    } else {
+        assert_eq!(number.value.to_bits(), expected.to_bits());
+    }
+}
 
 fn fold(src: &str, expected: &str) {
     test_transform(
@@ -475,7 +519,7 @@ fn test_unary_ops_1() {
 fn test_unary_ops_2() {
     fold("a=+0", "a=0");
     fold("a=+Infinity", "a=1 / 0");
-    fold("a=+NaN", "a=NaN");
+    fold("a=+NaN", "a=0 / 0");
     fold("a=+-7", "a=-7");
     fold("a=+.5", "a=0.5");
 }
@@ -505,10 +549,10 @@ fn test_unary_ops_5() {
     fold("+[,]", "0");
 
     // Arrays with more than one element
-    fold("+[1, 2]", "NaN");
-    fold("+[[1], 2]", "NaN");
-    fold("+[,1]", "NaN");
-    fold("+[,,]", "NaN");
+    fold("+[1, 2]", "0 / 0");
+    fold("+[[1], 2]", "0 / 0");
+    fold("+[,1]", "0 / 0");
+    fold("+[,,]", "0 / 0");
 }
 
 #[test]
@@ -820,16 +864,25 @@ fn test_fold_arithmetic() {
     fold("x = 2.25 * 3", "x = 6.75");
     fold_same("z = x * y");
     fold_same("x = y * 5");
-    fold_same("x = 1 / 0");
+    fold("x = 1 / 0", "x = 1 / 0");
     fold("x = 3 % 2", "x = 1");
     fold("x = 3 % -2", "x = 1");
     fold("x = -1 % 3", "x = -1");
-    fold_same("x = 1 % 0");
+    fold("x = 1 % 0", "x = 0 / 0");
     fold("x = 2 ** 3", "x = 8");
     // fold("x = 2 ** -3", "x = 0.125");
     fold_same("x = 2 ** 55"); // backs off folding because 2 ** 55 is too large
     fold_same("x = 3 ** -1"); // backs off because 3**-1 is shorter than
                               // 0.3333333333333333
+}
+
+#[test]
+fn non_finite_arithmetic_results_are_number_literals() {
+    assert_non_finite_number(op!("/"), 0.0, 0.0, f64::NAN);
+    assert_non_finite_number(op!("/"), 1.0, 0.0, f64::INFINITY);
+    assert_non_finite_number(op!("/"), -1.0, 0.0, f64::NEG_INFINITY);
+    assert_non_finite_number(op!("/"), 1.0, -0.0, f64::NEG_INFINITY);
+    assert_non_finite_number(op!("%"), 1.0, 0.0, f64::NAN);
 }
 
 #[test]
@@ -844,7 +897,7 @@ fn test_fold_arithmetic2() {
 
 #[test]
 fn test_fold_arithmetic3() {
-    fold("x = null * undefined", "x = NaN");
+    fold("x = null * undefined", "x = 0 / 0");
     fold("x = null * 1", "x = 0");
     fold("x = (null - 1) * 2", "x = -2");
     fold("x = (null + 1) * 2", "x = 2");
@@ -1376,7 +1429,7 @@ fn test_fold_arithmetic_with_strings() {
     fold("'11' % 2", "1");
     fold("'10' ** 2", "100");
     fold("'Infinity' * 2", "1 / 0");
-    fold("'NaN' * 2", "NaN");
+    fold("'NaN' * 2", "0 / 0");
 
     // Right side of expression is a string
     fold("10 - '5'", "5");
@@ -1384,7 +1437,7 @@ fn test_fold_arithmetic_with_strings() {
     fold("11 % '2'", "1");
     fold("10 ** '2'", "100");
     fold("2 * 'Infinity'", "1 / 0");
-    fold("2 * 'NaN'", "NaN");
+    fold("2 * 'NaN'", "0 / 0");
 
     // Both sides are strings
     fold("'10' - '5'", "5");
@@ -1392,7 +1445,7 @@ fn test_fold_arithmetic_with_strings() {
     fold("'11' % '2'", "1");
     fold("'10' ** '2'", "100");
     fold("'Infinity' * '2'", "1 / 0");
-    fold("'NaN' * '2'", "NaN");
+    fold("'NaN' * '2'", "0 / 0");
 }
 
 #[test]

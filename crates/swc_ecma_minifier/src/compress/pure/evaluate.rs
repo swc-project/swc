@@ -1,6 +1,8 @@
+use std::{num::FpCategory, ops::RangeInclusive};
+
 use radix_fmt::Radix;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Spanned, SyntaxContext};
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     number::{parse_canonical_index, ToJsString},
@@ -16,7 +18,7 @@ use crate::{
         pure::Ctx,
         util::{eval_as_number, is_pure_undefined_or_null},
     },
-    util::ValueExt,
+    util::{make_number, ValueExt},
 };
 
 /// Formats an integer with `radix_fmt` only where its exact integer output is
@@ -41,6 +43,35 @@ fn format_integer_in_radix(value: f64, radix: u8) -> Option<String> {
     output.push('-');
     output.push_str(&digits);
     Some(output)
+}
+
+/// Applies ECMAScript's `ToIntegerOrInfinity` operation to a known number.
+///
+/// https://tc39.es/ecma262/multipage/abstract-operations.html#sec-tointegerorinfinity
+fn to_integer_or_infinity(value: f64) -> f64 {
+    // Step 1 (`ToNumber`) is already satisfied by the `f64` input.
+    // 2. If number is one of NaN, +0𝔽, or -0𝔽, return 0.
+    // 3. If number is +∞𝔽, return +∞.
+    // 4. If number is -∞𝔽, return -∞.
+    // 5. Return truncate(ℝ(number)).
+    match value.classify() {
+        FpCategory::Nan | FpCategory::Zero => 0.0,
+        FpCategory::Infinite => value,
+        _ => value.trunc(),
+    }
+}
+
+/// Converts a `ToIntegerOrInfinity` result to `u8` if it is within `range`.
+fn to_u8_if_in_range(value: f64, range: RangeInclusive<u8>) -> Option<u8> {
+    let start = f64::from(*range.start());
+    let end = f64::from(*range.end());
+    let valid_range = start..=end;
+
+    if !valid_range.contains(&value) {
+        return None;
+    }
+
+    Some(value as u8)
 }
 
 impl Pure<'_> {
@@ -556,16 +587,16 @@ impl Pure<'_> {
             // 2. Let f be ? ToIntegerOrInfinity(fractionDigits).
             // 3. Assert: If fractionDigits is undefined, then f is 0.
             let precision = first_arg.unwrap_or(0f64);
-            let f = precision.trunc() as u8;
 
             // 4. If f is not finite, throw a RangeError exception.
             // 5. If f < 0 or f > 100, throw a RangeError exception.
-
+            let f = to_integer_or_infinity(precision);
             // Note: ES2018 increased the maximum number of fraction digits from 20 to 100.
-            // It relies on runtime behavior.
-            if !(0..=20).contains(&f) {
+            // Preserve the optimizer's existing conservative folding range. Wider valid
+            // values are left to runtime.
+            let Some(f) = to_u8_if_in_range(f, 0..=20) else {
                 return;
-            }
+            };
 
             let mut buffer = ryu_js::Buffer::new();
             let value = buffer.format_to_fixed(num.value, f);
@@ -609,13 +640,23 @@ impl Pure<'_> {
                 .into();
                 return;
             } else if let Some(precision) = first_arg {
-                let p = precision.trunc() as usize;
-                // 5. If p < 1 or p > 100, throw a RangeError exception.
-                if !(1..=21).contains(&p) {
-                    return;
-                }
+                // 3. Let p be ? ToIntegerOrInfinity(precision).
+                let p = to_integer_or_infinity(precision);
 
-                let value = f64_to_precision(num.value, p);
+                let value = if num.value.is_finite() {
+                    // 5. If p < 1 or p > 100, throw a RangeError exception.
+                    // Preserve the optimizer's existing conservative folding range. Wider valid
+                    // values are left to runtime.
+                    let Some(p) = to_u8_if_in_range(p, 1..=21) else {
+                        return;
+                    };
+
+                    f64_to_precision(num.value, usize::from(p))
+                } else {
+                    // 4. If x is not finite, return Number::toString(x, 10).
+                    num.value.to_js_string()
+                };
+
                 self.changed = true;
                 report_change!(
                     "evaluate: Evaluating `{}.toPrecision()` as `{}`",
@@ -651,13 +692,22 @@ impl Pure<'_> {
                 .into();
                 return;
             } else if let Some(precision) = first_arg {
-                let p = precision.trunc() as usize;
-                // 5. If p < 1 or p > 100, throw a RangeError exception.
-                if !(0..=20).contains(&p) {
-                    return;
-                }
+                // 3. Let f be ? ToIntegerOrInfinity(fractionDigits).
+                let p = to_integer_or_infinity(precision);
 
-                let value = f64_to_exponential_with_precision(num.value, p).into();
+                let value = if num.value.is_finite() {
+                    // 5. If f < 0 or f > 100, throw a RangeError exception.
+                    // Preserve the optimizer's existing conservative folding range. Wider valid
+                    // values are left to runtime.
+                    let Some(p) = to_u8_if_in_range(p, 0..=20) else {
+                        return;
+                    };
+
+                    f64_to_exponential_with_precision(num.value, usize::from(p)).into()
+                } else {
+                    // 4. If x is not finite, return Number::toString(x, 10).
+                    num.value.to_js_string().into()
+                };
 
                 self.changed = true;
                 report_change!(
@@ -884,7 +934,7 @@ impl Pure<'_> {
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
-                            *e = Ident::new(atom!("NaN"), e.span(), SyntaxContext::empty()).into()
+                            *e = make_number(e.span(), f64::NAN)
                         }
                     }
                 }
@@ -949,12 +999,7 @@ impl Pure<'_> {
                             report_change!(
                                 "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
                             );
-                            *e = Ident::new(
-                                atom!("NaN"),
-                                e.span(),
-                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into()
+                            *e = make_number(e.span(), f64::NAN)
                         }
                     }
                 }
@@ -977,6 +1022,10 @@ impl Pure<'_> {
 // Code from boa
 // https://github.com/boa-dev/boa/blob/f8b682085d7fe0bbfcd0333038e93cf2f5aee710/boa_engine/src/builtins/number/mod.rs#L408
 fn f64_to_precision(value: f64, precision: usize) -> String {
+    if !value.is_finite() {
+        return value.to_js_string();
+    }
+
     let mut x = value;
     let p_i32 = precision as i32;
 
@@ -1131,6 +1180,10 @@ fn round_to_precision(digits: &mut String, precision: usize) -> bool {
 /// Helper function that formats a float as a ES6-style exponential number
 /// string.
 fn f64_to_exponential(n: f64) -> String {
+    if !n.is_finite() {
+        return n.to_js_string();
+    }
+
     match n.abs() {
         x if x >= 1.0 || x == 0.0 => format!("{n:e}").replace('e', "e+"),
         _ => format!("{n:e}"),
@@ -1144,6 +1197,10 @@ fn f64_to_exponential(n: f64) -> String {
 // Instead we get the index of 'e', and if the next character is not '-'
 // we insert the plus sign
 fn f64_to_exponential_with_precision(n: f64, prec: usize) -> String {
+    if !n.is_finite() {
+        return n.to_js_string();
+    }
+
     let mut res = format!("{n:.prec$e}");
     let idx = res.find('e').expect("'e' not found in exponential string");
     if res.as_bytes()[idx + 1] != b'-' {

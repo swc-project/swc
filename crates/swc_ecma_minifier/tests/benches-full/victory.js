@@ -20,7 +20,7 @@
   \**********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(a, b) {
-                return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
+                return a < b ? -1 : a > b ? 1 : a >= b ? 0 : 0 / 0;
             };
         /***/ },
         /***/ "../../../node_modules/d3-array/src/bisect.js": /*!*******************************************************************************!*\
@@ -90,7 +90,7 @@
   \***********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(a, b) {
-                return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+                return b < a ? -1 : b > a ? 1 : b >= a ? 0 : 0 / 0;
             };
         /***/ },
         /***/ "../../../node_modules/d3-array/src/deviation.js": /*!**********************************************************************************!*\
@@ -350,7 +350,7 @@
   \*******************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(x) {
-                return null === x ? NaN : +x;
+                return null === x ? 0 / 0 : +x;
             };
         /***/ },
         /***/ "../../../node_modules/d3-array/src/pairs.js": /*!******************************************************************************!*\
@@ -991,13 +991,13 @@
                  : (m = reHslPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) // hsl(120, 50%, 50%)
                  : (m = reHslaPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) // hsla(120, 50%, 50%, 1)
                  : named.hasOwnProperty(format) ? rgbn(named[format]) // eslint-disable-line no-prototype-builtins
-                 : "transparent" === format ? new Rgb(NaN, NaN, NaN, 0) : null;
+                 : "transparent" === format ? new Rgb(0 / 0, 0 / 0, 0 / 0, 0) : null;
             }
             function rgbn(n) {
                 return new Rgb(n >> 16 & 0xff, n >> 8 & 0xff, 0xff & n, 1);
             }
             function rgba(r, g, b, a) {
-                return a <= 0 && (r = g = b = NaN), new Rgb(r, g, b, a);
+                return a <= 0 && (r = g = b = 0 / 0), new Rgb(r, g, b, a);
             }
             function rgbConvert(o) {
                 return (o instanceof Color || (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
@@ -1019,13 +1019,13 @@
                 return ((value = Math.max(0, Math.min(255, Math.round(value) || 0))) < 16 ? "0" : "") + value.toString(16);
             }
             function hsla(h, s, l, a) {
-                return a <= 0 ? h = s = l = NaN : l <= 0 || l >= 1 ? h = s = NaN : s <= 0 && (h = NaN), new Hsl(h, s, l, a);
+                return a <= 0 ? h = s = l = 0 / 0 : l <= 0 || l >= 1 ? h = s = 0 / 0 : s <= 0 && (h = 0 / 0), new Hsl(h, s, l, a);
             }
             function hslConvert(o) {
                 if (o instanceof Hsl) return new Hsl(o.h, o.s, o.l, o.opacity);
                 if (o instanceof Color || (o = color(o)), !o) return new Hsl;
                 if (o instanceof Hsl) return o;
-                var r = (o = o.rgb()).r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r, g, b), max = Math.max(r, g, b), h = NaN, s = max - min, l = (max + min) / 2;
+                var r = (o = o.rgb()).r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r, g, b), max = Math.max(r, g, b), h = 0 / 0, s = max - min, l = (max + min) / 2;
                 return s ? (h = r === max ? (g - b) / s + (g < b) * 6 : g === max ? (b - r) / s + 2 : (r - g) / s + 4, s /= l < 0.5 ? max + min : 2 - max - min, h *= 60) : s = l > 0 && l < 1 ? 0 : h, new Hsl(h, s, l, o.opacity);
             }
             function hsl(h, s, l, opacity) {
@@ -1102,7 +1102,7 @@
                 return 1 == arguments.length ? function(o) {
                     if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
                     o instanceof _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb || (o = Object(_color_js__WEBPACK_IMPORTED_MODULE_1__.rgbConvert)(o));
-                    var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * _math_js__WEBPACK_IMPORTED_MODULE_2__.rad2deg - 120 : NaN;
+                    var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * _math_js__WEBPACK_IMPORTED_MODULE_2__.rad2deg - 120 : 0 / 0;
                     return new Cubehelix(h < 0 ? h + 360 : h, s, l, o.opacity);
                 }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
             }
@@ -1213,7 +1213,7 @@
             }
             function hclConvert(o) {
                 if (o instanceof Hcl) return new Hcl(o.h, o.c, o.l, o.opacity);
-                if (o instanceof Lab || (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(NaN, 0 < o.l && o.l < 100 ? 0 : NaN, o.l, o.opacity);
+                if (o instanceof Lab || (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(0 / 0, 0 < o.l && o.l < 100 ? 0 : 0 / 0, o.l, o.opacity);
                 var h = Math.atan2(o.b, o.a) * _math_js__WEBPACK_IMPORTED_MODULE_2__.rad2deg;
                 return new Hcl(h < 0 ? h + 360 : h, Math.sqrt(o.a * o.a + o.b * o.b), o.l, o.opacity);
             }
@@ -1638,7 +1638,7 @@
             __webpack_require__.r(__webpack_exports__);
             /* harmony import */ var _formatDecimal_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formatDecimal.js */ "../../../node_modules/d3-format/src/formatDecimal.js");
             /* harmony default export */ __webpack_exports__.default = function(x) {
-                return (x = Object(_formatDecimal_js__WEBPACK_IMPORTED_MODULE_0__.default)(Math.abs(x))) ? x[1] : NaN;
+                return (x = Object(_formatDecimal_js__WEBPACK_IMPORTED_MODULE_0__.default)(Math.abs(x))) ? x[1] : 0 / 0;
             };
         /***/ },
         /***/ "../../../node_modules/d3-format/src/formatDecimal.js": /*!***************************************************************************************!*\
@@ -3001,7 +3001,7 @@
                         } else z = Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.ticks)(i, j, Math.min(j - i, n)).map(pows);
                         return r ? z.reverse() : z;
                     }, scale.tickFormat = function(count, specifier) {
-                        if (null == specifier && (specifier = 10 === base ? ".0e" : ","), "function" != typeof specifier && (specifier = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.format)(specifier)), count === 1 / 0) return specifier;
+                        if (null == specifier && (specifier = 10 === base ? ".0e" : ","), "function" != typeof specifier && (specifier = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.format)(specifier)), 1 / 0 === count) return specifier;
                         null == count && (count = 10);
                         var k = Math.max(1, base * count / scale.ticks().length); // TODO fast estimate?
                         return function(d) {
@@ -3158,8 +3158,8 @@
                     return scale.invertExtent = function(y) {
                         var i = range.indexOf(y);
                         return i < 0 ? [
-                            NaN,
-                            NaN
+                            0 / 0,
+                            0 / 0
                         ] : [
                             i > 0 ? thresholds[i - 1] : domain[0],
                             i < thresholds.length ? thresholds[i] : domain[domain.length - 1]
@@ -3210,8 +3210,8 @@
                     }, scale.invertExtent = function(y) {
                         var i = range.indexOf(y);
                         return i < 0 ? [
-                            NaN,
-                            NaN
+                            0 / 0,
+                            0 / 0
                         ] : i < 1 ? [
                             x0,
                             domain[0]
@@ -3717,10 +3717,10 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
-                    this._x0 = this._x1 = this._y0 = this._y1 = NaN, this._point = 0;
+                    this._x0 = this._x1 = this._y0 = this._y1 = 0 / 0, this._point = 0;
                 },
                 lineEnd: function() {
                     switch(this._point){
@@ -3763,7 +3763,7 @@
                 areaStart: _noop_js__WEBPACK_IMPORTED_MODULE_0__.default,
                 areaEnd: _noop_js__WEBPACK_IMPORTED_MODULE_0__.default,
                 lineStart: function() {
-                    this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = NaN, this._point = 0;
+                    this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = 0 / 0, this._point = 0;
                 },
                 lineEnd: function() {
                     switch(this._point){
@@ -3811,10 +3811,10 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
-                    this._x0 = this._x1 = this._y0 = this._y1 = NaN, this._point = 0;
+                    this._x0 = this._x1 = this._y0 = this._y1 = 0 / 0, this._point = 0;
                 },
                 lineEnd: function() {
                     (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
@@ -3892,10 +3892,10 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
-                    this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._point = 0;
+                    this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._point = 0;
                 },
                 lineEnd: function() {
                     switch(this._point){
@@ -3946,7 +3946,7 @@
                 areaStart: _noop_js__WEBPACK_IMPORTED_MODULE_0__.default,
                 areaEnd: _noop_js__WEBPACK_IMPORTED_MODULE_0__.default,
                 lineStart: function() {
-                    this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = NaN, this._point = 0;
+                    this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = 0 / 0, this._point = 0;
                 },
                 lineEnd: function() {
                     switch(this._point){
@@ -4001,10 +4001,10 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
-                    this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._point = 0;
+                    this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._point = 0;
                 },
                 lineEnd: function() {
                     (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
@@ -4064,10 +4064,10 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
-                    this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
+                    this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
                 },
                 lineEnd: function() {
                     switch(this._point){
@@ -4120,7 +4120,7 @@
                 areaStart: _noop_js__WEBPACK_IMPORTED_MODULE_1__.default,
                 areaEnd: _noop_js__WEBPACK_IMPORTED_MODULE_1__.default,
                 lineStart: function() {
-                    this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = NaN, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
+                    this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = 0 / 0, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
                 },
                 lineEnd: function() {
                     switch(this._point){
@@ -4177,10 +4177,10 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
-                    this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
+                    this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
                 },
                 lineEnd: function() {
                     (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
@@ -4228,7 +4228,7 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
                     this._point = 0;
@@ -4324,10 +4324,10 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
-                    this._x0 = this._x1 = this._y0 = this._y1 = this._t0 = NaN, this._point = 0;
+                    this._x0 = this._x1 = this._y0 = this._y1 = this._t0 = 0 / 0, this._point = 0;
                 },
                 lineEnd: function() {
                     switch(this._point){
@@ -4340,7 +4340,7 @@
                     (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
                 },
                 point: function(x, y) {
-                    var t1 = NaN;
+                    var t1 = 0 / 0;
                     if (y *= 1, (x *= 1) !== this._x1 || y !== this._y1) {
                         switch(this._point){
                             case 0:
@@ -4399,7 +4399,7 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
                     this._x = [], this._y = [];
@@ -4476,10 +4476,10 @@
                     this._line = 0;
                 },
                 areaEnd: function() {
-                    this._line = NaN;
+                    this._line = 0 / 0;
                 },
                 lineStart: function() {
-                    this._x = this._y = NaN, this._point = 0;
+                    this._x = this._y = 0 / 0, this._point = 0;
                 },
                 lineEnd: function() {
                     0 < this._t && this._t < 1 && 2 === this._point && this._context.lineTo(this._x, this._y), (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line >= 0 && (this._t = 1 - this._t, this._line = 1 - this._line);
@@ -4509,7 +4509,7 @@
   \***********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(a, b) {
-                return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+                return b < a ? -1 : b > a ? 1 : b >= a ? 0 : 0 / 0;
             };
         /***/ },
         /***/ "../../../node_modules/d3-shape/src/identity.js": /*!*********************************************************************************!*\
@@ -7193,7 +7193,7 @@
                         r < minRadius && (i2 = i$3, minRadius = r);
                     }
                     var i2x = coords[2 * i2], i2y = coords[2 * i2 + 1];
-                    if (minRadius === 1 / 0) {
+                    if (1 / 0 === minRadius) {
                         // order collinear points by dx (or dy if all x are identical)
                         // and return the list as a hull
                         for(var i$4 = 0; i$4 < n; i$4++)this._dists[i$4] = coords[2 * i$4] - coords[0] || coords[2 * i$4 + 1] - coords[1];
@@ -8347,7 +8347,7 @@
         /***/ "../../../node_modules/lodash/_baseToString.js": /*!********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseToString.js ***!
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__(/*! ./_Symbol */ "../../../node_modules/lodash/_Symbol.js"), arrayMap = __webpack_require__(/*! ./_arrayMap */ "../../../node_modules/lodash/_arrayMap.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js"), INFINITY = 1 / 0, symbolProto = Symbol1 ? Symbol1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
+            var Symbol1 = __webpack_require__(/*! ./_Symbol */ "../../../node_modules/lodash/_Symbol.js"), arrayMap = __webpack_require__(/*! ./_arrayMap */ "../../../node_modules/lodash/_arrayMap.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js"), symbolProto = Symbol1 ? Symbol1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
             module1.exports = /**
          * The base implementation of `_.toString` which doesn't convert nullish
          * values to empty strings.
@@ -8362,7 +8362,7 @@
                 return arrayMap(value, baseToString) + '';
                 if (isSymbol(value)) return symbolToString ? symbolToString.call(value) : '';
                 var result = value + '';
-                return '0' == result && 1 / value == -INFINITY ? '-0' : result;
+                return '0' == result && 1 / value == -1 / 0 ? '-0' : result;
             };
         /***/ },
         /***/ "../../../node_modules/lodash/_baseTrim.js": /*!****************************************************************************!*\
@@ -9471,7 +9471,7 @@
         /***/ "../../../node_modules/lodash/_toKey.js": /*!*************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_toKey.js ***!
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js"), INFINITY = 1 / 0;
+            var isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js");
             module1.exports = /**
          * Converts `value` to a string key if it's not a string or symbol.
          *
@@ -9481,7 +9481,7 @@
          */ function(value) {
                 if ('string' == typeof value || isSymbol(value)) return value;
                 var result = value + '';
-                return '0' == result && 1 / value == -INFINITY ? '-0' : result;
+                return '0' == result && 1 / value == -1 / 0 ? '-0' : result;
             };
         /***/ },
         /***/ "../../../node_modules/lodash/_trimmedEndIndex.js": /*!***********************************************************************************!*\
@@ -10896,7 +10896,7 @@
         /***/ "../../../node_modules/lodash/toFinite.js": /*!***************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/toFinite.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var toNumber = __webpack_require__(/*! ./toNumber */ "../../../node_modules/lodash/toNumber.js"), INFINITY = 1 / 0;
+            var toNumber = __webpack_require__(/*! ./toNumber */ "../../../node_modules/lodash/toNumber.js");
             module1.exports = /**
          * Converts `value` to a finite number.
          *
@@ -10920,7 +10920,7 @@
          * _.toFinite('3.2');
          * // => 3.2
          */ function(value) {
-                return value ? (value = toNumber(value)) === INFINITY || value === -INFINITY ? (value < 0 ? -1 : 1) * 1.7976931348623157e+308 : value == value ? value : 0 : 0 === value ? value : 0;
+                return value ? 1 / 0 === (value = toNumber(value)) || -1 / 0 === value ? (value < 0 ? -1 : 1) * 1.7976931348623157e+308 : value == value ? value : 0 : 0 === value ? value : 0;
             };
         /***/ },
         /***/ "../../../node_modules/lodash/toInteger.js": /*!****************************************************************************!*\
@@ -10960,7 +10960,7 @@
         /***/ "../../../node_modules/lodash/toNumber.js": /*!***************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/toNumber.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var baseTrim = __webpack_require__(/*! ./_baseTrim */ "../../../node_modules/lodash/_baseTrim.js"), isObject = __webpack_require__(/*! ./isObject */ "../../../node_modules/lodash/isObject.js"), isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js"), NAN = 0 / 0, reIsBadHex = /^[-+]0x[0-9a-f]+$/i, reIsBinary = /^0b[01]+$/i, reIsOctal = /^0o[0-7]+$/i, freeParseInt = parseInt;
+            var baseTrim = __webpack_require__(/*! ./_baseTrim */ "../../../node_modules/lodash/_baseTrim.js"), isObject = __webpack_require__(/*! ./isObject */ "../../../node_modules/lodash/isObject.js"), isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js"), reIsBadHex = /^[-+]0x[0-9a-f]+$/i, reIsBinary = /^0b[01]+$/i, reIsOctal = /^0o[0-7]+$/i, freeParseInt = parseInt;
             module1.exports = /**
          * Converts `value` to a number.
          *
@@ -10985,7 +10985,7 @@
          * // => 3.2
          */ function(value) {
                 if ('number' == typeof value) return value;
-                if (isSymbol(value)) return NAN;
+                if (isSymbol(value)) return 0 / 0;
                 if (isObject(value)) {
                     var other = 'function' == typeof value.valueOf ? value.valueOf() : value;
                     value = isObject(other) ? other + '' : other;
@@ -10993,7 +10993,7 @@
                 if ('string' != typeof value) return 0 === value ? value : +value;
                 value = baseTrim(value);
                 var isBinary = reIsBinary.test(value);
-                return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
+                return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? 0 / 0 : +value;
             };
         /***/ },
         /***/ "../../../node_modules/lodash/toPairs.js": /*!**************************************************************************!*\
@@ -16990,7 +16990,7 @@
                     case "number":
                         // The standard `isNaN` is fine in this case since we already know the
                         // type is number.
-                        return !isNaN(obj) && obj !== 1 / 0 && obj !== -1 / 0;
+                        return !isNaN(obj) && 1 / 0 !== obj && -1 / 0 !== obj;
                     case "string":
                     case "function":
                         // d3 might not *actually* be able to interpolate the string, but it
@@ -21226,7 +21226,7 @@
                         return datum._y0 < min ? datum._y0 : min;
                     }, 1 / 0), ensureZero = function(domain) {
                         if ("x" === axis) return domain;
-                        var defaultMin = y0Min !== 1 / 0 ? y0Min : 0, maxDomainProp = getMaxFromProps(props, axis), minDomainProp = getMinFromProps(props, axis), max = void 0 !== maxDomainProp ? maxDomainProp : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMaxValue(domain, defaultMin);
+                        var defaultMin = 1 / 0 !== y0Min ? y0Min : 0, maxDomainProp = getMaxFromProps(props, axis), minDomainProp = getMinFromProps(props, axis), max = void 0 !== maxDomainProp ? maxDomainProp : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMaxValue(domain, defaultMin);
                         return getDomainFromMinMax(void 0 !== minDomainProp ? minDomainProp : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMinValue(domain, defaultMin), max);
                     };
                     return createDomainFunction(function() {
@@ -28196,7 +28196,7 @@
   \*************************************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(a, b) {
-                return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
+                return a < b ? -1 : a > b ? 1 : a >= b ? 0 : 0 / 0;
             };
         /***/ },
         /***/ "../../victory-histogram/node_modules/d3-array/src/bin.js": /*!*******************************************************************************************************!*\
@@ -28350,7 +28350,7 @@
   \**************************************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(a, b) {
-                return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+                return b < a ? -1 : b > a ? 1 : b >= a ? 0 : 0 / 0;
             };
         /***/ },
         /***/ "../../victory-histogram/node_modules/d3-array/src/deviation.js": /*!*************************************************************************************************************!*\
@@ -28794,7 +28794,7 @@
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "numbers", function() {
                 return numbers;
             }), /* harmony default export */ __webpack_exports__.default = function(x) {
-                return null === x ? NaN : +x;
+                return null === x ? 0 / 0 : +x;
             };
         /***/ },
         /***/ "../../victory-histogram/node_modules/d3-array/src/pairs.js": /*!*********************************************************************************************************!*\

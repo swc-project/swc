@@ -1,4 +1,4 @@
-var g = NaN;
+var g = 0 / 0;
 var h = 1 / 0;
 var i = -1 / 0;
 var j = 0.125;

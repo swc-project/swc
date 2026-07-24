@@ -1,7 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
 use swc_atoms::{
-    atom,
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
     Atom,
 };
@@ -1007,15 +1006,11 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 Known(v) => {
                     *changed = true;
 
-                    let value_expr = if !v.is_nan() {
-                        Expr::Lit(Lit::Num(Number {
-                            value: v,
-                            span: *span,
-                            raw: None,
-                        }))
-                    } else {
-                        Expr::Ident(Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt))
-                    };
+                    let value_expr = Expr::Lit(Lit::Num(Number {
+                        value: v,
+                        span: *span,
+                        raw: None,
+                    }));
 
                     *expr = *expr_ctx.preserve_effects(*span, value_expr.into(), {
                         iter::once(left.take()).chain(iter::once(right.take()))
@@ -1088,16 +1083,12 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                                 *changed = true;
                                 let span = *span;
 
-                                let value_expr = if !v.is_nan() {
-                                    Lit::Num(Number {
-                                        value: v,
-                                        span,
-                                        raw: None,
-                                    })
-                                    .into()
-                                } else {
-                                    Ident::new(atom!("NaN"), span, expr_ctx.unresolved_ctxt).into()
-                                };
+                                let value_expr = Lit::Num(Number {
+                                    value: v,
+                                    span,
+                                    raw: None,
+                                })
+                                .into();
 
                                 *expr = *expr_ctx.preserve_effects(
                                     span,
@@ -1261,16 +1252,12 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
             {
                 if *left_op == op {
                     if let Known(value) = perform_arithmetic_op(expr_ctx, op, left_rhs, right) {
-                        let value_expr = if !value.is_nan() {
-                            Lit::Num(Number {
-                                value,
-                                span: *span,
-                                raw: None,
-                            })
-                            .into()
-                        } else {
-                            Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt).into()
-                        };
+                        let value_expr = Lit::Num(Number {
+                            value,
+                            span: *span,
+                            raw: None,
+                        })
+                        .into();
 
                         *changed = true;
                         *left = left_lhs.take();
@@ -1339,15 +1326,6 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
         op!(unary, "+") => {
             if let Known(v) = arg.as_pure_number(expr_ctx) {
                 *changed = true;
-
-                if v.is_nan() {
-                    *expr = *expr_ctx.preserve_effects(
-                        *span,
-                        Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt).into(),
-                        iter::once(arg.take()),
-                    );
-                    return;
-                }
 
                 *expr = *expr_ctx.preserve_effects(
                     *span,
@@ -1463,6 +1441,10 @@ fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
 fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
     /// Replace only if it becomes shorter
     fn try_replace(lv: f64, rv: f64, value: f64) -> Value<f64> {
+        if !value.is_finite() {
+            return Known(value);
+        }
+
         let new_len = minify_number(value, &mut false).len();
 
         let orig_len =
@@ -1556,9 +1538,6 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
 
         op!("/") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                if rv == 0.0 {
-                    return Unknown;
-                }
                 return try_replace(lv, rv, lv / rv);
             }
 
@@ -1597,12 +1576,7 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
         op!("&") => try_replace_i32(lv, rv, to_int32(lv) & to_int32(rv)),
         op!("|") => try_replace_i32(lv, rv, to_int32(lv) | to_int32(rv)),
         op!("^") => try_replace_i32(lv, rv, to_int32(lv) ^ to_int32(rv)),
-        op!("%") => {
-            if rv == 0.0 {
-                return Unknown;
-            }
-            try_replace(lv, rv, lv % rv)
-        }
+        op!("%") => try_replace(lv, rv, lv % rv),
         _ => unreachable!("unknown binary operator: {:?}", op),
     }
 }

@@ -635,7 +635,7 @@
                         t.exports = function t(e, r, o, n) {
                             var p = r || {};
                             if (_(p, "quoteStyle") && "single" !== p.quoteStyle && "double" !== p.quoteStyle) throw TypeError('option "quoteStyle" must be "single" or "double"');
-                            if (_(p, "maxStringLength") && ("number" == typeof p.maxStringLength ? p.maxStringLength < 0 && p.maxStringLength !== 1 / 0 : null !== p.maxStringLength)) throw TypeError('option "maxStringLength", if provided, must be a positive integer, Infinity, or `null`');
+                            if (_(p, "maxStringLength") && ("number" == typeof p.maxStringLength ? p.maxStringLength < 0 && 1 / 0 !== p.maxStringLength : null !== p.maxStringLength)) throw TypeError('option "maxStringLength", if provided, must be a positive integer, Infinity, or `null`');
                             var c = !_(p, "customInspect") || p.customInspect;
                             if ("boolean" != typeof c && "symbol" !== c) throw TypeError("option \"customInspect\", if provided, must be `true`, `false`, or `'symbol'`");
                             if (_(p, "indent") && null !== p.indent && "\t" !== p.indent && !(parseInt(p.indent, 10) === p.indent && p.indent > 0)) throw TypeError('options "indent" must be "\\t", an integer > 0, or `null`');
@@ -952,7 +952,7 @@
                             }(e);
                             if ("" === t || null == t) return r.plainObjects ? Object.create(null) : {};
                             for(var u = "string" == typeof t ? function(t, e) {
-                                var r, c = {}, u = e.ignoreQueryPrefix ? t.replace(/^\?/, "") : t, y = e.parameterLimit === 1 / 0 ? void 0 : e.parameterLimit, f = u.split(e.delimiter, y), l = -1, s = e.charset;
+                                var r, c = {}, u = e.ignoreQueryPrefix ? t.replace(/^\?/, "") : t, y = 1 / 0 === e.parameterLimit ? void 0 : e.parameterLimit, f = u.split(e.delimiter, y), l = -1, s = e.charset;
                                 if (e.charsetSentinel) for(r = 0; r < f.length; ++r)0 === f[r].indexOf("utf8=") && ("utf8=%E2%9C%93" === f[r] ? s = "utf-8" : "utf8=%26%2310003%3B" === f[r] && (s = "iso-8859-1"), l = r, r = f.length);
                                 for(r = 0; r < f.length; ++r)if (r !== l) {
                                     var b, g, h = f[r], m = h.indexOf("]="), d = -1 === m ? h.indexOf("=") : m + 1;

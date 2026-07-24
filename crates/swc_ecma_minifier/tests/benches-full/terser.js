@@ -293,7 +293,7 @@
         return !!match && 0 === match.index && (!(str = str.slice(match[0].length)) || !!(match = UNICODE_ID_Continue.exec(str)) && match[0].length === str.length);
     }
     function parse_js_number(num, allow_e = !0) {
-        if (!allow_e && num.includes("e")) return NaN;
+        if (!allow_e && num.includes("e")) return 0 / 0;
         if (RE_HEX_NUMBER.test(num)) return parseInt(num.substr(2), 16);
         if (RE_OCT_NUMBER.test(num)) return parseInt(num.substr(1), 8);
         if (RE_ES6_OCT_NUMBER.test(num)) return parseInt(num.substr(2), 8);

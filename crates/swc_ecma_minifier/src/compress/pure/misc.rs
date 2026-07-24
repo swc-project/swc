@@ -1,4 +1,4 @@
-use std::{borrow::Cow, fmt::Write, num::FpCategory};
+use std::{borrow::Cow, num::FpCategory};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{
@@ -9,7 +9,9 @@ use swc_atoms::{
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value};
+use swc_ecma_utils::{
+    number::ToJsString, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value,
+};
 
 use super::Pure;
 use crate::{
@@ -724,7 +726,7 @@ impl Pure<'_> {
                         res.push_wtf8(&s.value);
                     }
                     Expr::Lit(Lit::Num(n)) => {
-                        write!(res, "{}", n.value).unwrap();
+                        res.push_str(&n.value.to_js_string());
                     }
                     e if is_pure_undefined(self.expr_ctx, e) => {}
                     Expr::Lit(Lit::Null(..)) => {}
@@ -916,7 +918,7 @@ impl Pure<'_> {
                         for literal in literals.iter() {
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
-                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // For string concatenation, null becomes
                                     // empty string
@@ -972,7 +974,7 @@ impl Pure<'_> {
 
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
-                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // null becomes empty string
                                 }
