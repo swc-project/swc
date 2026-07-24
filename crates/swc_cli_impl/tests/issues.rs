@@ -764,6 +764,55 @@ fn issue_4017_watch_out_file_rebuilds_single_output() -> Result<()> {
 }
 
 #[test]
+fn issue_10524_watch_out_file_overwrites_rebuilt_output() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    let source_path = sandbox.path().join("simple.js");
+    let output_path = sandbox.path().join("output.js");
+
+    fs::write(&source_path, "console.log(\"Hello, world!!\");\n")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--watch")
+        .arg("--out-file")
+        .arg("output.js")
+        .arg("simple.js");
+
+    let mut child = spawn_watch_command(&mut cmd)?;
+
+    wait_for("initial out-file watch output", || {
+        Ok(fs::read_to_string(&output_path)
+            .map(|content| content.contains("Hello, world!!"))
+            .unwrap_or(false))
+    })?;
+    wait_for("watch process to stay alive", || {
+        Ok(child.try_wait()?.is_none())
+    })?;
+
+    fs::write(&source_path, "console.log(\"Hello, world 2!!\");\n")?;
+
+    wait_for("rebuilt out-file output", || {
+        Ok(fs::read_to_string(&output_path)
+            .map(|content| content.contains("Hello, world 2!!"))
+            .unwrap_or(false))
+    })?;
+
+    let output = fs::read_to_string(&output_path)?;
+    assert!(
+        !output.contains("Hello, world!!"),
+        "Expected rebuilt out-file output to drop stale content. Got: {output}"
+    );
+    assert_eq!(
+        output.matches("console.log").count(),
+        1,
+        "Expected rebuilt out-file output to be overwritten, not appended. Got: {output}"
+    );
+
+    Ok(())
+}
+
+#[test]
 fn issue_4017_watch_out_file_drops_deleted_explicit_inputs() -> Result<()> {
     let sandbox = TempDir::new()?;
     let keep_path = sandbox.path().join("keep.ts");
