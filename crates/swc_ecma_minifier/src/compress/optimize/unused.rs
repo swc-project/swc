@@ -787,7 +787,9 @@ impl Optimizer<'_> {
                 ) && var.usage_count == 0
                     && var.flags.contains(VarUsageInfoFlags::DECLARED)
                     && (!var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-                        || !self.data.used_arguments(self.ctx.scope)
+                        // The assignment can be inside a nested function, so query the
+                        // parameter's declaring scope instead of the current scope.
+                        || !self.data.used_arguments(i.id.ctxt)
                         || self.ctx.expr_ctx.in_strict)
                 {
                     report_change!(
