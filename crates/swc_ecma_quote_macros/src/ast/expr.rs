@@ -113,6 +113,7 @@ impl_struct!(
     Function,
     [
         ctxt,
+        this_param,
         params,
         decorators,
         span,

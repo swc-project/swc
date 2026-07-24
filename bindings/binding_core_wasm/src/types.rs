@@ -1784,6 +1784,8 @@ export interface ParenthesisExpression extends ExpressionBase {
 }
 
 export interface Fn extends HasSpan, HasDecorator {
+  thisParam?: TsThisParameter;
+
   params: Param[];
 
   body?: BlockStatement;
@@ -2303,6 +2305,8 @@ export interface GetterProperty extends PropBase, HasSpan {
 export interface SetterProperty extends PropBase, HasSpan {
   type: "SetterProperty";
 
+  thisParam?: Pattern;
+
   param: Pattern;
   body?: BlockStatement;
 }
@@ -2661,6 +2665,14 @@ export type TsKeywordTypeKind =
 
 export interface TsThisType extends Node, HasSpan {
   type: "TsThisType";
+}
+
+export interface TsThisParameter extends Node, HasSpan {
+  type: "TsThisParameter";
+
+  thisSpan: Span;
+
+  typeAnnotation?: TsTypeAnnotation;
 }
 
 export type TsFnParameter =

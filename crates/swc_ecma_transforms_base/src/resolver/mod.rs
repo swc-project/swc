@@ -900,6 +900,8 @@ impl VisitMut for Resolver<'_> {
                 self.current.declared_symbols.insert(id.0, DeclKind::Param);
             }
         }
+        f.this_param.visit_mut_with(self);
+
         self.ident_type = IdentType::Binding;
         f.params.visit_mut_with(self);
 

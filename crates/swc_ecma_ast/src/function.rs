@@ -5,7 +5,7 @@ use crate::{
     class::Decorator,
     pat::Pat,
     stmt::BlockStmt,
-    typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
+    typescript::{TsParamProp, TsThisParam, TsTypeAnn, TsTypeParamDecl},
 };
 
 /// Common parts of function and method.
@@ -14,6 +14,18 @@ use crate::{
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Function {
+    /// TypeScript `this` parameter, which is not part of the runtime parameter
+    /// list.
+    #[cfg_attr(
+        feature = "serde-impl",
+        serde(default, rename = "thisParam", skip_serializing_if = "Option::is_none")
+    )]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub this_param: Option<Box<TsThisParam>>,
+
     pub params: Vec<Param>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]

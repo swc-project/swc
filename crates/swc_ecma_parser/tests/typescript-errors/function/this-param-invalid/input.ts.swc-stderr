@@ -1,0 +1,123 @@
+  x Unexpected token `)`. Expected an identifier, [ for an array pattern, { for an object patter or ... for a rest pattern
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:21:1]
+ 20 | };
+ 21 | type Signature = (this = fallback) => void;
+    :                                  ^
+    `----
+  x Expected ',', got '?'
+   ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:1:1]
+ 1 | function optionalThis(this?: Context) {}
+   :                           ^
+ 2 | function initializedThis(this = value) {}
+   `----
+  x Expected ',', got '='
+   ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:2:1]
+ 1 | function optionalThis(this?: Context) {}
+ 2 | function initializedThis(this = value) {}
+   :                               ^
+ 3 | function optionalInitializedThis(this?: Context = value) {}
+   `----
+  x Expected ',', got '?'
+   ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:3:1]
+ 2 | function initializedThis(this = value) {}
+ 3 | function optionalInitializedThis(this?: Context = value) {}
+   :                                      ^
+ 4 | function nestedObject({ this = value }) {}
+   `----
+  x A 'this' parameter must be the first parameter.
+   ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:6:1]
+ 5 | function nestedArray([this = value]) {}
+ 6 | function misplacedThis(value: unknown, this: Context, this: OtherContext) {}
+   :                                        ^^^^
+ 7 | function misplacedInitializedThis(value: unknown, this = fallback) {}
+   `----
+  x A 'this' parameter must be the first parameter.
+   ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:6:1]
+ 5 | function nestedArray([this = value]) {}
+ 6 | function misplacedThis(value: unknown, this: Context, this: OtherContext) {}
+   :                                                       ^^^^
+ 7 | function misplacedInitializedThis(value: unknown, this = fallback) {}
+   `----
+  x Expected ',', got '='
+   ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:7:1]
+ 6 | function misplacedThis(value: unknown, this: Context, this: OtherContext) {}
+ 7 | function misplacedInitializedThis(value: unknown, this = fallback) {}
+   :                                                        ^
+ 8 | class Accessors {
+   `----
+  x A 'this' parameter must be the first parameter.
+   ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:7:1]
+ 6 | function misplacedThis(value: unknown, this: Context, this: OtherContext) {}
+ 7 | function misplacedInitializedThis(value: unknown, this = fallback) {}
+   :                                                   ^^^^
+ 8 | class Accessors {
+   `----
+  x Expected ',', got '='
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:9:1]
+  8 | class Accessors {
+  9 |     constructor(this = fallback) {}
+    :                      ^
+ 10 |     get value(this?: Context) {
+    `----
+  x Expected ',', got '?'
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:10:1]
+  9 |     constructor(this = fallback) {}
+ 10 |     get value(this?: Context) {
+    :                   ^
+ 11 |         return fallback;
+    `----
+  x A `get` accessor cannot have parameters
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:10:1]
+  9 |     constructor(this = fallback) {}
+ 10 |     get value(this?: Context) {
+    :     ^^^
+ 11 |         return fallback;
+    `----
+  x Expected ',', got '?'
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:13:1]
+ 12 |     }
+ 13 |     set value(this?: Context, value: number) {}
+    :                   ^
+ 14 | }
+    `----
+  x A `set` accessor must have exactly one parameter
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:13:1]
+ 12 |     }
+ 13 |     set value(this?: Context, value: number) {}
+    :     ^^^
+ 14 | }
+    `----
+  x Expected ',', got '?'
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:16:1]
+ 15 | const object = {
+ 16 |     get value(this?: Context) {
+    :                   ^
+ 17 |         return fallback;
+    `----
+  x A `get` accessor cannot have parameters
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:16:1]
+ 15 | const object = {
+ 16 |     get value(this?: Context) {
+    :         ^^^^^
+ 17 |         return fallback;
+    `----
+  x Expected ',', got '?'
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:19:1]
+ 18 |     },
+ 19 |     set value(this?: Context, value: number) {}
+    :                   ^
+ 20 | };
+    `----
+  x A `set` accessor must have exactly one parameter
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:19:1]
+ 18 |     },
+ 19 |     set value(this?: Context, value: number) {}
+    :         ^^^^^
+ 20 | };
+    `----
+  x Expected ',', got '='
+    ,-[$DIR/tests/typescript-errors/function/this-param-invalid/input.ts:21:1]
+ 20 | };
+ 21 | type Signature = (this = fallback) => void;
+    :                        ^
+    `----

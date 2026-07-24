@@ -22,6 +22,25 @@ pub fn is_not_this(p: &Param) -> bool {
     )
 }
 
+/// Returns whether `param` can be extracted as a TypeScript type-only `this`
+/// parameter.
+pub fn is_ts_this_param(param: &Param) -> bool {
+    matches!(
+        param,
+        Param {
+            pat: Pat::Ident(BindingIdent { id, .. }),
+            ..
+        } if !id.optional && atom!("this").eq(&id.sym)
+    )
+}
+
+/// Returns runtime parameters, treating only a leading `this` as a type-only
+/// parameter.
+pub fn params_without_leading_this(params: &[Param]) -> &[Param] {
+    let start = usize::from(params.first().is_some_and(is_ts_this_param));
+    &params[start..]
+}
+
 pub fn has_use_strict(block: &BlockStmt) -> Option<Span> {
     block
         .stmts

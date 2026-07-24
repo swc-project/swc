@@ -40,67 +40,60 @@
             "value": "m"
           },
           "function": {
-            "params": [
-              {
-                "type": "Parameter",
+            "thisParam": {
+              "type": "TsThisParameter",
+              "span": {
+                "start": 49,
+                "end": 66
+              },
+              "thisSpan": {
+                "start": 49,
+                "end": 53
+              },
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 49,
+                  "start": 53,
                   "end": 66
                 },
-                "decorators": [],
-                "pat": {
-                  "type": "Identifier",
+                "typeAnnotation": {
+                  "type": "TsConstructorType",
                   "span": {
-                    "start": 49,
-                    "end": 53
+                    "start": 55,
+                    "end": 66
                   },
-                  "ctxt": 0,
-                  "value": "this",
-                  "optional": false,
+                  "params": [],
+                  "typeParams": null,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 53,
+                      "start": 62,
                       "end": 66
                     },
                     "typeAnnotation": {
-                      "type": "TsConstructorType",
+                      "type": "TsTypeReference",
                       "span": {
-                        "start": 55,
+                        "start": 65,
                         "end": 66
                       },
-                      "params": [],
-                      "typeParams": null,
-                      "typeAnnotation": {
-                        "type": "TsTypeAnnotation",
+                      "typeName": {
+                        "type": "Identifier",
                         "span": {
-                          "start": 62,
+                          "start": 65,
                           "end": 66
                         },
-                        "typeAnnotation": {
-                          "type": "TsTypeReference",
-                          "span": {
-                            "start": 65,
-                            "end": 66
-                          },
-                          "typeName": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 65,
-                              "end": 66
-                            },
-                            "ctxt": 0,
-                            "value": "T",
-                            "optional": false
-                          },
-                          "typeParams": null
-                        }
+                        "ctxt": 0,
+                        "value": "T",
+                        "optional": false
                       },
-                      "isAbstract": false
+                      "typeParams": null
                     }
-                  }
+                  },
+                  "isAbstract": false
                 }
-              },
+              }
+            },
+            "params": [
               {
                 "type": "Parameter",
                 "span": {

@@ -458,6 +458,7 @@ impl<I: Tokens> Parser<I> {
             ident,
             function: Box::new(Function {
                 span: self.span(start),
+                this_param: None,
                 decorators,
                 type_params,
                 params,

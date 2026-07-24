@@ -24,40 +24,33 @@
           "optional": false
         },
         "declare": false,
-        "params": [
-          {
-            "type": "Parameter",
+        "thisParam": {
+          "type": "TsThisParameter",
+          "span": {
+            "start": 53,
+            "end": 62
+          },
+          "thisSpan": {
+            "start": 53,
+            "end": 57
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
             "span": {
-              "start": 53,
+              "start": 57,
               "end": 62
             },
-            "decorators": [],
-            "pat": {
-              "type": "Identifier",
+            "typeAnnotation": {
+              "type": "TsKeywordType",
               "span": {
-                "start": 53,
-                "end": 57
+                "start": 59,
+                "end": 62
               },
-              "ctxt": 0,
-              "value": "this",
-              "optional": false,
-              "typeAnnotation": {
-                "type": "TsTypeAnnotation",
-                "span": {
-                  "start": 57,
-                  "end": 62
-                },
-                "typeAnnotation": {
-                  "type": "TsKeywordType",
-                  "span": {
-                    "start": 59,
-                    "end": 62
-                  },
-                  "kind": "any"
-                }
-              }
+              "kind": "any"
             }
-          },
+          }
+        },
+        "params": [
           {
             "type": "Parameter",
             "span": {

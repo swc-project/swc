@@ -29,6 +29,34 @@ struct MakeMethodArgs {
     is_generator: bool,
 }
 
+fn is_ts_this_param(param: &Param) -> bool {
+    matches!(
+        param,
+        Param {
+            pat: Pat::Ident(BindingIdent { id, .. }),
+            ..
+        } if !id.optional && &*id.sym == "this"
+    )
+}
+
+fn take_ts_this_param(params: &mut Vec<Param>) -> Option<Box<TsThisParam>> {
+    let is_this_param = params.first().is_some_and(is_ts_this_param);
+    if !is_this_param {
+        return None;
+    }
+
+    let Param { span, pat, .. } = params.remove(0);
+    let Pat::Ident(BindingIdent { id, type_ann }) = pat else {
+        unreachable!("the first parameter was checked to be a `this` identifier")
+    };
+
+    Some(Box::new(TsThisParam {
+        span,
+        this_span: id.span,
+        type_ann,
+    }))
+}
+
 impl<I: Tokens> Parser<I> {
     /// If `required` is `true`, this never returns `None`.
     fn parse_maybe_opt_binding_ident(
@@ -306,7 +334,7 @@ impl<I: Tokens> Parser<I> {
                 }
             };
 
-            let params = p.do_inside_of_context(Context::InParameters, |p| {
+            let mut params = p.do_inside_of_context(Context::InParameters, |p| {
                 p.do_outside_of_context(Context::InFunction, |p| {
                     if is_async {
                         p.do_inside_of_context(Context::InAsync, parse_args_with_generator_ctx)
@@ -315,6 +343,12 @@ impl<I: Tokens> Parser<I> {
                     }
                 })
             })?;
+
+            let this_param = if p.syntax().typescript() {
+                take_ts_this_param(&mut params)
+            } else {
+                None
+            };
 
             if p.syntax().flow() && !params.is_simple_parameter_list() {
                 let mut seen = HashSet::with_capacity(params.len());
@@ -370,6 +404,7 @@ impl<I: Tokens> Parser<I> {
 
             Ok(Box::new(Function {
                 span: p.span(start),
+                this_param,
                 decorators,
                 type_params,
                 params,
@@ -1426,7 +1461,8 @@ impl<I: Tokens> Parser<I> {
                             p.emit_err(key_span, SyntaxError::TS1003);
                         }
 
-                        if params.iter().any(is_not_this) {
+                        let runtime_params = params_without_leading_this(&params);
+                        if !runtime_params.is_empty() {
                             p.emit_err(key_span, SyntaxError::GetterParam);
                         }
 
@@ -1454,13 +1490,14 @@ impl<I: Tokens> Parser<I> {
                             p.emit_err(key_span, SyntaxError::TS1003);
                         }
 
-                        if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                        let runtime_params = params_without_leading_this(&params);
+                        if runtime_params.len() != 1 {
                             p.emit_err(key_span, SyntaxError::SetterParam);
                         }
 
-                        if !params.is_empty() {
-                            if let Pat::Rest(..) = params[0].pat {
-                                p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
+                        if let Some(param) = runtime_params.first() {
+                            if let Pat::Rest(..) = param.pat {
+                                p.emit_err(param.pat.span(), SyntaxError::RestPatInSetter);
                             }
                         }
 
@@ -2109,6 +2146,13 @@ pub(crate) fn is_not_this(p: &Param) -> bool {
             ..
         })if &**this == "this"
     )
+}
+
+/// Returns runtime parameters, treating only a leading `this` as a type-only
+/// parameter.
+pub(crate) fn params_without_leading_this(params: &[Param]) -> &[Param] {
+    let start = usize::from(params.first().is_some_and(is_ts_this_param));
+    &params[start..]
 }
 
 #[cfg(test)]

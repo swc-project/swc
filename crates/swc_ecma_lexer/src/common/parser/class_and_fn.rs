@@ -22,8 +22,8 @@ use crate::{
             expr::parse_subscripts,
             ident::parse_ident,
             is_invalid_class_name::IsInvalidClassName,
-            is_not_this,
             is_simple_param_list::IsSimpleParameterList,
+            is_ts_this_param, params_without_leading_this,
             pat::{parse_constructor_params, parse_unique_formal_params},
             typescript::{
                 parse_ts_heritage_clause, parse_ts_type_ann, parse_ts_type_or_type_predicate_ann,
@@ -47,6 +47,24 @@ struct MakeMethodArgs {
     kind: MethodKind,
     is_async: bool,
     is_generator: bool,
+}
+
+fn take_ts_this_param(params: &mut Vec<Param>) -> Option<Box<TsThisParam>> {
+    let is_this_param = params.first().is_some_and(is_ts_this_param);
+    if !is_this_param {
+        return None;
+    }
+
+    let Param { span, pat, .. } = params.remove(0);
+    let Pat::Ident(BindingIdent { id, type_ann }) = pat else {
+        unreachable!("the first parameter was checked to be a `this` identifier")
+    };
+
+    Some(Box::new(TsThisParam {
+        span,
+        this_span: id.span,
+        type_ann,
+    }))
 }
 
 /// If `required` is `true`, this never returns `None`.
@@ -270,7 +288,7 @@ where
             }
         };
 
-        let params = p.do_inside_of_context(Context::InParameters, |p| {
+        let mut params = p.do_inside_of_context(Context::InParameters, |p| {
             p.do_outside_of_context(Context::InFunction, |p| {
                 if is_async {
                     p.do_inside_of_context(Context::InAsync, parse_args_with_generator_ctx)
@@ -279,6 +297,12 @@ where
                 }
             })
         })?;
+
+        let this_param = if p.syntax().typescript() {
+            take_ts_this_param(&mut params)
+        } else {
+            None
+        };
 
         expect!(p, &P::Token::RPAREN);
 
@@ -315,6 +339,7 @@ where
 
         Ok(Box::new(Function {
             span: p.span(start),
+            this_param,
             decorators,
             type_params,
             params,
@@ -1228,7 +1253,8 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 |p| {
                     let params = parse_formal_params(p)?;
 
-                    if params.iter().any(is_not_this) {
+                    let runtime_params = params_without_leading_this(&params);
+                    if !runtime_params.is_empty() {
                         p.emit_err(key_span, SyntaxError::GetterParam);
                     }
 
@@ -1253,13 +1279,14 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 |p| {
                     let params = parse_formal_params(p)?;
 
-                    if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                    let runtime_params = params_without_leading_this(&params);
+                    if runtime_params.len() != 1 {
                         p.emit_err(key_span, SyntaxError::SetterParam);
                     }
 
-                    if !params.is_empty() {
-                        if let Pat::Rest(..) = params[0].pat {
-                            p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
+                    if let Some(param) = runtime_params.first() {
+                        if let Pat::Rest(..) = param.pat {
+                            p.emit_err(param.pat.span(), SyntaxError::RestPatInSetter);
                         }
                     }
 

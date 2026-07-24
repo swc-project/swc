@@ -5,6 +5,7 @@ pub use self::ctx::Context;
 mod class;
 mod ctx;
 mod expr;
+mod function;
 mod jsx;
 mod lit;
 mod pat;

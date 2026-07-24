@@ -276,6 +276,7 @@ pub enum SyntaxError {
     TS2483,
     TS2491,
     TS2499,
+    TS2680,
     TS2703,
     TS4112,
     TS8038,
@@ -713,6 +714,7 @@ impl SyntaxError {
             SyntaxError::TS2499 => "An interface can only extend an identifier/qualified-name \
                                     with optional type arguments."
                 .into(),
+            SyntaxError::TS2680 => "A 'this' parameter must be the first parameter.".into(),
             SyntaxError::TS4112 => "This member cannot have an 'override' modifier because its \
                                     containing class does not extend another class."
                 .into(),

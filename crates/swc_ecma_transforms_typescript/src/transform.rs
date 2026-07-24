@@ -641,6 +641,11 @@ impl VisitMut for Transform {
         node.visit_mut_children_with(self);
     }
 
+    fn visit_mut_function(&mut self, node: &mut Function) {
+        node.this_param = None;
+        node.visit_mut_children_with(self);
+    }
+
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
         node.accessibility = None;
         node.is_abstract = false;
