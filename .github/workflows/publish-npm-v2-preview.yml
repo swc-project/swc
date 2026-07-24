@@ -1,0 +1,86 @@
+name: "Publish SWC v2 preview"
+
+permissions: {}
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The 2.x prerelease version to publish"
+        required: true
+        type: string
+      skipPublishing:
+        description: "Build and validate without publishing"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  publish-types:
+    name: Publish @swc/types v2
+    runs-on: ubuntu-latest
+    environment: publish
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+          ref: "v${{ inputs.version }}"
+      - uses: ./.github/actions/setup-node
+        with:
+          cache: "false"
+      - run: corepack enable && pnpm install --frozen-lockfile
+      - run: pnpm --filter @swc-internal/types-v2 build
+      - name: Stage packages
+        run: node scripts/stage-npm-v2.mjs "${{ inputs.version }}"
+      - name: Publish types
+        if: ${{ !inputs.skipPublishing }}
+        run: npm publish "target/npm-v2/${{ inputs.version }}/types" --access public --tag next
+
+  publish-core:
+    name: Publish @swc/core v2
+    needs: publish-types
+    permissions:
+      contents: write
+      id-token: write
+    uses: ./.github/workflows/publish-npm-package.yml
+    with:
+      buildType: "v2-preview"
+      package: "core-v2"
+      version: ${{ inputs.version }}
+      buildCli: false
+      skipBuild: false
+      publishWasm: false
+      skipPublishing: ${{ inputs.skipPublishing }}
+      npmTag: "next"
+
+  publish-wasm:
+    name: Publish @swc/wasm v2
+    needs: publish-types
+    runs-on: ubuntu-latest
+    environment: publish
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+          ref: "v${{ inputs.version }}"
+      - uses: ./.github/actions/setup-node
+        with:
+          cache: "false"
+      - run: corepack enable && pnpm install --frozen-lockfile
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Build Wasm
+        working-directory: bindings/binding_core_wasm_v2
+        run: wasm-pack build --out-name wasm --release --scope=swc --target nodejs
+      - name: Prepare package identity
+        run: |
+          node scripts/prepare-npm-v2-package.mjs bindings/binding_core_wasm_v2/pkg "${{ inputs.version }}" @swc/wasm
+      - name: Publish Wasm
+        if: ${{ !inputs.skipPublishing }}
+        run: npm publish bindings/binding_core_wasm_v2/pkg --access public --tag next

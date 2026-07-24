@@ -1,0 +1,22 @@
+[package]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Version-neutral implementation shared by SWC JavaScript API bindings"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "swc_api_common"
+publish     = false
+repository  = { workspace = true }
+version     = "0.1.0"
+
+[lib]
+bench = false
+
+[dependencies]
+anyhow     = { workspace = true }
+serde      = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+
+swc_common        = { path = "../swc_common" }
+swc_ecma_ast      = { path = "../swc_ecma_ast", features = ["serde-impl"] }
+swc_ecma_visit    = { path = "../swc_ecma_visit" }
+swc_nodejs_common = { path = "../swc_nodejs_common" }

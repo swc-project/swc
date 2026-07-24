@@ -1,0 +1,11 @@
+{
+    "name": "@swc-internal/wasm-v2",
+    "version": "2.0.0-next.0",
+    "private": true,
+    "scripts": {
+        "test": "rstest"
+    },
+    "devDependencies": {
+        "@rstest/core": "0.7.8"
+    }
+}

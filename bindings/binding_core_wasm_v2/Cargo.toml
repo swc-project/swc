@@ -1,37 +1,26 @@
 [package]
 authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "wasm module for swc"
+description = "Wasm module for the SWC v2 JavaScript API"
 edition     = { workspace = true }
 license     = { workspace = true }
-name        = "binding_core_wasm"
+name        = "binding_core_wasm_v2"
 publish     = false
 repository  = { workspace = true }
-version     = "1.15.46"
+version     = "0.1.0"
 
 [lib]
 bench      = false
 crate-type = ["cdylib"]
+path       = "../binding_core_wasm/src/lib.rs"
 
 [features]
 __plugin = []
 api_v1   = []
 api_v2   = []
-default  = ["api_v1", "swc_v1"]
+default  = ["api_v2", "swc_v2"]
+plugin   = []
 swc_v1   = []
 swc_v2   = []
-# This feature exists to allow cargo operations
-# [TODO]: this is disabled due to signature mismatch between host_native and host_js,
-# which causes build errors like
-# .call(&mut self.store, ptr.0, ptr.1)
-#   |                  ^^^^ the trait `NativeWasmTypeInto` is not implemented for `u32`
-#   |
-#   = help: the following other types implement trait `NativeWasmTypeInto`:
-#             f32
-#             f64
-#             i32
-#             i64
-#             u128
-plugin = []
 
 [dependencies]
 anyhow = { workspace = true }
@@ -56,5 +45,4 @@ wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 wasm-opt = false
 
 [package.metadata.cargo-shear]
-# ignored, as they are only used to enable features
 ignored = ["getrandom", "anyhow", "serde-wasm-bindgen"]
