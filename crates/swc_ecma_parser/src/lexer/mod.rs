@@ -309,9 +309,13 @@ impl<'a> Lexer<'a> {
             }
         }
 
+        let comments_buffer = comments
+            .is_some()
+            .then(|| CommentsBuffer::with_capacity(input.as_str().len() / 64));
+
         Lexer {
             comments,
-            comments_buffer: comments.is_some().then(CommentsBuffer::new),
+            comments_buffer,
             ctx: Default::default(),
             input,
             start_pos,
@@ -792,6 +796,7 @@ impl<'a> Lexer<'a> {
 
                     if is_for_next {
                         self.comments_buffer_mut().unwrap().push_pending(cmt);
+                        self.state.has_pending_comments = true;
                     } else {
                         let pos = self.state.prev_hi;
                         self.comments_buffer_mut().unwrap().push_comment(BufferedComment {
@@ -823,6 +828,7 @@ impl<'a> Lexer<'a> {
 
             if is_for_next {
                 self.comments_buffer_mut().unwrap().push_pending(cmt);
+                self.state.has_pending_comments = true;
             } else {
                 let pos = self.state.prev_hi;
                 self.comments_buffer_mut()
@@ -932,6 +938,7 @@ impl<'a> Lexer<'a> {
 
                                 if is_for_next {
                                     self.comments_buffer_mut().unwrap().push_pending(cmt);
+                                    self.state.has_pending_comments = true;
                                 } else {
                                     let pos = self.state.prev_hi;
                                     self.comments_buffer_mut()
@@ -1351,6 +1358,8 @@ impl<'a> Lexer<'a> {
             comments_buffer.pending_to_comment(kind, last);
 
             // now fill the user's passed in comments
+            let (leading, trailing) = comments_buffer.comment_counts();
+            comments.reserve_comments(leading, trailing);
             for comment in comments_buffer.take_comments() {
                 match comment.kind {
                     BufferedCommentKind::Leading => {
@@ -1361,6 +1370,7 @@ impl<'a> Lexer<'a> {
                     }
                 }
             }
+            self.state.has_pending_comments = false;
         }
     }
 
