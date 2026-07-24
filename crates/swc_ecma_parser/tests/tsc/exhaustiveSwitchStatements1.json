@@ -144,6 +144,7 @@
                     "start": 131,
                     "end": 217
                   },
+                  "bodyCtxt": 0,
                   "discriminant": {
                     "type": "Identifier",
                     "span": {
@@ -439,6 +440,7 @@
               "start": 335,
               "end": 415
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -699,6 +701,7 @@
               "start": 478,
               "end": 663
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -972,6 +975,7 @@
               "start": 737,
               "end": 809
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -1230,6 +1234,7 @@
                 "start": 890,
                 "end": 974
               },
+              "bodyCtxt": 0,
               "discriminant": {
                 "type": "Identifier",
                 "span": {
@@ -2038,6 +2043,7 @@
               "start": 1343,
               "end": 1623
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "MemberExpression",
               "span": {
@@ -2813,6 +2819,7 @@
                             "start": 1727,
                             "end": 1999
                           },
+                          "bodyCtxt": 0,
                           "discriminant": {
                             "type": "MemberExpression",
                             "span": {
@@ -3511,6 +3518,7 @@
               "start": 2138,
               "end": 2233
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -3840,6 +3848,7 @@
               "start": 2301,
               "end": 2443
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -4176,6 +4185,7 @@
               "start": 2495,
               "end": 2582
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -4508,6 +4518,7 @@
                     "start": 2708,
                     "end": 2842
                   },
+                  "bodyCtxt": 0,
                   "discriminant": {
                     "type": "Identifier",
                     "span": {
@@ -5134,6 +5145,7 @@
               "start": 3101,
               "end": 3427
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "MemberExpression",
               "span": {
@@ -5216,6 +5228,7 @@
                       "start": 3202,
                       "end": 3421
                     },
+                    "bodyCtxt": 0,
                     "discriminant": {
                       "type": "MemberExpression",
                       "span": {
@@ -5484,6 +5497,7 @@
               "start": 3493,
               "end": 3758
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "MemberExpression",
               "span": {
@@ -5566,6 +5580,7 @@
                       "start": 3594,
                       "end": 3752
                     },
+                    "bodyCtxt": 0,
                     "discriminant": {
                       "type": "MemberExpression",
                       "span": {
@@ -5834,6 +5849,7 @@
               "start": 3838,
               "end": 3928
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -6193,6 +6209,7 @@
               "start": 4082,
               "end": 4210
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "BinaryExpression",
               "span": {
@@ -6593,6 +6610,7 @@
                     "start": 4346,
                     "end": 4426
                   },
+                  "bodyCtxt": 0,
                   "discriminant": {
                     "type": "Identifier",
                     "span": {
@@ -6957,6 +6975,7 @@
               "start": 4555,
               "end": 4611
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -7315,6 +7334,7 @@
               "start": 4749,
               "end": 4856
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "MemberExpression",
               "span": {

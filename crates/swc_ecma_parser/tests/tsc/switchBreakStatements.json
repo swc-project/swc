@@ -11,6 +11,7 @@
         "start": 61,
         "end": 105
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "StringLiteral",
         "span": {
@@ -71,6 +72,7 @@
           "start": 112,
           "end": 160
         },
+        "bodyCtxt": 0,
         "discriminant": {
           "type": "StringLiteral",
           "span": {
@@ -157,6 +159,7 @@
             "start": 174,
             "end": 224
           },
+          "bodyCtxt": 0,
           "discriminant": {
             "type": "StringLiteral",
             "span": {
@@ -228,6 +231,7 @@
           "start": 232,
           "end": 357
         },
+        "bodyCtxt": 0,
         "discriminant": {
           "type": "StringLiteral",
           "span": {
@@ -276,6 +280,7 @@
                     "start": 282,
                     "end": 355
                   },
+                  "bodyCtxt": 0,
                   "discriminant": {
                     "type": "StringLiteral",
                     "span": {
@@ -335,6 +340,7 @@
         "start": 359,
         "end": 482
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "StringLiteral",
         "span": {
@@ -383,6 +389,7 @@
                   "start": 408,
                   "end": 480
                 },
+                "bodyCtxt": 0,
                 "discriminant": {
                   "type": "StringLiteral",
                   "span": {
@@ -457,6 +464,7 @@
           "start": 491,
           "end": 924
         },
+        "bodyCtxt": 0,
         "discriminant": {
           "type": "StringLiteral",
           "span": {
@@ -489,6 +497,7 @@
                   "start": 527,
                   "end": 922
                 },
+                "bodyCtxt": 0,
                 "discriminant": {
                   "type": "StringLiteral",
                   "span": {
@@ -521,6 +530,7 @@
                           "start": 579,
                           "end": 912
                         },
+                        "bodyCtxt": 0,
                         "discriminant": {
                           "type": "StringLiteral",
                           "span": {
@@ -586,6 +596,7 @@
                                     "start": 715,
                                     "end": 894
                                   },
+                                  "bodyCtxt": 0,
                                   "discriminant": {
                                     "type": "StringLiteral",
                                     "span": {

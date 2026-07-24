@@ -4033,6 +4033,7 @@
               "start": 2126,
               "end": 2399
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -4576,6 +4577,7 @@
               "start": 2495,
               "end": 2815
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -5285,6 +5287,7 @@
               "start": 2908,
               "end": 3667
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -6445,6 +6448,7 @@
               "start": 3795,
               "end": 4050
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -6882,6 +6886,7 @@
               "start": 4153,
               "end": 4318
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -7202,6 +7207,7 @@
               "start": 4464,
               "end": 4652
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {

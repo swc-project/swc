@@ -262,6 +262,7 @@
         "start": 118,
         "end": 184
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "CallExpression",
         "span": {

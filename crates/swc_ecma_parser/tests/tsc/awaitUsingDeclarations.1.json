@@ -1168,6 +1168,7 @@
         "start": 869,
         "end": 1078
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "CallExpression",
         "span": {
@@ -1464,6 +1465,7 @@
           "start": 1094,
           "end": 1215
         },
+        "bodyCtxt": 0,
         "discriminant": {
           "type": "NumericLiteral",
           "span": {

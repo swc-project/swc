@@ -17340,6 +17340,7 @@
               "start": 8218,
               "end": 8491
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "OptionalChainingExpression",
               "span": {
@@ -17703,6 +17704,7 @@
               "start": 8536,
               "end": 8827
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "UnaryExpression",
               "span": {
@@ -18293,6 +18295,7 @@
               "start": 9006,
               "end": 9214
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "OptionalChainingExpression",
               "span": {

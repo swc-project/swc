@@ -443,6 +443,7 @@
               "start": 143,
               "end": 350
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -739,6 +740,7 @@
               "start": 386,
               "end": 546
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -1239,6 +1241,7 @@
               "start": 728,
               "end": 1063
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -1610,6 +1613,7 @@
               "start": 1115,
               "end": 1412
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {

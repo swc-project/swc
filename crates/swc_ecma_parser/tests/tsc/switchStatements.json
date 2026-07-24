@@ -178,6 +178,7 @@
         "start": 88,
         "end": 439
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "Identifier",
         "span": {
@@ -926,6 +927,7 @@
         "start": 581,
         "end": 668
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "NewExpression",
         "span": {
@@ -1068,6 +1070,7 @@
         "start": 670,
         "end": 685
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "StringLiteral",
         "span": {
@@ -1085,6 +1088,7 @@
         "start": 686,
         "end": 701
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "NumericLiteral",
         "span": {
@@ -1102,6 +1106,7 @@
         "start": 702,
         "end": 719
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "BooleanLiteral",
         "span": {
@@ -1118,6 +1123,7 @@
         "start": 720,
         "end": 737
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "NullLiteral",
         "span": {
@@ -1133,6 +1139,7 @@
         "start": 738,
         "end": 760
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "Identifier",
         "span": {
@@ -1151,6 +1158,7 @@
         "start": 761,
         "end": 786
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "NewExpression",
         "span": {
@@ -1192,6 +1200,7 @@
         "start": 787,
         "end": 812
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "NewExpression",
         "span": {
@@ -1220,6 +1229,7 @@
         "start": 813,
         "end": 833
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "RegExpLiteral",
         "span": {
@@ -1237,6 +1247,7 @@
         "start": 834,
         "end": 849
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "ArrayExpression",
         "span": {
@@ -1253,6 +1264,7 @@
         "start": 850,
         "end": 865
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "ObjectExpression",
         "span": {
@@ -1269,6 +1281,7 @@
         "start": 866,
         "end": 889
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "ObjectExpression",
         "span": {
@@ -1306,6 +1319,7 @@
         "start": 890,
         "end": 908
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "ArrayExpression",
         "span": {
@@ -1335,6 +1349,7 @@
         "start": 909,
         "end": 942
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "ArrowFunctionExpression",
         "span": {
@@ -1421,6 +1436,7 @@
         "start": 943,
         "end": 976
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "CallExpression",
         "span": {
