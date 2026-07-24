@@ -1,11 +1,12 @@
+use anyhow::Error;
 use swc::{
     config::{Config, InputSourceMap, JscConfig, ModuleConfig, Options, SourceMapsConfig},
-    Compiler,
+    CompileInput, Compiler, PipelineContext, PipelineHooks,
 };
-use swc_common::{comments::SingleThreadedComments, FileName};
+use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 struct PanicOnVisit;
 
@@ -17,7 +18,18 @@ impl VisitMut for PanicOnVisit {
     }
 }
 
-/// We ensure that typescript is stripped out before applying custom transforms.
+impl PipelineHooks for PanicOnVisit {
+    fn mutate_after_typescript(
+        &mut self,
+        program: &mut Program,
+        _context: &PipelineContext<'_>,
+    ) -> Result<(), Error> {
+        program.visit_mut_with(self);
+        Ok(())
+    }
+}
+
+/// Ensures that TypeScript is stripped before the after-TypeScript hooks run.
 #[test]
 #[should_panic(expected = "Expected 5.0")]
 fn test_visit_mut() {
@@ -31,25 +43,24 @@ fn test_visit_mut() {
             ",
         );
 
-        let res = c.process_js_with_custom_pass(
-            fm,
-            None,
-            &handler,
-            &Options {
-                config: Config {
-                    jsc: JscConfig {
-                        syntax: Some(Syntax::Typescript(Default::default())),
+        let res = c
+            .compile(
+                &handler,
+                CompileInput::source(fm),
+                &Options {
+                    config: Config {
+                        jsc: JscConfig {
+                            syntax: Some(Syntax::Typescript(Default::default())),
+                            ..Default::default()
+                        },
                         ..Default::default()
                     },
+
                     ..Default::default()
                 },
-
-                ..Default::default()
-            },
-            SingleThreadedComments::default(),
-            |_| visit_mut_pass(PanicOnVisit),
-            |_| noop_pass(),
-        );
+            )
+            .with_hooks(PanicOnVisit)
+            .codegen();
 
         assert_ne!(res.unwrap().code, "console.log(5 as const)");
 
@@ -76,31 +87,26 @@ fn shopify_1_check_filename() {
             ",
         );
 
-        let res = c.process_js_with_custom_pass(
-            fm,
-            None,
-            &handler,
-            &Options {
-                config: Config {
-                    jsc: JscConfig {
-                        syntax: Some(Syntax::Es(EsSyntax {
-                            jsx: true,
+        let res = c
+            .compile(
+                &handler,
+                CompileInput::source(fm),
+                &Options {
+                    config: Config {
+                        jsc: JscConfig {
+                            syntax: Some(Syntax::Es(EsSyntax {
+                                jsx: true,
+                                ..Default::default()
+                            })),
                             ..Default::default()
-                        })),
+                        },
+                        module: Some(ModuleConfig::CommonJs(Default::default())),
                         ..Default::default()
                     },
-                    module: Some(ModuleConfig::CommonJs(Default::default())),
                     ..Default::default()
                 },
-                ..Default::default()
-            },
-            SingleThreadedComments::default(),
-            |_| {
-                // Ensure comment API
-                noop_pass()
-            },
-            |_| noop_pass(),
-        );
+            )
+            .codegen();
 
         if res.is_err() {
             return Err(());
@@ -174,15 +180,9 @@ fn shopify_2_same_opt() {
             ",
         );
 
-        let res = c.process_js_with_custom_pass(
-            fm,
-            None,
-            &handler,
-            &opts,
-            SingleThreadedComments::default(),
-            |_| noop_pass(),
-            |_| noop_pass(),
-        );
+        let res = c
+            .compile(&handler, CompileInput::source(fm), &opts)
+            .codegen();
 
         if res.is_err() {
             return Err(());
@@ -241,15 +241,9 @@ fn shopify_3_reduce_defaults() {
             ",
         );
 
-        let res = c.process_js_with_custom_pass(
-            fm,
-            None,
-            &handler,
-            &opts,
-            SingleThreadedComments::default(),
-            |_| noop_pass(),
-            |_| noop_pass(),
-        );
+        let res = c
+            .compile(&handler, CompileInput::source(fm), &opts)
+            .codegen();
 
         if res.is_err() {
             return Err(());
@@ -303,15 +297,9 @@ fn shopify_4_reduce_more() {
             ",
         );
 
-        let res = c.process_js_with_custom_pass(
-            fm,
-            None,
-            &handler,
-            &opts,
-            SingleThreadedComments::default(),
-            |_| noop_pass(),
-            |_| noop_pass(),
-        );
+        let res = c
+            .compile(&handler, CompileInput::source(fm), &opts)
+            .codegen();
 
         if res.is_err() {
             return Err(());

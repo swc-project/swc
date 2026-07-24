@@ -10,9 +10,8 @@ use napi::{
 };
 use path_clean::clean;
 use swc_core::{
-    base::{config::Options, Compiler, TransformOutput},
-    common::{comments::SingleThreadedComments, errors::Handler, FileName},
-    ecma::ast::noop_pass,
+    base::{config::Options, CompileInput, Compiler, TransformOutput},
+    common::{errors::Handler, FileName, Spanned},
     node::{get_deserialized, MapErr},
 };
 
@@ -55,25 +54,19 @@ fn process_program_input(
     program_input: ProgramInput,
     options: &Options,
 ) -> Result<TransformOutput, Error> {
-    match program_input {
+    let (fm, program) = match program_input {
         ProgramInput::WithContext {
             program,
             source_context,
-        } => {
-            let (fm, program) = prepare_program_with_context(c, program, source_context)?;
-
-            c.process_js_with_custom_pass(
-                fm,
-                Some(program),
-                handler,
-                options,
-                SingleThreadedComments::default(),
-                |_| noop_pass(),
-                |_| noop_pass(),
-            )
+        } => prepare_program_with_context(c, program, source_context)?,
+        ProgramInput::Raw(program) => {
+            let fm = c.cm.lookup_char_pos(program.span().lo()).file;
+            (fm, program)
         }
-        ProgramInput::Raw(program) => c.process_js(handler, program, options),
-    }
+    };
+
+    c.compile(handler, CompileInput::program(fm, program), options)
+        .codegen()
 }
 
 #[napi]
