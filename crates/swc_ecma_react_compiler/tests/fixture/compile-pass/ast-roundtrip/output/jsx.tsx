@@ -31,7 +31,7 @@ export function App<T extends string = "on">(x: T): React.ReactElement {
     }
     let t4;
     if ($[4] !== x) {
-        t4 = <section data-id={dashboard.id} {...panelProps}><UI.Panel x={x} title={`Status: ${Status.Ready}`}>{t1}{t2}{t3}{dashboard.actions}</UI.Panel></section>;
+        t4 = <section data-id={dashboard.id} {...panelProps}><UI.Panel<T> x={x} title={`Status: ${Status.Ready}`}>{t1}{t2}{t3}{dashboard.actions}</UI.Panel></section>;
         $[4] = x;
         $[5] = t4;
     } else {
