@@ -933,6 +933,48 @@ impl TreeShaker {
     }
 }
 
+/// Top-level declared identifiers, without descending into function bodies.
+fn push_decl_binding_ids(decl: &Decl, out: &mut Vec<Id>) {
+    match decl {
+        Decl::Class(c) => out.push(c.ident.to_id()),
+        Decl::Fn(f) => out.push(f.ident.to_id()),
+        Decl::Var(v) => {
+            for d in &v.decls {
+                out.extend(find_pat_ids::<_, Id>(&d.name));
+            }
+        }
+        _ => {}
+    }
+}
+
+/// Collects `var` bindings that hoist to the enclosing top-level (module or
+/// script) scope: `var`s anywhere except inside a nested function scope. Used
+/// alongside the immediate top-level declarations so a `var` hoisted out of a
+/// top-level block (e.g. `if (c) { var x }`) stays visible to a root `eval`.
+#[derive(Default)]
+struct RootHoistedVars {
+    ids: Vec<Id>,
+}
+
+impl Visit for RootHoistedVars {
+    noop_visit_type!();
+
+    // Nested function scopes don't hoist their `var`s to the root.
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        if n.kind == VarDeclKind::Var {
+            for d in &n.decls {
+                self.ids.extend(find_pat_ids::<_, Id>(&d.name));
+            }
+        }
+    }
+}
+
 impl VisitMut for TreeShaker {
     noop_visit_mut_type!();
 
@@ -1164,6 +1206,52 @@ impl VisitMut for TreeShaker {
                     nontrivial_classes: Default::default(),
                 };
                 m.visit_with(&mut analyzer);
+
+                if analyzer.scope.found_direct_eval {
+                    // A direct `eval` reaching the root can resolve any
+                    // top-level binding by name. Pin the module's top-level
+                    // declarations as graph entries so DCE can't drop them.
+                    // Unlike `collect_decls`, we do NOT descend into function
+                    // bodies: a top-level `eval` cannot observe bindings nested
+                    // inside another scope.
+                    let mut ids = Vec::new();
+                    for item in &m.body {
+                        match item {
+                            ModuleItem::Stmt(Stmt::Decl(d)) => push_decl_binding_ids(d, &mut ids),
+                            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(e)) => {
+                                push_decl_binding_ids(&e.decl, &mut ids)
+                            }
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
+                                for spec in &i.specifiers {
+                                    ids.push(match spec {
+                                        ImportSpecifier::Named(s) => s.local.to_id(),
+                                        ImportSpecifier::Default(s) => s.local.to_id(),
+                                        ImportSpecifier::Namespace(s) => s.local.to_id(),
+                                        #[cfg(swc_ast_unknown)]
+                                        _ => continue,
+                                    });
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+
+                    // Also pin `var`s hoisted out of nested top-level statements
+                    // (e.g. `if (c) { var x }`), visible to a root `eval`.
+                    let mut hoisted = RootHoistedVars::default();
+                    m.visit_with(&mut hoisted);
+                    ids.extend(hoisted.ids);
+
+                    for id in ids {
+                        // Pin as a graph entry so `subtract_cycles` never
+                        // subtracts it (survives Repeat passes), and bump usage
+                        // so a lone binding — which has no in-graph references —
+                        // isn't dropped by `can_drop_binding`.
+                        let ix = analyzer.data.node(&id);
+                        analyzer.data.entries.insert(ix);
+                        analyzer.data.used_names.entry(id).or_default().usage += 1;
+                    }
+                }
             }
             data.subtract_cycles();
             self.data = data;
@@ -1233,6 +1321,37 @@ impl VisitMut for TreeShaker {
                     nontrivial_classes: Default::default(),
                 };
                 m.visit_with(&mut analyzer);
+
+                // A direct `eval` can reference any binding in its enclosing
+                // lexical scope chain, up to the top level. `found_direct_eval`
+                // is propagated to the root scope, but unlike function scopes
+                // (see `with_scope`), the root never consumed it, so top-level
+                // declarations reachable by a direct `eval` were dropped.
+                // Preserve them here.
+                if analyzer.scope.found_direct_eval {
+                    let mut ids = Vec::new();
+                    for stmt in &m.body {
+                        if let Stmt::Decl(d) = stmt {
+                            push_decl_binding_ids(d, &mut ids);
+                        }
+                    }
+
+                    // Also pin `var`s hoisted out of nested top-level statements
+                    // (e.g. `if (c) { var x }`), visible to a root `eval`.
+                    let mut hoisted = RootHoistedVars::default();
+                    m.visit_with(&mut hoisted);
+                    ids.extend(hoisted.ids);
+
+                    for id in ids {
+                        // Pin as a graph entry so `subtract_cycles` never
+                        // subtracts it (survives Repeat passes), and bump usage
+                        // so a lone binding — which has no in-graph references —
+                        // isn't dropped by `can_drop_binding`.
+                        let ix = analyzer.data.node(&id);
+                        analyzer.data.entries.insert(ix);
+                        analyzer.data.used_names.entry(id).or_default().usage += 1;
+                    }
+                }
             }
             data.subtract_cycles();
             self.data = data;
