@@ -266,10 +266,6 @@ impl Visit for LeapFinder {
 
     fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_getter_prop(&mut self, _: &GetterProp) {}
-
-    fn visit_setter_prop(&mut self, _: &SetterProp) {}
-
     fn visit_yield_expr(&mut self, n: &YieldExpr) {
         n.visit_children_with(self);
 
@@ -384,22 +380,6 @@ impl Visit for IdentUsageCollector {
     }
 
     fn visit_function(&mut self, n: &Function) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
         if self.ignore_nested {
             return;
         }

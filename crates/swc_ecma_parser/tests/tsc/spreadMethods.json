@@ -821,32 +821,44 @@
                   },
                   "value": "g"
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 367,
+                    "start": 359,
                     "end": 380
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 369,
-                        "end": 378
-                      },
-                      "argument": {
-                        "type": "NumericLiteral",
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 367,
+                      "end": 380
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 376,
-                          "end": 377
+                          "start": 369,
+                          "end": 378
                         },
-                        "value": 0.0,
-                        "raw": "0"
+                        "argument": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 376,
+                            "end": 377
+                          },
+                          "value": 0.0,
+                          "raw": "0"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]
@@ -1297,32 +1309,44 @@
                   },
                   "value": "g"
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 531,
+                    "start": 523,
                     "end": 544
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 533,
-                        "end": 542
-                      },
-                      "argument": {
-                        "type": "NumericLiteral",
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 531,
+                      "end": 544
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 540,
-                          "end": 541
+                          "start": 533,
+                          "end": 542
                         },
-                        "value": 0.0,
-                        "raw": "0"
+                        "argument": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 540,
+                            "end": 541
+                          },
+                          "value": 0.0,
+                          "raw": "0"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

@@ -1030,18 +1030,10 @@ impl Optimizer<'_> {
             };
 
             match &**prop {
-                Prop::Method(prop) => {
-                    if contains_this_expr(&prop.function.body) {
-                        return None;
-                    }
-                }
-                Prop::Getter(prop) => {
-                    if contains_this_expr(&prop.body) {
-                        return None;
-                    }
-                }
-                Prop::Setter(prop) => {
-                    if contains_this_expr(&prop.body) {
+                Prop::Method(MethodProp { function, .. })
+                | Prop::Getter(GetterProp { function, .. })
+                | Prop::Setter(SetterProp { function, .. }) => {
+                    if contains_this_expr(&function.body) {
                         return None;
                     }
                 }

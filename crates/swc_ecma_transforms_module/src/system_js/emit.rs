@@ -392,19 +392,20 @@ fn emit_export_setters(stmts: &mut Vec<Stmt>, module: &SystemModule, export_iden
             let value = private_ident!("_value");
             Prop::Setter(SetterProp {
                 key: prop_name(sym, Default::default()).into(),
-                this_param: None,
-                param: Pat::Ident(BindingIdent {
-                    id: value.clone(),
-                    type_ann: None,
-                })
-                .into(),
-                body: Some(BlockStmt {
-                    stmts: vec![
-                        value
-                            .make_assign_to(op!("="), local.clone().into())
-                            .into_stmt(),
-                        export_names_call(export_ident, exports, local).into_stmt(),
-                    ],
+                function: Box::new(Function {
+                    params: vec![Param::from(Pat::Ident(BindingIdent {
+                        id: value.clone(),
+                        type_ann: None,
+                    }))],
+                    body: Some(BlockStmt {
+                        stmts: vec![
+                            value
+                                .make_assign_to(op!("="), local.clone().into())
+                                .into_stmt(),
+                            export_names_call(export_ident, exports, local).into_stmt(),
+                        ],
+                        ..Default::default()
+                    }),
                     ..Default::default()
                 }),
                 span: DUMMY_SP,

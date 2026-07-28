@@ -230,32 +230,44 @@
                   },
                   "value": "a"
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 125,
+                    "start": 117,
                     "end": 137
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 127,
-                        "end": 135
-                      },
-                      "argument": {
-                        "type": "NumericLiteral",
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 125,
+                      "end": 137
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 134,
+                          "start": 127,
                           "end": 135
                         },
-                        "value": 1.0,
-                        "raw": "1"
+                        "argument": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 134,
+                            "end": 135
+                          },
+                          "value": 1.0,
+                          "raw": "1"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]
@@ -312,26 +324,47 @@
                   },
                   "value": "b"
                 },
-                "thisParam": null,
-                "param": {
-                  "type": "Identifier",
+                "function": {
+                  "params": [
+                    {
+                      "type": "Parameter",
+                      "span": {
+                        "start": 161,
+                        "end": 162
+                      },
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 161,
+                          "end": 162
+                        },
+                        "ctxt": 0,
+                        "value": "v",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    }
+                  ],
+                  "decorators": [],
                   "span": {
-                    "start": 161,
-                    "end": 162
-                  },
-                  "ctxt": 0,
-                  "value": "v",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "body": {
-                  "type": "BlockStatement",
-                  "span": {
-                    "start": 164,
+                    "start": 155,
                     "end": 167
                   },
                   "ctxt": 0,
-                  "stmts": []
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 164,
+                      "end": 167
+                    },
+                    "ctxt": 0,
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

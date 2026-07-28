@@ -1,7 +1,7 @@
 "use strict";
 var s = {
-    set a (v){
-        this.b = v;
+    set a (s){
+        this.b = s;
     },
     b: "FAIL"
 };

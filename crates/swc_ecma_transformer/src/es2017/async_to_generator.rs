@@ -308,26 +308,6 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
     }
 
-    fn enter_getter_prop(&mut self, _f: &mut GetterProp, _ctx: &mut TraverseCtx) {
-        if let Some(prev) = self.fn_state.take() {
-            self.fn_state_stack.push(prev);
-        }
-    }
-
-    fn exit_getter_prop(&mut self, _f: &mut GetterProp, _ctx: &mut TraverseCtx) {
-        self.fn_state = self.fn_state_stack.pop();
-    }
-
-    fn enter_setter_prop(&mut self, _f: &mut SetterProp, _ctx: &mut TraverseCtx) {
-        if let Some(prev) = self.fn_state.take() {
-            self.fn_state_stack.push(prev);
-        }
-    }
-
-    fn exit_setter_prop(&mut self, _f: &mut SetterProp, _ctx: &mut TraverseCtx) {
-        self.fn_state = self.fn_state_stack.pop();
-    }
-
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
         let Some(fn_state @ FnState { is_async: true, .. }) = &mut self.fn_state else {
             return;

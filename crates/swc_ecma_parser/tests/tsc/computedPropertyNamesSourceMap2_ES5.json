@@ -108,32 +108,44 @@
                     "raw": "\"goodbye\""
                   }
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 109,
+                    "start": 91,
                     "end": 125
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 113,
-                        "end": 122
-                      },
-                      "argument": {
-                        "type": "NumericLiteral",
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 109,
+                      "end": 125
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 120,
-                          "end": 121
+                          "start": 113,
+                          "end": 122
                         },
-                        "value": 0.0,
-                        "raw": "0"
+                        "argument": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 120,
+                            "end": 121
+                          },
+                          "value": 0.0,
+                          "raw": "0"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

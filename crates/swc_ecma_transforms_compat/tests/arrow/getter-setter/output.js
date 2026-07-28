@@ -1,5 +1,5 @@
 var _this = this;
-const a1 = function() {
+const a = function() {
     return {
         get this () {
             this;

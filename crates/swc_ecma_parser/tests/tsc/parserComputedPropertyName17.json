@@ -62,26 +62,47 @@
                     "optional": false
                   }
                 },
-                "thisParam": null,
-                "param": {
-                  "type": "Identifier",
+                "function": {
+                  "params": [
+                    {
+                      "type": "Parameter",
+                      "span": {
+                        "start": 34,
+                        "end": 35
+                      },
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 34,
+                          "end": 35
+                        },
+                        "ctxt": 0,
+                        "value": "v",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    }
+                  ],
+                  "decorators": [],
                   "span": {
-                    "start": 34,
-                    "end": 35
-                  },
-                  "ctxt": 0,
-                  "value": "v",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "body": {
-                  "type": "BlockStatement",
-                  "span": {
-                    "start": 37,
+                    "start": 26,
                     "end": 40
                   },
                   "ctxt": 0,
-                  "stmts": []
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 37,
+                      "end": 40
+                    },
+                    "ctxt": 0,
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

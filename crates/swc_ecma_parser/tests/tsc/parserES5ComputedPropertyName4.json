@@ -62,15 +62,27 @@
                     "optional": false
                   }
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 36,
+                    "start": 26,
                     "end": 39
                   },
                   "ctxt": 0,
-                  "stmts": []
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 36,
+                      "end": 39
+                    },
+                    "ctxt": 0,
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

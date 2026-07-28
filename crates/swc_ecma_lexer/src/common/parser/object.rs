@@ -1,4 +1,4 @@
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
@@ -19,13 +19,6 @@ use crate::{
     },
     error::SyntaxError,
 };
-
-fn ts_this_param_to_pat(param: TsThisParam) -> Pat {
-    Pat::Ident(BindingIdent {
-        id: Ident::new_no_ctxt("this".into(), param.this_span),
-        type_ann: param.type_ann,
-    })
-}
 
 fn parse_object<'a, P: Parser<'a>, Object, ObjectProp>(
     p: &mut P,
@@ -331,25 +324,19 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                             false,
                             false,
                         )
-                        .map(|v| *v)
-                        .map(
-                            |Function {
-                                 body, return_type, ..
-                             }| {
-                                if parser.input().syntax().typescript()
-                                    && parser.input().target() == EsVersion::Es3
-                                {
-                                    parser.emit_err(key_span, SyntaxError::TS1056);
-                                }
+                        .map(|function| {
+                            if parser.input().syntax().typescript()
+                                && parser.input().target() == EsVersion::Es3
+                            {
+                                parser.emit_err(key_span, SyntaxError::TS1056);
+                            }
 
-                                PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
-                                    span: parser.span(start),
-                                    key,
-                                    type_ann: return_type,
-                                    body,
-                                })))
-                            },
-                        ),
+                            PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
+                                span: parser.span(start),
+                                key,
+                                function,
+                            })))
+                        }),
                         "set" => {
                             parse_fn_args_body(
                                 parser,
@@ -380,37 +367,13 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                                 false,
                                 false,
                             )
-                            .map(|v| *v)
-                            .map(
-                                |Function {
-                                     this_param,
-                                     params,
-                                     body,
-                                     ..
-                                 }| {
-                                    let this = this_param
-                                        .map(|this_param| ts_this_param_to_pat(*this_param));
-
-                                    let param = Box::new(
-                                        params.into_iter().next().map(|v| v.pat).unwrap_or_else(
-                                            || {
-                                                parser.emit_err(key_span, SyntaxError::SetterParam);
-
-                                                Invalid { span: DUMMY_SP }.into()
-                                            },
-                                        ),
-                                    );
-
-                                    // debug_assert_eq!(params.len(), 1);
-                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                        span: parser.span(start),
-                                        key,
-                                        body,
-                                        param,
-                                        this_param: this,
-                                    })))
-                                },
-                            )
+                            .map(|function| {
+                                PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                    span: parser.span(start),
+                                    key,
+                                    function,
+                                })))
+                            })
                         }
                         "async" => parse_fn_args_body(
                             parser,

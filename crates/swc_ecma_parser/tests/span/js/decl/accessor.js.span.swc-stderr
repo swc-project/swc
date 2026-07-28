@@ -267,6 +267,13 @@
     :         ^
  12 |     set a(v) { },
     `----
+  x Function
+    ,-[$DIR/tests/span/js/decl/accessor.js:11:1]
+ 10 | let obj = {
+ 11 |     get a() { },
+    :     ^^^^^^^^^^^
+ 12 |     set a(v) { },
+    `----
   x BlockStmt
     ,-[$DIR/tests/span/js/decl/accessor.js:11:1]
  10 | let obj = {
@@ -300,6 +307,20 @@
  11 |     get a() { },
  12 |     set a(v) { },
     :         ^
+ 13 | }
+    `----
+  x Function
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:1]
+ 11 |     get a() { },
+ 12 |     set a(v) { },
+    :     ^^^^^^^^^^^^
+ 13 | }
+    `----
+  x Param
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:1]
+ 11 |     get a() { },
+ 12 |     set a(v) { },
+    :           ^
  13 | }
     `----
   x Pat

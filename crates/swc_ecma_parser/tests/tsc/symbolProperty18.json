@@ -193,40 +193,61 @@
                     }
                   }
                 },
-                "thisParam": null,
-                "param": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 123,
-                    "end": 124
-                  },
-                  "ctxt": 0,
-                  "value": "p",
-                  "optional": false,
-                  "typeAnnotation": {
-                    "type": "TsTypeAnnotation",
-                    "span": {
-                      "start": 124,
-                      "end": 133
-                    },
-                    "typeAnnotation": {
-                      "type": "TsKeywordType",
+                "function": {
+                  "params": [
+                    {
+                      "type": "Parameter",
                       "span": {
-                        "start": 126,
+                        "start": 123,
                         "end": 133
                       },
-                      "kind": "boolean"
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 123,
+                          "end": 124
+                        },
+                        "ctxt": 0,
+                        "value": "p",
+                        "optional": false,
+                        "typeAnnotation": {
+                          "type": "TsTypeAnnotation",
+                          "span": {
+                            "start": 124,
+                            "end": 133
+                          },
+                          "typeAnnotation": {
+                            "type": "TsKeywordType",
+                            "span": {
+                              "start": 126,
+                              "end": 133
+                            },
+                            "kind": "boolean"
+                          }
+                        }
+                      }
                     }
-                  }
-                },
-                "body": {
-                  "type": "BlockStatement",
+                  ],
+                  "decorators": [],
                   "span": {
-                    "start": 135,
+                    "start": 98,
                     "end": 138
                   },
                   "ctxt": 0,
-                  "stmts": []
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 135,
+                      "end": 138
+                    },
+                    "ctxt": 0,
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]
