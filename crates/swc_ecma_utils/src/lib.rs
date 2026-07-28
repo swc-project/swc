@@ -1182,7 +1182,9 @@ impl Visit for LiteralVisitor {
     }
 
     fn visit_number(&mut self, node: &Number) {
-        if !self.allow_non_json_value && !node.value.is_finite() {
+        // JSON number syntax can express infinities as overflowed values such
+        // as `2e308`, but it has no representation that parses to `NaN`.
+        if !self.allow_non_json_value && node.value.is_nan() {
             self.is_lit = false;
         }
     }

@@ -29,7 +29,8 @@ once_cell  = { workspace = true }
 par-core   = { workspace = true }
 petgraph   = { workspace = true }
 rustc-hash = { workspace = true }
-serde_json = { workspace = true }
+serde       = { workspace = true }
+serde_json  = { workspace = true, features = ["raw_value"] }
 tracing    = { workspace = true }
 
 swc_atoms = { version = "10.0.0", path = "../swc_atoms" }

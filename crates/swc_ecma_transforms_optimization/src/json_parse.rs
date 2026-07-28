@@ -1,6 +1,12 @@
-use serde_json::Value;
+use std::{collections::BTreeMap, fmt::Write};
+
+use serde::{
+    ser::{SerializeMap, SerializeSeq},
+    Serialize, Serializer,
+};
+use serde_json::value::RawValue;
 use swc_atoms::Wtf8Atom;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{calc_literal_cost, member_expr, number::ToJsString, ExprFactory};
@@ -65,13 +71,11 @@ impl VisitMut for JsonParse {
             Expr::Array(..) | Expr::Object(..) => {
                 let (is_lit, cost) = calc_literal_cost(&*expr, false);
                 if is_lit && cost >= self.min_cost {
-                    let value =
-                        serde_json::to_string(&jsonify(expr.take())).unwrap_or_else(|err| {
-                            unreachable!("failed to serialize serde_json::Value as json: {}", err)
-                        });
+                    let span = expr.span();
+                    let value = jsonify(expr);
 
                     *expr = CallExpr {
-                        span: expr.span(),
+                        span,
                         callee: member_expr!(Default::default(), DUMMY_SP, JSON.parse).as_callee(),
                         args: vec![Lit::Str(Str {
                             span: DUMMY_SP,
@@ -109,61 +113,105 @@ fn wtf8_to_json_string(value: &Wtf8Atom) -> String {
             result.push(ch);
         } else {
             // Lone surrogate - escape as \uXXXX
-            use std::fmt::Write;
             write!(&mut result, "\\u{:04X}", cp.to_u32()).unwrap();
         }
     }
     result
 }
 
-fn jsonify(e: Expr) -> Value {
-    match e {
-        Expr::Object(obj) => Value::Object(
-            obj.props
-                .into_iter()
-                .map(|v| match v {
-                    PropOrSpread::Prop(p) if p.is_key_value() => p.key_value().unwrap(),
-                    _ => unreachable!(),
-                })
-                .map(|p: KeyValueProp| {
-                    let value = jsonify(*p.value);
-                    let key = match p.key {
-                        PropName::Str(s) => wtf8_to_json_string(&s.value),
-                        PropName::Ident(id) => id.sym.to_string(),
-                        PropName::Num(n) => n.value.to_js_string(),
-                        _ => unreachable!(),
+/// Converts a finite ECMAScript number without using a saturating integer cast.
+fn json_number(value: f64) -> serde_json::Number {
+    let is_i64 = value.fract() == 0.0 && value >= i64::MIN as f64 && value < i64::MAX as f64;
+    let preserves_zero_sign = value != 0.0 || value.is_sign_positive();
+
+    if is_i64 && preserves_zero_sign {
+        return (value as i64).into();
+    }
+
+    serde_json::Number::from_f64(value)
+        .unwrap_or_else(|| unreachable!("non-finite numbers require raw JSON serialization"))
+}
+
+/// Converts a property name to the string key created by an object literal.
+fn json_key(key: &PropName) -> String {
+    match key {
+        PropName::Str(s) => wtf8_to_json_string(&s.value),
+        PropName::Ident(id) => id.sym.to_string(),
+        PropName::Num(n) => n.value.to_js_string(),
+        _ => unreachable!(),
+    }
+}
+
+/// Serializes a literal expression to JSON text while preserving ECMAScript
+/// numeric values that are not representable by `serde_json::Value`.
+fn jsonify(e: &Expr) -> String {
+    serde_json::to_string(&JsonLiteral(e))
+        .unwrap_or_else(|err| unreachable!("failed to serialize literal as JSON: {err}"))
+}
+
+/// Adapts an ECMAScript literal expression to Serde's data model.
+struct JsonLiteral<'a>(&'a Expr);
+
+impl Serialize for JsonLiteral<'_> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match self.0 {
+            Expr::Object(obj) => {
+                let mut values = BTreeMap::new();
+                for prop in &obj.props {
+                    let PropOrSpread::Prop(prop) = prop else {
+                        unreachable!()
                     };
-                    (key, value)
-                })
-                .collect(),
-        ),
-        Expr::Array(arr) => Value::Array(
-            arr.elems
-                .into_iter()
-                .map(|v| jsonify(*v.unwrap().expr))
-                .collect(),
-        ),
-        Expr::Lit(Lit::Str(Str { value, .. })) => Value::String(wtf8_to_json_string(&value)),
-        Expr::Lit(Lit::Num(Number { value, .. })) => {
-            if value.fract() == 0.0 {
-                Value::Number((value as i64).into())
-            } else {
-                match serde_json::Number::from_f64(value) {
-                    Some(n) => Value::Number(n),
-                    None => Value::Number((value as i64).into()),
+                    let Prop::KeyValue(prop) = &**prop else {
+                        unreachable!()
+                    };
+                    values.insert(json_key(&prop.key), &*prop.value);
                 }
+
+                let mut map = serializer.serialize_map(Some(values.len()))?;
+                for (key, value) in values {
+                    map.serialize_entry(&key, &JsonLiteral(value))?;
+                }
+                map.end()
             }
+            Expr::Array(arr) => {
+                let mut seq = serializer.serialize_seq(Some(arr.elems.len()))?;
+                for value in &arr.elems {
+                    let value = value.as_ref().unwrap();
+                    seq.serialize_element(&JsonLiteral(value.expr.as_ref()))?;
+                }
+                seq.end()
+            }
+            Expr::Lit(Lit::Str(Str { value, .. })) => {
+                wtf8_to_json_string(value).serialize(serializer)
+            }
+            Expr::Lit(Lit::Num(Number { value, .. })) if value.is_infinite() => {
+                let value = if value.is_sign_positive() {
+                    "2e308"
+                } else {
+                    "-2e308"
+                };
+                RawValue::from_string(value.into())
+                    .unwrap()
+                    .serialize(serializer)
+            }
+            Expr::Lit(Lit::Num(Number { value, .. })) => json_number(*value).serialize(serializer),
+            Expr::Lit(Lit::Null(..)) => serializer.serialize_none(),
+            Expr::Lit(Lit::Bool(v)) => serializer.serialize_bool(v.value),
+            Expr::Tpl(Tpl { quasis, .. }) => {
+                let value = match quasis.first() {
+                    Some(TplElement {
+                        cooked: Some(value),
+                        ..
+                    }) => wtf8_to_json_string(value),
+                    _ => String::new(),
+                };
+                value.serialize(serializer)
+            }
+            _ => unreachable!("jsonify: Expr {:?} cannot be converted to json", self.0),
         }
-        Expr::Lit(Lit::Null(..)) => Value::Null,
-        Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
-        Expr::Tpl(Tpl { quasis, .. }) => Value::String(match quasis.first() {
-            Some(TplElement {
-                cooked: Some(value),
-                ..
-            }) => wtf8_to_json_string(value),
-            _ => String::new(),
-        }),
-        _ => unreachable!("jsonify: Expr {:?} cannot be converted to json", e),
     }
 }
 

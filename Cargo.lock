@@ -6956,6 +6956,7 @@ dependencies = [
  "par-core",
  "petgraph",
  "rustc-hash 2.1.1",
+ "serde",
  "serde_json",
  "swc_atoms",
  "swc_common",
