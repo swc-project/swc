@@ -3385,6 +3385,19 @@ impl VisitMut for DecoratorPass {
 
                 return;
             }
+
+            let mut old_state = take(&mut self.state);
+            let private_id_index = old_state.private_id_index;
+            self.state = ClassState {
+                private_id_index,
+                ..Default::default()
+            };
+            maybe_grow_default(|| c.visit_mut_with(self));
+            let nested_state = take(&mut self.state);
+            old_state.private_id_index = nested_state.private_id_index;
+            self.state = old_state;
+
+            return;
         }
 
         maybe_grow_default(|| e.visit_mut_children_with(self));
