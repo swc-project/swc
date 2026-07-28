@@ -71,6 +71,29 @@ pub struct Config {
 // }
 
 impl Params {
+    /// Transforms a setter's backing function while preserving its required
+    /// single formal parameter.
+    fn visit_mut_setter_function(&mut self, f: &mut Function) {
+        if f.body.is_none() {
+            return;
+        }
+
+        let old_in_subclass = self.in_subclass;
+        let old_in_prop = self.in_prop;
+        self.in_subclass = false;
+        self.in_prop = false;
+
+        f.visit_mut_children_with(self);
+
+        let mut body = f.body.take().unwrap();
+        self.visit_mut_fn_like(&mut f.params, &mut body, true);
+
+        f.body = Some(body);
+
+        self.in_subclass = old_in_subclass;
+        self.in_prop = old_in_prop;
+    }
+
     fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt, is_setter: bool) {
         let mut params = Vec::new();
         let mut decls = Vec::new();
@@ -482,26 +505,7 @@ impl VisitMut for Params {
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         if let MethodKind::Setter = m.kind {
-            let f = &mut m.function;
-
-            if f.body.is_none() {
-                return;
-            }
-
-            let old_in_subclass = self.in_subclass;
-            let old_in_prop = self.in_prop;
-            self.in_subclass = false;
-            self.in_prop = false;
-
-            f.visit_mut_children_with(self);
-
-            let mut body = f.body.take().unwrap();
-            self.visit_mut_fn_like(&mut f.params, &mut body, true);
-
-            f.body = Some(body);
-
-            self.in_subclass = old_in_subclass;
-            self.in_prop = old_in_prop;
+            self.visit_mut_setter_function(&mut m.function);
         } else {
             m.visit_mut_children_with(self);
         }
@@ -750,41 +754,9 @@ impl VisitMut for Params {
         self.in_prop = old_in_prop;
     }
 
-    fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
-        if f.body.is_none() {
-            return;
-        }
-
-        f.visit_mut_children_with(self);
-
-        let mut params = Vec::new();
-        let mut body = f.body.take().unwrap();
-        self.visit_mut_fn_like(&mut params, &mut body, false);
-        debug_assert_eq!(params, Vec::new());
-
-        f.body = Some(body);
-    }
-
     fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
-        if f.body.is_none() {
-            return;
-        }
-
-        f.visit_mut_children_with(self);
-
-        let mut params = vec![Param {
-            span: DUMMY_SP,
-            decorators: Default::default(),
-            pat: *f.param.take(),
-        }];
-
-        let mut body = f.body.take().unwrap();
-        self.visit_mut_fn_like(&mut params, &mut body, true);
-
-        debug_assert!(params.len() == 1);
-
-        *f.param = params.pop().unwrap().pat;
-        f.body = Some(body);
+        f.key.visit_mut_with(self);
+        self.visit_mut_setter_function(&mut f.function);
     }
 
     fn visit_mut_class(&mut self, c: &mut Class) {

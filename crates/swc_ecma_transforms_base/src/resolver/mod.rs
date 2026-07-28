@@ -924,17 +924,6 @@ impl VisitMut for Resolver<'_> {
         }
     }
 
-    fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
-        f.key.visit_mut_with(self);
-        self.ident_type = old;
-
-        f.type_ann.visit_mut_with(self);
-
-        f.body.visit_mut_with(self);
-    }
-
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
         if let JSXElementName::Ident(i) = node {
             if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
@@ -1064,13 +1053,6 @@ impl VisitMut for Resolver<'_> {
         s.body.visit_mut_with(self);
     }
 
-    fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
-        m.key.visit_mut_with(self);
-
-        // Child folder
-        self.with_child(ScopeKind::Fn, |child| m.function.visit_mut_with(child));
-    }
-
     fn visit_mut_module(&mut self, module: &mut Module) {
         self.strict_mode = true;
         self.is_module = true;
@@ -1140,6 +1122,18 @@ impl VisitMut for Resolver<'_> {
         }
     }
 
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        match prop {
+            Prop::Getter(GetterProp { key, function, .. })
+            | Prop::Setter(SetterProp { key, function, .. })
+            | Prop::Method(MethodProp { key, function }) => {
+                key.visit_mut_with(self);
+                self.with_child(ScopeKind::Fn, |child| function.visit_mut_with(child));
+            }
+            _ => prop.visit_mut_children_with(self),
+        }
+    }
+
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
         node.arg.visit_mut_with(self);
         node.type_ann.visit_mut_with(self);
@@ -1152,19 +1146,6 @@ impl VisitMut for Resolver<'_> {
             .map(|stmt| stmt.is_use_strict())
             .unwrap_or(false);
         script.visit_mut_children_with(self)
-    }
-
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        n.key.visit_mut_with(self);
-
-        {
-            self.with_child(ScopeKind::Fn, |child| {
-                child.ident_type = IdentType::Binding;
-                n.this_param.visit_mut_with(child);
-                n.param.visit_mut_with(child);
-                n.body.visit_mut_with(child);
-            });
-        };
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
@@ -1896,9 +1877,6 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_assign_target(&mut self, _: &mut AssignTarget) {}
-
-    #[inline]
-    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
     fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
         s.discriminant.visit_mut_with(self);

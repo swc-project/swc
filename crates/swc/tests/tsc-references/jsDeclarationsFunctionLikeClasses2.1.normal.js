@@ -31,13 +31,13 @@ Vec.prototype = {
 /**
  * @param {number} x
  * @param {number} y
- */ export function Point2D(x1, y1) {
+ */ export function Point2D(x, y) {
     if (!_instanceof(this, Point2D)) {
-        return new Point2D(x1, y1);
+        return new Point2D(x, y);
     }
     Vec.call(this, 2);
-    this.x = x1;
-    this.y = y1;
+    this.x = x;
+    this.y = y;
 }
 Point2D.prototype = {
     __proto__: Vec,

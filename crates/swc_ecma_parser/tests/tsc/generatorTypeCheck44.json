@@ -97,32 +97,44 @@
                           "delegate": false
                         }
                       },
-                      "typeAnnotation": null,
-                      "body": {
-                        "type": "BlockStatement",
+                      "function": {
+                        "params": [],
+                        "decorators": [],
                         "span": {
-                          "start": 70,
+                          "start": 54,
                           "end": 103
                         },
                         "ctxt": 0,
-                        "stmts": [
-                          {
-                            "type": "ReturnStatement",
-                            "span": {
-                              "start": 84,
-                              "end": 93
-                            },
-                            "argument": {
-                              "type": "NumericLiteral",
+                        "body": {
+                          "type": "BlockStatement",
+                          "span": {
+                            "start": 70,
+                            "end": 103
+                          },
+                          "ctxt": 0,
+                          "stmts": [
+                            {
+                              "type": "ReturnStatement",
                               "span": {
-                                "start": 91,
-                                "end": 92
+                                "start": 84,
+                                "end": 93
                               },
-                              "value": 0.0,
-                              "raw": "0"
+                              "argument": {
+                                "type": "NumericLiteral",
+                                "span": {
+                                  "start": 91,
+                                  "end": 92
+                                },
+                                "value": 0.0,
+                                "raw": "0"
+                              }
                             }
-                          }
-                        ]
+                          ]
+                        },
+                        "generator": false,
+                        "async": false,
+                        "typeParameters": null,
+                        "returnType": null
                       }
                     }
                   ]

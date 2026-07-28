@@ -53,46 +53,58 @@
                   },
                   "value": "prop1"
                 },
-                "typeAnnotation": {
-                  "type": "TsTypeAnnotation",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 30,
-                    "end": 38
-                  },
-                  "typeAnnotation": {
-                    "type": "TsKeywordType",
-                    "span": {
-                      "start": 32,
-                      "end": 38
-                    },
-                    "kind": "string"
-                  }
-                },
-                "body": {
-                  "type": "BlockStatement",
-                  "span": {
-                    "start": 39,
+                    "start": 19,
                     "end": 65
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 49,
-                        "end": 59
-                      },
-                      "argument": {
-                        "type": "StringLiteral",
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 39,
+                      "end": 65
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 56,
-                          "end": 58
+                          "start": 49,
+                          "end": 59
                         },
-                        "value": "",
-                        "raw": "\"\""
+                        "argument": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 56,
+                            "end": 58
+                          },
+                          "value": "",
+                          "raw": "\"\""
+                        }
                       }
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 30,
+                      "end": 38
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 32,
+                        "end": 38
+                      },
+                      "kind": "string"
                     }
-                  ]
+                  }
                 }
               },
               {
@@ -109,32 +121,44 @@
                   },
                   "value": "prop2"
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 83,
+                    "start": 71,
                     "end": 108
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 93,
-                        "end": 102
-                      },
-                      "argument": {
-                        "type": "NumericLiteral",
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 83,
+                      "end": 108
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 100,
-                          "end": 101
+                          "start": 93,
+                          "end": 102
                         },
-                        "value": 5.0,
-                        "raw": "5"
+                        "argument": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 100,
+                            "end": 101
+                          },
+                          "value": 5.0,
+                          "raw": "5"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

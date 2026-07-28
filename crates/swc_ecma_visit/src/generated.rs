@@ -11465,8 +11465,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
@@ -11475,10 +11474,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for GetterProp {
                     <PropName as VisitWith<V>>::visit_with(key, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
-                };
-                {
-                    <Option<BlockStmt> as VisitWith<V>>::visit_with(body, visitor)
+                    <Box<Function> as VisitWith<V>>::visit_with(function, visitor)
                 };
             }
         }
@@ -13212,9 +13208,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
@@ -13223,13 +13217,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for SetterProp {
                     <PropName as VisitWith<V>>::visit_with(key, visitor)
                 };
                 {
-                    <Option<Pat> as VisitWith<V>>::visit_with(this_param, visitor)
-                };
-                {
-                    <Box<Pat> as VisitWith<V>>::visit_with(param, visitor)
-                };
-                {
-                    <Option<BlockStmt> as VisitWith<V>>::visit_with(body, visitor)
+                    <Box<Function> as VisitWith<V>>::visit_with(function, visitor)
                 };
             }
         }
@@ -37385,8 +37373,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::GetterProp(
@@ -37413,21 +37400,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for GetterProp {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::GetterProp(
                         self,
-                        self::fields::GetterPropField::TypeAnn,
+                        self::fields::GetterPropField::Function,
                     ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::GetterProp(
-                        self,
-                        self::fields::GetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        body,
+                    <Box<Function> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -41570,9 +41546,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SetterProp(
@@ -41599,32 +41573,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SetterProp {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SetterProp(
                         self,
-                        self::fields::SetterPropField::ThisParam,
+                        self::fields::SetterPropField::Function,
                     ));
-                    <Option<Pat> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        this_param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SetterProp(
-                        self,
-                        self::fields::SetterPropField::Param,
-                    ));
-                    <Box<Pat> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SetterProp(
-                        self,
-                        self::fields::SetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        body,
+                    <Box<Function> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -61261,8 +61213,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
@@ -61271,10 +61222,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for GetterProp {
                     <PropName as VisitMutWith<V>>::visit_mut_with(key, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
-                };
-                {
-                    <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
+                    <Box<Function> as VisitMutWith<V>>::visit_mut_with(function, visitor)
                 };
             }
         }
@@ -63014,9 +62962,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
@@ -63025,13 +62971,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SetterProp {
                     <PropName as VisitMutWith<V>>::visit_mut_with(key, visitor)
                 };
                 {
-                    <Option<Pat> as VisitMutWith<V>>::visit_mut_with(this_param, visitor)
-                };
-                {
-                    <Box<Pat> as VisitMutWith<V>>::visit_mut_with(param, visitor)
-                };
-                {
-                    <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
+                    <Box<Function> as VisitMutWith<V>>::visit_mut_with(function, visitor)
                 };
             }
         }
@@ -83920,8 +83860,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
@@ -83945,20 +83884,10 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for GetterProp {
                 };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::TypeAnn,
+                        self::fields::GetterPropField::Function,
                     ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        body,
+                    <Box<Function> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -87243,9 +87172,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
@@ -87269,30 +87196,10 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SetterProp {
                 };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::ThisParam,
+                        self::fields::SetterPropField::Function,
                     ));
-                    <Option<Pat> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        this_param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::Param,
-                    ));
-                    <Box<Pat> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        body,
+                    <Box<Function> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -105395,19 +105302,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
-                let body = { <Option<BlockStmt> as FoldWith<V>>::fold_with(body, visitor) };
+                let function = { <Box<Function> as FoldWith<V>>::fold_with(function, visitor) };
                 GetterProp {
                     span,
                     key,
-                    type_ann,
-                    body,
+                    function,
                 }
             }
         }
@@ -107126,21 +107029,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
-                let this_param = { <Option<Pat> as FoldWith<V>>::fold_with(this_param, visitor) };
-                let param = { <Box<Pat> as FoldWith<V>>::fold_with(param, visitor) };
-                let body = { <Option<BlockStmt> as FoldWith<V>>::fold_with(body, visitor) };
+                let function = { <Box<Function> as FoldWith<V>>::fold_with(function, visitor) };
                 SetterProp {
                     span,
                     key,
-                    this_param,
-                    param,
-                    body,
+                    function,
                 }
             }
         }
@@ -129027,8 +128924,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
@@ -129050,22 +128946,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for GetterProp {
                         &mut *__ast_path,
                     )
                 };
-                let type_ann = {
+                let function = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::TypeAnn,
+                        self::fields::GetterPropField::Function,
                     ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let body = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        body,
+                    <Box<Function> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -129073,8 +128959,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for GetterProp {
                 GetterProp {
                     span,
                     key,
-                    type_ann,
-                    body,
+                    function,
                 }
             }
         }
@@ -132583,9 +132468,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
@@ -132607,32 +132490,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SetterProp {
                         &mut *__ast_path,
                     )
                 };
-                let this_param = {
+                let function = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::ThisParam,
+                        self::fields::SetterPropField::Function,
                     ));
-                    <Option<Pat> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        this_param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let param = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::Param,
-                    ));
-                    <Box<Pat> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let body = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        body,
+                    <Box<Function> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -132640,9 +132503,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SetterProp {
                 SetterProp {
                     span,
                     key,
-                    this_param,
-                    param,
-                    body,
+                    function,
                 }
             }
         }
@@ -140366,10 +140227,8 @@ pub mod fields {
         Span,
         #[doc = "Represents [`GetterProp::key`]"]
         Key,
-        #[doc = "Represents [`GetterProp::type_ann`]"]
-        TypeAnn,
-        #[doc = "Represents [`GetterProp::body`]"]
-        Body,
+        #[doc = "Represents [`GetterProp::function`]"]
+        Function,
     }
     impl IdentField {
         pub(crate) fn set_index(&mut self, index: usize) {
@@ -141708,12 +141567,8 @@ pub mod fields {
         Span,
         #[doc = "Represents [`SetterProp::key`]"]
         Key,
-        #[doc = "Represents [`SetterProp::this_param`]"]
-        ThisParam,
-        #[doc = "Represents [`SetterProp::param`]"]
-        Param,
-        #[doc = "Represents [`SetterProp::body`]"]
-        Body,
+        #[doc = "Represents [`SetterProp::function`]"]
+        Function,
     }
     impl SimpleAssignTargetField {
         #[inline(always)]
@@ -147152,15 +147007,10 @@ impl<'ast> NodeRef<'ast> {
             NodeRef::GetterProp(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain(::std::iter::once(NodeRef::PropName(&node.key)))
-                    .chain(node.type_ann.iter().flat_map(|item| {
-                        let item = &*item;
-                        ::std::iter::once(NodeRef::TsTypeAnn(&item))
-                    }))
-                    .chain(
-                        node.body
-                            .iter()
-                            .flat_map(|item| ::std::iter::once(NodeRef::BlockStmt(&item))),
-                    );
+                    .chain({
+                        let item = &*node.function;
+                        ::std::iter::once(NodeRef::Function(&item))
+                    });
                 Box::new(iterator)
             }
             NodeRef::Ident(node) => {
@@ -147800,20 +147650,10 @@ impl<'ast> NodeRef<'ast> {
             NodeRef::SetterProp(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain(::std::iter::once(NodeRef::PropName(&node.key)))
-                    .chain(
-                        node.this_param
-                            .iter()
-                            .flat_map(|item| ::std::iter::once(NodeRef::Pat(&item))),
-                    )
                     .chain({
-                        let item = &*node.param;
-                        ::std::iter::once(NodeRef::Pat(&item))
-                    })
-                    .chain(
-                        node.body
-                            .iter()
-                            .flat_map(|item| ::std::iter::once(NodeRef::BlockStmt(&item))),
-                    );
+                        let item = &*node.function;
+                        ::std::iter::once(NodeRef::Function(&item))
+                    });
                 Box::new(iterator)
             }
             NodeRef::SimpleAssignTarget(node) => match node {

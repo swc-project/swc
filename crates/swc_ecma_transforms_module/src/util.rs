@@ -428,8 +428,11 @@ fn getter_function((key, export_item): ExportBinding) -> Prop {
 
     GetterProp {
         key,
-        body: Some(BlockStmt {
-            stmts: vec![export_item.into_local_ident().into_return_stmt().into()],
+        function: Box::new(Function {
+            body: Some(BlockStmt {
+                stmts: vec![export_item.into_local_ident().into_return_stmt().into()],
+                ..Default::default()
+            }),
             ..Default::default()
         }),
         ..Default::default()

@@ -314,10 +314,6 @@ impl Visit for VarWithOutInitCounter {
 
     fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_getter_prop(&mut self, _: &GetterProp) {}
-
-    fn visit_setter_prop(&mut self, _: &SetterProp) {}
-
     fn visit_expr(&mut self, _: &Expr) {}
 
     fn visit_pat(&mut self, n: &Pat) {
@@ -445,8 +441,6 @@ impl VisitMut for VarMover {
     /// Noop
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
-    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {}
-
     fn visit_mut_module_decl(&mut self, _: &mut ModuleDecl) {}
 
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
@@ -464,8 +458,6 @@ impl VisitMut for VarMover {
             }
         }
     }
-
-    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
@@ -559,10 +551,6 @@ impl VisitMut for VarPrepender {
 
     /// Noop
     fn visit_mut_function(&mut self, _: &mut Function) {}
-
-    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {}
-
-    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         if self.target != VarDeclKind::Var {

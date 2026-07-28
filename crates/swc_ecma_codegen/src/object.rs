@@ -6,7 +6,7 @@ use swc_ecma_codegen_macros::node_impl;
 use crate::unknown_error;
 use crate::{
     is_empty_comments,
-    scope_helpers::{for_each_param_binding, for_each_pat_binding},
+    scope_helpers::for_each_param_binding,
     text_writer::{BindingStorage, ScopeKind},
     ListFormat,
 };
@@ -110,7 +110,13 @@ impl MacroNode for GetterProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
-        emitter.start_scope(None, ScopeKind::Function, true, false, Some(self.span()))?;
+        emitter.start_scope(
+            None,
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
 
         keyword!(emitter, "get");
 
@@ -125,10 +131,7 @@ impl MacroNode for GetterProp {
         }
         emit!(self.key);
         formatting_space!(emitter);
-        punct!(emitter, "(");
-        punct!(emitter, ")");
-        formatting_space!(emitter);
-        emit!(self.body);
+        emitter.emit_fn_trailing(&self.function)?;
         emitter.end_scope()?;
 
         Ok(())
@@ -141,10 +144,18 @@ impl MacroNode for SetterProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
-        emitter.start_scope(None, ScopeKind::Function, true, false, Some(self.span()))?;
+        emitter.start_scope(
+            None,
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
         if emitter.scope_tracking_enabled() {
             let mut names = vec![];
-            for_each_pat_binding(&self.param, &mut |name| names.push(name.to_string()));
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
             for name in names {
                 emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
             }
@@ -166,19 +177,23 @@ impl MacroNode for SetterProp {
         emit!(self.key);
         formatting_space!(emitter);
 
-        punct!(emitter, "(");
-        if let Some(this) = &self.this_param {
-            emit!(this);
-            punct!(emitter, ",");
-
-            formatting_space!(emitter);
+        if let Some(type_params) = &self.function.type_params {
+            emit!(type_params);
         }
 
-        emit!(self.param);
+        emitter.emit_fn_params(&self.function)?;
 
-        punct!(emitter, ")");
+        if let Some(return_type) = &self.function.return_type {
+            punct!(emitter, ":");
+            formatting_space!(emitter);
+            emit!(return_type);
+        }
 
-        emit!(self.body);
+        if let Some(body) = &self.function.body {
+            emit!(body);
+        } else {
+            semi!(emitter);
+        }
         emitter.end_scope()?;
 
         Ok(())

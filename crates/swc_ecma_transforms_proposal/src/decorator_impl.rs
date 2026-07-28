@@ -181,19 +181,6 @@ impl Visit for MovedStaticSuperFinder {
         // binding and should not trigger the rewrite.
     }
 
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        n.key.visit_with(self);
-    }
-
-    fn visit_method_prop(&mut self, n: &MethodProp) {
-        n.key.visit_with(self);
-    }
-
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        n.key.visit_with(self);
-        n.param.visit_with(self);
-    }
-
     fn visit_super(&mut self, _: &Super) {
         self.found = true;
     }

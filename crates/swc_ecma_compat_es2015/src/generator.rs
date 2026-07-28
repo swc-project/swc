@@ -410,12 +410,6 @@ impl VisitMut for Generator {
         e.params.visit_mut_with(self);
     }
 
-    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {}
-
-    fn visit_mut_setter_prop(&mut self, e: &mut SetterProp) {
-        e.param.visit_mut_with(self);
-    }
-
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Yield(node) => {
@@ -1360,30 +1354,12 @@ impl Generator {
                     props: getter
                         .map(|g| KeyValueProp {
                             key: quote_ident!("get").into(),
-                            value: Function {
-                                params: Vec::new(),
-                                span: g.span,
-                                body: g.body,
-                                is_generator: false,
-                                is_async: false,
-                                ..Default::default()
-                            }
-                            .into(),
+                            value: g.function.into(),
                         })
                         .into_iter()
-                        .chain(setter.map(|s| {
-                            KeyValueProp {
-                                key: quote_ident!("set").into(),
-                                value: Function {
-                                    params: vec![(*s.param).into()],
-                                    span: s.span,
-                                    body: s.body,
-                                    is_generator: false,
-                                    is_async: false,
-                                    ..Default::default()
-                                }
-                                .into(),
-                            }
+                        .chain(setter.map(|s| KeyValueProp {
+                            key: quote_ident!("set").into(),
+                            value: s.function.into(),
                         }))
                         .map(Prop::KeyValue)
                         .map(Box::new)

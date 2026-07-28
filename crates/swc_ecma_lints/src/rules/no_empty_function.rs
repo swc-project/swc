@@ -258,6 +258,32 @@ impl NoEmptyFunction {
 
         false
     }
+
+    /// Checks an object accessor while visiting the contents of its backing
+    /// function without classifying the accessor as a standalone function.
+    fn visit_object_accessor(
+        &mut self,
+        span: Span,
+        key: &PropName,
+        function: &Function,
+        modifier: FunctionModifiers,
+    ) {
+        if let Some(BlockStmt {
+            span: body_span,
+            stmts,
+            ..
+        }) = &function.body
+        {
+            let has_comment = self.consider_comments && self.has_comment_in_body(body_span);
+
+            if !has_comment && stmts.is_empty() {
+                self.check(span, "method", self.methods.as_ref(), &[modifier]);
+            }
+        }
+
+        key.visit_with(self);
+        function.visit_children_with(self);
+    }
 }
 
 impl Visit for NoEmptyFunction {
@@ -382,40 +408,20 @@ impl Visit for NoEmptyFunction {
     }
 
     fn visit_getter_prop(&mut self, getter_prop: &GetterProp) {
-        if self.consider_comments && self.has_comment_in_body(&getter_prop.span) {
-            return;
-        }
-
-        if let Some(BlockStmt { stmts, .. }) = &getter_prop.body {
-            if stmts.is_empty() {
-                self.check(
-                    getter_prop.span,
-                    "method",
-                    self.methods.as_ref(),
-                    &[FunctionModifiers::Getter],
-                );
-            }
-        }
-
-        getter_prop.visit_children_with(self);
+        self.visit_object_accessor(
+            getter_prop.span,
+            &getter_prop.key,
+            &getter_prop.function,
+            FunctionModifiers::Getter,
+        );
     }
 
     fn visit_setter_prop(&mut self, setter_prop: &SetterProp) {
-        if self.consider_comments && self.has_comment_in_body(&setter_prop.span) {
-            return;
-        }
-
-        if let Some(BlockStmt { stmts, .. }) = &setter_prop.body {
-            if stmts.is_empty() {
-                self.check(
-                    setter_prop.span,
-                    "method",
-                    self.methods.as_ref(),
-                    &[FunctionModifiers::Setter],
-                );
-            }
-        }
-
-        setter_prop.visit_children_with(self);
+        self.visit_object_accessor(
+            setter_prop.span,
+            &setter_prop.key,
+            &setter_prop.function,
+            FunctionModifiers::Setter,
+        );
     }
 }
