@@ -5,7 +5,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_react_compiler"
 repository    = { workspace = true }
-version       = "21.0.0"
+version       = "22.0.0"
 
 
 [package.metadata.docs.rs]
@@ -22,16 +22,16 @@ serde              = { workspace = true, features = ["derive"] }
 serde_json         = { workspace = true }
 swc_atoms          = { version = "10.0.0", path = "../swc_atoms" }
 swc_common         = { version = "24.0.0", path = "../swc_common" }
-swc_ecma_ast       = { version = "26.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen   = { version = "29.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser    = { version = "42.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_ast       = { version = "27.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen   = { version = "30.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser    = { version = "43.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_visit     = { version = "26.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit     = { version = "27.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 swc_common      = { version = "24.0.0", path = "../swc_common" }
-swc_ecma_parser = { version = "42.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "43.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 testing         = { version = "25.0.0", path = "../testing" }

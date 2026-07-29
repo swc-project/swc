@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_estree_compat"
 repository    = { workspace = true }
-version       = "45.0.0"
+version       = "46.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -31,12 +31,12 @@ swc_common = { version = "24.0.0", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
-swc_ecma_ast = { version = "26.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "42.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_ast = { version = "27.0.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "43.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_utils = { version = "32.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "26.0.0", path = "../swc_ecma_visit" }
+swc_ecma_utils = { version = "33.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "27.0.0", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "24.0.0", path = "../swc_estree_ast" }
 swc_node_comments = { version = "25.0.0", path = "../swc_node_comments/" }
 
@@ -44,10 +44,10 @@ swc_node_comments = { version = "25.0.0", path = "../swc_node_comments/" }
 codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "72.0.1", path = "../swc", default-features = false }
-swc_ecma_ast        = { version = "26.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser     = { version = "42.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "59.0.0", path = "../swc_ecma_transforms/" }
+swc                 = { version = "73.0.0", path = "../swc", default-features = false }
+swc_ecma_ast        = { version = "27.0.0", path = "../swc_ecma_ast" }
+swc_ecma_parser     = { version = "43.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "60.0.0", path = "../swc_ecma_transforms/" }
 testing             = { version = "25.0.0", path = "../testing" }
 walkdir             = { workspace = true }
 
