@@ -1789,6 +1789,20 @@ impl<C: MinifyCss> Minifier<'_, C> {
         result.ok()
     }
 
+    /// Escapes serialized JSON so it cannot terminate its containing HTML
+    /// `script` element.
+    ///
+    /// HTML tokenization recognizes `</script` before the JSON is parsed.
+    /// Serializing an escaped `<` as a literal character can therefore turn
+    /// inert JSON data into active HTML.
+    fn escape_json_for_html_script(json: String) -> String {
+        if json.contains('<') {
+            json.replace('<', "\\u003C")
+        } else {
+            json
+        }
+    }
+
     fn need_minify_js(&self) -> bool {
         match self.options.minify_js {
             MinifyJsOption::Bool(value) => value,
@@ -2742,7 +2756,7 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
                     None => return,
                 };
 
-                n.data = minified.into();
+                n.data = Self::escape_json_for_html_script(minified).into();
             }
             Some(MinifierType::Css) => {
                 let minified =
