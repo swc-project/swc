@@ -1794,7 +1794,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
     ///
     /// HTML tokenization recognizes `</script` before the JSON is parsed.
     /// Serializing an escaped `<` as a literal character can therefore turn
-    /// inert JSON data into active HTML.
+    /// JSON data into a different HTML element structure.
     fn escape_json_for_html_script(json: String) -> String {
         if json.contains('<') {
             json.replace('<', "\\u003C")
