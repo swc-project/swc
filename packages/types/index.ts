@@ -2740,7 +2740,10 @@ export type TsType =
     | TsTypePredicate
     | TsImportType;
 
-export type TsFnOrConstructorType = TsFunctionType | TsConstructorType;
+export type TsFnOrConstructorType =
+    | TsFunctionType
+    | TsConstructorType
+    | TsComponentType;
 
 export interface TsKeywordType extends Node, HasSpan {
     type: "TsKeywordType";
@@ -2775,6 +2778,15 @@ export type TsFnParameter =
 
 export interface TsFunctionType extends Node, HasSpan {
     type: "TsFunctionType";
+
+    params: TsFnParameter[];
+
+    typeParams?: TsTypeParameterDeclaration;
+    typeAnnotation: TsTypeAnnotation;
+}
+
+export interface TsComponentType extends Node, HasSpan {
+    type: "TsComponentType";
 
     params: TsFnParameter[];
 

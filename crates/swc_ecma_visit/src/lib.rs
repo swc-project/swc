@@ -409,6 +409,7 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_array_type, TsArrayType);
         noop_fold_type!(fold_ts_call_signature_decl, TsCallSignatureDecl);
         noop_fold_type!(fold_ts_conditional_type, TsConditionalType);
+        noop_fold_type!(fold_ts_component_type, TsComponentType);
         noop_fold_type!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
         noop_fold_type!(fold_ts_constructor_type, TsConstructorType);
         noop_fold_type!(fold_ts_entity_name, TsEntityName);
@@ -479,6 +480,7 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_array_type, TsArrayType, fail);
         noop_visit_type!(visit_ts_call_signature_decl, TsCallSignatureDecl, fail);
         noop_visit_type!(visit_ts_conditional_type, TsConditionalType, fail);
+        noop_visit_type!(visit_ts_component_type, TsComponentType, fail);
         noop_visit_type!(
             visit_ts_construct_signature_decl,
             TsConstructSignatureDecl,
@@ -540,6 +542,7 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_array_type, TsArrayType);
         noop_visit_type!(visit_ts_call_signature_decl, TsCallSignatureDecl);
         noop_visit_type!(visit_ts_conditional_type, TsConditionalType);
+        noop_visit_type!(visit_ts_component_type, TsComponentType);
         noop_visit_type!(visit_ts_construct_signature_decl, TsConstructSignatureDecl);
         noop_visit_type!(visit_ts_constructor_type, TsConstructorType);
         noop_visit_type!(visit_ts_entity_name, TsEntityName);
@@ -640,6 +643,7 @@ macro_rules! standard_only_fold {
         standard_only_fold!(fold_ts_array_type, TsArrayType);
         standard_only_fold!(fold_ts_call_signature_decl, TsCallSignatureDecl);
         standard_only_fold!(fold_ts_conditional_type, TsConditionalType);
+        standard_only_fold!(fold_ts_component_type, TsComponentType);
         standard_only_fold!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
         standard_only_fold!(fold_ts_constructor_type, TsConstructorType);
         standard_only_fold!(fold_ts_entity_name, TsEntityName);
@@ -711,6 +715,7 @@ macro_rules! standard_only_visit {
         standard_only_visit!(visit_ts_array_type, TsArrayType);
         standard_only_visit!(visit_ts_call_signature_decl, TsCallSignatureDecl);
         standard_only_visit!(visit_ts_conditional_type, TsConditionalType);
+        standard_only_visit!(visit_ts_component_type, TsComponentType);
         standard_only_visit!(visit_ts_construct_signature_decl, TsConstructSignatureDecl);
         standard_only_visit!(visit_ts_constructor_type, TsConstructorType);
         standard_only_visit!(visit_ts_entity_name, TsEntityName);
@@ -782,6 +787,7 @@ macro_rules! standard_only_visit_mut {
         standard_only_visit_mut!(visit_mut_ts_array_type, TsArrayType);
         standard_only_visit_mut!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl);
         standard_only_visit_mut!(visit_mut_ts_conditional_type, TsConditionalType);
+        standard_only_visit_mut!(visit_mut_ts_component_type, TsComponentType);
         standard_only_visit_mut!(
             visit_mut_ts_construct_signature_decl,
             TsConstructSignatureDecl
@@ -851,6 +857,7 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_array_type, TsArrayType, fail);
         noop_visit_mut_type!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl, fail);
         noop_visit_mut_type!(visit_mut_ts_conditional_type, TsConditionalType, fail);
+        noop_visit_mut_type!(visit_mut_ts_component_type, TsComponentType, fail);
         noop_visit_mut_type!(
             visit_mut_ts_construct_signature_decl,
             TsConstructSignatureDecl,
@@ -916,6 +923,7 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_array_type, TsArrayType);
         noop_visit_mut_type!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl);
         noop_visit_mut_type!(visit_mut_ts_conditional_type, TsConditionalType);
+        noop_visit_mut_type!(visit_mut_ts_component_type, TsComponentType);
         noop_visit_mut_type!(
             visit_mut_ts_construct_signature_decl,
             TsConstructSignatureDecl

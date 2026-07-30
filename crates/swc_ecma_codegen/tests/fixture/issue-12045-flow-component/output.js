@@ -1,0 +1,2 @@
+type ComponentType<T> = component(ref?: T, ...props: mixed) renders React.Node;
+type FunctionType<T> = (props: T) => React.Node;

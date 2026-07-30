@@ -1739,6 +1739,14 @@ pub trait VisitHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_call_signature_decl(&mut self, node: &TsCallSignatureDecl, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsComponentType` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_component_type(&mut self, node: &TsComponentType, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsComponentType` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_component_type(&mut self, node: &TsComponentType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsConditionalType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -4979,6 +4987,18 @@ where
     fn exit_ts_call_signature_decl(&mut self, node: &TsCallSignatureDecl, ctx: &mut C) {
         self.second.exit_ts_call_signature_decl(node, ctx);
         self.first.exit_ts_call_signature_decl(node, ctx);
+    }
+
+    #[inline]
+    fn enter_ts_component_type(&mut self, node: &TsComponentType, ctx: &mut C) {
+        self.first.enter_ts_component_type(node, ctx);
+        self.second.enter_ts_component_type(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_component_type(&mut self, node: &TsComponentType, ctx: &mut C) {
+        self.second.exit_ts_component_type(node, ctx);
+        self.first.exit_ts_component_type(node, ctx);
     }
 
     #[inline]
@@ -9363,6 +9383,22 @@ where
     }
 
     #[inline]
+    fn enter_ts_component_type(&mut self, node: &TsComponentType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_component_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_component_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_component_type(&mut self, node: &TsComponentType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_component_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_component_type(node, ctx),
+        }
+    }
+
+    #[inline]
     fn enter_ts_conditional_type(&mut self, node: &TsConditionalType, ctx: &mut C) {
         match self {
             Self::Left(hook) => hook.enter_ts_conditional_type(node, ctx),
@@ -13699,6 +13735,20 @@ where
     }
 
     #[inline]
+    fn enter_ts_component_type(&mut self, node: &TsComponentType, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_component_type(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_component_type(&mut self, node: &TsComponentType, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_component_type(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_ts_conditional_type(&mut self, node: &TsConditionalType, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_ts_conditional_type(node, ctx);
@@ -16696,6 +16746,14 @@ impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
             .exit_ts_call_signature_decl(node, &mut self.context);
     }
 
+    #[doc = "Visits a node of type `TsComponentType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_ts_component_type(&mut self, node: &TsComponentType) {
+        self.hook.enter_ts_component_type(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_ts_component_type(node, &mut self.context);
+    }
+
     #[doc = "Visits a node of type `TsConditionalType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_ts_conditional_type(&mut self, node: &TsConditionalType) {
@@ -19223,6 +19281,14 @@ pub trait VisitMutHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsComponentType` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_component_type(&mut self, node: &mut TsComponentType, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsComponentType` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_component_type(&mut self, node: &mut TsComponentType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsConditionalType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -22503,6 +22569,18 @@ where
     fn exit_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl, ctx: &mut C) {
         self.second.exit_ts_call_signature_decl(node, ctx);
         self.first.exit_ts_call_signature_decl(node, ctx);
+    }
+
+    #[inline]
+    fn enter_ts_component_type(&mut self, node: &mut TsComponentType, ctx: &mut C) {
+        self.first.enter_ts_component_type(node, ctx);
+        self.second.enter_ts_component_type(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_component_type(&mut self, node: &mut TsComponentType, ctx: &mut C) {
+        self.second.exit_ts_component_type(node, ctx);
+        self.first.exit_ts_component_type(node, ctx);
     }
 
     #[inline]
@@ -26923,6 +27001,22 @@ where
     }
 
     #[inline]
+    fn enter_ts_component_type(&mut self, node: &mut TsComponentType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_component_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_component_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_component_type(&mut self, node: &mut TsComponentType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_component_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_component_type(node, ctx),
+        }
+    }
+
+    #[inline]
     fn enter_ts_conditional_type(&mut self, node: &mut TsConditionalType, ctx: &mut C) {
         match self {
             Self::Left(hook) => hook.enter_ts_conditional_type(node, ctx),
@@ -31295,6 +31389,20 @@ where
     }
 
     #[inline]
+    fn enter_ts_component_type(&mut self, node: &mut TsComponentType, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_component_type(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_component_type(&mut self, node: &mut TsComponentType, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_component_type(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_ts_conditional_type(&mut self, node: &mut TsConditionalType, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_ts_conditional_type(node, ctx);
@@ -34306,6 +34414,14 @@ impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
         node.visit_mut_children_with(self);
         self.hook
             .exit_ts_call_signature_decl(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `TsComponentType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_ts_component_type(&mut self, node: &mut TsComponentType) {
+        self.hook.enter_ts_component_type(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_ts_component_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsConditionalType` using the hook's enter and exit methods."]

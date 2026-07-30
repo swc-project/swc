@@ -404,6 +404,9 @@ impl VisitMut for Transform {
             if let Decl::Var(var_decl) = &mut node.decl {
                 // visit inner directly to bypass visit_mut_var_declarator
                 for decl in var_decl.decls.iter_mut() {
+                    if self.flow_syntax {
+                        convert_flow_component_arrow(decl);
+                    }
                     decl.name.visit_mut_with(self);
                     decl.init.visit_mut_with(self);
                 }
@@ -422,6 +425,10 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        if self.flow_syntax {
+            convert_flow_component_arrow(n);
+        }
+
         let ref_rewriter = self.ref_rewriter.take();
         n.name.visit_mut_with(self);
         self.ref_rewriter = ref_rewriter;
@@ -1990,6 +1997,79 @@ impl ModuleId for TsModuleName {
         self.as_ident()
             .expect("Only ambient modules can use quoted names.")
             .to_id()
+    }
+}
+
+/// Gives a Flow component-typed arrow binding the function semantics required
+/// by Flow's component runtime contract.
+fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
+    let Pat::Ident(BindingIdent {
+        id,
+        type_ann: Some(type_ann),
+    }) = &declarator.name
+    else {
+        return;
+    };
+
+    if !is_flow_component_type(&type_ann.type_ann) {
+        return;
+    }
+
+    let Some(init) = &mut declarator.init else {
+        return;
+    };
+    let Expr::Arrow(arrow) = init.as_mut() else {
+        return;
+    };
+
+    let arrow = arrow.take();
+    let body = match *arrow.body {
+        BlockStmtOrExpr::BlockStmt(body) => body,
+        BlockStmtOrExpr::Expr(expr) => {
+            let span = expr.span();
+            BlockStmt {
+                span,
+                ctxt: arrow.ctxt,
+                stmts: vec![Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(expr),
+                })],
+            }
+        }
+    };
+
+    *init = Box::new(Expr::Fn(FnExpr {
+        ident: Some(id.clone()),
+        function: Box::new(Function {
+            params: arrow
+                .params
+                .into_iter()
+                .map(|pat| Param {
+                    span: pat.span(),
+                    decorators: Vec::new(),
+                    pat,
+                })
+                .collect(),
+            decorators: Vec::new(),
+            span: arrow.span,
+            ctxt: arrow.ctxt,
+            body: Some(body),
+            is_generator: arrow.is_generator,
+            is_async: arrow.is_async,
+            type_params: arrow.type_params,
+            return_type: arrow.return_type,
+        }),
+    }));
+}
+
+/// Returns whether a syntactic type annotation identifies a Flow component.
+fn is_flow_component_type(ty: &TsType) -> bool {
+    match ty {
+        TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsComponentType(_)) => true,
+        TsType::TsParenthesizedType(parenthesized) => {
+            is_flow_component_type(&parenthesized.type_ann)
+        }
+        _ => false,
     }
 }
 

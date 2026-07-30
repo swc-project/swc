@@ -290,6 +290,7 @@ impl MacroNode for TsFnOrConstructorType {
         match self {
             TsFnOrConstructorType::TsFnType(n) => emit!(n),
             TsFnOrConstructorType::TsConstructorType(n) => emit!(n),
+            TsFnOrConstructorType::TsComponentType(n) => emit!(n),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
@@ -328,6 +329,80 @@ impl MacroNode for TsFnType {
         formatting_space!(emitter);
 
         emit!(self.type_ann);
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsComponentType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        keyword!(emitter, "component");
+        emit!(self.type_params);
+
+        punct!(emitter, "(");
+        // Flow component parameters are stored as a single props object
+        // pattern. Emit its properties without object-pattern braces to
+        // reconstruct `component(prop: Type, ...rest: Type)` syntax.
+        if let [TsFnParam::Object(props)] = self.params.as_slice() {
+            for (index, prop) in props.props.iter().enumerate() {
+                if index != 0 {
+                    punct!(emitter, ",");
+                    formatting_space!(emitter);
+                }
+
+                match prop {
+                    ObjectPatProp::KeyValue(prop) => {
+                        let is_shorthand = match prop.value.as_ref() {
+                            Pat::Ident(binding) => match &prop.key {
+                                PropName::Ident(key) => key.sym == binding.id.sym,
+                                _ => false,
+                            },
+                            Pat::Assign(assign) => match assign.left.as_ref() {
+                                Pat::Ident(binding) => match &prop.key {
+                                    PropName::Ident(key) => key.sym == binding.id.sym,
+                                    _ => false,
+                                },
+                                _ => false,
+                            },
+                            _ => false,
+                        };
+
+                        if is_shorthand {
+                            emit!(prop.value);
+                        } else {
+                            emit!(prop.key);
+                            formatting_space!(emitter);
+                            keyword!(emitter, "as");
+                            formatting_space!(emitter);
+                            emit!(prop.value);
+                        }
+                    }
+                    ObjectPatProp::Assign(prop) => emit!(prop),
+                    ObjectPatProp::Rest(prop) => emit!(prop),
+                    #[cfg(swc_ast_unknown)]
+                    _ => return Err(unknown_error()),
+                }
+            }
+        } else {
+            emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
+        }
+        punct!(emitter, ")");
+
+        if !matches!(
+            self.type_ann.type_ann.as_ref(),
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+                ..
+            })
+        ) {
+            formatting_space!(emitter);
+            keyword!(emitter, "renders");
+            space!(emitter);
+            emit!(self.type_ann);
+        }
+
         Ok(())
     }
 }

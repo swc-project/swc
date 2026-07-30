@@ -1406,6 +1406,13 @@ pub trait Visit {
     fn visit_ts_call_signature_decl(&mut self, node: &TsCallSignatureDecl) {
         <TsCallSignatureDecl as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `TsComponentType`.\n\nBy default, this method calls \
+             [`TsComponentType::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_ts_component_type(&mut self, node: &TsComponentType) {
+        <TsComponentType as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsConditionalType`.\n\nBy default, this method calls \
              [`TsConditionalType::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -3070,6 +3077,11 @@ where
     }
 
     #[inline]
+    fn visit_ts_component_type(&mut self, node: &TsComponentType) {
+        <V as Visit>::visit_ts_component_type(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_ts_conditional_type(&mut self, node: &TsConditionalType) {
         <V as Visit>::visit_ts_conditional_type(&mut **self, node)
     }
@@ -4549,6 +4561,11 @@ where
     #[inline]
     fn visit_ts_call_signature_decl(&mut self, node: &TsCallSignatureDecl) {
         <V as Visit>::visit_ts_call_signature_decl(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_ts_component_type(&mut self, node: &TsComponentType) {
+        <V as Visit>::visit_ts_component_type(&mut **self, node)
     }
 
     #[inline]
@@ -6673,6 +6690,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_call_signature_decl(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_call_signature_decl(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_ts_component_type(&mut self, node: &TsComponentType) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_ts_component_type(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_ts_component_type(visitor, node),
         }
     }
 
@@ -9061,6 +9086,14 @@ where
     fn visit_ts_call_signature_decl(&mut self, node: &TsCallSignatureDecl) {
         if self.enabled {
             <V as Visit>::visit_ts_call_signature_decl(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_ts_component_type(&mut self, node: &TsComponentType) {
+        if self.enabled {
+            <V as Visit>::visit_ts_component_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -13692,6 +13725,36 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsCallSignatureDecl {
         }
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for TsComponentType {
+    #[doc = "Calls [Visit`::visit_ts_component_type`] with `self`."]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_component_type(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            TsComponentType {
+                span,
+                params,
+                type_params,
+                type_ann,
+            } => {
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <Vec<TsFnParam> as VisitWith<V>>::visit_with(params, visitor)
+                };
+                {
+                    <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_with(type_params, visitor)
+                };
+                {
+                    <Box<TsTypeAnn> as VisitWith<V>>::visit_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for TsConditionalType {
     #[doc = "Calls [Visit`::visit_ts_conditional_type`] with `self`."]
     fn visit_with(&self, visitor: &mut V) {
@@ -13973,6 +14036,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsFnOrConstructorType {
             }
             TsFnOrConstructorType::TsConstructorType { 0: _field_0 } => {
                 <TsConstructorType as VisitWith<V>>::visit_with(_field_0, visitor);
+            }
+            TsFnOrConstructorType::TsComponentType { 0: _field_0 } => {
+                <TsComponentType as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             #[cfg(swc_ast_unknown)]
             _ => (),
@@ -18918,6 +18984,19 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `TsComponentType`.\n\nBy default, this method calls \
+             [`TsComponentType::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    #[inline]
+    fn visit_ts_component_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsComponentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <TsComponentType as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsConditionalType`.\n\nBy default, this method calls \
              [`TsConditionalType::visit_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -21809,6 +21888,15 @@ where
     }
 
     #[inline]
+    fn visit_ts_component_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsComponentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_component_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_ts_conditional_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast TsConditionalType,
@@ -24371,6 +24459,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_ts_call_signature_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_ts_component_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsComponentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_component_type(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -28330,6 +28427,22 @@ where
     }
 
     #[inline]
+    fn visit_ts_component_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsComponentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_ts_component_type(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_ts_component_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_ts_conditional_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast TsConditionalType,
@@ -32151,6 +32264,18 @@ where
     ) {
         if self.enabled {
             <V as VisitAstPath>::visit_ts_call_signature_decl(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_ts_component_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsComponentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_ts_component_type(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -42688,6 +42813,78 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsCallSignatureDecl {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsComponentType {
+    #[doc = "Calls [VisitAstPath`::visit_ts_component_type`] with `self`."]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_component_type(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            TsComponentType {
+                span,
+                params,
+                type_params,
+                type_ann,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsComponentType(
+                        self,
+                        self::fields::TsComponentTypeField::Span,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsComponentType(
+                        self,
+                        self::fields::TsComponentTypeField::Params(usize::MAX),
+                    ));
+                    <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsComponentType(
+                        self,
+                        self::fields::TsComponentTypeField::TypeParams,
+                    ));
+                    <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        type_params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsComponentType(
+                        self,
+                        self::fields::TsComponentTypeField::TypeAnn,
+                    ));
+                    <Box<TsTypeAnn> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsConditionalType {
     #[doc = "Calls [VisitAstPath`::visit_ts_conditional_type`] with `self`."]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -43371,6 +43568,18 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsFnOrConstructorType {
                         self::fields::TsFnOrConstructorTypeField::TsConstructorType,
                     ));
                 <TsConstructorType as VisitWithAstPath<V>>::visit_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
+            TsFnOrConstructorType::TsComponentType { 0: _field_0 } => {
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::TsFnOrConstructorType(
+                        self,
+                        self::fields::TsFnOrConstructorTypeField::TsComponentType,
+                    ));
+                <TsComponentType as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -50513,6 +50722,13 @@ pub trait VisitMut {
     fn visit_mut_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
         <TsCallSignatureDecl as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `TsComponentType`.\n\nBy default, this method calls \
+             [`TsComponentType::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_mut_ts_component_type(&mut self, node: &mut TsComponentType) {
+        <TsComponentType as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsConditionalType`.\n\nBy default, this method calls \
              [`TsConditionalType::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -52179,6 +52395,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_component_type(&mut self, node: &mut TsComponentType) {
+        <V as VisitMut>::visit_mut_ts_component_type(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_ts_conditional_type(&mut self, node: &mut TsConditionalType) {
         <V as VisitMut>::visit_mut_ts_conditional_type(&mut **self, node)
     }
@@ -53658,6 +53879,11 @@ where
     #[inline]
     fn visit_mut_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
         <V as VisitMut>::visit_mut_ts_call_signature_decl(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_ts_component_type(&mut self, node: &mut TsComponentType) {
+        <V as VisitMut>::visit_mut_ts_component_type(&mut **self, node)
     }
 
     #[inline]
@@ -55941,6 +56167,18 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_ts_call_signature_decl(visitor, node)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_component_type(&mut self, node: &mut TsComponentType) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMut::visit_mut_ts_component_type(visitor, node)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::visit_mut_ts_component_type(visitor, node)
             }
         }
     }
@@ -58478,6 +58716,14 @@ where
     fn visit_mut_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
         if self.enabled {
             <V as VisitMut>::visit_mut_ts_call_signature_decl(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_component_type(&mut self, node: &mut TsComponentType) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_ts_component_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -63149,6 +63395,39 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsCallSignatureDecl {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsComponentType {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_component_type`] with `self`."]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_component_type(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            TsComponentType {
+                span,
+                params,
+                type_params,
+                type_ann,
+            } => {
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_with(params, visitor)
+                };
+                {
+                    <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_with(
+                        type_params,
+                        visitor,
+                    )
+                };
+                {
+                    <Box<TsTypeAnn> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsConditionalType {
     #[doc = "Calls [VisitMut`::visit_mut_ts_conditional_type`] with `self`."]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -63436,6 +63715,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsFnOrConstructorType {
             }
             TsFnOrConstructorType::TsConstructorType { 0: _field_0 } => {
                 <TsConstructorType as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+            }
+            TsFnOrConstructorType::TsComponentType { 0: _field_0 } => {
+                <TsComponentType as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             #[cfg(swc_ast_unknown)]
             _ => (),
@@ -68105,6 +68387,19 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `TsComponentType`.\n\nBy default, this method calls \
+             [`TsComponentType::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    #[inline]
+    fn visit_mut_ts_component_type(
+        &mut self,
+        node: &mut TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <TsComponentType as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsConditionalType`.\n\nBy default, this method calls \
              [`TsConditionalType::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -70440,6 +70735,15 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_component_type(
+        &mut self,
+        node: &mut TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_ts_component_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_ts_conditional_type(
         &mut self,
         node: &mut TsConditionalType,
@@ -72410,6 +72714,15 @@ where
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_ts_call_signature_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_ts_component_type(
+        &mut self,
+        node: &mut TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_ts_component_type(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -75815,6 +76128,22 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_component_type(
+        &mut self,
+        node: &mut TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_ts_component_type(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_ts_component_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_ts_conditional_type(
         &mut self,
         node: &mut TsConditionalType,
@@ -79176,6 +79505,18 @@ where
                 node,
                 __ast_path,
             )
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_component_type(
+        &mut self,
+        node: &mut TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_ts_component_type(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -87779,6 +88120,62 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsCallSignatureDecl
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsComponentType {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_component_type`] with `self`."]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_component_type(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            TsComponentType {
+                span,
+                params,
+                type_params,
+                type_ann,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsComponentType(
+                        self::fields::TsComponentTypeField::Span,
+                    ));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsComponentType(
+                        self::fields::TsComponentTypeField::Params(usize::MAX),
+                    ));
+                    <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsComponentType(
+                        self::fields::TsComponentTypeField::TypeParams,
+                    ));
+                    < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_params , visitor , & mut * __ast_path)
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsComponentType(
+                        self::fields::TsComponentTypeField::TypeAnn,
+                    ));
+                    <Box<TsTypeAnn> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsConditionalType {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_conditional_type`] with `self`."]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
@@ -88305,6 +88702,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsFnOrConstructorTy
                     self::fields::TsFnOrConstructorTypeField::TsConstructorType,
                 ));
                 <TsConstructorType as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
+            TsFnOrConstructorType::TsComponentType { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFnOrConstructorType(
+                    self::fields::TsFnOrConstructorTypeField::TsComponentType,
+                ));
+                <TsComponentType as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -94139,6 +94546,13 @@ pub trait Fold {
     fn fold_ts_call_signature_decl(&mut self, node: TsCallSignatureDecl) -> TsCallSignatureDecl {
         <TsCallSignatureDecl as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `TsComponentType`.\n\nBy default, this method calls \
+             [`TsComponentType::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn fold_ts_component_type(&mut self, node: TsComponentType) -> TsComponentType {
+        <TsComponentType as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsConditionalType`.\n\nBy default, this method calls \
              [`TsConditionalType::fold_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -95861,6 +96275,11 @@ where
     }
 
     #[inline]
+    fn fold_ts_component_type(&mut self, node: TsComponentType) -> TsComponentType {
+        <V as Fold>::fold_ts_component_type(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_ts_conditional_type(&mut self, node: TsConditionalType) -> TsConditionalType {
         <V as Fold>::fold_ts_conditional_type(&mut **self, node)
     }
@@ -97400,6 +97819,11 @@ where
     #[inline]
     fn fold_ts_call_signature_decl(&mut self, node: TsCallSignatureDecl) -> TsCallSignatureDecl {
         <V as Fold>::fold_ts_call_signature_decl(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_ts_component_type(&mut self, node: TsComponentType) -> TsComponentType {
+        <V as Fold>::fold_ts_component_type(&mut **self, node)
     }
 
     #[inline]
@@ -99566,6 +99990,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_call_signature_decl(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_call_signature_decl(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn fold_ts_component_type(&mut self, node: TsComponentType) -> TsComponentType {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_ts_component_type(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_ts_component_type(visitor, node),
         }
     }
 
@@ -102209,6 +102641,15 @@ where
     fn fold_ts_call_signature_decl(&mut self, node: TsCallSignatureDecl) -> TsCallSignatureDecl {
         if self.enabled {
             <V as Fold>::fold_ts_call_signature_decl(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_ts_component_type(&mut self, node: TsComponentType) -> TsComponentType {
+        if self.enabled {
+            <V as Fold>::fold_ts_component_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -106932,6 +107373,36 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsCallSignatureDecl {
         }
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for TsComponentType {
+    #[doc = "Calls [Fold`::fold_ts_component_type`] with `self`."]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_component_type(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        match self {
+            TsComponentType {
+                span,
+                params,
+                type_params,
+                type_ann,
+            } => {
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let params = { <Vec<TsFnParam> as FoldWith<V>>::fold_with(params, visitor) };
+                let type_params = {
+                    <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_with(type_params, visitor)
+                };
+                let type_ann = { <Box<TsTypeAnn> as FoldWith<V>>::fold_with(type_ann, visitor) };
+                TsComponentType {
+                    span,
+                    params,
+                    type_params,
+                    type_ann,
+                }
+            }
+        }
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for TsConditionalType {
     #[doc = "Calls [Fold`::fold_ts_conditional_type`] with `self`."]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -107207,6 +107678,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsFnOrConstructorType {
             TsFnOrConstructorType::TsConstructorType { 0: _field_0 } => {
                 let _field_0 = <TsConstructorType as FoldWith<V>>::fold_with(_field_0, visitor);
                 TsFnOrConstructorType::TsConstructorType { 0: _field_0 }
+            }
+            TsFnOrConstructorType::TsComponentType { 0: _field_0 } => {
+                let _field_0 = <TsComponentType as FoldWith<V>>::fold_with(_field_0, visitor);
+                TsFnOrConstructorType::TsComponentType { 0: _field_0 }
             }
             #[cfg(swc_ast_unknown)]
             _ => self,
@@ -111730,6 +112205,19 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `TsComponentType`.\n\nBy default, this method calls \
+             [`TsComponentType::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn fold_ts_component_type(
+        &mut self,
+        node: TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) -> TsComponentType {
+        <TsComponentType as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsConditionalType`.\n\nBy default, this method calls \
              [`TsConditionalType::fold_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -114231,6 +114719,15 @@ where
     }
 
     #[inline]
+    fn fold_ts_component_type(
+        &mut self,
+        node: TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) -> TsComponentType {
+        <V as FoldAstPath>::fold_ts_component_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_ts_conditional_type(
         &mut self,
         node: TsConditionalType,
@@ -116433,6 +116930,15 @@ where
         __ast_path: &mut AstKindPath,
     ) -> TsCallSignatureDecl {
         <V as FoldAstPath>::fold_ts_call_signature_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_ts_component_type(
+        &mut self,
+        node: TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) -> TsComponentType {
+        <V as FoldAstPath>::fold_ts_component_type(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -119969,6 +120475,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_ts_call_signature_decl(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn fold_ts_component_type(
+        &mut self,
+        node: TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) -> TsComponentType {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_ts_component_type(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_ts_component_type(visitor, node, __ast_path)
             }
         }
     }
@@ -123628,6 +124150,19 @@ where
     ) -> TsCallSignatureDecl {
         if self.enabled {
             <V as FoldAstPath>::fold_ts_call_signature_decl(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_ts_component_type(
+        &mut self,
+        node: TsComponentType,
+        __ast_path: &mut AstKindPath,
+    ) -> TsComponentType {
+        if self.enabled {
+            <V as FoldAstPath>::fold_ts_component_type(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -132872,6 +133407,72 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsCallSignatureDecl {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsComponentType {
+    #[doc = "Calls [FoldAstPath`::fold_ts_component_type`] with `self`."]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_component_type(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        match self {
+            TsComponentType {
+                span,
+                params,
+                type_params,
+                type_ann,
+            } => {
+                let span = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsComponentType(
+                        self::fields::TsComponentTypeField::Span,
+                    ));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let params = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsComponentType(
+                        self::fields::TsComponentTypeField::Params(usize::MAX),
+                    ));
+                    <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let type_params = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsComponentType(
+                        self::fields::TsComponentTypeField::TypeParams,
+                    ));
+                    <Option<Box<TsTypeParamDecl>> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        type_params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let type_ann = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsComponentType(
+                        self::fields::TsComponentTypeField::TypeAnn,
+                    ));
+                    <Box<TsTypeAnn> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                TsComponentType {
+                    span,
+                    params,
+                    type_params,
+                    type_ann,
+                }
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsConditionalType {
     #[doc = "Calls [FoldAstPath`::fold_ts_conditional_type`] with `self`."]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
@@ -133444,6 +134045,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsFnOrConstructorType {
                     &mut *__ast_path,
                 );
                 TsFnOrConstructorType::TsConstructorType { 0: _field_0 }
+            }
+            TsFnOrConstructorType::TsComponentType { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFnOrConstructorType(
+                    self::fields::TsFnOrConstructorTypeField::TsComponentType,
+                ));
+                let _field_0 = <TsComponentType as FoldWithAstPath<V>>::fold_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+                TsFnOrConstructorType::TsComponentType { 0: _field_0 }
             }
             #[cfg(swc_ast_unknown)]
             _ => self,
@@ -141112,6 +141724,29 @@ pub mod fields {
         #[doc = "Represents [`TsCallSignatureDecl::type_params`]"]
         TypeParams,
     }
+    impl TsComponentTypeField {
+        pub(crate) fn set_index(&mut self, index: usize) {
+            match self {
+                Self::Params(idx) => {
+                    assert_initial_index(*idx, index);
+                    *idx = index;
+                }
+                _ => swc_visit::wrong_ast_path(),
+            }
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+    pub enum TsComponentTypeField {
+        #[doc = "Represents [`TsComponentType::span`]"]
+        Span,
+        #[doc = "Represents [`TsComponentType::params`]"]
+        Params(usize),
+        #[doc = "Represents [`TsComponentType::type_params`]"]
+        TypeParams,
+        #[doc = "Represents [`TsComponentType::type_ann`]"]
+        TypeAnn,
+    }
     impl TsConditionalTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
@@ -141326,6 +141961,8 @@ pub mod fields {
         TsFnType,
         #[doc = "Represents [`TsFnOrConstructorType::TsConstructorType`]"]
         TsConstructorType,
+        #[doc = "Represents [`TsFnOrConstructorType::TsComponentType`]"]
+        TsComponentType,
     }
     impl TsFnParamField {
         #[inline(always)]
@@ -142827,6 +143464,7 @@ pub mod fields {
         TsArrayType(TsArrayTypeField),
         TsAsExpr(TsAsExprField),
         TsCallSignatureDecl(TsCallSignatureDeclField),
+        TsComponentType(TsComponentTypeField),
         TsConditionalType(TsConditionalTypeField),
         TsConstAssertion(TsConstAssertionField),
         TsConstructSignatureDecl(TsConstructSignatureDeclField),
@@ -143068,6 +143706,7 @@ pub mod fields {
                 Self::TsArrayType(v) => v.set_index(index),
                 Self::TsAsExpr(v) => v.set_index(index),
                 Self::TsCallSignatureDecl(v) => v.set_index(index),
+                Self::TsComponentType(v) => v.set_index(index),
                 Self::TsConditionalType(v) => v.set_index(index),
                 Self::TsConstAssertion(v) => v.set_index(index),
                 Self::TsConstructSignatureDecl(v) => v.set_index(index),
@@ -143312,6 +143951,7 @@ pub mod fields {
         TsArrayType(&'ast TsArrayType, TsArrayTypeField),
         TsAsExpr(&'ast TsAsExpr, TsAsExprField),
         TsCallSignatureDecl(&'ast TsCallSignatureDecl, TsCallSignatureDeclField),
+        TsComponentType(&'ast TsComponentType, TsComponentTypeField),
         TsConditionalType(&'ast TsConditionalType, TsConditionalTypeField),
         TsConstAssertion(&'ast TsConstAssertion, TsConstAssertionField),
         TsConstructSignatureDecl(
@@ -143568,6 +144208,7 @@ pub mod fields {
                 Self::TsArrayType(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsAsExpr(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsCallSignatureDecl(_, __field_kind) => __field_kind.set_index(index),
+                Self::TsComponentType(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsConditionalType(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsConstAssertion(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsConstructSignatureDecl(_, __field_kind) => __field_kind.set_index(index),
@@ -143869,6 +144510,9 @@ pub mod fields {
                 Self::TsAsExpr(_, __field_kind) => AstParentKind::TsAsExpr(*__field_kind),
                 Self::TsCallSignatureDecl(_, __field_kind) => {
                     AstParentKind::TsCallSignatureDecl(*__field_kind)
+                }
+                Self::TsComponentType(_, __field_kind) => {
+                    AstParentKind::TsComponentType(*__field_kind)
                 }
                 Self::TsConditionalType(_, __field_kind) => {
                     AstParentKind::TsConditionalType(*__field_kind)
@@ -144808,6 +145452,11 @@ impl<'ast> From<&'ast TsCallSignatureDecl> for NodeRef<'ast> {
         NodeRef::TsCallSignatureDecl(node)
     }
 }
+impl<'ast> From<&'ast TsComponentType> for NodeRef<'ast> {
+    fn from(node: &'ast TsComponentType) -> Self {
+        NodeRef::TsComponentType(node)
+    }
+}
 impl<'ast> From<&'ast TsConditionalType> for NodeRef<'ast> {
     fn from(node: &'ast TsConditionalType) -> Self {
         NodeRef::TsConditionalType(node)
@@ -145374,6 +146023,7 @@ pub enum NodeRef<'ast> {
     TsArrayType(&'ast TsArrayType),
     TsAsExpr(&'ast TsAsExpr),
     TsCallSignatureDecl(&'ast TsCallSignatureDecl),
+    TsComponentType(&'ast TsComponentType),
     TsConditionalType(&'ast TsConditionalType),
     TsConstAssertion(&'ast TsConstAssertion),
     TsConstructSignatureDecl(&'ast TsConstructSignatureDecl),
@@ -146996,6 +147646,23 @@ impl<'ast> NodeRef<'ast> {
                     }));
                 Box::new(iterator)
             }
+            NodeRef::TsComponentType(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(
+                        node.params
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::TsFnParam(&item))),
+                    )
+                    .chain(node.type_params.iter().flat_map(|item| {
+                        let item = &*item;
+                        ::std::iter::once(NodeRef::TsTypeParamDecl(&item))
+                    }))
+                    .chain({
+                        let item = &*node.type_ann;
+                        ::std::iter::once(NodeRef::TsTypeAnn(&item))
+                    });
+                Box::new(iterator)
+            }
             NodeRef::TsConditionalType(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain({
@@ -147118,6 +147785,9 @@ impl<'ast> NodeRef<'ast> {
                 }
                 TsFnOrConstructorType::TsConstructorType(v0) => {
                     Box::new(::std::iter::once(NodeRef::TsConstructorType(v0)))
+                }
+                TsFnOrConstructorType::TsComponentType(v0) => {
+                    Box::new(::std::iter::once(NodeRef::TsComponentType(v0)))
                 }
                 _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
             },

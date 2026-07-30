@@ -318,6 +318,7 @@ pub enum TsType {
 
     #[tag("TsFunctionType")]
     #[tag("TsConstructorType")]
+    #[tag("TsComponentType")]
     TsFnOrConstructorType(TsFnOrConstructorType),
 
     #[tag("TsTypeReference")]
@@ -414,6 +415,12 @@ pub enum TsFnOrConstructorType {
     TsFnType(TsFnType),
     #[tag("TsConstructorType")]
     TsConstructorType(TsConstructorType),
+    /// A Flow `component(...)` type.
+    ///
+    /// This is distinct from [`TsFnType`] because Flow stripping gives
+    /// component-typed arrow bindings function semantics.
+    #[tag("TsComponentType")]
+    TsComponentType(TsComponentType),
 }
 
 impl From<TsFnType> for TsType {
@@ -425,6 +432,12 @@ impl From<TsFnType> for TsType {
 impl From<TsConstructorType> for TsType {
     fn from(t: TsConstructorType) -> Self {
         TsFnOrConstructorType::TsConstructorType(t).into()
+    }
+}
+
+impl From<TsComponentType> for TsType {
+    fn from(t: TsComponentType) -> Self {
+        TsFnOrConstructorType::TsComponentType(t).into()
     }
 }
 
@@ -530,6 +543,28 @@ pub enum TsFnParam {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsFnType {
+    pub span: Span,
+    pub params: Vec<TsFnParam>,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub type_params: Option<Box<TsTypeParamDecl>>,
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
+    pub type_ann: Box<TsTypeAnn>,
+}
+
+/// A Flow `component(...)` type annotation.
+///
+/// Flow component parameters describe a single props object, so the parser
+/// represents them as one object-pattern entry in `params`.
+#[ast_node("TsComponentType")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+pub struct TsComponentType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
 
