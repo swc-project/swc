@@ -72,6 +72,31 @@ fn simple_usage() {
 }
 
 #[test]
+fn ascii_case_conversion_uses_stack_and_heap_paths() {
+    let short = Atom::from("aBcDeF");
+    assert_eq!(short.to_ascii_uppercase(), "ABCDEF");
+    assert_eq!(short.to_ascii_lowercase(), "abcdef");
+
+    let lowercase_at_stack_limit = "a".repeat(64);
+    let uppercase_at_stack_limit = "A".repeat(64);
+    assert_eq!(
+        Atom::from(lowercase_at_stack_limit).to_ascii_uppercase(),
+        uppercase_at_stack_limit.as_str()
+    );
+
+    let lowercase_over_stack_limit = "a".repeat(65);
+    let uppercase_over_stack_limit = "A".repeat(65);
+    assert_eq!(
+        Atom::from(lowercase_over_stack_limit.as_str()).to_ascii_uppercase(),
+        uppercase_over_stack_limit.as_str()
+    );
+    assert_eq!(
+        Atom::from(uppercase_over_stack_limit).to_ascii_lowercase(),
+        lowercase_over_stack_limit.as_str()
+    );
+}
+
+#[test]
 fn eager_drop() {
     // atom
     let (_, atoms1) = store_with_atoms(vec!["Hello, world!!!!"]);
