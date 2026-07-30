@@ -2036,6 +2036,8 @@ fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
                 })],
             }
         }
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     };
 
     **init = Expr::Fn(FnExpr {
