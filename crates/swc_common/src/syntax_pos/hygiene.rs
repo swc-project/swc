@@ -195,11 +195,17 @@ impl Mark {
         }
 
         // Deserialize result, assign / return values as needed.
-        let context: MutableMarkContext =
+        // SAFETY: `ptr` and `len` come from `serialized`'s initialized byte
+        // allocation, which remains alive through this copy. The host proxy ABI
+        // writes its result into that allocation before returning and may not
+        // access memory outside it.
+        let serialized_context = unsafe {
             crate::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
+        };
+        let context: MutableMarkContext = serialized_context
             .deserialize()
             .expect("Should able to deserialize")
             .into_inner();
@@ -237,11 +243,17 @@ impl Mark {
             __mark_least_ancestor(a.0, b.0, ptr as _);
         }
 
-        let context: MutableMarkContext =
+        // SAFETY: `ptr` and `len` come from `serialized`'s initialized byte
+        // allocation, which remains alive through this copy. The host proxy ABI
+        // writes its result into that allocation before returning and may not
+        // access memory outside it.
+        let serialized_context = unsafe {
             crate::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
+        };
+        let context: MutableMarkContext = serialized_context
             .deserialize()
             .expect("Should able to deserialize")
             .into_inner();
@@ -405,11 +417,17 @@ impl SyntaxContext {
             __syntax_context_remove_mark_proxy(self.0, ptr as _);
         }
 
-        let context: MutableMarkContext =
+        // SAFETY: `ptr` and `len` come from `serialized`'s initialized byte
+        // allocation, which remains alive through this copy. The host proxy ABI
+        // writes its result into that allocation before returning and may not
+        // access memory outside it.
+        let serialized_context = unsafe {
             crate::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
+        };
+        let context: MutableMarkContext = serialized_context
             .deserialize()
             .expect("Should able to deserialize")
             .into_inner();

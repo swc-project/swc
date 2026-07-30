@@ -98,15 +98,24 @@ where
 
     // Using AllocatedBytesPtr's value, reconstruct actual return value
     allocated_returned_value_ptr.map(|allocated_returned_value_ptr| {
-        PluginSerializedBytes::from_raw_ptr(
-            allocated_returned_value_ptr.0 as _,
-            allocated_returned_value_ptr
-                .1
-                .try_into()
-                .expect("Should able to convert ptr length"),
-        )
-        .deserialize()
-        .expect("Returned value should be serializable")
-        .into_inner()
+        // SAFETY: On a successful return, the host ABI allocated
+        // `allocated_returned_value_ptr.1` bytes in guest memory through
+        // `__alloc`, initialized all of them with the serialized result, and
+        // returned the allocation's non-null pointer. `allocated_returned_value_ptr`
+        // owns that allocation until this closure returns, so it remains readable
+        // for the duration of the copy.
+        let serialized = unsafe {
+            PluginSerializedBytes::from_raw_ptr(
+                allocated_returned_value_ptr.0 as _,
+                allocated_returned_value_ptr
+                    .1
+                    .try_into()
+                    .expect("Should able to convert ptr length"),
+            )
+        };
+        serialized
+            .deserialize()
+            .expect("Returned value should be serializable")
+            .into_inner()
     })
 }
