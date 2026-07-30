@@ -921,6 +921,63 @@ test!(
             parameters(Default::default(), unresolved_mark),
         )
     },
+    issue_12084,
+    r#"
+class Scope {
+  static units(defs) {
+    return defs;
+  }
+
+  static module = ((...defs) => this.units(defs));
+  instance = ((...defs) => this.units(defs));
+
+  units(defs) {
+    return defs;
+  }
+}
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
+    issue_12084_exec,
+    r#"
+class Scope {
+  static units(defs) {
+    return defs;
+  }
+
+  static module = ((...defs) => this.units(defs));
+  instance = ((...defs) => this.units(defs));
+
+  units(defs) {
+    return defs;
+  }
+}
+
+expect(Scope.module(1, 2)).toEqual([1, 2]);
+expect(new Scope().instance(3, 4)).toEqual([3, 4]);
+"#
+);
+
+test!(
+    syntax(),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     rest_in_top_level_arrow_2,
     "
     const arrow = () => (...args) => {
