@@ -2038,7 +2038,7 @@ fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
         }
     };
 
-    *init = Box::new(Expr::Fn(FnExpr {
+    **init = Expr::Fn(FnExpr {
         ident: Some(id.clone()),
         function: Box::new(Function {
             params: arrow
@@ -2059,7 +2059,7 @@ fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
             type_params: arrow.type_params,
             return_type: arrow.return_type,
         }),
-    }));
+    });
 }
 
 /// Returns whether a syntactic type annotation identifies a Flow component.
