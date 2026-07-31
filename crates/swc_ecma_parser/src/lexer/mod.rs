@@ -1873,9 +1873,11 @@ impl<'a> Lexer<'a> {
         // sequence."
         // Need to use `read_word` because '\uXXXX' sequences are accepted by the
         // scanner — we still reject them as an early error below.
+        // Use `cur_as_char` so non-ASCII IdentifierPart flags (e.g. `/a/π\u0067`)
+        // are scanned; `cur()` only yields the first UTF-8 byte and would miss them.
         let flags = {
-            match self.cur() {
-                Some(c) if c == b'\\' || c.is_ident_start() => {
+            match self.cur_as_char() {
+                Some(c) if c == '\\' || c.is_ident_part() => {
                     let (s, has_escape) = self.read_word_as_str_with()?;
                     if has_escape {
                         let span = self.span(start);
