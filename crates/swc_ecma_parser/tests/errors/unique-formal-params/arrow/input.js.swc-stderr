@@ -1,0 +1,26 @@
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/errors/unique-formal-params/arrow/input.js:1:1]
+ 1 | (a, a) => a;
+   :     ^
+ 2 | async (a, a) => a;
+   `----
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/errors/unique-formal-params/arrow/input.js:2:1]
+ 1 | (a, a) => a;
+ 2 | async (a, a) => a;
+   :           ^
+ 3 | ({a}, a) => a;
+   `----
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/errors/unique-formal-params/arrow/input.js:3:1]
+ 2 | async (a, a) => a;
+ 3 | ({a}, a) => a;
+   :       ^
+ 4 | (a, a = 1) => a;
+   `----
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/errors/unique-formal-params/arrow/input.js:4:1]
+ 3 | ({a}, a) => a;
+ 4 | (a, a = 1) => a;
+   :     ^
+   `----

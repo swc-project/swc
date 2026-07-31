@@ -1,9 +1,11 @@
 //! 13.3.3 Destructuring Binding Patterns
 
+use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
 use swc_common::Spanned;
 
 use super::*;
-use crate::parser::{expr::AssignTargetOrSpread, Parser};
+use crate::parser::{expr::AssignTargetOrSpread, util::IsSimpleParameterList, Parser};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum PatType {
@@ -72,6 +74,63 @@ impl<I: Tokens> Parser<I> {
             }
             Pat::Assign(a) => self.pat_is_valid_argument_in_strict(&a.left),
             Pat::Invalid(_) | Pat::Expr(_) => (),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
+        }
+    }
+
+    /// Enforce UniqueFormalParameters: BoundNames must not contain duplicates.
+    ///
+    /// Used for methods, setters, arrows, constructors, strict-mode functions,
+    /// and any FormalParameters list that is not a simple parameter list.
+    pub(crate) fn ensure_unique_formal_params<'a, Iter>(&mut self, pats: Iter)
+    where
+        Iter: IntoIterator<Item = &'a Pat>,
+    {
+        let mut names = FxHashSet::default();
+        for pat in pats {
+            self.collect_unique_formal_bindings(pat, &mut names);
+        }
+    }
+
+    fn collect_unique_formal_bindings(&mut self, pat: &Pat, names: &mut FxHashSet<Atom>) {
+        match pat {
+            Pat::Ident(i) => {
+                if !names.insert(i.id.sym.clone()) {
+                    self.emit_err(
+                        i.id.span,
+                        SyntaxError::DuplicateFormalParameter(i.id.sym.clone()),
+                    );
+                }
+            }
+            Pat::Array(arr) => {
+                for elem in arr.elems.iter().flatten() {
+                    self.collect_unique_formal_bindings(elem, names);
+                }
+            }
+            Pat::Rest(r) => self.collect_unique_formal_bindings(&r.arg, names),
+            Pat::Object(obj) => {
+                for prop in &obj.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
+                        | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
+                            self.collect_unique_formal_bindings(value, names);
+                        }
+                        ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                            if !names.insert(key.sym.clone()) {
+                                self.emit_err(
+                                    key.span,
+                                    SyntaxError::DuplicateFormalParameter(key.sym.clone()),
+                                );
+                            }
+                        }
+                        #[cfg(swc_ast_unknown)]
+                        _ => unreachable!(),
+                    }
+                }
+            }
+            Pat::Assign(a) => self.collect_unique_formal_bindings(&a.left, names),
+            Pat::Invalid(_) | Pat::Expr(_) => {}
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
         }
@@ -767,6 +826,36 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
+        // Class constructors always use UniqueFormalParameters (class bodies are
+        // strict mode code).
+        {
+            let mut names = FxHashSet::default();
+            for p in &params {
+                match p {
+                    ParamOrTsParamProp::Param(param) => {
+                        self.collect_unique_formal_bindings(&param.pat, &mut names);
+                    }
+                    ParamOrTsParamProp::TsParamProp(prop) => match &prop.param {
+                        TsParamPropParam::Ident(i) => {
+                            if !names.insert(i.id.sym.clone()) {
+                                self.emit_err(
+                                    i.id.span,
+                                    SyntaxError::DuplicateFormalParameter(i.id.sym.clone()),
+                                );
+                            }
+                        }
+                        TsParamPropParam::Assign(a) => {
+                            self.collect_unique_formal_bindings(&a.left, &mut names);
+                        }
+                        #[cfg(swc_ast_unknown)]
+                        _ => {}
+                    },
+                    #[cfg(swc_ast_unknown)]
+                    _ => {}
+                }
+            }
+        }
+
         Ok(params)
     }
 
@@ -867,12 +956,32 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
+        // UniqueFormalParameters / FormalParameters early errors:
+        // duplicate BoundNames are always illegal in strict mode, and also
+        // illegal whenever the parameter list is not simple.
+        if self.ctx().contains(Context::Strict) || !params.is_simple_parameter_list() {
+            self.ensure_unique_formal_params(params.iter().map(|p| &p.pat));
+        }
+
+        if self.ctx().contains(Context::Strict) {
+            for param in params.iter() {
+                self.pat_is_valid_argument_in_strict(&param.pat)
+            }
+        }
+
         Ok(params)
     }
 
     pub(crate) fn parse_unique_formal_params(&mut self) -> PResult<Vec<Param>> {
-        // FIXME: This is wrong
-        self.parse_formal_params()
+        let params = self.parse_formal_params()?;
+        // Methods / object methods always require UniqueFormalParameters,
+        // including simple duplicate bindings that sloppy-mode functions allow.
+        // `parse_formal_params` already checks when !simple or Strict; cover the
+        // remaining simple+non-strict case used by class/object methods.
+        if params.is_simple_parameter_list() && !self.ctx().contains(Context::Strict) {
+            self.ensure_unique_formal_params(params.iter().map(|p| &p.pat));
+        }
+        Ok(params)
     }
 
     pub(super) fn parse_paren_items_as_params(

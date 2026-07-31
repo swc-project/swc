@@ -2716,6 +2716,8 @@ impl<I: Tokens> Parser<I> {
         };
 
         let validate_arrow_params = |p: &mut Self, params: &[Pat], is_async: bool| {
+            p.ensure_unique_formal_params(params.iter());
+
             for param in params {
                 if is_async {
                     match param {
