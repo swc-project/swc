@@ -66,6 +66,18 @@ fn parse_program_module_02() {
 }
 
 #[test]
+fn parse_program_duplicate_params_promoted_to_module() {
+    // Simple duplicate params are buffered until an export turns the file into a
+    // module.
+    assert_module_error(
+        "
+        function f(a, a) {}
+        export {};
+        ",
+    );
+}
+
+#[test]
 fn parse_program_module_error_01() {
     assert_module_error(
         "

@@ -81,46 +81,76 @@ impl<I: Tokens> Parser<I> {
 
     /// Enforce UniqueFormalParameters: BoundNames must not contain duplicates.
     ///
-    /// Used for methods, setters, arrows, constructors, strict-mode functions,
-    /// and any FormalParameters list that is not a simple parameter list.
+    /// Used for methods, setters, arrows, constructors, and any
+    /// FormalParameters list that is not a simple parameter list. Reports
+    /// immediately.
     pub(crate) fn ensure_unique_formal_params<'a, Iter>(&mut self, pats: Iter)
+    where
+        Iter: IntoIterator<Item = &'a Pat>,
+    {
+        self.ensure_unique_formal_params_inner(pats, false);
+    }
+
+    /// Like [`Self::ensure_unique_formal_params`], but buffers the diagnostic
+    /// for auto-detected modules (and reports immediately in strict /
+    /// module code).
+    ///
+    /// Simple FormalParameters are only illegal in strict/module code. While
+    /// `parse_program` is still treating the file as a script, record the error
+    /// via [`Self::emit_strict_mode_err`] so a later `import`/`export` promotes
+    /// it.
+    pub(crate) fn ensure_unique_formal_params_strict<'a, Iter>(&mut self, pats: Iter)
+    where
+        Iter: IntoIterator<Item = &'a Pat>,
+    {
+        self.ensure_unique_formal_params_inner(pats, true);
+    }
+
+    fn ensure_unique_formal_params_inner<'a, Iter>(&mut self, pats: Iter, strict_or_module: bool)
     where
         Iter: IntoIterator<Item = &'a Pat>,
     {
         let mut names = FxHashSet::default();
         for pat in pats {
-            self.collect_unique_formal_bindings(pat, &mut names);
+            self.collect_unique_formal_bindings(pat, &mut names, strict_or_module);
         }
     }
 
-    fn collect_unique_formal_bindings(&mut self, pat: &Pat, names: &mut FxHashSet<Atom>) {
+    fn collect_unique_formal_bindings(
+        &mut self,
+        pat: &Pat,
+        names: &mut FxHashSet<Atom>,
+        strict_or_module: bool,
+    ) {
         match pat {
             Pat::Ident(i) => {
                 if !names.insert(i.id.sym.clone()) {
-                    self.emit_err(
+                    self.emit_duplicate_formal_parameter(
                         i.id.span,
-                        SyntaxError::DuplicateFormalParameter(i.id.sym.clone()),
+                        i.id.sym.clone(),
+                        strict_or_module,
                     );
                 }
             }
             Pat::Array(arr) => {
                 for elem in arr.elems.iter().flatten() {
-                    self.collect_unique_formal_bindings(elem, names);
+                    self.collect_unique_formal_bindings(elem, names, strict_or_module);
                 }
             }
-            Pat::Rest(r) => self.collect_unique_formal_bindings(&r.arg, names),
+            Pat::Rest(r) => self.collect_unique_formal_bindings(&r.arg, names, strict_or_module),
             Pat::Object(obj) => {
                 for prop in &obj.props {
                     match prop {
                         ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
                         | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
-                            self.collect_unique_formal_bindings(value, names);
+                            self.collect_unique_formal_bindings(value, names, strict_or_module);
                         }
                         ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
                             if !names.insert(key.sym.clone()) {
-                                self.emit_err(
+                                self.emit_duplicate_formal_parameter(
                                     key.span,
-                                    SyntaxError::DuplicateFormalParameter(key.sym.clone()),
+                                    key.sym.clone(),
+                                    strict_or_module,
                                 );
                             }
                         }
@@ -129,10 +159,19 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
             }
-            Pat::Assign(a) => self.collect_unique_formal_bindings(&a.left, names),
+            Pat::Assign(a) => self.collect_unique_formal_bindings(&a.left, names, strict_or_module),
             Pat::Invalid(_) | Pat::Expr(_) => {}
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
+        }
+    }
+
+    fn emit_duplicate_formal_parameter(&mut self, span: Span, name: Atom, strict_or_module: bool) {
+        let err = SyntaxError::DuplicateFormalParameter(name);
+        if strict_or_module {
+            self.emit_strict_mode_err(span, err);
+        } else {
+            self.emit_err(span, err);
         }
     }
 
@@ -833,19 +872,20 @@ impl<I: Tokens> Parser<I> {
             for p in &params {
                 match p {
                     ParamOrTsParamProp::Param(param) => {
-                        self.collect_unique_formal_bindings(&param.pat, &mut names);
+                        self.collect_unique_formal_bindings(&param.pat, &mut names, false);
                     }
                     ParamOrTsParamProp::TsParamProp(prop) => match &prop.param {
                         TsParamPropParam::Ident(i) => {
                             if !names.insert(i.id.sym.clone()) {
-                                self.emit_err(
+                                self.emit_duplicate_formal_parameter(
                                     i.id.span,
-                                    SyntaxError::DuplicateFormalParameter(i.id.sym.clone()),
+                                    i.id.sym.clone(),
+                                    false,
                                 );
                             }
                         }
                         TsParamPropParam::Assign(a) => {
-                            self.collect_unique_formal_bindings(&a.left, &mut names);
+                            self.collect_unique_formal_bindings(&a.left, &mut names, false);
                         }
                         #[cfg(swc_ast_unknown)]
                         _ => {}
@@ -860,6 +900,16 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {
+        self.parse_formal_params_with(false)
+    }
+
+    pub(crate) fn parse_unique_formal_params(&mut self) -> PResult<Vec<Param>> {
+        // Methods / object methods always require UniqueFormalParameters,
+        // including simple duplicate bindings that sloppy-mode functions allow.
+        self.parse_formal_params_with(true)
+    }
+
+    fn parse_formal_params_with(&mut self, always_unique: bool) -> PResult<Vec<Param>> {
         let mut params = Vec::new();
         let mut rest_span = Span::default();
 
@@ -957,10 +1007,13 @@ impl<I: Tokens> Parser<I> {
         }
 
         // UniqueFormalParameters / FormalParameters early errors:
-        // duplicate BoundNames are always illegal in strict mode, and also
-        // illegal whenever the parameter list is not simple.
-        if self.ctx().contains(Context::Strict) || !params.is_simple_parameter_list() {
+        // non-simple lists always forbid duplicates; simple lists only forbid
+        // them in strict/module code (buffered for auto-detected modules),
+        // unless always_unique (methods / setters).
+        if always_unique || !params.is_simple_parameter_list() {
             self.ensure_unique_formal_params(params.iter().map(|p| &p.pat));
+        } else {
+            self.ensure_unique_formal_params_strict(params.iter().map(|p| &p.pat));
         }
 
         if self.ctx().contains(Context::Strict) {
@@ -969,18 +1022,6 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        Ok(params)
-    }
-
-    pub(crate) fn parse_unique_formal_params(&mut self) -> PResult<Vec<Param>> {
-        let params = self.parse_formal_params()?;
-        // Methods / object methods always require UniqueFormalParameters,
-        // including simple duplicate bindings that sloppy-mode functions allow.
-        // `parse_formal_params` already checks when !simple or Strict; cover the
-        // remaining simple+non-strict case used by class/object methods.
-        if params.is_simple_parameter_list() && !self.ctx().contains(Context::Strict) {
-            self.ensure_unique_formal_params(params.iter().map(|p| &p.pat));
-        }
         Ok(params)
     }
 
