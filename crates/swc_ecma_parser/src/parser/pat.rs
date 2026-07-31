@@ -506,7 +506,10 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
             }
 
-            if self.ctx().contains(Context::InDeclare) {
+            // Only reject defaults in declare *parameter* lists. Ambient
+            // destructuring bindings such as `declare const { a: b = 1 }` are valid.
+            if self.ctx().contains(Context::InDeclare) && self.ctx().contains(Context::InParameters)
+            {
                 self.emit_err(self.span(start), SyntaxError::TS2371);
             }
 

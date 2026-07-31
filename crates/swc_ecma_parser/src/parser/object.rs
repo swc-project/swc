@@ -75,14 +75,11 @@ impl<I: Tokens> Parser<I> {
         };
 
         let value = if self.input_mut().eat(Token::Eq) {
-            let right = self.allow_in_expr(Self::parse_assignment_expr)?;
-            // Ambient / declare signatures cannot have parameter initializers
-            // (TS2371). Object shorthand defaults use AssignPatProp and would
-            // otherwise skip the InDeclare check used for AssignPat.
-            if self.ctx().contains(Context::InDeclare) {
-                self.emit_err(self.span(start), SyntaxError::TS2371);
-            }
-            Some(right)
+            // Do not emit TS2371 here: `Context::InDeclare` also covers ambient
+            // variable bindings such as `declare const { a = 1 }`, which TypeScript
+            // accepts. Declare function/constructor parameters are rejected by
+            // `emit_ts2371_for_param_initializers` after the signature is parsed.
+            self.allow_in_expr(Self::parse_assignment_expr).map(Some)?
         } else {
             let ctx = self.ctx();
             if self.ctx().is_reserved_word(&key.sym) {
