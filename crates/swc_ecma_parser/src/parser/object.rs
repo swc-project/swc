@@ -75,7 +75,14 @@ impl<I: Tokens> Parser<I> {
         };
 
         let value = if self.input_mut().eat(Token::Eq) {
-            self.allow_in_expr(Self::parse_assignment_expr).map(Some)?
+            let right = self.allow_in_expr(Self::parse_assignment_expr)?;
+            // Ambient / declare signatures cannot have parameter initializers
+            // (TS2371). Object shorthand defaults use AssignPatProp and would
+            // otherwise skip the InDeclare check used for AssignPat.
+            if self.ctx().contains(Context::InDeclare) {
+                self.emit_err(self.span(start), SyntaxError::TS2371);
+            }
+            Some(right)
         } else {
             let ctx = self.ctx();
             if self.ctx().is_reserved_word(&key.sym) {

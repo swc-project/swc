@@ -77,6 +77,49 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    /// Emit TS2371 for any parameter initializer nested in a binding pattern.
+    ///
+    /// Used for ambient / declare function and constructor signatures where
+    /// top-level AssignPat checks alone miss object shorthand defaults and
+    /// nested defaults.
+    pub(crate) fn emit_ts2371_for_param_initializers(&mut self, pat: &Pat) {
+        match pat {
+            Pat::Assign(a) => {
+                self.emit_err(a.span(), SyntaxError::TS2371);
+                self.emit_ts2371_for_param_initializers(&a.left);
+            }
+            Pat::Array(arr) => {
+                for elem in arr.elems.iter().flatten() {
+                    self.emit_ts2371_for_param_initializers(elem);
+                }
+            }
+            Pat::Object(obj) => {
+                for prop in &obj.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
+                        | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
+                            self.emit_ts2371_for_param_initializers(value);
+                        }
+                        ObjectPatProp::Assign(AssignPatProp {
+                            span,
+                            value: Some(_),
+                            ..
+                        }) => {
+                            self.emit_err(*span, SyntaxError::TS2371);
+                        }
+                        ObjectPatProp::Assign(AssignPatProp { value: None, .. }) => {}
+                        #[cfg(swc_ast_unknown)]
+                        _ => {}
+                    }
+                }
+            }
+            Pat::Rest(r) => self.emit_ts2371_for_param_initializers(&r.arg),
+            Pat::Ident(_) | Pat::Invalid(_) | Pat::Expr(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
+        }
+    }
+
     fn assign_pat_type_ann(&mut self, pat: &mut Pat, span: Span, type_ann: Box<TsType>) {
         let type_ann = Some(Box::new(TsTypeAnn { span, type_ann }));
 

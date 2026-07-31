@@ -1,0 +1,14 @@
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/declare-method/input.ts:2:1]
+ 1 | declare class C {
+ 2 |   method({ a = 1 }: { a?: number }): void;
+   :            ^^^^^
+ 3 |   constructor({ a = 1 }: { a?: number });
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/declare-method/input.ts:3:1]
+ 2 |   method({ a = 1 }: { a?: number }): void;
+ 3 |   constructor({ a = 1 }: { a?: number });
+   :                 ^^^^^
+ 4 | }
+   `----
