@@ -584,18 +584,29 @@ impl Cjs {
 
 /// ```javascript
 /// Promise.resolve(args).then(p => require(p))
-/// // for literial dynamic import:
+/// // for literal dynamic import:
 /// Promise.resolve().then(() => require(args))
 /// ```
+///
+/// Import attributes / assertions (`import(x, { with: { type: "json" } })`)
+/// are not expressible via `require`, so only the module specifier is kept.
 pub(crate) fn cjs_dynamic_import(
     span: Span,
-    args: Vec<ExprOrSpread>,
+    mut args: Vec<ExprOrSpread>,
     require: Ident,
     import_interop: ImportInterop,
     support_arrow: bool,
     is_lit_path: bool,
 ) -> Expr {
     let p = private_ident!("p");
+
+    // Keep only the specifier. Extra arguments (import attributes / assert)
+    // cannot be forwarded to `require` and must not be passed to
+    // `Promise.resolve` either (`Promise.resolve(path, opts)` ignores `opts`
+    // and would silently drop attributes today).
+    if args.len() > 1 {
+        args.truncate(1);
+    }
 
     let (resolve_args, callback_params, require_args) = if is_lit_path {
         (Vec::new(), Vec::new(), args)
@@ -604,7 +615,6 @@ pub(crate) fn cjs_dynamic_import(
     };
 
     let then = member_expr!(Default::default(), Default::default(), Promise.resolve)
-        // TODO: handle import assert
         .as_call(DUMMY_SP, resolve_args)
         .make_member(quote_ident!("then"));
 
