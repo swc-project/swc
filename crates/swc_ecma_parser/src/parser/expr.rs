@@ -81,6 +81,12 @@ impl<I: Tokens> Parser<I> {
             // syntax.
             let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
             if let Some(res) = res {
+                // Outer try_parse_ts sets IgnoreError, so UniqueFormalParameters
+                // checks inside parse_assignment_expr_base were discarded. Re-check
+                // after the speculative TSX generic-arrow parse commits.
+                if let Expr::Arrow(ref arrow) = *res {
+                    self.validate_arrow_params(&arrow.params, arrow.is_async);
+                }
                 return Ok(res);
             }
         }

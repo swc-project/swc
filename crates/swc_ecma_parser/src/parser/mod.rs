@@ -481,7 +481,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     pub fn emit_strict_mode_err(&mut self, span: Span, error: SyntaxError) {
-        if self.ctx().contains(Context::IgnoreError) {
+        if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
             return;
         }
         let error = crate::error::Error::new(span, error);
