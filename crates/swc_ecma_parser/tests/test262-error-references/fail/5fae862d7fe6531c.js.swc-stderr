@@ -3,3 +3,8 @@
  1 | ({a = 0}, {a = 0}, 0) => 0
    :                    ^
    `----
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/test262-parser/fail/5fae862d7fe6531c.js:1:1]
+ 1 | ({a = 0}, {a = 0}, 0) => 0
+   :            ^
+   `----
