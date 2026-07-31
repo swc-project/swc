@@ -506,12 +506,10 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
             }
 
-            // Only reject defaults in declare *parameter* lists. Ambient
-            // destructuring bindings such as `declare const { a: b = 1 }` are valid.
-            if self.ctx().contains(Context::InDeclare) && self.ctx().contains(Context::InParameters)
-            {
-                self.emit_err(self.span(start), SyntaxError::TS2371);
-            }
+            // Do not emit TS2371 here. Ambient destructuring such as
+            // `declare const { a: b = 1 }` is valid, and declare / type-signature
+            // parameters are checked by `emit_ts2371_for_param_initializers`
+            // after the parameter list is parsed (avoids duplicate diagnostics).
 
             return Ok(AssignPat {
                 span: self.span(start),
@@ -700,9 +698,8 @@ impl<I: Tokens> Parser<I> {
             {
                 self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
             }
-            if self.ctx().contains(Context::InDeclare) {
-                self.emit_err(self.span(start), SyntaxError::TS2371);
-            }
+            // TS2371 for declare / signature parameters is emitted by
+            // `emit_ts2371_for_param_initializers` after the list is parsed.
 
             AssignPat {
                 span: self.span(start),
