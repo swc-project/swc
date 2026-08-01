@@ -1,6 +1,6 @@
 ---
 name: add-changeset
-description: Create SWC changeset files for pull requests. Use when asked to add a changeset, prepare release notes, decide patch/minor/major bumps, or enumerate changed Rust crates for an SWC PR; the skill requires every publishable Rust crate with a breaking change or a runtime dependency breaking change to be listed as major, every other changed publishable Rust crate to be listed as patch or minor, and swc_core to be listed as at least patch for Rust crate changes.
+description: Create, commit, and push SWC changeset files for pull requests. Use when asked to add a changeset, prepare release notes, decide patch/minor/major bumps, enumerate changed Rust crates, or publish a changeset commit for an SWC PR; the skill requires every publishable Rust crate with a breaking change or a runtime dependency breaking change to be listed as major, every other changed publishable Rust crate to be listed as patch or minor, and swc_core to be listed as at least patch for Rust crate changes.
 ---
 
 # Add Changeset
@@ -40,6 +40,16 @@ Add one Markdown file under `.changeset/` whose front matter lists every changed
    - Keep the front matter sorted by crate name unless a maintainer provided another order.
    - Mention only Rust crate names and bump levels in front matter.
    - Write a concise summary after the front matter using SWC commit style, such as `fix(es/parser): ...`, `feat(es/parser): ...`, `perf(es/parser): ...`, or `refactor(es/parser): ...`.
+
+6. Validate, commit, and push the changeset.
+   - Review `git status --short` and the changeset contents before staging.
+   - Stage only the new changeset with `git add -- .changeset/<short-kebab-summary>.md`; never include unrelated worktree changes.
+   - Run `git diff --cached --check` and inspect `git diff --cached` before committing.
+   - Commit with `git commit -m "chore: Add changeset"`; never use `--no-verify`.
+   - Require a named branch. If `git branch --show-current` is empty, stop and ask the user which branch to use.
+   - Push with plain `git push` when the branch has an upstream.
+   - When no upstream exists, identify the PR head remote and branch with `gh pr view` and repository remotes, then use `git push --set-upstream <remote> <branch>`. Stop and ask the user if the target is ambiguous.
+   - Never force-push. Report the commit hash and pushed remote branch.
 
 ## Example
 

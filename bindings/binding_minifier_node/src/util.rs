@@ -4,20 +4,10 @@ use std::panic::{catch_unwind, AssertUnwindSafe};
 
 use anyhow::{anyhow, Error};
 use napi::Env;
-use swc_core::common::{
-    errors::Handler,
-    sync::{Lrc, OnceCell},
-    SourceMap, GLOBALS,
-};
+use swc_core::common::{errors::Handler, sync::Lrc, SourceMap, GLOBALS};
 use swc_error_reporters::handler::try_with_handler;
-use tracing::instrument;
-use tracing_chrome::ChromeLayerBuilder;
-use tracing_subscriber::{
-    filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer,
-};
 
 static TARGET_TRIPLE: &str = include_str!(concat!(env!("OUT_DIR"), "/triple.txt"));
-static CUSTOM_TRACE_SUBSCRIBER: OnceCell<bool> = OnceCell::new();
 
 #[napi]
 pub fn get_target_triple() -> napi::Result<String> {
@@ -26,36 +16,13 @@ pub fn get_target_triple() -> napi::Result<String> {
 
 #[napi]
 pub fn init_custom_trace_subscriber(
-    env: Env,
-    trace_out_file_path: Option<String>,
+    _env: Env,
+    _trace_out_file_path: Option<String>,
 ) -> napi::Result<()> {
-    CUSTOM_TRACE_SUBSCRIBER.get_or_init(|| {
-        let mut layer = ChromeLayerBuilder::new().include_args(true);
-        if let Some(trace_out_file) = trace_out_file_path {
-            layer = layer.file(trace_out_file);
-        }
-
-        let (chrome_layer, guard) = layer.build();
-        tracing_subscriber::registry()
-            .with(chrome_layer.with_filter(filter::filter_fn(|metadata| {
-                !metadata.target().contains("cranelift") && !metadata.name().contains("log ")
-            })))
-            .try_init()
-            .expect("Failed to register tracing subscriber");
-
-        env.add_env_cleanup_hook(guard, |flush_guard| {
-            flush_guard.flush();
-            drop(flush_guard);
-        })
-        .expect("Should able to initialize cleanup for custom trace subscriber");
-
-        true
-    });
-
     Ok(())
 }
 
-#[instrument(level = "trace", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "trace", skip_all))]
 pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
@@ -94,16 +61,5 @@ where
 // interface for the custom binary - they should choose own trace initialization
 // instead. Will keep as hidden for now until there's proper usecase.
 
-/// Trying to initialize default subscriber if global dispatch is not set.
-/// This can be called multiple time, however subsequent calls will be ignored
-/// as tracing_subscriber only allows single global dispatch.
-pub fn init_default_trace_subscriber() {
-    let _unused = tracing_subscriber::FmtSubscriber::builder()
-        .without_time()
-        .with_target(false)
-        .with_writer(std::io::stderr)
-        .with_ansi(true)
-        .with_env_filter(EnvFilter::from_env("SWC_LOG"))
-        .pretty()
-        .try_init();
-}
+/// Deprecated no-op kept for compatibility with existing binding entrypoints.
+pub fn init_default_trace_subscriber() {}

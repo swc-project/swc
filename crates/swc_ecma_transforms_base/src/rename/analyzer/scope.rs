@@ -42,6 +42,10 @@ pub(super) struct ScopeData {
     all: FxHashSet<Id>,
 
     queue: FxIndexSet<Id>,
+
+    /// Names emitted by non-identifier expressions in this scope or its
+    /// descendants. Renamed bindings must not capture these names.
+    reserved_output_symbols: FxHashSet<Atom>,
 }
 
 impl Scope {
@@ -75,6 +79,10 @@ impl Scope {
         self.data.all.insert(id);
     }
 
+    pub(super) fn reserve_output_symbol(&mut self, symbol: Atom) {
+        self.data.reserved_output_symbols.insert(symbol);
+    }
+
     pub(crate) fn reserve_usage(&mut self, len: usize) {
         self.data.all.reserve(len);
     }
@@ -85,6 +93,9 @@ impl Scope {
             child.prepare_renaming();
 
             self.data.all.extend(child.data.all.iter().cloned());
+            self.data
+                .reserved_output_symbols
+                .extend(child.data.reserved_output_symbols.iter().cloned());
         });
     }
 
@@ -159,7 +170,9 @@ impl Scope {
             loop {
                 let sym = renamer.new_name_for(&id, &mut n);
 
-                if preserved_symbols.contains(&sym) {
+                if preserved_symbols.contains(&sym)
+                    || self.data.reserved_output_symbols.contains(&sym)
+                {
                     continue;
                 }
 
@@ -167,6 +180,7 @@ impl Scope {
                     let renamed = V::new_private(sym.clone());
                     if cfg!(debug_assertions) {
                         let renamed = renamed.to_id();
+                        #[cfg(debug_assertions)]
                         debug!(
                             "Renaming `{}{:?}` to `{}{:?}`",
                             id.0, id.1, renamed.0, renamed.1
@@ -304,13 +318,16 @@ impl Scope {
                 let sym = renamer.new_name_for(&id, &mut n);
 
                 // TODO: Use base54::decode
-                if preserved_symbols.contains(&sym) {
+                if preserved_symbols.contains(&sym)
+                    || self.data.reserved_output_symbols.contains(&sym)
+                {
                     continue;
                 }
 
                 if self.can_rename(&id, &sym, reverse) {
                     #[cfg(debug_assertions)]
                     {
+                        #[cfg(debug_assertions)]
                         debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
                     }
 

@@ -26,6 +26,8 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap,
 };
+#[cfg(feature = "react-compiler")]
+use swc_common::{BytePos, Span, Spanned};
 pub use swc_compiler_base::SourceMapsConfig;
 pub use swc_config::is_module::IsModule;
 use swc_config::{
@@ -338,6 +340,48 @@ impl Options {
 
         let mut transform = transform.into_inner().unwrap_or_default();
 
+        #[cfg(feature = "react-compiler")]
+        if let Some(options) = react_compiler_options(transform.react_compiler.clone(), base) {
+            let fm = if program.span().is_dummy() {
+                cm.get_source_file(base)
+            } else {
+                cm.try_lookup_byte_offset(program.span().lo)
+                    .ok()
+                    .map(|source| source.sf)
+            };
+
+            if let Some(fm) = fm {
+                let source_type = swc_ecma_react_compiler::SourceType::from_program(&program)
+                    .with_typescript(syntax.typescript());
+                let result = swc_ecma_react_compiler::transform(
+                    &program,
+                    source_type,
+                    &fm.src,
+                    comments,
+                    options,
+                );
+                emit_react_compiler_diagnostics(handler, &result.diagnostics);
+
+                if let Some(compiled) = result.program {
+                    program = compiled;
+                }
+            } else {
+                handler
+                    .struct_warn("React Compiler is enabled, but the source text is unavailable")
+                    .emit();
+            }
+        }
+
+        #[cfg(not(feature = "react-compiler"))]
+        if transform.react_compiler.is_true() || transform.react_compiler.is_obj() {
+            handler
+                .struct_warn(
+                    "React Compiler is configured, but swc was built without the `react-compiler` \
+                     feature",
+                )
+                .emit();
+        }
+
         // Do a resolver pass before everything.
         //
         // We do this before creating custom passes, so custom passses can use the
@@ -559,9 +603,9 @@ impl Options {
             Some(ModuleConfig::Es6(..)) => TsImportExportAssignConfig::EsNext,
             Some(ModuleConfig::CommonJs(..))
             | Some(ModuleConfig::Amd(..))
-            | Some(ModuleConfig::Umd(..)) => TsImportExportAssignConfig::Preserve,
+            | Some(ModuleConfig::Umd(..))
+            | Some(ModuleConfig::SystemJs(..)) => TsImportExportAssignConfig::Preserve,
             Some(ModuleConfig::NodeNext(..)) => TsImportExportAssignConfig::NodeNext,
-            // TODO: should Preserve for SystemJS
             _ => TsImportExportAssignConfig::Classic,
         };
 
@@ -608,7 +652,7 @@ impl Options {
         } else {
             Some(hygiene::Config {
                 keep_class_names,
-                ..Default::default()
+                ..hygiene::Config::hygiene_default()
             })
         };
         let env = cfg.env.map(Into::into);
@@ -658,6 +702,8 @@ impl Options {
             .map(|v| v.mangle.is_obj() || v.mangle.is_true())
             .unwrap_or(false);
 
+        let jsx_preserve = transform.react.runtime == Some(react::Runtime::Preserve);
+
         #[cfg(feature = "module")]
         let rewrite_import_pass: Box<dyn Pass> = {
             let swc_import_rewriter: Box<dyn Pass> = match resolver.clone() {
@@ -671,7 +717,7 @@ impl Options {
             };
 
             let typescript_import_rewriter = Optional::new(
-                modules::rewriter::typescript_import_rewriter(),
+                modules::rewriter::typescript_import_rewriter(jsx_preserve),
                 rewrite_relative_import_extensions.into_bool(),
             );
 
@@ -747,7 +793,9 @@ impl Options {
             Optional::new(
                 hygiene_with_config(swc_ecma_transforms_base::hygiene::Config {
                     top_level_mark,
-                    ..hygiene_config.clone().unwrap_or_default()
+                    ..hygiene_config
+                        .clone()
+                        .unwrap_or_else(hygiene::Config::hygiene_default)
                 }),
                 hygiene_config.is_some() && !is_mangler_enabled,
             ),
@@ -834,8 +882,7 @@ impl Options {
         {
             plugin_transforms.unwrap()
         } else {
-            let jsx_enabled =
-                syntax.jsx() && transform.react.runtime != Some(react::Runtime::Preserve);
+            let jsx_enabled = syntax.jsx() && !jsx_preserve;
 
             let decorator_pass: Box<dyn Pass> =
                 match transform.decorator_version.unwrap_or_default() {
@@ -1683,8 +1730,8 @@ impl ModuleConfig {
             Some(ModuleConfig::SystemJs(config)) => build_resolver(
                 base_url,
                 paths,
-                config.config.resolve_fully,
-                &config.config.out_file_extension,
+                config.resolve_fully,
+                &config.out_file_extension,
                 preserve_symlinks,
             ),
         };
@@ -1727,6 +1774,9 @@ pub struct TransformConfig {
     pub react: react::Options,
 
     #[serde(default)]
+    pub react_compiler: BoolOrDataConfig<ReactCompilerConfig>,
+
+    #[serde(default)]
     pub const_modules: Option<ConstModulesConfig>,
 
     #[serde(default)]
@@ -1761,6 +1811,310 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub ts_enum_is_mutable: BoolConfig<false>,
+}
+
+/// Public `.swcrc` configuration for React Compiler.
+///
+/// This intentionally mirrors only a curated subset of upstream
+/// `PluginOptions`. The nested `environment` object likewise exposes only a
+/// curated subset of the compiler's environment configuration.
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ReactCompilerConfig {
+    #[serde(default)]
+    pub compilation_mode: Option<ReactCompilerCompilationMode>,
+
+    #[serde(default)]
+    pub panic_threshold: Option<ReactCompilerPanicThreshold>,
+
+    #[serde(default)]
+    pub target: Option<ReactCompilerTarget>,
+
+    #[serde(default)]
+    pub no_emit: Option<bool>,
+
+    #[serde(default)]
+    pub output_mode: Option<ReactCompilerOutputMode>,
+
+    #[serde(default)]
+    pub ignore_use_no_forget: Option<bool>,
+
+    #[serde(default)]
+    pub flow_suppressions: Option<bool>,
+
+    #[serde(default)]
+    pub enable_reanimated: Option<bool>,
+
+    #[serde(default)]
+    pub is_dev: Option<bool>,
+
+    #[serde(default)]
+    pub eslint_suppression_rules: Option<Vec<String>>,
+
+    #[serde(default)]
+    pub custom_opt_out_directives: Option<Vec<String>>,
+
+    #[serde(default)]
+    pub gating: Option<ReactCompilerGatingConfig>,
+
+    #[serde(default)]
+    pub dynamic_gating: Option<ReactCompilerDynamicGatingConfig>,
+
+    #[serde(default)]
+    pub environment: Option<ReactCompilerEnvironmentConfig>,
+}
+
+#[cfg(feature = "react-compiler")]
+impl ReactCompilerConfig {
+    fn into_plugin_options(
+        self,
+        filename: Option<String>,
+    ) -> swc_ecma_react_compiler::PluginOptions {
+        let mut options = swc_ecma_react_compiler::default_plugin_options();
+        options.filename = filename;
+
+        if let Some(compilation_mode) = self.compilation_mode {
+            options.compilation_mode = compilation_mode.as_str().into();
+        }
+        if let Some(panic_threshold) = self.panic_threshold {
+            options.panic_threshold = panic_threshold.as_str().into();
+        }
+        if let Some(target) = self.target {
+            options.target =
+                swc_ecma_react_compiler::CompilerTarget::Version(target.as_str().into());
+        }
+        if let Some(no_emit) = self.no_emit {
+            options.no_emit = no_emit;
+        }
+        if let Some(output_mode) = self.output_mode {
+            options.output_mode = Some(output_mode.as_str().into());
+        }
+        if let Some(ignore_use_no_forget) = self.ignore_use_no_forget {
+            options.ignore_use_no_forget = ignore_use_no_forget;
+        }
+        if let Some(flow_suppressions) = self.flow_suppressions {
+            options.flow_suppressions = flow_suppressions;
+        }
+        if let Some(enable_reanimated) = self.enable_reanimated {
+            options.enable_reanimated = enable_reanimated;
+        }
+        if let Some(is_dev) = self.is_dev {
+            options.is_dev = is_dev;
+        }
+        if self.eslint_suppression_rules.is_some() {
+            options.eslint_suppression_rules = self.eslint_suppression_rules;
+        }
+        if self.custom_opt_out_directives.is_some() {
+            options.custom_opt_out_directives = self.custom_opt_out_directives;
+        }
+        if let Some(gating) = self.gating {
+            options.gating = Some(gating.into());
+        }
+        if let Some(dynamic_gating) = self.dynamic_gating {
+            options.dynamic_gating = Some(dynamic_gating.into());
+        }
+        if let Some(environment) = self.environment {
+            environment.apply_to(&mut options);
+        }
+
+        options
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum ReactCompilerCompilationMode {
+    #[serde(rename = "infer")]
+    Infer,
+    #[serde(rename = "syntax")]
+    Syntax,
+    #[serde(rename = "annotation")]
+    Annotation,
+    #[serde(rename = "all")]
+    All,
+}
+
+#[cfg(feature = "react-compiler")]
+impl ReactCompilerCompilationMode {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Infer => "infer",
+            Self::Syntax => "syntax",
+            Self::Annotation => "annotation",
+            Self::All => "all",
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum ReactCompilerPanicThreshold {
+    #[serde(rename = "none")]
+    None,
+    #[serde(rename = "critical_errors")]
+    CriticalErrors,
+    #[serde(rename = "all_errors")]
+    AllErrors,
+}
+
+#[cfg(feature = "react-compiler")]
+impl ReactCompilerPanicThreshold {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::None => "none",
+            Self::CriticalErrors => "critical_errors",
+            Self::AllErrors => "all_errors",
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum ReactCompilerTarget {
+    #[serde(rename = "17")]
+    React17,
+    #[serde(rename = "18")]
+    React18,
+    #[serde(rename = "19")]
+    React19,
+}
+
+#[cfg(feature = "react-compiler")]
+impl ReactCompilerTarget {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::React17 => "17",
+            Self::React18 => "18",
+            Self::React19 => "19",
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum ReactCompilerOutputMode {
+    #[serde(rename = "client")]
+    Client,
+    #[serde(rename = "ssr")]
+    Ssr,
+    #[serde(rename = "lint")]
+    Lint,
+}
+
+#[cfg(feature = "react-compiler")]
+impl ReactCompilerOutputMode {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Client => "client",
+            Self::Ssr => "ssr",
+            Self::Lint => "lint",
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ReactCompilerGatingConfig {
+    pub source: String,
+    pub import_specifier_name: String,
+}
+
+#[cfg(feature = "react-compiler")]
+impl From<ReactCompilerGatingConfig> for swc_ecma_react_compiler::GatingConfig {
+    fn from(config: ReactCompilerGatingConfig) -> Self {
+        Self {
+            source: config.source,
+            import_specifier_name: config.import_specifier_name,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ReactCompilerDynamicGatingConfig {
+    pub source: String,
+}
+
+#[cfg(feature = "react-compiler")]
+impl From<ReactCompilerDynamicGatingConfig> for swc_ecma_react_compiler::DynamicGatingConfig {
+    fn from(config: ReactCompilerDynamicGatingConfig) -> Self {
+        Self {
+            source: config.source,
+        }
+    }
+}
+
+/// Curated subset of the React Compiler `environment` options exposed through
+/// the SWC config, mirroring Babel's `reactCompiler.environment` object.
+///
+/// Only fields wired end-to-end into the compiler are exposed here. A field
+/// left unset (`None`) leaves the compiler default untouched, so a partial
+/// object such as `{ "enableFunctionOutlining": false }` overrides only that
+/// setting.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ReactCompilerEnvironmentConfig {
+    /// Extract anonymous functions that do not close over local variables into
+    /// top-level helper functions. Maps to the compiler's
+    /// `environment.enable_function_outlining` (default `true`).
+    #[serde(default)]
+    pub enable_function_outlining: Option<bool>,
+}
+
+#[cfg(feature = "react-compiler")]
+impl ReactCompilerEnvironmentConfig {
+    /// Apply the set (`Some`) overrides onto the compiler options' environment,
+    /// leaving unset fields at their existing (default) values.
+    ///
+    /// This mutates the public `environment` field in place rather than naming
+    /// the upstream `EnvironmentConfig` type, so the config layer does not
+    /// require that type to be re-exported.
+    fn apply_to(self, options: &mut swc_ecma_react_compiler::PluginOptions) {
+        if let Some(enable_function_outlining) = self.enable_function_outlining {
+            options.environment.enable_function_outlining = enable_function_outlining;
+        }
+    }
+}
+
+#[cfg(feature = "react-compiler")]
+fn react_compiler_options(
+    config: BoolOrDataConfig<ReactCompilerConfig>,
+    base: &FileName,
+) -> Option<swc_ecma_react_compiler::PluginOptions> {
+    let filename = Some(base.to_string());
+
+    match config.into_inner()? {
+        BoolOr::Bool(true) => {
+            let mut options = swc_ecma_react_compiler::default_plugin_options();
+            options.filename = filename;
+            Some(options)
+        }
+        BoolOr::Data(config) => Some(config.into_plugin_options(filename)),
+        BoolOr::Bool(false) => None,
+    }
+}
+
+#[cfg(feature = "react-compiler")]
+fn emit_react_compiler_diagnostics(
+    handler: &Handler,
+    diagnostics: &[swc_ecma_react_compiler::diagnostics::DiagnosticMessage],
+) {
+    for diagnostic in diagnostics {
+        let span = diagnostic
+            .span
+            .map(|(lo, hi)| Span::new(BytePos(lo), BytePos(hi)));
+
+        match (&diagnostic.severity, span) {
+            (swc_ecma_react_compiler::diagnostics::Severity::Error, Some(span)) => {
+                handler.struct_span_err(span, &diagnostic.message).emit()
+            }
+            (swc_ecma_react_compiler::diagnostics::Severity::Error, None) => {
+                handler.struct_err(&diagnostic.message).emit()
+            }
+            (swc_ecma_react_compiler::diagnostics::Severity::Warning, Some(span)) => {
+                handler.struct_span_warn(span, &diagnostic.message).emit()
+            }
+            (swc_ecma_react_compiler::diagnostics::Severity::Warning, None) => {
+                handler.struct_warn(&diagnostic.message).emit()
+            }
+        }
+    }
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]

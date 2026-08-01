@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{default_constructor_with_span, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
+#[cfg(debug_assertions)]
 use tracing::debug;
 
 use super::Config;
@@ -25,6 +25,7 @@ pub(super) fn fold_constructor(
     // Black magic to detect injected constructor.
     let is_constructor_default = constructor.span.is_dummy();
     if is_constructor_default {
+        #[cfg(debug_assertions)]
         debug!("Dropping constructor parameters because the constructor is injected");
         constructor.params.take();
     }
@@ -231,7 +232,6 @@ struct ConstructorFolder {
     this_ref_count: usize,
 }
 
-#[swc_trace]
 impl VisitMut for ConstructorFolder {
     noop_visit_mut_type!(fail);
 
@@ -420,7 +420,6 @@ impl VisitMut for ConstructorFolder {
     }
 }
 
-#[swc_trace]
 impl ConstructorFolder {
     fn get_this(&mut self) -> &Ident {
         self.this_ref_count += 1;

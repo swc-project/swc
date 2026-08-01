@@ -8,16 +8,14 @@
         },
         1985: function(e, n, u) {
             "use strict";
-            var t = 0;
-            function c(e = {}) {
-                ({
-                    ...e
-                });
-            }
             n.useForm = function(e = {}) {
-                let n = t.default.useRef();
+                let n = 0..default.useRef();
                 n.current ? n.current.control._options = e : n.current = {
-                    ...c(e)
+                    ...function(e = {}) {
+                        ({
+                            ...e
+                        });
+                    }(e)
                 };
             };
         }

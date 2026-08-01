@@ -6,22 +6,28 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
+#[doc(hidden)]
+pub mod generated;
+
+use generated::{HelperBitmap, HelperName};
+
 #[macro_export]
 macro_rules! enable_helper {
     ($i:ident) => {{
         $crate::helpers::HELPERS.with(|helpers| {
-            helpers.$i();
+            let helper = $crate::helpers::generated::HelperName::$i;
+            helpers.enable(helper);
             helpers.mark()
         })
     }};
 }
 
 #[cfg(feature = "inline-helpers")]
-fn parse(code: &str) -> Vec<Stmt> {
+fn parse(code: &str, path: &str) -> Vec<Stmt> {
     let cm = swc_common::SourceMap::default();
 
     let fm = cm.new_source_file(
-        swc_common::FileName::Custom(stringify!($name).into()).into(),
+        swc_common::FileName::Custom(path.into()).into(),
         code.to_string(),
     );
     swc_ecma_parser::parse_file_as_script(
@@ -39,55 +45,6 @@ fn parse(code: &str) -> Vec<Stmt> {
         unreachable!("Error occurred while parsing error: {:?}", e);
     })
     .unwrap()
-}
-
-#[cfg(feature = "inline-helpers")]
-macro_rules! add_to {
-    ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
-        static STMTS: once_cell::sync::Lazy<Vec<Stmt>> = once_cell::sync::Lazy::new(|| {
-            let code = include_str!(concat!("./_", stringify!($name), ".js"));
-            parse(&code)
-        });
-
-        let enable = $b;
-        if enable {
-            $buf.extend(STMTS.iter().cloned().map(|mut stmt| {
-                stmt.visit_mut_with(&mut Marker {
-                    base: SyntaxContext::empty().apply_mark($mark),
-                    decls: Default::default(),
-
-                    decl_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
-                });
-                stmt
-            }))
-        }
-    }};
-}
-
-macro_rules! add_import_to {
-    ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
-        let enable = $b;
-        if enable {
-            let ctxt = SyntaxContext::empty().apply_mark($mark);
-            let s = ImportSpecifier::Named(ImportNamedSpecifier {
-                span: DUMMY_SP,
-                local: Ident::new(concat!("_", stringify!($name)).into(), DUMMY_SP, ctxt),
-                imported: Some(quote_ident!("_").into()),
-                is_type_only: false,
-            });
-
-            let src: Str = concat!("@swc/helpers/_/_", stringify!($name)).into();
-
-            $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                span: DUMMY_SP,
-                specifiers: vec![s],
-                src: Box::new(src),
-                with: Default::default(),
-                type_only: Default::default(),
-                phase: Default::default(),
-            })))
-        }
-    }};
 }
 
 better_scoped_tls::scoped_tls!(
@@ -154,273 +111,42 @@ impl Default for HelperMark {
     }
 }
 
-macro_rules! define_helpers {
-    (
-        Helpers {
-            $( $name:ident : ( $( $dep:ident ),* ), )*
-        }
-    ) => {
-        #[derive(Debug,Default, Clone, Copy)]
-        struct Inner {
-            $( $name: bool, )*
-        }
-
-        impl Helpers {
-            $(
-                pub fn $name(&self) {
-                    self.inner.borrow_mut().$name = true;
-
-                    if !self.external {
-                        $(
-                            self.$dep();
-                        )*
-                    }
-                }
-            )*
-        }
-
-
-        impl Helpers {
-            pub fn extend_from(&self, other: &Self) {
-                let other = other.inner.borrow();
-                let mut me = self.inner.borrow_mut();
-                $(
-                    if other.$name {
-                        me.$name = true;
-                    }
-                )*
-            }
-        }
-
-        impl InjectHelpers {
-            fn is_helper_used(&self) -> bool{
-
-                HELPERS.with(|helpers|{
-                    let inner = helpers.inner.borrow();
-                    false $(
-                      || inner.$name
-                    )*
-                })
-            }
-
-            #[cfg(feature = "inline-helpers")]
-            fn build_helpers(&self) -> Vec<Stmt> {
-                let mut buf = Vec::new();
-
-                HELPERS.with(|helpers|{
-                    let inner = helpers.inner.borrow();
-                    $(
-                            add_to!(buf, $name, inner.$name, helpers.mark.0);
-                    )*
-                });
-
-                buf
-            }
-
-            fn build_imports(&self) -> Vec<ModuleItem> {
-                let mut buf = Vec::new();
-
-                HELPERS.with(|helpers|{
-                    let inner = helpers.inner.borrow();
-                    $(
-                            add_import_to!(buf, $name, inner.$name, helpers.mark.0);
-                    )*
-                });
-
-                buf
-            }
-
-            fn build_requires(&self) -> Vec<Stmt>{
-                let mut buf = Vec::new();
-                HELPERS.with(|helpers|{
-                    let inner = helpers.inner.borrow();
-                    $(
-                        let enable = inner.$name;
-                        if enable {
-                            buf.push(self.build_reqire(stringify!($name), helpers.mark.0))
-                        }
-                        // add_require_to!(buf, $name, helpers.inner.$name, helpers.mark.0, self.global_mark);
-                    )*
-                });
-                buf
-            }
-        }
-    };
+#[derive(Debug, Clone, Copy, Default)]
+struct Inner {
+    used: HelperBitmap,
 }
 
-define_helpers!(Helpers {
-    apply_decorated_descriptor: (),
-    array_like_to_array: (),
-    array_with_holes: (),
-    array_without_holes: (array_like_to_array),
-    assert_this_initialized: (),
-    async_generator: (overload_yield),
-    async_generator_delegate: (overload_yield),
-    async_iterator: (),
-    async_to_generator: (),
-    await_async_generator: (overload_yield),
-    await_value: (),
-    call_super: (
-        get_prototype_of,
-        is_native_reflect_construct,
-        possible_constructor_return
-    ),
-    check_private_redeclaration: (),
-    class_apply_descriptor_destructure: (),
-    class_apply_descriptor_get: (),
-    class_apply_descriptor_set: (),
-    class_apply_descriptor_update: (),
-    class_call_check: (),
-    class_check_private_static_field_descriptor: (),
-    class_extract_field_descriptor: (),
-    class_name_tdz_error: (),
-    class_private_field_get: (class_extract_field_descriptor, class_apply_descriptor_get),
-    class_private_field_init: (check_private_redeclaration),
-    class_private_field_loose_base: (),
-    class_private_field_loose_key: (),
-    class_private_field_set: (class_extract_field_descriptor, class_apply_descriptor_set),
-    class_private_field_update: (
-        class_extract_field_descriptor,
-        class_apply_descriptor_update
-    ),
-    class_private_method_get: (),
-    class_private_method_init: (check_private_redeclaration),
-    class_private_method_set: (),
-    class_static_private_field_spec_get: (
-        class_check_private_static_access,
-        class_check_private_static_field_descriptor,
-        class_apply_descriptor_get
-    ),
-    class_static_private_field_spec_set: (
-        class_check_private_static_access,
-        class_check_private_static_field_descriptor,
-        class_apply_descriptor_set
-    ),
-    class_static_private_field_update: (
-        class_check_private_static_access,
-        class_check_private_static_field_descriptor,
-        class_apply_descriptor_update
-    ),
-    construct: (is_native_reflect_construct, set_prototype_of),
-    create_class: (),
-    decorate: (to_array, to_property_key),
-    defaults: (),
-    define_enumerable_properties: (),
-    define_property: (),
-    export_star: (),
-    extends: (),
-    get: (super_prop_base),
-    get_prototype_of: (),
-    inherits: (set_prototype_of),
-    inherits_loose: (),
-    initializer_define_property: (),
-    initializer_warning_helper: (),
-    instanceof: (),
-    interop_require_default: (),
-    interop_require_wildcard: (),
-    is_native_function: (),
-    iterable_to_array: (),
-    iterable_to_array_limit: (),
-    iterable_to_array_limit_loose: (),
-    jsx: (),
-    new_arrow_check: (),
-    non_iterable_rest: (),
-    non_iterable_spread: (),
-    object_destructuring_empty: (),
-    object_spread: (define_property),
-    object_spread_props: (),
-    object_without_properties: (object_without_properties_loose),
-    object_without_properties_loose: (),
-    overload_yield: (),
-    possible_constructor_return: (type_of, assert_this_initialized),
-    read_only_error: (),
-    set: (super_prop_base, define_property),
-    set_prototype_of: (),
-    skip_first_generator_next: (),
-    sliced_to_array: (
-        array_with_holes,
-        iterable_to_array_limit,
-        unsupported_iterable_to_array,
-        non_iterable_rest
-    ),
-    sliced_to_array_loose: (
-        array_with_holes,
-        iterable_to_array_limit_loose,
-        unsupported_iterable_to_array,
-        non_iterable_rest
-    ),
-    super_prop_base: (get_prototype_of),
-    tagged_template_literal: (),
-    tagged_template_literal_loose: (),
-    // temporal_ref: (temporal_undefined),
-    // temporal_undefined: (),
-    throw: (),
-    to_array: (
-        array_with_holes,
-        iterable_to_array,
-        unsupported_iterable_to_array,
-        non_iterable_rest
-    ),
-    to_consumable_array: (
-        array_without_holes,
-        iterable_to_array,
-        unsupported_iterable_to_array,
-        non_iterable_spread
-    ),
-    to_primitive: (type_of),
-    to_property_key: (type_of, to_primitive),
-    update: (get, set),
-    type_of: (),
-    unsupported_iterable_to_array: (array_like_to_array),
-    wrap_async_generator: (async_generator),
-    wrap_native_super: (
-        construct,
-        get_prototype_of,
-        set_prototype_of,
-        is_native_function
-    ),
-    wrap_reg_exp: (inherits, set_prototype_of),
-    write_only_error: (),
+impl Inner {
+    fn enable(&mut self, name: HelperName) {
+        self.used.insert(name);
+    }
 
-    class_private_field_destructure: (
-        class_extract_field_descriptor,
-        class_apply_descriptor_destructure
-    ),
-    class_static_private_field_destructure: (
-        class_check_private_static_access,
-        class_extract_field_descriptor,
-        class_apply_descriptor_destructure
-    ),
+    fn extend_from(&mut self, other: &Self) {
+        self.used |= other.used;
+    }
 
-    class_static_private_method_get: (class_check_private_static_access),
-    class_check_private_static_access: (),
+    fn is_enabled(&self, name: HelperName) -> bool {
+        self.used.contains(name)
+    }
 
-    is_native_reflect_construct: (),
+    fn any(&self) -> bool {
+        !self.used.is_empty()
+    }
+}
 
-    create_super: (
-        get_prototype_of,
-        is_native_reflect_construct,
-        possible_constructor_return
-    ),
+impl Helpers {
+    #[doc(hidden)]
+    pub fn enable(&self, name: HelperName) {
+        self.inner.borrow_mut().enable(name);
+    }
 
-    create_for_of_iterator_helper_loose: (unsupported_iterable_to_array),
+    pub fn extend_from(&self, other: &Self) {
+        let other = other.inner.borrow();
+        let mut me = self.inner.borrow_mut();
 
-    ts_decorate: (),
-    ts_generator: (),
-    ts_metadata: (),
-    ts_param: (),
-    ts_values: (),
-    ts_add_disposable_resource: (),
-    ts_dispose_resources: (),
-    ts_rewrite_relative_import_extension: (),
-
-    apply_decs_2203_r: (),
-    apply_decs_2311: (),
-    identity: (),
-    dispose: (),
-    using: (),
-    using_ctx: (),
-});
+        me.extend_from(&other);
+    }
+}
 
 pub fn inject_helpers(global_mark: Mark) -> impl Pass + VisitMut {
     visit_mut_pass(InjectHelpers {
@@ -435,6 +161,96 @@ struct InjectHelpers {
 }
 
 impl InjectHelpers {
+    fn is_helper_used(&self) -> bool {
+        HELPERS.with(|helpers| helpers.inner.borrow().any())
+    }
+
+    #[cfg(feature = "inline-helpers")]
+    fn build_helpers(&self) -> Vec<Stmt> {
+        let (required, mark) = HELPERS.with(|helpers| {
+            let inner = helpers.inner.borrow();
+            let mut required = HelperBitmap::EMPTY;
+
+            for helper in generated::ALL {
+                if inner.is_enabled(helper.name) {
+                    required |= helper.deps;
+                }
+            }
+
+            (required, helpers.mark.0)
+        });
+
+        let base = SyntaxContext::empty().apply_mark(mark);
+        let mut buf = Vec::new();
+
+        for helper in generated::ALL {
+            if required.contains(helper.name) {
+                buf.extend(
+                    generated::stmts(helper.name)
+                        .iter()
+                        .cloned()
+                        .map(|mut stmt| {
+                            stmt.visit_mut_with(&mut Marker {
+                                base,
+                                decls: Default::default(),
+                                decl_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
+                            });
+                            stmt
+                        }),
+                );
+            }
+        }
+
+        buf
+    }
+
+    fn build_imports(&self) -> Vec<ModuleItem> {
+        let mut buf = Vec::new();
+
+        HELPERS.with(|helpers| {
+            let inner = helpers.inner.borrow();
+            let ctxt = SyntaxContext::empty().apply_mark(helpers.mark.0);
+
+            for helper in generated::ALL {
+                if inner.is_enabled(helper.name) {
+                    let specifier = ImportSpecifier::Named(ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local: Ident::new(helper.local.into(), DUMMY_SP, ctxt),
+                        imported: Some(quote_ident!("_").into()),
+                        is_type_only: false,
+                    });
+
+                    buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                        span: DUMMY_SP,
+                        specifiers: vec![specifier],
+                        src: Box::new(Str::from(helper.import_path)),
+                        with: Default::default(),
+                        type_only: Default::default(),
+                        phase: Default::default(),
+                    })));
+                }
+            }
+        });
+
+        buf
+    }
+
+    fn build_requires(&self) -> Vec<Stmt> {
+        let mut buf = Vec::new();
+
+        HELPERS.with(|helpers| {
+            let inner = helpers.inner.borrow();
+
+            for helper in generated::ALL {
+                if inner.is_enabled(helper.name) {
+                    buf.push(self.build_reqire(helper, helpers.mark.0));
+                }
+            }
+        });
+
+        buf
+    }
+
     #[allow(unused_variables)]
     fn make_helpers_for_module(&mut self) -> Vec<ModuleItem> {
         let (helper_mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
@@ -473,7 +289,7 @@ impl InjectHelpers {
         }
     }
 
-    fn build_reqire(&self, name: &str, mark: Mark) -> Stmt {
+    fn build_reqire(&self, helper: &generated::HelperDef, mark: Mark) -> Stmt {
         let c = CallExpr {
             span: DUMMY_SP,
             callee: Expr::from(Ident {
@@ -485,7 +301,7 @@ impl InjectHelpers {
             .as_callee(),
             args: vec![Str {
                 span: DUMMY_SP,
-                value: format!("@swc/helpers/_/_{name}").into(),
+                value: helper.import_path.into(),
                 raw: None,
             }
             .as_arg()],
@@ -496,7 +312,7 @@ impl InjectHelpers {
             kind: VarDeclKind::Var,
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(Ident::new(format!("_{name}").into(), DUMMY_SP, ctxt).into()),
+                name: Pat::Ident(Ident::new(helper.local.into(), DUMMY_SP, ctxt).into()),
                 init: Some(c.into()),
                 definite: false,
             }],
@@ -729,6 +545,45 @@ let _throw1 = null;
     }
 
     #[test]
+    #[cfg(feature = "inline-helpers")]
+    fn inline_helper_dependencies() {
+        let input = "_to_consumable_array(foo);";
+        crate::tests::Tester::run(|tester| {
+            HELPERS.set(&Helpers::new(false), || {
+                enable_helper!(to_consumable_array);
+
+                let tr = inject_helpers(Mark::new());
+                let actual = tester
+                    .apply_transform(tr, "input.js", Default::default(), input)?
+                    .apply(crate::hygiene::hygiene())
+                    .apply(crate::fixer::fixer(None));
+                let actual_src = tester.print(&actual);
+
+                for helper in [
+                    "_array_like_to_array",
+                    "_array_without_holes",
+                    "_iterable_to_array",
+                    "_non_iterable_spread",
+                    "_to_consumable_array",
+                    "_unsupported_iterable_to_array",
+                ] {
+                    assert!(
+                        actual_src.contains(&format!("function {helper}(")),
+                        "expected inline helper `{helper}` in output:\n{actual_src}"
+                    );
+                }
+
+                assert!(
+                    !actual_src.contains("@swc/helpers"),
+                    "inline helpers should not emit external imports:\n{actual_src}"
+                );
+
+                Ok(())
+            })
+        });
+    }
+
+    #[test]
     fn use_strict_abort() {
         crate::tests::test_transform(
             Default::default(),
@@ -810,7 +665,7 @@ let x = 4;",
                             if (error !== empty) throw error;
                         }
                         function err(e) {
-                            error = error !== empty ? new _disposeSuppressedError(error, e) : e;
+                            error = error !== empty ? new _disposeSuppressedError(e, error) : e;
                             return next();
                         }
                         return next();

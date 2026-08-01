@@ -724,13 +724,13 @@
                         for(o = i & (1 << -h) - 1, i >>= -h, h += f; h > 0; o = 256 * o + e[r + c], c += l, h -= 8);
                         if (0 === i) i = 1 - s;
                         else {
-                            if (i === a) return o ? NaN : 1 / 0 * (p ? -1 : 1);
+                            if (i === a) return o ? 0 / 0 : (p ? -1 : 1) * 2e308;
                             o += Math.pow(2, f), i -= s;
                         }
                         return (p ? -1 : 1) * o * Math.pow(2, i - f);
                     }, r.write = function(e, r, t, f, n, i) {
                         var o, u, a, s = 8 * i - n - 1, h = (1 << s) - 1, c = h >> 1, l = 5.960464477539062e-8 * (23 === n), p = f ? 0 : i - 1, y = f ? 1 : -1, g = +(r < 0 || 0 === r && 1 / r < 0);
-                        for(isNaN(r = Math.abs(r)) || r === 1 / 0 ? (u = +!!isNaN(r), o = h) : (o = Math.floor(Math.log(r) / Math.LN2), r * (a = Math.pow(2, -o)) < 1 && (o--, a *= 2), o + c >= 1 ? r += l / a : r += l * Math.pow(2, 1 - c), r * a >= 2 && (o++, a /= 2), o + c >= h ? (u = 0, o = h) : o + c >= 1 ? (u = (r * a - 1) * Math.pow(2, n), o += c) : (u = r * Math.pow(2, c - 1) * Math.pow(2, n), o = 0)); n >= 8; e[t + p] = 255 & u, p += y, u /= 256, n -= 8);
+                        for(isNaN(r = Math.abs(r)) || 1 / 0 === r ? (u = +!!isNaN(r), o = h) : (o = Math.floor(Math.log(r) / Math.LN2), r * (a = Math.pow(2, -o)) < 1 && (o--, a *= 2), o + c >= 1 ? r += l / a : r += l * Math.pow(2, 1 - c), r * a >= 2 && (o++, a /= 2), o + c >= h ? (u = 0, o = h) : o + c >= 1 ? (u = (r * a - 1) * Math.pow(2, n), o += c) : (u = r * Math.pow(2, c - 1) * Math.pow(2, n), o = 0)); n >= 8; e[t + p] = 255 & u, p += y, u /= 256, n -= 8);
                         for(o = o << n | u, s += n; s > 0; e[t + p] = 255 & o, p += y, o /= 256, s -= 8);
                         e[t + p - y] |= 128 * g;
                     };

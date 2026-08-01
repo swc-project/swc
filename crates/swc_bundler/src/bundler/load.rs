@@ -74,10 +74,12 @@ where
         file_name: &FileName,
     ) -> Result<Option<TransformedModule>, Error> {
         self.run(|| {
+            #[cfg(debug_assertions)]
             tracing::trace!("load_transformed: ({})", file_name);
 
             // In case of common module
             if let Some(cached) = self.scope.get_module_by_path(file_name) {
+                #[cfg(debug_assertions)]
                 tracing::debug!("Cached: {}", file_name);
                 return Ok(Some(cached));
             }
@@ -88,6 +90,7 @@ where
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
+            #[cfg(debug_assertions)]
             tracing::debug!(
                 "({:?}, {:?}, {:?}) Storing module: {}",
                 v.id,
@@ -101,6 +104,7 @@ where
             let results = files
                 .into_par_iter()
                 .map(|(_src, path)| {
+                    #[cfg(debug_assertions)]
                     tracing::trace!("loading dependency: {}", path);
                     self.load_transformed(&path)
                 })
@@ -135,6 +139,7 @@ where
         mut data: ModuleData,
     ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
+            #[cfg(debug_assertions)]
             tracing::trace!("transform_module({})", data.fm.name);
             let (id, local_mark, export_mark) = self.scope.module_id_gen.gen(file_name);
 
@@ -225,6 +230,7 @@ where
         raw: RawExports,
     ) -> Result<(Exports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
+            #[cfg(debug_assertions)]
             tracing::trace!("resolve_exports({})", base);
             let mut files = Vec::new();
 
@@ -282,6 +288,7 @@ where
         info: RawImports,
     ) -> Result<(Imports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
+            #[cfg(debug_assertions)]
             tracing::trace!("resolve_imports({})", base);
             let mut files = Vec::new();
 

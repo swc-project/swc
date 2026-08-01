@@ -7,7 +7,7 @@ use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-#[cfg(feature = "debug")]
+#[cfg(all(debug_assertions, feature = "debug"))]
 use tracing::{span, Level};
 
 use super::{is_pure_undefined, Optimizer};
@@ -20,10 +20,7 @@ use crate::{
     },
     option::CompressOptions,
     program_data::{ScopeData, VarUsageInfoFlags},
-    usage_analyzer::{
-        alias::{try_collect_infects_from, AccessKind, AliasConfig},
-        util::is_global_var_with_pure_property_access,
-    },
+    usage_analyzer::util::is_global_var_with_pure_property_access,
     util::{
         idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, IdentUsageCollector,
         ModuleItemExt,
@@ -531,7 +528,10 @@ impl Optimizer<'_> {
         })
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: ModuleItemExt,
@@ -605,7 +605,7 @@ impl Optimizer<'_> {
         }
         exprs.push(buf);
 
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let buf_len = exprs.iter().map(|v| v.len()).collect::<Vec<_>>();
             Some(
@@ -689,7 +689,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let e_str = dump(&*e, false);
 
@@ -729,7 +729,7 @@ impl Optimizer<'_> {
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
     fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) -> Result<(), ()> {
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             Some(
                 tracing::span!(Level::TRACE, "merge_sequences_in_exprs", len = exprs.len())
@@ -1099,56 +1099,7 @@ impl Optimizer<'_> {
                 Mergable::Drop => return false,
             }
 
-            let e_id = e.to_id();
-            let ids_used_by_a_init = match a {
-                Mergable::Var(a) => a.init.as_ref().map(|init| {
-                    try_collect_infects_from(
-                        init,
-                        AliasConfig::default()
-                            .marks(Some(self.marks))
-                            .ignore_nested(true)
-                            .need_all(true),
-                        8,
-                    )
-                }),
-                Mergable::Expr(a) => match a {
-                    Expr::Assign(a) if a.is_simple_assign() => Some(try_collect_infects_from(
-                        &a.right,
-                        AliasConfig::default()
-                            .marks(Some(self.marks))
-                            .ignore_nested(true)
-                            .need_all(true),
-                        8,
-                    )),
-
-                    _ => None,
-                },
-
-                Mergable::FnDecl(a) => Some(try_collect_infects_from(
-                    &a.function,
-                    AliasConfig::default()
-                        .marks(Some(self.marks))
-                        .ignore_nested(true)
-                        .need_all(true),
-                    8,
-                )),
-
-                Mergable::Drop => return false,
-            };
-
-            if let Some(deps) = ids_used_by_a_init {
-                let Ok(deps) = deps else {
-                    return false;
-                };
-
-                if deps.iter().any(|(id, kind)| {
-                    id == &e_id && matches!(kind, AccessKind::Reference | AccessKind::Call)
-                }) {
-                    return false;
-                }
-            }
-
-            if !self.assignee_skippable_for_seq(a, &e_id) {
+            if !self.assignee_skippable_for_seq(a, &e.to_id()) {
                 return false;
             }
         }
@@ -1184,7 +1135,10 @@ impl Optimizer<'_> {
         false
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.bit_ctx.contains(BitCtx::InTryBlock) {
             log_abort!("try block");
@@ -1510,7 +1464,7 @@ impl Optimizer<'_> {
     ///
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let b_str = dump(&*b, false);
             let a = match a {
@@ -2436,10 +2390,9 @@ impl Optimizer<'_> {
                 Mergable::Var(a) => {
                     if self.options.unused {
                         if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
-                            // We are eliminating one usage, so we use 1 instead of
-                            // 0
+                            // We are eliminating one usage, so we use 1 instead of 0
                             if !force_drop
-                                && usage.usage_count == 1
+                                && usage.ref_count == 1
                                 && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                             {
                                 report_change!("sequences: Dropping inlined variable");

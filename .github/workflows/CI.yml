@@ -10,7 +10,11 @@ on:
 
 env:
   CI: 1
+  # Avoid transient HTTP/2 stream resets when the cargo-test matrix fetches the
+  # sparse registry index from many GitHub-hosted runners at once.
+  CARGO_HTTP_MULTIPLEXING: "false"
   CARGO_INCREMENTAL: 0
+  CARGO_NET_RETRY: 10
   CARGO_TERM_COLOR: "always"
   DIFF: 0
   # For faster CI
@@ -36,12 +40,29 @@ jobs:
           persist-credentials: false
 
       # We explicitly do this to cache properly.
-      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         with:
           toolchain: nightly-2026-04-10
           components: rustfmt
 
       - run: cargo fmt --all -- --check
+
+  helper-codegen:
+    name: Helper codegen
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
+        with:
+          toolchain: nightly-2026-04-10
+          components: rustfmt
+
+      - run: cargo codegen helpers --check
 
   cargo-clippy:
     name: Cargo clippy
@@ -54,14 +75,9 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
+          submodules: true
 
-      - name: Initialize submodules
-        # Run this after checkout so public external submodules are fetched
-        # without the repository-scoped GitHub token, which GitHub can reject
-        # when fetching an unadvertised submodule commit directly by SHA.
-        run: git submodule update --init --force --depth=1
-
-      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         with:
           toolchain: nightly-2026-04-10
           components: clippy
@@ -81,7 +97,7 @@ jobs:
           persist-credentials: false
 
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
 
       - name: Install cargo-deny
         uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
@@ -103,7 +119,7 @@ jobs:
           persist-credentials: false
 
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
 
       - name: Install cargo-shear
         uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
@@ -131,16 +147,11 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
-
-      - name: Initialize submodules
-        # Run this after checkout so public external submodules are fetched
-        # without the repository-scoped GitHub token, which GitHub can reject
-        # when fetching an unadvertised submodule commit directly by SHA.
-        run: git submodule update --init --force --depth=1
+          submodules: true
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         # MSRV is current stable for ES crates and nightly for other languages.
 
       - uses: ./.github/actions/setup-node
@@ -164,6 +175,7 @@ jobs:
           - binding_core_wasm
           - binding_minifier_wasm
           - binding_typescript_wasm
+          - binding_nodejs_support_wasm
           - binding_es_ast_viewer
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -171,16 +183,14 @@ jobs:
           persist-credentials: false
 
       # We explicitly do this to cache properly.
-      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - uses: ./.github/actions/setup-node
         with:
           node-version: "20"
-
-      - name: Install wasm-pack
-        # The rustwasm shell installer can crash on GitHub Windows runners after
-        # installing. Use the npm package so every CI OS follows one install path.
-        run: npm install -g wasm-pack
 
       - name: Test
         run: |
@@ -240,13 +250,7 @@ jobs:
         if: matrix.settings.crate != '__noop__'
         with:
           persist-credentials: false
-
-      - name: Initialize submodules
-        if: matrix.settings.crate != '__noop__'
-        # Run this after checkout so public external submodules are fetched
-        # without the repository-scoped GitHub token, which GitHub can reject
-        # when fetching an unadvertised submodule commit directly by SHA.
-        run: git submodule update --init --force --depth=1
+          submodules: true
 
       # Source map format
       - uses: ./.github/actions/setup-node
@@ -258,7 +262,7 @@ jobs:
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         if: matrix.settings.crate != '__noop__'
         with:
           toolchain: nightly-2026-04-10
@@ -419,7 +423,7 @@ jobs:
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
 
       - uses: ./.github/actions/setup-node
         id: setup-node
@@ -434,9 +438,7 @@ jobs:
         shell: bash
 
       - name: Install wasm-pack
-        # The rustwasm shell installer can crash on GitHub Windows runners after
-        # installing. Use the npm package so every CI OS follows one install path.
-        run: npm install -g wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Prepare
         run: |
@@ -456,6 +458,56 @@ jobs:
 
       - name: Test
         working-directory: packages/core
+        run: |
+          pnpm test
+
+  react-compiler-test:
+    name: Test react-compiler bindings - ${{ matrix.os }}
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          # - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
+
+      - uses: ./.github/actions/setup-node
+        id: setup-node
+        with:
+          node-version: 18
+          install-dependencies: "false"
+
+      - name: Prepare
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+      - name: Save pnpm cache
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
+        with:
+          path: ${{ steps.setup-node.outputs.pnpm-store-path }}
+          key: ${{ steps.setup-node.outputs.pnpm-cache-primary-key }}
+
+      - name: Build
+        working-directory: packages/react-compiler
+        run: |
+          pnpm build:dev
+
+      - name: Test
+        working-directory: packages/react-compiler
         run: |
           pnpm test
 
@@ -484,9 +536,7 @@ jobs:
         shell: bash
 
       - name: Install wasm-pack
-        # The rustwasm shell installer can crash on GitHub Windows runners after
-        # installing. Use the npm package so every CI OS follows one install path.
-        run: npm install -g wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Prepare
         run: |

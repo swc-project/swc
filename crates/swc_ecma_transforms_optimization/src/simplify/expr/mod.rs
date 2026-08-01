@@ -1,7 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
 use swc_atoms::{
-    atom,
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
     Atom,
 };
@@ -16,8 +15,10 @@ use swc_ecma_transforms_base::{
     perf::{cpu_count, Parallel, ParallelExt},
 };
 use swc_ecma_utils::{
-    is_literal, number::JsNumber, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType,
-    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
+    is_literal,
+    number::{minify_number, parse_canonical_index, JsNumber, ToJsString},
+    prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType, ObjectType,
+    StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -138,6 +139,7 @@ impl VisitMut for SimplifyExpr {
                             match seq.exprs.first().map(|v| &**v) {
                                 Some(Expr::Lit(..) | Expr::Ident(..)) => {}
                                 _ => {
+                                    #[cfg(debug_assertions)]
                                     tracing::debug!("Injecting `0` to preserve `this = undefined`");
                                     seq.exprs.insert(0, 0.0.into());
                                 }
@@ -481,6 +483,7 @@ impl VisitMut for SimplifyExpr {
                     if exprs.is_empty() {
                         exprs.push(0.0.into());
 
+                        #[cfg(debug_assertions)]
                         tracing::trace!("expr_simplifier: Preserving first zero");
                     }
                 }
@@ -493,6 +496,7 @@ impl VisitMut for SimplifyExpr {
 
                         exprs.push(0.0.into());
 
+                        #[cfg(debug_assertions)]
                         tracing::debug!("expr_simplifier: Injected first zero");
                     }
                 }
@@ -586,19 +590,43 @@ where
 }
 
 /// Gets the `idx`-th UTF-16 code unit from the given [Wtf8].
-/// Surrogate pairs are splitted into high and low surrogates and counted
+/// Surrogate pairs are split into high and low surrogates and counted
 /// separately.
-fn nth_char(s: &Wtf8, idx: usize) -> CodePoint {
-    match s.to_ill_formed_utf16().nth(idx) {
-        Some(c) =>
-        // SAFETY: `IllFormedUtf16CodeUnits` always returns code units in the range of UTF-16.
-        unsafe { CodePoint::from_u32_unchecked(c as u32) },
-        None => unreachable!("string is too short"),
-    }
+fn nth_char(s: &Wtf8, idx: usize) -> Option<CodePoint> {
+    s.to_ill_formed_utf16().nth(idx).map(|c| {
+        // SAFETY: `IllFormedUtf16CodeUnits` always returns code units in the range of
+        // UTF-16.
+        unsafe { CodePoint::from_u32_unchecked(c as u32) }
+    })
 }
 
 fn need_zero_for_this(e: &Expr) -> bool {
     e.directness_matters() || e.is_seq()
+}
+
+/// A statically known property key with optional metadata for literal indexing.
+///
+/// `property_key` is always the exact ECMAScript property key. `index` is only
+/// populated for canonical non-negative decimal keys that can index a literal
+/// array or string without reinterpreting the property key.
+struct KnownMemberKey {
+    property_key: Atom,
+    index: Option<usize>,
+}
+
+impl KnownMemberKey {
+    fn from_number(value: f64) -> Self {
+        Self::from_property_key(Atom::from(value.to_js_string()))
+    }
+
+    fn from_property_key(property_key: Atom) -> Self {
+        let index = parse_canonical_index(property_key.as_str());
+
+        Self {
+            property_key,
+            index,
+        }
+    }
 }
 
 /// Gets the value of the given key from the given object properties, if the key
@@ -682,24 +710,17 @@ pub fn optimize_member_expr(
         _ => return,
     };
 
-    #[derive(Clone, PartialEq, Debug)]
     enum KnownOp {
         /// [a, b].length
         Len,
 
-        /// [a, b][0]
-        ///
-        /// {0.5: "bar"}[0.5]
-        /// Note: callers need to check `v.fract() == 0.0` in some cases.
-        /// ie non-integer indexes for arrays result in `undefined`
-        /// but not for objects (because indexing an object
-        /// returns the value of the key, ie `0.5` will not
-        /// return `undefined` if a key `0.5` exists
-        /// and its value is not `undefined`).
-        Index(f64),
-
-        /// ({}).foo
-        IndexStr(Atom),
+        /// A known ECMAScript property key.
+        Key {
+            key: KnownMemberKey,
+            // Numeric keys preserve the existing object-folding eligibility;
+            // other keys still require a fully literal object.
+            requires_literal_object: bool,
+        },
     }
     let op = match prop {
         MemberProp::Ident(IdentName { sym, .. }) if &**sym == "length" && !obj.is_object() => {
@@ -710,7 +731,10 @@ pub fn optimize_member_expr(
                 return;
             }
 
-            KnownOp::IndexStr(sym.clone())
+            KnownOp::Key {
+                key: KnownMemberKey::from_property_key(sym.clone()),
+                requires_literal_object: true,
+            }
         }
         MemberProp::Computed(ComputedPropName { expr, .. }) => {
             if is_callee {
@@ -719,17 +743,19 @@ pub fn optimize_member_expr(
 
             if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
                 // x[5]
-                KnownOp::Index(*value)
+                KnownOp::Key {
+                    key: KnownMemberKey::from_number(*value),
+                    requires_literal_object: false,
+                }
             } else if let Known(s) = expr.as_pure_string(expr_ctx) {
                 if s == "length" && !obj.is_object() {
                     // Length of non-object type
                     KnownOp::Len
-                } else if let Ok(n) = s.parse::<f64>() {
-                    // x['0'] is treated as x[0]
-                    KnownOp::Index(n)
                 } else {
-                    // x[''] or x[...] where ... is an expression like [], ie x[[]]
-                    KnownOp::IndexStr(s.into())
+                    KnownOp::Key {
+                        key: KnownMemberKey::from_property_key(s.into()),
+                        requires_literal_object: true,
+                    }
                 }
             } else {
                 return;
@@ -766,14 +792,22 @@ pub fn optimize_member_expr(
             }
 
             // 'foo'[1]
-            KnownOp::Index(idx) => {
-                if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
-                    // Prototype changes affect indexing if the index is out of bounds, so we
-                    // don't replace out-of-bound indexes.
+            KnownOp::Key { key, .. } => {
+                let Some(index) = key.index else {
+                    return;
+                };
+
+                // WTF-8 byte length is an upper bound for UTF-16 code-unit length.
+                if index >= value.len() {
                     return;
                 }
 
-                let c = nth_char(value, idx as _);
+                // Prototype changes affect indexing if the index is out of bounds, so we
+                // don't replace out-of-bound indexes. This lookup must use UTF-16 code units,
+                // which are JavaScript's string indexing units, rather than WTF-8 bytes.
+                let Some(c) = nth_char(value, index) else {
+                    return;
+                };
                 *changed = true;
 
                 // `nth_char` always returns a code point within the UTF-16 range.
@@ -787,11 +821,6 @@ pub fn optimize_member_expr(
                 })
                 .into()
             }
-
-            // 'foo'['']
-            //
-            // Handled in compress
-            KnownOp::IndexStr(..) => {}
         },
 
         // [1, 2, 3].length
@@ -832,22 +861,23 @@ pub fn optimize_member_expr(
                     .into();
                 }
 
-                KnownOp::Index(idx) => {
-                    // If the fraction part is non-zero, or if the index is out of bounds,
-                    // then we handle this in compress as Array's prototype may be modified.
-                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
+                KnownOp::Key { key, .. } => {
+                    let Some(index) = key.index else {
+                        return;
+                    };
+
+                    // Out-of-bound indexes are handled in compress because Array's
+                    // prototype may be modified.
+                    if index >= elems.len() {
                         return;
                     }
 
                     // Don't change if after has side effects.
                     let after_has_side_effect =
-                        elems
-                            .iter()
-                            .skip((idx as usize + 1) as _)
-                            .any(|elem| match elem {
-                                Some(elem) => elem.expr.may_have_side_effects(expr_ctx),
-                                None => false,
-                            });
+                        elems.iter().skip(index + 1).any(|elem| match elem {
+                            Some(elem) => elem.expr.may_have_side_effects(expr_ctx),
+                            None => false,
+                        });
 
                     if after_has_side_effect {
                         return;
@@ -856,7 +886,7 @@ pub fn optimize_member_expr(
                     *changed = true;
 
                     // elements before target element
-                    let before: Vec<Option<ExprOrSpread>> = elems.drain(..(idx as usize)).collect();
+                    let before: Vec<Option<ExprOrSpread>> = elems.drain(..index).collect();
                     let mut iter = elems.take().into_iter();
                     // element at idx
                     let e = iter.next().flatten();
@@ -898,9 +928,6 @@ pub fn optimize_member_expr(
                     exprs.push(val);
                     *expr = *Expr::from_exprs(exprs);
                 }
-
-                // Handled in compress
-                KnownOp::IndexStr(..) => {}
             }
         }
 
@@ -910,8 +937,14 @@ pub fn optimize_member_expr(
         Expr::Object(ObjectLit { props, span }) => {
             // get key
             let key = match op {
-                KnownOp::Index(i) => Atom::from(i.to_string()),
-                KnownOp::IndexStr(key) if key != *"yield" && is_literal(props) => key,
+                KnownOp::Key {
+                    key,
+                    requires_literal_object,
+                } if key.property_key != *"yield"
+                    && (!requires_literal_object || is_literal(props)) =>
+                {
+                    key.property_key
+                }
                 _ => return,
             };
 
@@ -973,15 +1006,11 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 Known(v) => {
                     *changed = true;
 
-                    let value_expr = if !v.is_nan() {
-                        Expr::Lit(Lit::Num(Number {
-                            value: v,
-                            span: *span,
-                            raw: None,
-                        }))
-                    } else {
-                        Expr::Ident(Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt))
-                    };
+                    let value_expr = Expr::Lit(Lit::Num(Number {
+                        value: v,
+                        span: *span,
+                        raw: None,
+                    }));
 
                     *expr = *expr_ctx.preserve_effects(*span, value_expr.into(), {
                         iter::once(left.take()).chain(iter::once(right.take()))
@@ -1054,16 +1083,12 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                                 *changed = true;
                                 let span = *span;
 
-                                let value_expr = if !v.is_nan() {
-                                    Lit::Num(Number {
-                                        value: v,
-                                        span,
-                                        raw: None,
-                                    })
-                                    .into()
-                                } else {
-                                    Ident::new(atom!("NaN"), span, expr_ctx.unresolved_ctxt).into()
-                                };
+                                let value_expr = Lit::Num(Number {
+                                    value: v,
+                                    span,
+                                    raw: None,
+                                })
+                                .into();
 
                                 *expr = *expr_ctx.preserve_effects(
                                     span,
@@ -1227,16 +1252,12 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
             {
                 if *left_op == op {
                     if let Known(value) = perform_arithmetic_op(expr_ctx, op, left_rhs, right) {
-                        let value_expr = if !value.is_nan() {
-                            Lit::Num(Number {
-                                value,
-                                span: *span,
-                                raw: None,
-                            })
-                            .into()
-                        } else {
-                            Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt).into()
-                        };
+                        let value_expr = Lit::Num(Number {
+                            value,
+                            span: *span,
+                            raw: None,
+                        })
+                        .into();
 
                         *changed = true;
                         *left = left_lhs.take();
@@ -1306,15 +1327,6 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
             if let Known(v) = arg.as_pure_number(expr_ctx) {
                 *changed = true;
 
-                if v.is_nan() {
-                    *expr = *expr_ctx.preserve_effects(
-                        *span,
-                        Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt).into(),
-                        iter::once(arg.take()),
-                    );
-                    return;
-                }
-
                 *expr = *expr_ctx.preserve_effects(
                     *span,
                     Lit::Num(Number {
@@ -1370,11 +1382,7 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
                     *changed = true;
                     *expr = Lit::Num(Number {
                         span: *span,
-                        value: if value < 0.0 {
-                            !(value as i32 as u32) as i32 as f64
-                        } else {
-                            !(value as u32) as i32 as f64
-                        },
+                        value: (!JsNumber::from(value)).into(),
                         raw: None,
                     })
                     .into();
@@ -1432,29 +1440,39 @@ fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
 /// Try to fold arithmetic binary operators
 fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
     /// Replace only if it becomes shorter
-    macro_rules! try_replace {
-        ($value:expr) => {{
-            let (ls, rs) = (left.span(), right.span());
-            if ls.is_dummy() || rs.is_dummy() {
-                Known($value)
-            } else {
-                let new_len = format!("{}", $value).len();
-                if right.span().hi() > left.span().lo() {
-                    let orig_len =
-                        right.span().hi() - right.span().lo() + left.span().hi() - left.span().lo();
-                    if new_len <= orig_len.0 as usize + 1 {
-                        Known($value)
-                    } else {
-                        Unknown
-                    }
-                } else {
-                    Known($value)
-                }
-            }
-        }};
-        (i32, $value:expr) => {
-            try_replace!($value as f64)
-        };
+    fn try_replace(lv: f64, rv: f64, value: f64) -> Value<f64> {
+        if !value.is_finite() {
+            return Known(value);
+        }
+
+        let new_len = minify_number(value, &mut false).len();
+
+        let orig_len =
+            minify_number(lv, &mut false).len() + 1 + minify_number(rv, &mut false).len();
+
+        if new_len <= orig_len {
+            Known(value)
+        } else {
+            Unknown
+        }
+    }
+
+    fn try_replace_i32(lv: f64, rv: f64, value: i32) -> Value<f64> {
+        let new_len = value.to_string().len();
+
+        let orig_len = minify_number(lv, &mut false)
+            .len()
+            .min(to_int32(lv).to_string().len())
+            + 1
+            + minify_number(rv, &mut false)
+                .len()
+                .min(to_int32(rv).to_string().len());
+
+        if new_len <= orig_len {
+            Known(value as f64)
+        } else {
+            Unknown
+        }
     }
 
     let (lv, rv) = (
@@ -1473,7 +1491,7 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
     match op {
         op!(bin, "+") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return try_replace!(lv + rv);
+                return try_replace(lv, rv, lv + rv);
             }
 
             if lv == Known(0.0) {
@@ -1486,7 +1504,7 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
         }
         op!(bin, "-") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return try_replace!(lv - rv);
+                return try_replace(lv, rv, lv - rv);
             }
 
             // 0 - x => -x
@@ -1503,7 +1521,7 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
         }
         op!("*") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return try_replace!(lv * rv);
+                return try_replace(lv, rv, lv * rv);
             }
             // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
             // advantage of that without some kind of non-NaN proof.  So the special cases
@@ -1520,10 +1538,7 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
 
         op!("/") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                if rv == 0.0 {
-                    return Unknown;
-                }
-                return try_replace!(lv / rv);
+                return try_replace(lv, rv, lv / rv);
             }
 
             // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
@@ -1542,10 +1557,10 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
             }
 
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                let lv: JsNumber = lv.into();
-                let rv: JsNumber = rv.into();
-                let result: f64 = lv.pow(rv).into();
-                return try_replace!(result);
+                let js_lv: JsNumber = lv.into();
+                let js_rv: JsNumber = rv.into();
+                let result: f64 = js_lv.pow(js_rv).into();
+                return try_replace(lv, rv, result);
             }
 
             return Unknown;
@@ -1558,15 +1573,10 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
     };
 
     match op {
-        op!("&") => try_replace!(i32, to_int32(lv) & to_int32(rv)),
-        op!("|") => try_replace!(i32, to_int32(lv) | to_int32(rv)),
-        op!("^") => try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
-        op!("%") => {
-            if rv == 0.0 {
-                return Unknown;
-            }
-            try_replace!(lv % rv)
-        }
+        op!("&") => try_replace_i32(lv, rv, to_int32(lv) & to_int32(rv)),
+        op!("|") => try_replace_i32(lv, rv, to_int32(lv) | to_int32(rv)),
+        op!("^") => try_replace_i32(lv, rv, to_int32(lv) ^ to_int32(rv)),
+        op!("%") => try_replace(lv, rv, lv % rv),
         _ => unreachable!("unknown binary operator: {:?}", op),
     }
 }

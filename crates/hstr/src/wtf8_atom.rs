@@ -8,7 +8,7 @@ use std::{
 use debug_unreachable::debug_unreachable;
 
 use crate::{
-    macros::{get_hash, impl_from_alias, partial_eq},
+    macros::{get_hash, impl_from_alias},
     tagged_value::TaggedValue,
     wtf8::Wtf8,
     Atom, DYNAMIC_TAG, INLINE_TAG, LEN_MASK, LEN_OFFSET, TAG_MASK,
@@ -242,13 +242,37 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
 }
 
 impl PartialEq for Wtf8Atom {
-    #[inline(never)]
+    #[inline]
     fn eq(&self, other: &Self) -> bool {
-        partial_eq!(self, other);
+        let unsafe_data = self.unsafe_data;
+        let other_unsafe_data = other.unsafe_data;
 
-        // If the store is different, the string may be the same, even though the
-        // `unsafe_data` is different
-        self.as_wtf8() == other.as_wtf8()
+        if unsafe_data == other_unsafe_data {
+            return true;
+        }
+
+        let tag = unsafe_data.tag() & TAG_MASK;
+
+        if tag != (other_unsafe_data.tag() & TAG_MASK) {
+            return false;
+        }
+
+        match tag {
+            // Inline atoms encode both their length and bytes in `unsafe_data`, so
+            // different raw values mean different strings.
+            INLINE_TAG => false,
+            DYNAMIC_TAG => {
+                let this = unsafe { crate::dynamic::deref_from(unsafe_data) };
+                let other = unsafe { crate::dynamic::deref_from(other_unsafe_data) };
+
+                if this.header.header.hash != other.header.header.hash {
+                    return false;
+                }
+
+                this.slice == other.slice
+            }
+            _ => unsafe { debug_unreachable!() },
+        }
     }
 }
 
@@ -377,6 +401,7 @@ mod tests {
     use super::*;
     use crate::wtf8::{CodePoint, Wtf8Buf};
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_serialize_normal_utf8() {
         let atom = Wtf8Atom::new("Hello, world!");
@@ -384,6 +409,7 @@ mod tests {
         assert_eq!(serialized, "\"Hello, world!\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_deserialize_normal_utf8() {
         let json = "\"Hello, world!\"";
@@ -391,6 +417,7 @@ mod tests {
         assert_eq!(atom.as_str(), Some("Hello, world!"));
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_serialize_unpaired_high_surrogate() {
         // Create a WTF-8 string with an unpaired high surrogate (U+D800)
@@ -403,6 +430,7 @@ mod tests {
         assert_eq!(serialized, "\"\\\\uD800\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_serialize_unpaired_low_surrogate() {
         // Create a WTF-8 string with an unpaired low surrogate (U+DC00)
@@ -415,6 +443,7 @@ mod tests {
         assert_eq!(serialized, "\"\\\\uDC00\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_serialize_multiple_surrogates() {
         // Create a WTF-8 string with multiple unpaired surrogates
@@ -430,6 +459,7 @@ mod tests {
         assert_eq!(serialized, "\"Hello \\\\uD800 World \\\\uDC00\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_serialize_literal_backslash_u() {
         // Test that literal "\u" in the string gets escaped properly
@@ -439,6 +469,7 @@ mod tests {
         assert_eq!(serialized, "\"\\\\\\\\u0041\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_deserialize_escaped_backslash_u() {
         // Test deserializing the escaped format for unpaired surrogates
@@ -449,6 +480,7 @@ mod tests {
         assert_eq!(atom.to_string_lossy(), "\u{FFFD}");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_deserialize_unpaired_surrogates() {
         let json = "\"\\\\uD800\""; // Use escaped format that matches serialization
@@ -459,6 +491,7 @@ mod tests {
         assert_eq!(atom.to_string_lossy(), "\u{FFFD}");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_round_trip_normal_string() {
         let original = Wtf8Atom::new("Hello, 世界! 🌍");
@@ -467,6 +500,7 @@ mod tests {
         assert_eq!(original.as_str(), deserialized.as_str());
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_round_trip_unpaired_surrogates() {
         // Create a string with unpaired surrogates
@@ -488,6 +522,7 @@ mod tests {
         assert_eq!(original.to_string_lossy(), deserialized.to_string_lossy());
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_round_trip_mixed_content() {
         // Create a complex string with normal text, emojis, and unpaired surrogates
@@ -504,6 +539,7 @@ mod tests {
         assert_eq!(original, deserialized);
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_empty_string() {
         let atom = Wtf8Atom::new("");
@@ -514,6 +550,7 @@ mod tests {
         assert_eq!(deserialized.as_str(), Some(""));
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_special_characters() {
         let test_cases = vec![
@@ -533,6 +570,7 @@ mod tests {
         }
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_consecutive_surrogates_not_paired() {
         // Test that consecutive surrogates that don't form a valid pair
@@ -550,6 +588,7 @@ mod tests {
         assert_eq!(atom, deserialized);
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_deserialize_incomplete_escape() {
         // Test handling of incomplete escape sequences from our custom format
@@ -560,6 +599,7 @@ mod tests {
         assert_eq!(atom.as_str(), Some("\\u123"));
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_deserialize_invalid_hex() {
         // Test handling of invalid hex in escape sequences from our custom format
@@ -592,6 +632,7 @@ mod tests {
         assert_eq!(err_atom.to_string_lossy(), "\u{FFFD}");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_backslash_util_issue_11214() {
         let atom =

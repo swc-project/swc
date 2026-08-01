@@ -12,7 +12,7 @@
         "sourceMap": false /* Generates corresponding '.map' file. */,
         // "outFile": "./",                       /* Concatenate and emit output to single file. */
         "outDir": "./" /* Redirect output structure to the directory. */,
-        "rootDir": "./src" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */,
+        "rootDir": "." /* Specify the root directory of input files. Only index.ts lives here now (binding.js/binding.d.ts are napi build's output, not TS source), so there is no src/ subdirectory to map from. */,
         // "composite": true,                     /* Enable project compilation */
         "removeComments": false /* Do not emit comments to output. */,
         // "noEmit": true,                        /* Do not emit outputs. */
@@ -55,7 +55,7 @@
         "tsBuildInfoFile": ".tsbuildinfo"
     },
     "include": [
-        "src/"
+        "index.ts"
     ],
     "exclude": [
         "*.js"

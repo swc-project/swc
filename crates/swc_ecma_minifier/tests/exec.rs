@@ -293,6 +293,125 @@ fn run_default_exec_test(input_src: &str) {
 }
 
 #[test]
+fn concat_tpl_keeps_delimiter_after_interpolation() {
+    run_default_exec_test(
+        r#"
+        console.log(`<b>${1}</b>` + `<i>${2}</i>`);
+        console.log(`width:${1}px;` + `height:${2}px;`);
+        console.log(`a${0}]` + `${0}b`);
+        console.log(`<a>${1}</a>` + `<b>${2}</b>` + `<c>${3}</c>`);
+        console.log(`x${1}|` + "mid" + `z${2}|`);
+        "#,
+    );
+}
+
+#[test]
+fn issue_11684_named_constructor_arguments() {
+    let src = r#"
+        const effects = [];
+        const effect = value => {
+            effects.push(value);
+            return value;
+        };
+
+        function FunctionCtor(value) {
+            this.value = value;
+        }
+
+        class ClassCtor {
+            constructor(value) {
+                this.value = value;
+            }
+        }
+
+        function ArgumentsCtor() {
+            this.values = Array.from(arguments);
+        }
+
+        class RestCtor {
+            constructor(...values) {
+                this.values = values;
+            }
+        }
+
+        const functionValue = new FunctionCtor(
+            effect("function-used"),
+            0,
+            effect("function-extra-a"),
+            1,
+            effect("function-extra-b")
+        );
+        const classValue = new ClassCtor(
+            effect("class-used"),
+            0,
+            effect("class-extra-a"),
+            1,
+            effect("class-extra-b")
+        );
+        const argumentsValue = new ArgumentsCtor(1, 2, 3);
+        const restValue = new RestCtor(1, 2, 3);
+
+        console.log(JSON.stringify({
+            effects,
+            functionValue: functionValue.value,
+            classValue: classValue.value,
+            argumentsValue: argumentsValue.values,
+            restValue: restValue.values,
+        }));
+        "#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": false
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_nested_eval_preserves_constructor_arguments() {
+    let src = r#"
+        class ReplacementClass {
+            constructor(value) {
+                this.value = value;
+            }
+        }
+
+        function ReplacementFunction(value) {
+            this.value = value;
+        }
+
+        class OuterClass {}
+
+        function constructOuterClassAfterEval() {
+            // Direct eval in a child scope can replace an outer constructor binding.
+            eval("OuterClass = ReplacementClass");
+            return new OuterClass("class-eval", "extra");
+        }
+
+        function OuterFunction() {}
+
+        function constructOuterFunctionAfterEval() {
+            eval("OuterFunction = ReplacementFunction");
+            return new OuterFunction("function-eval", "extra");
+        }
+
+        const classValue = constructOuterClassAfterEval();
+        const functionValue = constructOuterFunctionAfterEval();
+
+        console.log(JSON.stringify({
+            classValue: classValue.value,
+            functionValue: functionValue.value,
+        }));
+        "#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": false
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn next_feedback_1_capture_1() {
     let src = r###"
 const arr = [];
@@ -12348,4 +12467,175 @@ console.log(out.poisoned);
 "#;
 
     run_default_exec_test(src);
+}
+
+#[test]
+fn issue_11294_eval_mangle_no_collision() {
+    // Regression test for #11294.
+    //
+    // The compressor's scalar replacement rewrites `var x = { ids: [] }; x.ids`
+    // into a synthetic `var x_ids = []` whose binding isn't covered by the
+    // mangler's `eval` bypass. With `eval` present, the top-level map and the
+    // eval-free callback's per-unit map were built with independent reverse
+    // maps, so both reused the same Base54 names and collided. This input both
+    // triggers the scalar replacement (vars inside the `if` block) and contains
+    // `eval`, so a regression reintroduces the collision and breaks runtime.
+    let src = r#"
+var out = function (chart) {
+    var result = "";
+    if (chart.series) {
+        var first = { ids: [] };
+        var second = { ids: [] };
+        chart.series.forEach(function (item) {
+            var id = item.split("-")[2];
+            first.ids.push(id);
+            second.ids.push(id);
+        });
+        result = first.ids.join(",") + "|" + second.ids.join(",");
+    }
+    eval("");
+    return result;
+}({ series: ["a-b-1", "a-b-2", "a-b-3"] });
+console.log(out);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    let expected_output = stdout_of(src).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "compress-and-mangle").entered();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            src,
+            Some(config),
+            Some(MangleOptions {
+                top_level: Some(true),
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
+fn issue_11294_eval_mangle_no_collision_nested() {
+    // Same root cause as `issue_11294_eval_mangle_no_collision`, but with
+    // nested callbacks (a `forEach` inside another `forEach`), exercising
+    // several levels of per-unit maps that all must avoid the names assigned
+    // by the top-level map under `eval`.
+    let src = r#"
+var out = function (data) {
+    var result = "";
+    if (data.rows) {
+        var collected = { ids: [] };
+        var mirror = { ids: [] };
+        data.rows.forEach(function (row) {
+            row.forEach(function (cell) {
+                var doubled = cell * 2;
+                collected.ids.push(doubled);
+                mirror.ids.push(doubled);
+            });
+        });
+        result = collected.ids.join(",") + "|" + mirror.ids.join(",");
+    }
+    eval("");
+    return result;
+}({ rows: [[1, 2], [3, 4]] });
+console.log(out);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    let expected_output = stdout_of(src).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "compress-and-mangle").entered();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            src,
+            Some(config),
+            Some(MangleOptions {
+                top_level: Some(true),
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
+fn issue_11970_switch_default_before_empty_case() {
+    let src = r#"
+async function classify(code) {
+    switch (code) {
+        case "66":
+            return 1;
+        case "0":
+            break;
+        default:
+            return 1;
+    }
+
+    return 2;
+}
+
+(async () => {
+    console.log(await classify("66"));
+    console.log(await classify("0"));
+    console.log(await classify("x"));
+})();
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
 }

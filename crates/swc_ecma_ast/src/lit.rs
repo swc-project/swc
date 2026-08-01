@@ -86,7 +86,6 @@ impl Lit {
 #[derive(Eq, Hash)]
 pub struct BigInt {
     pub span: Span,
-    #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeBigInt))]
     #[cfg_attr(feature = "encoding-impl", encoding(with = "EncodeBigInt2"))]
     pub value: Box<BigIntValue>,
 
@@ -135,61 +134,6 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for EncodeBigInt2<Box<BigIntValue>> {
         Ok(EncodeBigInt2(Box::new(BigIntValue::from_signed_bytes_le(
             buf.0,
         ))))
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodeBigInt;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<Box<BigIntValue>> for EncodeBigInt {
-    type Archived = rkyv::Archived<String>;
-    type Resolver = rkyv::Resolver<String>;
-
-    fn resolve_with(
-        field: &Box<BigIntValue>,
-        resolver: Self::Resolver,
-        out: rkyv::Place<Self::Archived>,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.to_string();
-        s.resolve(resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<Box<BigIntValue>, S> for EncodeBigInt
-where
-    S: ?Sized + rancor::Fallible + rkyv::ser::Writer,
-    S::Error: rancor::Source,
-{
-    fn serialize_with(
-        field: &Box<BigIntValue>,
-        serializer: &mut S,
-    ) -> Result<Self::Resolver, S::Error> {
-        let field = field.to_string();
-        rkyv::string::ArchivedString::serialize_from_str(&field, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Box<BigIntValue>, D> for EncodeBigInt
-where
-    D: ?Sized + rancor::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<String>,
-        deserializer: &mut D,
-    ) -> Result<Box<BigIntValue>, D::Error> {
-        use rkyv::Deserialize;
-
-        let s: String = field.deserialize(deserializer)?;
-
-        Ok(Box::new(s.parse().unwrap()))
     }
 }
 
@@ -578,13 +522,14 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
 /// All of `Box<Expr>`, `Expr`, `Lit`, `Number` implements `From<64>` and
 /// `From<usize>`.
 
-#[ast_node("NumericLiteral")]
+#[ast_node("NumericLiteral", no_partial_eq)]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Number {
     pub span: Span,
-    /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.
+    /// The numeric value, including `NaN` and positive or negative infinity.
     ///
-    /// If you store `NaN` in this field, a hash map will behave strangely.
+    /// Equality treats all `NaN` representations as equal and distinguishes
+    /// positive and negative zero.
     pub value: f64,
 
     /// Use `None` value only for transformations to avoid recalculate
@@ -596,35 +541,49 @@ pub struct Number {
     pub raw: Option<Atom>,
 }
 
+impl PartialEq for Number {
+    fn eq(&self, other: &Self) -> bool {
+        self.span == other.span && number_value_eq(self.value, other.value) && self.raw == other.raw
+    }
+}
+
 impl Eq for Number {}
 
 impl EqIgnoreSpan for Number {
     fn eq_ignore_span(&self, other: &Self) -> bool {
-        self.value == other.value && self.value.is_sign_positive() == other.value.is_sign_positive()
+        number_value_eq(self.value, other.value)
     }
 }
 
-#[allow(clippy::derived_hash_with_manual_eq)]
-#[allow(unnecessary_transmutes)]
 impl Hash for Number {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        fn integer_decode(val: f64) -> (u64, i16, i8) {
-            let bits: u64 = val.to_bits();
-            let sign: i8 = if bits >> 63 == 0 { 1 } else { -1 };
-            let mut exponent: i16 = ((bits >> 52) & 0x7ff) as i16;
-            let mantissa = if exponent == 0 {
-                (bits & 0xfffffffffffff) << 1
-            } else {
-                (bits & 0xfffffffffffff) | 0x10000000000000
-            };
-
-            exponent -= 1023 + 52;
-            (mantissa, exponent, sign)
-        }
-
         self.span.hash(state);
-        integer_decode(self.value).hash(state);
+        canonical_number_bits(self.value).hash(state);
         self.raw.hash(state);
+    }
+}
+
+/// Compares numeric values using the equality semantics required by `Number`.
+///
+/// NaN payloads are not observable in ECMAScript, while the sign of zero is.
+#[inline]
+fn number_value_eq(left: f64, right: f64) -> bool {
+    // Compare bits so positive and negative zero remain distinct.
+    left.to_bits() == right.to_bits() || (left.is_nan() && right.is_nan())
+}
+
+/// Returns bits consistent with [`number_value_eq`].
+///
+/// This follows the NaN canonicalization used by `ordered-float`, but retains
+/// the sign bit of zero.
+#[inline]
+fn canonical_number_bits(value: f64) -> u64 {
+    const CANONICAL_NAN_BITS: u64 = 0x7ff8_0000_0000_0000;
+
+    if value.is_nan() {
+        CANONICAL_NAN_BITS
+    } else {
+        value.to_bits()
     }
 }
 

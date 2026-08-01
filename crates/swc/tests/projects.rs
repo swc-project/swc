@@ -800,6 +800,14 @@ fn tests(input_dir: PathBuf) {
         }
     }
 
+    #[cfg(not(feature = "react-compiler"))]
+    {
+        let input_dir_norm = input_dir.to_string_lossy().replace('\\', "/");
+        if input_dir_norm.contains("tests/fixture/options/react-compiler/") {
+            return;
+        }
+    }
+
     let output_dir = input_dir.parent().unwrap().join("output");
 
     for entry in WalkDir::new(&input_dir) {

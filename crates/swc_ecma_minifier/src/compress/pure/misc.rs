@@ -1,4 +1,4 @@
-use std::{borrow::Cow, fmt::Write, num::FpCategory};
+use std::{borrow::Cow, num::FpCategory};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{
@@ -9,7 +9,9 @@ use swc_atoms::{
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value};
+use swc_ecma_utils::{
+    number::ToJsString, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value,
+};
 
 use super::Pure;
 use crate::{
@@ -292,13 +294,32 @@ impl Pure<'_> {
             }
         }
 
+        // Spreading a primitive of these types copies zero own enumerable
+        // properties (`ToObject` on them yields a wrapper whose properties are
+        // all non-enumerable), so `{ ...x }` where `x` is one of them
+        // contributes nothing.
+        //
+        // Strings are intentionally EXCLUDED: they expose indexed own
+        // enumerable properties (`{ ..."ab" }` === `{ 0: "a", 1: "b" }`).
+        // Objects, arrays, functions, etc. are also excluded as they carry
+        // real properties.
+        fn spreads_no_props(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+            matches!(
+                expr.get_type(expr_ctx),
+                Value::Known(Type::Undefined | Type::Null | Type::Bool | Type::Num | Type::Symbol)
+            )
+        }
+
         fn can_flatten_spread_expr(expr: &Expr, expr_ctx: ExprCtx) -> bool {
             match expr {
                 Expr::Object(ObjectLit { props, .. }) => {
                     props.iter().all(|p| can_flatten_spread_prop(p, expr_ctx))
                 }
-                Expr::Lit(Lit::Null(_)) => true,
-                _ => false,
+                // Spreading a side-effect-free expression that has no own
+                // enumerable properties contributes nothing. We require purity
+                // so that we never discard observable side effects
+                // (e.g. `{ ...void foo() }`).
+                _ => spreads_no_props(expr, expr_ctx) && !expr.may_have_side_effects(expr_ctx),
             }
         }
 
@@ -374,16 +395,12 @@ impl Pure<'_> {
                 PropOrSpread::Spread(SpreadElement { expr, .. })
                     if can_flatten_spread_expr(&expr, self.expr_ctx) =>
                 {
-                    match *expr {
-                        Expr::Object(ObjectLit { props, .. }) => {
-                            for p in props {
-                                new_props.push(p);
-                            }
-                        }
-
-                        Expr::Lit(Lit::Null(_)) => {}
-
-                        _ => {}
+                    // A plain object literal is flattened into the target; any
+                    // other flattenable spread is a no-property primitive
+                    // (including `null`) that contributes nothing, so it is
+                    // simply dropped.
+                    if let Expr::Object(ObjectLit { props, .. }) = *expr {
+                        new_props.extend(props);
                     }
                 }
 
@@ -709,7 +726,7 @@ impl Pure<'_> {
                         res.push_wtf8(&s.value);
                     }
                     Expr::Lit(Lit::Num(n)) => {
-                        write!(res, "{}", n.value).unwrap();
+                        res.push_str(&n.value.to_js_string());
                     }
                     e if is_pure_undefined(self.expr_ctx, e) => {}
                     Expr::Lit(Lit::Null(..)) => {}
@@ -901,7 +918,7 @@ impl Pure<'_> {
                         for literal in literals.iter() {
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
-                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // For string concatenation, null becomes
                                     // empty string
@@ -957,7 +974,7 @@ impl Pure<'_> {
 
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
-                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // null becomes empty string
                                 }
@@ -1137,17 +1154,19 @@ impl Pure<'_> {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
                     Expr::Lit(Lit::Num(num)) => {
-                        if num.value <= 5_f64 && num.value >= 0_f64 {
-                            Some(
-                                ArrayLit {
-                                    span: *span,
-                                    elems: vec![None; num.value as usize],
-                                }
-                                .into(),
-                            )
-                        } else {
-                            None
+                        let length = num.value;
+
+                        if !(0_f64..=5_f64).contains(&length) || length.fract() != 0_f64 {
+                            return None;
                         }
+
+                        Some(
+                            ArrayLit {
+                                span: *span,
+                                elems: vec![None; length as usize],
+                            }
+                            .into(),
+                        )
                     }
                     Expr::Lit(_) => Some(
                         ArrayLit {
@@ -1296,15 +1315,21 @@ impl Pure<'_> {
                             })
                             .into(),
                         ),
-                        // this is indeed very unsafe in case of BigInt
-                        [ExprOrSpread { spread: None, expr }] if self.options.unsafe_math => Some(
-                            UnaryExpr {
-                                span: *span,
-                                op: op!(unary, "+"),
-                                arg: expr.take(),
-                            }
-                            .into(),
-                        ),
+                        // This is indeed very unsafe in case of BigInt, so it
+                        // requires both `unsafe` and `unsafe_math`, matching
+                        // terser (since v4.3.11).
+                        [ExprOrSpread { spread: None, expr }]
+                            if self.options.unsafe_passes && self.options.unsafe_math =>
+                        {
+                            Some(
+                                UnaryExpr {
+                                    span: *span,
+                                    op: op!(unary, "+"),
+                                    arg: expr.take(),
+                                }
+                                .into(),
+                            )
+                        }
                         _ => None,
                     },
                     Expr::Ident(Ident { sym, .. }) if &**sym == "String" => match &mut args[..] {

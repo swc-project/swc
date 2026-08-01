@@ -19,6 +19,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+#[cfg(debug_assertions)]
 use tracing::debug;
 
 /// Generator based on tsc generator at https://github.com/microsoft/TypeScript/blob/162224763681465b417274383317ca9a0a573835/src/compiler/transformers/generators.ts
@@ -38,10 +39,14 @@ struct Wrapper {
 
 macro_rules! dev_span {
     ($($tt:tt)*) => {{
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             Some(tracing::span!(tracing::Level::ERROR, $($tt)*).entered())
-        } else {
-            None
+        }
+
+        #[cfg(not(debug_assertions))]
+        {
+            ()
         }
     }};
 }
@@ -1014,7 +1019,7 @@ impl VisitMut for Generator {
         }
     }
 
-    #[tracing::instrument(level = "debug", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         match node {
             Stmt::Break(b) => {
@@ -1580,6 +1585,7 @@ impl Generator {
 
         while variables_written < var_len {
             #[cfg(debug_assertions)]
+            #[cfg(debug_assertions)]
             debug!("variables_written: {} / {}", variables_written, var_len);
 
             for (_i, variable) in variables.iter_mut().enumerate().skip(variables_written) {
@@ -2075,6 +2081,7 @@ impl Generator {
 
             while clauses_written < node.cases.len() {
                 #[cfg(debug_assertions)]
+                #[cfg(debug_assertions)]
                 debug!("clauses_written: {}", clauses_written);
 
                 let mut default_clauses_skipped = 0;
@@ -2135,6 +2142,7 @@ impl Generator {
     }
 
     fn transform_and_emit_labeled_stmt(&mut self, mut node: LabeledStmt) {
+        #[cfg(debug_assertions)]
         #[cfg(debug_assertions)]
         debug!("transform_and_emit_labeled_stmt: {:?}", node.label);
 
@@ -2263,6 +2271,7 @@ impl Generator {
         let label = Label(self.next_label_id as _);
         self.next_label_id += 1;
         #[cfg(debug_assertions)]
+        #[cfg(debug_assertions)]
         debug!("define_label: {:?}", label);
 
         if label.0 as usize >= self.label_offsets.as_ref().unwrap().len() {
@@ -2290,6 +2299,7 @@ impl Generator {
             self.operations.as_deref().map_or(0, |v| v.len() as _);
 
         #[cfg(debug_assertions)]
+        #[cfg(debug_assertions)]
         debug!(
             "mark_label: {:?}; offset: {}",
             label,
@@ -2313,6 +2323,7 @@ impl Generator {
 
         #[cfg(debug_assertions)]
         if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
             debug!("Begin block {}: {:?}", index, block);
         }
 
@@ -2336,6 +2347,7 @@ impl Generator {
         #[cfg(debug_assertions)]
         let index = self.block_actions.as_ref().unwrap().len();
 
+        #[cfg(debug_assertions)]
         #[cfg(debug_assertions)]
         debug!("End block {}", index);
 
@@ -2655,6 +2667,7 @@ impl Generator {
     ///  - `label_text`: An optional name of a containing labeled statement.
     fn find_break_target(&self, label_text: Option<Atom>) -> Label {
         #[cfg(debug_assertions)]
+        #[cfg(debug_assertions)]
         debug!("find_break_target: label_text={:?}", label_text);
 
         if let Some(block_stack) = &self.block_stack {
@@ -2716,6 +2729,7 @@ impl Generator {
     fn create_label(&mut self, label: Option<Label>) -> Box<Expr> {
         if let Some(label) = label {
             if label.0 > 0 {
+                #[cfg(debug_assertions)]
                 #[cfg(debug_assertions)]
                 debug!("create_label: label={:?}", label);
 
@@ -3056,6 +3070,7 @@ impl Generator {
     /// be reflected on the `state` object.
     fn append_label(&mut self, mark_label_end: bool) {
         if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
             debug!(mark_label_end = mark_label_end, "append_label");
         }
 
@@ -3092,6 +3107,7 @@ impl Generator {
             }
 
             if cfg!(debug_assertions) {
+                #[cfg(debug_assertions)]
                 debug!(
                     "current_exception_block = {:?}",
                     self.current_exception_block
@@ -3180,7 +3196,7 @@ impl Generator {
         });
     }
 
-    #[tracing::instrument(level = "debug", skip(self))]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip(self)))]
     fn try_enter_label(&mut self, op_index: usize) {
         if self.label_offsets.is_none() {
             return;
@@ -3227,6 +3243,7 @@ impl Generator {
                         for expr in exprs {
                             expr.value = label_number as _;
                             #[cfg(debug_assertions)]
+                            #[cfg(debug_assertions)]
                             debug!("Label {:?} = {:?} ({:?})", label, expr.value, expr.pos);
                         }
                     }
@@ -3236,12 +3253,13 @@ impl Generator {
     }
 
     /// Tries to enter or leave a code block.
-    #[tracing::instrument(level = "debug", skip(self))]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip(self)))]
     fn try_enter_or_leave_block(&mut self, op_index: usize) {
         if let Some(blocks) = &self.blocks {
             while self.block_index < self.block_actions.as_ref().unwrap().len()
                 && self.block_offsets.as_ref().unwrap()[self.block_index] <= op_index
             {
+                #[cfg(debug_assertions)]
                 #[cfg(debug_assertions)]
                 debug!("try_enter_or_leave_block: iter");
 
@@ -3249,6 +3267,7 @@ impl Generator {
                 self.block_index += 1;
 
                 if cfg!(debug_assertions) {
+                    #[cfg(debug_assertions)]
                     debug!(block_index = block_index, "try_enter_or_leave_block")
                 }
 
@@ -3270,11 +3289,13 @@ impl Generator {
                             }
 
                             #[cfg(debug_assertions)]
+                            #[cfg(debug_assertions)]
                             debug!("Current exception block: open = Some({:?})", block);
                             self.current_exception_block = Some(block.clone());
                         } else if block_action == BlockAction::Close {
                             self.current_exception_block =
                                 self.exception_block_stack.as_mut().unwrap().pop();
+                            #[cfg(debug_assertions)]
                             #[cfg(debug_assertions)]
                             debug!(
                                 "Current exception block: close = {:?}",
@@ -3303,9 +3324,10 @@ impl Generator {
 
     /// Writes an operation as a statement to the current label's statement
     /// list.
-    #[tracing::instrument(level = "debug", skip(self))]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip(self)))]
     fn write_operation(&mut self, op_index: usize) {
         if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
             debug!("Writing operation {}", op_index);
         }
 

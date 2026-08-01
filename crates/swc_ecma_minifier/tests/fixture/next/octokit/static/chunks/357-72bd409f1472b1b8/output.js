@@ -471,7 +471,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                     ].concat(this.trackDoneStatus ? [
                         "DONE"
                     ] : [])), this._limiter = null, this.Events = new Events(this), this._submitLock = new Sync("submit", this.Promise), this._registerLock = new Sync("register", this.Promise), storeOptions = parser_load(options, this.storeDefaults, {}), this._store = (function() {
-                        if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return new RedisDatastore$1(this, storeOptions, parser_load(options, this.redisStoreDefaults, {}));
+                        if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return new RedisDatastore$1(parser_load(options, this.redisStoreDefaults, {}));
                         if ("local" === this.datastore) return new LocalDatastore(this, storeOptions, parser_load(options, this.localStoreDefaults, {}));
                         throw new Bottleneck.prototype.BottleneckError(`Invalid datastore type: ${this.datastore}`);
                     }).call(this), this._queues.on("leftzero", ()=>{

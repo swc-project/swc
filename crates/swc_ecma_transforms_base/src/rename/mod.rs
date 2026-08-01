@@ -80,6 +80,7 @@ where
         unresolved: Default::default(),
         previous_cache: Default::default(),
         total_map: None,
+        eval_reserved_targets: Default::default(),
         marker: std::marker::PhantomData::<Atom>,
     })
 }
@@ -98,6 +99,7 @@ where
         unresolved: Default::default(),
         previous_cache: Default::default(),
         total_map: None,
+        eval_reserved_targets: Default::default(),
         marker: std::marker::PhantomData::<Id>,
     })
 }
@@ -187,6 +189,16 @@ where
     /// [Some] if the [`Renamer::get_cached`] returns [Some].
     total_map: Option<FxHashMap<Id, V>>,
 
+    /// Mangled names assigned by the top-level map when `eval` is present.
+    ///
+    /// With `eval`, the top-level scope and each eval-free nested function are
+    /// renamed in separate `get_map` calls, each with its own fresh
+    /// `ReverseMap`. Without sharing the already-assigned names, a nested
+    /// function could pick a Base54 name already used at the top level,
+    /// producing a collision (#11294). These are fed as reserved symbols to
+    /// the per-unit maps.
+    eval_reserved_targets: FxHashSet<Atom>,
+
     marker: std::marker::PhantomData<V>,
 }
 
@@ -238,6 +250,15 @@ where
             }
         }
 
+        // When `eval` is present, per-unit maps must avoid the names already
+        // assigned by the top-level map, since each map is built with an
+        // independent `ReverseMap`. See #11294.
+        if !top_level && !self.eval_reserved_targets.is_empty() {
+            unresolved
+                .to_mut()
+                .extend(self.eval_reserved_targets.iter().cloned());
+        }
+
         let mut map = FxHashMap::<Id, V>::default();
 
         if R::MANGLE {
@@ -263,6 +284,13 @@ where
             );
         }
 
+        // Remember the names assigned at the top level so that per-unit maps
+        // computed for eval-free nested functions can avoid them. Only needed
+        // on the split-map path that `eval` forces. See #11294.
+        if R::MANGLE && top_level && has_eval {
+            self.eval_reserved_targets = map.values().map(|v| v.atom().clone()).collect();
+        }
+
         if let Some(total_map) = &mut self.total_map {
             total_map.reserve(map.len());
 
@@ -281,6 +309,24 @@ where
                     }
                 }
             }
+        }
+
+        // Drop identity mappings before apply. Operator already no-ops when
+        // `sym == ident.sym`, so they only inflate the apply walk.
+        //
+        // Identities must still be inserted into `map` *during* analysis so
+        // later scopes can skip via `to.get(id)`. Without that (e.g. hygiene
+        // alone, no resolver), the same Id is reprocessed in every scope and
+        // the reverse map blows up.
+        //
+        // Keep identities when `keep_class_names` is set: Operator uses that
+        // flag to rewrite `class Foo` into `let Foo = class Foo`, and on the
+        // old path those identity entries were what kept the map non-empty so
+        // Operator ran. Minifier `keep_classnames` preserves class Ids instead
+        // (they never enter the map), so this does not reintroduce apply work
+        // for those fixtures.
+        if !self.config.keep_class_names {
+            map.retain(|id, v| v.atom() != &id.0);
         }
 
         map

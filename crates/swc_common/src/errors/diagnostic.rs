@@ -19,12 +19,6 @@ use crate::syntax_pos::{MultiSpan, Span};
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -36,12 +30,6 @@ pub struct Message(pub String, pub Style);
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -74,12 +62,6 @@ pub struct Diagnostic {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -94,12 +76,6 @@ pub enum DiagnosticId {
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)

@@ -1,6 +1,8 @@
+use std::collections::HashSet;
+
 use swc_atoms::{wtf8::Wtf8, Atom};
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::{Str, TplElement};
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
+use swc_ecma_ast::{Number, Str, TplElement};
 
 /// Convert Wtf8 to a string representation, escaping invalid surrogates.
 fn convert_wtf8_to_raw(s: &Wtf8) -> String {
@@ -110,6 +112,45 @@ fn escaped_template_chars() {
 fn combined_escapes() {
     test_from_tpl_raw("hello\\nworld", "hello\nworld");
     test_from_tpl_raw("\\t\\tindented", "\t\tindented");
+}
+
+#[test]
+fn number_nan_has_consistent_equality_and_hash() {
+    let first = Number::from(f64::NAN);
+    let second = Number::from(f64::from_bits(0xfff8_0000_0000_0001));
+
+    assert_eq!(first, second);
+    assert!(first.eq_ignore_span(&second));
+
+    let mut numbers = HashSet::new();
+    numbers.insert(first);
+
+    assert!(numbers.contains(&second));
+}
+
+#[test]
+fn number_distinguishes_signed_zero() {
+    let positive = Number::from(0.0);
+    let negative = Number::from(-0.0);
+
+    assert_ne!(positive, negative);
+    assert!(!positive.eq_ignore_span(&negative));
+
+    let numbers = HashSet::from([positive, negative]);
+
+    assert_eq!(numbers.len(), 2);
+}
+
+#[test]
+fn number_infinity_has_consistent_equality_and_hash() {
+    let first = Number::from(f64::INFINITY);
+    let second = Number::from(f64::INFINITY);
+
+    assert_eq!(first, second);
+
+    let numbers = HashSet::from([first]);
+
+    assert!(numbers.contains(&second));
 }
 
 // Tests for octal escape sequences that should be rejected.

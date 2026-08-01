@@ -223,16 +223,21 @@ impl Pure<'_> {
             return;
         }
 
+        fn can_rewrite_as_arithmetic(non_zero: &Number, zero: &Number) -> bool {
+            non_zero.value.is_finite()
+                && non_zero.value > 0.0
+                && zero.value == 0.0
+                && zero.value.is_sign_positive()
+        }
+
         let Expr::Cond(cond) = e else { return };
         let span = cond.span;
 
         match (&mut *cond.cons, &mut *cond.alt) {
-            (
-                Expr::Lit(Lit::Num(Number { value, .. })),
-                Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
-            ) if *value > 0.0
-                && (!cond.test.is_bin()
-                    || cond.test.get_type(self.expr_ctx) == Value::Known(Type::Bool)) =>
+            (Expr::Lit(Lit::Num(non_zero)), Expr::Lit(Lit::Num(zero)))
+                if can_rewrite_as_arithmetic(non_zero, zero)
+                    && (!cond.test.is_bin()
+                        || cond.test.get_type(self.expr_ctx) == Value::Known(Type::Bool)) =>
             {
                 report_change!("conditionals: `foo ? num : 0` => `num * !!foo`");
                 self.changed = true;
@@ -248,11 +253,9 @@ impl Pure<'_> {
                     right,
                 })
             }
-            (
-                Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
-                Expr::Lit(Lit::Num(Number { value, .. })),
-            ) if *value > 0.0
-                && (!cond.test.is_bin() || can_absorb_negate(&cond.test, self.expr_ctx)) =>
+            (Expr::Lit(Lit::Num(zero)), Expr::Lit(Lit::Num(non_zero)))
+                if can_rewrite_as_arithmetic(non_zero, zero)
+                    && (!cond.test.is_bin() || can_absorb_negate(&cond.test, self.expr_ctx)) =>
             {
                 report_change!("conditionals: `foo ? 0 : num` => `num * !foo`");
                 self.changed = true;

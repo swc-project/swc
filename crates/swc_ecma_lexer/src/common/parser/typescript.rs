@@ -530,7 +530,7 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
 }
 
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
@@ -867,7 +867,7 @@ fn is_start_of_expr<'a>(p: &mut impl Parser<'a>) -> bool {
 }
 
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub(super) fn try_parse_ts_type_args<'a, P: Parser<'a>>(
@@ -912,7 +912,7 @@ fn try_parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsType>
 
 /// `tsTryParseTypeAnnotation`
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn try_parse_ts_type_ann<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsTypeAnn>>> {

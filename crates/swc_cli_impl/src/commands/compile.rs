@@ -24,7 +24,6 @@ use swc_core::{
         try_with_handler, Compiler, HandlerOpts, TransformOutput,
     },
     common::{errors::ColorConfig, FileName, FilePathMapping, SourceFile, SourceMap, GLOBALS},
-    trace_macro::swc_trace,
 };
 use walkdir::WalkDir;
 use watch::FileWatcher;
@@ -112,13 +111,11 @@ pub struct CompileOptions {
     #[clap(long, default_value_t = String::from("js"))]
     out_file_extension: String,
 
-    /// Enable experimental trace profiling
-    /// generates trace compatible with trace event format.
+    /// Deprecated no-op. Trace profiling is disabled in production builds.
     #[clap(group = "experimental_trace", long)]
     experimental_trace: bool,
 
-    /// Set file name for the trace output. If not specified,
-    /// `trace-{unix epoch time}.json` will be used by default.
+    /// Deprecated no-op. No trace output file will be generated.
     #[clap(group = "experimental_trace", long)]
     trace_out_file: Option<String>,
 }
@@ -278,7 +275,7 @@ fn collect_absolute_paths(paths: &[PathBuf]) -> BTreeSet<PathBuf> {
 }
 
 /// Infer list of files from cli arguments.
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 fn collect_input_files(
     raw_files_input: &[PathBuf],
     ignore_pattern: Option<&Pattern>,
@@ -445,7 +442,6 @@ fn emit_stdout_output(file_path: &Path, output: TransformOutput) {
     println!("{}\n{}", output.code, source_map);
 }
 
-#[swc_trace]
 impl CompileOptions {
     fn build_transform_options(&self, file_path: &Option<&Path>) -> anyhow::Result<Options> {
         let config_file = self.config_file.as_ref().map(|config_file_path| {
@@ -968,6 +964,7 @@ impl CompileOptions {
         let cwd = match std::env::current_dir() {
             Ok(cwd) => cwd,
             Err(error) => {
+                #[cfg(debug_assertions)]
                 tracing::warn!(error = %error, "failed to read current directory for watch batch");
                 return;
             }
@@ -975,6 +972,7 @@ impl CompileOptions {
         let output_dir = match absolutize_path(out_dir) {
             Ok(output_dir) => output_dir,
             Err(error) => {
+                #[cfg(debug_assertions)]
                 tracing::warn!(error = %error, "failed to resolve output directory for watch batch");
                 return;
             }
@@ -1142,6 +1140,7 @@ impl CompileOptions {
             let cwd = match std::env::current_dir() {
                 Ok(cwd) => cwd,
                 Err(error) => {
+                    #[cfg(debug_assertions)]
                     tracing::warn!(error = %error, "failed to read current directory for watch batch");
                     continue;
                 }
@@ -1191,16 +1190,13 @@ impl CompileOptions {
     }
 }
 
-#[swc_trace]
 impl super::CommandRunner for CompileOptions {
     fn execute(&self) -> anyhow::Result<()> {
         self.validate()?;
 
-        let guard = if self.experimental_trace {
-            init_trace(&self.trace_out_file)
-        } else {
-            None
-        };
+        if self.experimental_trace {
+            init_trace(&self.trace_out_file);
+        }
 
         let result = if self.watch {
             if let Some(out_dir) = self.out_dir.as_ref() {
@@ -1213,11 +1209,6 @@ impl super::CommandRunner for CompileOptions {
         } else {
             self.execute_once()
         };
-
-        if let Some(guard) = guard {
-            guard.flush();
-            drop(guard);
-        }
 
         result
     }

@@ -23,8 +23,6 @@ napi-derive        = { workspace = true, features = ["type-def"] }
 par-core           = { workspace = true, features = ["chili"] }
 serde              = { workspace = true, features = ["derive"] }
 tracing            = { workspace = true, features = ["release_max_level_info"] }
-tracing-chrome     = { workspace = true }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
 
 swc_compiler_base = { path = "../../crates/swc_compiler_base", features = [

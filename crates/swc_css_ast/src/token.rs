@@ -25,29 +25,12 @@ impl Take for TokenAndSpan {
 #[derive(Debug, Clone, PartialEq, EqIgnoreSpan, Hash)]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
 )]
 pub struct UrlKeyValue(pub Atom, pub Atom);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 #[cfg_attr(
     feature = "encoding-impl",
@@ -61,12 +44,6 @@ pub enum NumberType {
 }
 
 #[derive(Debug, Clone, PartialEq, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 #[cfg_attr(
     feature = "encoding-impl",
@@ -84,17 +61,6 @@ pub struct DimensionToken {
 }
 
 #[derive(Debug, Clone, PartialEq, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
     feature = "encoding-impl",

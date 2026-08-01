@@ -127,6 +127,7 @@ impl Mode {
 #[derive(Default)]
 struct PrivatePropertyInObjectPass {
     vars: Vec<VarDeclarator>,
+    vars_stack: Vec<Vec<VarDeclarator>>,
     prepend_exprs: Vec<Expr>,
     prepend_exprs_stack: Vec<Vec<Expr>>,
 
@@ -537,8 +538,15 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
         }
     }
 
+    fn enter_stmts(&mut self, _s: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
+        self.vars_stack.push(take(&mut self.vars));
+    }
+
     fn exit_stmts(&mut self, s: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
-        if self.vars.is_empty() {
+        let current_vars = take(&mut self.vars);
+        self.vars = self.vars_stack.pop().unwrap_or_default();
+
+        if current_vars.is_empty() {
             return;
         }
 
@@ -548,15 +556,22 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: Default::default(),
-                decls: take(&mut self.vars),
+                decls: current_vars,
                 ctxt: Default::default(),
             }
             .into(),
         );
     }
 
+    fn enter_module_items(&mut self, _items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
+        self.vars_stack.push(take(&mut self.vars));
+    }
+
     fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
-        if self.vars.is_empty() {
+        let current_vars = take(&mut self.vars);
+        self.vars = self.vars_stack.pop().unwrap_or_default();
+
+        if current_vars.is_empty() {
             return;
         }
 
@@ -566,7 +581,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: Default::default(),
-                decls: take(&mut self.vars),
+                decls: current_vars,
                 ctxt: Default::default(),
             }
             .into(),

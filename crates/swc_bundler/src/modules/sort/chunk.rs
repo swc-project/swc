@@ -68,6 +68,7 @@ fn toposort_real_modules<'a>(
 
     let mut chunks = Vec::new();
 
+    #[cfg(debug_assertions)]
     tracing::debug!(
         "Topologically sorting modules based on the dependency graph: ({} items)",
         modules.len()
@@ -79,6 +80,7 @@ fn toposort_real_modules<'a>(
     #[cfg(not(target_arch = "wasm32"))]
     let end = Instant::now();
     #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(debug_assertions)]
     tracing::debug!("Toposort of module ids took {:?}", end - start);
     for ids in sorted_ids {
         if ids.is_empty() {
@@ -226,6 +228,7 @@ fn toposort_real_module_ids<'a>(
 
                     continue;
                 }
+                #[cfg(debug_assertions)]
                 tracing::info!("Using slow, fallback logic for topological sorting");
                 all_modules_in_circle.extend(deps_of_circle);
             }

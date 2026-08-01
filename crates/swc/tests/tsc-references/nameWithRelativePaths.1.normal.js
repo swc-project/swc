@@ -41,9 +41,6 @@ Object.defineProperty(exports, "M2", {
 var M2;
 //// [test/foo_3.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 var foo0 = require("../foo_0");
 var foo1 = require("./test/foo_1");
 var foo2 = require("./.././test/foo_2");

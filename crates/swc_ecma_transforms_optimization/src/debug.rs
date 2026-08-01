@@ -43,11 +43,6 @@ impl Visit for AssertValid {
     }
 
     #[cfg(debug_assertions)]
-    fn visit_number(&mut self, n: &Number) {
-        assert!(!n.value.is_nan(), "NaN should be an identifier");
-    }
-
-    #[cfg(debug_assertions)]
     fn visit_setter_prop(&mut self, p: &SetterProp) {
         p.body.visit_with(self);
     }

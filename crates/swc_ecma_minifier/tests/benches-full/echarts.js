@@ -3976,7 +3976,7 @@
             case 'bottom':
                 percent = '100%';
         }
-        return 'string' == typeof percent ? percent.replace(/^\s+|\s+$/g, '').match(/%$/) ? parseFloat(percent) / 100 * all : parseFloat(percent) : null == percent ? NaN : +percent;
+        return 'string' == typeof percent ? percent.replace(/^\s+|\s+$/g, '').match(/%$/) ? parseFloat(percent) / 100 * all : parseFloat(percent) : null == percent ? 0 / 0 : +percent;
     }
     function round(x, precision, returnStr) {
         return null == precision && (precision = 10), precision = Math.min(Math.max(0, precision), 20), x = (+x).toFixed(precision), returnStr ? x : +x;
@@ -4087,7 +4087,7 @@
             // See issue #3623
             var match = TIME_REG.exec(value);
             if (!match) // return Invalid Date.
-            return new Date(NaN);
+            return new Date(0 / 0);
              // Use local time when no timezone offset specifed.
             if (!match[8]) // match[n] can only be string or undefined.
             // But take care of '12' + 1 => '121'.
@@ -4095,7 +4095,7 @@
             var hour = +match[4] || 0;
             return 'Z' !== match[8].toUpperCase() && (hour -= match[8].slice(0, 3)), new Date(Date.UTC(+match[1], (match[2] || 1) - 1, +match[3] || 1, hour, +(match[5] || 0), +match[6] || 0, +match[7] || 0));
         }
-        return new Date(null == value ? NaN : Math.round(value));
+        return new Date(null == value ? 0 / 0 : Math.round(value));
     }
     /**
      * Quantity of a number. e.g. 0.1, 1, 10, 100
@@ -4192,7 +4192,7 @@
         var valFloat = parseFloat(val);
         return valFloat == val // eslint-disable-line eqeqeq
          && (0 !== valFloat || 'string' != typeof val || 0 // For case ' 0x0 '.
-         >= val.indexOf('x')) ? valFloat : NaN;
+         >= val.indexOf('x')) ? valFloat : 0 / 0;
     }
     /**
      * Definition of "numeric": see `numericToNumber`.
@@ -4246,7 +4246,7 @@
      */ function makePrintable() {
         for(var hintInfo = [], _i = 0; _i < arguments.length; _i++)hintInfo[_i] = arguments[_i];
         var makePrintableStringIfPossible_1 = function(val) {
-            return void 0 === val ? 'undefined' : val === 1 / 0 ? 'Infinity' : val === -1 / 0 ? '-Infinity' : eqNaN(val) ? 'NaN' : val instanceof Date ? 'Date(' + val.toISOString() + ')' : isFunction(val) ? 'function () { ... }' : isRegExp(val) ? val + '' : null;
+            return void 0 === val ? 'undefined' : 1 / 0 === val ? 'Infinity' : -1 / 0 === val ? '-Infinity' : eqNaN(val) ? 'NaN' : val instanceof Date ? 'Date(' + val.toISOString() + ')' : isFunction(val) ? 'function () { ... }' : isRegExp(val) ? val + '' : null;
         };
         return map(hintInfo, function(arg) {
             if (isString(arg)) // Print without quotation mark for some statement.
@@ -10208,8 +10208,8 @@
     function calculateStack(stackInfoList) {
         each(stackInfoList, function(targetStackInfo, idxInStack) {
             var resultVal = [], resultNaN = [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ], dims = [
                 targetStackInfo.stackResultDimension,
                 targetStackInfo.stackedOverDimension
@@ -10218,7 +10218,7 @@
                 // should also be NaN, to draw a appropriate belt area.
                 if (isNaN(sum)) return resultNaN;
                 isStackedByIndex ? stackedDataRawIndex = targetData.getRawIndex(dataIndex) : byValue = targetData.get(targetStackInfo.stackedByDimension, dataIndex);
-                for(var stackedOver = NaN, j = idxInStack - 1; j >= 0; j--){
+                for(var stackedOver = 0 / 0, j = idxInStack - 1; j >= 0; j--){
                     var stackInfo = stackInfoList[j]; // Has been optimized by inverted indices on `stackedByDimension`.
                     if (isStackedByIndex || (stackedDataRawIndex = stackInfo.data.rawIndexOf(stackInfo.stackedByDimension, byValue)), stackedDataRawIndex >= 0) {
                         var val = stackInfo.data.getByRawIndex(stackInfo.stackResultDimension, stackedDataRawIndex); // Considering positive stack, negative stack and empty data
@@ -10810,7 +10810,7 @@
         // number-like string (like ' 123 ') can be converted to a number.
         // where null/undefined or other string will be converted to NaN.
         return 'time' // spead up when using timestamp
-         === dimType && 'number' != typeof value && null != value && '-' !== value && (value = +parseDate(value)), null == value || '' === value ? NaN // If string (like '-'), using '+' parse to NaN
+         === dimType && 'number' != typeof value && null != value && '-' !== value && (value = +parseDate(value)), null == value || '' === value ? 0 / 0 // If string (like '-'), using '+' parse to NaN
          : +value;
     }
     var valueParserMap = createHashMap({
@@ -15151,9 +15151,9 @@
         }, ECharts.prototype.getConnectedDataURL = function(opts) {
             if (this._disposed) return void disposedWarning(this.id);
             if (env.canvasSupported) {
-                var isSvg = 'svg' === opts.type, groupId = this.group, mathMin = Math.min, mathMax = Math.max, MAX_NUMBER = 1 / 0;
+                var isSvg = 'svg' === opts.type, groupId = this.group, mathMin = Math.min, mathMax = Math.max;
                 if (!connectedGroups[groupId]) return this.getDataURL(opts);
-                var left_1 = MAX_NUMBER, top_1 = MAX_NUMBER, right_1 = -MAX_NUMBER, bottom_1 = -MAX_NUMBER, canvasList_1 = [], dpr_1 = opts && opts.pixelRatio || this.getDevicePixelRatio();
+                var left_1 = 1 / 0, top_1 = 1 / 0, right_1 = -1 / 0, bottom_1 = -1 / 0, canvasList_1 = [], dpr_1 = opts && opts.pixelRatio || this.getDevicePixelRatio();
                 each(instances$1, function(chart, id) {
                     if (chart.group === groupId) {
                         var canvas = isSvg ? chart.getZr().painter.getSvgDom().innerHTML : chart.getRenderedCanvas(clone(opts)), boundingRect = chart.getDom().getBoundingClientRect();
@@ -16766,22 +16766,22 @@
         }, // Because in v8 access array by number variable is faster than access object by string variable
         // Not sure why but the optimization just works.
         List.prototype.getByDimIdx = function(dimIdx, idx) {
-            if (!(idx >= 0 && idx < this._count)) return NaN;
+            if (!(idx >= 0 && idx < this._count)) return 0 / 0;
             var dimStore = this._storageArr[dimIdx];
-            return dimStore ? dimStore[this.getRawIndex(idx)] : NaN;
+            return dimStore ? dimStore[this.getRawIndex(idx)] : 0 / 0;
         }, /**
              * Get value. Return NaN if idx is out of range.
              * @param dim Dim must be concrete name.
              */ List.prototype.get = function(dim, idx) {
-            if (!(idx >= 0 && idx < this._count)) return NaN;
+            if (!(idx >= 0 && idx < this._count)) return 0 / 0;
             var dimStore = this._storage[dim];
-            return dimStore ? dimStore[this.getRawIndex(idx)] : NaN;
+            return dimStore ? dimStore[this.getRawIndex(idx)] : 0 / 0;
         }, /**
              * @param dim concrete dim
              */ List.prototype.getByRawIndex = function(dim, rawIdx) {
-            if (!(rawIdx >= 0 && rawIdx < this._rawCount)) return NaN;
+            if (!(rawIdx >= 0 && rawIdx < this._rawCount)) return 0 / 0;
             var dimStore = this._storage[dim];
-            return dimStore ? dimStore[rawIdx] : NaN;
+            return dimStore ? dimStore[rawIdx] : 0 / 0;
         }, List.prototype.getValues = function(dimensions, idx) {
             var values = [];
             isArray(dimensions) || (// stack = idx;
@@ -17716,7 +17716,7 @@
             // parallel-aqi example)
             if (needCollect && !this._deduplication) return index = this.categories.length, this.categories[index] = category, index;
             var map = this._getOrCreateMap(); // @ts-ignore
-            return null == (index = map.get(category)) && (needCollect ? (index = this.categories.length, this.categories[index] = category, map.set(category, index)) : index = NaN), index;
+            return null == (index = map.get(category)) && (needCollect ? (index = this.categories.length, this.categories[index] = category, map.set(category, index)) : index = 0 / 0), index;
         }, OrdinalMeta.prototype._getOrCreateMap = function() {
             return this._map || (this._map = createHashMap(this.categories));
         }, OrdinalMeta;
@@ -18379,7 +18379,7 @@
         }, TimeScale.prototype.niceExtent = function(opt) {
             var extent = this._extent; // If extent start and end are same, expand them
             if (extent[0] === extent[1] && (// Expand extent
-            extent[0] -= 86400000, extent[1] += 86400000), extent[1] === -1 / 0 && extent[0] === 1 / 0) {
+            extent[0] -= 86400000, extent[1] += 86400000), -1 / 0 === extent[1] && 1 / 0 === extent[0]) {
                 var d = new Date();
                 extent[1] = +new Date(d.getFullYear(), d.getMonth(), d.getDate()), extent[0] = extent[1] - 86400000;
             }
@@ -18494,7 +18494,7 @@
              */ LogScale.prototype.niceTicks = function(approxTickNum) {
             approxTickNum = approxTickNum || 10;
             var extent = this._extent, span = extent[1] - extent[0];
-            if (span !== 1 / 0 && !(span <= 0)) {
+            if (1 / 0 !== span && !(span <= 0)) {
                 var interval = quantity(span);
                 for(approxTickNum / span * interval <= 0.5 && (interval *= 10); !isNaN(interval) && 1 > Math.abs(interval) && Math.abs(interval) > 0;)interval *= 10;
                 var niceExtent = [
@@ -18525,8 +18525,8 @@
              * are prepared and fixed here.
              */ ScaleRawExtentInfo.prototype._prepareParams = function(scale, model, dataExtent) {
             dataExtent[1] < dataExtent[0] && (dataExtent = [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ]), this._dataMin = dataExtent[0], this._dataMax = dataExtent[1];
             var isOrdinal = this._isOrdinal = 'ordinal' === scale.type;
             this._needCrossZero = model.getNeedCrossZero && model.getNeedCrossZero();
@@ -18574,7 +18574,7 @@
             //      be the result that originalExtent enlarged by boundaryGap.
             // (3) If no data, it should be ensured that `scale.setBlank` is set.
             var isOrdinal = this._isOrdinal, dataMin = this._dataMin, dataMax = this._dataMax, axisDataLen = this._axisDataLen, boundaryGapInner = this._boundaryGapInner, span = isOrdinal ? null : dataMax - dataMin || Math.abs(dataMin), min = 'dataMin' === this._modelMinRaw ? dataMin : this._modelMinNum, max = 'dataMax' === this._modelMaxRaw ? dataMax : this._modelMaxNum, minFixed = null != min, maxFixed = null != max;
-            null == min && (min = isOrdinal ? axisDataLen ? 0 : NaN : dataMin - boundaryGapInner[0] * span), null == max && (max = isOrdinal ? axisDataLen ? axisDataLen - 1 : NaN : dataMax + boundaryGapInner[1] * span), null != min && isFinite(min) || (min = NaN), null != max && isFinite(max) || (max = NaN), min > max && (min = NaN, max = NaN);
+            null == min && (min = isOrdinal ? axisDataLen ? 0 : 0 / 0 : dataMin - boundaryGapInner[0] * span), null == max && (max = isOrdinal ? axisDataLen ? axisDataLen - 1 : 0 / 0 : dataMax + boundaryGapInner[1] * span), null != min && isFinite(min) || (min = 0 / 0), null != max && isFinite(max) || (max = 0 / 0), min > max && (min = 0 / 0, max = 0 / 0);
             var isBlank = eqNaN(min) || eqNaN(max) || isOrdinal && !axisDataLen; // If data extent modified, need to recalculated to ensure cross zero.
             this._needCrossZero && (min > 0 && max > 0 && !minFixed && (min = 0), min < 0 && max < 0 && !maxFixed && (max = 0));
             var determinedMin = this._determinedMin, determinedMax = this._determinedMax;
@@ -18623,7 +18623,7 @@
         return rawExtentInfo || (rawExtentInfo = new ScaleRawExtentInfo(scale, model, originalExtent), scale.rawExtentInfo = rawExtentInfo), rawExtentInfo;
     }
     function parseAxisModelMinMax(scale, minMax) {
-        return null == minMax ? null : eqNaN(minMax) ? NaN : scale.parse(minMax);
+        return null == minMax ? null : eqNaN(minMax) ? 0 / 0 : scale.parse(minMax);
     }
     /**
      * Get axis scale extent before niced.
@@ -20674,7 +20674,7 @@
         };
     }
     function getStackedOnPoint(dataCoordInfo, coordSys, data, idx) {
-        var value = NaN;
+        var value = 0 / 0;
         dataCoordInfo.stacked && (value = data.get(data.getCalculationInfo('stackedOverDimension'), idx)), isNaN(value) && (value = dataCoordInfo.valueStart);
         var baseDataOffset = dataCoordInfo.baseDataOffset, stackedData = [];
         return stackedData[baseDataOffset] = data.get(dataCoordInfo.baseDim, idx), stackedData[1 - baseDataOffset] = value, coordSys.dataToPoint(stackedData);
@@ -21495,7 +21495,7 @@
         average: function(frame) {
             for(var sum = 0, count = 0, i = 0; i < frame.length; i++)!isNaN(frame[i]) && (sum += frame[i], count++);
              // Return NaN if count is 0
-            return 0 === count ? NaN : sum / count;
+            return 0 === count ? 0 / 0 : sum / count;
         },
         sum: function(frame) {
             for(var sum = 0, i = 0; i < frame.length; i++)// Ignore NaN
@@ -21505,12 +21505,12 @@
         max: function(frame) {
             for(var max = -1 / 0, i = 0; i < frame.length; i++)frame[i] > max && (max = frame[i]);
              // NaN will cause illegal axis extent.
-            return isFinite(max) ? max : NaN;
+            return isFinite(max) ? max : 0 / 0;
         },
         min: function(frame) {
             for(var min = 1 / 0, i = 0; i < frame.length; i++)frame[i] < min && (min = frame[i]);
              // NaN will cause illegal axis extent.
-            return isFinite(min) ? min : NaN;
+            return isFinite(min) ? min : 0 / 0;
         },
         // TODO
         // Median
@@ -21556,8 +21556,8 @@
                 return pt[offsetIndex] += offset + size / 2, pt;
             }
             return [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ];
         }, BaseBarSeriesModel.type = 'series.__base_bar__', BaseBarSeriesModel.defaultOption = {
             zlevel: 0,
@@ -21771,7 +21771,7 @@
             var info = [];
             return data.each(data.mapDimension(baseAxis.dim), function(ordinalNumber, dataIdx) {
                 var mappedValue = orderMapping(dataIdx);
-                mappedValue = null == mappedValue ? NaN : mappedValue, info.push({
+                mappedValue = null == mappedValue ? 0 / 0 : mappedValue, info.push({
                     dataIndex: dataIdx,
                     mappedValue: mappedValue,
                     ordinalNumber: ordinalNumber
@@ -22063,14 +22063,14 @@
                 r: r
             }), data.each(valueDim, function(value, idx) {
                 if (isNaN(value)) return void data.setItemLayout(idx, {
-                    angle: NaN,
-                    startAngle: NaN,
-                    endAngle: NaN,
+                    angle: 0 / 0,
+                    startAngle: 0 / 0,
+                    endAngle: 0 / 0,
                     clockwise: clockwise,
                     cx: cx,
                     cy: cy,
                     r0: r0,
-                    r: roseType ? NaN : r
+                    r: roseType ? 0 / 0 : r
                 }); // FIXME 兼容 2.0 但是 roseType 是 area 的时候才是这样？
                 (angle = 'area' !== roseType ? 0 === sum && stillShowZeroSum ? unitRadian : value * unitRadian : PI2$8 / validDataCount) < minAngle ? (angle = minAngle, restAngle -= minAngle) : valueSumLargerThanMinAngle += value;
                 var angle, endAngle = currentAngle + dir * angle;
@@ -25412,7 +25412,7 @@
                 });
             }), datas[0].map(datas[0].mapDimension('value'), function(value, idx) {
                 for(var result, mapKey = 'ec-' + datas[0].getName(idx), sum = 0, min = 1 / 0, max = -1 / 0, len = dataNameMap[mapKey].length, i = 0; i < len; i++)min = Math.min(min, dataNameMap[mapKey][i]), max = Math.max(max, dataNameMap[mapKey][i]), sum += dataNameMap[mapKey][i];
-                return result = 'min' === statisticType ? min : 'max' === statisticType ? max : 'average' === statisticType ? sum / len : sum, 0 === len ? NaN : result;
+                return result = 'min' === statisticType ? min : 'max' === statisticType ? max : 'average' === statisticType ? sum / len : sum, 0 === len ? 0 / 0 : result;
             })), i = 0; i < seriesList.length; i++)seriesList[i].originalData = seriesList[i].getData();
              // FIXME Put where?
             for(var i = 0; i < seriesList.length; i++)seriesList[i].seriesGroup = seriesList, seriesList[i].needsDrawMap = 0 === i && !seriesList[i].getHostGeoModel(), seriesList[i].setData(data.cloneShallow()), seriesList[i].mainSeries = seriesList[0];
@@ -27860,15 +27860,15 @@
             for(var i = 0, len = pieceList.length; i < len; i++){
                 var close, b, close1, a, close2, a1, close3, b1, piece = pieceList[i], interval = piece.interval, close_1 = piece.close;
                 if (interval) {
-                    if (interval[0] === -1 / 0) {
+                    if (-1 / 0 === interval[0]) {
                         if (close = close_1[1], b = interval[1], close ? value <= b : value < b) return i;
-                    } else if (interval[1] === 1 / 0) {
+                    } else if (1 / 0 === interval[1]) {
                         if (close1 = close_1[0], a = interval[0], close1 ? a <= value : a < value) return i;
                     } else if (close2 = close_1[0], a1 = interval[0], (close2 ? a1 <= value : a1 < value) && (close3 = close_1[1], b1 = interval[1], close3 ? value <= b1 : value < b1)) return i;
                     findClosestWhenOutside && updatePossible(interval[0], i), findClosestWhenOutside && updatePossible(interval[1], i);
                 }
             }
-            if (findClosestWhenOutside) return value === 1 / 0 ? pieceList.length - 1 : value === -1 / 0 ? 0 : possibleI;
+            if (findClosestWhenOutside) return 1 / 0 === value ? pieceList.length - 1 : -1 / 0 === value ? 0 : possibleI;
             function updatePossible(val, index) {
                 var newAbs = Math.abs(val - value);
                 newAbs < abs && (abs = newAbs, possibleI = index);
@@ -28273,8 +28273,8 @@
                                     var value = child.getValue(dimension);
                                     value < dataExtent[0] && (dataExtent[0] = value), value > dataExtent[1] && (dataExtent[1] = value);
                                 })) : dataExtent = [
-                                    NaN,
-                                    NaN
+                                    0 / 0,
+                                    0 / 0
                                 ], {
                                     sum: sum,
                                     dataExtent: dataExtent
@@ -28641,8 +28641,8 @@
                     }
                     hasValue ? data_1.setItemLayout(dataIndex, coordSys.dataToPoint(value)) : // Also {Array.<number>}, not undefined to avoid if...else... statement
                     data_1.setItemLayout(dataIndex, [
-                        NaN,
-                        NaN
+                        0 / 0,
+                        0 / 0
                     ]);
                 }
                 simpleLayoutEdge(data_1.graph, seriesModel);
@@ -28782,8 +28782,8 @@
                 graphSeries.preservedPoints ? nodeData_1.each(function(idx) {
                     var id = nodeData_1.getId(idx);
                     nodeData_1.setItemLayout(idx, preservedPoints_1[id] || [
-                        NaN,
-                        NaN
+                        0 / 0,
+                        0 / 0
                     ]);
                 }) : initLayout && 'none' !== initLayout ? 'circular' === initLayout && circularLayout(graphSeries, 'value') : simpleLayout(graphSeries);
                 var nodeDataExtent_1 = nodeData_1.getDataExtent('value'), edgeDataExtent_1 = edgeData.getDataExtent('value'), repulsion = forceModel.get('repulsion'), edgeLength = forceModel.get('edgeLength'), repulsionArr_1 = isArray(repulsion) ? repulsion : [
@@ -29012,7 +29012,7 @@
     function setLinePoints(targetShape, points) {
         targetShape.x1 = points[0][0], targetShape.y1 = points[0][1], targetShape.x2 = points[1][0], targetShape.y2 = points[1][1], targetShape.percent = 1;
         var cp1 = points[2];
-        cp1 ? (targetShape.cpx1 = cp1[0], targetShape.cpy1 = cp1[1]) : (targetShape.cpx1 = NaN, targetShape.cpy1 = NaN);
+        cp1 ? (targetShape.cpx1 = cp1[0], targetShape.cpy1 = cp1[1]) : (targetShape.cpx1 = 0 / 0, targetShape.cpy1 = 0 / 0);
     }
     var Line$1 = /** @class */ function(_super) {
         function Line(lineData, idx, seriesScope) {
@@ -32869,8 +32869,8 @@
                     function getPoint(axisDimVal, dim, dataIndex) {
                         var point, val = data.get(dim, dataIndex), p = [];
                         return p[cDimIdx] = axisDimVal, p[vDimIdx] = val, isNaN(axisDimVal) || isNaN(val) ? point = [
-                            NaN,
-                            NaN
+                            0 / 0,
+                            0 / 0
                         ] : (point = coordSys.dataToPoint(p), point[cDimIdx] += offset), point;
                     }
                     function addBodyEnd(ends, point, start) {
@@ -33208,10 +33208,10 @@
                     var point, dataIndex, points = new LargeArr$1(4 * params.count), offset = 0, tmpIn = [], tmpOut = []; null != (dataIndex = params.next());){
                         var axisDimVal = data.get(cDim, dataIndex), openVal = data.get(openDim, dataIndex), closeVal = data.get(closeDim, dataIndex), lowestVal = data.get(lowestDim, dataIndex), highestVal = data.get(highestDim, dataIndex);
                         if (isNaN(axisDimVal) || isNaN(lowestVal) || isNaN(highestVal)) {
-                            points[offset++] = NaN, offset += 3;
+                            points[offset++] = 0 / 0, offset += 3;
                             continue;
                         }
-                        points[offset++] = getSign(data, dataIndex, openVal, closeVal, closeDim), tmpIn[0] = axisDimVal, tmpIn[1] = lowestVal, point = coordSys.dataToPoint(tmpIn, null, tmpOut), points[offset++] = point ? point[0] : NaN, points[offset++] = point ? point[1] : NaN, tmpIn[1] = highestVal, point = coordSys.dataToPoint(tmpIn, null, tmpOut), points[offset++] = point ? point[1] : NaN;
+                        points[offset++] = getSign(data, dataIndex, openVal, closeVal, closeDim), tmpIn[0] = axisDimVal, tmpIn[1] = lowestVal, point = coordSys.dataToPoint(tmpIn, null, tmpOut), points[offset++] = point ? point[0] : 0 / 0, points[offset++] = point ? point[1] : 0 / 0, tmpIn[1] = highestVal, point = coordSys.dataToPoint(tmpIn, null, tmpOut), points[offset++] = point ? point[1] : 0 / 0;
                     }
                     data.setLayout('largePoints', points);
                 } : function(params, data) {
@@ -33235,8 +33235,8 @@
                     function getPoint(val, axisDimVal) {
                         var p = [];
                         return p[0] = axisDimVal, p[1] = val, isNaN(axisDimVal) || isNaN(val) ? [
-                            NaN,
-                            NaN
+                            0 / 0,
+                            0 / 0
                         ] : coordSys.dataToPoint(p);
                     }
                     function addBodyEnd(ends, point, start) {
@@ -33843,7 +33843,7 @@
             ], this);
             return lineData.hasItemOption = !1, lineData.initData(option.data, [], function(dataItem, dimName, dataIndex, dimIndex) {
                 // dataItem is simply coords
-                if (dataItem instanceof Array) return NaN;
+                if (dataItem instanceof Array) return 0 / 0;
                 lineData.hasItemOption = !0;
                 var value = dataItem.value;
                 if (null != value) return value instanceof Array ? value[dimIndex] : value;
@@ -39381,8 +39381,8 @@
             isArray(data) && (data = data[0]), null == clamp && (clamp = !0);
             var dayInfo = this.getDateInfo(data), range = this._rangeInfo, date = dayInfo.formatedDate;
             if (clamp && !(dayInfo.time >= range.start.time && dayInfo.time < range.end.time + 86400000)) return [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ];
             var week = dayInfo.day, nthWeek = this._getRangeInfo([
                 range.start.time,
@@ -40245,7 +40245,7 @@
                         return hasValue && leftOut && rightOut;
                     }) : each(dataDims, function(dim) {
                         if ('empty' === filterMode) seriesModel.setData(seriesData = seriesData.map(dim, function(value) {
-                            return value >= valueWindow[0] && value <= valueWindow[1] ? value : NaN;
+                            return value >= valueWindow[0] && value <= valueWindow[1] ? value : 0 / 0;
                         }));
                         else {
                             var range = {};
@@ -41315,8 +41315,8 @@
             return to ? axis.coordToData(axis.toLocalCoord(rangeOrCoordRange[i])) : axis.toGlobalCoord(axis.dataToCoord(rangeOrCoordRange[i]));
         })), xyMinMax = [];
         return xyMinMax[axisNameIndex] = values, xyMinMax[1 - axisNameIndex] = [
-            NaN,
-            NaN
+            0 / 0,
+            0 / 0
         ], {
             values: values,
             xyMinMax: xyMinMax
@@ -41357,8 +41357,8 @@
             xyMinMax[0][1] - xyMinMax[0][0],
             xyMinMax[1][1] - xyMinMax[1][0]
         ] : [
-            NaN,
-            NaN
+            0 / 0,
+            0 / 0
         ];
     }
     var DATA_ZOOM_ID_BASE = INTERNAL_COMPONENT_ID_PREFIX + 'toolbox-dataZoom_', DataZoomFeature = /** @class */ function(_super) {
@@ -46889,7 +46889,7 @@
                     linearMap(hoverRange[1], sizeExtent, dataExtent, !0)
                 ];
                 // where china and india has very large population.
-                hoverRange[0] < sizeExtent[0] && (valueRange[0] = -1 / 0), hoverRange[1] > sizeExtent[1] && (valueRange[1] = 1 / 0), hoverOnBar && (valueRange[0] === -1 / 0 ? this._showIndicator(cursorValue, valueRange[1], '< ', halfHoverLinkSize1) : valueRange[1] === 1 / 0 ? this._showIndicator(cursorValue, valueRange[0], '> ', halfHoverLinkSize1) : this._showIndicator(cursorValue, cursorValue, '≈ ', halfHoverLinkSize1));
+                hoverRange[0] < sizeExtent[0] && (valueRange[0] = -1 / 0), hoverRange[1] > sizeExtent[1] && (valueRange[1] = 1 / 0), hoverOnBar && (-1 / 0 === valueRange[0] ? this._showIndicator(cursorValue, valueRange[1], '< ', halfHoverLinkSize1) : 1 / 0 === valueRange[1] ? this._showIndicator(cursorValue, valueRange[0], '> ', halfHoverLinkSize1) : this._showIndicator(cursorValue, cursorValue, '≈ ', halfHoverLinkSize1));
                 // also trigger hoverLink, which help user to realize where they
                 // focus on when dragging. (see test/heatmap-large.html)
                 // When realtime is set as true, highlight will not show when hover
@@ -47251,7 +47251,7 @@
             else if (null != piece.value) representValue = piece.value;
             else {
                 var pieceInterval = piece.interval || [];
-                representValue = pieceInterval[0] === -1 / 0 && pieceInterval[1] === 1 / 0 ? 0 : (pieceInterval[0] + pieceInterval[1]) / 2;
+                representValue = -1 / 0 === pieceInterval[0] && 1 / 0 === pieceInterval[1] ? 0 : (pieceInterval[0] + pieceInterval[1]) / 2;
             }
             return representValue;
         }, PiecewiseModel.prototype.getVisualMeta = function(getColorVisual) {
@@ -47263,12 +47263,12 @@
                 ], visualMapModel = this, pieceList = this._pieceList.slice();
                 if (pieceList.length) {
                     var edge = pieceList[0].interval[0];
-                    edge !== -1 / 0 && pieceList.unshift({
+                    -1 / 0 !== edge && pieceList.unshift({
                         interval: [
                             -1 / 0,
                             edge
                         ]
-                    }), (edge = pieceList[pieceList.length - 1].interval[1]) !== 1 / 0 && pieceList.push({
+                    }), 1 / 0 !== (edge = pieceList[pieceList.length - 1].interval[1]) && pieceList.push({
                         interval: [
                             edge,
                             1 / 0
@@ -47299,7 +47299,7 @@
                 }); // Not category
                 valueState || (valueState = visualMapModel.getValueState(representValue));
                 var color = getColorVisual(representValue, valueState);
-                interval[0] === -1 / 0 ? outerColors[0] = color : interval[1] === 1 / 0 ? outerColors[1] = color : stops.push({
+                -1 / 0 === interval[0] ? outerColors[0] = color : 1 / 0 === interval[1] ? outerColors[1] = color : stops.push({
                     value: interval[0],
                     color: color
                 }, {
@@ -47419,7 +47419,7 @@
                         ][lg], i = 0; i < 3 && null == interval[lg]; i++)interval[lg] = pieceListItem[names[i]], close_1[lg] = closeList[i], useMinMax[lg] = 2 === i;
                         null == interval[lg] && (interval[lg] = infinityList[lg]);
                     }
-                    useMinMax[0] && interval[1] === 1 / 0 && (close_1[0] = 0), useMinMax[1] && interval[0] === -1 / 0 && (close_1[1] = 0), interval[0] > interval[1] && console.warn('Piece ' + index + 'is illegal: ' + interval + ' lower bound should not greater then uppper bound.'), interval[0] === interval[1] && close_1[0] && close_1[1] && // Consider: [{min: 5, max: 5, visual: {...}}, {min: 0, max: 5}],
+                    useMinMax[0] && 1 / 0 === interval[1] && (close_1[0] = 0), useMinMax[1] && -1 / 0 === interval[0] && (close_1[1] = 0), interval[0] > interval[1] && console.warn('Piece ' + index + 'is illegal: ' + interval + ' lower bound should not greater then uppper bound.'), interval[0] === interval[1] && close_1[0] && close_1[1] && // Consider: [{min: 5, max: 5, visual: {...}}, {min: 0, max: 5}],
                     // we use value to lift the priority when min === max
                     (item.value = interval[0]);
                 }

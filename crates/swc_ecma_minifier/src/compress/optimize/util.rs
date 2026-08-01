@@ -15,6 +15,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+#[cfg(debug_assertions)]
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
@@ -440,6 +441,7 @@ impl Finalizer<'_> {
     fn check(&mut self, e: &mut Expr, mode: FinalizerMode) {
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id(), mode) {
+                #[cfg(debug_assertions)]
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -528,6 +530,8 @@ impl VisitMut for Finalizer<'_> {
                             _ => break 'a,
                         },
                         MemberProp::PrivateName(_) => break 'a,
+                        #[cfg(swc_ast_unknown)]
+                        _ => break 'a,
                     };
 
                     if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), sym.clone())) {
@@ -708,6 +712,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
 
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id()) {
+                #[cfg(debug_assertions)]
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -729,6 +734,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
         #[cfg(feature = "debug")]
         if !self.vars.is_empty() {
             let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
+            #[cfg(debug_assertions)]
             debug!("Dropping {:?}", keys);
         }
     }
@@ -738,6 +744,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
 
         if let Prop::Shorthand(i) = p {
             if let Some(value) = self.var(&i.to_id()) {
+                #[cfg(debug_assertions)]
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
                 self.changed = true;
 

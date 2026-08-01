@@ -6,7 +6,6 @@ use swc_ecma_utils::{
     find_pat_ids, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-use swc_timer::timer;
 
 pub use self::ctx::Ctx;
 use self::storage::*;
@@ -24,8 +23,6 @@ where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
 {
-    let _timer = timer!("analyze");
-
     let mut v = UsageAnalyzer {
         data,
         marks,
@@ -47,8 +44,13 @@ where
         top_scope.merge(scope.clone(), true);
     }
 
-    v.data.top_scope().merge(top_scope.clone(), false);
-    v.data.scope(SyntaxContext::empty()).merge(top_scope, false);
+    v.data
+        .scope(
+            marks
+                .map(|m| m.top_level_ctxt)
+                .unwrap_or(SyntaxContext::empty()),
+        )
+        .merge(top_scope, false);
 
     v.data
 }
@@ -228,6 +230,68 @@ where
             });
         }
     }
+
+    fn store_function_arity(&mut self, id: Id, function: &Function) {
+        let scope = self.data.scope(function.ctxt);
+
+        let known = !scope.used_arguments()
+            && !scope.used_eval()
+            && !function.params.iter().any(|p| p.pat.is_rest());
+
+        let arity = if known {
+            Self::param_count_to_value(function.params.len())
+        } else {
+            Value::Unknown
+        };
+
+        self.data.var_or_default(id).store_param_count(arity);
+    }
+
+    fn store_arrow_arity(&mut self, id: Id, arrow: &ArrowExpr) {
+        let scope = self.data.scope(arrow.ctxt);
+        let known = !scope.used_eval() && !arrow.params.iter().any(|p| p.is_rest());
+
+        let arity = if known {
+            Self::param_count_to_value(arrow.params.len())
+        } else {
+            Value::Unknown
+        };
+
+        self.data.var_or_default(id).store_param_count(arity);
+    }
+
+    fn store_class_arity(&mut self, id: Id, class: &Class) {
+        let constructor = class
+            .body
+            .iter()
+            .filter_map(|s| s.as_constructor())
+            .find(|c| c.body.is_some());
+
+        let arity = if let Some(c) = constructor {
+            let scope = self.data.scope(c.ctxt);
+            let known = !scope.used_arguments()
+                && !scope.used_eval()
+                && !c
+                    .params
+                    .iter()
+                    .filter_map(|p| p.as_param())
+                    .any(|p| p.pat.is_rest());
+
+            if known {
+                Self::param_count_to_value(c.params.len())
+            } else {
+                Value::Unknown
+            }
+        } else {
+            if class.super_class.is_some() {
+                Value::Unknown
+            } else {
+                Value::Known(0)
+            }
+        };
+
+        self.data.var_or_default(id).store_param_count(arity);
+    }
 }
 
 impl<S> Visit for UsageAnalyzer<S>
@@ -242,7 +306,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
@@ -269,7 +333,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
@@ -340,28 +404,13 @@ where
         if let (Some(id), op!("=")) = (&n.left.as_ident(), n.op) {
             match &*n.right {
                 Expr::Fn(n) => {
-                    let scope = self.data.scope(n.function.ctxt);
-                    let known = !scope.used_arguments()
-                        && !scope.used_eval()
-                        && !n.function.params.iter().any(|p| p.pat.is_rest());
-                    let data = self.data.var_or_default(id.id.to_id());
-
-                    if known {
-                        data.store_param_count(Self::param_count_to_value(n.function.params.len()));
-                    } else {
-                        data.store_param_count(Value::Unknown);
-                    }
+                    self.store_function_arity(id.id.to_id(), &n.function);
                 }
                 Expr::Arrow(n) => {
-                    let scope = self.data.scope(n.ctxt);
-                    let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
-                    let data = self.data.var_or_default(id.id.to_id());
-
-                    if known {
-                        data.store_param_count(Self::param_count_to_value(n.params.len()));
-                    } else {
-                        data.store_param_count(Value::Unknown)
-                    }
+                    self.store_arrow_arity(id.id.to_id(), n);
+                }
+                Expr::Class(c) => {
+                    self.store_class_arity(id.id.to_id(), &c.class);
                 }
                 _ => self
                     .data
@@ -391,7 +440,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
@@ -439,7 +488,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
@@ -447,7 +496,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
@@ -457,7 +506,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_call_expr(&mut self, n: &CallExpr) {
@@ -565,7 +614,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_catch_clause(&mut self, n: &CatchClause) {
@@ -584,7 +633,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class(&mut self, n: &Class) {
@@ -601,7 +650,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_decl(&mut self, n: &ClassDecl) {
@@ -612,11 +661,13 @@ where
             .insert(id.clone(), RecursiveUsage::FnOrClass);
         n.visit_children_with(self);
 
+        self.store_class_arity(n.ident.to_id(), &n.class);
+
         self.used_recursively.remove(&id);
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_expr(&mut self, n: &ClassExpr) {
@@ -634,7 +685,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_method(&mut self, n: &ClassMethod) {
@@ -652,7 +703,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_prop(&mut self, n: &ClassProp) {
@@ -662,7 +713,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_computed_prop_name(&mut self, n: &ComputedPropName) {
@@ -672,7 +723,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_cond_expr(&mut self, n: &CondExpr) {
@@ -693,7 +744,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_constructor(&mut self, n: &Constructor) {
@@ -729,7 +780,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
@@ -740,7 +791,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_export_decl(&mut self, n: &ExportDecl) {
@@ -765,7 +816,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
@@ -789,7 +840,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip(self, e))
     )]
     fn visit_expr(&mut self, e: &Expr) {
@@ -824,7 +875,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_expr_or_spread(&mut self, e: &ExprOrSpread) {
@@ -840,7 +891,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
@@ -878,22 +929,11 @@ where
             }
         }
 
-        let scope = self.data.scope(n.function.ctxt);
-        let known = !scope.used_arguments()
-            && !scope.used_eval()
-            && !n.function.params.iter().any(|p| p.pat.is_rest());
-
-        let data = self.data.var_or_default(n.ident.to_id());
-
-        if known {
-            data.store_param_count(Self::param_count_to_value(n.function.params.len()));
-        } else {
-            data.store_param_count(Value::Unknown);
-        }
+        self.store_function_arity(id, &n.function);
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_fn_expr(&mut self, n: &FnExpr) {
@@ -931,7 +971,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
@@ -962,7 +1002,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
@@ -990,7 +1030,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_for_stmt(&mut self, n: &ForStmt) {
@@ -1007,7 +1047,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_function(&mut self, n: &Function) {
@@ -1028,7 +1068,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_getter_prop(&mut self, n: &GetterProp) {
@@ -1044,7 +1084,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_if_stmt(&mut self, n: &IfStmt) {
@@ -1068,7 +1108,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
@@ -1095,7 +1135,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip(self, e))
     )]
     fn visit_member_expr(&mut self, e: &MemberExpr) {
@@ -1155,7 +1195,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_method_prop(&mut self, n: &MethodProp) {
@@ -1185,7 +1225,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_new_expr(&mut self, n: &NewExpr) {
@@ -1207,7 +1247,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_param(&mut self, n: &Param) {
@@ -1227,7 +1267,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_pat(&mut self, n: &Pat) {
@@ -1245,7 +1285,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_private_method(&mut self, n: &PrivateMethod) {
@@ -1263,7 +1303,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_private_prop(&mut self, n: &PrivateProp) {
@@ -1272,7 +1312,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_prop(&mut self, n: &Prop) {
@@ -1306,7 +1346,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_setter_prop(&mut self, n: &SetterProp) {
@@ -1326,7 +1366,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_spread_element(&mut self, e: &SpreadElement) {
@@ -1340,7 +1380,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_stmt(&mut self, n: &Stmt) {
@@ -1370,7 +1410,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip(self, e))
     )]
     fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
@@ -1386,7 +1426,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
@@ -1407,7 +1447,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_tagged_tpl(&mut self, n: &TaggedTpl) {
@@ -1424,7 +1464,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_tpl(&mut self, n: &Tpl) {
@@ -1433,7 +1473,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_try_stmt(&mut self, n: &TryStmt) {
@@ -1442,7 +1482,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_unary_expr(&mut self, n: &UnaryExpr) {
@@ -1453,7 +1493,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
@@ -1464,7 +1504,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_var_decl(&mut self, n: &VarDecl) {
@@ -1501,30 +1541,13 @@ where
 
                 match init {
                     Expr::Fn(n) => {
-                        let scope = self.data.scope(n.function.ctxt);
-                        let known = !scope.used_arguments()
-                            && !scope.used_eval()
-                            && !n.function.params.iter().any(|p| p.pat.is_rest());
-                        let data = self.data.var_or_default(var.id.to_id());
-
-                        if known {
-                            data.store_param_count(Self::param_count_to_value(
-                                n.function.params.len(),
-                            ));
-                        } else {
-                            data.store_param_count(Value::Unknown);
-                        }
+                        self.store_function_arity(var.id.to_id(), &n.function);
                     }
                     Expr::Arrow(n) => {
-                        let scope = self.data.scope(n.ctxt);
-                        let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
-                        let data = self.data.var_or_default(var.id.to_id());
-
-                        if known {
-                            data.store_param_count(Self::param_count_to_value(n.params.len()));
-                        } else {
-                            data.store_param_count(Value::Unknown)
-                        }
+                        self.store_arrow_arity(var.id.to_id(), n);
+                    }
+                    Expr::Class(c) => {
+                        self.store_class_arity(var.id.to_id(), &c.class);
                     }
                     _ => self
                         .data
@@ -1544,7 +1567,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip(self, e))
     )]
     fn visit_var_declarator(&mut self, e: &VarDeclarator) {
@@ -1624,7 +1647,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
@@ -1638,7 +1661,7 @@ where
     }
 
     #[cfg_attr(
-        feature = "tracing-spans",
+        all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_with_stmt(&mut self, n: &WithStmt) {

@@ -5,19 +5,17 @@ describe("transform", () => {
         const output = swc.transformSync("class Foo {}", {});
 
         expect(output).toMatchInlineSnapshot(`
-            {
-              "code": "function _class_call_check(instance, Constructor) {
-                if (!(instance instanceof Constructor)) {
-                    throw new TypeError("Cannot call a class as a function");
-                }
-            }
-            var Foo = function Foo() {
-                "use strict";
-                _class_call_check(this, Foo);
-            };
-            ",
-              "diagnostics": [],
-            }
+          {
+            "code": "function _class_call_check(instance, Constructor) {
+              if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+          }
+          var Foo = function Foo() {
+              "use strict";
+              _class_call_check(this, Foo);
+          };
+          ",
+            "diagnostics": [],
+          }
         `);
     });
 
@@ -25,19 +23,17 @@ describe("transform", () => {
         const output = await swc.transform("class Foo {}", {});
 
         expect(output).toMatchInlineSnapshot(`
-            {
-              "code": "function _class_call_check(instance, Constructor) {
-                if (!(instance instanceof Constructor)) {
-                    throw new TypeError("Cannot call a class as a function");
-                }
-            }
-            var Foo = function Foo() {
-                "use strict";
-                _class_call_check(this, Foo);
-            };
-            ",
-              "diagnostics": [],
-            }
+          {
+            "code": "function _class_call_check(instance, Constructor) {
+              if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+          }
+          var Foo = function Foo() {
+              "use strict";
+              _class_call_check(this, Foo);
+          };
+          ",
+            "diagnostics": [],
+          }
         `);
     });
 
@@ -49,19 +45,17 @@ describe("transform", () => {
 
         const output = await swc.transform(input, {});
         expect(output).toMatchInlineSnapshot(`
-            {
-              "code": "function _class_call_check(instance, Constructor) {
-                if (!(instance instanceof Constructor)) {
-                    throw new TypeError("Cannot call a class as a function");
-                }
-            }
-            var Foo = function Foo() {
-                "use strict";
-                _class_call_check(this, Foo);
-            };
-            ",
-              "diagnostics": [],
-            }
+          {
+            "code": "function _class_call_check(instance, Constructor) {
+              if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+          }
+          var Foo = function Foo() {
+              "use strict";
+              _class_call_check(this, Foo);
+          };
+          ",
+            "diagnostics": [],
+          }
         `);
     });
 

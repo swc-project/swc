@@ -19,7 +19,7 @@ impl DiagnosticContextHostEnvironment {
     }
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn set_plugin_core_pkg_diagnostics(
     caller: &mut dyn runtime::Caller<'_>,
     env: &DiagnosticContextHostEnvironment,

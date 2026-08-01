@@ -6,11 +6,11 @@ use swc_config::file_pattern::FilePattern;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
-    FunctionFactory, IsDirective,
+    FunctionFactory,
 };
 
 use crate::{
-    module_decl_strip::{ExportItem, ExportKV},
+    module_record::{ExportBinding, LocalExportEntry},
     SpanCtx,
 };
 
@@ -33,7 +33,7 @@ pub struct Config {
     /// swc will emit `cjs-module-lexer` detectable annotation with this option
     /// enabled.
     ///
-    /// Defaults to `true` if import_interop is Node, else `false`
+    /// Defaults to `true` if `import_interop` is Node, else `false`
     #[serde(default)]
     pub export_interop_annotation: Option<bool>,
     #[serde(default)]
@@ -52,6 +52,7 @@ pub struct Config {
 }
 
 impl Config {
+    #[must_use]
     pub fn default_js_ext() -> String {
         "js".to_string()
     }
@@ -100,12 +101,14 @@ impl From<bool> for ImportInterop {
 
 impl Config {
     #[inline(always)]
+    #[must_use]
     pub fn import_interop(&self) -> ImportInterop {
         self.import_interop
             .unwrap_or_else(|| self.no_interop.into())
     }
 
     #[inline(always)]
+    #[must_use]
     pub fn export_interop_annotation(&self) -> bool {
         self.export_interop_annotation
             .unwrap_or_else(|| self.import_interop == Some(ImportInterop::Node))
@@ -119,6 +122,7 @@ pub struct LazyObjectConfig {
 }
 
 impl LazyObjectConfig {
+    #[must_use]
     pub fn is_lazy(&self, src: &Atom) -> bool {
         self.patterns.iter().any(|pat| pat.is_match(src))
     }
@@ -133,6 +137,7 @@ pub enum Lazy {
 }
 
 impl Lazy {
+    #[must_use]
     pub fn is_lazy(&self, src: &Atom) -> bool {
         match *self {
             Lazy::Bool(false) => false,
@@ -157,14 +162,14 @@ pub(super) fn local_name_for_src(src: &Atom) -> Atom {
         .unwrap_or(src);
 
     let id = match Ident::verify_symbol(src) {
-        Ok(_) => src.into(),
+        Ok(()) => src.into(),
         Err(err) => err,
     };
 
-    if !id.starts_with('_') {
-        format!("_{id}").into()
-    } else {
+    if id.starts_with('_') {
         id.into()
+    } else {
+        format!("_{id}").into()
     }
 }
 
@@ -207,35 +212,6 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
         .as_arg(),
     )
     .into_stmt()
-}
-
-pub(super) trait VecStmtLike {
-    type StmtLike: IsDirective;
-
-    fn as_ref(&self) -> &[Self::StmtLike];
-
-    fn has_use_strict(&self) -> bool {
-        self.as_ref()
-            .iter()
-            .take_while(|s| s.directive_continue())
-            .any(IsDirective::is_use_strict)
-    }
-}
-
-impl VecStmtLike for [ModuleItem] {
-    type StmtLike = ModuleItem;
-
-    fn as_ref(&self) -> &[Self::StmtLike] {
-        self
-    }
-}
-
-impl VecStmtLike for [Stmt] {
-    type StmtLike = Stmt;
-
-    fn as_ref(&self) -> &[Self::StmtLike] {
-        self
-    }
 }
 
 pub(super) fn use_strict() -> Stmt {
@@ -335,11 +311,11 @@ pub(crate) fn esm_export() -> Function {
 /// Sort export properties by key without allocating cached keys or cloning
 /// `Atom`s for each entry.
 #[inline]
-pub(crate) fn sort_export_obj_prop_list(prop_list: &mut [ExportKV]) {
+pub(crate) fn sort_export_bindings(prop_list: &mut [ExportBinding]) {
     prop_list.sort_unstable_by(|a, b| a.0.cmp(&b.0));
 }
 
-pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) -> Vec<Stmt> {
+pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportBinding>) -> Vec<Stmt> {
     match prop_list.len() {
         0 | 1 => prop_list
             .pop()
@@ -349,7 +325,7 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
                     quote_str!(export_item.export_name_span().0, export_name).as_arg(),
                     prop_function((
                         "get".into(),
-                        ExportItem::new(Default::default(), export_item.into_local_ident()),
+                        LocalExportEntry::new(Default::default(), export_item.into_local_ident()),
                     ))
                     .into(),
                 )
@@ -423,7 +399,7 @@ impl From<IdentOrStr> for MemberProp {
 ///     },
 /// }
 /// ```
-pub(crate) fn prop_function((key, export_item): ExportKV) -> Prop {
+pub(crate) fn prop_function((key, export_item): ExportBinding) -> Prop {
     let key = prop_name(&key, export_item.export_name_span()).into();
 
     KeyValueProp {
@@ -447,7 +423,7 @@ pub(crate) fn prop_function((key, export_item): ExportKV) -> Prop {
 /// }
 /// ```
 /// Compatibility: getter is supported in Node.js v0.10+
-fn getter_function((key, export_item): ExportKV) -> Prop {
+fn getter_function((key, export_item): ExportBinding) -> Prop {
     let key = prop_name(&key, export_item.export_name_span()).into();
 
     GetterProp {

@@ -26,8 +26,8 @@
                 a__3 = !1;
             }
             const e__3 = ()=>typeof document == "object" && !!document, l__3 = ()=>e__3() && /(edge)/i.test(navigator.userAgent), c__3 = ()=>e__3() && /(msie|trident)/i.test(navigator.userAgent), y__3 = ()=>e__3() && !!(window.chrome || a__3) && typeof CSS < "u" && !l__3() && !c__3(), g__3 = ()=>e__3() && /AppleWebKit/i.test(navigator.userAgent) && !y__3() && !l__3() && !c__3(), w__3 = ()=>e__3() && /iPad|iPhone|iPod/.test(navigator.userAgent) && !("MSStream" in window), v__3 = ()=>e__3() && /(firefox|minefield)/i.test(navigator.userAgent), A__3 = ()=>e__3() && /android/i.test(navigator.userAgent) && !c__3(), E__3 = ()=>e__3() && /safari/i.test(navigator.userAgent) && g__3(), p__3 = ()=>!!globalThis.next, S__3 = ()=>{
-                var t__10, n__10;
-                return (n__10 = (t__10 = navigator.userAgentData) == null ? void 0 : t__10.brands) == null ? void 0 : n__10.some((o__11)=>o__11.brand == "Chromium");
+                var t__20, n__20;
+                return (n__20 = (t__20 = navigator.userAgentData) == null ? void 0 : t__20.brands) == null ? void 0 : n__20.some((o__21)=>o__21.brand == "Chromium");
             };
         }
     }

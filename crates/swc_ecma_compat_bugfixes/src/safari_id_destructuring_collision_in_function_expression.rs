@@ -6,7 +6,6 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 pub fn safari_id_destructuring_collision_in_function_expression() -> impl Pass {
     visit_mut_pass(SafariIdDestructuringCollisionInFunctionExpression::default())
@@ -30,7 +29,6 @@ impl SafariIdDestructuringCollisionInFunctionExpression {
     }
 }
 
-#[swc_trace]
 impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     noop_visit_mut_type!(fail);
 

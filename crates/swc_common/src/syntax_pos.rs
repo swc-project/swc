@@ -30,22 +30,14 @@ pub mod hygiene;
 /// `BytePos` range between files.
 #[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Span {
     #[serde(rename = "start")]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub lo: BytePos,
     #[serde(rename = "end")]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub hi: BytePos,
 }
 
@@ -167,21 +159,9 @@ better_scoped_tls::scoped_tls!(
     pub static GLOBALS: Globals
 );
 
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd, Hash)]
 pub enum FileName {
-    Real(
-        #[cfg_attr(
-            any(feature = "rkyv-impl"),
-            rkyv(with = crate::source_map::EncodePathBuf)
-        )]
-        PathBuf,
-    ),
+    Real(PathBuf),
     /// A macro. This includes the full name of the macro, so that there are no
     /// clashes.
     Macros(String),
@@ -192,7 +172,7 @@ pub enum FileName {
     /// Hack in src/libsyntax/parse.rs
     MacroExpansion,
     ProcMacroSourceCode,
-    Url(#[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = crate::source_map::EncodeUrl))] Url),
+    Url(Url),
     Internal(String),
     /// Custom sources for explicit parser calls from plugins and drivers
     Custom(String),
@@ -296,103 +276,6 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for FileName {
     }
 }
 
-/// A wrapper that attempts to convert a type to and from UTF-8.
-///
-/// Types like `OsString` and `PathBuf` aren't guaranteed to be encoded as
-/// UTF-8, but they usually are anyway. Using this wrapper will archive them as
-/// if they were regular `String`s.
-///
-/// There is built-in `AsString` supports PathBuf but it requires custom
-/// serializer wrapper to handle conversion errors. This wrapper is simplified
-/// version accepts errors
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodePathBuf;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<PathBuf> for EncodePathBuf {
-    type Archived = rkyv::string::ArchivedString;
-    type Resolver = rkyv::string::StringResolver;
-
-    #[inline]
-    fn resolve_with(field: &PathBuf, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        // It's safe to unwrap here because if the OsString wasn't valid UTF-8 it would
-        // have failed to serialize
-        rkyv::string::ArchivedString::resolve_from_str(field.to_str().unwrap(), resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<PathBuf, S> for EncodePathBuf
-where
-    S: ?Sized + rancor::Fallible + rkyv::ser::Writer,
-    S::Error: rancor::Source,
-{
-    #[inline]
-    fn serialize_with(field: &PathBuf, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        let s = field.to_str().unwrap_or_default();
-        rkyv::string::ArchivedString::serialize_from_str(s, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::string::ArchivedString, PathBuf, D> for EncodePathBuf
-where
-    D: ?Sized + rancor::Fallible,
-{
-    #[inline]
-    fn deserialize_with(
-        field: &rkyv::string::ArchivedString,
-        _: &mut D,
-    ) -> Result<PathBuf, D::Error> {
-        Ok(<PathBuf as std::str::FromStr>::from_str(field.as_str()).unwrap())
-    }
-}
-
-/// A wrapper that attempts to convert a Url to and from String.
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodeUrl;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<Url> for EncodeUrl {
-    type Archived = rkyv::string::ArchivedString;
-    type Resolver = rkyv::string::StringResolver;
-
-    #[inline]
-    fn resolve_with(field: &Url, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        rkyv::string::ArchivedString::resolve_from_str(field.as_str(), resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<Url, S> for EncodeUrl
-where
-    S: ?Sized + rancor::Fallible + rkyv::ser::Writer,
-    S::Error: rancor::Source,
-{
-    #[inline]
-    fn serialize_with(field: &Url, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        let field = field.as_str();
-        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Url, D> for EncodeUrl
-where
-    D: ?Sized + rancor::Fallible,
-{
-    #[inline]
-    fn deserialize_with(field: &rkyv::string::ArchivedString, _: &mut D) -> Result<Url, D::Error> {
-        Ok(Url::parse(field.as_str()).unwrap())
-    }
-}
-
 impl std::fmt::Display for FileName {
     fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
@@ -460,12 +343,6 @@ impl FileName {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -482,12 +359,6 @@ pub struct PrimarySpanLabel(pub Span, pub String);
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -795,12 +666,6 @@ impl From<Vec<Span>> for MultiSpan {
 pub const NO_EXPANSION: SyntaxContext = SyntaxContext::empty();
 
 /// Identifies an offset of a multi-byte character in a SourceFile
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub struct MultiByteChar {
     /// The absolute offset of the character in the SourceMap
@@ -825,12 +690,6 @@ impl MultiByteChar {
 }
 
 /// Identifies an offset of a non-narrow character in a SourceFile
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum NonNarrowChar {
     /// Represents a zero-width character
@@ -893,12 +752,6 @@ impl Sub<BytePos> for NonNarrowChar {
 }
 
 /// A single source in the SourceMap.
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[derive(Clone)]
 pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
@@ -923,12 +776,6 @@ pub struct SourceFile {
     lazy: CacheCell<SourceFileAnalysis>,
 }
 
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[derive(Clone)]
 pub struct SourceFileAnalysis {
     /// Stable hash of the source code.
@@ -1203,14 +1050,8 @@ pub trait SmallPos {
 )]
 #[serde(transparent)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-pub struct BytePos(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))] pub u32);
+pub struct BytePos(pub u32);
 
 #[cfg(feature = "encoding-impl")]
 impl cbor4ii::core::enc::Encode for BytePos {
@@ -1273,12 +1114,6 @@ impl BytePos {
 /// A character offset. Because of multibyte utf8 characters, a byte offset
 /// is not equivalent to a character offset. The SourceMap will convert BytePos
 /// values to CharPos values as necessary.
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 #[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 pub struct CharPos(
@@ -1374,7 +1209,7 @@ impl Sub for CharPos {
 
 /// A source code location used for error reporting.
 ///
-/// Note: This struct intentionally does not implement rkyv's archieve
+/// Note: This struct intentionally does not implement an archive format
 /// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
 /// source_map_proxy constructs plugin-side Loc instead with shared SourceFile
 /// instance.
@@ -1392,12 +1227,6 @@ pub struct Loc {
 
 /// A struct to exchange `Loc` with omitting SourceFile as needed.
 /// This is internal struct between plugins to the host, not a public interface.
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Debug, Clone)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub struct PartialLoc {
     #[cfg_attr(
@@ -1432,12 +1261,6 @@ pub struct SourceFileAndLine {
 }
 
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -1452,12 +1275,6 @@ pub struct SourceFileAndBytePos {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub struct LineInfo {
     /// Index of line, starting from 0.
@@ -1483,7 +1300,7 @@ pub struct LineCol {
 
 /// A struct to represent lines of a source file.
 ///
-/// Note: This struct intentionally does not implement rkyv's archieve
+/// Note: This struct intentionally does not implement an archive format
 /// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
 /// source_map_proxy constructs plugin-side Loc instead with shared SourceFile
 /// instance.
@@ -1494,12 +1311,6 @@ pub struct FileLines {
 
 /// A struct to exchange `FileLines` with omitting SourceFile as needed.
 /// This is internal struct between plugins to the host, not a public interface.
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Debug, Clone)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -1524,12 +1335,6 @@ pub type PartialFileLinesResult = Result<PartialFileLines, Box<SpanLinesError>>;
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -1539,12 +1344,6 @@ pub enum SpanLinesError {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 pub enum SpanSnippetError {
     DummyBytePos,
     IllFormedSpan(Span),
@@ -1613,12 +1412,6 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for SpanSnippetError {
 /// This type is small.
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -1627,12 +1420,6 @@ pub enum SourceMapLookupError {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -1648,12 +1435,6 @@ pub struct FilePos(
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -1663,12 +1444,6 @@ pub struct DistinctSources {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)

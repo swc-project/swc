@@ -7,6 +7,7 @@ use std::{
 };
 
 use serde::Serialize;
+#[cfg(debug_assertions)]
 use tracing::debug;
 
 use crate::paths;
@@ -134,11 +135,14 @@ impl NormalizedOutput {
     {
         let path = path.as_ref();
         let path = path.canonicalize().unwrap_or_else(|err| {
+            #[cfg(debug_assertions)]
             debug!(
                 "compare_to_file: failed to canonicalize outfile path `{}`: {:?}",
                 path.display(),
                 err
             );
+            #[cfg(not(debug_assertions))]
+            let _ = err;
             path.to_path_buf()
         });
 
@@ -160,6 +164,7 @@ impl NormalizedOutput {
             return Ok(());
         }
 
+        #[cfg(debug_assertions)]
         debug!("Comparing output to {}", path.display());
         create_dir_all(path.parent().unwrap()).expect("failed to run `mkdir -p`");
 
@@ -167,6 +172,7 @@ impl NormalizedOutput {
         if update {
             crate::write_to_file(&path, &self.0);
 
+            #[cfg(debug_assertions)]
             debug!("Updating file {}", path.display());
             return Ok(());
         }

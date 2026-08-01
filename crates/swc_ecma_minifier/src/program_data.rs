@@ -42,8 +42,6 @@ pub(crate) struct ProgramData {
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 
-    pub(crate) top: ScopeData,
-
     scopes: Vec<ScopeData>,
 
     pub(crate) property_atoms: Option<Vec<Wtf8Atom>>,
@@ -212,10 +210,6 @@ impl Storage for ProgramData {
 
     fn scopes(&self) -> &[ScopeData] {
         &self.scopes
-    }
-
-    fn top_scope(&mut self) -> &mut Self::ScopeData {
-        &mut self.top
     }
 
     fn var_or_default(&mut self, id: Id) -> &mut Self::VarData {
@@ -483,6 +477,7 @@ impl Storage for ProgramData {
             {
                 #[cfg(feature = "debug")]
                 {
+                    #[cfg(debug_assertions)]
                     tracing::trace!("declare_decl(`{}`): Already declared", i);
                 }
 

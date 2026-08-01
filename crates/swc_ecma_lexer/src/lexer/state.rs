@@ -3,6 +3,7 @@ use std::mem::take;
 use smallvec::{smallvec, SmallVec};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
+#[cfg(debug_assertions)]
 use tracing::trace;
 
 use super::{Context, Input, Lexer, LexerTrait};
@@ -56,6 +57,7 @@ pub struct State {
 impl State {
     pub(super) fn update(&mut self, start: BytePos, next: TokenKind) {
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             tracing::trace!(
                 "updating state: next={:?}, had_line_break={} ",
                 next,
@@ -928,6 +930,7 @@ impl TokenContexts {
     pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             trace!("context.pop({:?}): {:?}", opt, self.0);
         }
         opt
@@ -943,6 +946,7 @@ impl TokenContexts {
         self.0.push(t);
 
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             trace!("context.push({:?}): {:?}", t, self.0);
         }
     }

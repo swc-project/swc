@@ -6021,7 +6021,7 @@
              *         Time formatted as H:MM:SS or M:SS
              */ var defaultImplementation = function(seconds, guide) {
                 var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600), gm = Math.floor(guide / 60 % 60), gh = Math.floor(guide / 3600);
-                return (isNaN(seconds) || seconds === 1 / 0) && // '-' is false for all relational operators (e.g. <, >=) so this setting
+                return (isNaN(seconds) || 1 / 0 === seconds) && // '-' is false for all relational operators (e.g. <, >=) so this setting
                 // will add the minimum number of fields specified by the guide
                 (h = m = s = "-"), // Always show at least one digit of minutes.
                 m = (((h = h > 0 || gh > 0 ? h + ":" : "") || gm >= 10) && m < 10 ? "0" + m : m) + ":", h + m + (s = s < 10 ? "0" + s : s);
@@ -6382,7 +6382,7 @@
                  *
                  * @listens Player#durationchange
                  */ _proto.updateShowing = function(event) {
-                    this.player().duration() === 1 / 0 ? this.show() : this.hide();
+                    1 / 0 === this.player().duration() ? this.show() : this.hide();
                 }, LiveDisplay;
             }(Component$1);
             Component$1.registerComponent("LiveDisplay", LiveDisplay);
@@ -7050,7 +7050,7 @@
                             var seekableStart = liveTracker.seekableStart(), seekableEnd = liveTracker.liveCurrentTime();
                             // this will cause newTime to be Infinity, which is
                             // not a valid currentTime.
-                            if ((newTime = seekableStart + distance * liveTracker.liveWindow()) >= seekableEnd && (newTime = seekableEnd), newTime <= seekableStart && (newTime = seekableStart + 0.1), newTime === 1 / 0) return;
+                            if ((newTime = seekableStart + distance * liveTracker.liveWindow()) >= seekableEnd && (newTime = seekableEnd), newTime <= seekableStart && (newTime = seekableStart + 0.1), 1 / 0 === newTime) return;
                         } else (newTime = distance * this.player_.duration()) === this.player_.duration() && (newTime -= 0.1);
                          // Set new time (tell player to seek to new time)
                         this.userSeek_(newTime);
@@ -10249,7 +10249,7 @@
                  * toggle tracking based on document visiblility
                  */ var _proto = LiveTracker.prototype;
                 return _proto.handleVisibilityChange = function() {
-                    this.player_.duration() === 1 / 0 && (global_document__WEBPACK_IMPORTED_MODULE_1___default().hidden ? this.stopTracking() : this.startTracking());
+                    1 / 0 === this.player_.duration() && (global_document__WEBPACK_IMPORTED_MODULE_1___default().hidden ? this.stopTracking() : this.startTracking());
                 }, /**
                  * all the functionality for tracking when seek end changes
                  * and for tracking how far past seek end we should be
@@ -10259,7 +10259,7 @@
                         var newTime = Number(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now().toFixed(4)), deltaTime = -1 === this.lastTime_ ? 0 : (newTime - this.lastTime_) / 1000;
                         this.lastTime_ = newTime, this.pastSeekEnd_ = this.pastSeekEnd() + deltaTime;
                         var liveCurrentTime = this.liveCurrentTime(), currentTime = this.player_.currentTime(), isBehind = this.player_.paused() || this.seekedBehindLive_ || Math.abs(liveCurrentTime - currentTime) > this.options_.liveTolerance;
-                        this.timeupdateSeen_ && liveCurrentTime !== 1 / 0 || (isBehind = !1), isBehind !== this.behindLiveEdge_ && (this.behindLiveEdge_ = isBehind, this.trigger("liveedgechange"));
+                        this.timeupdateSeen_ && 1 / 0 !== liveCurrentTime || (isBehind = !1), isBehind !== this.behindLiveEdge_ && (this.behindLiveEdge_ = isBehind, this.trigger("liveedgechange"));
                     }
                 }, /**
                  * handle a durationchange event on the player
@@ -10269,7 +10269,7 @@
                 }, /**
                  * start/stop tracking
                  */ _proto.toggleTracking = function() {
-                    this.player_.duration() === 1 / 0 && this.liveWindow() >= this.options_.trackingThreshold ? (this.player_.options_.liveui && this.player_.addClass("vjs-liveui"), this.startTracking()) : (this.player_.removeClass("vjs-liveui"), this.stopTracking());
+                    1 / 0 === this.player_.duration() && this.liveWindow() >= this.options_.trackingThreshold ? (this.player_.options_.liveui && this.player_.addClass("vjs-liveui"), this.startTracking()) : (this.player_.removeClass("vjs-liveui"), this.stopTracking());
                 }, /**
                  * start tracking live playback
                  */ _proto.startTracking = function() {
@@ -10343,7 +10343,7 @@
                  *         the live video.
                  */ _proto.liveWindow = function() {
                     var liveCurrentTime = this.liveCurrentTime(); // if liveCurrenTime is Infinity then we don't have a liveWindow at all
-                    return liveCurrentTime === 1 / 0 ? 0 : liveCurrentTime - this.seekableStart();
+                    return 1 / 0 === liveCurrentTime ? 0 : liveCurrentTime - this.seekableStart();
                 }, /**
                  * Determines if the player is live, only checks if this component
                  * is tracking live playback or not
@@ -10816,9 +10816,9 @@
                     // playback has started, which triggers the live display erroneously.
                     // Return NaN if playback has not started and trigger a durationupdate once
                     // the duration can be reliably known.
-                    this.el_.duration === 1 / 0 && IS_ANDROID && IS_CHROME && 0 === this.el_.currentTime ? (this.on("timeupdate", function checkProgress() {
-                        _this5.el_.currentTime > 0 && (_this5.el_.duration === 1 / 0 && _this5.trigger("durationchange"), _this5.off("timeupdate", checkProgress));
-                    }), NaN) : this.el_.duration || NaN);
+                    1 / 0 === this.el_.duration && IS_ANDROID && IS_CHROME && 0 === this.el_.currentTime ? (this.on("timeupdate", function checkProgress() {
+                        _this5.el_.currentTime > 0 && (1 / 0 === _this5.el_.duration && _this5.trigger("durationchange"), _this5.off("timeupdate", checkProgress));
+                    }), 0 / 0) : this.el_.duration || 0 / 0);
                 }, /**
                  * Get the current width of the HTML5 media element.
                  *
@@ -13060,7 +13060,7 @@
                         currentTime: 0,
                         initTime: 0,
                         inactivityTimeout: this.options_.inactivityTimeout,
-                        duration: NaN,
+                        duration: 0 / 0,
                         lastVolume: 1,
                         lastPlaybackRate: this.defaultPlaybackRate(),
                         media: null,
@@ -13272,10 +13272,10 @@
                  *         - The duration of the video in seconds when getting
                  */ _proto.duration = function(seconds) {
                     if (void 0 === seconds) // return NaN if the duration is not known
-                    return void 0 !== this.cache_.duration ? this.cache_.duration : NaN;
+                    return void 0 !== this.cache_.duration ? this.cache_.duration : 0 / 0;
                     (seconds = parseFloat(seconds)) < 0 && (seconds = 1 / 0), seconds !== this.cache_.duration && (// Cache the last set value for optimized scrubbing (esp. Flash)
                     // TODO: Required for techs other than Flash?
-                    this.cache_.duration = seconds, seconds === 1 / 0 ? this.addClass("vjs-live") : this.removeClass("vjs-live"), isNaN(seconds) || // Do not fire durationchange unless the duration value is known.
+                    this.cache_.duration = seconds, 1 / 0 === seconds ? this.addClass("vjs-live") : this.removeClass("vjs-live"), isNaN(seconds) || // Do not fire durationchange unless the duration value is known.
                     // @see [Spec]{@link https://www.w3.org/TR/2011/WD-html5-20110113/video.html#media-element-load-algorithm}
                     /**
                              * @event Player#durationchange
@@ -15683,7 +15683,7 @@
             }, isBlacklisted = function(playlist) {
                 return playlist.excludeUntil && playlist.excludeUntil > Date.now();
             }, isIncompatible = function(playlist) {
-                return playlist.excludeUntil && playlist.excludeUntil === 1 / 0;
+                return playlist.excludeUntil && 1 / 0 === playlist.excludeUntil;
             }, isEnabled = function(playlist) {
                 var blacklisted = isBlacklisted(playlist);
                 return !playlist.disabled && !blacklisted;
@@ -15819,7 +15819,7 @@
                 },
                 hasAttribute: hasAttribute,
                 estimateSegmentRequestTime: function(segmentDuration, bandwidth, playlist, bytesReceived) {
-                    return (void 0 === bytesReceived && (bytesReceived = 0), hasAttribute("BANDWIDTH", playlist)) ? (segmentDuration * playlist.attributes.BANDWIDTH - 8 * bytesReceived) / bandwidth : NaN;
+                    return (void 0 === bytesReceived && (bytesReceived = 0), hasAttribute("BANDWIDTH", playlist)) ? (segmentDuration * playlist.attributes.BANDWIDTH - 8 * bytesReceived) / bandwidth : 0 / 0;
                 },
                 isLowestEnabledRendition: isLowestEnabledRendition,
                 isAudioOnly: isAudioOnly,
@@ -22163,7 +22163,7 @@
                     return _this.bandwidth = settings.bandwidth, _this.throughput = {
                         rate: 0,
                         count: 0
-                    }, _this.roundTrip = NaN, _this.resetStats_(), _this.mediaIndex = null, _this.partIndex = null, _this.hasPlayed_ = settings.hasPlayed, _this.currentTime_ = settings.currentTime, _this.seekable_ = settings.seekable, _this.seeking_ = settings.seeking, _this.duration_ = settings.duration, _this.mediaSource_ = settings.mediaSource, _this.vhs_ = settings.vhs, _this.loaderType_ = settings.loaderType, _this.currentMediaInfo_ = void 0, _this.startingMediaInfo_ = void 0, _this.segmentMetadataTrack_ = settings.segmentMetadataTrack, _this.goalBufferLength_ = settings.goalBufferLength, _this.sourceType_ = settings.sourceType, _this.sourceUpdater_ = settings.sourceUpdater, _this.inbandTextTracks_ = settings.inbandTextTracks, _this.state_ = "INIT", _this.timelineChangeController_ = settings.timelineChangeController, _this.shouldSaveSegmentTimingInfo_ = !0, _this.parse708captions_ = settings.parse708captions, _this.captionServices_ = settings.captionServices, _this.experimentalExactManifestTimings = settings.experimentalExactManifestTimings, _this.checkBufferTimeout_ = null, _this.error_ = void 0, _this.currentTimeline_ = -1, _this.pendingSegment_ = null, _this.xhrOptions_ = null, _this.pendingSegments_ = [], _this.audioDisabled_ = !1, _this.isPendingTimestampOffset_ = !1, _this.gopBuffer_ = [], _this.timeMapping_ = 0, _this.safeAppend_ = videojs.browser.IE_VERSION >= 11, _this.appendInitSegment_ = {
+                    }, _this.roundTrip = 0 / 0, _this.resetStats_(), _this.mediaIndex = null, _this.partIndex = null, _this.hasPlayed_ = settings.hasPlayed, _this.currentTime_ = settings.currentTime, _this.seekable_ = settings.seekable, _this.seeking_ = settings.seeking, _this.duration_ = settings.duration, _this.mediaSource_ = settings.mediaSource, _this.vhs_ = settings.vhs, _this.loaderType_ = settings.loaderType, _this.currentMediaInfo_ = void 0, _this.startingMediaInfo_ = void 0, _this.segmentMetadataTrack_ = settings.segmentMetadataTrack, _this.goalBufferLength_ = settings.goalBufferLength, _this.sourceType_ = settings.sourceType, _this.sourceUpdater_ = settings.sourceUpdater, _this.inbandTextTracks_ = settings.inbandTextTracks, _this.state_ = "INIT", _this.timelineChangeController_ = settings.timelineChangeController, _this.shouldSaveSegmentTimingInfo_ = !0, _this.parse708captions_ = settings.parse708captions, _this.captionServices_ = settings.captionServices, _this.experimentalExactManifestTimings = settings.experimentalExactManifestTimings, _this.checkBufferTimeout_ = null, _this.error_ = void 0, _this.currentTimeline_ = -1, _this.pendingSegment_ = null, _this.xhrOptions_ = null, _this.pendingSegments_ = [], _this.audioDisabled_ = !1, _this.isPendingTimestampOffset_ = !1, _this.gopBuffer_ = [], _this.timeMapping_ = 0, _this.safeAppend_ = videojs.browser.IE_VERSION >= 11, _this.appendInitSegment_ = {
                         audio: !0,
                         video: !0
                     }, _this.playlistOfLastInitSegment_ = {
@@ -22430,7 +22430,7 @@
                  */ _proto.remove = function(start, end, done, force) {
                     // commonly happens during a rendition switch at the start of a video
                     // from start 0 to end 0
-                    if (void 0 === done && (done = function() {}), void 0 === force && (force = !1), end === 1 / 0 && (end = this.duration_()), end <= start) return void this.logger_("skipping remove because end ${end} is <= start ${start}");
+                    if (void 0 === done && (done = function() {}), void 0 === force && (force = !1), 1 / 0 === end && (end = this.duration_()), end <= start) return void this.logger_("skipping remove because end ${end} is <= start ${start}");
                     if (!this.sourceUpdater_ || !this.getMediaInfo_()) return void this.logger_("skipping remove because no source updater or starting media info"); // set it to one to complete this function's removes
                     var removesRemaining = 1, removeFinished = function() {
                         0 == --removesRemaining && done();
@@ -23052,7 +23052,7 @@
                 }, _proto.handleTimeout_ = function() {
                     // although the VTT segment loader bandwidth isn't really used, it's good to
                     // maintain functinality between segment loaders
-                    this.mediaRequestsTimedout += 1, this.bandwidth = 1, this.roundTrip = NaN, this.trigger("bandwidthupdate");
+                    this.mediaRequestsTimedout += 1, this.bandwidth = 1, this.roundTrip = 0 / 0, this.trigger("bandwidthupdate");
                 }, /**
                  * Handle the callback from the segmentRequest function and set the
                  * associated SegmentLoader state and errors if necessary
@@ -24037,7 +24037,7 @@
                 {
                     name: "VOD",
                     run: function(syncController, playlist, duration, currentTimeline, currentTime) {
-                        return duration !== 1 / 0 ? {
+                        return 1 / 0 !== duration ? {
                             time: 0,
                             segmentIndex: 0,
                             partIndex: null
@@ -24757,7 +24757,7 @@
                         if ("hls" === sourceType) playlistLoader = new PlaylistLoader(properties.resolvedUri, vhs, requestOptions);
                         else if ("dash" === sourceType) {
                             if (!properties.playlists.filter(function(p) {
-                                return p.excludeUntil !== 1 / 0;
+                                return 1 / 0 !== p.excludeUntil;
                             }).length) return;
                             playlistLoader = new DashPlaylistLoader(properties.playlists[0], vhs, requestOptions, masterPlaylistLoader);
                         } else "vhs-json" === sourceType && (playlistLoader = new PlaylistLoader(// as provided, otherwise use the resolved URI to load the playlist
@@ -25452,7 +25452,7 @@
                         this.tech_.ended() && this.tech_.setCurrentTime(0), this.hasPlayed_ && this.load();
                         var seekable = this.tech_.seekable(); // if the viewer has paused and we fell out of the live window,
                         // seek forward to the live point
-                        if (this.tech_.duration() === 1 / 0 && this.tech_.currentTime() < seekable.start(0)) return this.tech_.setCurrentTime(seekable.end(seekable.length - 1));
+                        if (1 / 0 === this.tech_.duration() && this.tech_.currentTime() < seekable.start(0)) return this.tech_.setCurrentTime(seekable.end(seekable.length - 1));
                     }
                 }, /**
                  * Seek to the latest media position if this is a live video and the
@@ -25504,7 +25504,7 @@
                         var cues = this.inbandTextTracks_.metadataTrack_.cues;
                         if (cues && cues.length) {
                             var duration = this.duration();
-                            cues[cues.length - 1].endTime = isNaN(duration) || Math.abs(duration) === 1 / 0 ? Number.MAX_VALUE : duration;
+                            cues[cues.length - 1].endTime = isNaN(duration) || 1 / 0 === Math.abs(duration) ? Number.MAX_VALUE : duration;
                         }
                     }
                 }, /**
@@ -25571,7 +25571,7 @@
                     currentPlaylist.playlistErrors_++;
                     var playlists = this.masterPlaylistLoader_.master.playlists, enabledPlaylists = playlists.filter(isEnabled), isFinalRendition = 1 === enabledPlaylists.length && enabledPlaylists[0] === currentPlaylist;
                     // forever
-                    if (1 === playlists.length && blacklistDuration !== 1 / 0) return videojs.log.warn("Problem encountered with playlist " + currentPlaylist.id + ". Trying again since it is the only playlist."), this.tech_.trigger("retryplaylist"), this.masterPlaylistLoader_.load(isFinalRendition);
+                    if (1 === playlists.length && 1 / 0 !== blacklistDuration) return videojs.log.warn("Problem encountered with playlist " + currentPlaylist.id + ". Trying again since it is the only playlist."), this.tech_.trigger("retryplaylist"), this.masterPlaylistLoader_.load(isFinalRendition);
                     if (isFinalRendition) {
                         // Since we're on the final non-blacklisted playlist, and we're about to blacklist
                         // it, instead of erring the player or retrying this playlist, clear out the current
@@ -25582,7 +25582,7 @@
                             // skip current playlist which is about to be blacklisted
                             if (playlist !== currentPlaylist) {
                                 var excludeUntil = playlist.excludeUntil; // a playlist cannot be reincluded if it wasn't excluded to begin with.
-                                void 0 !== excludeUntil && excludeUntil !== 1 / 0 && (reincluded = !0, delete playlist.excludeUntil);
+                                void 0 !== excludeUntil && 1 / 0 !== excludeUntil && (reincluded = !0, delete playlist.excludeUntil);
                             }
                         }), reincluded && (videojs.log.warn("Removing other playlists from the exclusion list because the last rendition is about to be excluded."), // playlist. This is needed for users relying on the retryplaylist event to catch a
                         // case where the player might be stuck and looping through "dead" playlists.
@@ -25875,7 +25875,7 @@
                     Object.keys(playlists).forEach(function(key) {
                         var variant = playlists[key]; // check if we already processed this playlist.
                         // or it if it is already excluded forever.
-                        if (-1 === ids.indexOf(variant.id) && variant.excludeUntil !== 1 / 0) {
+                        if (-1 === ids.indexOf(variant.id) && 1 / 0 !== variant.excludeUntil) {
                             ids.push(variant.id);
                             var blacklistReasons = [], variantCodecs = codecsForPlaylist(_this11.masterPlaylistLoader_.master, variant), variantCodecCount = codecCount(variantCodecs); // get codecs from the playlist for this variant
                             // variant is incompatible. Wait for mux.js to probe
@@ -26253,7 +26253,7 @@
                  */ var loadedMetadataHandler = function() {
                     seekTo && player.currentTime(seekTo);
                 }, setSource = function(sourceObj) {
-                    null != sourceObj && (seekTo = player.duration() !== 1 / 0 && player.currentTime() || 0, player.one("loadedmetadata", loadedMetadataHandler), player.src(sourceObj), player.trigger({
+                    null != sourceObj && (seekTo = 1 / 0 !== player.duration() && player.currentTime() || 0, player.one("loadedmetadata", loadedMetadataHandler), player.src(sourceObj), player.trigger({
                         type: "usage",
                         name: "vhs-error-reload"
                     }), player.trigger({

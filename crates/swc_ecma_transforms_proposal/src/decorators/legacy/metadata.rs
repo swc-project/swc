@@ -368,6 +368,16 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         }
     }
 
+    fn serialize_bigint_type() -> Expr {
+        CondExpr {
+            span: DUMMY_SP,
+            test: check_object_existed(quote_ident!("BigInt").into()),
+            cons: quote_ident!("Object").into(),
+            alt: quote_ident!("BigInt").into(),
+        }
+        .into()
+    }
+
     fn serialize_type_ref(class_name: &str, ty: &TsTypeRef) -> Expr {
         match &ty.type_name {
             // We should omit references to self (class) since it will throw a ReferenceError at
@@ -517,21 +527,14 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 ..
             }) => quote_ident!("Number").into(),
 
-            TsType::TsKeywordType(TsKeywordType {
+            TsType::TsLitType(TsLitType {
+                lit: TsLit::BigInt(..),
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsBigIntKeyword,
                 ..
-            }) => CondExpr {
-                span: DUMMY_SP,
-                test: check_object_existed(quote_ident!("BigInt").into()),
-                cons: quote_ident!("Object").into(),
-                alt: quote_ident!("BigInt").into(),
-            }
-            .into(),
-
-            TsType::TsLitType(ty) => {
-                // TODO: Proper error reporting
-                panic!("Bad type for decoration: {ty:?}");
-            }
+            }) => serialize_bigint_type(),
 
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsSymbolKeyword,
@@ -551,7 +554,8 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                 ..
             })
-            | TsType::TsThisType(..) => quote_ident!("Object").into(),
+            | TsType::TsThisType(..)
+            | TsType::TsImportType(_) => quote_ident!("Object").into(),
 
             TsType::TsUnionOrIntersectionType(ty) => match ty {
                 TsUnionOrIntersectionType::TsUnionType(ty) => {
@@ -570,7 +574,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
             TsType::TsTypeRef(ty) => serialize_type_ref(class_name, ty),
 
-            _ => panic!("Bad type for decorator: {ty:?}"),
+            _ => quote_ident!("Object").into(),
         }
     }
 

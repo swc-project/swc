@@ -8,7 +8,7 @@ use swc_ecma_utils::{
     ExprCtx,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-#[cfg(feature = "debug")]
+#[cfg(all(debug_assertions, feature = "debug"))]
 use tracing::Level;
 
 use self::{ctx::Ctx, misc::DropOpts};
@@ -921,7 +921,8 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
+        #[cfg(debug_assertions)]
         let _tracing = tracing::span!(
             Level::ERROR,
             "visit_mut_fn_decl",

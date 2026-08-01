@@ -357,14 +357,17 @@ impl SourceMap {
                     col.0 - special_chars + non_narrow
                 };
                 if cfg!(feature = "debug") {
+                    #[cfg(debug_assertions)]
                     debug!(
                         "byte pos {:?} is on the line at byte pos {:?}",
                         pos, linebpos
                     );
+                    #[cfg(debug_assertions)]
                     debug!(
                         "char pos {:?} is on the line at char pos {:?}",
                         chpos, linechpos
                     );
+                    #[cfg(debug_assertions)]
                     debug!("byte is on line: {}", line);
                 }
                 //                assert!(chpos >= linechpos);
@@ -501,6 +504,7 @@ impl SourceMap {
 
     pub fn span_to_lines(&self, sp: Span) -> FileLinesResult {
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             debug!("span_to_lines(sp={:?})", sp);
         }
 
@@ -510,10 +514,12 @@ impl SourceMap {
 
         let lo = self.lookup_char_pos(sp.lo());
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             debug!("span_to_lines: lo={:?}", lo);
         }
         let hi = self.lookup_char_pos(sp.hi());
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             debug!("span_to_lines: hi={:?}", hi);
         }
 
@@ -885,12 +891,14 @@ impl SourceMap {
     fn find_width_of_character_at_span(&self, sp: Span, forwards: bool) -> u32 {
         // Disregard malformed spans and assume a one-byte wide character.
         if sp.lo() >= sp.hi() {
+            #[cfg(debug_assertions)]
             debug!("find_width_of_character_at_span: early return malformed span");
             return 1;
         }
 
         let local_begin = self.lookup_byte_offset(sp.lo());
         let local_end = self.lookup_byte_offset(sp.hi());
+        #[cfg(debug_assertions)]
         debug!(
             "find_width_of_character_at_span: local_begin=`{:?}`, local_end=`{:?}`",
             local_begin, local_end
@@ -898,6 +906,7 @@ impl SourceMap {
 
         let start_index = local_begin.pos.to_usize();
         let end_index = local_end.pos.to_usize();
+        #[cfg(debug_assertions)]
         debug!(
             "find_width_of_character_at_span: start_index=`{:?}`, end_index=`{:?}`",
             start_index, end_index
@@ -906,17 +915,20 @@ impl SourceMap {
         // Disregard indexes that are at the start or end of their spans, they can't fit
         // bigger characters.
         if (!forwards && end_index == usize::MIN) || (forwards && start_index == usize::MAX) {
+            #[cfg(debug_assertions)]
             debug!("find_width_of_character_at_span: start or end of span, cannot be multibyte");
             return 1;
         }
 
         let source_len = (local_begin.sf.end_pos - local_begin.sf.start_pos).to_usize();
+        #[cfg(debug_assertions)]
         debug!(
             "find_width_of_character_at_span: source_len=`{:?}`",
             source_len
         );
         // Ensure indexes are also not malformed.
         if start_index > end_index || end_index > source_len {
+            #[cfg(debug_assertions)]
             debug!("find_width_of_character_at_span: source indexes are malformed");
             return 1;
         }
@@ -929,6 +941,7 @@ impl SourceMap {
             let len = src.len();
             &src[start_index..len]
         };
+        #[cfg(debug_assertions)]
         debug!("find_width_of_character_at_span: snippet=`{:?}`", snippet);
 
         let mut target = if forwards {
@@ -936,6 +949,7 @@ impl SourceMap {
         } else {
             end_index - 1
         };
+        #[cfg(debug_assertions)]
         debug!(
             "find_width_of_character_at_span: initial target=`{:?}`",
             target
@@ -952,8 +966,10 @@ impl SourceMap {
                     }
                 }
             };
+            #[cfg(debug_assertions)]
             debug!("find_width_of_character_at_span: target=`{:?}`", target);
         }
+        #[cfg(debug_assertions)]
         debug!(
             "find_width_of_character_at_span: final target=`{:?}`",
             target
@@ -1200,6 +1216,7 @@ fn calc_utf16_offset(file: &SourceFile, bpos: BytePos, state: &mut ByteToCharPos
         let range = index..analysis.multibyte_chars.len();
         for i in range {
             let mbc = &analysis.multibyte_chars[i];
+            #[cfg(debug_assertions)]
             debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
             if mbc.pos >= bpos {
                 break;
@@ -1220,6 +1237,7 @@ fn calc_utf16_offset(file: &SourceFile, bpos: BytePos, state: &mut ByteToCharPos
         let range = 0..index;
         for i in range.rev() {
             let mbc = &analysis.multibyte_chars[i];
+            #[cfg(debug_assertions)]
             debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
             if mbc.pos < bpos {
                 break;

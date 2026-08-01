@@ -15,12 +15,8 @@ define([
 // Should keep s1 and elide s2
 define([
     "require",
-    "exports",
     "elements1"
-], function(require, exports, _elements1) {
+], function(require, s1) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    /*#__PURE__*/ React.createElement(_elements1.MyElement, null);
+    /*#__PURE__*/ React.createElement(s1.MyElement, null);
 });

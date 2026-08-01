@@ -82,6 +82,7 @@ impl Compiler {
                 ));
 
                 let serialized = {
+                    #[cfg(debug_assertions)]
                     let _span = tracing::span!(tracing::Level::INFO, "serialize_program").entered();
                     let program =
                         swc_common::plugin::serialized::VersionedSerializable::new(program);
@@ -153,6 +154,7 @@ impl Compiler {
                         plugin_runtime,
                     );
 
+                #[cfg(debug_assertions)]
                 let span = tracing::span!(
                     tracing::Level::INFO,
                     "execute_plugin_runner",
@@ -171,6 +173,7 @@ impl Compiler {
                         })
                 });
                 result?;
+                #[cfg(debug_assertions)]
                 drop(span);
 
                 Ok(output)

@@ -111,6 +111,10 @@
 
 pub extern crate swc_atoms as atoms;
 extern crate swc_common as common;
+/// React Compiler APIs.
+#[cfg(feature = "react-compiler")]
+#[cfg_attr(docsrs, doc(cfg(feature = "react-compiler")))]
+pub extern crate swc_ecma_react_compiler as react_compiler;
 
 use std::{
     fs::{read_to_string, File},
@@ -159,9 +163,9 @@ use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 pub use swc_sourcemap as sourcemap;
-use swc_timer::timer;
 #[cfg(feature = "isolated-dts")]
 use swc_typescript::fast_dts::FastDts;
+#[cfg(debug_assertions)]
 use tracing::warn;
 use url::Url;
 
@@ -525,6 +529,7 @@ impl Compiler {
                                         .as_ref()
                                         .is_err_and(|err| err.kind() == ErrorKind::NotFound)
                                     {
+                                        #[cfg(debug_assertions)]
                                         warn!(
                                             "source map is specified by sourceMappingURL but \
                                              there's no source map at `{}`",
@@ -577,7 +582,10 @@ impl Compiler {
                 match result {
                     Ok(r) => r,
                     Err(err) => {
+                        #[cfg(debug_assertions)]
                         tracing::error!("failed to read input source map: {:?}", err);
+                        #[cfg(not(debug_assertions))]
+                        let _ = err;
                         None
                     }
                 }
@@ -707,7 +715,7 @@ impl Compiler {
         }
     }
 
-    #[tracing::instrument(skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
         static CUR_DIR: Lazy<PathBuf> = Lazy::new(|| {
             if cfg!(target_arch = "wasm32") {
@@ -836,7 +844,7 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
-    #[tracing::instrument(skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     pub fn parse_js_as_input<'a, P>(
         &'a self,
         fm: Lrc<SourceFile>,
@@ -851,8 +859,6 @@ impl Compiler {
         P: 'a + Pass,
     {
         self.run(move || {
-            let _timer = timer!("Compiler.parse");
-
             if let FileName::Real(ref path) = name {
                 if !opts.config.matches(path)? {
                     return Ok(None);
@@ -901,7 +907,7 @@ impl Compiler {
         })
     }
 
-    #[tracing::instrument(skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     pub fn transform(
         &self,
         handler: &Handler,
@@ -929,7 +935,7 @@ impl Compiler {
     ///
     /// This means, you can use `noop_visit_type`, `noop_fold_type` and
     /// `noop_visit_mut_type` in your visitor to reduce the binary size.
-    #[tracing::instrument(skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
@@ -986,7 +992,7 @@ impl Compiler {
         })
     }
 
-    #[tracing::instrument(skip(self, handler, opts))]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip(self, handler, opts)))]
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
@@ -1004,7 +1010,7 @@ impl Compiler {
         )
     }
 
-    #[tracing::instrument(skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     pub fn minify(
         &self,
         fm: Arc<SourceFile>,
@@ -1013,8 +1019,6 @@ impl Compiler {
         extras: JsMinifyExtras,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
-            let _timer = timer!("Compiler::minify");
-
             let target = opts.ecma.clone().into();
 
             let (source_map, orig, source_map_url) = opts
@@ -1205,7 +1209,7 @@ impl Compiler {
     /// You can use custom pass with this method.
     ///
     /// Pass building logic has been inlined into the configuration system.
-    #[tracing::instrument(skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     pub fn process_js(
         &self,
         handler: &Handler,
@@ -1226,7 +1230,10 @@ impl Compiler {
         )
     }
 
-    #[tracing::instrument(name = "swc::Compiler::apply_transforms", skip_all)]
+    #[cfg_attr(
+        debug_assertions,
+        tracing::instrument(name = "swc::Compiler::apply_transforms", skip_all)
+    )]
     fn apply_transforms(
         &self,
         handler: &Handler,
@@ -1401,7 +1408,7 @@ fn find_swcrc(path: &Path, root: &Path, root_mode: RootMode) -> Option<PathBuf> 
     None
 }
 
-#[tracing::instrument(skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
 

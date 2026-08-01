@@ -1,6 +1,7 @@
 use swc_atoms::Wtf8Atom;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_utils::number::ToJsString;
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub enum HashKey {
@@ -14,7 +15,7 @@ impl From<&PropName> for HashKey {
         match p {
             PropName::Ident(IdentName { sym: value, .. }) => HashKey::Str(value.clone().into()),
             PropName::Str(Str { value, .. }) => HashKey::Str(value.clone()),
-            PropName::Num(Number { value, .. }) => HashKey::Str(value.to_string().into()),
+            PropName::Num(Number { value, .. }) => HashKey::Str(value.to_js_string().into()),
             PropName::BigInt(BigInt { value, .. }) => HashKey::Str(value.to_string().into()),
             PropName::Computed(expr) => HashKey::Computed(expr.span()),
             #[cfg(swc_ast_unknown)]

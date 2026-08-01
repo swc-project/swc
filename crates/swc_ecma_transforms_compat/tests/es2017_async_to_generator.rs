@@ -12,7 +12,7 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
 use swc_ecma_visit::{fold_pass, Fold, FoldWith};
 
 struct ParenRemover;
@@ -2102,6 +2102,26 @@ class Foo extends Bar {
 }
 "#
 );
+
+#[testing::fixture("tests/async-to-generator/**/input.js")]
+fn fixture(input: PathBuf) {
+    test_fixture(
+        Default::default(),
+        &|_| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            (
+                resolver(unresolved_mark, top_level_mark, false),
+                class_properties(Default::default(), unresolved_mark),
+                async_to_generator(Default::default(), unresolved_mark),
+            )
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}
 
 #[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {

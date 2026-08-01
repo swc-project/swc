@@ -12,7 +12,7 @@ mod tests;
 pub fn hook(dev: bool) -> impl VisitMutHook<()> {
     JsxSelf {
         dev,
-        ctx_stack: vec![Context::default()],
+        ctx: JsxSelfCtx::new(),
     }
 }
 
@@ -23,28 +23,76 @@ struct Context {
     in_derived_class: bool,
 }
 
-struct JsxSelf {
-    dev: bool,
+/// Tracks when JSXDEV can safely use `this` for the self argument.
+///
+/// This mirrors Babel's `transform-react-jsx-self` constructor guard. Arrow
+/// functions keep the surrounding `this`, so they intentionally do not enter a
+/// new context.
+pub(crate) struct JsxSelfCtx {
     ctx_stack: Vec<Context>,
 }
 
-impl JsxSelf {
-    fn current_ctx(&self) -> Context {
+impl JsxSelfCtx {
+    pub(crate) fn new() -> Self {
+        Self {
+            ctx_stack: vec![Context::default()],
+        }
+    }
+
+    fn current(&self) -> Context {
         *self
             .ctx_stack
             .last()
             .expect("context stack should never be empty")
     }
 
-    fn push_ctx(&mut self, ctx: Context) {
+    fn push(&mut self, ctx: Context) {
         self.ctx_stack.push(ctx);
     }
 
-    fn pop_ctx(&mut self) {
+    pub(crate) fn pop(&mut self) {
         if self.ctx_stack.len() > 1 {
             self.ctx_stack.pop();
         }
     }
+
+    pub(crate) fn enter_class(&mut self, class: &Class) {
+        let mut new_ctx = self.current();
+        new_ctx.in_derived_class = class.super_class.is_some();
+        self.push(new_ctx);
+    }
+
+    pub(crate) fn enter_constructor(&mut self) {
+        let mut new_ctx = self.current();
+        new_ctx.in_constructor = true;
+        self.push(new_ctx);
+    }
+
+    /// Enter a function-like scope where `this` is no longer the current
+    /// constructor's uninitialized `this`.
+    pub(crate) fn enter_non_constructor_scope(&mut self) {
+        let mut new_ctx = self.current();
+        new_ctx.in_constructor = false;
+        self.push(new_ctx);
+    }
+
+    /// Return whether a JSXDEV call can safely use `this` for the self
+    /// argument.
+    pub(crate) fn can_add_self(&self) -> bool {
+        let ctx = self.current();
+        !(ctx.in_constructor && ctx.in_derived_class)
+    }
+}
+
+impl Default for JsxSelfCtx {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+struct JsxSelf {
+    dev: bool,
+    ctx: JsxSelfCtx,
 }
 
 // For tests
@@ -61,103 +109,83 @@ fn jsx_self(dev: bool) -> impl Pass {
 
 impl VisitMutHook<()> for JsxSelf {
     fn enter_class(&mut self, n: &mut Class, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_derived_class = n.super_class.is_some();
-        self.push_ctx(new_ctx);
+        self.ctx.enter_class(n);
     }
 
     fn exit_class(&mut self, _n: &mut Class, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_fn_decl(&mut self, _n: &mut FnDecl, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_constructor = false;
-        self.push_ctx(new_ctx);
+        self.ctx.enter_non_constructor_scope();
     }
 
     fn exit_fn_decl(&mut self, _n: &mut FnDecl, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_fn_expr(&mut self, _n: &mut FnExpr, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_constructor = false;
-        self.push_ctx(new_ctx);
+        self.ctx.enter_non_constructor_scope();
     }
 
     fn exit_fn_expr(&mut self, _n: &mut FnExpr, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_getter_prop(&mut self, _n: &mut GetterProp, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_constructor = false;
-        self.push_ctx(new_ctx);
+        self.ctx.enter_non_constructor_scope();
     }
 
     fn exit_getter_prop(&mut self, _n: &mut GetterProp, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_setter_prop(&mut self, _n: &mut SetterProp, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_constructor = false;
-        self.push_ctx(new_ctx);
+        self.ctx.enter_non_constructor_scope();
     }
 
     fn exit_setter_prop(&mut self, _n: &mut SetterProp, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_method_prop(&mut self, _n: &mut MethodProp, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_constructor = false;
-        self.push_ctx(new_ctx);
+        self.ctx.enter_non_constructor_scope();
     }
 
     fn exit_method_prop(&mut self, _n: &mut MethodProp, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_constructor(&mut self, _n: &mut Constructor, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_constructor = true;
-        self.push_ctx(new_ctx);
+        self.ctx.enter_constructor();
     }
 
     fn exit_constructor(&mut self, _n: &mut Constructor, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_class_method(&mut self, _n: &mut ClassMethod, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_constructor = false;
-        self.push_ctx(new_ctx);
+        self.ctx.enter_non_constructor_scope();
     }
 
     fn exit_class_method(&mut self, _n: &mut ClassMethod, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_private_method(&mut self, _n: &mut PrivateMethod, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_constructor = false;
-        self.push_ctx(new_ctx);
+        self.ctx.enter_non_constructor_scope();
     }
 
     fn exit_private_method(&mut self, _n: &mut PrivateMethod, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_static_block(&mut self, _n: &mut StaticBlock, _ctx: &mut ()) {
-        let mut new_ctx = self.current_ctx();
-        new_ctx.in_constructor = false;
-        self.push_ctx(new_ctx);
+        self.ctx.enter_non_constructor_scope();
     }
 
     fn exit_static_block(&mut self, _n: &mut StaticBlock, _ctx: &mut ()) {
-        self.pop_ctx();
+        self.ctx.pop();
     }
 
     fn enter_jsx_opening_element(&mut self, n: &mut JSXOpeningElement, _ctx: &mut ()) {
@@ -165,10 +193,8 @@ impl VisitMutHook<()> for JsxSelf {
             return;
         }
 
-        let ctx = self.current_ctx();
-
         // https://github.com/babel/babel/blob/1bdb1a4175ed1fc40751fb84dc4ad1900260f28f/packages/babel-plugin-transform-react-jsx-self/src/index.ts#L50
-        if ctx.in_constructor && ctx.in_derived_class {
+        if !self.ctx.can_add_self() {
             return;
         }
 

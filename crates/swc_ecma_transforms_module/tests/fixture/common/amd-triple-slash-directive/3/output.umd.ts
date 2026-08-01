@@ -1,8 +1,8 @@
 ///<AmD-moDulE nAme='NamedModule'/>
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory();
+    if (typeof module === "object" && typeof module.exports === "object") module.exports = factory();
     else if (typeof define === "function" && define.amd) define([], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory();
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) global.input = factory();
 })(this, function() {
     "use strict";
     class Foo {
@@ -11,5 +11,5 @@
             this.x = 5;
         }
     }
-    module.exports = Foo;
+    return Foo;
 });

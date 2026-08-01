@@ -40,6 +40,52 @@ it("should handle exportNamespaceFrom", () => {
     `);
 });
 
+it("should handle reactCompiler transform option", () => {
+    const src = `
+        import { useState } from "react";
+
+        export function Counter() {
+            const [count] = useState(0);
+            return <div>{count}</div>;
+        }
+    `;
+
+    const enabled = swc.transformSync(src, {
+        swcrc: false,
+        jsc: {
+            parser: {
+                syntax: "typescript",
+                tsx: true,
+            },
+            transform: {
+                reactCompiler: true,
+            },
+        },
+    });
+
+    expect(enabled.code).toContain("react/compiler-runtime");
+    expect(enabled.code).not.toContain("<div");
+
+    const configured = swc.transformSync(src, {
+        swcrc: false,
+        jsc: {
+            parser: {
+                syntax: "typescript",
+                tsx: true,
+            },
+            transform: {
+                reactCompiler: {
+                    target: "19",
+                    outputMode: "client",
+                },
+            },
+        },
+    });
+
+    expect(configured.code).toContain("react/compiler-runtime");
+    expect(configured.code).not.toContain("<div");
+});
+
 it("should handle jsc.target = es5", () => {
     const out = swc.transformSync(`foo.default`, {
         swcrc: false,

@@ -6,7 +6,9 @@ use swc_common::plugin::serialized::PluginSerializedBytes;
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
 #[cfg(target_arch = "wasm32")]
-#[link(wasm_import_module = "env")]
+// `__free` is linked from `swc_core::plugin::memory`, which re-exports the
+// allocator shim from `swc_plugin::allocation`. It must stay a linked plugin
+// symbol instead of being modeled as an `env` host import.
 extern "C" {
     fn __free(ptr: *mut u8, size: i32) -> i32;
 }
@@ -37,7 +39,7 @@ fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
     feature = "__plugin_mode",
     target_arch = "wasm32"
 ))]
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
     F: FnOnce(u32) -> u32,
@@ -86,7 +88,7 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
     target_arch = "wasm32"
 ))]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
-#[tracing::instrument(level = "info", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,
@@ -96,15 +98,24 @@ where
 
     // Using AllocatedBytesPtr's value, reconstruct actual return value
     allocated_returned_value_ptr.map(|allocated_returned_value_ptr| {
-        PluginSerializedBytes::from_raw_ptr(
-            allocated_returned_value_ptr.0 as _,
-            allocated_returned_value_ptr
-                .1
-                .try_into()
-                .expect("Should able to convert ptr length"),
-        )
-        .deserialize()
-        .expect("Returned value should be serializable")
-        .into_inner()
+        // SAFETY: On a successful return, the host ABI allocated
+        // `allocated_returned_value_ptr.1` bytes in guest memory through
+        // `__alloc`, initialized all of them with the serialized result, and
+        // returned the allocation's non-null pointer. `allocated_returned_value_ptr`
+        // owns that allocation until this closure returns, so it remains readable
+        // for the duration of the copy.
+        let serialized = unsafe {
+            PluginSerializedBytes::from_raw_ptr(
+                allocated_returned_value_ptr.0 as _,
+                allocated_returned_value_ptr
+                    .1
+                    .try_into()
+                    .expect("Should able to convert ptr length"),
+            )
+        };
+        serialized
+            .deserialize()
+            .expect("Returned value should be serializable")
+            .into_inner()
     })
 }

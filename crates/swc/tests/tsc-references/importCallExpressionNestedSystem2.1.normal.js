@@ -1,6 +1,7 @@
 //// [foo.ts]
 System.register([], function(_export, _context) {
     "use strict";
+    _export("default", void 0);
     return {
         setters: [],
         execute: function() {
@@ -40,11 +41,11 @@ System.register([
     }
     return {
         setters: [
-            function(_async_to_generator1) {
-                _async_to_generator = _async_to_generator1._;
+            function(_async_to_generator_ns) {
+                _async_to_generator = _async_to_generator_ns._;
             },
-            function(_ts_generator1) {
-                _ts_generator = _ts_generator1._;
+            function(_ts_generator_ns) {
+                _ts_generator = _ts_generator_ns._;
             }
         ],
         execute: function() {}

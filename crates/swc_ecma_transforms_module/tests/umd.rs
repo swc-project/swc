@@ -22,7 +22,14 @@ fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Pass {
 
     (
         resolver(unresolved_mark, top_level_mark, typescript),
-        typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
+        typescript::typescript(
+            typescript::Config {
+                import_export_assign_config: typescript::TsImportExportAssignConfig::Preserve,
+                ..Default::default()
+            },
+            unresolved_mark,
+            top_level_mark,
+        ),
         umd(
             tester.cm.clone(),
             Default::default(),

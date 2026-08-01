@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use std::time::Instant;
+use std::{num::FpCategory, time::Instant};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
@@ -13,6 +13,12 @@ use swc_ecma_visit::{noop_visit_type, visit_mut_pass, visit_obj_and_computed, Vi
 pub(crate) mod base54;
 pub(crate) mod size;
 pub(crate) mod sort;
+
+/// Returns whether a number is falsy according to ECMAScript semantics.
+#[inline]
+pub(crate) fn is_falsy_number(value: f64) -> bool {
+    matches!(value.classify(), FpCategory::Zero | FpCategory::Nan)
+}
 
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     trace_op!("Creating a numeric literal");

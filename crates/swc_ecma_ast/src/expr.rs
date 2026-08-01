@@ -1,5 +1,4 @@
 #![allow(clippy::vec_box)]
-use std::mem::transmute;
 
 use is_macro::Is;
 use string_enum::StringEnum;
@@ -239,19 +238,61 @@ impl Expr {
     /// If the provided function returns [Some], the function is called again
     /// with the returned value. If the provided functions returns [None],
     /// the last expression is returned.
-    pub fn unwrap_mut_with<'a, F>(&'a mut self, mut op: F) -> &'a mut Expr
+    ///
+    /// The function receives a fresh mutable reborrow on each invocation. It
+    /// can return a nested expression borrowed from its argument, but it cannot
+    /// retain that argument after the invocation.
+    ///
+    /// # Source compatibility
+    ///
+    /// The higher-ranked callback bound rejects functions that retain the
+    /// argument outside the callback. Such functions were accepted by older
+    /// versions of this method, but could create aliased mutable references.
+    /// Callbacks that only return an expression nested within the argument
+    /// remain supported.
+    ///
+    /// ```compile_fail
+    /// use swc_ecma_ast::Expr;
+    ///
+    /// fn stash_callback_argument(expr: &mut Expr) {
+    ///     let mut stashed: Option<&mut Expr> = None;
+    ///
+    ///     let returned = expr.unwrap_mut_with(|current| {
+    ///         stashed = Some(current);
+    ///         None
+    ///     });
+    ///
+    ///     let _aliases = (returned, stashed.unwrap());
+    /// }
+    /// ```
+    pub fn unwrap_mut_with<'root, F>(&'root mut self, mut op: F) -> &'root mut Expr
     where
-        F: FnMut(&'a mut Expr) -> Option<&'a mut Expr>,
+        F: for<'call> FnMut(&'call mut Expr) -> Option<&'call mut Expr>,
     {
-        let mut cur = self;
+        // Stable borrow checking cannot yet express that the callback's borrow
+        // ends in the `None` branch, so keep the cursor raw between calls.
+        let mut cur: *mut Expr = self;
+
         loop {
-            match unsafe {
-                // Safety: Polonius is not yet stable
-                op(transmute::<&mut _, &mut _>(cur))
-            } {
+            // SAFETY:
+            // - `cur` starts as the pointer behind the exclusive `'root` borrow, and is
+            //   only replaced with a pointer obtained from the callback's exclusive return
+            //   value.
+            // - The higher-ranked bound gives every call its own lifetime, so safe callback
+            //   code cannot retain this reborrow in captured state. While `op` runs, no
+            //   other reference is created from `cur`.
+            // - A returned reference is consumed into `cur` before the next iteration. Safe
+            //   code cannot return a reference whose storage expires at the end of the
+            //   call.
+            match unsafe { op(&mut *cur) } {
                 Some(next) => cur = next,
                 None => {
-                    return cur;
+                    // SAFETY: `None` contains no reference from the last
+                    // reborrow, and the higher-ranked callback cannot have
+                    // retained it. Thus `cur` is still valid and exclusively
+                    // borrowed, and its reference can be returned for the
+                    // remainder of `'root`.
+                    return unsafe { &mut *cur };
                 }
             }
         }
@@ -1154,12 +1195,6 @@ pub struct MetaPropExpr {
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
     feature = "encoding-impl",
@@ -1369,27 +1404,6 @@ impl Take for Import {
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(
-    feature = "rkyv-impl",
-    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(
-                    feature = "rkyv-impl",
-                    rkyv(bytecheck(bounds(
-                        __C: rkyv::validation::ArchiveContext,
-                        __C::Error: rkyv::rancor::Source
-                    )))
-                )]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
     feature = "encoding-impl",
@@ -1397,7 +1411,6 @@ impl Take for Import {
 )]
 pub struct ExprOrSpread {
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     #[cfg_attr(
         feature = "encoding-impl",
         encoding(with = "cbor4ii::core::types::Maybe")
@@ -1405,7 +1418,6 @@ pub struct ExprOrSpread {
     pub spread: Option<Span>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub expr: Box<Expr>,
 }
 

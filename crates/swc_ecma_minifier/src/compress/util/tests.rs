@@ -60,13 +60,16 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
         };
 
         {
+            #[cfg(debug_assertions)]
             warn!(
                 "Actual: {} ;Input = {}, Real = {}",
                 real.len() as isize - input.len() as isize,
                 input.len(),
                 real.len()
             );
+            #[cfg(debug_assertions)]
             info!("Real: {}", real);
+            #[cfg(debug_assertions)]
             info!("Input: {}", input);
         }
 

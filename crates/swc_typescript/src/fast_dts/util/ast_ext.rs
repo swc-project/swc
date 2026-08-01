@@ -1,11 +1,12 @@
-use std::borrow::Cow;
+use std::borrow::{Borrow, Cow};
 
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::Mark;
 use swc_ecma_ast::{
     BindingIdent, ComputedPropName, Expr, Ident, Lit, MemberProp, ObjectPatProp, Pat, Prop,
     PropName, TsTypeAnn,
 };
+use swc_ecma_utils::number::ToJsString;
 
 pub trait ExprExit {
     fn get_root_ident(&self) -> Option<&Ident>;
@@ -144,7 +145,7 @@ impl PropNameExit for PropName {
         match self {
             PropName::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
             PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str()?)),
-            PropName::Num(number) => Some(Cow::Owned(number.value.to_string())),
+            PropName::Num(number) => Some(Cow::Owned(number.value.to_js_string())),
             PropName::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
             PropName::Computed(computed_prop_name) => computed_prop_name.static_name(),
             #[cfg(swc_ast_unknown)]
@@ -167,7 +168,7 @@ impl PropNameExit for ComputedPropName {
                 Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str()?)),
                 Lit::Bool(b) => Some(Cow::Owned(b.value.to_string())),
                 Lit::Null(_) => Some(Cow::Borrowed("null")),
-                Lit::Num(number) => Some(Cow::Owned(number.value.to_string())),
+                Lit::Num(number) => Some(Cow::Owned(number.value.to_js_string())),
                 Lit::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
                 Lit::Regex(regex) => Some(Cow::Owned(regex.exp.to_string())),
                 Lit::JSXText(_) => None,
@@ -233,17 +234,17 @@ impl PropNameExit for Prop {
 }
 
 pub trait MemberPropExt {
-    fn static_name(&self) -> Option<&Atom>;
+    fn static_name(&self) -> Option<&Wtf8Atom>;
 }
 
 impl MemberPropExt for MemberProp {
-    fn static_name(&self) -> Option<&Atom> {
+    fn static_name(&self) -> Option<&Wtf8Atom> {
         match self {
-            MemberProp::Ident(ident_name) => Some(&ident_name.sym),
+            MemberProp::Ident(ident_name) => Some(ident_name.sym.borrow()),
             MemberProp::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
-                Expr::Lit(Lit::Str(s)) => s.value.as_atom(),
+                Expr::Lit(Lit::Str(s)) => Some(&s.value),
                 Expr::Tpl(tpl) if tpl.quasis.len() == 1 && tpl.exprs.is_empty() => {
-                    Some(&tpl.quasis[0].raw)
+                    tpl.quasis[0].cooked.as_ref()
                 }
                 _ => None,
             },

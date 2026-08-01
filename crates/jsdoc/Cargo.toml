@@ -7,19 +7,17 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "jsdoc"
 repository    = { workspace = true }
-version       = "22.0.0"
+version       = "24.0.0"
 
 [lib]
 bench = false
 
 [features]
-__rkyv = []
 encoding-impl = [
   "cbor4ii",
   "swc_atoms/encoding-impl",
   "swc_common/encoding-impl",
 ]
-rkyv-impl = []
 serde-impl = ["serde"]
 
 [lints.rust]
@@ -30,10 +28,10 @@ cbor4ii = { workspace = true, features = ["use_std"], optional = true }
 nom     = { workspace = true }
 serde   = { workspace = true, features = ["derive"], optional = true }
 
-swc_atoms  = { version = "9.0.1", path = "../swc_atoms" }
-swc_common = { version = "22.0.0", path = "../swc_common" }
+swc_atoms  = { version = "10.0.0", path = "../swc_atoms" }
+swc_common = { version = "24.0.0", path = "../swc_common" }
 
 [dev-dependencies]
 dashmap         = { workspace = true }
-swc_ecma_parser = { version = "40.0.0", path = "../swc_ecma_parser" }
-testing         = { version = "23.0.0", path = "../testing" }
+swc_ecma_parser = { version = "43.0.0", path = "../swc_ecma_parser" }
+testing         = { version = "25.0.0", path = "../testing" }

@@ -26,7 +26,10 @@ pub(crate) struct PropertyAccessOpts {
 
 /// Methods related to the option `unused`.
 impl Optimizer<'_> {
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_var_declarator(
         &mut self,
         var: &mut VarDeclarator,
@@ -85,7 +88,10 @@ impl Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_param(&mut self, pat: &mut Pat, ignore_fn_length: bool) {
         if !self.options.unused && !self.options.reduce_fns {
             return;
@@ -115,7 +121,10 @@ impl Optimizer<'_> {
         self.take_pat_if_unused(pat, None, false)
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
         if self
             .ctx
@@ -154,7 +163,10 @@ impl Optimizer<'_> {
         self.take_pat_if_unused(name, init, true);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
         if self.options.keep_fargs || !self.options.unused {
             return;
@@ -171,7 +183,10 @@ impl Optimizer<'_> {
         params.retain(|p| !p.pat.is_invalid());
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_arrow_params(&mut self, params: &mut Vec<Pat>) {
         if self.options.keep_fargs || !self.options.unused {
             return;
@@ -188,7 +203,10 @@ impl Optimizer<'_> {
         params.retain(|p| !p.is_invalid());
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn take_ident_of_pat_if_unused(&mut self, i: &mut Ident, init: Option<&mut Expr>) {
         trace_op!("unused: Checking identifier `{}`", i);
 
@@ -343,7 +361,10 @@ impl Optimizer<'_> {
 
     /// `parent_span` should be [Span] of [VarDeclarator] or [AssignExpr]
     #[allow(clippy::only_used_in_recursion)]
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn take_pat_if_unused(
         &mut self,
         name: &mut Pat,
@@ -513,7 +534,10 @@ impl Optimizer<'_> {
     }
 
     /// Creates an empty [VarDecl] if `decl` should be removed.
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_decl(&mut self, decl: &mut Decl) {
         if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
             return;
@@ -632,7 +656,10 @@ impl Optimizer<'_> {
     }
 
     /// This should be only called from ignore_return_value
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_update(&mut self, e: &mut Expr) {
         if !self.options.unused {
             return;
@@ -665,7 +692,10 @@ impl Optimizer<'_> {
     }
 
     /// This should be only called from ignore_return_value
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_op_assign(&mut self, e: &mut Expr) {
         if !self.options.unused {
             return;
@@ -677,7 +707,8 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .top
+            .get_scope(self.ctx.var_scope)
+            .unwrap()
             .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
         {
             return;
@@ -712,7 +743,10 @@ impl Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
         if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg) {
             return;
@@ -720,7 +754,8 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .top
+            .get_scope(self.ctx.var_scope)
+            .unwrap()
             .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
         {
             return;
@@ -816,7 +851,10 @@ impl Optimizer<'_> {
     }
 
     /// Make `name` [None] if the name is not used.
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn remove_name_if_not_used(&mut self, name: &mut Option<Ident>) {
         if !self.options.unused {
             return;
@@ -1124,6 +1162,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.bit_ctx.intersects(BitCtx::InWithStmt) {
+            return;
+        }
+
         if e.args.iter().any(|a| a.spread.is_some()) {
             return;
         }
@@ -1202,6 +1244,120 @@ impl Optimizer<'_> {
                         *arg.expr = new;
                     } else {
                         e.args.remove(i);
+                    }
+                }
+            }
+        }
+    }
+
+    pub(crate) fn ignore_unused_args_of_new(&mut self, e: &mut NewExpr) {
+        if !self.options.unused && !self.options.reduce_vars {
+            return;
+        }
+
+        if self.ctx.bit_ctx.intersects(BitCtx::InWithStmt) {
+            return;
+        }
+
+        let args = if let Some(args) = &mut e.args {
+            args
+        } else {
+            return;
+        };
+
+        if args.iter().any(|a| a.spread.is_some()) {
+            return;
+        }
+
+        let callee = &mut *e.callee;
+
+        match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                if let Some(scope) = self.data.get_scope(function.ctxt) {
+                    if scope.intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL)) {
+                        return;
+                    }
+                }
+            }
+            Expr::Class(c) => {
+                for m in &c.class.body {
+                    if let Some(scope) =
+                        m.as_constructor().and_then(|c| self.data.get_scope(c.ctxt))
+                    {
+                        if scope
+                            .intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+            _ => (),
+        }
+
+        let params_len = match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                let params = &function.params;
+
+                if !params.iter().any(|p| p.pat.is_rest()) {
+                    params.len()
+                } else {
+                    return;
+                }
+            }
+            Expr::Class(ClassExpr { class, .. }) => {
+                let c = class
+                    .body
+                    .iter()
+                    .filter_map(|c| c.as_constructor())
+                    .find(|c| c.body.is_some());
+
+                if let Some(c) = c {
+                    if !c
+                        .params
+                        .iter()
+                        .any(|p| p.as_param().and_then(|p| p.pat.as_rest()).is_some())
+                    {
+                        c.params.len()
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+            Expr::Ident(i) => {
+                if let Some(scope) = self.data.get_scope(i.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                        return;
+                    }
+                }
+
+                if let Some(data) = self.data.get_var_data(i.to_id()) {
+                    if let (true, Some(Value::Known(count))) = (
+                        data.flags.intersects(VarUsageInfoFlags::DECLARED),
+                        data.param_count,
+                    ) {
+                        count as usize
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+            _ => return,
+        };
+
+        if args.len() > params_len {
+            for i in (params_len..args.len()).rev() {
+                if let Some(arg) = args.get_mut(i) {
+                    let new = self.ignore_return_value(&mut arg.expr);
+
+                    if let Some(new) = new {
+                        *arg.expr = new;
+                    } else {
+                        args.remove(i);
                     }
                 }
             }

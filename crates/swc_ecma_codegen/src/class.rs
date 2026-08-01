@@ -8,7 +8,7 @@ use crate::{
     scope_helpers::{for_each_constructor_param_binding, for_each_param_binding},
     text_writer::{BindingStorage, ScopeKind, WriteJs},
     util::StartsWithAlphaNum,
-    Emitter, ListFormat, Result, SourceMapperExt,
+    Emitter, ExprPrecedence, ListFormat, Result, SourceMapperExt,
 };
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
@@ -21,13 +21,13 @@ where
             space!(self);
             keyword!(self, "extends");
 
-            if super_class.starts_with_alpha_num() {
+            if self.expr_starts_with_alpha_num_after_codegen(super_class, ExprPrecedence::POSTFIX) {
                 space!(self);
             } else {
                 formatting_space!(self)
             }
 
-            emit!(self, node.super_class);
+            self.emit_expr_with_precedence(super_class, ExprPrecedence::POSTFIX)?;
             emit!(self, node.super_type_params);
         }
 
@@ -94,13 +94,15 @@ impl MacroNode for Class {
             space!(emitter);
             keyword!(emitter, "extends");
 
-            if super_class.starts_with_alpha_num() {
+            if emitter
+                .expr_starts_with_alpha_num_after_codegen(super_class, ExprPrecedence::POSTFIX)
+            {
                 space!(emitter);
             } else {
                 formatting_space!(emitter)
             }
 
-            emit!(self.super_class);
+            emitter.emit_expr_with_precedence(super_class, ExprPrecedence::POSTFIX)?;
             emit!(self.super_type_params);
         }
 

@@ -91,7 +91,7 @@ let a = 1;
 }
 ```
 
-#### [`/crates/swc_ecma_transforms_base/src/fixer`](crates/swc_ecma_transforms_base/src/fixer)
+#### [`/crates/swc_ecma_transforms_base/src/fixer.rs`](crates/swc_ecma_transforms_base/src/fixer.rs)
 
 Fixes broken AST. This allow us to simply fold types like `BinExpr` without caring about operator precedence.
 

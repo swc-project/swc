@@ -295,7 +295,7 @@ impl Visit for InfectionCollector {
 
         match e {
             Expr::Ident(i) => {
-                if self.ctx.contains(Ctx::TrackExprIdent) {
+                if self.ctx.contains(Ctx::TrackExprIdent) || self.config.need_all {
                     self.add_usage(i.to_id());
                 }
             }
@@ -340,14 +340,12 @@ impl Visit for InfectionCollector {
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
         {
-            let mut ctx = self.ctx;
-            ctx.set(Ctx::TrackExprIdent, self.config.need_all);
+            let ctx = self.ctx - Ctx::TrackExprIdent;
             n.obj.visit_with(&mut *self.with_ctx(ctx));
         }
 
         {
-            let mut ctx = self.ctx;
-            ctx.set(Ctx::TrackExprIdent, self.config.need_all);
+            let ctx = self.ctx - Ctx::TrackExprIdent;
             n.prop.visit_with(&mut *self.with_ctx(ctx));
         }
     }

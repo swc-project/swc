@@ -1,9 +1,9 @@
 System.register([], function(_export, _context) {
     "use strict";
-    var c;
+    var _old, c;
     function a() {
         alert("a");
-        _export("c", +c + 1), c++;
+        _old = c++, _export("c", c), _old;
     }
     function b() {
         a();
@@ -12,7 +12,10 @@ System.register([], function(_export, _context) {
         alert("a");
         c++;
     }
-    _export("a", a);
+    _export({
+        a: a,
+        c: void 0
+    });
     return {
         setters: [],
         execute: function() {

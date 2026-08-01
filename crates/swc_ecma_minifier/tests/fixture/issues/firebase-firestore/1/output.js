@@ -2141,10 +2141,10 @@
                                 if (isNaN(e)) return {
                                     doubleValue: "NaN"
                                 };
-                                if (e === 1 / 0) return {
+                                if (1 / 0 === e) return {
                                     doubleValue: "Infinity"
                                 };
-                                if (e === -1 / 0) return {
+                                if (-1 / 0 === e) return {
                                     doubleValue: "-Infinity"
                                 };
                             }
@@ -4692,7 +4692,7 @@
                                             case "IS_NAN":
                                                 let e = ms(t.unaryFilter.field);
                                                 return Jt.create(e, "==" /* EQUAL */ , {
-                                                    doubleValue: NaN
+                                                    doubleValue: 0 / 0
                                                 });
                                             case "IS_NULL":
                                                 let n = ms(t.unaryFilter.field);
@@ -4702,7 +4702,7 @@
                                             case "IS_NOT_NAN":
                                                 let s = ms(t.unaryFilter.field);
                                                 return Jt.create(s, "!=" /* NOT_EQUAL */ , {
-                                                    doubleValue: NaN
+                                                    doubleValue: 0 / 0
                                                 });
                                             case "IS_NOT_NULL":
                                                 let i = ms(t.unaryFilter.field);

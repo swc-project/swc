@@ -17,6 +17,7 @@ System.register([], function(_export, _context) {
     function foo() {
         const p2 = _context.import("./0");
     }
+    _export("p2", void 0);
     return {
         setters: [],
         execute: function() {

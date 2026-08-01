@@ -1,1 +1,1 @@
-console.log(Math.random() === -1 / 0);
+console.log(-1 / 0 === Math.random());

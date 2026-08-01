@@ -8,7 +8,7 @@ use testing::{assert_eq, DebugUsingDisplay};
 
 use super::*;
 use crate::{
-    rename::renamer_keep_contexts,
+    rename::{renamer, renamer_keep_contexts},
     tests::{HygieneVisualizer, Tester},
 };
 
@@ -29,6 +29,46 @@ impl Fold for Marker {
         }
 
         ident
+    }
+}
+
+struct ReplaceNonFiniteNumbers;
+
+impl Fold for ReplaceNonFiniteNumbers {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let Expr::Ident(ident) = &expr else {
+            return expr.fold_children_with(self);
+        };
+
+        let (value, raw) = match ident.sym.as_ref() {
+            "__NAN__" => (f64::NAN, None),
+            "__NAN_RAW__" => (f64::NAN, Some(atom!("NaN"))),
+            "__INFINITY__" => (f64::INFINITY, None),
+            "__INFINITY_RAW__" => (f64::INFINITY, Some(atom!("Infinity"))),
+            "__NEG_INFINITY__" => (f64::NEG_INFINITY, None),
+            _ => return expr,
+        };
+
+        Expr::Lit(Lit::Num(Number {
+            span: ident.span,
+            value,
+            raw,
+        }))
+    }
+}
+
+struct ReplaceNumericPropertyWithNaN;
+
+impl Fold for ReplaceNumericPropertyWithNaN {
+    fn fold_prop_name(&mut self, prop: PropName) -> PropName {
+        match prop {
+            PropName::Num(mut num) => {
+                num.value = f64::NAN;
+                num.raw = None;
+                PropName::Num(num)
+            }
+            _ => prop.fold_children_with(self),
+        }
     }
 }
 
@@ -159,6 +199,162 @@ fn simple() {
         use(foo);
         ",
     );
+}
+
+#[test]
+fn reserves_non_finite_number_output_symbols() {
+    test(
+        |tester| {
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual.js",
+                    "function f(NaN, Infinity) { let local = NaN; return () => [__NAN__, \
+                     __NAN_RAW__, __INFINITY__, __INFINITY_RAW__, __NEG_INFINITY__, local]; }",
+                )?
+                .fold_with(&mut ReplaceNonFiniteNumbers)])
+        },
+        "function f(NaN1, Infinity1) { let local = NaN1; return () => [0 / 0, NaN, 1 / 0, \
+         Infinity, -1 / 0, local]; }",
+    );
+}
+
+#[test]
+fn renames_local_binding_that_captures_non_finite_output() {
+    test(
+        |tester| {
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual.js",
+                    "function f() { let NaN = 1; return __NAN_RAW__; }",
+                )?
+                .fold_with(&mut ReplaceNonFiniteNumbers)])
+        },
+        "function f() { let NaN1 = 1; return NaN; }",
+    );
+}
+
+#[test]
+fn generated_non_finite_numbers_do_not_reserve_output_symbols() {
+    test(
+        |tester| {
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual.js",
+                    "function f(NaN, Infinity) { return [__NAN__, __INFINITY__, \
+                     __NEG_INFINITY__]; }",
+                )?
+                .fold_with(&mut ReplaceNonFiniteNumbers)])
+        },
+        "function f(NaN, Infinity) { return [0 / 0, 1 / 0, -1 / 0]; }",
+    );
+}
+
+#[test]
+fn propagates_non_finite_output_symbols_to_visible_parents_only() {
+    test(
+        |tester| {
+            let outer_mark = Mark::fresh(Mark::root());
+            let safe_mark = Mark::fresh(Mark::root());
+            let needs_mark = Mark::fresh(Mark::root());
+
+            Ok(vec![
+                tester
+                    .parse_stmt(
+                        "outer.js",
+                        "function outer(Infinity) { return function inner() { return \
+                         __INFINITY_RAW__; }; }",
+                    )?
+                    .fold_with(&mut marker(&[("Infinity", outer_mark)]))
+                    .fold_with(&mut ReplaceNonFiniteNumbers),
+                tester
+                    .parse_stmt("safe.js", "function safe(NaN) { return NaN; }")?
+                    .fold_with(&mut marker(&[("NaN", safe_mark)])),
+                tester
+                    .parse_stmt("needs.js", "function needs(NaN) { return __NAN_RAW__; }")?
+                    .fold_with(&mut marker(&[("NaN", needs_mark)]))
+                    .fold_with(&mut ReplaceNonFiniteNumbers),
+            ])
+        },
+        "function outer(Infinity1) { return function inner() { return Infinity; }; } function \
+         safe(NaN) { return NaN; } function needs(NaN1) { return NaN; }",
+    );
+}
+
+#[test]
+fn avoids_existing_names_for_non_finite_output_symbols() {
+    test(
+        |tester| {
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual.js",
+                    "function f(NaN, NaN1) { return [__NAN_RAW__, NaN, NaN1]; }",
+                )?
+                .fold_with(&mut ReplaceNonFiniteNumbers)])
+        },
+        "function f(NaN1, NaN11) { return [NaN, NaN1, NaN11]; }",
+    );
+}
+
+#[test]
+fn numeric_property_names_do_not_reserve_output_symbols() {
+    test(
+        |tester| {
+            Ok(vec![tester
+                .parse_stmt("actual.js", "function f(NaN) { return { 0: NaN }; }")?
+                .fold_with(&mut ReplaceNumericPropertyWithNaN)])
+        },
+        "function f(NaN) { return { NaN: NaN }; }",
+    );
+}
+
+#[test]
+fn mangling_respects_non_finite_output_symbols() {
+    struct OutputSymbolMangler;
+
+    impl Renamer for OutputSymbolMangler {
+        type Target = Atom;
+
+        const MANGLE: bool = true;
+        const RESET_N: bool = false;
+
+        fn new_name_for(&self, _orig: &Id, n: &mut usize) -> Atom {
+            let symbol = match *n {
+                0 => atom!("NaN"),
+                1 => atom!("Infinity"),
+                _ => atom!("safe"),
+            };
+            *n += 1;
+            symbol
+        }
+
+        fn preserve_name(&self, orig: &Id) -> bool {
+            orig.0 != "value"
+        }
+    }
+
+    crate::tests::Tester::run(|tester| {
+        let mut program = Program::Module(
+            tester
+                .parse_module(
+                    "actual.js",
+                    "function f(value) { return [__NAN_RAW__, __INFINITY_RAW__, value]; }",
+                )?
+                .fold_with(&mut ReplaceNonFiniteNumbers),
+        );
+
+        program.visit_mut_with(&mut renamer(Default::default(), OutputSymbolMangler));
+
+        let actual = tester.print(&program);
+        let expected = tester.parse_module(
+            "expected.js",
+            "function f(safe) { return [NaN, Infinity, safe]; }",
+        )?;
+        let expected = tester.print(&Program::Module(expected));
+
+        assert_eq!(DebugUsingDisplay(&actual), DebugUsingDisplay(&expected));
+
+        Ok(())
+    });
 }
 
 #[test]

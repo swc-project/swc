@@ -4,7 +4,7 @@ use anyhow::Context;
 use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
 use swc_common::{
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::{DiagnosticId, Handler, HANDLER},
     source_map::DefaultSourceMapGenConfig,
     sync::Lrc,
@@ -15,11 +15,11 @@ use swc_ecma_ast::{
     ClassProp, Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, Expr, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp,
     IfStmt, ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat, Param,
-    Pat, PrivateMethod, PrivateProp, Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
-    TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
-    TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam,
-    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
-    TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
+    Pat, PrivateMethod, PrivateProp, Program, SetterProp, Stmt, TsAsExpr, TsConstAssertion,
+    TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation,
+    TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
+    VarDeclarator, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -36,6 +36,10 @@ use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::{Visit, VisitWith};
 #[cfg(feature = "wasm-bindgen")]
 use wasm_bindgen::prelude::*;
+
+use crate::strip::StripEditPlan;
+
+mod strip;
 
 #[derive(Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -249,14 +253,15 @@ pub fn operate(
     let syntax = Syntax::Typescript(options.parser);
     let target = EsVersion::latest();
 
-    let comments = SingleThreadedComments::default();
+    let comments = matches!(&options.mode, Mode::Transform).then(SingleThreadedComments::default);
+    let lexer_comments = comments.as_ref().map(|comments| comments as &dyn Comments);
 
-    let (program, errors, mut tokens) = if should_capture_tokens {
+    let (program, errors, tokens) = if should_capture_tokens {
         let lexer = Capturing::new(Lexer::new(
             syntax,
             target,
             StringInput::from(&*fm),
-            Some(&comments),
+            lexer_comments,
         ));
         let mut parser = Parser::new_from(lexer);
 
@@ -270,7 +275,7 @@ pub fn operate(
 
         (program, errors, tokens)
     } else {
-        let lexer = Lexer::new(syntax, target, StringInput::from(&*fm), Some(&comments));
+        let lexer = Lexer::new(syntax, target, StringInput::from(&*fm), lexer_comments);
         let mut parser = Parser::new_from(lexer);
 
         let program = match options.module {
@@ -282,6 +287,12 @@ pub fn operate(
 
         (program, errors, Vec::new())
     };
+    debug_assert!(
+        tokens
+            .windows(2)
+            .all(|tokens| tokens[0].span.lo < tokens[1].span.lo),
+        "captured tokens must be ordered by source position"
+    );
 
     let mut program = match program {
         Ok(program) => program,
@@ -318,11 +329,10 @@ pub fn operate(
 
     match options.mode {
         Mode::StripOnly => {
-            tokens.sort_by_key(|t| t.span);
-
             if deprecated_ts_module_as_error {
                 program.visit_with(&mut ErrorOnTsModule {
                     src: &fm.src,
+                    source_start: fm.start_pos,
                     tokens: &tokens,
                 });
                 if handler.has_errors() {
@@ -334,7 +344,7 @@ pub fn operate(
             }
 
             // Strip typescript types
-            let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
+            let mut ts_strip = TsStrip::new(fm.src.clone(), fm.start_pos, tokens);
 
             program.visit_with(&mut ts_strip);
             if handler.has_errors() {
@@ -344,80 +354,16 @@ pub fn operate(
                 });
             }
 
-            let replacements = ts_strip.replacements;
-            let overwrites = ts_strip.overwrites;
+            let edits = ts_strip.edits;
 
-            if replacements.is_empty() && overwrites.is_empty() {
+            if edits.is_empty() {
                 return Ok(TransformOutput {
                     code: fm.src.to_string(),
                     map: Default::default(),
                 });
             }
 
-            let source = fm.src.clone();
-            let mut code = fm.src.to_string().into_bytes();
-
-            for r in replacements {
-                let (start, end) = (r.0 .0 as usize - 1, r.1 .0 as usize - 1);
-
-                for (i, c) in source[start..end].char_indices() {
-                    let i = start + i;
-                    match c {
-                        // https://262.ecma-international.org/#sec-white-space
-                        '\u{0009}' | '\u{0000B}' | '\u{000C}' | '\u{FEFF}' => continue,
-                        // Space_Separator
-                        '\u{0020}' | '\u{00A0}' | '\u{1680}' | '\u{2000}' | '\u{2001}'
-                        | '\u{2002}' | '\u{2003}' | '\u{2004}' | '\u{2005}' | '\u{2006}'
-                        | '\u{2007}' | '\u{2008}' | '\u{2009}' | '\u{200A}' | '\u{202F}'
-                        | '\u{205F}' | '\u{3000}' => continue,
-                        // https://262.ecma-international.org/#sec-line-terminators
-                        '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}' => continue,
-                        _ => match c.len_utf8() {
-                            1 => {
-                                // Space 0020
-                                code[i] = 0x20;
-                            }
-                            2 => {
-                                // No-Break Space 00A0
-                                code[i] = 0xc2;
-                                code[i + 1] = 0xa0;
-                            }
-                            3 => {
-                                // En Space 2002
-                                code[i] = 0xe2;
-                                code[i + 1] = 0x80;
-                                code[i + 2] = 0x82;
-                            }
-                            4 => {
-                                // We do not have a 4-byte space character in the Unicode standard.
-
-                                // Space 0020
-                                code[i] = 0x20;
-                                // ZWNBSP FEFF
-                                code[i + 1] = 0xef;
-                                code[i + 2] = 0xbb;
-                                code[i + 3] = 0xbf;
-                            }
-                            _ => unreachable!(),
-                        },
-                    }
-                }
-            }
-
-            for (i, v) in overwrites {
-                code[i.0 as usize - 1] = v;
-            }
-
-            let code = if cfg!(debug_assertions) {
-                String::from_utf8(code).map_err(|err| TsError {
-                    message: format!("failed to convert to utf-8: {err}"),
-                    code: ErrorCode::Unknown,
-                })?
-            } else {
-                // SAFETY: We've already validated that the source is valid utf-8
-                // and our operations are limited to character-level string replacements.
-                unsafe { String::from_utf8_unchecked(code) }
-            };
+            let code = edits.render(fm.start_pos, &fm.src);
 
             Ok(TransformOutput {
                 code,
@@ -426,6 +372,7 @@ pub fn operate(
         }
 
         Mode::Transform => {
+            let comments = comments.expect("transform mode must collect comments");
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
@@ -433,10 +380,9 @@ pub fn operate(
                 program.mutate(&mut resolver(unresolved_mark, top_level_mark, true));
 
                 if deprecated_ts_module_as_error {
-                    tokens.sort_by_key(|t| t.span);
-
                     program.visit_with(&mut ErrorOnTsModule {
                         src: &fm.src,
+                        source_start: fm.start_pos,
                         tokens: &tokens,
                     });
                     if handler.has_errors() {
@@ -538,6 +484,7 @@ pub fn operate(
 
 struct ErrorOnTsModule<'a> {
     src: &'a str,
+    source_start: BytePos,
     tokens: &'a [TokenAndSpan],
 }
 
@@ -588,8 +535,11 @@ impl Visit for ErrorOnTsModule<'_> {
             }
 
             pos = span.lo;
-        } else if self.src.as_bytes()[pos.0 as usize - 1] != b'm' {
-            return;
+        } else {
+            let offset = (pos.0 - self.source_start.0) as usize;
+            if self.src.as_bytes()[offset] != b'm' {
+                return;
+            }
         }
 
         if HANDLER.is_set() {
@@ -608,22 +558,17 @@ impl Visit for ErrorOnTsModule<'_> {
 
 struct TsStrip {
     src: BytesStr,
-
-    /// Replaced with whitespace
-    replacements: Vec<(BytePos, BytePos)>,
-
-    // should be string, but we use u8 for only `)` usage.
-    overwrites: Vec<(BytePos, u8)>,
-
+    source_start: BytePos,
+    edits: StripEditPlan,
     tokens: std::vec::Vec<TokenAndSpan>,
 }
 
 impl TsStrip {
-    fn new(src: BytesStr, tokens: std::vec::Vec<TokenAndSpan>) -> Self {
+    fn new(src: BytesStr, source_start: BytePos, tokens: std::vec::Vec<TokenAndSpan>) -> Self {
         TsStrip {
             src,
-            replacements: Default::default(),
-            overwrites: Default::default(),
+            source_start,
+            edits: Default::default(),
             tokens,
         }
     }
@@ -631,15 +576,17 @@ impl TsStrip {
 
 impl TsStrip {
     fn add_replacement(&mut self, span: Span) {
-        self.replacements.push((span.lo, span.hi));
+        self.edits.erase(span);
     }
 
-    fn add_overwrite(&mut self, pos: BytePos, value: u8) {
-        self.overwrites.push((pos, value));
+    fn add_overwrite(&mut self, pos: BytePos, value: char) {
+        self.edits.overwrite(pos, value);
     }
 
     fn get_src_slice(&self, span: Span) -> &str {
-        &self.src[(span.lo.0 - 1) as usize..(span.hi.0 - 1) as usize]
+        let start = (span.lo.0 - self.source_start.0) as usize;
+        let end = (span.hi.0 - self.source_start.0) as usize;
+        &self.src[start..end]
     }
 
     fn get_next_token_index(&self, pos: BytePos) -> usize {
@@ -705,15 +652,16 @@ impl TsStrip {
             Token::LParen
             | Token::LBracket
             | Token::NoSubstitutionTemplateLiteral
+            | Token::TemplateHead
             | Token::Plus
             | Token::Minus
             | Token::Regex => {
                 if prev_token == &Token::Semi {
-                    self.add_overwrite(prev_span.lo, b';');
+                    self.add_overwrite(prev_span.lo, ';');
                     return;
                 }
 
-                self.add_overwrite(span.lo, b';');
+                self.add_overwrite(span.lo, ';');
             }
 
             _ => {}
@@ -728,12 +676,16 @@ impl TsStrip {
 
         if let TokenAndSpan {
             // Only `(`, `[` and backtick affect ASI.
-            token: Token::LParen | Token::LBracket | Token::NoSubstitutionTemplateLiteral,
+            token:
+                Token::LParen
+                | Token::LBracket
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::TemplateHead,
             had_line_break: true,
             ..
         } = &self.tokens[index + 1]
         {
-            self.add_overwrite(span.lo, b';');
+            self.add_overwrite(span.lo, ';');
         }
     }
 
@@ -801,32 +753,51 @@ impl TsStrip {
         self.add_replacement(*span);
     }
 
-    // ```TypeScript
-    // return/yield/throw <T>
-    //     (v: T) => v;
-    // ```
+    // Stripping the type parameters can expose a line break that either makes
+    // JavaScript invalid (`async`, `throw`) or changes its parsing (`return`,
+    // `yield`):
     //
     // ```TypeScript
-    // return/yield/throw (
-    //      v   ) => v;
+    // const f = async<T>
+    // (value: T) => value;
+    //
+    // return <T>
+    // (value: T) => value;
     // ```
-    fn fix_asi_in_arrow_expr(&mut self, arrow_expr: &ArrowExpr) {
-        if let Some(tp) = &arrow_expr.type_params {
-            let l_paren = self.get_next_token(tp.span.hi);
-            debug_assert_eq!(l_paren.token, Token::LParen);
+    //
+    // Move the existing opening parenthesis into the type parameter slot so
+    // the output keeps the same byte length and line breaks:
+    //
+    // ```JavaScript
+    // const f = async(
+    //  value   ) => value;
+    //
+    // return (
+    //  value   ) => value;
+    // ```
+    fn move_arrow_opening_paren(&mut self, arrow_expr: &ArrowExpr, type_params: Span) {
+        let type_params_index = self.get_next_token_index(type_params.lo);
+        let follows_restricted_keyword = type_params_index > 0
+            && !self.tokens[type_params_index].had_line_break
+            && matches!(
+                self.tokens[type_params_index - 1].token,
+                Token::Return | Token::Yield | Token::Throw
+            );
 
-            let slice = self.get_src_slice(tp.span.with_hi(l_paren.span.lo));
-
-            if !slice.chars().any(is_new_line) {
-                return;
-            }
-
-            let l_paren_pos = l_paren.span.lo;
-            let l_lt_pos = tp.span.lo;
-
-            self.add_overwrite(l_paren_pos, b' ');
-            self.add_overwrite(l_lt_pos, b'(');
+        if !arrow_expr.is_async && !follows_restricted_keyword {
+            return;
         }
+
+        let l_paren = self.get_next_token(type_params.hi);
+        debug_assert_eq!(l_paren.token, Token::LParen);
+
+        let slice = self.get_src_slice(type_params.with_hi(l_paren.span.lo));
+        if !slice.chars().any(is_new_line) {
+            return;
+        }
+
+        self.add_overwrite(l_paren.span.lo, ' ');
+        self.add_overwrite(type_params.lo, '(');
     }
 
     fn assertion_chain_would_change_binary_grouping(
@@ -948,38 +919,9 @@ impl Visit for TsStrip {
     }
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        'type_params: {
-            // ```TypeScript
-            // let f = async <
-            //    T
-            // >(v: T) => v;
-            // ```
-
-            // ```TypeScript
-            // let f = async (
-            //
-            //   v   ) => v;
-            // ```
-            if let Some(tp) = &n.type_params {
-                self.add_replacement(tp.span);
-
-                if !n.is_async {
-                    break 'type_params;
-                }
-
-                let slice = self.get_src_slice(tp.span);
-                if !slice.chars().any(is_new_line) {
-                    break 'type_params;
-                }
-
-                let l_paren = self.get_next_token(tp.span.hi);
-                debug_assert_eq!(l_paren.token, Token::LParen);
-                let l_paren_pos = l_paren.span.lo;
-                let l_lt_pos = tp.span.lo;
-
-                self.add_overwrite(l_paren_pos, b' ');
-                self.add_overwrite(l_lt_pos, b'(');
-            }
+        if let Some(type_params) = &n.type_params {
+            self.add_replacement(type_params.span);
+            self.move_arrow_opening_paren(n, type_params.span);
         }
 
         if let Some(ret) = &n.return_type {
@@ -1012,72 +954,19 @@ impl Visit for TsStrip {
                 // ```
 
                 let mut pos = ret.span.hi - BytePos(1);
-                while !self.src.as_bytes()[pos.0 as usize - 1].is_utf8_char_boundary() {
-                    self.add_overwrite(pos, b' ');
+                while !self
+                    .src
+                    .is_char_boundary((pos.0 - self.source_start.0) as usize)
+                {
                     pos = pos - BytePos(1);
                 }
 
-                self.add_overwrite(pos, b')');
+                self.add_overwrite(pos, ')');
             }
         }
 
         n.params.visit_with(self);
         n.body.visit_with(self);
-    }
-
-    fn visit_return_stmt(&mut self, n: &ReturnStmt) {
-        let Some(arg) = n.arg.as_deref() else {
-            return;
-        };
-
-        arg.visit_with(self);
-
-        let Some(arrow_expr) = arg.as_arrow() else {
-            return;
-        };
-
-        if arrow_expr.is_async {
-            // We have already handled type parameters in `visit_arrow_expr`.
-            return;
-        }
-
-        self.fix_asi_in_arrow_expr(arrow_expr);
-    }
-
-    fn visit_yield_expr(&mut self, n: &YieldExpr) {
-        let Some(arg) = &n.arg else {
-            return;
-        };
-
-        arg.visit_with(self);
-
-        let Some(arrow_expr) = arg.as_arrow() else {
-            return;
-        };
-
-        if arrow_expr.is_async {
-            // We have already handled type parameters in `visit_arrow_expr`.
-            return;
-        }
-
-        self.fix_asi_in_arrow_expr(arrow_expr);
-    }
-
-    fn visit_throw_stmt(&mut self, n: &ThrowStmt) {
-        let arg = &n.arg;
-
-        arg.visit_with(self);
-
-        let Some(arrow_expr) = arg.as_arrow() else {
-            return;
-        };
-
-        if arrow_expr.is_async {
-            // We have already handled type parameters in `visit_arrow_expr`.
-            return;
-        }
-
-        self.fix_asi_in_arrow_expr(arrow_expr);
     }
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
@@ -1177,7 +1066,7 @@ impl Visit for TsStrip {
                     .filter(|k| matches!(k.sym.as_ref(), "in" | "instanceof"))
                     .is_some())
         {
-            self.add_overwrite(start_pos, b';');
+            self.add_overwrite(start_pos, ';');
         }
 
         n.visit_children_with(self);
@@ -1212,7 +1101,7 @@ impl Visit for TsStrip {
                     // `get: number`
                     // `get;       `
                     if let Some(type_ann) = &n.type_ann {
-                        self.add_overwrite(type_ann.span.lo, b';');
+                        self.add_overwrite(type_ann.span.lo, ';');
                     }
                 }
             }
@@ -1232,7 +1121,7 @@ impl Visit for TsStrip {
                     .filter(|k| matches!(k.sym.as_ref(), "in" | "instanceof"))
                     .is_some())
         {
-            self.add_overwrite(start_pos, b';');
+            self.add_overwrite(start_pos, ';');
         }
 
         n.visit_children_with(self);
@@ -1630,12 +1519,12 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.cons.is_ts_declare() {
-            self.add_overwrite(n.cons.span_lo(), b';');
+            self.add_overwrite(n.cons.span_lo(), ';');
         }
 
         if let Some(alt) = &n.alt {
             if alt.is_ts_declare() {
-                self.add_overwrite(alt.span_lo(), b';');
+                self.add_overwrite(alt.span_lo(), ';');
             }
         }
     }
@@ -1644,7 +1533,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1652,7 +1541,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1660,7 +1549,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1668,7 +1557,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1676,7 +1565,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.body.is_ts_declare() {
-            self.add_overwrite(n.body.span_lo(), b';');
+            self.add_overwrite(n.body.span_lo(), ';');
         }
     }
 
@@ -1808,19 +1697,6 @@ impl IsUninstantiated for Decl {
 impl IsUninstantiated for DefaultDecl {
     fn is_uninstantiated(&self) -> bool {
         matches!(self, Self::TsInterfaceDecl(..))
-    }
-}
-
-trait U8Helper {
-    fn is_utf8_char_boundary(&self) -> bool;
-}
-
-impl U8Helper for u8 {
-    // Copy from std::core::num::u8
-    #[inline]
-    fn is_utf8_char_boundary(&self) -> bool {
-        // This is bit magic equivalent to: b < 128 || b >= 192
-        (*self as i8) >= -0x40
     }
 }
 

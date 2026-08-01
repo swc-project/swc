@@ -16,12 +16,4 @@ switch('asdf'){
     case y2 = "PASS 5":
     case z = "PASS 5":
 }
-console.log(y2, z);
-var c = "FAIL";
-switch(0 / 0){
-    case 0 / 0:
-        break;
-    case void (c = "PASS"):
-        c = "FAIL";
-}
-console.log(c);
+console.log(y2, z), console.log("PASS");

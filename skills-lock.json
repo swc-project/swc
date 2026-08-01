@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "codspeed-optimize": {
+      "source": "CodSpeedHQ/codspeed",
+      "sourceType": "github",
+      "skillPath": "skills/codspeed-optimize/SKILL.md",
+      "computedHash": "8521003ae5faf606e129f18139fa6eb401821c41f8948dd8e45f0db8d40e46b3"
+    },
+    "codspeed-setup-harness": {
+      "source": "CodSpeedHQ/codspeed",
+      "sourceType": "github",
+      "skillPath": "skills/codspeed-setup-harness/SKILL.md",
+      "computedHash": "4ea2cc264339105bf12f70586acfefc85aec584de41caf9439e2ed9275dfee38"
+    }
+  }
+}

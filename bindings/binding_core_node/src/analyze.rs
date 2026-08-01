@@ -9,7 +9,6 @@ use swc_core::{
     common::{comments::SingleThreadedComments, FileName},
     node::MapErr,
 };
-use tracing::instrument;
 
 use crate::{get_fresh_compiler, util::try_with};
 
@@ -24,7 +23,7 @@ impl Task for AnalyzeTask {
     type JsValue = String;
     type Output = String;
 
-    #[instrument(level = "trace", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "trace", skip_all))]
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let options: WasmAnalysisOptions = serde_json::from_slice(self.options.as_ref())?;
 

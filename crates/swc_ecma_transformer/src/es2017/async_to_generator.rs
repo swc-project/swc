@@ -409,7 +409,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 /// Creates
 ///
 /// `_async_to_generator(function*() {})()` from `async function() {}`;
-#[tracing::instrument(level = "debug", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
 fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: BlockStmt) -> Expr {
     let helper = if fn_state.is_generator {
         helper_expr!(DUMMY_SP, wrap_async_generator)
@@ -451,7 +451,7 @@ fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: BlockStmt) -> Expr 
     }
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
 fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> bool {
     for param in param {
         debug_assert!(param.decorators.is_empty());
@@ -480,7 +480,7 @@ fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> b
     false
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
 fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let s = match stmt {
         Stmt::ForOf(s @ ForOfStmt { is_await: true, .. }) => s.take(),
@@ -933,6 +933,9 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
         Stmt::Try(try_stmt) => {
             replace_this_in_stmts(&mut try_stmt.block.stmts, this_var);
             if let Some(handler) = &mut try_stmt.handler {
+                if let Some(param) = &mut handler.param {
+                    replace_this_in_pat_inner(param, this_var);
+                }
                 replace_this_in_stmts(&mut handler.body.stmts, this_var);
             }
             if let Some(finalizer) = &mut try_stmt.finalizer {
@@ -952,9 +955,7 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
                 match init {
                     VarDeclOrExpr::VarDecl(var_decl) => {
                         for decl in &mut var_decl.decls {
-                            if let Some(init) = &mut decl.init {
-                                replace_this_in_expr(init, this_var);
-                            }
+                            replace_this_in_var_declarator(decl, this_var);
                         }
                     }
                     VarDeclOrExpr::Expr(expr) => {
@@ -976,16 +977,17 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
             match &mut for_in.left {
                 ForHead::VarDecl(var_decl) => {
                     for decl in &mut var_decl.decls {
-                        if let Some(init) = &mut decl.init {
-                            replace_this_in_expr(init, this_var);
-                        }
+                        replace_this_in_var_declarator(decl, this_var);
                     }
                 }
-                ForHead::Pat(_pat) => {
-                    // Patterns in for-in don't need traversal as they're
-                    // binding patterns
+                ForHead::Pat(pat) => {
+                    replace_this_in_pat_inner(pat, this_var);
                 }
-                ForHead::UsingDecl(_) => {}
+                ForHead::UsingDecl(using_decl) => {
+                    for decl in &mut using_decl.decls {
+                        replace_this_in_var_declarator(decl, this_var);
+                    }
+                }
                 #[cfg(swc_ast_unknown)]
                 _ => {}
             }
@@ -996,16 +998,17 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
             match &mut for_of.left {
                 ForHead::VarDecl(var_decl) => {
                     for decl in &mut var_decl.decls {
-                        if let Some(init) = &mut decl.init {
-                            replace_this_in_expr(init, this_var);
-                        }
+                        replace_this_in_var_declarator(decl, this_var);
                     }
                 }
-                ForHead::Pat(_pat) => {
-                    // Patterns in for-of don't need traversal as they're
-                    // binding patterns
+                ForHead::Pat(pat) => {
+                    replace_this_in_pat_inner(pat, this_var);
                 }
-                ForHead::UsingDecl(_) => {}
+                ForHead::UsingDecl(using_decl) => {
+                    for decl in &mut using_decl.decls {
+                        replace_this_in_var_declarator(decl, this_var);
+                    }
+                }
                 #[cfg(swc_ast_unknown)]
                 _ => {}
             }
@@ -1018,7 +1021,6 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
         Stmt::Decl(decl) => match decl {
             Decl::Class(_)
             | Decl::Fn(_)
-            | Decl::Using(_)
             | Decl::TsInterface(_)
             | Decl::TsTypeAlias(_)
             | Decl::TsEnum(_)
@@ -1027,9 +1029,12 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
             }
             Decl::Var(var_decl) => {
                 for decl in &mut var_decl.decls {
-                    if let Some(init) = &mut decl.init {
-                        replace_this_in_expr(init, this_var);
-                    }
+                    replace_this_in_var_declarator(decl, this_var);
+                }
+            }
+            Decl::Using(using_decl) => {
+                for decl in &mut using_decl.decls {
+                    replace_this_in_var_declarator(decl, this_var);
                 }
             }
             #[cfg(swc_ast_unknown)]
@@ -1252,6 +1257,15 @@ fn replace_this_in_opt_chain_base(base: &mut OptChainBase, this_var: &Ident) {
     }
 }
 
+/// Replaces `this` in variable declarator initializers and binding-pattern
+/// default values after an async arrow body is moved into a generator function.
+fn replace_this_in_var_declarator(decl: &mut VarDeclarator, this_var: &Ident) {
+    replace_this_in_pat_inner(&mut decl.name, this_var);
+    if let Some(init) = &mut decl.init {
+        replace_this_in_expr(init, this_var);
+    }
+}
+
 fn replace_this_in_pat(pat: &mut AssignTargetPat, this_var: &Ident) {
     match pat {
         AssignTargetPat::Array(array) => {
@@ -1323,8 +1337,11 @@ fn replace_this_in_pat_inner(pat: &mut Pat, this_var: &Ident) {
         Pat::Rest(rest) => {
             replace_this_in_pat_inner(&mut rest.arg, this_var);
         }
+        Pat::Expr(expr) => {
+            replace_this_in_expr(expr, this_var);
+        }
         // Don't need to traverse these as they're just identifiers or invalid
-        Pat::Ident(_) | Pat::Invalid(_) | Pat::Expr(_) => {}
+        Pat::Ident(_) | Pat::Invalid(_) => {}
         #[cfg(swc_ast_unknown)]
         _ => {}
     }

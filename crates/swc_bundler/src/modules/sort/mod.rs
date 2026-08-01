@@ -26,6 +26,7 @@ impl Modules {
         cycles: &Vec<Vec<ModuleId>>,
         cm: &Lrc<SourceMap>,
     ) {
+        #[cfg(debug_assertions)]
         tracing::debug!("Sorting {:?}", entry_id);
 
         let injected_ctxt = self.injected_ctxt;
@@ -36,6 +37,7 @@ impl Modules {
         #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
         #[cfg(not(target_arch = "wasm32"))]
+        #[cfg(debug_assertions)]
         tracing::debug!("Sorting took {:?}", dur);
 
         let buf = chunks
@@ -52,6 +54,7 @@ impl Modules {
         // print_hygiene("after sort", cm, &module);
 
         *self = Modules::from(entry_id, module, injected_ctxt);
+        #[cfg(debug_assertions)]
         tracing::debug!("Sorted {:?}", entry_id);
     }
 }

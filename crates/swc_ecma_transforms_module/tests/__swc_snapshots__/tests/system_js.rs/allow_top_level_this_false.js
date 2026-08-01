@@ -5,6 +5,7 @@ System.register([], function(_export, _context) {
         function d() {}
         var b = this;
     }
+    _export("v", void 0);
     return {
         setters: [],
         execute: function() {

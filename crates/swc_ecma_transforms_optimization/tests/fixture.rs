@@ -4,7 +4,10 @@ use swc_common::{pass::Repeat, Mark};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_base::fixer::paren_remover;
-use swc_ecma_transforms_optimization::simplify::{dce::dce, expr_simplifier};
+use swc_ecma_transforms_optimization::{
+    json_parse,
+    simplify::{dce::dce, expr_simplifier},
+};
 use swc_ecma_transforms_testing::{test_fixture, Tester};
 use swc_ecma_visit::visit_mut_pass;
 
@@ -84,6 +87,27 @@ fn expr(input: PathBuf) {
             (
                 remover(t),
                 Repeat::new(expr_simplifier(top_level_mark, Default::default())),
+            )
+        },
+        &input,
+        &output,
+        Default::default(),
+    );
+}
+
+#[testing::fixture("tests/json-parse/**/input.js")]
+fn json_parse_fixture(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        Syntax::Es(Default::default()),
+        &|t| {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            (
+                remover(t),
+                Repeat::new(expr_simplifier(top_level_mark, Default::default())),
+                json_parse(0),
             )
         },
         &input,

@@ -5,7 +5,9 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::{assumptions::Assumptions, helper, helper_expr};
-use swc_ecma_utils::{alias_if_required, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    alias_if_required, number::ToJsString, private_ident, quote_ident, ExprFactory,
+};
 
 use crate::TraverseCtx;
 
@@ -1053,7 +1055,7 @@ fn make_rest_call(config: Config, source: Ident, excluded: Vec<PropName>) -> Exp
                 PropName::Str(s) => Expr::Lit(Lit::Str(s)),
                 PropName::Num(n) => Expr::Lit(Lit::Str(Str {
                     span: n.span,
-                    value: n.value.to_string().into(),
+                    value: n.value.to_js_string().into(),
                     raw: None,
                 })),
                 PropName::Computed(c) if impure_count == 1 && !is_lit_str(&c.expr) => CallExpr {

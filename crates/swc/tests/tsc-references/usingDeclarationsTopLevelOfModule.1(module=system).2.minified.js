@@ -3,14 +3,19 @@ System.register([
     "@swc/helpers/_/_ts_add_disposable_resource",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
-    var _ts_add_disposable_resource, _ts_dispose_resources, env, x, w;
-    return {
+    var _ts_add_disposable_resource, _ts_dispose_resources, env, w, x, z;
+    return _export({
+        default: void 0,
+        w: void 0,
+        x: void 0,
+        y: void 0
+    }), {
         setters: [
-            function(_ts_add_disposable_resource1) {
-                _ts_add_disposable_resource = _ts_add_disposable_resource1._;
+            function(_ts_add_disposable_resource_ns) {
+                _ts_add_disposable_resource = _ts_add_disposable_resource_ns._;
             },
-            function(_ts_dispose_resources1) {
-                _ts_dispose_resources = _ts_dispose_resources1._;
+            function(_ts_dispose_resources_ns) {
+                _ts_dispose_resources = _ts_dispose_resources_ns._;
             }
         ],
         execute: function() {
@@ -20,10 +25,9 @@ System.register([
                 hasError: !1
             };
             try {
-                var z = _ts_add_disposable_resource(env, {
+                z = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
-                }, !1);
-                console.log(w, x, 2, z);
+                }, !1), _export("y", 2), console.log(w, x, 2, z);
             } catch (e) {
                 env.error = e, env.hasError = !0;
             } finally{

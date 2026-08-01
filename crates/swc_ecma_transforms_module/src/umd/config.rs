@@ -43,7 +43,7 @@ impl Config {
                         )
                         .map_err(|e| {
                             if HANDLER.is_set() {
-                                HANDLER.with(|h| e.into_diagnostic(h).emit())
+                                HANDLER.with(|h| e.into_diagnostic(h).emit());
                             }
                         })
                         .unwrap()

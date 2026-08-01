@@ -1,6 +1,7 @@
 macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             tracing::debug!("{}: {:?}", stringify!($name), $p.input.cur());
         }
     }};
@@ -20,6 +21,7 @@ macro_rules! syntax_error {
             }
         }
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             tracing::error!(
                 "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
                 file!(),
@@ -62,7 +64,7 @@ macro_rules! unexpected {
 
 macro_rules! debug_tracing {
     ($p:expr, $name:tt) => {{
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         {
             let _ = tracing::span!(
                 tracing::Level::ERROR,

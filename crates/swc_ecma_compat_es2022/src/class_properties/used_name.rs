@@ -1,7 +1,6 @@
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-use swc_trace_macro::swc_trace;
 
 pub(super) struct UsedNameCollector<'a> {
     pub used_names: &'a mut Vec<Atom>,
@@ -14,7 +13,6 @@ macro_rules! noop {
     };
 }
 
-#[swc_trace]
 impl Visit for UsedNameCollector<'_> {
     noop_visit_type!(fail);
 

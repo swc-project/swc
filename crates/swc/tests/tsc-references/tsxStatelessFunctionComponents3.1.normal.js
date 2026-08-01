@@ -1,24 +1,20 @@
 //// [file.tsx]
 define([
     "require",
-    "exports",
     "react"
-], function(require, exports, _react) {
+], function(require, React) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     var Foo = function Foo(props) {
-        return /*#__PURE__*/ _react.createElement("div", null);
+        return /*#__PURE__*/ React.createElement("div", null);
     };
     // Should be OK
-    var foo = /*#__PURE__*/ _react.createElement(Foo, null);
+    var foo = /*#__PURE__*/ React.createElement(Foo, null);
     // Should be OK
     var MainMenu = function MainMenu(props) {
-        return /*#__PURE__*/ _react.createElement("div", null, /*#__PURE__*/ _react.createElement("h3", null, "Main Menu"));
+        return /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("h3", null, "Main Menu"));
     };
     var App = function App(param) {
         var children = param.children;
-        return /*#__PURE__*/ _react.createElement("div", null, /*#__PURE__*/ _react.createElement(MainMenu, null));
+        return /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(MainMenu, null));
     };
 });

@@ -26,29 +26,31 @@ define([
     "require",
     "exports",
     "@swc/helpers/_/_interop_require_wildcard",
+    "./t1",
     "./t1"
-], function(require, exports, _interop_require_wildcard, _t1) {
+], function(require, exports, _interop_require_wildcard, _t1, a) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    var _t11 = /*#__PURE__*/ _interop_require_wildcard._(_t1);
+    _t1 = /*#__PURE__*/ _interop_require_wildcard._(_t1);
+    a.default;
     _t1.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
+    _t1.default;
+    _t1.default;
+    _t1.default;
+    _t1.default;
+    _t1.default;
+    _t1.default;
 });
 //// [t3.ts]
 define([
     "require",
     "exports",
     "@swc/helpers/_/_interop_require_wildcard",
+    "./t1",
     "./t1"
-], function(require, exports, _interop_require_wildcard, _t1) {
+], function(require, exports, _interop_require_wildcard, _t1, a) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -61,37 +63,37 @@ define([
     }
     _export(exports, {
         get a () {
-            return _t1;
+            return a;
         },
         get b () {
-            return _t11.default;
+            return _t1.default;
         },
         get c () {
-            return _t11;
+            return _t1;
         },
         get d () {
-            return _t11.default;
+            return _t1.default;
         },
         get e1 () {
-            return _t11.default;
+            return _t1.default;
         },
         get e2 () {
-            return _t11;
+            return _t1;
         },
         get f1 () {
-            return _t11.default;
+            return _t1.default;
         },
         get f2 () {
-            return _t11.default;
+            return _t1.default;
         }
     });
-    var _t11 = /*#__PURE__*/ _interop_require_wildcard._(_t1);
+    _t1 = /*#__PURE__*/ _interop_require_wildcard._(_t1);
+    a.default;
     _t1.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
+    _t1.default;
+    _t1.default;
+    _t1.default;
+    _t1.default;
+    _t1.default;
+    _t1.default;
 });

@@ -10,6 +10,8 @@ use std::{env, panic::set_hook};
 
 use backtrace::Backtrace;
 
+mod diagnostics;
+mod lint;
 mod support;
 
 #[napi_derive::module_init]

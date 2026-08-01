@@ -7,7 +7,7 @@ use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 use super::Pure;
 use crate::{
     compress::util::{can_absorb_negate, is_eq, is_pure_undefined, negate, negate_cost},
-    util::make_bool,
+    util::{is_falsy_number, make_bool},
 };
 
 #[inline(always)]
@@ -529,7 +529,7 @@ impl Pure<'_> {
                     self.changed = true;
                     *n = Lit::Num(Number {
                         span: *span,
-                        value: if *value == 0.0 { 1.0 } else { 0.0 },
+                        value: if is_falsy_number(*value) { 1.0 } else { 0.0 },
                         raw: None,
                     })
                     .into()
@@ -601,7 +601,7 @@ impl Pure<'_> {
                     self.changed = true;
                     *n = Lit::Num(Number {
                         span: num.span,
-                        value: if num.value == 0.0 { 0.0 } else { 1.0 },
+                        value: if is_falsy_number(num.value) { 0.0 } else { 1.0 },
                         raw: None,
                     })
                     .into();

@@ -37,57 +37,6 @@ impl std::hash::Hash for Unknown {
     }
 }
 
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug)]
-struct UnknownError;
-
-#[cfg(feature = "rkyv-impl")]
-impl std::error::Error for UnknownError {}
-
-#[cfg(feature = "rkyv-impl")]
-impl std::fmt::Display for UnknownError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "cannot access unknown type")
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::Archive for Unknown {
-    type Archived = std::marker::PhantomData<Unknown>;
-    type Resolver = ();
-
-    fn resolve(&self, _resolver: Self::Resolver, _out: rkyv::Place<Self::Archived>) {
-        //
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::Serialize<S> for Unknown
-where
-    S: rancor::Fallible + rkyv::ser::Writer + ?Sized,
-    S::Error: rancor::Source,
-{
-    fn serialize(&self, _serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        Err(<S::Error as rancor::Source>::new(UnknownError))
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::Deserialize<Unknown, D> for std::marker::PhantomData<Unknown>
-where
-    D: ?Sized + rancor::Fallible,
-    D::Error: rancor::Source,
-{
-    fn deserialize(
-        &self,
-        _deserializer: &mut D,
-    ) -> Result<Unknown, <D as rancor::Fallible>::Error> {
-        Err(<D::Error as rancor::Source>::new(UnknownError))
-    }
-}
-
 impl std::fmt::Debug for Unknown {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "Unknown")

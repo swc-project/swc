@@ -5,6 +5,7 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use swc_common::FileName;
+#[cfg(debug_assertions)]
 use tracing::{debug, info, trace, warn, Level};
 
 use crate::resolve::{Resolution, Resolve};
@@ -55,6 +56,7 @@ where
     /// Note that this is not a hashmap because value is not used as a hash map.
     pub fn new(inner: R, base_url: PathBuf, paths: Vec<(String, Vec<String>)>) -> Self {
         if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
             info!(
                 base_url = tracing::field::display(base_url.display()),
                 "jsc.paths"
@@ -125,6 +127,7 @@ where
 
         match res {
             Ok(resolved) => {
+                #[cfg(debug_assertions)]
                 info!(
                     "Resolved `{}` as `{}` from `{}`",
                     module_specifier, resolved.filename, base
@@ -159,6 +162,7 @@ where
             }
 
             Err(err) => {
+                #[cfg(debug_assertions)]
                 warn!("{:?}", err);
                 Err(err)
             }
@@ -171,6 +175,7 @@ where
     R: Resolve,
 {
     fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<Resolution, Error> {
+        #[cfg(debug_assertions)]
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -207,12 +212,14 @@ where
             }
         }
 
+        #[cfg(debug_assertions)]
         info!("Checking `jsc.paths`");
 
         // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
         for (from, to) in &self.paths {
             match from {
                 Pattern::Wildcard { prefix } => {
+                    #[cfg(debug_assertions)]
                     debug!("Checking `{}` in `jsc.paths`", prefix);
 
                     let extra = module_specifier.strip_prefix(prefix);
@@ -220,6 +227,7 @@ where
                         Some(v) => v,
                         None => {
                             if cfg!(debug_assertions) {
+                                #[cfg(debug_assertions)]
                                 trace!("skip because src doesn't start with prefix");
                             }
                             continue;
@@ -227,6 +235,7 @@ where
                     };
 
                     if cfg!(debug_assertions) {
+                        #[cfg(debug_assertions)]
                         debug!("Extra: `{}`", extra);
                     }
 
@@ -234,6 +243,7 @@ where
                     for target in to {
                         let replaced = target.replace('*', extra);
 
+                        #[cfg(debug_assertions)]
                         let _tracing = if cfg!(debug_assertions) {
                             Some(
                                 tracing::span!(
@@ -264,6 +274,7 @@ where
                         });
 
                         if to.len() == 1 && !prefix.is_empty() {
+                            #[cfg(debug_assertions)]
                             info!(
                                 "Using `{}` for `{}` because the length of the jsc.paths entry is \
                                  1",

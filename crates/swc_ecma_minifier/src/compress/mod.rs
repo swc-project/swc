@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
 #[cfg(debug_assertions)]
 use swc_ecma_visit::VisitWith;
-use swc_timer::timer;
+#[cfg(debug_assertions)]
 use tracing::debug;
 
 pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
@@ -18,10 +18,11 @@ use self::{
     optimize::{optimizer, StaticAliasState},
 };
 #[cfg(debug_assertions)]
+use crate::debug::dump;
+#[cfg(debug_assertions)]
 use crate::debug::AssertValid;
 use crate::{
     compress::hoist_decls::decl_hoister,
-    debug::dump,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::analyze,
@@ -122,11 +123,12 @@ impl Compressor<'_> {
 
     /// Optimize a module. `N` can be [Module] or [FnExpr].
     fn optimize_unit(&mut self, n: &mut Program) {
-        let _timer = timer!("optimize", pass = self.pass);
-
         if self.options.passes != 0 && self.options.passes < self.pass {
-            let done = dump(&*n, false);
-            debug!("===== Done =====\n{}", done);
+            #[cfg(debug_assertions)]
+            {
+                let done = dump(&*n, false);
+                debug!("===== Done =====\n{}", done);
+            }
             return;
         }
 
@@ -140,16 +142,15 @@ impl Compressor<'_> {
             );
         }
 
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let start = {
             let start = force_dump_program(n);
+            #[cfg(debug_assertions)]
             debug!("===== Start =====\n{}", start);
             start
         };
 
         {
-            let _timer = timer!("apply pure optimizer");
-
             let mut visitor = pure_optimizer(
                 self.options,
                 self.marks,
@@ -164,6 +165,7 @@ impl Compressor<'_> {
             #[cfg(feature = "debug")]
             if visitor.changed() {
                 let src = force_dump_program(n);
+                #[cfg(debug_assertions)]
                 debug!(
                     "===== Before pure =====\n{}\n===== After pure =====\n{}",
                     start, src
@@ -177,8 +179,6 @@ impl Compressor<'_> {
         }
 
         {
-            let _timer = timer!("apply full optimizer");
-
             let mut data = analyze(&*n, Some(self.marks), false);
 
             // TODO: reset_opt_flags

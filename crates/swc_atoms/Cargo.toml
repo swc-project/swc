@@ -6,26 +6,20 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_atoms"
 repository    = { workspace = true }
-version       = "9.0.1"
+version       = "10.0.0"
 
 [lib]
 bench = false
 
 [features]
-__rkyv        = []
 encoding-impl = ["cbor4ii"]
-rkyv-impl     = ["__rkyv", "rkyv", "bytecheck", "rancor"]
 shrink-to-fit = ["dep:shrink-to-fit"]
 
 [dependencies]
-# bytecheck version should be in sync with rkyv version. Do not bump individually.
 arbitrary     = { workspace = true, optional = true }
-bytecheck     = { workspace = true, optional = true }
 cbor4ii       = { workspace = true, features = ["use_std"], optional = true }
 once_cell     = { workspace = true }
-rancor        = { workspace = true, optional = true }
-rkyv          = { workspace = true, optional = true }
 serde         = { workspace = true }
 shrink-to-fit = { workspace = true, optional = true }
 
-hstr = { version = "3.0.5", path = "../hstr", features = ["serde"] }
+hstr = { version = "4.0.0", path = "../hstr", features = ["serde"] }

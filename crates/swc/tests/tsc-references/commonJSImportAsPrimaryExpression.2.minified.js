@@ -12,6 +12,4 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), C1 = functi
 };
 C1.s1 = !0;
 //// [foo_1.ts]
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), require("./foo_0").C1.s1;
+require("./foo_0").C1.s1;

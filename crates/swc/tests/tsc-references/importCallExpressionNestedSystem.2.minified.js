@@ -1,6 +1,6 @@
 //// [foo.ts]
 System.register([], function(_export, _context) {
-    return {
+    return _export("default", void 0), {
         setters: [],
         execute: function() {
             _export("default", "./foo");
@@ -13,8 +13,8 @@ System.register([
 ], function(_export, _context) {
     return {
         setters: [
-            function(_async_to_generator1) {
-                _async_to_generator1._;
+            function(_async_to_generator_ns) {
+                _async_to_generator_ns._;
             }
         ],
         execute: function() {}

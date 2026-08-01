@@ -1,25 +1,53 @@
 use core::f64;
+use std::borrow::Borrow;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
-use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
+use swc_atoms::{wtf8::Wtf8Buf, Atom, Wtf8Atom};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    BinExpr, BinaryOp, Expr, Ident, Lit, Number, Str, TsEnumDecl, TsEnumMemberId, UnaryExpr,
-    UnaryOp,
+    BinExpr, BinaryOp, Expr, Lit, Number, Str, TsEnumDecl, TsEnumMemberId, UnaryExpr, UnaryOp,
 };
-use swc_ecma_utils::number::JsNumber;
+use swc_ecma_utils::number::{JsNumber, ToJsString};
 
 use super::{util::ast_ext::MemberPropExt, FastDts};
 
 #[derive(Debug, Clone)]
 enum ConstantValue {
-    Number(f64),
-    String(String),
+    Number(Number),
+    String(Wtf8Atom),
+}
+
+impl ConstantValue {
+    /// Creates a computed number. Computations intentionally discard source
+    /// spelling so code generation can choose the canonical representation.
+    fn number(value: f64) -> Self {
+        Self::Number(Number {
+            span: DUMMY_SP,
+            value,
+            raw: None,
+        })
+    }
+
+    /// Creates a number converted directly from an AST value.
+    fn converted_number(value: f64, raw: Option<Atom>) -> Self {
+        Self::Number(Number {
+            span: DUMMY_SP,
+            value,
+            raw,
+        })
+    }
+
+    fn push_to(self, output: &mut Wtf8Buf) {
+        match self {
+            Self::Number(number) => output.push_str(&number.value.to_js_string()),
+            Self::String(string) => output.push_wtf8(&string),
+        }
+    }
 }
 
 impl FastDts {
     pub(crate) fn transform_enum(&mut self, decl: &mut TsEnumDecl) {
-        let mut prev_init_value = Some(ConstantValue::Number(-1.0));
+        let mut prev_init_value = Some(ConstantValue::number(-1.0));
         let mut prev_members = FxHashMap::default();
         for member in &mut decl.members {
             let value = if let Some(init_expr) = &member.init {
@@ -29,58 +57,22 @@ impl FastDts {
                 }
                 computed_value
             } else if let Some(ConstantValue::Number(v)) = prev_init_value {
-                Some(ConstantValue::Number(v + 1.0))
+                Some(ConstantValue::number(v.value + 1.0))
             } else {
                 None
             };
 
             prev_init_value = value.clone();
             if let Some(value) = &value {
-                let member_name = match &member.id {
-                    TsEnumMemberId::Ident(ident) => ident.sym.clone(),
-                    TsEnumMemberId::Str(s) => s
-                        .value
-                        .clone()
-                        .try_into_atom()
-                        .unwrap_or_else(|wtf8| Atom::from(&*wtf8.to_string_lossy())),
-                    #[cfg(swc_ast_unknown)]
-                    _ => panic!("unable to access unknown nodes"),
-                };
-                prev_members.insert(member_name.clone(), value.clone());
+                prev_members.insert(enum_member_name(&member.id), value.clone());
             }
 
             member.init = value.map(|value| {
                 Box::new(match value {
-                    ConstantValue::Number(v) => {
-                        let is_neg = v < 0.0;
-                        let expr = if v.is_infinite() {
-                            Expr::Ident(Ident {
-                                span: DUMMY_SP,
-                                sym: atom!("Infinity"),
-                                ctxt: SyntaxContext::empty(),
-                                optional: false,
-                            })
-                        } else {
-                            Expr::Lit(Lit::Num(Number {
-                                span: DUMMY_SP,
-                                value: v,
-                                raw: Some(v.to_string().into()),
-                            }))
-                        };
-
-                        if is_neg {
-                            Expr::Unary(UnaryExpr {
-                                span: DUMMY_SP,
-                                arg: Box::new(expr),
-                                op: UnaryOp::Minus,
-                            })
-                        } else {
-                            expr
-                        }
-                    }
-                    ConstantValue::String(s) => Expr::Lit(Lit::Str(Str {
+                    ConstantValue::Number(number) => Expr::Lit(Lit::Num(number)),
+                    ConstantValue::String(value) => Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
-                        value: s.clone().into(),
+                        value,
                         raw: None,
                     })),
                 })
@@ -92,24 +84,30 @@ impl FastDts {
         &self,
         expr: &Expr,
         enum_name: &Atom,
-        prev_members: &FxHashMap<Atom, ConstantValue>,
+        prev_members: &FxHashMap<Wtf8Atom, ConstantValue>,
     ) -> Option<ConstantValue> {
         match expr {
             Expr::Lit(lit) => match lit {
-                Lit::Str(s) => Some(ConstantValue::String(s.value.to_string_lossy().to_string())),
-                Lit::Num(number) => Some(ConstantValue::Number(number.value)),
+                Lit::Str(string) => Some(ConstantValue::String(string.value.clone())),
+                Lit::Num(number) => Some(ConstantValue::Number(number.clone())),
                 Lit::Null(_) | Lit::BigInt(_) | Lit::Bool(_) | Lit::Regex(_) | Lit::JSXText(_) => {
                     None
                 }
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             },
-            Expr::Tpl(tpl) => {
-                let mut value = String::new();
-                for part in &tpl.quasis {
-                    value.push_str(&part.raw);
+            Expr::Tpl(template) => {
+                let mut quasis = template.quasis.iter();
+                let first = quasis.next()?.cooked.as_ref()?;
+                let mut value = Wtf8Buf::from(first);
+
+                for (expr, quasi) in template.exprs.iter().zip(quasis) {
+                    self.evaluate(expr, enum_name, prev_members)?
+                        .push_to(&mut value);
+                    value.push_wtf8(quasi.cooked.as_ref()?);
                 }
-                Some(ConstantValue::String(value))
+
+                Some(ConstantValue::String(Wtf8Atom::from(&*value)))
             }
             Expr::Paren(expr) => self.evaluate(&expr.expr, enum_name, prev_members),
             Expr::Bin(bin_expr) => self.evaluate_binary_expr(bin_expr, enum_name, prev_members),
@@ -118,11 +116,17 @@ impl FastDts {
             }
             Expr::Ident(ident) => {
                 if ident.sym == "Infinity" {
-                    Some(ConstantValue::Number(f64::INFINITY))
+                    Some(ConstantValue::converted_number(
+                        f64::INFINITY,
+                        Some(ident.sym.clone()),
+                    ))
                 } else if ident.sym == "NaN" {
-                    Some(ConstantValue::Number(f64::NAN))
+                    Some(ConstantValue::converted_number(
+                        f64::NAN,
+                        Some(ident.sym.clone()),
+                    ))
                 } else {
-                    prev_members.get(&ident.sym).cloned()
+                    prev_members.get(ident.sym.borrow()).cloned()
                 }
             }
             Expr::Member(member) => {
@@ -152,16 +156,16 @@ impl FastDts {
         &self,
         expr: &UnaryExpr,
         enum_name: &Atom,
-        prev_members: &FxHashMap<Atom, ConstantValue>,
+        prev_members: &FxHashMap<Wtf8Atom, ConstantValue>,
     ) -> Option<ConstantValue> {
         let value = self.evaluate(&expr.arg, enum_name, prev_members)?;
         let value = match value {
-            ConstantValue::Number(n) => n,
+            ConstantValue::Number(number) => number.value,
             ConstantValue::String(_) => {
                 let value = if expr.op == UnaryOp::Minus {
-                    ConstantValue::Number(f64::NAN)
+                    ConstantValue::number(f64::NAN)
                 } else if expr.op == UnaryOp::Tilde {
-                    ConstantValue::Number(-1.0)
+                    ConstantValue::number(-1.0)
                 } else {
                     value
                 };
@@ -170,9 +174,9 @@ impl FastDts {
         };
 
         match expr.op {
-            UnaryOp::Minus => Some(ConstantValue::Number(-value)),
-            UnaryOp::Plus => Some(ConstantValue::Number(value)),
-            UnaryOp::Tilde => Some(ConstantValue::Number((!JsNumber::from(value)).into())),
+            UnaryOp::Minus => Some(ConstantValue::number(-value)),
+            UnaryOp::Plus => Some(ConstantValue::number(value)),
+            UnaryOp::Tilde => Some(ConstantValue::number((!JsNumber::from(value)).into())),
             _ => None,
         }
     }
@@ -181,7 +185,7 @@ impl FastDts {
         &self,
         expr: &BinExpr,
         enum_name: &Atom,
-        prev_members: &FxHashMap<Atom, ConstantValue>,
+        prev_members: &FxHashMap<Wtf8Atom, ConstantValue>,
     ) -> Option<ConstantValue> {
         let left = self.evaluate(&expr.left, enum_name, prev_members)?;
         let right = self.evaluate(&expr.right, enum_name, prev_members)?;
@@ -190,28 +194,19 @@ impl FastDts {
             && (matches!(left, ConstantValue::String(_))
                 || matches!(right, ConstantValue::String(_)))
         {
-            let left_string = match left {
-                ConstantValue::Number(number) => number.to_string(),
-                ConstantValue::String(s) => s,
-            };
-
-            let right_string = match right {
-                ConstantValue::Number(number) => number.to_string(),
-                ConstantValue::String(s) => s,
-            };
-
-            return Some(ConstantValue::String(format!(
-                "{left_string}{right_string}"
-            )));
+            let mut value = Wtf8Buf::new();
+            left.push_to(&mut value);
+            right.push_to(&mut value);
+            return Some(ConstantValue::String(Wtf8Atom::from(&*value)));
         }
 
         let left = JsNumber::from(match left {
-            ConstantValue::Number(n) => n,
+            ConstantValue::Number(number) => number.value,
             ConstantValue::String(_) => return None,
         });
 
         let right = JsNumber::from(match right {
-            ConstantValue::Number(n) => n,
+            ConstantValue::Number(number) => number.value,
             ConstantValue::String(_) => return None,
         });
 
@@ -223,13 +218,22 @@ impl FastDts {
             BinaryOp::Sub => Some(left - right),
             BinaryOp::Mul => Some(left * right),
             BinaryOp::Div => Some(left / right),
-            BinaryOp::Mod => Some(left & right),
+            BinaryOp::Mod => Some(left % right),
             BinaryOp::BitOr => Some(left | right),
             BinaryOp::BitXor => Some(left ^ right),
             BinaryOp::BitAnd => Some(left & right),
             BinaryOp::Exp => Some(left.pow(right)),
             _ => None,
         }
-        .map(|number| ConstantValue::Number(number.into()))
+        .map(|number| ConstantValue::number(number.into()))
+    }
+}
+
+fn enum_member_name(member: &TsEnumMemberId) -> Wtf8Atom {
+    match member {
+        TsEnumMemberId::Ident(ident) => ident.sym.clone().into(),
+        TsEnumMemberId::Str(string) => string.value.clone(),
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }

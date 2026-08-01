@@ -13,12 +13,13 @@ class Foo {
         });
         _class_private_field_init(this, ___a_1, {
             writable: true,
-            value: (_initProto(this), _init_a(this))
+            value: _init_a(this)
         });
         _class_private_field_init(this, ___b_2, {
             writable: true,
             value: _init_b(this, 123)
         });
+        _initProto(this);
     }
 }
 ({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] } = _apply_decs_2203_r(Foo, [

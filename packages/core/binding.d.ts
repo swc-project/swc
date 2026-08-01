@@ -12,6 +12,7 @@ export declare function bundle(confItems: Buffer, signal?: AbortSignal | undefin
 
 export declare function getTargetTriple(): string
 
+/** @deprecated Trace profiling is disabled. This function is kept as a no-op for compatibility. */
 export declare function initCustomTraceSubscriber(traceOutFilePath?: string | undefined | null): void
 
 export declare function minify(code: Buffer, opts: Buffer, isJson: boolean, extras: NapiMinifyExtra, signal?: AbortSignal | undefined | null): Promise<TransformOutput>

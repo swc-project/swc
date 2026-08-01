@@ -1440,7 +1440,7 @@
             };
         /***/ },
         /* 43 */ /***/ function(module1, exports1, __webpack_require__) {
-            var isSymbol = __webpack_require__(42), INFINITY = 1 / 0;
+            var isSymbol = __webpack_require__(42);
             module1.exports = /**
                  * Converts `value` to a string key if it's not a string or symbol.
                  *
@@ -1450,7 +1450,7 @@
                  */ function(value) {
                 if ("string" == typeof value || isSymbol(value)) return value;
                 var result = value + "";
-                return "0" == result && 1 / value == -INFINITY ? "-0" : result;
+                return "0" == result && 1 / value == -1 / 0 ? "-0" : result;
             };
         /***/ },
         /* 44 */ /***/ function(module1, exports1, __webpack_require__) {
@@ -4535,7 +4535,7 @@
             };
         /***/ },
         /* 237 */ /***/ function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__(27), arrayMap = __webpack_require__(238), isArray = __webpack_require__(15), isSymbol = __webpack_require__(42), INFINITY = 1 / 0, symbolProto = Symbol1 ? Symbol1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
+            var Symbol1 = __webpack_require__(27), arrayMap = __webpack_require__(238), isArray = __webpack_require__(15), isSymbol = __webpack_require__(42), symbolProto = Symbol1 ? Symbol1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
             module1.exports = /**
                  * The base implementation of `_.toString` which doesn't convert nullish
                  * values to empty strings.
@@ -4550,7 +4550,7 @@
                 return arrayMap(value, baseToString) + "";
                 if (isSymbol(value)) return symbolToString ? symbolToString.call(value) : "";
                 var result = value + "";
-                return "0" == result && 1 / value == -INFINITY ? "-0" : result;
+                return "0" == result && 1 / value == -1 / 0 ? "-0" : result;
             };
         /***/ },
         /* 238 */ /***/ function(module1, exports1) {

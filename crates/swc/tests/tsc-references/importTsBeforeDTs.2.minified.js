@@ -19,8 +19,5 @@ Object.defineProperty(exports, "__esModule", {
 });
 var y = 42;
 //// [foo_1.ts]
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-});
 var foo = require("./foo_0");
 foo.x, foo.y;

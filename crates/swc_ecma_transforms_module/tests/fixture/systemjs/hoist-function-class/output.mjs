@@ -1,13 +1,13 @@
 System.register([], function(_export, _context) {
     "use strict";
-    var HoistedClass, HoistedClassExport, HoistedClassDefaultExport;
+    var HoistedClass, HoistedClassDefaultExport, HoistedClassExport;
     function hoisted() {
         return HoistedClass, HoistedClassExport, HoistedClassDefaultExport;
     }
     _export({
-        hoisted: hoisted,
         HoistedClassExport: void 0,
-        "default": void 0
+        default: void 0,
+        hoisted: hoisted
     });
     return {
         setters: [],

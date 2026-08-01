@@ -4,11 +4,6 @@ use anyhow::Error;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
-#[cfg_attr(
-    feature = "__plugin",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "__plugin", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "__plugin", repr(u32))]
 /// Enum for possible errors while running transform via plugin.
 ///
@@ -47,7 +42,7 @@ impl PluginSerializedBytes {
      * Constructs an instance from already serialized byte
      * slices.
      */
-    #[tracing::instrument(level = "info", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
     pub fn from_bytes(field: Vec<u8>) -> PluginSerializedBytes {
         PluginSerializedBytes { field }
     }
@@ -58,27 +53,8 @@ impl PluginSerializedBytes {
      * This is sort of mimic TryFrom behavior, since we can't use generic
      * to implement TryFrom trait
      */
-    /*
-    #[tracing::instrument(level = "info", skip_all)]
-    pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
-    where
-        W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
-    {
-        rkyv::to_bytes::<_, 512>(t)
-            .map(|field| PluginSerializedBytes { field })
-            .map_err(|err| match err {
-                rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
-                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(_e) => {
-                    Error::msg("AllocScratchError")
-                }
-                rkyv::ser::serializers::CompositeSerializerError::SharedError(_e) => {
-                    Error::msg("SharedSerializeMapError")
-                }
-            })
-    }
-     */
 
-    #[tracing::instrument(level = "info", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
     pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
         W: cbor4ii::core::enc::Encode,
@@ -90,15 +66,29 @@ impl PluginSerializedBytes {
         })
     }
 
-    /*
-     * Internal fn to constructs an instance from raw bytes ptr.
-     */
-    #[tracing::instrument(level = "info", skip_all)]
-    #[allow(clippy::not_unsafe_ptr_arg_deref)]
-    pub fn from_raw_ptr(
+    /// Constructs an instance by copying serialized bytes from a raw pointer.
+    ///
+    /// ```compile_fail
+    /// # use swc_common::plugin::serialized::PluginSerializedBytes;
+    /// let bytes = [0_u8; 1];
+    /// PluginSerializedBytes::from_raw_ptr(bytes.as_ptr(), bytes.len());
+    /// ```
+    ///
+    /// # Safety
+    ///
+    /// `raw_allocated_ptr` must be non-null and properly aligned, including
+    /// when `raw_allocated_ptr_len` is zero. It must point to
+    /// `raw_allocated_ptr_len` initialized bytes of readable memory in a single
+    /// allocation, and that memory must remain valid for reads for the duration
+    /// of this function call. The byte range must not exceed `isize::MAX` or
+    /// wrap around the address space.
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
+    pub unsafe fn from_raw_ptr(
         raw_allocated_ptr: *const u8,
         raw_allocated_ptr_len: usize,
     ) -> PluginSerializedBytes {
+        // SAFETY: The caller guarantees all requirements of `from_raw_parts`
+        // for this pointer and length for the duration of the copy below.
         let raw_ptr_bytes =
             unsafe { std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len) };
 
@@ -113,7 +103,7 @@ impl PluginSerializedBytes {
         (self.field.as_ptr(), self.field.len())
     }
 
-    #[tracing::instrument(level = "info", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
         W: for<'de> cbor4ii::core::dec::Decode<'de>,
@@ -125,26 +115,6 @@ impl PluginSerializedBytes {
             .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))?;
         Ok(VersionedSerializable(deserialized))
     }
-
-    /*
-    #[tracing::instrument(level = "info", skip_all)]
-    pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
-    where
-        W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>
-            + for<'a> rkyv::CheckBytes<rkyv::validation::validators::DefaultValidator<'a>>,
-    {
-        use anyhow::Context;
-
-        let archived = rkyv::check_archived_root::<VersionedSerializable<W>>(&self.field[..])
-            .map_err(|err| {
-                anyhow::format_err!("wasm plugin bytecheck failed {:?}", err.to_string())
-            })?;
-
-        archived
-            .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
-            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
-    } */
 }
 
 /// A wrapper type for the structures to be passed into plugins
@@ -154,18 +124,9 @@ impl PluginSerializedBytes {
 /// First field indicate version of struct type (schema). Any consumers like
 /// swc_plugin_macro can use this to validate compatiblility before attempt to
 /// serialize.
-#[cfg_attr(
-    feature = "__plugin",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[repr(transparent)]
-#[cfg_attr(feature = "__plugin", derive(bytecheck::CheckBytes))]
 #[derive(Debug)]
-pub struct VersionedSerializable<T>(
-    // [NOTE]: https://github.com/rkyv/rkyv/issues/373#issuecomment-1546360897
-    //#[cfg_attr(feature = "__plugin", with(rkyv::with::AsBox))]
-    pub T,
-);
+pub struct VersionedSerializable<T>(pub T);
 
 impl<T> VersionedSerializable<T> {
     pub fn new(value: T) -> Self {
@@ -222,5 +183,27 @@ where
                 found: tag.to_le_bytes()[0],
             }),
         }
+    }
+}
+
+#[cfg(all(test, feature = "__plugin"))]
+mod tests {
+    use super::{PluginSerializedBytes, VersionedSerializable};
+
+    #[test]
+    fn copies_initialized_bytes_from_raw_pointer() {
+        let serialized = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(42_u32))
+            .expect("u32 should be serializable");
+        let (ptr, len) = serialized.as_ptr();
+
+        // SAFETY: `ptr` and `len` describe the initialized allocation owned by
+        // `serialized`, which remains alive until after `from_raw_ptr` copies it.
+        let copied = unsafe { PluginSerializedBytes::from_raw_ptr(ptr, len) };
+        let value: u32 = copied
+            .deserialize()
+            .expect("copied bytes should deserialize")
+            .into_inner();
+
+        assert_eq!(value, 42);
     }
 }

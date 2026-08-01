@@ -7,11 +7,29 @@ use syn::{
 #[derive(Clone)]
 pub struct Args {
     pub ty: Literal,
+    pub no_partial_eq: bool,
 }
 
 impl Parse for Args {
     fn parse(i: ParseStream<'_>) -> syn::Result<Self> {
-        Ok(Args { ty: i.parse()? })
+        let ty = i.parse()?;
+        let mut no_partial_eq = false;
+
+        if i.parse::<Option<Token![,]>>()?.is_some() {
+            let option: Ident = i.parse()?;
+
+            if option == "no_partial_eq" {
+                no_partial_eq = true;
+            } else {
+                return Err(Error::new(option.span(), "unknown ast_node option"));
+            }
+        }
+
+        if !i.is_empty() {
+            return Err(i.error("unexpected ast_node arguments"));
+        }
+
+        Ok(Args { ty, no_partial_eq })
     }
 }
 

@@ -1,7 +1,7 @@
-var _init_x, _init_extra__init_x;
+var _init_x, _initProto;
 export class A {
     static{
-        ({ e: [_init_x, _init_extra__init_x] } = _apply_decs_2203_r(this, [
+        ({ e: [_init_x, _initProto] } = _apply_decs_2203_r(this, [
             [
                 dec,
                 0,
@@ -9,8 +9,5 @@ export class A {
             ]
         ], []));
     }
-    constructor(){
-        _init_extra__init_x(this);
-    }
-    x = _init_x(this);
+    x = (_initProto(this), _init_x(this));
 }

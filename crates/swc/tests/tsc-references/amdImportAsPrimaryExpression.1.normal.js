@@ -23,14 +23,10 @@ define([
 //// [foo_1.ts]
 define([
     "require",
-    "exports",
     "./foo_0"
-], function(require, exports, _foo_0) {
+], function(require, foo) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    if (_foo_0.E1.A === 0) {
+    if (foo.E1.A === 0) {
     // Should cause runtime import - interesting optimization possibility, as gets inlined to 0.
     }
 });

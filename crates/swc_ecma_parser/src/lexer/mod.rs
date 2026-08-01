@@ -2,9 +2,9 @@
 
 use std::{borrow::Cow, char, rc::Rc};
 
+use compact_str::CompactString;
 use either::Either::{self, Left, Right};
 use rustc_hash::FxHashMap;
-use smartstring::{LazyCompact, SmartString};
 use swc_atoms::{
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
     Atom, AtomStoreCell,
@@ -704,6 +704,7 @@ impl<'a> Lexer<'a> {
         if self.ctx().contains(Context::IgnoreError) {
             return;
         }
+        #[cfg(debug_assertions)]
         tracing::warn!("Lexer error at {:?}", span);
         let err = crate::error::Error::new(span, kind);
         self.push_error(err);
@@ -1000,6 +1001,7 @@ impl<'a> Lexer<'a> {
         );
 
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             tracing::trace!("read_digits(radix = {}), cur = {:?}", RADIX, self.cur());
         }
 
@@ -1383,7 +1385,7 @@ impl<'a> Lexer<'a> {
             s.chars().all(|c| c.is_ascii_digit())
         }
 
-        let mut s = SmartString::<LazyCompact>::default();
+        let mut s = CompactString::default();
 
         debug_assert!(self.input().cur().is_some_and(|c| c == b'&'));
         self.bump(1); // `&`

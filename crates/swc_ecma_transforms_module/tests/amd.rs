@@ -23,7 +23,14 @@ fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) ->
 
     (
         resolver(unresolved_mark, top_level_mark, is_ts),
-        typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
+        typescript::typescript(
+            typescript::Config {
+                import_export_assign_config: typescript::TsImportExportAssignConfig::Preserve,
+                ..Default::default()
+            },
+            unresolved_mark,
+            top_level_mark,
+        ),
         amd(
             Default::default(),
             unresolved_mark,

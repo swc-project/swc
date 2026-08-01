@@ -1,4 +1,5 @@
 use std::{env::args, io, path::Path};
+
 use swc_common::{input::SourceFileInput, sync::Lrc, FilePathMapping, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_codegen::text_writer::JsWriter;
@@ -60,9 +61,7 @@ fn run_cli(filename: String) -> Result<(), ParseError> {
             &ExtraOptions { top_level_mark },
         );
 
-        let output = output
-            .fold_with(&mut hygiene_with_config(Default::default()))
-            .fold_with(&mut fixer(None));
+        let output = output.fold_with(&mut hygiene()).fold_with(&mut fixer(None));
 
         print_js(cm.clone(), &output);
 

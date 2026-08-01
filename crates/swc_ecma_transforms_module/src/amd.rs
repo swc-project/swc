@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 
-use anyhow::Context;
 use regex::Regex;
+use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{atom, Atom};
 use swc_common::{
@@ -12,23 +12,28 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper_expr;
-use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
-};
+use swc_ecma_utils::{member_expr, private_ident, quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use super::util::Config as InnerConfig;
 use crate::{
-    module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
+    module_record::{
+        exported_external_ts_import_equals_name, external_ts_import_equals_source,
+        LocalExportEntries, ModuleRecordEntryReducer, ModuleRequestUsage, RequestedModule,
+        RequestedModules, SourceModule,
+    },
     module_ref_rewriter::{rewrite_import_bindings, ImportMap},
     path::Resolver,
+    syntax_strip::{self, SyntaxStrippedModule},
     top_level_this::top_level_this,
     util::{
-        define_es_module, emit_export_stmts, local_name_for_src, sort_export_obj_prop_list,
-        use_strict, ImportInterop, VecStmtLike,
+        define_es_module, emit_export_stmts, local_name_for_src, sort_export_bindings, use_strict,
+        ImportInterop,
     },
     SpanCtx,
 };
+
+mod emit;
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -113,54 +118,55 @@ where
             self.module_id = self.get_amd_module_id_from_comments(n.span);
         }
 
-        let mut stmts: Vec<Stmt> = Vec::with_capacity(n.body.len() + 4);
-
-        // Collect directives
-        stmts.extend(
-            &mut n
-                .body
-                .iter_mut()
-                .take_while(|i| i.directive_continue())
-                .map(|i| i.take())
-                .map(ModuleItem::expect_stmt),
-        );
-
-        // "use strict";
-        if self.config.strict_mode && !stmts.has_use_strict() {
-            stmts.push(use_strict());
-        }
-
         if !self.config.allow_top_level_this {
             top_level_this(&mut n.body, *Expr::undefined(DUMMY_SP));
         }
 
-        let import_interop = self.config.import_interop();
-
-        let mut strip = ModuleDeclStrip::new(self.const_var_kind);
-        n.body.visit_mut_with(&mut strip);
-
-        let ModuleDeclStrip {
-            link,
-            export,
+        let SyntaxStrippedModule {
+            directives,
+            has_use_strict,
+            requested_modules,
+            local_export_entries,
             export_assign,
-            has_module_decl,
-            ..
-        } = strip;
+            body,
+            has_module_syntax,
+        } = syntax_strip::lower(SourceModule::collect(n.body.take()), self.const_var_kind);
+
+        let mut stmts: Vec<Stmt> = Vec::with_capacity(body.len() + 4);
+        stmts.extend(directives);
+
+        // "use strict";
+        if self.config.strict_mode && !has_use_strict {
+            stmts.push(use_strict());
+        }
+
+        let import_interop = self.config.import_interop();
 
         let is_export_assign = export_assign.is_some();
 
-        if has_module_decl && !import_interop.is_none() && !is_export_assign {
-            stmts.push(define_es_module(self.exports()))
+        if has_module_syntax && !import_interop.is_none() && !is_export_assign {
+            stmts.push(define_es_module(self.exports()));
         }
 
         let mut import_map = Default::default();
+        let ts_import_equals_exports: FxHashSet<Atom> = body
+            .iter()
+            .filter_map(exported_external_ts_import_equals_name)
+            .cloned()
+            .collect();
 
-        stmts.extend(self.handle_import_export(&mut import_map, link, export, is_export_assign));
+        stmts.extend(self.handle_import_export(
+            &mut import_map,
+            requested_modules,
+            local_export_entries,
+            &ts_import_equals_exports,
+            is_export_assign,
+        ));
 
-        stmts.extend(n.body.take().into_iter().filter_map(|item| match item {
-            ModuleItem::Stmt(stmt) if !stmt.is_empty() => Some(stmt),
-            _ => None,
-        }));
+        stmts.extend(
+            body.into_iter()
+                .filter_map(|item| self.lower_body_item(&mut import_map, item)),
+        );
 
         if let Some(export_assign) = export_assign {
             let return_stmt = ReturnStmt {
@@ -168,7 +174,7 @@ where
                 arg: Some(export_assign),
             };
 
-            stmts.push(return_stmt.into())
+            stmts.push(return_stmt.into());
         }
 
         if !self.config.ignore_dynamic || !self.config.preserve_import_meta {
@@ -177,75 +183,18 @@ where
 
         rewrite_import_bindings(&mut stmts, import_map, Default::default());
 
-        // ====================
-        //  Emit
-        // ====================
-
-        let mut elems = vec![Some(quote_str!("require").as_arg())];
-        let mut params = vec![self.require.clone().into()];
-
-        if let Some(exports) = self.exports.take() {
-            elems.push(Some(quote_str!("exports").as_arg()));
-            params.push(exports.into())
-        }
-
-        if let Some(module) = self.module.clone() {
-            elems.push(Some(quote_str!("module").as_arg()));
-            params.push(module.into())
-        }
-
-        self.dep_list
-            .take()
-            .into_iter()
-            .for_each(|(ident, src_path, src_span)| {
-                let src_path = match &self.resolver {
-                    Resolver::Real { resolver, base } => resolver
-                        .resolve_import(base, &src_path)
-                        .with_context(|| format!("failed to resolve `{src_path}`"))
-                        .unwrap(),
-                    Resolver::Default => src_path,
-                };
-
-                elems.push(Some(quote_str!(src_span.0, src_path).as_arg()));
-                params.push(ident.into());
-            });
-
-        let mut amd_call_args = Vec::with_capacity(3);
-        if let Some(module_id) = self.module_id.clone() {
-            amd_call_args.push(quote_str!(module_id).as_arg());
-        }
-        amd_call_args.push(
-            ArrayLit {
-                span: DUMMY_SP,
-                elems,
-            }
-            .as_arg(),
+        n.body = emit::emit(
+            stmts,
+            emit::EmitModule {
+                module_id: self.module_id.clone(),
+                require: self.require.clone(),
+                exports: self.exports.take(),
+                module: self.module.clone(),
+                deps: self.dep_list.take(),
+            },
+            self.unresolved_mark,
+            &self.resolver,
         );
-
-        amd_call_args.push(
-            Function {
-                params,
-                decorators: Default::default(),
-                span: DUMMY_SP,
-                body: Some(BlockStmt {
-                    stmts,
-                    ..Default::default()
-                }),
-                is_generator: false,
-                is_async: false,
-                ..Default::default()
-            }
-            .into_fn_expr(None)
-            .as_arg(),
-        );
-
-        n.body = vec![quote_ident!(
-            SyntaxContext::empty().apply_mark(self.unresolved_mark),
-            "define"
-        )
-        .as_call(DUMMY_SP, amd_call_args)
-        .into_stmt()
-        .into()];
     }
 
     fn visit_mut_script(&mut self, _: &mut Script) {
@@ -281,6 +230,9 @@ where
                 let mut require = self.require.clone();
                 require.span = *import_span;
 
+                // `import()` is specified as an ImportCall. AMD lowers it to a
+                // promise around async `require([arg], ...)`.
+                // Spec: https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-import-calls
                 *n = amd_dynamic_import(
                     *span,
                     args.take(),
@@ -293,9 +245,13 @@ where
                 if !self.config.preserve_import_meta
                     && obj
                         .as_meta_prop()
-                        .map(|p| p.kind == MetaPropKind::ImportMeta)
-                        .unwrap_or_default() =>
+                        .is_some_and(|p| p.kind == MetaPropKind::ImportMeta) =>
             {
+                // `import.meta` is host-populated in the spec. AMD lowers
+                // supported host fields to loader-specific values.
+                // Spec:
+                // - https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-hostgetimportmetaproperties
+                // - https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-hostfinalizeimportmeta
                 let p = match prop {
                     MemberProp::Ident(IdentName { sym, .. }) => Cow::Borrowed(&**sym),
                     MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
@@ -386,7 +342,7 @@ where
                         n.visit_mut_with(self);
                         return;
                     }
-                };
+                }
 
                 n.visit_mut_children_with(self);
             }
@@ -402,42 +358,45 @@ where
     fn handle_import_export(
         &mut self,
         import_map: &mut ImportMap,
-        link: Link,
-        export: Export,
+        requested_modules: RequestedModules,
+        local_export_entries: LocalExportEntries,
+        ts_import_equals_exports: &FxHashSet<Atom>,
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let import_interop = self.config.import_interop();
 
-        let mut stmts = Vec::with_capacity(link.len());
+        let mut stmts = Vec::with_capacity(requested_modules.len());
 
-        let mut export_obj_prop_list = export.into_iter().collect();
+        let mut export_bindings = local_export_entries.into_iter().collect();
 
-        link.into_iter().for_each(
-            |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                let is_node_default = !link_flag.has_named() && import_interop.is_node();
+        requested_modules.into_iter().for_each(
+            |(
+                module_request,
+                RequestedModule {
+                    span: src_span,
+                    entries: module_entries,
+                    usage: mut module_usage,
+                    ..
+                },
+            )| {
+                let src = module_request.src().clone();
+                let is_node_default = !module_usage.has_named() && import_interop.is_node();
 
                 if import_interop.is_none() {
-                    link_flag -= LinkFlag::NAMESPACE;
+                    module_usage -= ModuleRequestUsage::NAMESPACE;
                 }
 
-                let need_re_export = link_flag.export_star();
-                let need_interop = link_flag.interop();
-                let need_new_var = link_flag.need_raw_import();
+                let need_re_export = module_usage.has_star_export();
+                let need_interop = module_usage.needs_interop();
 
                 let mod_ident = private_ident!(local_name_for_src(&src));
-                let new_var_ident = if need_new_var {
-                    private_ident!(local_name_for_src(&src))
-                } else {
-                    mod_ident.clone()
-                };
 
                 self.dep_list.push((mod_ident.clone(), src, src_span));
 
-                link_specifier_set.reduce(
+                module_entries.reduce(
                     import_map,
-                    &mut export_obj_prop_list,
-                    &new_var_ident,
-                    &Some(mod_ident.clone()),
+                    &mut export_bindings,
+                    &mod_ident,
                     &mut false,
                     is_node_default,
                 );
@@ -455,50 +414,105 @@ where
                 // _introp(mod);
                 if need_interop {
                     import_expr = match import_interop {
-                        ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
-                            helper_expr!(interop_require_wildcard)
-                        } else {
-                            helper_expr!(interop_require_default)
+                        ImportInterop::Swc if module_usage.needs_interop() => {
+                            if module_usage.needs_namespace_object() {
+                                helper_expr!(interop_require_wildcard)
+                            } else {
+                                helper_expr!(interop_require_default)
+                            }
+                            .as_call(PURE_SP, vec![import_expr.as_arg()])
                         }
-                        .as_call(PURE_SP, vec![import_expr.as_arg()]),
-                        ImportInterop::Node if link_flag.namespace() => {
+                        ImportInterop::Node if module_usage.needs_namespace_object() => {
                             helper_expr!(interop_require_wildcard)
                                 .as_call(PURE_SP, vec![import_expr.as_arg(), true.as_arg()])
                         }
                         _ => import_expr,
                     }
-                };
+                }
 
                 // mod = _introp(mod);
-                // var mod1 = _introp(mod);
-                if need_new_var {
-                    let stmt: Stmt = import_expr
-                        .into_var_decl(self.const_var_kind, new_var_ident.into())
-                        .into();
-
-                    stmts.push(stmt)
-                } else if need_interop {
+                if need_interop {
                     let stmt = import_expr
                         .make_assign_to(op!("="), mod_ident.into())
                         .into_stmt();
                     stmts.push(stmt);
                 } else if need_re_export {
                     stmts.push(import_expr.into_stmt());
-                };
+                }
             },
         );
 
         let mut export_stmts = Default::default();
 
-        if !export_obj_prop_list.is_empty() && !is_export_assign {
-            sort_export_obj_prop_list(&mut export_obj_prop_list);
+        export_bindings.retain(|(export_name, _)| !ts_import_equals_exports.contains(export_name));
+
+        if !export_bindings.is_empty() && !is_export_assign {
+            sort_export_bindings(&mut export_bindings);
 
             let exports = self.exports();
 
-            export_stmts = emit_export_stmts(exports, export_obj_prop_list);
+            export_stmts = emit_export_stmts(exports, export_bindings);
         }
 
         export_stmts.into_iter().chain(stmts)
+    }
+
+    fn lower_body_item(&mut self, import_map: &mut ImportMap, item: ModuleItem) -> Option<Stmt> {
+        match item {
+            ModuleItem::Stmt(stmt) if !stmt.is_empty() => Some(stmt),
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                self.lower_ts_import_equals(import_map, *import)
+            }
+            _ => None,
+        }
+    }
+
+    fn lower_ts_import_equals(
+        &mut self,
+        import_map: &mut ImportMap,
+        import: TsImportEqualsDecl,
+    ) -> Option<Stmt> {
+        let src = external_ts_import_equals_source(&import)?;
+        let src_span = src.span;
+        let request = src.value.to_atom_lossy().into_owned();
+        let TsImportEqualsDecl {
+            id: local,
+            is_export,
+            ..
+        } = import;
+        let param = if is_export {
+            local.clone().into_private()
+        } else {
+            local.clone()
+        };
+
+        self.dep_list
+            .push((param.clone(), request, (src_span, Default::default())));
+
+        if !is_export {
+            return None;
+        }
+
+        Some(self.emit_ts_import_equals(import_map, local, is_export, param.into()))
+    }
+
+    fn emit_ts_import_equals(
+        &mut self,
+        import_map: &mut ImportMap,
+        local: Ident,
+        is_export: bool,
+        value: Expr,
+    ) -> Stmt {
+        if is_export {
+            import_map.insert(local.to_id(), (self.exports(), Some(local.sym.clone())));
+            return value
+                .make_assign_to(op!("="), self.exports().make_member(local.into()).into())
+                .into_stmt();
+        }
+
+        value
+            .into_var_decl(self.const_var_kind, local.into())
+            .into()
     }
 
     fn module(&mut self) -> Ident {

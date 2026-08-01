@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_cli_impl"
 repository  = { workspace = true }
-version     = "67.0.0"
+version     = "75.0.0"
 
 [[bin]]
 name = "swc"
@@ -35,16 +35,14 @@ path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
 pathdiff           = { workspace = true }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
 tracing            = { workspace = true }
-tracing-chrome     = { workspace = true }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }
 walkdir            = { workspace = true }
 
-swc_core = { version = "67.0.1", features = [
-  "trace_macro",
+swc_core = { version = "75.0.0", features = [
   "common_concurrent",
   "base_concurrent",
   "base_flow",
   "base_module",
+  "base_react_compiler",
   "ecma_helpers_inline",
 ], path = "../swc_core" }
 

@@ -1,27 +1,31 @@
 use std::borrow::Cow;
 
 use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
 use swc_common::{
     source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper_expr;
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory, IsDirective,
+    member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
 use crate::{
-    module_decl_strip::{
-        Export, ExportKV, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
+    module_record::{
+        exported_external_ts_import_equals_name, external_ts_import_equals_source, ExportBinding,
+        LocalExportEntries, ModuleRecordEntryReducer, ModuleRequestUsage, RequestedModule,
+        RequestedModules, SourceModule,
     },
     module_ref_rewriter::{rewrite_import_bindings, ImportMap},
     path::Resolver,
+    syntax_strip::{self, SyntaxStrippedModule},
     top_level_this::top_level_this,
     util::{
-        define_es_module, emit_export_stmts, local_name_for_src, prop_name,
-        sort_export_obj_prop_list, use_strict, ImportInterop, VecStmtLike,
+        define_es_module, emit_export_stmts, local_name_for_src, prop_name, sort_export_bindings,
+        use_strict, ImportInterop,
     },
 };
 
@@ -31,6 +35,7 @@ pub struct FeatureFlag {
     pub support_arrow: bool,
 }
 
+#[must_use]
 pub fn common_js(
     resolver: Resolver,
     unresolved_mark: Mark,
@@ -62,22 +67,6 @@ impl VisitMut for Cjs {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.body.len() + 6);
-
-        // Collect directives
-        stmts.extend(
-            &mut n
-                .body
-                .iter_mut()
-                .take_while(|i| i.directive_continue())
-                .map(|i| i.take()),
-        );
-
-        // "use strict";
-        if self.config.strict_mode && !stmts.has_use_strict() {
-            stmts.push(use_strict().into());
-        }
-
         if !self.config.allow_top_level_this {
             top_level_this(&mut n.body, *Expr::undefined(DUMMY_SP));
         }
@@ -86,39 +75,36 @@ impl VisitMut for Cjs {
 
         let mut module_map = Default::default();
 
-        let mut has_ts_import_equals = false;
-
-        // handle `import foo = require("mod")`
-        n.body.iter_mut().for_each(|item| {
-            if let ModuleItem::ModuleDecl(module_decl) = item {
-                *item = self.handle_ts_import_equals(
-                    module_decl.take(),
-                    &mut module_map,
-                    &mut has_ts_import_equals,
-                );
-            }
-        });
-
-        let mut strip = ModuleDeclStrip::new(self.const_var_kind);
-        n.body.visit_mut_with(&mut strip);
-
-        let ModuleDeclStrip {
-            link,
-            export,
+        let SyntaxStrippedModule {
+            directives,
+            has_use_strict,
+            requested_modules,
+            local_export_entries,
             export_assign,
-            has_module_decl,
-            ..
-        } = strip;
+            body,
+            has_module_syntax,
+        } = syntax_strip::lower(SourceModule::collect(n.body.take()), self.const_var_kind);
 
-        let has_module_decl = has_module_decl || has_ts_import_equals;
+        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(body.len() + 6);
+        stmts.extend(directives.into_iter().map(ModuleItem::from));
+
+        // "use strict";
+        if self.config.strict_mode && !has_use_strict {
+            stmts.push(use_strict().into());
+        }
 
         let is_export_assign = export_assign.is_some();
 
-        if has_module_decl && !import_interop.is_none() && !is_export_assign {
-            stmts.push(define_es_module(self.exports()).into())
+        if has_module_syntax && !import_interop.is_none() && !is_export_assign {
+            stmts.push(define_es_module(self.exports()).into());
         }
 
         let mut lazy_record = Default::default();
+        let ts_import_equals_exports: FxHashSet<Atom> = body
+            .iter()
+            .filter_map(exported_external_ts_import_equals_name)
+            .cloned()
+            .collect();
 
         // `import` -> `require`
         // `export` -> `_export(exports, {});`
@@ -126,17 +112,18 @@ impl VisitMut for Cjs {
             self.handle_import_export(
                 &mut module_map,
                 &mut lazy_record,
-                link,
-                export,
+                requested_modules,
+                local_export_entries,
+                &ts_import_equals_exports,
                 is_export_assign,
             )
             .map(From::from),
         );
 
-        stmts.extend(n.body.take().into_iter().filter(|item| match item {
-            ModuleItem::Stmt(stmt) => !stmt.is_empty(),
-            _ => false,
-        }));
+        stmts.extend(
+            body.into_iter()
+                .filter_map(|item| self.lower_body_item(&mut module_map, item)),
+        );
 
         // `export = expr;` -> `module.exports = expr;`
         if let Some(export_assign) = export_assign {
@@ -153,7 +140,7 @@ impl VisitMut for Cjs {
                     )
                     .into_stmt()
                     .into(),
-            )
+            );
         }
 
         if !self.config.ignore_dynamic || !self.config.preserve_import_meta {
@@ -201,6 +188,9 @@ impl VisitMut for Cjs {
 
                 let unresolved_ctxt = SyntaxContext::empty().apply_mark(self.unresolved_mark);
 
+                // `import()` is specified as an ImportCall. CommonJS lowers it
+                // to a promise chain that evaluates `require(...)`.
+                // Spec: https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-import-calls
                 *n = cjs_dynamic_import(
                     *span,
                     args.take(),
@@ -214,9 +204,13 @@ impl VisitMut for Cjs {
                 if !self.config.preserve_import_meta
                     && obj
                         .as_meta_prop()
-                        .map(|p| p.kind == MetaPropKind::ImportMeta)
-                        .unwrap_or_default() =>
+                        .is_some_and(|p| p.kind == MetaPropKind::ImportMeta) =>
             {
+                // `import.meta` is host-populated in the spec. CommonJS
+                // lowers supported host fields to Node-like runtime values.
+                // Spec:
+                // - https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-hostgetimportmetaproperties
+                // - https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-hostfinalizeimportmeta
                 let p = match prop {
                     MemberProp::Ident(IdentName { sym, .. }) => Cow::Borrowed(&**sym),
                     MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
@@ -289,7 +283,7 @@ impl VisitMut for Cjs {
                         n.visit_mut_with(self);
                         return;
                     }
-                };
+                }
 
                 n.visit_mut_children_with(self);
             }
@@ -303,47 +297,57 @@ impl Cjs {
         &mut self,
         import_map: &mut ImportMap,
         lazy_record: &mut FxHashSet<Id>,
-        link: Link,
-        export: Export,
+        requested_modules: RequestedModules,
+        local_export_entries: LocalExportEntries,
+        ts_import_equals_exports: &FxHashSet<Atom>,
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let import_interop = self.config.import_interop();
         let export_interop_annotation = self.config.export_interop_annotation();
         let is_node = import_interop.is_node();
 
-        let mut stmts = Vec::with_capacity(link.len());
+        let mut stmts = Vec::with_capacity(requested_modules.len());
 
-        let mut export_obj_prop_list = export.into_iter().collect();
+        let mut export_bindings: Vec<ExportBinding> = local_export_entries.into_iter().collect();
 
         let lexer_reexport = if export_interop_annotation {
-            self.emit_lexer_reexport(&link)
+            self.emit_lexer_reexport(&requested_modules)
         } else {
             None
         };
 
-        link.into_iter().for_each(
-            |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                let is_node_default = !link_flag.has_named() && is_node;
+        requested_modules.into_iter().for_each(
+            |(
+                module_request,
+                RequestedModule {
+                    span: src_span,
+                    entries: module_entries,
+                    usage: mut module_usage,
+                    ..
+                },
+            )| {
+                let src = module_request.src().clone();
 
                 if import_interop.is_none() {
-                    link_flag -= LinkFlag::NAMESPACE;
+                    module_usage -= ModuleRequestUsage::NAMESPACE;
                 }
 
+                let is_node_default = !module_usage.has_named() && is_node;
                 let mod_ident = private_ident!(local_name_for_src(&src));
 
                 let mut decl_mod_ident = false;
 
-                link_specifier_set.reduce(
+                module_entries.reduce(
                     import_map,
-                    &mut export_obj_prop_list,
+                    &mut export_bindings,
                     &mod_ident,
-                    &None,
                     &mut decl_mod_ident,
                     is_node_default,
                 );
 
-                let is_lazy =
-                    decl_mod_ident && !link_flag.export_star() && self.config.lazy.is_lazy(&src);
+                let is_lazy = decl_mod_ident
+                    && !module_usage.has_star_export()
+                    && self.config.lazy.is_lazy(&src);
 
                 if is_lazy {
                     lazy_record.insert(mod_ident.to_id());
@@ -352,10 +356,10 @@ impl Cjs {
                 // require("mod");
                 let import_expr =
                     self.resolver
-                        .make_require_call(self.unresolved_mark, src, src_span.0);
+                        .make_require_call(self.unresolved_mark, src.clone(), src_span.0);
 
                 // _export_star(require("mod"), exports);
-                let import_expr = if link_flag.export_star() {
+                let import_expr = if module_usage.has_star_export() {
                     helper_expr!(export_star).as_call(
                         DUMMY_SP,
                         vec![import_expr.as_arg(), self.exports().as_arg()],
@@ -367,13 +371,15 @@ impl Cjs {
                 // _introp(require("mod"));
                 let import_expr = {
                     match import_interop {
-                        ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
-                            helper_expr!(interop_require_wildcard)
-                        } else {
-                            helper_expr!(interop_require_default)
+                        ImportInterop::Swc if module_usage.needs_interop() => {
+                            if module_usage.needs_namespace_object() {
+                                helper_expr!(interop_require_wildcard)
+                            } else {
+                                helper_expr!(interop_require_default)
+                            }
+                            .as_call(PURE_SP, vec![import_expr.as_arg()])
                         }
-                        .as_call(PURE_SP, vec![import_expr.as_arg()]),
-                        ImportInterop::Node if link_flag.namespace() => {
+                        ImportInterop::Node if module_usage.needs_namespace_object() => {
                             helper_expr!(interop_require_wildcard)
                                 .as_call(PURE_SP, vec![import_expr.as_arg(), true.as_arg()])
                         }
@@ -399,16 +405,18 @@ impl Cjs {
 
         let mut export_stmts: Vec<Stmt> = Default::default();
 
-        if !export_obj_prop_list.is_empty() && !is_export_assign {
-            sort_export_obj_prop_list(&mut export_obj_prop_list);
+        export_bindings.retain(|(export_name, _)| !ts_import_equals_exports.contains(export_name));
+
+        if !export_bindings.is_empty() && !is_export_assign {
+            sort_export_bindings(&mut export_bindings);
 
             let exports = self.exports();
 
-            if export_interop_annotation && export_obj_prop_list.len() > 1 {
-                export_stmts.extend(self.emit_lexer_exports_init(&export_obj_prop_list));
+            if export_interop_annotation && export_bindings.len() > 1 {
+                export_stmts.extend(self.emit_lexer_exports_init(&export_bindings));
             }
 
-            export_stmts.extend(emit_export_stmts(exports, export_obj_prop_list));
+            export_stmts.extend(emit_export_stmts(exports, export_bindings));
         }
 
         export_stmts.extend(lexer_reexport);
@@ -416,67 +424,48 @@ impl Cjs {
         export_stmts.into_iter().chain(stmts)
     }
 
-    fn handle_ts_import_equals(
-        &self,
-        module_decl: ModuleDecl,
-        module_map: &mut ImportMap,
-        has_ts_import_equals: &mut bool,
-    ) -> ModuleItem {
-        match module_decl {
-            ModuleDecl::TsImportEquals(v)
-                if matches!(
-                    &*v,
-                    TsImportEqualsDecl {
-                        is_type_only: false,
-                        module_ref: TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { .. }),
-                        ..
-                    }
-                ) =>
-            {
-                let TsImportEqualsDecl {
-                    span,
-                    is_export,
-                    id,
-                    module_ref,
-                    ..
-                } = *v;
-                let Str {
-                    span: src_span,
-                    value: src,
-                    ..
-                } = module_ref.expect_ts_external_module_ref().expr;
-
-                *has_ts_import_equals = true;
-
-                let require = self.resolver.make_require_call(
-                    self.unresolved_mark,
-                    src.to_atom_lossy().into_owned(),
-                    src_span,
-                );
-
-                if is_export {
-                    // exports.foo = require("mod")
-                    module_map.insert(id.to_id(), (self.exports(), Some(id.sym.clone())));
-
-                    let assign_expr = AssignExpr {
-                        span,
-                        op: op!("="),
-                        left: self.exports().make_member(id.into()).into(),
-                        right: Box::new(require),
-                    };
-
-                    assign_expr.into_stmt()
-                } else {
-                    // const foo = require("mod")
-                    let mut var_decl = require.into_var_decl(self.const_var_kind, id.into());
-                    var_decl.span = span;
-
-                    var_decl.into()
-                }
-                .into()
-            }
-            _ => module_decl.into(),
+    fn lower_body_item(&self, import_map: &mut ImportMap, item: ModuleItem) -> Option<ModuleItem> {
+        match item {
+            ModuleItem::Stmt(stmt) if !stmt.is_empty() => Some(stmt.into()),
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => self
+                .lower_ts_import_equals(import_map, *import)
+                .map(From::from),
+            _ => None,
         }
+    }
+
+    fn lower_ts_import_equals(
+        &self,
+        import_map: &mut ImportMap,
+        import: TsImportEqualsDecl,
+    ) -> Option<Stmt> {
+        let src = external_ts_import_equals_source(&import)?;
+        let value = self.resolver.make_require_call(
+            self.unresolved_mark,
+            src.value.to_atom_lossy().into_owned(),
+            src.span,
+        );
+
+        Some(self.emit_ts_import_equals(import_map, import.id, import.is_export, value))
+    }
+
+    fn emit_ts_import_equals(
+        &self,
+        import_map: &mut ImportMap,
+        local: Ident,
+        is_export: bool,
+        value: Expr,
+    ) -> Stmt {
+        if is_export {
+            import_map.insert(local.to_id(), (self.exports(), Some(local.sym.clone())));
+            return value
+                .make_assign_to(op!("="), self.exports().make_member(local.into()).into())
+                .into_stmt();
+        }
+
+        value
+            .into_var_decl(self.const_var_kind, local.into())
+            .into()
     }
 
     fn exports(&self) -> Ident {
@@ -491,7 +480,7 @@ impl Cjs {
     /// 0 && (exports.foo = 0);
     /// 0 && (module.exports = { foo: _, bar: _ });
     /// ```
-    fn emit_lexer_exports_init(&mut self, export_id_list: &[ExportKV]) -> Option<Stmt> {
+    fn emit_lexer_exports_init(&mut self, export_id_list: &[ExportBinding]) -> Option<Stmt> {
         match export_id_list.len() {
             0 => None,
             1 => {
@@ -559,13 +548,16 @@ impl Cjs {
     /// ```javascript
     /// 0 && __export(require("foo")) && __export(require("bar"));
     /// ```
-    fn emit_lexer_reexport(&self, link: &Link) -> Option<Stmt> {
-        link.iter()
-            .filter(|(.., LinkItem(.., link_flag))| link_flag.export_star())
-            .map(|(src, ..)| {
-                let import_expr =
-                    self.resolver
-                        .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
+    fn emit_lexer_reexport(&self, requested_modules: &RequestedModules) -> Option<Stmt> {
+        requested_modules
+            .iter()
+            .filter(|(.., RequestedModule { usage, .. })| usage.has_star_export())
+            .map(|(module_request, ..)| {
+                let import_expr = self.resolver.make_require_call(
+                    self.unresolved_mark,
+                    module_request.src().clone(),
+                    DUMMY_SP,
+                );
 
                 quote_ident!("__export").as_call(DUMMY_SP, vec![import_expr.as_arg()])
             })
@@ -637,7 +629,7 @@ pub(crate) fn cjs_dynamic_import(
     )
 }
 
-/// require('url').pathToFileURL(__filename).toString()
+/// require('url').pathToFileURL(__`filename).toString()`
 fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Expr {
     require
         .as_call(DUMMY_SP, vec!["url".as_arg()])
@@ -663,6 +655,7 @@ fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Exp
 ///   return data;
 /// }
 /// ```
+#[must_use]
 pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDecl {
     let data = private_ident!("data");
     let data_decl = expr.into_var_decl(var_kind, data.clone().into());

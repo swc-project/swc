@@ -30,7 +30,6 @@ use swc_ecma_parser::{
     Syntax,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-use swc_timer::timer;
 
 mod source_map_scopes;
 
@@ -200,8 +199,6 @@ pub fn print<T>(
 where
     T: Node + VisitWith<IdentCollector>,
 {
-    let _timer = timer!("Compiler::print");
-
     let mut src_map_buf = Vec::new();
     let should_emit_scope_map = source_map.enabled() && emit_source_map_scopes && orig.is_none();
     let mut scope_buf = should_emit_scope_map.then(Vec::<ScopeRecord>::new);
