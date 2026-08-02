@@ -2578,7 +2578,7 @@ impl<I: Tokens> Parser<I> {
             } {
                 let params: Vec<Pat> = self.parse_paren_items_as_params(items.clone(), None)?;
 
-                let body: Box<BlockStmtOrExpr> = self.parse_fn_block_or_expr_body(
+                let body: Box<ArrowFunctionBody> = self.parse_fn_block_or_expr_body(
                     false,
                     false,
                     true,
@@ -2663,7 +2663,7 @@ impl<I: Tokens> Parser<I> {
                 let params: Vec<Pat> =
                     p.parse_paren_items_as_params(items_ref.clone(), trailing_comma)?;
 
-                let body: Box<BlockStmtOrExpr> = p.parse_fn_block_or_expr_body(
+                let body: Box<ArrowFunctionBody> = p.parse_fn_block_or_expr_body(
                     async_span.is_some(),
                     false,
                     true,
@@ -2761,7 +2761,7 @@ impl<I: Tokens> Parser<I> {
             let params: Vec<Pat> = self.parse_paren_items_as_params(paren_items, trailing_comma)?;
             validate_arrow_params(self, &params, async_span.is_some());
 
-            let body: Box<BlockStmtOrExpr> = self.parse_fn_block_or_expr_body(
+            let body: Box<ArrowFunctionBody> = self.parse_fn_block_or_expr_body(
                 async_span.is_some(),
                 false,
                 true,
@@ -2776,7 +2776,7 @@ impl<I: Tokens> Parser<I> {
                 return_type,
                 ..Default::default()
             };
-            if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
+            if let ArrowFunctionBody::FunctionBody(..) = &*arrow_expr.body {
                 let cur = self.input().cur();
                 let should_parse_bin_op_after_arrow = cur.is_bin_op()
                     && !(self.syntax().flow()

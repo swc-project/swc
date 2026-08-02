@@ -85,26 +85,25 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
     fn enter_arrow_expr(&mut self, node: &mut ArrowExpr, _: &mut TraverseCtx) {
         // We convert the arrow body to a block statement with a return statement
         // because we cannot inject statements after the arrow body.
-        if let BlockStmtOrExpr::Expr(expr) = &mut *node.body {
-            *node.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+        if let ArrowFunctionBody::Expr(expr) = &mut *node.body {
+            *node.body = ArrowFunctionBody::FunctionBody(FunctionBody {
                 span: DUMMY_SP,
                 stmts: vec![Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(expr.take()),
                 })],
-                ..Default::default()
             });
         }
     }
 
     fn exit_arrow_expr(&mut self, node: &mut ArrowExpr, _: &mut TraverseCtx) {
-        if let BlockStmtOrExpr::BlockStmt(block_stmt) = &mut *node.body {
+        if let ArrowFunctionBody::FunctionBody(block_stmt) = &mut *node.body {
             // If the block statement is something we inserted, we need to
             // convert it back to an expression.
             if block_stmt.span == DUMMY_SP && block_stmt.stmts.len() == 1 {
                 if let Stmt::Return(return_stmt) = &mut block_stmt.stmts[0] {
                     if return_stmt.span == DUMMY_SP {
-                        *node.body = BlockStmtOrExpr::Expr(return_stmt.arg.take().unwrap());
+                        *node.body = ArrowFunctionBody::Expr(return_stmt.arg.take().unwrap());
                     }
                 }
             }

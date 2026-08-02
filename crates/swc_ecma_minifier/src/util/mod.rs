@@ -363,7 +363,7 @@ impl Visit for IdentUsageCollector {
         n.visit_children_with(self);
     }
 
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
+    fn visit_arrow_function_body(&mut self, n: &ArrowFunctionBody) {
         if self.ignore_nested {
             return;
         }
@@ -420,7 +420,7 @@ impl Visit for CapturedIdCollector {
         n.visit_children_with(self);
     }
 
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
+    fn visit_arrow_function_body(&mut self, n: &ArrowFunctionBody) {
         let old = self.is_nested;
         self.is_nested = true;
         n.visit_children_with(self);

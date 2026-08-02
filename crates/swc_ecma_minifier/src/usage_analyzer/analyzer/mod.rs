@@ -319,16 +319,7 @@ where
                 n.params.visit_with(&mut *child.with_ctx(ctx));
             }
 
-            match &*n.body {
-                BlockStmtOrExpr::BlockStmt(body) => {
-                    body.visit_with(child);
-                }
-                BlockStmtOrExpr::Expr(body) => {
-                    body.visit_with(child);
-                }
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
-            }
+            n.body.visit_with(child);
         })
     }
 
@@ -754,10 +745,7 @@ where
                 n.params.visit_with(&mut *child.with_ctx(ctx));
             }
 
-            // Bypass visit_block_stmt
-            if let Some(body) = &n.body {
-                body.visit_with(child);
-            }
+            n.body.visit_with(child);
         })
     }
 
@@ -1059,11 +1047,7 @@ where
             .with_child(n.ctxt, ScopeKind::Fn { is_arrow: false }, |child| {
                 n.params.visit_with(child);
 
-                if let Some(body) = &n.body {
-                    // We use visit_children_with instead of visit_with to bypass block scope
-                    // handler.
-                    body.visit_children_with(child);
-                }
+                n.body.visit_with(child);
             })
     }
 

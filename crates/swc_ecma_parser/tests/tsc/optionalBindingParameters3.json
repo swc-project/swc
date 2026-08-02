@@ -73,12 +73,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 182,
           "end": 184
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

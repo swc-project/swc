@@ -386,6 +386,11 @@ impl IsEmpty for BlockStmt {
         self.stmts.is_empty()
     }
 }
+impl IsEmpty for FunctionBody {
+    fn is_empty(&self) -> bool {
+        self.stmts.is_empty()
+    }
+}
 impl IsEmpty for CatchClause {
     fn is_empty(&self) -> bool {
         self.body.stmts.is_empty()
@@ -1505,7 +1510,8 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
         } else {
             Vec::new()
         },
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts: if has_super {
                 vec![CallExpr {
                     span: super_call_span,
@@ -1520,7 +1526,6 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
             } else {
                 Vec::new()
             },
-            ..Default::default()
         }),
         ..Default::default()
     }

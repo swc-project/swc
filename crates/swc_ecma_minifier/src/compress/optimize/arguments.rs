@@ -123,8 +123,8 @@ impl Optimizer<'_> {
         };
 
         // We visit body two time, to use simpler logic in `inject_params_if_required`
-        f.body.visit_mut_children_with(&mut v);
-        f.body.visit_mut_children_with(&mut v);
+        f.body.visit_mut_with(&mut v);
+        f.body.visit_mut_with(&mut v);
 
         self.changed |= v.changed;
     }

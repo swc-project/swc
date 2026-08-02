@@ -192,12 +192,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 198,
           "end": 250
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -385,12 +384,11 @@
             "ctxt": 0,
             "params": [],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 291,
                 "end": 688
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ForOfStatement",
@@ -559,12 +557,11 @@
                               "ctxt": 0,
                               "params": [],
                               "body": {
-                                "type": "BlockStatement",
+                                "type": "FunctionBody",
                                 "span": {
                                   "start": 387,
                                   "end": 676
                                 },
-                                "ctxt": 0,
                                 "stmts": [
                                   {
                                     "type": "VariableDeclaration",

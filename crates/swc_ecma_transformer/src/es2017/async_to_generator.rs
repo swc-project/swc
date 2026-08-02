@@ -122,9 +122,9 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             .into(),
         );
 
-        function.body = Some(BlockStmt {
+        function.body = Some(FunctionBody {
+            span: DUMMY_SP,
             stmts,
-            ..Default::default()
         });
 
         // Restore the previous fn_state from stack after processing async function
@@ -191,20 +191,20 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 self.this_var = Some(private_ident!("_this"));
             }
             let this_var = self.this_var.clone().unwrap();
-            replace_this_in_block_stmt_or_expr(&mut arrow_expr.body, &this_var);
+            replace_this_in_arrow_function_body(&mut arrow_expr.body, &this_var);
         }
 
         arrow_expr.is_async = false;
 
         let body = match *arrow_expr.body.take() {
-            BlockStmtOrExpr::BlockStmt(block_stmt) => block_stmt,
-            BlockStmtOrExpr::Expr(expr) => BlockStmt {
+            ArrowFunctionBody::FunctionBody(body) => body,
+            ArrowFunctionBody::Expr(expr) => FunctionBody {
+                span: DUMMY_SP,
                 stmts: vec![ReturnStmt {
                     arg: Some(expr),
                     ..Default::default()
                 }
                 .into()],
-                ..Default::default()
             },
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
@@ -214,12 +214,12 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 
         arrow_expr.body = if fn_state.use_super {
             stmts.push(expr.into_stmt());
-            BlockStmtOrExpr::BlockStmt(BlockStmt {
+            ArrowFunctionBody::FunctionBody(FunctionBody {
+                span: DUMMY_SP,
                 stmts,
-                ..Default::default()
             })
         } else {
-            BlockStmtOrExpr::Expr(Box::new(expr))
+            ArrowFunctionBody::Expr(Box::new(expr))
         }
         .into()
     }
@@ -277,7 +277,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             let fn_state = self.fn_state.take();
 
             // If any async arrows used `this`, we need to add var _this and _this = this
-            if let Some(BlockStmt { stmts, .. }) = &mut constructor.body {
+            if let Some(FunctionBody { stmts, .. }) = &mut constructor.body {
                 if let Some(fn_state) = &fn_state {
                     if fn_state.use_this {
                         let this_var = self.this_var.take().unwrap();
@@ -390,7 +390,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 ///
 /// `_async_to_generator(function*() {})()` from `async function() {}`;
 #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
-fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: BlockStmt) -> Expr {
+fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: FunctionBody) -> Expr {
     let helper = if fn_state.is_generator {
         helper_expr!(DUMMY_SP, wrap_async_generator)
     } else {
@@ -854,13 +854,13 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 }
 
 /// Replace all `this` expressions with the given identifier in a
-/// BlockStmtOrExpr
-fn replace_this_in_block_stmt_or_expr(body: &mut BlockStmtOrExpr, this_var: &Ident) {
+/// Arrow function body.
+fn replace_this_in_arrow_function_body(body: &mut ArrowFunctionBody, this_var: &Ident) {
     match body {
-        BlockStmtOrExpr::BlockStmt(block) => {
+        ArrowFunctionBody::FunctionBody(block) => {
             replace_this_in_stmts(&mut block.stmts, this_var);
         }
-        BlockStmtOrExpr::Expr(expr) => {
+        ArrowFunctionBody::Expr(expr) => {
             replace_this_in_expr(expr, this_var);
         }
         #[cfg(swc_ast_unknown)]
@@ -1185,7 +1185,7 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
         // Arrow functions don't have their own `this` context - they inherit from the
         // enclosing scope, so we need to traverse into them
         Expr::Arrow(arrow) => {
-            replace_this_in_block_stmt_or_expr(&mut arrow.body, this_var);
+            replace_this_in_arrow_function_body(&mut arrow.body, this_var);
         }
         // Don't traverse into nested functions/classes as they have their own `this` context
         Expr::Fn(_) | Expr::Class(_) => {}

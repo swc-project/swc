@@ -42,12 +42,11 @@
           },
           "params": [],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 102,
               "end": 128
             },
-            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -123,12 +122,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 139,
                 "end": 146
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -249,12 +247,11 @@
           },
           "ctxt": 0,
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 262,
               "end": 265
             },
-            "ctxt": 0,
             "stmts": []
           },
           "generator": false,
@@ -361,12 +358,11 @@
           "ctxt": 0,
           "params": [],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 314,
               "end": 357
             },
-            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -619,12 +615,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 589,
                 "end": 620
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -679,12 +674,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 632,
                 "end": 656
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",

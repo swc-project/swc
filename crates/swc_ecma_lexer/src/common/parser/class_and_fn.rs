@@ -669,7 +669,7 @@ pub fn parse_fn_block_or_expr_body<'a, P: Parser<'a>>(
     is_generator: bool,
     is_arrow_function: bool,
     is_simple_parameter_list: bool,
-) -> PResult<Box<BlockStmtOrExpr>> {
+) -> PResult<Box<ArrowFunctionBody>> {
     parse_fn_body(
         p,
         is_async,
@@ -685,12 +685,12 @@ pub fn parse_fn_block_or_expr_body<'a, P: Parser<'a>>(
                                 p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                             }
                         }
-                        BlockStmtOrExpr::BlockStmt(block_stmt)
+                        ArrowFunctionBody::FunctionBody(function_body_from_block_stmt(block_stmt))
                     })
                     .map(Box::new)
             } else {
                 parse_assignment_expr(p)
-                    .map(BlockStmtOrExpr::Expr)
+                    .map(ArrowFunctionBody::Expr)
                     .map(Box::new)
             }
         },
@@ -760,7 +760,7 @@ pub(super) fn parse_fn_block_body<'a, P: Parser<'a>>(
     is_generator: bool,
     is_arrow_function: bool,
     is_simple_parameter_list: bool,
-) -> PResult<Option<BlockStmt>> {
+) -> PResult<Option<FunctionBody>> {
     parse_fn_body(
         p,
         is_async,
@@ -781,10 +781,16 @@ pub(super) fn parse_fn_block_body<'a, P: Parser<'a>>(
                         p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                     }
                 }
-                Some(block_stmt)
+                Some(function_body_from_block_stmt(block_stmt))
             })
         },
     )
+}
+
+fn function_body_from_block_stmt(block_stmt: BlockStmt) -> FunctionBody {
+    let BlockStmt { span, stmts, .. } = block_stmt;
+
+    FunctionBody { span, stmts }
 }
 
 fn make_property<'a, P: Parser<'a>>(

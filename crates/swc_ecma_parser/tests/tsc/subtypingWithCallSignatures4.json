@@ -5237,12 +5237,11 @@
               }
             ],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 1940,
                 "end": 1943
               },
-              "ctxt": 0,
               "stmts": []
             },
             "async": false,

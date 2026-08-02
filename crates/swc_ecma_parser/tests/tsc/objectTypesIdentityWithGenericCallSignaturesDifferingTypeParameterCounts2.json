@@ -905,12 +905,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 311,
           "end": 314
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -1113,12 +1112,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 391,
           "end": 394
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -1321,12 +1319,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 483,
           "end": 486
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -1579,12 +1576,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 599,
           "end": 602
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -1837,12 +1833,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 712,
           "end": 715
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -2045,12 +2040,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 801,
           "end": 804
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -2303,12 +2297,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 911,
           "end": 914
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

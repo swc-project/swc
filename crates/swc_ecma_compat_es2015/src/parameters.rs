@@ -86,7 +86,7 @@ impl Params {
         f.visit_mut_children_with(self);
 
         let mut body = f.body.take().unwrap();
-        self.visit_mut_fn_like(&mut f.params, &mut body, true);
+        self.visit_mut_fn_like(&mut f.params, &mut body.stmts, true);
 
         f.body = Some(body);
 
@@ -94,7 +94,7 @@ impl Params {
         self.in_prop = old_in_prop;
     }
 
-    fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt, is_setter: bool) {
+    fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, stmts: &mut Vec<Stmt>, is_setter: bool) {
         let mut params = Vec::new();
         let mut decls = Vec::new();
         let mut loose_stmt = Vec::new();
@@ -478,9 +478,9 @@ impl Params {
         }
         if (is_setter || self.c.ignore_function_length) && !loose_stmt.is_empty() {
             loose_stmt.extend(iter);
-            prepend_stmts(&mut body.stmts, loose_stmt.into_iter());
+            prepend_stmts(stmts, loose_stmt.into_iter());
         } else {
-            prepend_stmts(&mut body.stmts, iter.into_iter());
+            prepend_stmts(stmts, iter.into_iter());
         };
 
         *ps = params;
@@ -521,7 +521,7 @@ impl VisitMut for Params {
         self.in_prop = old_in_prop;
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+    fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
         let old_rep = self.hoister.take();
 
         body.visit_mut_children_with(self);
@@ -529,7 +529,7 @@ impl VisitMut for Params {
         let decls = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
         if let Some(decls) = decls {
-            if let BlockStmtOrExpr::Expr(v) = body {
+            if let ArrowFunctionBody::Expr(v) = body {
                 let mut stmts = Vec::new();
                 prepend_stmt(&mut stmts, decls);
                 stmts.push(
@@ -539,10 +539,9 @@ impl VisitMut for Params {
                     }
                     .into(),
                 );
-                *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                *body = ArrowFunctionBody::FunctionBody(FunctionBody {
                     span: DUMMY_SP,
                     stmts,
-                    ..Default::default()
                 });
             }
         }
@@ -560,7 +559,7 @@ impl VisitMut for Params {
             });
         }
 
-        self.visit_mut_fn_like(&mut params, &mut f.body, false);
+        self.visit_mut_fn_like(&mut params, &mut f.body.stmts, false);
 
         assert!(
             params.is_empty() || params.len() == 1,
@@ -581,7 +580,7 @@ impl VisitMut for Params {
         trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
         f.params.visit_mut_with(self);
 
-        if let Some(BlockStmt { stmts, .. }) = &mut f.body {
+        if let Some(FunctionBody { stmts, .. }) = &mut f.body {
             let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
@@ -650,19 +649,19 @@ impl VisitMut for Params {
                     .collect();
 
                 let mut body = match *f.body.take() {
-                    BlockStmtOrExpr::BlockStmt(block) => block,
-                    BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                    ArrowFunctionBody::FunctionBody(body) => body,
+                    ArrowFunctionBody::Expr(expr) => FunctionBody {
+                        span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr),
                         })],
-                        ..Default::default()
                     },
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 };
 
-                self.visit_mut_fn_like(&mut params, &mut body, false);
+                self.visit_mut_fn_like(&mut params, &mut body.stmts, false);
 
                 if need_arrow_to_function {
                     let func: Expr = Function {
@@ -681,7 +680,7 @@ impl VisitMut for Params {
                             params: Vec::new(),
                             is_async: false,
                             is_generator: false,
-                            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                            body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                                 span: f.span,
                                 stmts: vec![
                                     var_decl,
@@ -690,7 +689,6 @@ impl VisitMut for Params {
                                         arg: Some(Box::new(func)),
                                     }),
                                 ],
-                                ..Default::default()
                             })),
                             ..Default::default()
                         }
@@ -709,12 +707,12 @@ impl VisitMut for Params {
                     ) {
                     match body.stmts.pop().unwrap() {
                         Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                            Box::new(BlockStmtOrExpr::Expr(arg))
+                            Box::new(ArrowFunctionBody::Expr(arg))
                         }
                         _ => unreachable!(),
                     }
                 } else {
-                    Box::new(BlockStmtOrExpr::BlockStmt(body))
+                    Box::new(ArrowFunctionBody::FunctionBody(body))
                 };
 
                 *e = ArrowExpr {
@@ -746,7 +744,7 @@ impl VisitMut for Params {
         f.visit_mut_children_with(self);
 
         let mut body = f.body.take().unwrap();
-        self.visit_mut_fn_like(&mut f.params, &mut body, false);
+        self.visit_mut_fn_like(&mut f.params, &mut body.stmts, false);
 
         f.body = Some(body);
 

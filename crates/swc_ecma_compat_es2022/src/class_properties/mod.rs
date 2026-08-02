@@ -155,9 +155,9 @@ impl VisitMut for ClassProperties {
         self.extra = old;
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+    fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
         match body {
-            BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
+            ArrowFunctionBody::Expr(expr) if expr.is_class() => {
                 let ClassExpr { ident, class } = expr.take().class().unwrap();
 
                 let mut stmts = Vec::new();
@@ -174,10 +174,9 @@ impl VisitMut for ClassProperties {
                     .into(),
                 );
 
-                *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                *body = ArrowFunctionBody::FunctionBody(FunctionBody {
                     span: DUMMY_SP,
                     stmts,
-                    ..Default::default()
                 });
             }
             _ => body.visit_mut_children_with(self),

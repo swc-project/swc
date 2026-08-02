@@ -1690,11 +1690,7 @@ impl<I: Tokens> Parser<I> {
                 this_param: None,
                 params: Vec::new(),
                 decorators: Vec::new(),
-                body: Some(BlockStmt {
-                    span,
-                    stmts,
-                    ctxt: Default::default(),
-                }),
+                body: Some(FunctionBody { span, stmts }),
                 is_async: false,
                 is_generator: false,
                 type_params: None,

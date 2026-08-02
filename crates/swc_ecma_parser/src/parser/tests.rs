@@ -747,7 +747,7 @@ fn async_arrow() {
             is_async: true,
             is_generator: false,
             params: Vec::new(),
-            body: Box::new(BlockStmtOrExpr::Expr(expr("foo"))),
+            body: Box::new(ArrowFunctionBody::Expr(expr("foo"))),
             ..Default::default()
         }))
     );
@@ -774,9 +774,9 @@ fn object_rest_pat() {
                 })],
                 type_ann: None
             })],
-            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+            body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                 span: DUMMY_SP,
-                ..Default::default()
+                stmts: Vec::new(),
             })),
             ..Default::default()
         }))
@@ -852,7 +852,7 @@ fn arrow_fn_no_args() {
             is_async: false,
             is_generator: false,
             params: Vec::new(),
-            body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
+            body: Box::new(ArrowFunctionBody::Expr(expr("1"))),
             ..Default::default()
         }))
     );
@@ -866,7 +866,7 @@ fn arrow_fn() {
             is_async: false,
             is_generator: false,
             params: vec![Pat::Ident(Ident::new_no_ctxt(atom!("a"), DUMMY_SP).into())],
-            body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
+            body: Box::new(ArrowFunctionBody::Expr(expr("1"))),
             ..Default::default()
         }))
     );
@@ -885,7 +885,7 @@ fn arrow_fn_rest() {
                 arg: Box::new(Pat::Ident(Ident::new_no_ctxt(atom!("a"), DUMMY_SP).into())),
                 type_ann: None
             })],
-            body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
+            body: Box::new(ArrowFunctionBody::Expr(expr("1"))),
 
             ..Default::default()
         }))
@@ -898,7 +898,7 @@ fn arrow_fn_no_paren() {
         Box::new(Expr::Arrow(ArrowExpr {
             span: DUMMY_SP,
             params: vec![Pat::Ident(Ident::new_no_ctxt(atom!("a"), DUMMY_SP).into())],
-            body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
+            body: Box::new(ArrowFunctionBody::Expr(expr("1"))),
             ..Default::default()
         }))
     );

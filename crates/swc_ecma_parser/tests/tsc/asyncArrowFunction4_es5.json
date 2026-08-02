@@ -41,12 +41,11 @@
             "ctxt": 0,
             "params": [],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 87,
                 "end": 90
               },
-              "ctxt": 0,
               "stmts": []
             },
             "async": false,

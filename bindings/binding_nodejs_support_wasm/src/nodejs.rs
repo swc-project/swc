@@ -6,11 +6,12 @@
 use serde::Serialize;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, Spanned};
 use swc_ecma_ast::{
-    ArrowExpr, AssignExpr, AssignTarget, AssignTargetPat, BindingIdent, BlockStmt, BlockStmtOrExpr,
-    CallExpr, Callee, CatchClause, Class, ClassDecl, Decl, DefaultDecl, EsVersion, ExportSpecifier,
-    Expr, FnDecl, Function, ImportDecl, ImportSpecifier, MetaPropExpr, MetaPropKind, Module,
-    ModuleDecl, ModuleExportName, ModuleItem, NamedExport, ObjectLit, ObjectPatProp, Pat, Prop,
-    SimpleAssignTarget, Stmt, UpdateExpr, VarDecl, VarDeclKind,
+    ArrowExpr, ArrowFunctionBody, AssignExpr, AssignTarget, AssignTargetPat, BindingIdent,
+    BlockStmt, CallExpr, Callee, CatchClause, Class, ClassDecl, Decl, DefaultDecl, EsVersion,
+    ExportSpecifier, Expr, FnDecl, Function, FunctionBody, ImportDecl, ImportSpecifier,
+    MetaPropExpr, MetaPropKind, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport,
+    ObjectLit, ObjectPatProp, Pat, Prop, SimpleAssignTarget, Stmt, UpdateExpr, VarDecl,
+    VarDeclKind,
 };
 use swc_ecma_parser::{
     error::{Error as ParseError, SyntaxError},
@@ -996,7 +997,7 @@ fn arrow_scope_shadowed_bindings(node: &ArrowExpr, bindings: &[ImportBinding]) -
     for param in &node.params {
         collect_shadowed_pat_bindings(&mut shadowed, param, bindings);
     }
-    if let BlockStmtOrExpr::BlockStmt(body) = &*node.body {
+    if let ArrowFunctionBody::FunctionBody(body) = &*node.body {
         collect_function_var_shadowed_bindings(&mut shadowed, body, bindings);
     }
     shadowed
@@ -1004,7 +1005,7 @@ fn arrow_scope_shadowed_bindings(node: &ArrowExpr, bindings: &[ImportBinding]) -
 
 fn collect_function_var_shadowed_bindings(
     out: &mut Vec<String>,
-    body: &BlockStmt,
+    body: &FunctionBody,
     bindings: &[ImportBinding],
 ) {
     let mut collector = FunctionScopedVarCollector {

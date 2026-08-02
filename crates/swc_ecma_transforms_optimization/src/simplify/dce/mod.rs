@@ -38,7 +38,7 @@ pub fn dce(
         changed: false,
         pass: 0,
         in_fn: false,
-        in_block_stmt: false,
+        in_non_top_level_lexical_scope: false,
         var_decl_kind: None,
         data: Default::default(),
     })
@@ -84,7 +84,7 @@ struct TreeShaker {
     pass: u16,
 
     in_fn: bool,
-    in_block_stmt: bool,
+    in_non_top_level_lexical_scope: bool,
     var_decl_kind: Option<VarDeclKind>,
 
     data: Data,
@@ -855,7 +855,7 @@ impl TreeShaker {
                 if !self.in_fn {
                     return false;
                 }
-            } else if !self.in_block_stmt {
+            } else if !self.in_non_top_level_lexical_scope {
                 return false;
             }
         }
@@ -876,7 +876,7 @@ impl TreeShaker {
                 if !self.in_fn {
                     return false;
                 }
-            } else if !self.in_block_stmt {
+            } else if !self.in_non_top_level_lexical_scope {
                 return false;
             }
 
@@ -997,13 +997,20 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-        let old_in_block_stmt = self.in_block_stmt;
-        self.in_block_stmt = true;
+        let old_in_non_top_level_lexical_scope = self.in_non_top_level_lexical_scope;
+        self.in_non_top_level_lexical_scope = true;
         n.visit_mut_children_with(self);
-        self.in_block_stmt = old_in_block_stmt;
+        self.in_non_top_level_lexical_scope = old_in_non_top_level_lexical_scope;
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+    fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
+        let old_in_non_top_level_lexical_scope = self.in_non_top_level_lexical_scope;
+        self.in_non_top_level_lexical_scope = true;
+        n.visit_mut_children_with(self);
+        self.in_non_top_level_lexical_scope = old_in_non_top_level_lexical_scope;
+    }
+
+    fn visit_mut_arrow_function_body(&mut self, n: &mut ArrowFunctionBody) {
         let old_in_fn = self.in_fn;
         self.in_fn = true;
         n.visit_mut_children_with(self);
