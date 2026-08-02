@@ -70,12 +70,11 @@
                     }
                   ],
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 102,
                       "end": 104
                     },
-                    "ctxt": 0,
                     "stmts": []
                   },
                   "async": false,
@@ -140,12 +139,11 @@
               "ctxt": 0,
               "params": [],
               "body": {
-                "type": "BlockStatement",
+                "type": "FunctionBody",
                 "span": {
                   "start": 141,
                   "end": 143
                 },
-                "ctxt": 0,
                 "stmts": []
               },
               "async": false,

@@ -26,12 +26,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 33,
           "end": 145
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "TryStatement",

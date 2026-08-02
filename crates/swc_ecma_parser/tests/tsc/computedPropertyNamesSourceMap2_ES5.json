@@ -65,12 +65,11 @@
                 },
                 "ctxt": 0,
                 "body": {
-                  "type": "BlockStatement",
+                  "type": "FunctionBody",
                   "span": {
                     "start": 63,
                     "end": 85
                   },
-                  "ctxt": 0,
                   "stmts": [
                     {
                       "type": "DebuggerStatement",
@@ -117,12 +116,11 @@
                   },
                   "ctxt": 0,
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 109,
                       "end": 125
                     },
-                    "ctxt": 0,
                     "stmts": [
                       {
                         "type": "ReturnStatement",

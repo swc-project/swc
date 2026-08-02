@@ -2536,12 +2536,11 @@
                     }
                   ],
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 1791,
                       "end": 1845
                     },
-                    "ctxt": 0,
                     "stmts": [
                       {
                         "type": "VariableDeclaration",
@@ -2781,12 +2780,11 @@
                     }
                   ],
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 1936,
                       "end": 1994
                     },
-                    "ctxt": 0,
                     "stmts": [
                       {
                         "type": "VariableDeclaration",

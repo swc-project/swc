@@ -721,7 +721,7 @@ impl<I: Tokens> Parser<I> {
         is_generator: bool,
         is_arrow_function: bool,
         is_simple_parameter_list: bool,
-    ) -> PResult<Box<BlockStmtOrExpr>> {
+    ) -> PResult<Box<ArrowFunctionBody>> {
         self.parse_fn_body(
             is_async,
             is_generator,
@@ -736,12 +736,14 @@ impl<I: Tokens> Parser<I> {
                                     p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                                 }
                             }
-                            BlockStmtOrExpr::BlockStmt(block_stmt)
+                            ArrowFunctionBody::FunctionBody(function_body_from_block_stmt(
+                                block_stmt,
+                            ))
                         })
                         .map(Box::new)
                 } else {
                     p.parse_assignment_expr()
-                        .map(BlockStmtOrExpr::Expr)
+                        .map(ArrowFunctionBody::Expr)
                         .map(Box::new)
                 }
             },
@@ -812,7 +814,7 @@ impl<I: Tokens> Parser<I> {
         is_generator: bool,
         is_arrow_function: bool,
         is_simple_parameter_list: bool,
-    ) -> PResult<Option<BlockStmt>> {
+    ) -> PResult<Option<FunctionBody>> {
         self.parse_fn_body(
             is_async,
             is_generator,
@@ -843,7 +845,7 @@ impl<I: Tokens> Parser<I> {
                             p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                         }
                     }
-                    Some(block_stmt)
+                    Some(function_body_from_block_stmt(block_stmt))
                 })
             },
         )
@@ -1274,7 +1276,7 @@ impl<I: Tokens> Parser<I> {
                 let prev_allow_super_call = self.allow_super_call();
                 self.set_allow_super_call(true);
                 let ctor_sig_and_body =
-                    (|| -> PResult<(Vec<ParamOrTsParamProp>, Option<BlockStmt>)> {
+                    (|| -> PResult<(Vec<ParamOrTsParamProp>, Option<FunctionBody>)> {
                         expect!(self, Token::LParen);
                         let params = self.parse_constructor_params()?;
                         expect!(self, Token::RParen);
@@ -2144,6 +2146,12 @@ impl OutputType for Decl {
         }
         .into())
     }
+}
+
+fn function_body_from_block_stmt(block_stmt: BlockStmt) -> FunctionBody {
+    let BlockStmt { span, stmts, .. } = block_stmt;
+
+    FunctionBody { span, stmts }
 }
 
 fn has_use_strict(block: &BlockStmt) -> Option<Span> {

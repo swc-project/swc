@@ -298,7 +298,7 @@ impl VisitMut for Transform {
             });
 
         node.params.visit_mut_children_with(self);
-        node.body.visit_mut_children_with(self);
+        node.body.visit_mut_with(self);
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {

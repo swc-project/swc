@@ -3,7 +3,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, 
 
 use crate::{
     expr::Expr,
-    function::{Function, ParamOrTsParamProp},
+    function::{Function, FunctionBody, ParamOrTsParamProp},
     ident::PrivateName,
     prop::PropName,
     stmt::BlockStmt,
@@ -289,7 +289,7 @@ pub struct Constructor {
         feature = "encoding-impl",
         encoding(with = "cbor4ii::core::types::Maybe")
     )]
-    pub body: Option<BlockStmt>,
+    pub body: Option<FunctionBody>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
