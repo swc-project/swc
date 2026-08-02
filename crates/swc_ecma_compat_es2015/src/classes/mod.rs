@@ -2,7 +2,7 @@ use std::iter;
 
 use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
-use swc_atoms::{atom, Atom};
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -103,7 +103,6 @@ impl Classes {
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Take,
     {
         let mut buf = Vec::with_capacity(stmts.len());
-        let mut first = true;
         let old = self.in_strict;
 
         for stmt in stmts.iter_mut() {
@@ -183,15 +182,10 @@ impl Classes {
                     Err(..) => unreachable!(),
                 },
                 Ok(mut stmt) => {
-                    if first {
-                        self.in_strict |= stmt.is_use_strict();
-                    }
-
                     stmt.visit_mut_children_with(self);
                     buf.push(T::from(stmt));
                 }
             }
-            first = false;
         }
 
         self.in_strict = old;
@@ -203,8 +197,29 @@ impl Classes {
 impl VisitMut for Classes {
     noop_visit_mut_type!(fail);
 
+    fn visit_mut_function_body(&mut self, body: &mut FunctionBody) {
+        let old = self.in_strict;
+        self.in_strict |= body.directives.iter().any(Directive::is_use_strict);
+        body.visit_mut_children_with(self);
+        self.in_strict = old;
+    }
+
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        let old = self.in_strict;
+        self.in_strict |= module.directives.iter().any(Directive::is_use_strict);
+        module.visit_mut_children_with(self);
+        self.in_strict = old;
+    }
+
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(items)
+    }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        let old = self.in_strict;
+        self.in_strict |= script.directives.iter().any(Directive::is_use_strict);
+        script.visit_mut_children_with(self);
+        self.in_strict = old;
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
@@ -421,18 +436,11 @@ impl Classes {
             (Vec::new(), Vec::new(), None)
         };
 
-        let mut stmts = self.class_to_stmts(class_name, super_ident, class);
+        let mut body = self.class_to_body(class_name, super_ident, class);
         params.extend(self.params.take());
         args.extend(self.args.take());
 
-        let cnt_of_non_directive = stmts
-            .iter()
-            .filter(|stmt| match stmt {
-                Stmt::Expr(ExprStmt { expr, .. }) => !matches!(&**expr, Expr::Lit(Lit::Str(..))),
-                _ => true,
-            })
-            .count();
-        if !has_super && cnt_of_non_directive == 1 {
+        if !has_super && body.stmts.len() == 1 {
             //    class Foo {}
             //
             // should be
@@ -451,16 +459,19 @@ impl Classes {
             //      return Foo;
             //    }();
 
-            let stmt = stmts.pop().unwrap();
+            let stmt = body.stmts.pop().unwrap();
             match stmt {
                 Stmt::Decl(Decl::Fn(FnDecl {
                     ident,
                     mut function,
                     ..
                 })) => {
-                    if let Some(use_strict) = stmts.pop() {
-                        prepend_stmt(&mut function.body.as_mut().unwrap().stmts, use_strict);
-                    }
+                    function
+                        .body
+                        .as_mut()
+                        .unwrap()
+                        .directives
+                        .splice(0..0, body.directives);
                     function.span = span;
                     return FnExpr {
                         ident: Some(ident),
@@ -471,11 +482,6 @@ impl Classes {
                 _ => unreachable!(),
             }
         }
-
-        let body = FunctionBody {
-            span: DUMMY_SP,
-            stmts,
-        };
 
         let call = CallExpr {
             span,
@@ -495,13 +501,13 @@ impl Classes {
         call.into()
     }
 
-    /// Returned `stmts` contains `return Foo`
-    fn class_to_stmts(
+    /// The returned body contains `return Foo`.
+    fn class_to_body(
         &mut self,
         class_name: Option<Ident>,
         super_class_ident: Option<Ident>,
         class: Box<Class>,
-    ) -> Vec<Stmt> {
+    ) -> FunctionBody {
         let class_name = class_name.unwrap_or_else(|| quote_ident!("_class").into());
         let mut stmts = Vec::new();
 
@@ -562,35 +568,18 @@ impl Classes {
         // convert class methods
         stmts.extend(self.fold_class_methods(&class_name, &super_class_ident, methods));
 
-        if stmts.first().map(|v| !v.is_use_strict()).unwrap_or(false) && !self.in_strict {
-            prepend_stmt(
-                &mut stmts,
-                Lit::Str(Str {
-                    span: DUMMY_SP,
-                    value: atom!("use strict").into(),
-                    raw: Some(atom!("\"use strict\"")),
-                })
-                .into_stmt(),
-            );
+        let directives = if self.in_strict {
+            Vec::new()
+        } else {
+            vec![Directive::use_strict(DUMMY_SP)]
+        };
 
-            if stmts.len() == 2 {
-                return stmts;
-            }
-        }
-
-        if super_class_ident.is_none()
-            && stmts
-                .iter()
-                .filter(|stmt| match stmt {
-                    Stmt::Expr(ExprStmt { expr, .. }) => {
-                        !matches!(&**expr, Expr::Lit(Lit::Str(..)))
-                    }
-                    _ => true,
-                })
-                .count()
-                == 1
-        {
-            return stmts;
+        if super_class_ident.is_none() && stmts.len() == 1 {
+            return FunctionBody {
+                directives,
+                stmts,
+                ..Default::default()
+            };
         }
 
         let mut class_name_sym = class_name.clone();
@@ -606,7 +595,11 @@ impl Classes {
             .into(),
         );
 
-        stmts
+        FunctionBody {
+            directives,
+            stmts,
+            ..Default::default()
+        }
     }
 
     fn fold_class_methods(

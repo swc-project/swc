@@ -131,10 +131,22 @@ impl<'a> ConvertCtx<'a> {
         let base = self.make_base_node(root_span);
 
         let (body, directives) = match program {
-            swc::Program::Module(module) => {
-                self.convert_module_item_list_with_directives(&module.body)
-            }
-            swc::Program::Script(script) => self.convert_stmt_list_with_directives(&script.body),
+            swc::Program::Module(module) => (
+                module
+                    .body
+                    .iter()
+                    .map(|item| self.convert_module_item(item))
+                    .collect(),
+                self.convert_directives(&module.directives),
+            ),
+            swc::Program::Script(script) => (
+                script
+                    .body
+                    .iter()
+                    .map(|stmt| self.convert_stmt(stmt))
+                    .collect(),
+                self.convert_directives(&script.directives),
+            ),
         };
 
         let source_type = match program {
@@ -174,82 +186,21 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_stmt_directive(&self, stmt: &swc::Stmt) -> Option<Directive> {
-        if !stmt.can_precede_directive() {
-            return None;
-        }
+    fn convert_directives(&self, directives: &[swc::Directive]) -> Vec<Directive> {
+        directives
+            .iter()
+            .map(|directive| self.convert_directive(directive))
+            .collect()
+    }
 
-        let swc::Stmt::Expr(expr_stmt) = stmt else {
-            return None;
-        };
-
-        let swc::Expr::Lit(swc::Lit::Str(s)) = &*expr_stmt.expr else {
-            return None;
-        };
-
-        self.preserved_ast.borrow_mut().save_directive(s);
-
-        let value_start = s.span.lo.0 as usize;
-        let value_end = s.span.hi.0.saturating_sub(2) as usize;
-
-        Some(Directive {
-            base: self.make_base_node(stmt.span()),
+    fn convert_directive(&self, directive: &swc::Directive) -> Directive {
+        Directive {
+            base: self.make_base_node(directive.span),
             value: DirectiveLiteral {
-                base: self.make_base_node(s.span),
-                value: self
-                    .source_text
-                    .get(value_start..value_end)
-                    .map_or_else(|| wtf8_to_string(&s.value), str::to_string),
+                base: self.make_base_node(directive.span),
+                value: directive.value().to_string(),
             },
-        })
-    }
-
-    fn convert_stmt_list_with_directives(
-        &self,
-        stmts: &[swc::Stmt],
-    ) -> (Vec<Statement>, Vec<Directive>) {
-        let mut body = Vec::with_capacity(stmts.len());
-        let mut directives = Vec::new();
-        let mut past_directives = false;
-
-        for stmt in stmts {
-            if !past_directives {
-                if let Some(dir) = self.convert_stmt_directive(stmt) {
-                    directives.push(dir);
-                    continue;
-                }
-                past_directives = true;
-            }
-            body.push(self.convert_stmt(stmt));
         }
-
-        (body, directives)
-    }
-
-    fn convert_module_item_list_with_directives(
-        &self,
-        items: &[swc::ModuleItem],
-    ) -> (Vec<Statement>, Vec<Directive>) {
-        let mut body = Vec::with_capacity(items.len());
-        let mut directives = Vec::new();
-        let mut past_directives = false;
-
-        for item in items {
-            if !past_directives {
-                let directive = match item {
-                    swc::ModuleItem::Stmt(stmt) => self.convert_stmt_directive(stmt),
-                    swc::ModuleItem::ModuleDecl(_) => None,
-                };
-                if let Some(dir) = directive {
-                    directives.push(dir);
-                    continue;
-                }
-                past_directives = true;
-            }
-            body.push(self.convert_module_item(item));
-        }
-
-        (body, directives)
     }
 
     // ===== Statements =====
@@ -377,22 +328,26 @@ impl<'a> ConvertCtx<'a> {
     }
 
     fn convert_block_stmt(&self, block: &swc::BlockStmt) -> BlockStatement {
-        let (body, directives) = self.convert_stmt_list_with_directives(&block.stmts);
-
         BlockStatement {
             base: self.make_base_node(block.span),
-            body,
-            directives,
+            body: block
+                .stmts
+                .iter()
+                .map(|stmt| self.convert_stmt(stmt))
+                .collect(),
+            directives: Vec::new(),
         }
     }
 
     fn convert_function_body(&self, body: &swc::FunctionBody) -> BlockStatement {
-        let (statements, directives) = self.convert_stmt_list_with_directives(&body.stmts);
-
         BlockStatement {
             base: self.make_base_node(body.span),
-            body: statements,
-            directives,
+            body: body
+                .stmts
+                .iter()
+                .map(|stmt| self.convert_stmt(stmt))
+                .collect(),
+            directives: self.convert_directives(&body.directives),
         }
     }
 

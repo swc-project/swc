@@ -4,6 +4,7 @@
     "start": 96,
     "end": 2047
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -497,6 +498,7 @@
           "start": 250,
           "end": 285
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -742,6 +744,7 @@
           "start": 329,
           "end": 364
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1221,6 +1224,7 @@
           "start": 529,
           "end": 564
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1700,6 +1704,7 @@
           "start": 732,
           "end": 767
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -2204,6 +2209,7 @@
           "start": 946,
           "end": 981
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -2703,6 +2709,7 @@
           "start": 1140,
           "end": 1175
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",

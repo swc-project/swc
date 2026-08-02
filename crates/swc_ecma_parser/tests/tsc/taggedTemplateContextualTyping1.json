@@ -4,6 +4,7 @@
     "start": 18,
     "end": 1075
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -718,6 +719,7 @@
           "start": 281,
           "end": 306
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -854,6 +856,7 @@
                   "start": 562,
                   "end": 597
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -1038,6 +1041,7 @@
                   "start": 645,
                   "end": 680
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -1146,6 +1150,7 @@
                   "start": 708,
                   "end": 743
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -1340,6 +1345,7 @@
                   "start": 790,
                   "end": 825
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -1554,6 +1560,7 @@
                   "start": 871,
                   "end": 905
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -1855,6 +1862,7 @@
                   "start": 960,
                   "end": 995
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -1963,6 +1971,7 @@
                   "start": 1005,
                   "end": 1040
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",

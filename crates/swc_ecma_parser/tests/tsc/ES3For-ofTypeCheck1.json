@@ -4,6 +4,7 @@
     "start": 16,
     "end": 37
   },
+  "directives": [],
   "body": [
     {
       "type": "ForOfStatement",

@@ -1,17 +1,22 @@
 //// [tsxElementResolution19.tsx]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [react.d.ts]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [file1.tsx]
 define([
     "require",
     "exports",
     "@swc/helpers/_/_class_call_check"
 ], function(require, exports, _class_call_check) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "MyClass", {
@@ -21,6 +26,7 @@ define([
         }
     });
     var MyClass = function MyClass() {
+        "use strict";
         _class_call_check._(this, MyClass);
     };
 });
@@ -32,6 +38,7 @@ define([
     "react",
     "./file1"
 ], function(require, exports, _interop_require_wildcard, _react, _file1) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), _react = /*#__PURE__*/ _interop_require_wildcard._(_react), _file1.MyClass;

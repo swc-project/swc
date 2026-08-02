@@ -4,6 +4,7 @@
     "start": 75,
     "end": 4990
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 94,
           "end": 419
         },
+        "directives": [],
         "body": [
           {
             "type": "TsTypeAliasDeclaration",
@@ -505,6 +507,7 @@
           "start": 470,
           "end": 792
         },
+        "directives": [],
         "body": [
           {
             "type": "TsTypeAliasDeclaration",
@@ -1184,6 +1187,7 @@
           "start": 840,
           "end": 1220
         },
+        "directives": [],
         "body": [
           {
             "type": "TsTypeAliasDeclaration",
@@ -1863,6 +1867,7 @@
           "start": 1272,
           "end": 1644
         },
+        "directives": [],
         "body": [
           {
             "type": "TsTypeAliasDeclaration",
@@ -2577,6 +2582,7 @@
           "start": 1702,
           "end": 2398
         },
+        "directives": [],
         "body": [
           {
             "type": "TsTypeAliasDeclaration",
@@ -4299,6 +4305,7 @@
           "start": 2474,
           "end": 2829
         },
+        "directives": [],
         "body": [
           {
             "type": "TsTypeAliasDeclaration",
@@ -4921,6 +4928,7 @@
           "start": 2905,
           "end": 3181
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -5163,6 +5171,7 @@
                 "start": 3049,
                 "end": 3052
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -5271,6 +5280,7 @@
                 "start": 3126,
                 "end": 3179
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -5368,6 +5378,7 @@
           "start": 3257,
           "end": 3744
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -5663,6 +5674,7 @@
                 "start": 3498,
                 "end": 3617
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",
@@ -6048,6 +6060,7 @@
           "start": 3820,
           "end": 4140
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -6387,6 +6400,7 @@
                 "start": 4075,
                 "end": 4138
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -6484,6 +6498,7 @@
           "start": 4216,
           "end": 4441
         },
+        "directives": [],
         "body": [
           {
             "type": "TsTypeAliasDeclaration",
@@ -6687,6 +6702,7 @@
                 "start": 4335,
                 "end": 4343
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -6868,6 +6884,7 @@
           "start": 4517,
           "end": 4735
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -7147,6 +7164,7 @@
                 "start": 4660,
                 "end": 4733
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -7283,6 +7301,7 @@
           "start": 4811,
           "end": 4990
         },
+        "directives": [],
         "body": [
           {
             "type": "TsTypeAliasDeclaration",

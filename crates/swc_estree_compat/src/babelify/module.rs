@@ -1,10 +1,11 @@
 use serde::{Deserialize, Serialize};
 use swc_common::{comments::Comment, Span};
-use swc_ecma_ast::{Module, ModuleItem, Program, Script};
+use swc_ecma_ast::{Directive, Module, ModuleItem, Program, Script};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_estree_ast::{
-    flavor::Flavor, BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration,
-    Program as BabelProgram, SrcType, Statement,
+    flavor::Flavor, BaseNode, Directive as BabelDirective, DirectiveLiteral, File,
+    InterpreterDirective, LineCol, Loc, ModuleDeclaration, Program as BabelProgram, SrcType,
+    Statement,
 };
 use swc_node_comments::SwcComments;
 
@@ -69,7 +70,7 @@ impl Babelify for Module {
                 base: ctx.base(extract_shebang_span(span, ctx)),
                 value: s,
             }),
-            directives: Default::default(),
+            directives: self.directives.babelify(ctx),
             source_file: Default::default(),
             comments: Default::default(),
         }
@@ -93,9 +94,23 @@ impl Babelify for Script {
                 base: ctx.base(extract_shebang_span(span, ctx)),
                 value: s,
             }),
-            directives: Default::default(),
+            directives: self.directives.babelify(ctx),
             source_file: Default::default(),
             comments: Default::default(),
+        }
+    }
+}
+
+impl Babelify for Directive {
+    type Output = BabelDirective;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BabelDirective {
+            base: ctx.base(self.span),
+            value: DirectiveLiteral {
+                base: ctx.base(self.span),
+                value: self.value().into(),
+            },
         }
     }
 }

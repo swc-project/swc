@@ -4,6 +4,7 @@
     "start": 189,
     "end": 488
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 198,
           "end": 201
         },
+        "directives": [],
         "body": []
       }
     },
@@ -270,6 +272,7 @@
           "start": 363,
           "end": 366
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -421,6 +424,7 @@
           "start": 438,
           "end": 461
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",

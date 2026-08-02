@@ -4,6 +4,7 @@
     "start": 1,
     "end": 103
   },
+  "directives": [],
   "body": [
     {
       "type": "ExpressionStatement",
@@ -25,6 +26,7 @@
             "start": 13,
             "end": 15
           },
+          "directives": [],
           "stmts": []
         },
         "async": true,
@@ -65,6 +67,7 @@
             "start": 32,
             "end": 34
           },
+          "directives": [],
           "stmts": []
         },
         "async": true,
@@ -99,6 +102,7 @@
           "start": 59,
           "end": 61
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -133,6 +137,7 @@
                 "start": 75,
                 "end": 77
               },
+              "directives": [],
               "stmts": []
             },
             "async": true,
@@ -192,6 +197,7 @@
                 "start": 97,
                 "end": 99
               },
+              "directives": [],
               "stmts": []
             },
             "async": true,

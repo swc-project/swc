@@ -34,7 +34,7 @@ impl Babelify for FunctionBody {
         BlockStatement {
             base: ctx.base(self.span),
             body: self.stmts.babelify(ctx),
-            directives: Default::default(),
+            directives: self.directives.babelify(ctx),
         }
     }
 }

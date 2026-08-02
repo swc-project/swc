@@ -4,6 +4,7 @@
     "start": 1,
     "end": 608
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -725,6 +726,7 @@
                   "start": 246,
                   "end": 258
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -857,6 +859,7 @@
                   "start": 280,
                   "end": 292
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -942,6 +945,7 @@
                   "start": 318,
                   "end": 320
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1030,6 +1034,7 @@
                   "start": 353,
                   "end": 355
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1137,6 +1142,7 @@
                   "start": 391,
                   "end": 393
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1225,6 +1231,7 @@
                   "start": 448,
                   "end": 450
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1311,6 +1318,7 @@
                   "start": 477,
                   "end": 479
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1421,6 +1429,7 @@
                   "start": 509,
                   "end": 511
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1531,6 +1540,7 @@
                   "start": 541,
                   "end": 543
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1642,6 +1652,7 @@
                   "start": 572,
                   "end": 574
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1760,6 +1771,7 @@
                   "start": 605,
                   "end": 607
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,

@@ -1,4 +1,5 @@
 //// [0.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -16,6 +17,7 @@ for(var name in all)Object.defineProperty(target, name, {
 });
 var a = 1, b = 2;
 //// [1.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "ns", {
@@ -27,6 +29,7 @@ Object.defineProperty(exports, "__esModule", {
 var _0 = /*#__PURE__*/ require("@swc/helpers/_/_interop_require_wildcard")._(require("./0"));
 ns.a, ns.b;
 //// [2.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

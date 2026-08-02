@@ -45,6 +45,7 @@ impl VisitMut for OptionalChaining {
                     span: DUMMY_SP,
                     arg: Some(expr.take()),
                 })],
+                ..Default::default()
             };
             function_body.visit_mut_with(self);
 
@@ -123,6 +124,7 @@ impl VisitMut for OptionalChaining {
                     body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     })),
                     is_async: false,
                     is_generator: false,

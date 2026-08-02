@@ -4,6 +4,7 @@
     "start": 148,
     "end": 1396
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -31,6 +32,7 @@
           "start": 162,
           "end": 239
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -130,6 +132,7 @@
           "start": 255,
           "end": 374
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -270,6 +273,7 @@
           "start": 390,
           "end": 513
         },
+        "directives": [],
         "stmts": [
           {
             "type": "TryStatement",
@@ -408,6 +412,7 @@
           "start": 529,
           "end": 571
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -529,6 +534,7 @@
           "start": 594,
           "end": 671
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -893,6 +899,7 @@
           "start": 905,
           "end": 979
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -996,6 +1003,7 @@
           "start": 1016,
           "end": 1090
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -1099,6 +1107,7 @@
           "start": 1133,
           "end": 1239
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -1168,6 +1177,7 @@
                         "start": 1181,
                         "end": 1184
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "async": false,
@@ -1242,6 +1252,7 @@
                         "start": 1228,
                         "end": 1231
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "async": false,
@@ -1286,6 +1297,7 @@
           "start": 1282,
           "end": 1396
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -1365,6 +1377,7 @@
                         "start": 1330,
                         "end": 1333
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "async": false,
@@ -1429,6 +1442,7 @@
                         "start": 1377,
                         "end": 1380
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "async": false,

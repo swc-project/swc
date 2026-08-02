@@ -4,6 +4,7 @@
     "start": 64,
     "end": 398
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -73,6 +74,7 @@
           "start": 86,
           "end": 89
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -174,6 +176,7 @@
                 "start": 120,
                 "end": 123
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -293,6 +296,7 @@
                 "start": 155,
                 "end": 158
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -394,6 +398,7 @@
                 "start": 187,
                 "end": 190
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -823,6 +828,7 @@
                     "start": 325,
                     "end": 328
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -948,6 +954,7 @@
                       "start": 368,
                       "end": 371
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "generator": false,
@@ -1014,6 +1021,7 @@
                       "start": 393,
                       "end": 396
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "async": false,

@@ -1,5 +1,7 @@
 //// [importCallExpressionCheckReturntype1.ts]
+"use strict";
 //// [anotherModule.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "D", {
@@ -11,6 +13,7 @@ Object.defineProperty(exports, "__esModule", {
 class D {
 }
 //// [defaultPath.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "C", {
@@ -22,6 +25,7 @@ Object.defineProperty(exports, "__esModule", {
 class C {
 }
 //// [1.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

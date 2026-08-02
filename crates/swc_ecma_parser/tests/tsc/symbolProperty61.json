@@ -4,6 +4,7 @@
     "start": 40,
     "end": 565
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 55,
           "end": 119
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -288,6 +290,7 @@
                 "start": 235,
                 "end": 237
               },
+              "directives": [],
               "stmts": []
             },
             "accessibility": null,
@@ -407,6 +410,7 @@
                   "start": 277,
                   "end": 308
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -512,6 +516,7 @@
                   "start": 329,
                   "end": 356
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -914,6 +919,7 @@
           "start": 505,
           "end": 537
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",

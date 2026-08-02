@@ -3,6 +3,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var a = 0;
 export var AClass = function AClass() {
+    "use strict";
     _class_call_check(this, AClass);
 };
 //// [/b.ts]
@@ -16,6 +17,7 @@ export default 1;
 //// [/main5.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = function C() {
+    "use strict";
     _class_call_check(this, C);
 };
 export { C as default };

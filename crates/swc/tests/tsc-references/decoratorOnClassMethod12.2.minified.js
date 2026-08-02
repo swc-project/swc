@@ -5,11 +5,13 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 M || (M = {}), C = /*#__PURE__*/ function(S) {
+    "use strict";
     function C() {
         return _class_call_check(this, C), _call_super(this, C, arguments);
     }
     return _inherits(C, S), C.prototype.method = function() {}, C;
 }(/*#__PURE__*/ function() {
+    "use strict";
     function S() {
         _class_call_check(this, S);
     }

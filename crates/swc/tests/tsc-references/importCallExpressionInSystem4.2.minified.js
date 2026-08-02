@@ -1,5 +1,6 @@
 //// [importCallExpressionInSystem4.ts]
 System.register([], function(_export, _context) {
+    "use strict";
     return {
         setters: [],
         execute: function() {}
@@ -7,6 +8,7 @@ System.register([], function(_export, _context) {
 });
 //// [0.ts]
 System.register([], function(_export, _context) {
+    "use strict";
     return _export({
         B: void 0,
         foo: function() {
@@ -25,6 +27,7 @@ System.register([], function(_export, _context) {
 });
 //// [1.ts]
 System.register([], function(_export, _context) {
+    "use strict";
     return _export("backup", function() {
         return "backup";
     }), {
@@ -34,6 +37,7 @@ System.register([], function(_export, _context) {
 });
 //// [2.ts]
 System.register([], function(_export, _context) {
+    "use strict";
     return _export("D", void 0), {
         setters: [],
         execute: function() {

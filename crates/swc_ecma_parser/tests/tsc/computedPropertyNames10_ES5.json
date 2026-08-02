@@ -4,6 +4,7 @@
     "start": 17,
     "end": 277
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -209,6 +210,7 @@
                     "start": 79,
                     "end": 82
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -248,6 +250,7 @@
                     "start": 94,
                     "end": 97
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -305,6 +308,7 @@
                     "start": 113,
                     "end": 116
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -362,6 +366,7 @@
                     "start": 132,
                     "end": 135
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -409,6 +414,7 @@
                     "start": 148,
                     "end": 151
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -447,6 +453,7 @@
                     "start": 164,
                     "end": 167
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -485,6 +492,7 @@
                     "start": 179,
                     "end": 182
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -524,6 +532,7 @@
                     "start": 194,
                     "end": 197
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -576,6 +585,7 @@
                     "start": 217,
                     "end": 220
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -625,6 +635,7 @@
                     "start": 242,
                     "end": 245
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -695,6 +706,7 @@
                     "start": 272,
                     "end": 275
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,

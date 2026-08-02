@@ -729,16 +729,14 @@ impl<I: Tokens> Parser<I> {
             is_simple_parameter_list,
             |p, is_simple_parameter_list| {
                 if p.input().is(Token::LBrace) {
-                    p.parse_block(false)
-                        .map(|block_stmt| {
+                    p.parse_function_body()
+                        .map(|body| {
                             if !is_simple_parameter_list {
-                                if let Some(span) = has_use_strict(&block_stmt) {
+                                if let Some(span) = has_use_strict(&body) {
                                     p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                                 }
                             }
-                            ArrowFunctionBody::FunctionBody(function_body_from_block_stmt(
-                                block_stmt,
-                            ))
+                            ArrowFunctionBody::FunctionBody(body)
                         })
                         .map(Box::new)
                 } else {
@@ -839,13 +837,13 @@ impl<I: Tokens> Parser<I> {
                 {
                     return Ok(None);
                 }
-                p.allow_in_expr(|p| p.parse_block(true)).map(|block_stmt| {
+                p.allow_in_expr(Parser::parse_function_body).map(|body| {
                     if !is_simple_parameter_list {
-                        if let Some(span) = has_use_strict(&block_stmt) {
+                        if let Some(span) = has_use_strict(&body) {
                             p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                         }
                     }
-                    Some(function_body_from_block_stmt(block_stmt))
+                    Some(body)
                 })
             },
         )
@@ -1002,7 +1000,7 @@ impl<I: Tokens> Parser<I> {
             Context::InStaticBlock
                 .union(Context::InClassField)
                 .union(Context::AllowUsingDecl),
-            |p| p.parse_block(false),
+            Parser::parse_block,
         )?;
 
         let span = self.span(start);
@@ -2148,24 +2146,14 @@ impl OutputType for Decl {
     }
 }
 
-fn function_body_from_block_stmt(block_stmt: BlockStmt) -> FunctionBody {
-    let BlockStmt { span, stmts, .. } = block_stmt;
-
-    FunctionBody { span, stmts }
-}
-
-fn has_use_strict(block: &BlockStmt) -> Option<Span> {
-    block
-        .stmts
-        .iter()
-        .take_while(|s| s.can_precede_directive())
-        .find_map(|s| {
-            if s.is_use_strict() {
-                Some(s.span())
-            } else {
-                None
-            }
-        })
+fn has_use_strict(body: &FunctionBody) -> Option<Span> {
+    body.directives.iter().find_map(|directive| {
+        if directive.is_use_strict() {
+            Some(directive.span)
+        } else {
+            None
+        }
+    })
 }
 
 fn is_constructor(key: &Key) -> bool {

@@ -14,6 +14,7 @@ one(function() {}), on({
     "hello",
     35
 ]), new (/*#__PURE__*/ function(SampleClass) {
+    "use strict";
     function AnotherSampleClass(props) {
         return _class_call_check(this, AnotherSampleClass), _call_super(this, AnotherSampleClass, [
             merge(props, {
@@ -25,6 +26,7 @@ one(function() {}), on({
         this.props.foo.concat;
     }, AnotherSampleClass;
 }(function SampleClass(props) {
+    "use strict";
     _class_call_check(this, SampleClass), this.props = Object.freeze(props);
 }))({});
 var Flag, Flag1 = ((Flag = Flag1 || {}).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2", Flag);

@@ -435,22 +435,12 @@ impl SemanticBuilder {
         flags | (parent_flags & ScopeFlags::StrictMode)
     }
 
-    fn strict_directives_present(stmts: &[Stmt]) -> bool {
-        for stmt in stmts {
-            if stmt.is_use_strict() {
-                return true;
-            }
-
-            if !stmt.can_precede_directive() {
-                break;
-            }
-        }
-
-        false
+    fn strict_directives_present(directives: &[Directive]) -> bool {
+        directives.iter().any(Directive::is_use_strict)
     }
 
     fn body_scope_flags(&self, flags: ScopeFlags, body: Option<&FunctionBody>) -> ScopeFlags {
-        if body.is_some_and(|body| Self::strict_directives_present(&body.stmts)) {
+        if body.is_some_and(|body| Self::strict_directives_present(&body.directives)) {
             flags | ScopeFlags::StrictMode
         } else {
             flags
@@ -963,7 +953,7 @@ impl Visit for SemanticBuilder {
         if let Some(root_scope) = self.scoping.scopes.get_mut(root_scope_idx) {
             root_scope.span = span;
             if matches!(program, Program::Module(_))
-                || matches!(program, Program::Script(script) if Self::strict_directives_present(&script.body))
+                || matches!(program, Program::Script(script) if Self::strict_directives_present(&script.directives))
             {
                 root_scope.flags = root_scope.flags | ScopeFlags::StrictMode;
             }

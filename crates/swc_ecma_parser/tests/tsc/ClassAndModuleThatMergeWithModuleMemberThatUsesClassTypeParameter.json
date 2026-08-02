@@ -4,6 +4,7 @@
     "start": 31,
     "end": 502
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -177,6 +178,7 @@
           "start": 100,
           "end": 128
         },
+        "directives": [],
         "body": [
           {
             "type": "FunctionDeclaration",
@@ -248,6 +250,7 @@
                 "start": 123,
                 "end": 126
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -430,6 +433,7 @@
           "start": 199,
           "end": 287
         },
+        "directives": [],
         "body": [
           {
             "type": "VariableDeclaration",
@@ -826,6 +830,7 @@
           "start": 358,
           "end": 391
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -1070,6 +1075,7 @@
           "start": 462,
           "end": 502
         },
+        "directives": [],
         "body": [
           {
             "type": "ClassDeclaration",

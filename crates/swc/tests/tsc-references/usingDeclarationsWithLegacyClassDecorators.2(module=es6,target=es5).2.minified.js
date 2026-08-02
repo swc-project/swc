@@ -11,6 +11,7 @@ var env = {
 try {
     _ts_add_disposable_resource(env, null, !1);
     var C = function C() {
+        "use strict";
         _class_call_check(this, C);
     };
     C = _ts_decorate([

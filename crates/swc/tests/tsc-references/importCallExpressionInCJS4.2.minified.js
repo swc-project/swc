@@ -1,4 +1,5 @@
 //// [0.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "B", {
@@ -13,6 +14,7 @@ class B {
     }
 }
 //// [2.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

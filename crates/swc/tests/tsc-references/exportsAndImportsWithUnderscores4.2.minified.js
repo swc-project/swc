@@ -1,5 +1,7 @@
 //// [exportsAndImportsWithUnderscores4.ts]
+"use strict";
 //// [m1.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -52,6 +54,7 @@ function ___hello() {
     console.log("___hello");
 }
 //// [m2.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

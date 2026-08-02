@@ -31,6 +31,7 @@ import {
     Declaration,
     Decorator,
     DefaultDecl,
+    Directive,
     DoWhileStatement,
     EmptyStatement,
     ExportAllDeclaration,
@@ -191,13 +192,23 @@ export class Visitor {
     }
 
     visitModule(m: Module): Module {
+        m.directives = this.visitDirectives(m.directives);
         m.body = this.visitModuleItems(m.body);
         return m;
     }
 
     visitScript(m: Script): Script {
+        m.directives = this.visitDirectives(m.directives);
         m.body = this.visitStatements(m.body);
         return m;
+    }
+
+    visitDirectives(directives: Directive[]): Directive[] {
+        return directives.map(this.visitDirective.bind(this));
+    }
+
+    visitDirective(directive: Directive): Directive {
+        return directive;
     }
 
     visitModuleItems(items: ModuleItem[]): ModuleItem[] {
@@ -448,6 +459,7 @@ export class Visitor {
     }
 
     visitFunctionBody(body: FunctionBody): FunctionBody {
+        body.directives = this.visitDirectives(body.directives);
         body.stmts = this.visitStatements(body.stmts);
 
         return body;
@@ -748,6 +760,7 @@ export class Visitor {
     visitTsModuleBlock(
         n: TsModuleBlock
     ): TsModuleBlock | TsNamespaceDeclaration {
+        n.directives = this.visitDirectives(n.directives);
         n.body = this.visitModuleItems(n.body);
         return n;
     }

@@ -4,6 +4,7 @@
     "start": 1,
     "end": 2009
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",

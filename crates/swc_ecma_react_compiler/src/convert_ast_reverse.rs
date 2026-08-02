@@ -113,11 +113,8 @@ impl ReverseCtx {
     // ===== Program =====
 
     fn convert_program(&self, program: &react_compiler_ast::Program) -> swc::Program {
-        let mut body = self.convert_statement_list_with_spans(&program.body);
+        let body = self.convert_statement_list_with_spans(&program.body);
         let directives = self.convert_directive_list(&program.directives);
-        if !directives.is_empty() {
-            body.splice(0..0, directives);
-        }
         let span = self.span_from_base(&program.base);
         let shebang = program
             .interpreter
@@ -127,6 +124,7 @@ impl ReverseCtx {
         match program.source_type {
             react_compiler_ast::SourceType::Module => swc::Program::Module(swc::Module {
                 span,
+                directives,
                 body,
                 shebang,
             }),
@@ -140,6 +138,7 @@ impl ReverseCtx {
                     .collect();
                 swc::Program::Script(swc::Script {
                     span,
+                    directives,
                     body,
                     shebang,
                 })
@@ -147,26 +146,22 @@ impl ReverseCtx {
         }
     }
 
-    fn convert_directive_list(&self, directives: &[Directive]) -> Vec<swc::ModuleItem> {
+    fn convert_directive_list(&self, directives: &[Directive]) -> Vec<swc::Directive> {
         directives
             .iter()
-            .map(|directive| swc::ModuleItem::Stmt(self.convert_directive(directive)))
+            .map(|directive| self.convert_directive(directive))
             .collect()
     }
 
-    fn convert_directive(&self, d: &Directive) -> swc::Stmt {
+    fn convert_directive(&self, d: &Directive) -> swc::Directive {
         let span = self.span_from_base(&d.base);
-        let mut str_lit = swc::Str {
-            span: self.span_from_base(&d.value.base),
-            value: d.value.value.as_str().into(),
-            raw: None,
-        };
-        self.preserved_ast.borrow_mut().load_directive(&mut str_lit);
+        let value = d.value.value.as_str();
+        let mut raw = String::with_capacity(value.len() + 2);
+        raw.push('"');
+        raw.push_str(value);
+        raw.push('"');
 
-        swc::Stmt::Expr(swc::ExprStmt {
-            span,
-            expr: Box::new(swc::Expr::Lit(swc::Lit::Str(str_lit))),
-        })
+        swc::Directive::new(span, raw.into())
     }
 
     fn convert_statement_list_with_spans(&self, stmts: &[Statement]) -> Vec<swc::ModuleItem> {
@@ -469,7 +464,7 @@ impl ReverseCtx {
         let directives: Vec<_> = block
             .directives
             .iter()
-            .map(|directive| self.convert_directive(directive))
+            .map(|directive| self.convert_directive_as_statement(directive))
             .collect();
         if !directives.is_empty() {
             stmts.splice(0..0, directives);
@@ -482,9 +477,26 @@ impl ReverseCtx {
     }
 
     fn convert_function_body(&self, block: &BlockStatement) -> swc::FunctionBody {
-        let swc::BlockStmt { span, stmts, .. } = self.convert_block_statement(block);
+        swc::FunctionBody {
+            span: self.span_from_base(&block.base),
+            directives: self.convert_directive_list(&block.directives),
+            stmts: self.convert_statement_list(&block.body),
+        }
+    }
 
-        swc::FunctionBody { span, stmts }
+    /// SWC stores directives separately only for program and function bodies.
+    /// Babel also exposes them on ordinary `BlockStatement` nodes, so this
+    /// boundary conversion has to lower them back to expression statements.
+    fn convert_directive_as_statement(&self, directive: &Directive) -> swc::Stmt {
+        let directive = self.convert_directive(directive);
+        let span = directive.span;
+        let value = directive.value().into();
+        let raw = Some(directive.raw);
+
+        swc::Stmt::Expr(swc::ExprStmt {
+            span,
+            expr: Box::new(swc::Expr::Lit(swc::Lit::Str(swc::Str { span, value, raw }))),
+        })
     }
 
     fn convert_catch_clause(&self, clause: &CatchClause) -> swc::CatchClause {

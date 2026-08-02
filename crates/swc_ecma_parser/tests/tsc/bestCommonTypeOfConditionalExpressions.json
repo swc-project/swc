@@ -4,6 +4,7 @@
     "start": 172,
     "end": 997
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -966,6 +967,7 @@
                   "start": 568,
                   "end": 571
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1023,6 +1025,7 @@
                   "start": 589,
                   "end": 592
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1182,6 +1185,7 @@
                   "start": 672,
                   "end": 675
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1239,6 +1243,7 @@
                   "start": 693,
                   "end": 696
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1342,6 +1347,7 @@
                   "start": 730,
                   "end": 733
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1389,6 +1395,7 @@
                   "start": 751,
                   "end": 754
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1670,6 +1677,7 @@
           "start": 952,
           "end": 997
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",

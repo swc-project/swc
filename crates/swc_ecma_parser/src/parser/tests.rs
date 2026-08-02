@@ -50,6 +50,22 @@ fn parse_program_script_01() {
 }
 
 #[test]
+fn directive_prologue_is_not_parsed_for_block_statements() {
+    let script = script(r#"function f() { "function"; { "block"; } }"#);
+
+    let Stmt::Decl(Decl::Fn(FnDecl { function, .. })) = &script.body[0] else {
+        panic!("expected a function declaration");
+    };
+    let function_body = function.body.as_ref().expect("expected a function body");
+    assert_eq!(function_body.directives.len(), 1);
+
+    let Stmt::Block(block) = &function_body.stmts[0] else {
+        panic!("expected a nested block statement");
+    };
+    assert!(matches!(block.stmts.as_slice(), [Stmt::Expr(_)]));
+}
+
+#[test]
 fn parse_program_module_02() {
     module(
         "
@@ -777,6 +793,7 @@ fn object_rest_pat() {
             body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                 span: DUMMY_SP,
                 stmts: Vec::new(),
+                ..Default::default()
             })),
             ..Default::default()
         }))

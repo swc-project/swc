@@ -4,6 +4,7 @@
     "start": 3,
     "end": 287
   },
+  "directives": [],
   "body": [
     {
       "type": "ExpressionStatement",

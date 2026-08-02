@@ -4,6 +4,7 @@
     "start": 11,
     "end": 608
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -305,6 +306,7 @@
                 "start": 176,
                 "end": 338
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "WhileStatement",
@@ -648,6 +650,7 @@
                 "start": 393,
                 "end": 606
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",

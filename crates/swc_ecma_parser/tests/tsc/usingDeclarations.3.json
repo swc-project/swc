@@ -4,6 +4,7 @@
     "start": 109,
     "end": 243
   },
+  "directives": [],
   "body": [
     {
       "type": "BlockStatement",
@@ -92,6 +93,7 @@
                         "start": 147,
                         "end": 149
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,
@@ -229,6 +231,7 @@
                         "start": 236,
                         "end": 238
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,

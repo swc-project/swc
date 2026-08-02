@@ -4,6 +4,7 @@
     "start": 29,
     "end": 1853
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -2286,6 +2287,7 @@
           "start": 1054,
           "end": 1076
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",

@@ -1,11 +1,13 @@
 //// [something.ts]
 var global, factory;
 global = this, factory = function() {
+    "use strict";
     return 42;
 }, "object" == typeof module && "object" == typeof module.exports ? module.exports = factory() : "function" == typeof define && define.amd ? define([], factory) : (global = "u" > typeof globalThis ? globalThis : global || self) && (global.somethingTs = factory());
 //// [index.ts]
 var global, factory;
 global = this, factory = function(_interop_require_wildcard) {
+    "use strict";
     return async function() {
         await import("./something");
     };

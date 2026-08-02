@@ -4,6 +4,7 @@
     "start": 81,
     "end": 487
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -66,6 +67,7 @@
                 "start": 143,
                 "end": 228
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",
@@ -306,6 +308,7 @@
                 "start": 248,
                 "end": 287
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -480,6 +483,7 @@
                 "start": 341,
                 "end": 426
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",
@@ -676,6 +680,7 @@
                 "start": 446,
                 "end": 485
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",

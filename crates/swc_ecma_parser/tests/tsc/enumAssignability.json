@@ -4,6 +4,7 @@
     "start": 76,
     "end": 1001
   },
+  "directives": [],
   "body": [
     {
       "type": "TsEnumDeclaration",
@@ -453,6 +454,7 @@
           "start": 225,
           "end": 1001
         },
+        "directives": [],
         "body": [
           {
             "type": "VariableDeclaration",
@@ -2103,6 +2105,7 @@
                 "start": 903,
                 "end": 999
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",

@@ -158,6 +158,7 @@ where
 
         let mut body = FunctionBody {
             span: module.span,
+            directives: module.directives,
             stmts: module
                 .body
                 .into_iter()
@@ -385,6 +386,7 @@ where
 
         Module {
             span: DUMMY_SP,
+            directives: Vec::new(),
             shebang: None,
             body: vec![ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,

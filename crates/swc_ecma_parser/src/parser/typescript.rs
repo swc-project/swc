@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 
 use crate::{
     error::SyntaxError, input::Tokens, lexer::Token, parser::util::IsSimpleParameterList, Context,
-    PResult, Parser,
+    PResult, ParsedBody, Parser,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -4296,14 +4296,16 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
         expect!(self, Token::LBrace);
-        let body = self.do_inside_of_context(Context::TsModuleBlock, |p| {
-            p.do_outside_of_context(Context::TopLevel, |p| {
-                p.parse_module_item_block_body(false, Some(Token::RBrace))
-            })
-        })?;
+        let ParsedBody { directives, body } =
+            self.do_inside_of_context(Context::TsModuleBlock, |p| {
+                p.do_outside_of_context(Context::TopLevel, |p| {
+                    p.parse_module_item_block_body(Some(Token::RBrace))
+                })
+            })?;
 
         Ok(TsModuleBlock {
             span: self.span(start),
+            directives,
             body,
         })
     }
@@ -5306,6 +5308,7 @@ mod tests {
         let expected = Module {
             span: DUMMY_SP,
             shebang: None,
+            directives: Vec::new(),
             body: {
                 let first = TsTypeAliasDecl {
                     span: DUMMY_SP,
@@ -5340,6 +5343,7 @@ mod tests {
         let expected = Module {
             span: DUMMY_SP,
             shebang: None,
+            directives: Vec::new(),
             body: {
                 let second = VarDecl {
                     span: DUMMY_SP,

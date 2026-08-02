@@ -19,6 +19,7 @@ export var MySFC = function(props) {
     ].concat(_to_consumable_array(_this.props.children)));
 };
 export var MyClass = /*#__PURE__*/ function() {
+    "use strict";
     function MyClass(props) {
         _class_call_check(this, MyClass), this.props = props;
     }

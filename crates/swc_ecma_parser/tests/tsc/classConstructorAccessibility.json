@@ -4,6 +4,7 @@
     "start": 24,
     "end": 585
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -84,6 +85,7 @@
               "start": 75,
               "end": 78
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": "public",
@@ -175,6 +177,7 @@
               "start": 134,
               "end": 137
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": "private",
@@ -266,6 +269,7 @@
               "start": 195,
               "end": 198
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": "protected",
@@ -495,6 +499,7 @@
           "start": 290,
           "end": 585
         },
+        "directives": [],
         "body": [
           {
             "type": "ClassDeclaration",
@@ -585,6 +590,7 @@
                     "start": 349,
                     "end": 352
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "accessibility": "public",
@@ -716,6 +722,7 @@
                     "start": 418,
                     "end": 421
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "accessibility": "private",
@@ -847,6 +854,7 @@
                     "start": 489,
                     "end": 492
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "accessibility": "protected",

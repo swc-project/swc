@@ -4,6 +4,7 @@
     "start": 1,
     "end": 714
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 10,
           "end": 147
         },
+        "directives": [],
         "body": [
           {
             "type": "VariableDeclaration",
@@ -139,6 +141,7 @@
           "start": 158,
           "end": 177
         },
+        "directives": [],
         "body": [
           {
             "type": "VariableDeclaration",
@@ -208,6 +211,7 @@
           "start": 188,
           "end": 315
         },
+        "directives": [],
         "body": [
           {
             "type": "ClassDeclaration",
@@ -304,6 +308,7 @@
           "start": 326,
           "end": 501
         },
+        "directives": [],
         "body": [
           {
             "type": "VariableDeclaration",
@@ -376,6 +381,7 @@
                   "start": 364,
                   "end": 499
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "VariableDeclaration",
@@ -448,6 +454,7 @@
                           "start": 410,
                           "end": 493
                         },
+                        "directives": [],
                         "body": [
                           {
                             "type": "VariableDeclaration",
@@ -623,6 +630,7 @@
             "start": 514,
             "end": 561
           },
+          "directives": [],
           "body": [
             {
               "type": "ExportDeclaration",
@@ -717,6 +725,7 @@
           "start": 631,
           "end": 714
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",

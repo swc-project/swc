@@ -2,6 +2,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 export var C = /*#__PURE__*/ function() {
+    "use strict";
     function C() {
         _class_call_check(this, C), this.p = 1;
     }
@@ -9,6 +10,7 @@ export var C = /*#__PURE__*/ function() {
 }();
 C.s = 0;
 export var D = /*#__PURE__*/ function() {
+    "use strict";
     function D() {
         _class_call_check(this, D), this.p = 1;
     }
@@ -18,6 +20,7 @@ D.s = 0, D = _ts_decorate([
     foo
 ], D);
 var E = function E() {
+    "use strict";
     _class_call_check(this, E);
 };
 export { C as C2, D as D2, E };

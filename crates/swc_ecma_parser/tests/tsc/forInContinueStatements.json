@@ -4,6 +4,7 @@
     "start": 30,
     "end": 475
   },
+  "directives": [],
   "body": [
     {
       "type": "ForInStatement",
@@ -860,6 +861,7 @@
                         "start": 450,
                         "end": 453
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,

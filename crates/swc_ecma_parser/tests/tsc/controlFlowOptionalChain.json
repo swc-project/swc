@@ -4,6 +4,7 @@
     "start": 88,
     "end": 10493
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -5923,6 +5924,7 @@
           "start": 2122,
           "end": 2402
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -6661,6 +6663,7 @@
           "start": 2522,
           "end": 2834
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -7463,6 +7466,7 @@
           "start": 2881,
           "end": 3193
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -8282,6 +8286,7 @@
           "start": 3257,
           "end": 3629
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -9101,6 +9106,7 @@
           "start": 3689,
           "end": 4031
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -9870,6 +9876,7 @@
           "start": 4068,
           "end": 4404
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -10639,6 +10646,7 @@
           "start": 4442,
           "end": 4778
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -11390,6 +11398,7 @@
           "start": 4810,
           "end": 4981
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -11855,6 +11864,7 @@
           "start": 5033,
           "end": 5398
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -12551,6 +12561,7 @@
           "start": 5452,
           "end": 5857
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -13214,6 +13225,7 @@
           "start": 5894,
           "end": 6275
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -13877,6 +13889,7 @@
           "start": 6312,
           "end": 6557
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -14431,6 +14444,7 @@
           "start": 6589,
           "end": 6834
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -14985,6 +14999,7 @@
           "start": 6871,
           "end": 7276
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -15676,6 +15691,7 @@
           "start": 7313,
           "end": 7730
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -16627,6 +16643,7 @@
           "start": 7886,
           "end": 8175
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -17316,6 +17333,7 @@
           "start": 8212,
           "end": 8493
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -17678,6 +17696,7 @@
           "start": 8530,
           "end": 8829
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -18267,6 +18286,7 @@
           "start": 9000,
           "end": 9216
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -18772,6 +18792,7 @@
           "start": 9369,
           "end": 9471
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -19160,6 +19181,7 @@
           "start": 9664,
           "end": 9904
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -20258,6 +20280,7 @@
           "start": 10358,
           "end": 10493
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ForInStatement",

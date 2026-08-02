@@ -4,6 +4,7 @@
     "start": 41,
     "end": 971
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",

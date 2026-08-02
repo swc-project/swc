@@ -4,6 +4,7 @@
     "start": 71,
     "end": 567
   },
+  "directives": [],
   "body": [
     {
       "type": "ExportDeclaration",
@@ -37,6 +38,7 @@
             "start": 98,
             "end": 147
           },
+          "directives": [],
           "stmts": [
             {
               "type": "VariableDeclaration",
@@ -169,6 +171,7 @@
                   "start": 189,
                   "end": 246
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "VariableDeclaration",
@@ -325,6 +328,7 @@
                         "start": 290,
                         "end": 349
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -481,6 +485,7 @@
                         "start": 412,
                         "end": 478
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -627,6 +632,7 @@
                   "start": 517,
                   "end": 567
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "VariableDeclaration",

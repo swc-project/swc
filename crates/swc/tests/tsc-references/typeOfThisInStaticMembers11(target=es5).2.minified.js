@@ -8,10 +8,12 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 var C = function C() {
+    "use strict";
     _class_call_check(this, C);
 };
 _define_property(C, "a", 1), _define_property(C, "b", C.a + 1);
 var D = /*#__PURE__*/ function(C) {
+    "use strict";
     function D() {
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }
@@ -43,10 +45,12 @@ _define_property(D, "c", 2), _define_property(D, "d", D.c + 1), _define_property
     foo
 ], D);
 var CC = function CC() {
+    "use strict";
     _class_call_check(this, CC);
 };
 _define_property(CC, "a", 1), _define_property(CC, "b", CC.a + 1);
 var DD = /*#__PURE__*/ function(CC) {
+    "use strict";
     function DD() {
         return _class_call_check(this, DD), _call_super(this, DD, arguments);
     }

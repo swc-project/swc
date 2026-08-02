@@ -4,6 +4,7 @@
     "start": 1,
     "end": 1205
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -354,6 +355,7 @@
           "start": 196,
           "end": 199
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1350,6 +1352,7 @@
             "start": 514,
             "end": 530
           },
+          "directives": [],
           "stmts": [
             {
               "type": "ReturnStatement",
@@ -1451,6 +1454,7 @@
                 "start": 565,
                 "end": 699
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ForInStatement",
@@ -1727,6 +1731,7 @@
                 "start": 727,
                 "end": 862
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ForInStatement",
@@ -2030,6 +2035,7 @@
                 "start": 896,
                 "end": 1107
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ForInStatement",

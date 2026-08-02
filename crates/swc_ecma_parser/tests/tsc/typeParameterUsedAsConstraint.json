@@ -4,6 +4,7 @@
     "start": 1,
     "end": 1267
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -1407,6 +1408,7 @@
           "start": 506,
           "end": 509
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1509,6 +1511,7 @@
           "start": 540,
           "end": 543
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1611,6 +1614,7 @@
           "start": 587,
           "end": 590
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1730,6 +1734,7 @@
           "start": 634,
           "end": 637
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1849,6 +1854,7 @@
           "start": 681,
           "end": 684
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1990,6 +1996,7 @@
           "start": 728,
           "end": 731
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2146,6 +2153,7 @@
                 "start": 763,
                 "end": 766
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -2267,6 +2275,7 @@
                 "start": 798,
                 "end": 801
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -2388,6 +2397,7 @@
                 "start": 846,
                 "end": 849
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -2526,6 +2536,7 @@
                 "start": 894,
                 "end": 897
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -2664,6 +2675,7 @@
                 "start": 942,
                 "end": 945
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -2824,6 +2836,7 @@
                 "start": 990,
                 "end": 993
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,

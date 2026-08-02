@@ -4,6 +4,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 var c, RoyalGuard = /*#__PURE__*/ function() {
+    "use strict";
     function RoyalGuard() {
         _class_call_check(this, RoyalGuard);
     }
@@ -14,11 +15,13 @@ var c, RoyalGuard = /*#__PURE__*/ function() {
         return _instanceof(this, FollowerGuard);
     }, RoyalGuard;
 }(), LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
+    "use strict";
     function LeadGuard() {
         return _class_call_check(this, LeadGuard), _call_super(this, LeadGuard, arguments);
     }
     return _inherits(LeadGuard, RoyalGuard), LeadGuard.prototype.lead = function() {}, LeadGuard;
 }(RoyalGuard), FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
+    "use strict";
     function FollowerGuard() {
         return _class_call_check(this, FollowerGuard), _call_super(this, FollowerGuard, arguments);
     }

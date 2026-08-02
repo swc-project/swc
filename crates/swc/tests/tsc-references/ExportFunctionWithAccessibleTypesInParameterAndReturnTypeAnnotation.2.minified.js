@@ -2,8 +2,10 @@
 var A, A1, Line;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (A1 = A || (A = {})).Point = function Point() {
+    "use strict";
     _class_call_check(this, Point);
 }, A1.Line = Line = function Line(start, end) {
+    "use strict";
     _class_call_check(this, Line), this.start = start, this.end = end;
 }, A1.fromOrigin = function(p) {
     return new Line({

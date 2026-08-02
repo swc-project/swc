@@ -1,4 +1,5 @@
 //// [test.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -44,6 +45,7 @@ function fn() {
     })();
 }
 var cl1 = /*#__PURE__*/ function() {
+    "use strict";
     function cl1() {
         _class_call_check._(this, cl1);
     }
@@ -87,6 +89,7 @@ var cl1 = /*#__PURE__*/ function() {
         })();
     }
 }, cl2 = function cl2() {
+    "use strict";
     _class_call_check._(this, cl2), this.p = {
         m: function() {
             return _async_to_generator._(function() {

@@ -16,7 +16,7 @@ use crate::debug::dump;
 use crate::{
     compress::{
         optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr, BitCtx},
-        util::{is_directive, is_ident_used_by, replace_expr},
+        util::{is_ident_used_by, replace_expr},
     },
     option::CompressOptions,
     program_data::{ScopeData, VarUsageInfoFlags},
@@ -78,11 +78,7 @@ impl Optimizer<'_> {
                 stmts
                     .windows(2)
                     .any(|stmts| match (stmts[0].as_stmt(), stmts[1].as_stmt()) {
-                        (Some(l @ Stmt::Expr(..)), Some(r)) => {
-                            if is_directive(l) || is_directive(r) {
-                                return false;
-                            }
-
+                        (Some(Stmt::Expr(..)), Some(r)) => {
                             // If an expression contains `in` and following statement is for loop,
                             // we should not merge it.
 
@@ -160,10 +156,6 @@ impl Optimizer<'_> {
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(stmt) => {
-                    if is_directive(&stmt) {
-                        new_stmts.push(T::from(stmt));
-                        continue;
-                    }
                     // If
                     match stmt {
                         Stmt::Expr(stmt) => {

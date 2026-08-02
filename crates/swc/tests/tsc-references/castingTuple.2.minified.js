@@ -3,8 +3,10 @@ import "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_inherits";
 var E1, E2, C = function C() {
+    "use strict";
     _class_call_check(this, C);
 }, D = function D() {
+    "use strict";
     _class_call_check(this, D);
 }, E11 = ((E1 = E11 || {})[E1.one = 0] = "one", E1), E21 = ((E2 = E21 || {})[E2.one = 0] = "one", E2), classCDTuple = [
     new C(),

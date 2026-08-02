@@ -4,6 +4,7 @@
     "start": 27,
     "end": 404
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 44,
           "end": 164
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -62,6 +64,7 @@
                   "start": 70,
                   "end": 162
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",
@@ -219,6 +222,7 @@
           "start": 203,
           "end": 297
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -341,6 +345,7 @@
                       "start": 286,
                       "end": 289
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "accessibility": null,

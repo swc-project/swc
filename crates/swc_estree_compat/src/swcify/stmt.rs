@@ -1,6 +1,6 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
-    BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, DefaultDecl,
+    BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, DefaultDecl, Directive,
     DoWhileStmt, EmptyStmt, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     ExportNamedSpecifier, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt,
     FunctionBody, IfStmt, ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier,
@@ -13,10 +13,10 @@ use swc_estree_ast::{
     BlockStatement, BreakStatement, ClassDeclaration, ContinueStatement, DebuggerStatement,
     DeclareClass, DeclareExportAllDeclaration, DeclareExportDeclaration, DeclareFunction,
     DeclareInterface, DeclareModule, DeclareModuleExports, DeclareTypeAlias, DeclareVariable,
-    DoWhileStatement, EmptyStatement, ExportAllDeclaration, ExportDefaultDeclType,
-    ExportDefaultDeclaration, ExportKind, ExportNamedDeclaration, ExpressionStatement,
-    ForInStatement, ForOfStatement, ForStatement, ForStmtInit, ForStmtLeft, FunctionDeclaration,
-    IdOrString, IfStatement, ImportAttribute, ImportDeclaration, ImportKind,
+    Directive as BabelDirective, DoWhileStatement, EmptyStatement, ExportAllDeclaration,
+    ExportDefaultDeclType, ExportDefaultDeclaration, ExportKind, ExportNamedDeclaration,
+    ExpressionStatement, ForInStatement, ForOfStatement, ForStatement, ForStmtInit, ForStmtLeft,
+    FunctionDeclaration, IdOrString, IfStatement, ImportAttribute, ImportDeclaration, ImportKind,
     ImportNamespaceSpecifier, ImportSpecifierType, LabeledStatement, ReturnStatement, Statement,
     SwitchStatement, ThrowStatement, TryStatement, VariableDeclaration, VariableDeclarationKind,
     VariableDeclarator, WhileStatement, WithStatement,
@@ -46,9 +46,36 @@ impl Swcify for BlockStatement {
 }
 
 pub(super) fn swcify_function_body(block: BlockStatement, ctx: &Context) -> FunctionBody {
-    let BlockStmt { span, stmts, .. } = block.swcify(ctx);
+    let BlockStatement {
+        base,
+        body,
+        directives,
+    } = block;
 
-    FunctionBody { span, stmts }
+    FunctionBody {
+        span: ctx.span(&base),
+        directives: directives.swcify(ctx),
+        stmts: body
+            .swcify(ctx)
+            .into_iter()
+            .map(|item| item.expect_stmt())
+            .collect(),
+    }
+}
+
+impl Swcify for BabelDirective {
+    type Output = Directive;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        let value = self.value.value;
+        let span = ctx.span(&self.base);
+        let mut raw = String::with_capacity(value.len() + 2);
+        raw.push('"');
+        raw.push_str(value.as_ref());
+        raw.push('"');
+
+        Directive::new(span, raw.into())
+    }
 }
 
 impl Swcify for Statement {

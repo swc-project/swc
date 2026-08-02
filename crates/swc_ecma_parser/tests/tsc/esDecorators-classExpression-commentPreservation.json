@@ -4,6 +4,7 @@
     "start": 108,
     "end": 939
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -180,6 +181,7 @@
                     "start": 238,
                     "end": 240
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -257,6 +259,7 @@
                     "start": 303,
                     "end": 316
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ReturnStatement",
@@ -385,6 +388,7 @@
                     "start": 394,
                     "end": 397
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -597,6 +601,7 @@
                     "start": 606,
                     "end": 608
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -674,6 +679,7 @@
                     "start": 681,
                     "end": 694
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ReturnStatement",
@@ -802,6 +808,7 @@
                     "start": 780,
                     "end": 783
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,

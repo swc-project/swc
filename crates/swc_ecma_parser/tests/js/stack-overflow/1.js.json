@@ -4,6 +4,7 @@
     "start": 1,
     "end": 41419
   },
+  "directives": [],
   "body": [
     {
       "type": "IfStatement",

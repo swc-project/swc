@@ -4,6 +4,7 @@
     "start": 17,
     "end": 364
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -74,6 +75,7 @@
                 "start": 48,
                 "end": 51
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -179,6 +181,7 @@
                 "start": 94,
                 "end": 97
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -307,6 +310,7 @@
                 "start": 149,
                 "end": 152
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -410,6 +414,7 @@
                 "start": 193,
                 "end": 196
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -531,6 +536,7 @@
                 "start": 240,
                 "end": 243
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -699,6 +705,7 @@
                     "start": 295,
                     "end": 298
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -869,6 +876,7 @@
                     "start": 356,
                     "end": 359
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,

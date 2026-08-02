@@ -4,6 +4,7 @@
     "start": 59,
     "end": 1895
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -1166,6 +1167,7 @@
                   "start": 586,
                   "end": 589
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1247,6 +1249,7 @@
                   "start": 627,
                   "end": 630
                 },
+                "directives": [],
                 "stmts": []
               },
               "async": false,
@@ -1350,6 +1353,7 @@
                   "start": 662,
                   "end": 674
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -1515,6 +1519,7 @@
                   "start": 720,
                   "end": 732
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -2722,6 +2727,7 @@
           "start": 1221,
           "end": 1224
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2754,6 +2760,7 @@
           "start": 1234,
           "end": 1261
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -3079,6 +3086,7 @@
           "start": 1370,
           "end": 1397
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -3382,6 +3390,7 @@
           "start": 1495,
           "end": 1560
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -3616,6 +3625,7 @@
           "start": 1587,
           "end": 1652
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",

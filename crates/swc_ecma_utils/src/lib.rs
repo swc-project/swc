@@ -336,7 +336,7 @@ impl StmtLike for ModuleItem {
     }
 }
 
-/// Prepends statements after directive statements.
+/// Prepends statements.
 pub trait StmtLikeInjector<S>
 where
     S: StmtLike,
@@ -351,27 +351,15 @@ impl<S> StmtLikeInjector<S> for Vec<S>
 where
     S: StmtLike,
 {
-    /// Note: If there is no directive, use `insert` instead.
     fn prepend_stmt(&mut self, insert_with: S) {
-        let directive_pos = self
-            .iter()
-            .position(|stmt| !stmt.as_stmt().is_some_and(is_maybe_branch_directive))
-            .unwrap_or(self.len());
-
-        self.insert(directive_pos, insert_with);
+        self.insert(0, insert_with);
     }
 
-    /// Note: If there is no directive, use `splice` instead.
     fn prepend_stmts<I>(&mut self, insert_with: I)
     where
         I: IntoIterator<Item = S>,
     {
-        let directive_pos = self
-            .iter()
-            .position(|stmt| !stmt.as_stmt().is_some_and(is_maybe_branch_directive))
-            .unwrap_or(self.len());
-
-        self.splice(directive_pos..directive_pos, insert_with);
+        self.splice(0..0, insert_with);
     }
 }
 
@@ -1526,6 +1514,7 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
             } else {
                 Vec::new()
             },
+            ..Default::default()
         }),
         ..Default::default()
     }
@@ -1577,7 +1566,7 @@ pub fn opt_chain_test(
     }
 }
 
-/// inject `branch` after directives
+/// Injects `branch` at the start of `stmts`.
 #[inline]
 pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     stmts.prepend_stmt(stmt);
@@ -1591,7 +1580,7 @@ pub fn is_maybe_branch_directive(stmt: &Stmt) -> bool {
     }
 }
 
-/// inject `stmts` after directives
+/// Injects `stmts` at the start of `to`.
 #[inline]
 pub fn prepend_stmts<T: StmtLike>(to: &mut Vec<T>, stmts: impl ExactSizeIterator<Item = T>) {
     to.prepend_stmts(stmts);

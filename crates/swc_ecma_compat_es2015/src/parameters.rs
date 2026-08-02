@@ -542,6 +542,7 @@ impl VisitMut for Params {
                 *body = ArrowFunctionBody::FunctionBody(FunctionBody {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
         }
@@ -656,6 +657,7 @@ impl VisitMut for Params {
                             span: DUMMY_SP,
                             arg: Some(expr),
                         })],
+                        ..Default::default()
                     },
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
@@ -689,6 +691,7 @@ impl VisitMut for Params {
                                         arg: Some(Box::new(func)),
                                     }),
                                 ],
+                                ..Default::default()
                             })),
                             ..Default::default()
                         }

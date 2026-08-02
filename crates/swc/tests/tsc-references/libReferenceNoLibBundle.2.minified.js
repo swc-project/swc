@@ -1,16 +1,21 @@
 //// [libReferenceNoLibBundle.ts]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [fakelib.ts]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [file1.ts]
 define([
     "require",
     "exports"
 ], function(require, exports) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "elem", {

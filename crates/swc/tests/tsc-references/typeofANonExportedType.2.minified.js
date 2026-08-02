@@ -10,6 +10,7 @@ export var i;
 export var r5;
 export var r5;
 (M = M1 || (M1 = {})).foo = '', M.C = function C() {
+    "use strict";
     _class_call_check(this, C);
 };
 export var r6;
@@ -22,6 +23,7 @@ export var r11;
 export var r12;
 function foo1() {}
 (foo = foo1 || (foo1 = {})).y = 1, foo.C = function C() {
+    "use strict";
     _class_call_check(this, C);
 };
 export var r13;

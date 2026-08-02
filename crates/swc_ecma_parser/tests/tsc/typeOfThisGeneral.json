@@ -4,6 +4,7 @@
     "start": 55,
     "end": 4829
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -127,6 +128,7 @@
               "start": 155,
               "end": 311
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "VariableDeclaration",
@@ -340,6 +342,7 @@
                 "start": 416,
                 "end": 578
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -533,6 +536,7 @@
                 "start": 680,
                 "end": 758
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -704,6 +708,7 @@
                 "start": 775,
                 "end": 862
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -913,6 +918,7 @@
                 "start": 885,
                 "end": 1025
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -1088,6 +1094,7 @@
                 "start": 1138,
                 "end": 1422
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -1427,6 +1434,7 @@
                 "start": 1452,
                 "end": 1668
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -1695,6 +1703,7 @@
                 "start": 1718,
                 "end": 1913
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -2006,6 +2015,7 @@
               "start": 2030,
               "end": 2186
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "VariableDeclaration",
@@ -2219,6 +2229,7 @@
                 "start": 2291,
                 "end": 2479
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -2500,6 +2511,7 @@
                 "start": 2581,
                 "end": 2672
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -2715,6 +2727,7 @@
                 "start": 2689,
                 "end": 2789
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -2968,6 +2981,7 @@
                 "start": 2812,
                 "end": 2965
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -3187,6 +3201,7 @@
                 "start": 3078,
                 "end": 3390
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -3526,6 +3541,7 @@
                 "start": 3420,
                 "end": 3650
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -3794,6 +3810,7 @@
                 "start": 3707,
                 "end": 3916
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -4095,6 +4112,7 @@
           "start": 4003,
           "end": 4163
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -4405,6 +4423,7 @@
                 "start": 4259,
                 "end": 4418
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -4709,6 +4728,7 @@
                 "start": 4518,
                 "end": 4720
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",

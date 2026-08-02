@@ -1,12 +1,15 @@
 //// [typingsLookupAmd.ts]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [/node_modules/@types/a/index.d.ts]
 define([
     "require",
     "exports"
 ], function(require, exports) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
@@ -17,6 +20,7 @@ define([
     "exports",
     "a"
 ], function(require, exports, _a) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
@@ -26,6 +30,7 @@ define([
     "require",
     "exports"
 ], function(require, exports) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });

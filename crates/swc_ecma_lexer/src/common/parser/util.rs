@@ -1,7 +1,7 @@
 use swc_atoms::{atom, Atom};
-use swc_common::{Span, Spanned};
+use swc_common::Span;
 use swc_ecma_ast::{
-    BindingIdent, BlockStmt, Decl, Expr, Ident, IdentName, JSXElementName, JSXMemberExpr,
+    BindingIdent, Decl, Expr, FunctionBody, Ident, IdentName, JSXElementName, JSXMemberExpr,
     JSXNamespacedName, JSXObject, Key, Param, Pat, PropName, Str,
 };
 
@@ -22,18 +22,14 @@ pub fn is_not_this(p: &Param) -> bool {
     )
 }
 
-pub fn has_use_strict(block: &BlockStmt) -> Option<Span> {
-    block
-        .stmts
-        .iter()
-        .take_while(|s| s.can_precede_directive())
-        .find_map(|s| {
-            if s.is_use_strict() {
-                Some(s.span())
-            } else {
-                None
-            }
-        })
+pub fn has_use_strict(body: &FunctionBody) -> Option<Span> {
+    body.directives.iter().find_map(|directive| {
+        if directive.is_use_strict() {
+            Some(directive.span)
+        } else {
+            None
+        }
+    })
 }
 
 pub fn is_constructor(key: &Key) -> bool {

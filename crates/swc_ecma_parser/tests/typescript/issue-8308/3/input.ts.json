@@ -4,6 +4,7 @@
     "start": 1,
     "end": 36
   },
+  "directives": [],
   "body": [
     {
       "type": "TsImportEqualsDeclaration",

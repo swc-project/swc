@@ -4,6 +4,7 @@
     "start": 21,
     "end": 595
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -53,6 +54,7 @@
                 "start": 59,
                 "end": 96
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -76,6 +78,7 @@
                         "start": 80,
                         "end": 94
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ExpressionStatement",
@@ -176,6 +179,7 @@
                 "start": 126,
                 "end": 159
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -250,6 +254,7 @@
                         "start": 154,
                         "end": 156
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,
@@ -333,6 +338,7 @@
                 "start": 197,
                 "end": 557
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -1025,6 +1031,7 @@
                 "start": 580,
                 "end": 593
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",

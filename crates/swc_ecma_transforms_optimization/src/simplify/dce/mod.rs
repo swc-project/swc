@@ -44,6 +44,12 @@ pub fn dce(
     })
 }
 
+fn has_use_asm(directives: &[Directive]) -> bool {
+    directives
+        .iter()
+        .any(|directive| directive.value() == "use asm")
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Config {
     /// If this [Mark] is applied to a function expression, it's treated as a
@@ -828,14 +834,6 @@ impl TreeShaker {
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
         Vec<T>: VisitMutWith<Self>,
     {
-        if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first().and_then(|s| s.as_stmt()) {
-            if let Expr::Lit(Lit::Str(v)) = &**expr {
-                if &*v.value == "use asm" {
-                    return;
-                }
-            }
-        }
-
         self.visit_mut_par(cpu_count() * 8, stmts);
 
         stmts.retain(|s| match s.as_stmt() {
@@ -1004,6 +1002,10 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
+        if has_use_asm(&n.directives) {
+            return;
+        }
+
         let old_in_non_top_level_lexical_scope = self.in_non_top_level_lexical_scope;
         self.in_non_top_level_lexical_scope = true;
         n.visit_mut_children_with(self);
@@ -1191,6 +1193,10 @@ impl VisitMut for TreeShaker {
     fn visit_mut_module(&mut self, m: &mut Module) {
         debug_assert_valid(m);
 
+        if has_use_asm(&m.directives) {
+            return;
+        }
+
         #[cfg(debug_assertions)]
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
@@ -1306,6 +1312,10 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
+        if has_use_asm(&m.directives) {
+            return;
+        }
+
         #[cfg(debug_assertions)]
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
@@ -1434,6 +1444,14 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
         self.visit_mut_stmt_likes(s);
+    }
+
+    fn visit_mut_ts_module_block(&mut self, n: &mut TsModuleBlock) {
+        if has_use_asm(&n.directives) {
+            return;
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {

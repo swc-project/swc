@@ -189,10 +189,15 @@ impl BlockScoping {
             let mut body_stmt = match &mut body_stmt.take() {
                 Stmt::Block(bs) => {
                     let BlockStmt { span, stmts, .. } = bs.take();
-                    FunctionBody { span, stmts }
+                    FunctionBody {
+                        span,
+                        directives: Vec::new(),
+                        stmts,
+                    }
                 }
                 body => FunctionBody {
                     span: DUMMY_SP,
+                    directives: Vec::new(),
                     stmts: vec![body.take()],
                 },
             };

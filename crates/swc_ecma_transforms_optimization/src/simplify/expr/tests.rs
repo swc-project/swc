@@ -755,7 +755,7 @@ fn test_folding_add1() {
 fn test_folding_add2() {
     fold("x = false + []", "x=\"false\"");
     fold("x = [] + true", "x=\"true\"");
-    fold("NaN + []", "\"NaN\"");
+    fold("NaN + []", "(\"NaN\")");
 }
 
 #[test]
@@ -1459,14 +1459,14 @@ fn test_not_fold_back_to_true_false() {
 fn test_fold_bang_constants() {
     fold("1 + !0", "2");
     fold("1 + !1", "1");
-    fold("'a ' + !1", "\"a false\"");
-    fold("'a ' + !0", "\"a true\"");
+    fold("'a ' + !1", "(\"a false\")");
+    fold("'a ' + !0", "(\"a true\")");
 }
 
 #[test]
 fn test_fold_mixed() {
-    fold("''+[1]", "\"1\"");
-    fold("false+[]", "\"false\"");
+    fold("''+[1]", "(\"1\")");
+    fold("false+[]", "(\"false\")");
 }
 
 #[test]
@@ -1690,8 +1690,8 @@ fn test_export_default_paren_expr() {
 #[test]
 fn test_issue_8747() {
     // Index with a valid index.
-    fold("'a'[0]", "\"a\";");
-    fold("'a'['0']", "\"a\";");
+    fold("'a'[0]", "(\"a\");");
+    fold("'a'['0']", "(\"a\");");
 
     // Index with an invalid index.
     // An invalid index is an out-of-bound index. These are not replaced as
@@ -1704,7 +1704,7 @@ fn test_issue_8747() {
     fold_same("[1][-1]");
 
     // Index with an expression.
-    fold("'a'[0 + []]", "\"a\";");
+    fold("'a'[0 + []]", "(\"a\");");
     fold("[1][0 + []]", "1;");
 
     // Don't replace if side effects exist.
@@ -1723,13 +1723,13 @@ fn test_issue_8747() {
 
     fold_same("({}).length");
     fold_same("({})['length']");
-    fold("({length: 'foo'}).length", "'foo'");
-    fold("({length: 'foo'})['length']", "'foo'");
+    fold("({length: 'foo'}).length", "('foo')");
+    fold("({length: 'foo'})['length']", "('foo')");
 
     // Indexing objects has a few special cases that were broken that we test here.
-    fold("({0.5: 'a'})[0.5]", "'a';");
-    fold("({'0.5': 'a'})[0.5]", "'a';");
-    fold("({0.5: 'a'})['0.5']", "'a';");
+    fold("({0.5: 'a'})[0.5]", "('a');");
+    fold("({'0.5': 'a'})[0.5]", "('a');");
+    fold("({0.5: 'a'})['0.5']", "('a');");
     // Indexing objects that have a spread operator in `__proto__` can still be
     // optimized if the key comes before the `__proto__` object.
     fold("({1: 'bar', __proto__: {...[1]}})[1]", "({...[1]}), 'bar';");

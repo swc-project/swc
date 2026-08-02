@@ -4,9 +4,9 @@
     "start": 1,
     "end": 167
   },
-  "body": [
+  "directives": [
     {
-      "type": "ExpressionStatement",
+      "type": "Directive",
       "span": {
         "start": 1,
         "end": 14
@@ -19,8 +19,11 @@
         },
         "value": "use client",
         "raw": "\"use client\""
-      }
-    },
+      },
+      "value": "use client"
+    }
+  ],
+  "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
@@ -71,6 +74,7 @@
             "start": 50,
             "end": 167
           },
+          "directives": [],
           "stmts": [
             {
               "type": "ReturnStatement",

@@ -4,6 +4,7 @@
     "start": 19,
     "end": 1422
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -198,6 +199,7 @@
           "start": 77,
           "end": 165
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -621,6 +623,7 @@
           "start": 246,
           "end": 334
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -959,6 +962,7 @@
           "start": 388,
           "end": 469
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -1310,6 +1314,7 @@
           "start": 544,
           "end": 625
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -1669,6 +1674,7 @@
           "start": 701,
           "end": 783
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2028,6 +2034,7 @@
           "start": 859,
           "end": 962
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2488,6 +2495,7 @@
           "start": 1072,
           "end": 1142
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2821,6 +2829,7 @@
                     "start": 1249,
                     "end": 1252
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -3013,6 +3022,7 @@
           "start": 1342,
           "end": 1422
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",

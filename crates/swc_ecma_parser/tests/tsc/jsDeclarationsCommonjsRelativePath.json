@@ -4,9 +4,9 @@
     "start": 115,
     "end": 277
   },
-  "body": [
+  "directives": [
     {
-      "type": "ExpressionStatement",
+      "type": "Directive",
       "span": {
         "start": 115,
         "end": 128
@@ -19,8 +19,11 @@
         },
         "value": "use strict",
         "raw": "'use strict'"
-      }
-    },
+      },
+      "value": "use strict"
+    }
+  ],
+  "body": [
     {
       "type": "ClassDeclaration",
       "identifier": {

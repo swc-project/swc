@@ -319,6 +319,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                         *arrow.body = ArrowFunctionBody::FunctionBody(FunctionBody {
                             span: DUMMY_SP,
                             stmts: body_stmts,
+                            ..Default::default()
                         });
                     }
                     #[cfg(swc_ast_unknown)]

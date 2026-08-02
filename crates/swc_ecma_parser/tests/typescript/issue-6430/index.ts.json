@@ -4,6 +4,7 @@
     "start": 1,
     "end": 589
   },
+  "directives": [],
   "body": [
     {
       "type": "ImportDeclaration",
@@ -628,6 +629,7 @@
                 "start": 320,
                 "end": 339
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",

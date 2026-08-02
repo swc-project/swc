@@ -25,7 +25,7 @@ use crate::{
     top_level_this::top_level_this,
     util::{
         define_es_module, emit_export_stmts, local_name_for_src, prop_name, sort_export_bindings,
-        use_strict, ImportInterop,
+        ImportInterop,
     },
 };
 
@@ -76,21 +76,23 @@ impl VisitMut for Cjs {
         let mut module_map = Default::default();
 
         let SyntaxStrippedModule {
-            directives,
+            mut directives,
             has_use_strict,
             requested_modules,
             local_export_entries,
             export_assign,
             body,
             has_module_syntax,
-        } = syntax_strip::lower(SourceModule::collect(n.body.take()), self.const_var_kind);
+        } = syntax_strip::lower(
+            SourceModule::collect(n.directives.take(), n.body.take()),
+            self.const_var_kind,
+        );
 
         let mut stmts: Vec<ModuleItem> = Vec::with_capacity(body.len() + 6);
-        stmts.extend(directives.into_iter().map(ModuleItem::from));
 
         // "use strict";
         if self.config.strict_mode && !has_use_strict {
-            stmts.push(use_strict().into());
+            directives.push(Directive::use_strict(DUMMY_SP));
         }
 
         let is_export_assign = export_assign.is_some();
@@ -149,6 +151,7 @@ impl VisitMut for Cjs {
 
         rewrite_import_bindings(&mut stmts, module_map, lazy_record);
 
+        n.directives = directives;
         n.body = stmts;
     }
 
@@ -678,6 +681,7 @@ pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDe
             body: Some(FunctionBody {
                 span: DUMMY_SP,
                 stmts: vec![data_stmt, overwrite_stmt, return_stmt],
+                ..Default::default()
             }),
             is_generator: false,
             is_async: false,

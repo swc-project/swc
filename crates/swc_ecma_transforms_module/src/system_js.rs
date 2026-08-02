@@ -4,9 +4,7 @@ use swc_ecma_utils::{contains_top_level_await, private_ident, quote_ident, ExprF
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
 
 pub use super::util::Config;
-use crate::{
-    module_record::SourceModule, path::Resolver, top_level_this::top_level_this, util::use_strict,
-};
+use crate::{module_record::SourceModule, path::Resolver, top_level_this::top_level_this};
 
 mod emit;
 mod ir;
@@ -38,13 +36,12 @@ impl VisitMut for SystemJs {
             top_level_this(&mut n.body, *Expr::undefined(DUMMY_SP));
         }
 
-        let mut source = SourceModule::collect(n.body.take());
+        let mut source = SourceModule::collect(n.directives.take(), n.body.take());
         let has_use_strict = source.has_use_strict;
-        let mut wrapper_stmts = std::mem::take(&mut source.directives);
-        wrapper_stmts.reserve(8);
+        let mut directives = std::mem::take(&mut source.directives);
 
         if self.config.strict_mode && !has_use_strict {
-            wrapper_stmts.push(use_strict());
+            directives.push(Directive::use_strict(DUMMY_SP));
         }
 
         let export_ident = private_ident!("_export");
@@ -77,7 +74,8 @@ impl VisitMut for SystemJs {
 
         module.async_execute = module.execute_stmts.iter().any(contains_top_level_await);
         let register_args = emit::emit(
-            wrapper_stmts,
+            directives,
+            Vec::with_capacity(8),
             module,
             export_ident,
             context_ident,

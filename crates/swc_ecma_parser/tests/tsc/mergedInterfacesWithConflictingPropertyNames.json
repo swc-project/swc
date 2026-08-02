@@ -4,6 +4,7 @@
     "start": 1,
     "end": 495
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -158,6 +159,7 @@
           "start": 83,
           "end": 184
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -385,6 +387,7 @@
           "start": 196,
           "end": 243
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -518,6 +521,7 @@
           "start": 255,
           "end": 354
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -641,6 +645,7 @@
           "start": 366,
           "end": 417
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -781,6 +786,7 @@
           "start": 429,
           "end": 495
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",

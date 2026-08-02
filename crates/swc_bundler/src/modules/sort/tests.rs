@@ -38,6 +38,7 @@ fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
 
         let actual: Module = drop_span(Module {
             span: DUMMY_SP,
+            directives: Vec::new(),
             body: sorted,
             shebang: None,
         });

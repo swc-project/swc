@@ -4,6 +4,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 var b, crate, RoyalGuard = /*#__PURE__*/ function() {
+    "use strict";
     function RoyalGuard() {
         _class_call_check(this, RoyalGuard);
     }
@@ -14,11 +15,13 @@ var b, crate, RoyalGuard = /*#__PURE__*/ function() {
         return _instanceof(this, FollowerGuard);
     }, RoyalGuard;
 }(), LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
+    "use strict";
     function LeadGuard() {
         return _class_call_check(this, LeadGuard), _call_super(this, LeadGuard, arguments);
     }
     return _inherits(LeadGuard, RoyalGuard), LeadGuard.prototype.lead = function() {}, LeadGuard;
 }(RoyalGuard), FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
+    "use strict";
     function FollowerGuard() {
         return _class_call_check(this, FollowerGuard), _call_super(this, FollowerGuard, arguments);
     }
@@ -26,6 +29,7 @@ var b, crate, RoyalGuard = /*#__PURE__*/ function() {
 }(RoyalGuard), a = new FollowerGuard();
 a.isLeader() ? a.lead() : a.isFollower() && a.follow(), b.isLeader() ? b.lead() : b.isFollower() && b.follow(), a.isLeader();
 var ArrowGuard = function ArrowGuard() {
+    "use strict";
     var _this = this;
     _class_call_check(this, ArrowGuard), this.isElite = function() {
         return _instanceof(_this, ArrowElite);
@@ -33,11 +37,13 @@ var ArrowGuard = function ArrowGuard() {
         return _instanceof(_this, ArrowMedic);
     };
 }, ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
+    "use strict";
     function ArrowElite() {
         return _class_call_check(this, ArrowElite), _call_super(this, ArrowElite, arguments);
     }
     return _inherits(ArrowElite, ArrowGuard), ArrowElite.prototype.defend = function() {}, ArrowElite;
 }(ArrowGuard), ArrowMedic = /*#__PURE__*/ function(ArrowGuard) {
+    "use strict";
     function ArrowMedic() {
         return _class_call_check(this, ArrowMedic), _call_super(this, ArrowMedic, arguments);
     }
@@ -45,6 +51,7 @@ var ArrowGuard = function ArrowGuard() {
 }(ArrowGuard), guard = new ArrowGuard();
 guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), a.isFollower = b.isFollower, a.isLeader = b.isLeader;
 var MimicGuard = /*#__PURE__*/ function() {
+    "use strict";
     function MimicGuard() {
         _class_call_check(this, MimicGuard);
     }
@@ -55,11 +62,13 @@ var MimicGuard = /*#__PURE__*/ function() {
         return _instanceof(this, MimicFollower);
     }, MimicGuard;
 }(), MimicLeader = /*#__PURE__*/ function(MimicGuard) {
+    "use strict";
     function MimicLeader() {
         return _class_call_check(this, MimicLeader), _call_super(this, MimicLeader, arguments);
     }
     return _inherits(MimicLeader, MimicGuard), MimicLeader.prototype.lead = function() {}, MimicLeader;
 }(MimicGuard), MimicFollower = /*#__PURE__*/ function(MimicGuard) {
+    "use strict";
     function MimicFollower() {
         return _class_call_check(this, MimicFollower), _call_super(this, MimicFollower, arguments);
     }

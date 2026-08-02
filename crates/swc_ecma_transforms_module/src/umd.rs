@@ -19,7 +19,7 @@ use crate::{
     syntax_strip::{self, SyntaxStrippedModule},
     top_level_this::top_level_this,
     util::{
-        define_es_module, emit_export_stmts, local_name_for_src, sort_export_bindings, use_strict,
+        define_es_module, emit_export_stmts, local_name_for_src, sort_export_bindings,
         ImportInterop,
     },
     SpanCtx,
@@ -75,6 +75,7 @@ impl VisitMut for Umd {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, module: &mut Module) {
+        let source_directives = module.directives.take();
         let module_items = &mut module.body;
 
         if !self.config.config.allow_top_level_this {
@@ -82,7 +83,7 @@ impl VisitMut for Umd {
         }
 
         let SyntaxStrippedModule {
-            directives,
+            mut directives,
             has_use_strict,
             requested_modules,
             local_export_entries,
@@ -90,16 +91,15 @@ impl VisitMut for Umd {
             body,
             has_module_syntax,
         } = syntax_strip::lower(
-            SourceModule::collect(module_items.take()),
+            SourceModule::collect(source_directives, module_items.take()),
             self.const_var_kind,
         );
 
         let mut stmts: Vec<Stmt> = Vec::with_capacity(body.len() + 4);
-        stmts.extend(directives);
 
         // "use strict";
         if self.config.config.strict_mode && !has_use_strict {
-            stmts.push(use_strict());
+            directives.push(Directive::use_strict(DUMMY_SP));
         }
 
         let import_interop = self.config.config.import_interop();
@@ -142,6 +142,7 @@ impl VisitMut for Umd {
         rewrite_import_bindings(&mut stmts, import_map, Default::default());
 
         *module_items = emit::emit(
+            directives,
             stmts,
             emit::EmitModule {
                 span: module.span,

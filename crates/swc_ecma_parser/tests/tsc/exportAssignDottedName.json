@@ -4,6 +4,7 @@
     "start": 23,
     "end": 132
   },
+  "directives": [],
   "body": [
     {
       "type": "ExportDeclaration",
@@ -37,6 +38,7 @@
             "start": 42,
             "end": 59
           },
+          "directives": [],
           "stmts": [
             {
               "type": "ReturnStatement",

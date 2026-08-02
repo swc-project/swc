@@ -4,6 +4,7 @@
     "start": 1,
     "end": 89
   },
+  "directives": [],
   "body": [
     {
       "type": "ExportDefaultDeclaration",
@@ -36,6 +37,7 @@
             "start": 31,
             "end": 39
           },
+          "directives": [],
           "stmts": []
         },
         "generator": false,

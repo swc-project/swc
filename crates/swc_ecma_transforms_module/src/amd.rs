@@ -27,7 +27,7 @@ use crate::{
     syntax_strip::{self, SyntaxStrippedModule},
     top_level_this::top_level_this,
     util::{
-        define_es_module, emit_export_stmts, local_name_for_src, sort_export_bindings, use_strict,
+        define_es_module, emit_export_stmts, local_name_for_src, sort_export_bindings,
         ImportInterop,
     },
     SpanCtx,
@@ -123,21 +123,23 @@ where
         }
 
         let SyntaxStrippedModule {
-            directives,
+            mut directives,
             has_use_strict,
             requested_modules,
             local_export_entries,
             export_assign,
             body,
             has_module_syntax,
-        } = syntax_strip::lower(SourceModule::collect(n.body.take()), self.const_var_kind);
+        } = syntax_strip::lower(
+            SourceModule::collect(n.directives.take(), n.body.take()),
+            self.const_var_kind,
+        );
 
         let mut stmts: Vec<Stmt> = Vec::with_capacity(body.len() + 4);
-        stmts.extend(directives);
 
         // "use strict";
         if self.config.strict_mode && !has_use_strict {
-            stmts.push(use_strict());
+            directives.push(Directive::use_strict(DUMMY_SP));
         }
 
         let import_interop = self.config.import_interop();
@@ -184,6 +186,7 @@ where
         rewrite_import_bindings(&mut stmts, import_map, Default::default());
 
         n.body = emit::emit(
+            directives,
             stmts,
             emit::EmitModule {
                 module_id: self.module_id.clone(),

@@ -4,6 +4,7 @@
     "start": 217,
     "end": 1950
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -1958,6 +1959,7 @@
                 "start": 860,
                 "end": 863
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,

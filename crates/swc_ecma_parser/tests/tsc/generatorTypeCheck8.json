@@ -4,6 +4,7 @@
     "start": 16,
     "end": 118
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -128,6 +129,7 @@
           "start": 115,
           "end": 118
         },
+        "directives": [],
         "stmts": []
       },
       "generator": true,

@@ -1,4 +1,5 @@
 //// [declarationEmitIdentifierPredicates01.ts]
+"use strict";
 function f(x) {
     return "number" == typeof x;
 }

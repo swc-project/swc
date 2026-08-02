@@ -1,4 +1,5 @@
 //// [test/foo_0.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "foo", {
@@ -9,4 +10,5 @@ Object.defineProperty(exports, "__esModule", {
 });
 var foo = 42;
 //// [foo_1.ts]
+"use strict";
 require("./test/foo_0").foo;

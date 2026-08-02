@@ -4,6 +4,7 @@
     "start": 111,
     "end": 916
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -1001,6 +1002,7 @@
                     "start": 393,
                     "end": 405
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ReturnStatement",
@@ -1118,6 +1120,7 @@
                   "start": 428,
                   "end": 442
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -1439,6 +1442,7 @@
                     "start": 521,
                     "end": 535
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ReturnStatement",
@@ -1590,6 +1594,7 @@
               "start": 587,
               "end": 601
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -1738,6 +1743,7 @@
               "start": 640,
               "end": 654
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -2240,6 +2246,7 @@
               "start": 824,
               "end": 838
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -2486,6 +2493,7 @@
               "start": 902,
               "end": 916
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",

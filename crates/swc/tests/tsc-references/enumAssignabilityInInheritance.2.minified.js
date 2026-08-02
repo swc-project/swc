@@ -6,6 +6,7 @@ var E21 = ((E2 = E21 || {})[E2.A = 0] = "A", E2);
 function f() {}
 foo13(0), (f || (f = {})).bar = 1, foo14(0);
 var CC = function CC() {
+    "use strict";
     _class_call_check(this, CC);
 };
 (CC || (CC = {})).bar = 1, foo15(0), foo16(0), foo16(0);

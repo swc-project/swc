@@ -4,6 +4,7 @@
     "start": 1,
     "end": 278
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 10,
           "end": 278
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -286,6 +288,7 @@
                       "start": 167,
                       "end": 170
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "accessibility": null,
@@ -375,6 +378,7 @@
                   "start": 225,
                   "end": 276
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",

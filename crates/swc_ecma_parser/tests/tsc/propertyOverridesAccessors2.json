@@ -4,6 +4,7 @@
     "start": 54,
     "end": 265
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -53,6 +54,7 @@
                 "start": 77,
                 "end": 90
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -132,6 +134,7 @@
                 "start": 106,
                 "end": 147
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",

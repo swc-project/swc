@@ -125,6 +125,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         function.body = Some(FunctionBody {
             span: DUMMY_SP,
             stmts,
+            ..Default::default()
         });
 
         // Restore the previous fn_state from stack after processing async function
@@ -205,6 +206,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                     ..Default::default()
                 }
                 .into()],
+                ..Default::default()
             },
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
@@ -217,6 +219,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             ArrowFunctionBody::FunctionBody(FunctionBody {
                 span: DUMMY_SP,
                 stmts,
+                ..Default::default()
             })
         } else {
             ArrowFunctionBody::Expr(Box::new(expr))

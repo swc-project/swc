@@ -2,6 +2,7 @@
 System.register([
     "@swc/helpers/_/_ts_decorate"
 ], function(_export, _context) {
+    "use strict";
     var Testing123, _ts_decorate;
     return _export("Testing123", void 0), {
         setters: [

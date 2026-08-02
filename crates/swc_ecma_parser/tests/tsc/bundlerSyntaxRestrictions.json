@@ -4,6 +4,7 @@
     "start": 164,
     "end": 755
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -136,6 +137,7 @@
           "start": 259,
           "end": 337
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -278,6 +280,7 @@
           "start": 360,
           "end": 486
         },
+        "directives": [],
         "body": [
           {
             "type": "TsImportEqualsDeclaration",
@@ -339,6 +342,7 @@
                 "start": 418,
                 "end": 459
               },
+              "directives": [],
               "body": [
                 {
                   "type": "ExportDeclaration",

@@ -4,6 +4,7 @@
     "start": 1,
     "end": 40
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -67,9 +68,9 @@
           "start": 19,
           "end": 40
         },
-        "stmts": [
+        "directives": [
           {
-            "type": "ExpressionStatement",
+            "type": "Directive",
             "span": {
               "start": 25,
               "end": 38
@@ -82,9 +83,11 @@
               },
               "value": "use strict",
               "raw": "\"use strict\""
-            }
+            },
+            "value": "use strict"
           }
-        ]
+        ],
+        "stmts": []
       },
       "generator": false,
       "async": false,

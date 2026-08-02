@@ -4,6 +4,7 @@
     "start": 45,
     "end": 203
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",

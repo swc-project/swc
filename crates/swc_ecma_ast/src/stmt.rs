@@ -1,4 +1,5 @@
 use is_macro::Is;
+use swc_atoms::{atom, Atom};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
@@ -29,6 +30,55 @@ impl Take for BlockStmt {
             stmts: Vec::new(),
             ctxt: Default::default(),
         }
+    }
+}
+
+/// A directive prologue entry such as `"use strict";`.
+#[ast_node("Directive")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+pub struct Directive {
+    /// Span of the whole directive, including its optional semicolon.
+    pub span: Span,
+
+    /// The complete string literal, including its quotes.
+    ///
+    /// It does not include the directive's optional semicolon.
+    pub raw: Atom,
+}
+
+impl Directive {
+    /// Creates a directive from its complete raw string literal.
+    ///
+    /// `raw` must include the surrounding quotes and must not include the
+    /// directive's optional semicolon.
+    #[inline]
+    pub fn new(span: Span, raw: Atom) -> Self {
+        Self { span, raw }
+    }
+
+    /// Creates a standard `"use strict"` directive.
+    #[inline]
+    pub fn use_strict(span: Span) -> Self {
+        Self::new(span, atom!("\"use strict\""))
+    }
+
+    /// Returns the raw directive text between the surrounding quotes.
+    ///
+    /// Escape sequences are not interpreted. `raw` is required to be a
+    /// quoted string literal, so this deliberately slices off its first and
+    /// last bytes instead of decoding or re-encoding the value.
+    #[inline]
+    pub fn value(&self) -> &str {
+        let raw = self.raw.as_ref();
+        &raw[1..raw.len() - 1]
+    }
+
+    /// Returns `true` for an exact `"use strict"` directive.
+    #[inline]
+    pub fn is_use_strict(&self) -> bool {
+        self.value() == "use strict"
     }
 }
 

@@ -4,6 +4,7 @@
     "start": 140,
     "end": 389
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 149,
           "end": 225
         },
+        "directives": [],
         "body": [
           {
             "type": "FunctionDeclaration",
@@ -57,6 +59,7 @@
                 "start": 170,
                 "end": 173
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -154,6 +157,7 @@
                 "start": 220,
                 "end": 223
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -190,6 +194,7 @@
           "start": 242,
           "end": 245
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -255,6 +260,7 @@
           "start": 272,
           "end": 348
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -314,6 +320,7 @@
                 "start": 306,
                 "end": 309
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -347,6 +354,7 @@
                 "start": 330,
                 "end": 333
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -445,6 +453,7 @@
           "start": 385,
           "end": 389
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,

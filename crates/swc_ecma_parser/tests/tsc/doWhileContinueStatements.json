@@ -4,6 +4,7 @@
     "start": 33,
     "end": 456
   },
+  "directives": [],
   "body": [
     {
       "type": "DoWhileStatement",
@@ -508,6 +509,7 @@
                         "start": 420,
                         "end": 423
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,

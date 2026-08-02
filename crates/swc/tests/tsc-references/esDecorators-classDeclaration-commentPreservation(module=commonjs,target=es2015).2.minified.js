@@ -1,4 +1,5 @@
 //// [esDecorators-classDeclaration-commentPreservation.ts]
+"use strict";
 //// [file1.ts]
 //!   x Expression expected
 //!    ,-[5:1]

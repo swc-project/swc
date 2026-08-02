@@ -294,6 +294,20 @@ pub trait Visit {
     fn visit_default_decl(&mut self, node: &DefaultDecl) {
         <DefaultDecl as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Directive`.\n\nBy default, this method calls \
+             [`Directive::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_directive(&mut self, node: &Directive) {
+        <Directive as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Directive >`.\n\nBy default, this method calls [`Vec < \
+             Directive >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_directives(&mut self, node: &[Directive]) {
+        <[Directive] as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `DoWhileStmt`.\n\nBy default, this method calls \
              [`DoWhileStmt::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -2285,6 +2299,16 @@ where
     }
 
     #[inline]
+    fn visit_directive(&mut self, node: &Directive) {
+        <V as Visit>::visit_directive(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_directives(&mut self, node: &[Directive]) {
+        <V as Visit>::visit_directives(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_do_while_stmt(&mut self, node: &DoWhileStmt) {
         <V as Visit>::visit_do_while_stmt(&mut **self, node)
     }
@@ -3784,6 +3808,16 @@ where
     #[inline]
     fn visit_default_decl(&mut self, node: &DefaultDecl) {
         <V as Visit>::visit_default_decl(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_directive(&mut self, node: &Directive) {
+        <V as Visit>::visit_directive(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_directives(&mut self, node: &[Directive]) {
+        <V as Visit>::visit_directives(&mut **self, node)
     }
 
     #[inline]
@@ -5412,6 +5446,22 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_default_decl(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_default_decl(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_directive(&mut self, node: &Directive) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_directive(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_directive(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_directives(&mut self, node: &[Directive]) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_directives(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_directives(visitor, node),
         }
     }
 
@@ -7862,6 +7912,22 @@ where
     fn visit_default_decl(&mut self, node: &DefaultDecl) {
         if self.enabled {
             <V as Visit>::visit_default_decl(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_directive(&mut self, node: &Directive) {
+        if self.enabled {
+            <V as Visit>::visit_directive(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_directives(&mut self, node: &[Directive]) {
+        if self.enabled {
+            <V as Visit>::visit_directives(&mut self.visitor, node)
         } else {
         }
     }
@@ -10942,6 +11008,25 @@ impl<V: ?Sized + Visit> VisitWith<V> for DefaultDecl {
         }
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for Directive {
+    #[doc = "Calls [Visit`::visit_directive`] with `self`."]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_directive(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            Directive { span, raw } => {
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <swc_atoms::Atom as VisitWith<V>>::visit_with(raw, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for DoWhileStmt {
     #[doc = "Calls [Visit`::visit_do_while_stmt`] with `self`."]
     fn visit_with(&self, visitor: &mut V) {
@@ -11528,9 +11613,16 @@ impl<V: ?Sized + Visit> VisitWith<V> for FunctionBody {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            FunctionBody { span, stmts } => {
+            FunctionBody {
+                span,
+                directives,
+                stmts,
+            } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <Vec<Directive> as VisitWith<V>>::visit_with(directives, visitor)
                 };
                 {
                     <Vec<Stmt> as VisitWith<V>>::visit_with(stmts, visitor)
@@ -12525,11 +12617,15 @@ impl<V: ?Sized + Visit> VisitWith<V> for Module {
         match self {
             Module {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <Vec<Directive> as VisitWith<V>>::visit_with(directives, visitor)
                 };
                 {
                     <Vec<ModuleItem> as VisitWith<V>>::visit_with(body, visitor)
@@ -13247,11 +13343,15 @@ impl<V: ?Sized + Visit> VisitWith<V> for Script {
         match self {
             Script {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <Vec<Directive> as VisitWith<V>>::visit_with(directives, visitor)
                 };
                 {
                     <Vec<Stmt> as VisitWith<V>>::visit_with(body, visitor)
@@ -14634,9 +14734,16 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsModuleBlock {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            TsModuleBlock { span, body } => {
+            TsModuleBlock {
+                span,
+                directives,
+                body,
+            } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <Vec<Directive> as VisitWith<V>>::visit_with(directives, visitor)
                 };
                 {
                     <Vec<ModuleItem> as VisitWith<V>>::visit_with(body, visitor)
@@ -15904,6 +16011,19 @@ impl<V: ?Sized + Visit> VisitWith<V> for [Decorator] {
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
             .for_each(|item| <Decorator as VisitWith<V>>::visit_with(item, visitor))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for [Directive] {
+    #[doc = "Calls [Visit`::visit_directives`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_directives(visitor, self)
+    }
+
+    #[inline]
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <Directive as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for [ExportSpecifier] {
@@ -17221,6 +17341,30 @@ pub trait VisitAstPath {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <DefaultDecl as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Directive`.\n\nBy default, this method calls \
+             [`Directive::visit_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn visit_directive<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Directive,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Directive as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Directive >`.\n\nBy default, this method calls [`Vec < \
+             Directive >::visit_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn visit_directives<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Directive],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <[Directive] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -20678,6 +20822,24 @@ where
     }
 
     #[inline]
+    fn visit_directive<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Directive,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_directive(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_directives<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Directive],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_directives(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_do_while_stmt<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DoWhileStmt,
@@ -23276,6 +23438,24 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_default_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_directive<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Directive,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_directive(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_directives<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Directive],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_directives(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -26164,6 +26344,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_default_decl(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_directive<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Directive,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_directive(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_directive(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_directives<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Directive],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_directives(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_directives(visitor, node, __ast_path)
             }
         }
     }
@@ -30658,6 +30870,30 @@ where
     ) {
         if self.enabled {
             <V as VisitAstPath>::visit_default_decl(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_directive<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Directive,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_directive(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_directives<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Directive],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_directives(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -36080,6 +36316,51 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DefaultDecl {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Directive {
+    #[doc = "Calls [VisitAstPath`::visit_directive`] with `self`."]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_directive(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            Directive { span, raw } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Directive(
+                        self,
+                        self::fields::DirectiveField::Span,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Directive(
+                        self,
+                        self::fields::DirectiveField::Raw,
+                    ));
+                    <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
+                        raw,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DoWhileStmt {
     #[doc = "Calls [VisitAstPath`::visit_do_while_stmt`] with `self`."]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -37584,7 +37865,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FunctionBody {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            FunctionBody { span, stmts } => {
+            FunctionBody {
+                span,
+                directives,
+                stmts,
+            } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FunctionBody(
                         self,
@@ -37592,6 +37877,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FunctionBody {
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FunctionBody(
+                        self,
+                        self::fields::FunctionBodyField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -39953,6 +40249,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Module {
         match self {
             Module {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
@@ -39963,6 +40260,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Module {
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Module(
+                        self,
+                        self::fields::ModuleField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -41699,6 +42007,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Script {
         match self {
             Script {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
@@ -41709,6 +42018,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Script {
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Script(
+                        self,
+                        self::fields::ScriptField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -45045,7 +45365,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsModuleBlock {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            TsModuleBlock { span, body } => {
+            TsModuleBlock {
+                span,
+                directives,
+                body,
+            } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsModuleBlock(
                         self,
@@ -45053,6 +45377,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsModuleBlock {
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsModuleBlock(
+                        self,
+                        self::fields::TsModuleBlockField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -48038,6 +48373,31 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Decorator] {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Directive] {
+    #[doc = "Calls [VisitAstPath`::visit_directives`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_directives(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter().enumerate().for_each(|(__idx, item)| {
+            let mut __ast_path = __ast_path.with_index_guard(__idx);
+            <Directive as VisitWithAstPath<V>>::visit_with_ast_path(item, visitor, &mut *__ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [ExportSpecifier] {
     #[doc = "Calls [VisitAstPath`::visit_export_specifiers`] with `self`. (Extra impl)"]
     #[inline]
@@ -49946,6 +50306,20 @@ pub trait VisitMut {
     #[inline]
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl) {
         <DefaultDecl as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Directive`.\n\nBy default, this method calls \
+             [`Directive::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive) {
+        <Directive as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Directive >`.\n\nBy default, this method calls [`Vec < \
+             Directive >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>) {
+        <Vec<Directive> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `DoWhileStmt`.\n\nBy default, this method calls \
              [`DoWhileStmt::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -51964,6 +52338,16 @@ where
     }
 
     #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive) {
+        <V as VisitMut>::visit_mut_directive(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>) {
+        <V as VisitMut>::visit_mut_directives(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
         <V as VisitMut>::visit_mut_do_while_stmt(&mut **self, node)
     }
@@ -53463,6 +53847,16 @@ where
     #[inline]
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl) {
         <V as VisitMut>::visit_mut_default_decl(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive) {
+        <V as VisitMut>::visit_mut_directive(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>) {
+        <V as VisitMut>::visit_mut_directives(&mut **self, node)
     }
 
     #[inline]
@@ -55103,6 +55497,22 @@ where
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_default_decl(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_default_decl(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_directive(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_directive(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_directives(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_directives(visitor, node),
         }
     }
 
@@ -57857,6 +58267,22 @@ where
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl) {
         if self.enabled {
             <V as VisitMut>::visit_mut_default_decl(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_directive(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_directives(&mut self.visitor, node)
         } else {
         }
     }
@@ -60960,6 +61386,25 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DefaultDecl {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Directive {
+    #[doc = "Calls [VisitMut`::visit_mut_directive`] with `self`."]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_directive(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            Directive { span, raw } => {
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(raw, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for DoWhileStmt {
     #[doc = "Calls [VisitMut`::visit_mut_do_while_stmt`] with `self`."]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -61554,9 +61999,16 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for FunctionBody {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            FunctionBody { span, stmts } => {
+            FunctionBody {
+                span,
+                directives,
+                stmts,
+            } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <Vec<Directive> as VisitMutWith<V>>::visit_mut_with(directives, visitor)
                 };
                 {
                     <Vec<Stmt> as VisitMutWith<V>>::visit_mut_with(stmts, visitor)
@@ -62551,11 +63003,15 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Module {
         match self {
             Module {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <Vec<Directive> as VisitMutWith<V>>::visit_mut_with(directives, visitor)
                 };
                 {
                     <Vec<ModuleItem> as VisitMutWith<V>>::visit_mut_with(body, visitor)
@@ -63279,11 +63735,15 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Script {
         match self {
             Script {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <Vec<Directive> as VisitMutWith<V>>::visit_mut_with(directives, visitor)
                 };
                 {
                     <Vec<Stmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
@@ -64690,9 +65150,16 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsModuleBlock {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            TsModuleBlock { span, body } => {
+            TsModuleBlock {
+                span,
+                directives,
+                body,
+            } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <Vec<Directive> as VisitMutWith<V>>::visit_mut_with(directives, visitor)
                 };
                 {
                     <Vec<ModuleItem> as VisitMutWith<V>>::visit_mut_with(body, visitor)
@@ -65968,6 +66435,19 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Decorator> {
             .for_each(|item| <Decorator as VisitMutWith<V>>::visit_mut_with(item, visitor))
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Directive> {
+    #[doc = "Calls [VisitMut`::visit_mut_directives`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_directives(visitor, self)
+    }
+
+    #[inline]
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <Directive as VisitMutWith<V>>::visit_mut_with(item, visitor))
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ExportSpecifier> {
     #[doc = "Calls [VisitMut`::visit_mut_export_specifiers`] with `self`. (Extra impl)"]
     #[inline]
@@ -67184,6 +67664,24 @@ pub trait VisitMutAstPath {
     #[inline]
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl, __ast_path: &mut AstKindPath) {
         <DefaultDecl as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Directive`.\n\nBy default, this method calls \
+             [`Directive::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive, __ast_path: &mut AstKindPath) {
+        <Directive as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Directive >`.\n\nBy default, this method calls [`Vec < \
+             Directive >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>, __ast_path: &mut AstKindPath) {
+        <Vec<Directive> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -70197,6 +70695,16 @@ where
     }
 
     #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_directive(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_directives(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_do_while_stmt(&mut **self, node, __ast_path)
     }
@@ -72195,6 +72703,16 @@ where
     #[inline]
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_default_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_directive(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_directives(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -74489,6 +75007,30 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_default_decl(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_directive(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_directive(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_directives(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_directives(visitor, node, __ast_path)
             }
         }
     }
@@ -78419,6 +78961,22 @@ where
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_default_decl(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_directive(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_directives(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -83115,6 +83673,39 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DefaultDecl {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Directive {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_directive`] with `self`."]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_directive(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            Directive { span, raw } => {
+                {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Directive(self::fields::DirectiveField::Span));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Directive(self::fields::DirectiveField::Raw));
+                    <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        raw,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DoWhileStmt {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_do_while_stmt`] with `self`."]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
@@ -84327,13 +84918,27 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for FunctionBody {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
-            FunctionBody { span, stmts } => {
+            FunctionBody {
+                span,
+                directives,
+                stmts,
+            } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::FunctionBody(
                         self::fields::FunctionBodyField::Span,
                     ));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::FunctionBody(
+                        self::fields::FunctionBodyField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -86194,6 +86799,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Module {
         match self {
             Module {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
@@ -86202,6 +86808,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Module {
                         .with_guard(AstParentKind::Module(self::fields::ModuleField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Module(
+                        self::fields::ModuleField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -87595,6 +88211,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Script {
         match self {
             Script {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
@@ -87603,6 +88220,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Script {
                         .with_guard(AstParentKind::Script(self::fields::ScriptField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Script(
+                        self::fields::ScriptField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -90251,13 +90878,27 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsModuleBlock {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
-            TsModuleBlock { span, body } => {
+            TsModuleBlock {
+                span,
+                directives,
+                body,
+            } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::TsModuleBlock(
                         self::fields::TsModuleBlockField::Span,
                     ));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsModuleBlock(
+                        self::fields::TsModuleBlockField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -92627,6 +93268,27 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Decorator> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Directive> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_directives`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_directives(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        self.iter_mut().enumerate().for_each(|(__idx, item)| {
+            let mut __ast_path = __ast_path.with_index_guard(__idx);
+            <Directive as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                item,
+                visitor,
+                &mut *__ast_path,
+            )
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ExportSpecifier> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_export_specifiers`] with `self`. (Extra impl)"]
     #[inline]
@@ -94071,6 +94733,20 @@ pub trait Fold {
     #[inline]
     fn fold_default_decl(&mut self, node: DefaultDecl) -> DefaultDecl {
         <DefaultDecl as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Directive`.\n\nBy default, this method calls \
+             [`Directive::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn fold_directive(&mut self, node: Directive) -> Directive {
+        <Directive as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Directive >`.\n\nBy default, this method calls [`Vec < \
+             Directive >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn fold_directives(&mut self, node: Vec<Directive>) -> Vec<Directive> {
+        <Vec<Directive> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `DoWhileStmt`.\n\nBy default, this method calls \
              [`DoWhileStmt::fold_children_with`]. If you want to recurse, you need to call it \
@@ -96112,6 +96788,16 @@ where
     }
 
     #[inline]
+    fn fold_directive(&mut self, node: Directive) -> Directive {
+        <V as Fold>::fold_directive(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_directives(&mut self, node: Vec<Directive>) -> Vec<Directive> {
+        <V as Fold>::fold_directives(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt) -> DoWhileStmt {
         <V as Fold>::fold_do_while_stmt(&mut **self, node)
     }
@@ -97674,6 +98360,16 @@ where
     #[inline]
     fn fold_default_decl(&mut self, node: DefaultDecl) -> DefaultDecl {
         <V as Fold>::fold_default_decl(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_directive(&mut self, node: Directive) -> Directive {
+        <V as Fold>::fold_directive(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_directives(&mut self, node: Vec<Directive>) -> Vec<Directive> {
+        <V as Fold>::fold_directives(&mut **self, node)
     }
 
     #[inline]
@@ -99365,6 +100061,22 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_default_decl(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_default_decl(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn fold_directive(&mut self, node: Directive) -> Directive {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_directive(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_directive(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn fold_directives(&mut self, node: Vec<Directive>) -> Vec<Directive> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_directives(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_directives(visitor, node),
         }
     }
 
@@ -101893,6 +102605,24 @@ where
     fn fold_default_decl(&mut self, node: DefaultDecl) -> DefaultDecl {
         if self.enabled {
             <V as Fold>::fold_default_decl(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_directive(&mut self, node: Directive) -> Directive {
+        if self.enabled {
+            <V as Fold>::fold_directive(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_directives(&mut self, node: Vec<Directive>) -> Vec<Directive> {
+        if self.enabled {
+            <V as Fold>::fold_directives(&mut self.visitor, node)
         } else {
             node
         }
@@ -105278,6 +106008,22 @@ impl<V: ?Sized + Fold> FoldWith<V> for DefaultDecl {
         }
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for Directive {
+    #[doc = "Calls [Fold`::fold_directive`] with `self`."]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_directive(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        match self {
+            Directive { span, raw } => {
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let raw = { <swc_atoms::Atom as FoldWith<V>>::fold_with(raw, visitor) };
+                Directive { span, raw }
+            }
+        }
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for DoWhileStmt {
     #[doc = "Calls [Fold`::fold_do_while_stmt`] with `self`."]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -105880,10 +106626,20 @@ impl<V: ?Sized + Fold> FoldWith<V> for FunctionBody {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            FunctionBody { span, stmts } => {
+            FunctionBody {
+                span,
+                directives,
+                stmts,
+            } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let directives =
+                    { <Vec<Directive> as FoldWith<V>>::fold_with(directives, visitor) };
                 let stmts = { <Vec<Stmt> as FoldWith<V>>::fold_with(stmts, visitor) };
-                FunctionBody { span, stmts }
+                FunctionBody {
+                    span,
+                    directives,
+                    stmts,
+                }
             }
         }
     }
@@ -106834,15 +107590,19 @@ impl<V: ?Sized + Fold> FoldWith<V> for Module {
         match self {
             Module {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let directives =
+                    { <Vec<Directive> as FoldWith<V>>::fold_with(directives, visitor) };
                 let body = { <Vec<ModuleItem> as FoldWith<V>>::fold_with(body, visitor) };
                 let shebang =
                     { <Option<swc_atoms::Atom> as FoldWith<V>>::fold_with(shebang, visitor) };
                 Module {
                     span,
+                    directives,
                     body,
                     shebang,
                 }
@@ -107583,15 +108343,19 @@ impl<V: ?Sized + Fold> FoldWith<V> for Script {
         match self {
             Script {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let directives =
+                    { <Vec<Directive> as FoldWith<V>>::fold_with(directives, visitor) };
                 let body = { <Vec<Stmt> as FoldWith<V>>::fold_with(body, visitor) };
                 let shebang =
                     { <Option<swc_atoms::Atom> as FoldWith<V>>::fold_with(shebang, visitor) };
                 Script {
                     span,
+                    directives,
                     body,
                     shebang,
                 }
@@ -108962,10 +109726,20 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsModuleBlock {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsModuleBlock { span, body } => {
+            TsModuleBlock {
+                span,
+                directives,
+                body,
+            } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let directives =
+                    { <Vec<Directive> as FoldWith<V>>::fold_with(directives, visitor) };
                 let body = { <Vec<ModuleItem> as FoldWith<V>>::fold_with(body, visitor) };
-                TsModuleBlock { span, body }
+                TsModuleBlock {
+                    span,
+                    directives,
+                    body,
+                }
             }
         }
     }
@@ -110229,6 +111003,20 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Decorator> {
         })
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Directive> {
+    #[doc = "Calls [Fold`::fold_directives`] with `self`. (Extra impl)"]
+    #[inline]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_directives(visitor, self)
+    }
+
+    #[inline]
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+            <Directive as FoldWith<V>>::fold_with(item, visitor)
+        })
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<ExportSpecifier> {
     #[doc = "Calls [Fold`::fold_export_specifiers`] with `self`. (Extra impl)"]
     #[inline]
@@ -111367,6 +112155,26 @@ pub trait FoldAstPath {
         __ast_path: &mut AstKindPath,
     ) -> DefaultDecl {
         <DefaultDecl as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Visit a node of type `Directive`.\n\nBy default, this method calls \
+             [`Directive::fold_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn fold_directive(&mut self, node: Directive, __ast_path: &mut AstKindPath) -> Directive {
+        <Directive as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Directive >`.\n\nBy default, this method calls [`Vec < \
+             Directive >::fold_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn fold_directives(
+        &mut self,
+        node: Vec<Directive>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Directive> {
+        <Vec<Directive> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, __ast_path,
+        )
     }
     #[doc = "Visit a node of type `DoWhileStmt`.\n\nBy default, this method calls \
              [`DoWhileStmt::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -114388,6 +115196,20 @@ where
     }
 
     #[inline]
+    fn fold_directive(&mut self, node: Directive, __ast_path: &mut AstKindPath) -> Directive {
+        <V as FoldAstPath>::fold_directive(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_directives(
+        &mut self,
+        node: Vec<Directive>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Directive> {
+        <V as FoldAstPath>::fold_directives(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_do_while_stmt(
         &mut self,
         node: DoWhileStmt,
@@ -116626,6 +117448,20 @@ where
         __ast_path: &mut AstKindPath,
     ) -> DefaultDecl {
         <V as FoldAstPath>::fold_default_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_directive(&mut self, node: Directive, __ast_path: &mut AstKindPath) -> Directive {
+        <V as FoldAstPath>::fold_directive(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_directives(
+        &mut self,
+        node: Vec<Directive>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Directive> {
+        <V as FoldAstPath>::fold_directives(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -119142,6 +119978,34 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_default_decl(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn fold_directive(&mut self, node: Directive, __ast_path: &mut AstKindPath) -> Directive {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_directive(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_directive(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn fold_directives(
+        &mut self,
+        node: Vec<Directive>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Directive> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_directives(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_directives(visitor, node, __ast_path)
             }
         }
     }
@@ -123269,6 +124133,28 @@ where
     ) -> DefaultDecl {
         if self.enabled {
             <V as FoldAstPath>::fold_default_decl(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_directive(&mut self, node: Directive, __ast_path: &mut AstKindPath) -> Directive {
+        if self.enabled {
+            <V as FoldAstPath>::fold_directive(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_directives(
+        &mut self,
+        node: Vec<Directive>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Directive> {
+        if self.enabled {
+            <V as FoldAstPath>::fold_directives(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -128325,6 +129211,40 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DefaultDecl {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Directive {
+    #[doc = "Calls [FoldAstPath`::fold_directive`] with `self`."]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_directive(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        match self {
+            Directive { span, raw } => {
+                let span = {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Directive(self::fields::DirectiveField::Span));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let raw = {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Directive(self::fields::DirectiveField::Raw));
+                    <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
+                        raw,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                Directive { span, raw }
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DoWhileStmt {
     #[doc = "Calls [FoldAstPath`::fold_do_while_stmt`] with `self`."]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
@@ -129644,13 +130564,27 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for FunctionBody {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         match self {
-            FunctionBody { span, stmts } => {
+            FunctionBody {
+                span,
+                directives,
+                stmts,
+            } => {
                 let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::FunctionBody(
                         self::fields::FunctionBodyField::Span,
                     ));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let directives = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::FunctionBody(
+                        self::fields::FunctionBodyField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -129665,7 +130599,11 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for FunctionBody {
                         &mut *__ast_path,
                     )
                 };
-                FunctionBody { span, stmts }
+                FunctionBody {
+                    span,
+                    directives,
+                    stmts,
+                }
             }
         }
     }
@@ -131620,6 +132558,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Module {
         match self {
             Module {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
@@ -131628,6 +132567,16 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Module {
                         .with_guard(AstParentKind::Module(self::fields::ModuleField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let directives = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Module(
+                        self::fields::ModuleField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -131653,6 +132602,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Module {
                 };
                 Module {
                     span,
+                    directives,
                     body,
                     shebang,
                 }
@@ -133139,6 +134089,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Script {
         match self {
             Script {
                 span,
+                directives,
                 body,
                 shebang,
             } => {
@@ -133147,6 +134098,16 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Script {
                         .with_guard(AstParentKind::Script(self::fields::ScriptField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let directives = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Script(
+                        self::fields::ScriptField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -133172,6 +134133,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Script {
                 };
                 Script {
                     span,
+                    directives,
                     body,
                     shebang,
                 }
@@ -136021,13 +136983,27 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsModuleBlock {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsModuleBlock { span, body } => {
+            TsModuleBlock {
+                span,
+                directives,
+                body,
+            } => {
                 let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::TsModuleBlock(
                         self::fields::TsModuleBlockField::Span,
                     ));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let directives = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsModuleBlock(
+                        self::fields::TsModuleBlockField::Directives(usize::MAX),
+                    ));
+                    <Vec<Directive> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        directives,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -136042,7 +137018,11 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsModuleBlock {
                         &mut *__ast_path,
                     )
                 };
-                TsModuleBlock { span, body }
+                TsModuleBlock {
+                    span,
+                    directives,
+                    body,
+                }
             }
         }
     }
@@ -138572,6 +139552,30 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Decorator> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Directive> {
+    #[doc = "Calls [FoldAstPath`::fold_directives`] with `self`. (Extra impl)"]
+    #[inline]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_directives(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .enumerate()
+            .map(|(__idx, item)| {
+                let mut __ast_path = __ast_path.with_index_guard(__idx);
+                <Directive as FoldWithAstPath<V>>::fold_with_ast_path(
+                    item,
+                    visitor,
+                    &mut *__ast_path,
+                )
+            })
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ExportSpecifier> {
     #[doc = "Calls [FoldAstPath`::fold_export_specifiers`] with `self`. (Extra impl)"]
     #[inline]
@@ -140555,6 +141559,21 @@ pub mod fields {
         #[doc = "Represents [`DefaultDecl::TsInterfaceDecl`]"]
         TsInterfaceDecl,
     }
+    impl DirectiveField {
+        pub(crate) fn set_index(&mut self, index: usize) {
+            match self {
+                _ => swc_visit::wrong_ast_path(),
+            }
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+    pub enum DirectiveField {
+        #[doc = "Represents [`Directive::span`]"]
+        Span,
+        #[doc = "Represents [`Directive::raw`]"]
+        Raw,
+    }
     impl DoWhileStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
@@ -140979,6 +141998,10 @@ pub mod fields {
     impl FunctionBodyField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
+                Self::Directives(idx) => {
+                    assert_initial_index(*idx, index);
+                    *idx = index;
+                }
                 Self::Stmts(idx) => {
                     assert_initial_index(*idx, index);
                     *idx = index;
@@ -140992,6 +142015,8 @@ pub mod fields {
     pub enum FunctionBodyField {
         #[doc = "Represents [`FunctionBody::span`]"]
         Span,
+        #[doc = "Represents [`FunctionBody::directives`]"]
+        Directives(usize),
         #[doc = "Represents [`FunctionBody::stmts`]"]
         Stmts(usize),
     }
@@ -141749,6 +142774,10 @@ pub mod fields {
     impl ModuleField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
+                Self::Directives(idx) => {
+                    assert_initial_index(*idx, index);
+                    *idx = index;
+                }
                 Self::Body(idx) => {
                     assert_initial_index(*idx, index);
                     *idx = index;
@@ -141762,6 +142791,8 @@ pub mod fields {
     pub enum ModuleField {
         #[doc = "Represents [`Module::span`]"]
         Span,
+        #[doc = "Represents [`Module::directives`]"]
+        Directives(usize),
         #[doc = "Represents [`Module::body`]"]
         Body(usize),
         #[doc = "Represents [`Module::shebang`]"]
@@ -142298,6 +143329,10 @@ pub mod fields {
     impl ScriptField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
+                Self::Directives(idx) => {
+                    assert_initial_index(*idx, index);
+                    *idx = index;
+                }
                 Self::Body(idx) => {
                     assert_initial_index(*idx, index);
                     *idx = index;
@@ -142311,6 +143346,8 @@ pub mod fields {
     pub enum ScriptField {
         #[doc = "Represents [`Script::span`]"]
         Span,
+        #[doc = "Represents [`Script::directives`]"]
+        Directives(usize),
         #[doc = "Represents [`Script::body`]"]
         Body(usize),
         #[doc = "Represents [`Script::shebang`]"]
@@ -143362,6 +144399,10 @@ pub mod fields {
     impl TsModuleBlockField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
+                Self::Directives(idx) => {
+                    assert_initial_index(*idx, index);
+                    *idx = index;
+                }
                 Self::Body(idx) => {
                     assert_initial_index(*idx, index);
                     *idx = index;
@@ -143375,6 +144416,8 @@ pub mod fields {
     pub enum TsModuleBlockField {
         #[doc = "Represents [`TsModuleBlock::span`]"]
         Span,
+        #[doc = "Represents [`TsModuleBlock::directives`]"]
+        Directives(usize),
         #[doc = "Represents [`TsModuleBlock::body`]"]
         Body(usize),
     }
@@ -144364,6 +145407,7 @@ pub mod fields {
         Decl(DeclField),
         Decorator(DecoratorField),
         DefaultDecl(DefaultDeclField),
+        Directive(DirectiveField),
         DoWhileStmt(DoWhileStmtField),
         EmptyStmt(EmptyStmtField),
         ExportAll(ExportAllField),
@@ -144607,6 +145651,7 @@ pub mod fields {
                 Self::Decl(v) => v.set_index(index),
                 Self::Decorator(v) => v.set_index(index),
                 Self::DefaultDecl(v) => v.set_index(index),
+                Self::Directive(v) => v.set_index(index),
                 Self::DoWhileStmt(v) => v.set_index(index),
                 Self::EmptyStmt(v) => v.set_index(index),
                 Self::ExportAll(v) => v.set_index(index),
@@ -144850,6 +145895,7 @@ pub mod fields {
         Decl(&'ast Decl, DeclField),
         Decorator(&'ast Decorator, DecoratorField),
         DefaultDecl(&'ast DefaultDecl, DefaultDeclField),
+        Directive(&'ast Directive, DirectiveField),
         DoWhileStmt(&'ast DoWhileStmt, DoWhileStmtField),
         EmptyStmt(&'ast EmptyStmt, EmptyStmtField),
         ExportAll(&'ast ExportAll, ExportAllField),
@@ -145111,6 +146157,7 @@ pub mod fields {
                 Self::Decl(_, __field_kind) => __field_kind.set_index(index),
                 Self::Decorator(_, __field_kind) => __field_kind.set_index(index),
                 Self::DefaultDecl(_, __field_kind) => __field_kind.set_index(index),
+                Self::Directive(_, __field_kind) => __field_kind.set_index(index),
                 Self::DoWhileStmt(_, __field_kind) => __field_kind.set_index(index),
                 Self::EmptyStmt(_, __field_kind) => __field_kind.set_index(index),
                 Self::ExportAll(_, __field_kind) => __field_kind.set_index(index),
@@ -145363,6 +146410,7 @@ pub mod fields {
                 Self::Decl(_, __field_kind) => AstParentKind::Decl(*__field_kind),
                 Self::Decorator(_, __field_kind) => AstParentKind::Decorator(*__field_kind),
                 Self::DefaultDecl(_, __field_kind) => AstParentKind::DefaultDecl(*__field_kind),
+                Self::Directive(_, __field_kind) => AstParentKind::Directive(*__field_kind),
                 Self::DoWhileStmt(_, __field_kind) => AstParentKind::DoWhileStmt(*__field_kind),
                 Self::EmptyStmt(_, __field_kind) => AstParentKind::EmptyStmt(*__field_kind),
                 Self::ExportAll(_, __field_kind) => AstParentKind::ExportAll(*__field_kind),
@@ -145889,6 +146937,11 @@ impl<'ast> From<&'ast Decorator> for NodeRef<'ast> {
 impl<'ast> From<&'ast DefaultDecl> for NodeRef<'ast> {
     fn from(node: &'ast DefaultDecl) -> Self {
         NodeRef::DefaultDecl(node)
+    }
+}
+impl<'ast> From<&'ast Directive> for NodeRef<'ast> {
+    fn from(node: &'ast Directive) -> Self {
+        NodeRef::Directive(node)
     }
 }
 impl<'ast> From<&'ast DoWhileStmt> for NodeRef<'ast> {
@@ -146931,6 +147984,7 @@ pub enum NodeRef<'ast> {
     Decl(&'ast Decl),
     Decorator(&'ast Decorator),
     DefaultDecl(&'ast DefaultDecl),
+    Directive(&'ast Directive),
     DoWhileStmt(&'ast DoWhileStmt),
     EmptyStmt(&'ast EmptyStmt),
     ExportAll(&'ast ExportAll),
@@ -147549,6 +148603,10 @@ impl<'ast> NodeRef<'ast> {
                 }
                 _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
             },
+            NodeRef::Directive(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
+            }
             NodeRef::DoWhileStmt(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain({
@@ -147796,11 +148854,17 @@ impl<'ast> NodeRef<'ast> {
                 Box::new(iterator)
             }
             NodeRef::FunctionBody(node) => {
-                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
-                    node.stmts
-                        .iter()
-                        .flat_map(|item| ::std::iter::once(NodeRef::Stmt(&item))),
-                );
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(
+                        node.directives
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Directive(&item))),
+                    )
+                    .chain(
+                        node.stmts
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Stmt(&item))),
+                    );
                 Box::new(iterator)
             }
             NodeRef::GetterProp(node) => {
@@ -148158,11 +149222,17 @@ impl<'ast> NodeRef<'ast> {
                 Box::new(iterator)
             }
             NodeRef::Module(node) => {
-                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
-                    node.body
-                        .iter()
-                        .flat_map(|item| ::std::iter::once(NodeRef::ModuleItem(&item))),
-                );
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(
+                        node.directives
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Directive(&item))),
+                    )
+                    .chain(
+                        node.body
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::ModuleItem(&item))),
+                    );
                 Box::new(iterator)
             }
             NodeRef::ModuleDecl(node) => match node {
@@ -148430,11 +149500,17 @@ impl<'ast> NodeRef<'ast> {
                 Box::new(iterator)
             }
             NodeRef::Script(node) => {
-                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
-                    node.body
-                        .iter()
-                        .flat_map(|item| ::std::iter::once(NodeRef::Stmt(&item))),
-                );
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(
+                        node.directives
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Directive(&item))),
+                    )
+                    .chain(
+                        node.body
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Stmt(&item))),
+                    );
                 Box::new(iterator)
             }
             NodeRef::SeqExpr(node) => {
@@ -149000,11 +150076,17 @@ impl<'ast> NodeRef<'ast> {
                 Box::new(iterator)
             }
             NodeRef::TsModuleBlock(node) => {
-                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
-                    node.body
-                        .iter()
-                        .flat_map(|item| ::std::iter::once(NodeRef::ModuleItem(&item))),
-                );
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(
+                        node.directives
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Directive(&item))),
+                    )
+                    .chain(
+                        node.body
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::ModuleItem(&item))),
+                    );
                 Box::new(iterator)
             }
             NodeRef::TsModuleDecl(node) => {

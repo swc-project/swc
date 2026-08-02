@@ -4,6 +4,7 @@
     "start": 1,
     "end": 92
   },
+  "directives": [],
   "body": [
     {
       "type": "ForInStatement",

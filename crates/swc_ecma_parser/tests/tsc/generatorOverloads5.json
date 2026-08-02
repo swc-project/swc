@@ -4,6 +4,7 @@
     "start": 16,
     "end": 155
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 25,
           "end": 155
         },
+        "directives": [],
         "body": [
           {
             "type": "FunctionDeclaration",
@@ -291,6 +293,7 @@
                 "start": 150,
                 "end": 153
               },
+              "directives": [],
               "stmts": []
             },
             "generator": true,

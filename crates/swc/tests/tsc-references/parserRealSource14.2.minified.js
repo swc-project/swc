@@ -12,6 +12,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         return a <= b ? a : b;
     };
     var GetAstPathOptions, AstPath = /*#__PURE__*/ function() {
+        "use strict";
         function AstPath() {
             _class_call_check(this, AstPath), this.asts = [], this.top = -1;
         }
@@ -156,6 +157,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }
     TypeScript.AstPath = AstPath, TypeScript.isValidAstNode = isValidAstNode;
     var AstPathContext = function AstPathContext() {
+        "use strict";
         _class_call_check(this, AstPathContext), this.path = new TypeScript.AstPath();
     };
     TypeScript.AstPathContext = AstPathContext, (GetAstPathOptions = TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript.getAstPathToPosition = function(script, pos) {

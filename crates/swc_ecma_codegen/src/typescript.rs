@@ -707,6 +707,13 @@ impl MacroNode for TsMethodSignature {
 #[node_impl]
 impl MacroNode for TsModuleBlock {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        if !self.directives.is_empty() {
+            emitter.emit_list(
+                self.span,
+                Some(&self.directives),
+                ListFormat::SourceFileStatements,
+            )?;
+        }
         emitter.emit_list(
             self.span,
             Some(&self.body),

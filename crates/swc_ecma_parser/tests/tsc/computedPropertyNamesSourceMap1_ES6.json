@@ -4,6 +4,7 @@
     "start": 37,
     "end": 123
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -61,6 +62,7 @@
                 "start": 63,
                 "end": 85
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "DebuggerStatement",
@@ -119,6 +121,7 @@
                 "start": 105,
                 "end": 121
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",

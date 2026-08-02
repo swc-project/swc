@@ -1,2 +1,2 @@
 //// [templateStringTermination5.ts]
-"\\\\\\";
+("\\\\\\");

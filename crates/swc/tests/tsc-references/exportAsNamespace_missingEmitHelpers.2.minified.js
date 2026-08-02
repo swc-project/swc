@@ -1,9 +1,12 @@
 //// [exportAsNamespace_missingEmitHelpers.ts]
+"use strict";
 //// [a.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 //// [b.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "ns", {

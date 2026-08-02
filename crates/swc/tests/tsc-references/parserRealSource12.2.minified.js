@@ -3,6 +3,7 @@ var TypeScript;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(TypeScript) {
     var globalAstWalkerFactory, ChildrenWalkers, AstWalkOptions = /*#__PURE__*/ function() {
+        "use strict";
         function AstWalkOptions() {
             _class_call_check(this, AstWalkOptions), this.goChildren = !0, this.goNextSibling = !0, this.reverseSiblings = !1;
         }
@@ -13,6 +14,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }();
     TypeScript.AstWalkOptions = AstWalkOptions;
     var AstWalker = /*#__PURE__*/ function() {
+        "use strict";
         function AstWalker(childrenWalkers, pre, post, options, state) {
             _class_call_check(this, AstWalker), this.childrenWalkers = childrenWalkers, this.pre = pre, this.post = post, this.options = options, this.state = state;
         }
@@ -27,6 +29,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             return void 0 === postAst && (postAst = preAst), postAst;
         }, AstWalker;
     }(), AstWalkerFactory = /*#__PURE__*/ function() {
+        "use strict";
         function AstWalkerFactory() {
             _class_call_check(this, AstWalkerFactory), this.childrenWalkers = [], this.initChildrenWalkers();
         }

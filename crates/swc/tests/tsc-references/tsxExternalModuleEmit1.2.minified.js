@@ -1,6 +1,9 @@
 //// [tsxExternalModuleEmit1.tsx]
+"use strict";
 //// [react.d.ts]
+"use strict";
 //// [app.tsx]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "App", {
@@ -10,6 +13,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _react = /*#__PURE__*/ require("@swc/helpers/_/_interop_require_wildcard")._(require("react")), _button = require("./button"), App = /*#__PURE__*/ function(_React_Component) {
+    "use strict";
     function App() {
         return _class_call_check._(this, App), _call_super._(this, App, arguments);
     }
@@ -18,6 +22,7 @@ var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = req
     }, App;
 }(_react.Component);
 //// [button.tsx]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "Button", {
@@ -27,6 +32,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _react = /*#__PURE__*/ require("@swc/helpers/_/_interop_require_wildcard")._(require("react")), Button = /*#__PURE__*/ function(_React_Component) {
+    "use strict";
     function Button() {
         return _class_call_check._(this, Button), _call_super._(this, Button, arguments);
     }

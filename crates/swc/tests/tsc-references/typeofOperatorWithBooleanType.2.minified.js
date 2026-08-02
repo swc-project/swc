@@ -5,6 +5,7 @@ function foo() {
     return !0;
 }
 var BOOLEAN, M, A = /*#__PURE__*/ function() {
+    "use strict";
     function A() {
         _class_call_check(this, A);
     }

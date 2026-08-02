@@ -215,6 +215,7 @@ mod tests {
             } else {
                 (*v).into()
             };
+            let v = format!("({v})");
 
             let v = tester
                 .apply_transform(

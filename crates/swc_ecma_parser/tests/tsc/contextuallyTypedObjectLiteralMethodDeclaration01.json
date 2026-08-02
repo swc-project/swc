@@ -4,6 +4,7 @@
     "start": 26,
     "end": 746
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -332,6 +333,7 @@
           "start": 200,
           "end": 354
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -389,6 +391,7 @@
                       "start": 236,
                       "end": 277
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
@@ -489,6 +492,7 @@
                       "start": 300,
                       "end": 346
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
@@ -606,6 +610,7 @@
           "start": 380,
           "end": 544
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -656,6 +661,7 @@
                         "start": 421,
                         "end": 462
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ExpressionStatement",
@@ -750,6 +756,7 @@
                         "start": 490,
                         "end": 536
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ExpressionStatement",
@@ -868,6 +875,7 @@
           "start": 570,
           "end": 746
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -928,6 +936,7 @@
                         "start": 617,
                         "end": 658
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ExpressionStatement",
@@ -1032,6 +1041,7 @@
                         "start": 692,
                         "end": 738
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ExpressionStatement",

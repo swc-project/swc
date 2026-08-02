@@ -4,6 +4,7 @@
     "start": 137,
     "end": 500
   },
+  "directives": [],
   "body": [
     {
       "type": "ExportDeclaration",
@@ -59,6 +60,7 @@
                   "start": 215,
                   "end": 235
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -138,6 +140,7 @@
                   "start": 257,
                   "end": 259
                 },
+                "directives": [],
                 "stmts": []
               },
               "generator": false,
@@ -180,6 +183,7 @@
                   "start": 274,
                   "end": 288
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -313,6 +317,7 @@
                   "start": 400,
                   "end": 428
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -405,6 +410,7 @@
                   "start": 451,
                   "end": 479
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -495,6 +501,7 @@
                   "start": 493,
                   "end": 498
                 },
+                "directives": [],
                 "stmts": []
               },
               "generator": false,

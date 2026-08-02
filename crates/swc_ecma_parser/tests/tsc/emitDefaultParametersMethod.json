@@ -4,6 +4,7 @@
     "start": 17,
     "end": 358
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -182,6 +183,7 @@
               "start": 90,
               "end": 93
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,
@@ -283,6 +285,7 @@
                 "start": 132,
                 "end": 135
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -424,6 +427,7 @@
                 "start": 183,
                 "end": 186
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -501,6 +505,7 @@
                 "start": 213,
                 "end": 216
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -609,6 +614,7 @@
                 "start": 252,
                 "end": 255
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -708,6 +714,7 @@
               "start": 298,
               "end": 301
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,
@@ -829,6 +836,7 @@
               "start": 353,
               "end": 356
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,

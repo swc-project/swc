@@ -2,7 +2,7 @@ use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 
 use super::*;
-use crate::parser::{pat::PatType, Parser};
+use crate::parser::{pat::PatType, stmt_to_directive, Parser};
 
 #[allow(clippy::enum_variant_names)]
 enum TempForHead {
@@ -910,13 +910,13 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub(crate) fn parse_block(&mut self, allow_directives: bool) -> PResult<BlockStmt> {
+    pub(crate) fn parse_block(&mut self) -> PResult<BlockStmt> {
         let start = self.cur_pos();
 
         expect!(self, Token::LBrace);
 
         let stmts = self.do_outside_of_context(Context::TopLevel, |p| {
-            p.parse_stmt_block_body(allow_directives, Some(Token::RBrace))
+            p.parse_stmt_block_body(Some(Token::RBrace))
         })?;
 
         let span = self.span(start);
@@ -927,9 +927,28 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    pub(crate) fn parse_function_body(&mut self) -> PResult<FunctionBody> {
+        let start = self.cur_pos();
+
+        expect!(self, Token::LBrace);
+
+        let ParsedBody {
+            directives,
+            body: stmts,
+        } = self.do_outside_of_context(Context::TopLevel, |p| {
+            p.parse_directive_block_body(Some(Token::RBrace))
+        })?;
+
+        Ok(FunctionBody {
+            span: self.span(start),
+            directives,
+            stmts,
+        })
+    }
+
     fn parse_finally_block(&mut self) -> PResult<Option<BlockStmt>> {
         Ok(if self.input_mut().eat(Token::Finally) {
-            self.parse_block(false).map(Some)?
+            self.parse_block().map(Some)?
         } else {
             None
         })
@@ -939,7 +958,7 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         Ok(if self.input_mut().eat(Token::Catch) {
             let param = self.parse_catch_param()?;
-            self.parse_block(false)
+            self.parse_block()
                 .map(|body| CatchClause {
                     span: self.span(start),
                     param,
@@ -955,7 +974,7 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         self.assert_and_bump(Token::Try);
 
-        let block = self.parse_block(false)?;
+        let block = self.parse_block()?;
 
         let catch_start = self.cur_pos();
         let handler = self.parse_catch_clause()?;
@@ -1690,7 +1709,11 @@ impl<I: Tokens> Parser<I> {
                 this_param: None,
                 params: Vec::new(),
                 decorators: Vec::new(),
-                body: Some(FunctionBody { span, stmts }),
+                body: Some(FunctionBody {
+                    span,
+                    directives: Vec::new(),
+                    stmts,
+                }),
                 is_async: false,
                 is_generator: false,
                 type_params: None,
@@ -1781,7 +1804,7 @@ impl<I: Tokens> Parser<I> {
             self.flow_match_expect_case_separator()?;
 
             let body = if self.input().is(Token::LBrace) {
-                self.parse_block(false)?
+                self.parse_block()?
             } else {
                 self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
                 let expr = self.allow_in_expr(Self::parse_assignment_expr)?;
@@ -2069,7 +2092,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(self.parse_ts_enum_decl(start, false)?.into());
         } else if cur == Token::LBrace {
             return self
-                .do_inside_of_context(Context::AllowUsingDecl, |p| p.parse_block(false))
+                .do_inside_of_context(Context::AllowUsingDecl, Parser::parse_block)
                 .map(Stmt::Block);
         } else if cur == Token::Semi {
             self.bump();
@@ -2164,25 +2187,43 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub(crate) fn parse_stmt_block_body(
-        &mut self,
-        allow_directives: bool,
-        end: Option<Token>,
-    ) -> PResult<Vec<Stmt>> {
-        self.parse_block_body(allow_directives, end, handle_import_export)
+    pub(crate) fn parse_stmt_block_body(&mut self, end: Option<Token>) -> PResult<Vec<Stmt>> {
+        self.parse_block_body_without_directives(end, handle_import_export)
     }
 
-    pub(crate) fn parse_block_body<Type: From<Stmt>>(
+    pub(crate) fn parse_directive_block_body(
         &mut self,
-        allow_directives: bool,
+        end: Option<Token>,
+    ) -> PResult<ParsedBody<Stmt>> {
+        self.parse_block_body(end, handle_import_export)
+    }
+
+    /// Parses a string directive followed by an explicit semicolon.
+    fn parse_directive(&mut self) -> PResult<Directive> {
+        let start = self.cur_pos();
+        let raw = self
+            .parse_str_lit()
+            .raw
+            .expect("parse_str_lit always preserves the raw string literal");
+        self.expect_general_semi()?;
+
+        Ok(Directive::new(self.span(start), raw))
+    }
+
+    pub(crate) fn parse_block_body<Type>(
+        &mut self,
         end: Option<Token>,
         handle_import_export: impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,
-    ) -> PResult<Vec<Type>> {
+    ) -> PResult<ParsedBody<Type>>
+    where
+        Type: From<Stmt>,
+    {
         trace_cur!(self, parse_block_body);
 
-        let mut stmts = Vec::with_capacity(8);
+        let mut directives = Vec::new();
+        let mut body = Vec::with_capacity(8);
 
-        let has_strict_directive = allow_directives && self.input.cur() == Token::Str && {
+        let has_strict_directive = self.input.cur() == Token::Str && {
             let token_span = self.input.cur_span();
             if token_span.hi.0 - token_span.lo.0 == 12 {
                 let cur_str = self.input.iter.read_string(token_span);
@@ -2192,46 +2233,100 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
-        let parse_stmts = |p: &mut Self, stmts: &mut Vec<Type>| -> PResult<()> {
-            if let Some(end) = end {
-                loop {
-                    let cur = p.input().cur();
-                    if cur == Token::Eof {
-                        let eof_text = p.input_mut().dump_cur();
-                        p.emit_err(
-                            p.input().cur_span(),
-                            SyntaxError::Expected(format!("{end:?}"), eof_text),
-                        );
-                        break;
-                    }
-                    if cur == end {
-                        break;
+        let parse_stmts =
+            |p: &mut Self, directives: &mut Vec<Directive>, body: &mut Vec<Type>| -> PResult<()> {
+                // Keep directive detection out of the ordinary statement loop.
+                while p.input().cur() == Token::Str {
+                    if peek!(p) == Some(Token::Semi) {
+                        directives.push(p.parse_directive()?);
+                        continue;
                     }
 
-                    let stmt = p.parse_stmt_like(true, &handle_import_export)?;
-                    stmts.push(stmt);
+                    let item: Stmt = p.parse_stmt_like(true, |_p, _| unreachable!())?;
+                    match stmt_to_directive(item) {
+                        Ok(directive) => directives.push(directive),
+                        Err(item) => {
+                            body.push(item.into());
+                            break;
+                        }
+                    }
                 }
-            } else {
-                while p.input().cur() != Token::Eof {
-                    let stmt = p.parse_stmt_like(true, &handle_import_export)?;
-                    stmts.push(stmt);
-                }
-            }
 
-            Ok(())
-        };
+                p.parse_body_items(end, &handle_import_export, body)
+            };
 
         if has_strict_directive {
-            self.do_inside_of_context(Context::Strict, |p| parse_stmts(p, &mut stmts))?;
+            self.do_inside_of_context(Context::Strict, |p| {
+                parse_stmts(p, &mut directives, &mut body)
+            })?;
         } else {
-            parse_stmts(self, &mut stmts)?;
+            parse_stmts(self, &mut directives, &mut body)?;
         };
 
         if self.input().cur() != Token::Eof && end.is_some() {
             self.bump();
         }
 
-        Ok(stmts)
+        Ok(ParsedBody { directives, body })
+    }
+
+    /// Parses a statement body that cannot contain a directive prologue.
+    #[inline]
+    fn parse_block_body_without_directives<Type>(
+        &mut self,
+        end: Option<Token>,
+        handle_import_export: impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,
+    ) -> PResult<Vec<Type>>
+    where
+        Type: From<Stmt>,
+    {
+        trace_cur!(self, parse_block_body_without_directives);
+
+        let mut body = Vec::with_capacity(8);
+        self.parse_body_items(end, &handle_import_export, &mut body)?;
+
+        if self.input().cur() != Token::Eof && end.is_some() {
+            self.bump();
+        }
+
+        Ok(body)
+    }
+
+    #[inline]
+    fn parse_body_items<Type>(
+        &mut self,
+        end: Option<Token>,
+        handle_import_export: &impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,
+        body: &mut Vec<Type>,
+    ) -> PResult<()>
+    where
+        Type: From<Stmt>,
+    {
+        if let Some(end) = end {
+            loop {
+                let cur = self.input().cur();
+                if cur == Token::Eof {
+                    let eof_text = self.input_mut().dump_cur();
+                    self.emit_err(
+                        self.input().cur_span(),
+                        SyntaxError::Expected(format!("{end:?}"), eof_text),
+                    );
+                    break;
+                }
+                if cur == end {
+                    break;
+                }
+                let stmt = self.parse_stmt_like(true, handle_import_export)?;
+                body.push(stmt);
+            }
+        } else {
+            while self.input().cur() != Token::Eof {
+                let stmt = self.parse_stmt_like(true, handle_import_export)?;
+                body.push(stmt);
+            }
+        }
+
+        Ok(())
     }
 }
 

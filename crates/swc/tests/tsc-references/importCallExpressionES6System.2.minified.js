@@ -1,5 +1,6 @@
 //// [0.ts]
 System.register([], function(_export, _context) {
+    "use strict";
     return _export("foo", function() {
         return "foo";
     }), {
@@ -9,6 +10,7 @@ System.register([], function(_export, _context) {
 });
 //// [1.ts]
 System.register([], function(_export, _context) {
+    "use strict";
     return _export({
         D: void 0,
         p2: void 0

@@ -5,22 +5,28 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 export var A = function A() {
+    "use strict";
     _class_call_check(this, A);
 };
 export var B = function B() {
+    "use strict";
     _class_call_check(this, B);
 };
 B.cat = "cat";
 export var C = function C() {
+    "use strict";
     _class_call_check(this, C);
 };
 C.Cls = function _class() {
+    "use strict";
     _class_call_check(this, _class);
 };
 export var D = function D(a, b) {
+    "use strict";
     _class_call_check(this, D);
 };
 export var E = /*#__PURE__*/ function() {
+    "use strict";
     function E(a, b) {
         _class_call_check(this, E), this.initializedField = 12;
     }
@@ -64,6 +70,7 @@ export var E = /*#__PURE__*/ function() {
 }();
 E.staticInitializedField = 12;
 export var F = /*#__PURE__*/ function() {
+    "use strict";
     function F(a, b) {
         _class_call_check(this, F);
     }
@@ -72,18 +79,23 @@ export var F = /*#__PURE__*/ function() {
     }, F;
 }();
 var G = function G() {
+    "use strict";
     _class_call_check(this, G);
 };
 var HH = function HH() {
+    "use strict";
     _class_call_check(this, HH);
 };
 export var I = function I() {
+    "use strict";
     _class_call_check(this, I);
 };
 export var J = function J() {
+    "use strict";
     _class_call_check(this, J);
 };
 export var K = /*#__PURE__*/ function() {
+    "use strict";
     function K() {
         _class_call_check(this, K), this.p1 = 12, this.p2 = "ok";
     }
@@ -92,12 +104,14 @@ export var K = /*#__PURE__*/ function() {
     }, K;
 }();
 export var L = /*#__PURE__*/ function(K) {
+    "use strict";
     function L() {
         return _class_call_check(this, L), _call_super(this, L, arguments);
     }
     return _inherits(L, K), L;
 }(K);
 export var M = /*#__PURE__*/ function() {
+    "use strict";
     function M() {
         var _this;
         return _class_call_check(this, M), _assert_this_initialized(_this).prop = 12, _assert_this_initialized(_this);
@@ -105,6 +119,7 @@ export var M = /*#__PURE__*/ function() {
     return _inherits(M, null), M;
 }();
 export var N = /*#__PURE__*/ function(L) {
+    "use strict";
     function N(param) {
         var _this;
         return _class_call_check(this, N), (_this = _call_super(this, N)).another = param, _this;
@@ -112,6 +127,7 @@ export var N = /*#__PURE__*/ function(L) {
     return _inherits(N, L), N;
 }(L);
 export var O = /*#__PURE__*/ function(N) {
+    "use strict";
     function O(param) {
         var _this;
         return _class_call_check(this, O), (_this = _call_super(this, O, [
@@ -121,18 +137,21 @@ export var O = /*#__PURE__*/ function(N) {
     return _inherits(O, N), O;
 }(N);
 export var VariableBase = /*#__PURE__*/ function() {
+    "use strict";
     function VariableBase() {
         return _class_call_check(this, VariableBase), _call_super(this, VariableBase, arguments);
     }
     return _inherits(VariableBase, null), VariableBase;
 }();
 export var HasStatics = /*#__PURE__*/ function() {
+    "use strict";
     function HasStatics() {
         _class_call_check(this, HasStatics);
     }
     return HasStatics.staticMethod = function() {}, HasStatics;
 }();
 export var ExtendsStatics = /*#__PURE__*/ function(HasStatics) {
+    "use strict";
     function ExtendsStatics() {
         return _class_call_check(this, ExtendsStatics), _call_super(this, ExtendsStatics, arguments);
     }

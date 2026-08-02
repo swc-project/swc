@@ -4,6 +4,7 @@
     "start": 96,
     "end": 154
   },
+  "directives": [],
   "body": [
     {
       "type": "TsExportAssignment",

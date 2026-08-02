@@ -4,6 +4,7 @@
     "start": 212,
     "end": 6768
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -48,6 +49,7 @@
             "start": 258,
             "end": 6768
           },
+          "directives": [],
           "body": [
             {
               "type": "ExportDeclaration",
@@ -9085,6 +9087,7 @@
                     "start": 5813,
                     "end": 6229
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "VariableDeclaration",
@@ -9198,6 +9201,7 @@
                                 "start": 5860,
                                 "end": 5975
                               },
+                              "directives": [],
                               "stmts": [
                                 {
                                   "type": "ExpressionStatement",
@@ -9452,6 +9456,7 @@
                                 "start": 6023,
                                 "end": 6111
                               },
+                              "directives": [],
                               "stmts": [
                                 {
                                   "type": "ExpressionStatement",
@@ -9898,6 +9903,7 @@
                   "start": 6330,
                   "end": 6766
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "VariableDeclaration",

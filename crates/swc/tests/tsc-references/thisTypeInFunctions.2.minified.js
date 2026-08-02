@@ -3,6 +3,7 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var explicitCFunction, explicitPropertyFunction, _this = this, C = /*#__PURE__*/ function() {
+    "use strict";
     function C() {
         _class_call_check(this, C);
     }
@@ -17,6 +18,7 @@ var explicitCFunction, explicitPropertyFunction, _this = this, C = /*#__PURE__*/
         return m + 1;
     }, C;
 }(), D = /*#__PURE__*/ function(C) {
+    "use strict";
     function D() {
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }
@@ -107,6 +109,7 @@ reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstr
     return n;
 };
 var Base1 = /*#__PURE__*/ function() {
+    "use strict";
     function Base1() {
         _class_call_check(this, Base1);
     }
@@ -119,11 +122,13 @@ var Base1 = /*#__PURE__*/ function() {
         return this.y;
     }, Base1;
 }(), Derived1 = /*#__PURE__*/ function(Base1) {
+    "use strict";
     function Derived1() {
         return _class_call_check(this, Derived1), _call_super(this, Derived1, arguments);
     }
     return _inherits(Derived1, Base1), Derived1;
 }(Base1), Base2 = /*#__PURE__*/ function() {
+    "use strict";
     function Base2() {
         _class_call_check(this, Base2);
     }
@@ -134,6 +139,7 @@ var Base1 = /*#__PURE__*/ function() {
         return this.x;
     }, Base2;
 }(), Derived2 = /*#__PURE__*/ function(Base2) {
+    "use strict";
     function Derived2() {
         return _class_call_check(this, Derived2), _call_super(this, Derived2, arguments);
     }

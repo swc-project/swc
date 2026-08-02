@@ -2,6 +2,7 @@
 define([
     "require"
 ], function(require) {
+    "use strict";
     module.exports = {
         x: 12
     };
@@ -10,6 +11,7 @@ define([
 define([
     "require"
 ], function(require) {
+    "use strict";
     module.exports = [
         {
             x: 12

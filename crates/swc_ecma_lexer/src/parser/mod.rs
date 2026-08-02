@@ -12,7 +12,7 @@ use crate::{
             jsx::parse_jsx_element,
             module_item::parse_module_item_block_body,
             parse_shebang,
-            stmt::parse_stmt_block_body,
+            stmt::{parse_directive_block_body, ParsedBody},
             typescript::ts_in_no_context,
             Parser as ParserTrait,
         },
@@ -151,11 +151,15 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
         let shebang = parse_shebang(self)?;
 
-        let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret =
+            parse_directive_block_body(self, None).map(|ParsedBody { directives, body }| {
+                Script {
+                    span: self.span(start),
+                    directives,
+                    body,
+                    shebang,
+                }
+            })?;
 
         Ok(ret)
     }
@@ -172,11 +176,15 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
 
-        let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret =
+            parse_directive_block_body(self, None).map(|ParsedBody { directives, body }| {
+                Script {
+                    span: self.span(start),
+                    directives,
+                    body,
+                    shebang,
+                }
+            })?;
 
         debug_assert!(self.input().cur() == &Token::Eof);
         self.input_mut().bump();
@@ -197,11 +205,15 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
 
-        let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret =
+            parse_module_item_block_body(self, None).map(|ParsedBody { directives, body }| {
+                Module {
+                    span: self.span(start),
+                    directives,
+                    body,
+                    shebang,
+                }
+            })?;
 
         debug_assert!(self.input().cur() == &Token::Eof);
         self.input_mut().bump();
@@ -218,9 +230,9 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
 
-        let body: Vec<ModuleItem> = self
+        let ParsedBody { directives, body }: ParsedBody<ModuleItem> = self
             .do_inside_of_context(Context::CanBeModule.union(Context::TopLevel), |p| {
-                parse_module_item_block_body(p, true, None)
+                parse_module_item_block_body(p, None)
             })?;
         let has_module_item = self.found_module_item
             || body
@@ -239,6 +251,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let ret = if has_module_item {
             Program::Module(Module {
                 span: self.span(start),
+                directives,
                 body,
                 shebang,
             })
@@ -257,6 +270,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 .collect();
             Program::Script(Script {
                 span: self.span(start),
+                directives,
                 body,
                 shebang,
             })
@@ -280,11 +294,15 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
 
-        let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret =
+            parse_module_item_block_body(self, None).map(|ParsedBody { directives, body }| {
+                Module {
+                    span: self.span(start),
+                    directives,
+                    body,
+                    shebang,
+                }
+            })?;
 
         debug_assert!(self.input().cur() == &Token::Eof);
         self.input_mut().bump();

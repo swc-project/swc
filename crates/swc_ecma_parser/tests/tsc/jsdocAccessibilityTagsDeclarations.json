@@ -4,6 +4,7 @@
     "start": 149,
     "end": 856
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -67,6 +68,7 @@
               "start": 208,
               "end": 260
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -148,6 +150,7 @@
                 "start": 291,
                 "end": 320
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -220,6 +223,7 @@
                 "start": 355,
                 "end": 372
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -312,6 +316,7 @@
                 "start": 412,
                 "end": 430
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -443,6 +448,7 @@
               "start": 489,
               "end": 539
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -524,6 +530,7 @@
                 "start": 568,
                 "end": 597
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -596,6 +603,7 @@
                 "start": 630,
                 "end": 647
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -688,6 +696,7 @@
                 "start": 685,
                 "end": 703
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -857,6 +866,7 @@
               "start": 847,
               "end": 854
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,

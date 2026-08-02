@@ -4,6 +4,7 @@
     "start": 18,
     "end": 2240
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -31,6 +32,7 @@
           "start": 32,
           "end": 218
         },
+        "directives": [],
         "stmts": [
           {
             "type": "TsEnumDeclaration",
@@ -527,6 +529,7 @@
           "start": 234,
           "end": 513
         },
+        "directives": [],
         "stmts": [
           {
             "type": "FunctionDeclaration",
@@ -554,6 +557,7 @@
                 "start": 253,
                 "end": 495
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "TsEnumDeclaration",
@@ -1118,6 +1122,7 @@
           "start": 539,
           "end": 1119
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -2064,6 +2069,7 @@
           "start": 1135,
           "end": 1432
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2108,6 +2114,7 @@
                       "start": 1162,
                       "end": 1286
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "TsEnumDeclaration",
@@ -2340,6 +2347,7 @@
                       "start": 1306,
                       "end": 1430
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "TsEnumDeclaration",
@@ -2580,6 +2588,7 @@
               "start": 1462,
               "end": 1562
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "TsEnumDeclaration",
@@ -2766,6 +2775,7 @@
                 "start": 1571,
                 "end": 1695
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "TsEnumDeclaration",
@@ -2988,6 +2998,7 @@
                 "start": 1708,
                 "end": 1832
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "TsEnumDeclaration",
@@ -3215,6 +3226,7 @@
           "start": 1850,
           "end": 2240
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ClassDeclaration",
@@ -3309,6 +3321,7 @@
                 "start": 1908,
                 "end": 2222
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",
@@ -3412,6 +3425,7 @@
                       "start": 1992,
                       "end": 2196
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ClassDeclaration",

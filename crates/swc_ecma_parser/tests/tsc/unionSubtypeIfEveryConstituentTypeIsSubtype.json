@@ -4,6 +4,7 @@
     "start": 1,
     "end": 2314
   },
+  "directives": [],
   "body": [
     {
       "type": "TsEnumDeclaration",
@@ -3256,6 +3257,7 @@
           "start": 1753,
           "end": 1756
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -3288,6 +3290,7 @@
           "start": 1766,
           "end": 1793
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -3635,6 +3638,7 @@
           "start": 1922,
           "end": 1949
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",

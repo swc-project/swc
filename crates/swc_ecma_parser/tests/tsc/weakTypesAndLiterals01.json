@@ -4,6 +4,7 @@
     "start": 71,
     "end": 810
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -443,6 +444,7 @@
                 "start": 346,
                 "end": 435
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",
@@ -620,6 +622,7 @@
                 "start": 467,
                 "end": 556
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",
@@ -797,6 +800,7 @@
                 "start": 598,
                 "end": 688
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",
@@ -975,6 +979,7 @@
                 "start": 720,
                 "end": 810
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",

@@ -845,6 +845,7 @@ mod tests {
                         &t.cm,
                         &Module {
                             span: DUMMY_SP,
+                            directives: Vec::new(),
                             body: vec![module.body[dep].clone()],
                             shebang: None,
                         },
@@ -854,6 +855,7 @@ mod tests {
                         &t.cm,
                         &Module {
                             span: DUMMY_SP,
+                            directives: Vec::new(),
                             body: vec![module.body[i].clone()],
                             shebang: None,
                         },

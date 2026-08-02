@@ -1,13 +1,16 @@
 //// [exportsAndImports3-amd.ts]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [t1.ts]
 define([
     "require",
     "exports",
     "@swc/helpers/_/_class_call_check"
 ], function(require, exports, _class_call_check) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
@@ -62,6 +65,7 @@ define([
     var M, v = 1;
     function f() {}
     var C = function C() {
+        "use strict";
         _class_call_check._(this, C);
     }, E1 = ((E = {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E), D1 = ((D = {})[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", D);
     M || (M = {});
@@ -73,6 +77,7 @@ define([
     "exports",
     "./t1"
 ], function(require, exports, _t1) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
@@ -119,6 +124,7 @@ define([
     "exports",
     "./t1"
 ], function(require, exports, _t1) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });

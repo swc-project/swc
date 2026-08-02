@@ -4,6 +4,7 @@
     "start": 1,
     "end": 2284
   },
+  "directives": [],
   "body": [
     {
       "type": "TsEnumDeclaration",
@@ -653,6 +654,7 @@
           "start": 259,
           "end": 306
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1004,6 +1006,7 @@
           "start": 366,
           "end": 413
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1355,6 +1358,7 @@
           "start": 473,
           "end": 520
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1706,6 +1710,7 @@
           "start": 580,
           "end": 627
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -2057,6 +2062,7 @@
           "start": 687,
           "end": 942
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -2876,6 +2882,7 @@
           "start": 1002,
           "end": 1281
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -3683,6 +3690,7 @@
           "start": 1341,
           "end": 1552
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -4321,6 +4329,7 @@
           "start": 1580,
           "end": 1728
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -4612,6 +4621,7 @@
           "start": 1760,
           "end": 1908
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -4903,6 +4913,7 @@
           "start": 1954,
           "end": 2102
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -5194,6 +5205,7 @@
           "start": 2136,
           "end": 2284
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",

@@ -4,6 +4,7 @@
     "start": 37,
     "end": 124
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -70,6 +71,7 @@
                     "start": 63,
                     "end": 85
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "DebuggerStatement",
@@ -121,6 +123,7 @@
                       "start": 106,
                       "end": 122
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",

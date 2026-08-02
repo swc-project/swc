@@ -4,6 +4,7 @@
     "start": 23,
     "end": 67393
   },
+  "directives": [],
   "body": [
     {
       "type": "ExpressionStatement",
@@ -79,6 +80,7 @@
                 "start": 53,
                 "end": 66912
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -122,9 +124,9 @@
                               "start": 74,
                               "end": 66881
                             },
-                            "stmts": [
+                            "directives": [
                               {
-                                "type": "ExpressionStatement",
+                                "type": "Directive",
                                 "span": {
                                   "start": 80,
                                   "end": 93
@@ -137,8 +139,11 @@
                                   },
                                   "value": "use strict",
                                   "raw": "'use strict'"
-                                }
-                              },
+                                },
+                                "value": "use strict"
+                              }
+                            ],
+                            "stmts": [
                               {
                                 "type": "VariableDeclaration",
                                 "span": {
@@ -5877,6 +5882,7 @@
                                           "start": 35057,
                                           "end": 35127
                                         },
+                                        "directives": [],
                                         "stmts": [
                                           {
                                             "type": "ReturnStatement",
@@ -6084,6 +6090,7 @@
                                           "start": 35189,
                                           "end": 35259
                                         },
+                                        "directives": [],
                                         "stmts": [
                                           {
                                             "type": "ReturnStatement",
@@ -6288,6 +6295,7 @@
                                     "start": 35313,
                                     "end": 35398
                                   },
+                                  "directives": [],
                                   "stmts": [
                                     {
                                       "type": "ReturnStatement",
@@ -6512,6 +6520,7 @@
                                     "start": 35438,
                                     "end": 35759
                                   },
+                                  "directives": [],
                                   "stmts": [
                                     {
                                       "type": "VariableDeclaration",
@@ -7017,6 +7026,7 @@
                                     "start": 35803,
                                     "end": 35976
                                   },
+                                  "directives": [],
                                   "stmts": [
                                     {
                                       "type": "ForInStatement",
@@ -7327,6 +7337,7 @@
                                           "start": 35999,
                                           "end": 37387
                                         },
+                                        "directives": [],
                                         "stmts": [
                                           {
                                             "type": "VariableDeclaration",
@@ -9040,6 +9051,7 @@
                                         "start": 37787,
                                         "end": 38019
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "ForInStatement",
@@ -9404,6 +9416,7 @@
                                         "start": 38452,
                                         "end": 38717
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "VariableDeclaration",
@@ -9849,6 +9862,7 @@
                                         "start": 39024,
                                         "end": 39468
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "VariableDeclaration",
@@ -10582,6 +10596,7 @@
                                         "start": 39856,
                                         "end": 39993
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "VariableDeclaration",
@@ -10842,6 +10857,7 @@
                                         "start": 40212,
                                         "end": 40557
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "VariableDeclaration",
@@ -11444,6 +11460,7 @@
                                         "start": 40609,
                                         "end": 40768
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "ReturnStatement",
@@ -11751,6 +11768,7 @@
                                         "start": 40820,
                                         "end": 40899
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "ReturnStatement",
@@ -11959,6 +11977,7 @@
                                         "start": 40978,
                                         "end": 42559
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "IfStatement",
@@ -13744,6 +13763,7 @@
                                         "start": 42649,
                                         "end": 48431
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "VariableDeclaration",
@@ -18265,6 +18285,7 @@
                                         "start": 48468,
                                         "end": 48601
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "ReturnStatement",
@@ -18528,6 +18549,7 @@
                                         "start": 48648,
                                         "end": 48783
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "ReturnStatement",
@@ -18785,6 +18807,7 @@
                                     "start": 50340,
                                     "end": 50510
                                   },
+                                  "directives": [],
                                   "stmts": [
                                     {
                                       "type": "ExpressionStatement",
@@ -19058,6 +19081,7 @@
                                               "start": 52167,
                                               "end": 52299
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "ExpressionStatement",
@@ -19255,6 +19279,7 @@
                                               "start": 54111,
                                               "end": 54242
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "ExpressionStatement",
@@ -19452,6 +19477,7 @@
                                               "start": 57634,
                                               "end": 57766
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "ExpressionStatement",
@@ -19649,6 +19675,7 @@
                                               "start": 58802,
                                               "end": 59017
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "IfStatement",
@@ -19957,6 +19984,7 @@
                                               "start": 60042,
                                               "end": 60262
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "IfStatement",
@@ -20265,6 +20293,7 @@
                                               "start": 60754,
                                               "end": 60919
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "IfStatement",
@@ -20550,6 +20579,7 @@
                                               "start": 62057,
                                               "end": 62118
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "ReturnStatement",
@@ -20686,6 +20716,7 @@
                                               "start": 63115,
                                               "end": 63179
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "ReturnStatement",
@@ -20822,6 +20853,7 @@
                                               "start": 64101,
                                               "end": 64407
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "ReturnStatement",
@@ -21333,6 +21365,7 @@
                                               "start": 64846,
                                               "end": 65013
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "IfStatement",
@@ -21589,6 +21622,7 @@
                                               "start": 65836,
                                               "end": 65930
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "ReturnStatement",
@@ -21710,6 +21744,7 @@
                                               "start": 66171,
                                               "end": 66345
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "IfStatement",
@@ -22094,6 +22129,7 @@
                                               "start": 66502,
                                               "end": 66610
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "ReturnStatement",
@@ -22272,6 +22308,7 @@
                                               "start": 66673,
                                               "end": 66675
                                             },
+                                            "directives": [],
                                             "stmts": []
                                           },
                                           "generator": false,
@@ -22472,6 +22509,7 @@
                       "start": 66936,
                       "end": 67388
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "IfStatement",
@@ -22597,6 +22635,7 @@
                                     "start": 67031,
                                     "end": 67062
                                   },
+                                  "directives": [],
                                   "stmts": [
                                     {
                                       "type": "ExpressionStatement",
@@ -22860,6 +22899,7 @@
                                         "start": 67230,
                                         "end": 67266
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "ExpressionStatement",

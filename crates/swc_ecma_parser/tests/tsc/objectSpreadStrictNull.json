@@ -4,6 +4,7 @@
     "start": 29,
     "end": 1880
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -480,6 +481,7 @@
           "start": 287,
           "end": 1175
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2304,6 +2306,7 @@
           "start": 1663,
           "end": 1880
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",

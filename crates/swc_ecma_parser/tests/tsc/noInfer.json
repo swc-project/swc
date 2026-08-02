@@ -4,6 +4,7 @@
     "start": 81,
     "end": 2710
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -5628,6 +5629,7 @@
               "start": 2544,
               "end": 2546
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,
@@ -5661,6 +5663,7 @@
                 "start": 2567,
                 "end": 2608
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -5953,6 +5956,7 @@
               "start": 2706,
               "end": 2708
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,

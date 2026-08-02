@@ -1,21 +1,28 @@
 //// [node.d.ts]
+"use strict";
 //// [a-ext.js]
+"use strict";
 exports.A = function() {
     this.x = 1;
 };
 //// [a.js]
+"use strict";
 require("./a-ext").A;
 //// [b-ext.js]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
 exports.B = function _class() {
+    "use strict";
     _class_call_check._(this, _class), this.x = 1;
 };
 //// [b.js]
+"use strict";
 require("./b-ext").B;
 //// [c-ext.js]
+"use strict";
 function C() {
     this.x = 1;
 }
@@ -28,8 +35,10 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 //// [c.js]
+"use strict";
 require("./c-ext").C;
 //// [d-ext.js]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "D", {
@@ -42,8 +51,10 @@ var D = function() {
     this.x = 1;
 };
 //// [d.js]
+"use strict";
 require("./d-ext").D;
 //// [e-ext.js]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "E", {
@@ -53,13 +64,18 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check"), E = function E() {
+    "use strict";
     _class_call_check._(this, E), this.x = 1;
 };
 //// [e.js]
+"use strict";
 require("./e-ext").E;
 //// [f.js]
+"use strict";
 //// [g.js]
+"use strict";
 //// [h.js]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), require("@swc/helpers/_/_class_call_check");

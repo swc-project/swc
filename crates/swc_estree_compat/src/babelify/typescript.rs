@@ -3,20 +3,20 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    Accessibility, Expr, MemberProp, Pat, TruePlusMinus, TsArrayType, TsAsExpr,
-    TsCallSignatureDecl, TsConditionalType, TsConstAssertion, TsConstructSignatureDecl,
-    TsConstructorType, TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment,
-    TsExprWithTypeArgs, TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType,
-    TsImportEqualsDecl, TsImportType, TsIndexSignature, TsIndexedAccessType, TsInferType,
-    TsInterfaceBody, TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit,
-    TsLitType, TsMappedType, TsMethodSignature, TsModuleBlock, TsModuleDecl, TsModuleName,
-    TsModuleRef, TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl, TsNonNullExpr,
-    TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType, TsPropertySignature,
-    TsQualifiedName, TsRestType, TsThisType, TsThisTypeOrIdent, TsTplLitType, TsTupleElement,
-    TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit,
-    TsTypeOperator, TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation,
-    TsTypePredicate, TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType,
-    TsUnionType,
+    Accessibility, Directive, Expr, ExprStmt, Lit, MemberProp, Pat, Stmt, Str, TruePlusMinus,
+    TsArrayType, TsAsExpr, TsCallSignatureDecl, TsConditionalType, TsConstAssertion,
+    TsConstructSignatureDecl, TsConstructorType, TsEntityName, TsEnumDecl, TsEnumMember,
+    TsEnumMemberId, TsExportAssignment, TsExprWithTypeArgs, TsExternalModuleRef,
+    TsFnOrConstructorType, TsFnParam, TsFnType, TsImportEqualsDecl, TsImportType, TsIndexSignature,
+    TsIndexedAccessType, TsInferType, TsInterfaceBody, TsInterfaceDecl, TsIntersectionType,
+    TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsMappedType, TsMethodSignature,
+    TsModuleBlock, TsModuleDecl, TsModuleName, TsModuleRef, TsNamespaceBody, TsNamespaceDecl,
+    TsNamespaceExportDecl, TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam,
+    TsParenthesizedType, TsPropertySignature, TsQualifiedName, TsRestType, TsThisType,
+    TsThisTypeOrIdent, TsTplLitType, TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl,
+    TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
+    TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery,
+    TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
 };
 use swc_estree_ast::{
     Access, ArrayPattern, IdOrRest, IdOrString, Identifier, ObjectPattern, RestElement,
@@ -967,12 +967,32 @@ impl Babelify for TsModuleBlock {
         TSModuleBlock {
             base: ctx.base(self.span),
             body: self
-                .body
+                .directives
                 .into_iter()
-                .map(|m| m.babelify(ctx).into())
+                .map(directive_to_stmt)
+                .map(|stmt| stmt.babelify(ctx))
+                .chain(
+                    self.body
+                        .into_iter()
+                        .map(|module_item| module_item.babelify(ctx).into()),
+                )
                 .collect(),
         }
     }
+}
+
+fn directive_to_stmt(directive: Directive) -> Stmt {
+    let span = directive.span;
+    let value = directive.value().into();
+
+    Stmt::Expr(ExprStmt {
+        span,
+        expr: Box::new(Expr::Lit(Lit::Str(Str {
+            span,
+            value,
+            raw: Some(directive.raw),
+        }))),
+    })
 }
 
 impl Babelify for TsNamespaceDecl {

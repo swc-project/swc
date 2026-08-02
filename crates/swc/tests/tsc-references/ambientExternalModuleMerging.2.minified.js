@@ -3,9 +3,12 @@ define([
     "require",
     "M"
 ], function(require, M) {
+    "use strict";
     M.x, M.y;
 });
 //// [ambientExternalModuleMerging_declare.ts]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});

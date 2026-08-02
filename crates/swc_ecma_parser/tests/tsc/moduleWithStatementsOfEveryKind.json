@@ -4,6 +4,7 @@
     "start": 1,
     "end": 1232
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 10,
           "end": 570
         },
+        "directives": [],
         "body": [
           {
             "type": "ClassDeclaration",
@@ -511,6 +513,7 @@
                 "start": 227,
                 "end": 264
               },
+              "directives": [],
               "body": [
                 {
                   "type": "ClassDeclaration",
@@ -739,6 +742,7 @@
                 "start": 344,
                 "end": 369
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -913,6 +917,7 @@
                       "start": 425,
                       "end": 461
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",
@@ -1153,6 +1158,7 @@
           "start": 581,
           "end": 1232
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -1675,6 +1681,7 @@
                   "start": 840,
                   "end": 877
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ClassDeclaration",
@@ -1924,6 +1931,7 @@
                   "start": 978,
                   "end": 1003
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -2112,6 +2120,7 @@
                         "start": 1073,
                         "end": 1109
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ReturnStatement",

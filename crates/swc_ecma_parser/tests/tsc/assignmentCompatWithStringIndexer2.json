@@ -4,6 +4,7 @@
     "start": 56,
     "end": 1051
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -766,6 +767,7 @@
           "start": 386,
           "end": 1051
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -1642,6 +1644,7 @@
                 "start": 828,
                 "end": 1049
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",

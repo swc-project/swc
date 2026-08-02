@@ -4,6 +4,7 @@
     "start": 24,
     "end": 494
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -209,6 +210,7 @@
               "start": 173,
               "end": 181
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": "private",
@@ -371,6 +373,7 @@
               "start": 277,
               "end": 285
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,
@@ -533,6 +536,7 @@
               "start": 392,
               "end": 400
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": "protected",
@@ -695,6 +699,7 @@
               "start": 484,
               "end": 492
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": "public",

@@ -1,5 +1,6 @@
 //// [foo.ts]
 System.register([], function(_export, _context) {
+    "use strict";
     return _export("default", void 0), {
         setters: [],
         execute: function() {
@@ -12,6 +13,7 @@ System.register([
     "@swc/helpers/_/_async_to_generator",
     "@swc/helpers/_/_ts_generator"
 ], function(_export, _context) {
+    "use strict";
     return {
         setters: [
             function(_async_to_generator_ns) {

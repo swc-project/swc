@@ -4,6 +4,7 @@
     "start": 99,
     "end": 320
   },
+  "directives": [],
   "body": [
     {
       "type": "ImportDeclaration",
@@ -171,6 +172,7 @@
             "start": 234,
             "end": 248
           },
+          "directives": [],
           "stmts": [
             {
               "type": "ExpressionStatement",

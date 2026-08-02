@@ -4,6 +4,7 @@ define([
     "@swc/helpers/_/_ts_add_disposable_resource",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(require, _ts_add_disposable_resource, _ts_dispose_resources) {
+    "use strict";
     let env = {
         stack: [],
         error: void 0,

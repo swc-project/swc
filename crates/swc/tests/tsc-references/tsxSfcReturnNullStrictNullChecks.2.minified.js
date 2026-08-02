@@ -2,4 +2,6 @@
 define([
     "require",
     "react"
-], function(require, React) {});
+], function(require, React) {
+    "use strict";
+});

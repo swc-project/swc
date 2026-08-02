@@ -1,12 +1,15 @@
 //// [exportAndImport-es5-amd.ts]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [m1.ts]
 define([
     "require",
     "exports"
 ], function(require, exports) {
+    "use strict";
     function f1() {}
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -24,6 +27,7 @@ define([
     "@swc/helpers/_/_interop_require_default",
     "./m1"
 ], function(require, exports, _interop_require_default, _m1) {
+    "use strict";
     function f2() {
         (0, _m1.default)();
     }

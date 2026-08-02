@@ -4,6 +4,7 @@
     "start": 138,
     "end": 1436
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -249,6 +250,7 @@
           "start": 284,
           "end": 824
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -1453,6 +1455,7 @@
           "start": 851,
           "end": 1436
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",

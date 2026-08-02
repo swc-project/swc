@@ -161,6 +161,7 @@ impl VisitMut for Arrow {
                                 span: DUMMY_SP,
                                 arg: Some(expr.take()),
                             })],
+                            ..Default::default()
                         },
                         #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),

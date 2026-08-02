@@ -4,6 +4,7 @@
     "start": 34,
     "end": 76
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",

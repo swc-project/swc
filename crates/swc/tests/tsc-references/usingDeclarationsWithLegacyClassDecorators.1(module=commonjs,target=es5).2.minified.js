@@ -1,4 +1,5 @@
 //// [usingDeclarationsWithLegacyClassDecorators.1.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -10,6 +11,7 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), _ts_add_dis
 try {
     _ts_add_disposable_resource._(env, null, !1);
     var C = function C() {
+        "use strict";
         _class_call_check._(this, C);
     };
     C = _ts_decorate._([

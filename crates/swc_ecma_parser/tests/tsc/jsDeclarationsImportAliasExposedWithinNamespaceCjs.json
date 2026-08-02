@@ -4,6 +4,7 @@
     "start": 217,
     "end": 1099
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -262,6 +263,7 @@
           "start": 952,
           "end": 1058
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",

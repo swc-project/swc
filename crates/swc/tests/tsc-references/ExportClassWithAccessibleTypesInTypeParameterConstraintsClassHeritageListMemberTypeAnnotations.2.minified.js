@@ -4,11 +4,13 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 (A1 = A || (A = {})).Point = Point = function Point() {
+    "use strict";
     _class_call_check(this, Point);
 }, A1.Origin = {
     x: 0,
     y: 0
 }, A1.Point3d = /*#__PURE__*/ function(Point) {
+    "use strict";
     function Point3d() {
         return _class_call_check(this, Point3d), _call_super(this, Point3d, arguments);
     }
@@ -18,5 +20,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
     y: 0,
     z: 0
 }, A1.Line = function Line(start, end) {
+    "use strict";
     _class_call_check(this, Line), this.start = start, this.end = end;
 };

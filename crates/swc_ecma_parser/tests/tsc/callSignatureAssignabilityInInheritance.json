@@ -4,6 +4,7 @@
     "start": 1,
     "end": 1587
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 22,
           "end": 733
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -791,6 +793,7 @@
           "start": 766,
           "end": 1587
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",

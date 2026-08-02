@@ -4,6 +4,7 @@
     "start": 1,
     "end": 1321
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -451,6 +452,7 @@
           "start": 106,
           "end": 153
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -802,6 +804,7 @@
           "start": 191,
           "end": 238
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1153,6 +1156,7 @@
           "start": 276,
           "end": 323
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1504,6 +1508,7 @@
           "start": 361,
           "end": 408
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1855,6 +1860,7 @@
           "start": 446,
           "end": 625
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -2622,6 +2628,7 @@
           "start": 663,
           "end": 874
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -3373,6 +3380,7 @@
           "start": 912,
           "end": 1123
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -4050,6 +4058,7 @@
           "start": 1151,
           "end": 1321
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",

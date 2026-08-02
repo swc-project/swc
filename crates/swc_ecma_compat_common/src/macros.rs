@@ -33,6 +33,7 @@ macro_rules! impl_visit_mut_fn {
                         span: DUMMY_SP,
                         arg: Some(expr.take()),
                     })],
+                    ..Default::default()
                 },
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),

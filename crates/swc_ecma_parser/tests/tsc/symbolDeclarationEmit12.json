@@ -4,6 +4,7 @@
     "start": 37,
     "end": 347
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 46,
           "end": 347
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -255,6 +257,7 @@
                         "start": 154,
                         "end": 157
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,
@@ -321,6 +324,7 @@
                         "start": 199,
                         "end": 239
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ReturnStatement",
@@ -429,6 +433,7 @@
                         "start": 275,
                         "end": 296
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ReturnStatement",
@@ -557,6 +562,7 @@
                         "start": 336,
                         "end": 339
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,

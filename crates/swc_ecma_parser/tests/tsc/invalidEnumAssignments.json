@@ -4,6 +4,7 @@
     "start": 1,
     "end": 162
   },
+  "directives": [],
   "body": [
     {
       "type": "TsEnumDeclaration",
@@ -520,6 +521,7 @@
           "start": 148,
           "end": 162
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",

@@ -1,4 +1,5 @@
 //// [foo.ts]
+"use strict";
 function foo() {}
 Object.defineProperty(exports, "__esModule", {
     value: !0
@@ -9,6 +10,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 //// [bar.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

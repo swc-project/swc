@@ -8,6 +8,7 @@ import "@swc/helpers/_/_get_prototype_of";
 import "@swc/helpers/_/_inherits";
 import "@swc/helpers/_/_set";
 var SomeBase = /*#__PURE__*/ function() {
+    "use strict";
     function SomeBase() {
         _class_call_check(this, SomeBase), this.privateMember = 0, this.publicMember = 0;
     }

@@ -4,9 +4,9 @@
     "start": 47,
     "end": 135
   },
-  "body": [
+  "directives": [
     {
-      "type": "ExpressionStatement",
+      "type": "Directive",
       "span": {
         "start": 47,
         "end": 67
@@ -19,10 +19,11 @@
         },
         "value": "  function f() {}",
         "raw": "\"  function f() {}\""
-      }
+      },
+      "value": "  function f() {}"
     },
     {
-      "type": "ExpressionStatement",
+      "type": "Directive",
       "span": {
         "start": 115,
         "end": 135
@@ -35,8 +36,10 @@
         },
         "value": "  function f() {}",
         "raw": "\"  function f() {}\""
-      }
+      },
+      "value": "  function f() {}"
     }
   ],
+  "body": [],
   "interpreter": null
 }

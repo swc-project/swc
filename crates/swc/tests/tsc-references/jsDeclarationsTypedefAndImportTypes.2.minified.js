@@ -1,6 +1,7 @@
 //// [conn.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var Conn = /*#__PURE__*/ function() {
+    "use strict";
     function Conn() {
         _class_call_check(this, Conn), this.item = 3;
     }
@@ -11,6 +12,7 @@ module.exports = Conn;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 module.exports = {
     Wrap: function Wrap(c) {
+        "use strict";
         _class_call_check(this, Wrap), this.connItem = c.item, this.another = "";
     }
 };

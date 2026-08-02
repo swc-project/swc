@@ -399,16 +399,6 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
         && !s.is_reserved()
 }
 
-pub(crate) fn is_directive(e: &Stmt) -> bool {
-    match e {
-        Stmt::Expr(s) => match &*s.expr {
-            Expr::Lit(Lit::Str(Str { value, .. })) => value.starts_with("use "),
-            _ => false,
-        },
-        _ => false,
-    }
-}
-
 pub(crate) fn is_pure_undefined_or_null(expr_ctx: ExprCtx, e: &Expr) -> bool {
     is_pure_undefined(expr_ctx, e) || matches!(e, Expr::Lit(Lit::Null(..)))
 }

@@ -4,6 +4,7 @@
     "start": 78,
     "end": 969
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -31,6 +32,7 @@
           "start": 92,
           "end": 159
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -305,6 +307,7 @@
                 "start": 227,
                 "end": 294
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",
@@ -566,6 +569,7 @@
           "start": 370,
           "end": 421
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -801,6 +805,7 @@
                 "start": 540,
                 "end": 591
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",
@@ -1071,6 +1076,7 @@
               "start": 707,
               "end": 710
             },
+            "directives": [],
             "stmts": []
           },
           "generator": false,
@@ -1234,6 +1240,7 @@
           "start": 798,
           "end": 853
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1540,6 +1547,7 @@
           "start": 944,
           "end": 946
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,

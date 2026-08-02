@@ -4,6 +4,7 @@
     "start": 45,
     "end": 371
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 56,
           "end": 118
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -63,6 +65,7 @@
                   "start": 78,
                   "end": 94
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -162,6 +165,7 @@
           "start": 130,
           "end": 230
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -229,6 +233,7 @@
                   "start": 161,
                   "end": 177
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -286,6 +291,7 @@
                   "start": 198,
                   "end": 228
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",

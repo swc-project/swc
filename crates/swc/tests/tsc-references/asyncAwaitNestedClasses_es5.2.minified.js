@@ -3,9 +3,11 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var _B, A = function A() {
+    "use strict";
     _class_call_check(this, A);
 };
 (_B = /*#__PURE__*/ function() {
+    "use strict";
     function B() {
         _class_call_check(this, B);
     }
@@ -15,6 +17,7 @@ var _B, A = function A() {
         });
     }, B;
 }()).C = /*#__PURE__*/ function() {
+    "use strict";
     function C() {
         _class_call_check(this, C);
     }

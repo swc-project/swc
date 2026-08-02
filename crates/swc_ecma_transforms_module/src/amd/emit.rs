@@ -15,6 +15,7 @@ pub(super) struct EmitModule {
 }
 
 pub(super) fn emit(
+    directives: Vec<Directive>,
     stmts: Vec<Stmt>,
     mut module: EmitModule,
     unresolved_mark: Mark,
@@ -68,6 +69,7 @@ pub(super) fn emit(
             span: DUMMY_SP,
             body: Some(FunctionBody {
                 span: DUMMY_SP,
+                directives,
                 stmts,
             }),
             is_generator: false,

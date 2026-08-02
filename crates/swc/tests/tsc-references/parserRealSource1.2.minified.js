@@ -9,6 +9,7 @@ CompilerDiagnostics.debug = !1, CompilerDiagnostics.diagnosticWriter = null, Com
 }, CompilerDiagnostics.assert = function(condition, s) {
     CompilerDiagnostics.debug && !condition && Alert(s);
 }, TypeScript1.NullLogger = /*#__PURE__*/ function() {
+    "use strict";
     function NullLogger() {
         _class_call_check(this, NullLogger);
     }
@@ -25,6 +26,7 @@ CompilerDiagnostics.debug = !1, CompilerDiagnostics.diagnosticWriter = null, Com
         return !1;
     }, _proto.log = function(s) {}, NullLogger;
 }(), TypeScript1.LoggerAdapter = /*#__PURE__*/ function() {
+    "use strict";
     function LoggerAdapter(logger) {
         _class_call_check(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
     }
@@ -43,6 +45,7 @@ CompilerDiagnostics.debug = !1, CompilerDiagnostics.diagnosticWriter = null, Com
         this.logger.log(s);
     }, LoggerAdapter;
 }(), TypeScript1.BufferedLogger = /*#__PURE__*/ function() {
+    "use strict";
     function BufferedLogger() {
         _class_call_check(this, BufferedLogger), this.logContents = [];
     }

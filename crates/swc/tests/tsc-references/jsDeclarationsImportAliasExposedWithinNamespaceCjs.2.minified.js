@@ -1,6 +1,8 @@
 //// [file.js]
+"use strict";
 exports.myTypes = {};
 //// [file2.js]
+"use strict";
 let { myTypes } = require('./file.js');
 module.exports = {
     testFn: function(input) {

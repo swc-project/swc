@@ -1,6 +1,7 @@
 //// [ClassAndModuleThatMergeWithStaticFunctionAndExportedFunctionThatShareAName.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A, A1, Point = /*#__PURE__*/ function() {
+    "use strict";
     function Point(x, y) {
         _class_call_check(this, Point), this.x = x, this.y = y;
     }
@@ -14,6 +15,7 @@ var A, A1, Point = /*#__PURE__*/ function() {
 (Point || (Point = {})).Origin = function() {
     return null;
 }, (A = A1 || (A1 = {})).Point = /*#__PURE__*/ function() {
+    "use strict";
     function Point(x, y) {
         _class_call_check(this, Point), this.x = x, this.y = y;
     }

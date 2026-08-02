@@ -4,6 +4,7 @@
     "start": 40,
     "end": 494
   },
+  "directives": [],
   "body": [
     {
       "type": "TsEnumDeclaration",
@@ -255,6 +256,7 @@
           "start": 159,
           "end": 326
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -581,6 +583,7 @@
           "start": 347,
           "end": 494
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",

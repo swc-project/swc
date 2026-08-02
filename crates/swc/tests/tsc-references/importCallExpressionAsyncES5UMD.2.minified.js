@@ -1,6 +1,7 @@
 //// [test.ts]
 var global, factory;
 global = this, factory = function(exports1, _async_to_generator, _class_call_check, _interop_require_wildcard, _ts_generator) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     });
@@ -43,6 +44,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
         })();
     }
     var cl1 = /*#__PURE__*/ function() {
+        "use strict";
         function cl1() {
             _class_call_check._(this, cl1);
         }
@@ -82,6 +84,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
             })();
         }
     }, cl2 = function cl2() {
+        "use strict";
         _class_call_check._(this, cl2), this.p = {
             m: function() {
                 return _async_to_generator._(function() {

@@ -145,6 +145,7 @@ where
                 body: Some(FunctionBody {
                     span: DUMMY_SP,
                     stmts: vec![return_stmt],
+                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async,

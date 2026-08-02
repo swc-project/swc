@@ -10,6 +10,7 @@ function rec4() {
 }
 rec2(), rec2(), rec4(), rec4();
 var Base = function Base() {
+    "use strict";
     _class_call_check(this, Base);
 };
 new Base(), new Base();

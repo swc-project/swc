@@ -4,6 +4,7 @@
     "start": 1,
     "end": 4782
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -93,6 +94,7 @@
                 "start": 52,
                 "end": 735
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",
@@ -142,6 +144,7 @@
                             "start": 94,
                             "end": 719
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "VariableDeclaration",
@@ -673,6 +676,7 @@
                 "start": 783,
                 "end": 1605
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",
@@ -722,6 +726,7 @@
                             "start": 826,
                             "end": 1589
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "VariableDeclaration",
@@ -1262,6 +1267,7 @@
                 "start": 1653,
                 "end": 2546
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",
@@ -1311,6 +1317,7 @@
                             "start": 1696,
                             "end": 2530
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "VariableDeclaration",
@@ -1891,6 +1898,7 @@
                 "start": 2623,
                 "end": 3340
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",
@@ -1940,6 +1948,7 @@
                             "start": 2666,
                             "end": 3324
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "VariableDeclaration",
@@ -2480,6 +2489,7 @@
                 "start": 3392,
                 "end": 4214
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",
@@ -2529,6 +2539,7 @@
                             "start": 3435,
                             "end": 4198
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "VariableDeclaration",

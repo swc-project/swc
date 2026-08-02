@@ -4,6 +4,7 @@
     "start": 61,
     "end": 471
   },
+  "directives": [],
   "body": [
     {
       "type": "WhileStatement",
@@ -508,6 +509,7 @@
                         "start": 449,
                         "end": 452
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,

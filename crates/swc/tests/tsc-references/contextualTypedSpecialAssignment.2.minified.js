@@ -9,6 +9,7 @@ ns.x = {
     m: function(n) {}
 }, ns.x;
 var Thing = /*#__PURE__*/ function() {
+    "use strict";
     function Thing() {
         _class_call_check(this, Thing), this.s = {
             status: 'done',

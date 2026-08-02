@@ -4,6 +4,7 @@
     "start": 1,
     "end": 2088
   },
+  "directives": [],
   "body": [
     {
       "type": "TsEnumDeclaration",
@@ -428,6 +429,7 @@
           "start": 192,
           "end": 301
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -930,6 +932,7 @@
           "start": 353,
           "end": 389
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1174,6 +1177,7 @@
           "start": 428,
           "end": 791
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2401,6 +2405,7 @@
           "start": 830,
           "end": 851
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -2899,6 +2904,7 @@
           "start": 1029,
           "end": 1144
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -3322,6 +3328,7 @@
           "start": 1184,
           "end": 1228
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ThrowStatement",
@@ -3454,6 +3461,7 @@
           "start": 1253,
           "end": 1359
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -3651,6 +3659,7 @@
           "start": 1384,
           "end": 1517
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -3889,6 +3898,7 @@
           "start": 1549,
           "end": 1610
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -4038,6 +4048,7 @@
           "start": 1642,
           "end": 1718
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -4456,6 +4467,7 @@
           "start": 1829,
           "end": 1933
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -4700,6 +4712,7 @@
           "start": 1957,
           "end": 2088
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",

@@ -1,6 +1,7 @@
 //// [classStaticBlock24.ts]
 var global, factory;
 global = this, factory = function(exports1, _class_call_check) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), Object.defineProperty(exports1, "C", {
@@ -10,6 +11,7 @@ global = this, factory = function(exports1, _class_call_check) {
         }
     });
     var C = function C() {
+        "use strict";
         _class_call_check._(this, C);
     };
     C.x = 1;

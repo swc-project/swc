@@ -4,6 +4,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var C = /*#__PURE__*/ function() {
+    "use strict";
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }
@@ -21,6 +22,7 @@ var C = /*#__PURE__*/ function() {
 }(), r = C.fn();
 r.x, r.foo;
 var r = /*#__PURE__*/ (function(C) {
+    "use strict";
     function D() {
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }

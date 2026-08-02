@@ -1,6 +1,7 @@
 //// [bar.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var Z = /*#__PURE__*/ function() {
+    "use strict";
     function Z() {
         _class_call_check(this, Z);
     }

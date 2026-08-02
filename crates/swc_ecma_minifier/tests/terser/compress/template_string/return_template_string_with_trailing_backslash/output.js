@@ -6,11 +6,9 @@ function b() {
 }
 function c() {
     return;
-    "baz";
 }
 function d() {
     return;
-    "qux";
 }
 function e() {
     return `\nfin`;

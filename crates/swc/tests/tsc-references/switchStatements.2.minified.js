@@ -27,8 +27,10 @@ switch((M || (M = {})).fn = function(x) {
     case M.fn(1):
 }
 var x, M, C = function C() {
+    "use strict";
     _class_call_check(this, C);
 }, D = /*#__PURE__*/ function(C) {
+    "use strict";
     function D() {
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }

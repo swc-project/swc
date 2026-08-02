@@ -151,6 +151,7 @@ impl ClassStaticBlock {
             params: vec![],
             body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                 span: DUMMY_SP,
+                directives: Vec::new(),
                 stmts,
             })),
             is_async: false,

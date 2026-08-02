@@ -1,6 +1,7 @@
 //// [genericCallTypeArgumentInference.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var i, c = new (/*#__PURE__*/ function() {
+    "use strict";
     function C(t, u) {
         _class_call_check(this, C), this.t = t, this.u = u;
     }

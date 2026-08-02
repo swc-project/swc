@@ -4,6 +4,7 @@
     "start": 84,
     "end": 149
   },
+  "directives": [],
   "body": [
     {
       "type": "UsingDeclaration",
@@ -67,6 +68,7 @@
           "start": 120,
           "end": 149
         },
+        "directives": [],
         "stmts": [
           {
             "type": "UsingDeclaration",

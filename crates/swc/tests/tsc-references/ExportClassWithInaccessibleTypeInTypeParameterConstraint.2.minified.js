@@ -7,17 +7,20 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
     x: 0,
     y: 0
 }, A1.Point3d = /*#__PURE__*/ function(Point) {
+    "use strict";
     function Point3d() {
         return _class_call_check(this, Point3d), _call_super(this, Point3d, arguments);
     }
     return _inherits(Point3d, Point), Point3d;
 }(function Point() {
+    "use strict";
     _class_call_check(this, Point);
 }), A1.Origin3d = {
     x: 0,
     y: 0,
     z: 0
 }, A1.Line = /*#__PURE__*/ function() {
+    "use strict";
     function Line(start, end) {
         _class_call_check(this, Line), this.start = start, this.end = end;
     }

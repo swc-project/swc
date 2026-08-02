@@ -1,4 +1,4 @@
-use std::time::Instant;
+use std::{mem::take, time::Instant};
 
 use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -33,6 +33,19 @@ impl Modules {
 
         #[cfg(not(target_arch = "wasm32"))]
         let start = Instant::now();
+        let mut directives = Vec::new();
+        for (id, module) in &mut self.modules {
+            if *id == entry_id {
+                directives = take(&mut module.directives);
+            } else if !module.directives.is_empty() {
+                module.body.splice(
+                    0..0,
+                    take(&mut module.directives)
+                        .into_iter()
+                        .map(directive_to_module_item),
+                );
+            }
+        }
         let chunks = self.take_chunks(entry_id, module_graph, cycles, cm);
         #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
@@ -47,6 +60,7 @@ impl Modules {
 
         let module = Module {
             span: DUMMY_SP,
+            directives,
             body: buf,
             shebang: None,
         };
@@ -57,4 +71,15 @@ impl Modules {
         #[cfg(debug_assertions)]
         tracing::debug!("Sorted {:?}", entry_id);
     }
+}
+
+fn directive_to_module_item(directive: Directive) -> ModuleItem {
+    let span = directive.span;
+    let value = directive.value().into();
+    let raw = Some(directive.raw);
+
+    ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+        span,
+        expr: Box::new(Expr::Lit(Lit::Str(Str { span, value, raw }))),
+    }))
 }

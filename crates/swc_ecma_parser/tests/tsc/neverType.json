@@ -4,6 +4,7 @@
     "start": 52,
     "end": 1609
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -65,6 +66,7 @@
           "start": 91,
           "end": 124
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ThrowStatement",
@@ -188,6 +190,7 @@
           "start": 162,
           "end": 195
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ThrowStatement",
@@ -263,6 +266,7 @@
           "start": 213,
           "end": 254
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -371,6 +375,7 @@
           "start": 298,
           "end": 375
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -487,6 +492,7 @@
           "start": 402,
           "end": 430
         },
+        "directives": [],
         "stmts": [
           {
             "type": "WhileStatement",
@@ -545,6 +551,7 @@
           "start": 464,
           "end": 492
         },
+        "directives": [],
         "stmts": [
           {
             "type": "WhileStatement",
@@ -684,6 +691,7 @@
           "start": 535,
           "end": 698
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -920,6 +928,7 @@
           "start": 741,
           "end": 856
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -1149,6 +1158,7 @@
           "start": 894,
           "end": 939
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -1293,6 +1303,7 @@
                 "start": 963,
                 "end": 997
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ThrowStatement",
@@ -1363,6 +1374,7 @@
                 "start": 1010,
                 "end": 1041
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "WhileStatement",
@@ -1430,6 +1442,7 @@
                 "start": 1062,
                 "end": 1096
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ThrowStatement",
@@ -1514,6 +1527,7 @@
                 "start": 1117,
                 "end": 1148
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "WhileStatement",
@@ -1651,6 +1665,7 @@
           "start": 1184,
           "end": 1248
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -1806,6 +1821,7 @@
           "start": 1282,
           "end": 1390
         },
+        "directives": [],
         "stmts": [
           {
             "type": "WhileStatement",
@@ -1985,6 +2001,7 @@
           "start": 1424,
           "end": 1459
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2295,6 +2312,7 @@
                   "start": 1565,
                   "end": 1587
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ThrowStatement",

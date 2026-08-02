@@ -1,5 +1,7 @@
 //// [exportsAndImports1.ts]
+"use strict";
 //// [t1.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -33,11 +35,13 @@ for(var name in all)Object.defineProperty(target, name, {
 var M, _class_call_check = require("@swc/helpers/_/_class_call_check"), v = 1;
 function f() {}
 var C = function C() {
+    "use strict";
     _class_call_check._(this, C);
 }, E1 = ((E = E1 || {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E), D1 = ((D = D1 || {})[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", D);
 M || (M = {});
 var a = M.x;
 //// [t2.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -79,6 +83,7 @@ for(var name in all)Object.defineProperty(target, name, {
 });
 var _t1 = require("./t1");
 //// [t3.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

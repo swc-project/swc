@@ -12,7 +12,7 @@ use super::{
     ident::parse_maybe_private_name,
     is_simple_param_list::IsSimpleParameterList,
     make_decl_declare,
-    stmt::parse_var_stmt,
+    stmt::{parse_var_stmt, ParsedBody},
     PResult, Parser,
 };
 use crate::{
@@ -2333,14 +2333,15 @@ fn parse_ts_module_block<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsModuleBlock>
 
     let start = p.cur_pos();
     expect!(p, &P::Token::LBRACE);
-    let body = p.do_inside_of_context(Context::TsModuleBlock, |p| {
+    let ParsedBody { directives, body } = p.do_inside_of_context(Context::TsModuleBlock, |p| {
         p.do_outside_of_context(Context::TopLevel, |p| {
-            parse_module_item_block_body(p, false, Some(&P::Token::RBRACE))
+            parse_module_item_block_body(p, Some(&P::Token::RBRACE))
         })
     })?;
 
     Ok(TsModuleBlock {
         span: p.span(start),
+        directives,
         body,
     })
 }

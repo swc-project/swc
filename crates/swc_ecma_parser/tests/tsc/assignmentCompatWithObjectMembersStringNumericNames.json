@@ -4,6 +4,7 @@
     "start": 205,
     "end": 1619
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 224,
           "end": 835
         },
+        "directives": [],
         "body": [
           {
             "type": "ClassDeclaration",
@@ -1653,6 +1655,7 @@
           "start": 862,
           "end": 1619
         },
+        "directives": [],
         "body": [
           {
             "type": "ClassDeclaration",

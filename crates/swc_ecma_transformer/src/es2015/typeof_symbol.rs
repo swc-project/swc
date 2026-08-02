@@ -179,33 +179,26 @@ impl VisitMutHook<TraverseCtx> for TypeofSymbolPass {
 
     fn enter_function(&mut self, f: &mut Function, _ctx: &mut TraverseCtx) {
         // Skip functions with the @swc/helpers - typeof directive
-        if let Some(body) = &f.body {
-            if let Some(Stmt::Expr(first)) = body.stmts.first() {
-                if let Expr::Lit(Lit::Str(s)) = &*first.expr {
-                    if let Some(text) = s.value.as_str() {
-                        if matches!(text, "@swc/helpers - typeof" | "@babel/helpers - typeof") {
-                            self.in_helper_fn += 1;
-                        }
-                    }
-                }
-            }
+        if is_typeof_helper(f) {
+            self.in_helper_fn += 1;
         }
     }
 
     fn exit_function(&mut self, f: &mut Function, _ctx: &mut TraverseCtx) {
         // Match the enter_function logic to decrement
-        if let Some(body) = &f.body {
-            if let Some(Stmt::Expr(first)) = body.stmts.first() {
-                if let Expr::Lit(Lit::Str(s)) = &*first.expr {
-                    if let Some(text) = s.value.as_str() {
-                        if matches!(text, "@swc/helpers - typeof" | "@babel/helpers - typeof") {
-                            self.in_helper_fn = self.in_helper_fn.saturating_sub(1);
-                        }
-                    }
-                }
-            }
+        if is_typeof_helper(f) {
+            self.in_helper_fn = self.in_helper_fn.saturating_sub(1);
         }
     }
+}
+
+fn is_typeof_helper(function: &Function) -> bool {
+    function.body.as_ref().is_some_and(|body| {
+        body.directives.first().is_some_and(|directive| {
+            directive.value() == "@swc/helpers - typeof"
+                || directive.value() == "@babel/helpers - typeof"
+        })
+    })
 }
 
 #[inline]

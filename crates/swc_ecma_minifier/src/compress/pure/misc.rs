@@ -2173,9 +2173,7 @@ impl Pure<'_> {
 
         match e {
             Expr::Lit(Lit::Str(s))
-                if (self.options.directives
-                    && !matches!(s.value.as_str(), Some(s) if s == "use strict" || s == "use asm"))
-                    || opts.contains(DropOpts::DROP_STR_LIT)
+                if opts.contains(DropOpts::DROP_STR_LIT)
                     || (s.value.starts_with("@swc/helpers")
                         || s.value.starts_with("@babel/helpers")) =>
             {

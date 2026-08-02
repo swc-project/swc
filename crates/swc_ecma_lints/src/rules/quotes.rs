@@ -13,7 +13,6 @@ const MUST_USE_SINGLE_QUOTES_MESSAGE: &str = "String must use singlequotes";
 const MUST_USE_DOUBLE_QUOTES_MESSAGE: &str = "String must use doublequotes";
 const MUST_USE_BACKTICK_QUOTES_MESSAGE: &str = "String must use backtick quotes";
 const DIRECTIVES: &[&str] = &["use strict", "use asm", "use strong"];
-
 #[derive(Debug, Clone, Default, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct QuotesConfig {
@@ -80,39 +79,48 @@ impl Quotes {
         false
     }
 
-    fn check_str(&self, is_method_key_check: bool, lit_str: &Str) {
-        let found_quote_type = resolve_string_quote_type(lit_str).unwrap();
-
-        let Str { span, value, .. } = lit_str;
-
+    fn check_quote(
+        &self,
+        is_method_key_check: bool,
+        span: Span,
+        value: &str,
+        found_quote_type: QuotesType,
+    ) {
         match (&self.prefer, &found_quote_type) {
             (QuotesType::Double, QuotesType::Single) => {
-                if self.avoid_escape && self.is_mirroring_escape(&value.to_string_lossy()) {
+                if self.avoid_escape && self.is_mirroring_escape(value) {
                     return;
                 }
 
-                self.emit_report(*span);
+                self.emit_report(span);
             }
             (QuotesType::Single, QuotesType::Double) => {
-                if self.avoid_escape && self.is_mirroring_escape(&value.to_string_lossy()) {
+                if self.avoid_escape && self.is_mirroring_escape(value) {
                     return;
                 }
 
-                self.emit_report(*span);
+                self.emit_report(span);
             }
             (QuotesType::Backtick, _) => {
                 if is_method_key_check {
                     return;
                 }
 
-                if self.avoid_escape && self.is_mirroring_escape(&value.to_string_lossy()) {
+                if self.avoid_escape && self.is_mirroring_escape(value) {
                     return;
                 }
 
-                self.emit_report(*span);
+                self.emit_report(span);
             }
             _ => {}
         }
+    }
+
+    fn check_str(&self, is_method_key_check: bool, lit_str: &Str) {
+        let found_quote_type = resolve_string_quote_type(lit_str).unwrap();
+        let value = lit_str.value.to_string_lossy();
+
+        self.check_quote(is_method_key_check, lit_str.span, &value, found_quote_type);
     }
 
     fn check_tpl_str(&self, tpl_str: &Tpl) {
@@ -151,16 +159,18 @@ impl Visit for Quotes {
         expr.visit_children_with(self);
     }
 
-    fn visit_expr_stmt(&mut self, expr_stmt: &ExprStmt) {
-        if let Expr::Lit(Lit::Str(Str { value, .. })) = expr_stmt.expr.as_ref() {
-            let value = value.to_string_lossy();
-
-            if DIRECTIVES.contains(&&*value) {
-                return;
-            }
+    fn visit_directive(&mut self, directive: &Directive) {
+        if DIRECTIVES.contains(&directive.value()) {
+            return;
         }
 
-        expr_stmt.visit_children_with(self);
+        let quote = match directive.raw.as_bytes().first() {
+            Some(b'\'') => QuotesType::Single,
+            Some(b'"') => QuotesType::Double,
+            _ => return,
+        };
+
+        self.check_quote(false, directive.span, directive.value(), quote);
     }
 
     fn visit_class_method(&mut self, class_method: &ClassMethod) {

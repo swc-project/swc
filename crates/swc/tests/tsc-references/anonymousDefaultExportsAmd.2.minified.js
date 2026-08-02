@@ -3,6 +3,7 @@ define([
     "require",
     "exports"
 ], function(require, exports) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "default", {
@@ -19,6 +20,7 @@ define([
     "require",
     "exports"
 ], function(require, exports) {
+    "use strict";
     function _default() {}
     Object.defineProperty(exports, "__esModule", {
         value: !0

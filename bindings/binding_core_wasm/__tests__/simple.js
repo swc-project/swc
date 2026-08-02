@@ -125,6 +125,7 @@ describe("parse", () => {
                   "typeParams": null,
                 },
               ],
+              "directives": [],
               "interpreter": null,
               "span": {
                 "end": 257,
@@ -171,6 +172,7 @@ describe("parse", () => {
                   "typeParams": null,
                 },
               ],
+              "directives": [],
               "interpreter": null,
               "span": {
                 "end": 270,

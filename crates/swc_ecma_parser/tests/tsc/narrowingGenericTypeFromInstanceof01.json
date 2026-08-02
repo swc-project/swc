@@ -4,6 +4,7 @@
     "start": 1,
     "end": 386
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -84,6 +85,7 @@
               "start": 49,
               "end": 52
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,
@@ -278,6 +280,7 @@
           "start": 101,
           "end": 104
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -411,6 +414,7 @@
           "start": 134,
           "end": 137
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -597,6 +601,7 @@
           "start": 172,
           "end": 386
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",

@@ -2,7 +2,9 @@ use swc_atoms::atom;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
-use crate::{error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, Parser};
+use crate::{
+    error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, ParsedBody, Parser,
+};
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
@@ -13,10 +15,9 @@ impl<I: Tokens> Parser<I> {
 
     pub(crate) fn parse_module_item_block_body(
         &mut self,
-        allow_directives: bool,
         end: Option<Token>,
-    ) -> PResult<Vec<ModuleItem>> {
-        self.parse_block_body(allow_directives, end, handle_import_export)
+    ) -> PResult<ParsedBody<ModuleItem>> {
+        self.parse_block_body(end, handle_import_export)
     }
 
     /// Parses `from 'foo.js' with {};` or `from 'foo.js' assert {};`

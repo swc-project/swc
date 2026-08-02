@@ -1,6 +1,6 @@
 {
-    "class binding in plain class, decorated field, and computed keys";
     let _dec, _dec1, _computedKey, _init__computedKey, _init_extra__init__computedKey;
+    "class binding in plain class, decorated field, and computed keys";
     const errs = [];
     const fns = [];
     const capture = function(fn) {
@@ -55,9 +55,9 @@
     expect(fns[1]).toThrow(E);
     expect(fns[2]).toThrow(E);
 }{
-    "class binding in decorated class, decorated field, and computed keys";
     let _dec, _dec1, _initClass, _dec2, _computedKey, //todo: add the assertUninitialized decorator when we properly implement class tdz
     _init__computedKey, _init_extra__init__computedKey;
+    "class binding in decorated class, decorated field, and computed keys";
     const errs = [];
     const fns = [];
     const capture = function(fn) {
@@ -113,11 +113,11 @@
         C
     ]);
 }{
-    "class binding in decorated class, decorated static field, and computed keys";
     let _ref, _computedKey;
     var _K, _class;
     let _dec, _dec1, _initClass, _dec2, _computedKey1, //todo: add the assertUninitialized decorator when we properly implement class tdz
     _init__computedKey, _init_extra__init__computedKey;
+    "class binding in decorated class, decorated static field, and computed keys";
     const errs = [];
     const fns = [];
     const capture = function(fn) {

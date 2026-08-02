@@ -4,6 +4,7 @@
     "start": 33,
     "end": 398
   },
+  "directives": [],
   "body": [
     {
       "type": "ForStatement",
@@ -453,6 +454,7 @@
                         "start": 373,
                         "end": 376
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,

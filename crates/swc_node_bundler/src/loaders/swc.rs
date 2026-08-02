@@ -97,6 +97,7 @@ impl SwcLoader {
                     fm,
                     module: Module {
                         span: DUMMY_SP,
+                        directives: Default::default(),
                         body: Default::default(),
                         shebang: Default::default(),
                     },

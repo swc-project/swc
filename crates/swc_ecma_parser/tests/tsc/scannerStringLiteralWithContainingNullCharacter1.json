@@ -4,9 +4,9 @@
     "start": 1,
     "end": 7
   },
-  "body": [
+  "directives": [
     {
-      "type": "ExpressionStatement",
+      "type": "Directive",
       "span": {
         "start": 1,
         "end": 7
@@ -19,8 +19,10 @@
         },
         "value": " \u0000 ",
         "raw": "\" \u0000 \""
-      }
+      },
+      "value": " \u0000 "
     }
   ],
+  "body": [],
   "interpreter": null
 }

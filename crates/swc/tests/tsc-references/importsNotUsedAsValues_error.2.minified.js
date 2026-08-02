@@ -2,9 +2,11 @@
 //// [/a.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C, _default = function _default() {
+    "use strict";
     _class_call_check(this, _default);
 };
 export var A = function A() {
+    "use strict";
     _class_call_check(this, A);
 };
 var C1 = ((C = {})[C.One = 0] = "One", C[C.Two = 1] = "Two", C);

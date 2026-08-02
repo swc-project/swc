@@ -8,8 +8,8 @@ use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_transforms_classes::super_field::rewrite_super_in_moved_static_member;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor_with_span,
-    for_each_binding_ident, is_maybe_branch_directive, private_ident, prop_name_to_expr_value,
-    quote_ident, replace_ident, stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
+    for_each_binding_ident, private_ident, prop_name_to_expr_value, quote_ident, replace_ident,
+    stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -472,6 +472,7 @@ impl DecoratorPass {
                 body: Some(FunctionBody {
                     span: DUMMY_SP,
                     stmts: Vec::new(),
+                    ..Default::default()
                 }),
                 is_async: false,
                 is_generator: false,
@@ -730,6 +731,7 @@ impl DecoratorPass {
                     span: DUMMY_SP,
                     arg: Some(value),
                 })],
+                ..Default::default()
             }),
             is_async: false,
             is_generator: false,
@@ -1160,6 +1162,7 @@ impl DecoratorPass {
                         }
                         .into(),
                     ],
+                    ..Default::default()
                 })
                 .into(),
                 is_async: false,
@@ -1552,6 +1555,7 @@ impl DecoratorPass {
                 body: Some(FunctionBody {
                     span: DUMMY_SP,
                     stmts: Vec::new(),
+                    ..Default::default()
                 }),
                 ..Default::default()
             }),
@@ -1765,6 +1769,7 @@ impl DecoratorPass {
                                     body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                                         span: DUMMY_SP,
                                         stmts: last_static_block,
+                                        ..Default::default()
                                     })),
                                     is_async: false,
                                     is_generator: false,
@@ -1942,6 +1947,7 @@ impl DecoratorPass {
                                         .into(),
                                     ),
                                 })],
+                                ..Default::default()
                             });
                         }
 
@@ -1975,6 +1981,7 @@ impl DecoratorPass {
                         body: Some(FunctionBody {
                             span: DUMMY_SP,
                             stmts: last,
+                            ..Default::default()
                         }),
                         is_async: false,
                         is_generator: false,
@@ -2002,6 +2009,7 @@ impl DecoratorPass {
                             body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                                 span: DUMMY_SP,
                                 stmts: last,
+                                ..Default::default()
                             })),
                             is_async: false,
                             is_generator: false,
@@ -2558,6 +2566,7 @@ impl VisitMut for DecoratorPass {
                     p.function.body = Some(FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
+                        ..Default::default()
                     });
                 }
                 MethodKind::Getter => {
@@ -2579,6 +2588,7 @@ impl VisitMut for DecoratorPass {
                     p.function.body = Some(FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
+                        ..Default::default()
                     });
                 }
                 MethodKind::Setter => {
@@ -2602,6 +2612,7 @@ impl VisitMut for DecoratorPass {
                     p.function.body = Some(FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
+                        ..Default::default()
                     });
                 }
                 #[cfg(swc_ast_unknown)]
@@ -2731,6 +2742,7 @@ impl VisitMut for DecoratorPass {
                                     prop: MemberProp::PrivateName(private_field.key.clone()),
                                 }))),
                             })],
+                            ..Default::default()
                         }),
                         is_generator: false,
                         is_async: false,
@@ -2765,6 +2777,7 @@ impl VisitMut for DecoratorPass {
                                         right: param.clone().into(),
                                     })),
                                 })],
+                                ..Default::default()
                             }),
                             is_generator: false,
                             is_async: false,
@@ -2831,6 +2844,7 @@ impl VisitMut for DecoratorPass {
                                                             .into(),
                                                         ),
                                                     })],
+                                                    ..Default::default()
                                                 }),
                                                 is_async: false,
                                                 is_generator: false,
@@ -2870,6 +2884,7 @@ impl VisitMut for DecoratorPass {
                                                             )),
                                                         })),
                                                     })],
+                                                    ..Default::default()
                                                 }),
                                                 is_async: false,
                                                 is_generator: false,
@@ -2951,6 +2966,7 @@ impl VisitMut for DecoratorPass {
                                                         ..Default::default()
                                                     }))),
                                                 })],
+                                                ..Default::default()
                                             }),
                                             is_generator: false,
                                             is_async: false,
@@ -2991,6 +3007,7 @@ impl VisitMut for DecoratorPass {
                                                         ..Default::default()
                                                     })),
                                                 })],
+                                                ..Default::default()
                                             }),
                                             is_generator: false,
                                             is_async: false,
@@ -3466,17 +3483,8 @@ impl VisitMut for DecoratorPass {
         }
 
         if !self.extra_vars.is_empty() {
-            let insert_pos = n
-                .iter()
-                .position(|module_item| match module_item {
-                    ModuleItem::Stmt(stmt) => !is_maybe_branch_directive(stmt),
-                    ModuleItem::ModuleDecl(_) => true,
-                    #[cfg(swc_ast_unknown)]
-                    _ => panic!("unable to access unknown nodes"),
-                })
-                .unwrap_or(0);
             insert_builder.push_front(
-                insert_pos,
+                0,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: if self.is_2023_11() {
@@ -3592,6 +3600,7 @@ impl VisitMut for DecoratorPass {
                                 .into(),
                             ),
                         })],
+                        ..Default::default()
                     }),
                     is_async: false,
                     is_generator: false,
@@ -3622,6 +3631,7 @@ impl VisitMut for DecoratorPass {
                                 right: Box::new(Expr::Ident(setter_arg.clone())),
                             })),
                         })],
+                        ..Default::default()
                     }),
                     is_async: false,
                     is_generator: false,
@@ -3657,6 +3667,7 @@ impl VisitMut for DecoratorPass {
                             span: DUMMY_SP,
                             arg: Some(access_expr.clone().into()),
                         })],
+                        ..Default::default()
                     }),
                     is_async: false,
                     is_generator: false,
@@ -3676,6 +3687,7 @@ impl VisitMut for DecoratorPass {
                                 right: Box::new(Expr::Ident(setter_arg.clone())),
                             })),
                         })],
+                        ..Default::default()
                     }),
                     is_async: false,
                     is_generator: false,
@@ -3801,12 +3813,8 @@ impl VisitMut for DecoratorPass {
         }
 
         if !self.extra_vars.is_empty() {
-            let insert_pos = n
-                .iter()
-                .position(|stmt| !is_maybe_branch_directive(stmt))
-                .unwrap_or(0);
             insert_builder.push_front(
-                insert_pos,
+                0,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: if self.is_2023_11() {

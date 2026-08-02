@@ -4,6 +4,7 @@
     "start": 60,
     "end": 2313
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -303,6 +304,7 @@
           "start": 173,
           "end": 210
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -864,6 +866,7 @@
           "start": 346,
           "end": 393
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -1401,6 +1404,7 @@
           "start": 535,
           "end": 582
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -1905,6 +1909,7 @@
           "start": 720,
           "end": 757
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2497,6 +2502,7 @@
           "start": 921,
           "end": 958
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -3010,6 +3016,7 @@
           "start": 1141,
           "end": 1187
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -4080,6 +4087,7 @@
           "start": 1688,
           "end": 1975
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ForOfStatement",
@@ -4893,6 +4901,7 @@
           "start": 2191,
           "end": 2313
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",

@@ -4,6 +4,7 @@
     "start": 44,
     "end": 185
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -149,9 +150,9 @@
           "start": 138,
           "end": 185
         },
-        "stmts": [
+        "directives": [
           {
-            "type": "ExpressionStatement",
+            "type": "Directive",
             "span": {
               "start": 144,
               "end": 157
@@ -164,8 +165,11 @@
               },
               "value": "use strict",
               "raw": "\"use strict\""
-            }
-          },
+            },
+            "value": "use strict"
+          }
+        ],
+        "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {

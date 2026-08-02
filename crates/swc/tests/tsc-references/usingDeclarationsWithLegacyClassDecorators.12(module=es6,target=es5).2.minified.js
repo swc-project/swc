@@ -10,6 +10,7 @@ var env = {
 };
 try {
     var C = function C() {
+        "use strict";
         _class_call_check(this, C);
     };
     C = _ts_decorate([

@@ -4,6 +4,7 @@
     "start": 56,
     "end": 1484
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -2093,6 +2094,7 @@
           "start": 956,
           "end": 959
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2125,6 +2127,7 @@
           "start": 969,
           "end": 996
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -2393,6 +2396,7 @@
           "start": 1091,
           "end": 1118
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",

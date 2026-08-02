@@ -89,6 +89,31 @@ impl MacroNode for FunctionBody {
 }
 
 #[node_impl]
+impl MacroNode for Directive {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span, false)?;
+
+        emitter.emit_trailing_comments_of_pos_with(self.span.hi, true, |emitter| {
+            srcmap!(emitter, self, true);
+            emitter.wr.write_str(&self.raw)?;
+            semi!(emitter);
+
+            Ok(())
+        })?;
+
+        if emitter.comments.is_some() {
+            emitter.emit_trailing_comments_of_pos(self.span.hi, true, true)?;
+        }
+
+        if !emitter.cfg.minify {
+            emitter.wr.write_line()?;
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
 impl MacroNode for ExprStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
@@ -636,7 +661,20 @@ impl MacroNode for VarDeclOrExpr {
 /// [ratel]:https://github.com/ratel-rust/ratel-core
 #[cfg(test)]
 mod tests {
+    use swc_common::DUMMY_SP;
+
+    use super::Directive;
     use crate::tests::{assert_min, assert_pretty};
+
+    #[test]
+    fn directive_without_source_uses_raw() {
+        let directive = Directive::use_strict(DUMMY_SP);
+        assert_eq!(directive.value(), "use strict");
+        assert_eq!(crate::to_code(&directive), "\"use strict\";\n");
+
+        let directive = Directive::new(DUMMY_SP, r#""use\x20strict""#.into());
+        assert_eq!(crate::to_code(&directive), "\"use\\x20strict\";\n");
+    }
 
     #[test]
     fn block_statement() {
@@ -749,7 +787,7 @@ mod tests {
 
     #[test]
     fn issue_204_01() {
-        assert_min(r"'\r\n';", r#""\r\n""#);
+        assert_min(r"'\r\n';", r#"'\r\n'"#);
     }
 
     #[test]

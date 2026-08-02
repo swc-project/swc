@@ -6,6 +6,7 @@ stringSet.addAll(stringSet);
 //// [LazySet.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var LazySet = /*#__PURE__*/ function() {
+    "use strict";
     function LazySet() {
         _class_call_check(this, LazySet);
     }

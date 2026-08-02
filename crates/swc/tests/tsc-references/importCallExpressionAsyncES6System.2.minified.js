@@ -2,6 +2,7 @@
 System.register([
     "@swc/helpers/_/_async_to_generator"
 ], function(_export, _context) {
+    "use strict";
     var _async_to_generator;
     return _export({
         cl1: void 0,

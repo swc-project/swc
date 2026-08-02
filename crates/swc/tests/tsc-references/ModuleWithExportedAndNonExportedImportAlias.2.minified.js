@@ -2,6 +2,7 @@
 var B, Geometry, Geometry1, Lines;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (B || (B = {})).Line = function Line(start, end) {
+    "use strict";
     _class_call_check(this, Line), this.start = start, this.end = end;
 }, (Geometry1 = Geometry || (Geometry = {})).Points = A, Lines = B, Geometry1.Origin = {
     x: 0,

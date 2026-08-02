@@ -4,6 +4,7 @@
     "start": 187,
     "end": 1705
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 214,
           "end": 444
         },
+        "directives": [],
         "body": [
           {
             "type": "VariableDeclaration",
@@ -248,6 +250,7 @@
                 "start": 328,
                 "end": 354
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -600,6 +603,7 @@
           "start": 470,
           "end": 1705
         },
+        "directives": [],
         "body": [
           {
             "type": "FunctionDeclaration",
@@ -782,6 +786,7 @@
                 "start": 533,
                 "end": 559
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -1435,6 +1440,7 @@
                 "start": 867,
                 "end": 893
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -2160,6 +2166,7 @@
                 "start": 1242,
                 "end": 1268
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",

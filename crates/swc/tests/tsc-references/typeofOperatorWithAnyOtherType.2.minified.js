@@ -10,6 +10,7 @@ var ANY, ANY1, obj, M, ANY2 = [
 };
 function foo() {}
 var A = /*#__PURE__*/ function() {
+    "use strict";
     function A() {
         _class_call_check(this, A);
     }

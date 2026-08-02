@@ -5,6 +5,7 @@ define([
     "@swc/helpers/_/_ts_add_disposable_resource",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(require, exports, _ts_add_disposable_resource, _ts_dispose_resources) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });

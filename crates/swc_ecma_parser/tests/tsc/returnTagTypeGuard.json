@@ -4,6 +4,7 @@
     "start": 96,
     "end": 1027
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -47,6 +48,7 @@
               "start": 128,
               "end": 154
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -147,6 +149,7 @@
                 "start": 238,
                 "end": 265
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -226,6 +229,7 @@
               "start": 300,
               "end": 329
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -326,6 +330,7 @@
                 "start": 405,
                 "end": 433
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -409,6 +414,7 @@
           "start": 490,
           "end": 558
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -617,6 +623,7 @@
           "start": 646,
           "end": 688
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -713,6 +720,7 @@
           "start": 745,
           "end": 793
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -836,6 +844,7 @@
           "start": 906,
           "end": 938
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -932,6 +941,7 @@
           "start": 980,
           "end": 1027
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",

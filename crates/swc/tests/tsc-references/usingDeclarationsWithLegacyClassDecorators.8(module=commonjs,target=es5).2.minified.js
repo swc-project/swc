@@ -1,4 +1,5 @@
 //// [usingDeclarationsWithLegacyClassDecorators.8.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "C", {
@@ -14,6 +15,7 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), _ts_add_dis
 };
 try {
     var C = function C() {
+        "use strict";
         _class_call_check._(this, C);
     };
     C = _ts_decorate._([

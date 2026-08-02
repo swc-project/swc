@@ -99,6 +99,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
             body: Some(FunctionBody {
                 span: DUMMY_SP,
                 stmts: vec![self.into_return_stmt().into()],
+                ..Default::default()
             }),
             ..Default::default()
         }

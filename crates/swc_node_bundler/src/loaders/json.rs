@@ -35,6 +35,7 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
 
     Ok(Module {
         span: DUMMY_SP,
+        directives: Vec::new(),
         body: vec![export],
         shebang: None,
     })

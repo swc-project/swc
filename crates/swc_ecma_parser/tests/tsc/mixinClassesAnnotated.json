@@ -4,6 +4,7 @@
     "start": 24,
     "end": 1329
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -249,6 +250,7 @@
               "start": 138,
               "end": 140
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,
@@ -406,6 +408,7 @@
               "start": 229,
               "end": 257
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -687,6 +690,7 @@
                         "start": 502,
                         "end": 563
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -1155,6 +1159,7 @@
           "start": 694,
           "end": 881
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ClassDeclaration",
@@ -1291,6 +1296,7 @@
                     "start": 787,
                     "end": 859
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ExpressionStatement",
@@ -1776,6 +1782,7 @@
           "start": 989,
           "end": 1060
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -1962,6 +1969,7 @@
           "start": 1076,
           "end": 1166
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2240,6 +2248,7 @@
               "start": 1227,
               "end": 1286
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -2382,6 +2391,7 @@
                 "start": 1298,
                 "end": 1327
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",

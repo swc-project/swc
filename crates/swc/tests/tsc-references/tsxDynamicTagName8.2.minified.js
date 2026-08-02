@@ -6,6 +6,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import * as React from 'react';
 export var Text = /*#__PURE__*/ function(_React_Component) {
+    "use strict";
     function Text() {
         var _this;
         return _class_call_check(this, Text), _this = _call_super(this, Text, arguments), _this._tagName = 'div', _this;

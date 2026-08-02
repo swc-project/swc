@@ -4,6 +4,7 @@
     "start": 667,
     "end": 35495
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 685,
           "end": 35495
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -552,6 +554,7 @@
                       "start": 1255,
                       "end": 1760
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
@@ -1180,6 +1183,7 @@
                         "start": 1898,
                         "end": 2787
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "IfStatement",
@@ -2663,6 +2667,7 @@
                         "start": 2931,
                         "end": 7019
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -4648,6 +4653,7 @@
                                                         "start": 6852,
                                                         "end": 6925
                                                       },
+                                                      "directives": [],
                                                       "stmts": [
                                                         {
                                                           "type": "ExpressionStatement",
@@ -4856,6 +4862,7 @@
                         "start": 7101,
                         "end": 8549
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -6297,6 +6304,7 @@
                         "start": 8661,
                         "end": 8775
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ReturnStatement",
@@ -6544,6 +6552,7 @@
                         "start": 8907,
                         "end": 9488
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -7251,6 +7260,7 @@
                         "start": 9584,
                         "end": 11375
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -8558,6 +8568,7 @@
                         "start": 11462,
                         "end": 12332
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -9390,6 +9401,7 @@
                         "start": 12440,
                         "end": 13626
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -10171,6 +10183,7 @@
                         "start": 13732,
                         "end": 14555
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -11134,6 +11147,7 @@
                         "start": 14634,
                         "end": 16244
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "SwitchStatement",
@@ -11855,6 +11869,7 @@
                                               "start": 15986,
                                               "end": 16155
                                             },
+                                            "directives": [],
                                             "stmts": [
                                               {
                                                 "type": "IfStatement",
@@ -12192,6 +12207,7 @@
                         "start": 16354,
                         "end": 18907
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "IfStatement",
@@ -12608,6 +12624,7 @@
                         "start": 19035,
                         "end": 20413
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -13946,6 +13963,7 @@
                         "start": 20505,
                         "end": 21525
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -14385,6 +14403,7 @@
                                             "start": 20930,
                                             "end": 21096
                                           },
+                                          "directives": [],
                                           "stmts": [
                                             {
                                               "type": "IfStatement",
@@ -15031,6 +15050,7 @@
                         "start": 21655,
                         "end": 22250
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -15732,6 +15752,7 @@
                         "start": 22353,
                         "end": 23130
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -16605,6 +16626,7 @@
                         "start": 23231,
                         "end": 23715
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -17135,6 +17157,7 @@
                         "start": 23811,
                         "end": 24410
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "IfStatement",
@@ -17839,6 +17862,7 @@
                         "start": 24527,
                         "end": 27403
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ExpressionStatement",
@@ -19456,6 +19480,7 @@
                         "start": 27477,
                         "end": 32327
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -22125,6 +22150,7 @@
                                                   "start": 31010,
                                                   "end": 31246
                                                 },
+                                                "directives": [],
                                                 "stmts": [
                                                   {
                                                     "type": "IfStatement",
@@ -23158,6 +23184,7 @@
                         "start": 32396,
                         "end": 33198
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -24036,6 +24063,7 @@
                         "start": 33297,
                         "end": 34042
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -24737,6 +24765,7 @@
                         "start": 34128,
                         "end": 34223
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ExpressionStatement",
@@ -24994,6 +25023,7 @@
                         "start": 34316,
                         "end": 35187
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "IfStatement",
@@ -25872,6 +25902,7 @@
                         "start": 35250,
                         "end": 35487
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ReturnStatement",

@@ -51,6 +51,26 @@ mod verifier;
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
+pub(crate) struct ParsedBody<T> {
+    pub directives: Vec<Directive>,
+    pub body: Vec<T>,
+}
+
+pub(crate) fn stmt_to_directive(stmt: Stmt) -> Result<Directive, Stmt> {
+    let Stmt::Expr(ExprStmt { span, expr }) = stmt else {
+        return Err(stmt);
+    };
+
+    let Expr::Lit(Lit::Str(expression)) = *expr else {
+        return Err(Stmt::Expr(ExprStmt { span, expr }));
+    };
+
+    let raw = expression
+        .raw
+        .expect("parsed string literals always preserve their raw source");
+    Ok(Directive::new(span, raw))
+}
+
 #[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
@@ -222,11 +242,14 @@ impl<I: Tokens> Parser<I> {
 
         let shebang = self.parse_shebang()?;
 
-        let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret =
+            self.parse_directive_block_body(None)
+                .map(|ParsedBody { directives, body }| Script {
+                    span: self.span(start),
+                    directives,
+                    body,
+                    shebang,
+                })?;
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
@@ -246,11 +269,14 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
-        let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret =
+            self.parse_directive_block_body(None)
+                .map(|ParsedBody { directives, body }| Script {
+                    span: self.span(start),
+                    directives,
+                    body,
+                    shebang,
+                })?;
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
@@ -271,13 +297,14 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
-        let ret = self
-            .parse_module_item_block_body(true, None)
-            .map(|body| Module {
-                span: self.span(start),
-                body,
-                shebang,
-            })?;
+        let ret =
+            self.parse_module_item_block_body(None)
+                .map(|ParsedBody { directives, body }| Module {
+                    span: self.span(start),
+                    directives,
+                    body,
+                    shebang,
+                })?;
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
@@ -294,9 +321,9 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
-        let body: Vec<ModuleItem> = self
+        let ParsedBody { directives, body }: ParsedBody<ModuleItem> = self
             .do_inside_of_context(Context::CanBeModule.union(Context::TopLevel), |p| {
-                p.parse_module_item_block_body(true, None)
+                p.parse_module_item_block_body(None)
             })?;
         let has_module_item = self.found_module_item
             || body
@@ -318,6 +345,7 @@ impl<I: Tokens> Parser<I> {
             }
             Program::Module(Module {
                 span: self.span(start),
+                directives,
                 body,
                 shebang,
             })
@@ -333,6 +361,7 @@ impl<I: Tokens> Parser<I> {
                 .collect();
             Program::Script(Script {
                 span: self.span(start),
+                directives,
                 body,
                 shebang,
             })
@@ -356,13 +385,14 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
-        let ret = self
-            .parse_module_item_block_body(true, None)
-            .map(|body| Module {
-                span: self.span(start),
-                body,
-                shebang,
-            })?;
+        let ret =
+            self.parse_module_item_block_body(None)
+                .map(|ParsedBody { directives, body }| Module {
+                    span: self.span(start),
+                    directives,
+                    body,
+                    shebang,
+                })?;
         if self.syntax().flow() {
             self.report_duplicate_exports(&ret.body);
         }

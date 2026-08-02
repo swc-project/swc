@@ -552,11 +552,7 @@ impl VisitMut for Resolver<'_> {
                     let old_strict_mode = child.strict_mode;
 
                     if !child.strict_mode {
-                        child.strict_mode = s
-                            .stmts
-                            .first()
-                            .map(|stmt| stmt.is_use_strict())
-                            .unwrap_or(false);
+                        child.strict_mode = s.directives.iter().any(Directive::is_use_strict);
                     }
                     s.visit_mut_with(child);
                     child.strict_mode = old_strict_mode;
@@ -907,11 +903,7 @@ impl VisitMut for Resolver<'_> {
         if let Some(body) = &mut f.body {
             let old_strict_mode = self.strict_mode;
             if !self.strict_mode {
-                self.strict_mode = body
-                    .stmts
-                    .first()
-                    .map(|stmt| stmt.is_use_strict())
-                    .unwrap_or(false);
+                self.strict_mode = body.directives.iter().any(Directive::is_use_strict);
             }
             body.visit_mut_with(self);
             self.strict_mode = old_strict_mode;
@@ -1134,11 +1126,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
-        self.strict_mode = script
-            .body
-            .first()
-            .map(|stmt| stmt.is_use_strict())
-            .unwrap_or(false);
+        self.strict_mode = script.directives.iter().any(Directive::is_use_strict);
         script.visit_mut_children_with(self)
     }
 

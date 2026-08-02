@@ -1,4 +1,5 @@
 //// [esDecorators-classExpression-namedEvaluation.9.ts]
+"use strict";
 //// [a.ts]
 //!   x Expression expected
 //!    ,-[3:1]

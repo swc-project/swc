@@ -5,6 +5,7 @@ export function b() {}
 b.cat = "cat";
 export function c() {}
 c.Cls = function _class() {
+    "use strict";
     _class_call_check(this, _class);
 };
 export function d(a, b) {

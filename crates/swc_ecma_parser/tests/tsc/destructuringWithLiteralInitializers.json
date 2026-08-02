@@ -4,6 +4,7 @@
     "start": 38,
     "end": 1326
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -89,6 +90,7 @@
           "start": 60,
           "end": 63
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -268,6 +270,7 @@
           "start": 152,
           "end": 155
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -515,6 +518,7 @@
           "start": 266,
           "end": 269
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -901,6 +905,7 @@
           "start": 410,
           "end": 413
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1143,6 +1148,7 @@
           "start": 523,
           "end": 526
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1432,6 +1438,7 @@
           "start": 649,
           "end": 652
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1862,6 +1869,7 @@
           "start": 818,
           "end": 821
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2283,6 +2291,7 @@
           "start": 962,
           "end": 965
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2454,6 +2463,7 @@
           "start": 1042,
           "end": 1045
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2633,6 +2643,7 @@
           "start": 1124,
           "end": 1127
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2843,6 +2854,7 @@
           "start": 1213,
           "end": 1216
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -3056,6 +3068,7 @@
           "start": 1305,
           "end": 1308
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,

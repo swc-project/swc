@@ -1,2 +1,2 @@
 //// [templateStringWhitespaceEscapes1.ts]
-"	\n\v\f\r";
+("	\n\v\f\r");

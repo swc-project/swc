@@ -4,7 +4,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, 
 use crate::{
     class::Decorator,
     pat::Pat,
-    stmt::Stmt,
+    stmt::{Directive, Stmt},
     typescript::{TsParamProp, TsThisParam, TsTypeAnn, TsTypeParamDecl},
 };
 
@@ -87,6 +87,10 @@ pub struct FunctionBody {
     /// Span including the braces.
     pub span: Span,
 
+    /// Directive prologue.
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub directives: Vec<Directive>,
+
     pub stmts: Vec<Stmt>,
 }
 
@@ -94,6 +98,7 @@ impl Take for FunctionBody {
     fn dummy() -> Self {
         FunctionBody {
             span: DUMMY_SP,
+            directives: Vec::new(),
             stmts: Vec::new(),
         }
     }

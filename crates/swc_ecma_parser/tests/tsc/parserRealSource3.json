@@ -4,6 +4,7 @@
     "start": 212,
     "end": 2118
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 230,
           "end": 2118
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",

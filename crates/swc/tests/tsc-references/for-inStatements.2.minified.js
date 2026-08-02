@@ -33,6 +33,7 @@ for(var x in function(x, y) {
 });
 for(var x in i[42]);
 for(var x in (M || (M = {})).X = function X() {
+    "use strict";
     _class_call_check(this, X);
 }, M);
 for(var x in M.X);

@@ -1,6 +1,7 @@
 //// [test.ts]
 var global, factory;
 global = this, factory = function(exports1, _async_to_generator, _interop_require_wildcard) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     });

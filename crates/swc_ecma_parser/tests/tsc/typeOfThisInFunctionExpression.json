@@ -4,6 +4,7 @@
     "start": 49,
     "end": 610
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -31,6 +32,7 @@
           "start": 63,
           "end": 100
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -166,6 +168,7 @@
                 "start": 122,
                 "end": 159
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -314,6 +317,7 @@
                 "start": 183,
                 "end": 220
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -460,6 +464,7 @@
                 "start": 252,
                 "end": 301
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -602,6 +607,7 @@
                 "start": 324,
                 "end": 373
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -737,6 +743,7 @@
           "start": 386,
           "end": 610
         },
+        "directives": [],
         "body": [
           {
             "type": "FunctionDeclaration",
@@ -764,6 +771,7 @@
                 "start": 406,
                 "end": 455
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -899,6 +907,7 @@
                       "start": 481,
                       "end": 530
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "VariableDeclaration",
@@ -1047,6 +1056,7 @@
                       "start": 558,
                       "end": 607
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "VariableDeclaration",

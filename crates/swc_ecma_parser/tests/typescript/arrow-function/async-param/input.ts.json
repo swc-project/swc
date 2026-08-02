@@ -4,6 +4,7 @@
     "start": 1,
     "end": 128
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -69,6 +70,7 @@
                 "start": 25,
                 "end": 27
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -160,6 +162,7 @@
                 "start": 57,
                 "end": 59
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -235,6 +238,7 @@
                 "start": 87,
                 "end": 89
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -338,6 +342,7 @@
                 "start": 125,
                 "end": 127
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,

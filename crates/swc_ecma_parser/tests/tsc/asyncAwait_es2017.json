@@ -4,6 +4,7 @@
     "start": 20,
     "end": 1053
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -324,6 +325,7 @@
           "start": 179,
           "end": 182
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -357,6 +359,7 @@
           "start": 218,
           "end": 221
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -430,6 +433,7 @@
           "start": 259,
           "end": 262
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -520,6 +524,7 @@
                 "start": 290,
                 "end": 293
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -574,6 +579,7 @@
                 "start": 335,
                 "end": 338
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -668,6 +674,7 @@
                 "start": 382,
                 "end": 385
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -760,6 +767,7 @@
                 "start": 408,
                 "end": 411
               },
+              "directives": [],
               "stmts": []
             },
             "async": true,
@@ -812,6 +820,7 @@
                 "start": 449,
                 "end": 452
               },
+              "directives": [],
               "stmts": []
             },
             "async": true,
@@ -904,6 +913,7 @@
                 "start": 492,
                 "end": 495
               },
+              "directives": [],
               "stmts": []
             },
             "async": true,
@@ -1308,6 +1318,7 @@
                     "start": 658,
                     "end": 661
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -1338,6 +1349,7 @@
                     "start": 690,
                     "end": 693
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -1408,6 +1420,7 @@
                     "start": 724,
                     "end": 727
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -1509,6 +1522,7 @@
                 "start": 754,
                 "end": 757
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -1551,6 +1565,7 @@
                 "start": 785,
                 "end": 788
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -1633,6 +1648,7 @@
                 "start": 818,
                 "end": 821
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -1715,6 +1731,7 @@
                 "start": 841,
                 "end": 844
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -1757,6 +1774,7 @@
                 "start": 879,
                 "end": 882
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -1839,6 +1857,7 @@
                 "start": 919,
                 "end": 922
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -1925,6 +1944,7 @@
           "start": 935,
           "end": 970
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -1958,6 +1978,7 @@
                   "start": 965,
                   "end": 968
                 },
+                "directives": [],
                 "stmts": []
               },
               "generator": false,
@@ -1995,6 +2016,7 @@
           "start": 993,
           "end": 1053
         },
+        "directives": [],
         "stmts": [
           {
             "type": "LabeledStatement",

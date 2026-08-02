@@ -539,6 +539,7 @@ impl Decorators {
                                                     span: DUMMY_SP,
                                                     arg: Some(value),
                                                 })],
+                                                ..Default::default()
                                             }),
                                             ..Default::default()
                                         }
@@ -582,14 +583,12 @@ impl Decorators {
 
                     body: Some(FunctionBody {
                         span: DUMMY_SP,
-                        stmts: if !self.is_in_strict {
-                            // 'use strict';
-                            Some(Lit::Str(quote_str!("use strict")).into_stmt())
+                        directives: if self.is_in_strict {
+                            Vec::new()
                         } else {
-                            None
-                        }
-                        .into_iter()
-                        .chain(iter::once(
+                            vec![Directive::use_strict(DUMMY_SP)]
+                        },
+                        stmts: iter::once(
                             ClassDecl {
                                 ident: ident.clone(),
                                 class: Class {
@@ -601,7 +600,7 @@ impl Decorators {
                                 declare: false,
                             }
                             .into(),
-                        ))
+                        )
                         .chain(iter::once(
                             ReturnStmt {
                                 span: DUMMY_SP,

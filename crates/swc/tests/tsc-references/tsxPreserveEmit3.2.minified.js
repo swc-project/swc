@@ -1,16 +1,21 @@
 //// [tsxPreserveEmit3.tsx]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [file.tsx]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [test.d.ts]
 define([
     "require",
     "exports"
 ], function(require, exports) {
+    "use strict";
     var React;
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -27,6 +32,7 @@ define([
     "exports",
     "./test"
 ], function(require, exports, _test) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });

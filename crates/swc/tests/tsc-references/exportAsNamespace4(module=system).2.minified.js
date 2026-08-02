@@ -1,5 +1,6 @@
 //// [0.ts]
 System.register([], function(_export, _context) {
+    "use strict";
     return _export({
         a: void 0,
         b: void 0
@@ -14,6 +15,7 @@ System.register([], function(_export, _context) {
 System.register([
     "./0"
 ], function(_export, _context) {
+    "use strict";
     return _export("default", void 0), {
         setters: [
             function(_0_ns) {
@@ -27,6 +29,7 @@ System.register([
 System.register([
     "./0"
 ], function(_export, _context) {
+    "use strict";
     var ns;
     return _export("default", void 0), {
         setters: [
@@ -44,6 +47,7 @@ System.register([
     "./1",
     "./11"
 ], function(_export, _context) {
+    "use strict";
     var foo, foo1;
     return {
         setters: [

@@ -6,6 +6,7 @@ define([
     "@swc/helpers/_/_object_spread_props",
     "react"
 ], function(require, exports, _object_spread, _object_spread_props, React) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "MainButton", {

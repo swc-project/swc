@@ -1,12 +1,15 @@
 //// [exportsAndImports2-amd.ts]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [t1.ts]
 define([
     "require",
     "exports"
 ], function(require, exports) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
@@ -30,6 +33,7 @@ define([
     "exports",
     "./t1"
 ], function(require, exports, _t1) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
@@ -52,6 +56,7 @@ define([
     "exports",
     "./t1"
 ], function(require, exports, _t1) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });

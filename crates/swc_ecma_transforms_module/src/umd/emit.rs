@@ -15,6 +15,7 @@ pub(super) struct EmitModule {
 }
 
 pub(super) fn emit(
+    directives: Vec<Directive>,
     stmts: Vec<Stmt>,
     module: EmitModule,
     cm: &Lrc<SourceMap>,
@@ -31,6 +32,7 @@ pub(super) fn emit(
         span: DUMMY_SP,
         body: Some(FunctionBody {
             span: DUMMY_SP,
+            directives,
             stmts,
         }),
         is_generator: false,
@@ -221,6 +223,7 @@ fn emit_adapter(
     let adapter_body = FunctionBody {
         span: DUMMY_SP,
         stmts: vec![if_stmt(cjs_if_test, cjs_if_body, Some(amd_if))],
+        ..Default::default()
     };
 
     let adapter_fn_expr = Function {

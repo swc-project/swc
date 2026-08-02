@@ -4,6 +4,7 @@
     "start": 166,
     "end": 988
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -51,6 +52,7 @@
           "start": 180,
           "end": 192
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -205,6 +207,7 @@
                 "start": 303,
                 "end": 315
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -280,6 +283,7 @@
           "start": 370,
           "end": 382
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -434,6 +438,7 @@
                 "start": 497,
                 "end": 509
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -509,6 +514,7 @@
           "start": 608,
           "end": 625
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -643,6 +649,7 @@
           "start": 831,
           "end": 877
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",

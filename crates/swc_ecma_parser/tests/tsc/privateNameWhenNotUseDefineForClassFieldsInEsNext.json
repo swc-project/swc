@@ -4,6 +4,7 @@
     "start": 80,
     "end": 1266
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -220,6 +221,7 @@
                       "start": 240,
                       "end": 297
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
@@ -338,6 +340,7 @@
                             "start": 352,
                             "end": 457
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "ExpressionStatement",
@@ -483,6 +486,7 @@
                       "start": 487,
                       "end": 677
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",
@@ -528,6 +532,7 @@
                                     "start": 536,
                                     "end": 653
                                   },
+                                  "directives": [],
                                   "stmts": [
                                     {
                                       "type": "ExpressionStatement",
@@ -889,6 +894,7 @@
                       "start": 831,
                       "end": 887
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
@@ -1007,6 +1013,7 @@
                             "start": 935,
                             "end": 1039
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "ExpressionStatement",
@@ -1152,6 +1159,7 @@
                       "start": 1069,
                       "end": 1258
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",
@@ -1197,6 +1205,7 @@
                                     "start": 1118,
                                     "end": 1234
                                   },
+                                  "directives": [],
                                   "stmts": [
                                     {
                                       "type": "ExpressionStatement",

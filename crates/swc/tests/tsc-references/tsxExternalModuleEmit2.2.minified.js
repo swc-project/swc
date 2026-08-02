@@ -1,6 +1,9 @@
 //// [tsxExternalModuleEmit2.tsx]
+"use strict";
 //// [modules.d.ts]
+"use strict";
 //// [app.tsx]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

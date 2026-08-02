@@ -9,7 +9,7 @@ use crate::module_record::{
 /// Source module after module syntax is stripped from the executable body.
 #[derive(Debug)]
 pub(crate) struct SyntaxStrippedModule {
-    pub directives: Vec<Stmt>,
+    pub directives: Vec<Directive>,
     pub has_use_strict: bool,
     pub requested_modules: RequestedModules,
     pub local_export_entries: LocalExportEntries,

@@ -1,3 +1,4 @@
+"use strict";
 var e, t = require("@firebase/util"), n = require("tslib"), r = require("@firebase/component"), i = require("@firebase/app"), a = require("@firebase/logger"), o = function(e) {
     if (e && e.__esModule) return e;
     var t = Object.create(null);

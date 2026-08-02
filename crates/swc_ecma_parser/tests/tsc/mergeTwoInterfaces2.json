@@ -4,6 +4,7 @@
     "start": 107,
     "end": 752
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 117,
           "end": 226
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -298,6 +300,7 @@
           "start": 238,
           "end": 347
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -566,6 +569,7 @@
           "start": 416,
           "end": 578
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -598,6 +602,7 @@
                   "start": 439,
                   "end": 576
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",
@@ -870,6 +875,7 @@
           "start": 590,
           "end": 752
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -902,6 +908,7 @@
                   "start": 613,
                   "end": 750
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",

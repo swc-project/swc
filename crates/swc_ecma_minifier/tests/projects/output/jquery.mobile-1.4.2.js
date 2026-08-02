@@ -788,6 +788,7 @@
     //         extra awesomeness that BBQ provides. This plugin will be included as
     //         part of jQuery BBQ, but also be available separately.
     function($, window) {
+        "$:nomunge"; // Used by YUI compressor.
         // Reused string.
         var fake_onhashchange, str_hashchange = "hashchange", special = $.event.special, // Does the browser support window.onhashchange? Note that IE8 running in
         // IE7 compatibility mode reports true for 'onhashchange' in window, even

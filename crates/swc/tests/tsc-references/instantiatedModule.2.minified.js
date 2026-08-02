@@ -3,6 +3,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (M || (M = {})).Point = 1;
 var M3, Color, m2, a2, m3, a3, M, M2, M31, m = M;
 M.Point, m.Point, (M2 || (M2 = {})).Point = /*#__PURE__*/ function() {
+    "use strict";
     function Point() {
         _class_call_check(this, Point);
     }

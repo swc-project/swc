@@ -4,6 +4,7 @@
     "start": 500,
     "end": 1474
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -53,6 +54,7 @@
                 "start": 540,
                 "end": 566
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -112,6 +114,7 @@
                 "start": 586,
                 "end": 611
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -171,6 +174,7 @@
                 "start": 630,
                 "end": 658
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -249,6 +253,7 @@
               "start": 727,
               "end": 804
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -416,6 +421,7 @@
                 "start": 815,
                 "end": 911
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -644,6 +650,7 @@
                 "start": 925,
                 "end": 1006
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -830,6 +837,7 @@
                 "start": 1021,
                 "end": 1081
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -982,6 +990,7 @@
                 "start": 1099,
                 "end": 1159
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -1134,6 +1143,7 @@
                 "start": 1180,
                 "end": 1261
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -1320,6 +1330,7 @@
                 "start": 1283,
                 "end": 1343
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -1472,6 +1483,7 @@
                 "start": 1362,
                 "end": 1404
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",

@@ -63,9 +63,6 @@
 //! If you want to prepend statements to the beginning of a file, you can use
 //! [swc_ecma_utils::prepend_stmts] or [swc_ecma_utils::prepend] if `len == 1`.
 //!
-//! These methods are aware of the fact that `"use strict"` directive should be
-//! first in a file, and insert statements after directives.
-//!
 //! ### Improving readability
 //!
 //! Each stuffs are documented at itself.
@@ -299,6 +296,7 @@ fn downgrade_flow_script_like_module(program: Program) -> Result<Program, Error>
 
     let Module {
         span,
+        directives,
         body,
         shebang,
     } = module;
@@ -316,6 +314,7 @@ fn downgrade_flow_script_like_module(program: Program) -> Result<Program, Error>
 
     Ok(Program::Script(Script {
         span,
+        directives,
         body,
         shebang,
     }))

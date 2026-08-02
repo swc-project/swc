@@ -4,6 +4,7 @@
     "start": 62,
     "end": 1124
   },
+  "directives": [],
   "body": [
     {
       "type": "ForStatement",
@@ -227,6 +228,7 @@
           "start": 238,
           "end": 285
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ForStatement",
@@ -1326,6 +1328,7 @@
                   "start": 693,
                   "end": 707
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",

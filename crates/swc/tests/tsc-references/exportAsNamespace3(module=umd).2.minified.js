@@ -1,6 +1,7 @@
 //// [0.ts]
 var global, factory;
 global = this, factory = function(exports1) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     });
@@ -23,6 +24,7 @@ global = this, factory = function(exports1) {
 //// [1.ts]
 var global, factory;
 global = this, factory = function(exports1, _interop_require_wildcard, _0) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), Object.defineProperty(exports1, "ns", {
@@ -44,6 +46,7 @@ global = this, factory = function(exports1, _interop_require_wildcard, _0) {
 //// [2.ts]
 var global, factory;
 global = this, factory = function(exports1, _interop_require_wildcard, _1) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), (_1 = /*#__PURE__*/ _interop_require_wildcard._(_1)).ns.a, _1.ns.b;

@@ -4,6 +4,7 @@
     "start": 1,
     "end": 949
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 19,
           "end": 468
         },
+        "directives": [],
         "body": [
           {
             "type": "ClassDeclaration",
@@ -107,6 +109,7 @@
                     "start": 66,
                     "end": 69
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "accessibility": null,
@@ -418,6 +421,7 @@
                     "start": 245,
                     "end": 248
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "accessibility": null,
@@ -851,6 +855,7 @@
           "start": 486,
           "end": 949
         },
+        "directives": [],
         "body": [
           {
             "type": "ClassDeclaration",
@@ -938,6 +943,7 @@
                     "start": 531,
                     "end": 534
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "accessibility": null,
@@ -1342,6 +1348,7 @@
                     "start": 711,
                     "end": 714
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "accessibility": null,

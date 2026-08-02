@@ -4,6 +4,7 @@
     "start": 8,
     "end": 73
   },
+  "directives": [],
   "body": [
     {
       "type": "ImportDeclaration",

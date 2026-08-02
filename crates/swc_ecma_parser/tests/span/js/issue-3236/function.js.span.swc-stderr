@@ -94,38 +94,3 @@
  2 | |       "use strict";
  3 | `-> }
    `----
-  x Stmt
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:1]
- 1 | function f(a = 0) {
- 2 |     "use strict";
-   :     ^^^^^^^^^^^^^
- 3 | }
-   `----
-  x ExprStmt
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:1]
- 1 | function f(a = 0) {
- 2 |     "use strict";
-   :     ^^^^^^^^^^^^^
- 3 | }
-   `----
-  x Expr
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:1]
- 1 | function f(a = 0) {
- 2 |     "use strict";
-   :     ^^^^^^^^^^^^
- 3 | }
-   `----
-  x Lit
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:1]
- 1 | function f(a = 0) {
- 2 |     "use strict";
-   :     ^^^^^^^^^^^^
- 3 | }
-   `----
-  x Str
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:1]
- 1 | function f(a = 0) {
- 2 |     "use strict";
-   :     ^^^^^^^^^^^^
- 3 | }
-   `----

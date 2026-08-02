@@ -1,5 +1,7 @@
 //// [exportsAndImports3-es6.ts]
+"use strict";
 //// [t1.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -59,6 +61,7 @@ var E1 = ((E = {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E), D1 = 
 M || (M = {});
 let a = M.x;
 //// [t2.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -100,6 +103,7 @@ for(var name in all)Object.defineProperty(target, name, {
 });
 let _t1 = require("./t1");
 //// [t3.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

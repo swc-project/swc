@@ -4,6 +4,7 @@
     "start": 131,
     "end": 2336
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -51,6 +52,7 @@
           "start": 158,
           "end": 194
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -180,6 +182,7 @@
               "start": 260,
               "end": 305
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -337,6 +340,7 @@
               "start": 407,
               "end": 410
             },
+            "directives": [],
             "stmts": []
           },
           "generator": false,
@@ -554,6 +558,7 @@
               "start": 572,
               "end": 618
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -675,6 +680,7 @@
               "start": 669,
               "end": 749
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -818,6 +824,7 @@
                 "start": 940,
                 "end": 1228
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "IfStatement",
@@ -1259,6 +1266,7 @@
           "start": 1449,
           "end": 1487
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1356,6 +1364,7 @@
               "start": 1549,
               "end": 1573
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -1488,6 +1497,7 @@
               "start": 1652,
               "end": 1711
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -1617,6 +1627,7 @@
                 "start": 1805,
                 "end": 1841
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -1853,6 +1864,7 @@
           "start": 1991,
           "end": 2021
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1956,6 +1968,7 @@
                 "start": 2121,
                 "end": 2156
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",

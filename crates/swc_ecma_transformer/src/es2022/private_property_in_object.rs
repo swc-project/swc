@@ -331,6 +331,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                     params: Default::default(),
                     body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                         span: bs.span,
+                        directives: Vec::new(),
                         stmts: bs.stmts,
                     })),
                     is_async: false,

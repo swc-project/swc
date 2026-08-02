@@ -35,14 +35,12 @@ pub(crate) fn assign_value_to_this_private_prop(
 pub(crate) struct Factory;
 
 impl Factory {
-    pub(crate) fn function(params: Vec<Param>, body: BlockStmt) -> Function {
-        let BlockStmt { span, stmts, .. } = body;
-
+    pub(crate) fn function(params: Vec<Param>, body: FunctionBody) -> Function {
         Function {
             params,
             decorators: Default::default(),
             span: DUMMY_SP,
-            body: Some(FunctionBody { span, stmts }),
+            body: Some(body),
             is_generator: false,
             is_async: false,
             ..Default::default()

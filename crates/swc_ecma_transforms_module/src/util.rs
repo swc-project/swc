@@ -214,10 +214,6 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
     .into_stmt()
 }
 
-pub(super) fn use_strict() -> Stmt {
-    Lit::Str(quote_str!("use strict")).into_stmt()
-}
-
 pub(crate) fn object_define_enumerable(
     target: ExprOrSpread,
     prop_name: ExprOrSpread,
@@ -303,6 +299,7 @@ pub(crate) fn esm_export() -> Function {
         body: Some(FunctionBody {
             span: DUMMY_SP,
             stmts: vec![for_in_stmt],
+            ..Default::default()
         }),
         ..Default::default()
     }
@@ -432,6 +429,7 @@ fn getter_function((key, export_item): ExportBinding) -> Prop {
             body: Some(FunctionBody {
                 span: DUMMY_SP,
                 stmts: vec![export_item.into_local_ident().into_return_stmt().into()],
+                ..Default::default()
             }),
             ..Default::default()
         }),

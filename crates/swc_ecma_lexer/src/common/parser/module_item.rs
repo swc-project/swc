@@ -7,7 +7,7 @@ use super::{
     class_and_fn::{parse_default_async_fn, parse_default_fn, parse_fn_decl},
     expr::parse_assignment_expr,
     ident::{parse_ident, parse_ident_name, parse_module_export_name},
-    stmt::{parse_block_body, parse_stmt_like, parse_var_stmt},
+    stmt::{parse_block_body, parse_stmt_like, parse_var_stmt, ParsedBody},
     typescript::{parse_ts_import_equals_decl, try_parse_ts_declare, try_parse_ts_export_decl},
     PResult, Parser,
 };
@@ -55,10 +55,9 @@ fn handle_import_export<'a, P: Parser<'a>>(
 
 pub fn parse_module_item_block_body<'a, P: Parser<'a>>(
     p: &mut P,
-    allow_directives: bool,
     end: Option<&P::Token>,
-) -> PResult<Vec<ModuleItem>> {
-    parse_block_body(p, allow_directives, end, handle_import_export)
+) -> PResult<ParsedBody<ModuleItem>> {
+    parse_block_body(p, end, handle_import_export)
 }
 
 /// Parses `from 'foo.js' with {};` or `from 'foo.js' assert {};`

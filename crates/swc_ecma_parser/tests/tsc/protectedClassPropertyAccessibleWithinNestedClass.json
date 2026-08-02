@@ -4,6 +4,7 @@
     "start": 31,
     "end": 955
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -93,6 +94,7 @@
                 "start": 88,
                 "end": 106
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -185,6 +187,7 @@
                 "start": 130,
                 "end": 150
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -287,6 +290,7 @@
                 "start": 171,
                 "end": 191
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -399,6 +403,7 @@
                 "start": 254,
                 "end": 272
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -491,6 +496,7 @@
                 "start": 303,
                 "end": 323
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -593,6 +599,7 @@
                 "start": 351,
                 "end": 371
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -665,6 +672,7 @@
                 "start": 399,
                 "end": 414
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -747,6 +755,7 @@
                 "start": 436,
                 "end": 953
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",
@@ -796,6 +805,7 @@
                             "start": 485,
                             "end": 937
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "VariableDeclaration",

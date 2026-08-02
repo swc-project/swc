@@ -4,6 +4,7 @@
     "start": 68,
     "end": 1101
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -70,6 +71,7 @@
           "start": 102,
           "end": 105
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -168,6 +170,7 @@
                 "start": 148,
                 "end": 151
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -261,6 +264,7 @@
                 "start": 192,
                 "end": 195
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -336,6 +340,7 @@
                 "start": 223,
                 "end": 226
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -459,6 +464,7 @@
                 "start": 262,
                 "end": 265
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -593,6 +599,7 @@
           "start": 318,
           "end": 321
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -719,6 +726,7 @@
                 "start": 381,
                 "end": 384
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -840,6 +848,7 @@
                 "start": 441,
                 "end": 444
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -943,6 +952,7 @@
                 "start": 495,
                 "end": 498
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -1066,6 +1076,7 @@
                 "start": 542,
                 "end": 545
               },
+              "directives": [],
               "stmts": []
             },
             "async": false,
@@ -1194,6 +1205,7 @@
                 "start": 586,
                 "end": 589
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -1303,6 +1315,7 @@
                 "start": 636,
                 "end": 639
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -1432,6 +1445,7 @@
                 "start": 679,
                 "end": 682
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -2108,6 +2122,7 @@
                     "start": 995,
                     "end": 998
                   },
+                  "directives": [],
                   "stmts": []
                 },
                 "generator": false,
@@ -2217,6 +2232,7 @@
                       "start": 1050,
                       "end": 1053
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "generator": false,
@@ -2320,6 +2336,7 @@
                       "start": 1096,
                       "end": 1099
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "async": false,

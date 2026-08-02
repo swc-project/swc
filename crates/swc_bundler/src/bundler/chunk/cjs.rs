@@ -81,6 +81,7 @@ where
             info.id,
             Module {
                 span: DUMMY_SP,
+                directives: Vec::new(),
                 body: vec![stmt],
                 shebang: None,
             },
@@ -134,6 +135,7 @@ fn wrap_module(
             span: DUMMY_SP,
             body: Some(FunctionBody {
                 span: dep.span,
+                directives: dep.directives,
                 stmts: dep
                     .body
                     .into_iter()

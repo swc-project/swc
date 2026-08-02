@@ -1,4 +1,5 @@
 //// [declarationEmitThisPredicatesWithPrivateName01.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "C", {
@@ -8,6 +9,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _instanceof = require("@swc/helpers/_/_instanceof"), C = /*#__PURE__*/ function() {
+    "use strict";
     function C() {
         _class_call_check._(this, C);
     }
@@ -15,6 +17,7 @@ var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = req
         return _instanceof._(this, D);
     }, C;
 }(), D = /*#__PURE__*/ function(C) {
+    "use strict";
     function D() {
         return _class_call_check._(this, D), _call_super._(this, D, arguments);
     }

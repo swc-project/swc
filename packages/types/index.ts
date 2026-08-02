@@ -2229,12 +2229,14 @@ export type Program = Module | Script;
 export interface Module extends Node, HasSpan, HasInterpreter {
     type: "Module";
 
+    directives: Directive[];
     body: ModuleItem[];
 }
 
 export interface Script extends Node, HasSpan, HasInterpreter {
     type: "Script";
 
+    directives: Directive[];
     body: Statement[];
 }
 
@@ -2430,7 +2432,14 @@ export interface BlockStatement extends Node, HasSpan {
 export interface FunctionBody extends Node, HasSpan {
     type: "FunctionBody";
 
+    directives: Directive[];
     stmts: Statement[];
+}
+
+export interface Directive extends Node, HasSpan {
+    type: "Directive";
+
+    raw: string;
 }
 
 export interface ExpressionStatement extends Node, HasSpan {
@@ -3034,6 +3043,7 @@ export type TsNamespaceBody = TsModuleBlock | TsNamespaceDeclaration;
 export interface TsModuleBlock extends Node, HasSpan {
     type: "TsModuleBlock";
 
+    directives: Directive[];
     body: ModuleItem[];
 }
 

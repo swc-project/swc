@@ -3,15 +3,19 @@ import "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_inherits";
 var M, N, M1, N1, C = function C() {
+    "use strict";
     _class_call_check(this, C);
 }, D = function D() {
+    "use strict";
     _class_call_check(this, D);
 };
 for((M = M1 || (M1 = {})).A = function A() {
+    "use strict";
     _class_call_check(this, A);
 }, M.F2 = function(x) {
     return x.toString();
 }, (N = N1 || (N1 = {})).A = function A() {
+    "use strict";
     _class_call_check(this, A);
 }, N.F2 = function(x) {
     return x.toString();

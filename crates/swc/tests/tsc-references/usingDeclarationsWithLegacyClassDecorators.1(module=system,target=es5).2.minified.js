@@ -5,6 +5,7 @@ System.register([
     "@swc/helpers/_/_ts_decorate",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
+    "use strict";
     var C, _class_call_check, _ts_add_disposable_resource, _ts_decorate, _ts_dispose_resources, env;
     return {
         setters: [
@@ -29,6 +30,7 @@ System.register([
             };
             try {
                 _ts_add_disposable_resource(env, null, !1), C = function C() {
+                    "use strict";
                     _class_call_check(this, C);
                 }, C = _ts_decorate([
                     dec

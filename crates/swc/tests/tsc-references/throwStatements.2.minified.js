@@ -3,6 +3,7 @@ var M, M1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_type_of";
 throw (M1 = M || (M = {})).A = function A() {
+    "use strict";
     _class_call_check(this, A);
 }, M1.F2 = function(x) {
     return x.toString();

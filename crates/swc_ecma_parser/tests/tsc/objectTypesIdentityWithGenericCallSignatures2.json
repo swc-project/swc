@@ -4,6 +4,7 @@
     "start": 45,
     "end": 2299
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -140,6 +141,7 @@
                 "start": 84,
                 "end": 100
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -387,6 +389,7 @@
                 "start": 143,
                 "end": 159
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -634,6 +637,7 @@
                 "start": 202,
                 "end": 218
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -1502,6 +1506,7 @@
                     "start": 385,
                     "end": 398
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ReturnStatement",
@@ -1785,6 +1790,7 @@
           "start": 476,
           "end": 479
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2040,6 +2046,7 @@
           "start": 589,
           "end": 592
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2295,6 +2302,7 @@
           "start": 702,
           "end": 705
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2550,6 +2558,7 @@
           "start": 812,
           "end": 815
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2757,6 +2766,7 @@
           "start": 904,
           "end": 907
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2964,6 +2974,7 @@
           "start": 996,
           "end": 999
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -3195,6 +3206,7 @@
           "start": 1087,
           "end": 1090
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -3426,6 +3438,7 @@
           "start": 1181,
           "end": 1184
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -3657,6 +3670,7 @@
           "start": 1272,
           "end": 1275
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -3864,6 +3878,7 @@
           "start": 1366,
           "end": 1369
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -4119,6 +4134,7 @@
           "start": 1476,
           "end": 1479
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -4374,6 +4390,7 @@
           "start": 1586,
           "end": 1589
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -4605,6 +4622,7 @@
           "start": 1687,
           "end": 1690
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -4836,6 +4854,7 @@
           "start": 1788,
           "end": 1791
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -5091,6 +5110,7 @@
           "start": 1901,
           "end": 1904
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -5322,6 +5342,7 @@
           "start": 1999,
           "end": 2002
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -5553,6 +5574,7 @@
           "start": 2100,
           "end": 2103
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -5784,6 +5806,7 @@
           "start": 2201,
           "end": 2204
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -6015,6 +6038,7 @@
           "start": 2296,
           "end": 2299
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,

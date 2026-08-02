@@ -4,6 +4,7 @@
     "start": 43,
     "end": 662
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -216,6 +217,7 @@
           "start": 250,
           "end": 573
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ClassDeclaration",
@@ -265,6 +267,7 @@
                       "start": 496,
                       "end": 498
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "generator": false,
@@ -321,6 +324,7 @@
                       "start": 540,
                       "end": 542
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "generator": false,
@@ -555,6 +559,7 @@
                 "start": 658,
                 "end": 660
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,

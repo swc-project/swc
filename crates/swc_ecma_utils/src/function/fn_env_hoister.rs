@@ -352,6 +352,7 @@ impl VisitMut for FnEnvHoister {
                         arg: Some(expr.take()),
                     }),
                 ],
+                ..Default::default()
             });
         }
     }
@@ -668,6 +669,7 @@ fn extend_super(
                                     .as_call(DUMMY_SP, Default::default())
                                     .into_return_stmt()
                                     .into()],
+                                    ..Default::default()
                                 }),
                                 ..Default::default()
                             }),
@@ -688,6 +690,7 @@ fn extend_super(
                                     )
                                     .as_call(DUMMY_SP, vec![value.as_arg()])
                                     .into_stmt()],
+                                    ..Default::default()
                                 }),
                                 ..Default::default()
                             }),
@@ -733,6 +736,7 @@ fn extend_super(
                                             .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
                                             .into_return_stmt()
                                             .into()],
+                                            ..Default::default()
                                         }),
                                         ..Default::default()
                                     }),
@@ -753,6 +757,7 @@ fn extend_super(
                                             .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
                                             .into_return_stmt()
                                             .into()],
+                                            ..Default::default()
                                         }),
                                         ..Default::default()
                                     }),

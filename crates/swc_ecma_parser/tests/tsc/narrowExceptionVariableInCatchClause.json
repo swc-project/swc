@@ -4,6 +4,7 @@
     "start": 1,
     "end": 587
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -196,6 +197,7 @@
           "start": 95,
           "end": 587
         },
+        "directives": [],
         "stmts": [
           {
             "type": "TryStatement",

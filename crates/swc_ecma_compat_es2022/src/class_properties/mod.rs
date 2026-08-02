@@ -177,6 +177,7 @@ impl VisitMut for ClassProperties {
                 *body = ArrowFunctionBody::FunctionBody(FunctionBody {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
             _ => body.visit_mut_children_with(self),

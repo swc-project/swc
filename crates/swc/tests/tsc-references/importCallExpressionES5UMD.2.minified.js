@@ -1,6 +1,7 @@
 //// [0.ts]
 var global, factory;
 global = this, factory = function(exports1) {
+    "use strict";
     function foo() {
         return "foo";
     }
@@ -18,6 +19,7 @@ global = this, factory = function(exports1) {
 //// [1.ts]
 var global, factory;
 global = this, factory = function(exports1, _class_call_check, _interop_require_wildcard) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     });
@@ -37,6 +39,7 @@ global = this, factory = function(exports1, _class_call_check, _interop_require_
         return zero.foo();
     });
     var p2 = import("./0"), D = /*#__PURE__*/ function() {
+        "use strict";
         function D() {
             _class_call_check._(this, D);
         }

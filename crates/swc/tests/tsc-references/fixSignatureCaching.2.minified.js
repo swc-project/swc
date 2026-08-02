@@ -10,6 +10,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
     };
     throw Error('unknown environment');
 })()(function() {
+    'use strict';
     var impl = {};
     impl.mobileDetectRules = {
         phones: {

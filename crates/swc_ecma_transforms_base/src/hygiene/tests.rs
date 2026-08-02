@@ -131,6 +131,7 @@ where
         |tester| {
             Ok(Module {
                 span: DUMMY_SP,
+                directives: Vec::new(),
                 body: op(tester)?.into_iter().map(ModuleItem::Stmt).collect(),
                 shebang: None,
             })
@@ -651,6 +652,7 @@ fn mark_root() {
                                     "_define_property(this, 'bar', foo);",
                                 )?,
                             ],
+                            ..Default::default()
                         }),
                         params: Vec::new(),
                         ..Default::default()
@@ -731,6 +733,7 @@ fn fn_args() {
                         stmts: vec![tester
                             .parse_stmt("actual1.js", "_define_property(this, 'force', force);")?
                             .fold_with(&mut marker(&[("force", mark2)]))],
+                        ..Default::default()
                     }),
                     params: vec![Param {
                         span: DUMMY_SP,
@@ -776,6 +779,7 @@ fn block_in_fn() {
                                 .parse_stmt("actual2.js", "{ var bar; }")?
                                 .fold_with(&mut marker(&[("bar", mark2)])),
                         ],
+                        ..Default::default()
                     }),
                     params: Vec::new(),
                     ..Default::default()
@@ -828,6 +832,7 @@ fn flat_in_fn() {
                                 .parse_stmt("actual2.js", "var bar;")?
                                 .fold_with(&mut marker(&[("bar", mark2)])),
                         ],
+                        ..Default::default()
                     }),
                     params: Vec::new(),
                     ..Default::default()

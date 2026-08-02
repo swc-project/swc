@@ -346,6 +346,22 @@ pub trait VisitHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_default_decl(&mut self, node: &DefaultDecl, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `Directive` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_directive(&mut self, node: &Directive, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `Directive` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_directive(&mut self, node: &Directive, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `Vec < Directive >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_directives(&mut self, node: &[Directive], ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `Vec < Directive >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_directives(&mut self, node: &[Directive], ctx: &mut C) {}
     #[doc = "Called when entering a node of type `DoWhileStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -3059,6 +3075,30 @@ where
     fn exit_default_decl(&mut self, node: &DefaultDecl, ctx: &mut C) {
         self.second.exit_default_decl(node, ctx);
         self.first.exit_default_decl(node, ctx);
+    }
+
+    #[inline]
+    fn enter_directive(&mut self, node: &Directive, ctx: &mut C) {
+        self.first.enter_directive(node, ctx);
+        self.second.enter_directive(node, ctx);
+    }
+
+    #[inline]
+    fn exit_directive(&mut self, node: &Directive, ctx: &mut C) {
+        self.second.exit_directive(node, ctx);
+        self.first.exit_directive(node, ctx);
+    }
+
+    #[inline]
+    fn enter_directives(&mut self, node: &[Directive], ctx: &mut C) {
+        self.first.enter_directives(node, ctx);
+        self.second.enter_directives(node, ctx);
+    }
+
+    #[inline]
+    fn exit_directives(&mut self, node: &[Directive], ctx: &mut C) {
+        self.second.exit_directives(node, ctx);
+        self.first.exit_directives(node, ctx);
     }
 
     #[inline]
@@ -6839,6 +6879,38 @@ where
         match self {
             Self::Left(hook) => hook.exit_default_decl(node, ctx),
             Self::Right(hook) => hook.exit_default_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_directive(&mut self, node: &Directive, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_directive(node, ctx),
+            Self::Right(hook) => hook.enter_directive(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_directive(&mut self, node: &Directive, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_directive(node, ctx),
+            Self::Right(hook) => hook.exit_directive(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_directives(&mut self, node: &[Directive], ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_directives(node, ctx),
+            Self::Right(hook) => hook.enter_directives(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_directives(&mut self, node: &[Directive], ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_directives(node, ctx),
+            Self::Right(hook) => hook.exit_directives(node, ctx),
         }
     }
 
@@ -11567,6 +11639,34 @@ where
     }
 
     #[inline]
+    fn enter_directive(&mut self, node: &Directive, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_directive(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_directive(&mut self, node: &Directive, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_directive(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn enter_directives(&mut self, node: &[Directive], ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_directives(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_directives(&mut self, node: &[Directive], ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_directives(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_do_while_stmt(&mut self, node: &DoWhileStmt, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_do_while_stmt(node, ctx);
@@ -15530,6 +15630,22 @@ impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
         self.hook.exit_default_decl(node, &mut self.context);
     }
 
+    #[doc = "Visits a node of type `Directive` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_directive(&mut self, node: &Directive) {
+        self.hook.enter_directive(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_directive(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `Vec < Directive >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_directives(&mut self, node: &[Directive]) {
+        self.hook.enter_directives(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_directives(node, &mut self.context);
+    }
+
     #[doc = "Visits a node of type `DoWhileStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_do_while_stmt(&mut self, node: &DoWhileStmt) {
@@ -18042,6 +18158,22 @@ pub trait VisitMutHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_default_decl(&mut self, node: &mut DefaultDecl, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `Directive` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_directive(&mut self, node: &mut Directive, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `Directive` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_directive(&mut self, node: &mut Directive, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `Vec < Directive >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_directives(&mut self, node: &mut Vec<Directive>, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `Vec < Directive >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_directives(&mut self, node: &mut Vec<Directive>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `DoWhileStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -20801,6 +20933,30 @@ where
     fn exit_default_decl(&mut self, node: &mut DefaultDecl, ctx: &mut C) {
         self.second.exit_default_decl(node, ctx);
         self.first.exit_default_decl(node, ctx);
+    }
+
+    #[inline]
+    fn enter_directive(&mut self, node: &mut Directive, ctx: &mut C) {
+        self.first.enter_directive(node, ctx);
+        self.second.enter_directive(node, ctx);
+    }
+
+    #[inline]
+    fn exit_directive(&mut self, node: &mut Directive, ctx: &mut C) {
+        self.second.exit_directive(node, ctx);
+        self.first.exit_directive(node, ctx);
+    }
+
+    #[inline]
+    fn enter_directives(&mut self, node: &mut Vec<Directive>, ctx: &mut C) {
+        self.first.enter_directives(node, ctx);
+        self.second.enter_directives(node, ctx);
+    }
+
+    #[inline]
+    fn exit_directives(&mut self, node: &mut Vec<Directive>, ctx: &mut C) {
+        self.second.exit_directives(node, ctx);
+        self.first.exit_directives(node, ctx);
     }
 
     #[inline]
@@ -24617,6 +24773,38 @@ where
         match self {
             Self::Left(hook) => hook.exit_default_decl(node, ctx),
             Self::Right(hook) => hook.exit_default_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_directive(&mut self, node: &mut Directive, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_directive(node, ctx),
+            Self::Right(hook) => hook.enter_directive(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_directive(&mut self, node: &mut Directive, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_directive(node, ctx),
+            Self::Right(hook) => hook.exit_directive(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_directives(&mut self, node: &mut Vec<Directive>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_directives(node, ctx),
+            Self::Right(hook) => hook.enter_directives(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_directives(&mut self, node: &mut Vec<Directive>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_directives(node, ctx),
+            Self::Right(hook) => hook.exit_directives(node, ctx),
         }
     }
 
@@ -29381,6 +29569,34 @@ where
     }
 
     #[inline]
+    fn enter_directive(&mut self, node: &mut Directive, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_directive(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_directive(&mut self, node: &mut Directive, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_directive(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn enter_directives(&mut self, node: &mut Vec<Directive>, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_directives(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_directives(&mut self, node: &mut Vec<Directive>, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_directives(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_do_while_stmt(&mut self, node: &mut DoWhileStmt, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_do_while_stmt(node, ctx);
@@ -33378,6 +33594,22 @@ impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
         self.hook.enter_default_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
         self.hook.exit_default_decl(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `Directive` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_directive(&mut self, node: &mut Directive) {
+        self.hook.enter_directive(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_directive(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `Vec < Directive >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_directives(&mut self, node: &mut Vec<Directive>) {
+        self.hook.enter_directives(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_directives(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `DoWhileStmt` using the hook's enter and exit methods."]

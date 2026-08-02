@@ -1,5 +1,7 @@
 //// [exportsAndImports4-es6.ts]
+"use strict";
 //// [t1.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -10,12 +12,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 let _default = "hello";
 //// [t2.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 let _t1 = /*#__PURE__*/ require("@swc/helpers/_/_interop_require_wildcard")._(require("./t1"));
 require("./t1").default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default;
 //// [t3.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

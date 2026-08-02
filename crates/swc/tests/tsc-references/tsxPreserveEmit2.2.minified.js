@@ -1,8 +1,12 @@
 //// [tsxPreserveEmit2.tsx]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});
 //// [test.tsx]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    "use strict";
+});

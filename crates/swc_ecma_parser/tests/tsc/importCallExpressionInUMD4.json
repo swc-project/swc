@@ -4,6 +4,7 @@
     "start": 90,
     "end": 971
   },
+  "directives": [],
   "body": [
     {
       "type": "ExportDeclaration",
@@ -59,6 +60,7 @@
                   "start": 119,
                   "end": 137
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -130,6 +132,7 @@
             "start": 163,
             "end": 179
           },
+          "directives": [],
           "stmts": [
             {
               "type": "ReturnStatement",
@@ -187,6 +190,7 @@
             "start": 225,
             "end": 245
           },
+          "directives": [],
           "stmts": [
             {
               "type": "ReturnStatement",
@@ -362,6 +366,7 @@
                 "start": 353,
                 "end": 625
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -504,6 +509,7 @@
                               "start": 431,
                               "end": 479
                             },
+                            "directives": [],
                             "stmts": [
                               {
                                 "type": "ExpressionStatement",
@@ -622,6 +628,7 @@
                               "start": 494,
                               "end": 617
                             },
+                            "directives": [],
                             "stmts": [
                               {
                                 "type": "ExpressionStatement",
@@ -972,6 +979,7 @@
                   "start": 697,
                   "end": 969
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "VariableDeclaration",
@@ -1114,6 +1122,7 @@
                                 "start": 775,
                                 "end": 823
                               },
+                              "directives": [],
                               "stmts": [
                                 {
                                   "type": "ExpressionStatement",
@@ -1232,6 +1241,7 @@
                                 "start": 838,
                                 "end": 961
                               },
+                              "directives": [],
                               "stmts": [
                                 {
                                   "type": "ExpressionStatement",

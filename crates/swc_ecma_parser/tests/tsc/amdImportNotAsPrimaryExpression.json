@@ -4,6 +4,7 @@
     "start": 40,
     "end": 497
   },
+  "directives": [],
   "body": [
     {
       "type": "ExportDeclaration",
@@ -243,6 +244,7 @@
             "start": 161,
             "end": 205
           },
+          "directives": [],
           "body": [
             {
               "type": "ExportDeclaration",

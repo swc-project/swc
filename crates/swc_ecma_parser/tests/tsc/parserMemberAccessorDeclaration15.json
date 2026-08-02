@@ -4,6 +4,7 @@
     "start": 17,
     "end": 61
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -87,6 +88,7 @@
                 "start": 56,
                 "end": 59
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,

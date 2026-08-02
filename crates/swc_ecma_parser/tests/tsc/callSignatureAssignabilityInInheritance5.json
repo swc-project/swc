@@ -4,6 +4,7 @@
     "start": 208,
     "end": 2536
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",

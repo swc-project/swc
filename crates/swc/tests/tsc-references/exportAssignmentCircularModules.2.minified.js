@@ -3,6 +3,7 @@ define([
     "require",
     "./foo_1"
 ], function(require, foo1) {
+    "use strict";
     var Foo;
     return (Foo || (Foo = {})).x = foo1.x, Foo;
 });
@@ -11,6 +12,7 @@ define([
     "require",
     "./foo_2"
 ], function(require, foo2) {
+    "use strict";
     var Foo;
     return (Foo || (Foo = {})).x = foo2.x, Foo;
 });
@@ -19,6 +21,7 @@ define([
     "require",
     "./foo_0"
 ], function(require, foo0) {
+    "use strict";
     var Foo;
     return (Foo || (Foo = {})).x = foo0.x, Foo;
 });

@@ -34,6 +34,9 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // Static constructor
     "dcc5609dcc043200.js",
     "88d42455ac933ef5.js",
+    // Parentheses change whether the string is a directive.
+    "647e21f8f157c338.js",
+    "8af69d8f15295ed2.js",
     // Wrong tests (variable name or value is different)
     "0339fa95c78c11bd.js",
     "0426f15dac46e92d.js",

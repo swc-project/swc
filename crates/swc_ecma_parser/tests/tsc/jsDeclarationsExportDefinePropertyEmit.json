@@ -4,6 +4,7 @@
     "start": 100,
     "end": 1646
   },
+  "directives": [],
   "body": [
     {
       "type": "ExpressionStatement",
@@ -128,6 +129,7 @@
                         "start": 165,
                         "end": 167
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,
@@ -266,6 +268,7 @@
                         "start": 238,
                         "end": 240
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,
@@ -476,6 +479,7 @@
           "start": 400,
           "end": 434
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -686,6 +690,7 @@
           "start": 589,
           "end": 623
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -877,6 +882,7 @@
           "start": 736,
           "end": 753
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -1244,6 +1250,7 @@
           "start": 985,
           "end": 1013
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -1508,6 +1515,7 @@
           "start": 1169,
           "end": 1197
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -1830,6 +1838,7 @@
                         "start": 1322,
                         "end": 1324
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,
@@ -2260,6 +2269,7 @@
                         "start": 1640,
                         "end": 1642
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "generator": false,

@@ -4,6 +4,7 @@
     "start": 61,
     "end": 924
   },
+  "directives": [],
   "body": [
     {
       "type": "SwitchStatement",
@@ -655,6 +656,7 @@
                                                     "start": 820,
                                                     "end": 823
                                                   },
+                                                  "directives": [],
                                                   "stmts": []
                                                 },
                                                 "generator": false,

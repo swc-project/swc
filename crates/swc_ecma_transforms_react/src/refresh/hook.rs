@@ -177,6 +177,7 @@ impl HookRegister<'_> {
                                 elems,
                             }))),
                         })],
+                        ..Default::default()
                     }),
                     ..Default::default()
                 }
@@ -430,6 +431,7 @@ fn collect_hooks_arrow(
                             arg: Some(Box::new(expr.as_mut().take())),
                         }),
                     ],
+                    ..Default::default()
                 });
                 Some(sig)
             } else {

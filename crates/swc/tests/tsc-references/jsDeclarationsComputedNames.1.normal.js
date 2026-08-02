@@ -21,5 +21,6 @@ export var MyClass = function MyClass() {
     var _p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : InnerSym;
     _class_call_check(this, MyClass);
     this[InnerSym] = "ok";
+// switch on _p
 };
 MyClass[TopLevelSym] = 12;

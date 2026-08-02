@@ -4,6 +4,7 @@
     "start": 35,
     "end": 164
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -72,6 +73,7 @@
           "start": 57,
           "end": 60
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -105,6 +107,7 @@
           "start": 75,
           "end": 146
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",

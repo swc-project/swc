@@ -4,6 +4,7 @@
     "start": 23,
     "end": 675
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 35,
           "end": 313
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -62,6 +64,7 @@
                   "start": 57,
                   "end": 311
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",
@@ -200,6 +203,7 @@
                           "start": 177,
                           "end": 305
                         },
+                        "directives": [],
                         "body": [
                           {
                             "type": "ExportDeclaration",
@@ -277,6 +281,7 @@
                                   "start": 237,
                                   "end": 295
                                 },
+                                "directives": [],
                                 "stmts": [
                                   {
                                     "type": "ReturnStatement",
@@ -457,6 +462,7 @@
           "start": 354,
           "end": 675
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -489,6 +495,7 @@
                   "start": 376,
                   "end": 673
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",
@@ -662,6 +669,7 @@
                           "start": 527,
                           "end": 667
                         },
+                        "directives": [],
                         "body": [
                           {
                             "type": "ExportDeclaration",
@@ -864,6 +872,7 @@
                                       "start": 640,
                                       "end": 643
                                     },
+                                    "directives": [],
                                     "stmts": []
                                   },
                                   "accessibility": null,

@@ -38,16 +38,24 @@ impl Modules {
         ret
     }
 
-    fn into_items(self) -> Vec<ModuleItem> {
+    fn into_parts(self) -> (Vec<Directive>, Vec<ModuleItem>) {
         debug_assert!(
             self.prepended_stmts.is_empty(),
-            "sort should be called before calling into_items"
+            "sort should be called before calling into_parts"
         );
         debug_assert!(
             self.appended_stmts.is_empty(),
-            "sort should be called before calling into_items"
+            "sort should be called before calling into_parts"
         );
-        self.modules.into_iter().flat_map(|v| v.1.body).collect()
+
+        let mut directives = Vec::new();
+        let mut body = Vec::new();
+        for (_, module) in self.modules {
+            directives.extend(module.directives);
+            body.extend(module.body);
+        }
+
+        (directives, body)
     }
 
     pub fn add_dep(&mut self, dep: Modules) {
@@ -65,6 +73,7 @@ impl Modules {
 
         for (id, module) in other.modules {
             if let Some(prev) = self.modules.iter_mut().find(|prev| prev.0 == id) {
+                prev.1.directives.extend(module.directives);
                 prev.1.body.extend(module.body);
             } else {
                 self.modules.push((id, module));
@@ -292,6 +301,7 @@ impl Modules {
             cm,
             &Module {
                 span: DUMMY_SP,
+                directives: Vec::new(),
                 body: stmts,
                 shebang: None,
             },
@@ -301,10 +311,12 @@ impl Modules {
 
 impl From<Modules> for Module {
     fn from(modules: Modules) -> Self {
-        // TODO
+        let (directives, body) = modules.into_parts();
+
         Self {
             span: DUMMY_SP,
-            body: modules.into_items(),
+            directives,
+            body,
             shebang: None,
         }
     }

@@ -4,6 +4,7 @@
     "start": 76,
     "end": 421
   },
+  "directives": [],
   "body": [
     {
       "type": "ExpressionStatement",
@@ -122,6 +123,7 @@
               "start": 118,
               "end": 138
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -248,6 +250,7 @@
                   "start": 183,
                   "end": 209
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -591,6 +594,7 @@
           "start": 396,
           "end": 421
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",

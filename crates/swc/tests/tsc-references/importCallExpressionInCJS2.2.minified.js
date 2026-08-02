@@ -1,4 +1,5 @@
 //// [0.ts]
+"use strict";
 function foo() {
     return "foo";
 }
@@ -11,6 +12,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 //// [1.ts]
+"use strict";
 function backup() {
     return "backup";
 }
@@ -23,6 +25,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 //// [2.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

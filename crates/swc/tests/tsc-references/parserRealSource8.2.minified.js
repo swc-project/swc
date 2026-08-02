@@ -16,9 +16,11 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         return s.isInstanceProperty();
     }
     TypeScript.AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
+        "use strict";
         _class_call_check(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
     }, TypeScript.pushAssignScope = pushAssignScope, TypeScript.popAssignScope = popAssignScope, TypeScript.instanceCompare = instanceCompare, TypeScript.instanceFilterStop = instanceFilterStop;
     var ScopeSearchFilter = /*#__PURE__*/ function() {
+        "use strict";
         function ScopeSearchFilter(select, stop) {
             _class_call_check(this, ScopeSearchFilter), this.select = select, this.stop = stop, this.result = null;
         }

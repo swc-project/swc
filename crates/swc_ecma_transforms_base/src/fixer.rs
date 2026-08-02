@@ -396,6 +396,7 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         n.visit_mut_children_with(self);
+        self.wrap_first_non_directive(n.stmts.first_mut());
         self.in_for_stmt_head = in_for_stmt_head;
     }
 
@@ -684,6 +685,7 @@ impl VisitMut for Fixer<'_> {
         self.span_map.clear();
 
         n.visit_mut_children_with(self);
+        self.wrap_first_non_directive(n.body.first_mut().and_then(ModuleItem::as_mut_stmt));
         if let Some(c) = self.comments {
             for (to, from) in self.span_map.drain(RangeFull).rev() {
                 c.move_leading(from.lo, to.lo);
@@ -770,12 +772,18 @@ impl VisitMut for Fixer<'_> {
         self.span_map.clear();
 
         n.visit_mut_children_with(self);
+        self.wrap_first_non_directive(n.body.first_mut());
         if let Some(c) = self.comments {
             for (to, from) in self.span_map.drain(RangeFull).rev() {
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
             }
         }
+    }
+
+    fn visit_mut_ts_module_block(&mut self, n: &mut TsModuleBlock) {
+        n.visit_mut_children_with(self);
+        self.wrap_first_non_directive(n.body.first_mut().and_then(ModuleItem::as_mut_stmt));
     }
 
     fn visit_mut_seq_expr(&mut self, seq: &mut SeqExpr) {
@@ -1150,6 +1158,18 @@ impl Fixer<'_> {
         *e = ParenExpr { expr, span }.into();
     }
 
+    /// Prevents the first regular statement from becoming a directive after
+    /// code generation.
+    fn wrap_first_non_directive(&mut self, stmt: Option<&mut Stmt>) {
+        let Some(Stmt::Expr(expr)) = stmt else {
+            return;
+        };
+
+        if matches!(&*expr.expr, Expr::Lit(Lit::Str(..))) {
+            self.wrap(&mut expr.expr);
+        }
+    }
+
     /// Removes paren
     fn unwrap_expr(&mut self, e: &mut Expr) {
         loop {
@@ -1365,6 +1385,11 @@ mod tests {
     identical!(fn_expr_position, r#"foo(function(){}())"#);
 
     identical!(fn_decl, r#"function foo(){}"#);
+
+    identical!(
+        non_directive_string_statements,
+        r#"("use strict"); function f(){"use asm";("use strict");}"#
+    );
 
     identical!(iife, r#"(function(){})()"#);
 

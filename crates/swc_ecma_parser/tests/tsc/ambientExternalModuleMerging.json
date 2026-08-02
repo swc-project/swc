@@ -4,6 +4,7 @@
     "start": 65,
     "end": 298
   },
+  "directives": [],
   "body": [
     {
       "type": "TsImportEqualsDeclaration",
@@ -176,6 +177,7 @@
           "start": 210,
           "end": 239
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -257,6 +259,7 @@
           "start": 269,
           "end": 298
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",

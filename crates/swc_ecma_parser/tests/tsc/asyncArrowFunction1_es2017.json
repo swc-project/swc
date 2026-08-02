@@ -4,6 +4,7 @@
     "start": 45,
     "end": 86
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -46,6 +47,7 @@
                 "start": 82,
                 "end": 85
               },
+              "directives": [],
               "stmts": []
             },
             "async": true,

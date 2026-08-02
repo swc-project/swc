@@ -4,6 +4,7 @@
     "start": 1,
     "end": 847
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 10,
           "end": 150
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -248,6 +250,7 @@
           "start": 161,
           "end": 262
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -420,6 +423,7 @@
                       "start": 251,
                       "end": 254
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "accessibility": null,
@@ -461,6 +465,7 @@
           "start": 280,
           "end": 529
         },
+        "directives": [],
         "body": [
           {
             "type": "TsImportEqualsDeclaration",

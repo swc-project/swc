@@ -20,6 +20,7 @@ use crate::{
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
+    stmt::Directive,
     BigInt, BindingIdent, IdentName, TplElement,
 };
 
@@ -1146,6 +1147,9 @@ pub enum TsNamespaceBody {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsModuleBlock {
     pub span: Span,
+    /// Directive prologue.
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub directives: Vec<Directive>,
     pub body: Vec<ModuleItem>,
 }
 

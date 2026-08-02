@@ -1177,12 +1177,12 @@ impl Transform {
 
             let stmts = stmts.chain(iter::once(return_stmt)).collect();
 
-            BlockStmt {
+            FunctionBody {
                 stmts,
                 ..Default::default()
             }
         } else {
-            BlockStmt {
+            FunctionBody {
                 stmts: stmts.collect(),
                 ..Default::default()
             }
@@ -1278,7 +1278,7 @@ impl Transform {
         FoldedDecl::Expr(ExprStmt { span, expr }.into())
     }
 
-    fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> BlockStmt {
+    fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> FunctionBody {
         let TsNamespaceDecl {
             span,
             declare,
@@ -1308,7 +1308,7 @@ impl Transform {
         let expr =
             Factory::function(vec![local_name.into()], body).as_call(DUMMY_SP, vec![init_arg]);
 
-        BlockStmt {
+        FunctionBody {
             span,
             stmts: vec![expr.into_stmt()],
             ..Default::default()
@@ -1344,7 +1344,14 @@ impl Transform {
     ///
     /// NS.b = init;
     /// ```
-    fn transform_ts_module_block(id: Id, TsModuleBlock { span, body }: TsModuleBlock) -> BlockStmt {
+    fn transform_ts_module_block(
+        id: Id,
+        TsModuleBlock {
+            span,
+            directives,
+            body,
+        }: TsModuleBlock,
+    ) -> FunctionBody {
         let mut stmts = Vec::new();
 
         for module_item in body {
@@ -1467,10 +1474,10 @@ impl Transform {
             }
         }
 
-        BlockStmt {
+        FunctionBody {
             span,
+            directives,
             stmts,
-            ..Default::default()
         }
     }
 }

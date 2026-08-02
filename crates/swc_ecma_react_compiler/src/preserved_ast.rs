@@ -13,7 +13,6 @@ pub enum PreservedNode {
     Arrow(Box<ArrowShell>),
     Catch(Box<PatternTypeShell>),
     Class(Box<Class>),
-    Directive(Box<Str>),
     Function(Box<FunctionShell>),
     Import(Box<ImportShell>),
     TsEnum(Box<TsEnumDecl>),
@@ -233,28 +232,6 @@ impl PreservedAst {
         // Restore everything except the super class
         snapshot.super_class = class.super_class.take();
         *class = *snapshot;
-
-        true
-    }
-
-    pub fn save_directive(&mut self, lit: &Str) {
-        self.nodes.insert(
-            lit.span.lo.to_u32(),
-            PreservedNode::Directive(Box::new(lit.clone())),
-        );
-    }
-
-    pub fn load_directive(&mut self, lit: &mut Str) -> bool {
-        let key = lit.span.lo.to_u32();
-        if !matches!(self.nodes.get(&key), Some(PreservedNode::Directive(_))) {
-            return false;
-        }
-
-        let Some(PreservedNode::Directive(snapshot)) = self.nodes.remove(&key) else {
-            unreachable!()
-        };
-
-        *lit = *snapshot;
 
         true
     }

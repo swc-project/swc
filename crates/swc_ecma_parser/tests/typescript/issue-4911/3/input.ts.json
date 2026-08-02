@@ -4,6 +4,7 @@
     "start": 1,
     "end": 672
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -89,9 +90,9 @@
                       "start": 21,
                       "end": 670
                     },
-                    "stmts": [
+                    "directives": [
                       {
-                        "type": "ExpressionStatement",
+                        "type": "Directive",
                         "span": {
                           "start": 27,
                           "end": 40
@@ -104,8 +105,11 @@
                           },
                           "value": "use strict",
                           "raw": "\"use strict\""
-                        }
-                      },
+                        },
+                        "value": "use strict"
+                      }
+                    ],
+                    "stmts": [
                       {
                         "type": "VariableDeclaration",
                         "span": {
@@ -186,6 +190,7 @@
                                         "start": 86,
                                         "end": 437
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "ForStatement",
@@ -1298,6 +1303,7 @@
                                         "start": 468,
                                         "end": 660
                                       },
+                                      "directives": [],
                                       "stmts": [
                                         {
                                           "type": "IfStatement",

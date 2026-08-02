@@ -4,6 +4,7 @@
     "start": 61,
     "end": 112
   },
+  "directives": [],
   "body": [
     {
       "type": "LabeledStatement",

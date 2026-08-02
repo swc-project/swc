@@ -4,6 +4,7 @@
     "start": 57,
     "end": 700
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -146,6 +147,7 @@
           "start": 160,
           "end": 232
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -287,6 +289,7 @@
             "start": 255,
             "end": 327
           },
+          "directives": [],
           "body": [
             {
               "type": "ExportDeclaration",
@@ -564,6 +567,7 @@
               "start": 388,
               "end": 390
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,
@@ -1083,6 +1087,7 @@
                 "start": 633,
                 "end": 635
               },
+              "directives": [],
               "stmts": []
             },
             "accessibility": null,

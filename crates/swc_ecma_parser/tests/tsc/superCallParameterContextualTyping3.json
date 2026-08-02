@@ -4,6 +4,7 @@
     "start": 1,
     "end": 566
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -248,6 +249,7 @@
               "start": 126,
               "end": 133
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,
@@ -351,6 +353,7 @@
                 "start": 169,
                 "end": 176
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -444,6 +447,7 @@
               "start": 230,
               "end": 564
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -518,6 +522,7 @@
                                 "start": 339,
                                 "end": 380
                               },
+                              "directives": [],
                               "stmts": [
                                 {
                                   "type": "ExpressionStatement",
@@ -653,6 +658,7 @@
                                 "start": 505,
                                 "end": 546
                               },
+                              "directives": [],
                               "stmts": [
                                 {
                                   "type": "ExpressionStatement",

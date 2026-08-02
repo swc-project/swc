@@ -4,6 +4,7 @@
     "start": 68,
     "end": 186
   },
+  "directives": [],
   "body": [
     {
       "type": "TsExportAssignment",
@@ -43,6 +44,7 @@
             "start": 131,
             "end": 185
           },
+          "directives": [],
           "stmts": [
             {
               "type": "VariableDeclaration",

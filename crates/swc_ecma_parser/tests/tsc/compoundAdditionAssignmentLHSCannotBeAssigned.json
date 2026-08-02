@@ -4,6 +4,7 @@
     "start": 83,
     "end": 235
   },
+  "directives": [],
   "body": [
     {
       "type": "TsEnumDeclaration",

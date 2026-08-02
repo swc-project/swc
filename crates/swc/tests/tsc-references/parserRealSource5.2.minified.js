@@ -2,6 +2,7 @@
 var TypeScript, TypeScript1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (TypeScript1 = TypeScript || (TypeScript = {})).PrintContext = /*#__PURE__*/ function() {
+    "use strict";
     function PrintContext(outfile, parser) {
         _class_call_check(this, PrintContext), this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
     }

@@ -1,6 +1,7 @@
 //// [wrappedAndRecursiveConstraints4.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 new (/*#__PURE__*/ function() {
+    "use strict";
     function C(x) {
         _class_call_check(this, C);
     }
@@ -13,5 +14,7 @@ new (/*#__PURE__*/ function() {
     length: 2
 }).foo('')({
     length: 3,
-    charAt: function(x) {}
+    charAt: function(x) {
+        '';
+    }
 });

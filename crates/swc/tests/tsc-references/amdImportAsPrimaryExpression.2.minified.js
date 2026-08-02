@@ -3,6 +3,7 @@ define([
     "require",
     "exports"
 ], function(require, exports) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "E1", {
@@ -18,5 +19,6 @@ define([
     "require",
     "./foo_0"
 ], function(require, foo) {
+    "use strict";
     foo.E1.A;
 });

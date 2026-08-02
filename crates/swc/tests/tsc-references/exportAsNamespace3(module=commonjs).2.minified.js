@@ -1,4 +1,5 @@
 //// [0.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -16,6 +17,7 @@ for(var name in all)Object.defineProperty(target, name, {
 });
 var a = 1, b = 2;
 //// [1.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "ns", {
@@ -32,6 +34,7 @@ var ns = {
 };
 ns.a, ns.b;
 //// [2.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

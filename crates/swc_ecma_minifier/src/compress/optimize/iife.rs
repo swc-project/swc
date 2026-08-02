@@ -1043,10 +1043,8 @@ impl Optimizer<'_> {
             }
         }
 
-        if let Some(stmt) = body.stmts.first() {
-            if stmt.is_use_strict() {
-                return false;
-            }
+        if body.directives.iter().any(Directive::is_use_strict) {
+            return false;
         }
 
         if !body

@@ -1,6 +1,7 @@
 //// [exportClassNameWithObjectUMD.ts]
 var global, factory;
 global = this, factory = function(exports1, _class_call_check) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), Object.defineProperty(exports1, "Object", {
@@ -10,6 +11,7 @@ global = this, factory = function(exports1, _class_call_check) {
         }
     });
     var Object = function Object() {
+        "use strict";
         _class_call_check._(this, Object);
     };
 }, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_class_call_check")) : "function" == typeof define && define.amd ? define([

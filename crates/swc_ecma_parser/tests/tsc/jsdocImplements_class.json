@@ -4,6 +4,7 @@
     "start": 128,
     "end": 852
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -53,6 +54,7 @@
                 "start": 179,
                 "end": 201
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ThrowStatement",
@@ -150,6 +152,7 @@
                 "start": 251,
                 "end": 263
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -236,6 +239,7 @@
                 "start": 341,
                 "end": 354
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -415,6 +419,7 @@
                     "start": 462,
                     "end": 476
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ReturnStatement",
@@ -520,6 +525,7 @@
                       "start": 532,
                       "end": 546
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",
@@ -644,6 +650,7 @@
                             "start": 619,
                             "end": 633
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "ReturnStatement",
@@ -761,6 +768,7 @@
                       "start": 714,
                       "end": 748
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",
@@ -942,6 +950,7 @@
                       "start": 824,
                       "end": 850
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",

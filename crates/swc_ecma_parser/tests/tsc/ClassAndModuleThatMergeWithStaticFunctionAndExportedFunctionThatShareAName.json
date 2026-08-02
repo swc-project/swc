@@ -4,6 +4,7 @@
     "start": 1,
     "end": 584
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -120,6 +121,7 @@
               "start": 67,
               "end": 70
             },
+            "directives": [],
             "stmts": []
           },
           "accessibility": null,
@@ -153,6 +155,7 @@
                 "start": 99,
                 "end": 125
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -280,6 +283,7 @@
           "start": 178,
           "end": 265
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -313,6 +317,7 @@
                   "start": 209,
                   "end": 225
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -364,6 +369,7 @@
           "start": 277,
           "end": 584
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -486,6 +492,7 @@
                       "start": 360,
                       "end": 363
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "accessibility": null,
@@ -519,6 +526,7 @@
                         "start": 396,
                         "end": 422
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ReturnStatement",
@@ -653,6 +661,7 @@
                   "start": 490,
                   "end": 582
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",
@@ -686,6 +695,7 @@
                           "start": 525,
                           "end": 539
                         },
+                        "directives": [],
                         "stmts": [
                           {
                             "type": "ReturnStatement",

@@ -48,6 +48,9 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "50c6ab935ccb020a.module.js",
     "9949a2e1a6844836.module.js",
     "1efde9ddd9d6e6ce.module.js",
+    // Parentheses change whether the string is a directive.
+    "647e21f8f157c338.js",
+    "8af69d8f15295ed2.js",
     // Wrong tests (variable name or value is different)
     "8386fbff927a9e0e.js",
     "0339fa95c78c11bd.js",
@@ -376,6 +379,12 @@ impl Fold for Normalizer {
             value: s.value,
             raw: None,
         }
+    }
+
+    fn fold_directive(&mut self, directive: Directive) -> Directive {
+        // The fixer tests compare syntax, while directives preserve their
+        // source quote for code generation.
+        Directive::new(directive.span, format!("\"{}\"", directive.value()).into())
     }
 }
 

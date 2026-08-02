@@ -4,6 +4,7 @@
     "start": 1,
     "end": 618
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 10,
           "end": 146
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -152,6 +154,7 @@
                       "start": 93,
                       "end": 96
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "accessibility": null,
@@ -276,6 +279,7 @@
           "start": 181,
           "end": 250
         },
+        "directives": [],
         "body": [
           {
             "type": "TsImportEqualsDeclaration",
@@ -334,6 +338,7 @@
           "start": 285,
           "end": 420
         },
+        "directives": [],
         "body": [
           {
             "type": "TsImportEqualsDeclaration",
@@ -599,6 +604,7 @@
           "start": 452,
           "end": 505
         },
+        "directives": [],
         "body": [
           {
             "type": "TsImportEqualsDeclaration",
@@ -748,6 +754,7 @@
           "start": 516,
           "end": 618
         },
+        "directives": [],
         "body": [
           {
             "type": "TsImportEqualsDeclaration",
@@ -869,6 +876,7 @@
                   "start": 574,
                   "end": 616
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",

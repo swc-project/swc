@@ -4,6 +4,7 @@
     "start": 167,
     "end": 246
   },
+  "directives": [],
   "body": [
     {
       "type": "ExportNamedDeclaration",

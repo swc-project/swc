@@ -4,6 +4,7 @@
     "start": 102,
     "end": 3221
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -1650,6 +1651,7 @@
           "start": 851,
           "end": 1453
         },
+        "directives": [],
         "body": [
           {
             "type": "VariableDeclaration",
@@ -2697,6 +2699,7 @@
           "start": 1481,
           "end": 1661
         },
+        "directives": [],
         "body": [
           {
             "type": "VariableDeclaration",
@@ -3210,6 +3213,7 @@
           "start": 1694,
           "end": 1911
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -3850,6 +3854,7 @@
           "start": 1974,
           "end": 2336
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -4788,6 +4793,7 @@
           "start": 2402,
           "end": 2764
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -5726,6 +5732,7 @@
           "start": 2824,
           "end": 3221
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",

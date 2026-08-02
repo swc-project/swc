@@ -1,20 +1,20 @@
 var MyCtrl = function MyCtrl(a) {
     "use strict";
-    _class_call_check(this, MyCtrl);
     "any directive prologue";
+    _class_call_check(this, MyCtrl);
     foo;
 };
 var MyCtrl2 = function MyCtrl2(a) {
     "use strict";
-    _class_call_check(this, MyCtrl2);
     "a";
     "b";
+    _class_call_check(this, MyCtrl2);
     foo;
 };
 var MyCtrl3 = function MyCtrl3(a) {
     "use strict";
-    _class_call_check(this, MyCtrl3);
     "a";
+    _class_call_check(this, MyCtrl3);
     foo;
     "b";
 };

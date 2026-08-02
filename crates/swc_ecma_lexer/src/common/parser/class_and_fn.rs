@@ -10,7 +10,7 @@ use super::{
     is_constructor,
     output_type::OutputType,
     pat::parse_formal_params,
-    stmt::parse_block,
+    stmt::{parse_block, parse_function_body},
     typescript::{parse_ts_modifier, parse_ts_type_args, try_parse_ts_type_ann},
     PResult, Parser,
 };
@@ -678,14 +678,14 @@ pub fn parse_fn_block_or_expr_body<'a, P: Parser<'a>>(
         is_simple_parameter_list,
         |p, is_simple_parameter_list| {
             if p.input().is(&P::Token::LBRACE) {
-                parse_block(p, false)
-                    .map(|block_stmt| {
+                parse_function_body(p)
+                    .map(|body| {
                         if !is_simple_parameter_list {
-                            if let Some(span) = has_use_strict(&block_stmt) {
+                            if let Some(span) = has_use_strict(&body) {
                                 p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                             }
                         }
-                        ArrowFunctionBody::FunctionBody(function_body_from_block_stmt(block_stmt))
+                        ArrowFunctionBody::FunctionBody(body)
                     })
                     .map(Box::new)
             } else {
@@ -775,22 +775,16 @@ pub(super) fn parse_fn_block_body<'a, P: Parser<'a>>(
             {
                 return Ok(None);
             }
-            p.allow_in_expr(|p| parse_block(p, true)).map(|block_stmt| {
+            p.allow_in_expr(parse_function_body).map(|body| {
                 if !is_simple_parameter_list {
-                    if let Some(span) = has_use_strict(&block_stmt) {
+                    if let Some(span) = has_use_strict(&body) {
                         p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                     }
                 }
-                Some(function_body_from_block_stmt(block_stmt))
+                Some(body)
             })
         },
     )
-}
-
-fn function_body_from_block_stmt(block_stmt: BlockStmt) -> FunctionBody {
-    let BlockStmt { span, stmts, .. } = block_stmt;
-
-    FunctionBody { span, stmts }
 }
 
 fn make_property<'a, P: Parser<'a>>(
@@ -912,7 +906,7 @@ fn parse_static_block<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> PResult<C
         Context::InStaticBlock
             .union(Context::InClassField)
             .union(Context::AllowUsingDecl),
-        |p| parse_block(p, false),
+        parse_block,
     )?;
 
     let span = p.span(start);

@@ -1,3 +1,5 @@
 class foo {
-    foo() {}
+    foo() {
+        "use strict";
+    }
 }

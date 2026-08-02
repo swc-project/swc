@@ -4,6 +4,7 @@
     "start": 53,
     "end": 518
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -31,6 +32,7 @@
           "start": 75,
           "end": 78
         },
+        "directives": [],
         "stmts": []
       },
       "generator": true,
@@ -64,6 +66,7 @@
           "start": 121,
           "end": 145
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -138,6 +141,7 @@
           "start": 188,
           "end": 214
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -220,6 +224,7 @@
           "start": 257,
           "end": 286
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -314,6 +319,7 @@
           "start": 329,
           "end": 389
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -377,6 +383,7 @@
                             "start": 371,
                             "end": 383
                           },
+                          "directives": [],
                           "stmts": [
                             {
                               "type": "ExpressionStatement",
@@ -452,6 +459,7 @@
           "start": 432,
           "end": 458
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -533,6 +541,7 @@
           "start": 501,
           "end": 518
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",

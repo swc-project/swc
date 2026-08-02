@@ -4,6 +4,7 @@
     "start": 1,
     "end": 3302
   },
+  "directives": [],
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
@@ -4871,6 +4872,7 @@
           "start": 2397,
           "end": 2435
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",

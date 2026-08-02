@@ -4,6 +4,7 @@
     "start": 27,
     "end": 1150
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 36,
           "end": 258
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -199,6 +201,7 @@
                       "start": 153,
                       "end": 156
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "accessibility": null,
@@ -243,6 +246,7 @@
                   "start": 183,
                   "end": 256
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",
@@ -347,6 +351,7 @@
           "start": 269,
           "end": 297
         },
+        "directives": [],
         "body": [
           {
             "type": "TsImportEqualsDeclaration",
@@ -864,6 +869,7 @@
           "start": 430,
           "end": 616
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -897,6 +903,7 @@
                   "start": 456,
                   "end": 482
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -953,6 +960,7 @@
                   "start": 504,
                   "end": 614
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",
@@ -1075,6 +1083,7 @@
                               "start": 595,
                               "end": 598
                             },
+                            "directives": [],
                             "stmts": []
                           },
                           "accessibility": null,
@@ -1120,6 +1129,7 @@
           "start": 627,
           "end": 694
         },
+        "directives": [],
         "body": [
           {
             "type": "TsImportEqualsDeclaration",
@@ -1464,6 +1474,7 @@
           "start": 785,
           "end": 1005
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -1550,6 +1561,7 @@
                       "start": 849,
                       "end": 852
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "accessibility": null,
@@ -1594,6 +1606,7 @@
                   "start": 880,
                   "end": 1003
                 },
+                "directives": [],
                 "body": [
                   {
                     "type": "ExportDeclaration",
@@ -1780,6 +1793,7 @@
           "start": 1016,
           "end": 1046
         },
+        "directives": [],
         "body": [
           {
             "type": "TsImportEqualsDeclaration",

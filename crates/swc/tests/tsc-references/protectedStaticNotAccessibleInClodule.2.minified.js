@@ -1,6 +1,7 @@
 //// [protectedStaticNotAccessibleInClodule.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C, C1 = function C() {
+    "use strict";
     _class_call_check(this, C);
 };
 (C = C1 || (C1 = {})).f = C.foo, C.b = C.bar;

@@ -5,6 +5,7 @@ define([
     "@swc/helpers/_/_object_spread",
     "@swc/helpers/_/_object_spread_props"
 ], function(require, exports, _object_spread, _object_spread_props) {
+    "use strict";
     var obj2;
     Object.defineProperty(exports, "__esModule", {
         value: !0

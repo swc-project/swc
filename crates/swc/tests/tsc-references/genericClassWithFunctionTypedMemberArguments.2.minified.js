@@ -2,6 +2,7 @@
 var ImmediatelyFix, WithCandidates, c, c2, c1, c21;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 ImmediatelyFix || (ImmediatelyFix = {}), (c = new (/*#__PURE__*/ function() {
+    "use strict";
     function C() {
         _class_call_check(this, C);
     }
@@ -15,6 +16,7 @@ ImmediatelyFix || (ImmediatelyFix = {}), (c = new (/*#__PURE__*/ function() {
 }), c.foo(function(x) {
     return '';
 }), (c2 = new (/*#__PURE__*/ function() {
+    "use strict";
     function C2() {
         _class_call_check(this, C2);
     }

@@ -4,6 +4,7 @@ System.register([
     "@swc/helpers/_/_class_call_check",
     "@swc/helpers/_/_ts_generator"
 ], function(_export, _context) {
+    "use strict";
     var _async_to_generator, _class_call_check, _ts_generator;
     return _export({
         cl1: void 0,
@@ -59,6 +60,7 @@ System.register([
                     })();
                 }
             }), _export("cl2", function cl2() {
+                "use strict";
                 _class_call_check(this, cl2), this.p = {
                     m: function() {
                         return _async_to_generator(function() {

@@ -4,6 +4,7 @@
     "start": 84,
     "end": 125
   },
+  "directives": [],
   "body": [
     {
       "type": "BlockStatement",

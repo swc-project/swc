@@ -4,6 +4,7 @@
     "start": 21,
     "end": 422
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 36,
           "end": 422
         },
+        "directives": [],
         "body": [
           {
             "type": "ClassDeclaration",
@@ -79,6 +81,7 @@
                       "start": 74,
                       "end": 116
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",
@@ -197,6 +200,7 @@
                       "start": 134,
                       "end": 137
                     },
+                    "directives": [],
                     "stmts": []
                   },
                   "generator": false,
@@ -477,6 +481,7 @@
                       "start": 258,
                       "end": 301
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",
@@ -569,6 +574,7 @@
                       "start": 332,
                       "end": 376
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ExpressionStatement",

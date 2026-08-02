@@ -3,14 +3,15 @@
         158
     ],
     {
-        2943: function(n, u, t) {
+        2943: function(n, t, u) {
+            "use strict";
             var r = function(n) {
-                var u = n.data;
+                var t = n.data;
                 return (0, _.jsx)("div", {
-                    children: u.foo
+                    children: t.foo
                 });
             };
-            t.r(u), t.d(u, {
+            u.r(t), u.d(t, {
                 __N_SSG: function() {
                     return i;
                 },
@@ -18,13 +19,13 @@
                     return r;
                 }
             });
-            var _ = t(4512), i = !0;
+            var _ = u(4512), i = !0;
         },
-        7139: function(n, u, t) {
+        7139: function(n, t, u) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/static",
                 function() {
-                    return t(2943);
+                    return u(2943);
                 }
             ]);
         }

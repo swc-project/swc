@@ -4,6 +4,7 @@
     "start": 73,
     "end": 619
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -359,6 +360,7 @@
                     "start": 301,
                     "end": 320
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ExpressionStatement",
@@ -441,6 +443,7 @@
                     "start": 340,
                     "end": 366
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ReturnStatement",
@@ -557,6 +560,7 @@
                     "start": 395,
                     "end": 414
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ExpressionStatement",
@@ -633,6 +637,7 @@
                   "start": 434,
                   "end": 482
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
@@ -787,6 +792,7 @@
                     "start": 516,
                     "end": 535
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ExpressionStatement",
@@ -869,6 +875,7 @@
                     "start": 548,
                     "end": 574
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ReturnStatement",
@@ -985,6 +992,7 @@
                     "start": 596,
                     "end": 615
                   },
+                  "directives": [],
                   "stmts": [
                     {
                       "type": "ExpressionStatement",

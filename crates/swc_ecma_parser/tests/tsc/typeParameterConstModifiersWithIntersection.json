@@ -4,6 +4,7 @@
     "start": 93,
     "end": 417
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",

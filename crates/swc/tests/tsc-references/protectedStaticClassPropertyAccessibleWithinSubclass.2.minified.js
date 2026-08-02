@@ -3,6 +3,7 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var Base = /*#__PURE__*/ function() {
+    "use strict";
     function Base() {
         _class_call_check(this, Base);
     }
@@ -10,6 +11,7 @@ var Base = /*#__PURE__*/ function() {
         Base.x, Derived1.x, Derived2.x, Derived3.x;
     }, Base;
 }(), Derived1 = /*#__PURE__*/ function(Base1) {
+    "use strict";
     function Derived1() {
         return _class_call_check(this, Derived1), _call_super(this, Derived1, arguments);
     }
@@ -17,6 +19,7 @@ var Base = /*#__PURE__*/ function() {
         Base.x, Derived1.x, Derived2.x, Derived3.x;
     }, Derived1;
 }(Base), Derived2 = /*#__PURE__*/ function(Base1) {
+    "use strict";
     function Derived2() {
         return _class_call_check(this, Derived2), _call_super(this, Derived2, arguments);
     }
@@ -24,6 +27,7 @@ var Base = /*#__PURE__*/ function() {
         Base.x, Derived1.x, Derived2.x, Derived3.x;
     }, Derived2;
 }(Base), Derived3 = /*#__PURE__*/ function(Derived11) {
+    "use strict";
     function Derived3() {
         return _class_call_check(this, Derived3), _call_super(this, Derived3, arguments);
     }

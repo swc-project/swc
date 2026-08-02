@@ -13,6 +13,7 @@ var A, A1;
 var A, A1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 ((A1 = A || (A = {})).Utils || (A1.Utils = {})).Plane = function Plane(tl, br) {
+    "use strict";
     _class_call_check(this, Plane), this.tl = tl, this.br = br;
 };
 //// [part3.ts]

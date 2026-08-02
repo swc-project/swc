@@ -1139,9 +1139,9 @@ fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) 
 #[test]
 fn ascii_only_str_1() {
     test_all(
-        "'😊❤️'",
-        "'😊❤️';\n",
-        r#""😊❤️""#,
+        "('😊❤️')",
+        "('😊❤️');\n",
+        r#"("😊❤️")"#,
         Config {
             ascii_only: false,
             target: EsVersion::Es2015,
@@ -1153,9 +1153,9 @@ fn ascii_only_str_1() {
 #[test]
 fn ascii_only_str_2() {
     test_all(
-        "'😊❤️'",
-        r#""\u{1F60A}\u2764\uFE0F";"#,
-        r#""\u{1F60A}\u2764\uFE0F""#,
+        "('😊❤️')",
+        r#"("\u{1F60A}\u2764\uFE0F");"#,
+        r#"("\u{1F60A}\u2764\uFE0F")"#,
         Config {
             ascii_only: true,
             ..Default::default()
@@ -1168,7 +1168,7 @@ fn ascii_only_str_3() {
     test_all(
         "'\\u{1F60A}'",
         "'\\u{1F60A}';\n",
-        "\"\\u{1F60A}\"",
+        "'\\u{1F60A}'",
         Config {
             ascii_only: true,
             ..Default::default()

@@ -4,6 +4,7 @@
     "start": 198,
     "end": 1053
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -70,6 +71,7 @@
           "start": 224,
           "end": 347
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -720,6 +722,7 @@
           "start": 759,
           "end": 792
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -889,6 +892,7 @@
                   "start": 819,
                   "end": 836
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -949,6 +953,7 @@
                   "start": 847,
                   "end": 885
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ExpressionStatement",

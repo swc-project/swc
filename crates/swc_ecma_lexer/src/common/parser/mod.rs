@@ -18,9 +18,23 @@ use crate::{
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
+pub(super) fn stmt_to_directive(stmt: Stmt) -> Result<Directive, Stmt> {
+    let Stmt::Expr(ExprStmt { span, expr }) = stmt else {
+        return Err(stmt);
+    };
+
+    let Expr::Lit(Lit::Str(expression)) = *expr else {
+        return Err(Stmt::Expr(ExprStmt { span, expr }));
+    };
+
+    let raw = expression
+        .raw
+        .expect("parsed string literals always preserve their raw source");
+    Ok(Directive::new(span, raw))
+}
+
 pub mod buffer;
 pub mod expr_ext;
-pub mod is_directive;
 pub mod is_invalid_class_name;
 pub mod is_simple_param_list;
 #[macro_use]

@@ -2,6 +2,7 @@
 define([
     "require"
 ], function(require) {
+    "use strict";
     return 42;
 });
 //// [index.ts]
@@ -9,6 +10,7 @@ define([
     "require",
     "@swc/helpers/_/_interop_require_wildcard"
 ], function(require, _interop_require_wildcard) {
+    "use strict";
     return async function() {
         await new Promise((resolve, reject)=>require([
                 "./something"

@@ -333,6 +333,7 @@ impl VisitMut for TemplateLiteral {
                                             span: DUMMY_SP,
                                             arg: Some(Box::new(quote_ident!("data").into())),
                                         })],
+                                        ..Default::default()
                                     }),
                                     ..Default::default()
                                 }
@@ -352,6 +353,7 @@ impl VisitMut for TemplateLiteral {
                                     arg: Some(Box::new(quote_ident!("data").into())),
                                 }),
                             ],
+                            ..Default::default()
                         })
                     },
 

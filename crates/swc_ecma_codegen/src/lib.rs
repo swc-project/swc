@@ -860,7 +860,7 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         self.start_scope(None, ScopeKind::Block, false, false, Some(node.span))?;
-        self.emit_braced_stmts(node.span, &node.stmts, skip_first_src_map)?;
+        self.emit_braced_stmts(node.span, &[], &node.stmts, skip_first_src_map)?;
         self.end_scope()?;
 
         Ok(())
@@ -872,12 +872,13 @@ where
         skip_first_src_map: bool,
     ) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
-        self.emit_braced_stmts(node.span, &node.stmts, skip_first_src_map)
+        self.emit_braced_stmts(node.span, &node.directives, &node.stmts, skip_first_src_map)
     }
 
     fn emit_braced_stmts(
         &mut self,
         span: Span,
+        directives: &[Directive],
         stmts: &[Stmt],
         skip_first_src_map: bool,
     ) -> Result {
@@ -886,8 +887,10 @@ where
         }
         punct!(self, "{");
 
-        let emit_new_line =
-            !self.cfg.minify && !(stmts.is_empty() && is_empty_comments(&span, &self.comments));
+        let emit_new_line = !self.cfg.minify
+            && !(directives.is_empty()
+                && stmts.is_empty()
+                && is_empty_comments(&span, &self.comments));
 
         let mut list_format = ListFormat::MultiLineBlockStatements;
 
@@ -895,6 +898,9 @@ where
             list_format -= ListFormat::MultiLine | ListFormat::Indented;
         }
 
+        if !directives.is_empty() {
+            self.emit_list(span, Some(directives), list_format)?;
+        }
         self.emit_list(span, Some(stmts), list_format)?;
 
         self.emit_leading_comments_of_span(span, true)?;
@@ -1589,7 +1595,11 @@ impl MacroNode for Program {
 impl MacroNode for Module {
     #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
+        let should_skip_leading_comments = self
+            .directives
+            .iter()
+            .any(|directive| directive.span.lo == self.span.lo)
+            || self.body.iter().any(|item| item.span().lo == self.span.lo);
 
         emitter.start_scope(None, ScopeKind::Module, false, false, Some(self.span))?;
 
@@ -1597,7 +1607,7 @@ impl MacroNode for Module {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
-        if self.body.is_empty() {
+        if self.directives.is_empty() && self.body.is_empty() {
             srcmap!(emitter, self, true);
         }
 
@@ -1605,6 +1615,9 @@ impl MacroNode for Module {
             punct!(emitter, "#!");
             emitter.wr.write_str_lit(DUMMY_SP, shebang)?;
             emitter.wr.write_line()?;
+        }
+        for directive in &self.directives {
+            emit!(directive);
         }
         for stmt in &self.body {
             emit!(stmt);
@@ -1624,7 +1637,11 @@ impl MacroNode for Module {
 impl MacroNode for Script {
     #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
+        let should_skip_leading_comments = self
+            .directives
+            .iter()
+            .any(|directive| directive.span.lo == self.span.lo)
+            || self.body.iter().any(|stmt| stmt.span().lo == self.span.lo);
 
         emitter.start_scope(None, ScopeKind::Global, false, false, Some(self.span))?;
 
@@ -1632,7 +1649,7 @@ impl MacroNode for Script {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
-        if self.body.is_empty() {
+        if self.directives.is_empty() && self.body.is_empty() {
             srcmap!(emitter, self, true);
         }
 
@@ -1640,6 +1657,9 @@ impl MacroNode for Script {
             punct!(emitter, "#!");
             emitter.wr.write_str_lit(DUMMY_SP, shebang)?;
             emitter.wr.write_line()?;
+        }
+        for directive in &self.directives {
+            emit!(directive);
         }
         for stmt in &self.body {
             emit!(stmt);

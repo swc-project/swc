@@ -4,6 +4,7 @@ var e, E2, e1 = ((e = e1 || {})[e.e1 = 0] = "e1", e[e.e2 = 1] = "e2", e), E21 = 
 function f() {}
 (f || (f = {})).bar = 1;
 var c = function c() {
+    "use strict";
     _class_call_check(this, c);
 };
 (c || (c = {})).bar = 1;

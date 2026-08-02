@@ -193,12 +193,18 @@ pub(super) fn fold_constructor(
         }
     }
 
-    stmts.extend(body.stmts);
+    let FunctionBody {
+        span,
+        directives,
+        stmts: body_stmts,
+    } = body;
+    stmts.extend(body_stmts);
 
     let function = Function {
         params,
         body: Some(FunctionBody {
-            span: DUMMY_SP,
+            span,
+            directives,
             stmts,
         }),
         ..Default::default()

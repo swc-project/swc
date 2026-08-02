@@ -5,11 +5,13 @@ var X, X1, Y;
 var X, X1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 ((X1 = X || (X = {})).Y || (X1.Y = {})).Point = function Point(x, y) {
+    "use strict";
     _class_call_check(this, Point), this.x = x, this.y = y;
 };
 //// [simple.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (A = A1 || (A1 = {})).Instance = new A();
 var A, A1 = function A() {
+    "use strict";
     _class_call_check(this, A);
 };

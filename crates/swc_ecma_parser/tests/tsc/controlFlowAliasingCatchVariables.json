@@ -4,6 +4,7 @@
     "start": 45,
     "end": 473
   },
+  "directives": [],
   "body": [
     {
       "type": "TryStatement",

@@ -1,5 +1,7 @@
 //// [reExportDefaultExport.ts]
+"use strict";
 //// [m1.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -17,6 +19,7 @@ for(var name in all)Object.defineProperty(target, name, {
 });
 function f() {}
 //// [m2.ts]
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

@@ -5,7 +5,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, quote_ident, IsDirective};
+use swc_ecma_utils::{find_pat_ids, quote_ident};
 
 use crate::{module_ref_rewriter::ImportMap, SpanCtx};
 
@@ -119,8 +119,8 @@ fn cmp_utf16(a: &str, b: &str) -> Ordering {
 /// executable code in their output format.
 #[derive(Debug)]
 pub(crate) struct SourceModule {
-    /// Directive prologue statements, preserved before generated wrapper code.
-    pub directives: Vec<Stmt>,
+    /// Directive prologue, preserved before generated wrapper code.
+    pub directives: Vec<Directive>,
     /// Whether the original directive prologue contained `"use strict"`.
     pub has_use_strict: bool,
     pub requested_modules: RequestedModules,
@@ -135,8 +135,8 @@ pub(crate) struct SourceModule {
 }
 
 impl SourceModule {
-    pub fn collect(body: Vec<ModuleItem>) -> Self {
-        SourceModuleCollector::default().collect(body)
+    pub fn collect(directives: Vec<Directive>, body: Vec<ModuleItem>) -> Self {
+        SourceModuleCollector::default().collect(directives, body)
     }
 }
 
@@ -183,24 +183,11 @@ struct SourceModuleCollector {
 }
 
 impl SourceModuleCollector {
-    fn collect(mut self, body: Vec<ModuleItem>) -> SourceModule {
-        let mut directives = Vec::new();
-        let mut has_use_strict = false;
+    fn collect(mut self, directives: Vec<Directive>, body: Vec<ModuleItem>) -> SourceModule {
+        let has_use_strict = directives.iter().any(Directive::is_use_strict);
         let mut source_items = Vec::with_capacity(body.len());
-        let mut in_directive_prologue = true;
 
         for item in body {
-            if in_directive_prologue && item.directive_continue() {
-                let stmt = item.expect_stmt();
-                if !has_use_strict {
-                    has_use_strict = stmt.is_use_strict();
-                }
-                directives.push(stmt);
-                continue;
-            }
-
-            in_directive_prologue = false;
-
             match item {
                 ModuleItem::Stmt(stmt) => source_items.push(SourceModuleItem::Stmt(stmt)),
                 ModuleItem::ModuleDecl(module_decl) => {

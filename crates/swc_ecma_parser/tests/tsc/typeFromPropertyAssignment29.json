@@ -4,6 +4,7 @@
     "start": 23,
     "end": 2021
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -65,6 +66,7 @@
           "start": 55,
           "end": 83
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -252,6 +254,7 @@
               "start": 141,
               "end": 162
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -541,6 +544,7 @@
                 "start": 276,
                 "end": 304
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -821,6 +825,7 @@
               "start": 398,
               "end": 419
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -1314,6 +1319,7 @@
               "start": 610,
               "end": 632
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -1418,6 +1424,7 @@
           "start": 668,
           "end": 795
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -1496,6 +1503,7 @@
                       "start": 710,
                       "end": 739
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "ReturnStatement",
@@ -1751,6 +1759,7 @@
           "start": 855,
           "end": 878
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -1867,6 +1876,7 @@
           "start": 924,
           "end": 952
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -1943,6 +1953,7 @@
           "start": 976,
           "end": 1004
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -2182,6 +2193,7 @@
           "start": 1098,
           "end": 1239
         },
+        "directives": [],
         "body": [
           {
             "type": "FunctionDeclaration",
@@ -2209,6 +2221,7 @@
                 "start": 1138,
                 "end": 1140
               },
+              "directives": [],
               "stmts": []
             },
             "generator": false,
@@ -2311,6 +2324,7 @@
                   "start": 1197,
                   "end": 1237
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -2417,6 +2431,7 @@
                 "start": 1331,
                 "end": 1359
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -2608,6 +2623,7 @@
               "start": 1419,
               "end": 1440
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -3018,6 +3034,7 @@
               "start": 1677,
               "end": 1698
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -3436,6 +3453,7 @@
               "start": 1930,
               "end": 1951
             },
+            "directives": [],
             "stmts": [
               {
                 "type": "ReturnStatement",

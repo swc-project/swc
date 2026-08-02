@@ -1,6 +1,7 @@
 //// [a.ts]
 var global, factory;
 global = this, factory = function(exports1) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), Object.defineProperty(exports1, "default", {
@@ -18,6 +19,7 @@ global = this, factory = function(exports1) {
 //// [b.ts]
 var global, factory;
 global = this, factory = function(exports1, _async_to_generator, _interop_require_default, _a) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), _a = /*#__PURE__*/ _interop_require_default._(_a), _async_to_generator._(function*() {

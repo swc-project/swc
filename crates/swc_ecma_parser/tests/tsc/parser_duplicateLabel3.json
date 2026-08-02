@@ -4,6 +4,7 @@
     "start": 30,
     "end": 112
   },
+  "directives": [],
   "body": [
     {
       "type": "LabeledStatement",
@@ -69,6 +70,7 @@
                   "start": 68,
                   "end": 110
                 },
+                "directives": [],
                 "stmts": [
                   {
                     "type": "LabeledStatement",

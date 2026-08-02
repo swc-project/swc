@@ -5,6 +5,7 @@ import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _wrap_native_super } from "@swc/helpers/_/_wrap_native_super";
 export var Element = /*#__PURE__*/ function() {
+    "use strict";
     function Element() {
         _class_call_check(this, Element);
     }
@@ -21,12 +22,14 @@ export var Element = /*#__PURE__*/ function() {
     ]), Element;
 }();
 export var HTMLElement = /*#__PURE__*/ function(Element) {
+    "use strict";
     function HTMLElement() {
         return _class_call_check(this, HTMLElement), _call_super(this, HTMLElement, arguments);
     }
     return _inherits(HTMLElement, Element), HTMLElement;
 }(_wrap_native_super(Element));
 export var TextElement = /*#__PURE__*/ function(HTMLElement) {
+    "use strict";
     function TextElement() {
         return _class_call_check(this, TextElement), _call_super(this, TextElement, arguments);
     }

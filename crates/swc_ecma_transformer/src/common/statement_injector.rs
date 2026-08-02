@@ -92,6 +92,7 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
                     span: DUMMY_SP,
                     arg: Some(expr.take()),
                 })],
+                ..Default::default()
             });
         }
     }

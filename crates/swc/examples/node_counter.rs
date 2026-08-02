@@ -63,6 +63,7 @@ macro_rules! node_ref_variants {
             Decl,
             Decorator,
             DefaultDecl,
+            Directive,
             DoWhileStmt,
             EmptyStmt,
             ExportAll,

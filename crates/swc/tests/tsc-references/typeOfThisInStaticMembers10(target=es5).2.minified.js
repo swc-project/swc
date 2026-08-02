@@ -7,10 +7,12 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 var C = function C() {
+    "use strict";
     _class_call_check(this, C);
 };
 C.a = 1, C.b = C.a + 1;
 var D = /*#__PURE__*/ function(C) {
+    "use strict";
     function D() {
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }
@@ -38,10 +40,12 @@ D.c = 2, D.d = D.c + 1, D.e = _get(_get_prototype_of(D), "a", D) + D.c + 1, D.f 
     foo
 ], D);
 var CC = function CC() {
+    "use strict";
     _class_call_check(this, CC);
 };
 CC.a = 1, CC.b = CC.a + 1;
 var DD = /*#__PURE__*/ function(CC) {
+    "use strict";
     function DD() {
         return _class_call_check(this, DD), _call_super(this, DD, arguments);
     }

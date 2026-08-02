@@ -3,6 +3,7 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var Component = /*#__PURE__*/ function(ReactComponent1) {
+    "use strict";
     function Component() {
         return _class_call_check(this, Component), _call_super(this, Component, arguments);
     }
@@ -15,6 +16,7 @@ Component.propTypes = {
 }, Component.defaultProps = {
     foo: 42
 }, /*#__PURE__*/ function(ReactComponent1) {
+    "use strict";
     function JustPropTypes() {
         return _class_call_check(this, JustPropTypes), _call_super(this, JustPropTypes, arguments);
     }
@@ -23,6 +25,7 @@ Component.propTypes = {
     foo: PropTypes.number,
     bar: PropTypes.node.isRequired
 }, /*#__PURE__*/ function(ReactComponent1) {
+    "use strict";
     function JustDefaultProps() {
         return _class_call_check(this, JustDefaultProps), _call_super(this, JustDefaultProps, arguments);
     }
@@ -31,6 +34,7 @@ Component.propTypes = {
     foo: 42
 };
 var BothWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent1) {
+    "use strict";
     function BothWithSpecifiedGeneric() {
         return _class_call_check(this, BothWithSpecifiedGeneric), _call_super(this, BothWithSpecifiedGeneric, arguments);
     }
@@ -43,6 +47,7 @@ BothWithSpecifiedGeneric.propTypes = {
 }, BothWithSpecifiedGeneric.defaultProps = {
     foo: "yo"
 }, /*#__PURE__*/ function(ReactComponent1) {
+    "use strict";
     function JustPropTypesWithSpecifiedGeneric() {
         return _class_call_check(this, JustPropTypesWithSpecifiedGeneric), _call_super(this, JustPropTypesWithSpecifiedGeneric, arguments);
     }
@@ -51,6 +56,7 @@ BothWithSpecifiedGeneric.propTypes = {
     foo: PropTypes.string,
     bar: PropTypes.node.isRequired
 }, /*#__PURE__*/ function(ReactComponent1) {
+    "use strict";
     function JustDefaultPropsWithSpecifiedGeneric() {
         return _class_call_check(this, JustDefaultPropsWithSpecifiedGeneric), _call_super(this, JustDefaultPropsWithSpecifiedGeneric, arguments);
     }

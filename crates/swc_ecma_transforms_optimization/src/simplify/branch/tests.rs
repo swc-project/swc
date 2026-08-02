@@ -96,7 +96,7 @@ fn test_fold_block() {
     test("{if(false)foo(); {bar()}}", "bar()");
     test("{if(false)if(false)if(false)foo(); {bar()}}", "bar()");
 
-    test("{'hi'}", "'hi'");
+    test("{'hi'}", "('hi')");
     test("{x==3}", "x");
     test("{`hello ${foo}`}", "");
     test("{ (function(){x++}) }", "");

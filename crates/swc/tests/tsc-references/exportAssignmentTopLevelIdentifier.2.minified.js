@@ -2,6 +2,7 @@
 define([
     "require"
 ], function(require) {
+    "use strict";
     var Foo;
     return (Foo || (Foo = {})).answer = 42, Foo;
 });
@@ -10,5 +11,6 @@ define([
     "require",
     "./foo_0"
 ], function(require, foo) {
+    "use strict";
     foo.answer;
 });

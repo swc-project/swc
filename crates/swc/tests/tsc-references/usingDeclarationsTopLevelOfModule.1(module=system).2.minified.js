@@ -3,6 +3,7 @@ System.register([
     "@swc/helpers/_/_ts_add_disposable_resource",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
+    "use strict";
     var _ts_add_disposable_resource, _ts_dispose_resources, env, w, x, z;
     return _export({
         default: void 0,

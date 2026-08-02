@@ -4,6 +4,7 @@
     "start": 48,
     "end": 90
   },
+  "directives": [],
   "body": [
     {
       "type": "SwitchStatement",

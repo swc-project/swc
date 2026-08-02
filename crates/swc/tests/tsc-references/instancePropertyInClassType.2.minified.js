@@ -3,6 +3,7 @@ var NonGeneric, Generic, c, r, c1, r1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 NonGeneric || (NonGeneric = {}), (r = (c = new (/*#__PURE__*/ function() {
+    "use strict";
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }
@@ -18,6 +19,7 @@ NonGeneric || (NonGeneric = {}), (r = (c = new (/*#__PURE__*/ function() {
         }
     ]), C;
 }())(1, 2)).fn()).x, r.y, r.y = 4, c.y(), Generic || (Generic = {}), (r1 = (c1 = new (/*#__PURE__*/ function() {
+    "use strict";
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }

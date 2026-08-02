@@ -82,6 +82,7 @@ impl VisitMutHook<TraverseCtx> for VarDeclarations {
                 *node.body = ArrowFunctionBody::FunctionBody(FunctionBody {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
             ArrowFunctionBody::FunctionBody(body) => Self::insert_arrow_declarations(body, stmts),

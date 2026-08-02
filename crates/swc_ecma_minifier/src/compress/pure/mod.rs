@@ -61,6 +61,12 @@ pub(crate) fn pure_optimizer<'a>(
     }
 }
 
+fn has_use_asm(directives: &[Directive]) -> bool {
+    directives
+        .iter()
+        .any(|directive| directive.value() == "use asm")
+}
+
 struct Pure<'a> {
     options: &'a CompressOptions,
     config: PureOptimizerConfig,
@@ -296,22 +302,16 @@ impl Pure<'_> {
         stmts.retain(|s| !matches!(s.as_stmt(), Some(Stmt::Empty(..))));
     }
 
-    fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        if !stmts.is_empty() {
-            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
-                if let Expr::Lit(Lit::Str(v)) = &**expr {
-                    if v.value == *"use asm" {
-                        return;
-                    }
-                }
-            }
+    fn optimize_fn_stmts(&mut self, body: &mut FunctionBody) {
+        if has_use_asm(&body.directives) {
+            return;
         }
 
-        self.remove_useless_return(stmts);
+        self.remove_useless_return(&mut body.stmts);
 
-        self.negate_if_terminate(stmts, true, false);
+        self.negate_if_terminate(&mut body.stmts, true, false);
 
-        if let Some(last) = stmts.last_mut() {
+        if let Some(last) = body.stmts.last_mut() {
             self.drop_unused_stmt_at_end_of_fn(last);
         }
     }
@@ -404,7 +404,7 @@ impl VisitMut for Pure<'_> {
         body.visit_mut_children_with(self);
 
         match body {
-            ArrowFunctionBody::FunctionBody(b) => self.optimize_fn_stmts(&mut b.stmts),
+            ArrowFunctionBody::FunctionBody(body) => self.optimize_fn_stmts(body),
             ArrowFunctionBody::Expr(_) => {}
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
@@ -902,7 +902,9 @@ impl VisitMut for Pure<'_> {
 
         self.ignore_return_value(
             &mut s.expr,
-            DropOpts::DROP_NUMBER.union(DropOpts::DROP_GLOBAL_REFS_IF_UNUSED),
+            DropOpts::DROP_NUMBER
+                .union(DropOpts::DROP_STR_LIT)
+                .union(DropOpts::DROP_GLOBAL_REFS_IF_UNUSED),
         );
 
         if s.expr.is_invalid() {
@@ -995,8 +997,16 @@ impl VisitMut for Pure<'_> {
         self.do_outside_of_context(Ctx::IN_TRY_BLOCK, |this| f.visit_mut_children_with(this));
 
         if let Some(body) = &mut f.body {
-            self.optimize_fn_stmts(&mut body.stmts)
+            self.optimize_fn_stmts(body)
         }
+    }
+
+    fn visit_mut_function_body(&mut self, body: &mut FunctionBody) {
+        if has_use_asm(&body.directives) {
+            return;
+        }
+
+        body.stmts.visit_mut_with(self);
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
@@ -1071,6 +1081,14 @@ impl VisitMut for Pure<'_> {
         self.visit_par(1, items);
 
         self.handle_stmt_likes(items);
+    }
+
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        if has_use_asm(&module.directives) {
+            return;
+        }
+
+        module.body.visit_mut_with(self);
     }
 
     fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
@@ -1378,16 +1396,6 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
-        if !items.is_empty() {
-            if let Stmt::Expr(ExprStmt { expr, .. }) = &items[0] {
-                if let Expr::Lit(Lit::Str(v)) = &**expr {
-                    if v.value == *"use asm" {
-                        return;
-                    }
-                }
-            }
-        }
-
         self.visit_par(1, items);
 
         self.handle_stmt_likes(items);
@@ -1396,6 +1404,14 @@ impl VisitMut for Pure<'_> {
         {
             items.visit_with(&mut AssertValid);
         }
+    }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        if has_use_asm(&script.directives) {
+            return;
+        }
+
+        script.body.visit_mut_with(self);
     }
 
     fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
@@ -1411,6 +1427,14 @@ impl VisitMut for Pure<'_> {
                 e.prop = SuperProp::Ident(ident)
             };
         }
+    }
+
+    fn visit_mut_ts_module_block(&mut self, block: &mut TsModuleBlock) {
+        if has_use_asm(&block.directives) {
+            return;
+        }
+
+        block.body.visit_mut_with(self);
     }
 
     fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {

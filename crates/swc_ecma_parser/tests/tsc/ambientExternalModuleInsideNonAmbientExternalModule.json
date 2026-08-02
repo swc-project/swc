@@ -4,6 +4,7 @@
     "start": 16,
     "end": 45
   },
+  "directives": [],
   "body": [
     {
       "type": "ExportDeclaration",
@@ -35,6 +36,7 @@
             "start": 42,
             "end": 45
           },
+          "directives": [],
           "body": []
         }
       }

@@ -4,6 +4,7 @@
     "start": 72,
     "end": 369
   },
+  "directives": [],
   "body": [
     {
       "type": "TsModuleDeclaration",
@@ -30,6 +31,7 @@
           "start": 81,
           "end": 127
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -163,6 +165,7 @@
           "start": 139,
           "end": 193
         },
+        "directives": [],
         "body": [
           {
             "type": "TsInterfaceDeclaration",
@@ -256,6 +259,7 @@
           "start": 204,
           "end": 369
         },
+        "directives": [],
         "body": [
           {
             "type": "TsModuleDeclaration",
@@ -282,6 +286,7 @@
                 "start": 219,
                 "end": 281
               },
+              "directives": [],
               "body": [
                 {
                   "type": "TsInterfaceDeclaration",
@@ -415,6 +420,7 @@
                 "start": 297,
                 "end": 367
               },
+              "directives": [],
               "body": [
                 {
                   "type": "TsInterfaceDeclaration",

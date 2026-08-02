@@ -4,6 +4,7 @@
     "start": 1,
     "end": 1416
   },
+  "directives": [],
   "body": [
     {
       "type": "ImportDeclaration",
@@ -141,6 +142,7 @@
                       "start": 148,
                       "end": 1412
                     },
+                    "directives": [],
                     "stmts": [
                       {
                         "type": "VariableDeclaration",
@@ -445,6 +447,7 @@
                                   "start": 346,
                                   "end": 1255
                                 },
+                                "directives": [],
                                 "stmts": [
                                   {
                                     "type": "IfStatement",

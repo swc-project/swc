@@ -90,36 +90,23 @@ impl VisitMutHook<TraverseCtx> for InstanceOfPass {
     }
 
     fn enter_function(&mut self, f: &mut Function, _ctx: &mut TraverseCtx) {
-        if let Some(body) = &f.body {
-            if let Some(Stmt::Expr(first)) = body.stmts.first() {
-                if let Expr::Lit(Lit::Str(s)) = &*first.expr {
-                    if let Some(text) = s.value.as_str() {
-                        if matches!(
-                            text,
-                            "@swc/helpers - instanceof" | "@babel/helpers - instanceof"
-                        ) {
-                            self.in_helper_fn += 1;
-                        }
-                    }
-                }
-            }
+        if is_instanceof_helper(f) {
+            self.in_helper_fn += 1;
         }
     }
 
     fn exit_function(&mut self, f: &mut Function, _ctx: &mut TraverseCtx) {
-        if let Some(body) = &f.body {
-            if let Some(Stmt::Expr(first)) = body.stmts.first() {
-                if let Expr::Lit(Lit::Str(s)) = &*first.expr {
-                    if let Some(text) = s.value.as_str() {
-                        if matches!(
-                            text,
-                            "@swc/helpers - instanceof" | "@babel/helpers - instanceof"
-                        ) {
-                            self.in_helper_fn = self.in_helper_fn.saturating_sub(1);
-                        }
-                    }
-                }
-            }
+        if is_instanceof_helper(f) {
+            self.in_helper_fn = self.in_helper_fn.saturating_sub(1);
         }
     }
+}
+
+fn is_instanceof_helper(function: &Function) -> bool {
+    function.body.as_ref().is_some_and(|body| {
+        body.directives.first().is_some_and(|directive| {
+            directive.value() == "@swc/helpers - instanceof"
+                || directive.value() == "@babel/helpers - instanceof"
+        })
+    })
 }

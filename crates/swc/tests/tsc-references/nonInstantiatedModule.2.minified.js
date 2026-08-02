@@ -8,5 +8,6 @@ M.a, m.a, ((M2 = M21 || (M21 = {})).Point || (M2.Point = {})).Origin = function(
         y: 0
     };
 }, (M3 || (M3 = {})).Utils = function Utils() {
+    "use strict";
     _class_call_check(this, Utils);
 };

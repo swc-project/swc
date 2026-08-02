@@ -1,6 +1,7 @@
 //// [a.ts]
 var global, factory;
 global = this, factory = function(exports1) {
+    "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), Object.defineProperty(exports1, "default", {
@@ -17,6 +18,7 @@ global = this, factory = function(exports1) {
 //// [b.ts]
 var global, factory;
 global = this, factory = function(exports1) {
+    "use strict";
     function foo() {}
     Object.defineProperty(exports1, "__esModule", {
         value: !0

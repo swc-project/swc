@@ -28,6 +28,7 @@ impl DirectReExport {
 }
 
 pub(super) fn emit(
+    directives: Vec<Directive>,
     mut stmts: Vec<Stmt>,
     mut module: SystemModule,
     export_ident: Ident,
@@ -60,6 +61,7 @@ pub(super) fn emit(
                 .into_iter()
                 .map(|execute_stmt| emit_execute_stmt(execute_stmt, &export_ident))
                 .collect(),
+            ..Default::default()
         }),
         is_async: module.async_execute,
         ..Default::default()
@@ -95,6 +97,7 @@ pub(super) fn emit(
         params: vec![export_ident.into(), context_ident.into()],
         body: Some(FunctionBody {
             span: DUMMY_SP,
+            directives,
             stmts,
         }),
         ..Default::default()
@@ -305,6 +308,7 @@ fn emit_setter(dep: &DependencySlot, module: &SystemModule, export_ident: &Ident
         body: Some(FunctionBody {
             span: DUMMY_SP,
             stmts,
+            ..Default::default()
         }),
         ..Default::default()
     }
@@ -405,6 +409,7 @@ fn emit_export_setters(stmts: &mut Vec<Stmt>, module: &SystemModule, export_iden
                                 .into_stmt(),
                             export_names_call(export_ident, exports, local).into_stmt(),
                         ],
+                        ..Default::default()
                     }),
                     ..Default::default()
                 }),

@@ -7,6 +7,7 @@ var M, ANY2 = [
     x: "",
     y: function() {}
 }, A = /*#__PURE__*/ function() {
+    "use strict";
     function A() {
         _class_call_check(this, A);
     }

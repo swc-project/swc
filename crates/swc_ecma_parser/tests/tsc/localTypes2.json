@@ -4,6 +4,7 @@
     "start": 1,
     "end": 718
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -31,6 +32,7 @@
           "start": 15,
           "end": 231
         },
+        "directives": [],
         "stmts": [
           {
             "type": "FunctionDeclaration",
@@ -58,6 +60,7 @@
                 "start": 34,
                 "end": 151
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",
@@ -174,6 +177,7 @@
                           "start": 114,
                           "end": 117
                         },
+                        "directives": [],
                         "stmts": []
                       },
                       "accessibility": null,
@@ -482,6 +486,7 @@
           "start": 247,
           "end": 478
         },
+        "directives": [],
         "stmts": [
           {
             "type": "FunctionDeclaration",
@@ -543,6 +548,7 @@
                 "start": 275,
                 "end": 400
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",
@@ -658,6 +664,7 @@
                           "start": 363,
                           "end": 366
                         },
+                        "directives": [],
                         "stmts": []
                       },
                       "accessibility": null,
@@ -967,6 +974,7 @@
           "start": 494,
           "end": 718
         },
+        "directives": [],
         "stmts": [
           {
             "type": "FunctionDeclaration",
@@ -1061,6 +1069,7 @@
                 "start": 533,
                 "end": 638
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ClassDeclaration",

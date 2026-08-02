@@ -4,6 +4,7 @@
     "start": 45,
     "end": 882
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -535,6 +536,7 @@
           "start": 239,
           "end": 242
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -742,6 +744,7 @@
           "start": 331,
           "end": 334
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -981,6 +984,7 @@
           "start": 427,
           "end": 430
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1220,6 +1224,7 @@
           "start": 520,
           "end": 523
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1427,6 +1432,7 @@
           "start": 605,
           "end": 608
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1650,6 +1656,7 @@
           "start": 695,
           "end": 698
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -1873,6 +1880,7 @@
           "start": 792,
           "end": 795
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -2096,6 +2104,7 @@
           "start": 879,
           "end": 882
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,

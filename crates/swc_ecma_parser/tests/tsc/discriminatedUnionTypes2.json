@@ -4,6 +4,7 @@
     "start": 19,
     "end": 2626
   },
+  "directives": [],
   "body": [
     {
       "type": "FunctionDeclaration",
@@ -317,6 +318,7 @@
           "start": 122,
           "end": 253
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -859,6 +861,7 @@
           "start": 358,
           "end": 534
         },
+        "directives": [],
         "stmts": [
           {
             "type": "SwitchStatement",
@@ -1276,6 +1279,7 @@
           "start": 603,
           "end": 652
         },
+        "directives": [],
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -1614,6 +1618,7 @@
           "start": 716,
           "end": 769
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -2031,6 +2036,7 @@
           "start": 873,
           "end": 961
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -2786,6 +2792,7 @@
           "start": 1267,
           "end": 1488
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -3521,6 +3528,7 @@
           "start": 1627,
           "end": 1698
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -3685,6 +3693,7 @@
           "start": 1723,
           "end": 1803
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -4326,6 +4335,7 @@
           "start": 2022,
           "end": 2125
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -4887,6 +4897,7 @@
           "start": 2323,
           "end": 2436
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",
@@ -5227,6 +5238,7 @@
           "start": 2513,
           "end": 2626
         },
+        "directives": [],
         "stmts": [
           {
             "type": "IfStatement",

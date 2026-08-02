@@ -4,6 +4,7 @@
     "start": 66,
     "end": 2179
   },
+  "directives": [],
   "body": [
     {
       "type": "ClassDeclaration",
@@ -389,6 +390,7 @@
           "start": 180,
           "end": 253
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -884,6 +886,7 @@
           "start": 361,
           "end": 364
         },
+        "directives": [],
         "stmts": []
       },
       "generator": false,
@@ -916,6 +919,7 @@
           "start": 374,
           "end": 401
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -1059,6 +1063,7 @@
           "start": 435,
           "end": 462
         },
+        "directives": [],
         "body": [
           {
             "type": "ExportDeclaration",
@@ -1223,6 +1228,7 @@
           "start": 515,
           "end": 2179
         },
+        "directives": [],
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -2433,6 +2439,7 @@
                         "start": 1069,
                         "end": 1072
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "async": false,
@@ -2520,6 +2527,7 @@
                         "start": 1108,
                         "end": 1111
                       },
+                      "directives": [],
                       "stmts": []
                     },
                     "async": false,
@@ -2623,6 +2631,7 @@
                         "start": 1147,
                         "end": 1159
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ReturnStatement",
@@ -2794,6 +2803,7 @@
                         "start": 1203,
                         "end": 1215
                       },
+                      "directives": [],
                       "stmts": [
                         {
                           "type": "ReturnStatement",
@@ -4174,6 +4184,7 @@
                 "start": 1810,
                 "end": 1881
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -4414,6 +4425,7 @@
                 "start": 1922,
                 "end": 1993
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "VariableDeclaration",

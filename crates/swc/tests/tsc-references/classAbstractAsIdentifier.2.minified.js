@@ -1,6 +1,7 @@
 //// [classAbstractAsIdentifier.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 new (/*#__PURE__*/ function() {
+    "use strict";
     function abstract() {
         _class_call_check(this, abstract);
     }

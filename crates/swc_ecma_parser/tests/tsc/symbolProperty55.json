@@ -4,6 +4,7 @@
     "start": 16,
     "end": 365
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -114,6 +115,7 @@
           "start": 66,
           "end": 365
         },
+        "directives": [],
         "body": [
           {
             "type": "VariableDeclaration",

@@ -415,39 +415,38 @@ impl Optimizer<'_> {
         }
     }
 
-    fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
-        // Skip if `use asm` exists.
-        if maybe_par!(
-            stmts.iter().any(|stmt| match stmt.as_stmt() {
-                Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                    Expr::Lit(Lit::Str(Str { raw, .. })) => {
-                        matches!(raw, Some(value) if value == "\"use asm\"" || value == "'use asm'")
-                    }
-                    _ => false,
-                },
-                _ => false,
-            }),
-            *crate::LIGHT_TASK_PARALLELS
-        ) {
+    fn prepare_directives(
+        &mut self,
+        directives: &[Directive],
+        inherited_strict: bool,
+    ) -> (bool, bool) {
+        let has_use_strict = directives.iter().any(Directive::is_use_strict);
+        let has_use_asm = directives
+            .iter()
+            .any(|directive| directive.value() == "use asm");
+
+        (inherited_strict || has_use_strict, has_use_asm)
+    }
+
+    fn handle_function_body(&mut self, body: &mut FunctionBody) {
+        let inherited_strict = self.ctx.expr_ctx.in_strict;
+        let (in_strict, in_asm) = self.prepare_directives(&body.directives, inherited_strict);
+        if in_asm {
             return;
         }
 
+        let mut ctx = self.ctx.clone();
+        ctx.expr_ctx.in_strict = in_strict;
+        self.with_ctx(ctx).handle_stmts(&mut body.stmts, true);
+    }
+
+    fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
         self.with_ctx(self.ctx.clone()).inject_else(stmts);
 
         self.with_ctx(self.ctx.clone())
             .handle_stmt_likes(stmts, will_terminate);
 
         drop_invalid_stmts(stmts);
-
-        if stmts.len() == 1 {
-            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
-                if let Expr::Lit(Lit::Str(s)) = &**expr {
-                    if s.value == *"use strict" {
-                        stmts.clear();
-                    }
-                }
-            }
-        }
 
         #[cfg(debug_assertions)]
         {
@@ -464,46 +463,20 @@ impl Optimizer<'_> {
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
     {
-        let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
         let append_stmts = self.append_stmts.take();
 
         {
-            let mut child_ctx = self.ctx.clone();
-            let mut directive_count = 0;
-
-            if !stmts.is_empty() {
-                // TODO: Handle multiple directives.
-                if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts[0].as_stmt() {
-                    if let Expr::Lit(Lit::Str(v)) = &**expr {
-                        directive_count += 1;
-
-                        match &v.raw {
-                            Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
-                                child_ctx.expr_ctx.in_strict = true;
-                            }
-                            Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
-                                child_ctx.bit_ctx.insert(BitCtx::InAsm);
-                                self.ctx.bit_ctx.insert(BitCtx::InAsm);
-                                use_asm = true;
-                            }
-                            _ => {}
-                        }
-                    }
-                }
-            }
+            let child_ctx = self.ctx.clone();
 
             let mut new = Vec::with_capacity(stmts.len() * 11 / 10);
-            for (i, mut stmt) in stmts.take().into_iter().enumerate() {
+            for mut stmt in stmts.take() {
                 // debug_assert_eq!(self.prepend_stmts, Vec::new());
                 // debug_assert_eq!(self.append_stmts, Vec::new());
 
-                if i < directive_count {
-                    // Don't set in_strict for directive itself.
-                    stmt.visit_mut_with(self);
-                } else {
-                    let child_optimizer = &mut *self.with_ctx(child_ctx.clone());
-                    stmt.visit_mut_with(child_optimizer);
+                {
+                    let mut child_optimizer = self.with_ctx(child_ctx.clone());
+                    stmt.visit_mut_with(&mut *child_optimizer);
                 }
 
                 #[cfg(debug_assertions)]
@@ -528,10 +501,6 @@ impl Optimizer<'_> {
                 new.extend(self.append_stmts.drain(..).map(T::from));
             }
             *stmts = new;
-        }
-
-        if use_asm {
-            self.ctx.bit_ctx.insert(BitCtx::InAsm);
         }
 
         #[cfg(debug_assertions)]
@@ -1549,6 +1518,7 @@ impl VisitMut for Optimizer<'_> {
                     *n.body = ArrowFunctionBody::FunctionBody(FunctionBody {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     });
                 }
                 #[cfg(swc_ast_unknown)]
@@ -2153,8 +2123,6 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
-        let was_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
-
         n.visit_mut_children_with(self);
 
         let mut need_ignore_return_value = false;
@@ -2170,18 +2138,6 @@ impl VisitMut for Optimizer<'_> {
         }
 
         self.negate_iife_ignoring_ret(&mut n.expr);
-
-        let is_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
-
-        if is_directive {
-            if !was_directive {
-                *n = ExprStmt {
-                    span: DUMMY_SP,
-                    expr: Take::dummy(),
-                };
-            }
-            return;
-        }
 
         if need_ignore_return_value
             || self.options.unused
@@ -2368,7 +2324,7 @@ impl VisitMut for Optimizer<'_> {
 
             n.params.visit_mut_with(optimizer);
             if let Some(body) = n.body.as_mut() {
-                optimizer.handle_stmts(&mut body.stmts, true);
+                optimizer.handle_function_body(body);
                 #[cfg(debug_assertions)]
                 {
                     body.visit_with(&mut AssertValid);
@@ -2477,7 +2433,14 @@ impl VisitMut for Optimizer<'_> {
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.is_module = true;
-        m.visit_mut_children_with(self);
+        let (in_strict, in_asm) = self.prepare_directives(&m.directives, true);
+        if in_asm {
+            return;
+        }
+
+        let mut ctx = self.ctx.clone();
+        ctx.expr_ctx.in_strict = in_strict;
+        m.body.visit_mut_with(&mut *self.with_ctx(ctx));
     }
 
     #[cfg_attr(
@@ -2668,8 +2631,13 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_script(&mut self, s: &mut Script) {
-        let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
-        s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        let inherited_strict = self.ctx.expr_ctx.in_strict;
+        let (in_strict, in_asm) = self.prepare_directives(&s.directives, inherited_strict);
+        if !in_asm {
+            let mut ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
+            ctx.expr_ctx.in_strict = in_strict;
+            s.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
         if self.vars.inline_with_multi_replacer(s) {
             self.changed = true;
@@ -2887,25 +2855,9 @@ impl VisitMut for Optimizer<'_> {
                 return;
             }
 
-            let is_directive = matches!(&**expr, Expr::Lit(Lit::Str(..)));
-
-            if self.options.directives
-                && is_directive
-                && self.ctx.expr_ctx.in_strict
-                && match &**expr {
-                    Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
-                    _ => false,
-                }
-            {
-                report_change!("Removing 'use strict'");
-                *s = EmptyStmt { span: DUMMY_SP }.into();
-                return;
-            }
-
             if self.options.unused {
-                let can_be_removed = !is_directive
-                    && !expr.is_ident()
-                    && !expr.may_have_side_effects(self.ctx.expr_ctx);
+                let can_be_removed =
+                    !expr.is_ident() && !expr.may_have_side_effects(self.ctx.expr_ctx);
 
                 if can_be_removed {
                     self.changed = true;
@@ -2951,37 +2903,27 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        // Skip if `use asm` exists.
-        if maybe_par!(
-            stmts.iter().any(|stmt| match stmt.as_stmt() {
-                Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                    Expr::Lit(Lit::Str(Str { raw, .. })) => {
-                        matches!(raw, Some(value) if value == "\"use asm\"" || value == "'use asm'")
-                    }
-                    _ => false,
-                },
-                _ => false,
-            }),
-            *crate::LIGHT_TASK_PARALLELS
-        ) {
-            return;
-        }
-
         #[cfg(debug_assertions)]
         {
             stmts.visit_with(&mut AssertValid);
         }
         self.handle_stmts(stmts, false);
+    }
 
-        if stmts.len() == 1 {
-            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
-                if let Expr::Lit(Lit::Str(s)) = &**expr {
-                    if s.value == *"use strict" {
-                        stmts.clear();
-                    }
-                }
-            }
+    fn visit_mut_function_body(&mut self, body: &mut FunctionBody) {
+        self.handle_function_body(body);
+    }
+
+    fn visit_mut_ts_module_block(&mut self, block: &mut TsModuleBlock) {
+        let inherited_strict = self.ctx.expr_ctx.in_strict;
+        let (in_strict, in_asm) = self.prepare_directives(&block.directives, inherited_strict);
+        if in_asm {
+            return;
         }
+
+        let mut ctx = self.ctx.clone();
+        ctx.expr_ctx.in_strict = in_strict;
+        block.body.visit_mut_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_str(&mut self, s: &mut Str) {

@@ -4,6 +4,7 @@
     "start": 89,
     "end": 271
   },
+  "directives": [],
   "body": [
     {
       "type": "VariableDeclaration",
@@ -237,6 +238,7 @@
                 "start": 224,
                 "end": 233
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -294,6 +296,7 @@
                 "start": 253,
                 "end": 269
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",

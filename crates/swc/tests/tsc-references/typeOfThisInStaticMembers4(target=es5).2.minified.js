@@ -6,10 +6,12 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var C = function C() {
+    "use strict";
     _class_call_check(this, C);
 };
 _define_property(C, "a", 1), _define_property(C, "b", C.a + 1);
 var D = /*#__PURE__*/ function(C) {
+    "use strict";
     function D() {
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }

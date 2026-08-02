@@ -7,10 +7,7 @@ use swc_ecma_visit::{
 };
 
 use super::Pure;
-use crate::{
-    compress::util::{drop_invalid_stmts, is_directive},
-    util::ModuleItemExt,
-};
+use crate::{compress::util::drop_invalid_stmts, util::ModuleItemExt};
 
 impl Pure<'_> {
     /// Join variables.
@@ -68,10 +65,6 @@ impl Pure<'_> {
         stmts.take().into_iter().for_each(|stmt| {
             match stmt.try_into_stmt() {
                 Ok(stmt) => {
-                    if is_directive(&stmt) {
-                        return new.push(T::from(stmt));
-                    }
-
                     match stmt {
                         Stmt::Decl(Decl::Var(var)) => match &mut cur {
                             Some(v) if var.kind == v.kind => {

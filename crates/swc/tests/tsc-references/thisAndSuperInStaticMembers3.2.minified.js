@@ -7,6 +7,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var C = /*#__PURE__*/ function(B1) {
+    "use strict";
     function C() {
         var _this;
         return _class_call_check(this, C), _this = _call_super(this, C, arguments), _define_property(_this, "x", 1), _define_property(_this, "y", _this.x), _define_property(_this, "z", _get((_assert_this_initialized(_this), _get_prototype_of(C.prototype)), "f", _this).call(_this)), _this;

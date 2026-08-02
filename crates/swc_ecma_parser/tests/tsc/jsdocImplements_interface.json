@@ -4,6 +4,7 @@
     "start": 133,
     "end": 375
   },
+  "directives": [],
   "body": [
     {
       "type": "TsInterfaceDeclaration",
@@ -118,6 +119,7 @@
                 "start": 237,
                 "end": 262
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -204,6 +206,7 @@
                 "start": 313,
                 "end": 339
               },
+              "directives": [],
               "stmts": [
                 {
                   "type": "ReturnStatement",
