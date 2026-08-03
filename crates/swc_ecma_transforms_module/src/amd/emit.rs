@@ -66,9 +66,9 @@ pub(super) fn emit(
             params,
             decorators: Default::default(),
             span: DUMMY_SP,
-            body: Some(BlockStmt {
+            body: Some(FunctionBody {
+                span: DUMMY_SP,
                 stmts,
-                ..Default::default()
             }),
             is_generator: false,
             is_async: false,

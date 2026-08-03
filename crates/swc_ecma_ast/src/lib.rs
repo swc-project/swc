@@ -21,7 +21,7 @@ pub use self::{
     },
     decl::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::*,
-    function::{Function, Param, ParamOrTsParamProp},
+    function::{Function, FunctionBody, Param, ParamOrTsParamProp},
     ident::{
         unsafe_id, unsafe_id_from_ident, BindingIdent, EsReserved, Id, Ident, IdentName,
         PrivateName, UnsafeId,

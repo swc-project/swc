@@ -9,14 +9,13 @@ use swc_common::{
 
 use crate::{
     class::Class,
-    function::Function,
+    function::{Function, FunctionBody},
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
     lit::Lit,
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::Pat,
     prop::Prop,
-    stmt::BlockStmt,
     typescript::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
@@ -1125,7 +1124,7 @@ pub struct ArrowExpr {
     pub params: Vec<Pat>,
 
     /// This is boxed to reduce the type size of [Expr].
-    pub body: Box<BlockStmtOrExpr>,
+    pub body: Box<ArrowFunctionBody>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "async"))]
     pub is_async: bool,
@@ -1458,20 +1457,20 @@ bridge_from!(ExprOrSpread, Box<Expr>, Expr);
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-pub enum BlockStmtOrExpr {
-    #[tag("BlockStatement")]
-    BlockStmt(BlockStmt),
+pub enum ArrowFunctionBody {
+    #[tag("FunctionBody")]
+    FunctionBody(FunctionBody),
     #[tag("*")]
     Expr(Box<Expr>),
 }
 
-impl Default for BlockStmtOrExpr {
+impl Default for ArrowFunctionBody {
     fn default() -> Self {
-        BlockStmtOrExpr::BlockStmt(Default::default())
+        ArrowFunctionBody::FunctionBody(Default::default())
     }
 }
 
-impl<T> From<T> for BlockStmtOrExpr
+impl<T> From<T> for ArrowFunctionBody
 where
     T: Into<Expr>,
 {
@@ -1480,9 +1479,9 @@ where
     }
 }
 
-impl Take for BlockStmtOrExpr {
+impl Take for ArrowFunctionBody {
     fn dummy() -> Self {
-        BlockStmtOrExpr::Expr(Take::dummy())
+        ArrowFunctionBody::Expr(Take::dummy())
     }
 }
 

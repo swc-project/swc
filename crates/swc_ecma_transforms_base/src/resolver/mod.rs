@@ -548,9 +548,7 @@ impl VisitMut for Resolver<'_> {
             child.ident_type = old;
 
             match &mut *e.body {
-                BlockStmtOrExpr::BlockStmt(s) => {
-                    child.mark_block(&mut s.ctxt);
-
+                ArrowFunctionBody::FunctionBody(s) => {
                     let old_strict_mode = child.strict_mode;
 
                     if !child.strict_mode {
@@ -560,11 +558,10 @@ impl VisitMut for Resolver<'_> {
                             .map(|stmt| stmt.is_use_strict())
                             .unwrap_or(false);
                     }
-                    // Prevent creating new scope.
-                    s.stmts.visit_mut_with(child);
+                    s.visit_mut_with(child);
                     child.strict_mode = old_strict_mode;
                 }
-                BlockStmtOrExpr::Expr(e) => e.visit_mut_with(child),
+                ArrowFunctionBody::Expr(e) => e.visit_mut_with(child),
                 #[cfg(swc_ast_unknown)]
                 _ => (),
             }
@@ -743,8 +740,7 @@ impl VisitMut for Resolver<'_> {
             child.ident_type = old;
 
             if let Some(body) = &mut c.body {
-                child.mark_block(&mut body.ctxt);
-                body.visit_mut_children_with(child);
+                body.visit_mut_with(child);
             }
         });
     }
@@ -909,7 +905,6 @@ impl VisitMut for Resolver<'_> {
 
         self.ident_type = IdentType::Ref;
         if let Some(body) = &mut f.body {
-            self.mark_block(&mut body.ctxt);
             let old_strict_mode = self.strict_mode;
             if !self.strict_mode {
                 self.strict_mode = body
@@ -918,8 +913,7 @@ impl VisitMut for Resolver<'_> {
                     .map(|stmt| stmt.is_use_strict())
                     .unwrap_or(false);
             }
-            // Prevent creating new scope.
-            body.visit_mut_children_with(self);
+            body.visit_mut_with(self);
             self.strict_mode = old_strict_mode;
         }
     }

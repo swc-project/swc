@@ -1,7 +1,7 @@
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    ArrowExpr, BindingIdent, BlockStmtOrExpr, Class, Expr, Function, Ident, Lit, ReturnStmt, Stmt,
-    TsKeywordTypeKind, TsParenthesizedType, TsType, TsTypeAliasDecl, TsTypeAnn,
+    ArrowExpr, ArrowFunctionBody, BindingIdent, Class, Expr, Function, Ident, Lit, ReturnStmt,
+    Stmt, TsKeywordTypeKind, TsParenthesizedType, TsType, TsTypeAliasDecl, TsTypeAnn,
     TsUnionOrIntersectionType, TsUnionType, UnaryExpr, UnaryOp,
 };
 use swc_ecma_visit::{Visit, VisitWith};
@@ -84,10 +84,10 @@ impl FastDts {
         }
 
         match arrow.body.as_ref() {
-            BlockStmtOrExpr::BlockStmt(block_stmt) => {
+            ArrowFunctionBody::FunctionBody(block_stmt) => {
                 ReturnTypeInferrer::infer(self, &block_stmt.stmts)
             }
-            BlockStmtOrExpr::Expr(expr) => self.infer_type_from_expr(expr),
+            ArrowFunctionBody::Expr(expr) => self.infer_type_from_expr(expr),
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }

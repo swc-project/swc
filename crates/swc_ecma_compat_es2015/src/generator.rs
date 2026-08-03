@@ -81,9 +81,9 @@ impl VisitMut for Wrapper {
                     pat: Pat::Ident(v.state.clone().into()),
                 }],
                 decorators: Default::default(),
-                body: Some(BlockStmt {
+                body: Some(FunctionBody {
+                    span: DUMMY_SP,
                     stmts,
-                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async: false,

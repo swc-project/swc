@@ -10,6 +10,7 @@ impl_enum!(
 
 impl_struct!(EmptyStmt, [span]);
 impl_struct!(BlockStmt, [span, ctxt, stmts]);
+impl_struct!(FunctionBody, [span, stmts]);
 impl_struct!(DebuggerStmt, [span]);
 impl_struct!(WithStmt, [span, obj, body]);
 impl_struct!(LabeledStmt, [span, label, body]);

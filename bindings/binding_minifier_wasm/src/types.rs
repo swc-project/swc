@@ -1304,7 +1304,7 @@ export interface Constructor extends Node, HasSpan {
 
   params: (TsParameterProperty | Param)[];
 
-  body?: BlockStatement;
+  body?: FunctionBody;
 
   accessibility?: Accessibility;
 
@@ -1617,7 +1617,7 @@ export interface ArrowFunctionExpression extends ExpressionBase {
 
   params: Pattern[];
 
-  body: BlockStatement | Expression;
+  body: FunctionBody | Expression;
 
   async: boolean;
 
@@ -1685,7 +1685,7 @@ export interface Fn extends HasSpan, HasDecorator {
 
   params: Param[];
 
-  body?: BlockStatement;
+  body?: FunctionBody;
 
   generator: boolean;
 
@@ -2221,6 +2221,12 @@ export interface ComputedPropName extends Node, HasSpan {
 
 export interface BlockStatement extends Node, HasSpan {
   type: "BlockStatement";
+
+  stmts: Statement[];
+}
+
+export interface FunctionBody extends Node, HasSpan {
+  type: "FunctionBody";
 
   stmts: Statement[];
 }

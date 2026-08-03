@@ -408,7 +408,7 @@
  5 |     constructor(private commentService: CommentService) { }
    :                                         ^^^^^^^^^^^^^^
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:1]
  4 | export class CommentController {
  5 |     constructor(private commentService: CommentService) { }
@@ -894,7 +894,7 @@
    :          ^^^^^^^^^^^^^^^^^^^^^^^
  9 |     public updateComment(
    `----
-  x BlockStmt
+  x FunctionBody
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:13:1]
  12 |             @User() user: UserType,
  13 | ,->     ) {
@@ -1428,7 +1428,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^
  19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
     `----
-  x BlockStmt
+  x FunctionBody
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:1]
  18 |         @Delete(COMMENT_DELETE_ENDPOINT)
  19 | ,->     public deleteComment(@Param('id') id: string, @User() user: UserType) {

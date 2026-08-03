@@ -386,6 +386,16 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
+    fn convert_function_body(&self, body: &swc::FunctionBody) -> BlockStatement {
+        let (statements, directives) = self.convert_stmt_list_with_directives(&body.stmts);
+
+        BlockStatement {
+            base: self.make_base_node(body.span),
+            body: statements,
+            directives,
+        }
+    }
+
     fn convert_return_stmt(&self, ret: &swc::ReturnStmt) -> ReturnStatement {
         ReturnStatement {
             base: self.make_base_node(ret.span),
@@ -1118,12 +1128,12 @@ impl<'a> ConvertCtx<'a> {
     fn convert_arrow_expr(&self, arrow: &swc::ArrowExpr) -> ArrowFunctionExpression {
         self.preserved_ast.borrow_mut().save_arrow(arrow);
 
-        let is_expression = matches!(&*arrow.body, swc::BlockStmtOrExpr::Expr(_));
+        let is_expression = matches!(&*arrow.body, swc::ArrowFunctionBody::Expr(_));
         let body = match &*arrow.body {
-            swc::BlockStmtOrExpr::BlockStmt(block) => {
-                ArrowFunctionBody::BlockStatement(self.convert_block_stmt(block))
+            swc::ArrowFunctionBody::FunctionBody(body) => {
+                ArrowFunctionBody::BlockStatement(self.convert_function_body(body))
             }
-            swc::BlockStmtOrExpr::Expr(expr) => {
+            swc::ArrowFunctionBody::Expr(expr) => {
                 ArrowFunctionBody::Expression(Box::new(self.convert_expr(expr)))
             }
         };
@@ -1154,7 +1164,7 @@ impl<'a> ConvertCtx<'a> {
 
     fn convert_block_stmt_as_optional_function_body(
         &self,
-        body: Option<&swc::BlockStmt>,
+        body: Option<&swc::FunctionBody>,
         span: Span,
     ) -> BlockStatement {
         body.map_or_else(
@@ -1163,7 +1173,7 @@ impl<'a> ConvertCtx<'a> {
                 body: vec![],
                 directives: vec![],
             },
-            |b| self.convert_block_stmt(b),
+            |body| self.convert_function_body(body),
         )
     }
 

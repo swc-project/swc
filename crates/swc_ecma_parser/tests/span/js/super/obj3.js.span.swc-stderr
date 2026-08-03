@@ -113,7 +113,7 @@
  4 | `->     },
  5 |     };
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/super/obj3.js:2:1]
  1 |     let o = {
  2 | ,->     a() {
