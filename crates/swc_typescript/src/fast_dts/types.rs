@@ -1,10 +1,11 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{BytePos, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, Expr, Function, GetterProp, Lit, MemberExpr, ObjectLit, Param, Pat, Prop,
-    PropName, PropOrSpread, Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType,
-    TsKeywordTypeKind, TsLit, TsMethodSignature, TsPropertySignature, TsTupleElement, TsTupleType,
-    TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, UnaryOp,
+    ArrayLit, ArrowExpr, BindingIdent, Expr, Function, GetterProp, Ident, Lit, MemberExpr,
+    ObjectLit, Param, Pat, Prop, PropName, PropOrSpread, Str, Tpl, TsFnOrConstructorType,
+    TsFnParam, TsFnType, TsKeywordTypeKind, TsLit, TsMethodSignature, TsPropertySignature,
+    TsThisParam, TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
+    TsTypeOperator, TsTypeOperatorOp, UnaryOp,
 };
 use swc_ecma_utils::quote_ident;
 
@@ -85,7 +86,7 @@ impl FastDts {
             Box::new(TsType::TsFnOrConstructorType(
                 TsFnOrConstructorType::TsFnType(TsFnType {
                     span: DUMMY_SP,
-                    params: self.transform_fn_params_to_ts_type(&function.params),
+                    params: self.transform_function_params_to_ts_type(function),
                     type_params: function.type_params.clone(),
                     type_ann: return_type,
                 }),
@@ -128,20 +129,45 @@ impl FastDts {
     }
 
     pub(crate) fn transform_fn_params_to_ts_type(&mut self, params: &[Param]) -> Vec<TsFnParam> {
-        let mut params = params.to_owned().clone();
+        self.transform_params_to_ts_type(None, params)
+    }
+
+    fn transform_params_to_ts_type(
+        &mut self,
+        this_param: Option<&TsThisParam>,
+        params: &[Param],
+    ) -> Vec<TsFnParam> {
+        self.check_this_param(this_param);
+        let mut params = params.to_owned();
         self.transform_fn_params(&mut params);
-        params
-            .into_iter()
-            .filter_map(|param| match param.pat {
-                Pat::Ident(binding_ident) => Some(TsFnParam::Ident(binding_ident)),
-                Pat::Array(array_pat) => Some(TsFnParam::Array(array_pat)),
-                Pat::Rest(rest_pat) => Some(TsFnParam::Rest(rest_pat)),
-                Pat::Object(object_pat) => Some(TsFnParam::Object(object_pat)),
-                Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) => None,
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
-            })
-            .collect()
+        let mut output = Vec::with_capacity(params.len() + usize::from(this_param.is_some()));
+        if let Some(this_param) = this_param {
+            output.push(Self::transform_this_param_to_ts_type(this_param));
+        }
+        output.extend(params.into_iter().filter_map(|param| match param.pat {
+            Pat::Ident(binding_ident) => Some(TsFnParam::Ident(binding_ident)),
+            Pat::Array(array_pat) => Some(TsFnParam::Array(array_pat)),
+            Pat::Rest(rest_pat) => Some(TsFnParam::Rest(rest_pat)),
+            Pat::Object(object_pat) => Some(TsFnParam::Object(object_pat)),
+            Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) => None,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        }));
+        output
+    }
+
+    pub(crate) fn transform_function_params_to_ts_type(
+        &mut self,
+        function: &Function,
+    ) -> Vec<TsFnParam> {
+        self.transform_params_to_ts_type(function.this_param.as_deref(), &function.params)
+    }
+
+    fn transform_this_param_to_ts_type(this_param: &TsThisParam) -> TsFnParam {
+        TsFnParam::Ident(BindingIdent {
+            id: Ident::new_no_ctxt("this".into(), this_param.this_span),
+            type_ann: this_param.type_ann.clone(),
+        })
     }
 
     pub(crate) fn transform_object_to_ts_type(
@@ -290,8 +316,7 @@ impl FastDts {
                                 key: Box::new(key),
                                 computed: method.key.is_computed(),
                                 optional: false,
-                                params: self
-                                    .transform_fn_params_to_ts_type(&method.function.params),
+                                params: self.transform_function_params_to_ts_type(&method.function),
                                 type_ann: return_type,
                                 type_params: method.function.type_params.clone(),
                             }));

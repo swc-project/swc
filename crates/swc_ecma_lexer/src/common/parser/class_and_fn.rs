@@ -22,7 +22,6 @@ use crate::{
             expr::parse_subscripts,
             ident::parse_ident,
             is_invalid_class_name::IsInvalidClassName,
-            is_not_this,
             is_simple_param_list::IsSimpleParameterList,
             pat::{parse_constructor_params, parse_unique_formal_params},
             typescript::{
@@ -47,6 +46,70 @@ struct MakeMethodArgs {
     kind: MethodKind,
     is_async: bool,
     is_generator: bool,
+}
+
+/// Parses a leading TypeScript or Flow `this` parameter directly into its
+/// dedicated AST node. Invalid optional markers and initializers are recovered
+/// here so the `this` parameter never enters the ordinary parameter list.
+fn parse_ts_this_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsThisParam>>> {
+    if !p.syntax().typescript() || !p.input().is(&P::Token::THIS) {
+        return Ok(None);
+    }
+
+    let start = p.cur_pos();
+    let this_span = p.input().cur_span();
+    let is_flow = p.syntax().flow();
+    p.bump();
+
+    let is_optional = p.input_mut().eat(&P::Token::QUESTION);
+    if is_optional {
+        let error = if is_flow {
+            SyntaxError::TS1003
+        } else {
+            SyntaxError::Expected(",".into(), "?".into())
+        };
+        p.emit_err(p.input().prev_span(), error);
+    }
+
+    let type_ann = try_parse_ts_type_ann(p)?;
+    if is_flow
+        && type_ann.is_none()
+        && !p.ctx().contains(Context::InType)
+        && !p.ctx().contains(Context::InDeclare)
+    {
+        p.emit_err(this_span, SyntaxError::TS1003);
+    }
+
+    let span = p.span(start);
+    if p.input_mut().eat(&P::Token::EQUAL) {
+        if !is_optional {
+            let error = if is_flow {
+                SyntaxError::TS1003
+            } else {
+                SyntaxError::Expected(",".into(), "=".into())
+            };
+            p.emit_err(p.input().prev_span(), error);
+        }
+        p.allow_in_expr(parse_assignment_expr)?;
+    }
+
+    if !p.input().is(&P::Token::RPAREN) {
+        expect!(p, &P::Token::COMMA);
+        if p.input().is(&P::Token::THIS) {
+            let error = if is_flow {
+                SyntaxError::TS1003
+            } else {
+                SyntaxError::TS2680
+            };
+            p.emit_err(p.input().cur_span(), error);
+        }
+    }
+
+    Ok(Some(Box::new(TsThisParam {
+        span,
+        this_span,
+        type_ann,
+    })))
 }
 
 /// If `required` is `true`, this never returns `None`.
@@ -263,14 +326,19 @@ where
         expect!(p, &P::Token::LPAREN);
 
         let parse_args_with_generator_ctx = |p: &mut P| {
+            let parse_this_and_args = |p: &mut P| {
+                let this_param = parse_ts_this_param(p)?;
+                parse_args(p).map(|params| (this_param, params))
+            };
+
             if is_generator {
-                p.do_inside_of_context(Context::InGenerator, parse_args)
+                p.do_inside_of_context(Context::InGenerator, parse_this_and_args)
             } else {
-                p.do_outside_of_context(Context::InGenerator, parse_args)
+                p.do_outside_of_context(Context::InGenerator, parse_this_and_args)
             }
         };
 
-        let params = p.do_inside_of_context(Context::InParameters, |p| {
+        let (this_param, params) = p.do_inside_of_context(Context::InParameters, |p| {
             p.do_outside_of_context(Context::InFunction, |p| {
                 if is_async {
                     p.do_inside_of_context(Context::InAsync, parse_args_with_generator_ctx)
@@ -315,6 +383,7 @@ where
 
         Ok(Box::new(Function {
             span: p.span(start),
+            this_param,
             decorators,
             type_params,
             params,
@@ -530,6 +599,13 @@ where
             parse_fn_args_body(p, decorators, start, parse_args, is_async, is_generator)
         })
     })?;
+
+    if p.syntax().flow()
+        && matches!(kind, MethodKind::Getter | MethodKind::Setter)
+        && function.this_param.is_some()
+    {
+        p.emit_err(key.span(), SyntaxError::TS1003);
+    }
 
     match kind {
         MethodKind::Getter | MethodKind::Setter
@@ -1228,7 +1304,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 |p| {
                     let params = parse_formal_params(p)?;
 
-                    if params.iter().any(is_not_this) {
+                    if !params.is_empty() {
                         p.emit_err(key_span, SyntaxError::GetterParam);
                     }
 
@@ -1253,13 +1329,13 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 |p| {
                     let params = parse_formal_params(p)?;
 
-                    if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                    if params.len() != 1 {
                         p.emit_err(key_span, SyntaxError::SetterParam);
                     }
 
-                    if !params.is_empty() {
-                        if let Pat::Rest(..) = params[0].pat {
-                            p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
+                    if let Some(param) = params.first() {
+                        if let Pat::Rest(..) = param.pat {
+                            p.emit_err(param.pat.span(), SyntaxError::RestPatInSetter);
                         }
                     }
 
