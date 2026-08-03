@@ -87,23 +87,6 @@ impl Visit for ThisVisitor {
     /// Don't recurse into fn
     fn visit_function(&mut self, _: &Function) {}
 
-    /// Don't recurse into fn
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        n.key.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_method_prop(&mut self, n: &MethodProp) {
-        n.key.visit_with(self);
-        n.function.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        n.key.visit_with(self);
-        n.param.visit_with(self);
-    }
-
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
     }
@@ -686,8 +669,6 @@ impl Visit for Hoister {
 
     fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_getter_prop(&mut self, _: &GetterProp) {}
-
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
@@ -695,8 +676,6 @@ impl Visit for Hoister {
             self.vars.push(i.clone().into())
         }
     }
-
-    fn visit_setter_prop(&mut self, _: &SetterProp) {}
 
     fn visit_var_decl(&mut self, v: &VarDecl) {
         if v.kind != VarDeclKind::Var {

@@ -16,7 +16,6 @@ pub enum PreservedNode {
     Directive(Box<Str>),
     Function(Box<FunctionShell>),
     Import(Box<ImportShell>),
-    Setter(Box<SetterShell>),
     TsEnum(Box<TsEnumDecl>),
     TsExportAssignment(TsExportAssignment),
     TsExpr(Box<TsExprShell>),
@@ -48,12 +47,6 @@ pub struct FunctionShell {
     decorators: Vec<Decorator>,
     type_params: Option<Box<TsTypeParamDecl>>,
     return_type: Option<Box<TsTypeAnn>>,
-}
-
-/// Lightweight setter metadata not represented in React Compiler's AST.
-#[derive(Clone)]
-pub struct SetterShell {
-    this_param: Pat,
 }
 
 /// Lightweight variable declaration metadata not represented losslessly in
@@ -299,32 +292,6 @@ impl PreservedAst {
                 pat_type.apply_to_pat(&mut param.pat);
             }
         }
-
-        true
-    }
-
-    pub fn save_setter(&mut self, setter: &SetterProp) {
-        let Some(this_param) = setter.this_param.clone() else {
-            return;
-        };
-
-        self.nodes.insert(
-            setter.span.lo.to_u32(),
-            PreservedNode::Setter(Box::new(SetterShell { this_param })),
-        );
-    }
-
-    pub fn load_setter(&mut self, setter: &mut SetterProp) -> bool {
-        let key = setter.span.lo.to_u32();
-        if !matches!(self.nodes.get(&key), Some(PreservedNode::Setter(_))) {
-            return false;
-        }
-
-        let Some(PreservedNode::Setter(snapshot)) = self.nodes.remove(&key) else {
-            unreachable!()
-        };
-
-        setter.this_param = Some(snapshot.this_param);
 
         true
     }

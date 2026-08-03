@@ -386,7 +386,7 @@ impl Visit for NoEmptyFunction {
             return;
         }
 
-        if let Some(BlockStmt { stmts, .. }) = &getter_prop.body {
+        if let Some(BlockStmt { stmts, .. }) = &getter_prop.function.body {
             if stmts.is_empty() {
                 self.check(
                     getter_prop.span,
@@ -394,6 +394,8 @@ impl Visit for NoEmptyFunction {
                     self.methods.as_ref(),
                     &[FunctionModifiers::Getter],
                 );
+
+                return;
             }
         }
 
@@ -405,7 +407,7 @@ impl Visit for NoEmptyFunction {
             return;
         }
 
-        if let Some(BlockStmt { stmts, .. }) = &setter_prop.body {
+        if let Some(BlockStmt { stmts, .. }) = &setter_prop.function.body {
             if stmts.is_empty() {
                 self.check(
                     setter_prop.span,
@@ -413,6 +415,8 @@ impl Visit for NoEmptyFunction {
                     self.methods.as_ref(),
                     &[FunctionModifiers::Setter],
                 );
+
+                return;
             }
         }
 

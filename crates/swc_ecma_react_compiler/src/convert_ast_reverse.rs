@@ -1061,24 +1061,15 @@ impl ReverseCtx {
                         swc::PropOrSpread::Prop(Box::new(swc::Prop::Getter(swc::GetterProp {
                             span: self.span_from_base(&method.base),
                             key,
-                            type_ann: function.return_type,
-                            body: function.body,
+                            function: Box::new(function),
                         })))
                     }
                     ObjectMethodKind::Set => {
-                        let param = function.params.into_iter().next().map_or_else(
-                            || Box::new(swc::Pat::Invalid(swc::Invalid { span: DUMMY_SP })),
-                            |param| Box::new(param.pat),
-                        );
-                        let mut setter = swc::SetterProp {
+                        swc::PropOrSpread::Prop(Box::new(swc::Prop::Setter(swc::SetterProp {
                             span: self.span_from_base(&method.base),
                             key,
-                            this_param: None,
-                            param,
-                            body: function.body,
-                        };
-                        self.preserved_ast.borrow_mut().load_setter(&mut setter);
-                        swc::PropOrSpread::Prop(Box::new(swc::Prop::Setter(setter)))
+                            function: Box::new(function),
+                        })))
                     }
                     ObjectMethodKind::Method => {
                         swc::PropOrSpread::Prop(Box::new(swc::Prop::Method(swc::MethodProp {

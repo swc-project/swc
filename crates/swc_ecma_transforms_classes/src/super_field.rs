@@ -282,24 +282,11 @@ impl VisitMut for MovedStaticSuperFieldAccessFolder<'_> {
         // should not be rewritten against the moved static member.
     }
 
-    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
-        n.key.visit_mut_with(self);
-    }
-
-    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
-        n.key.visit_mut_with(self);
-    }
-
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         let in_pat = self.folder.in_pat;
         self.folder.in_pat = true;
         n.visit_mut_children_with(self);
         self.folder.in_pat = in_pat;
-    }
-
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        n.key.visit_mut_with(self);
-        n.param.visit_mut_with(self);
     }
 }
 

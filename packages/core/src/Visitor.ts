@@ -1377,13 +1377,7 @@ export class Visitor {
 
     visitSetterProperty(n: SetterProperty): Property | SpreadElement {
         n.key = this.visitPropertyName(n.key);
-        n.param = this.visitPattern(n.param);
-        if (n.thisParam) {
-            n.thisParam = this.visitPattern(n.thisParam);
-        }
-        if (n.body) {
-            n.body = this.visitBlockStatement(n.body);
-        }
+        n.function = this.visitFunction(n.function);
         return n;
     }
 
@@ -1412,10 +1406,7 @@ export class Visitor {
 
     visitGetterProperty(n: GetterProperty): Property | SpreadElement {
         n.key = this.visitPropertyName(n.key);
-        if (n.body) {
-            n.body = this.visitBlockStatement(n.body);
-        }
-        n.typeAnnotation = this.visitTsTypeAnnotation(n.typeAnnotation);
+        n.function = this.visitFunction(n.function);
         return n;
     }
 

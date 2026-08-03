@@ -1,11 +1,11 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{BytePos, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, BindingIdent, Expr, Function, GetterProp, Ident, Lit, MemberExpr,
-    ObjectLit, Param, Pat, Prop, PropName, PropOrSpread, Str, Tpl, TsFnOrConstructorType,
-    TsFnParam, TsFnType, TsKeywordTypeKind, TsLit, TsMethodSignature, TsPropertySignature,
-    TsThisParam, TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
-    TsTypeOperator, TsTypeOperatorOp, UnaryOp,
+    ArrayLit, ArrowExpr, BindingIdent, Expr, Function, Ident, Lit, MemberExpr, ObjectLit, Param,
+    Pat, Prop, PropName, PropOrSpread, Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType,
+    TsKeywordTypeKind, TsLit, TsMethodSignature, TsPropertySignature, TsThisParam, TsTupleElement,
+    TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
+    UnaryOp,
 };
 use swc_ecma_utils::quote_ident;
 
@@ -269,7 +269,11 @@ impl FastDts {
                         }
 
                         if setter_type_ann.is_none() {
-                            setter_type_ann = setter.param.get_type_ann().clone();
+                            setter_type_ann = setter
+                                .function
+                                .params
+                                .first()
+                                .and_then(|param| param.pat.get_type_ann().clone());
                         }
 
                         if setter_type_ann.is_none() {
@@ -513,20 +517,22 @@ impl FastDts {
             };
 
             match &**prop {
-                Prop::Getter(GetterProp {
-                    type_ann: ty,
-                    body: Some(body),
-                    ..
-                }) => {
-                    if let Some(type_ann) = ty
-                        .clone()
-                        .or_else(|| ReturnTypeInferrer::infer(self, &body.stmts).map(type_ann))
-                    {
+                Prop::Getter(getter) => {
+                    if let Some(type_ann) = getter.function.return_type.clone().or_else(|| {
+                        getter.function.body.as_ref().and_then(|body| {
+                            ReturnTypeInferrer::infer(self, &body.stmts).map(type_ann)
+                        })
+                    }) {
                         annotations.insert(static_prop, type_ann);
                     }
                 }
                 Prop::Setter(setter) => {
-                    if let Some(type_ann) = setter.param.get_type_ann().clone() {
+                    if let Some(type_ann) = setter
+                        .function
+                        .params
+                        .first()
+                        .and_then(|param| param.pat.get_type_ann().clone())
+                    {
                         annotations.insert(static_prop.clone(), type_ann);
                     }
                     seen_setter.insert(static_prop);

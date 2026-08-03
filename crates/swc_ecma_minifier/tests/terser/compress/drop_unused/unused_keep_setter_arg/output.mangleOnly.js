@@ -1,6 +1,6 @@
 var o = {
     _foo: null,
-    set foo (val){},
+    set foo (o){},
     get foo () {
         return this._foo;
     }

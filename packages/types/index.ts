@@ -2396,18 +2396,13 @@ export interface AssignmentProperty extends Node {
 export interface GetterProperty extends PropBase, HasSpan {
     type: "GetterProperty";
 
-    typeAnnotation?: TsTypeAnnotation;
-
-    body?: BlockStatement;
+    function: Fn;
 }
 
 export interface SetterProperty extends PropBase, HasSpan {
     type: "SetterProperty";
 
-    thisParam?: Pattern;
-
-    param: Pattern;
-    body?: BlockStatement;
+    function: Fn;
 }
 
 export interface MethodProperty extends PropBase, Fn {
