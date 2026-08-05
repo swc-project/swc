@@ -540,23 +540,24 @@ impl Visit for SemanticAnalyzer {
     }
 
     fn visit_var_decl(&mut self, node: &VarDecl) {
-        node.visit_children_with(self);
-
-        if self.skip_transform_info || node.declare || node.kind != VarDeclKind::Const {
-            return;
-        }
+        let track = !self.skip_transform_info && !node.declare && node.kind == VarDeclKind::Const;
 
         for decl in &node.decls {
+            decl.visit_with(self);
+
+            if !track {
+                continue;
+            }
+
             let Pat::Ident(BindingIdent { id, type_ann: None }) = &decl.name else {
                 continue;
             };
             let Some(init) = &decl.init else { continue };
 
-            let empty = TsEnumRecord::default();
             let value = EnumValueComputer {
                 enum_id: &id.to_id(),
                 unresolved_ctxt: self.unresolved_ctxt,
-                record: &empty,
+                record: &self.info.enum_record,
                 const_vars: &self.info.const_vars,
             }
             .compute(init.clone(), EvalCtx::CONST_INIT);
