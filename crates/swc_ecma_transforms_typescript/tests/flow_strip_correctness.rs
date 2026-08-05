@@ -75,6 +75,7 @@ fn issue_12045_only_component_typed_arrows_become_named_functions() {
 const MyComponent: component(ref?: mixed, ...props: mixed) = ({ ref, ...rest }) => null;
 export const ExportedComponent: component(value: mixed) = value => value;
 const OrdinaryArrow: (value: mixed) => mixed = value => value;
+const DestructuredFunctionArrow: ({ value }: mixed) => mixed = ({ value }) => value;
 const HookArrow: hook (mixed) => mixed = value => value;
 const UntypedArrow = value => value;
 const ExistingFunction: component() = function() { return null; };
@@ -93,8 +94,9 @@ const ExistingFunction: component() = function() { return null; };
         );
         assert_eq!(
             output.matches("=>").count(),
-            3,
-            "ordinary, hook-typed, and untyped arrows must stay arrows, got: {output}"
+            4,
+            "ordinary, destructured, hook-typed, and untyped arrows must stay arrows, got: \
+             {output}"
         );
         assert!(
             output.contains("const ExistingFunction = function()"),

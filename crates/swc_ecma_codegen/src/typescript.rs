@@ -290,7 +290,6 @@ impl MacroNode for TsFnOrConstructorType {
         match self {
             TsFnOrConstructorType::TsFnType(n) => emit!(n),
             TsFnOrConstructorType::TsConstructorType(n) => emit!(n),
-            TsFnOrConstructorType::TsComponentType(n) => emit!(n),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
@@ -318,34 +317,14 @@ impl MacroNode for TsFnType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.type_params);
+        if is_flow_component_type(self) {
+            keyword!(emitter, "component");
+            emit!(self.type_params);
 
-        punct!(emitter, "(");
-        emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
-        punct!(emitter, ")");
-
-        formatting_space!(emitter);
-        punct!(emitter, "=>");
-        formatting_space!(emitter);
-
-        emit!(self.type_ann);
-        Ok(())
-    }
-}
-
-#[node_impl]
-impl MacroNode for TsComponentType {
-    fn emit(&mut self, emitter: &mut Macro) -> Result {
-        emitter.emit_leading_comments_of_span(self.span(), false)?;
-
-        keyword!(emitter, "component");
-        emit!(self.type_params);
-
-        punct!(emitter, "(");
-        // Flow component parameters are stored as a single props object
-        // pattern. Emit its properties without object-pattern braces to
-        // reconstruct `component(prop: Type, ...rest: Type)` syntax.
-        if let [TsFnParam::Object(props)] = self.params.as_slice() {
+            punct!(emitter, "(");
+            let [TsFnParam::Object(props)] = self.params.as_slice() else {
+                unreachable!("Flow component types have one object-pattern parameter")
+            };
             for (index, prop) in props.props.iter().enumerate() {
                 if index != 0 {
                     punct!(emitter, ",");
@@ -385,26 +364,54 @@ impl MacroNode for TsComponentType {
                     _ => return Err(unknown_error()),
                 }
             }
-        } else {
-            emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
+            punct!(emitter, ")");
+
+            if !matches!(
+                self.type_ann.type_ann.as_ref(),
+                TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                    ..
+                })
+            ) {
+                formatting_space!(emitter);
+                keyword!(emitter, "renders");
+                space!(emitter);
+                emit!(self.type_ann);
+            }
+
+            return Ok(());
         }
+
+        emit!(self.type_params);
+
+        punct!(emitter, "(");
+        emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
         punct!(emitter, ")");
 
-        if !matches!(
-            self.type_ann.type_ann.as_ref(),
-            TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsAnyKeyword,
-                ..
-            })
-        ) {
-            formatting_space!(emitter);
-            keyword!(emitter, "renders");
-            space!(emitter);
-            emit!(self.type_ann);
-        }
+        formatting_space!(emitter);
+        punct!(emitter, "=>");
+        formatting_space!(emitter);
 
+        emit!(self.type_ann);
         Ok(())
     }
+}
+
+/// Returns whether this function type is the parser's representation of a
+/// Flow `component(...)` type.
+///
+/// Flow component parameters describe a single props object. The parser
+/// preserves that syntax without extending the public AST by giving the
+/// synthetic object pattern the same non-dummy span as the function type.
+#[inline]
+fn is_flow_component_type(fn_type: &TsFnType) -> bool {
+    matches!(
+        fn_type.params.as_slice(),
+        [TsFnParam::Object(props)]
+            if !fn_type.span.is_dummy()
+                && props.span == fn_type.span
+                && props.type_ann.is_none()
+    )
 }
 
 #[node_impl]

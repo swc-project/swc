@@ -24,7 +24,7 @@
       },
       "typeParams": null,
       "typeAnnotation": {
-        "type": "TsComponentType",
+        "type": "TsFunctionType",
         "span": {
           "start": 22,
           "end": 61
@@ -363,7 +363,7 @@
                 "end": 206
               },
               "typeAnnotation": {
-                "type": "TsComponentType",
+                "type": "TsFunctionType",
                 "span": {
                   "start": 167,
                   "end": 206
@@ -609,7 +609,7 @@
                   "end": 296
                 },
                 "typeAnnotation": {
-                  "type": "TsComponentType",
+                  "type": "TsFunctionType",
                   "span": {
                     "start": 273,
                     "end": 296
@@ -1114,7 +1114,7 @@
                 "end": 507
               },
               "typeAnnotation": {
-                "type": "TsComponentType",
+                "type": "TsFunctionType",
                 "span": {
                   "start": 496,
                   "end": 507

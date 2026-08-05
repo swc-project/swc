@@ -4,19 +4,19 @@ use swc_atoms::Atom;
 use swc_common::Spanned;
 use swc_ecma_ast::{
     Accessibility, Expr, MemberProp, Pat, TruePlusMinus, TsArrayType, TsAsExpr,
-    TsCallSignatureDecl, TsComponentType, TsConditionalType, TsConstAssertion,
-    TsConstructSignatureDecl, TsConstructorType, TsEntityName, TsEnumDecl, TsEnumMember,
-    TsEnumMemberId, TsExportAssignment, TsExprWithTypeArgs, TsExternalModuleRef,
-    TsFnOrConstructorType, TsFnParam, TsFnType, TsImportEqualsDecl, TsImportType, TsIndexSignature,
-    TsIndexedAccessType, TsInferType, TsInterfaceBody, TsInterfaceDecl, TsIntersectionType,
-    TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsMappedType, TsMethodSignature,
-    TsModuleBlock, TsModuleDecl, TsModuleName, TsModuleRef, TsNamespaceBody, TsNamespaceDecl,
-    TsNamespaceExportDecl, TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam,
-    TsParenthesizedType, TsPropertySignature, TsQualifiedName, TsRestType, TsThisType,
-    TsThisTypeOrIdent, TsTplLitType, TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl,
-    TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
-    TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery,
-    TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
+    TsCallSignatureDecl, TsConditionalType, TsConstAssertion, TsConstructSignatureDecl,
+    TsConstructorType, TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment,
+    TsExprWithTypeArgs, TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType,
+    TsImportEqualsDecl, TsImportType, TsIndexSignature, TsIndexedAccessType, TsInferType,
+    TsInterfaceBody, TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit,
+    TsLitType, TsMappedType, TsMethodSignature, TsModuleBlock, TsModuleDecl, TsModuleName,
+    TsModuleRef, TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl, TsNonNullExpr,
+    TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType, TsPropertySignature,
+    TsQualifiedName, TsRestType, TsThisType, TsThisTypeOrIdent, TsTplLitType, TsTupleElement,
+    TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit,
+    TsTypeOperator, TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation,
+    TsTypePredicate, TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType,
+    TsUnionType,
 };
 use swc_estree_ast::{
     Access, ArrayPattern, IdOrRest, IdOrString, Identifier, ObjectPattern, RestElement,
@@ -52,23 +52,6 @@ impl Babelify for TsTypeAnn {
 }
 
 impl Babelify for TsFnType {
-    type Output = TSFunctionType;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSFunctionType {
-            base: ctx.base(self.span),
-            parameters: self
-                .params
-                .into_iter()
-                .map(|p| p.babelify(ctx).into())
-                .collect(),
-            type_parameters: self.type_params.babelify(ctx),
-            type_annotation: Some(Box::alloc().init(self.type_ann.babelify(ctx))),
-        }
-    }
-}
-
-impl Babelify for TsComponentType {
     type Output = TSFunctionType;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
@@ -401,9 +384,6 @@ impl Babelify for TsFnOrConstructorType {
             }
             TsFnOrConstructorType::TsConstructorType(t) => {
                 TsFnOrConstructorTypeOutput::Constructor(t.babelify(ctx))
-            }
-            TsFnOrConstructorType::TsComponentType(t) => {
-                TsFnOrConstructorTypeOutput::Func(t.babelify(ctx))
             }
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),

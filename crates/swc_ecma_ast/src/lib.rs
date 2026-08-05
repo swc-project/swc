@@ -56,7 +56,7 @@ pub use self::{
         SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, WhileStmt, WithStmt,
     },
     typescript::{
-        Accessibility, TruePlusMinus, TsArrayType, TsAsExpr, TsCallSignatureDecl, TsComponentType,
+        Accessibility, TruePlusMinus, TsArrayType, TsAsExpr, TsCallSignatureDecl,
         TsConditionalType, TsConstAssertion, TsConstructSignatureDecl, TsConstructorType,
         TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment,
         TsExprWithTypeArgs, TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType,

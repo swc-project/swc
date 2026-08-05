@@ -2067,12 +2067,31 @@ fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
 /// Returns whether a syntactic type annotation identifies a Flow component.
 fn is_flow_component_type(ty: &TsType) -> bool {
     match ty {
-        TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsComponentType(_)) => true,
+        TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(fn_type)) => {
+            is_flow_component_fn_type(fn_type)
+        }
         TsType::TsParenthesizedType(parenthesized) => {
             is_flow_component_type(&parenthesized.type_ann)
         }
         _ => false,
     }
+}
+
+/// Returns whether this function type is the parser's representation of a
+/// Flow `component(...)` type.
+///
+/// Flow component parameters describe a single props object. The parser
+/// preserves that syntax without extending the public AST by giving the
+/// synthetic object pattern the same non-dummy span as the function type.
+#[inline]
+fn is_flow_component_fn_type(fn_type: &TsFnType) -> bool {
+    matches!(
+        fn_type.params.as_slice(),
+        [TsFnParam::Object(props)]
+            if !fn_type.span.is_dummy()
+                && props.span == fn_type.span
+                && props.type_ann.is_none()
+    )
 }
 
 fn id_to_var_declarator(id: Id) -> VarDeclarator {

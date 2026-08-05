@@ -179,7 +179,6 @@ macro_rules! node_ref_variants {
             TsArrayType,
             TsAsExpr,
             TsCallSignatureDecl,
-            TsComponentType,
             TsConditionalType,
             TsConstAssertion,
             TsConstructSignatureDecl,

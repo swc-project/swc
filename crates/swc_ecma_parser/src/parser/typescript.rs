@@ -518,7 +518,7 @@ impl<I: Tokens> Parser<I> {
         )];
 
         Ok(TsType::TsFnOrConstructorType(
-            TsFnOrConstructorType::TsComponentType(TsComponentType {
+            TsFnOrConstructorType::TsFnType(TsFnType {
                 span: self.span(start),
                 params,
                 type_params,

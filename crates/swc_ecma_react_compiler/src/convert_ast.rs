@@ -2354,7 +2354,6 @@ impl<'a> ConvertCtx<'a> {
             swc::TsType::TsFnOrConstructorType(fn_or_constructor) => match fn_or_constructor {
                 swc::TsFnOrConstructorType::TsFnType(_) => "TSFunctionType",
                 swc::TsFnOrConstructorType::TsConstructorType(_) => "TSConstructorType",
-                swc::TsFnOrConstructorType::TsComponentType(_) => "TSFunctionType",
             },
             swc::TsType::TsConditionalType(_) => "TSConditionalType",
             swc::TsType::TsIndexedAccessType(_) => "TSIndexedAccessType",
