@@ -40,3 +40,6 @@ swc_plugin_runner = { version = "32.0.0", path = "../swc_plugin_runner" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 wasmer-compiler-cranelift = { version = "6.1.0-rc.3", default-features = false }
+
+[dev-dependencies]
+tempfile = { workspace = true }
