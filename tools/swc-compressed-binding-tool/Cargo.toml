@@ -1,0 +1,16 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+edition = "2021"
+license = "Apache-2.0"
+name    = "swc_compressed_binding_tool"
+publish = false
+version = "0.1.0"
+
+[dependencies]
+anyhow = { workspace = true }
+hex    = { workspace = true }
+sha2   = { workspace = true }
+zstd   = { workspace = true }
+
+[dev-dependencies]
+decmpfs = { workspace = true, features = ["addon"] }

@@ -11,7 +11,7 @@
         "html"
     ],
     "engines": {
-        "node": ">=14"
+        "node": ">=20"
     },
     "repository": {
         "type": "git",
@@ -47,8 +47,8 @@
         "artifacts": "napi artifacts --npm-dir scripts/npm",
         "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
         "build:ts": "tsc -d",
-        "build": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --no-js --dts ./binding.d.ts --release -o .",
-        "build:dev": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --no-js --dts ./binding.d.ts -o .",
+        "build": "(tsc -d || true) && cargo run -p swc_compressed_binding_tool -- build --package-dir . --manifest-path ../../Cargo.toml --raw-crate binding_html_node --no-js --dts ./binding.d.ts --release",
+        "build:dev": "(tsc -d || true) && cargo run -p swc_compressed_binding_tool -- build --package-dir . --manifest-path ../../Cargo.toml --raw-crate binding_html_node --no-js --dts ./binding.d.ts",
         "test": "echo 'done!'",
         "version": "napi version --npm-dir scripts/npm"
     },

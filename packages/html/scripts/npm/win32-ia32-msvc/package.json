@@ -24,7 +24,7 @@
   "homepage": "https://swc.rs",
   "license": "Apache-2.0 AND MIT",
   "engines": {
-    "node": ">=10"
+    "node": ">=20"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

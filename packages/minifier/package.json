@@ -12,7 +12,7 @@
         "minifier"
     ],
     "engines": {
-        "node": ">=12"
+        "node": ">=20"
     },
     "repository": {
         "type": "git",
@@ -51,8 +51,8 @@
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build:wasm": "npm-run-all \"pack -- build ../../bindings/binding_minifier_wasm --scope swc {1} -t {2}\" --",
-        "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_minifier_node --output-dir . --release",
-        "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_minifier_node --output-dir .",
+        "build": "tsc -d && cargo run -p swc_compressed_binding_tool -- build --package-dir . --manifest-path ../../Cargo.toml --raw-crate binding_minifier_node --js ./src/binding.js --dts ./src/binding.d.ts --release",
+        "build:dev": "tsc -d && cargo run -p swc_compressed_binding_tool -- build --package-dir . --manifest-path ../../Cargo.toml --raw-crate binding_minifier_node --js ./src/binding.js --dts ./src/binding.d.ts",
         "test": "node --test tests/extract-comments.test.cjs",
         "version": "napi version --npm-dir scripts/npm"
     },
