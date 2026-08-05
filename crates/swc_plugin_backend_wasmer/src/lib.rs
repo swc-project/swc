@@ -9,6 +9,9 @@ use swc_plugin_runner::runtime;
 use wasmer::{AsStoreMut, Store};
 use wasmer_wasix::{default_fs_backing, Runtime};
 
+#[cfg(not(target_arch = "wasm32"))]
+mod filesystem_cache;
+
 /// Identifier for bytecode cache stored in local filesystem.
 ///
 /// This MUST be updated when bump up wasmer.
@@ -304,7 +307,16 @@ impl runtime::Runtime for WasmerRuntime {
 
     fn store_cache(&self, path: &Path, cache: &runtime::ModuleCache) -> anyhow::Result<()> {
         let cache = cache.0.downcast_ref::<WasmerCache>().unwrap();
+
+        #[cfg(not(target_arch = "wasm32"))]
+        {
+            let data = cache.module.serialize()?;
+            filesystem_cache::write_atomic(path, &data)?;
+        }
+
+        #[cfg(target_arch = "wasm32")]
         cache.module.serialize_to_file(path)?;
+
         Ok(())
     }
 }

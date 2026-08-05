@@ -7423,6 +7423,7 @@ dependencies = [
  "parking_lot",
  "swc_common",
  "swc_plugin_runner",
+ "tempfile",
  "wasmer",
  "wasmer-compiler-cranelift",
  "wasmer-wasix",
