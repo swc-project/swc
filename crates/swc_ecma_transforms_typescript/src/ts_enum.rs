@@ -159,6 +159,36 @@ impl EvalCtx {
 
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl EnumValueComputer<'_> {
+    /// Whether [`Self::compute`] could fold this expression at all, decided
+    /// from its outermost form alone.
+    ///
+    /// `compute` takes the expression by value, so evaluating an initializer
+    /// means cloning it. Every form not listed here hits the `Opaque`
+    /// catch-all immediately, and `const` initializers in real TypeScript are
+    /// mostly arrow functions, object literals and calls — cloning those to
+    /// discard the result dominated the cost of the collection pass.
+    ///
+    /// Kept in sync with the arms of `compute_rec`. An omission here can only
+    /// under-fold; it can never produce a wrong value.
+    pub fn can_fold_shape(expr: &Expr) -> bool {
+        matches!(
+            expr,
+            Expr::Lit(..)
+                | Expr::Ident(..)
+                | Expr::Paren(..)
+                | Expr::Unary(..)
+                | Expr::Bin(..)
+                | Expr::Member(..)
+                | Expr::Tpl(..)
+                | Expr::TsAs(..)
+                | Expr::TsNonNull(..)
+                | Expr::TsTypeAssertion(..)
+                | Expr::TsConstAssertion(..)
+                | Expr::TsInstantiation(..)
+                | Expr::TsSatisfies(..)
+        )
+    }
+
     pub fn compute(&self, expr: Box<Expr>, ctx: EvalCtx) -> TsEnumRecordValue {
         self.compute_rec(expr, ctx)
     }

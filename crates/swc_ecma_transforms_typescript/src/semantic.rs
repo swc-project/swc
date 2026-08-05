@@ -554,6 +554,10 @@ impl Visit for SemanticAnalyzer {
             };
             let Some(init) = &decl.init else { continue };
 
+            if !EnumValueComputer::can_fold_shape(init) {
+                continue;
+            }
+
             let value = EnumValueComputer {
                 enum_id: &id.to_id(),
                 unresolved_ctxt: self.unresolved_ctxt,
