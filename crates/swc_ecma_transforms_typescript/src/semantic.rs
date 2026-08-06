@@ -49,6 +49,7 @@ pub(crate) fn analyze_program(
     unresolved_mark: Mark,
     seed_usage: FxHashSet<Id>,
     flow_syntax: bool,
+    ts_enum_is_mutable: bool,
 ) -> SemanticInfo {
     let mut analyzer = SemanticAnalyzer {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
@@ -61,6 +62,7 @@ pub(crate) fn analyze_program(
         namespace_id: None,
         skip_transform_info: false,
         flow_syntax,
+        ts_enum_is_mutable,
     };
 
     program.visit_with(&mut analyzer);
@@ -76,6 +78,7 @@ struct SemanticAnalyzer {
     namespace_id: Option<Id>,
     skip_transform_info: bool,
     flow_syntax: bool,
+    ts_enum_is_mutable: bool,
 }
 
 #[derive(Default)]
@@ -270,6 +273,7 @@ impl SemanticAnalyzer {
                     unresolved_ctxt,
                     record,
                     const_vars,
+                    const_enum_only: None,
                 }
                 .compute(expr, EvalCtx::MEMBER)
             })
@@ -563,6 +567,7 @@ impl Visit for SemanticAnalyzer {
                 unresolved_ctxt: self.unresolved_ctxt,
                 record: &self.info.enum_record,
                 const_vars: &self.info.const_vars,
+                const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
             }
             .compute(init.clone(), EvalCtx::CONST_INIT);
 

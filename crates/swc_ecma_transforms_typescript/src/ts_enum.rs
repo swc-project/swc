@@ -1,4 +1,4 @@
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{wtf8::Wtf8Buf, Atom, Wtf8Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -98,6 +98,13 @@ pub(crate) struct EnumValueComputer<'a> {
     pub unresolved_ctxt: SyntaxContext,
     pub record: &'a TsEnumRecord,
     pub const_vars: &'a FxHashMap<Id, TsEnumRecordValue>,
+    /// When `Some`, only enums in this set may be resolved through a member
+    /// expression.
+    ///
+    /// Mirrors the `ts_enum_is_mutable` guard in `transform.rs`: a non-const
+    /// enum can be reassigned at runtime, so reads of its members are not
+    /// compile-time constants and must stay opaque.
+    pub const_enum_only: Option<&'a FxHashSet<Id>>,
 }
 
 /// Returns a statically known enum member key without discarding lone
@@ -370,9 +377,18 @@ impl EnumValueComputer<'_> {
             return opaque_expr;
         };
 
+        let enum_id = ident.to_id();
+
+        if self
+            .const_enum_only
+            .is_some_and(|set| !set.contains(&enum_id))
+        {
+            return opaque_expr;
+        }
+
         self.record
             .get(&TsEnumRecordKey {
-                enum_id: ident.to_id(),
+                enum_id,
                 member_name,
             })
             .cloned()
