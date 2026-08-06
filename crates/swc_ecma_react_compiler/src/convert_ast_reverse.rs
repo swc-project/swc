@@ -2963,7 +2963,7 @@ mod tests {
                 },
                 end: Position {
                     line: 1,
-                    column: loc_end.unwrap_or(index),
+                    column: loc_end.unwrap_or_default(),
                     index: loc_end,
                 },
                 filename: None,
