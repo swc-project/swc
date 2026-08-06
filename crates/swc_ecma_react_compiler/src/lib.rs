@@ -97,6 +97,7 @@ pub fn transform(
     let ConvertResult {
         file,
         preserved_ast,
+        source_file_start_pos,
     } = convert_program(program, source_text, comments);
     let emit_success_error_diagnostics = options.no_emit;
     let result =
@@ -117,7 +118,7 @@ pub fn transform(
 
     let rename_plan = build_rename_plan(&scope_info, &renames);
     let program = file.map(|file: react_compiler_ast::File| {
-        let mut compiled = convert_program_to_swc(&file, preserved_ast);
+        let mut compiled = convert_program_to_swc(&file, preserved_ast, source_file_start_pos);
         apply_renames(&mut compiled, &rename_plan);
         compiled
     });

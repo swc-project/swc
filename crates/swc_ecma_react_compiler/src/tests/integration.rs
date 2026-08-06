@@ -3,13 +3,15 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
+use std::collections::HashSet;
+
 use react_compiler::entrypoint::plugin_options::{CompilerTarget, PluginOptions};
 use react_compiler_ast::{
     scope::{BindingId, BindingKind, ScopeInfo, ScopeKind},
     statements::Statement,
     File,
 };
-use swc_common::{sync::Lrc, FileName, SourceMap};
+use swc_common::{sync::Lrc, BytePos, FileName, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::Node;
 use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, EsSyntax, Syntax};
@@ -22,7 +24,16 @@ use crate::{
 };
 
 fn convert_program_to_swc(file: &File) -> swc_ecma_ast::Program {
-    convert_program_to_swc_with_preserved_ast(file, Default::default())
+    convert_program_to_swc_with_preserved_ast(
+        file,
+        Default::default(),
+        BytePos(
+            file.program
+                .base
+                .start
+                .expect("forward-converted program has a start"),
+        ),
+    )
 }
 
 fn convert_module(module: &swc_ecma_ast::Module, source_text: &str) -> File {
@@ -1762,7 +1773,11 @@ fn convert_ts_source(source: &str) -> crate::convert_ast::ConvertResult {
 fn round_trip_convert_result(result: crate::convert_ast::ConvertResult) -> swc_ecma_ast::Program {
     assert_file_serializes_to_json(&result.file);
 
-    convert_program_to_swc_with_preserved_ast(&result.file, result.preserved_ast)
+    convert_program_to_swc_with_preserved_ast(
+        &result.file,
+        result.preserved_ast,
+        result.source_file_start_pos,
+    )
 }
 
 /// TS module-interop statements (`import x = require(...)`, `export = x`,
@@ -1925,4 +1940,115 @@ fn emit_program(program: &swc_ecma_ast::Program) -> Result<String, String> {
     }
 
     String::from_utf8(buf).map_err(|err| format!("emitted output is not valid UTF-8: {err}"))
+}
+
+#[test]
+fn react_compiler_recovers_source_map_density_from_locations() {
+    let source = r#"
+        import { useCallback, useMemo, useState } from "react";
+
+        export function App({ items, onSelect }) {
+            const [selected, setSelected] = useState(null);
+            const activeItems = useMemo(
+                () => items.filter((item) => item.active),
+                [items],
+            );
+            const labels = useMemo(
+                () => activeItems.map((item) => `${item.name}:${item.id}`),
+                [activeItems],
+            );
+            const visibleLabels = useMemo(
+                () => labels.filter((label) => label.includes(":")),
+                [labels],
+            );
+            const selectItem = useCallback(
+                (item) => {
+                    setSelected(item.id);
+                    onSelect(item.id);
+                },
+                [onSelect],
+            );
+            const resetSelection = useCallback(() => setSelected(null), []);
+
+            return (
+                <section>
+                    <button onClick={resetSelection}>Reset</button>
+                    {activeItems.map((item, index) => (
+                        <button
+                            key={item.id}
+                            onClick={() => selectItem(item)}
+                            data-selected={selected === item.id}
+                        >
+                            {visibleLabels[index]}
+                        </button>
+                    ))}
+                </section>
+            );
+        }
+    "#;
+    let cm = Lrc::new(SourceMap::default());
+    let file = cm.new_source_file(Lrc::new(FileName::Anon), source.to_string());
+    let mut errors = vec![];
+    let program = parse_file_as_program(
+        &file,
+        Syntax::Es(EsSyntax {
+            jsx: true,
+            ..Default::default()
+        }),
+        EsVersion::latest(),
+        None,
+        &mut errors,
+    )
+    .expect("should parse");
+    let result = crate::transform(
+        &program,
+        SourceType::module(),
+        source,
+        None,
+        default_options(),
+    );
+    assert!(
+        result.diagnostics.is_empty(),
+        "unexpected compiler diagnostics: {:#?}",
+        result.diagnostics
+    );
+    let compiled = result.program.expect("component should compile");
+
+    let mut code = Vec::new();
+    let mut mappings = Vec::new();
+    {
+        let writer = swc_ecma_codegen::text_writer::JsWriter::new(
+            cm.clone(),
+            "\n",
+            &mut code,
+            Some(&mut mappings),
+        );
+        let mut emitter = swc_ecma_codegen::Emitter {
+            cfg: swc_ecma_codegen::Config::default(),
+            cm: cm.clone(),
+            comments: None,
+            wr: Box::new(writer),
+        };
+        compiled
+            .emit_with(&mut emitter)
+            .expect("should emit compiled program");
+    }
+
+    let generated_lines = mappings
+        .iter()
+        .map(|(_, location)| location.line)
+        .collect::<HashSet<_>>();
+
+    // The unfixed reverse converter produces a valid but sparse map (~57
+    // mappings across 17 lines for this representative hook-heavy component).
+    assert!(
+        mappings.len() >= 100,
+        "expected dense source map, got {} mappings",
+        mappings.len()
+    );
+    assert!(
+        generated_lines.len() >= 30,
+        "expected mappings across generated lines, got {}",
+        generated_lines.len()
+    );
 }

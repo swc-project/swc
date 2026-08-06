@@ -28,6 +28,7 @@ use crate::preserved_ast::PreservedAst;
 pub struct ConvertResult {
     pub file: File,
     pub preserved_ast: PreservedAst,
+    pub source_file_start_pos: swc_common::BytePos,
 }
 
 /// Converts an SWC AST to the React compiler's Babel-compatible AST.
@@ -44,6 +45,7 @@ pub fn convert_program(
     ConvertResult {
         file,
         preserved_ast: ctx.preserved_ast.into_inner(),
+        source_file_start_pos: program.span().lo,
     }
 }
 

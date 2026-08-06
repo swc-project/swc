@@ -26,19 +26,25 @@ use swc_ecma_ast as swc;
 use crate::preserved_ast::PreservedAst;
 
 /// Convert with source text and preserved SWC nodes from the forward pass.
-pub fn convert_program_to_swc(file: &File, preserved_ast: PreservedAst) -> swc::Program {
-    let ctx = ReverseCtx::new(preserved_ast);
+pub fn convert_program_to_swc(
+    file: &File,
+    preserved_ast: PreservedAst,
+    source_file_start_pos: BytePos,
+) -> swc::Program {
+    let ctx = ReverseCtx::new(preserved_ast, source_file_start_pos);
     ctx.convert_program(&file.program)
 }
 
 struct ReverseCtx {
     preserved_ast: RefCell<PreservedAst>,
+    source_file_start_pos: BytePos,
 }
 
 impl ReverseCtx {
-    fn new(preserved_ast: PreservedAst) -> Self {
+    fn new(preserved_ast: PreservedAst, source_file_start_pos: BytePos) -> Self {
         Self {
             preserved_ast: RefCell::new(preserved_ast),
+            source_file_start_pos,
         }
     }
 
@@ -103,10 +109,27 @@ impl ReverseCtx {
     }
 
     fn span_from_base(&self, base: &BaseNode) -> Span {
+        // `start` and `end` preserve absolute SWC `BytePos` values from the
+        // forward conversion, while `loc` indices are file-relative.
         match (base.start, base.end) {
             (Some(start), Some(end)) => Span::new(BytePos(start), BytePos(end)),
             (Some(start), None) => Span::new(BytePos(start), BytePos(start)),
-            _ => DUMMY_SP,
+            _ => base.loc.as_ref().map_or(DUMMY_SP, |loc| {
+                let start = loc
+                    .start
+                    .index
+                    .map(|index| self.source_file_start_pos + BytePos(index));
+                let end = loc
+                    .end
+                    .index
+                    .or(loc.start.index)
+                    .map(|index| self.source_file_start_pos + BytePos(index));
+
+                match (start, end) {
+                    (Some(start), Some(end)) => Span::new(start, end),
+                    _ => DUMMY_SP,
+                }
+            }),
         }
     }
 
@@ -2914,5 +2937,83 @@ fn ts_type_operator_op(operator: &str) -> Option<swc::TsTypeOperatorOp> {
         "unique" => Some(swc::TsTypeOperatorOp::Unique),
         "readonly" => Some(swc::TsTypeOperatorOp::ReadOnly),
         _ => None,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use react_compiler_ast::common::{Position, SourceLocation};
+
+    use super::*;
+
+    fn base(
+        start: Option<u32>,
+        end: Option<u32>,
+        loc_start: Option<u32>,
+        loc_end: Option<u32>,
+    ) -> BaseNode {
+        BaseNode {
+            start,
+            end,
+            loc: loc_start.map(|index| SourceLocation {
+                start: Position {
+                    line: 1,
+                    column: index,
+                    index: Some(index),
+                },
+                end: Position {
+                    line: 1,
+                    column: loc_end.unwrap_or(index),
+                    index: loc_end,
+                },
+                filename: None,
+                identifier_name: None,
+            }),
+            ..Default::default()
+        }
+    }
+
+    fn ctx() -> ReverseCtx {
+        ReverseCtx::new(Default::default(), BytePos(1_000))
+    }
+
+    #[test]
+    fn span_from_base_preserves_start_and_end() {
+        assert_eq!(
+            ctx().span_from_base(&base(Some(10), Some(20), Some(1), Some(2))),
+            Span::new(BytePos(10), BytePos(20))
+        );
+    }
+
+    #[test]
+    fn span_from_base_collapses_partial_start_and_end() {
+        assert_eq!(
+            ctx().span_from_base(&base(Some(10), None, Some(1), Some(2))),
+            Span::new(BytePos(10), BytePos(10))
+        );
+    }
+
+    #[test]
+    fn span_from_base_uses_file_relative_loc_indices() {
+        assert_eq!(
+            ctx().span_from_base(&base(None, None, Some(10), Some(20))),
+            Span::new(BytePos(1_010), BytePos(1_020))
+        );
+    }
+
+    #[test]
+    fn span_from_base_collapses_partial_loc_indices() {
+        assert_eq!(
+            ctx().span_from_base(&base(None, None, Some(10), None)),
+            Span::new(BytePos(1_010), BytePos(1_010))
+        );
+    }
+
+    #[test]
+    fn span_from_base_without_positions_is_dummy() {
+        assert_eq!(
+            ctx().span_from_base(&base(None, None, None, None)),
+            DUMMY_SP
+        );
     }
 }
