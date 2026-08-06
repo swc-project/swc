@@ -39,10 +39,10 @@ fn is_react_compiler_required_inner(code: &str) -> bool {
     );
 
     let Ok(program) = program else {
-        return false;
+        return true;
     };
 
-    swc_ecma_react_compiler::fast_check::is_required(&program)
+    swc_ecma_react_compiler::fast_check::may_require(&program)
 }
 
 #[napi]
