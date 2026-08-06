@@ -6746,7 +6746,6 @@ dependencies = [
 name = "swc_ecma_react_compiler"
 version = "22.0.0"
 dependencies = [
- "codspeed-criterion-compat",
  "forked_react_compiler",
  "forked_react_compiler_ast",
  "forked_react_compiler_hir",

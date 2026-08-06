@@ -1,6 +1,8 @@
+use react_compiler_hir::environment::is_hook_name;
 use swc_ecma_ast::{
-    CallExpr, Callee, ExportDefaultDecl, ExportDefaultExpr, Expr, FnDecl, FnExpr, JSXElement,
-    JSXFragment, MemberProp, ModuleItem, Pat, Program, Stmt, Str, VarDeclarator,
+    ArrowExpr, BlockStmtOrExpr, CallExpr, Callee, ExportDefaultDecl, ExportDefaultExpr, Expr,
+    FnDecl, FnExpr, Function, JSXElement, JSXFragment, Lit, MemberProp, Module, ModuleItem, Pat,
+    Program, Script, Stmt, Str, VarDeclarator,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -19,9 +21,10 @@ pub fn is_required(program: &Program) -> bool {
 /// Conservatively determines whether infer or annotation mode could compile
 /// anything.
 ///
-/// False positives only add compiler work, while false negatives could change
-/// output. This scans every function context for JSX, plausible hook calls, and
-/// opt-in directives, including dynamic gating directives.
+/// There may be false positives, but no false negatives: a `false` result means
+/// compilation cannot change the program. This scans every function context for
+/// JSX, plausible hook calls, and opt-in directives, including dynamic gating
+/// directives.
 pub fn may_require(program: &Program) -> bool {
     let mut finder = PotentialFinder::default();
     finder.visit_program(program);
@@ -44,7 +47,7 @@ struct PotentialFinder {
 
 fn is_hook_callee(expr: &Expr) -> bool {
     match expr {
-        Expr::Ident(ident) => ident.sym.starts_with("use"),
+        Expr::Ident(ident) => is_hook_name(&ident.sym),
         Expr::Member(member) => {
             let Expr::Ident(object) = &*member.obj else {
                 return false;
@@ -53,8 +56,10 @@ fn is_hook_callee(expr: &Expr) -> bool {
                 return false;
             };
 
-            object.sym.starts_with(|c: char| c.is_ascii_uppercase())
-                && property.sym.starts_with("use")
+            object
+                .sym
+                .starts_with(|character: char| character.is_ascii_uppercase())
+                && is_hook_name(&property.sym)
         }
         _ => false,
     }
@@ -66,7 +71,61 @@ fn is_opt_in_directive(value: &Str) -> bool {
     })
 }
 
+fn has_opt_in_directive<'a>(statements: impl IntoIterator<Item = &'a Stmt>) -> bool {
+    for statement in statements {
+        if !statement.can_precede_directive() {
+            break;
+        }
+
+        let Stmt::Expr(expression) = statement else {
+            continue;
+        };
+        let Expr::Lit(Lit::Str(value)) = &*expression.expr else {
+            continue;
+        };
+        if is_opt_in_directive(value) {
+            return true;
+        }
+    }
+
+    false
+}
+
+fn module_has_opt_in_directive(module: &Module) -> bool {
+    for item in &module.body {
+        let ModuleItem::Stmt(statement) = item else {
+            break;
+        };
+        if !statement.can_precede_directive() {
+            break;
+        }
+
+        let Stmt::Expr(expression) = statement else {
+            continue;
+        };
+        let Expr::Lit(Lit::Str(value)) = &*expression.expr else {
+            continue;
+        };
+        if is_opt_in_directive(value) {
+            return true;
+        }
+    }
+
+    false
+}
+
 impl Visit for PotentialFinder {
+    fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
+        if let BlockStmtOrExpr::BlockStmt(body) = &*node.body {
+            if has_opt_in_directive(&body.stmts) {
+                self.found = true;
+                return;
+            }
+        }
+
+        node.visit_children_with(self);
+    }
+
     fn visit_call_expr(&mut self, node: &CallExpr) {
         if self.found {
             return;
@@ -81,12 +140,34 @@ impl Visit for PotentialFinder {
         node.visit_children_with(self);
     }
 
+    fn visit_function(&mut self, node: &Function) {
+        if node
+            .body
+            .as_ref()
+            .is_some_and(|body| has_opt_in_directive(&body.stmts))
+        {
+            self.found = true;
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
     fn visit_jsx_element(&mut self, _: &JSXElement) {
         self.found = true;
     }
 
     fn visit_jsx_fragment(&mut self, _: &JSXFragment) {
         self.found = true;
+    }
+
+    fn visit_module(&mut self, node: &Module) {
+        if module_has_opt_in_directive(node) {
+            self.found = true;
+            return;
+        }
+
+        node.visit_children_with(self);
     }
 
     fn visit_module_item(&mut self, node: &ModuleItem) {
@@ -96,18 +177,20 @@ impl Visit for PotentialFinder {
         node.visit_children_with(self);
     }
 
+    fn visit_script(&mut self, node: &Script) {
+        if has_opt_in_directive(&node.body) {
+            self.found = true;
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
     fn visit_stmt(&mut self, node: &Stmt) {
         if self.found {
             return;
         }
         node.visit_children_with(self);
-    }
-
-    fn visit_str(&mut self, node: &Str) {
-        if self.found {
-            return;
-        }
-        self.found = is_opt_in_directive(node);
     }
 }
 
@@ -256,6 +339,18 @@ mod tests {
         .unwrap();
     }
 
+    fn assert_not_compiled(code: &str) {
+        let result = crate::transform_source(
+            code,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+            crate::default_plugin_options(),
+        );
+        assert!(result.program.is_none());
+    }
+
     #[test]
     fn lazy_return() {
         assert_required(
@@ -399,6 +494,25 @@ mod tests {
     }
 
     #[test]
+    fn conservative_check_skips_names_without_react_patterns() {
+        for source in [
+            "export function App() { return React.createElement('div'); }",
+            "export function useComputed() { return 1; }",
+        ] {
+            assert_may_require(source, false);
+            assert_not_compiled(source);
+        }
+    }
+
+    #[test]
+    fn conservative_check_matches_hook_naming() {
+        assert_may_require("const state = useState();", true);
+        assert_may_require("const value = use3rdParty();", true);
+        assert_may_require("const user = getUser();", false);
+        assert_may_require("const value = useless();", false);
+    }
+
+    #[test]
     fn conservative_check_detects_opt_in_directives() {
         assert_may_require("function lower() { 'use memo'; return 1; }", true);
         assert_may_require("function lower() { 'use forget'; return 1; }", true);
@@ -406,6 +520,14 @@ mod tests {
             "function lower() { 'use memo if(featureFlag)'; return 1; }",
             true,
         );
+        assert_may_require("'use memo'; export const answer = 42;", true);
+        assert_may_require(
+            "function lower() { 'use strict'; 'use memo'; return 1; }",
+            true,
+        );
+        assert_may_require("function lower() { work(); 'use memo'; return 1; }", false);
+        assert_may_require("const marker = 'use memo';", false);
+        assert_may_require("import value from 'use memo'; export default value;", false);
     }
 
     #[test]
