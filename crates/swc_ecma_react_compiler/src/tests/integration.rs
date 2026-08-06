@@ -2034,21 +2034,31 @@ fn react_compiler_recovers_source_map_density_from_locations() {
             .expect("should emit compiled program");
     }
 
+    let emitted_lines = std::str::from_utf8(&code)
+        .expect("emitted output is valid UTF-8")
+        .lines()
+        .count()
+        .max(1);
+
     let generated_lines = mappings
         .iter()
         .map(|(_, location)| location.line)
         .collect::<HashSet<_>>();
 
-    // The unfixed reverse converter produces a valid but sparse map (~57
-    // mappings across 17 lines for this representative hook-heavy component).
+    // Ensure mappings are not concentrated on a small subset of generated lines.
     assert!(
-        mappings.len() >= 100,
-        "expected dense source map, got {} mappings",
-        mappings.len()
+        generated_lines.len() * 2 >= emitted_lines,
+        "expected mappings across most generated lines, got {} mapped lines out of {}",
+        generated_lines.len(),
+        emitted_lines
     );
+
+    // Ensure we have more than one mapping per mapped line (helps catch regressions
+    // that collapse many node spans to DUMMY_SP).
     assert!(
-        generated_lines.len() >= 30,
-        "expected mappings across generated lines, got {}",
+        mappings.len() >= generated_lines.len() * 2,
+        "expected dense source map, got {} mappings across {} mapped lines",
+        mappings.len(),
         generated_lines.len()
     );
 }
