@@ -114,6 +114,19 @@ struct Data {
 }
 
 impl Data {
+    /// Marks a binding as externally reachable for cycle analysis.
+    fn mark_entry(&mut self, id: &Id) {
+        let idx = self.node(id);
+        self.entries.insert(idx);
+    }
+
+    /// Marks a binding as externally reachable and gives it a concrete usage
+    /// so declarations without dependency edges are retained too.
+    fn pin(&mut self, id: Id) {
+        self.mark_entry(&id);
+        self.used_names.entry(id).or_default().usage += 1;
+    }
+
     fn drop_usage(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
@@ -344,9 +357,8 @@ struct Scope<'a> {
     found_arguemnts: bool,
     bindings_affected_by_arguements: Vec<Id>,
 
-    /// Used to construct a graph.
-    ///
-    /// This includes all bindings to current node.
+    /// Stack of bindings that own the AST currently being visited. The last
+    /// binding is the nearest owner and receives dependency edges.
     ast_path: Vec<Id>,
 }
 
@@ -358,17 +370,15 @@ enum ScopeKind {
 }
 
 impl Analyzer<'_> {
-    fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
+    fn with_ast_path<F>(&mut self, id: Id, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
-        let prev_len = self.scope.ast_path.len();
-
-        self.scope.ast_path.extend(ids);
+        self.scope.ast_path.push(id);
 
         op(self);
 
-        self.scope.ast_path.truncate(prev_len);
+        self.scope.ast_path.pop();
     }
 
     fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
@@ -403,7 +413,10 @@ impl Analyzer<'_> {
         // If we found eval, mark all declarations in scope and upper as used
         if child_scope.found_direct_eval {
             for id in child_scope.bindings_affected_by_eval {
-                self.data.used_names.entry(id).or_default().usage += 1;
+                // A direct eval can resolve this binding on every repeat pass.
+                // Pin it as an entry so cycle subtraction cannot consume the
+                // one usage that represents eval reachability.
+                self.data.pin(id);
             }
 
             self.scope.found_direct_eval = true;
@@ -447,7 +460,10 @@ impl Analyzer<'_> {
             let mut scope = Some(&self.scope);
 
             while let Some(s) = scope {
-                for component in &s.ast_path {
+                // A nested declaration replaces its outer declaration as the
+                // owner of references in its body. Charging one occurrence to
+                // every owner would create more edge weight than usage count.
+                if let Some(component) = s.ast_path.last() {
                     self.data.add_dep_edge(component, &id, assign);
                 }
 
@@ -511,35 +527,43 @@ fn class_def_is_trivial(class: &Class) -> bool {
 /// it is safe to drop when unused. Kept in sync with the `Decl::Class` arm of
 /// `visit_mut_decl`'s drop predicate, which calls this.
 fn class_def_is_side_effect_free(class: &Class, expr_ctx: ExprCtx) -> bool {
-    class
-        .super_class
-        .as_deref()
-        .map_or(true, |e| !e.may_have_side_effects(expr_ctx))
+    class.decorators.is_empty()
+        && class
+            .super_class
+            .as_deref()
+            .map_or(true, |e| !e.may_have_side_effects(expr_ctx))
         && class.body.iter().all(|m| match m {
-            ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
+            ClassMember::Method(m) => {
+                m.function.decorators.is_empty() && !matches!(m.key, PropName::Computed(..))
+            }
             ClassMember::ClassProp(m) => {
-                !matches!(m.key, PropName::Computed(..))
+                m.decorators.is_empty()
+                    && !matches!(m.key, PropName::Computed(..))
                     && !m
                         .value
                         .as_deref()
                         .is_some_and(|e| e.may_have_side_effects(expr_ctx))
             }
             ClassMember::AutoAccessor(m) => {
-                !matches!(m.key, Key::Public(PropName::Computed(..)))
+                m.decorators.is_empty()
+                    && !matches!(m.key, Key::Public(PropName::Computed(..)))
                     && !m
                         .value
                         .as_deref()
                         .is_some_and(|e| e.may_have_side_effects(expr_ctx))
             }
-            ClassMember::PrivateProp(m) => !m
-                .value
-                .as_deref()
-                .is_some_and(|e| e.may_have_side_effects(expr_ctx)),
+            ClassMember::PrivateProp(m) => {
+                m.decorators.is_empty()
+                    && !m
+                        .value
+                        .as_deref()
+                        .is_some_and(|e| e.may_have_side_effects(expr_ctx))
+            }
             ClassMember::StaticBlock(_) => false,
             ClassMember::TsIndexSignature(_)
             | ClassMember::Empty(_)
-            | ClassMember::Constructor(_)
-            | ClassMember::PrivateMethod(_) => true,
+            | ClassMember::Constructor(_) => true,
+            ClassMember::PrivateMethod(m) => m.function.decorators.is_empty(),
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         })
@@ -603,7 +627,7 @@ impl Visit for Analyzer<'_> {
             }
         }
 
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        self.with_ast_path(n.ident.to_id(), |v| {
             let old = v.cur_class_id.take();
 
             if super_is_initialized_class_ref {
@@ -635,8 +659,7 @@ impl Visit for Analyzer<'_> {
             self.nontrivial_classes.insert(n.ident.to_id());
         }
         if !is_trivial || !class_def_is_side_effect_free(&n.class, self.expr_ctx) {
-            let idx = self.data.node(&n.ident.to_id());
-            self.data.entries.insert(idx);
+            self.data.mark_entry(&n.ident.to_id());
         }
 
         self.initialized_classes.insert(n.ident.to_id());
@@ -756,7 +779,7 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        self.with_ast_path(n.ident.to_id(), |v| {
             let old = v.cur_fn_id.take();
             v.cur_fn_id = Some(n.ident.to_id());
             n.visit_children_with(v);
@@ -805,24 +828,27 @@ impl Visit for Analyzer<'_> {
         n.name.visit_with(self);
 
         self.in_var_decl = false;
-        // A side-effect-free initializer is only evaluated while its binding is
-        // retained. Attribute its references to that binding so unreachable
-        // cycles involving variable initializers can be removed as a unit.
-        // Side-effectful initializers and explicitly retained bindings stay as
-        // graph entries because they remain observable even when their result is
-        // otherwise unused.
+        // Attribute references in a side-effect-free initializer to its binding
+        // so an unreachable cycle can be removed as a unit. If the binding is
+        // externally retained, mark the binding itself as an entry; its
+        // dependencies then remain reachable without misclassifying every
+        // initializer reference as a root. Side-effectful initializers retain
+        // the original entry behavior.
         let binding = match (&n.name, n.init.as_deref()) {
-            (Pat::Ident(binding), Some(init))
-                if !self.config.top_retain.contains(&binding.id.sym)
-                    && !init.may_have_side_effects(self.expr_ctx) =>
-            {
+            (Pat::Ident(binding), Some(init)) if !init.may_have_side_effects(self.expr_ctx) => {
                 Some(binding.to_id())
             }
             _ => None,
         };
 
         if let Some(binding) = binding {
-            self.with_ast_path(vec![binding], |v| n.init.visit_with(v));
+            let is_externally_retained = self.config.top_retain.contains(&binding.0)
+                || (!self.config.top_level && self.scope.is_ast_path_empty());
+            if is_externally_retained {
+                self.data.mark_entry(&binding);
+            }
+
+            self.with_ast_path(binding, |v| n.init.visit_with(v));
         } else {
             n.init.visit_with(self);
         }
@@ -1267,9 +1293,7 @@ impl VisitMut for TreeShaker {
                         // subtracts it (survives Repeat passes), and bump usage
                         // so a lone binding — which has no in-graph references —
                         // isn't dropped by `can_drop_binding`.
-                        let ix = analyzer.data.node(&id);
-                        analyzer.data.entries.insert(ix);
-                        analyzer.data.used_names.entry(id).or_default().usage += 1;
+                        analyzer.data.pin(id);
                     }
                 }
             }
@@ -1367,9 +1391,7 @@ impl VisitMut for TreeShaker {
                         // subtracts it (survives Repeat passes), and bump usage
                         // so a lone binding — which has no in-graph references —
                         // isn't dropped by `can_drop_binding`.
-                        let ix = analyzer.data.node(&id);
-                        analyzer.data.entries.insert(ix);
-                        analyzer.data.used_names.entry(id).or_default().usage += 1;
+                        analyzer.data.pin(id);
                     }
                 }
             }
