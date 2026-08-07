@@ -1,6 +1,6 @@
 ---
-swc_core: minor
-swc_ecma_react_compiler: minor
+swc_core: patch
+swc_ecma_react_compiler: patch
 ---
 
-feat(es/react-compiler): Add a conservative compilation fast check
+fix(es/react-compiler): Make the compilation fast check conservative

@@ -47,7 +47,7 @@ fn is_react_compiler_required_inner(code: &str) -> bool {
         return true;
     }
 
-    swc_ecma_react_compiler::fast_check::may_require(&program)
+    swc_ecma_react_compiler::fast_check::is_required(&program)
 }
 
 #[napi]
