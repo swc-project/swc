@@ -805,7 +805,27 @@ impl Visit for Analyzer<'_> {
         n.name.visit_with(self);
 
         self.in_var_decl = false;
-        n.init.visit_with(self);
+        // A side-effect-free initializer is only evaluated while its binding is
+        // retained. Attribute its references to that binding so unreachable
+        // cycles involving variable initializers can be removed as a unit.
+        // Side-effectful initializers and explicitly retained bindings stay as
+        // graph entries because they remain observable even when their result is
+        // otherwise unused.
+        let binding = match (&n.name, n.init.as_deref()) {
+            (Pat::Ident(binding), Some(init))
+                if !self.config.top_retain.contains(&binding.id.sym)
+                    && !init.may_have_side_effects(self.expr_ctx) =>
+            {
+                Some(binding.to_id())
+            }
+            _ => None,
+        };
+
+        if let Some(binding) = binding {
+            self.with_ast_path(vec![binding], |v| n.init.visit_with(v));
+        } else {
+            n.init.visit_with(self);
+        }
 
         self.in_var_decl = old;
     }

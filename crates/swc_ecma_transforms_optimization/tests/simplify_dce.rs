@@ -909,6 +909,25 @@ test!(
     "class A { m(){ return B; } } class B extends A { m(){ return A; } }"
 );
 
+// A variable initializer belonging to a retained binding is externally
+// reachable. Its references must stay as graph entries so dependencies in the
+// same cycle are not removed.
+test!(
+    Syntax::Es(EsSyntax {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            resolver(unresolved_mark, Mark::new(), false),
+            tr_retain(unresolved_mark),
+        )
+    },
+    var_init_cycle_top_retain_preserved,
+    "var A = class { m(){ return parseAsync(); } }; async function parseAsync(){ return new A(); }"
+);
+
 // A `static` private field initializer is evaluated at definition time, just
 // like a public one. Reading a class declared later (which extends this one)
 // reads it while still in the TDZ, so both classes must be preserved.
