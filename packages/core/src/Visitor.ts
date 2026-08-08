@@ -155,6 +155,7 @@ import {
     TsParameterProperty,
     TsParameterPropertyParameter,
     TsPropertySignature,
+    TsThisParameter,
     TsQualifiedName,
     TsSatisfiesExpression,
     TsSetterSignature,
@@ -893,6 +894,11 @@ export class Visitor {
         return n;
     }
 
+    visitTsThisParameter(n: TsThisParameter): TsThisParameter {
+        n.typeAnnotation = this.visitTsTypeAnnotation(n.typeAnnotation);
+        return n;
+    }
+
     visitPrivateProperty(n: PrivateProperty): ClassMember {
         n.decorators = this.visitDecorators(n.decorators);
         n.key = this.visitPrivateName(n.key);
@@ -1022,6 +1028,9 @@ export class Visitor {
 
     visitFunction<T extends Fn>(n: T): T {
         n.decorators = this.visitDecorators(n.decorators);
+        if (n.thisParam) {
+            n.thisParam = this.visitTsThisParameter(n.thisParam);
+        }
         n.params = this.visitParameters(n.params);
         if (n.body) {
             n.body = this.visitBlockStatement(n.body);
@@ -1369,6 +1378,9 @@ export class Visitor {
     visitSetterProperty(n: SetterProperty): Property | SpreadElement {
         n.key = this.visitPropertyName(n.key);
         n.param = this.visitPattern(n.param);
+        if (n.thisParam) {
+            n.thisParam = this.visitPattern(n.thisParam);
+        }
         if (n.body) {
             n.body = this.visitBlockStatement(n.body);
         }
@@ -1377,6 +1389,9 @@ export class Visitor {
 
     visitMethodProperty(n: MethodProperty): Property | SpreadElement {
         n.key = this.visitPropertyName(n.key);
+        if (n.thisParam) {
+            n.thisParam = this.visitTsThisParameter(n.thisParam);
+        }
         if (n.body) {
             n.body = this.visitBlockStatement(n.body);
         }

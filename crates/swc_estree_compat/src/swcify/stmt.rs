@@ -23,7 +23,10 @@ use swc_estree_ast::{
 };
 
 use super::Context;
-use crate::swcify::Swcify;
+use crate::swcify::{
+    function::{swcify_function_params, SwcifiedFunctionParams},
+    Swcify,
+};
 
 impl Swcify for BlockStatement {
     type Output = BlockStmt;
@@ -206,11 +209,15 @@ impl Swcify for FunctionDeclaration {
     type Output = FnDecl;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
+        let SwcifiedFunctionParams { this_param, params } =
+            swcify_function_params(self.params, ctx);
+
         FnDecl {
             ident: self.id.swcify(ctx).map(|v| v.into()).unwrap(),
             declare: false,
             function: swc_ecma_ast::Function {
-                params: self.params.swcify(ctx),
+                this_param,
+                params,
                 decorators: Default::default(),
                 span: ctx.span(&self.base),
                 body: Some(self.body.swcify(ctx)),

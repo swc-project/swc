@@ -659,8 +659,8 @@ impl SemanticBuilder {
     ) {
         match pat {
             Pat::Ident(binding_ident) => {
-                // TypeScript `this` pseudo-parameters are type annotations only.
-                // They are erased before emit and must not be registered as bindings.
+                // Flow and object-setter `this` pseudo-parameters are represented
+                // as patterns. Other TypeScript functions use `Function::this_param`.
                 if binding_ident.id.sym.as_str() == "this" {
                     return;
                 }
