@@ -67,15 +67,15 @@ perf: Optimize es parser comment finalization
 Run this helper from the repository root:
 
 ```bash
-node .codex/skills/add-changeset/scripts/changed-rust-crates.mjs
+node .agents/skills/add-changeset/scripts/changed-rust-crates.mjs
 ```
 
 Useful options:
 
 ```bash
-node .codex/skills/add-changeset/scripts/changed-rust-crates.mjs --base origin/main
-node .codex/skills/add-changeset/scripts/changed-rust-crates.mjs --json
-node .codex/skills/add-changeset/scripts/changed-rust-crates.mjs --include-private
+node .agents/skills/add-changeset/scripts/changed-rust-crates.mjs --base origin/main
+node .agents/skills/add-changeset/scripts/changed-rust-crates.mjs --json
+node .agents/skills/add-changeset/scripts/changed-rust-crates.mjs --include-private
 ```
 
 Treat the helper as an inventory aid. It does not decide breaking changes, does not understand public API exposure, and cannot fully interpret workspace-level changes.

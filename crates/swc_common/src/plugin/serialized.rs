@@ -66,15 +66,29 @@ impl PluginSerializedBytes {
         })
     }
 
-    /*
-     * Internal fn to constructs an instance from raw bytes ptr.
-     */
+    /// Constructs an instance by copying serialized bytes from a raw pointer.
+    ///
+    /// ```compile_fail
+    /// # use swc_common::plugin::serialized::PluginSerializedBytes;
+    /// let bytes = [0_u8; 1];
+    /// PluginSerializedBytes::from_raw_ptr(bytes.as_ptr(), bytes.len());
+    /// ```
+    ///
+    /// # Safety
+    ///
+    /// `raw_allocated_ptr` must be non-null and properly aligned, including
+    /// when `raw_allocated_ptr_len` is zero. It must point to
+    /// `raw_allocated_ptr_len` initialized bytes of readable memory in a single
+    /// allocation, and that memory must remain valid for reads for the duration
+    /// of this function call. The byte range must not exceed `isize::MAX` or
+    /// wrap around the address space.
     #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
-    #[allow(clippy::not_unsafe_ptr_arg_deref)]
-    pub fn from_raw_ptr(
+    pub unsafe fn from_raw_ptr(
         raw_allocated_ptr: *const u8,
         raw_allocated_ptr_len: usize,
     ) -> PluginSerializedBytes {
+        // SAFETY: The caller guarantees all requirements of `from_raw_parts`
+        // for this pointer and length for the duration of the copy below.
         let raw_ptr_bytes =
             unsafe { std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len) };
 
@@ -169,5 +183,27 @@ where
                 found: tag.to_le_bytes()[0],
             }),
         }
+    }
+}
+
+#[cfg(all(test, feature = "__plugin"))]
+mod tests {
+    use super::{PluginSerializedBytes, VersionedSerializable};
+
+    #[test]
+    fn copies_initialized_bytes_from_raw_pointer() {
+        let serialized = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(42_u32))
+            .expect("u32 should be serializable");
+        let (ptr, len) = serialized.as_ptr();
+
+        // SAFETY: `ptr` and `len` describe the initialized allocation owned by
+        // `serialized`, which remains alive until after `from_raw_ptr` copies it.
+        let copied = unsafe { PluginSerializedBytes::from_raw_ptr(ptr, len) };
+        let value: u32 = copied
+            .deserialize()
+            .expect("copied bytes should deserialize")
+            .into_inner();
+
+        assert_eq!(value, 42);
     }
 }

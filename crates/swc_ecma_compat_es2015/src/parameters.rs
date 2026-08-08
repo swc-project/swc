@@ -473,7 +473,9 @@ impl VisitMut for Params {
         prop.key.visit_mut_children_with(self);
 
         let old_in_prop = self.in_prop;
-        self.in_prop = !prop.is_static;
+        // Static field initializers evaluate with the class as `this`, so they
+        // need the same initializer-local capture as instance fields.
+        self.in_prop = true;
         prop.value.visit_mut_with(self);
         self.in_prop = old_in_prop;
     }
@@ -508,7 +510,9 @@ impl VisitMut for Params {
     // same for private prop
     fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
         let old_in_prop = self.in_prop;
-        self.in_prop = !prop.is_static;
+        // Private static field initializers also evaluate with the class as
+        // `this`, and must not hoist that capture to the enclosing scope.
+        self.in_prop = true;
         prop.value.visit_mut_with(self);
         self.in_prop = old_in_prop;
     }
