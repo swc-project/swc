@@ -77,10 +77,13 @@ struct NamespaceExportTarget {
 struct NamespaceKeys {
     /// Identity of the enclosing merge parent: the enclosing namespace's
     /// table id when this namespace is exported from a namespace body,
-    /// otherwise the enclosing scope's own mark.
+    /// otherwise the enclosing scope's own mark.  Keys both the merged
+    /// table and the instance binding mark, so every re-open of one merged
+    /// namespace shares one instance mark: the TypeScript transform can
+    /// then qualify a cross-body member reference with the alias of the
+    /// body the reference appears in.  Non-exported namespaces key by the
+    /// enclosing scope's own mark, which isolates them per body.
     parent_identity: Mark,
-    /// The enclosing scope's mark, keying per-instance binding marks.
-    instance_scope: Mark,
     name: Atom,
 }
 
@@ -107,6 +110,14 @@ struct NamespaceExportNames {
     /// pre-pass must not seed them (their declaring mark does not exist
     /// until the body is visited).
     namespace_ids: FxHashSet<Atom>,
+    /// Subset of `namespace_ids` whose declaration here is not
+    /// *instantiated* (transitively type-only, per
+    /// [ts_module_is_instantiated]).  Such a namespace is fully erased and
+    /// has no value meaning, so its name must not claim a value-space slot
+    /// in the merged table: a value reference to the name resolves past it
+    /// to an outer binding, as in tsc.  Exportedness judgement and
+    /// type-space handling are unaffected.
+    erased_namespace_ids: FxHashSet<Atom>,
 }
 
 type NamespaceExportNamesRef = Rc<NamespaceExportNames>;
@@ -145,8 +156,86 @@ fn pre_scan_namespace_exports(body: &TsNamespaceBody) -> NamespaceExportNames {
         // { ... } }`, so the dotted child is an implicit export of `A`.
         scan.values.insert(inner.id.sym.clone(), DeclKind::Lexical);
         scan.namespace_ids.insert(inner.id.sym.clone());
+        if !ts_namespace_body_is_instantiated(&inner.body) {
+            scan.erased_namespace_ids.insert(inner.id.sym.clone());
+        }
     }
     scan
+}
+
+/// Whether a namespace declaration is *instantiated* in the TypeScript
+/// sense.  A namespace whose members are (transitively) only interfaces,
+/// type aliases, type-only import aliases, and other non-instantiated
+/// namespaces is erased entirely and has no value meaning; TypeScript
+/// resolves a value reference to its name past it, to an outer binding
+/// (using the erased name itself as a value is a checker error).  Mirrors
+/// `IsConcrete` in swc_ecma_transforms_typescript's `retain` module, which
+/// drives what the emitter actually retains.
+fn ts_module_is_instantiated(module: &TsModuleDecl) -> bool {
+    module
+        .body
+        .as_ref()
+        .map(ts_namespace_body_is_instantiated)
+        .unwrap_or_default()
+}
+
+fn ts_namespace_body_is_instantiated(body: &TsNamespaceBody) -> bool {
+    body.as_ts_module_block()
+        .map(|block| block.body.iter().any(module_item_is_instantiating))
+        .or_else(|| {
+            body.as_ts_namespace_decl()
+                .map(|inner| ts_namespace_body_is_instantiated(&inner.body))
+        })
+        .unwrap_or(true)
+}
+
+fn module_item_is_instantiating(item: &ModuleItem) -> bool {
+    item.as_module_decl()
+        .map(module_decl_is_instantiating)
+        .or_else(|| item.as_stmt().map(stmt_is_instantiating))
+        .unwrap_or(true)
+}
+
+/// Type-only import/export forms and `export as namespace` are erased;
+/// every other module-level form conservatively instantiates (most are
+/// not valid inside a namespace body anyway).
+fn module_decl_is_instantiating(module_decl: &ModuleDecl) -> bool {
+    module_decl
+        .as_export_decl()
+        .map(|export| decl_is_instantiating(&export.decl))
+        .unwrap_or_else(|| {
+            let erased = module_decl
+                .as_ts_import_equals()
+                .map(|import| import.is_type_only)
+                .or_else(|| module_decl.as_import().map(|import| import.type_only))
+                .or_else(|| module_decl.as_export_named().map(|export| export.type_only))
+                .or_else(|| module_decl.as_export_all().map(|export| export.type_only))
+                .unwrap_or_else(|| module_decl.is_ts_namespace_export());
+            !erased
+        })
+}
+
+fn stmt_is_instantiating(stmt: &Stmt) -> bool {
+    stmt.as_decl()
+        .map(decl_is_instantiating)
+        .unwrap_or_else(|| !stmt.is_empty())
+}
+
+/// Interfaces, type aliases, function overload signatures, and
+/// (transitively) type-only namespaces do not instantiate; every other
+/// declaration does.
+fn decl_is_instantiating(decl: &Decl) -> bool {
+    let erased = decl.is_ts_interface()
+        || decl.is_ts_type_alias()
+        || decl
+            .as_fn_decl()
+            .map(|function_decl| function_decl.function.body.is_none())
+            .unwrap_or_default()
+        || decl
+            .as_ts_module()
+            .map(|module| !ts_module_is_instantiated(module))
+            .unwrap_or_default();
+    !erased
 }
 
 fn add_decl_export_names(decl: &Decl, scan: &mut NamespaceExportNames) {
@@ -185,6 +274,9 @@ fn add_decl_export_names(decl: &Decl, scan: &mut NamespaceExportNames) {
             if let TsModuleName::Ident(id) = &m.id {
                 scan.values.insert(id.sym.clone(), DeclKind::Lexical);
                 scan.namespace_ids.insert(id.sym.clone());
+                if !ts_module_is_instantiated(m) {
+                    scan.erased_namespace_ids.insert(id.sym.clone());
+                }
             }
         }
         Decl::Using(_) => {}
@@ -712,7 +804,6 @@ impl<'a> Resolver<'a> {
         };
         NamespaceKeys {
             parent_identity,
-            instance_scope: self.current.mark,
             name: name.clone(),
         }
     }
@@ -737,15 +828,18 @@ impl<'a> Resolver<'a> {
             .clone()
     }
 
-    /// Gets or creates the per-instance binding mark for `keys`.  The mark
-    /// is applied only when a binding is actually rendered, so creating it
-    /// eagerly (during the hoisting pre-pass) interns no syntax-context
-    /// numbers.
+    /// Gets or creates the instance binding mark for `keys`.  One mark per
+    /// merged-namespace identity: every re-open of an exported namespace
+    /// binds its exported members with the same mark, which is what lets
+    /// the TypeScript transform qualify a cross-body member reference with
+    /// the current body's alias.  The mark is applied only when a binding
+    /// is actually rendered, so creating it eagerly (during the hoisting
+    /// pre-pass) interns no syntax-context numbers.
     fn namespace_instance_mark(&self, keys: &NamespaceKeys) -> Mark {
         *self
             .namespace_instances
             .borrow_mut()
-            .entry((keys.instance_scope, keys.name.clone()))
+            .entry((keys.parent_identity, keys.name.clone()))
             .or_insert_with(|| Mark::fresh(self.config.top_level_mark))
     }
 
@@ -754,14 +848,28 @@ impl<'a> Resolver<'a> {
     /// Namespace ids always bind body-locally with the current scope's
     /// mark (namespace *declarations* do not unify across re-opens; only
     /// member references resolve through the merged table).  When the
-    /// enclosing namespace body exports the name, the binding is also
+    /// enclosing namespace body exports the name, the name is also
     /// registered in the enclosing merged table (both spaces) so that
-    /// sibling re-opens referencing the namespace by name resolve to this
-    /// declaring body's context.  Registration yields to a slot already
-    /// claimed by a non-namespace declaration (a class, function, enum, or
-    /// interface the namespace merges with): references then bind that
-    /// declaration, per TypeScript's declaration-merge semantics.
-    fn bind_namespace_id(&mut self, id: &mut Ident) {
+    /// sibling re-opens referencing the namespace by name resolve it.  The
+    /// value-space registration uses the enclosing target's bind mark (the
+    /// mark every exported value member carries), not the id's own
+    /// body-local mark: a cross-body value reference then reads as a member
+    /// of the enclosing namespace instance, which the TypeScript transform
+    /// qualifies with the alias of the body the reference appears in.  The
+    /// type-space registration keeps the declaring body's mark.
+    /// Registration yields to a slot already claimed by a non-namespace
+    /// declaration (a class, function, enum, or interface the namespace
+    /// merges with): references then bind that declaration, per
+    /// TypeScript's declaration-merge semantics.
+    ///
+    /// `instantiated` reports whether this declaration's body is
+    /// instantiated (per [ts_module_is_instantiated]).  A non-instantiated
+    /// declaration registers in type space only: the namespace is fully
+    /// erased, so its name has no value meaning and must not shadow an
+    /// outer value binding for sibling re-opens.  (Another re-open of the
+    /// same name that does have value members claims the value slot via
+    /// its own registration or the pre-seed.)
+    fn bind_namespace_id(&mut self, id: &mut Ident, instantiated: bool) {
         if id.ctxt == SyntaxContext::empty() {
             self.current
                 .declared_symbols
@@ -777,13 +885,17 @@ impl<'a> Resolver<'a> {
             });
             if exported {
                 self.namespace_export.iter().for_each(|target| {
+                    let member_mark = match target.bind_mark {
+                        NamespaceBindMark::Instance(instance) => instance,
+                        NamespaceBindMark::EnclosingScope => mark,
+                    };
                     let mut table = target.table.borrow_mut();
                     let owns_value = !table.symbols.contains_key(&id.sym)
                         || table.namespace_owned_symbols.contains(&id.sym);
-                    if owns_value {
+                    if owns_value && instantiated {
                         table
                             .symbols
-                            .insert(id.sym.clone(), (DeclKind::Lexical, mark));
+                            .insert(id.sym.clone(), (DeclKind::Lexical, member_mark));
                         table.namespace_owned_symbols.insert(id.sym.clone());
                     }
                     let owns_type = !table.types.contains_key(&id.sym)
@@ -805,13 +917,20 @@ impl<'a> Resolver<'a> {
     /// Runs from the hoisting pre-pass, which sweeps the enclosing
     /// statement list before any namespace body is resolved.  Seeding
     /// inserts into the maps only and applies no marks, so syntax-context
-    /// interning order is untouched.  Names recorded as namespace ids are
-    /// skipped on the value side (their declaring mark is body-local and
-    /// does not exist until the body is visited); the pre-scan keeps
-    /// namespace ids out of the type set entirely, so the type seed covers
-    /// exactly the body's non-namespace type declarations.  Dotted bodies'
-    /// inner members are not seeded; forward references across sibling
-    /// re-opens therefore reach one nesting level deep.
+    /// interning order is untouched.  Exported namespace ids seed the value
+    /// side like every other export, with the instance mark: an earlier
+    /// re-open can then resolve a namespace that only a later sibling
+    /// re-open declares, and the reference reads as a member of the
+    /// enclosing instance (matching the registration in
+    /// [`Self::bind_namespace_id`]).  Non-instantiated namespace ids are
+    /// excluded from the value seed (see
+    /// [NamespaceExportNames::erased_namespace_ids]): an erased namespace
+    /// has no value meaning, so references resolve past it to an outer
+    /// binding.  The pre-scan keeps namespace ids out
+    /// of the type set entirely, so the type seed covers exactly the
+    /// body's non-namespace type declarations.  Dotted bodies' inner
+    /// members are not seeded; forward references across sibling re-opens
+    /// therefore reach one nesting level deep.
     fn seed_namespace_exports(&self, name: &Atom, body: &TsNamespaceBody) {
         let keys = self.namespace_keys(name);
         let table = self.namespace_table(&keys);
@@ -821,7 +940,7 @@ impl<'a> Resolver<'a> {
         let mut table = table.borrow_mut();
         scan.values
             .iter()
-            .filter(|(sym, _)| !scan.namespace_ids.contains(*sym))
+            .filter(|(sym, _)| !scan.erased_namespace_ids.contains(*sym))
             .for_each(|(sym, kind)| {
                 table
                     .symbols
@@ -1940,12 +2059,13 @@ impl VisitMut for Resolver<'_> {
             return;
         }
 
+        let instantiated = ts_module_is_instantiated(decl);
         let namespace_name = match &mut decl.id {
             TsModuleName::Ident(i) => {
                 // Marks the id and registers it in the enclosing merged
                 // table when exported.  Usually a no-op here: the hoisting
                 // pre-pass has already bound the id.
-                self.bind_namespace_id(i);
+                self.bind_namespace_id(i, instantiated);
                 Some(i.sym.clone())
             }
             TsModuleName::Str(_) => None,
@@ -2022,7 +2142,8 @@ impl VisitMut for Resolver<'_> {
         // mark ([NamespaceBindMark::EnclosingScope]).  The child's merged
         // table is layered onto the current scope for the duration of the
         // body so that references resolve through the merge, then popped.
-        self.bind_namespace_id(&mut n.id);
+        let instantiated = ts_namespace_body_is_instantiated(&n.body);
+        self.bind_namespace_id(&mut n.id, instantiated);
 
         let keys = self.namespace_keys(&n.id.sym);
         let table = self.namespace_table(&keys);
@@ -2371,8 +2492,9 @@ impl VisitMut for Hoister<'_, '_> {
                     // Bind the namespace id body-locally, then pre-seed the
                     // merged table with the body's exports so that an
                     // earlier sibling re-open can forward-reference them.
+                    let instantiated = ts_module_is_instantiated(v);
                     if let TsModuleName::Ident(id) = &mut v.id {
-                        self.resolver.bind_namespace_id(id);
+                        self.resolver.bind_namespace_id(id, instantiated);
                         let name = id.sym.clone();
                         v.body.iter().for_each(|body| {
                             self.resolver.seed_namespace_exports(&name, body);
