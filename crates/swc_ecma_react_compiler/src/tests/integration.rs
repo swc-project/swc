@@ -22,7 +22,7 @@ use crate::{
 };
 
 fn convert_program_to_swc(file: &File) -> swc_ecma_ast::Program {
-    convert_program_to_swc_with_preserved_ast(file, Default::default())
+    convert_program_to_swc_with_preserved_ast(file, Default::default()).program
 }
 
 fn convert_module(module: &swc_ecma_ast::Module, source_text: &str) -> File {
@@ -1561,6 +1561,67 @@ fn transform_component_with_hook_does_not_panic() {
 }
 
 #[test]
+fn transform_preserves_spans_in_compiled_function_body() {
+    use swc_common::{Spanned, DUMMY_SP};
+    use swc_ecma_visit::{Visit, VisitWith};
+
+    struct SpanCounter {
+        real: usize,
+    }
+
+    impl Visit for SpanCounter {
+        fn visit_stmt(&mut self, stmt: &swc_ecma_ast::Stmt) {
+            if stmt.span() != DUMMY_SP {
+                self.real += 1;
+            }
+            stmt.visit_children_with(self);
+        }
+    }
+
+    let source = r#"
+        import { useState } from 'react';
+        function Counter() {
+            const [count, setCount] = useState(0);
+            const doubled = count * 2;
+            return <div>{doubled}</div>;
+        }
+    "#;
+    let result = transform_source(
+        source,
+        Syntax::Es(EsSyntax {
+            jsx: true,
+            ..Default::default()
+        }),
+        default_options(),
+    );
+    let program = result
+        .program
+        .expect("component with hooks should be compiled");
+    let module = match &program {
+        swc_ecma_ast::Program::Module(module) => module,
+        swc_ecma_ast::Program::Script(_) => panic!("expected module output"),
+    };
+
+    let body = module
+        .body
+        .iter()
+        .find_map(|item| match item {
+            swc_ecma_ast::ModuleItem::Stmt(swc_ecma_ast::Stmt::Decl(swc_ecma_ast::Decl::Fn(
+                decl,
+            ))) if decl.ident.sym == "Counter" => decl.function.body.as_ref(),
+            _ => None,
+        })
+        .expect("compiled Counter function should have a body");
+
+    let mut counter = SpanCounter { real: 0 };
+    body.visit_with(&mut counter);
+    assert!(
+        counter.real > 0,
+        "compiled function body should keep real spans so codegen can emit source mappings"
+    );
+}
+
+#[test]
 fn transform_ref_access_error_is_not_swc_diagnostic_with_default_panic_threshold() {
     let source = r#"
         import { useRef } from 'react';
@@ -1762,7 +1823,7 @@ fn convert_ts_source(source: &str) -> crate::convert_ast::ConvertResult {
 fn round_trip_convert_result(result: crate::convert_ast::ConvertResult) -> swc_ecma_ast::Program {
     assert_file_serializes_to_json(&result.file);
 
-    convert_program_to_swc_with_preserved_ast(&result.file, result.preserved_ast)
+    convert_program_to_swc_with_preserved_ast(&result.file, result.preserved_ast).program
 }
 
 /// TS module-interop statements (`import x = require(...)`, `export = x`,
