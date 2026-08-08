@@ -177,6 +177,8 @@ pub fn es2017_async_to_generator(
     ignore_function_length: bool,
 ) -> impl Pass {
     hook_pass(crate::es2017::async_to_generator::hook(
+        true,
+        true,
         unresolved_ctxt,
         ignore_function_length,
     ))

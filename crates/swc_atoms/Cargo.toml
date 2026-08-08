@@ -22,4 +22,4 @@ once_cell     = { workspace = true }
 serde         = { workspace = true }
 shrink-to-fit = { workspace = true, optional = true }
 
-hstr = { version = "4.0.0", path = "../hstr", features = ["serde"] }
+hstr = { version = "4.0.1", path = "../hstr", features = ["serde"] }

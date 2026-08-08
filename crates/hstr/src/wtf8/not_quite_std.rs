@@ -13,7 +13,11 @@
 //! Maybe by having private generic code that is monomorphized to UTF-8 and
 //! WTF-8?
 
-use core::{char, mem, slice};
+use core::{
+    char,
+    mem::{self, MaybeUninit},
+    slice,
+};
 
 use super::{CodePoint, IllFormedUtf16CodeUnits, Wtf8, Wtf8Buf};
 
@@ -27,27 +31,31 @@ const MAX_ONE_B: u32 = 0x80;
 const MAX_TWO_B: u32 = 0x800;
 const MAX_THREE_B: u32 = 0x10000;
 
-/// Copied from 48d5fe9ec560b53b1f5069219b0d62015e1de5ba^:src/libcore/char.rs
+/// Encode a code point into potentially uninitialized storage.
+///
+/// On success, exactly the first returned number of elements in `dst` are
+/// initialized. Copied from
+/// 48d5fe9ec560b53b1f5069219b0d62015e1de5ba^:src/libcore/char.rs.
 #[inline]
-fn encode_utf8_raw(code: u32, dst: &mut [u8]) -> Option<usize> {
+fn encode_utf8_raw(code: u32, dst: &mut [MaybeUninit<u8>]) -> Option<usize> {
     // Marked #[inline] to allow llvm optimizing it away
     if code < MAX_ONE_B && !dst.is_empty() {
-        dst[0] = code as u8;
+        dst[0].write(code as u8);
         Some(1)
     } else if code < MAX_TWO_B && dst.len() >= 2 {
-        dst[0] = (code >> 6 & 0x1f) as u8 | TAG_TWO_B;
-        dst[1] = (code & 0x3f) as u8 | TAG_CONT;
+        dst[0].write((code >> 6 & 0x1f) as u8 | TAG_TWO_B);
+        dst[1].write((code & 0x3f) as u8 | TAG_CONT);
         Some(2)
     } else if code < MAX_THREE_B && dst.len() >= 3 {
-        dst[0] = (code >> 12 & 0x0f) as u8 | TAG_THREE_B;
-        dst[1] = (code >> 6 & 0x3f) as u8 | TAG_CONT;
-        dst[2] = (code & 0x3f) as u8 | TAG_CONT;
+        dst[0].write((code >> 12 & 0x0f) as u8 | TAG_THREE_B);
+        dst[1].write((code >> 6 & 0x3f) as u8 | TAG_CONT);
+        dst[2].write((code & 0x3f) as u8 | TAG_CONT);
         Some(3)
     } else if dst.len() >= 4 {
-        dst[0] = (code >> 18 & 0x07) as u8 | TAG_FOUR_B;
-        dst[1] = (code >> 12 & 0x3f) as u8 | TAG_CONT;
-        dst[2] = (code >> 6 & 0x3f) as u8 | TAG_CONT;
-        dst[3] = (code & 0x3f) as u8 | TAG_CONT;
+        dst[0].write((code >> 18 & 0x07) as u8 | TAG_FOUR_B);
+        dst[1].write((code >> 12 & 0x3f) as u8 | TAG_CONT);
+        dst[2].write((code >> 6 & 0x3f) as u8 | TAG_CONT);
+        dst[3].write((code & 0x3f) as u8 | TAG_CONT);
         Some(4)
     } else {
         None
@@ -136,11 +144,15 @@ pub fn push_code_point(string: &mut Wtf8Buf, code_point: CodePoint) {
     // This may use up to 4 bytes.
     string.reserve(4);
 
+    let used = {
+        let spare = string.bytes.spare_capacity_mut();
+        encode_utf8_raw(code_point.to_u32(), &mut spare[..4])
+            .expect("four bytes are sufficient to encode any code point")
+    };
+
+    // SAFETY: `reserve(4)` guarantees capacity for `cur_len + 4`, and
+    // `encode_utf8_raw` initialized exactly the first `used` spare bytes.
     unsafe {
-        // Attempt to not use an intermediate buffer by just pushing bytes
-        // directly onto this string.
-        let slice = slice::from_raw_parts_mut(string.bytes.as_mut_ptr().add(cur_len), 4);
-        let used = encode_utf8_raw(code_point.to_u32(), slice).unwrap_or(0);
         string.bytes.set_len(cur_len + used);
     }
 }

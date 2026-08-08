@@ -6,7 +6,7 @@ use std::{
     borrow::Borrow,
     fmt::{Debug, Display},
     hash::Hash,
-    mem::{self, forget, transmute, ManuallyDrop},
+    mem::{forget, transmute, ManuallyDrop},
     num::NonZeroU8,
     ops::Deref,
     str::from_utf8_unchecked,
@@ -221,11 +221,12 @@ impl Atom {
 
 impl Atom {
     fn from_mutated_str<F: FnOnce(&mut str)>(s: &str, f: F) -> Self {
-        let mut buffer = mem::MaybeUninit::<[u8; 64]>::uninit();
-        let buffer = unsafe { &mut *buffer.as_mut_ptr() };
+        let mut buffer = [0u8; 64];
 
         if let Some(buffer_prefix) = buffer.get_mut(..s.len()) {
             buffer_prefix.copy_from_slice(s.as_bytes());
+            // SAFETY: `buffer_prefix` was just initialized from `s`, which is
+            // valid UTF-8. `f` receives a `str`, so it must preserve UTF-8.
             let as_str = unsafe { ::std::str::from_utf8_unchecked_mut(buffer_prefix) };
             f(as_str);
             Atom::from(&*as_str)
