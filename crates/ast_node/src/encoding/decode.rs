@@ -40,7 +40,11 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 syn::parse_quote! { #ident ( #(#names),* ) }
             };
 
-            let count = data.fields.len();
+            let count = data
+                .fields
+                .iter()
+                .filter(|field| !is_ignore(&field.attrs))
+                .count();
             let head: Option<syn::Stmt> = (count != 1).then(|| {
                 syn::parse_quote! {
                     let len = <cbor4ii::core::types::Array<()>>::len(reader)?.unwrap();
@@ -193,7 +197,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                                     }
                                 })
                                 .collect::<Vec<_>>();
-                            let count = field.fields.len();
+                            let count = names.len();
 
                             let stmt = field.fields.iter()
                                 .zip(names.iter())
