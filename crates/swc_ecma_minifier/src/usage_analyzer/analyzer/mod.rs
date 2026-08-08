@@ -1432,18 +1432,20 @@ where
     fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
         n.discriminant.visit_with(self);
 
-        let mut fallthrough = false;
+        self.with_child(n.body_ctxt, ScopeKind::Block, |child| {
+            let mut fallthrough = false;
 
-        for case in n.cases.iter() {
-            let ctx = self.ctx.with(BitContext::InCond, true);
-            if fallthrough {
-                self.with_ctx(ctx).visit_in_cond(&case.test);
-                self.with_ctx(ctx).visit_in_cond(&case.cons);
-            } else {
-                self.with_ctx(ctx).visit_in_cond(case);
+            for case in n.cases.iter() {
+                let ctx = child.ctx.with(BitContext::InCond, true);
+                if fallthrough {
+                    child.with_ctx(ctx).visit_in_cond(&case.test);
+                    child.with_ctx(ctx).visit_in_cond(&case.cons);
+                } else {
+                    child.with_ctx(ctx).visit_in_cond(case);
+                }
+                fallthrough = !case.cons.iter().rev().any(|s| s.terminates())
             }
-            fallthrough = !case.cons.iter().rev().any(|s| s.terminates())
-        }
+        })
     }
 
     #[cfg_attr(
