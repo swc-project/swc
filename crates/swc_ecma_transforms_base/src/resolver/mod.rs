@@ -241,10 +241,7 @@ fn decl_is_instantiating(decl: &Decl) -> bool {
 fn add_decl_export_names(decl: &Decl, scan: &mut NamespaceExportNames) {
     match decl {
         Decl::Var(v) => {
-            let kind = match v.kind {
-                VarDeclKind::Var => DeclKind::Var,
-                VarDeclKind::Let | VarDeclKind::Const => DeclKind::Lexical,
-            };
+            let kind = DeclKind::from(v.kind);
             v.decls.iter().for_each(|d| {
                 find_pat_ids::<_, Id>(&d.name)
                     .into_iter()

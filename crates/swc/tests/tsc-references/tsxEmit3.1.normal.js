@@ -18,12 +18,12 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 })(M || (M = {}));
 (function(M) {
     // Emit M.Foo
-    Foo, /*#__PURE__*/ React.createElement(Foo, null);
+    M.Foo, /*#__PURE__*/ React.createElement(M.Foo, null);
     (function(S) {
         // Emit M.Foo
-        Foo, /*#__PURE__*/ React.createElement(Foo, null);
+        M.Foo, /*#__PURE__*/ React.createElement(M.Foo, null);
         // Emit S.Bar
-        Bar, /*#__PURE__*/ React.createElement(Bar, null);
+        S.Bar, /*#__PURE__*/ React.createElement(S.Bar, null);
     })(M.S || (M.S = {}));
 })(M || (M = {}));
 (function(M) {
@@ -33,6 +33,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(M) {
     var M1 = 100;
     // Emit M_1.Foo
-    Foo, /*#__PURE__*/ React.createElement(Foo, null);
+    M.Foo, /*#__PURE__*/ React.createElement(M.Foo, null);
 })(M || (M = {}));
 var M;
