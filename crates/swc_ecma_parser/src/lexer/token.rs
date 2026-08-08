@@ -383,16 +383,106 @@ impl<'a> Token {
             return word.clone();
         }
 
-        let span = buffer.cur.span;
-        let atom = Atom::new(buffer.iter.read_string(span));
-        atom
+        self.known_word_atom()
+            .unwrap_or_else(|| Atom::new(buffer.iter.read_string(buffer.cur.span)))
     }
 
     #[inline(always)]
     pub fn take_known_ident<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
-        let span = buffer.cur.span;
-        let atom = Atom::new(buffer.iter.read_string(span));
-        atom
+        self.known_word_atom()
+            .unwrap_or_else(|| Atom::new(buffer.iter.read_string(buffer.cur.span)))
+    }
+
+    #[inline(always)]
+    fn known_word_atom(self) -> Option<Atom> {
+        Some(match self {
+            Token::Await => swc_atoms::atom!("await"),
+            Token::Break => swc_atoms::atom!("break"),
+            Token::Case => swc_atoms::atom!("case"),
+            Token::Catch => swc_atoms::atom!("catch"),
+            Token::Class => swc_atoms::atom!("class"),
+            Token::Const => swc_atoms::atom!("const"),
+            Token::Continue => swc_atoms::atom!("continue"),
+            Token::Debugger => swc_atoms::atom!("debugger"),
+            Token::Default => swc_atoms::atom!("default"),
+            Token::Delete => swc_atoms::atom!("delete"),
+            Token::Do => swc_atoms::atom!("do"),
+            Token::Else => swc_atoms::atom!("else"),
+            Token::Export => swc_atoms::atom!("export"),
+            Token::Extends => swc_atoms::atom!("extends"),
+            Token::False => swc_atoms::atom!("false"),
+            Token::Finally => swc_atoms::atom!("finally"),
+            Token::For => swc_atoms::atom!("for"),
+            Token::Function => swc_atoms::atom!("function"),
+            Token::If => swc_atoms::atom!("if"),
+            Token::Import => swc_atoms::atom!("import"),
+            Token::In => swc_atoms::atom!("in"),
+            Token::InstanceOf => swc_atoms::atom!("instanceof"),
+            Token::Let => swc_atoms::atom!("let"),
+            Token::New => swc_atoms::atom!("new"),
+            Token::Null => swc_atoms::atom!("null"),
+            Token::Return => swc_atoms::atom!("return"),
+            Token::Super => swc_atoms::atom!("super"),
+            Token::Switch => swc_atoms::atom!("switch"),
+            Token::This => swc_atoms::atom!("this"),
+            Token::Throw => swc_atoms::atom!("throw"),
+            Token::True => swc_atoms::atom!("true"),
+            Token::Try => swc_atoms::atom!("try"),
+            Token::TypeOf => swc_atoms::atom!("typeof"),
+            Token::Var => swc_atoms::atom!("var"),
+            Token::Void => swc_atoms::atom!("void"),
+            Token::While => swc_atoms::atom!("while"),
+            Token::With => swc_atoms::atom!("with"),
+            Token::Yield => swc_atoms::atom!("yield"),
+            Token::Module => swc_atoms::atom!("module"),
+            Token::Abstract => swc_atoms::atom!("abstract"),
+            Token::Any => swc_atoms::atom!("any"),
+            Token::As => swc_atoms::atom!("as"),
+            Token::Asserts => swc_atoms::atom!("asserts"),
+            Token::Assert => swc_atoms::atom!("assert"),
+            Token::Async => swc_atoms::atom!("async"),
+            Token::Bigint => swc_atoms::atom!("bigint"),
+            Token::Boolean => swc_atoms::atom!("boolean"),
+            Token::Constructor => swc_atoms::atom!("constructor"),
+            Token::Declare => swc_atoms::atom!("declare"),
+            Token::Enum => swc_atoms::atom!("enum"),
+            Token::From => swc_atoms::atom!("from"),
+            Token::Get => swc_atoms::atom!("get"),
+            Token::Global => swc_atoms::atom!("global"),
+            Token::Implements => swc_atoms::atom!("implements"),
+            Token::Interface => swc_atoms::atom!("interface"),
+            Token::Intrinsic => swc_atoms::atom!("intrinsic"),
+            Token::Is => swc_atoms::atom!("is"),
+            Token::Keyof => swc_atoms::atom!("keyof"),
+            Token::Namespace => swc_atoms::atom!("namespace"),
+            Token::Never => swc_atoms::atom!("never"),
+            Token::Number => swc_atoms::atom!("number"),
+            Token::Object => swc_atoms::atom!("object"),
+            Token::Of => swc_atoms::atom!("of"),
+            Token::Out => swc_atoms::atom!("out"),
+            Token::Override => swc_atoms::atom!("override"),
+            Token::Package => swc_atoms::atom!("package"),
+            Token::Private => swc_atoms::atom!("private"),
+            Token::Protected => swc_atoms::atom!("protected"),
+            Token::Public => swc_atoms::atom!("public"),
+            Token::Readonly => swc_atoms::atom!("readonly"),
+            Token::Require => swc_atoms::atom!("require"),
+            Token::Set => swc_atoms::atom!("set"),
+            Token::Static => swc_atoms::atom!("static"),
+            Token::String => swc_atoms::atom!("string"),
+            Token::Symbol => swc_atoms::atom!("symbol"),
+            Token::Type => swc_atoms::atom!("type"),
+            Token::Undefined => swc_atoms::atom!("undefined"),
+            Token::Unique => swc_atoms::atom!("unique"),
+            Token::Unknown => swc_atoms::atom!("unknown"),
+            Token::Using => swc_atoms::atom!("using"),
+            Token::Accessor => swc_atoms::atom!("accessor"),
+            Token::Infer => swc_atoms::atom!("infer"),
+            Token::Satisfies => swc_atoms::atom!("satisfies"),
+            Token::Meta => swc_atoms::atom!("meta"),
+            Token::Target => swc_atoms::atom!("target"),
+            _ => return None,
+        })
     }
 
     #[inline(always)]
@@ -527,13 +617,20 @@ impl Token {
 
     #[inline(always)]
     pub const fn needs_unary_expr_prefix_parse(self) -> bool {
-        let t = self as u8;
-        (t >= Token::Bang as u8 && t <= Token::Minus as u8)
-            || (t >= Token::PlusPlus as u8 && t <= Token::MinusMinus as u8)
-            || matches!(
-                self,
-                Token::Lt | Token::Await | Token::Delete | Token::TypeOf | Token::Void
-            )
+        matches!(
+            self,
+            Token::Bang
+                | Token::Tilde
+                | Token::Plus
+                | Token::Minus
+                | Token::PlusPlus
+                | Token::MinusMinus
+                | Token::Lt
+                | Token::Await
+                | Token::Delete
+                | Token::TypeOf
+                | Token::Void
+        )
     }
 
     pub const fn as_bin_op(self) -> Option<swc_ecma_ast::BinaryOp> {
