@@ -1,8 +1,8 @@
 use swc_config::types::BoolOr;
 
-use crate::{
-    config::{Rc, ReactCompilerCompilationMode, ReactCompilerOutputMode, ReactCompilerTarget},
-    parse_swcrc,
+use super::{
+    loader::parse_swcrc, Rc, ReactCompilerCompilationMode, ReactCompilerOutputMode,
+    ReactCompilerTarget,
 };
 
 #[test]
