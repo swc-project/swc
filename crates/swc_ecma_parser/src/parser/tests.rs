@@ -66,6 +66,36 @@ fn parse_program_module_02() {
 }
 
 #[test]
+fn parse_program_duplicate_params_promoted_to_module() {
+    // Simple duplicate params are buffered until an export turns the file into a
+    // module.
+    assert_module_error(
+        "
+        function f(a, a) {}
+        export {};
+        ",
+    );
+}
+
+#[test]
+fn no_early_errors_skips_duplicate_formal() {
+    // TsSyntax::no_early_errors must suppress DuplicateFormalParameter even for
+    // simple params in module/strict code (emit_strict_mode_err path).
+    test_parser(
+        "function f(a, a) {}",
+        Syntax::Typescript(TsSyntax {
+            no_early_errors: true,
+            ..Default::default()
+        }),
+        |p| {
+            let _ = p.parse_typescript_module()?;
+            assert_eq!(p.take_errors(), Vec::new());
+            Ok(())
+        },
+    );
+}
+
+#[test]
 fn parse_program_module_error_01() {
     assert_module_error(
         "

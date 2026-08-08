@@ -1,0 +1,7 @@
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/errors/unique-formal-params/private-method/input.js:2:1]
+ 1 | class C {
+ 2 |   #m(a, a) { return a; }
+   :         ^
+ 3 | }
+   `----

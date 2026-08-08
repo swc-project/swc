@@ -5260,6 +5260,10 @@ impl<I: Tokens> Parser<I> {
             None => return Ok(None),
         };
 
+        // try_parse_ts sets IgnoreError; emit UniqueFormalParameters diagnostics
+        // only after the speculative parse commits.
+        self.validate_arrow_params(&params, true);
+
         self.do_inside_of_context(Context::InAsync, |p| {
             p.do_outside_of_context(Context::InGenerator, |p| {
                 let is_generator = false;
