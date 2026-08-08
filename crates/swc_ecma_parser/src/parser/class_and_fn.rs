@@ -355,16 +355,7 @@ impl<I: Tokens> Parser<I> {
             if p.syntax().typescript() && body.is_none() {
                 // Declare functions cannot have assignment pattern in parameters
                 for param in &params {
-                    // TODO: Search deeply for assignment pattern using a Visitor
-
-                    let span = match &param.pat {
-                        Pat::Assign(ref p) => Some(p.span()),
-                        _ => None,
-                    };
-
-                    if let Some(span) = span {
-                        p.emit_err(span, SyntaxError::TS2371)
-                    }
+                    p.emit_ts2371_for_param_initializers(&param.pat);
                 }
             }
 
@@ -1249,22 +1240,17 @@ impl<I: Tokens> Parser<I> {
                 if self.syntax().typescript() && body.is_none() {
                     // Declare constructors cannot have assignment pattern in parameters
                     for param in &params {
-                        // TODO: Search deeply for assignment pattern using a Visitor
-
-                        let span = match *param {
-                            ParamOrTsParamProp::Param(ref param) => match param.pat {
-                                Pat::Assign(ref p) => Some(p.span()),
-                                _ => None,
-                            },
+                        match param {
+                            ParamOrTsParamProp::Param(param) => {
+                                self.emit_ts2371_for_param_initializers(&param.pat);
+                            }
                             ParamOrTsParamProp::TsParamProp(TsParamProp {
-                                param: TsParamPropParam::Assign(ref p),
+                                param: TsParamPropParam::Assign(p),
                                 ..
-                            }) => Some(p.span()),
-                            _ => None,
-                        };
-
-                        if let Some(span) = span {
-                            self.emit_err(span, SyntaxError::TS2371)
+                            }) => {
+                                self.emit_err(p.span(), SyntaxError::TS2371);
+                            }
+                            _ => {}
                         }
                     }
                 }
