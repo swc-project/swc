@@ -4,13 +4,13 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc_common::comments::SingleThreadedComments;
+use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
     Emitter,
 };
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_parser::{parse_file_as_module, FlowSyntax, Syntax, TsSyntax};
 use testing::{run_test2, NormalizedOutput};
 
 const fn true_by_default() -> bool {
@@ -21,12 +21,18 @@ const fn true_by_default() -> bool {
 struct TestConfig {
     #[serde(default = "true_by_default")]
     reduce_escaped_newline: bool,
+    #[serde(default)]
+    flow: bool,
+    #[serde(default)]
+    flow_components: bool,
 }
 
 impl Default for TestConfig {
     fn default() -> Self {
         TestConfig {
             reduce_escaped_newline: true,
+            flow: false,
+            flow_components: false,
         }
     }
 }
@@ -61,14 +67,23 @@ fn run(input: &Path, minify: bool) {
         let fm = cm.load_file(input).unwrap();
         let comments = SingleThreadedComments::default();
 
-        let m = parse_file_as_module(
-            &fm,
+        let syntax = if config.flow {
+            Syntax::Flow(FlowSyntax {
+                components: config.flow_components,
+                ..Default::default()
+            })
+        } else {
             Syntax::Typescript(TsSyntax {
                 decorators: true,
                 tsx: true,
                 dts,
                 ..Default::default()
-            }),
+            })
+        };
+
+        let m = parse_file_as_module(
+            &fm,
+            syntax,
             EsVersion::latest(),
             Some(&comments),
             &mut Vec::new(),
@@ -89,7 +104,7 @@ fn run(input: &Path, minify: bool) {
                 cfg: swc_ecma_codegen::Config::default()
                     .with_minify(minify)
                     .with_reduce_escaped_newline(config.reduce_escaped_newline),
-                cm,
+                cm: cm.clone(),
                 comments: Some(&comments),
                 wr,
             };
@@ -97,7 +112,25 @@ fn run(input: &Path, minify: bool) {
             emitter.emit_module(&m).unwrap();
         }
 
-        NormalizedOutput::from(String::from_utf8(buf).unwrap())
+        let output_code = String::from_utf8(buf).unwrap();
+        if config.flow {
+            let output_fm = cm.new_source_file(FileName::Anon.into(), output_code.clone());
+            let mut errors = Vec::new();
+            parse_file_as_module(
+                &output_fm,
+                Syntax::Flow(FlowSyntax {
+                    components: config.flow_components,
+                    ..Default::default()
+                }),
+                EsVersion::latest(),
+                None,
+                &mut errors,
+            )
+            .expect("generated Flow should parse");
+            assert!(errors.is_empty(), "generated Flow had parser errors");
+        }
+
+        NormalizedOutput::from(output_code)
             .compare_to_file(&output)
             .unwrap();
 
