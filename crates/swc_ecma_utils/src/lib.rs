@@ -849,6 +849,12 @@ pub trait ExprExt {
 }
 
 pub fn class_has_side_effect(expr_ctx: ExprCtx, c: &Class) -> bool {
+    // Decorators are invoked when the class is defined, so even an identifier
+    // decorator is observable independently of its expression's own effects.
+    if !c.decorators.is_empty() {
+        return true;
+    }
+
     if let Some(e) = &c.super_class {
         if e.may_have_side_effects(expr_ctx) {
             return true;

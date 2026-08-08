@@ -890,6 +890,16 @@ fn tr_retain(unresolved_mark: Mark) -> impl Pass {
     ))
 }
 
+fn tr_preserve_top_level(unresolved_mark: Mark) -> impl Pass {
+    Repeat::new(dce(
+        Config {
+            top_level: false,
+            ..Default::default()
+        },
+        unresolved_mark,
+    ))
+}
+
 // A class kept by `top_retain` stays externally reachable, so a cycle it
 // belongs to must not be collapsed even if the other member looks unused.
 // Regression guard (issue #11934 follow-up).
@@ -907,6 +917,58 @@ test!(
     },
     class_extends_cycle_top_retain_preserved,
     "class A { m(){ return B; } } class B extends A { m(){ return A; } }"
+);
+
+// A variable initializer belonging to a retained binding is externally
+// reachable. Its references must stay as graph entries so dependencies in the
+// same cycle are not removed.
+test!(
+    Syntax::Es(EsSyntax {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            resolver(unresolved_mark, Mark::new(), false),
+            tr_retain(unresolved_mark),
+        )
+    },
+    var_init_cycle_top_retain_preserved,
+    "var A = class { m(){ return parseAsync(); } }; async function parseAsync(){ return new A(); }"
+);
+
+// With top-level DCE disabled, `A` is externally reachable. Calling it from a
+// later script must still be able to reach the local function in its
+// initializer.
+test!(
+    Syntax::Es(EsSyntax {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            resolver(unresolved_mark, Mark::new(), false),
+            tr_preserve_top_level(unresolved_mark),
+        )
+    },
+    var_init_cycle_toplevel_preserved,
+    "var A = () => { B(); function B() { return A; } };"
+);
+
+// Applying a class decorator is observable even if the variable containing the
+// class expression is otherwise unused.
+noop!(
+    var_init_cycle_decorated_class_preserved,
+    "var A = @dec class { m() { return B; } }; function B() { return A; }"
+);
+
+// A nested initializer temporarily becomes the nearest dependency owner. Its
+// references must not also be charged to every outer owner in the same scope.
+to!(
+    var_init_cycle_nested_owner,
+    "var A = class { static { let C = () => [A, B]; let B = C; } };"
 );
 
 // A `static` private field initializer is evaluated at definition time, just
@@ -976,4 +1038,13 @@ noop!(
 to!(
     eval_preserves_toplevel_var_hoisted_from_block,
     "if (true) { var x = 1; } eval('x');"
+);
+
+// A direct eval can resolve all bindings in its function. Removing another
+// declaration triggers a repeat pass, so the retained cycle must be pinned in
+// the dependency graph rather than protected by a one-time usage increment.
+to!(
+    eval_preserves_local_var_init_cycle,
+    "{ let unused = 0; } function outer(s) { var A = () => B(); function B() { return A; } return \
+     eval(s); } outer('A');"
 );
