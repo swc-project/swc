@@ -7,7 +7,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::{
     retain::{should_retain_decl, IsConcrete},
     shared::{enum_member_name, get_module_ident},
-    ts_enum::{EnumValueComputer, TsEnumRecord, TsEnumRecordKey, TsEnumRecordValue},
+    ts_enum::{EnumValueComputer, EvalCtx, TsEnumRecord, TsEnumRecordKey, TsEnumRecordValue},
 };
 
 #[derive(Debug, Default)]
@@ -19,6 +19,7 @@ pub(crate) struct SemanticInfo {
     pub enum_record: TsEnumRecord,
     pub const_enum: FxHashSet<Id>,
     pub namespace_import_equals_usage: FxHashSet<Span>,
+    pub const_vars: FxHashMap<Id, TsEnumRecordValue>,
 }
 
 impl SemanticInfo {
@@ -48,6 +49,7 @@ pub(crate) fn analyze_program(
     unresolved_mark: Mark,
     seed_usage: FxHashSet<Id>,
     flow_syntax: bool,
+    ts_enum_is_mutable: bool,
 ) -> SemanticInfo {
     let mut analyzer = SemanticAnalyzer {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
@@ -60,6 +62,7 @@ pub(crate) fn analyze_program(
         namespace_id: None,
         skip_transform_info: false,
         flow_syntax,
+        ts_enum_is_mutable,
     };
 
     program.visit_with(&mut analyzer);
@@ -75,6 +78,7 @@ struct SemanticAnalyzer {
     namespace_id: Option<Id>,
     skip_transform_info: bool,
     flow_syntax: bool,
+    ts_enum_is_mutable: bool,
 }
 
 #[derive(Default)]
@@ -257,6 +261,7 @@ impl SemanticAnalyzer {
         enum_id: &Id,
         default_init: &TsEnumRecordValue,
         record: &TsEnumRecord,
+        const_vars: &FxHashMap<Id, TsEnumRecordValue>,
         unresolved_ctxt: SyntaxContext,
         flow_syntax: bool,
     ) -> TsEnumRecordValue {
@@ -267,8 +272,10 @@ impl SemanticAnalyzer {
                     enum_id,
                     unresolved_ctxt,
                     record,
+                    const_vars,
+                    const_enum_only: None,
                 }
-                .compute(expr)
+                .compute(expr, EvalCtx::MEMBER)
             })
             .filter(TsEnumRecordValue::has_value)
             .unwrap_or_else(|| {
@@ -536,6 +543,40 @@ impl Visit for SemanticAnalyzer {
         }
     }
 
+    fn visit_var_decl(&mut self, node: &VarDecl) {
+        let track = !self.skip_transform_info && !node.declare && node.kind == VarDeclKind::Const;
+
+        for decl in &node.decls {
+            decl.visit_with(self);
+
+            if !track {
+                continue;
+            }
+
+            let Pat::Ident(BindingIdent { id, type_ann: None }) = &decl.name else {
+                continue;
+            };
+            let Some(init) = &decl.init else { continue };
+
+            if !EnumValueComputer::can_fold_shape(init) {
+                continue;
+            }
+
+            let value = EnumValueComputer {
+                enum_id: &id.to_id(),
+                unresolved_ctxt: self.unresolved_ctxt,
+                record: &self.info.enum_record,
+                const_vars: &self.info.const_vars,
+                const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
+            }
+            .compute(init.clone(), EvalCtx::CONST_INIT);
+
+            if value.is_const() {
+                self.info.const_vars.insert(id.to_id(), value);
+            }
+        }
+    }
+
     fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
         node.visit_children_with(self);
 
@@ -566,6 +607,7 @@ impl Visit for SemanticAnalyzer {
                 &id.to_id(),
                 &default_init,
                 &self.info.enum_record,
+                &self.info.const_vars,
                 self.unresolved_ctxt,
                 self.flow_syntax,
             );
@@ -655,6 +697,7 @@ mod tests {
             &id("E"),
             &TsEnumRecordValue::Void,
             &Default::default(),
+            &Default::default(),
             SyntaxContext::empty(),
             true,
         );
@@ -671,6 +714,7 @@ mod tests {
             enum_member("A"),
             &id("E"),
             &TsEnumRecordValue::from(2.0),
+            &Default::default(),
             &Default::default(),
             SyntaxContext::empty(),
             false,

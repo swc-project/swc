@@ -16,3 +16,15 @@ var H = /*#__PURE__*/ function(H) {
     return H;
 }(H || {});
 console.log(2);
+const j = H.A;
+var J = function(J) {
+    J[J["A"] = j] = "A";
+    return J;
+}(J || {});
+console.log(J.A);
+const l = 3;
+var L = /*#__PURE__*/ function(L) {
+    L[L["A"] = 3] = "A";
+    return L;
+}(L || {});
+console.log(L.A);
