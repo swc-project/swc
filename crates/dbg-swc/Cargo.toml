@@ -5,7 +5,7 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "dbg-swc"
 repository  = { workspace = true }
-version     = "60.0.0"
+version     = "61.0.0"
 
 [[bin]]
 bench = false
@@ -22,22 +22,22 @@ rayon = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 sha1 = { workspace = true }
-swc_common = { version = "24.0.0", features = [
+swc_common = { version = "25.0.0", features = [
   "concurrent",
   "tty-emitter",
 ], path = "../swc_common" }
-swc_ecma_ast = { version = "27.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "30.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "59.0.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_ast = { version = "28.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "31.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_minifier = { version = "60.0.0", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_parser = { version = "43.0.0", path = "../swc_ecma_parser", features = [
+swc_ecma_parser = { version = "44.0.0", path = "../swc_ecma_parser", features = [
   "flow",
 ] }
-swc_ecma_transforms_base = { version = "47.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_typescript = { version = "53.0.0", path = "../swc_ecma_transforms_typescript" }
-swc_ecma_visit = { version = "27.0.0", path = "../swc_ecma_visit" }
-swc_error_reporters = { version = "26.0.0", path = "../swc_error_reporters" }
+swc_ecma_transforms_base = { version = "48.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_typescript = { version = "54.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_visit = { version = "28.0.0", path = "../swc_ecma_visit" }
+swc_error_reporters = { version = "27.0.0", path = "../swc_error_reporters" }
 tempfile = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }

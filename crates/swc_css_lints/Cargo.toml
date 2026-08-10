@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_css_lints"
 repository    = { workspace = true }
-version       = "27.0.0"
+version       = "28.0.0"
 
 [lib]
 bench = false
@@ -22,13 +22,13 @@ serde       = { workspace = true, features = ["derive"] }
 thiserror   = { workspace = true }
 
 swc_atoms     = { version = "10.0.0", path = "../swc_atoms" }
-swc_common    = { version = "24.0.0", path = "../swc_common" }
+swc_common    = { version = "25.0.0", path = "../swc_common" }
 swc_config    = { version = "6.0.0", path = "../swc_config", features = ["regex"] }
-swc_css_ast   = { version = "24.0.0", path = "../swc_css_ast" }
-swc_css_visit = { version = "24.0.0", path = "../swc_css_visit" }
+swc_css_ast   = { version = "25.0.0", path = "../swc_css_ast" }
+swc_css_visit = { version = "25.0.0", path = "../swc_css_visit" }
 
 [dev-dependencies]
 serde_json = { workspace = true }
 
-swc_css_parser = { version = "24.0.0", path = "../swc_css_parser" }
-testing        = { version = "25.0.0", path = "../testing" }
+swc_css_parser = { version = "25.0.0", path = "../swc_css_parser" }
+testing        = { version = "26.0.0", path = "../testing" }
