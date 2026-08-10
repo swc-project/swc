@@ -745,6 +745,11 @@ impl Optimizer<'_> {
                 return Some(e.take());
             }
 
+            Expr::Bin(BinExpr {
+                op: op!("instanceof"),
+                ..
+            }) => return Some(e.take()),
+
             Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
             }) => return Some(e.take()),
