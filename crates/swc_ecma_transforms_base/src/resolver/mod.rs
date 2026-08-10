@@ -110,14 +110,44 @@ struct NamespaceExportNames {
     /// pre-pass must not seed them (their declaring mark does not exist
     /// until the body is visited).
     namespace_ids: FxHashSet<Atom>,
-    /// Subset of `namespace_ids` whose declaration here is not
-    /// *instantiated* (transitively type-only, per
-    /// [ts_module_is_instantiated]).  Such a namespace is fully erased and
-    /// has no value meaning, so its name must not claim a value-space slot
-    /// in the merged table: a value reference to the name resolves past it
-    /// to an outer binding, as in tsc.  Exportedness judgement and
-    /// type-space handling are unaffected.
+    /// Subset of `namespace_ids` whose name has no value meaning in this
+    /// body: every value-side occurrence of the name is a namespace
+    /// declaration that is not *instantiated* (transitively type-only,
+    /// per [ts_module_is_instantiated]).  Such a name is fully erased and
+    /// must not claim a value-space slot in the merged table: a value
+    /// reference to the name resolves past it to an outer binding, as in
+    /// tsc.  One value-producing declaration of the name keeps the value
+    /// meaning of the whole merged symbol, in either declaration order,
+    /// so a namespace that merges with a function (or an instantiated
+    /// re-declaration of itself) stays out of this set.  Exportedness
+    /// judgement and type-space handling are unaffected.
     erased_namespace_ids: FxHashSet<Atom>,
+    /// Names with at least one value-producing declaration in this body:
+    /// a variable, function, class, enum, exported import alias, or an
+    /// instantiated namespace occurrence.  Guards `erased_namespace_ids`
+    /// against a non-instantiated namespace occurrence erasing a name
+    /// that another occurrence gives value meaning.
+    value_producing_ids: FxHashSet<Atom>,
+}
+
+impl NamespaceExportNames {
+    /// Records a value-producing occurrence of `sym`: the merged name has
+    /// value meaning in this body, so the value seed must keep it even
+    /// when another occurrence is a non-instantiated namespace
+    /// declaration (before or after this one).
+    fn add_value_producing(&mut self, sym: Atom) {
+        self.erased_namespace_ids.remove(&sym);
+        self.value_producing_ids.insert(sym);
+    }
+
+    /// Records a non-instantiated namespace occurrence of `sym`: erased
+    /// from the value seed unless another occurrence in this body
+    /// produces a value.
+    fn add_erased_namespace(&mut self, sym: Atom) {
+        if !self.value_producing_ids.contains(&sym) {
+            self.erased_namespace_ids.insert(sym);
+        }
+    }
 }
 
 type NamespaceExportNamesRef = Rc<NamespaceExportNames>;
@@ -146,6 +176,7 @@ fn pre_scan_namespace_exports(body: &TsNamespaceBody) -> NamespaceExportNames {
                 // re-opens of the enclosing namespace.
                 if !import.is_type_only {
                     scan.values.insert(import.id.sym.clone(), DeclKind::Lexical);
+                    scan.add_value_producing(import.id.sym.clone());
                 }
                 scan.types.insert(import.id.sym.clone());
             }
@@ -156,8 +187,10 @@ fn pre_scan_namespace_exports(body: &TsNamespaceBody) -> NamespaceExportNames {
         // { ... } }`, so the dotted child is an implicit export of `A`.
         scan.values.insert(inner.id.sym.clone(), DeclKind::Lexical);
         scan.namespace_ids.insert(inner.id.sym.clone());
-        if !ts_namespace_body_is_instantiated(&inner.body) {
-            scan.erased_namespace_ids.insert(inner.id.sym.clone());
+        if ts_namespace_body_is_instantiated(&inner.body) {
+            scan.add_value_producing(inner.id.sym.clone());
+        } else {
+            scan.add_erased_namespace(inner.id.sym.clone());
         }
     }
     scan
@@ -168,10 +201,11 @@ fn pre_scan_namespace_exports(body: &TsNamespaceBody) -> NamespaceExportNames {
 /// type aliases, type-only import aliases, and other non-instantiated
 /// namespaces is erased entirely and has no value meaning; TypeScript
 /// resolves a value reference to its name past it, to an outer binding
-/// (using the erased name itself as a value is a checker error).  Mirrors
-/// `IsConcrete` in swc_ecma_transforms_typescript's `retain` module, which
-/// drives what the emitter actually retains.
-fn ts_module_is_instantiated(module: &TsModuleDecl) -> bool {
+/// (using the erased name itself as a value is a checker error).  The
+/// `retain` module in swc_ecma_transforms_typescript consumes this
+/// predicate for its namespace emit decision, so the resolver and the
+/// emitter classify namespaces identically by construction.
+pub fn ts_module_is_instantiated(module: &TsModuleDecl) -> bool {
     module
         .body
         .as_ref()
@@ -221,16 +255,16 @@ fn stmt_is_instantiating(stmt: &Stmt) -> bool {
         .unwrap_or_else(|| !stmt.is_empty())
 }
 
-/// Interfaces, type aliases, function overload signatures, and
-/// (transitively) type-only namespaces do not instantiate; every other
-/// declaration does.
+/// Interfaces, type aliases, and (transitively) type-only namespaces do
+/// not instantiate; every other declaration does.  A function declaration
+/// instantiates even without a body (an ambient `declare function` member
+/// or an overload signature): TypeScript's `getModuleInstanceState` maps
+/// every function declaration to `Instantiated`, so the enclosing
+/// namespace still gets its object even though the declaration itself is
+/// erased from the emit.
 fn decl_is_instantiating(decl: &Decl) -> bool {
     let erased = decl.is_ts_interface()
         || decl.is_ts_type_alias()
-        || decl
-            .as_fn_decl()
-            .map(|function_decl| function_decl.function.body.is_none())
-            .unwrap_or_default()
         || decl
             .as_ts_module()
             .map(|module| !ts_module_is_instantiated(module))
@@ -246,20 +280,24 @@ fn add_decl_export_names(decl: &Decl, scan: &mut NamespaceExportNames) {
                 find_pat_ids::<_, Id>(&d.name)
                     .into_iter()
                     .for_each(|(sym, _)| {
-                        scan.values.insert(sym, kind);
+                        scan.values.insert(sym.clone(), kind);
+                        scan.add_value_producing(sym);
                     });
             })
         }
         Decl::Fn(f) => {
             scan.values.insert(f.ident.sym.clone(), DeclKind::Function);
+            scan.add_value_producing(f.ident.sym.clone());
         }
         Decl::Class(c) => {
             scan.values.insert(c.ident.sym.clone(), DeclKind::Lexical);
             scan.types.insert(c.ident.sym.clone());
+            scan.add_value_producing(c.ident.sym.clone());
         }
         Decl::TsEnum(e) => {
             scan.values.insert(e.id.sym.clone(), DeclKind::Lexical);
             scan.types.insert(e.id.sym.clone());
+            scan.add_value_producing(e.id.sym.clone());
         }
         Decl::TsTypeAlias(a) => {
             scan.types.insert(a.id.sym.clone());
@@ -269,10 +307,14 @@ fn add_decl_export_names(decl: &Decl, scan: &mut NamespaceExportNames) {
         }
         Decl::TsModule(m) => {
             if let TsModuleName::Ident(id) = &m.id {
-                scan.values.insert(id.sym.clone(), DeclKind::Lexical);
+                scan.values
+                    .entry(id.sym.clone())
+                    .or_insert(DeclKind::Lexical);
                 scan.namespace_ids.insert(id.sym.clone());
-                if !ts_module_is_instantiated(m) {
-                    scan.erased_namespace_ids.insert(id.sym.clone());
+                if ts_module_is_instantiated(m) {
+                    scan.add_value_producing(id.sym.clone());
+                } else {
+                    scan.add_erased_namespace(id.sym.clone());
                 }
             }
         }
@@ -417,6 +459,7 @@ pub fn resolver(
         current: Scope::new(ScopeKind::Fn, top_level_mark, None),
         ident_type: IdentType::Ref,
         in_type: false,
+        in_ts_qualifier: false,
         is_module: false,
         in_ts_module: false,
         decl_kind: DeclKind::Lexical,
@@ -498,6 +541,7 @@ struct Resolver<'a> {
     current: Scope<'a>,
     ident_type: IdentType,
     in_type: bool,
+    in_ts_qualifier: bool,
     is_module: bool,
     in_ts_module: bool,
     decl_kind: DeclKind,
@@ -554,6 +598,7 @@ impl<'a> Resolver<'a> {
             current,
             ident_type: IdentType::Ref,
             in_type: false,
+            in_ts_qualifier: false,
             is_module: false,
             in_ts_module: false,
             config,
@@ -580,6 +625,7 @@ impl<'a> Resolver<'a> {
             ident_type: IdentType::Ref,
             config: self.config,
             in_type: self.in_type,
+            in_ts_qualifier: self.in_ts_qualifier,
             is_module: self.is_module,
             in_ts_module: self.in_ts_module,
             decl_kind: self.decl_kind,
@@ -638,12 +684,22 @@ impl<'a> Resolver<'a> {
                 // to the enclosing scope so that an exported type declared
                 // by a sibling re-open of the same namespace resolves here,
                 // to the declaring body's own context.
-                if let Some(mark) = cur
-                    .shared
-                    .iter()
-                    .rev()
-                    .find_map(|table| table.borrow().types.get(sym).copied())
-                {
+                // A slot owned purely by namespace declarations has
+                // namespace meaning but no type meaning of its own: a
+                // bare type reference skips it and keeps walking outward
+                // (tsc rejects a namespace-only symbol for type meaning,
+                // TS2709), while the left side of a qualified name
+                // resolves with namespace meaning and binds it.
+                if let Some(mark) = cur.shared.iter().rev().find_map(|table| {
+                    let table = table.borrow();
+                    table
+                        .types
+                        .get(sym)
+                        .filter(|_| {
+                            self.in_ts_qualifier || !table.namespace_owned_types.contains(sym)
+                        })
+                        .copied()
+                }) {
                     return Some(mark);
                 }
 
@@ -923,11 +979,27 @@ impl<'a> Resolver<'a> {
     /// excluded from the value seed (see
     /// [NamespaceExportNames::erased_namespace_ids]): an erased namespace
     /// has no value meaning, so references resolve past it to an outer
-    /// binding.  The pre-scan keeps namespace ids out
-    /// of the type set entirely, so the type seed covers exactly the
-    /// body's non-namespace type declarations.  Dotted bodies' inner
-    /// members are not seeded; forward references across sibling re-opens
-    /// therefore reach one nesting level deep.
+    /// binding.
+    ///
+    /// Namespace ids also seed the *type* side (separately from the
+    /// pre-scan's type set, which holds only non-namespace type
+    /// declarations): every namespace declaration has namespace meaning,
+    /// erased or not, so the left side of an earlier re-open's qualified
+    /// type reference must not fall through to an outer binding.  (A
+    /// *bare* type reference is different: a namespace alone has no type
+    /// meaning, so that lookup skips slots that only a namespace owns;
+    /// see [`Self::mark_for_ref_inner`].)  The type seed claims only a
+    /// vacant slot, with the instance mark, and records namespace
+    /// ownership so that the declaring body's own registration overwrites
+    /// it with the body mark (see [`Self::bind_namespace_id`]).  A slot
+    /// already claimed by a non-namespace type declaration is left alone,
+    /// and a non-namespace type declaration seen by any re-open revokes
+    /// namespace ownership of the slot, in either seeding order:
+    /// TypeScript merges the namespace into that declaration, so the
+    /// namespace registration must leave the merged slot in place and
+    /// every reference then agrees on the instance mark.  Dotted bodies'
+    /// inner members are not seeded; forward references across sibling
+    /// re-opens therefore reach one nesting level deep.
     fn seed_namespace_exports(&self, name: &Atom, body: &TsNamespaceBody) {
         let keys = self.namespace_keys(name);
         let table = self.namespace_table(&keys);
@@ -935,17 +1007,29 @@ impl<'a> Resolver<'a> {
 
         let scan = pre_scan_namespace_exports(body);
         let mut table = table.borrow_mut();
+        let NamespaceMergedTable {
+            symbols,
+            types,
+            namespace_owned_types,
+            ..
+        } = &mut *table;
         scan.values
             .iter()
             .filter(|(sym, _)| !scan.erased_namespace_ids.contains(*sym))
             .for_each(|(sym, kind)| {
-                table
-                    .symbols
+                symbols
                     .entry(sym.clone())
                     .or_insert((*kind, instance_mark));
             });
         scan.types.iter().for_each(|sym| {
-            table.types.entry(sym.clone()).or_insert(instance_mark);
+            namespace_owned_types.remove(sym);
+            types.entry(sym.clone()).or_insert(instance_mark);
+        });
+        scan.namespace_ids.iter().for_each(|sym| {
+            types.entry(sym.clone()).or_insert_with(|| {
+                namespace_owned_types.insert(sym.clone());
+                instance_mark
+            });
         });
     }
 
@@ -2189,7 +2273,14 @@ impl VisitMut for Resolver<'_> {
     fn visit_mut_ts_qualified_name(&mut self, n: &mut TsQualifiedName) {
         self.ident_type = IdentType::Ref;
 
-        n.left.visit_mut_with(self)
+        // The left side resolves with namespace meaning: merged-table
+        // type slots that only a namespace declaration owns are visible
+        // here, unlike for a bare type reference (see
+        // `mark_for_ref_inner`).
+        let in_ts_qualifier = self.in_ts_qualifier;
+        self.in_ts_qualifier = true;
+        n.left.visit_mut_with(self);
+        self.in_ts_qualifier = in_ts_qualifier;
     }
 
     fn visit_mut_ts_satisfies_expr(&mut self, n: &mut TsSatisfiesExpr) {
