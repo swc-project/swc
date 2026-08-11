@@ -1,4 +1,4 @@
 interface:
   display_name: "Add Changeset"
   short_description: "Create, commit, and push SWC changesets"
-  default_prompt: "Use $add-changeset to add, commit, and push a complete SWC changeset for the current PR."
+  default_prompt: "Use $add-changeset to add, commit, and push a complete SWC changeset for the current PR or a specified PR number or URL."
