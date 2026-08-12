@@ -6067,7 +6067,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "76.0.1"
+version = "76.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6620,7 +6620,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "60.0.1"
+version = "60.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6744,7 +6744,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "23.0.0"
+version = "23.0.1"
 dependencies = [
  "forked_react_compiler",
  "forked_react_compiler_ast",
