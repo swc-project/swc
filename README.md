@@ -69,7 +69,7 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=swc-project/swc&type=Timeline)](https://www.star-history.com/#swc-project/swc&Timeline)
+[![Star History Chart](https://star-history.dera.page/svg?repos=swc-project/swc&type=Timeline)](https://star-history.dera.page/#swc-project/swc&Timeline)
 
 ## Powered by
 
