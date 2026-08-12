@@ -46,6 +46,11 @@ pub struct FunctionShell {
     decorators: Vec<Decorator>,
     type_params: Option<Box<TsTypeParamDecl>>,
     return_type: Option<Box<TsTypeAnn>>,
+    /// Whether the source function had an implementation body.
+    ///
+    /// React Compiler's `FunctionDeclaration` always has a block body, so this
+    /// is required to restore TypeScript overload signatures after compilation.
+    had_body: bool,
 }
 
 /// Lightweight variable declaration metadata not represented losslessly in
@@ -266,6 +271,7 @@ impl PreservedAst {
                 decorators: function.decorators.clone(),
                 type_params: function.type_params.clone(),
                 return_type: function.return_type.clone(),
+                had_body: function.body.is_some(),
             })),
         );
     }
@@ -280,6 +286,9 @@ impl PreservedAst {
             unreachable!()
         };
 
+        if !snapshot.had_body {
+            function.body = None;
+        }
         function.decorators = snapshot.decorators;
         function.type_params = snapshot.type_params;
         function.return_type = snapshot.return_type;
