@@ -1,7 +1,11 @@
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::JsNumber, ExprExt, Value::Known};
+use swc_ecma_utils::{
+    number::{minify_number, JsNumber},
+    ExprExt,
+    Value::Known,
+};
 
 use super::{BitCtx, Optimizer};
 use crate::{
@@ -414,10 +418,12 @@ impl Optimizer<'_> {
 
         if let Expr::Call(..) = e {
             if let Some(value) = eval_as_number(self.ctx.expr_ctx, e) {
-                self.changed = true;
-                report_change!("evaluate: Evaluated an expression as `{}`", value);
-                *e = make_number(e.span(), value);
-                return;
+                if !math_fold_grows(e, value) {
+                    self.changed = true;
+                    report_change!("evaluate: Evaluated an expression as `{}`", value);
+                    *e = make_number(e.span(), value);
+                    return;
+                }
             }
         }
 
@@ -499,4 +505,81 @@ impl Optimizer<'_> {
             }
         }
     }
+}
+
+/// `Math` methods whose folded value can be longer than the call it replaces.
+///
+/// `Math.cos` and friends are deliberately excluded so their existing output is
+/// left untouched.
+const SIZE_SENSITIVE_MATH_METHODS: &[&str] = &["ceil", "floor", "round", "sqrt"];
+
+/// Returns `true` when replacing `call` with `value` would emit more characters
+/// than the original call expression, e.g. `Math.sqrt(2)` (12 characters)
+/// folding to `1.4142135623730951` (18 characters).
+///
+/// Only the methods in [`SIZE_SENSITIVE_MATH_METHODS`] are considered, and only
+/// when every argument is a numeric literal, so that both sides can be measured
+/// exactly. Anything else keeps the previous behavior of always folding.
+fn math_fold_grows(call: &Expr, value: f64) -> bool {
+    let Expr::Call(CallExpr {
+        callee: Callee::Expr(callee),
+        args,
+        ..
+    }) = call
+    else {
+        return false;
+    };
+
+    let Expr::Member(MemberExpr {
+        obj,
+        prop: MemberProp::Ident(prop),
+        ..
+    }) = &**callee
+    else {
+        return false;
+    };
+
+    if !matches!(&**obj, Expr::Ident(obj) if &*obj.sym == "Math") {
+        return false;
+    }
+
+    if !SIZE_SENSITIVE_MATH_METHODS.contains(&&*prop.sym) {
+        return false;
+    }
+
+    // `Math.` + method + `(` + arguments + `)`
+    let mut original = "Math.".len() + prop.sym.len() + "()".len();
+
+    for (i, arg) in args.iter().enumerate() {
+        if i > 0 {
+            original += ",".len();
+        }
+
+        match &*arg.expr {
+            Expr::Lit(Lit::Num(n)) => {
+                let mut detect_dot = false;
+                original += minify_number(n.value, &mut detect_dot).len();
+            }
+            // `Math.PI` and friends survive until this pass, so they have to be
+            // measured too: `Math.sqrt(Math.E)` grows from 17 to 18 characters.
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(prop),
+                ..
+            }) if matches!(&**obj, Expr::Ident(obj) if &*obj.sym == "Math") => {
+                original += "Math.".len() + prop.sym.len();
+            }
+            // Not cheaply measurable; keep folding as before.
+            _ => return false,
+        }
+    }
+
+    let mut detect_dot = false;
+
+    // Rejected on ties as well: an equally long literal saves nothing by itself,
+    // and later passes may inline it into several places. `Math.sqrt(Math.PI)`
+    // and `1.7724538509055159` are both 18 characters, but folding the former
+    // lets the inliner replace a 2 character binding with 18 characters twice,
+    // which grew three.js by 8 bytes.
+    minify_number(value, &mut detect_dot).len() >= original
 }

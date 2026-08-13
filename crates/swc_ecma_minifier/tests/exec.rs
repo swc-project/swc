@@ -12639,3 +12639,31 @@ async function classify(code) {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn issue_11078_math_constant_folding() {
+    run_default_exec_test(
+        r#"
+        console.log(Math.floor(3.7), Math.floor(-3.2), Math.floor(0));
+        console.log(Math.ceil(3.2), Math.ceil(-3.7), Math.ceil(0));
+        console.log(Math.round(2.5), Math.round(-1.5), Math.round(-2.5));
+        console.log(Math.round(0.49999999999999994), Math.round(-0.6));
+        console.log(Math.sqrt(4), Math.sqrt(9), Math.sqrt(-1));
+        console.log(Math.floor(NaN), Math.ceil(Infinity), Math.sqrt(-Infinity));
+        console.log(Math.ceil(Math.sqrt(4)), Math.floor(Math.sqrt(9) + 1));
+        "#,
+    );
+}
+
+#[test]
+fn issue_11078_math_negative_zero_is_preserved() {
+    run_default_exec_test(
+        r#"
+        console.log(1 / Math.round(-0.5));
+        console.log(1 / Math.ceil(-0.5));
+        console.log(1 / Math.round(-0.4));
+        console.log(Object.is(Math.round(-0.5), -0));
+        console.log(Object.is(Math.ceil(-0.5), -0));
+        "#,
+    );
+}
