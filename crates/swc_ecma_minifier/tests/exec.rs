@@ -12667,3 +12667,17 @@ fn issue_11078_math_negative_zero_is_preserved() {
         "#,
     );
 }
+
+#[test]
+fn issue_11078_math_negative_results_in_member_position() {
+    run_default_exec_test(
+        r#"
+        console.log(Math.round(-1.5).toString());
+        console.log(Math.ceil(-0.5).toString());
+        console.log(Math.floor(-3.2).toString());
+        console.log(Math.round(-2.5).toFixed(1));
+        console.log(Math.round(-1.5) ** 2);
+        console.log(typeof Math.round(-1.5).toString());
+        "#,
+    );
+}
