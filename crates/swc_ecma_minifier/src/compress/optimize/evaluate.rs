@@ -513,17 +513,107 @@ impl Optimizer<'_> {
 /// left untouched.
 const SIZE_SENSITIVE_MATH_METHODS: &[&str] = &["ceil", "floor", "round", "sqrt"];
 
-/// Returns `true` when replacing `call` with `value` would emit more characters
-/// than the original call expression, e.g. `Math.sqrt(2)` (12 characters)
-/// folding to `1.4142135623730951` (18 characters).
+/// Number of characters `e` occupies once printed, when that can be determined
+/// exactly.
 ///
-/// Only the methods in [`SIZE_SENSITIVE_MATH_METHODS`] are considered, and only
-/// when every argument is a numeric literal, so that both sides can be measured
-/// exactly. Anything else keeps the previous behavior of always folding.
-fn math_fold_grows(call: &Expr, value: f64) -> bool {
+/// `None` means the printed form is not cheaply known, which makes
+/// [`math_fold_grows`] decline the fold rather than guess at it.
+fn measured_len(e: &Expr) -> Option<usize> {
+    match e {
+        Expr::Lit(Lit::Num(n)) => {
+            let mut detect_dot = false;
+
+            Some(minify_number(n.value, &mut detect_dot).len())
+        }
+
+        // `eval_as_number` reaches these through `cast_to_number`, so
+        // `Math.sqrt("2")` is foldable and has to be measured. Quotes are
+        // counted but escapes are not, which can only underestimate the
+        // original and therefore only makes the guard stricter.
+        Expr::Lit(Lit::Str(s)) => Some(s.value.len() + "\"\"".len()),
+        Expr::Lit(Lit::Bool(b)) => Some(if b.value { "true".len() } else { "false".len() }),
+        Expr::Lit(Lit::Null(..)) => Some("null".len()),
+
+        // `Math.PI` and friends survive until this pass, so they have to be
+        // measured too: `Math.sqrt(Math.E)` grows from 17 to 18 characters.
+        Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Ident(prop),
+            ..
+        }) if matches!(&**obj, Expr::Ident(obj) if &*obj.sym == "Math") => {
+            Some("Math.".len() + prop.sym.len())
+        }
+
+        // Single character prefixes. `true` and `false` reach this pass as `!0`
+        // and `!1`, so skipping `!` would decline folds that do shrink.
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "-") | op!(unary, "+") | op!("!") | op!("~"),
+            arg,
+            ..
+        }) => Some("!".len() + measured_len(arg)?),
+
+        // A nested call that this guard declined to fold, such as the inner
+        // `Math.sqrt(2)` of `Math.ceil(Math.sqrt(2))`. Measuring it recursively
+        // is what keeps the outer fold available.
+        Expr::Call(..) => math_call_len(e),
+
+        _ => None,
+    }
+}
+
+/// Number of characters a `Math.<method>(..)` call occupies once printed.
+fn math_call_len(call: &Expr) -> Option<usize> {
     let Expr::Call(CallExpr {
         callee: Callee::Expr(callee),
         args,
+        ..
+    }) = call
+    else {
+        return None;
+    };
+
+    let Expr::Member(MemberExpr {
+        obj,
+        prop: MemberProp::Ident(prop),
+        ..
+    }) = &**callee
+    else {
+        return None;
+    };
+
+    if !matches!(&**obj, Expr::Ident(obj) if &*obj.sym == "Math") {
+        return None;
+    }
+
+    // `Math.` + method + `(` + arguments + `)`
+    let mut len = "Math.".len() + prop.sym.len() + "()".len();
+
+    for (i, arg) in args.iter().enumerate() {
+        if i > 0 {
+            len += ",".len();
+        }
+
+        if arg.spread.is_some() {
+            return None;
+        }
+
+        len += measured_len(&arg.expr)?;
+    }
+
+    Some(len)
+}
+
+/// Returns `true` when replacing `call` with `value` would emit at least as
+/// many characters as the original call expression, e.g. `Math.sqrt(2)` (12
+/// characters) folding to `1.4142135623730951` (18 characters).
+///
+/// Only the methods in [`SIZE_SENSITIVE_MATH_METHODS`] are considered, so
+/// `Math.cos` and friends keep emitting what they emit today. A call whose
+/// length cannot be measured is declined, because the fold cannot then be shown
+/// to save anything.
+fn math_fold_grows(call: &Expr, value: f64) -> bool {
+    let Expr::Call(CallExpr {
+        callee: Callee::Expr(callee),
         ..
     }) = call
     else {
@@ -547,32 +637,9 @@ fn math_fold_grows(call: &Expr, value: f64) -> bool {
         return false;
     }
 
-    // `Math.` + method + `(` + arguments + `)`
-    let mut original = "Math.".len() + prop.sym.len() + "()".len();
-
-    for (i, arg) in args.iter().enumerate() {
-        if i > 0 {
-            original += ",".len();
-        }
-
-        match &*arg.expr {
-            Expr::Lit(Lit::Num(n)) => {
-                let mut detect_dot = false;
-                original += minify_number(n.value, &mut detect_dot).len();
-            }
-            // `Math.PI` and friends survive until this pass, so they have to be
-            // measured too: `Math.sqrt(Math.E)` grows from 17 to 18 characters.
-            Expr::Member(MemberExpr {
-                obj,
-                prop: MemberProp::Ident(prop),
-                ..
-            }) if matches!(&**obj, Expr::Ident(obj) if &*obj.sym == "Math") => {
-                original += "Math.".len() + prop.sym.len();
-            }
-            // Not cheaply measurable; keep folding as before.
-            _ => return false,
-        }
-    }
+    let Some(original) = math_call_len(call) else {
+        return true;
+    };
 
     let mut detect_dot = false;
 

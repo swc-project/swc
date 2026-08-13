@@ -16,3 +16,14 @@ console.log(Math.sqrt(Math.PI));
 
 // Not folded: `1.6487212707001282` is one character longer than the call.
 console.log(Math.sqrt(Math.E));
+
+// Not folded: the argument is coerced by `cast_to_number`, so the call is
+// foldable, but `1.4142135623730951` is longer than `Math.sqrt("2")`.
+console.log(Math.sqrt("2"));
+
+// Folded: coerced the same way, but `1` and `0` are shorter than the call.
+console.log(Math.sqrt(true));
+console.log(Math.sqrt(null));
+
+// Folded: a unary argument is measurable, and `NaN` is shorter than the call.
+console.log(Math.sqrt(-2));
