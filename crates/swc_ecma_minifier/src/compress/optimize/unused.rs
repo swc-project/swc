@@ -646,7 +646,11 @@ impl Optimizer<'_> {
                 // TODO: Optimize
             }
 
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => {
+            Decl::TsFn(_)
+            | Decl::TsInterface(_)
+            | Decl::TsTypeAlias(_)
+            | Decl::TsEnum(_)
+            | Decl::TsModule(_) => {
                 // Nothing to do. We might change this to unreachable!()
             }
 

@@ -4,7 +4,9 @@ use swc_common::ast_serde;
 
 use crate::{
     class::ClassMethodKind,
-    common::{Access, BaseNode, Decorator, IdOrRest, IdOrString, Identifier, Noop, Param},
+    common::{
+        Access, BaseNode, Decorator, IdOrRest, IdOrString, Identifier, Noop, Param, PrivateName,
+    },
     expr::Expression,
     lit::{BigIntLiteral, BooleanLiteral, NumericLiteral, StringLiteral},
     object::ObjectKey,
@@ -207,6 +209,16 @@ pub struct TSDeclareFunction {
     pub generator: Option<bool>,
 }
 
+/// A public or private key accepted by Babel's `TSDeclareMethod` node.
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
+pub enum TSDeclareMethodKey {
+    #[tag("PrivateName")]
+    Private(PrivateName),
+    #[tag("*")]
+    Public(ObjectKey),
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
@@ -215,7 +227,7 @@ pub struct TSDeclareMethod {
     pub base: BaseNode,
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
-    pub key: ObjectKey,
+    pub key: TSDeclareMethodKey,
     #[serde(default)]
     pub type_parameters: Option<TSFuncDeclTypeParams>,
     #[serde(default)]
@@ -238,6 +250,8 @@ pub struct TSDeclareMethod {
     pub kind: Option<ClassMethodKind>,
     #[serde(default)]
     pub optional: Option<bool>,
+    #[serde(default, rename = "override")]
+    pub is_override: Option<bool>,
     #[serde(default, rename = "static")]
     pub is_static: Option<bool>,
 }

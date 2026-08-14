@@ -220,6 +220,11 @@ impl SemanticAnalyzer {
             Decl::Fn(fn_decl) => {
                 self.info.id_value.insert(fn_decl.ident.to_id());
             }
+            Decl::TsFn(fn_decl) => {
+                if let Some(ident) = &fn_decl.ident {
+                    self.info.id_value.insert(ident.to_id());
+                }
+            }
             Decl::Class(class_decl) => {
                 self.info.id_value.insert(class_decl.ident.to_id());
             }

@@ -268,17 +268,15 @@ impl NoEmptyFunction {
         function: &Function,
         modifier: FunctionModifiers,
     ) {
-        if let Some(FunctionBody {
+        let FunctionBody {
             span: body_span,
             stmts,
             ..
-        }) = &function.body
-        {
-            let has_comment = self.consider_comments && self.has_comment_in_body(body_span);
+        } = &function.body;
+        let has_comment = self.consider_comments && self.has_comment_in_body(body_span);
 
-            if !has_comment && stmts.is_empty() {
-                self.check(span, "method", self.methods.as_ref(), &[modifier]);
-            }
+        if !has_comment && stmts.is_empty() {
+            self.check(span, "method", self.methods.as_ref(), &[modifier]);
         }
 
         key.visit_with(self);
@@ -290,30 +288,29 @@ impl Visit for NoEmptyFunction {
     noop_visit_type!();
 
     fn visit_function(&mut self, function: &Function) {
-        if let Some(FunctionBody { stmts, span, .. }) = &function.body {
-            if self.consider_comments && self.has_comment_in_body(span) {
-                return;
-            }
-
-            if stmts.is_empty() {
-                let (count, modifiers) = get_modifiers::<2>(FunctionMarkers {
-                    is_async: function.is_async,
-                    is_generator: function.is_generator,
-                    ..Default::default()
-                });
-
-                self.check(
-                    function.span,
-                    "function",
-                    self.functions.as_ref(),
-                    &modifiers[0..count],
-                );
-
-                return;
-            }
-
-            function.visit_children_with(self);
+        let FunctionBody { stmts, span, .. } = &function.body;
+        if self.consider_comments && self.has_comment_in_body(span) {
+            return;
         }
+
+        if stmts.is_empty() {
+            let (count, modifiers) = get_modifiers::<2>(FunctionMarkers {
+                is_async: function.is_async,
+                is_generator: function.is_generator,
+                ..Default::default()
+            });
+
+            self.check(
+                function.span,
+                "function",
+                self.functions.as_ref(),
+                &modifiers[0..count],
+            );
+
+            return;
+        }
+
+        function.visit_children_with(self);
     }
 
     fn visit_arrow_expr(&mut self, function: &ArrowExpr) {
@@ -373,38 +370,37 @@ impl Visit for NoEmptyFunction {
 
     fn visit_class_method(&mut self, class_method: &ClassMethod) {
         let method = &class_method.function;
+        let FunctionBody { span, stmts, .. } = &method.body;
 
-        if let Some(FunctionBody { span, stmts, .. }) = &method.body {
-            if self.consider_comments && self.has_comment_in_body(span) {
-                return;
-            }
-
-            if stmts.is_empty() {
-                let (count, modifiers) = get_modifiers::<3>(FunctionMarkers {
-                    is_async: method.is_async,
-                    is_generator: method.is_generator,
-                    is_getter: class_method.kind.eq(&MethodKind::Getter),
-                    is_setter: class_method.kind.eq(&MethodKind::Setter),
-                    is_private: class_method.accessibility.eq(&Some(Accessibility::Private)),
-                    is_public: class_method.accessibility.eq(&Some(Accessibility::Public)),
-                    is_protected: class_method
-                        .accessibility
-                        .eq(&Some(Accessibility::Protected)),
-                    ..Default::default()
-                });
-
-                self.check(
-                    class_method.span,
-                    "method",
-                    self.methods.as_ref(),
-                    &modifiers[0..count],
-                );
-
-                return;
-            }
-
-            class_method.visit_children_with(self);
+        if self.consider_comments && self.has_comment_in_body(span) {
+            return;
         }
+
+        if stmts.is_empty() {
+            let (count, modifiers) = get_modifiers::<3>(FunctionMarkers {
+                is_async: method.is_async,
+                is_generator: method.is_generator,
+                is_getter: class_method.kind.eq(&MethodKind::Getter),
+                is_setter: class_method.kind.eq(&MethodKind::Setter),
+                is_private: class_method.accessibility.eq(&Some(Accessibility::Private)),
+                is_public: class_method.accessibility.eq(&Some(Accessibility::Public)),
+                is_protected: class_method
+                    .accessibility
+                    .eq(&Some(Accessibility::Protected)),
+                ..Default::default()
+            });
+
+            self.check(
+                class_method.span,
+                "method",
+                self.methods.as_ref(),
+                &modifiers[0..count],
+            );
+
+            return;
+        }
+
+        class_method.visit_children_with(self);
     }
 
     fn visit_getter_prop(&mut self, getter_prop: &GetterProp) {

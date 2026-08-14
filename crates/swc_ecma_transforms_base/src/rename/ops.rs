@@ -344,6 +344,47 @@ where
                 }
             }
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                span,
+                decl:
+                    Decl::TsFn(TsFnDecl {
+                        ident: Some(ident),
+                        function,
+                        declare,
+                    }),
+            })) => {
+                let mut ident = ident.take();
+                let mut function = function.take();
+
+                function.visit_mut_with(self);
+                let orig_ident = ident.clone();
+                match self.rename_ident(&mut ident) {
+                    Ok(..) => {
+                        *item = TsFnDecl {
+                            ident: Some(ident.clone()),
+                            function,
+                            declare: *declare,
+                        }
+                        .into();
+                        export!(
+                            ModuleExportName::Ident(orig_ident),
+                            ModuleExportName::Ident(ident)
+                        );
+                    }
+                    Err(..) => {
+                        *item = ExportDecl {
+                            span: *span,
+                            decl: TsFnDecl {
+                                ident: Some(ident),
+                                function,
+                                declare: *declare,
+                            }
+                            .into(),
+                        }
+                        .into()
+                    }
+                }
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                 decl: Decl::Var(var),
                 ..
             })) => {

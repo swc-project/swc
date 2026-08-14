@@ -778,8 +778,10 @@ impl Lexer<'_> {
             *start = self.input.cur_pos();
         };
 
-        if self.input.last_pos() == self.input.end_pos() {
-            // End of input.
+        // `StringInput::end_pos` is source-map metadata and does not have to
+        // match the source length. Check the remaining input directly so an
+        // error with an empty span at EOF cannot be yielded repeatedly.
+        if self.input.as_str().is_empty() {
             self.consume_pending_comments();
             return Ok(Token::Eof);
         }

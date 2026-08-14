@@ -1877,6 +1877,14 @@ pub trait VisitHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_external_module_ref(&mut self, node: &TsExternalModuleRef, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsFnDecl` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_fn_decl(&mut self, node: &TsFnDecl, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsFnDecl` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_fn_decl(&mut self, node: &TsFnDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsFnOrConstructorType` before visiting its \
              children."]
     #[inline]
@@ -1911,6 +1919,14 @@ pub trait VisitHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_fn_type(&mut self, node: &TsFnType, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsFunction` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_function(&mut self, node: &TsFunction, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsFunction` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_function(&mut self, node: &TsFunction, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsGetterSignature` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -2041,6 +2057,14 @@ pub trait VisitHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_mapped_type(&mut self, node: &TsMappedType, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsMethod` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_method(&mut self, node: &TsMethod, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsMethod` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_method(&mut self, node: &TsMethod, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsMethodSignature` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -5210,6 +5234,18 @@ where
     }
 
     #[inline]
+    fn enter_ts_fn_decl(&mut self, node: &TsFnDecl, ctx: &mut C) {
+        self.first.enter_ts_fn_decl(node, ctx);
+        self.second.enter_ts_fn_decl(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_fn_decl(&mut self, node: &TsFnDecl, ctx: &mut C) {
+        self.second.exit_ts_fn_decl(node, ctx);
+        self.first.exit_ts_fn_decl(node, ctx);
+    }
+
+    #[inline]
     fn enter_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType, ctx: &mut C) {
         self.first.enter_ts_fn_or_constructor_type(node, ctx);
         self.second.enter_ts_fn_or_constructor_type(node, ctx);
@@ -5255,6 +5291,18 @@ where
     fn exit_ts_fn_type(&mut self, node: &TsFnType, ctx: &mut C) {
         self.second.exit_ts_fn_type(node, ctx);
         self.first.exit_ts_fn_type(node, ctx);
+    }
+
+    #[inline]
+    fn enter_ts_function(&mut self, node: &TsFunction, ctx: &mut C) {
+        self.first.enter_ts_function(node, ctx);
+        self.second.enter_ts_function(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_function(&mut self, node: &TsFunction, ctx: &mut C) {
+        self.second.exit_ts_function(node, ctx);
+        self.first.exit_ts_function(node, ctx);
     }
 
     #[inline]
@@ -5447,6 +5495,18 @@ where
     fn exit_ts_mapped_type(&mut self, node: &TsMappedType, ctx: &mut C) {
         self.second.exit_ts_mapped_type(node, ctx);
         self.first.exit_ts_mapped_type(node, ctx);
+    }
+
+    #[inline]
+    fn enter_ts_method(&mut self, node: &TsMethod, ctx: &mut C) {
+        self.first.enter_ts_method(node, ctx);
+        self.second.enter_ts_method(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_method(&mut self, node: &TsMethod, ctx: &mut C) {
+        self.second.exit_ts_method(node, ctx);
+        self.first.exit_ts_method(node, ctx);
     }
 
     #[inline]
@@ -9703,6 +9763,22 @@ where
     }
 
     #[inline]
+    fn enter_ts_fn_decl(&mut self, node: &TsFnDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_fn_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_fn_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_fn_decl(&mut self, node: &TsFnDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_fn_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_fn_decl(node, ctx),
+        }
+    }
+
+    #[inline]
     fn enter_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType, ctx: &mut C) {
         match self {
             Self::Left(hook) => hook.enter_ts_fn_or_constructor_type(node, ctx),
@@ -9763,6 +9839,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_ts_fn_type(node, ctx),
             Self::Right(hook) => hook.exit_ts_fn_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_function(&mut self, node: &TsFunction, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_function(node, ctx),
+            Self::Right(hook) => hook.enter_ts_function(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_function(&mut self, node: &TsFunction, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_function(node, ctx),
+            Self::Right(hook) => hook.exit_ts_function(node, ctx),
         }
     }
 
@@ -10019,6 +10111,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_ts_mapped_type(node, ctx),
             Self::Right(hook) => hook.exit_ts_mapped_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_method(&mut self, node: &TsMethod, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_method(node, ctx),
+            Self::Right(hook) => hook.enter_ts_method(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_method(&mut self, node: &TsMethod, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_method(node, ctx),
+            Self::Right(hook) => hook.exit_ts_method(node, ctx),
         }
     }
 
@@ -14071,6 +14179,20 @@ where
     }
 
     #[inline]
+    fn enter_ts_fn_decl(&mut self, node: &TsFnDecl, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_fn_decl(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_fn_decl(&mut self, node: &TsFnDecl, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_fn_decl(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_ts_fn_or_constructor_type(node, ctx);
@@ -14123,6 +14245,20 @@ where
     fn exit_ts_fn_type(&mut self, node: &TsFnType, ctx: &mut C) {
         if let Some(hook) = self {
             hook.exit_ts_fn_type(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn enter_ts_function(&mut self, node: &TsFunction, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_function(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_function(&mut self, node: &TsFunction, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_function(node, ctx);
         }
     }
 
@@ -14347,6 +14483,20 @@ where
     fn exit_ts_mapped_type(&mut self, node: &TsMappedType, ctx: &mut C) {
         if let Some(hook) = self {
             hook.exit_ts_mapped_type(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn enter_ts_method(&mut self, node: &TsMethod, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_method(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_method(&mut self, node: &TsMethod, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_method(node, ctx);
         }
     }
 
@@ -17041,6 +17191,14 @@ impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
             .exit_ts_external_module_ref(node, &mut self.context);
     }
 
+    #[doc = "Visits a node of type `TsFnDecl` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_ts_fn_decl(&mut self, node: &TsFnDecl) {
+        self.hook.enter_ts_fn_decl(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_ts_fn_decl(node, &mut self.context);
+    }
+
     #[doc = "Visits a node of type `TsFnOrConstructorType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType) {
@@ -17073,6 +17231,14 @@ impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
         self.hook.enter_ts_fn_type(node, &mut self.context);
         node.visit_children_with(self);
         self.hook.exit_ts_fn_type(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `TsFunction` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_ts_function(&mut self, node: &TsFunction) {
+        self.hook.enter_ts_function(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_ts_function(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsGetterSignature` using the hook's enter and exit methods."]
@@ -17209,6 +17375,14 @@ impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
         self.hook.enter_ts_mapped_type(node, &mut self.context);
         node.visit_children_with(self);
         self.hook.exit_ts_mapped_type(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `TsMethod` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_ts_method(&mut self, node: &TsMethod) {
+        self.hook.enter_ts_method(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_ts_method(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsMethodSignature` using the hook's enter and exit methods."]
@@ -19609,6 +19783,14 @@ pub trait VisitMutHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsFnDecl` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_fn_decl(&mut self, node: &mut TsFnDecl, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsFnDecl` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_fn_decl(&mut self, node: &mut TsFnDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsFnOrConstructorType` before visiting its \
              children."]
     #[inline]
@@ -19643,6 +19825,14 @@ pub trait VisitMutHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_fn_type(&mut self, node: &mut TsFnType, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsFunction` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_function(&mut self, node: &mut TsFunction, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsFunction` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_function(&mut self, node: &mut TsFunction, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsGetterSignature` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -19773,6 +19963,14 @@ pub trait VisitMutHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_ts_mapped_type(&mut self, node: &mut TsMappedType, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `TsMethod` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ts_method(&mut self, node: &mut TsMethod, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `TsMethod` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ts_method(&mut self, node: &mut TsMethod, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsMethodSignature` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -22980,6 +23178,18 @@ where
     }
 
     #[inline]
+    fn enter_ts_fn_decl(&mut self, node: &mut TsFnDecl, ctx: &mut C) {
+        self.first.enter_ts_fn_decl(node, ctx);
+        self.second.enter_ts_fn_decl(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_fn_decl(&mut self, node: &mut TsFnDecl, ctx: &mut C) {
+        self.second.exit_ts_fn_decl(node, ctx);
+        self.first.exit_ts_fn_decl(node, ctx);
+    }
+
+    #[inline]
     fn enter_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType, ctx: &mut C) {
         self.first.enter_ts_fn_or_constructor_type(node, ctx);
         self.second.enter_ts_fn_or_constructor_type(node, ctx);
@@ -23025,6 +23235,18 @@ where
     fn exit_ts_fn_type(&mut self, node: &mut TsFnType, ctx: &mut C) {
         self.second.exit_ts_fn_type(node, ctx);
         self.first.exit_ts_fn_type(node, ctx);
+    }
+
+    #[inline]
+    fn enter_ts_function(&mut self, node: &mut TsFunction, ctx: &mut C) {
+        self.first.enter_ts_function(node, ctx);
+        self.second.enter_ts_function(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_function(&mut self, node: &mut TsFunction, ctx: &mut C) {
+        self.second.exit_ts_function(node, ctx);
+        self.first.exit_ts_function(node, ctx);
     }
 
     #[inline]
@@ -23217,6 +23439,18 @@ where
     fn exit_ts_mapped_type(&mut self, node: &mut TsMappedType, ctx: &mut C) {
         self.second.exit_ts_mapped_type(node, ctx);
         self.first.exit_ts_mapped_type(node, ctx);
+    }
+
+    #[inline]
+    fn enter_ts_method(&mut self, node: &mut TsMethod, ctx: &mut C) {
+        self.first.enter_ts_method(node, ctx);
+        self.second.enter_ts_method(node, ctx);
+    }
+
+    #[inline]
+    fn exit_ts_method(&mut self, node: &mut TsMethod, ctx: &mut C) {
+        self.second.exit_ts_method(node, ctx);
+        self.first.exit_ts_method(node, ctx);
     }
 
     #[inline]
@@ -27509,6 +27743,22 @@ where
     }
 
     #[inline]
+    fn enter_ts_fn_decl(&mut self, node: &mut TsFnDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_fn_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_fn_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_fn_decl(&mut self, node: &mut TsFnDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_fn_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_fn_decl(node, ctx),
+        }
+    }
+
+    #[inline]
     fn enter_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType, ctx: &mut C) {
         match self {
             Self::Left(hook) => hook.enter_ts_fn_or_constructor_type(node, ctx),
@@ -27569,6 +27819,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_ts_fn_type(node, ctx),
             Self::Right(hook) => hook.exit_ts_fn_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_function(&mut self, node: &mut TsFunction, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_function(node, ctx),
+            Self::Right(hook) => hook.enter_ts_function(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_function(&mut self, node: &mut TsFunction, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_function(node, ctx),
+            Self::Right(hook) => hook.exit_ts_function(node, ctx),
         }
     }
 
@@ -27825,6 +28091,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_ts_mapped_type(node, ctx),
             Self::Right(hook) => hook.exit_ts_mapped_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_method(&mut self, node: &mut TsMethod, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_method(node, ctx),
+            Self::Right(hook) => hook.enter_ts_method(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_method(&mut self, node: &mut TsMethod, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_method(node, ctx),
+            Self::Right(hook) => hook.exit_ts_method(node, ctx),
         }
     }
 
@@ -31913,6 +32195,20 @@ where
     }
 
     #[inline]
+    fn enter_ts_fn_decl(&mut self, node: &mut TsFnDecl, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_fn_decl(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_fn_decl(&mut self, node: &mut TsFnDecl, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_fn_decl(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_ts_fn_or_constructor_type(node, ctx);
@@ -31965,6 +32261,20 @@ where
     fn exit_ts_fn_type(&mut self, node: &mut TsFnType, ctx: &mut C) {
         if let Some(hook) = self {
             hook.exit_ts_fn_type(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn enter_ts_function(&mut self, node: &mut TsFunction, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_function(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_function(&mut self, node: &mut TsFunction, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_function(node, ctx);
         }
     }
 
@@ -32189,6 +32499,20 @@ where
     fn exit_ts_mapped_type(&mut self, node: &mut TsMappedType, ctx: &mut C) {
         if let Some(hook) = self {
             hook.exit_ts_mapped_type(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn enter_ts_method(&mut self, node: &mut TsMethod, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_ts_method(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_ts_method(&mut self, node: &mut TsMethod, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_ts_method(node, ctx);
         }
     }
 
@@ -34891,6 +35215,14 @@ impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
             .exit_ts_external_module_ref(node, &mut self.context);
     }
 
+    #[doc = "Visits a node of type `TsFnDecl` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl) {
+        self.hook.enter_ts_fn_decl(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_ts_fn_decl(node, &mut self.context);
+    }
+
     #[doc = "Visits a node of type `TsFnOrConstructorType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
@@ -34923,6 +35255,14 @@ impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
         self.hook.enter_ts_fn_type(node, &mut self.context);
         node.visit_mut_children_with(self);
         self.hook.exit_ts_fn_type(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `TsFunction` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction) {
+        self.hook.enter_ts_function(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_ts_function(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsGetterSignature` using the hook's enter and exit methods."]
@@ -35059,6 +35399,14 @@ impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
         self.hook.enter_ts_mapped_type(node, &mut self.context);
         node.visit_mut_children_with(self);
         self.hook.exit_ts_mapped_type(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `TsMethod` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod) {
+        self.hook.enter_ts_method(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_ts_method(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsMethodSignature` using the hook's enter and exit methods."]

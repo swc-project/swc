@@ -29,10 +29,10 @@ pub(super) fn emit(
         params: factory_params,
         decorators: Default::default(),
         span: DUMMY_SP,
-        body: Some(FunctionBody {
+        body: FunctionBody {
             span: DUMMY_SP,
             stmts,
-        }),
+        },
         is_generator: false,
         is_async: false,
         ..Default::default()
@@ -226,7 +226,7 @@ fn emit_adapter(
     let adapter_fn_expr = Function {
         params: vec![global.into(), factory.into()],
         span: DUMMY_SP,
-        body: Some(adapter_body),
+        body: adapter_body,
         is_generator: false,
         is_async: false,
         ..Default::default()

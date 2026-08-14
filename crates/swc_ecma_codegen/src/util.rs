@@ -359,6 +359,7 @@ impl StartsWithAlphaNum for Decl {
         match *self {
             Decl::Class(..)
             | Decl::Fn(..)
+            | Decl::TsFn(..)
             | Decl::Var(..)
             | Decl::TsEnum(..)
             | Decl::TsInterface(..)

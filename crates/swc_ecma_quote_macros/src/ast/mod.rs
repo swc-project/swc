@@ -153,6 +153,7 @@ impl_enum!(
         Constructor,
         Method,
         PrivateMethod,
+        TsMethod,
         ClassProp,
         PrivateProp,
         TsIndexSignature,

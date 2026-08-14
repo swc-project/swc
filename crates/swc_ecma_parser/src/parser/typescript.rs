@@ -55,6 +55,7 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
     match decl {
         Decl::Class(ref mut c) => c.declare = true,
         Decl::Fn(ref mut f) => f.declare = true,
+        Decl::TsFn(ref mut f) => f.declare = true,
         Decl::Var(ref mut v) => v.declare = true,
         Decl::TsInterface(ref mut i) => i.declare = true,
         Decl::TsTypeAlias(ref mut a) => a.declare = true,
@@ -453,22 +454,41 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(self.input().cur_span(), SyntaxError::TS1005);
         }
 
-        Ok(Decl::Fn(FnDecl {
-            declare,
-            ident,
-            function: Box::new(Function {
-                span: self.span(start),
-                this_param: None,
-                decorators,
-                type_params,
-                params,
-                body,
-                is_async: false,
-                is_generator: false,
-                return_type,
-                ctxt: Default::default(),
-            }),
-        }))
+        let span = self.span(start);
+        Ok(if let Some(body) = body {
+            Decl::Fn(FnDecl {
+                declare,
+                ident,
+                function: Box::new(Function {
+                    span,
+                    this_param: None,
+                    decorators,
+                    type_params,
+                    params,
+                    body,
+                    is_async: false,
+                    is_generator: false,
+                    return_type,
+                    ctxt: Default::default(),
+                }),
+            })
+        } else {
+            Decl::TsFn(TsFnDecl {
+                declare,
+                ident: Some(ident),
+                function: Box::new(TsFunction {
+                    span,
+                    this_param: None,
+                    decorators,
+                    type_params,
+                    params,
+                    is_async: false,
+                    is_generator: false,
+                    return_type,
+                    ctxt: Default::default(),
+                }),
+            })
+        })
     }
 
     fn parse_flow_hook_decl(
@@ -485,15 +505,22 @@ impl<I: Tokens> Parser<I> {
         let ident = self.parse_binding_ident(false)?.id;
         let function =
             self.parse_fn_args_body(decorators, start, Self::parse_formal_params, false, false)?;
-        if self.syntax().flow() && declare && function.return_type.is_none() {
+        if self.syntax().flow() && declare && function.return_type().is_none() {
             self.emit_err(ident.span, SyntaxError::TS1003);
         }
 
-        Ok(Decl::Fn(FnDecl {
-            declare,
-            ident,
-            function,
-        }))
+        Ok(match function {
+            super::class_and_fn::ParsedFunction::Function(function) => Decl::Fn(FnDecl {
+                declare,
+                ident,
+                function,
+            }),
+            super::class_and_fn::ParsedFunction::TsFunction(function) => Decl::TsFn(TsFnDecl {
+                declare,
+                ident: Some(ident),
+                function,
+            }),
+        })
     }
 
     fn parse_flow_component_type(&mut self, start: BytePos) -> PResult<TsType> {
@@ -668,8 +695,24 @@ impl<I: Tokens> Parser<I> {
                     ..*function
                 }),
             }),
+            DefaultDecl::TsFn(TsFnDecl {
+                ident: Some(ident),
+                function,
+                ..
+            }) => Decl::TsFn(TsFnDecl {
+                declare: true,
+                ident: Some(ident),
+                function: Box::new(TsFunction {
+                    span: Span {
+                        lo: declare_start,
+                        ..function.span
+                    },
+                    ..*function
+                }),
+            }),
             DefaultDecl::Class(ClassExpr { ident: None, .. })
-            | DefaultDecl::Fn(FnExpr { ident: None, .. }) => {
+            | DefaultDecl::Fn(FnExpr { ident: None, .. })
+            | DefaultDecl::TsFn(TsFnDecl { ident: None, .. }) => {
                 let type_ann = self.make_flow_any_keyword_type(declare_start);
                 Decl::TsTypeAlias(self.make_flow_synthetic_type_alias_decl(
                     declare_start,
@@ -4755,6 +4798,16 @@ impl<I: Tokens> Parser<I> {
                             }
                             .into()
                         }
+                        Decl::TsFn(mut f) => {
+                            if p.syntax().flow() && f.function.return_type.is_none() {
+                                let span =
+                                    f.ident.as_ref().map_or(f.function.span, |ident| ident.span);
+                                p.emit_err(span, SyntaxError::TS1003);
+                            }
+                            f.declare = true;
+                            f.function.span.lo = declare_start;
+                            f.into()
+                        }
                         _ => decl,
                     })
                     .map(Some);
@@ -4936,6 +4989,18 @@ impl<I: Tokens> Parser<I> {
                                     ..f
                                 }
                                 .into()
+                            }
+                            Decl::TsFn(mut f) => {
+                                if p.syntax().flow() && f.function.return_type.is_none() {
+                                    let span = f
+                                        .ident
+                                        .as_ref()
+                                        .map_or(f.function.span, |ident| ident.span);
+                                    p.emit_err(span, SyntaxError::TS1003);
+                                }
+                                f.declare = true;
+                                f.function.span.lo = declare_start;
+                                f.into()
                             }
                             _ => decl,
                         })

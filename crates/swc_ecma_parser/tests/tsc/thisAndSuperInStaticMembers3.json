@@ -66,7 +66,7 @@
           "definite": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 121,
             "end": 140
@@ -87,7 +87,6 @@
               "end": 140
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -155,7 +154,7 @@
           "definite": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 160,
             "end": 172
@@ -176,7 +175,6 @@
               "end": 172
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,

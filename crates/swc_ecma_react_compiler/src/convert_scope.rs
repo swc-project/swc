@@ -886,15 +886,25 @@ impl SemanticBuilder {
         flags: ScopeFlags,
     ) {
         let scope_id = self.push_scope(
-            self.body_scope_flags(flags, function.body.as_ref()),
+            self.body_scope_flags(flags, Some(&function.body)),
             scope_span,
         );
 
         self.visit_function_params(scope_id, scope_span, &function.params);
 
-        if let Some(body) = &function.body {
-            body.visit_with(self);
-        }
+        function.body.visit_with(self);
+
+        self.pop_scope();
+    }
+
+    fn visit_ts_function_inner_with_span(
+        &mut self,
+        scope_span: swc_common::Span,
+        function: &TsFunction,
+        flags: ScopeFlags,
+    ) {
+        let scope_id = self.push_scope(flags, scope_span);
+        self.visit_function_params(scope_id, scope_span, &function.params);
 
         self.pop_scope();
     }
@@ -1050,8 +1060,25 @@ impl Visit for SemanticBuilder {
         self.visit_function_inner(&fn_decl.function, ScopeFlags::Function);
     }
 
+    fn visit_ts_fn_decl(&mut self, fn_decl: &TsFnDecl) {
+        if let Some(ident) = &fn_decl.ident {
+            let scope = self.current_scope();
+            let name = ident.sym.to_string();
+            if let Some(symbol_id) = self.scoping.get_binding(scope, &name) {
+                self.record_redeclaration_binding(ident.span, symbol_id);
+            } else {
+                self.declare_symbol(ident.span, name, SymbolFlags::Function);
+            }
+        }
+        self.visit_ts_function_inner_with_span(
+            fn_decl.function.span,
+            &fn_decl.function,
+            ScopeFlags::Function,
+        );
+    }
+
     fn visit_fn_expr(&mut self, fn_expr: &FnExpr) {
-        let flags = self.body_scope_flags(ScopeFlags::Function, fn_expr.function.body.as_ref());
+        let flags = self.body_scope_flags(ScopeFlags::Function, Some(&fn_expr.function.body));
         let scope_id = self.push_scope(flags, fn_expr.function.span);
 
         if let Some(ident) = &fn_expr.ident {
@@ -1064,9 +1091,7 @@ impl Visit for SemanticBuilder {
 
         self.visit_function_params(scope_id, fn_expr.function.span, &fn_expr.function.params);
 
-        if let Some(body) = &fn_expr.function.body {
-            body.visit_with(self);
-        }
+        fn_expr.function.body.visit_with(self);
 
         self.pop_scope();
     }
@@ -1196,6 +1221,22 @@ impl Visit for SemanticBuilder {
                     );
                 }
                 self.visit_function_inner(&fn_expr.function, ScopeFlags::Function);
+            }
+            DefaultDecl::TsFn(fn_decl) => {
+                if let Some(ident) = &fn_decl.ident {
+                    let hoist_scope = self.enclosing_var_scope();
+                    self.declare_symbol_on_scope(
+                        ident.span,
+                        ident.sym.to_string(),
+                        SymbolFlags::Function,
+                        hoist_scope,
+                    );
+                }
+                self.visit_ts_function_inner_with_span(
+                    fn_decl.function.span,
+                    &fn_decl.function,
+                    ScopeFlags::Function,
+                );
             }
             DefaultDecl::Class(class_expr) => {
                 if let Some(ident) = &class_expr.ident {
@@ -1330,6 +1371,14 @@ impl Visit for SemanticBuilder {
         }
 
         self.visit_function_inner_with_span(method.span, &method.function, ScopeFlags::Function);
+    }
+
+    fn visit_ts_method(&mut self, method: &TsMethod) {
+        if let Key::Public(PropName::Computed(computed)) = &method.key {
+            computed.visit_with(self);
+        }
+
+        self.visit_ts_function_inner_with_span(method.span, &method.function, ScopeFlags::Function);
     }
 
     fn visit_private_method(&mut self, method: &PrivateMethod) {

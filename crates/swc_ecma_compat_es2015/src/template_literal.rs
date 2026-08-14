@@ -327,13 +327,13 @@ impl VisitMut for TemplateLiteral {
                                     is_async: false,
                                     is_generator: false,
                                     params: Vec::new(),
-                                    body: Some(FunctionBody {
+                                    body: FunctionBody {
                                         span: DUMMY_SP,
                                         stmts: vec![Stmt::Return(ReturnStmt {
                                             span: DUMMY_SP,
                                             arg: Some(Box::new(quote_ident!("data").into())),
                                         })],
-                                    }),
+                                    },
                                     ..Default::default()
                                 }
                                 .into(),
@@ -341,7 +341,7 @@ impl VisitMut for TemplateLiteral {
                             .into()
                         };
 
-                        Some(FunctionBody {
+                        FunctionBody {
                             span: DUMMY_SP,
 
                             stmts: vec![
@@ -352,7 +352,7 @@ impl VisitMut for TemplateLiteral {
                                     arg: Some(Box::new(quote_ident!("data").into())),
                                 }),
                             ],
-                        })
+                        }
                     },
 
                     ..Default::default()

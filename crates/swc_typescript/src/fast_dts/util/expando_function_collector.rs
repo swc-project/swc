@@ -1,6 +1,6 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_ecma_ast::{FnDecl, FnExpr, VarDecl};
+use swc_ecma_ast::{FnDecl, FnExpr, TsFnDecl, VarDecl};
 
 use super::ast_ext::PatExt;
 use crate::fast_dts::visitors::type_usage::UsedRefs;
@@ -28,6 +28,16 @@ impl<'a> ExpandoFunctionCollector<'a> {
         if !check_binding || self.used_refs.used_as_value(&fn_decl.ident.to_id()) {
             self.declared_function_names
                 .insert(fn_decl.ident.sym.clone());
+        }
+    }
+
+    pub(crate) fn add_ts_fn_decl(&mut self, fn_decl: &TsFnDecl, check_binding: bool) {
+        let Some(ident) = fn_decl.ident.as_ref() else {
+            return;
+        };
+
+        if !check_binding || self.used_refs.used_as_value(&ident.to_id()) {
+            self.declared_function_names.insert(ident.sym.clone());
         }
     }
 

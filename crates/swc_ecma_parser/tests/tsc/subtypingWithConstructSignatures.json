@@ -32,7 +32,7 @@
         },
         "body": [
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -128,7 +128,6 @@
               "end": 95
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -159,7 +158,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -212,7 +211,6 @@
               "end": 136
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -581,7 +579,7 @@
             ]
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -702,7 +700,6 @@
               "end": 412
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -733,7 +730,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -786,7 +783,6 @@
               "end": 453
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,

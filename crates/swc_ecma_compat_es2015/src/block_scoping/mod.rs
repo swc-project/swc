@@ -239,7 +239,7 @@ impl BlockScoping {
                             })
                             .collect(),
                         decorators: Default::default(),
-                        body: Some(body_stmt),
+                        body: body_stmt,
                         is_generator: flow_helper.has_yield,
                         is_async: flow_helper.has_await,
                         ..Default::default()

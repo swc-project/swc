@@ -3,7 +3,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, 
 
 use crate::{
     expr::Expr,
-    function::{Function, FunctionBody, ParamOrTsParamProp},
+    function::{Function, FunctionBody, ParamOrTsParamProp, TsFunction},
     ident::PrivateName,
     prop::PropName,
     stmt::BlockStmt,
@@ -78,6 +78,8 @@ pub enum ClassMember {
     Method(ClassMethod),
     #[tag("PrivateMethod")]
     PrivateMethod(PrivateMethod),
+    #[tag("TsMethodDefinition")]
+    TsMethod(TsMethod),
     /// stage 0 / Typescript
     #[tag("ClassProperty")]
     ClassProp(ClassProp),
@@ -263,6 +265,37 @@ pub struct PrivateMethod {
     )]
     pub accessibility: Option<Accessibility>,
     #[doc = r" Typescript extension."]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_abstract: bool,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_optional: bool,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_override: bool,
+}
+
+/// A bodyless TypeScript or Flow class method, accessor, or overload
+/// signature.
+///
+/// Public and private keys share this representation because neither form has
+/// runtime implementation semantics.
+#[ast_node("TsMethodDefinition")]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+pub struct TsMethod {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub span: Span,
+    pub key: Key,
+    pub function: Box<TsFunction>,
+    pub kind: MethodKind,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_static: bool,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub accessibility: Option<Accessibility>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_abstract: bool,
     #[cfg_attr(feature = "serde-impl", serde(default))]

@@ -51,6 +51,21 @@ impl_struct!(
 );
 
 impl_struct!(
+    TsMethod,
+    [
+        span,
+        key,
+        function,
+        kind,
+        is_static,
+        accessibility,
+        is_abstract,
+        is_optional,
+        is_override
+    ]
+);
+
+impl_struct!(
     ClassProp,
     [
         span,

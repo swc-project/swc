@@ -533,13 +533,13 @@ impl Decorators {
                                             decorators: Vec::new(),
                                             params: Vec::new(),
 
-                                            body: Some(FunctionBody {
+                                            body: FunctionBody {
                                                 span: DUMMY_SP,
                                                 stmts: vec![Stmt::Return(ReturnStmt {
                                                     span: DUMMY_SP,
                                                     arg: Some(value),
                                                 })],
-                                            }),
+                                            },
                                             ..Default::default()
                                         }
                                         .into(),
@@ -580,7 +580,7 @@ impl Decorators {
                     is_async: false,
                     is_generator: false,
 
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: if !self.is_in_strict {
                             // 'use strict';
@@ -632,7 +632,7 @@ impl Decorators {
                             .into(),
                         ))
                         .collect(),
-                    }),
+                    },
                     ..Default::default()
                 }
                 .as_arg()

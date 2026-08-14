@@ -74,10 +74,6 @@ impl Params {
     /// Transforms a setter's backing function while preserving its required
     /// single formal parameter.
     fn visit_mut_setter_function(&mut self, f: &mut Function) {
-        if f.body.is_none() {
-            return;
-        }
-
         let old_in_subclass = self.in_subclass;
         let old_in_prop = self.in_prop;
         self.in_subclass = false;
@@ -85,10 +81,10 @@ impl Params {
 
         f.visit_mut_children_with(self);
 
-        let mut body = f.body.take().unwrap();
+        let mut body = f.body.take();
         self.visit_mut_fn_like(&mut f.params, &mut body.stmts, true);
 
-        f.body = Some(body);
+        f.body = body;
 
         self.in_subclass = old_in_subclass;
         self.in_prop = old_in_prop;
@@ -668,7 +664,7 @@ impl VisitMut for Params {
                         params,
                         decorators: Default::default(),
                         span: f.span,
-                        body: Some(body),
+                        body,
                         is_generator: f.is_generator,
                         is_async: f.is_async,
                         ..Default::default()
@@ -732,10 +728,6 @@ impl VisitMut for Params {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
-        if f.body.is_none() {
-            return;
-        }
-
         let old_in_subclass = self.in_subclass;
         let old_in_prop = self.in_prop;
         self.in_subclass = false;
@@ -743,10 +735,10 @@ impl VisitMut for Params {
 
         f.visit_mut_children_with(self);
 
-        let mut body = f.body.take().unwrap();
+        let mut body = f.body.take();
         self.visit_mut_fn_like(&mut f.params, &mut body.stmts, false);
 
-        f.body = Some(body);
+        f.body = body;
 
         self.in_subclass = old_in_subclass;
         self.in_prop = old_in_prop;

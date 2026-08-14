@@ -354,12 +354,9 @@ impl<'a> ConvertCtx<'a> {
     fn convert_decl(&self, decl: &swc::Decl) -> Declaration {
         match decl {
             swc::Decl::Var(v) => Declaration::VariableDeclaration(self.convert_var_decl(v)),
-            swc::Decl::Fn(f) => {
-                if f.function.body.is_none() {
-                    Declaration::TSDeclareFunction(self.convert_fn_decl_as_ts_declare_function(f))
-                } else {
-                    Declaration::FunctionDeclaration(self.convert_fn_decl(f))
-                }
+            swc::Decl::Fn(f) => Declaration::FunctionDeclaration(self.convert_fn_decl(f)),
+            swc::Decl::TsFn(f) => {
+                Declaration::TSDeclareFunction(self.convert_fn_decl_as_ts_declare_function(f))
             }
             swc::Decl::Class(c) => Declaration::ClassDeclaration(self.convert_class_decl(c)),
             swc::Decl::TsTypeAlias(d) => {
@@ -1063,7 +1060,7 @@ impl<'a> ConvertCtx<'a> {
             base: self.make_base_node(f.span),
             id: Some(self.convert_ident(&func.ident)),
             params: self.convert_param_list(&f.params),
-            body: self.convert_block_stmt_as_optional_function_body(f.body.as_ref(), f.span),
+            body: self.convert_function_body(&f.body),
             generator: f.is_generator,
             is_async: f.is_async,
             declare: func.declare.then_some(true),
@@ -1078,13 +1075,13 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    fn convert_fn_decl_as_ts_declare_function(&self, func: &swc::FnDecl) -> TSDeclareFunction {
+    fn convert_fn_decl_as_ts_declare_function(&self, func: &swc::TsFnDecl) -> TSDeclareFunction {
         let f = &func.function;
-        self.preserved_ast.borrow_mut().save_function(f);
+        self.preserved_ast.borrow_mut().save_ts_function(f);
 
         TSDeclareFunction {
             base: self.make_base_node(f.span),
-            id: Some(self.convert_ident(&func.ident)),
+            id: func.ident.as_ref().map(|ident| self.convert_ident(ident)),
             params: self
                 .convert_param_list(&f.params)
                 .into_iter()
@@ -1113,7 +1110,7 @@ impl<'a> ConvertCtx<'a> {
             base: self.make_base_node(f.span),
             id: func.ident.as_ref().map(|id| self.convert_ident(id)),
             params: self.convert_param_list(&f.params),
-            body: self.convert_block_stmt_as_optional_function_body(f.body.as_ref(), f.span),
+            body: self.convert_function_body(&f.body),
             generator: f.is_generator,
             is_async: f.is_async,
             return_type: f
@@ -1160,21 +1157,6 @@ impl<'a> ConvertCtx<'a> {
 
     fn convert_param(&self, param: &swc::Param) -> PatternLike {
         self.convert_pat(&param.pat)
-    }
-
-    fn convert_block_stmt_as_optional_function_body(
-        &self,
-        body: Option<&swc::FunctionBody>,
-        span: Span,
-    ) -> BlockStatement {
-        body.map_or_else(
-            || BlockStatement {
-                base: self.make_base_node(span),
-                body: vec![],
-                directives: vec![],
-            },
-            |body| self.convert_function_body(body),
-        )
     }
 
     // ===== Patterns =====
@@ -1494,10 +1476,7 @@ impl<'a> ConvertCtx<'a> {
             kind,
             key: Box::new(self.convert_prop_name(key)),
             params: self.convert_param_list(&function.params),
-            body: self.convert_block_stmt_as_optional_function_body(
-                function.body.as_ref(),
-                function.span,
-            ),
+            body: self.convert_function_body(&function.body),
             computed: self.convert_prop_name_computed(key),
             id: None,
             generator: function.is_generator,
@@ -2050,6 +2029,7 @@ impl<'a> ConvertCtx<'a> {
         let is_type = match &decl.decl {
             swc_ecma_ast::Decl::Class(class_decl) => class_decl.declare,
             swc_ecma_ast::Decl::Fn(fn_decl) => fn_decl.declare,
+            swc_ecma_ast::Decl::TsFn(fn_decl) => fn_decl.declare,
             swc_ecma_ast::Decl::Var(var_decl) => var_decl.declare,
             swc_ecma_ast::Decl::Using(..) => false,
             swc_ecma_ast::Decl::TsInterface(..) => true,
@@ -2105,13 +2085,38 @@ impl<'a> ConvertCtx<'a> {
                     base: self.make_base_node(func.span),
                     id: f.ident.as_ref().map(|id| self.convert_ident(id)),
                     params: self.convert_param_list(&func.params),
-                    body: self.convert_block_stmt_as_optional_function_body(
-                        func.body.as_ref(),
-                        func.span,
-                    ),
+                    body: self.convert_function_body(&func.body),
                     generator: func.is_generator,
                     is_async: func.is_async,
                     declare: None,
+                    return_type: func
+                        .return_type
+                        .as_ref()
+                        .map(|t| self.convert_ts_type_ann_json(t)),
+                    type_parameters: func.type_params.as_ref().map(|_| RawNode::null()),
+                    predicate: None,
+                    component_declaration: false,
+                    hook_declaration: false,
+                })
+            }
+            swc::DefaultDecl::TsFn(f) => {
+                let func = &f.function;
+                self.preserved_ast
+                    .borrow_mut()
+                    .save_export_default_ts_function(decl.span, f);
+
+                ExportDefaultDecl::FunctionDeclaration(FunctionDeclaration {
+                    base: self.make_base_node(func.span),
+                    id: f.ident.as_ref().map(|id| self.convert_ident(id)),
+                    params: self.convert_param_list(&func.params),
+                    body: BlockStatement {
+                        base: self.make_base_node(func.span),
+                        body: vec![],
+                        directives: vec![],
+                    },
+                    generator: func.is_generator,
+                    is_async: func.is_async,
+                    declare: f.declare.then_some(true),
                     return_type: func
                         .return_type
                         .as_ref()

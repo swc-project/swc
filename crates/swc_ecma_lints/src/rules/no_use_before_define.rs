@@ -230,6 +230,16 @@ impl Visit for NoUseBeforeDefine {
         function.visit_children_with(self);
     }
 
+    fn visit_ts_fn_decl(&mut self, function: &TsFnDecl) {
+        if self.check_functions {
+            if let Some(ident) = &function.ident {
+                self.check_ident(false, ident);
+            }
+        }
+
+        function.visit_children_with(self);
+    }
+
     fn visit_class_decl(&mut self, class: &ClassDecl) {
         if self.check_classes {
             self.check_ident(false, &class.ident);

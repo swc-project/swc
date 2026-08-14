@@ -85,28 +85,26 @@ impl VisitMut for ObjectSuper {
                     if let Prop::Method(MethodProp { key: _, function }) = &mut **prop {
                         function.visit_mut_with(&mut replacer);
                         if !replacer.vars.is_empty() {
-                            if let Some(FunctionBody { span: _, stmts, .. }) = &mut function.body {
-                                prepend_stmt(
-                                    stmts,
-                                    VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Var,
-                                        declare: false,
-                                        decls: replacer
-                                            .vars
-                                            .drain(..)
-                                            .map(|v| VarDeclarator {
-                                                span: DUMMY_SP,
-                                                name: v.into(),
-                                                init: None,
-                                                definite: false,
-                                            })
-                                            .collect(),
-                                        ..Default::default()
-                                    }
-                                    .into(),
-                                );
-                            }
+                            prepend_stmt(
+                                &mut function.body.stmts,
+                                VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: replacer
+                                        .vars
+                                        .drain(..)
+                                        .map(|v| VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: v.into(),
+                                            init: None,
+                                            definite: false,
+                                        })
+                                        .collect(),
+                                    ..Default::default()
+                                }
+                                .into(),
+                            );
                         }
                     }
                 }

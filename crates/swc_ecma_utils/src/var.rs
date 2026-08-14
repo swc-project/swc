@@ -20,6 +20,8 @@ impl<I: IdentLike> Visit for VarCollector<'_, I> {
 
     fn visit_function(&mut self, _: &Function) {}
 
+    fn visit_ts_function(&mut self, _: &TsFunction) {}
+
     fn visit_key_value_pat_prop(&mut self, node: &KeyValuePatProp) {
         node.value.visit_with(self);
     }

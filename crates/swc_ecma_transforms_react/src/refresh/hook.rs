@@ -168,7 +168,7 @@ impl HookRegister<'_> {
                     params: Vec::new(),
                     decorators: Vec::new(),
                     span: DUMMY_SP,
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
@@ -177,7 +177,7 @@ impl HookRegister<'_> {
                                 elems,
                             }))),
                         })],
-                    }),
+                    },
                     ..Default::default()
                 }
                 .as_arg(),
@@ -257,9 +257,7 @@ impl VisitMut for HookRegister<'_> {
     fn visit_mut_function(&mut self, function: &mut Function) {
         function.visit_mut_children_with(self);
 
-        if let Some(body) = &mut function.body {
-            self.visit_mut_stmt_list_with_scope(function.ctxt, &mut body.stmts);
-        }
+        self.visit_mut_stmt_list_with_scope(function.ctxt, &mut function.body.stmts);
     }
 
     fn visit_mut_constructor(&mut self, constructor: &mut Constructor) {
@@ -285,9 +283,9 @@ impl VisitMut for HookRegister<'_> {
             Expr::Fn(FnExpr {
                 ident: fn_ident,
                 function: f,
-            }) if f.body.is_some() => {
+            }) => {
                 let self_ids = fn_ident.iter().map(|i| i.to_id()).collect::<Vec<_>>();
-                let sig = collect_hooks(&mut f.body.as_mut().unwrap().stmts, self.cm, &self_ids);
+                let sig = collect_hooks(&mut f.body.stmts, self.cm, &self_ids);
 
                 if let Some(HookSig { handle, hooks }) = sig {
                     self.ident.push(handle.clone());
@@ -322,18 +320,13 @@ impl VisitMut for HookRegister<'_> {
                     Expr::Fn(FnExpr {
                         ident: fn_ident,
                         function: f,
-                    }) if f.body.is_some() => {
-                        self.visit_mut_stmt_list_with_scope(
-                            f.ctxt,
-                            &mut f.body.as_mut().unwrap().stmts,
-                        );
+                    }) => {
+                        self.visit_mut_stmt_list_with_scope(f.ctxt, &mut f.body.stmts);
                         let mut self_ids = vec![id.to_id()];
                         if let Some(fn_ident) = fn_ident {
                             self_ids.push(fn_ident.to_id());
                         }
-                        if let Some(sig) =
-                            collect_hooks(&mut f.body.as_mut().unwrap().stmts, self.cm, &self_ids)
-                        {
+                        if let Some(sig) = collect_hooks(&mut f.body.stmts, self.cm, &self_ids) {
                             self.gen_hook_register_stmt(Ident::from(&*id), sig);
                         }
                     }
@@ -356,30 +349,24 @@ impl VisitMut for HookRegister<'_> {
         d.visit_mut_children_with(self);
 
         // only when expr has ident
-        match d {
-            DefaultDecl::Fn(FnExpr {
-                ident: Some(ident),
-                function: f,
-            }) if f.body.is_some() => {
-                let self_ids = [ident.to_id()];
-                if let Some(sig) =
-                    collect_hooks(&mut f.body.as_mut().unwrap().stmts, self.cm, &self_ids)
-                {
-                    self.gen_hook_register_stmt(ident.clone(), sig);
-                }
+        if let DefaultDecl::Fn(FnExpr {
+            ident: Some(ident),
+            function: f,
+        }) = d
+        {
+            let self_ids = [ident.to_id()];
+            if let Some(sig) = collect_hooks(&mut f.body.stmts, self.cm, &self_ids) {
+                self.gen_hook_register_stmt(ident.clone(), sig);
             }
-            _ => {}
         }
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
         f.visit_mut_children_with(self);
 
-        if let Some(body) = &mut f.function.body {
-            let self_ids = [f.ident.to_id()];
-            if let Some(sig) = collect_hooks(&mut body.stmts, self.cm, &self_ids) {
-                self.gen_hook_register_stmt(f.ident.clone(), sig);
-            }
+        let self_ids = [f.ident.to_id()];
+        if let Some(sig) = collect_hooks(&mut f.function.body.stmts, self.cm, &self_ids) {
+            self.gen_hook_register_stmt(f.ident.clone(), sig);
         }
     }
 }

@@ -5,7 +5,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, 
 use crate::{
     class::Class,
     expr::Expr,
-    function::Function,
+    function::{Function, TsFunction},
     ident::Ident,
     pat::Pat,
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
@@ -21,6 +21,8 @@ pub enum Decl {
     #[tag("FunctionDeclaration")]
     #[is(name = "fn_decl")]
     Fn(FnDecl),
+    #[tag("TsDeclareFunction")]
+    TsFn(TsFnDecl),
     #[tag("VariableDeclaration")]
     Var(Box<VarDecl>),
     #[tag("UsingDeclaration")]
@@ -60,6 +62,7 @@ macro_rules! decl_from {
 decl_from!(
     ClassDecl,
     FnDecl,
+    TsFnDecl,
     VarDecl,
     UsingDecl,
     TsInterfaceDecl,
@@ -108,6 +111,38 @@ pub struct FnDecl {
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[span]
     pub function: Box<Function>,
+}
+
+/// A bodyless TypeScript or Flow function declaration or overload signature.
+#[ast_node("TsDeclareFunction")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+pub struct TsFnDecl {
+    /// `None` for an anonymous default export.
+    #[cfg_attr(feature = "serde-impl", serde(rename = "identifier"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub ident: Option<Ident>,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub declare: bool,
+
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
+    #[span]
+    pub function: Box<TsFunction>,
+}
+
+impl Take for TsFnDecl {
+    fn dummy() -> Self {
+        TsFnDecl {
+            ident: None,
+            declare: Default::default(),
+            function: Take::dummy(),
+        }
+    }
 }
 
 impl Take for FnDecl {

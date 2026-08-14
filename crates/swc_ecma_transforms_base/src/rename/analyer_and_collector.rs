@@ -202,6 +202,18 @@ impl Visit for AnalyzerAndCollector {
         self.analyzer.exit_scope(old_analyzer);
     }
 
+    fn visit_ts_method(&mut self, node: &TsMethod) {
+        node.key.visit_with(self);
+
+        let old_analyzer = self.analyzer.enter_fn_scope();
+
+        node.function.decorators.visit_with(self);
+        node.function.params.visit_with(self);
+        node.function.return_type.visit_with(self);
+
+        self.analyzer.exit_scope(old_analyzer);
+    }
+
     fn visit_constructor(&mut self, node: &Constructor) {
         let old_analyzer = self.analyzer.enter_fn_scope();
         node.key.visit_with(self);
@@ -225,6 +237,35 @@ impl Visit for AnalyzerAndCollector {
                 self.analyzer.handle_fn_expr(f);
 
                 f.visit_with(self);
+            }
+            DefaultDecl::TsFn(function) => {
+                if let Some(id) = &function.ident {
+                    self.analyzer.add_decl(id.to_id(), true);
+
+                    let old_analyzer0 = self.analyzer.enter_fn_scope();
+                    self.analyzer.add_decl(id.to_id(), true);
+                    let old_analyzer1 = self.analyzer.enter_fn_scope();
+
+                    if function.function.params.iter().any(|p| {
+                        p.pat.is_rest()
+                            || p.pat.is_assign()
+                            || (self.analyzer.mangle && (p.pat.is_object() || p.pat.is_array()))
+                    }) {
+                        self.analyzer.add_usage(id.to_id());
+                    }
+
+                    function.function.decorators.visit_with(self);
+                    function.function.params.visit_with(self);
+
+                    self.analyzer.exit_scope(old_analyzer1);
+                    self.analyzer.exit_scope(old_analyzer0);
+                    self.decl_collector.add(id);
+                } else {
+                    let old_analyzer = self.analyzer.enter_fn_scope();
+                    function.function.decorators.visit_with(self);
+                    function.function.params.visit_with(self);
+                    self.analyzer.exit_scope(old_analyzer);
+                }
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
             #[cfg(swc_ast_unknown)]
@@ -302,6 +343,46 @@ impl Visit for AnalyzerAndCollector {
 
         self.analyzer.exit_scope(old_analyzer);
         self.decl_collector.add(&node.ident);
+    }
+
+    fn visit_ts_fn_decl(&mut self, node: &TsFnDecl) {
+        let has_rest = node.function.params.iter().any(|p| {
+            p.pat.is_rest()
+                || p.pat.is_assign()
+                || (self.analyzer.mangle && (p.pat.is_object() || p.pat.is_array()))
+        });
+        let need_skip_analyzer_record =
+            self.analyzer.is_first_node && self.analyzer.skip_first_fn_or_class_decl;
+        self.analyzer.is_first_node = false;
+
+        if let Some(ident) = &node.ident {
+            if !need_skip_analyzer_record {
+                self.analyzer.add_decl(ident.to_id(), true);
+
+                if has_rest {
+                    self.analyzer.add_usage(ident.to_id());
+                }
+            }
+
+            ident.visit_with(self);
+        }
+
+        let old_analyzer = self.analyzer.enter_fn_scope();
+
+        if let Some(ident) = &node.ident {
+            if !need_skip_analyzer_record && has_rest {
+                self.analyzer.add_usage(ident.to_id());
+            }
+        }
+
+        node.function.decorators.visit_with(self);
+        node.function.params.visit_with(self);
+
+        self.analyzer.exit_scope(old_analyzer);
+
+        if let Some(ident) = &node.ident {
+            self.decl_collector.add(ident);
+        }
     }
 
     fn visit_fn_expr(&mut self, node: &FnExpr) {

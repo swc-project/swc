@@ -142,10 +142,10 @@ where
         let module_fn: Expr = FnExpr {
             function: Box::new(Function {
                 params: Default::default(),
-                body: Some(FunctionBody {
+                body: FunctionBody {
                     span: DUMMY_SP,
                     stmts: vec![return_stmt],
-                }),
+                },
                 is_generator: false,
                 is_async,
                 ..Default::default()
@@ -238,6 +238,10 @@ impl Fold for ExportToReturn {
         let stmt = match decl {
             ModuleDecl::Import(_) => return decl.into(),
             ModuleDecl::ExportDecl(export) => {
+                if matches!(&export.decl, Decl::TsFn(_)) {
+                    return EmptyStmt { span: DUMMY_SP }.into();
+                }
+
                 match &export.decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
                         self.export_id(ident.clone());
@@ -289,7 +293,7 @@ impl Fold for ExportToReturn {
                         .into(),
                     )
                 }
-                DefaultDecl::TsInterfaceDecl(_) => None,
+                DefaultDecl::TsFn(_) | DefaultDecl::TsInterfaceDecl(_) => None,
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             },

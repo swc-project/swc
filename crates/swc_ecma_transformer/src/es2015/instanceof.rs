@@ -90,16 +90,14 @@ impl VisitMutHook<TraverseCtx> for InstanceOfPass {
     }
 
     fn enter_function(&mut self, f: &mut Function, _ctx: &mut TraverseCtx) {
-        if let Some(body) = &f.body {
-            if let Some(Stmt::Expr(first)) = body.stmts.first() {
-                if let Expr::Lit(Lit::Str(s)) = &*first.expr {
-                    if let Some(text) = s.value.as_str() {
-                        if matches!(
-                            text,
-                            "@swc/helpers - instanceof" | "@babel/helpers - instanceof"
-                        ) {
-                            self.in_helper_fn += 1;
-                        }
+        if let Some(Stmt::Expr(first)) = f.body.stmts.first() {
+            if let Expr::Lit(Lit::Str(s)) = &*first.expr {
+                if let Some(text) = s.value.as_str() {
+                    if matches!(
+                        text,
+                        "@swc/helpers - instanceof" | "@babel/helpers - instanceof"
+                    ) {
+                        self.in_helper_fn += 1;
                     }
                 }
             }
@@ -107,16 +105,14 @@ impl VisitMutHook<TraverseCtx> for InstanceOfPass {
     }
 
     fn exit_function(&mut self, f: &mut Function, _ctx: &mut TraverseCtx) {
-        if let Some(body) = &f.body {
-            if let Some(Stmt::Expr(first)) = body.stmts.first() {
-                if let Expr::Lit(Lit::Str(s)) = &*first.expr {
-                    if let Some(text) = s.value.as_str() {
-                        if matches!(
-                            text,
-                            "@swc/helpers - instanceof" | "@babel/helpers - instanceof"
-                        ) {
-                            self.in_helper_fn = self.in_helper_fn.saturating_sub(1);
-                        }
+        if let Some(Stmt::Expr(first)) = f.body.stmts.first() {
+            if let Expr::Lit(Lit::Str(s)) = &*first.expr {
+                if let Some(text) = s.value.as_str() {
+                    if matches!(
+                        text,
+                        "@swc/helpers - instanceof" | "@babel/helpers - instanceof"
+                    ) {
+                        self.in_helper_fn = self.in_helper_fn.saturating_sub(1);
                     }
                 }
             }

@@ -341,6 +341,14 @@ impl FastDts {
                             .or_default()
                             .insert(fn_decl.ident.sym.clone());
                     }
+                    Decl::TsFn(fn_decl) => {
+                        if let Some(ident) = fn_decl.ident.as_ref() {
+                            assignable_properties_for_namespace
+                                .entry(name.sym.as_str())
+                                .or_default()
+                                .insert(ident.sym.clone());
+                        }
+                    }
                     Decl::Var(var_decl) => {
                         for decl in &var_decl.decls {
                             if let Some(ident) = decl.name.as_ident() {
@@ -371,13 +379,16 @@ impl FastDts {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
                     match &export_decl.decl {
                         Decl::Fn(fn_decl) => collector.add_fn_decl(fn_decl, false),
+                        Decl::TsFn(fn_decl) => collector.add_ts_fn_decl(fn_decl, false),
                         Decl::Var(var_decl) => collector.add_var_decl(var_decl, false),
                         _ => (),
                     }
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_decl)) => {
-                    if let DefaultDecl::Fn(fn_expr) = &export_decl.decl {
-                        collector.add_fn_expr(fn_expr)
+                    match &export_decl.decl {
+                        DefaultDecl::Fn(fn_expr) => collector.add_fn_expr(fn_expr),
+                        DefaultDecl::TsFn(fn_decl) => collector.add_ts_fn_decl(fn_decl, false),
+                        _ => {}
                     }
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(_export_named)) => {
@@ -385,6 +396,7 @@ impl FastDts {
                 }
                 ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
                     Decl::Fn(fn_decl) => collector.add_fn_decl(fn_decl, true),
+                    Decl::TsFn(fn_decl) => collector.add_ts_fn_decl(fn_decl, true),
                     Decl::Var(var_decl) => collector.add_var_decl(var_decl, true),
                     _ => (),
                 },
@@ -427,6 +439,7 @@ impl FastDts {
             match stmt {
                 Stmt::Decl(decl) => match decl {
                     Decl::Fn(fn_decl) => collector.add_fn_decl(fn_decl, false),
+                    Decl::TsFn(fn_decl) => collector.add_ts_fn_decl(fn_decl, false),
                     Decl::Var(var_decl) => collector.add_var_decl(var_decl, false),
                     _ => (),
                 },
@@ -467,6 +480,10 @@ impl FastDts {
             ModuleItem::Stmt(Stmt::Decl(decl)) if !in_global_or_lit_module => match decl {
                 Decl::Class(class_decl) => used_refs.used(&class_decl.ident.to_id()),
                 Decl::Fn(fn_decl) => used_refs.used_as_value(&fn_decl.ident.to_id()),
+                Decl::TsFn(fn_decl) => fn_decl
+                    .ident
+                    .as_ref()
+                    .is_some_and(|ident| used_refs.used_as_value(&ident.to_id())),
                 Decl::Var(var_decl) => {
                     var_decl.decls.retain(|decl| {
                         if let Some(ident) = decl.name.as_ident() {

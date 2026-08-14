@@ -1,10 +1,13 @@
+use std::mem;
+
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    Decl, DefaultDecl, Expr, Lit, Pat, TsNamespaceBody, VarDeclKind, VarDeclarator,
+    Decl, DefaultDecl, Expr, Lit, Pat, TsFnDecl, TsNamespaceBody, VarDeclKind, VarDeclarator,
 };
 use swc_ecma_visit::VisitMutWith;
 
 use super::{
+    function::ts_function_from_function,
     type_ann,
     util::{ast_ext::PatExt, types::any_type_ann},
     visitors::internal_annotation::InternalAnnotationTransformer,
@@ -14,6 +17,7 @@ use super::{
 impl FastDts {
     pub(crate) fn transform_decl(&mut self, decl: &mut Decl, check_binding: bool) {
         let is_declare = self.is_top_level;
+        let mut replacement = None;
         match decl {
             Decl::Class(class_decl) => {
                 if class_decl.declare {
@@ -38,6 +42,32 @@ impl FastDts {
 
                 fn_decl.declare = is_declare;
                 self.transform_fn(&mut fn_decl.function, Some(fn_decl.ident.span));
+                replacement = Some(TsFnDecl {
+                    ident: Some(mem::take(&mut fn_decl.ident)),
+                    declare: fn_decl.declare,
+                    function: Box::new(ts_function_from_function(*mem::take(
+                        &mut fn_decl.function,
+                    ))),
+                });
+            }
+            Decl::TsFn(fn_decl) => {
+                if fn_decl.declare {
+                    return;
+                }
+
+                if check_binding
+                    && fn_decl
+                        .ident
+                        .as_ref()
+                        .is_some_and(|ident| !self.used_refs.used_as_value(&ident.to_id()))
+                {
+                    return;
+                }
+
+                fn_decl.declare = is_declare;
+                self.transform_ts_function_params(&mut fn_decl.function);
+                fn_decl.function.is_async = false;
+                fn_decl.function.is_generator = false;
             }
             Decl::Var(var) => {
                 if var.declare {
@@ -126,6 +156,10 @@ impl FastDts {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
+
+        if let Some(replacement) = replacement {
+            *decl = Decl::TsFn(replacement);
+        }
     }
 
     pub(crate) fn transform_variables_declarator(
@@ -187,6 +221,7 @@ impl FastDts {
     }
 
     pub(crate) fn transform_default_decl(&mut self, decl: &mut DefaultDecl) {
+        let mut replacement = None;
         match decl {
             DefaultDecl::Class(class_expr) => {
                 self.transform_class(&mut class_expr.class);
@@ -196,11 +231,26 @@ impl FastDts {
                     &mut fn_expr.function,
                     fn_expr.ident.as_ref().map(|ident| ident.span),
                 );
+                replacement = Some(TsFnDecl {
+                    ident: fn_expr.ident.take(),
+                    declare: false,
+                    function: Box::new(ts_function_from_function(*mem::take(
+                        &mut fn_expr.function,
+                    ))),
+                });
+            }
+            DefaultDecl::TsFn(fn_decl) => {
+                self.transform_ts_function_params(&mut fn_decl.function);
+                fn_decl.function.is_async = false;
+                fn_decl.function.is_generator = false;
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         };
+        if let Some(replacement) = replacement {
+            *decl = DefaultDecl::TsFn(replacement);
+        }
     }
 
     pub(crate) fn transform_ts_namespace_decl(

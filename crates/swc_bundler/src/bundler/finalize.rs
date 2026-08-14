@@ -178,6 +178,7 @@ where
 
                         ModuleDecl::ExportDecl(export) => {
                             match &export.decl {
+                                Decl::TsFn(_) => return None,
                                 Decl::Class(ClassDecl { ident, .. })
                                 | Decl::Fn(FnDecl { ident, .. }) => {
                                     props.push(PropOrSpread::Prop(Box::new(Prop::Shorthand(
@@ -313,7 +314,7 @@ where
                                     .into(),
                                 )
                             }
-                            DefaultDecl::TsInterfaceDecl(_) => None,
+                            DefaultDecl::TsFn(_) | DefaultDecl::TsInterfaceDecl(_) => None,
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         },
@@ -366,7 +367,7 @@ where
             is_generator: false,
             is_async,
             span: DUMMY_SP,
-            body: Some(body),
+            body,
             ..Default::default()
         };
 

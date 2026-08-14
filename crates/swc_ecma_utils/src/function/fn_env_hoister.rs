@@ -656,7 +656,7 @@ fn extend_super(
                             span: DUMMY_SP,
                             key: PropName::Ident(atom!("_").into()),
                             function: Box::new(Function {
-                                body: Some(FunctionBody {
+                                body: FunctionBody {
                                     span: DUMMY_SP,
                                     stmts: vec![Expr::Ident(
                                         get.ident
@@ -668,7 +668,7 @@ fn extend_super(
                                     .as_call(DUMMY_SP, Default::default())
                                     .into_return_stmt()
                                     .into()],
-                                }),
+                                },
                                 ..Default::default()
                             }),
                         }),
@@ -677,7 +677,7 @@ fn extend_super(
                             key: PropName::Ident(atom!("_").into()),
                             function: Box::new(Function {
                                 params: vec![Param::from(Pat::from(value.clone()))],
-                                body: Some(FunctionBody {
+                                body: FunctionBody {
                                     span: DUMMY_SP,
                                     stmts: vec![Expr::Ident(
                                         set.ident
@@ -688,7 +688,7 @@ fn extend_super(
                                     )
                                     .as_call(DUMMY_SP, vec![value.as_arg()])
                                     .into_stmt()],
-                                }),
+                                },
                                 ..Default::default()
                             }),
                         }),
@@ -722,7 +722,7 @@ fn extend_super(
                                     span: DUMMY_SP,
                                     key: PropName::Ident(atom!("_").into()),
                                     function: Box::new(Function {
-                                        body: Some(FunctionBody {
+                                        body: FunctionBody {
                                             span: DUMMY_SP,
                                             stmts: vec![Expr::Ident(
                                                 get.computed
@@ -733,7 +733,7 @@ fn extend_super(
                                             .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
                                             .into_return_stmt()
                                             .into()],
-                                        }),
+                                        },
                                         ..Default::default()
                                     }),
                                 }),
@@ -742,7 +742,7 @@ fn extend_super(
                                     key: PropName::Ident(atom!("_").into()),
                                     function: Box::new(Function {
                                         params: vec![Param::from(Pat::from(value.clone()))],
-                                        body: Some(FunctionBody {
+                                        body: FunctionBody {
                                             span: DUMMY_SP,
                                             stmts: vec![Expr::Ident(
                                                 set.computed
@@ -753,7 +753,7 @@ fn extend_super(
                                             .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
                                             .into_return_stmt()
                                             .into()],
-                                        }),
+                                        },
                                         ..Default::default()
                                     }),
                                 }),

@@ -415,15 +415,28 @@ where
     }
 
     fn emit_fn_params(&mut self, node: &Function) -> Result {
+        self.emit_function_params(node.span, node.this_param.as_deref(), &node.params)
+    }
+
+    fn emit_ts_fn_params(&mut self, node: &TsFunction) -> Result {
+        self.emit_function_params(node.span, node.this_param.as_deref(), &node.params)
+    }
+
+    fn emit_function_params(
+        &mut self,
+        span: Span,
+        this_param: Option<&TsThisParam>,
+        params: &[Param],
+    ) -> Result {
         punct!(self, "(");
-        if let Some(this_param) = &node.this_param {
+        if let Some(this_param) = this_param {
             emit!(self, this_param);
-            if !node.params.is_empty() {
+            if !params.is_empty() {
                 punct!(self, ",");
                 formatting_space!(self);
             }
         }
-        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
+        self.emit_list(span, Some(params), ListFormat::CommaListElements)?;
         punct!(self, ")");
 
         Ok(())
@@ -443,12 +456,29 @@ where
             emit!(self, ty);
         }
 
-        if let Some(body) = &node.body {
-            formatting_space!(self);
-            self.emit_function_body_inner(body, true)?;
-        } else {
-            semi!(self);
+        formatting_space!(self);
+        self.emit_function_body_inner(&node.body, true)?;
+
+        Ok(())
+
+        // srcmap!(emitter,node, false);
+    }
+
+    /// Prints the parameter and return-type portion of a bodyless signature.
+    fn emit_ts_fn_trailing(&mut self, node: &TsFunction) -> Result {
+        if let Some(type_params) = &node.type_params {
+            emit!(self, type_params);
         }
+
+        self.emit_ts_fn_params(node)?;
+
+        if let Some(ty) = &node.return_type {
+            punct!(self, ":");
+            formatting_space!(self);
+            emit!(self, ty);
+        }
+
+        semi!(self);
 
         Ok(())
 

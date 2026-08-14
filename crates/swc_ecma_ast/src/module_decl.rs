@@ -5,7 +5,7 @@ use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
-    decl::Decl,
+    decl::{Decl, TsFnDecl},
     expr::{ClassExpr, Expr, FnExpr},
     ident::Ident,
     lit::Str,
@@ -269,6 +269,9 @@ pub enum DefaultDecl {
     #[tag("FunctionExpression")]
     #[is(name = "fn_expr")]
     Fn(FnExpr),
+
+    #[tag("TsDeclareFunction")]
+    TsFn(TsFnDecl),
 
     #[tag("TsInterfaceDeclaration")]
     TsInterfaceDecl(Box<TsInterfaceDecl>),

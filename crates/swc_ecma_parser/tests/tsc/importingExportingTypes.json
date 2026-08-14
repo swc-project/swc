@@ -72,7 +72,7 @@
               "end": 285
             },
             "declaration": {
-              "type": "FunctionDeclaration",
+              "type": "TsDeclareFunction",
               "identifier": {
                 "type": "Identifier",
                 "span": {
@@ -286,7 +286,6 @@
                 "end": 285
               },
               "ctxt": 0,
-              "body": null,
               "generator": false,
               "async": false,
               "typeParameters": null,

@@ -459,7 +459,7 @@ impl Classes {
                     ..
                 })) => {
                     if let Some(use_strict) = stmts.pop() {
-                        prepend_stmt(&mut function.body.as_mut().unwrap().stmts, use_strict);
+                        prepend_stmt(&mut function.body.stmts, use_strict);
                     }
                     function.span = span;
                     return FnExpr {
@@ -484,7 +484,7 @@ impl Classes {
                 is_async: false,
                 is_generator: false,
                 params,
-                body: Some(body),
+                body,
                 ..Default::default()
             }
             .as_callee(),
@@ -515,6 +515,7 @@ impl Classes {
                 ClassMember::PrivateMethod(_)
                 | ClassMember::ClassProp(..)
                 | ClassMember::PrivateProp(..)
+                | ClassMember::TsMethod(..)
                 | ClassMember::TsIndexSignature(..)
                 | ClassMember::StaticBlock(..)
                 | ClassMember::AutoAccessor(..) => {}
@@ -779,7 +780,7 @@ impl Classes {
 
             if let Some(mark) = folder.this_alias_mark {
                 prepend_stmt(
-                    &mut m.function.body.as_mut().unwrap().stmts,
+                    &mut m.function.body.stmts,
                     VarDecl {
                         span: DUMMY_SP,
                         declare: false,

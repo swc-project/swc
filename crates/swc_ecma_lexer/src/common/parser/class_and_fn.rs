@@ -34,6 +34,20 @@ use crate::{
     TokenContext,
 };
 
+pub enum ParsedFunction {
+    Function(Box<Function>),
+    TsFunction(Box<TsFunction>),
+}
+
+impl ParsedFunction {
+    fn this_param(&self) -> Option<&TsThisParam> {
+        match self {
+            Self::Function(function) => function.this_param.as_deref(),
+            Self::TsFunction(function) => function.this_param.as_deref(),
+        }
+    }
+}
+
 struct MakeMethodArgs {
     start: BytePos,
     accessibility: Option<Accessibility>,
@@ -290,7 +304,7 @@ pub fn parse_fn_args_body<'a, P: Parser<'a>, F>(
     parse_args: F,
     is_async: bool,
     is_generator: bool,
-) -> PResult<Box<Function>>
+) -> PResult<ParsedFunction>
 where
     F: FnOnce(&mut P) -> PResult<Vec<Param>>,
 {
@@ -381,18 +395,33 @@ where
             }
         }
 
-        Ok(Box::new(Function {
-            span: p.span(start),
-            this_param,
-            decorators,
-            type_params,
-            params,
-            body,
-            is_async,
-            is_generator,
-            return_type,
-            ctxt: Default::default(),
-        }))
+        let span = p.span(start);
+        Ok(if let Some(body) = body {
+            ParsedFunction::Function(Box::new(Function {
+                span,
+                this_param,
+                decorators,
+                type_params,
+                params,
+                body,
+                is_async,
+                is_generator,
+                return_type,
+                ctxt: Default::default(),
+            }))
+        } else {
+            ParsedFunction::TsFunction(Box::new(TsFunction {
+                span,
+                this_param,
+                decorators,
+                type_params,
+                params,
+                is_async,
+                is_generator,
+                return_type,
+                ctxt: Default::default(),
+            }))
+        })
     };
 
     let f_with_generator_ctx = |p: &mut P| {
@@ -407,6 +436,27 @@ where
         p.do_inside_of_context(Context::InAsync, f_with_generator_ctx)
     } else {
         p.do_outside_of_context(Context::InAsync, f_with_generator_ctx)
+    }
+}
+
+/// Parses a function-like construct whose grammar requires an implementation
+/// body, such as an object method.
+pub fn parse_required_fn_args_body<'a, P: Parser<'a>, F>(
+    p: &mut P,
+    decorators: Vec<Decorator>,
+    start: BytePos,
+    parse_args: F,
+    is_async: bool,
+    is_generator: bool,
+) -> PResult<Box<Function>>
+where
+    F: FnOnce(&mut P) -> PResult<Vec<Param>>,
+{
+    let function = parse_fn_args_body(p, decorators, start, parse_args, is_async, is_generator)?;
+
+    match function {
+        ParsedFunction::Function(function) => Ok(function),
+        ParsedFunction::TsFunction(_) => unexpected!(p, "{"),
     }
 }
 
@@ -459,7 +509,7 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
     decorators: Vec<Decorator>,
     is_fn_expr: bool,
     is_ident_required: bool,
-) -> PResult<(Option<Ident>, Box<Function>)> {
+) -> PResult<(Option<Ident>, ParsedFunction)> {
     let start = start_of_async.unwrap_or_else(|| p.cur_pos());
     p.assert_and_bump(&P::Token::FUNCTION);
     let is_async = start_of_async.is_some();
@@ -510,7 +560,7 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
                 is_async,
                 is_generator,
             )?;
-            if is_fn_expr && f.body.is_none() {
+            if is_fn_expr && matches!(f, ParsedFunction::TsFunction(..)) {
                 unexpected!(p, "{");
             }
             Ok((ident, f))
@@ -602,7 +652,7 @@ where
 
     if p.syntax().flow()
         && matches!(kind, MethodKind::Getter | MethodKind::Setter)
-        && function.this_param.is_some()
+        && function.this_param().is_some()
     {
         p.emit_err(key.span(), SyntaxError::TS1003);
     }
@@ -616,31 +666,30 @@ where
         _ => {}
     }
 
-    match key {
-        Key::Private(key) => {
-            let span = p.span(start);
-            if accessibility.is_some() {
-                p.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
-            }
-
-            Ok(PrivateMethod {
-                span,
-
-                accessibility,
-                is_abstract,
-                is_optional,
-                is_override,
-
-                is_static,
-                key,
-                function,
-                kind,
-            }
-            .into())
+    let span = p.span(start);
+    if accessibility.is_some() {
+        if let Key::Private(key) = &key {
+            p.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
         }
-        Key::Public(key) => {
-            let span = p.span(start);
-            if is_abstract && function.body.is_some() {
+    }
+
+    match (key, function) {
+        (Key::Private(key), ParsedFunction::Function(function)) => Ok(PrivateMethod {
+            span,
+
+            accessibility,
+            is_abstract,
+            is_optional,
+            is_override,
+
+            is_static,
+            key,
+            function,
+            kind,
+        }
+        .into()),
+        (Key::Public(key), ParsedFunction::Function(function)) => {
+            if is_abstract {
                 p.emit_err(span, SyntaxError::TS1245)
             }
             Ok(ClassMethod {
@@ -658,6 +707,18 @@ where
             }
             .into())
         }
+        (key, ParsedFunction::TsFunction(function)) => Ok(TsMethod {
+            span,
+            accessibility,
+            is_abstract,
+            is_optional,
+            is_override,
+            is_static,
+            key,
+            function,
+            kind,
+        }
+        .into()),
         #[cfg(swc_ast_unknown)]
         _ => unreachable!(),
     }
@@ -1643,6 +1704,11 @@ where
                     ..
                 })
                 | ClassMember::Method(ClassMethod {
+                    span,
+                    is_abstract: true,
+                    ..
+                })
+                | ClassMember::TsMethod(TsMethod {
                     span,
                     is_abstract: true,
                     ..

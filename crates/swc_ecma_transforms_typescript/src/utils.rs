@@ -42,7 +42,7 @@ impl Factory {
             params,
             decorators: Default::default(),
             span: DUMMY_SP,
-            body: Some(FunctionBody { span, stmts }),
+            body: FunctionBody { span, stmts },
             is_generator: false,
             is_async: false,
             ..Default::default()
