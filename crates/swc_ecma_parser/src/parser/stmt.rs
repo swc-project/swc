@@ -1037,6 +1037,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(SwitchStmt {
             span: self.span(switch_start),
+            body_ctxt: Default::default(),
             discriminant,
             cases,
         }

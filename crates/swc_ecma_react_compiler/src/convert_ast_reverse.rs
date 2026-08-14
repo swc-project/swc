@@ -323,6 +323,7 @@ impl ReverseCtx {
             .into(),
             Statement::SwitchStatement(switch_stmt) => swc::Stmt::Switch(swc::SwitchStmt {
                 span: self.span_from_base(&switch_stmt.base),
+                body_ctxt: SyntaxContext::empty(),
                 discriminant: Box::new(self.convert_expression(&switch_stmt.discriminant)),
                 cases: switch_stmt
                     .cases

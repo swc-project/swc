@@ -3001,7 +3001,12 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
         n.discriminant.visit_mut_with(self);
 
-        n.cases.visit_mut_with(self);
+        let ctx = Ctx {
+            bit_ctx: self.ctx.bit_ctx.with(BitCtx::InBlock, true),
+            scope: n.body_ctxt,
+            ..self.ctx
+        };
+        n.cases.visit_mut_with(&mut *self.with_ctx(ctx));
     }
 
     /// We don't optimize [Tpl] contained in [TaggedTpl].

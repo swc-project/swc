@@ -1207,6 +1207,7 @@ impl VisitMut for Resolver<'_> {
         s.discriminant.visit_mut_with(self);
 
         self.with_child(ScopeKind::Block, |child| {
+            child.mark_block(&mut s.body_ctxt);
             s.cases.visit_mut_with(child);
         });
     }

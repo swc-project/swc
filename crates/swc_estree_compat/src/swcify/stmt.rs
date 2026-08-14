@@ -269,6 +269,7 @@ impl Swcify for SwitchStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         SwitchStmt {
             span: ctx.span(&self.base),
+            body_ctxt: Default::default(),
             discriminant: self.discriminant.swcify(ctx),
             cases: self.cases.swcify(ctx),
         }

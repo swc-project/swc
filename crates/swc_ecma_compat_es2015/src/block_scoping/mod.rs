@@ -350,6 +350,7 @@ impl BlockScoping {
                     stmts.push(
                         SwitchStmt {
                             span: DUMMY_SP,
+                            body_ctxt: Default::default(),
                             discriminant: Box::new(ret.into()),
                             cases: flow_helper
                                 .label

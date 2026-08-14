@@ -946,6 +946,7 @@
               "start": 570,
               "end": 779
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -3276,6 +3277,7 @@
                     "start": 2057,
                     "end": 2302
                   },
+                  "bodyCtxt": 0,
                   "discriminant": {
                     "type": "Identifier",
                     "span": {
@@ -6118,6 +6120,7 @@
                     "start": 3558,
                     "end": 3709
                   },
+                  "bodyCtxt": 0,
                   "discriminant": {
                     "type": "Identifier",
                     "span": {
@@ -8593,6 +8596,7 @@
                     "start": 4893,
                     "end": 5098
                   },
+                  "bodyCtxt": 0,
                   "discriminant": {
                     "type": "Identifier",
                     "span": {

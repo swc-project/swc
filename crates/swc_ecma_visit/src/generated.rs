@@ -13430,11 +13430,15 @@ impl<V: ?Sized + Visit> VisitWith<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <swc_common::SyntaxContext as VisitWith<V>>::visit_with(body_ctxt, visitor)
                 };
                 {
                     <Box<Expr> as VisitWith<V>>::visit_with(discriminant, visitor)
@@ -42089,6 +42093,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
@@ -42099,6 +42104,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SwitchStmt {
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SwitchStmt(
+                        self,
+                        self::fields::SwitchStmtField::BodyCtxt,
+                    ));
+                    <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_with_ast_path(
+                        body_ctxt,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -62882,11 +62898,17 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_with(
+                        body_ctxt, visitor,
+                    )
                 };
                 {
                     <Box<Expr> as VisitMutWith<V>>::visit_mut_with(discriminant, visitor)
@@ -87309,6 +87331,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
@@ -87318,6 +87341,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SwitchStmt {
                     ));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SwitchStmt(
+                        self::fields::SwitchStmtField::BodyCtxt,
+                    ));
+                    <swc_common::SyntaxContext as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        body_ctxt,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -106680,14 +106713,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let body_ctxt =
+                    { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(body_ctxt, visitor) };
                 let discriminant = { <Box<Expr> as FoldWith<V>>::fold_with(discriminant, visitor) };
                 let cases = { <Vec<SwitchCase> as FoldWith<V>>::fold_with(cases, visitor) };
                 SwitchStmt {
                     span,
+                    body_ctxt,
                     discriminant,
                     cases,
                 }
@@ -132355,6 +132392,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
@@ -132364,6 +132402,16 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchStmt {
                     ));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let body_ctxt = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SwitchStmt(
+                        self::fields::SwitchStmtField::BodyCtxt,
+                    ));
+                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_with_ast_path(
+                        body_ctxt,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -132390,6 +132438,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchStmt {
                 };
                 SwitchStmt {
                     span,
+                    body_ctxt,
                     discriminant,
                     cases,
                 }
@@ -140924,6 +140973,8 @@ pub mod fields {
     pub enum SwitchStmtField {
         #[doc = "Represents [`SwitchStmt::span`]"]
         Span,
+        #[doc = "Represents [`SwitchStmt::body_ctxt`]"]
+        BodyCtxt,
         #[doc = "Represents [`SwitchStmt::discriminant`]"]
         Discriminant,
         #[doc = "Represents [`SwitchStmt::cases`]"]
