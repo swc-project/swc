@@ -415,12 +415,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 224,
           "end": 410
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ClassDeclaration",

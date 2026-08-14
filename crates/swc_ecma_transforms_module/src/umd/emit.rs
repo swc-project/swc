@@ -29,9 +29,9 @@ pub(super) fn emit(
         params: factory_params,
         decorators: Default::default(),
         span: DUMMY_SP,
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts,
-            ..Default::default()
         }),
         is_generator: false,
         is_async: false,
@@ -218,10 +218,9 @@ fn emit_adapter(
 
     let browser_if = if_stmt(browser_if_test, browser_if_body, None);
     let amd_if = if_stmt(amd_if_test, amd_if_body, Some(browser_if));
-    let adapter_body = BlockStmt {
+    let adapter_body = FunctionBody {
         span: DUMMY_SP,
         stmts: vec![if_stmt(cjs_if_test, cjs_if_body, Some(amd_if))],
-        ..Default::default()
     };
 
     let adapter_fn_expr = Function {

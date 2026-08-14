@@ -9,10 +9,11 @@ macro_rules! impl_visit_mut_fn {
 
             f.visit_mut_children_with(self);
 
-            let (params, body) = self.visit_mut_fn_like(&mut f.params, &mut f.body.take().unwrap());
+            let body = f.body.as_mut().unwrap();
+            let (params, stmts) = self.visit_mut_fn_like(&mut f.params, &mut body.stmts);
 
             f.params = params;
-            f.body = Some(body);
+            body.stmts = stmts;
         }
 
         fn visit_mut_arrow_expr(&mut self, f: &mut ArrowExpr) {
@@ -21,10 +22,22 @@ macro_rules! impl_visit_mut_fn {
             f.visit_mut_children_with(self);
 
             let was_expr = match *f.body {
-                BlockStmtOrExpr::Expr(..) => true,
+                ArrowFunctionBody::Expr(..) => true,
                 _ => false,
             };
-            let (params, mut body) = self.visit_mut_fn_like(
+            let mut body = match &mut *f.body {
+                ArrowFunctionBody::FunctionBody(body) => body.take(),
+                ArrowFunctionBody::Expr(expr) => FunctionBody {
+                    span: DUMMY_SP,
+                    stmts: vec![Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(expr.take()),
+                    })],
+                },
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            };
+            let (params, stmts) = self.visit_mut_fn_like(
                 &mut f
                     .params
                     .take()
@@ -35,18 +48,9 @@ macro_rules! impl_visit_mut_fn {
                         pat,
                     })
                     .collect(),
-                &mut match &mut *f.body {
-                    BlockStmtOrExpr::BlockStmt(block) => block.take(),
-                    BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                        stmts: vec![Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(expr.take()),
-                        })],
-                        ..Default::default()
-                    },
-                    _ => panic!("unable to access unknown nodes"),
-                },
+                &mut body.stmts,
             );
+            body.stmts = stmts;
 
             let body = if was_expr
                 && body.stmts.len() == 1
@@ -56,12 +60,12 @@ macro_rules! impl_visit_mut_fn {
                 } {
                 match body.stmts.pop().unwrap() {
                     Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                        Box::new(BlockStmtOrExpr::Expr(arg))
+                        Box::new(ArrowFunctionBody::Expr(arg))
                     }
                     _ => unreachable!(),
                 }
             } else {
-                Box::new(BlockStmtOrExpr::BlockStmt(body))
+                Box::new(ArrowFunctionBody::FunctionBody(body))
             };
 
             f.params = params.into_iter().map(|param| param.pat).collect();
@@ -71,16 +75,16 @@ macro_rules! impl_visit_mut_fn {
         fn visit_mut_catch_clause(&mut self, f: &mut CatchClause) {
             f.visit_mut_children_with(self);
 
-            let (mut params, body) = match &mut f.param {
+            let (mut params, stmts) = match &mut f.param {
                 Some(pat) => self.visit_mut_fn_like(
                     &mut vec![Param {
                         span: DUMMY_SP,
                         decorators: Vec::new(),
                         pat: pat.take(),
                     }],
-                    &mut f.body.take(),
+                    &mut f.body.stmts,
                 ),
-                None => self.visit_mut_fn_like(&mut Vec::new(), &mut f.body.take()),
+                None => self.visit_mut_fn_like(&mut Vec::new(), &mut f.body.stmts),
             };
             assert!(
                 params.len() == 0 || params.len() == 1,
@@ -94,7 +98,7 @@ macro_rules! impl_visit_mut_fn {
             };
 
             f.param = param.map(|param| param.pat);
-            f.body = body;
+            f.body.stmts = stmts;
         }
 
         fn visit_mut_constructor(&mut self, f: &mut Constructor) {
@@ -119,7 +123,8 @@ macro_rules! impl_visit_mut_fn {
                 })
                 .collect();
 
-            let (params, body) = self.visit_mut_fn_like(&mut params, &mut f.body.take().unwrap());
+            let body = f.body.as_mut().unwrap();
+            let (params, stmts) = self.visit_mut_fn_like(&mut params, &mut body.stmts);
 
             #[cfg(debug_assertions)]
             tracing::trace!(
@@ -128,7 +133,7 @@ macro_rules! impl_visit_mut_fn {
             );
 
             f.params = params.into_iter().map(ParamOrTsParamProp::Param).collect();
-            f.body = Some(body);
+            body.stmts = stmts;
         }
     };
 }

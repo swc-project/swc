@@ -2059,7 +2059,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
         } {
             let params: Vec<Pat> = parse_paren_items_as_params(p, items.clone(), None)?;
 
-            let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
+            let body: Box<ArrowFunctionBody> = parse_fn_block_or_expr_body(
                 p,
                 false,
                 false,
@@ -2139,7 +2139,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
             let params: Vec<Pat> =
                 parse_paren_items_as_params(p, items_ref.clone(), trailing_comma)?;
 
-            let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
+            let body: Box<ArrowFunctionBody> = parse_fn_block_or_expr_body(
                 p,
                 async_span.is_some(),
                 false,
@@ -2199,7 +2199,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
 
         let params: Vec<Pat> = parse_paren_items_as_params(p, paren_items, trailing_comma)?;
 
-        let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
+        let body: Box<ArrowFunctionBody> = parse_fn_block_or_expr_body(
             p,
             async_span.is_some(),
             false,
@@ -2215,7 +2215,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
             return_type,
             ..Default::default()
         };
-        if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
+        if let ArrowFunctionBody::FunctionBody(..) = &*arrow_expr.body {
             if p.input().cur().is_bin_op() {
                 // ) is required
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1005);

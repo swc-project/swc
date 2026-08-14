@@ -246,16 +246,7 @@ impl VisitMut for BlockScopedVars {
             n.params.visit_mut_with(v);
             v.is_param = old;
 
-            match &mut *n.body {
-                BlockStmtOrExpr::BlockStmt(b) => {
-                    b.visit_mut_children_with(v);
-                }
-                BlockStmtOrExpr::Expr(b) => {
-                    b.visit_mut_with(v);
-                }
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
-            }
+            n.body.visit_mut_with(v);
         });
     }
 
@@ -299,10 +290,7 @@ impl VisitMut for BlockScopedVars {
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
         self.with_scope(ScopeKind::Fn, |v| {
             n.params.visit_mut_with(v);
-
-            if let Some(body) = &mut n.body {
-                body.visit_mut_children_with(v);
-            }
+            n.body.visit_mut_with(v);
         });
     }
 
@@ -403,10 +391,7 @@ impl VisitMut for BlockScopedVars {
 
         self.with_scope(ScopeKind::Fn, |v| {
             n.params.visit_mut_with(v);
-
-            if let Some(body) = &mut n.body {
-                body.visit_mut_children_with(v);
-            }
+            n.body.visit_mut_with(v);
         });
     }
 

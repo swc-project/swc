@@ -85,10 +85,10 @@ impl VisitMut for Arrow {
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         c.params.visit_mut_children_with(self);
 
-        if let Some(BlockStmt { span: _, stmts, .. }) = &mut c.body {
+        if let Some(body) = &mut c.body {
             let old_rep = self.hoister.take();
 
-            stmts.visit_mut_children_with(self);
+            body.visit_mut_with(self);
 
             if self.in_subclass {
                 let (decl, this_id) =
@@ -96,15 +96,15 @@ impl VisitMut for Arrow {
 
                 if let Some(stmt) = decl {
                     if let Some(this_id) = this_id {
-                        init_this(stmts, &this_id)
+                        init_this(&mut body.stmts, &this_id)
                     }
-                    prepend_stmt(stmts, stmt);
+                    prepend_stmt(&mut body.stmts, stmt);
                 }
             } else {
                 let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
                 if let Some(stmt) = decl {
-                    prepend_stmt(stmts, stmt);
+                    prepend_stmt(&mut body.stmts, stmt);
                 }
             }
         }
@@ -151,8 +151,8 @@ impl VisitMut for Arrow {
                     is_async: *is_async,
                     is_generator: *is_generator,
                     body: Some(match &mut **body {
-                        BlockStmtOrExpr::BlockStmt(block) => block.take(),
-                        BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                        ArrowFunctionBody::FunctionBody(body) => body.take(),
+                        ArrowFunctionBody::Expr(expr) => FunctionBody {
                             span: DUMMY_SP,
                             stmts: vec![Stmt::Return(ReturnStmt {
                                 // this is needed so
@@ -161,7 +161,6 @@ impl VisitMut for Arrow {
                                 span: DUMMY_SP,
                                 arg: Some(expr.take()),
                             })],
-                            ..Default::default()
                         },
                         #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),

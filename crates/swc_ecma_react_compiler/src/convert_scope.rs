@@ -375,8 +375,6 @@ pub struct SemanticBuilder {
     redeclaration_bindings: HashMap<u32, SymbolId>,
     /// Flat list of unresolved references: (name, `reference_id`).
     unresolved_references: Vec<(String, ReferenceId)>,
-    /// Track function body spans so they don't create extra block scopes.
-    function_body_spans: std::collections::HashSet<u32>,
 }
 
 impl SemanticBuilder {
@@ -396,7 +394,6 @@ impl SemanticBuilder {
             declaration_starts: std::collections::HashSet::new(),
             redeclaration_bindings: HashMap::new(),
             unresolved_references: Vec::new(),
-            function_body_spans: std::collections::HashSet::new(),
         }
     }
 
@@ -452,7 +449,7 @@ impl SemanticBuilder {
         false
     }
 
-    fn body_scope_flags(&self, flags: ScopeFlags, body: Option<&BlockStmt>) -> ScopeFlags {
+    fn body_scope_flags(&self, flags: ScopeFlags, body: Option<&FunctionBody>) -> ScopeFlags {
         if body.is_some_and(|body| Self::strict_directives_present(&body.stmts)) {
             flags | ScopeFlags::StrictMode
         } else {
@@ -896,7 +893,6 @@ impl SemanticBuilder {
         self.visit_function_params(scope_id, scope_span, &function.params);
 
         if let Some(body) = &function.body {
-            self.function_body_spans.insert(self.start(body.span));
             body.visit_with(self);
         }
 
@@ -912,7 +908,6 @@ impl SemanticBuilder {
         self.visit_constructor_params(scope_id, constructor.span, &constructor.params);
 
         if let Some(body) = &constructor.body {
-            self.function_body_spans.insert(self.start(body.span));
             body.visit_with(self);
         }
 
@@ -1070,7 +1065,6 @@ impl Visit for SemanticBuilder {
         self.visit_function_params(scope_id, fn_expr.function.span, &fn_expr.function.params);
 
         if let Some(body) = &fn_expr.function.body {
-            self.function_body_spans.insert(self.start(body.span));
             body.visit_with(self);
         }
 
@@ -1079,21 +1073,20 @@ impl Visit for SemanticBuilder {
 
     fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
         let flags = match &*arrow.body {
-            BlockStmtOrExpr::BlockStmt(block) => {
-                self.body_scope_flags(ScopeFlags::Function, Some(block))
+            ArrowFunctionBody::FunctionBody(body) => {
+                self.body_scope_flags(ScopeFlags::Function, Some(body))
             }
-            BlockStmtOrExpr::Expr(_) => ScopeFlags::Function,
+            ArrowFunctionBody::Expr(_) => ScopeFlags::Function,
         };
         let scope_id = self.push_scope(flags, arrow.span);
 
         self.visit_arrow_params(scope_id, arrow.span, &arrow.params);
 
         match &*arrow.body {
-            BlockStmtOrExpr::BlockStmt(block) => {
-                self.function_body_spans.insert(self.start(block.span));
-                block.visit_with(self);
+            ArrowFunctionBody::FunctionBody(body) => {
+                body.visit_with(self);
             }
-            BlockStmtOrExpr::Expr(expr) => {
+            ArrowFunctionBody::Expr(expr) => {
                 expr.visit_with(self);
             }
         }
@@ -1102,13 +1095,9 @@ impl Visit for SemanticBuilder {
     }
 
     fn visit_block_stmt(&mut self, block: &BlockStmt) {
-        if self.function_body_spans.remove(&self.start(block.span)) {
-            block.visit_children_with(self);
-        } else {
-            self.push_scope(ScopeFlags::empty(), block.span);
-            block.visit_children_with(self);
-            self.pop_scope();
-        }
+        self.push_scope(ScopeFlags::empty(), block.span);
+        block.visit_children_with(self);
+        self.pop_scope();
     }
 
     fn visit_for_stmt(&mut self, for_stmt: &ForStmt) {

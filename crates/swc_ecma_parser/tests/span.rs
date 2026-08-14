@@ -122,8 +122,13 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
 
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
-        self.show("BlockStmtOrExpr", n);
+    fn visit_function_body(&mut self, n: &FunctionBody) {
+        self.show("FunctionBody", n);
+        n.visit_children_with(self)
+    }
+
+    fn visit_arrow_function_body(&mut self, n: &ArrowFunctionBody) {
+        self.show("ArrowFunctionBody", n);
         n.visit_children_with(self)
     }
 

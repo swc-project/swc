@@ -93,6 +93,16 @@ impl BlockScoping {
         }
     }
 
+    fn visit_mut_children_with_isolated_vars<T>(&mut self, node: &mut T)
+    where
+        T: VisitMutWith<Self>,
+    {
+        let vars = take(&mut self.vars);
+        node.visit_mut_children_with(self);
+        debug_assert!(self.vars.is_empty());
+        self.vars = vars;
+    }
+
     fn mark_as_used(&mut self, i: &Ident) {
         // Only consider the variable used in a non-ScopeKind::Loop, which means it is
         // captured in a closure
@@ -177,11 +187,13 @@ impl BlockScoping {
             body_stmt.visit_mut_with(&mut flow_helper);
 
             let mut body_stmt = match &mut body_stmt.take() {
-                Stmt::Block(bs) => bs.take(),
-                body => BlockStmt {
+                Stmt::Block(bs) => {
+                    let BlockStmt { span, stmts, .. } = bs.take();
+                    FunctionBody { span, stmts }
+                }
+                body => FunctionBody {
                     span: DUMMY_SP,
                     stmts: vec![body.take()],
-                    ..Default::default()
                 },
             };
 
@@ -439,10 +451,11 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-        let vars = take(&mut self.vars);
-        n.visit_mut_children_with(self);
-        debug_assert_eq!(self.vars, Vec::new());
-        self.vars = vars;
+        self.visit_mut_children_with_isolated_vars(n);
+    }
+
+    fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
+        self.visit_mut_children_with_isolated_vars(n);
     }
 
     fn visit_mut_constructor(&mut self, f: &mut Constructor) {

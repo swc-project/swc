@@ -482,6 +482,12 @@ impl ReverseCtx {
         }
     }
 
+    fn convert_function_body(&self, block: &BlockStatement) -> swc::FunctionBody {
+        let swc::BlockStmt { span, stmts, .. } = self.convert_block_statement(block);
+
+        swc::FunctionBody { span, stmts }
+    }
+
     fn convert_catch_clause(&self, clause: &CatchClause) -> swc::CatchClause {
         let mut catch_clause = swc::CatchClause {
             span: self.span_from_base(&clause.base),
@@ -1157,7 +1163,7 @@ impl ReverseCtx {
             decorators: vec![],
             span: self.span_from_base(&f.base),
             ctxt: SyntaxContext::empty(),
-            body: Some(self.convert_block_statement(&f.body)),
+            body: Some(self.convert_function_body(&f.body)),
             is_generator: f.generator,
             is_async: f.is_async,
             type_params: None,
@@ -1224,7 +1230,7 @@ impl ReverseCtx {
             decorators: vec![],
             span: self.span_from_base(&f.base),
             ctxt: SyntaxContext::empty(),
-            body: Some(self.convert_block_statement(&f.body)),
+            body: Some(self.convert_function_body(&f.body)),
             is_generator: f.generator,
             is_async: f.is_async,
             type_params: None,
@@ -1251,7 +1257,7 @@ impl ReverseCtx {
             decorators: vec![],
             span: self.span_from_base(&m.base),
             ctxt: SyntaxContext::empty(),
-            body: Some(self.convert_block_statement(&m.body)),
+            body: Some(self.convert_function_body(&m.body)),
             is_generator: m.generator,
             is_async: m.is_async,
             type_params: None,
@@ -1270,10 +1276,10 @@ impl ReverseCtx {
                 .collect(),
             body: Box::new(match arrow.body.as_ref() {
                 ArrowFunctionBody::BlockStatement(block) => {
-                    swc::BlockStmtOrExpr::BlockStmt(self.convert_block_statement(block))
+                    swc::ArrowFunctionBody::FunctionBody(self.convert_function_body(block))
                 }
                 ArrowFunctionBody::Expression(expr) => {
-                    swc::BlockStmtOrExpr::Expr(Box::new(self.convert_expression(expr)))
+                    swc::ArrowFunctionBody::Expr(Box::new(self.convert_expression(expr)))
                 }
             }),
             is_async: arrow.is_async,

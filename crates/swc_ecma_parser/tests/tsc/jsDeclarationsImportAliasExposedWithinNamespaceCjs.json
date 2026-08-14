@@ -257,12 +257,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 952,
           "end": 1058
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "IfStatement",

@@ -2249,12 +2249,12 @@ impl Pure<'_> {
                         }
                     }
                     Expr::Arrow(callee) => match &mut *callee.body {
-                        BlockStmtOrExpr::BlockStmt(body) => {
+                        ArrowFunctionBody::FunctionBody(body) => {
                             for stmt in &mut body.stmts {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);
                             }
                         }
-                        BlockStmtOrExpr::Expr(body) => {
+                        ArrowFunctionBody::Expr(body) => {
                             self.ignore_return_value(body, opts);
 
                             if body.is_invalid() {
