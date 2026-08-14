@@ -221,9 +221,11 @@ impl Visit for ExportSetterValueCtxt {
     noop_visit_type!(fail);
 
     fn visit_setter_prop(&mut self, n: &SetterProp) {
-        if let Pat::Ident(param) = &*n.param {
-            if param.id.sym == *"_value" {
-                self.param = Some(param.id.ctxt);
+        if let Some(param) = n.function.params.first() {
+            if let Pat::Ident(param) = &param.pat {
+                if param.id.sym == *"_value" {
+                    self.param = Some(param.id.ctxt);
+                }
             }
         }
 

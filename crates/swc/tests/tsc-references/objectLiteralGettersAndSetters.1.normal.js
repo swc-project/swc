@@ -14,8 +14,8 @@ var sameName2a = {
         return '';
     },
     set 0 (n){
-        var p1 = n;
-        var p1;
+        var p = n;
+        var p;
     }
 };
 var sameName3a = {
@@ -23,8 +23,8 @@ var sameName3a = {
         return '';
     },
     set 3.2e1 (n){
-        var p2 = n;
-        var p2;
+        var p = n;
+        var p;
     }
 };
 var sameName4a = {
@@ -32,8 +32,8 @@ var sameName4a = {
         return '';
     },
     set "" (n){
-        var p3 = n;
-        var p3;
+        var p = n;
+        var p;
     }
 };
 var sameName5a = {
@@ -41,8 +41,8 @@ var sameName5a = {
         return '';
     },
     set '\t' (n){
-        var p4 = n;
-        var p4;
+        var p = n;
+        var p;
     }
 };
 var sameName6a = {
@@ -50,25 +50,25 @@ var sameName6a = {
         return '';
     },
     set a (n){
-        var p5 = n;
-        var p5;
+        var p = n;
+        var p;
     }
 };
 // PropertyName CallSignature{FunctionBody} is equivalent to PropertyName:function CallSignature{FunctionBody}
 var callSig1 = {
-    num: function num(n1) {
+    num: function num(n) {
         return '';
     }
 };
 var callSig1;
 var callSig2 = {
-    num: function num(n1) {
+    num: function num(n) {
         return '';
     }
 };
 var callSig2;
 var callSig3 = {
-    num: function num(n1) {
+    num: function num(n) {
         return '';
     }
 };
@@ -157,8 +157,8 @@ var getParamType2 = {
         return '';
     },
     set n (x){
-        var y1 = x;
-        var y1;
+        var y = x;
+        var y;
     }
 };
 // Type of unannotated accessors is the inferred return type of the get accessor
@@ -167,7 +167,7 @@ var getParamType3 = {
         return '';
     },
     set n (x){
-        var y2 = x;
-        var y2;
+        var y = x;
+        var y;
     }
 };

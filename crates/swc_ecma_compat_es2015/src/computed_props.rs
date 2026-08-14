@@ -157,36 +157,8 @@ impl VisitMut for ComputedProps {
                                 _ => None,
                             };
                             let (key, function) = match prop {
-                                Prop::Getter(GetterProp {
-                                    span, body, key, ..
-                                }) => (
-                                    key,
-                                    Box::new(Function {
-                                        span,
-                                        body,
-                                        is_async: false,
-                                        is_generator: false,
-                                        params: Vec::new(),
-                                        ..Default::default()
-                                    }),
-                                ),
-                                Prop::Setter(SetterProp {
-                                    span,
-                                    body,
-                                    param,
-                                    key,
-                                    ..
-                                }) => (
-                                    key,
-                                    Box::new(Function {
-                                        span,
-                                        body,
-                                        is_async: false,
-                                        is_generator: false,
-                                        params: vec![(*param).into()],
-                                        ..Default::default()
-                                    }),
-                                ),
+                                Prop::Getter(GetterProp { key, function, .. }) => (key, function),
+                                Prop::Setter(SetterProp { key, function, .. }) => (key, function),
                                 _ => unreachable!(),
                             };
 

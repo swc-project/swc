@@ -43,11 +43,6 @@ impl Visit for AssertValid {
     }
 
     #[cfg(debug_assertions)]
-    fn visit_setter_prop(&mut self, p: &SetterProp) {
-        p.body.visit_with(self);
-    }
-
-    #[cfg(debug_assertions)]
     fn visit_stmt(&mut self, n: &Stmt) {
         let ctx = Ctx { v: n };
         n.visit_children_with(self);

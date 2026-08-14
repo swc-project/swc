@@ -2459,32 +2459,44 @@
                   },
                   "value": "X"
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 1597,
+                    "start": 1589,
                     "end": 1624
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 1608,
-                        "end": 1618
-                      },
-                      "argument": {
-                        "type": "StringLiteral",
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 1597,
+                      "end": 1624
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 1615,
-                          "end": 1617
+                          "start": 1608,
+                          "end": 1618
                         },
-                        "value": "",
-                        "raw": "''"
+                        "argument": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1615,
+                            "end": 1617
+                          },
+                          "value": "",
+                          "raw": "''"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               },
               {
@@ -2501,26 +2513,47 @@
                   },
                   "value": "X"
                 },
-                "thisParam": null,
-                "param": {
-                  "type": "Identifier",
+                "function": {
+                  "params": [
+                    {
+                      "type": "Parameter",
+                      "span": {
+                        "start": 1636,
+                        "end": 1637
+                      },
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1636,
+                          "end": 1637
+                        },
+                        "ctxt": 0,
+                        "value": "v",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    }
+                  ],
+                  "decorators": [],
                   "span": {
-                    "start": 1636,
-                    "end": 1637
-                  },
-                  "ctxt": 0,
-                  "value": "v",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "body": {
-                  "type": "BlockStatement",
-                  "span": {
-                    "start": 1639,
+                    "start": 1630,
                     "end": 1642
                   },
                   "ctxt": 0,
-                  "stmts": []
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 1639,
+                      "end": 1642
+                    },
+                    "ctxt": 0,
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               },
               {

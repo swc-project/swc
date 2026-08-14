@@ -68,41 +68,6 @@ macro_rules! impl_visit_mut_fn {
             f.body = body;
         }
 
-        fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
-            if f.body.is_none() {
-                return;
-            }
-
-            f.visit_mut_children_with(self);
-
-            let (mut params, body) = self.visit_mut_fn_like(
-                &mut vec![Param {
-                    span: DUMMY_SP,
-                    decorators: Vec::new(),
-                    pat: *f.param.take(),
-                }],
-                &mut f.body.take().unwrap(),
-            );
-            debug_assert!(params.len() == 1);
-
-            f.param = Box::new(params.into_iter().next().unwrap().pat);
-            f.body = Some(body);
-        }
-
-        fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
-            if f.body.is_none() {
-                return;
-            }
-
-            f.visit_mut_children_with(self);
-
-            let (params, body) =
-                self.visit_mut_fn_like(&mut Vec::new(), &mut f.body.take().unwrap());
-            debug_assert_eq!(params, Vec::new());
-
-            f.body = Some(body);
-        }
-
         fn visit_mut_catch_clause(&mut self, f: &mut CatchClause) {
             f.visit_mut_children_with(self);
 

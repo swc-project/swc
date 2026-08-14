@@ -2010,32 +2010,44 @@
                   },
                   "value": "a"
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 966,
+                    "start": 957,
                     "end": 978
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 968,
-                        "end": 976
-                      },
-                      "argument": {
-                        "type": "NumericLiteral",
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 966,
+                      "end": 978
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 975,
+                          "start": 968,
                           "end": 976
                         },
-                        "value": 6.0,
-                        "raw": "6"
+                        "argument": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 975,
+                            "end": 976
+                          },
+                          "value": 6.0,
+                          "raw": "6"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

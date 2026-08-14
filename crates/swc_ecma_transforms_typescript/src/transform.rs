@@ -663,11 +663,6 @@ impl VisitMut for Transform {
         node.visit_mut_children_with(self);
     }
 
-    fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        node.this_param = None;
-        node.visit_mut_children_with(self);
-    }
-
     fn visit_mut_ts_import_equals_decl(&mut self, _: &mut TsImportEqualsDecl) {
         // id should be left intact for runtime rewriting
     }

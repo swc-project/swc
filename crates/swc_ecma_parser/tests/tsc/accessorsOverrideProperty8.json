@@ -1085,39 +1085,51 @@
                         },
                         "value": "x"
                       },
-                      "typeAnnotation": null,
-                      "body": {
-                        "type": "BlockStatement",
+                      "function": {
+                        "params": [],
+                        "decorators": [],
                         "span": {
-                          "start": 537,
+                          "start": 529,
                           "end": 566
                         },
                         "ctxt": 0,
-                        "stmts": [
-                          {
-                            "type": "ReturnStatement",
-                            "span": {
-                              "start": 539,
-                              "end": 564
-                            },
-                            "argument": {
-                              "type": "TsConstAssertion",
+                        "body": {
+                          "type": "BlockStatement",
+                          "span": {
+                            "start": 537,
+                            "end": 566
+                          },
+                          "ctxt": 0,
+                          "stmts": [
+                            {
+                              "type": "ReturnStatement",
                               "span": {
-                                "start": 546,
+                                "start": 539,
                                 "end": 564
                               },
-                              "expression": {
-                                "type": "StringLiteral",
+                              "argument": {
+                                "type": "TsConstAssertion",
                                 "span": {
                                   "start": 546,
-                                  "end": 555
+                                  "end": 564
                                 },
-                                "value": "boolean",
-                                "raw": "'boolean'"
+                                "expression": {
+                                  "type": "StringLiteral",
+                                  "span": {
+                                    "start": 546,
+                                    "end": 555
+                                  },
+                                  "value": "boolean",
+                                  "raw": "'boolean'"
+                                }
                               }
                             }
-                          }
-                        ]
+                          ]
+                        },
+                        "generator": false,
+                        "async": false,
+                        "typeParameters": null,
+                        "returnType": null
                       }
                     },
                     {

@@ -14,17 +14,17 @@ var t = {
     get five () {
         return 5;
     },
-    set one (value){
-        this._one = value;
+    set one (e){
+        this._one = e;
     },
-    set 9 (value){
-        this._nine = value;
+    set 9 (e){
+        this._nine = e;
     },
-    set 10 (value){
-        this._ten = value;
+    set 10 (e){
+        this._ten = e;
     },
-    set eleven (value){
-        this._eleven = value;
+    set eleven (e){
+        this._eleven = e;
     }
 };
 var r = {

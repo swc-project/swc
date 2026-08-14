@@ -1,4 +1,4 @@
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, Parser};
@@ -9,13 +9,6 @@ fn prop_name_is(key: &PropName, expected: &str) -> bool {
         PropName::Str(value) => value.value == *expected,
         _ => false,
     }
-}
-
-fn ts_this_param_to_pat(param: TsThisParam) -> Pat {
-    Pat::Ident(BindingIdent {
-        id: Ident::new_no_ctxt("this".into(), param.this_span),
-        type_ann: param.type_ann,
-    })
 }
 
 impl<I: Tokens> Parser<I> {
@@ -401,25 +394,19 @@ impl<I: Tokens> Parser<I> {
                                     false,
                                     false,
                                 )
-                                .map(|v| *v)
-                                .map(
-                                    |Function {
-                                         body, return_type, ..
-                                     }| {
-                                        if p.input().syntax().typescript()
-                                            && p.input().target() == EsVersion::Es3
-                                        {
-                                            p.emit_err(key_span, SyntaxError::TS1056);
-                                        }
+                                .map(|function| {
+                                    if p.input().syntax().typescript()
+                                        && p.input().target() == EsVersion::Es3
+                                    {
+                                        p.emit_err(key_span, SyntaxError::TS1056);
+                                    }
 
-                                        PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
-                                            span: p.span(start),
-                                            key,
-                                            type_ann: return_type,
-                                            body,
-                                        })))
-                                    },
-                                ),
+                                    PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
+                                        span: p.span(start),
+                                        key,
+                                        function,
+                                    })))
+                                }),
                             Token::Set => {
                                 p.parse_fn_args_body(
                                     // no decorator in an object literal
@@ -452,39 +439,13 @@ impl<I: Tokens> Parser<I> {
                                     false,
                                     false,
                                 )
-                                .map(|v| *v)
-                                .map(
-                                    |Function {
-                                         this_param,
-                                         params,
-                                         body,
-                                         ..
-                                     }| {
-                                        let this = this_param
-                                            .map(|this_param| ts_this_param_to_pat(*this_param));
-
-                                        let param = Box::new(
-                                            params
-                                                .into_iter()
-                                                .next()
-                                                .map(|v| v.pat)
-                                                .unwrap_or_else(|| {
-                                                    p.emit_err(key_span, SyntaxError::SetterParam);
-
-                                                    Invalid { span: DUMMY_SP }.into()
-                                                }),
-                                        );
-
-                                        // debug_assert_eq!(params.len(), 1);
-                                        PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                            span: p.span(start),
-                                            key,
-                                            body,
-                                            param,
-                                            this_param: this,
-                                        })))
-                                    },
-                                )
+                                .map(|function| {
+                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                        span: p.span(start),
+                                        key,
+                                        function,
+                                    })))
+                                })
                             }
                             Token::Async => p
                                 .parse_fn_args_body(

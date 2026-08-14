@@ -575,30 +575,11 @@ impl VisitMut for FnEnvHoister {
     /// Don't recurse into fn
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
-    /// Don't recurse into getter/setter/method except computed key
-    fn visit_mut_getter_prop(&mut self, p: &mut GetterProp) {
-        if p.key.is_computed() {
-            p.key.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_method_prop(&mut self, p: &mut MethodProp) {
-        if p.key.is_computed() {
-            p.key.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         let in_pat = self.in_pat;
         self.in_pat = true;
         n.visit_mut_children_with(self);
         self.in_pat = in_pat;
-    }
-
-    fn visit_mut_setter_prop(&mut self, p: &mut SetterProp) {
-        if p.key.is_computed() {
-            p.key.visit_mut_with(self);
-        }
     }
 }
 
@@ -670,36 +651,40 @@ fn extend_super(
                         Prop::Getter(GetterProp {
                             span: DUMMY_SP,
                             key: PropName::Ident(atom!("_").into()),
-                            type_ann: None,
-                            body: Some(BlockStmt {
-                                stmts: vec![Expr::Ident(
-                                    get.ident
-                                        .get(&key)
-                                        .cloned()
-                                        .expect("getter not found")
-                                        .without_loc(),
-                                )
-                                .as_call(DUMMY_SP, Default::default())
-                                .into_return_stmt()
-                                .into()],
+                            function: Box::new(Function {
+                                body: Some(BlockStmt {
+                                    stmts: vec![Expr::Ident(
+                                        get.ident
+                                            .get(&key)
+                                            .cloned()
+                                            .expect("getter not found")
+                                            .without_loc(),
+                                    )
+                                    .as_call(DUMMY_SP, Default::default())
+                                    .into_return_stmt()
+                                    .into()],
+                                    ..Default::default()
+                                }),
                                 ..Default::default()
                             }),
                         }),
                         Prop::Setter(SetterProp {
                             span: DUMMY_SP,
                             key: PropName::Ident(atom!("_").into()),
-                            this_param: None,
-                            param: value.clone().into(),
-                            body: Some(BlockStmt {
-                                stmts: vec![Expr::Ident(
-                                    set.ident
-                                        .get(&key)
-                                        .cloned()
-                                        .expect("setter not found")
-                                        .without_loc(),
-                                )
-                                .as_call(DUMMY_SP, vec![value.as_arg()])
-                                .into_stmt()],
+                            function: Box::new(Function {
+                                params: vec![Param::from(Pat::from(value.clone()))],
+                                body: Some(BlockStmt {
+                                    stmts: vec![Expr::Ident(
+                                        set.ident
+                                            .get(&key)
+                                            .cloned()
+                                            .expect("setter not found")
+                                            .without_loc(),
+                                    )
+                                    .as_call(DUMMY_SP, vec![value.as_arg()])
+                                    .into_stmt()],
+                                    ..Default::default()
+                                }),
                                 ..Default::default()
                             }),
                         }),
@@ -732,35 +717,39 @@ fn extend_super(
                                 Prop::Getter(GetterProp {
                                     span: DUMMY_SP,
                                     key: PropName::Ident(atom!("_").into()),
-                                    type_ann: None,
-                                    body: Some(BlockStmt {
-                                        stmts: vec![Expr::Ident(
-                                            get.computed
-                                                .clone()
-                                                .expect("getter computed not found")
-                                                .without_loc(),
-                                        )
-                                        .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
-                                        .into_return_stmt()
-                                        .into()],
+                                    function: Box::new(Function {
+                                        body: Some(BlockStmt {
+                                            stmts: vec![Expr::Ident(
+                                                get.computed
+                                                    .clone()
+                                                    .expect("getter computed not found")
+                                                    .without_loc(),
+                                            )
+                                            .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
+                                            .into_return_stmt()
+                                            .into()],
+                                            ..Default::default()
+                                        }),
                                         ..Default::default()
                                     }),
                                 }),
                                 Prop::Setter(SetterProp {
                                     span: DUMMY_SP,
                                     key: PropName::Ident(atom!("_").into()),
-                                    this_param: None,
-                                    param: value.clone().into(),
-                                    body: Some(BlockStmt {
-                                        stmts: vec![Expr::Ident(
-                                            set.computed
-                                                .clone()
-                                                .expect("setter computed not found")
-                                                .without_loc(),
-                                        )
-                                        .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
-                                        .into_return_stmt()
-                                        .into()],
+                                    function: Box::new(Function {
+                                        params: vec![Param::from(Pat::from(value.clone()))],
+                                        body: Some(BlockStmt {
+                                            stmts: vec![Expr::Ident(
+                                                set.computed
+                                                    .clone()
+                                                    .expect("setter computed not found")
+                                                    .without_loc(),
+                                            )
+                                            .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
+                                            .into_return_stmt()
+                                            .into()],
+                                            ..Default::default()
+                                        }),
                                         ..Default::default()
                                     }),
                                 }),
