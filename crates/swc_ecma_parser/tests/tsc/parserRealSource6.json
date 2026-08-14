@@ -5199,6 +5199,7 @@
                             "start": 4562,
                             "end": 7917
                           },
+                          "bodyCtxt": 0,
                           "discriminant": {
                             "type": "MemberExpression",
                             "span": {

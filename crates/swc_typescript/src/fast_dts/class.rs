@@ -102,12 +102,13 @@ impl FastDts {
                                 }));
                                 continue;
                             }
-                            self.transform_fn_params(&mut method.function.params);
+                            self.transform_function_params(&mut method.function);
                         }
                         MethodKind::Getter => {
                             if method.accessibility.is_some_and(|accessibility| {
                                 accessibility == Accessibility::Private
                             }) {
+                                method.function.this_param = None;
                                 method.function.params.clear();
                                 method.function.return_type = None;
                                 method.function.decorators.clear();
@@ -119,12 +120,13 @@ impl FastDts {
                                 class.body.push(member);
                                 continue;
                             }
-                            self.transform_fn_params(&mut method.function.params);
+                            self.transform_function_params(&mut method.function);
                         }
                         MethodKind::Setter => {
                             if method.accessibility.is_some_and(|accessibility| {
                                 accessibility == Accessibility::Private
                             }) {
+                                method.function.this_param = None;
                                 method.function.params = vec![Param {
                                     span: DUMMY_SP,
                                     decorators: Vec::new(),
@@ -144,6 +146,7 @@ impl FastDts {
                                 continue;
                             }
 
+                            self.check_this_param(method.function.this_param.as_deref());
                             if method.function.params.is_empty() {
                                 method.function.params.push(Param {
                                     span: DUMMY_SP,

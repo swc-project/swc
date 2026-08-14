@@ -46,14 +46,6 @@ impl VisitMut for Injector {
         // skip
     }
 
-    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {
-        // skip
-    }
-
-    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {
-        // skip
-    }
-
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
         let ignore_return_value = mem::replace(&mut self.ignore_return_value, true);
         node.visit_mut_children_with(self);

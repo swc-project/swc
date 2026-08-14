@@ -227,6 +227,7 @@ macro_rules! node_ref_variants {
             TsRestType,
             TsSatisfiesExpr,
             TsSetterSignature,
+            TsThisParam,
             TsThisType,
             TsThisTypeOrIdent,
             TsTplLitType,

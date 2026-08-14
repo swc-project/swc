@@ -1071,22 +1071,6 @@ where
         all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        self.with_child(
-            SyntaxContext::empty(),
-            ScopeKind::Fn { is_arrow: false },
-            |a| {
-                n.key.visit_with(a);
-
-                n.body.visit_with(a);
-            },
-        );
-    }
-
-    #[cfg_attr(
-        all(debug_assertions, feature = "tracing-spans"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
     fn visit_if_stmt(&mut self, n: &IfStmt) {
         let ctx = self.ctx.with(BitContext::InCond, true);
         n.test.visit_with(self);
@@ -1349,26 +1333,6 @@ where
         all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        self.with_child(
-            SyntaxContext::empty(),
-            ScopeKind::Fn { is_arrow: false },
-            |a| {
-                n.key.visit_with(a);
-                {
-                    let ctx = a.ctx.with(BitContext::InPatOfParam, true);
-                    n.param.visit_with(&mut *a.with_ctx(ctx));
-                }
-
-                n.body.visit_with(a);
-            },
-        );
-    }
-
-    #[cfg_attr(
-        all(debug_assertions, feature = "tracing-spans"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
     fn visit_spread_element(&mut self, e: &SpreadElement) {
         e.visit_children_with(self);
 
@@ -1432,18 +1396,20 @@ where
     fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
         n.discriminant.visit_with(self);
 
-        let mut fallthrough = false;
+        self.with_child(n.body_ctxt, ScopeKind::Block, |child| {
+            let mut fallthrough = false;
 
-        for case in n.cases.iter() {
-            let ctx = self.ctx.with(BitContext::InCond, true);
-            if fallthrough {
-                self.with_ctx(ctx).visit_in_cond(&case.test);
-                self.with_ctx(ctx).visit_in_cond(&case.cons);
-            } else {
-                self.with_ctx(ctx).visit_in_cond(case);
+            for case in n.cases.iter() {
+                let ctx = child.ctx.with(BitContext::InCond, true);
+                if fallthrough {
+                    child.with_ctx(ctx).visit_in_cond(&case.test);
+                    child.with_ctx(ctx).visit_in_cond(&case.cons);
+                } else {
+                    child.with_ctx(ctx).visit_in_cond(case);
+                }
+                fallthrough = !case.cons.iter().rev().any(|s| s.terminates())
             }
-            fallthrough = !case.cons.iter().rev().any(|s| s.terminates())
-        }
+        })
     }
 
     #[cfg_attr(
@@ -1722,15 +1688,13 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
                         for_each_id_ref_in_expr(&p.value, op);
                     }
                     Prop::Getter(p) => {
-                        for_each_id_ref_in_prop_name(&p.key, op);
+                        for_each_id_ref_in_prop_function(&p.key, &p.function, op);
                     }
                     Prop::Setter(p) => {
-                        for_each_id_ref_in_prop_name(&p.key, op);
-
-                        for_each_id_ref_in_pat(&p.param, op);
+                        for_each_id_ref_in_prop_function(&p.key, &p.function, op);
                     }
                     Prop::Method(p) => {
-                        for_each_id_ref_in_fn(&p.function, op);
+                        for_each_id_ref_in_prop_function(&p.key, &p.function, op);
                     }
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
@@ -1802,6 +1766,15 @@ fn for_each_id_ref_in_prop_name(p: &PropName, op: &mut impl FnMut(&Ident)) {
     if let PropName::Computed(p) = p {
         for_each_id_ref_in_expr(&p.expr, op);
     }
+}
+
+fn for_each_id_ref_in_prop_function(
+    key: &PropName,
+    function: &Function,
+    op: &mut impl FnMut(&Ident),
+) {
+    for_each_id_ref_in_prop_name(key, op);
+    for_each_id_ref_in_fn(function, op);
 }
 
 fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {

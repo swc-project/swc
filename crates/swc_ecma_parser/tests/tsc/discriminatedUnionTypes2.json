@@ -868,6 +868,7 @@
               "start": 364,
               "end": 532
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "MemberExpression",
               "span": {

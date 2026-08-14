@@ -243,14 +243,6 @@ impl VisitMut for ConstructorFolder {
         // skip
     }
 
-    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {
-        // skip
-    }
-
-    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {
-        // skip
-    }
-
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
         node.test.visit_mut_with(self);
         let super_found = self.super_found;

@@ -900,6 +900,7 @@
               "start": 574,
               "end": 711
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {

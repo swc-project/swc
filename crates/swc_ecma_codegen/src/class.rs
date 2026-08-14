@@ -391,14 +391,7 @@ impl MacroNode for ClassMethod {
             emit!(type_params);
         }
 
-        punct!(emitter, "(");
-        emitter.emit_list(
-            self.function.span,
-            Some(&self.function.params),
-            ListFormat::CommaListElements,
-        )?;
-
-        punct!(emitter, ")");
+        emitter.emit_fn_params(&self.function)?;
 
         if let Some(ty) = &self.function.return_type {
             punct!(emitter, ":");

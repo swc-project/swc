@@ -350,6 +350,7 @@ impl BlockScoping {
                     stmts.push(
                         SwitchStmt {
                             span: DUMMY_SP,
+                            body_ctxt: Default::default(),
                             discriminant: Box::new(ret.into()),
                             cases: flow_helper
                                 .label
@@ -539,23 +540,12 @@ impl VisitMut for BlockScoping {
         self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
-    fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
-        f.key.visit_mut_with(self);
-        self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
-    }
-
     fn visit_mut_ident(&mut self, node: &mut Ident) {
         self.mark_as_used(node);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(stmts);
-    }
-
-    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
-        f.key.visit_mut_with(self);
-        f.param.visit_mut_with(self);
-        self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
@@ -744,12 +734,6 @@ impl VisitMut for FlowHelper<'_> {
 
     /// noop
     fn visit_mut_function(&mut self, _f: &mut Function) {}
-
-    /// noop
-    fn visit_mut_getter_prop(&mut self, _f: &mut GetterProp) {}
-
-    /// noop
-    fn visit_mut_setter_prop(&mut self, _f: &mut SetterProp) {}
 
     fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
         self.inner_label.insert(l.label.sym.clone());

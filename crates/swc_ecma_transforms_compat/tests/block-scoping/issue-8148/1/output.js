@@ -2,7 +2,7 @@ function _toBeMocked__2() {
     return "I am the original function";
 }
 export var toBeMocked__2 = _toBeMocked__2;
-var _$mock__7 = {
+export var mock__2 = {
     get toBeMocked () {
         return toBeMocked__2;
     },
@@ -10,4 +10,3 @@ var _$mock__7 = {
         toBeMocked__2 = mock__5;
     }
 };
-export { _$mock__7 as mock__2 };

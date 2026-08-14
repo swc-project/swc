@@ -1037,6 +1037,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(SwitchStmt {
             span: self.span(switch_start),
+            body_ctxt: Default::default(),
             discriminant,
             cases,
         }
@@ -1687,6 +1688,7 @@ impl<I: Tokens> Parser<I> {
             ident: None,
             function: Box::new(Function {
                 span,
+                this_param: None,
                 params: Vec::new(),
                 decorators: Vec::new(),
                 body: Some(BlockStmt {

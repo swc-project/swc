@@ -42,6 +42,7 @@ pub struct ArrowShell {
 /// AST.
 #[derive(Clone)]
 pub struct FunctionShell {
+    this_param: Option<Box<TsThisParam>>,
     params: Vec<Param>,
     decorators: Vec<Decorator>,
     type_params: Option<Box<TsTypeParamDecl>>,
@@ -267,6 +268,7 @@ impl PreservedAst {
         self.nodes.insert(
             function.span.lo.to_u32(),
             PreservedNode::Function(Box::new(FunctionShell {
+                this_param: function.this_param.clone(),
                 params: function.params.clone(),
                 decorators: function.decorators.clone(),
                 type_params: function.type_params.clone(),
@@ -289,6 +291,7 @@ impl PreservedAst {
         if !snapshot.had_body {
             function.body = None;
         }
+        function.this_param = snapshot.this_param;
         function.decorators = snapshot.decorators;
         function.type_params = snapshot.type_params;
         function.return_type = snapshot.return_type;
@@ -312,6 +315,7 @@ impl PreservedAst {
             unreachable!()
         };
 
+        function.this_param = snapshot.this_param;
         function.decorators = snapshot.decorators;
         function.type_params = snapshot.type_params;
         function.return_type = snapshot.return_type;

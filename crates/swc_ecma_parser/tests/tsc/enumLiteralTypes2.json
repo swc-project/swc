@@ -3468,6 +3468,7 @@
               "start": 1301,
               "end": 1399
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -3666,6 +3667,7 @@
               "start": 1432,
               "end": 1530
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "Identifier",
               "span": {
@@ -4474,6 +4476,7 @@
               "start": 1877,
               "end": 1973
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "MemberExpression",
               "span": {
@@ -4719,6 +4722,7 @@
               "start": 2005,
               "end": 2101
             },
+            "bodyCtxt": 0,
             "discriminant": {
               "type": "MemberExpression",
               "span": {

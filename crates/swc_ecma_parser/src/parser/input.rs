@@ -123,7 +123,7 @@ impl<I: Tokens> Buffer<I> {
         value
     }
 
-    pub fn expect_jsx_text_token_value(&mut self) -> Atom {
+    pub fn expect_jsx_text_token_value(&mut self) -> Wtf8Atom {
         let Some(crate::lexer::TokenValue::JsxText(value)) = self.iter.take_token_value() else {
             unreachable!()
         };
