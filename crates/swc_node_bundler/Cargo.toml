@@ -7,7 +7,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_node_bundler"
 repository    = { workspace = true }
-version       = "75.0.0"
+version       = "76.0.0"
 
 [lib]
 bench = false
@@ -25,27 +25,27 @@ serde      = { workspace = true, features = ["derive"], optional = true }
 tracing    = { workspace = true }
 
 string_enum = { version = "1.0.2", path = "../string_enum" }
-swc = { version = "74.0.0", path = "../swc" }
+swc = { version = "75.0.0", path = "../swc" }
 swc_atoms = { version = "10.0.0", path = "../swc_atoms" }
-swc_bundler = { version = "55.0.0", path = "../swc_bundler", features = [
+swc_bundler = { version = "56.0.0", path = "../swc_bundler", features = [
   "concurrent",
 ] }
-swc_common = { version = "25.0.0", path = "../swc_common", features = [
+swc_common = { version = "26.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "28.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "31.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_loader = { version = "26.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "44.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_ast = { version = "29.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "32.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_loader = { version = "27.0.0", path = "../swc_ecma_loader" }
+swc_ecma_parser = { version = "45.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms = { version = "61.0.0", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "34.0.0", path = "../swc_ecma_utils" }
+swc_ecma_transforms = { version = "62.0.0", path = "../swc_ecma_transforms" }
+swc_ecma_utils = { version = "35.0.0", path = "../swc_ecma_utils" }
 swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
 
 [dev-dependencies]
 
-swc_ecma_transforms_base = { version = "48.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "49.0.0", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
-testing = { version = "26.0.0", path = "../testing" }
+testing = { version = "27.0.0", path = "../testing" }
