@@ -2477,12 +2477,6 @@
 
 ## [swc_core@v37.0.0] - 2025-08-24
 
-### Bug Fixes
-
-
-
-- **(es/minifier)** Preserve `array.join` with nullable values ([#10937](https://github.com/swc-project/swc/issues/10937)) ([e495403](https://github.com/swc-project/swc/commit/e49540386e6647fd2b87b2a7b9c2ac7668005e56))
-
 ### Features
 
 

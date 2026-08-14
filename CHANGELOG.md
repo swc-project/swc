@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.16.0] - 2026-08-14
 
 ### Bug Fixes
 
@@ -1985,12 +1985,6 @@
 - **(es/parser)** Use relative file name in typescript tests ([#11029](https://github.com/swc-project/swc/issues/11029)) ([82c6b0f](https://github.com/swc-project/swc/commit/82c6b0fe80f0e40aab52d5b34366aa7ec89034cb))
 
 ## [1.13.5] - 2025-08-24
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Preserve `array.join` with nullable values ([#10937](https://github.com/swc-project/swc/issues/10937)) ([e495403](https://github.com/swc-project/swc/commit/e49540386e6647fd2b87b2a7b9c2ac7668005e56))
 
 ### Features
 
