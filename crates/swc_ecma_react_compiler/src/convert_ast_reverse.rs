@@ -1071,13 +1071,15 @@ impl ReverseCtx {
                             || Box::new(swc::Pat::Invalid(swc::Invalid { span: DUMMY_SP })),
                             |param| Box::new(param.pat),
                         );
-                        swc::PropOrSpread::Prop(Box::new(swc::Prop::Setter(swc::SetterProp {
+                        let mut setter = swc::SetterProp {
                             span: self.span_from_base(&method.base),
                             key,
                             this_param: None,
                             param,
                             body: function.body,
-                        })))
+                        };
+                        self.preserved_ast.borrow_mut().load_setter(&mut setter);
+                        swc::PropOrSpread::Prop(Box::new(swc::Prop::Setter(setter)))
                     }
                     ObjectMethodKind::Method => {
                         swc::PropOrSpread::Prop(Box::new(swc::Prop::Method(swc::MethodProp {
@@ -1155,6 +1157,7 @@ impl ReverseCtx {
 
     fn convert_function_declaration(&self, f: &FunctionDeclaration) -> swc::FnDecl {
         let mut function = swc::Function {
+            this_param: None,
             params: f
                 .params
                 .iter()
@@ -1221,6 +1224,7 @@ impl ReverseCtx {
 
     fn convert_function_expression(&self, f: &FunctionExpression) -> swc::Function {
         let mut function = swc::Function {
+            this_param: None,
             params: f
                 .params
                 .iter()
@@ -1247,6 +1251,7 @@ impl ReverseCtx {
 
     fn convert_object_method_to_function(&self, m: &ObjectMethod) -> swc::Function {
         swc::Function {
+            this_param: None,
             params: m
                 .params
                 .iter()
@@ -1639,7 +1644,7 @@ impl ReverseCtx {
             }
             JSXChild::JSXText(text) => swc::JSXElementChild::JSXText(swc::JSXText {
                 span: self.span_from_base(&text.base),
-                value: Atom::from(text.value.as_str()),
+                value: Atom::from(text.value.as_str()).into(),
                 raw: Atom::from(encode_jsx_text(&text.value)),
             }),
         }

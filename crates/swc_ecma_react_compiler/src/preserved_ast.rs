@@ -16,6 +16,7 @@ pub enum PreservedNode {
     Directive(Box<Str>),
     Function(Box<FunctionShell>),
     Import(Box<ImportShell>),
+    Setter(Box<SetterShell>),
     TsEnum(Box<TsEnumDecl>),
     TsExportAssignment(TsExportAssignment),
     TsExpr(Box<TsExprShell>),
@@ -42,6 +43,7 @@ pub struct ArrowShell {
 /// AST.
 #[derive(Clone)]
 pub struct FunctionShell {
+    this_param: Option<Box<TsThisParam>>,
     params: Vec<Param>,
     decorators: Vec<Decorator>,
     type_params: Option<Box<TsTypeParamDecl>>,
@@ -51,6 +53,12 @@ pub struct FunctionShell {
     /// React Compiler's `FunctionDeclaration` always has a block body, so this
     /// is required to restore TypeScript overload signatures after compilation.
     had_body: bool,
+}
+
+/// Lightweight setter metadata not represented in React Compiler's AST.
+#[derive(Clone)]
+pub struct SetterShell {
+    this_param: Pat,
 }
 
 /// Lightweight variable declaration metadata not represented losslessly in
@@ -267,6 +275,7 @@ impl PreservedAst {
         self.nodes.insert(
             function.span.lo.to_u32(),
             PreservedNode::Function(Box::new(FunctionShell {
+                this_param: function.this_param.clone(),
                 params: function.params.clone(),
                 decorators: function.decorators.clone(),
                 type_params: function.type_params.clone(),
@@ -289,6 +298,7 @@ impl PreservedAst {
         if !snapshot.had_body {
             function.body = None;
         }
+        function.this_param = snapshot.this_param;
         function.decorators = snapshot.decorators;
         function.type_params = snapshot.type_params;
         function.return_type = snapshot.return_type;
@@ -298,6 +308,32 @@ impl PreservedAst {
                 pat_type.apply_to_pat(&mut param.pat);
             }
         }
+
+        true
+    }
+
+    pub fn save_setter(&mut self, setter: &SetterProp) {
+        let Some(this_param) = setter.this_param.clone() else {
+            return;
+        };
+
+        self.nodes.insert(
+            setter.span.lo.to_u32(),
+            PreservedNode::Setter(Box::new(SetterShell { this_param })),
+        );
+    }
+
+    pub fn load_setter(&mut self, setter: &mut SetterProp) -> bool {
+        let key = setter.span.lo.to_u32();
+        if !matches!(self.nodes.get(&key), Some(PreservedNode::Setter(_))) {
+            return false;
+        }
+
+        let Some(PreservedNode::Setter(snapshot)) = self.nodes.remove(&key) else {
+            unreachable!()
+        };
+
+        setter.this_param = Some(snapshot.this_param);
 
         true
     }
@@ -312,6 +348,7 @@ impl PreservedAst {
             unreachable!()
         };
 
+        function.this_param = snapshot.this_param;
         function.decorators = snapshot.decorators;
         function.type_params = snapshot.type_params;
         function.return_type = snapshot.return_type;

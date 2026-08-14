@@ -28,6 +28,27 @@ fn is_await_ident_or_expr(expr: &Expr) -> bool {
         || matches!(expr, Expr::Ident(Ident { sym, .. }) if &**sym == "await")
 }
 
+/// Returns the identifier for a direct `this` pattern or a single assignment
+/// layer whose left-hand side is a direct `this` pattern.
+fn direct_ts_this_ident(pat: &Pat) -> Option<&Ident> {
+    let ident = match pat {
+        Pat::Ident(BindingIdent { id, .. }) => id,
+        Pat::Assign(AssignPat { left, .. }) => {
+            let Pat::Ident(BindingIdent { id, .. }) = &**left else {
+                return None;
+            };
+            id
+        }
+        _ => return None,
+    };
+
+    if &*ident.sym != "this" {
+        return None;
+    }
+
+    Some(ident)
+}
+
 impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
         self.parse_binding_pat_or_ident(false)
@@ -448,12 +469,21 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_binding_element(&mut self) -> PResult<Pat> {
+        self.parse_binding_element_with_initializer()
+            .map(|(pat, _)| pat)
+    }
+
+    /// Returns the span of an initializer owned by this binding element.
+    /// Initializers nested in destructuring patterns are not propagated.
+    fn parse_binding_element_with_initializer(&mut self) -> PResult<(Pat, Option<Span>)> {
         trace_cur!(self, parse_binding_element);
 
         let start = self.cur_pos();
         let left = self.parse_binding_pat_or_ident(false)?;
 
         if self.input_mut().eat(Token::Eq) {
+            let initializer_span = self.input().prev_span();
+
             let right = self.allow_in_expr(Self::parse_assignment_expr)?;
 
             if self.ctx().contains(Context::InParameters)
@@ -467,15 +497,18 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(self.span(start), SyntaxError::TS2371);
             }
 
-            return Ok(AssignPat {
-                span: self.span(start),
-                left: Box::new(left),
-                right,
-            }
-            .into());
+            return Ok((
+                AssignPat {
+                    span: self.span(start),
+                    left: Box::new(left),
+                    right,
+                }
+                .into(),
+                Some(initializer_span),
+            ));
         }
 
-        Ok(left)
+        Ok((left, None))
     }
 
     pub(crate) fn parse_binding_pat_or_ident(&mut self, disallow_let: bool) -> PResult<Pat> {
@@ -566,11 +599,27 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = self.eat_any_ts_modifier()?;
 
         let pat_start = self.cur_pos();
-        let mut pat = self.parse_binding_element()?;
+        let (mut pat, initializer_span) = self.parse_binding_element_with_initializer()?;
+        let is_direct_ts_this_param = self.syntax().typescript()
+            && !self.syntax().flow()
+            && direct_ts_this_ident(&pat).is_some();
+        if let (true, Some(initializer_span)) = (is_direct_ts_this_param, initializer_span) {
+            self.emit_err(
+                initializer_span,
+                SyntaxError::Expected(",".into(), "=".into()),
+            );
+        }
         let mut opt = false;
 
         if self.input().syntax().typescript() {
             if self.input_mut().eat(Token::QuestionMark) {
+                if is_direct_ts_this_param {
+                    self.emit_err(
+                        self.input().prev_span(),
+                        SyntaxError::Expected(",".into(), "?".into()),
+                    );
+                }
+
                 match pat {
                     Pat::Ident(BindingIdent {
                         id:
@@ -642,8 +691,15 @@ impl<I: Tokens> Parser<I> {
         }
 
         let pat = if self.input_mut().eat(Token::Eq) {
+            if is_direct_ts_this_param && !opt {
+                self.emit_err(
+                    self.input().prev_span(),
+                    SyntaxError::Expected(",".into(), "=".into()),
+                );
+            }
+
             // `=` cannot follow optional parameter.
-            if opt && !self.input().syntax().flow() {
+            if opt && !is_direct_ts_this_param && !self.input().syntax().flow() {
                 self.emit_err(pat.span(), SyntaxError::TS1015);
             }
 
@@ -844,6 +900,15 @@ impl<I: Tokens> Parser<I> {
                 if is_rest && self.input().is(Token::RParen) {
                     self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
                 }
+            }
+        }
+
+        if self.syntax().typescript() && !self.syntax().flow() {
+            for param in params.iter().skip(1) {
+                let Some(ident) = direct_ts_this_ident(&param.pat) else {
+                    continue;
+                };
+                self.emit_err(ident.span, SyntaxError::TS2680);
             }
         }
 

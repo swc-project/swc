@@ -1057,26 +1057,19 @@
                     "argument": {
                       "type": "FunctionExpression",
                       "identifier": null,
-                      "params": [
-                        {
-                          "type": "Parameter",
-                          "span": {
-                            "start": 783,
-                            "end": 787
-                          },
-                          "decorators": [],
-                          "pat": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 783,
-                              "end": 787
-                            },
-                            "ctxt": 0,
-                            "value": "this",
-                            "optional": false,
-                            "typeAnnotation": null
-                          }
+                      "thisParam": {
+                        "type": "TsThisParameter",
+                        "span": {
+                          "start": 783,
+                          "end": 787
                         },
+                        "thisSpan": {
+                          "start": 783,
+                          "end": 787
+                        },
+                        "typeAnnotation": null
+                      },
+                      "params": [
                         {
                           "type": "Parameter",
                           "span": {
