@@ -4,8 +4,8 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, 
 use crate::{
     class::Decorator,
     pat::Pat,
-    stmt::BlockStmt,
-    typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
+    stmt::Stmt,
+    typescript::{TsParamProp, TsThisParam, TsTypeAnn, TsTypeParamDecl},
 };
 
 /// Common parts of function and method.
@@ -14,6 +14,18 @@ use crate::{
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Function {
+    /// TypeScript or Flow `this` parameter, which is not part of the runtime
+    /// parameter list.
+    #[cfg_attr(
+        feature = "serde-impl",
+        serde(default, rename = "thisParam", skip_serializing_if = "Option::is_none")
+    )]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub this_param: Option<Box<TsThisParam>>,
+
     pub params: Vec<Param>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -28,7 +40,7 @@ pub struct Function {
         feature = "encoding-impl",
         encoding(with = "cbor4ii::core::types::Maybe")
     )]
-    pub body: Option<BlockStmt>,
+    pub body: Option<FunctionBody>,
 
     /// if it's a generator.
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "generator"))]
@@ -57,6 +69,32 @@ impl Take for Function {
     fn dummy() -> Self {
         Function {
             ..Default::default()
+        }
+    }
+}
+
+/// The braced body of a function, method, constructor, or block-bodied arrow
+/// function.
+///
+/// Unlike [`crate::BlockStmt`], a function body does not introduce an
+/// additional block scope. Its statements are evaluated in the scope created
+/// by the owning function-like node.
+#[ast_node("FunctionBody")]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+pub struct FunctionBody {
+    /// Span including the braces.
+    pub span: Span,
+
+    pub stmts: Vec<Stmt>,
+}
+
+impl Take for FunctionBody {
+    fn dummy() -> Self {
+        FunctionBody {
+            span: DUMMY_SP,
+            stmts: Vec::new(),
         }
     }
 }

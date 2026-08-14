@@ -331,12 +331,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 146,
           "end": 174
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",
@@ -491,12 +490,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 221,
                 "end": 261
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "VariableDeclaration",

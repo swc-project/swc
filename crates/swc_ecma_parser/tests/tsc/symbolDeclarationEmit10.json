@@ -77,32 +77,43 @@
                     }
                   }
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 87,
+                    "start": 53,
                     "end": 100
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 89,
-                        "end": 98
-                      },
-                      "argument": {
-                        "type": "StringLiteral",
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 87,
+                      "end": 100
+                    },
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 96,
+                          "start": 89,
                           "end": 98
                         },
-                        "value": "",
-                        "raw": "''"
+                        "argument": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 96,
+                            "end": 98
+                          },
+                          "value": "",
+                          "raw": "''"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               },
               {
@@ -143,26 +154,46 @@
                     }
                   }
                 },
-                "thisParam": null,
-                "param": {
-                  "type": "Identifier",
+                "function": {
+                  "params": [
+                    {
+                      "type": "Parameter",
+                      "span": {
+                        "start": 138,
+                        "end": 139
+                      },
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 138,
+                          "end": 139
+                        },
+                        "ctxt": 0,
+                        "value": "x",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    }
+                  ],
+                  "decorators": [],
                   "span": {
-                    "start": 138,
-                    "end": 139
-                  },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "body": {
-                  "type": "BlockStatement",
-                  "span": {
-                    "start": 141,
+                    "start": 106,
                     "end": 144
                   },
                   "ctxt": 0,
-                  "stmts": []
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 141,
+                      "end": 144
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

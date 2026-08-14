@@ -14,10 +14,10 @@ use swc_ecma_ast::{
     ArrayPat, ArrowExpr, AutoAccessor, BinaryOp, BindingIdent, Class, ClassDecl, ClassMethod,
     ClassProp, Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, Expr, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp,
-    IfStmt, ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat, Param,
-    Pat, PrivateMethod, PrivateProp, Program, SetterProp, Stmt, TsAsExpr, TsConstAssertion,
-    TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation,
-    TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    IfStmt, ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat,
+    PrivateMethod, PrivateProp, Program, Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl,
+    TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsModuleDecl,
+    TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsThisParam,
     TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     VarDeclarator, WhileStmt,
 };
@@ -1310,29 +1310,15 @@ impl Visit for TsStrip {
         }
     }
 
-    fn visit_params(&mut self, n: &[Param]) {
-        if let Some(p) = n.first().filter(|param| {
-            matches!(
-                &param.pat,
-                Pat::Ident(id) if id.sym == "this"
-            )
-        }) {
-            let mut span = p.span;
-
-            let comma = self.get_next_token(span.hi);
-            if comma.token == Token::Comma {
-                span = span.with_hi(comma.span.hi);
-            } else {
-                debug_assert_eq!(comma.token, Token::RParen);
-            }
-            self.add_replacement(span);
-
-            n[1..].visit_children_with(self);
-
-            return;
+    fn visit_ts_this_param(&mut self, n: &TsThisParam) {
+        let mut span = n.span;
+        let next = self.get_next_token(span.hi);
+        if next.token == Token::Comma {
+            span = span.with_hi(next.span.hi);
+        } else {
+            debug_assert_eq!(next.token, Token::RParen);
         }
-
-        n.visit_children_with(self);
+        self.add_replacement(span);
     }
 
     fn visit_ts_as_expr(&mut self, n: &TsAsExpr) {
@@ -1574,27 +1560,22 @@ impl Visit for TsStrip {
         let l_parern = &self.tokens[l_parern_index];
         debug_assert_eq!(l_parern.token, Token::LParen);
 
-        let r_parern_pos = n.type_ann.as_ref().map_or(n.body.span_lo(), |t| t.span.lo) - BytePos(1);
+        let r_parern_pos = n
+            .function
+            .return_type
+            .as_ref()
+            .map_or(n.function.body.span_lo(), |t| t.span.lo)
+            - BytePos(1);
         let r_parern = self.get_prev_token(r_parern_pos);
         debug_assert_eq!(r_parern.token, Token::RParen);
 
         let span = span(l_parern.span.lo + BytePos(1), r_parern.span.hi - BytePos(1));
         self.add_replacement(span);
 
-        n.visit_children_with(self);
-    }
-
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        if let Some(this_param) = &n.this_param {
-            self.add_replacement(this_param.span());
-
-            let comma = self.get_prev_token(n.param.span_lo() - BytePos(1));
-            debug_assert_eq!(comma.token, Token::Comma);
-
-            self.add_replacement(comma.span);
-        }
-
-        n.visit_children_with(self);
+        n.key.visit_with(self);
+        n.function.type_params.visit_with(self);
+        n.function.return_type.visit_with(self);
+        n.function.body.visit_with(self);
     }
 }
 

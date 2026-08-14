@@ -38,7 +38,7 @@ pub fn dce(
         changed: false,
         pass: 0,
         in_fn: false,
-        in_block_stmt: false,
+        in_non_top_level_lexical_scope: false,
         var_decl_kind: None,
         data: Default::default(),
     })
@@ -84,7 +84,7 @@ struct TreeShaker {
     pass: u16,
 
     in_fn: bool,
-    in_block_stmt: bool,
+    in_non_top_level_lexical_scope: bool,
     var_decl_kind: Option<VarDeclKind>,
 
     data: Data,
@@ -545,6 +545,25 @@ fn class_def_is_side_effect_free(class: &Class, expr_ctx: ExprCtx) -> bool {
         })
 }
 
+/// Returns true if references in an initializer can be attributed to the
+/// initialized binding instead of being treated as eager top-level references.
+fn can_attribute_initializer_refs_to_binding(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+    match expr {
+        Expr::Fn(_) | Expr::Arrow(_) => true,
+        Expr::Class(c) => {
+            // Class heritage is evaluated while defining the class and can throw
+            // even when evaluating the heritage expression itself is pure. The
+            // remaining checks reject decorators, computed keys, and static
+            // initialization, leaving only dependencies evaluated after the class
+            // value is used (for example, method and constructor bodies).
+            c.class.super_class.is_none()
+                && class_def_is_trivial(&c.class)
+                && class_def_is_side_effect_free(&c.class, expr_ctx)
+        }
+        _ => false,
+    }
+}
+
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
@@ -643,7 +662,15 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_class_expr(&mut self, n: &ClassExpr) {
-        n.visit_children_with(self);
+        if let Some(ident) = &n.ident {
+            // ClassDefinitionEvaluation creates a lexical binding for a named
+            // class expression that is visible only inside the class definition.
+            let old = self.cur_class_id.replace(ident.to_id());
+            n.visit_children_with(self);
+            self.cur_class_id = old;
+        } else {
+            n.visit_children_with(self);
+        }
 
         if !n.class.decorators.is_empty() {
             if let Some(i) = &n.ident {
@@ -769,7 +796,17 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_expr(&mut self, n: &FnExpr) {
-        n.visit_children_with(self);
+        if let Some(ident) = &n.ident {
+            // `InstantiateOrdinaryFunctionExpression` creates a binding for a named
+            // function expression in an environment local to the function. It is
+            // therefore a self-reference, not a reference to an outer declaration
+            // with the same symbol.
+            let old = self.cur_fn_id.replace(ident.to_id());
+            n.visit_children_with(self);
+            self.cur_fn_id = old;
+        } else {
+            n.visit_children_with(self);
+        }
 
         if !n.function.decorators.is_empty() {
             if let Some(i) = &n.ident {
@@ -805,7 +842,19 @@ impl Visit for Analyzer<'_> {
         n.name.visit_with(self);
 
         self.in_var_decl = false;
-        n.init.visit_with(self);
+        match (&n.name, n.init.as_deref()) {
+            // When a function or a side-effect-free class directly initializes a
+            // variable, its deferred references are dependencies of that variable
+            // rather than top-level entries. Keep this limited to direct values:
+            // attributing an arbitrary initializer to the binding could hide its
+            // eager side effects or TDZ errors.
+            (Pat::Ident(binding), Some(init))
+                if can_attribute_initializer_refs_to_binding(init, self.expr_ctx) =>
+            {
+                self.with_ast_path(vec![binding.to_id()], |v| n.init.visit_with(v));
+            }
+            _ => n.init.visit_with(self),
+        }
 
         self.in_var_decl = old;
     }
@@ -855,7 +904,7 @@ impl TreeShaker {
                 if !self.in_fn {
                     return false;
                 }
-            } else if !self.in_block_stmt {
+            } else if !self.in_non_top_level_lexical_scope {
                 return false;
             }
         }
@@ -876,7 +925,7 @@ impl TreeShaker {
                 if !self.in_fn {
                     return false;
                 }
-            } else if !self.in_block_stmt {
+            } else if !self.in_non_top_level_lexical_scope {
                 return false;
             }
 
@@ -997,13 +1046,20 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-        let old_in_block_stmt = self.in_block_stmt;
-        self.in_block_stmt = true;
+        let old_in_non_top_level_lexical_scope = self.in_non_top_level_lexical_scope;
+        self.in_non_top_level_lexical_scope = true;
         n.visit_mut_children_with(self);
-        self.in_block_stmt = old_in_block_stmt;
+        self.in_non_top_level_lexical_scope = old_in_non_top_level_lexical_scope;
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+    fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
+        let old_in_non_top_level_lexical_scope = self.in_non_top_level_lexical_scope;
+        self.in_non_top_level_lexical_scope = true;
+        n.visit_mut_children_with(self);
+        self.in_non_top_level_lexical_scope = old_in_non_top_level_lexical_scope;
+    }
+
+    fn visit_mut_arrow_function_body(&mut self, n: &mut ArrowFunctionBody) {
         let old_in_fn = self.in_fn;
         self.in_fn = true;
         n.visit_mut_children_with(self);

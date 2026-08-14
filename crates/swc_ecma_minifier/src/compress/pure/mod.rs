@@ -400,19 +400,19 @@ impl VisitMut for Pure<'_> {
         }
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+    fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
         body.visit_mut_children_with(self);
 
         match body {
-            BlockStmtOrExpr::BlockStmt(b) => self.optimize_fn_stmts(&mut b.stmts),
-            BlockStmtOrExpr::Expr(_) => {}
+            ArrowFunctionBody::FunctionBody(b) => self.optimize_fn_stmts(&mut b.stmts),
+            ArrowFunctionBody::Expr(_) => {}
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
 
         self.optimize_arrow_body(body);
 
-        if let BlockStmtOrExpr::Expr(e) = body {
+        if let ArrowFunctionBody::Expr(e) = body {
             if self::bools::may_make_bool_short(e) {
                 self.make_bool_short(e, false, false);
             }

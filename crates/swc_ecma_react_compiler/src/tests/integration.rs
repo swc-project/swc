@@ -10,7 +10,7 @@ use react_compiler_ast::{
     File,
 };
 use swc_common::{sync::Lrc, FileName, SourceMap};
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{DefaultDecl, EsVersion, ModuleDecl, ModuleItem};
 use swc_ecma_codegen::Node;
 use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, EsSyntax, Syntax};
 
@@ -1593,6 +1593,52 @@ fn transform_compilation_mode_all_does_not_skip() {
     // With "all" mode, even non-React code should go through the compiler.
     // It may not produce output.
     let _ = result.program;
+}
+
+#[test]
+fn transform_preserves_default_export_function_overload_signatures() {
+    let source = r#"
+        export default function useResponse<R>(value: R): R;
+
+        export default function useResponse<R, T>(
+            value: R,
+            transform: (value: R) => T,
+        ): T;
+
+        export default function useResponse<R, T>(
+            value: R,
+            transform?: (value: R) => T,
+        ): R | T {
+            return transform ? transform(value) : value;
+        }
+    "#;
+    let mut options = default_options();
+    options.compilation_mode = "all".to_string();
+
+    let result = transform_source(source, Syntax::Typescript(Default::default()), options);
+    assert!(
+        result.diagnostics.is_empty(),
+        "unexpected diagnostics: {:#?}",
+        result.diagnostics
+    );
+
+    let program = result
+        .program
+        .expect("compilation mode `all` should transform the implementation");
+    let module = program.as_module().expect("source should remain a module");
+    let body_presence = module
+        .body
+        .iter()
+        .filter_map(|item| match item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => match &export.decl {
+                DefaultDecl::Fn(function) => Some(function.function.body.is_some()),
+                _ => None,
+            },
+            _ => None,
+        })
+        .collect::<Vec<_>>();
+
+    assert_eq!(body_presence, [false, false, true]);
 }
 
 #[test]

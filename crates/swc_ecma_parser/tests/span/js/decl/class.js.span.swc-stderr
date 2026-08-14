@@ -190,7 +190,7 @@
    :     ^^^^^^^^^^^^
  7 |     async asyncMethod() { }
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/decl/class.js:6:1]
  5 |     static { }
  6 |     method() { }
@@ -225,7 +225,7 @@
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  8 | }
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/decl/class.js:7:1]
  6 |     method() { }
  7 |     async asyncMethod() { }

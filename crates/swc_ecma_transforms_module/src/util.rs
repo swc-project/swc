@@ -300,9 +300,9 @@ pub(crate) fn esm_export() -> Function {
 
     Function {
         params: vec![target.into(), all.into()],
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts: vec![for_in_stmt],
-            ..Default::default()
         }),
         ..Default::default()
     }
@@ -428,8 +428,11 @@ fn getter_function((key, export_item): ExportBinding) -> Prop {
 
     GetterProp {
         key,
-        body: Some(BlockStmt {
-            stmts: vec![export_item.into_local_ident().into_return_stmt().into()],
+        function: Box::new(Function {
+            body: Some(FunctionBody {
+                span: DUMMY_SP,
+                stmts: vec![export_item.into_local_ident().into_return_stmt().into()],
+            }),
             ..Default::default()
         }),
         ..Default::default()

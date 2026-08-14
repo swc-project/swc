@@ -164,12 +164,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 197,
                 "end": 199
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -242,12 +241,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 231,
                 "end": 244
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -371,12 +369,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 289,
                 "end": 292
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -584,12 +581,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 402,
                 "end": 404
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -662,12 +658,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 444,
                 "end": 457
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -791,12 +786,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 510,
                 "end": 513
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,

@@ -53,13 +53,13 @@ pub(super) fn emit(
     stmts.extend(export_inits);
 
     let execute: Expr = Function {
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts: module
                 .execute_stmts
                 .into_iter()
                 .map(|execute_stmt| emit_execute_stmt(execute_stmt, &export_ident))
                 .collect(),
-            ..Default::default()
         }),
         is_async: module.async_execute,
         ..Default::default()
@@ -93,9 +93,9 @@ pub(super) fn emit(
 
     let register = Function {
         params: vec![export_ident.into(), context_ident.into()],
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts,
-            ..Default::default()
         }),
         ..Default::default()
     }
@@ -302,9 +302,9 @@ fn emit_setter(dep: &DependencySlot, module: &SystemModule, export_ident: &Ident
         } else {
             Default::default()
         },
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts,
-            ..Default::default()
         }),
         ..Default::default()
     }
@@ -392,19 +392,20 @@ fn emit_export_setters(stmts: &mut Vec<Stmt>, module: &SystemModule, export_iden
             let value = private_ident!("_value");
             Prop::Setter(SetterProp {
                 key: prop_name(sym, Default::default()).into(),
-                this_param: None,
-                param: Pat::Ident(BindingIdent {
-                    id: value.clone(),
-                    type_ann: None,
-                })
-                .into(),
-                body: Some(BlockStmt {
-                    stmts: vec![
-                        value
-                            .make_assign_to(op!("="), local.clone().into())
-                            .into_stmt(),
-                        export_names_call(export_ident, exports, local).into_stmt(),
-                    ],
+                function: Box::new(Function {
+                    params: vec![Param::from(Pat::Ident(BindingIdent {
+                        id: value.clone(),
+                        type_ann: None,
+                    }))],
+                    body: Some(FunctionBody {
+                        span: DUMMY_SP,
+                        stmts: vec![
+                            value
+                                .make_assign_to(op!("="), local.clone().into())
+                                .into_stmt(),
+                            export_names_call(export_ident, exports, local).into_stmt(),
+                        ],
+                    }),
                     ..Default::default()
                 }),
                 span: DUMMY_SP,

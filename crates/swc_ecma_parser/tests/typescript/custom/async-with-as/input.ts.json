@@ -250,12 +250,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 97,
               "end": 99
             },
-            "ctxt": 0,
             "stmts": []
           },
           "async": true,
@@ -292,12 +291,11 @@
           }
         ],
         "body": {
-          "type": "BlockStatement",
+          "type": "FunctionBody",
           "span": {
             "start": 114,
             "end": 116
           },
-          "ctxt": 0,
           "stmts": []
         },
         "async": true,

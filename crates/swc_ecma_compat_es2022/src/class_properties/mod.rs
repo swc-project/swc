@@ -155,9 +155,9 @@ impl VisitMut for ClassProperties {
         self.extra = old;
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+    fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
         match body {
-            BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
+            ArrowFunctionBody::Expr(expr) if expr.is_class() => {
                 let ClassExpr { ident, class } = expr.take().class().unwrap();
 
                 let mut stmts = Vec::new();
@@ -174,10 +174,9 @@ impl VisitMut for ClassProperties {
                     .into(),
                 );
 
-                *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                *body = ArrowFunctionBody::FunctionBody(FunctionBody {
                     span: DUMMY_SP,
                     stmts,
-                    ..Default::default()
                 });
             }
             _ => body.visit_mut_children_with(self),
@@ -1176,23 +1175,6 @@ impl Visit for SuperVisitor {
 
     /// Don't recurse into fn
     fn visit_function(&mut self, _: &Function) {}
-
-    /// Don't recurse into fn
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        n.key.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_method_prop(&mut self, n: &MethodProp) {
-        n.key.visit_with(self);
-        n.function.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        n.key.visit_with(self);
-        n.param.visit_with(self);
-    }
 
     fn visit_super(&mut self, _: &Super) {
         self.found = true;

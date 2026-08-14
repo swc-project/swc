@@ -375,8 +375,6 @@ pub struct SemanticBuilder {
     redeclaration_bindings: HashMap<u32, SymbolId>,
     /// Flat list of unresolved references: (name, `reference_id`).
     unresolved_references: Vec<(String, ReferenceId)>,
-    /// Track function body spans so they don't create extra block scopes.
-    function_body_spans: std::collections::HashSet<u32>,
 }
 
 impl SemanticBuilder {
@@ -396,7 +394,6 @@ impl SemanticBuilder {
             declaration_starts: std::collections::HashSet::new(),
             redeclaration_bindings: HashMap::new(),
             unresolved_references: Vec::new(),
-            function_body_spans: std::collections::HashSet::new(),
         }
     }
 
@@ -452,7 +449,7 @@ impl SemanticBuilder {
         false
     }
 
-    fn body_scope_flags(&self, flags: ScopeFlags, body: Option<&BlockStmt>) -> ScopeFlags {
+    fn body_scope_flags(&self, flags: ScopeFlags, body: Option<&FunctionBody>) -> ScopeFlags {
         if body.is_some_and(|body| Self::strict_directives_present(&body.stmts)) {
             flags | ScopeFlags::StrictMode
         } else {
@@ -659,8 +656,8 @@ impl SemanticBuilder {
     ) {
         match pat {
             Pat::Ident(binding_ident) => {
-                // TypeScript `this` pseudo-parameters are type annotations only.
-                // They are erased before emit and must not be registered as bindings.
+                // Flow and object-setter `this` pseudo-parameters are represented
+                // as patterns. Other TypeScript functions use `Function::this_param`.
                 if binding_ident.id.sym.as_str() == "this" {
                     return;
                 }
@@ -810,21 +807,6 @@ impl SemanticBuilder {
         }
     }
 
-    fn visit_accessor_param(
-        &mut self,
-        function_scope_id: ScopeId,
-        scope_span: swc_common::Span,
-        param: &Pat,
-    ) {
-        if Self::pat_needs_parameter_scope(param) {
-            self.with_parameter_scope(function_scope_id, scope_span, |this, parameter_scope_id| {
-                this.collect_parameter_pat_bindings(param, function_scope_id, parameter_scope_id);
-            });
-        } else {
-            self.collect_pat_bindings_in_scope(param, Self::param_flags(), function_scope_id, None);
-        }
-    }
-
     fn with_parameter_scope<F>(
         &mut self,
         function_scope_id: ScopeId,
@@ -889,6 +871,14 @@ impl SemanticBuilder {
         self.visit_function_inner_with_span(function.span, function, flags);
     }
 
+    fn visit_object_method(&mut self, key: &PropName, function: &Function) {
+        if let PropName::Computed(computed) = key {
+            computed.visit_with(self);
+        }
+
+        self.visit_function_inner(function, ScopeFlags::Function);
+    }
+
     fn visit_function_inner_with_span(
         &mut self,
         scope_span: swc_common::Span,
@@ -903,7 +893,6 @@ impl SemanticBuilder {
         self.visit_function_params(scope_id, scope_span, &function.params);
 
         if let Some(body) = &function.body {
-            self.function_body_spans.insert(self.start(body.span));
             body.visit_with(self);
         }
 
@@ -919,7 +908,6 @@ impl SemanticBuilder {
         self.visit_constructor_params(scope_id, constructor.span, &constructor.params);
 
         if let Some(body) = &constructor.body {
-            self.function_body_spans.insert(self.start(body.span));
             body.visit_with(self);
         }
 
@@ -962,26 +950,6 @@ impl SemanticBuilder {
                 }
             },
         }
-    }
-
-    fn visit_accessor_inner(
-        &mut self,
-        span: swc_common::Span,
-        param: Option<&Pat>,
-        body: Option<&BlockStmt>,
-    ) {
-        let scope_id = self.push_scope(self.body_scope_flags(ScopeFlags::Function, body), span);
-
-        if let Some(param) = param {
-            self.visit_accessor_param(scope_id, span, param);
-        }
-
-        if let Some(body) = body {
-            self.function_body_spans.insert(self.start(body.span));
-            body.visit_with(self);
-        }
-
-        self.pop_scope();
     }
 }
 
@@ -1097,7 +1065,6 @@ impl Visit for SemanticBuilder {
         self.visit_function_params(scope_id, fn_expr.function.span, &fn_expr.function.params);
 
         if let Some(body) = &fn_expr.function.body {
-            self.function_body_spans.insert(self.start(body.span));
             body.visit_with(self);
         }
 
@@ -1106,21 +1073,20 @@ impl Visit for SemanticBuilder {
 
     fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
         let flags = match &*arrow.body {
-            BlockStmtOrExpr::BlockStmt(block) => {
-                self.body_scope_flags(ScopeFlags::Function, Some(block))
+            ArrowFunctionBody::FunctionBody(body) => {
+                self.body_scope_flags(ScopeFlags::Function, Some(body))
             }
-            BlockStmtOrExpr::Expr(_) => ScopeFlags::Function,
+            ArrowFunctionBody::Expr(_) => ScopeFlags::Function,
         };
         let scope_id = self.push_scope(flags, arrow.span);
 
         self.visit_arrow_params(scope_id, arrow.span, &arrow.params);
 
         match &*arrow.body {
-            BlockStmtOrExpr::BlockStmt(block) => {
-                self.function_body_spans.insert(self.start(block.span));
-                block.visit_with(self);
+            ArrowFunctionBody::FunctionBody(body) => {
+                body.visit_with(self);
             }
-            BlockStmtOrExpr::Expr(expr) => {
+            ArrowFunctionBody::Expr(expr) => {
                 expr.visit_with(self);
             }
         }
@@ -1129,13 +1095,9 @@ impl Visit for SemanticBuilder {
     }
 
     fn visit_block_stmt(&mut self, block: &BlockStmt) {
-        if self.function_body_spans.remove(&self.start(block.span)) {
-            block.visit_children_with(self);
-        } else {
-            self.push_scope(ScopeFlags::empty(), block.span);
-            block.visit_children_with(self);
-            self.pop_scope();
-        }
+        self.push_scope(ScopeFlags::empty(), block.span);
+        block.visit_children_with(self);
+        self.pop_scope();
     }
 
     fn visit_for_stmt(&mut self, for_stmt: &ForStmt) {
@@ -1351,26 +1313,13 @@ impl Visit for SemanticBuilder {
                 assign.value.visit_with(self);
             }
             Prop::Getter(getter) => {
-                if let PropName::Computed(computed) = &getter.key {
-                    computed.visit_with(self);
-                }
-                self.visit_accessor_inner(getter.span, None, getter.body.as_ref());
+                self.visit_object_method(&getter.key, &getter.function);
             }
             Prop::Setter(setter) => {
-                if let PropName::Computed(computed) = &setter.key {
-                    computed.visit_with(self);
-                }
-                self.visit_accessor_inner(
-                    setter.span,
-                    Some(setter.param.as_ref()),
-                    setter.body.as_ref(),
-                );
+                self.visit_object_method(&setter.key, &setter.function);
             }
             Prop::Method(method) => {
-                if let PropName::Computed(computed) = &method.key {
-                    computed.visit_with(self);
-                }
-                self.visit_function_inner(&method.function, ScopeFlags::Function);
+                self.visit_object_method(&method.key, &method.function);
             }
         }
     }

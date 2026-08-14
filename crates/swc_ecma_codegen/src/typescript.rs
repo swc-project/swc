@@ -313,6 +313,30 @@ impl MacroNode for TsFnParam {
 }
 
 #[node_impl]
+impl MacroNode for TsThisParam {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self.this_span, true);
+        keyword!(emitter, "this");
+
+        if let Some(type_ann) = &self.type_ann {
+            punct!(emitter, ":");
+            formatting_space!(emitter);
+            emit!(type_ann);
+        }
+
+        srcmap!(emitter, self, false);
+
+        if emitter.comments.is_some() {
+            emitter.emit_trailing_comments_of_pos(self.span.hi, true, true)?;
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
 impl MacroNode for TsFnType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;

@@ -298,7 +298,7 @@ impl VisitMut for Transform {
             });
 
         node.params.visit_mut_children_with(self);
-        node.body.visit_mut_children_with(self);
+        node.body.visit_mut_with(self);
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
@@ -648,6 +648,11 @@ impl VisitMut for Transform {
         node.visit_mut_children_with(self);
     }
 
+    fn visit_mut_function(&mut self, node: &mut Function) {
+        node.this_param = None;
+        node.visit_mut_children_with(self);
+    }
+
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
         node.accessibility = None;
         node.is_abstract = false;
@@ -662,11 +667,6 @@ impl VisitMut for Transform {
         node.is_optional = false;
         node.definite = false;
         node.accessibility = None;
-        node.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        node.this_param = None;
         node.visit_mut_children_with(self);
     }
 
@@ -2024,12 +2024,11 @@ fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
 
     let arrow = arrow.take();
     let body = match *arrow.body {
-        BlockStmtOrExpr::BlockStmt(body) => body,
-        BlockStmtOrExpr::Expr(expr) => {
+        ArrowFunctionBody::FunctionBody(body) => body,
+        ArrowFunctionBody::Expr(expr) => {
             let span = expr.span();
-            BlockStmt {
+            FunctionBody {
                 span,
-                ctxt: arrow.ctxt,
                 stmts: vec![Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(expr),
@@ -2043,6 +2042,7 @@ fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
     **init = Expr::Fn(FnExpr {
         ident: Some(id.clone()),
         function: Box::new(Function {
+            this_param: None,
             params: arrow
                 .params
                 .into_iter()

@@ -29,6 +29,70 @@ struct MakeMethodArgs {
     is_generator: bool,
 }
 
+/// Parses a leading TypeScript or Flow `this` parameter directly into its
+/// dedicated AST node. Invalid optional markers and initializers are recovered
+/// here so the `this` parameter never enters the ordinary parameter list.
+fn parse_ts_this_param<I: Tokens>(p: &mut Parser<I>) -> PResult<Option<Box<TsThisParam>>> {
+    if !p.syntax().typescript() || !p.input().is(Token::This) {
+        return Ok(None);
+    }
+
+    let start = p.cur_pos();
+    let this_span = p.input().cur_span();
+    let is_flow = p.syntax().flow();
+    p.bump();
+
+    let is_optional = p.input_mut().eat(Token::QuestionMark);
+    if is_optional {
+        let error = if is_flow {
+            SyntaxError::TS1003
+        } else {
+            SyntaxError::Expected(",".into(), "?".into())
+        };
+        p.emit_err(p.input().prev_span(), error);
+    }
+
+    let type_ann = p.try_parse_ts_type_ann()?;
+    if is_flow
+        && type_ann.is_none()
+        && !p.ctx().contains(Context::InType)
+        && !p.ctx().contains(Context::InDeclare)
+    {
+        p.emit_err(this_span, SyntaxError::TS1003);
+    }
+
+    let span = p.span(start);
+    if p.input_mut().eat(Token::Eq) {
+        if !is_optional {
+            let error = if is_flow {
+                SyntaxError::TS1003
+            } else {
+                SyntaxError::Expected(",".into(), "=".into())
+            };
+            p.emit_err(p.input().prev_span(), error);
+        }
+        p.allow_in_expr(|p| p.parse_assignment_expr())?;
+    }
+
+    if !p.input().is(Token::RParen) {
+        expect!(p, Token::Comma);
+        if p.input().is(Token::This) {
+            let error = if is_flow {
+                SyntaxError::TS1003
+            } else {
+                SyntaxError::TS2680
+            };
+            p.emit_err(p.input().cur_span(), error);
+        }
+    }
+
+    Ok(Some(Box::new(TsThisParam {
+        span,
+        this_span,
+        type_ann,
+    })))
+}
+
 impl<I: Tokens> Parser<I> {
     /// If `required` is `true`, this never returns `None`.
     fn parse_maybe_opt_binding_ident(
@@ -299,14 +363,19 @@ impl<I: Tokens> Parser<I> {
             expect!(p, Token::LParen);
 
             let parse_args_with_generator_ctx = |p: &mut Self| {
+                let parse_this_and_args = |p: &mut Self| {
+                    let this_param = parse_ts_this_param(p)?;
+                    parse_args(p).map(|params| (this_param, params))
+                };
+
                 if is_generator {
-                    p.do_inside_of_context(Context::InGenerator, parse_args)
+                    p.do_inside_of_context(Context::InGenerator, parse_this_and_args)
                 } else {
-                    p.do_outside_of_context(Context::InGenerator, parse_args)
+                    p.do_outside_of_context(Context::InGenerator, parse_this_and_args)
                 }
             };
 
-            let params = p.do_inside_of_context(Context::InParameters, |p| {
+            let (this_param, params) = p.do_inside_of_context(Context::InParameters, |p| {
                 p.do_outside_of_context(Context::InFunction, |p| {
                     if is_async {
                         p.do_inside_of_context(Context::InAsync, parse_args_with_generator_ctx)
@@ -370,6 +439,7 @@ impl<I: Tokens> Parser<I> {
 
             Ok(Box::new(Function {
                 span: p.span(start),
+                this_param,
                 decorators,
                 type_params,
                 params,
@@ -581,6 +651,13 @@ impl<I: Tokens> Parser<I> {
             })
         })?;
 
+        if self.syntax().flow()
+            && matches!(kind, MethodKind::Getter | MethodKind::Setter)
+            && function.this_param.is_some()
+        {
+            self.emit_err(key.span(), SyntaxError::TS1003);
+        }
+
         match kind {
             MethodKind::Getter | MethodKind::Setter
                 if self.input().syntax().typescript()
@@ -644,7 +721,7 @@ impl<I: Tokens> Parser<I> {
         is_generator: bool,
         is_arrow_function: bool,
         is_simple_parameter_list: bool,
-    ) -> PResult<Box<BlockStmtOrExpr>> {
+    ) -> PResult<Box<ArrowFunctionBody>> {
         self.parse_fn_body(
             is_async,
             is_generator,
@@ -659,12 +736,14 @@ impl<I: Tokens> Parser<I> {
                                     p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                                 }
                             }
-                            BlockStmtOrExpr::BlockStmt(block_stmt)
+                            ArrowFunctionBody::FunctionBody(function_body_from_block_stmt(
+                                block_stmt,
+                            ))
                         })
                         .map(Box::new)
                 } else {
                     p.parse_assignment_expr()
-                        .map(BlockStmtOrExpr::Expr)
+                        .map(ArrowFunctionBody::Expr)
                         .map(Box::new)
                 }
             },
@@ -735,7 +814,7 @@ impl<I: Tokens> Parser<I> {
         is_generator: bool,
         is_arrow_function: bool,
         is_simple_parameter_list: bool,
-    ) -> PResult<Option<BlockStmt>> {
+    ) -> PResult<Option<FunctionBody>> {
         self.parse_fn_body(
             is_async,
             is_generator,
@@ -766,7 +845,7 @@ impl<I: Tokens> Parser<I> {
                             p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                         }
                     }
-                    Some(block_stmt)
+                    Some(function_body_from_block_stmt(block_stmt))
                 })
             },
         )
@@ -1197,7 +1276,7 @@ impl<I: Tokens> Parser<I> {
                 let prev_allow_super_call = self.allow_super_call();
                 self.set_allow_super_call(true);
                 let ctor_sig_and_body =
-                    (|| -> PResult<(Vec<ParamOrTsParamProp>, Option<BlockStmt>)> {
+                    (|| -> PResult<(Vec<ParamOrTsParamProp>, Option<FunctionBody>)> {
                         expect!(self, Token::LParen);
                         let params = self.parse_constructor_params()?;
                         expect!(self, Token::RParen);
@@ -1426,7 +1505,7 @@ impl<I: Tokens> Parser<I> {
                             p.emit_err(key_span, SyntaxError::TS1003);
                         }
 
-                        if params.iter().any(is_not_this) {
+                        if !params.is_empty() {
                             p.emit_err(key_span, SyntaxError::GetterParam);
                         }
 
@@ -1454,13 +1533,13 @@ impl<I: Tokens> Parser<I> {
                             p.emit_err(key_span, SyntaxError::TS1003);
                         }
 
-                        if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                        if params.len() != 1 {
                             p.emit_err(key_span, SyntaxError::SetterParam);
                         }
 
-                        if !params.is_empty() {
-                            if let Pat::Rest(..) = params[0].pat {
-                                p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
+                        if let Some(param) = params.first() {
+                            if let Pat::Rest(..) = param.pat {
+                                p.emit_err(param.pat.span(), SyntaxError::RestPatInSetter);
                             }
                         }
 
@@ -2067,6 +2146,12 @@ impl OutputType for Decl {
         }
         .into())
     }
+}
+
+fn function_body_from_block_stmt(block_stmt: BlockStmt) -> FunctionBody {
+    let BlockStmt { span, stmts, .. } = block_stmt;
+
+    FunctionBody { span, stmts }
 }
 
 fn has_use_strict(block: &BlockStmt) -> Option<Span> {

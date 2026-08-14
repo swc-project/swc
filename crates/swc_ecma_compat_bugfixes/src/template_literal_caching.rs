@@ -75,7 +75,7 @@ impl Fold for TemplateLiteralCaching {
                             ArrowExpr {
                                 span: DUMMY_SP,
                                 params: vec![t.clone().into()],
-                                body: Box::new(BlockStmtOrExpr::Expr(t.into())),
+                                body: Box::new(ArrowFunctionBody::Expr(t.into())),
                                 is_async: false,
                                 is_generator: false,
                                 ..Default::default()
