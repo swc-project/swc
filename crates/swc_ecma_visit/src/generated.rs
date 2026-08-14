@@ -12129,7 +12129,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXText {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
                 };
                 {
-                    <swc_atoms::Atom as VisitWith<V>>::visit_with(value, visitor)
+                    <swc_atoms::Wtf8Atom as VisitWith<V>>::visit_with(value, visitor)
                 };
                 {
                     <swc_atoms::Atom as VisitWith<V>>::visit_with(raw, visitor)
@@ -38906,7 +38906,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXText {
                         self,
                         self::fields::JSXTextField::Value,
                     ));
-                    <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <swc_atoms::Wtf8Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
                         &mut *__ast_path,
@@ -61575,7 +61575,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXText {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
                 };
                 {
-                    <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(value, visitor)
+                    <swc_atoms::Wtf8Atom as VisitMutWith<V>>::visit_mut_with(value, visitor)
                 };
                 {
                     <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(raw, visitor)
@@ -84732,7 +84732,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXText {
                 {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::JSXText(self::fields::JSXTextField::Value));
-                    <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    <swc_atoms::Wtf8Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         value,
                         visitor,
                         &mut *__ast_path,
@@ -105359,7 +105359,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXText {
         match self {
             JSXText { span, value, raw } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
-                let value = { <swc_atoms::Atom as FoldWith<V>>::fold_with(value, visitor) };
+                let value = { <swc_atoms::Wtf8Atom as FoldWith<V>>::fold_with(value, visitor) };
                 let raw = { <swc_atoms::Atom as FoldWith<V>>::fold_with(raw, visitor) };
                 JSXText { span, value, raw }
             }
@@ -129590,7 +129590,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXText {
                 let value = {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::JSXText(self::fields::JSXTextField::Value));
-                    <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
+                    <swc_atoms::Wtf8Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         value,
                         visitor,
                         &mut *__ast_path,

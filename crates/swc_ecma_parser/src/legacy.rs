@@ -295,7 +295,7 @@ pub mod token {
             name: Atom,
         },
         JSXText {
-            value: Atom,
+            value: Wtf8Atom,
             raw: Atom,
         },
         JSXTagStart,
