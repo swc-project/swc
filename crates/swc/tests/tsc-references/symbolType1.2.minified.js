@@ -1,2 +1,2 @@
 //// [symbolType1.ts]
-Symbol() instanceof Symbol, Symbol instanceof Symbol(), (Symbol() || {}) instanceof Object, Symbol instanceof (Symbol() || {});
+Symbol(), Symbol(), Symbol(), Symbol();

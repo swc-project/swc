@@ -1502,8 +1502,6 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: ExprCtx) -> Option<Box<E
             None
         }
 
-        Expr::Bin(bin) if bin.op == op!("instanceof") => Some(bin.into()),
-
         Expr::Bin(BinExpr {
             span,
             left,

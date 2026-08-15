@@ -1931,12 +1931,6 @@ impl ExprCtx {
             Expr::Bin(BinExpr { op, .. }) if op.may_short_circuit() => {
                 to.push(Box::new(expr));
             }
-            Expr::Bin(BinExpr {
-                op: op!("instanceof"),
-                ..
-            }) => {
-                to.push(Box::new(expr));
-            }
             Expr::Bin(BinExpr { left, right, .. }) => {
                 self.extract_side_effects_to(to, *left);
                 self.extract_side_effects_to(to, *right);
@@ -3645,10 +3639,6 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             op: op!("delete"), ..
         }) => true,
         Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
-        Expr::Bin(BinExpr {
-            op: op!("instanceof"),
-            ..
-        }) => true,
         Expr::Bin(BinExpr { left, right, .. }) => {
             left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
         }
