@@ -46,7 +46,7 @@
  3 | |       yield* [1, 2, 3]
  4 | `-> }
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/expr/yield.js:1:1]
  1 | ,-> function* foo() {
  2 | |       yield 1

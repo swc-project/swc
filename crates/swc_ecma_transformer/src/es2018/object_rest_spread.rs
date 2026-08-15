@@ -304,10 +304,10 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             if !stmts.is_empty() {
                 // Insert into body
                 match &mut *arrow.body {
-                    BlockStmtOrExpr::BlockStmt(block) => {
+                    ArrowFunctionBody::FunctionBody(block) => {
                         prepend_stmts_to_front(&mut block.stmts, stmts);
                     }
-                    BlockStmtOrExpr::Expr(expr) => {
+                    ArrowFunctionBody::Expr(expr) => {
                         let mut body_stmts = stmts;
                         body_stmts.push(
                             ReturnStmt {
@@ -316,9 +316,9 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                             }
                             .into(),
                         );
-                        *arrow.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                        *arrow.body = ArrowFunctionBody::FunctionBody(FunctionBody {
+                            span: DUMMY_SP,
                             stmts: body_stmts,
-                            ..Default::default()
                         });
                     }
                     #[cfg(swc_ast_unknown)]

@@ -5568,7 +5568,7 @@
                  */ class zr extends class {
                 constructor(t){
                     this.databaseInfo = t, this.databaseId = t.databaseId;
-                    const e = t.ssl ? "https" : "http";
+                    let e = t.ssl ? "https" : "http";
                     this.Fi = e + "://" + t.host, this.Mi = "projects/" + this.databaseId.projectId + "/databases/" + this.databaseId.database + "/documents";
                 }
                 Li(t, e, n, s) {
@@ -8147,7 +8147,7 @@
                         let t = Jr();
                         t && $("AsyncQueue", "Visibility state changed to " + t.visibilityState), this.ar.tr();
                     };
-                    const t = Jr();
+                    let t = Jr();
                     t && "function" == typeof t.addEventListener && t.addEventListener("visibilitychange", this.Rc);
                 }
                 get isShuttingDown() {

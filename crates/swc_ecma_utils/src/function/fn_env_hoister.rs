@@ -279,6 +279,37 @@ impl FnEnvHoister {
             .get_or_insert_with(|| private_ident!(span, "_superprop_update"))
             .clone()
     }
+
+    fn take_extra_var_decl(&mut self) -> Option<Stmt> {
+        if self.extra_ident.is_empty() {
+            return None;
+        }
+
+        Some(
+            VarDecl {
+                kind: VarDeclKind::Var,
+                decls: self
+                    .extra_ident
+                    .take()
+                    .into_iter()
+                    .map(|ident| VarDeclarator {
+                        span: DUMMY_SP,
+                        name: ident.into(),
+                        init: None,
+                        definite: false,
+                    })
+                    .collect(),
+                ..Default::default()
+            }
+            .into(),
+        )
+    }
+
+    fn prepend_extra_var_decl(&mut self, stmts: &mut Vec<Stmt>) {
+        if let Some(decl) = self.take_extra_var_decl() {
+            stmts.insert(0, decl);
+        }
+    }
 }
 
 impl VisitMut for FnEnvHoister {
@@ -294,61 +325,34 @@ impl VisitMut for FnEnvHoister {
     fn visit_mut_block_stmt(&mut self, b: &mut BlockStmt) {
         b.visit_mut_children_with(self);
 
-        // we will not vist into fn/class so it's fine
-        if !self.extra_ident.is_empty() {
-            b.stmts.insert(
-                0,
-                VarDecl {
-                    kind: VarDeclKind::Var,
-                    decls: self
-                        .extra_ident
-                        .take()
-                        .into_iter()
-                        .map(|ident| VarDeclarator {
-                            span: DUMMY_SP,
-                            name: ident.into(),
-                            init: None,
-                            definite: false,
-                        })
-                        .collect(),
-                    ..Default::default()
-                }
-                .into(),
-            )
-        }
+        // We will not visit into nested functions or classes, so declarations
+        // collected while visiting this block belong to the current function.
+        self.prepend_extra_var_decl(&mut b.stmts);
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, b: &mut BlockStmtOrExpr) {
-        b.visit_mut_children_with(self);
+    fn visit_mut_function_body(&mut self, body: &mut FunctionBody) {
+        body.visit_mut_children_with(self);
 
-        // we will not vist into fn/class so it's fine
-        if !self.extra_ident.is_empty() {
-            if let BlockStmtOrExpr::Expr(e) = b {
-                *b = BlockStmtOrExpr::BlockStmt(BlockStmt {
-                    stmts: vec![
-                        Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                            kind: VarDeclKind::Var,
-                            decls: self
-                                .extra_ident
-                                .take()
-                                .into_iter()
-                                .map(|ident| VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: ident.into(),
-                                    init: None,
-                                    definite: false,
-                                })
-                                .collect(),
-                            ..Default::default()
-                        }))),
-                        Stmt::Return(ReturnStmt {
-                            span: e.span(),
-                            arg: Some(e.take()),
-                        }),
-                    ],
-                    ..Default::default()
-                })
-            }
+        self.prepend_extra_var_decl(&mut body.stmts);
+    }
+
+    fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
+        body.visit_mut_children_with(self);
+
+        let Some(decl) = self.take_extra_var_decl() else {
+            return;
+        };
+        if let ArrowFunctionBody::Expr(expr) = body {
+            *body = ArrowFunctionBody::FunctionBody(FunctionBody {
+                span: DUMMY_SP,
+                stmts: vec![
+                    decl,
+                    Stmt::Return(ReturnStmt {
+                        span: expr.span(),
+                        arg: Some(expr.take()),
+                    }),
+                ],
+            });
         }
     }
 
@@ -652,7 +656,8 @@ fn extend_super(
                             span: DUMMY_SP,
                             key: PropName::Ident(atom!("_").into()),
                             function: Box::new(Function {
-                                body: Some(BlockStmt {
+                                body: Some(FunctionBody {
+                                    span: DUMMY_SP,
                                     stmts: vec![Expr::Ident(
                                         get.ident
                                             .get(&key)
@@ -663,7 +668,6 @@ fn extend_super(
                                     .as_call(DUMMY_SP, Default::default())
                                     .into_return_stmt()
                                     .into()],
-                                    ..Default::default()
                                 }),
                                 ..Default::default()
                             }),
@@ -673,7 +677,8 @@ fn extend_super(
                             key: PropName::Ident(atom!("_").into()),
                             function: Box::new(Function {
                                 params: vec![Param::from(Pat::from(value.clone()))],
-                                body: Some(BlockStmt {
+                                body: Some(FunctionBody {
+                                    span: DUMMY_SP,
                                     stmts: vec![Expr::Ident(
                                         set.ident
                                             .get(&key)
@@ -683,7 +688,6 @@ fn extend_super(
                                     )
                                     .as_call(DUMMY_SP, vec![value.as_arg()])
                                     .into_stmt()],
-                                    ..Default::default()
                                 }),
                                 ..Default::default()
                             }),
@@ -710,7 +714,7 @@ fn extend_super(
                 ArrowExpr {
                     span: DUMMY_SP,
                     params: vec![prop.clone().into()],
-                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(
+                    body: Box::new(ArrowFunctionBody::Expr(Box::new(
                         ObjectLit {
                             span: DUMMY_SP,
                             props: vec![
@@ -718,7 +722,8 @@ fn extend_super(
                                     span: DUMMY_SP,
                                     key: PropName::Ident(atom!("_").into()),
                                     function: Box::new(Function {
-                                        body: Some(BlockStmt {
+                                        body: Some(FunctionBody {
+                                            span: DUMMY_SP,
                                             stmts: vec![Expr::Ident(
                                                 get.computed
                                                     .clone()
@@ -728,7 +733,6 @@ fn extend_super(
                                             .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
                                             .into_return_stmt()
                                             .into()],
-                                            ..Default::default()
                                         }),
                                         ..Default::default()
                                     }),
@@ -738,7 +742,8 @@ fn extend_super(
                                     key: PropName::Ident(atom!("_").into()),
                                     function: Box::new(Function {
                                         params: vec![Param::from(Pat::from(value.clone()))],
-                                        body: Some(BlockStmt {
+                                        body: Some(FunctionBody {
+                                            span: DUMMY_SP,
                                             stmts: vec![Expr::Ident(
                                                 set.computed
                                                     .clone()
@@ -748,7 +753,6 @@ fn extend_super(
                                             .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
                                             .into_return_stmt()
                                             .into()],
-                                            ..Default::default()
                                         }),
                                         ..Default::default()
                                     }),
@@ -776,7 +780,7 @@ fn extend_super(
                 ArrowExpr {
                     span: DUMMY_SP,
                     params: Vec::new(),
-                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(
+                    body: Box::new(ArrowFunctionBody::Expr(Box::new(
                         SuperPropExpr {
                             obj: Super { span: DUMMY_SP },
                             prop: SuperProp::Ident(key.into()),
@@ -800,7 +804,7 @@ fn extend_super(
                 ArrowExpr {
                     span: DUMMY_SP,
                     params: vec![param.clone().into()],
-                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(
+                    body: Box::new(ArrowFunctionBody::Expr(Box::new(
                         SuperPropExpr {
                             obj: Super { span: DUMMY_SP },
                             prop: SuperProp::Computed(ComputedPropName {
@@ -827,7 +831,7 @@ fn extend_super(
                 ArrowExpr {
                     span: DUMMY_SP,
                     params: vec![value.clone().into()],
-                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(
+                    body: Box::new(ArrowFunctionBody::Expr(Box::new(
                         AssignExpr {
                             span: DUMMY_SP,
                             left: SuperPropExpr {
@@ -858,7 +862,7 @@ fn extend_super(
                 ArrowExpr {
                     span: DUMMY_SP,
                     params: vec![prop.clone().into(), value.clone().into()],
-                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(
+                    body: Box::new(ArrowFunctionBody::Expr(Box::new(
                         AssignExpr {
                             span: DUMMY_SP,
                             left: SuperPropExpr {

@@ -1,4 +1,93 @@
 # Changelog
+## [swc_core@v77.0.0] - 2026-08-14
+
+### Bug Fixes
+
+
+
+- **(encoding)** Fix incorrect fields count ([#11905](https://github.com/swc-project/swc/issues/11905)) ([6fb4ca1](https://github.com/swc-project/swc/commit/6fb4ca16332f862e71f149f19da55147f12a0c80))
+  - **BREAKING**: Fix incorrect fields count ([#11905](https://github.com/swc-project/swc/issues/11905))
+
+
+- **(es/ast)** Fix panic on JSX surrogate entities ([#11803](https://github.com/swc-project/swc/issues/11803)) ([d21de47](https://github.com/swc-project/swc/commit/d21de4761a5306be015b2b9021fbc3cc9d02f13b))
+  - **BREAKING**: fix panic on JSX surrogate entities ([#11803](https://github.com/swc-project/swc/issues/11803))
+
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update lru to 0.18.2 to fix cargo deny ([#12116](https://github.com/swc-project/swc/issues/12116)) ([c9d1da4](https://github.com/swc-project/swc/commit/c9d1da49161d0dc32e3f83387a0c200630f059f2))
+
+### Refactor
+
+
+
+- **(es/ast)** Add `body_ctxt` to `Switch` ([#12065](https://github.com/swc-project/swc/issues/12065)) ([bf25ae0](https://github.com/swc-project/swc/commit/bf25ae01aa950185c41edaacfddae644f2ab4581))
+  - **BREAKING**: Add `body_ctxt` to `Switch` ([#12065](https://github.com/swc-project/swc/issues/12065))
+
+
+- **(es/ast)** Split TypeScript this parameters ([#12075](https://github.com/swc-project/swc/issues/12075)) ([1687c0f](https://github.com/swc-project/swc/commit/1687c0fbd2f22c563e02f5f3efa8d5e4f0772e12))
+  - **BREAKING**: split TypeScript this parameters ([#12075](https://github.com/swc-project/swc/issues/12075))
+
+
+- **(es/ast)** Use Function for object accessors ([#12077](https://github.com/swc-project/swc/issues/12077)) ([9ae902e](https://github.com/swc-project/swc/commit/9ae902e3fe9771c75c116546dc36ac90e481c316))
+  - **BREAKING**: use Function for object accessors ([#12077](https://github.com/swc-project/swc/issues/12077))
+
+
+- **(es/ast)** Introduce FunctionBody ([#12096](https://github.com/swc-project/swc/issues/12096)) ([394c7c9](https://github.com/swc-project/swc/commit/394c7c926edd4f779d09ba00612f8b8baab4907a))
+  - **BREAKING**: introduce FunctionBody ([#12096](https://github.com/swc-project/swc/issues/12096))
+
+## [swc_core@v76.0.2] - 2026-08-12
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Bound arguments parameter injection ([#12053](https://github.com/swc-project/swc/issues/12053)) ([46d6f41](https://github.com/swc-project/swc/commit/46d6f41ccec6ce9d97baad4e16c1bdc8e24d77db))
+
+
+- **(react-compiler)** Preserve TypeScript function overload signatures ([#12115](https://github.com/swc-project/swc/issues/12115)) ([a132384](https://github.com/swc-project/swc/commit/a1323843cb3389250eafcf53f027314515aff549))
+
+## [swc_core@v76.0.1] - 2026-08-11
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Remove unused variable initializer cycles ([#12106](https://github.com/swc-project/swc/issues/12106)) ([0421534](https://github.com/swc-project/swc/commit/0421534a522d3c7b4b5aeb71b44751bb8aa90979))
+
+## [swc_core@v76.0.0] - 2026-08-08
+
+### Bug Fixes
+
+
+
+- **(es/ast)** Prevent mutable reference escape ([#12088](https://github.com/swc-project/swc/issues/12088)) ([592f559](https://github.com/swc-project/swc/commit/592f559787e62f091cbe5c4c370b2ff30e4abd34))
+
+
+- **(es/es2015)** Preserve this in static field parameters ([#12085](https://github.com/swc-project/swc/issues/12085)) ([5b758ed](https://github.com/swc-project/swc/commit/5b758ed173292dccf4d97d372a36a4086a820a7c))
+
+
+- **(es/preset-env)** Lower unsupported async generators ([#12086](https://github.com/swc-project/swc/issues/12086)) ([3a144b1](https://github.com/swc-project/swc/commit/3a144b1caa98d48b0adcb4ca824ee7c22ad7f702))
+
+
+- **(hstr)** Avoid references to uninitialized bytes ([#12087](https://github.com/swc-project/swc/issues/12087)) ([68f0983](https://github.com/swc-project/swc/commit/68f0983877976a379cb0249c7af21898505313be))
+
+
+- **(plugin)** Make raw byte reconstruction unsafe ([#12089](https://github.com/swc-project/swc/issues/12089)) ([83ab4ed](https://github.com/swc-project/swc/commit/83ab4ed6fd19782342f221bfaf05177508b73217))
+
+
+- **(plugin/runner)** Write Wasmer cache atomically ([#12100](https://github.com/swc-project/swc/issues/12100)) ([3c4f404](https://github.com/swc-project/swc/commit/3c4f404bb3f54fd8a25eb9399b84a86bb3fc26fe))
+
+
+- **(react-compiler)** Make fast check conservative ([#12105](https://github.com/swc-project/swc/issues/12105)) ([7e14950](https://github.com/swc-project/swc/commit/7e149500d84ae4ea3f4f43aa1b29e97b891739ad))
+
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update browserslist-rs to 0.20 ([#12098](https://github.com/swc-project/swc/issues/12098)) ([b395eab](https://github.com/swc-project/swc/commit/b395eabee58ec2735c09e4f29267f55cdbdde18c))
+
 ## [swc_core@v75.0.0] - 2026-07-29
 
 ### Bug Fixes
@@ -2388,15 +2477,6 @@
 
 ## [swc_core@v37.0.0] - 2025-08-24
 
-### Bug Fixes
-
-
-
-- **(es/minifier)** Preserve `array.join` with nullable values ([#10937](https://github.com/swc-project/swc/issues/10937)) ([e495403](https://github.com/swc-project/swc/commit/e49540386e6647fd2b87b2a7b9c2ac7668005e56))
-
-
-- **(es/preset-env)** Update polyfill data ([#11013](https://github.com/swc-project/swc/issues/11013)) ([934d8a5](https://github.com/swc-project/swc/commit/934d8a5c0b4d641a929febb2477f537614ac62d1))
-
 ### Features
 
 
@@ -2408,84 +2488,5 @@
 
 
 - **(es/react)** Add `preserve` supports ([#11025](https://github.com/swc-project/swc/issues/11025)) ([bc83875](https://github.com/swc-project/swc/commit/bc838753053b1c0134f4ad94052fef068a505c18))
-
-## [swc_core@v36.0.1] - 2025-08-21
-
-### Features
-
-
-
-- **(bindings/html)** Add `keep-head-and-body` for `tagOmission` in binding ([#11014](https://github.com/swc-project/swc/issues/11014)) ([1e1ebeb](https://github.com/swc-project/swc/commit/1e1ebeb209f2df5e47f330eac1256693a7829cb9))
-
-### Refactor
-
-
-
-- **(es/minifier)** Remove duplicate report assign ([#11009](https://github.com/swc-project/swc/issues/11009)) ([9590e1d](https://github.com/swc-project/swc/commit/9590e1dbe967162bc3cda0fe3a1179f0d925eb25))
-
-## [swc_core@v36.0.0] - 2025-08-18
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Fix compile error with `debug` feature ([#10999](https://github.com/swc-project/swc/issues/10999)) ([831eed5](https://github.com/swc-project/swc/commit/831eed527e2a21bed07ba9d2747b40e467fd78e3))
-
-
-- **(es/minifier)** Don't eliminate class expr if some side effects contain `this` ([#11003](https://github.com/swc-project/swc/issues/11003)) ([18aeac6](https://github.com/swc-project/swc/commit/18aeac6bba37aef84cac8a0fc2a2bc70b264929e))
-
-
-- **(es/module)** Support optional chaining in `import.meta` ([#10985](https://github.com/swc-project/swc/issues/10985)) ([758d8ec](https://github.com/swc-project/swc/commit/758d8ec8e096b844ae6b603bfda72fba50133bf6))
-
-
-- **(es/parser)** Allow TS type args to start with LSHIFT (`<<`) to parse `T<<S>() => void>` ([#10996](https://github.com/swc-project/swc/issues/10996)) ([4911ec7](https://github.com/swc-project/swc/commit/4911ec72304f619937c4c3728e08227f4894bc37))
-
-
-- **(ts/isolated-dts)** Correct optional marker for class fields generated from constructor parameter ([#10992](https://github.com/swc-project/swc/issues/10992)) ([0d680fd](https://github.com/swc-project/swc/commit/0d680fd687918cde6ec36f988977d6b0e8331f14))
-
-### Features
-
-
-
-- **(html/minifier)** Support `keep_head_and_body` ([#11008](https://github.com/swc-project/swc/issues/11008)) ([86186db](https://github.com/swc-project/swc/commit/86186db36e9c311153b883fa99a20bb777ab2d64))
-
-### Miscellaneous Tasks
-
-
-
-- **(es/minifier)** Make a computation lazy ([#11004](https://github.com/swc-project/swc/issues/11004)) ([a4aa0ec](https://github.com/swc-project/swc/commit/a4aa0ec03a2bd4087614aaa852aeec87be24fbc6))
-
-### Performance
-
-
-
-- **(es/ast)** Remove alloc in leftmost api ([#11005](https://github.com/swc-project/swc/issues/11005)) ([f59f233](https://github.com/swc-project/swc/commit/f59f2331fb97625093783b5e6cde62042913fe53))
-
-
-- **(es/minifier)** Reduce clone ([#10982](https://github.com/swc-project/swc/issues/10982)) ([4f2ed0d](https://github.com/swc-project/swc/commit/4f2ed0dd080dc68069ad7990f992a15a36ebb5de))
-
-
-- **(es/minifier)** Use `bitflags` for `DropOpts` ([#10990](https://github.com/swc-project/swc/issues/10990)) ([79206f1](https://github.com/swc-project/swc/commit/79206f17d495eadd930df23f92fedaa5a418d90e))
-
-
-- **(es/parser)** Introduce checkpoint to reduce clone ([#11001](https://github.com/swc-project/swc/issues/11001)) ([cda08d1](https://github.com/swc-project/swc/commit/cda08d196ef804764b74fdd99f58f4e73cb80495))
-
-
-- **(es/parser)** Remove useless `Rc<RefCell<T>>` ([#11002](https://github.com/swc-project/swc/issues/11002)) ([39f5784](https://github.com/swc-project/swc/commit/39f5784c106e7fc1feb2b7a48b5d0639a6efdc5f))
-
-
-- **(es/parser)** Remove `OneDirectionalList` and reduce allocation of `Vec` ([#11000](https://github.com/swc-project/swc/issues/11000)) ([0088ab8](https://github.com/swc-project/swc/commit/0088ab8ebb05c4db569cf2f7cd57e4f73a0e306c))
-
-### Refactor
-
-
-
-- **(common)** Remove `SyntaxContextData#opaque` ([#10983](https://github.com/swc-project/swc/issues/10983)) ([d5be248](https://github.com/swc-project/swc/commit/d5be248fc070caa658f04c3f54f5b1a0bca8cd0e))
-
-
-- **(es/parser)** Remove useless methods ([#10980](https://github.com/swc-project/swc/issues/10980)) ([91c6039](https://github.com/swc-project/swc/commit/91c60390b7623f164219dd6c91ef4c0cce8e4dfd))
-
-
-- Add `#[deny(unused)]` ([#10997](https://github.com/swc-project/swc/issues/10997)) ([1bb3716](https://github.com/swc-project/swc/commit/1bb37160daa70017b78a842dfe31f16b374eb298))
 
 <!-- generated by git-cliff -->

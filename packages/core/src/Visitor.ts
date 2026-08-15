@@ -48,6 +48,7 @@ import {
     ForInStatement,
     ForOfStatement,
     ForStatement,
+    FunctionBody,
     FunctionDeclaration,
     FunctionExpression,
     GetterProperty,
@@ -436,14 +437,20 @@ export class Visitor {
     }
 
     visitArrowBody(
-        body: BlockStatement | Expression
-    ): BlockStatement | Expression {
+        body: FunctionBody | Expression
+    ): FunctionBody | Expression {
         switch (body.type) {
-            case "BlockStatement":
-                return this.visitBlockStatement(body);
+            case "FunctionBody":
+                return this.visitFunctionBody(body);
             default:
                 return this.visitExpression(body);
         }
+    }
+
+    visitFunctionBody(body: FunctionBody): FunctionBody {
+        body.stmts = this.visitStatements(body.stmts);
+
+        return body;
     }
 
     visitBlockStatement(block: BlockStatement): BlockStatement {
@@ -923,7 +930,7 @@ export class Visitor {
         n.key = this.visitPropertyName(n.key);
         n.params = this.visitConstructorParameters(n.params);
         if (n.body) {
-            n.body = this.visitBlockStatement(n.body);
+            n.body = this.visitFunctionBody(n.body);
         }
         return n;
     }
@@ -1033,7 +1040,7 @@ export class Visitor {
         }
         n.params = this.visitParameters(n.params);
         if (n.body) {
-            n.body = this.visitBlockStatement(n.body);
+            n.body = this.visitFunctionBody(n.body);
         }
         n.returnType = this.visitTsTypeAnnotation(n.returnType);
         n.typeParameters = this.visitTsTypeParameterDeclaration(
@@ -1387,7 +1394,7 @@ export class Visitor {
             n.thisParam = this.visitTsThisParameter(n.thisParam);
         }
         if (n.body) {
-            n.body = this.visitBlockStatement(n.body);
+            n.body = this.visitFunctionBody(n.body);
         }
         n.decorators = this.visitDecorators(n.decorators);
         n.params = this.visitParameters(n.params);

@@ -673,7 +673,7 @@ impl Optimizer<'_> {
                 let param_ids = f.params.iter().map(|p| &p.as_ident().unwrap().id);
 
                 match &mut *f.body {
-                    BlockStmtOrExpr::BlockStmt(body) => {
+                    ArrowFunctionBody::FunctionBody(body) => {
                         let new = self.inline_fn_like(param_ids, body, &mut call.args);
                         if let Some(new) = new {
                             self.changed = true;
@@ -682,7 +682,7 @@ impl Optimizer<'_> {
                             *e = new;
                         }
                     }
-                    BlockStmtOrExpr::Expr(body) => {
+                    ArrowFunctionBody::Expr(body) => {
                         if !self.can_extract_param(param_ids.clone(), &call.args) {
                             return;
                         }
@@ -800,8 +800,8 @@ impl Optimizer<'_> {
             Expr::Arrow(f) => {
                 match &mut *f.body {
                     // it's very likely to be processed in invoke_iife
-                    BlockStmtOrExpr::Expr(_) => None,
-                    BlockStmtOrExpr::BlockStmt(block_stmt) => {
+                    ArrowFunctionBody::Expr(_) => None,
+                    ArrowFunctionBody::FunctionBody(block_stmt) => {
                         let param_ids = f.params.iter().map(|p| &p.as_ident().unwrap().id);
                         self.inline_fn_like_stmt(
                             param_ids,
@@ -997,7 +997,7 @@ impl Optimizer<'_> {
         &self,
         param_ids: impl ExactSizeIterator<Item = &'a Ident> + Clone,
         args: &[ExprOrSpread],
-        body: &BlockStmt,
+        body: &FunctionBody,
         for_stmt: bool,
     ) -> bool {
         trace_op!("can_inline_fn_like");
@@ -1224,7 +1224,7 @@ impl Optimizer<'_> {
     fn inline_fn_like<'a>(
         &mut self,
         params: impl ExactSizeIterator<Item = &'a Ident> + Clone,
-        body: &mut BlockStmt,
+        body: &mut FunctionBody,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
         if !self.can_inline_fn_like(params.clone(), args, &*body, false) {
@@ -1289,7 +1289,7 @@ impl Optimizer<'_> {
     fn inline_fn_like_stmt<'a>(
         &mut self,
         params: impl ExactSizeIterator<Item = &'a Ident> + Clone + std::fmt::Debug,
-        body: &mut BlockStmt,
+        body: &mut FunctionBody,
         args: &mut [ExprOrSpread],
         is_return: bool,
         span: Span,
@@ -1574,7 +1574,7 @@ impl Optimizer<'_> {
                     if let Expr::Arrow(arrow) = &**callee {
                         // For expression-style arrow functions in sequences,
                         // we can be more aggressive with optimization
-                        if let BlockStmtOrExpr::Expr(_body) = &*arrow.body {
+                        if let ArrowFunctionBody::Expr(_body) = &*arrow.body {
                             self.can_optimize_arrow_iife_in_seq(arrow, call)
                         } else {
                             false
@@ -1597,7 +1597,7 @@ impl Optimizer<'_> {
                 if let Expr::Call(call) = &mut **expr {
                     if let Callee::Expr(callee) = &call.callee {
                         if let Expr::Arrow(arrow) = &**callee {
-                            if let BlockStmtOrExpr::Expr(_body) = &*arrow.body {
+                            if let ArrowFunctionBody::Expr(_body) = &*arrow.body {
                                 let new_expr = self.optimize_single_arrow_iife_in_seq(arrow, call);
 
                                 if let Some(new_expr) = new_expr {
@@ -1637,7 +1637,7 @@ impl Optimizer<'_> {
         }
 
         // Check if the arrow function body is simple enough for sequence optimization
-        if let BlockStmtOrExpr::Expr(body) = &*arrow.body {
+        if let ArrowFunctionBody::Expr(body) = &*arrow.body {
             self.is_simple_expr_for_seq_optimization(body)
         } else {
             false
@@ -1666,7 +1666,7 @@ impl Optimizer<'_> {
         arrow: &ArrowExpr,
         call: &CallExpr,
     ) -> Option<Expr> {
-        if let BlockStmtOrExpr::Expr(body) = &*arrow.body {
+        if let ArrowFunctionBody::Expr(body) = &*arrow.body {
             // For simple arrow functions with no parameters in sequences,
             // we can directly replace the IIFE with its body
             if arrow.params.is_empty() && call.args.is_empty() {

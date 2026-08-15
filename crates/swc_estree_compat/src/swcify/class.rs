@@ -10,6 +10,7 @@ use swc_estree_ast::{
 use super::Context;
 use crate::swcify::{
     function::{swcify_function_params, SwcifiedFunctionParams},
+    stmt::swcify_function_body,
     Swcify,
 };
 
@@ -54,7 +55,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
                         params,
                         decorators: self.decorators.swcify(ctx).unwrap_or_default(),
                         span: ctx.span(&self.base),
-                        body: Some(self.body.swcify(ctx)),
+                        body: Some(swcify_function_body(self.body, ctx)),
                         is_generator: self.generator.unwrap_or_default(),
                         is_async: self.is_async.unwrap_or_default(),
                         type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
@@ -90,7 +91,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
                     .map(|v| v.swcify(ctx))
                     .map(ParamOrTsParamProp::Param)
                     .collect(),
-                body: Some(self.body.swcify(ctx)),
+                body: Some(swcify_function_body(self.body, ctx)),
                 accessibility: self.accessibility.swcify(ctx),
                 is_optional: self.optional.unwrap_or_default(),
                 ..Default::default()
@@ -115,7 +116,7 @@ impl Swcify for swc_estree_ast::ClassPrivateMethod {
                 params,
                 decorators: self.decorators.swcify(ctx).unwrap_or_default(),
                 span: ctx.span(&self.base),
-                body: Some(self.body.swcify(ctx)),
+                body: Some(swcify_function_body(self.body, ctx)),
                 is_generator: self.generator.unwrap_or_default(),
                 is_async: self.is_async.unwrap_or_default(),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),

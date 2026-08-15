@@ -1002,12 +1002,11 @@
               }
             ],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 392,
                 "end": 408
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ThrowStatement",
