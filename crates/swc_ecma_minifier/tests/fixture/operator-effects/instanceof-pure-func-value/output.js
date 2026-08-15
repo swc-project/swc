@@ -25,3 +25,9 @@ function equality_control() {
 function ordinary_control() {
     baz(), bar();
 }
+function new_value() {
+    bar() instanceof /*#__PURE__*/ new Foo();
+}
+function tagged_value() {
+    bar() instanceof foo`x`;
+}

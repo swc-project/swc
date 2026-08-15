@@ -639,13 +639,15 @@ impl Optimizer<'_> {
         )
     }
 
-    fn is_pure_call_value(&self, e: &Expr) -> bool {
+    fn is_pure_marked_value(&self, e: &Expr) -> bool {
         match e {
             Expr::Call(CallExpr { ctxt, .. }) => ctxt.has_mark(self.marks.pure),
-            Expr::Paren(ParenExpr { expr, .. }) => self.is_pure_call_value(expr),
+            Expr::New(NewExpr { ctxt, .. }) => ctxt.has_mark(self.marks.pure),
+            Expr::TaggedTpl(TaggedTpl { ctxt, .. }) => ctxt.has_mark(self.marks.pure),
+            Expr::Paren(ParenExpr { expr, .. }) => self.is_pure_marked_value(expr),
             Expr::Seq(SeqExpr { exprs, .. }) => exprs
                 .last()
-                .is_some_and(|expr| self.is_pure_call_value(expr)),
+                .is_some_and(|expr| self.is_pure_marked_value(expr)),
             _ => false,
         }
     }
@@ -761,7 +763,7 @@ impl Optimizer<'_> {
                 left,
                 right,
                 ..
-            }) if self.is_pure_call_value(left) || self.is_pure_call_value(right) => {
+            }) if self.is_pure_marked_value(left) || self.is_pure_marked_value(right) => {
                 return Some(e.take());
             }
 
