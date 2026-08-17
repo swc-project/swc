@@ -300,6 +300,7 @@ impl Storage for ProgramData {
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_EXPR;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FOR_INIT;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_COND;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_ARG;
