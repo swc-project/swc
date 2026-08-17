@@ -639,19 +639,6 @@ impl Optimizer<'_> {
         )
     }
 
-    fn is_pure_marked_value(&self, e: &Expr) -> bool {
-        match e {
-            Expr::Call(CallExpr { ctxt, .. }) => ctxt.has_mark(self.marks.pure),
-            Expr::New(NewExpr { ctxt, .. }) => ctxt.has_mark(self.marks.pure),
-            Expr::TaggedTpl(TaggedTpl { ctxt, .. }) => ctxt.has_mark(self.marks.pure),
-            Expr::Paren(ParenExpr { expr, .. }) => self.is_pure_marked_value(expr),
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs
-                .last()
-                .is_some_and(|expr| self.is_pure_marked_value(expr)),
-            _ => false,
-        }
-    }
-
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
     #[cfg_attr(
@@ -755,15 +742,6 @@ impl Optimizer<'_> {
                     None => return self.ignore_return_value(left),
                 }
 
-                return Some(e.take());
-            }
-
-            Expr::Bin(BinExpr {
-                op: op!("instanceof"),
-                left,
-                right,
-                ..
-            }) if self.is_pure_marked_value(left) || self.is_pure_marked_value(right) => {
                 return Some(e.take());
             }
 
