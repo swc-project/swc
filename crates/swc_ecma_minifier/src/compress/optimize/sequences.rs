@@ -2555,7 +2555,7 @@ impl Optimizer<'_> {
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
-        if can_remove {
+        if can_remove && self.may_remove_ident(&left_id) {
             report_change!("sequences: Removed variable ({})", left_id);
             self.vars.removed.insert(left_id.to_id());
         }

@@ -356,13 +356,12 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        if self
-            .data
-            .vars
-            .get(&id.to_id())
-            .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
-        {
-            return false;
+        if let Some(usage) = self.data.vars.get(&id.to_id()) {
+            if usage.flags.intersects(
+                VarUsageInfoFlags::EXPORTED.union(VarUsageInfoFlags::DECLARED_AS_FOR_INIT),
+            ) {
+                return false;
+            }
         }
 
         if id.ctxt != self.marks.top_level_ctxt {
