@@ -6072,7 +6072,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "77.0.0"
+version = "77.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6938,7 +6938,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "55.0.0"
+version = "55.0.1"
 dependencies = [
  "Inflector",
  "anyhow",
