@@ -2374,6 +2374,8 @@ impl Optimizer<'_> {
             Mergable::Drop => return Ok(false),
         };
 
+        can_remove &= self.may_remove_ident(&left_id);
+
         let a_type = a_right.as_deref().map(|a| a.get_type(self.ctx.expr_ctx));
 
         if let Some(a_right) = a_right {
@@ -2555,7 +2557,7 @@ impl Optimizer<'_> {
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
-        if can_remove && self.may_remove_ident(&left_id) {
+        if can_remove {
             report_change!("sequences: Removed variable ({})", left_id);
             self.vars.removed.insert(left_id.to_id());
         }
