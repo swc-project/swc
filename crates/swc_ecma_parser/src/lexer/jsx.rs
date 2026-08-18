@@ -16,7 +16,6 @@ macro_rules! xhtml {
 xhtml!(
   quot: '\u{0022}',
   amp: '&',
-  apos: '\u{0027}',
   lt: '<',
   gt: '>',
   nbsp: '\u{00A0}',
