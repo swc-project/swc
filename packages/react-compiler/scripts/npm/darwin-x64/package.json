@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler-darwin-x64",
-  "version": "1.16.0",
+  "version": "1.16.1-nightly-20260819.1",
   "os": [
     "darwin"
   ],
