@@ -41,6 +41,8 @@ mod state;
 mod stmt;
 #[cfg(test)]
 mod tests;
+#[cfg(feature = "tsrx")]
+pub(crate) mod tsrx;
 #[cfg(feature = "typescript")]
 mod typescript;
 #[cfg(not(feature = "typescript"))]
@@ -67,6 +69,8 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
+    #[cfg(feature = "tsrx")]
+    tsrx: tsrx::TsrxState,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -189,6 +193,8 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
+            #[cfg(feature = "tsrx")]
+            tsrx: Default::default(),
             #[cfg(feature = "flow")]
             allow_super_call: false,
         };
@@ -215,6 +221,9 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_script(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_script);
 
+        #[cfg(feature = "tsrx")]
+        self.tsrx.enter_non_module();
+
         let ctx = (self.ctx() & !Context::Module) | Context::TopLevel;
         self.set_ctx(ctx);
 
@@ -236,6 +245,9 @@ impl<I: Tokens> Parser<I> {
 
     pub fn parse_commonjs(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_commonjs);
+
+        #[cfg(feature = "tsrx")]
+        self.tsrx.enter_non_module();
 
         // CommonJS module is acctually in a function scope
         let ctx = (self.ctx() & !Context::Module)
@@ -261,6 +273,9 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_typescript_module(&mut self) -> PResult<Module> {
         trace_cur!(self, parse_typescript_module);
 
+        #[cfg(feature = "tsrx")]
+        self.tsrx.enter_module();
+
         debug_assert!(self.syntax().typescript());
 
         //TODO: parse() -> PResult<Program>
@@ -278,6 +293,10 @@ impl<I: Tokens> Parser<I> {
                 body,
                 shebang,
             })?;
+        #[cfg(feature = "tsrx")]
+        let mut ret = ret;
+        #[cfg(feature = "tsrx")]
+        self.finish_tsrx_module(&mut ret.body);
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
@@ -291,6 +310,12 @@ impl<I: Tokens> Parser<I> {
     /// Note: This is not perfect yet. It means, some strict mode violations may
     /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
+        #[cfg(feature = "tsrx")]
+        if self.syntax().tsrx() {
+            self.tsrx.enter_module();
+            return self.parse_module().map(Program::Module);
+        }
+
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
@@ -345,6 +370,9 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub fn parse_module(&mut self) -> PResult<Module> {
+        #[cfg(feature = "tsrx")]
+        self.tsrx.enter_module();
+
         let ctx = self.ctx()
             | Context::Module
             | Context::CanBeModule
@@ -363,6 +391,10 @@ impl<I: Tokens> Parser<I> {
                 body,
                 shebang,
             })?;
+        #[cfg(feature = "tsrx")]
+        let mut ret = ret;
+        #[cfg(feature = "tsrx")]
+        self.finish_tsrx_module(&mut ret.body);
         if self.syntax().flow() {
             self.report_duplicate_exports(&ret.body);
         }

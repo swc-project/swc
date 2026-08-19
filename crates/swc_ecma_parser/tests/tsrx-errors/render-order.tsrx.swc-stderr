@@ -1,0 +1,7 @@
+  x Unexpected token `rendered output before the end of a TSRX code block`. Expected setup statements followed by at most one rendered output
+   ,-[$DIR/tests/tsrx-errors/render-order.tsrx:2:1]
+ 1 | const invalid = @{
+ 2 |     <First />;
+   :     ^^^^^^^^^^
+ 3 |     const value = 1;
+   `----

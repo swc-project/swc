@@ -50,14 +50,7 @@ impl Syntax {
             #[cfg(all(feature = "typescript", not(feature = "tsrx")))]
             Syntax::Typescript(TsSyntax { tsx: true, .. }) => true,
             #[cfg(feature = "tsrx")]
-            Syntax::Typescript(TsSyntax {
-                tsx: true,
-                ..
-            }
-            | TsSyntax {
-                tsrx: true,
-                ..
-            }) => true,
+            Syntax::Typescript(TsSyntax { tsx: true, .. } | TsSyntax { tsrx: true, .. }) => true,
             #[cfg(feature = "flow")]
             Syntax::Flow(FlowSyntax { jsx: true, .. }) => true,
             _ => false,
