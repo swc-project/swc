@@ -436,6 +436,33 @@ console.log(arr);"###;
 }
 
 #[test]
+#[ignore = "TODO: preserve captured locals when inlining loop functions"]
+fn inline_loop_fn_with_captured_local() {
+    let src = r#"
+var callbacks = [];
+var values = ["a", "b"];
+var _loop = function () {
+    var value = values.shift();
+    return value ? void callbacks.push(function () {
+        console.log(value);
+    }) : "break";
+};
+
+for (; _loop() !== "break";);
+callbacks.forEach(function (callback) {
+    callback();
+});
+"#;
+    let config = r#"{
+        "inline": true,
+        "reduce_vars": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn conditionals_reduce_6() {
     let src = r#"function x() {
 }
