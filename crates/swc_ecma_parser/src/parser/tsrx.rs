@@ -8,6 +8,11 @@
 //! `@finally` is lowered to a synchronous JavaScript `try/finally` inside the
 //! generated content component. It does not represent the asynchronous lifetime
 //! of React Suspense work.
+//!
+//! This is intentionally a lightweight React lowering. It does not perform hook
+//! analysis, helper or static hoisting, scoped CSS extraction, or output
+//! optimization parity with the canonical `@tsrx/react` compiler. Raw style
+//! content remains a string child of a normal `<style>` element.
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{atom, Atom};
