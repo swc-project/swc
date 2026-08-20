@@ -4,7 +4,7 @@ use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
 use smallvec::SmallVec;
 use swc_atoms::{atom, Atom};
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -12,7 +12,8 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_mut_pass, Visit,
+    VisitMut, VisitMutWith, VisitWith,
 };
 
 mod vars;
@@ -38,6 +39,8 @@ pub fn block_scoping(unresolved_mark: Mark) -> impl Pass {
             scope: Default::default(),
             vars: Vec::new(),
             var_decl_kind: VarDeclKind::Var,
+            const_vars: Default::default(),
+            const_vars_collected: false,
         }),
     )
 }
@@ -74,6 +77,8 @@ struct BlockScoping {
     scope: ScopeStack,
     vars: Vec<VarDeclarator>,
     var_decl_kind: VarDeclKind,
+    const_vars: FxHashSet<Id>,
+    const_vars_collected: bool,
 }
 
 impl BlockScoping {
@@ -127,6 +132,83 @@ impl BlockScoping {
                 }
             }
         }
+    }
+
+    fn collect_const_vars<T>(&mut self, node: &T)
+    where
+        T: VisitWith<ConstCollector>,
+    {
+        if self.const_vars_collected {
+            return;
+        }
+
+        let mut visitor = ConstCollector::default();
+        node.visit_with(&mut visitor);
+        self.const_vars = visitor.ids;
+        self.const_vars_collected = true;
+    }
+
+    fn make_read_only_error(&self, ident: &Ident) -> Expr {
+        CallExpr {
+            span: DUMMY_SP,
+            callee: helper!(read_only_error),
+            args: vec![quote_str!(ident.span, ident.sym.clone()).as_arg()],
+            ..Default::default()
+        }
+        .into()
+    }
+
+    fn const_assignment_to_expr(
+        &self,
+        span: Span,
+        ident: &Ident,
+        assign_op: AssignOp,
+        right: Box<Expr>,
+    ) -> Expr {
+        let err = Box::new(self.make_read_only_error(ident));
+
+        if assign_op == op!("=") {
+            return SeqExpr {
+                span,
+                exprs: vec![right, err],
+            }
+            .into();
+        }
+
+        let op = assign_op.to_update().unwrap();
+
+        if assign_op.may_short_circuit() {
+            return BinExpr {
+                span,
+                left: Box::new(ident.clone().into()),
+                op,
+                right: Box::new(
+                    SeqExpr {
+                        span,
+                        exprs: vec![right, err],
+                    }
+                    .into(),
+                ),
+            }
+            .into();
+        }
+
+        SeqExpr {
+            span,
+            exprs: vec![
+                Box::new(
+                    BinExpr {
+                        span,
+                        left: Box::new(ident.clone().into()),
+                        op,
+                        right,
+                    }
+                    .into(),
+                ),
+                err,
+            ],
+        }
+        .into()
     }
 
     fn in_loop_body(&self) -> bool {
@@ -553,15 +635,34 @@ impl VisitMut for BlockScoping {
         self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
+
+        if let Expr::Assign(assign) = expr {
+            if let AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) = &assign.left {
+                if self.const_vars.contains(&ident.to_id()) {
+                    *expr = self.const_assignment_to_expr(
+                        assign.span,
+                        ident,
+                        assign.op,
+                        assign.right.take(),
+                    );
+                }
+            }
+        }
+    }
+
     fn visit_mut_ident(&mut self, node: &mut Ident) {
         self.mark_as_used(node);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        self.collect_const_vars(stmts);
         self.visit_mut_stmt_like(stmts);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.collect_const_vars(n);
         self.visit_mut_stmt_like(n);
     }
 
@@ -639,6 +740,23 @@ fn find_lexical_vars(node: &VarDecl) -> Vec<Id> {
     }
 
     find_pat_ids(&node.decls)
+}
+
+#[derive(Default)]
+struct ConstCollector {
+    ids: FxHashSet<Id>,
+}
+
+impl Visit for ConstCollector {
+    noop_visit_type!(fail);
+
+    fn visit_var_decl(&mut self, node: &VarDecl) {
+        if node.kind == VarDeclKind::Const {
+            self.ids.extend(find_pat_ids(&node.decls));
+        }
+
+        node.visit_children_with(self);
+    }
 }
 
 struct FlowHelper<'a> {

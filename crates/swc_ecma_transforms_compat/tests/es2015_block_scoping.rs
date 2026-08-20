@@ -562,6 +562,16 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
+    |_| block_scoping(Mark::new()),
+    issue_12130,
+    "
+    const x = 0;
+    x = 42;
+    "
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     issue_2998_1,
     "
