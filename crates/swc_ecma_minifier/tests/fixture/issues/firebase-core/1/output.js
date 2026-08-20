@@ -496,8 +496,10 @@
                 }
             }();
             function Db() {
-                let b;
-                for(var a; b = null, tb.g && (b = tb.g, tb.g = tb.g.next, tb.g || (tb.h = null), b.next = null), a = b;){
+                for(var a; a = function() {
+                    let b = null;
+                    return tb.g && (b = tb.g, tb.g = tb.g.next, tb.g || (tb.h = null), b.next = null), b;
+                }();){
                     try {
                         a.h.call(a.g);
                     } catch (c) {
