@@ -148,6 +148,7 @@ ecma_ast_shrink = ["ecma_ast", "swc_ecma_ast/shrink-to-fit"]
 
 # Enable swc_ecma_parser support.
 ecma_parser            = ["__parser"]
+ecma_parser_tsrx       = ["__parser", "swc_ecma_parser/tsrx"]
 ecma_parser_typescript = ["__parser", "swc_ecma_parser/typescript"]
 ecma_parser_unstable   = ["__parser", "swc_ecma_parser/unstable"]
 

@@ -31,6 +31,7 @@ utils      = ["swc_ecma_utils"]
 visit      = ["swc_ecma_visit"]
 
 typescript-parser = ["swc_ecma_parser/typescript"]
+tsrx-parser       = ["typescript-parser", "swc_ecma_parser/tsrx"]
 
 compat       = ["swc_ecma_transforms/compat"]
 module       = ["swc_ecma_transforms/module"]

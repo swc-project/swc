@@ -5,7 +5,7 @@ use super::*;
 use crate::parser::{pat::PatType, Parser};
 
 #[allow(clippy::enum_variant_names)]
-enum TempForHead {
+pub(super) enum TempForHead {
     For {
         init: Option<VarDeclOrExpr>,
         test: Option<Box<Expr>>,
@@ -386,7 +386,7 @@ impl<I: Tokens> Parser<I> {
         })))
     }
 
-    fn parse_for_head(&mut self) -> PResult<TempForHead> {
+    pub(super) fn parse_for_head(&mut self) -> PResult<TempForHead> {
         // let strict = self.ctx().contains(Context::Strict);
 
         let cur = self.input().cur();

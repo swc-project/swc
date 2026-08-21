@@ -10,6 +10,7 @@ repository    = { workspace = true }
 version       = "32.0.0"
 
 [features]
+__testing_tsrx = ["swc_ecma_parser/tsrx"]
 # This does not enable serde for ast nodes.
 serde-impl = ["swc_ecma_ast/serde"]
 
@@ -62,3 +63,7 @@ name    = "bench"
 [[bench]]
 harness = false
 name    = "with_parse"
+
+[[test]]
+name              = "tsrx"
+required-features = ["__testing_tsrx"]
