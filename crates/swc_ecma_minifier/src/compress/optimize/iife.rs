@@ -212,7 +212,7 @@ impl Optimizer<'_> {
                             continue;
                         }
                         if let Some(usage) = self.data.vars.get(&param.to_id()) {
-                            if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                            if !Self::can_inline_iife_param_usage(usage) {
                                 continue;
                             }
                         }
@@ -267,9 +267,7 @@ impl Optimizer<'_> {
                         let Some(usage) = self.data.vars.get(&param_id.to_id()) else {
                             continue;
                         };
-                        if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                            || usage.ref_count != 0
-                        {
+                        if !Self::can_inline_iife_param_usage(usage) || usage.ref_count != 0 {
                             continue;
                         }
 
@@ -335,7 +333,7 @@ impl Optimizer<'_> {
                     Pat::Rest(rest_pat) => {
                         if let Pat::Ident(param_id) = &mut *rest_pat.arg {
                             if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
-                                if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                if !Self::can_inline_iife_param_usage(usage)
                                     || usage.ref_count != 1
                                     || !usage.flags.contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
                                 {
@@ -849,12 +847,19 @@ impl Optimizer<'_> {
         }
     }
 
+    fn can_inline_iife_param_usage(usage: &VarUsageInfo) -> bool {
+        !usage.flags.intersects(
+            VarUsageInfoFlags::REASSIGNED
+                .union(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
+                .union(VarUsageInfoFlags::INLINE_PREVENTED),
+        )
+    }
+
     fn can_inline_fn_arg(usage: &VarUsageInfo, arg: &Expr) -> bool {
         if usage.ref_count > 1
             || usage.assign_count > 0
             || usage.property_mutation_count > 0
-            || usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
-            || usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
+            || !Self::can_inline_iife_param_usage(usage)
         {
             return false;
         }
@@ -1076,8 +1081,8 @@ impl Optimizer<'_> {
             if let Some(arg) = arg {
                 if let Some(usage) = self.data.vars.get_mut(&param.to_id()) {
                     if usage.ref_count == 1
-                        && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         && usage.property_mutation_count == 0
+                        && Self::can_inline_iife_param_usage(usage)
                         && matches!(
                             &*arg,
                             Expr::Lit(
