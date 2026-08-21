@@ -66,3 +66,6 @@ swc-core-*.tgz
 # samply
 profile.json
 profile.json.gz
+
+# Local micro-optimization profiler output
+optimization-artifacts/
