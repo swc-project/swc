@@ -9,6 +9,7 @@ use swc::{
 use swc_common::FileName;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{parse_file_as_program, EsSyntax, FlowSyntax, Syntax};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::Tester;
 
 #[testing::fixture("../swc_ecma_parser/tests/flow/**/*.js")]
@@ -91,6 +92,60 @@ fn flow_strip_correctness(input: PathBuf) {
 
                 return Err(());
             }
+
+            Ok(())
+        })
+        .unwrap();
+}
+
+#[test]
+fn issue_12045_component_arrow_supports_react_native_mock_access() {
+    Tester::new()
+        .print_errors(|cm, handler| {
+            let compiler = Compiler::new(cm.clone());
+            let fm = cm.new_source_file(
+                FileName::Custom("issue-12045.js".into()).into(),
+                "const MyComponent: component(ref?: mixed, ...props: mixed) = ({ ref, ...rest }) \
+                 => null;",
+            );
+            let output = compiler
+                .process_js_file(
+                    fm,
+                    &handler,
+                    &Options {
+                        swcrc: false,
+                        config: Config {
+                            jsc: JscConfig {
+                                syntax: Some(Syntax::Flow(FlowSyntax {
+                                    components: true,
+                                    ..Default::default()
+                                })),
+                                target: Some(EsVersion::Es2022),
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                )
+                .expect("failed to compile Flow component arrow");
+
+            assert!(
+                output
+                    .code
+                    .contains("const MyComponent = function MyComponent("),
+                "expected a named component function, got: {}",
+                output.code
+            );
+
+            let runtime = format!(
+                "{}\nconst RealComponent = MyComponent;\nconst constructor = \
+                 RealComponent.prototype.constructor;\nconsole.log(constructor === MyComponent);",
+                output.code
+            );
+            let stdout = exec_node_js(&runtime, JsExecOptions::default())
+                .expect("React Native mock prototype access should execute");
+            assert_eq!(stdout.trim(), "true");
 
             Ok(())
         })
