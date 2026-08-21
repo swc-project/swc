@@ -875,13 +875,20 @@ impl<I: Tokens> Parser<I> {
 
                 let body = Box::new(if p.input().is(Token::Function) {
                     let f = p.parse_fn_decl(Vec::new())?;
-                    if let Decl::Fn(FnDecl { function, .. }) = &f {
-                        if p.ctx().contains(Context::Strict) {
-                            p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
+                    let (span, is_generator, is_async) = match &f {
+                        Decl::Fn(FnDecl { function, .. }) => {
+                            (function.span, function.is_generator, function.is_async)
                         }
-                        if function.is_generator || function.is_async {
-                            p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
+                        Decl::TsFn(TsFnDecl { function, .. }) => {
+                            (function.span, function.is_generator, function.is_async)
                         }
+                        _ => unreachable!("function parser returned a non-function declaration"),
+                    };
+                    if p.ctx().contains(Context::Strict) {
+                        p.emit_err(span, SyntaxError::LabelledFunctionInStrict)
+                    }
+                    if is_generator || is_async {
+                        p.emit_err(span, SyntaxError::LabelledGeneratorOrAsync)
                     }
 
                     f.into()
@@ -1691,7 +1698,7 @@ impl<I: Tokens> Parser<I> {
                 this_param: None,
                 params: Vec::new(),
                 decorators: Vec::new(),
-                body: Some(FunctionBody { span, stmts }),
+                body: FunctionBody { span, stmts },
                 is_async: false,
                 is_generator: false,
                 type_params: None,

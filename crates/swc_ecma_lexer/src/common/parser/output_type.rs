@@ -1,9 +1,10 @@
 use swc_common::Span;
 use swc_ecma_ast::{
-    Class, ClassDecl, ClassExpr, Decl, DefaultDecl, ExportDefaultDecl, Expr, FnDecl, FnExpr,
-    Function, Ident,
+    Class, ClassDecl, ClassExpr, Decl, DefaultDecl, ExportDefaultDecl, Expr, FnDecl, FnExpr, Ident,
+    TsFnDecl,
 };
 
+use super::class_and_fn::ParsedFunction;
 use crate::error::SyntaxError;
 
 pub trait OutputType: Sized {
@@ -23,7 +24,11 @@ pub trait OutputType: Sized {
         false
     }
 
-    fn finish_fn(span: Span, ident: Option<Ident>, f: Box<Function>) -> Result<Self, SyntaxError>;
+    fn finish_fn(
+        span: Span,
+        ident: Option<Ident>,
+        function: ParsedFunction,
+    ) -> Result<Self, SyntaxError>;
 
     fn finish_class(
         span: Span,
@@ -42,8 +47,11 @@ impl OutputType for Box<Expr> {
     fn finish_fn(
         _span: Span,
         ident: Option<Ident>,
-        function: Box<Function>,
+        function: ParsedFunction,
     ) -> Result<Self, SyntaxError> {
+        let ParsedFunction::Function(function) = function else {
+            unreachable!("function expressions always have an implementation body")
+        };
         Ok(FnExpr { ident, function }.into())
     }
 
@@ -62,12 +70,17 @@ impl OutputType for ExportDefaultDecl {
     fn finish_fn(
         span: Span,
         ident: Option<Ident>,
-        function: Box<Function>,
+        function: ParsedFunction,
     ) -> Result<Self, SyntaxError> {
-        Ok(ExportDefaultDecl {
-            span,
-            decl: DefaultDecl::Fn(FnExpr { ident, function }),
-        })
+        let decl = match function {
+            ParsedFunction::Function(function) => DefaultDecl::Fn(FnExpr { ident, function }),
+            ParsedFunction::TsFunction(function) => DefaultDecl::TsFn(TsFnDecl {
+                ident,
+                declare: false,
+                function,
+            }),
+        };
+        Ok(ExportDefaultDecl { span, decl })
     }
 
     fn finish_class(
@@ -88,16 +101,24 @@ impl OutputType for Decl {
     fn finish_fn(
         _span: Span,
         ident: Option<Ident>,
-        function: Box<Function>,
+        function: ParsedFunction,
     ) -> Result<Self, SyntaxError> {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
-        Ok(FnDecl {
-            declare: false,
-            ident,
-            function,
-        }
-        .into())
+        Ok(match function {
+            ParsedFunction::Function(function) => FnDecl {
+                declare: false,
+                ident,
+                function,
+            }
+            .into(),
+            ParsedFunction::TsFunction(function) => TsFnDecl {
+                declare: false,
+                ident: Some(ident),
+                function,
+            }
+            .into(),
+        })
     }
 
     fn finish_class(_: Span, ident: Option<Ident>, class: Box<Class>) -> Result<Self, SyntaxError> {

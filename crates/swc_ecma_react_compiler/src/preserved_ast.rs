@@ -14,10 +14,12 @@ pub enum PreservedNode {
     Catch(Box<PatternTypeShell>),
     Class(Box<Class>),
     Directive(Box<Str>),
+    DefaultTsFunction(Box<TsFnDecl>),
     Function(Box<FunctionShell>),
     Import(Box<ImportShell>),
     TsEnum(Box<TsEnumDecl>),
     TsExportAssignment(TsExportAssignment),
+    TsFunction(Box<FunctionShell>),
     TsExpr(Box<TsExprShell>),
     TsImportEquals(Box<TsImportEqualsDecl>),
     TsInstantiation(Box<TsInstantiationShell>),
@@ -47,11 +49,6 @@ pub struct FunctionShell {
     decorators: Vec<Decorator>,
     type_params: Option<Box<TsTypeParamDecl>>,
     return_type: Option<Box<TsTypeAnn>>,
-    /// Whether the source function had an implementation body.
-    ///
-    /// React Compiler's `FunctionDeclaration` always has a block body, so this
-    /// is required to restore TypeScript overload signatures after compilation.
-    had_body: bool,
 }
 
 /// Lightweight variable declaration metadata not represented losslessly in
@@ -273,7 +270,6 @@ impl PreservedAst {
                 decorators: function.decorators.clone(),
                 type_params: function.type_params.clone(),
                 return_type: function.return_type.clone(),
-                had_body: function.body.is_some(),
             })),
         );
     }
@@ -288,9 +284,6 @@ impl PreservedAst {
             unreachable!()
         };
 
-        if !snapshot.had_body {
-            function.body = None;
-        }
         function.this_param = snapshot.this_param;
         function.decorators = snapshot.decorators;
         function.type_params = snapshot.type_params;
@@ -305,13 +298,26 @@ impl PreservedAst {
         true
     }
 
-    pub fn load_ts_function(&mut self, function: &mut Function) -> bool {
+    pub fn save_ts_function(&mut self, function: &TsFunction) {
+        self.nodes.insert(
+            function.span.lo.to_u32(),
+            PreservedNode::TsFunction(Box::new(FunctionShell {
+                this_param: function.this_param.clone(),
+                params: function.params.clone(),
+                decorators: function.decorators.clone(),
+                type_params: function.type_params.clone(),
+                return_type: function.return_type.clone(),
+            })),
+        );
+    }
+
+    pub fn load_ts_function(&mut self, function: &mut TsFunction) -> bool {
         let key = function.span.lo.to_u32();
-        if !matches!(self.nodes.get(&key), Some(PreservedNode::Function(_))) {
+        if !matches!(self.nodes.get(&key), Some(PreservedNode::TsFunction(_))) {
             return false;
         }
 
-        let Some(PreservedNode::Function(snapshot)) = self.nodes.remove(&key) else {
+        let Some(PreservedNode::TsFunction(snapshot)) = self.nodes.remove(&key) else {
             unreachable!()
         };
 
@@ -577,6 +583,13 @@ impl PreservedAst {
         );
     }
 
+    pub fn save_export_default_ts_function(&mut self, span: Span, decl: &TsFnDecl) {
+        self.nodes.insert(
+            span.lo.to_u32(),
+            PreservedNode::DefaultTsFunction(Box::new(decl.clone())),
+        );
+    }
+
     pub fn save_ts_import_equals(&mut self, decl: &TsImportEqualsDecl) {
         self.nodes.insert(
             decl.span.lo.to_u32(),
@@ -678,6 +691,23 @@ impl PreservedAst {
         };
 
         decl.decl = DefaultDecl::TsInterfaceDecl(snapshot);
+        true
+    }
+
+    pub fn load_export_default_ts_function(&mut self, decl: &mut ExportDefaultDecl) -> bool {
+        let key = decl.span.lo.to_u32();
+        if !matches!(
+            self.nodes.get(&key),
+            Some(PreservedNode::DefaultTsFunction(_))
+        ) {
+            return false;
+        }
+
+        let Some(PreservedNode::DefaultTsFunction(snapshot)) = self.nodes.remove(&key) else {
+            unreachable!()
+        };
+
+        decl.decl = DefaultDecl::TsFn(*snapshot);
         true
     }
 

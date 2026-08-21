@@ -68,6 +68,7 @@ impl Babelify for Stmt {
             Stmt::Decl(decl) => match decl {
                 Decl::Class(d) => Statement::ClassDecl(d.babelify(ctx)),
                 Decl::Fn(d) => Statement::FuncDecl(d.babelify(ctx)),
+                Decl::TsFn(d) => Statement::TSDeclFunc(d.babelify(ctx)),
                 Decl::Var(d) => Statement::VarDecl(d.babelify(ctx)),
                 Decl::Using(d) => Statement::UsingDecl(d.babelify(ctx)),
                 Decl::TsInterface(d) => Statement::TSInterfaceDecl(d.babelify(ctx)),

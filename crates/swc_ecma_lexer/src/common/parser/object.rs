@@ -12,7 +12,7 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             buffer::Buffer,
-            class_and_fn::parse_fn_args_body,
+            class_and_fn::parse_required_fn_args_body,
             pat::{parse_formal_params, parse_unique_formal_params},
             typescript::eat_any_ts_modifier,
         },
@@ -173,7 +173,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
         return p
             .do_inside_of_context(Context::AllowDirectSuper, |p| {
                 p.do_outside_of_context(Context::InClassField, |p| {
-                    parse_fn_args_body(
+                    parse_required_fn_args_body(
                         p,
                         // no decorator in an object literal
                         Vec::new(),
@@ -243,7 +243,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
         return p
             .do_inside_of_context(Context::AllowDirectSuper, |p| {
                 p.do_outside_of_context(Context::InClassField, |p| {
-                    parse_fn_args_body(
+                    parse_required_fn_args_body(
                         p,
                         // no decorator in an object literal
                         Vec::new(),
@@ -307,7 +307,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
             p.do_inside_of_context(Context::AllowDirectSuper, |p| {
                 p.do_outside_of_context(Context::InClassField, |parser| {
                     match &*ident.sym {
-                        "get" => parse_fn_args_body(
+                        "get" => parse_required_fn_args_body(
                             parser,
                             // no decorator in an object literal
                             Vec::new(),
@@ -338,7 +338,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                             })))
                         }),
                         "set" => {
-                            parse_fn_args_body(
+                            parse_required_fn_args_body(
                                 parser,
                                 // no decorator in an object literal
                                 Vec::new(),
@@ -375,7 +375,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                                 })))
                             })
                         }
-                        "async" => parse_fn_args_body(
+                        "async" => parse_required_fn_args_body(
                             parser,
                             // no decorator in an object literal
                             Vec::new(),

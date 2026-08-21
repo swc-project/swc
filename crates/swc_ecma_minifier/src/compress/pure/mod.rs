@@ -994,9 +994,7 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_function(&mut self, f: &mut Function) {
         self.do_outside_of_context(Ctx::IN_TRY_BLOCK, |this| f.visit_mut_children_with(this));
 
-        if let Some(body) = &mut f.body {
-            self.optimize_fn_stmts(&mut body.stmts)
-        }
+        self.optimize_fn_stmts(&mut f.body.stmts)
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {

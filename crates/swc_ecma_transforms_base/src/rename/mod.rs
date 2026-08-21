@@ -427,6 +427,9 @@ where
             DefaultDecl::Fn(n) => {
                 n.visit_mut_children_with(self);
             }
+            DefaultDecl::TsFn(n) => {
+                n.visit_mut_children_with(self);
+            }
             DefaultDecl::TsInterfaceDecl(n) => {
                 n.visit_mut_children_with(self);
             }

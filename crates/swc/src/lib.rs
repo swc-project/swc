@@ -343,8 +343,8 @@ fn is_runtime_decl(decl: &Decl) -> bool {
     }
 
     match decl {
-        Decl::TsInterface(..) | Decl::TsTypeAlias(..) => false,
-        Decl::Fn(function_decl) => function_decl.function.body.is_some(),
+        Decl::TsFn(..) | Decl::TsInterface(..) | Decl::TsTypeAlias(..) => false,
+        Decl::Fn(..) => true,
         Decl::Class(..) | Decl::Var(..) | Decl::Using(..) | Decl::TsEnum(..) => true,
         Decl::TsModule(ts_module_decl) => ts_module_decl
             .body
@@ -357,8 +357,8 @@ fn is_runtime_decl(decl: &Decl) -> bool {
 fn is_runtime_default_decl(default_decl: &DefaultDecl) -> bool {
     match default_decl {
         DefaultDecl::Class(..) => true,
-        DefaultDecl::Fn(function_expr) => function_expr.function.body.is_some(),
-        DefaultDecl::TsInterfaceDecl(..) => false,
+        DefaultDecl::Fn(..) => true,
+        DefaultDecl::TsFn(..) | DefaultDecl::TsInterfaceDecl(..) => false,
     }
 }
 
@@ -391,6 +391,7 @@ fn is_declare_decl(decl: &Decl) -> bool {
     match decl {
         Decl::Class(class_decl) => class_decl.declare,
         Decl::Fn(function_decl) => function_decl.declare,
+        Decl::TsFn(..) => true,
         Decl::Var(var_decl) => var_decl.declare,
         Decl::Using(..) => false,
         Decl::TsInterface(..) | Decl::TsTypeAlias(..) => true,

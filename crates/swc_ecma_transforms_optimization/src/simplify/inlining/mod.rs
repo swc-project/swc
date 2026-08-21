@@ -372,12 +372,7 @@ impl VisitMut for Inlining<'_> {
         self.with_child(ScopeKind::Fn { named: true }, |child| {
             child.pat_mode = PatFoldingMode::Param;
             node.function.params.visit_mut_with(child);
-            match &mut node.function.body {
-                None => {}
-                Some(v) => {
-                    v.visit_mut_children_with(child);
-                }
-            };
+            node.function.body.visit_mut_children_with(child);
         });
     }
 
@@ -459,13 +454,7 @@ impl VisitMut for Inlining<'_> {
         self.with_child(ScopeKind::Fn { named: false }, move |child| {
             child.pat_mode = PatFoldingMode::Param;
             node.params.visit_mut_with(child);
-            match &mut node.body {
-                None => None,
-                Some(v) => {
-                    v.visit_mut_children_with(child);
-                    Some(())
-                }
-            };
+            node.body.visit_mut_children_with(child);
         })
     }
 

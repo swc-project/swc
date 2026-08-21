@@ -17,11 +17,11 @@ use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
 pub use self::{
     class::{
         AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, Key,
-        MethodKind, PrivateMethod, PrivateProp, StaticBlock,
+        MethodKind, PrivateMethod, PrivateProp, StaticBlock, TsMethod,
     },
-    decl::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
+    decl::{ClassDecl, Decl, FnDecl, TsFnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::*,
-    function::{Function, FunctionBody, Param, ParamOrTsParamProp},
+    function::{Function, FunctionBody, Param, ParamOrTsParamProp, TsFunction},
     ident::{
         unsafe_id, unsafe_id_from_ident, BindingIdent, EsReserved, Id, Ident, IdentName,
         PrivateName, UnsafeId,

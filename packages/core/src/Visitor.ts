@@ -130,6 +130,7 @@ import {
     TsCallSignatureDeclaration,
     TsConstAssertion,
     TsConstructSignatureDeclaration,
+    TsDeclareFunction,
     TsEntityName,
     TsEnumDeclaration,
     TsEnumMember,
@@ -138,6 +139,7 @@ import {
     TsExpressionWithTypeArguments,
     TsExternalModuleReference,
     TsFnParameter,
+    TsFunction,
     TsGetterSignature,
     TsImportEqualsDeclaration,
     TsIndexSignature,
@@ -145,6 +147,7 @@ import {
     TsInterfaceBody,
     TsInterfaceDeclaration,
     TsMethodSignature,
+    TsMethodDefinition,
     TsModuleBlock,
     TsModuleDeclaration,
     TsModuleName,
@@ -365,6 +368,8 @@ export class Visitor {
                 return this.visitClassExpression(n);
             case "FunctionExpression":
                 return this.visitFunctionExpression(n);
+            case "TsDeclareFunction":
+                return this.visitTsDeclareFunction(n);
             case "TsInterfaceDeclaration":
                 return this.visitTsInterfaceDeclaration(n);
         }
@@ -467,6 +472,7 @@ export class Visitor {
         switch (stmt.type) {
             case "ClassDeclaration":
             case "FunctionDeclaration":
+            case "TsDeclareFunction":
             case "TsEnumDeclaration":
             case "TsInterfaceDeclaration":
             case "TsModuleDeclaration":
@@ -669,6 +675,8 @@ export class Visitor {
                 return this.visitClassDeclaration(decl);
             case "FunctionDeclaration":
                 return this.visitFunctionDeclaration(decl);
+            case "TsDeclareFunction":
+                return this.visitTsDeclareFunction(decl);
             case "TsEnumDeclaration":
                 return this.visitTsEnumDeclaration(decl);
             case "TsInterfaceDeclaration":
@@ -854,6 +862,13 @@ export class Visitor {
         return decl;
     }
 
+    visitTsDeclareFunction(decl: TsDeclareFunction): TsDeclareFunction {
+        if (decl.identifier) {
+            decl.identifier = this.visitBindingIdentifier(decl.identifier);
+        }
+        return this.visitTsFunction(decl);
+    }
+
     visitClassDeclaration(decl: ClassDeclaration): Declaration {
         decl = this.visitClass(decl);
         decl.identifier = this.visitIdentifier(decl.identifier);
@@ -874,6 +889,8 @@ export class Visitor {
                 return this.visitConstructor(member);
             case "PrivateMethod":
                 return this.visitPrivateMethod(member);
+            case "TsMethodDefinition":
+                return this.visitTsMethodDefinition(member);
             case "PrivateProperty":
                 return this.visitPrivateProperty(member);
             case "TsIndexSignature":
@@ -918,6 +935,16 @@ export class Visitor {
         n.accessibility = this.visitAccessibility(n.accessibility);
         n.function = this.visitFunction(n.function);
         n.key = this.visitPrivateName(n.key);
+        return n;
+    }
+
+    visitTsMethodDefinition(n: TsMethodDefinition): ClassMember {
+        n.accessibility = this.visitAccessibility(n.accessibility);
+        n.function = this.visitTsFunction(n.function);
+        n.key =
+            n.key.type === "PrivateName"
+                ? this.visitPrivateName(n.key)
+                : this.visitPropertyName(n.key);
         return n;
     }
 
@@ -1039,9 +1066,20 @@ export class Visitor {
             n.thisParam = this.visitTsThisParameter(n.thisParam);
         }
         n.params = this.visitParameters(n.params);
-        if (n.body) {
-            n.body = this.visitFunctionBody(n.body);
+        n.body = this.visitFunctionBody(n.body);
+        n.returnType = this.visitTsTypeAnnotation(n.returnType);
+        n.typeParameters = this.visitTsTypeParameterDeclaration(
+            n.typeParameters
+        );
+        return n;
+    }
+
+    visitTsFunction<T extends TsFunction>(n: T): T {
+        n.decorators = this.visitDecorators(n.decorators);
+        if (n.thisParam) {
+            n.thisParam = this.visitTsThisParameter(n.thisParam);
         }
+        n.params = this.visitParameters(n.params);
         n.returnType = this.visitTsTypeAnnotation(n.returnType);
         n.typeParameters = this.visitTsTypeParameterDeclaration(
             n.typeParameters
@@ -1393,9 +1431,7 @@ export class Visitor {
         if (n.thisParam) {
             n.thisParam = this.visitTsThisParameter(n.thisParam);
         }
-        if (n.body) {
-            n.body = this.visitFunctionBody(n.body);
-        }
+        n.body = this.visitFunctionBody(n.body);
         n.decorators = this.visitDecorators(n.decorators);
         n.params = this.visitParameters(n.params);
         n.returnType = this.visitTsTypeAnnotation(n.returnType);

@@ -29,6 +29,35 @@ struct MakeMethodArgs {
     is_generator: bool,
 }
 
+pub(crate) enum ParsedFunction {
+    Function(Box<Function>),
+    TsFunction(Box<TsFunction>),
+}
+
+impl ParsedFunction {
+    fn this_param(&self) -> Option<&TsThisParam> {
+        match self {
+            Self::Function(function) => function.this_param.as_deref(),
+            Self::TsFunction(function) => function.this_param.as_deref(),
+        }
+    }
+
+    #[cfg(feature = "typescript")]
+    pub(crate) fn return_type(&self) -> Option<&TsTypeAnn> {
+        match self {
+            Self::Function(function) => function.return_type.as_deref(),
+            Self::TsFunction(function) => function.return_type.as_deref(),
+        }
+    }
+
+    pub(crate) fn into_function(self) -> Option<Box<Function>> {
+        match self {
+            Self::Function(function) => Some(function),
+            Self::TsFunction(_) => None,
+        }
+    }
+}
+
 /// Parses a leading TypeScript or Flow `this` parameter directly into its
 /// dedicated AST node. Invalid optional markers and initializers are recovered
 /// here so the `this` parameter never enters the ordinary parameter list.
@@ -338,7 +367,7 @@ impl<I: Tokens> Parser<I> {
         parse_args: F,
         is_async: bool,
         is_generator: bool,
-    ) -> PResult<Box<Function>>
+    ) -> PResult<ParsedFunction>
     where
         F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
@@ -437,18 +466,33 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            Ok(Box::new(Function {
-                span: p.span(start),
-                this_param,
-                decorators,
-                type_params,
-                params,
-                body,
-                is_async,
-                is_generator,
-                return_type,
-                ctxt: Default::default(),
-            }))
+            let span = p.span(start);
+            Ok(if let Some(body) = body {
+                ParsedFunction::Function(Box::new(Function {
+                    span,
+                    this_param,
+                    decorators,
+                    type_params,
+                    params,
+                    body,
+                    is_async,
+                    is_generator,
+                    return_type,
+                    ctxt: Default::default(),
+                }))
+            } else {
+                ParsedFunction::TsFunction(Box::new(TsFunction {
+                    span,
+                    this_param,
+                    decorators,
+                    type_params,
+                    params,
+                    is_async,
+                    is_generator,
+                    return_type,
+                    ctxt: Default::default(),
+                }))
+            })
         };
 
         let f_with_generator_ctx = |p: &mut Self| {
@@ -463,6 +507,28 @@ impl<I: Tokens> Parser<I> {
             self.do_inside_of_context(Context::InAsync, f_with_generator_ctx)
         } else {
             self.do_outside_of_context(Context::InAsync, f_with_generator_ctx)
+        }
+    }
+
+    /// Parses a function-like construct whose grammar requires an
+    /// implementation body, such as an object method.
+    pub(crate) fn parse_required_fn_args_body<F>(
+        &mut self,
+        decorators: Vec<Decorator>,
+        start: BytePos,
+        parse_args: F,
+        is_async: bool,
+        is_generator: bool,
+    ) -> PResult<Box<Function>>
+    where
+        F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
+    {
+        let function =
+            self.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)?;
+
+        match function {
+            ParsedFunction::Function(function) => Ok(function),
+            ParsedFunction::TsFunction(_) => unexpected!(self, "{"),
         }
     }
 
@@ -512,7 +578,7 @@ impl<I: Tokens> Parser<I> {
         decorators: Vec<Decorator>,
         is_fn_expr: bool,
         is_ident_required: bool,
-    ) -> PResult<(Option<Ident>, Box<Function>)> {
+    ) -> PResult<(Option<Ident>, ParsedFunction)> {
         let start = start_of_async.unwrap_or_else(|| self.cur_pos());
         self.assert_and_bump(Token::Function);
         let is_async = start_of_async.is_some();
@@ -562,7 +628,7 @@ impl<I: Tokens> Parser<I> {
                     is_async,
                     is_generator,
                 )?;
-                if is_fn_expr && f.body.is_none() {
+                if is_fn_expr && matches!(f, ParsedFunction::TsFunction(..)) {
                     unexpected!(p, "{");
                 }
                 Ok((ident, f))
@@ -653,7 +719,7 @@ impl<I: Tokens> Parser<I> {
 
         if self.syntax().flow()
             && matches!(kind, MethodKind::Getter | MethodKind::Setter)
-            && function.this_param.is_some()
+            && function.this_param().is_some()
         {
             self.emit_err(key.span(), SyntaxError::TS1003);
         }
@@ -668,31 +734,30 @@ impl<I: Tokens> Parser<I> {
             _ => {}
         }
 
-        match key {
-            Key::Private(key) => {
-                let span = self.span(start);
-                if accessibility.is_some() {
-                    self.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
-                }
-
-                Ok(PrivateMethod {
-                    span,
-
-                    accessibility,
-                    is_abstract,
-                    is_optional,
-                    is_override,
-
-                    is_static,
-                    key,
-                    function,
-                    kind,
-                }
-                .into())
+        let span = self.span(start);
+        if accessibility.is_some() {
+            if let Key::Private(key) = &key {
+                self.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
             }
-            Key::Public(key) => {
-                let span = self.span(start);
-                if is_abstract && function.body.is_some() {
+        }
+
+        match (key, function) {
+            (Key::Private(key), ParsedFunction::Function(function)) => Ok(PrivateMethod {
+                span,
+
+                accessibility,
+                is_abstract,
+                is_optional,
+                is_override,
+
+                is_static,
+                key,
+                function,
+                kind,
+            }
+            .into()),
+            (Key::Public(key), ParsedFunction::Function(function)) => {
+                if is_abstract {
                     self.emit_err(span, SyntaxError::TS1245)
                 }
                 Ok(ClassMethod {
@@ -710,6 +775,18 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into())
             }
+            (key, ParsedFunction::TsFunction(function)) => Ok(TsMethod {
+                span,
+                accessibility,
+                is_abstract,
+                is_optional,
+                is_override,
+                is_static,
+                key,
+                function,
+                kind,
+            }
+            .into()),
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
         }
@@ -1824,38 +1901,37 @@ impl<I: Tokens> Parser<I> {
             let mut private_members: HashMap<Atom, PrivateMemberState> = HashMap::new();
 
             for elem in &elems {
-                match elem {
-                    ClassMember::PrivateProp(PrivateProp { key, .. }) => {
-                        let state = private_members.entry(key.name.clone()).or_default();
+                let (key, kind) = match elem {
+                    ClassMember::PrivateProp(PrivateProp { key, .. }) => (key, None),
+                    ClassMember::PrivateMethod(PrivateMethod { key, kind, .. })
+                    | ClassMember::TsMethod(TsMethod {
+                        key: Key::Private(key),
+                        kind,
+                        ..
+                    }) => (key, Some(kind)),
+                    _ => continue,
+                };
+
+                let state = private_members.entry(key.name.clone()).or_default();
+                match kind {
+                    Some(MethodKind::Getter) => {
+                        if state.has_value_like || state.has_getter {
+                            self.emit_err(key.span, SyntaxError::TS1003);
+                        }
+                        state.has_getter = true;
+                    }
+                    Some(MethodKind::Setter) => {
+                        if state.has_value_like || state.has_setter {
+                            self.emit_err(key.span, SyntaxError::TS1003);
+                        }
+                        state.has_setter = true;
+                    }
+                    _ => {
                         if state.has_value_like || state.has_getter || state.has_setter {
                             self.emit_err(key.span, SyntaxError::TS1003);
                         }
                         state.has_value_like = true;
                     }
-                    ClassMember::PrivateMethod(PrivateMethod { key, kind, .. }) => {
-                        let state = private_members.entry(key.name.clone()).or_default();
-                        match kind {
-                            MethodKind::Getter => {
-                                if state.has_value_like || state.has_getter {
-                                    self.emit_err(key.span, SyntaxError::TS1003);
-                                }
-                                state.has_getter = true;
-                            }
-                            MethodKind::Setter => {
-                                if state.has_value_like || state.has_setter {
-                                    self.emit_err(key.span, SyntaxError::TS1003);
-                                }
-                                state.has_setter = true;
-                            }
-                            _ => {
-                                if state.has_value_like || state.has_getter || state.has_setter {
-                                    self.emit_err(key.span, SyntaxError::TS1003);
-                                }
-                                state.has_value_like = true;
-                            }
-                        }
-                    }
-                    _ => {}
                 }
             }
         }
@@ -1888,6 +1964,11 @@ impl<I: Tokens> Parser<I> {
                         ..
                     })
                     | ClassMember::Method(ClassMethod {
+                        span,
+                        is_abstract: true,
+                        ..
+                    })
+                    | ClassMember::TsMethod(TsMethod {
                         span,
                         is_abstract: true,
                         ..
@@ -2059,7 +2140,11 @@ trait OutputType: Sized {
         false
     }
 
-    fn finish_fn(span: Span, ident: Option<Ident>, f: Box<Function>) -> Result<Self, SyntaxError>;
+    fn finish_fn(
+        span: Span,
+        ident: Option<Ident>,
+        function: ParsedFunction,
+    ) -> Result<Self, SyntaxError>;
 
     fn finish_class(
         span: Span,
@@ -2078,8 +2163,11 @@ impl OutputType for Box<Expr> {
     fn finish_fn(
         _span: Span,
         ident: Option<Ident>,
-        function: Box<Function>,
+        function: ParsedFunction,
     ) -> Result<Self, SyntaxError> {
+        let function = function
+            .into_function()
+            .expect("function expressions always have an implementation body");
         Ok(FnExpr { ident, function }.into())
     }
 
@@ -2098,12 +2186,17 @@ impl OutputType for ExportDefaultDecl {
     fn finish_fn(
         span: Span,
         ident: Option<Ident>,
-        function: Box<Function>,
+        function: ParsedFunction,
     ) -> Result<Self, SyntaxError> {
-        Ok(ExportDefaultDecl {
-            span,
-            decl: DefaultDecl::Fn(FnExpr { ident, function }),
-        })
+        let decl = match function {
+            ParsedFunction::Function(function) => DefaultDecl::Fn(FnExpr { ident, function }),
+            ParsedFunction::TsFunction(function) => DefaultDecl::TsFn(TsFnDecl {
+                ident,
+                declare: false,
+                function,
+            }),
+        };
+        Ok(ExportDefaultDecl { span, decl })
     }
 
     fn finish_class(
@@ -2124,16 +2217,24 @@ impl OutputType for Decl {
     fn finish_fn(
         _span: Span,
         ident: Option<Ident>,
-        function: Box<Function>,
+        function: ParsedFunction,
     ) -> Result<Self, SyntaxError> {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
-        Ok(FnDecl {
-            declare: false,
-            ident,
-            function,
-        }
-        .into())
+        Ok(match function {
+            ParsedFunction::Function(function) => FnDecl {
+                declare: false,
+                ident,
+                function,
+            }
+            .into(),
+            ParsedFunction::TsFunction(function) => TsFnDecl {
+                declare: false,
+                ident: Some(ident),
+                function,
+            }
+            .into(),
+        })
     }
 
     fn finish_class(_: Span, ident: Option<Ident>, class: Box<Class>) -> Result<Self, SyntaxError> {

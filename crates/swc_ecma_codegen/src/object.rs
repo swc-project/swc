@@ -189,11 +189,7 @@ impl MacroNode for SetterProp {
             emit!(return_type);
         }
 
-        if let Some(body) = &self.function.body {
-            emit!(body);
-        } else {
-            semi!(emitter);
-        }
+        emit!(self.function.body);
         emitter.end_scope()?;
 
         Ok(())

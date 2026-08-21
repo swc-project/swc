@@ -60,13 +60,10 @@ struct AsyncToGeneratorPass {
 
 impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     fn exit_function(&mut self, function: &mut Function, _ctx: &mut TraverseCtx) {
-        let Some(body) = &mut function.body else {
-            return;
-        };
+        let body = &mut function.body;
 
         let fn_state = self.fn_state.take();
         let Some(mut fn_state) = fn_state else {
-            // Function with no body
             return;
         };
 
@@ -130,20 +127,16 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             .into(),
         );
 
-        function.body = Some(FunctionBody {
+        function.body = FunctionBody {
             span: DUMMY_SP,
             stmts,
-        });
+        };
 
         // Restore the previous fn_state from stack after processing async function
         self.fn_state = self.fn_state_stack.pop();
     }
 
     fn enter_function(&mut self, function: &mut Function, _ctx: &mut TraverseCtx) {
-        let Some(_body) = &mut function.body else {
-            return;
-        };
-
         // Save the current fn_state to stack before entering nested function
         if let Some(prev) = self.fn_state.take() {
             self.fn_state_stack.push(prev);
@@ -422,7 +415,7 @@ fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: FunctionBody) -> Ex
     let inner_fn = Function {
         is_generator: true,
         params,
-        body: Some(body),
+        body,
         ..Default::default()
     };
 
@@ -1020,6 +1013,7 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
         Stmt::Decl(decl) => match decl {
             Decl::Class(_)
             | Decl::Fn(_)
+            | Decl::TsFn(_)
             | Decl::TsInterface(_)
             | Decl::TsTypeAlias(_)
             | Decl::TsEnum(_)

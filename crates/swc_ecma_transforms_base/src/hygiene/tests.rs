@@ -640,7 +640,7 @@ fn mark_root() {
                         is_async: false,
                         is_generator: false,
                         decorators: Vec::new(),
-                        body: Some(FunctionBody {
+                        body: FunctionBody {
                             span: DUMMY_SP,
                             stmts: vec![
                                 tester
@@ -651,7 +651,7 @@ fn mark_root() {
                                     "_define_property(this, 'bar', foo);",
                                 )?,
                             ],
-                        }),
+                        },
                         params: Vec::new(),
                         ..Default::default()
                     }),
@@ -726,12 +726,12 @@ fn fn_args() {
                     is_async: false,
                     is_generator: false,
                     decorators: Vec::new(),
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![tester
                             .parse_stmt("actual1.js", "_define_property(this, 'force', force);")?
                             .fold_with(&mut marker(&[("force", mark2)]))],
-                    }),
+                    },
                     params: vec![Param {
                         span: DUMMY_SP,
                         decorators: Vec::new(),
@@ -766,7 +766,7 @@ fn block_in_fn() {
                     is_async: false,
                     is_generator: false,
                     decorators: Vec::new(),
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![
                             tester
@@ -776,7 +776,7 @@ fn block_in_fn() {
                                 .parse_stmt("actual2.js", "{ var bar; }")?
                                 .fold_with(&mut marker(&[("bar", mark2)])),
                         ],
-                    }),
+                    },
                     params: Vec::new(),
                     ..Default::default()
                 }),
@@ -818,7 +818,7 @@ fn flat_in_fn() {
                     is_async: false,
                     is_generator: false,
                     decorators: Vec::new(),
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![
                             tester
@@ -828,7 +828,7 @@ fn flat_in_fn() {
                                 .parse_stmt("actual2.js", "var bar;")?
                                 .fold_with(&mut marker(&[("bar", mark2)])),
                         ],
-                    }),
+                    },
                     params: Vec::new(),
                     ..Default::default()
                 }),
@@ -859,7 +859,7 @@ fn params_in_fn() {
                     is_async: false,
                     is_generator: false,
                     decorators: Vec::new(),
-                    body: Some(FunctionBody::default()),
+                    body: FunctionBody::default(),
                     params: vec![
                         Param {
                             span: DUMMY_SP,

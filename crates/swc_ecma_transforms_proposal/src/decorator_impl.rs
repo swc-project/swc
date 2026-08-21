@@ -469,10 +469,10 @@ impl DecoratorPass {
             function: Box::new(Function {
                 span: DUMMY_SP,
                 params: Vec::new(),
-                body: Some(FunctionBody {
+                body: FunctionBody {
                     span: DUMMY_SP,
                     stmts: Vec::new(),
-                }),
+                },
                 is_async: false,
                 is_generator: false,
                 decorators: Default::default(),
@@ -724,13 +724,13 @@ impl DecoratorPass {
         let mut closure_fn = Function {
             span: DUMMY_SP,
             params: Vec::new(),
-            body: Some(FunctionBody {
+            body: FunctionBody {
                 span: DUMMY_SP,
                 stmts: vec![Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(value),
                 })],
-            }),
+            },
             is_async: false,
             is_generator: false,
             decorators: Default::default(),
@@ -1920,7 +1920,7 @@ impl DecoratorPass {
                             };
 
                             p.function.params = params;
-                            p.function.body = Some(FunctionBody {
+                            p.function.body = FunctionBody {
                                 span: DUMMY_SP,
                                 stmts: vec![Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
@@ -1942,7 +1942,7 @@ impl DecoratorPass {
                                         .into(),
                                     ),
                                 })],
-                            });
+                            };
                         }
 
                         should_move = true;
@@ -1972,10 +1972,10 @@ impl DecoratorPass {
                     let mut closure_fn = Function {
                         span: DUMMY_SP,
                         params: Vec::new(),
-                        body: Some(FunctionBody {
+                        body: FunctionBody {
                             span: DUMMY_SP,
                             stmts: last,
-                        }),
+                        },
                         is_async: false,
                         is_generator: false,
                         decorators: Default::default(),
@@ -2257,11 +2257,11 @@ impl DecoratorPass {
     fn process_decorators_of_class_members(&mut self, members: &mut [ClassMember]) {
         for mut m in members {
             match &mut m {
-                ClassMember::Method(m) if m.function.body.is_some() => {
+                ClassMember::Method(m) => {
                     self.process_decorators(&mut m.function.decorators);
                     self.process_prop_name(&mut m.key);
                 }
-                ClassMember::PrivateMethod(m) if m.function.body.is_some() => {
+                ClassMember::PrivateMethod(m) => {
                     self.process_decorators(&mut m.function.decorators);
                 }
                 ClassMember::ClassProp(m) if !m.declare => {
@@ -2555,10 +2555,10 @@ impl VisitMut for DecoratorPass {
                     p.kind = MethodKind::Getter;
                     p.function.is_async = false;
                     p.function.is_generator = false;
-                    p.function.body = Some(FunctionBody {
+                    p.function.body = FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
-                    });
+                    };
                 }
                 MethodKind::Getter => {
                     let args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
@@ -2576,10 +2576,10 @@ impl VisitMut for DecoratorPass {
                     }
                     .into();
 
-                    p.function.body = Some(FunctionBody {
+                    p.function.body = FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
-                    });
+                    };
                 }
                 MethodKind::Setter => {
                     let value_arg =
@@ -2599,10 +2599,10 @@ impl VisitMut for DecoratorPass {
                     }
                     .into();
 
-                    p.function.body = Some(FunctionBody {
+                    p.function.body = FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
-                    });
+                    };
                 }
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
@@ -2721,7 +2721,7 @@ impl VisitMut for DecoratorPass {
                         params: Default::default(),
                         decorators: Default::default(),
                         span: DUMMY_SP,
-                        body: Some(FunctionBody {
+                        body: FunctionBody {
                             span: DUMMY_SP,
                             stmts: vec![Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
@@ -2731,7 +2731,7 @@ impl VisitMut for DecoratorPass {
                                     prop: MemberProp::PrivateName(private_field.key.clone()),
                                 }))),
                             })],
-                        }),
+                        },
                         is_generator: false,
                         is_async: false,
                         ..Default::default()
@@ -2747,7 +2747,7 @@ impl VisitMut for DecoratorPass {
                             }],
                             decorators: Default::default(),
                             span: DUMMY_SP,
-                            body: Some(FunctionBody {
+                            body: FunctionBody {
                                 span: DUMMY_SP,
                                 stmts: vec![Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
@@ -2765,7 +2765,7 @@ impl VisitMut for DecoratorPass {
                                         right: param.clone().into(),
                                     })),
                                 })],
-                            }),
+                            },
                             is_generator: false,
                             is_async: false,
                             ..Default::default()
@@ -2816,7 +2816,7 @@ impl VisitMut for DecoratorPass {
                                             let receiver = private_ident!("_this");
                                             Box::new(Function {
                                                 span: DUMMY_SP,
-                                                body: Some(FunctionBody {
+                                                body: FunctionBody {
                                                     span: DUMMY_SP,
                                                     stmts: vec![Stmt::Return(ReturnStmt {
                                                         span: DUMMY_SP,
@@ -2831,7 +2831,7 @@ impl VisitMut for DecoratorPass {
                                                             .into(),
                                                         ),
                                                     })],
-                                                }),
+                                                },
                                                 is_async: false,
                                                 is_generator: false,
                                                 decorators: Default::default(),
@@ -2850,7 +2850,7 @@ impl VisitMut for DecoratorPass {
                                             let setter_arg = private_ident!("_v");
                                             Box::new(Function {
                                                 span: DUMMY_SP,
-                                                body: Some(FunctionBody {
+                                                body: FunctionBody {
                                                     span: DUMMY_SP,
                                                     stmts: vec![Stmt::Expr(ExprStmt {
                                                         span: DUMMY_SP,
@@ -2870,7 +2870,7 @@ impl VisitMut for DecoratorPass {
                                                             )),
                                                         })),
                                                     })],
-                                                }),
+                                                },
                                                 is_async: false,
                                                 is_generator: false,
                                                 decorators: Default::default(),
@@ -2930,7 +2930,7 @@ impl VisitMut for DecoratorPass {
                                         getter_function = Box::new(Function {
                                             params: Vec::new(),
                                             span: DUMMY_SP,
-                                            body: Some(FunctionBody {
+                                            body: FunctionBody {
                                                 span: DUMMY_SP,
                                                 stmts: vec![Stmt::Return(ReturnStmt {
                                                     span: DUMMY_SP,
@@ -2951,7 +2951,7 @@ impl VisitMut for DecoratorPass {
                                                         ..Default::default()
                                                     }))),
                                                 })],
-                                            }),
+                                            },
                                             is_generator: false,
                                             is_async: false,
                                             ..Default::default()
@@ -2967,7 +2967,7 @@ impl VisitMut for DecoratorPass {
                                             }],
                                             decorators: Default::default(),
                                             span: DUMMY_SP,
-                                            body: Some(FunctionBody {
+                                            body: FunctionBody {
                                                 span: DUMMY_SP,
                                                 stmts: vec![Stmt::Expr(ExprStmt {
                                                     span: DUMMY_SP,
@@ -2991,7 +2991,7 @@ impl VisitMut for DecoratorPass {
                                                         ..Default::default()
                                                     })),
                                                 })],
-                                            }),
+                                            },
                                             is_generator: false,
                                             is_async: false,
                                             ..Default::default()
@@ -3148,11 +3148,6 @@ impl VisitMut for DecoratorPass {
     }
 
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
-        // method without body is TypeScript's method declaration.
-        if n.function.body.is_none() {
-            return;
-        }
-
         n.visit_mut_children_with(self);
 
         if n.function.decorators.is_empty() {
@@ -3579,7 +3574,7 @@ impl VisitMut for DecoratorPass {
 
                 let getter = Box::new(Function {
                     span: DUMMY_SP,
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
@@ -3592,7 +3587,7 @@ impl VisitMut for DecoratorPass {
                                 .into(),
                             ),
                         })],
-                    }),
+                    },
                     is_async: false,
                     is_generator: false,
                     decorators: Default::default(),
@@ -3606,7 +3601,7 @@ impl VisitMut for DecoratorPass {
 
                 let setter = Box::new(Function {
                     span: DUMMY_SP,
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
@@ -3622,7 +3617,7 @@ impl VisitMut for DecoratorPass {
                                 right: Box::new(Expr::Ident(setter_arg.clone())),
                             })),
                         })],
-                    }),
+                    },
                     is_async: false,
                     is_generator: false,
                     decorators: Default::default(),
@@ -3651,13 +3646,13 @@ impl VisitMut for DecoratorPass {
 
                 let getter = Box::new(Function {
                     span: DUMMY_SP,
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(access_expr.clone().into()),
                         })],
-                    }),
+                    },
                     is_async: false,
                     is_generator: false,
                     ..Default::default()
@@ -3665,7 +3660,7 @@ impl VisitMut for DecoratorPass {
                 let setter_arg = private_ident!("value");
                 let setter = Box::new(Function {
                     span: DUMMY_SP,
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
@@ -3676,7 +3671,7 @@ impl VisitMut for DecoratorPass {
                                 right: Box::new(Expr::Ident(setter_arg.clone())),
                             })),
                         })],
-                    }),
+                    },
                     is_async: false,
                     is_generator: false,
                     decorators: Default::default(),

@@ -808,12 +808,7 @@ impl Optimizer<'_> {
                 args,
                 ..
             }) if match &**callee {
-                Expr::Fn(f) => f
-                    .function
-                    .body
-                    .as_ref()
-                    .map(|body| body.stmts.is_empty())
-                    .unwrap_or(false),
+                Expr::Fn(f) => f.function.body.stmts.is_empty(),
                 Expr::Arrow(f) => match &*f.body {
                     ArrowFunctionBody::FunctionBody(body) => body.stmts.is_empty(),
                     ArrowFunctionBody::Expr(_) => false,
@@ -1889,7 +1884,7 @@ impl VisitMut for Optimizer<'_> {
             DefaultDecl::Fn(f) => {
                 self.drop_unused_params(&mut f.function.params);
             }
-            DefaultDecl::TsInterfaceDecl(_) => {}
+            DefaultDecl::TsFn(_) | DefaultDecl::TsInterfaceDecl(_) => {}
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
@@ -2366,12 +2361,10 @@ impl VisitMut for Optimizer<'_> {
             let optimizer = &mut *self.with_ctx(ctx);
 
             n.params.visit_mut_with(optimizer);
-            if let Some(body) = n.body.as_mut() {
-                optimizer.handle_stmts(&mut body.stmts, true);
-                #[cfg(debug_assertions)]
-                {
-                    body.visit_with(&mut AssertValid);
-                }
+            optimizer.handle_stmts(&mut n.body.stmts, true);
+            #[cfg(debug_assertions)]
+            {
+                n.body.visit_with(&mut AssertValid);
             }
         }
 
@@ -2380,16 +2373,14 @@ impl VisitMut for Optimizer<'_> {
             n.visit_with(&mut AssertValid);
         }
 
-        if let Some(body) = &mut n.body {
-            self.merge_if_returns(&mut body.stmts, false, true);
+        self.merge_if_returns(&mut n.body.stmts, false, true);
 
-            #[cfg(debug_assertions)]
-            {
-                body.visit_with(&mut AssertValid);
-            }
-
-            self.drop_else_token(&mut body.stmts);
+        #[cfg(debug_assertions)]
+        {
+            n.body.visit_with(&mut AssertValid);
         }
+
+        self.drop_else_token(&mut n.body.stmts);
 
         #[cfg(debug_assertions)]
         {
@@ -2407,9 +2398,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.ctx.bit_ctx.set(BitCtx::InAsm, old_in_asm);
 
-        if let Some(body) = &mut n.body {
-            drop_invalid_stmts(&mut body.stmts);
-        }
+        drop_invalid_stmts(&mut n.body.stmts);
 
         #[cfg(debug_assertions)]
         {

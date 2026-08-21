@@ -409,10 +409,7 @@ where
                         _ => continue,
                     };
 
-                    let body = match &mut f.function.body {
-                        Some(body) => body,
-                        None => continue,
-                    };
+                    let body = &mut f.function.body;
 
                     let last_stmt = body.stmts.last_mut();
 
@@ -781,7 +778,7 @@ where
                                     }
                                 }
                             }
-                            DefaultDecl::TsInterfaceDecl(_) => continue,
+                            DefaultDecl::TsFn(_) | DefaultDecl::TsInterfaceDecl(_) => continue,
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         }
@@ -954,7 +951,8 @@ where
                                 continue;
                             }
 
-                            Decl::TsInterface(_)
+                            Decl::TsFn(_)
+                            | Decl::TsInterface(_)
                             | Decl::TsTypeAlias(_)
                             | Decl::TsEnum(_)
                             | Decl::TsModule(_)

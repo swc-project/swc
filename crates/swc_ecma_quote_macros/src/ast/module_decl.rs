@@ -30,7 +30,7 @@ impl_struct!(ImportStarAsSpecifier, [span, local]);
 
 impl_enum!(ExportSpecifier, [Named, Default, Namespace]);
 
-impl_enum!(DefaultDecl, [Class, Fn, TsInterfaceDecl]);
+impl_enum!(DefaultDecl, [Class, Fn, TsFn, TsInterfaceDecl]);
 
 impl_enum!(ModuleExportName, [Ident, Str]);
 

@@ -486,7 +486,10 @@ impl<'a> ModuleSyntaxTransform<'a> {
         decl_span: Span,
         decl: &DefaultDecl,
     ) {
-        if matches!(decl, DefaultDecl::TsInterfaceDecl(..)) {
+        if matches!(
+            decl,
+            DefaultDecl::TsFn(..) | DefaultDecl::TsInterfaceDecl(..)
+        ) {
             self.delete_span(export_span);
             return;
         }
@@ -610,7 +613,10 @@ fn default_declaration_needs_parentheses(decl: &DefaultDecl) -> bool {
 }
 
 fn is_type_only_decl(decl: &Decl) -> bool {
-    matches!(decl, Decl::TsInterface(..) | Decl::TsTypeAlias(..))
+    matches!(
+        decl,
+        Decl::TsFn(..) | Decl::TsInterface(..) | Decl::TsTypeAlias(..)
+    )
 }
 
 fn named_export_source_imports(export: &NamedExport) -> Option<Vec<String>> {
@@ -986,9 +992,7 @@ fn function_scope_shadowed_bindings(node: &Function, bindings: &[ImportBinding])
     for param in &node.params {
         collect_shadowed_pat_bindings(&mut shadowed, &param.pat, bindings);
     }
-    if let Some(body) = &node.body {
-        collect_function_var_shadowed_bindings(&mut shadowed, body, bindings);
-    }
+    collect_function_var_shadowed_bindings(&mut shadowed, &node.body, bindings);
     shadowed
 }
 
@@ -1050,6 +1054,11 @@ fn collect_shadowed_decl_bindings(out: &mut Vec<String>, decl: &Decl, bindings: 
     match decl {
         Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
             push_shadowed_ident_binding(out, ident.sym.as_ref(), bindings);
+        }
+        Decl::TsFn(decl) => {
+            if let Some(ident) = &decl.ident {
+                push_shadowed_ident_binding(out, ident.sym.as_ref(), bindings);
+            }
         }
         Decl::Var(var) => {
             collect_shadowed_var_decl_bindings(out, var, bindings);

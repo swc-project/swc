@@ -156,6 +156,12 @@ where
                     let i = match decl.decl {
                         Decl::Class(ref c) => &c.ident,
                         Decl::Fn(ref f) => &f.ident,
+                        Decl::TsFn(ref f) => {
+                            let Some(ident) = &f.ident else {
+                                return;
+                            };
+                            ident
+                        }
                         Decl::Var(ref var) => {
                             let ids: Vec<Id> = find_pat_ids(&var.decls);
                             for id in ids {

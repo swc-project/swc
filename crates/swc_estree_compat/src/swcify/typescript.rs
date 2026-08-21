@@ -3,9 +3,9 @@ use swc_ecma_ast::{
     TsTypeParamDecl, TsTypeParamInstantiation,
 };
 use swc_estree_ast::{
-    Access, FlowType, SuperTypeParams, TSEntityName, TSQualifiedName, TSType, TSTypeAnnotation,
-    TSTypeParameter, TSTypeParameterDeclaration, TSTypeParameterInstantiation, TypeAnnotOrNoop,
-    TypeParamDeclOrNoop,
+    Access, FlowType, SuperTypeParams, TSEntityName, TSFuncDeclTypeAnnot, TSFuncDeclTypeParams,
+    TSQualifiedName, TSType, TSTypeAnnotation, TSTypeParameter, TSTypeParameterDeclaration,
+    TSTypeParameterInstantiation, TypeAnnotOrNoop, TypeParamDeclOrNoop,
 };
 
 use super::Context;
@@ -38,6 +38,17 @@ impl Swcify for TypeParamDeclOrNoop {
             TypeParamDeclOrNoop::Flow(_) => None,
             TypeParamDeclOrNoop::TS(v) => Some(v.swcify(ctx)),
             TypeParamDeclOrNoop::Noop(_) => None,
+        }
+    }
+}
+
+impl Swcify for TSFuncDeclTypeParams {
+    type Output = Option<TsTypeParamDecl>;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TSFuncDeclTypeParams::Type(params) => Some(params.swcify(ctx)),
+            TSFuncDeclTypeParams::Noop(_) => None,
         }
     }
 }
@@ -78,6 +89,17 @@ impl Swcify for TypeAnnotOrNoop {
             TypeAnnotOrNoop::Flow(_) => None,
             TypeAnnotOrNoop::TS(v) => Some(v.swcify(ctx)),
             TypeAnnotOrNoop::Noop(_) => None,
+        }
+    }
+}
+
+impl Swcify for TSFuncDeclTypeAnnot {
+    type Output = Option<TsTypeAnn>;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TSFuncDeclTypeAnnot::Type(annotation) => Some(annotation.swcify(ctx)),
+            TSFuncDeclTypeAnnot::Noop(_) => None,
         }
     }
 }

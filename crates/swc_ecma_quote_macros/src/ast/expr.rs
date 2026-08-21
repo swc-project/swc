@@ -124,6 +124,20 @@ impl_struct!(
         return_type
     ]
 );
+impl_struct!(
+    TsFunction,
+    [
+        ctxt,
+        this_param,
+        params,
+        decorators,
+        span,
+        is_generator,
+        is_async,
+        type_params,
+        return_type
+    ]
+);
 impl_struct!(Decorator, [span, expr]);
 
 impl_struct!(TplElement, [span, tail, cooked, raw]);

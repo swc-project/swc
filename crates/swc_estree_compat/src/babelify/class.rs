@@ -1,13 +1,14 @@
 use copyless::BoxHelper;
 use serde_json::value::Value;
 use swc_ecma_ast::{
-    Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, MethodKind, PrivateMethod,
-    PrivateProp, StaticBlock,
+    Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, Key, MethodKind,
+    PrivateMethod, PrivateProp, StaticBlock, TsMethod,
 };
 use swc_estree_ast::{
     ClassBody, ClassBodyEl, ClassExpression, ClassMethod as BabelClassMethod, ClassMethodKind,
     ClassPrivateMethod, ClassPrivateProperty, ClassProperty, Decorator as BabelDecorator,
-    StaticBlock as BabelStaticBlock,
+    StaticBlock as BabelStaticBlock, TSDeclareMethod, TSDeclareMethodKey, TSFuncDeclTypeAnnot,
+    TSFuncDeclTypeParams,
 };
 
 use crate::babelify::{
@@ -54,6 +55,7 @@ impl Babelify for ClassMember {
             ClassMember::Constructor(c) => ClassBodyEl::Method(c.babelify(ctx)),
             ClassMember::Method(m) => ClassBodyEl::Method(m.babelify(ctx)),
             ClassMember::PrivateMethod(m) => ClassBodyEl::PrivateMethod(m.babelify(ctx)),
+            ClassMember::TsMethod(m) => ClassBodyEl::TSMethod(m.babelify(ctx)),
             ClassMember::ClassProp(p) => ClassBodyEl::Prop(p.babelify(ctx)),
             ClassMember::PrivateProp(p) => ClassBodyEl::PrivateProp(p.babelify(ctx)),
             ClassMember::TsIndexSignature(s) => ClassBodyEl::TSIndex(s.babelify(ctx)),
@@ -132,7 +134,7 @@ impl Babelify for ClassMethod {
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
             params,
-            body: self.function.body.unwrap().babelify(ctx),
+            body: self.function.body.babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),
             decorators: Some(self.function.decorators.babelify(ctx)),
@@ -162,7 +164,7 @@ impl Babelify for PrivateMethod {
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
             params,
-            body: self.function.body.unwrap().babelify(ctx),
+            body: self.function.body.babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),
             decorators: Some(self.function.decorators.babelify(ctx)),
@@ -172,6 +174,48 @@ impl Babelify for PrivateMethod {
                 .return_type
                 .map(|t| Box::alloc().init(t.babelify(ctx).into())),
             computed: Default::default(),
+        }
+    }
+}
+
+impl Babelify for TsMethod {
+    type Output = TSDeclareMethod;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        let (key, computed) = match self.key {
+            Key::Public(key) => {
+                let computed = Some(key.is_computed());
+                (TSDeclareMethodKey::Public(key.babelify(ctx)), computed)
+            }
+            Key::Private(key) => (TSDeclareMethodKey::Private(key.babelify(ctx)), Some(false)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        };
+        let params = babelify_function_params(self.function.this_param, self.function.params, ctx);
+        let accessibility = self.accessibility.map(|access| access.babelify(ctx));
+
+        TSDeclareMethod {
+            base: ctx.base(self.span),
+            decorators: Some(self.function.decorators.babelify(ctx)),
+            key,
+            type_parameters: self
+                .function
+                .type_params
+                .map(|params| TSFuncDeclTypeParams::Type(params.babelify(ctx))),
+            params,
+            return_type: self.function.return_type.map(|return_type| {
+                TSFuncDeclTypeAnnot::Type(Box::alloc().init(return_type.babelify(ctx)))
+            }),
+            is_abstract: Some(self.is_abstract),
+            access: accessibility.clone(),
+            accessibility,
+            is_async: Some(self.function.is_async),
+            computed,
+            generator: Some(self.function.is_generator),
+            kind: Some(self.kind.babelify(ctx)),
+            optional: Some(self.is_optional),
+            is_override: Some(self.is_override),
+            is_static: Some(self.is_static),
         }
     }
 }

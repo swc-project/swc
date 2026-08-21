@@ -307,7 +307,7 @@ fn lower_default_decl(module: &mut SystemModule, export: ExportDefaultDecl) {
                 function: fn_expr.function,
             });
         }
-        DefaultDecl::TsInterfaceDecl(_) => {}
+        DefaultDecl::TsFn(_) | DefaultDecl::TsInterfaceDecl(_) => {}
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }

@@ -1,8 +1,11 @@
 use copyless::BoxHelper;
-use swc_ecma_ast::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator};
+use swc_ecma_ast::{
+    ClassDecl, Decl, FnDecl, TsFnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator,
+};
 use swc_estree_ast::{
-    ClassBody, ClassDeclaration, Declaration, FunctionDeclaration, UsingDeclaration,
-    VariableDeclaration, VariableDeclarationKind, VariableDeclarator,
+    ClassBody, ClassDeclaration, Declaration, FunctionDeclaration, TSDeclareFunction,
+    TSFuncDeclTypeAnnot, TSFuncDeclTypeParams, UsingDeclaration, VariableDeclaration,
+    VariableDeclarationKind, VariableDeclarator,
 };
 
 use crate::babelify::{extract_class_body_span, Babelify, Context};
@@ -14,6 +17,7 @@ impl Babelify for Decl {
         match self {
             Decl::Class(d) => Declaration::ClassDecl(d.babelify(ctx)),
             Decl::Fn(d) => Declaration::FuncDecl(d.babelify(ctx)),
+            Decl::TsFn(d) => Declaration::TSDeclFunc(d.babelify(ctx)),
             Decl::Var(d) => Declaration::VarDecl(d.babelify(ctx)),
             Decl::Using(d) => Declaration::UsingDecl(d.babelify(ctx)),
             Decl::TsInterface(d) => Declaration::TSInterfaceDecl(d.babelify(ctx)),
@@ -22,6 +26,34 @@ impl Babelify for Decl {
             Decl::TsModule(d) => Declaration::TSModuleDecl(d.babelify(ctx)),
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
+        }
+    }
+}
+
+impl Babelify for TsFnDecl {
+    type Output = TSDeclareFunction;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        let params = crate::babelify::function::babelify_function_params(
+            self.function.this_param,
+            self.function.params,
+            ctx,
+        );
+
+        TSDeclareFunction {
+            base: ctx.base(self.function.span),
+            id: self.ident.map(|ident| ident.babelify(ctx)),
+            type_parameters: self
+                .function
+                .type_params
+                .map(|params| TSFuncDeclTypeParams::Type(params.babelify(ctx))),
+            params,
+            return_type: self.function.return_type.map(|return_type| {
+                TSFuncDeclTypeAnnot::Type(Box::alloc().init(return_type.babelify(ctx)))
+            }),
+            is_async: Some(self.function.is_async),
+            declare: Some(self.declare),
+            generator: Some(self.function.is_generator),
         }
     }
 }

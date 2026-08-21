@@ -787,6 +787,11 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
 
+    fn visit_ts_fn_decl(&mut self, n: &TsFnDecl) {
+        self.show("TsFnDecl", n);
+        n.visit_children_with(self)
+    }
+
     fn visit_ts_fn_or_constructor_type(&mut self, n: &TsFnOrConstructorType) {
         self.show("TsFnOrConstructorType", n);
         n.visit_children_with(self)
@@ -799,6 +804,11 @@ impl Visit for Shower<'_> {
 
     fn visit_ts_fn_type(&mut self, n: &TsFnType) {
         self.show("TsFnType", n);
+        n.visit_children_with(self)
+    }
+
+    fn visit_ts_function(&mut self, n: &TsFunction) {
+        self.show("TsFunction", n);
         n.visit_children_with(self)
     }
 

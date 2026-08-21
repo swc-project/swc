@@ -243,6 +243,16 @@ impl Visit for TypeUsageAnalyzer<'_> {
                     |this| fn_decl.function.visit_with(this),
                 );
             }
+            Decl::TsFn(fn_decl) => {
+                if let Some(ident) = &fn_decl.ident {
+                    self.with_source_ident(
+                        Symbol::new(ident.to_id(), SymbolFlags::Value),
+                        |this| fn_decl.function.visit_with(this),
+                    );
+                } else {
+                    fn_decl.function.visit_with(self);
+                }
+            }
             Decl::Var(var_decl) => {
                 for decl in &var_decl.decls {
                     // When the name of the decl is a binding ident, the usage of its type
@@ -419,6 +429,12 @@ impl Visit for TypeUsageAnalyzer<'_> {
             ClassMember::Method(class_method) => class_method
                 .accessibility
                 .is_some_and(|accessibility| accessibility == Accessibility::Private),
+            ClassMember::TsMethod(method) => {
+                method.key.is_private()
+                    || method
+                        .accessibility
+                        .is_some_and(|accessibility| accessibility == Accessibility::Private)
+            }
             ClassMember::PrivateMethod(_) => true,
             ClassMember::ClassProp(class_prop) => class_prop
                 .accessibility

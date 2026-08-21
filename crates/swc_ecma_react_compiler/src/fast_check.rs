@@ -119,11 +119,7 @@ impl Visit for Finder {
     }
 
     fn visit_function(&mut self, node: &Function) {
-        if node
-            .body
-            .as_ref()
-            .is_some_and(|body| has_opt_in_directive(&body.stmts))
-        {
+        if has_opt_in_directive(&node.body.stmts) {
             self.found = true;
             return;
         }

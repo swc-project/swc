@@ -6,8 +6,8 @@ use swc_ecma_ast::{
     FunctionBody, IfStmt, ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier,
     KeyValueProp, LabeledStmt, Lit, ModuleDecl, ModuleItem, NamedExport, ObjectLit, Pat, Prop,
     PropName, PropOrSpread, ReturnStmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment,
-    TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr,
-    VarDeclarator, WhileStmt, WithStmt,
+    TsFnDecl, TsFunction, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind,
+    VarDeclOrExpr, VarDeclarator, WhileStmt, WithStmt,
 };
 use swc_estree_ast::{
     BlockStatement, BreakStatement, ClassDeclaration, ContinueStatement, DebuggerStatement,
@@ -18,8 +18,8 @@ use swc_estree_ast::{
     ForInStatement, ForOfStatement, ForStatement, ForStmtInit, ForStmtLeft, FunctionDeclaration,
     IdOrString, IfStatement, ImportAttribute, ImportDeclaration, ImportKind,
     ImportNamespaceSpecifier, ImportSpecifierType, LabeledStatement, ReturnStatement, Statement,
-    SwitchStatement, ThrowStatement, TryStatement, VariableDeclaration, VariableDeclarationKind,
-    VariableDeclarator, WhileStatement, WithStatement,
+    SwitchStatement, TSDeclareFunction, ThrowStatement, TryStatement, VariableDeclaration,
+    VariableDeclarationKind, VariableDeclarator, WhileStatement, WithStatement,
 };
 
 use super::Context;
@@ -83,6 +83,7 @@ impl Swcify for Statement {
             Statement::ImportDecl(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
             Statement::DeclClass(v) => v.swcify(ctx).into(),
             Statement::DeclFunc(v) => v.swcify(ctx).into(),
+            Statement::TSDeclFunc(v) => v.swcify(ctx).into(),
             Statement::DeclInterface(v) => v.swcify(ctx).into(),
             Statement::DeclModule(v) => v.swcify(ctx).into(),
             Statement::DeclareModuleExports(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
@@ -90,9 +91,7 @@ impl Swcify for Statement {
             Statement::DeclVar(v) => v.swcify(ctx).into(),
             Statement::DeclExportDeclaration(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
             Statement::DeclExportAllDeclaration(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
-            _ => {
-                todo!("swcify: {:?}", self)
-            }
+            _ => todo!("swcify: {:?}", self),
         }
     }
 }
@@ -226,7 +225,7 @@ impl Swcify for FunctionDeclaration {
                 params,
                 decorators: Default::default(),
                 span: ctx.span(&self.base),
-                body: Some(swcify_function_body(self.body, ctx)),
+                body: swcify_function_body(self.body, ctx),
                 is_generator: false,
                 is_async: self.is_async.unwrap_or_default(),
                 ..Default::default()
@@ -508,14 +507,41 @@ impl Swcify for ExportDefaultDeclaration {
                 }
                 .into()
             }
+            ExportDefaultDeclType::TSFunc(v) => ExportDefaultDecl {
+                span: ctx.span(&self.base),
+                decl: DefaultDecl::TsFn(v.swcify(ctx)),
+            }
+            .into(),
             ExportDefaultDeclType::Expr(v) => ExportDefaultExpr {
                 span: ctx.span(&self.base),
                 expr: v.swcify(ctx),
             }
             .into(),
-            _ => {
-                todo!("swcify: {:?}", self)
-            }
+        }
+    }
+}
+
+impl Swcify for TSDeclareFunction {
+    type Output = TsFnDecl;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        let SwcifiedFunctionParams { this_param, params } =
+            swcify_function_params(self.params, ctx);
+
+        TsFnDecl {
+            ident: self.id.swcify(ctx).map(|ident| ident.id),
+            declare: self.declare.unwrap_or_default(),
+            function: Box::new(TsFunction {
+                this_param,
+                params,
+                decorators: Vec::new(),
+                span: ctx.span(&self.base),
+                is_generator: self.generator.unwrap_or_default(),
+                is_async: self.is_async.unwrap_or_default(),
+                type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
+                return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                ..Default::default()
+            }),
         }
     }
 }

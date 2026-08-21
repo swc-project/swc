@@ -106,6 +106,7 @@ impl MacroNode for Decl {
         match self {
             Decl::Class(n) => emit!(n),
             Decl::Fn(n) => emit!(n),
+            Decl::TsFn(n) => emit!(n),
             Decl::Var(n) => {
                 emitter.emit_var_decl_inner(n)?;
                 formatting_semi!(emitter);
@@ -205,6 +206,63 @@ impl MacroNode for FnDecl {
         emit!(self.ident);
 
         emitter.emit_fn_trailing(&self.function)?;
+        emitter.end_scope()?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsFnDecl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emitter.wr.commit_pending_semi()?;
+
+        srcmap!(emitter, self, true);
+        let fn_name = self.ident.as_ref().map(|ident| ident.sym.as_ref());
+        if let Some(fn_name) = fn_name {
+            emitter.add_scope_variable(fn_name, Some(fn_name), BindingStorage::Hoisted)?;
+        }
+        emitter.start_scope(
+            fn_name,
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
+        if emitter.scope_tracking_enabled() {
+            let mut names = vec![];
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
+
+        if self.declare {
+            keyword!(emitter, "declare");
+            space!(emitter);
+        }
+
+        if self.function.is_async {
+            keyword!(emitter, "async");
+            space!(emitter);
+        }
+
+        keyword!(emitter, "function");
+        if self.function.is_generator {
+            punct!(emitter, "*");
+        }
+        if let Some(ident) = &self.ident {
+            space!(emitter);
+            emit!(ident);
+        } else if self.function.is_generator {
+            formatting_space!(emitter);
+        }
+
+        emitter.emit_ts_fn_trailing(&self.function)?;
         emitter.end_scope()?;
 
         Ok(())

@@ -150,7 +150,7 @@ impl VisitMut for Arrow {
                     params,
                     is_async: *is_async,
                     is_generator: *is_generator,
-                    body: Some(match &mut **body {
+                    body: match &mut **body {
                         ArrowFunctionBody::FunctionBody(body) => body.take(),
                         ArrowFunctionBody::Expr(expr) => FunctionBody {
                             span: DUMMY_SP,
@@ -164,7 +164,7 @@ impl VisitMut for Arrow {
                         },
                         #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
-                    }),
+                    },
                     ..Default::default()
                 }
                 .into();
@@ -184,8 +184,8 @@ impl VisitMut for Arrow {
 
         let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
-        if let (Some(body), Some(stmt)) = (&mut f.body, decl) {
-            prepend_stmt(&mut body.stmts, stmt);
+        if let Some(stmt) = decl {
+            prepend_stmt(&mut f.body.stmts, stmt);
         }
     }
 

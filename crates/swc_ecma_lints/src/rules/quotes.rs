@@ -132,6 +132,12 @@ impl Quotes {
 
         self.emit_report(*span);
     }
+
+    fn check_method_key(&self, key: &PropName) {
+        if let Some(lit_str) = key.as_str() {
+            self.check_str(true, lit_str);
+        }
+    }
 }
 
 impl Visit for Quotes {
@@ -164,10 +170,16 @@ impl Visit for Quotes {
     }
 
     fn visit_class_method(&mut self, class_method: &ClassMethod) {
-        if let Some(lit_str) = class_method.key.as_str() {
-            self.check_str(true, lit_str);
-        }
+        self.check_method_key(&class_method.key);
 
         class_method.visit_children_with(self);
+    }
+
+    fn visit_ts_method(&mut self, method: &TsMethod) {
+        if let Key::Public(key) = &method.key {
+            self.check_method_key(key);
+        }
+
+        method.visit_children_with(self);
     }
 }

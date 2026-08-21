@@ -525,6 +525,11 @@ impl<I: Tokens> Parser<I> {
             Decl::Fn(fn_decl) => {
                 self.record_exported_name(exported, fn_decl.ident.sym.clone(), fn_decl.ident.span);
             }
+            Decl::TsFn(fn_decl) => {
+                if let Some(ident) = &fn_decl.ident {
+                    self.record_exported_name(exported, ident.sym.clone(), ident.span);
+                }
+            }
             Decl::Var(var_decl) => {
                 for declarator in &var_decl.decls {
                     if let Pat::Ident(ident) = &declarator.name {
