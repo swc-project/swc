@@ -78,7 +78,7 @@ use swc_ecma_transforms_optimization::{
     simplify::{dce::Config as DceConfig, Config as SimplifyConfig},
     GlobalExprMap,
 };
-use swc_ecma_utils::NodeIgnoringSpan;
+use swc_ecma_utils::{drop_span, NodeIgnoringSpan};
 use swc_ecma_visit::VisitMutWith;
 use swc_visit::Optional;
 
@@ -2214,6 +2214,8 @@ impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Pass {
         type ValuesMap = Arc<FxHashMap<Atom, Expr>>;
 
+        /// Parsed in `cm` so that a syntax error keeps its position, but the
+        /// spans are dropped because the caller memoizes the result.
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
             let fm = cm.new_source_file(FileName::Anon.into(), src);
 
@@ -2231,7 +2233,7 @@ impl GlobalPassOption {
             }
 
             match expr {
-                Ok(v) => v,
+                Ok(v) => drop_span(v),
                 _ => panic!("{} is not a valid expression", fm.src),
             }
         }
