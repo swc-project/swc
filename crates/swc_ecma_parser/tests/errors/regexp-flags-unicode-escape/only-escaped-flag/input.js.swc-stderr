@@ -1,0 +1,12 @@
+  x Regular expression flags cannot contain unicode escapes.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/only-escaped-flag/input.js:1:1]
+ 1 | /x/\u0067;
+   : ^^^^^^^^^
+ 2 | /x/\u{0069};
+   `----
+  x Regular expression flags cannot contain unicode escapes.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/only-escaped-flag/input.js:2:1]
+ 1 | /x/\u0067;
+ 2 | /x/\u{0069};
+   : ^^^^^^^^^^^
+   `----
