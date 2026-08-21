@@ -52,6 +52,12 @@ pub struct LexerCheckpoint {
     state: State,
     ctx: Context,
     input_last_pos: BytePos,
+    /// Number of errors recorded when the checkpoint was taken.
+    ///
+    /// Errors emitted by a speculative parse must be dropped when the parse is
+    /// backtracked, so the error buffers are truncated to these lengths.
+    errors_len: usize,
+    module_errors_len: usize,
 }
 
 impl crate::input::Tokens for Lexer<'_> {
@@ -67,6 +73,8 @@ impl crate::input::Tokens for Lexer<'_> {
                 .as_ref()
                 .map(|cb| cb.checkpoint_save())
                 .unwrap_or_default(),
+            errors_len: self.errors.len(),
+            module_errors_len: self.module_errors.len(),
         }
     }
 
@@ -77,6 +85,8 @@ impl crate::input::Tokens for Lexer<'_> {
         if let Some(comments_buffer) = self.comments_buffer.as_mut() {
             comments_buffer.checkpoint_load(checkpoint.comments_buffer);
         }
+        self.errors.truncate(checkpoint.errors_len);
+        self.module_errors.truncate(checkpoint.module_errors_len);
     }
 
     #[inline]
