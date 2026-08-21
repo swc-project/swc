@@ -4,27 +4,25 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use anyhow::Context;
+use anyhow::{Context, Error};
 use par_iter::prelude::*;
 use swc::{
     config::{
         Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options, Paths,
         SourceMapsConfig, TransformConfig,
     },
-    try_with_handler, BoolOrDataConfig, Compiler, TransformOutput,
+    try_with_handler, BoolOrDataConfig, CompileInput, Compiler, PipelineContext, PipelineHooks,
+    TransformOutput,
 };
 use swc_common::{
-    comments::{Comment, SingleThreadedComments},
-    errors::{EmitterWriter, Handler, HANDLER},
+    errors::{EmitterWriter, Handler},
     sync::Lrc,
-    BytePos, FileName, Globals, SourceMap, GLOBALS,
+    FileName, Globals, SourceMap, GLOBALS,
 };
-use swc_compiler_base::PrintArgs;
 use swc_config::{file_pattern::FilePattern, is_module::IsModule};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
-use swc_ecma_transforms::helpers::{self, Helpers};
 use swc_ecma_visit::{fold_pass, Fold};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
@@ -693,6 +691,17 @@ impl Fold for Panicking {
     }
 }
 
+impl PipelineHooks for Panicking {
+    fn mutate_after_typescript(
+        &mut self,
+        program: &mut Program,
+        _context: &PipelineContext<'_>,
+    ) -> Result<(), Error> {
+        program.mutate(fold_pass(Panicking));
+        Ok(())
+    }
+}
+
 #[test]
 #[should_panic = "visited"]
 fn should_visit() {
@@ -707,12 +716,10 @@ fn should_visit() {
                     const comp = () => <amp-something className='something' />;
                 ",
             );
-            let comments = SingleThreadedComments::default();
-            let config = c
-                .parse_js_as_input(
-                    fm.clone(),
-                    None,
+            let output = c
+                .compile(
                     &handler,
+                    CompileInput::source(fm),
                     &swc::config::Options {
                         config: swc::config::Config {
                             jsc: JscConfig {
@@ -726,54 +733,12 @@ fn should_visit() {
                         },
                         ..Default::default()
                     },
-                    &fm.name,
-                    Some(&comments),
-                    |_| noop_pass(),
                 )
-                .unwrap()
-                .unwrap();
+                .with_hooks(Panicking)
+                .codegen()
+                .expect("failed to compile JSX fixture");
 
-            dbg!(config.syntax);
-
-            let config = config.with_pass(|pass| (fold_pass(Panicking), pass));
-
-            if config.minify {
-                let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
-                    vc.retain(|c: &Comment| c.text.starts_with('!'));
-                    !vc.is_empty()
-                };
-                c.comments().leading.retain(preserve_excl);
-                c.comments().trailing.retain(preserve_excl);
-            }
-            let pass = config.pass;
-            let program = config.program;
-            let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                HANDLER.set(&handler, || {
-                    // Fold module
-                    program.apply(pass)
-                })
-            });
-
-            Ok(c.print(
-                &program,
-                PrintArgs {
-                    source_root: None,
-                    source_file_name: None,
-                    output_path: config.output_path,
-                    inline_sources_content: config.inline_sources_content,
-                    source_map: config.source_maps,
-                    orig: None,
-                    // TODO: figure out sourcemaps
-                    comments: Some(&comments),
-                    emit_source_map_columns: config.emit_source_map_columns,
-                    codegen_config: swc_ecma_codegen::Config::default()
-                        .with_target(config.target)
-                        .with_minify(config.minify),
-                    ..Default::default()
-                },
-            )
-            .unwrap()
-            .code)
+            Ok(output.code)
         })
         .unwrap();
 }
