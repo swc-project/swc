@@ -1898,10 +1898,8 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
-        {
-            let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
-            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
+        let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     #[cfg_attr(
@@ -2304,7 +2302,8 @@ impl VisitMut for Optimizer<'_> {
                 .ctx
                 .clone()
                 .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
-                .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat());
+                .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
+                .with(BitCtx::ExecutedMultipleTime, true);
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
 
@@ -2326,7 +2325,8 @@ impl VisitMut for Optimizer<'_> {
                 .ctx
                 .clone()
                 .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
-                .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat());
+                .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
+                .with(BitCtx::ExecutedMultipleTime, true);
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
 
@@ -2345,11 +2345,13 @@ impl VisitMut for Optimizer<'_> {
 
         debug_assert_valid(&s.init);
 
-        s.test.visit_mut_with(self);
-        s.update.visit_mut_with(self);
-
         let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
-        s.body.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
+        let mut child = self.with_ctx(ctx.clone());
+
+        s.test.visit_mut_with(&mut *child);
+        s.update.visit_mut_with(&mut *child);
+
+        s.body.visit_mut_with(&mut *child);
     }
 
     #[cfg_attr(
@@ -3439,10 +3441,8 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
-        {
-            let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
-            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
+        let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     #[cfg_attr(
