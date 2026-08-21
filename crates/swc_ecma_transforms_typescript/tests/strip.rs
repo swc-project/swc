@@ -2843,6 +2843,19 @@ test!(
       A = H.A
     }
     console.log(I.A);
+    const j = H.A;
+    enum J {
+      A = j
+    }
+    console.log(J.A);
+    const enum K {
+      A = 3,
+    }
+    const l = K.A;
+    enum L {
+      A = l
+    }
+    console.log(L.A);
     "#
 );
 
