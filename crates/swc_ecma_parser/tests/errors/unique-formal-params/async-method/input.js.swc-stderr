@@ -1,0 +1,5 @@
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/errors/unique-formal-params/async-method/input.js:1:1]
+ 1 | ({ async m(a, a) { return a; } });
+   :               ^
+   `----

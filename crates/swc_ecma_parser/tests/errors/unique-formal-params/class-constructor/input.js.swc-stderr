@@ -1,0 +1,14 @@
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/errors/unique-formal-params/class-constructor/input.js:2:1]
+ 1 | class C {
+ 2 |   constructor(a, a) {}
+   :                  ^
+ 3 | }
+   `----
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/errors/unique-formal-params/class-constructor/input.js:5:1]
+ 4 | class D {
+ 5 |   constructor([a], a) {}
+   :                    ^
+ 6 | }
+   `----

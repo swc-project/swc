@@ -417,6 +417,14 @@ impl<I: Tokens> Parser<I> {
                 params.is_simple_parameter_list(),
             )?;
 
+            // `function f(a, a) { "use strict"; }` is an early error even though
+            // the parameter list is simple and the outer context may be sloppy.
+            if let Some(body) = &body {
+                if params.is_simple_parameter_list() && has_use_strict(body).is_some() {
+                    p.ensure_unique_formal_params(params.iter().map(|param| &param.pat));
+                }
+            }
+
             if p.syntax().flow() && body.is_none() && !p.ctx().contains(Context::InDeclare) {
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
             }
@@ -1372,7 +1380,7 @@ impl<I: Tokens> Parser<I> {
                 }));
             } else {
                 return self.make_method(
-                    Self::parse_formal_params,
+                    Self::parse_unique_formal_params,
                     MakeMethodArgs {
                         start,
                         is_optional,
@@ -1527,7 +1535,7 @@ impl<I: Tokens> Parser<I> {
                 ),
                 Token::Set => self.make_method(
                     |p| {
-                        let params = p.parse_formal_params()?;
+                        let params = p.parse_unique_formal_params()?;
 
                         if p.syntax().flow() && params.iter().any(|p| !is_not_this(p)) {
                             p.emit_err(key_span, SyntaxError::TS1003);

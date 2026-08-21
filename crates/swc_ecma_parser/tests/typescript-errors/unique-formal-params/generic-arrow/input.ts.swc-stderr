@@ -1,0 +1,5 @@
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/typescript-errors/unique-formal-params/generic-arrow/input.ts:1:1]
+ 1 | const f = <T>(a, a) => a;
+   :                  ^
+   `----
