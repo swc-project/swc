@@ -698,6 +698,19 @@ impl<I: Tokens> Parser<I> {
         Ok(buf)
     }
 
+    /// Whether errors emitted while backtracking should be suppressed instead
+    /// of being rolled back with the checkpoint.
+    ///
+    /// Rolling them back is the correct behavior: a speculative parse which is
+    /// discarded also discards its errors, while a speculative parse which is
+    /// kept keeps them. Flow is excluded for now because it reports `_` in
+    /// a type argument list as an error even in the positions where Flow
+    /// allows it, and those false positives are currently hidden by the
+    /// suppression.
+    fn should_ignore_error_while_backtracking(&self) -> bool {
+        self.syntax().flow()
+    }
+
     /// `tsTryParse`
     pub(super) fn try_parse_ts_bool<F>(&mut self, op: F) -> PResult<bool>
     where
@@ -707,15 +720,20 @@ impl<I: Tokens> Parser<I> {
             return Ok(false);
         }
 
-        let prev_ignore_error = self.input().get_ctx().contains(Context::IgnoreError);
+        let ignore_error = self.should_ignore_error_while_backtracking();
+        let prev_ignore_error = self.ctx().contains(Context::IgnoreError);
         let checkpoint = self.checkpoint_save();
-        self.set_ctx(self.ctx() | Context::IgnoreError);
+        if ignore_error {
+            self.set_ctx(self.ctx() | Context::IgnoreError);
+        }
         let res = op(self);
         match res {
             Ok(Some(res)) if res => {
-                let mut ctx = self.ctx();
-                ctx.set(Context::IgnoreError, prev_ignore_error);
-                self.input_mut().set_ctx(ctx);
+                if ignore_error {
+                    let mut ctx = self.ctx();
+                    ctx.set(Context::IgnoreError, prev_ignore_error);
+                    self.input_mut().set_ctx(ctx);
+                }
                 Ok(res)
             }
             _ => {
@@ -835,16 +853,21 @@ impl<I: Tokens> Parser<I> {
 
         trace_cur!(self, try_parse_ts);
 
-        let prev_ignore_error = self.input().get_ctx().contains(Context::IgnoreError);
+        let ignore_error = self.should_ignore_error_while_backtracking();
+        let prev_ignore_error = self.ctx().contains(Context::IgnoreError);
         let checkpoint = self.checkpoint_save();
-        self.set_ctx(self.ctx() | Context::IgnoreError);
+        if ignore_error {
+            self.set_ctx(self.ctx() | Context::IgnoreError);
+        }
         let res = op(self);
         match res {
             Ok(Some(res)) => {
                 trace_cur!(self, try_parse_ts__success_value);
-                let mut ctx = self.ctx();
-                ctx.set(Context::IgnoreError, prev_ignore_error);
-                self.input_mut().set_ctx(ctx);
+                if ignore_error {
+                    let mut ctx = self.ctx();
+                    ctx.set(Context::IgnoreError, prev_ignore_error);
+                    self.input_mut().set_ctx(ctx);
+                }
                 Some(res)
             }
             Ok(None) => {
@@ -1102,6 +1125,8 @@ impl<I: Tokens> Parser<I> {
         F: FnOnce(&mut Self) -> T,
     {
         debug_assert!(self.input().syntax().typescript());
+        // the checkpoint is always loaded back, so any error emitted by `op` would be
+        // rolled back anyway; suppressing them just avoids the wasted work
         let checkpoint = self.checkpoint_save();
         self.set_ctx(self.ctx() | Context::IgnoreError);
         let ret = op(self);
