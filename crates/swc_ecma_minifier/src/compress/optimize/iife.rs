@@ -854,6 +854,9 @@ impl Optimizer<'_> {
             || usage.assign_count > 0
             || usage.property_mutation_count > 0
             || usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+            || usage
+                .flags
+                .contains(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
             || usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
         {
             return false;
