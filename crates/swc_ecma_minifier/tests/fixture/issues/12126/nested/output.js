@@ -5,4 +5,15 @@ function nested() {
     ])break;
     return a;
 }
+function rest() {
+    return function(...a) {
+        for (var a of [
+            [
+                1
+            ]
+        ])break;
+        return a[0];
+    }(2);
+}
 console.log(nested());
+console.log(rest());

@@ -333,7 +333,7 @@ impl Optimizer<'_> {
                     Pat::Rest(rest_pat) => {
                         if let Pat::Ident(param_id) = &mut *rest_pat.arg {
                             if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
-                                if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                if !Self::can_inline_iife_param_usage(usage)
                                     || usage.ref_count != 1
                                     || !usage.flags.contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
                                 {
