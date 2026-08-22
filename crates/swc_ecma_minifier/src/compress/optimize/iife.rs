@@ -1,9 +1,11 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
-use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
+use swc_ecma_utils::{
+    contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory, Remapper,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
@@ -670,6 +672,36 @@ impl Optimizer<'_> {
 
         match callee {
             Expr::Arrow(f) => {
+                // Cheap functions can be copied before they are invoked as IIFEs.
+                // Freshen copied parameters so the mangler considers each call site's
+                // conflicts independently. Only remap parameters: the body has already
+                // been visited and can contain pending substitutions keyed by its IDs.
+                let has_cloned_param = self.mangle_options.is_some()
+                    && f.params.iter().any(|param| {
+                        self.data
+                            .vars
+                            .get(&param.as_ident().unwrap().id.to_id())
+                            .is_some_and(|usage| usage.declared_count > 1)
+                    });
+                if has_cloned_param {
+                    let new_mark = Mark::new();
+                    let mut remap = FxHashMap::default();
+
+                    for param in &f.params {
+                        let id = param.as_ident().unwrap().id.to_id();
+                        let new_ctxt = id.1.apply_mark(new_mark);
+
+                        if let Some(usage) = self.data.vars.get(&id).cloned() {
+                            self.data.vars.insert((id.0.clone(), new_ctxt), usage);
+                        }
+
+                        remap.insert(id, new_ctxt);
+                    }
+
+                    let mut remapper = Remapper::new(&remap);
+                    f.visit_mut_with(&mut remapper);
+                }
+
                 let param_ids = f.params.iter().map(|p| &p.as_ident().unwrap().id);
 
                 match &mut *f.body {
