@@ -12679,3 +12679,34 @@ fn drop_console_value_used_chained_calls() {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn drop_console_computed_prop_and_constructibility() {
+    // `console.error["bind"]` gets the same treatment as `console.error.bind`
+    // even when `properties` normalization is off, and with `ecma` >= 2015 the
+    // replacement is an arrow, which - like the native console methods - is
+    // not a constructor.
+    let src = r#"
+    const cb = console.error["bind"](console);
+    cb("boom");
+    process.stdout.write(typeof cb + "\n");
+
+    let threw = false;
+    try {
+        new (console.error.bind(console))();
+    } catch (e) {
+        threw = true;
+    }
+    process.stdout.write(threw + "\n");
+    "#;
+
+    let config = r#"{
+        "defaults": true,
+        "drop_console": true,
+        "ecma": 2015,
+        "properties": false,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}

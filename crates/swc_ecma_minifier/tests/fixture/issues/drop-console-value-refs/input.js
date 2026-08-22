@@ -24,3 +24,6 @@ process.stdout.write(typeof ob + "\n");
 
 const dbg = console.debug?.bind(console) || null;
 process.stdout.write((dbg !== null) + "\n");
+
+const st = console.state.valueOf();
+process.stdout.write(typeof st + "\n");

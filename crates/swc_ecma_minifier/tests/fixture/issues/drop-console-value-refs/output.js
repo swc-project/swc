@@ -13,3 +13,5 @@ ob("boom optional");
 process.stdout.write(typeof ob + "\n");
 const dbg = (console.debug && function() {})?.bind() || null;
 process.stdout.write((null !== dbg) + "\n");
+const st = void 0;
+process.stdout.write(typeof st + "\n");

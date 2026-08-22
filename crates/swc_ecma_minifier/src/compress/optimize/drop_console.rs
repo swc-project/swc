@@ -67,7 +67,7 @@ impl Optimizer<'_> {
 
                 args.clear();
 
-                let noop = noop_fn_expr();
+                let noop = noop_fn_expr(self.options.ecma);
                 *member.obj = if guard_obj {
                     Expr::Bin(BinExpr {
                         span: DUMMY_SP,
@@ -84,15 +84,73 @@ impl Optimizer<'_> {
     }
 }
 
-fn noop_fn_expr() -> Expr {
-    Expr::Fn(FnExpr {
-        ident: None,
-        function: Box::new(Function {
+/// Builds the empty function substituted for a console method. An arrow is
+/// preferred because, like the native console methods, it is not a
+/// constructor; `function () {}` remains for ES5 targets.
+fn noop_fn_expr(ecma: EsVersion) -> Expr {
+    if ecma >= EsVersion::Es2015 {
+        Expr::Arrow(ArrowExpr {
             span: DUMMY_SP,
-            body: Some(FunctionBody::default()),
-            ..Default::default()
-        }),
-    })
+            ctxt: SyntaxContext::empty(),
+            params: Vec::new(),
+            body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody::default())),
+            is_async: false,
+            is_generator: false,
+            type_params: None,
+            return_type: None,
+        })
+    } else {
+        Expr::Fn(FnExpr {
+            ident: None,
+            function: Box::new(Function {
+                span: DUMMY_SP,
+                body: Some(FunctionBody::default()),
+                ..Default::default()
+            }),
+        })
+    }
+}
+
+/// The name of a member access if it is statically known, whether written as
+/// `a.b` or `a["b"]`.
+fn static_prop_name(prop: &MemberProp) -> Option<&str> {
+    match prop {
+        MemberProp::Ident(prop) => Some(&*prop.sym),
+        MemberProp::Computed(prop) => match &*prop.expr {
+            Expr::Lit(Lit::Str(prop)) => prop.value.as_str(),
+            _ => None,
+        },
+        MemberProp::PrivateName(_) => None,
+    }
+}
+
+fn is_console_method(name: &str) -> bool {
+    matches!(
+        name,
+        "assert"
+            | "clear"
+            | "count"
+            | "countReset"
+            | "debug"
+            | "dir"
+            | "dirxml"
+            | "error"
+            | "group"
+            | "groupCollapsed"
+            | "groupEnd"
+            | "info"
+            | "log"
+            | "table"
+            | "time"
+            | "timeEnd"
+            | "timeLog"
+            | "trace"
+            | "warn"
+            // Non-standard, but widely implemented.
+            | "profile"
+            | "profileEnd"
+            | "timeStamp"
+    )
 }
 
 /// Checks if `e` is a call rooted at the global `console` and decides how to
@@ -122,8 +180,10 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
     };
 
     // Hops below the invoked property: 0 for `console.log(...)`, 1 for
-    // `console.log.bind(...)`, ...
+    // `console.log.bind(...)`, ... `first_hop` is the property accessed
+    // directly on `console`.
     let mut depth = 0usize;
+    let mut first_hop = None;
     let mut cur = &member.obj;
     loop {
         match &**cur {
@@ -133,18 +193,16 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
                 }
                 break;
             }
-            Expr::Member(MemberExpr {
-                obj,
-                prop: MemberProp::Ident(_),
-                ..
-            }) => {
+            Expr::Member(member) if member.prop.is_ident() => {
                 depth += 1;
-                cur = obj;
+                first_hop = Some(&member.prop);
+                cur = &member.obj;
             }
             Expr::OptChain(opt_chain) => match opt_chain.base.as_member() {
                 Some(member) => {
                     has_optional |= opt_chain.optional;
                     depth += 1;
+                    first_hop = Some(&member.prop);
                     cur = &member.obj;
                 }
                 None => return None,
@@ -154,16 +212,20 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
     }
 
     // Only `Function.prototype`/`Object.prototype` methods whose results are
-    // type-preserved by an empty function are substituted; per the documented
-    // assumptions, code must not depend on the exact contents of
-    // `Function.prototype.toString()`. Custom properties attached to a
-    // console method keep the previous behavior and collapse to `undefined`.
-    let is_known_fn_method = matches!(
-        &member.prop,
-        MemberProp::Ident(prop) if matches!(&*prop.sym, "bind" | "toString" | "valueOf")
-    );
+    // type-preserved by an empty function are substituted, and only when they
+    // are reached through a known console method: a custom property on
+    // `console` may hold any value, so the previous behavior (`undefined`) is
+    // kept for those, as it is for custom properties attached to a console
+    // method. Per the documented assumptions, code must not depend on the
+    // exact contents of `Function.prototype.toString()`.
+    let is_preservable_fn_call = matches!(
+        static_prop_name(&member.prop),
+        Some("bind" | "toString" | "valueOf")
+    ) && first_hop
+        .and_then(static_prop_name)
+        .is_some_and(is_console_method);
 
-    if depth == 1 && is_known_fn_method {
+    if depth == 1 && is_preservable_fn_call {
         // e.g. `console.error.bind(console)`: the result (a function) can
         // outlive the call, unlike `.call`/`.apply`, which invoke the console
         // method itself and return `undefined`.
