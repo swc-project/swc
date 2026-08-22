@@ -13,12 +13,29 @@ enum DropAction {
     /// and may be held and used, so, like terser, only the console method is
     /// replaced: `console.error.bind(console)` -> `(()=>{}).bind()`.
     ///
-    /// `guard_obj` is set when the callee contains `?.`, which means the
-    /// original expression can short-circuit to `undefined`. The console
-    /// method is then kept as a guard, and the member access is made
-    /// optional, so that stays possible:
-    /// `console?.error.bind(x)` -> `(console?.error && (()=>{}))?.bind()`.
-    ReplaceCalleeObjWithNoopFn { guard_obj: bool },
+    /// `guard` preserves the short-circuiting of a `?.` in the callee, per
+    /// hop; see [NoopGuard].
+    ReplaceCalleeObjWithNoopFn { guard: Option<NoopGuard> },
+}
+
+/// How the noop substitution keeps the short-circuiting of a `?.` in the
+/// callee. Which hop is optional matters: the replacement must yield
+/// `undefined` exactly when the original chain short-circuited, and still
+/// throw when it did not.
+#[derive(Clone, Copy)]
+enum NoopGuard {
+    /// The final member access is optional (`console.debug?.bind(x)`, and
+    /// also `console?.debug?.bind(x)`): a nullish method short-circuits, so
+    /// the method is kept as a guard and the access stays optional:
+    /// `(console.debug && noop)?.bind()`.
+    Member,
+
+    /// Only the `console` hop is optional (`console?.error.bind(x)`): a
+    /// nullish `console` short-circuits, but a nullish `console.error` still
+    /// throws at the `.bind` access. The `console` check is hoisted and the
+    /// `?.` dropped: `console == null ? void 0 : (console.error &&
+    /// noop).bind()`.
+    Console,
 }
 
 impl Optimizer<'_> {
@@ -38,69 +55,105 @@ impl Optimizer<'_> {
                 *e = *Expr::undefined(DUMMY_SP);
                 true
             }
-            DropAction::ReplaceCalleeObjWithNoopFn { guard_obj } => {
-                // `classify_console_call` proved the shape of `e`, so
-                // extraction cannot fail here.
-                let (callee, args) = match e {
-                    Expr::Call(CallExpr {
-                        callee: Callee::Expr(callee),
-                        args,
-                        ..
-                    }) => (&mut **callee, args),
-                    Expr::OptChain(opt_chain) => match &mut *opt_chain.base {
-                        OptChainBase::Call(call) => (&mut *call.callee, &mut call.args),
+            DropAction::ReplaceCalleeObjWithNoopFn { guard } => {
+                // The `console` ident of a hoisted check; set for
+                // [NoopGuard::Console] once the inner borrows of `e` end.
+                let hoisted_console = {
+                    // `classify_console_call` proved the shape of `e`, so
+                    // extraction cannot fail here.
+                    let (callee, args) = match e {
+                        Expr::Call(CallExpr {
+                            callee: Callee::Expr(callee),
+                            args,
+                            ..
+                        }) => (&mut **callee, args),
+                        Expr::OptChain(opt_chain) => match &mut *opt_chain.base {
+                            OptChainBase::Call(call) => (&mut *call.callee, &mut call.args),
+                            _ => return false,
+                        },
                         _ => return false,
-                    },
-                    _ => return false,
-                };
+                    };
 
-                let (member, optional) = match callee {
-                    Expr::Member(member) => (member, None),
-                    Expr::OptChain(OptChainExpr { optional, base, .. }) => match &mut **base {
-                        OptChainBase::Member(member) => (member, Some(optional)),
+                    let member = match callee {
+                        Expr::Member(member) => member,
+                        Expr::OptChain(opt_chain) => match &mut *opt_chain.base {
+                            OptChainBase::Member(member) => member,
+                            _ => return false,
+                        },
                         _ => return false,
-                    },
-                    _ => return false,
-                };
+                    };
 
-                report_change!("drop_console: Replacing console method with an empty function");
-                self.changed = true;
-
-                args.clear();
-
-                let noop = noop_fn_expr(self.options.ecma, self.ctx.expr_ctx.unresolved_ctxt);
-                *member.obj = if guard_obj {
-                    // The guard is falsy whenever the original chain
-                    // short-circuited, so the member access must be optional
-                    // for the whole expression to still yield `undefined`
-                    // then. A `?.` earlier in the chain (`console?.error`)
-                    // would otherwise not protect the rewritten access:
-                    // `(console?.error && noop).bind` throws for a nullish
-                    // `console`.
-                    if let Some(optional) = optional {
-                        *optional = true;
+                    let hoisted_console = match guard {
+                        Some(NoopGuard::Console) => match &*member.obj {
+                            Expr::OptChain(first_hop) => first_hop
+                                .base
+                                .as_member()
+                                .and_then(|member| member.obj.as_ident())
+                                .cloned(),
+                            _ => None,
+                        },
+                        _ => None,
+                    };
+                    if matches!(guard, Some(NoopGuard::Console)) && hoisted_console.is_none() {
+                        return false;
                     }
-                    Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        op: op!("&&"),
-                        left: member.obj.take(),
-                        right: Box::new(noop),
-                    })
-                } else {
-                    noop
+
+                    report_change!("drop_console: Replacing console method with an empty function");
+                    self.changed = true;
+
+                    args.clear();
+
+                    if let Expr::OptChain(first_hop) = &mut *member.obj {
+                        if matches!(guard, Some(NoopGuard::Console)) {
+                            // The check is hoisted into `hoisted_console`.
+                            first_hop.optional = false;
+                        }
+                    }
+
+                    let noop = noop_fn_expr(self.options.ecma);
+                    *member.obj = if guard.is_some() {
+                        Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            op: op!("&&"),
+                            left: member.obj.take(),
+                            right: Box::new(noop),
+                        })
+                    } else {
+                        noop
+                    };
+
+                    hoisted_console
                 };
+
+                if let Some(console) = hoisted_console {
+                    *e = Expr::Cond(CondExpr {
+                        span: DUMMY_SP,
+                        test: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            op: op!("=="),
+                            left: Box::new(console.into()),
+                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                        })),
+                        cons: Expr::undefined(DUMMY_SP),
+                        alt: Box::new(e.take()),
+                    });
+                }
                 true
             }
         }
     }
 }
 
-/// Builds the noop function substituted for a console method. Like the native
-/// console methods, both variants are callable, return `undefined` and are
-/// not constructors: an arrow when the target supports it, and the built-in
-/// `Function.prototype` for ES5, where no function literal is
-/// non-constructible.
-fn noop_fn_expr(ecma: EsVersion, unresolved_ctxt: SyntaxContext) -> Expr {
+/// Builds the noop function substituted for a console method: an arrow for
+/// ES2015+, which - like the native console methods - is not a constructor,
+/// and `function () {}` for ES5.
+///
+/// Local invariant beyond the documented assumptions: under an ES5 target,
+/// where a non-constructible function cannot be expressed, constructing the
+/// result of a dropped `console.method.bind(...)` succeeds instead of
+/// throwing. Referencing a built-in like `Function.prototype` instead would
+/// rely on the mutable global `Function`.
+fn noop_fn_expr(ecma: EsVersion) -> Expr {
     if ecma >= EsVersion::Es2015 {
         Expr::Arrow(ArrowExpr {
             span: DUMMY_SP,
@@ -113,10 +166,13 @@ fn noop_fn_expr(ecma: EsVersion, unresolved_ctxt: SyntaxContext) -> Expr {
             return_type: None,
         })
     } else {
-        Expr::Member(MemberExpr {
-            span: DUMMY_SP,
-            obj: Box::new(Ident::new("Function".into(), DUMMY_SP, unresolved_ctxt).into()),
-            prop: MemberProp::Ident(IdentName::new("prototype".into(), DUMMY_SP)),
+        Expr::Fn(FnExpr {
+            ident: None,
+            function: Box::new(Function {
+                span: DUMMY_SP,
+                body: Some(FunctionBody::default()),
+                ..Default::default()
+            }),
         })
     }
 }
@@ -175,13 +231,15 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
         _ => return None,
     };
 
-    let mut has_optional = false;
+    // Whether the final member access itself is optional
+    // (`console.error?.bind`).
+    let mut member_optional = false;
 
     let member = match &**callee {
         Expr::Member(member) => member,
         Expr::OptChain(opt_chain) => match &*opt_chain.base {
             OptChainBase::Member(member) => {
-                has_optional |= opt_chain.optional;
+                member_optional = opt_chain.optional;
                 member
             }
             _ => return None,
@@ -191,9 +249,11 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
 
     // Hops below the invoked property: 0 for `console.log(...)`, 1 for
     // `console.log.bind(...)`, ... `first_hop` is the property accessed
-    // directly on `console`.
+    // directly on `console`, `first_hop_optional` whether that access is
+    // optional (`console?.error`).
     let mut depth = 0usize;
     let mut first_hop = None;
+    let mut first_hop_optional = false;
     let mut cur = &member.obj;
     loop {
         match &**cur {
@@ -206,13 +266,14 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
             Expr::Member(member) if member.prop.is_ident() => {
                 depth += 1;
                 first_hop = Some(&member.prop);
+                first_hop_optional = false;
                 cur = &member.obj;
             }
             Expr::OptChain(opt_chain) => match opt_chain.base.as_member() {
                 Some(member) => {
-                    has_optional |= opt_chain.optional;
                     depth += 1;
                     first_hop = Some(&member.prop);
+                    first_hop_optional = opt_chain.optional;
                     cur = &member.obj;
                 }
                 None => return None,
@@ -239,9 +300,14 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
         // e.g. `console.error.bind(console)`: the result (a function) can
         // outlive the call, unlike `.call`/`.apply`, which invoke the console
         // method itself and return `undefined`.
-        return Some(DropAction::ReplaceCalleeObjWithNoopFn {
-            guard_obj: has_optional,
-        });
+        let guard = if member_optional {
+            Some(NoopGuard::Member)
+        } else if first_hop_optional {
+            Some(NoopGuard::Console)
+        } else {
+            None
+        };
+        return Some(DropAction::ReplaceCalleeObjWithNoopFn { guard });
     }
 
     // Direct calls, `.call`/`.apply`, custom properties, and deeper chains

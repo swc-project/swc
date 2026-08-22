@@ -13,6 +13,9 @@ console.error.capture("custom property, dropped like before");
 const cap = console.error.capture("custom property, value position");
 process.stdout.write(typeof cap + "\n");
 
+const cap2 = console.error.capture?.("custom property, optional call");
+process.stdout.write(typeof cap2 + "\n");
+
 const r = console.error("value position");
 process.stdout.write(typeof r + "\n");
 

@@ -1,4 +1,4 @@
-const cb = Function.prototype["bind"]();
+const cb = (function() {})["bind"]();
 cb("boom");
 process.stdout.write(typeof cb + "\n");
 const r = void 0;
