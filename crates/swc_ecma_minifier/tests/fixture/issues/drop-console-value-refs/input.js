@@ -22,6 +22,10 @@ const ob = console?.error?.bind(console);
 ob("boom optional");
 process.stdout.write(typeof ob + "\n");
 
+const pb = console?.error.bind(console);
+pb("early optional");
+process.stdout.write(typeof pb + "\n");
+
 const dbg = console.debug?.bind(console) || null;
 process.stdout.write((dbg !== null) + "\n");
 

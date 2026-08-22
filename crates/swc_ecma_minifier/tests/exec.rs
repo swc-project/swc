@@ -12666,9 +12666,45 @@ fn drop_console_value_used_chained_calls() {
     const dbg = console.debug?.bind(console) || null;
     process.stdout.write((dbg !== null) + "\n");
 
+    const pb = console?.error.bind(console);
+    pb("early optional");
+    process.stdout.write(typeof pb + "\n");
+
     console.error.capture?.("custom property, absent at runtime");
     const cap = console.error.capture?.("custom property, absent at runtime");
     process.stdout.write(typeof cap + "\n");
+
+    let threw = false;
+    try {
+        new (console.error.bind(console))();
+    } catch (e) {
+        threw = true;
+    }
+    process.stdout.write(threw + "\n");
+    "#;
+
+    let config = r#"{
+        "defaults": true,
+        "drop_console": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn drop_console_optional_chain_nullish_console() {
+    // With a nullish `console`, `?.` short-circuits the whole chain to
+    // `undefined` in the original program; the guarded replacement must do the
+    // same instead of reading `.bind` of `undefined`.
+    let src = r#"
+    globalThis.console = null;
+
+    const pb = console?.error.bind(console);
+    process.stdout.write(typeof pb + "\n");
+
+    const ob = console?.error?.bind(console);
+    process.stdout.write(typeof ob + "\n");
     "#;
 
     let config = r#"{

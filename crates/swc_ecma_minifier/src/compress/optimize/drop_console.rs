@@ -11,12 +11,13 @@ enum DropAction {
 
     /// The result of e.g. `console.error.bind(console)` is not `undefined`
     /// and may be held and used, so, like terser, only the console method is
-    /// replaced: `console.error.bind(console)` -> `function(){}.bind()`.
+    /// replaced: `console.error.bind(console)` -> `(()=>{}).bind()`.
     ///
     /// `guard_obj` is set when the callee contains `?.`, which means the
     /// original expression can short-circuit to `undefined`. The console
-    /// method is then kept as a guard so that stays possible:
-    /// `console.debug?.bind(x)` -> `(console.debug && function(){})?.bind()`.
+    /// method is then kept as a guard, and the member access is made
+    /// optional, so that stays possible:
+    /// `console?.error.bind(x)` -> `(console?.error && (()=>{}))?.bind()`.
     ReplaceCalleeObjWithNoopFn { guard_obj: bool },
 }
 
@@ -53,10 +54,10 @@ impl Optimizer<'_> {
                     _ => return false,
                 };
 
-                let member = match callee {
-                    Expr::Member(member) => member,
-                    Expr::OptChain(opt_chain) => match &mut *opt_chain.base {
-                        OptChainBase::Member(member) => member,
+                let (member, optional) = match callee {
+                    Expr::Member(member) => (member, None),
+                    Expr::OptChain(OptChainExpr { optional, base, .. }) => match &mut **base {
+                        OptChainBase::Member(member) => (member, Some(optional)),
                         _ => return false,
                     },
                     _ => return false,
@@ -67,8 +68,18 @@ impl Optimizer<'_> {
 
                 args.clear();
 
-                let noop = noop_fn_expr(self.options.ecma);
+                let noop = noop_fn_expr(self.options.ecma, self.ctx.expr_ctx.unresolved_ctxt);
                 *member.obj = if guard_obj {
+                    // The guard is falsy whenever the original chain
+                    // short-circuited, so the member access must be optional
+                    // for the whole expression to still yield `undefined`
+                    // then. A `?.` earlier in the chain (`console?.error`)
+                    // would otherwise not protect the rewritten access:
+                    // `(console?.error && noop).bind` throws for a nullish
+                    // `console`.
+                    if let Some(optional) = optional {
+                        *optional = true;
+                    }
                     Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         op: op!("&&"),
@@ -84,10 +95,12 @@ impl Optimizer<'_> {
     }
 }
 
-/// Builds the empty function substituted for a console method. An arrow is
-/// preferred because, like the native console methods, it is not a
-/// constructor; `function () {}` remains for ES5 targets.
-fn noop_fn_expr(ecma: EsVersion) -> Expr {
+/// Builds the noop function substituted for a console method. Like the native
+/// console methods, both variants are callable, return `undefined` and are
+/// not constructors: an arrow when the target supports it, and the built-in
+/// `Function.prototype` for ES5, where no function literal is
+/// non-constructible.
+fn noop_fn_expr(ecma: EsVersion, unresolved_ctxt: SyntaxContext) -> Expr {
     if ecma >= EsVersion::Es2015 {
         Expr::Arrow(ArrowExpr {
             span: DUMMY_SP,
@@ -100,13 +113,10 @@ fn noop_fn_expr(ecma: EsVersion) -> Expr {
             return_type: None,
         })
     } else {
-        Expr::Fn(FnExpr {
-            ident: None,
-            function: Box::new(Function {
-                span: DUMMY_SP,
-                body: Some(FunctionBody::default()),
-                ..Default::default()
-            }),
+        Expr::Member(MemberExpr {
+            span: DUMMY_SP,
+            obj: Box::new(Ident::new("Function".into(), DUMMY_SP, unresolved_ctxt).into()),
+            prop: MemberProp::Ident(IdentName::new("prototype".into(), DUMMY_SP)),
         })
     }
 }
