@@ -1,0 +1,12 @@
+let sideEffects = 0;
+export const direct = void 0;
+export const call = void 0;
+export const apply = void 0;
+export const bound = (function() {}).bind();
+export const source = (function() {}).toString();
+export const optionalDirect = void 0;
+export const optionalCall = void 0;
+export const optionalApply = void 0;
+export const optionalBound = (function() {})?.bind?.();
+export const optionalSource = (function() {})?.toString?.();
+export { sideEffects };
