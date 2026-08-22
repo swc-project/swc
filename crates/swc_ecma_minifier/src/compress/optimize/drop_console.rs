@@ -35,6 +35,11 @@ enum NoopGuard {
     /// throws at the `.bind` access. The `console` check is hoisted and the
     /// `?.` dropped: `console == null ? void 0 : (console.error &&
     /// noop).bind()`.
+    ///
+    /// Local invariant beyond the documented assumptions: the rewrite reads
+    /// the `console` binding twice (in the test and in the alternate), so the
+    /// global is assumed to be a stable data binding, not an accessor whose
+    /// reads have side effects or produce different values.
     Console,
 }
 
@@ -289,6 +294,12 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
     // kept for those, as it is for custom properties attached to a console
     // method. Per the documented assumptions, code must not depend on the
     // exact contents of `Function.prototype.toString()`.
+    //
+    // Local invariant beyond the documented assumptions: the names are
+    // matched statically, so an own override of one of these methods on a
+    // console method (`console.error.bind = ...`) is not preserved and gets
+    // the prototype behavior instead. Terser substitutes such calls the same
+    // way.
     let is_preservable_fn_call = matches!(
         static_prop_name(&member.prop),
         Some("bind" | "toString" | "valueOf")
