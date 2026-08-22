@@ -12662,6 +12662,13 @@ fn drop_console_value_used_chained_calls() {
     process.stdout.write(typeof r + "\n");
 
     process.stdout.write(typeof err + "\n");
+
+    const dbg = console.debug?.bind(console) || null;
+    process.stdout.write((dbg !== null) + "\n");
+
+    console.error.capture?.("custom property, absent at runtime");
+    const cap = console.error.capture?.("custom property, absent at runtime");
+    process.stdout.write(typeof cap + "\n");
     "#;
 
     let config = r#"{

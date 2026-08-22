@@ -1,17 +1,23 @@
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use super::Optimizer;
 
 enum DropAction {
     /// The call's result is `undefined` in the original program (a direct
-    /// `console.method(...)` call, or `console.method.call/apply(...)`).
+    /// `console.method(...)` call, or `console.method.call/apply(...)`), or
+    /// nothing better can be substituted (custom properties, deep chains).
     ReplaceWithUndefined,
 
     /// The result of e.g. `console.error.bind(console)` is not `undefined`
     /// and may be held and used, so, like terser, only the console method is
     /// replaced: `console.error.bind(console)` -> `function(){}.bind()`.
-    ReplaceCalleeObjWithNoopFn,
+    ///
+    /// `guard_obj` is set when the callee contains `?.`, which means the
+    /// original expression can short-circuit to `undefined`. The console
+    /// method is then kept as a guard so that stays possible:
+    /// `console.debug?.bind(x)` -> `(console.debug && function(){})?.bind()`.
+    ReplaceCalleeObjWithNoopFn { guard_obj: bool },
 }
 
 impl Optimizer<'_> {
@@ -31,7 +37,7 @@ impl Optimizer<'_> {
                 *e = *Expr::undefined(DUMMY_SP);
                 true
             }
-            DropAction::ReplaceCalleeObjWithNoopFn => {
+            DropAction::ReplaceCalleeObjWithNoopFn { guard_obj } => {
                 // `classify_console_call` proved the shape of `e`, so
                 // extraction cannot fail here.
                 let (callee, args) = match e {
@@ -60,18 +66,33 @@ impl Optimizer<'_> {
                 self.changed = true;
 
                 args.clear();
-                *member.obj = Expr::Fn(FnExpr {
-                    ident: None,
-                    function: Box::new(Function {
+
+                let noop = noop_fn_expr();
+                *member.obj = if guard_obj {
+                    Expr::Bin(BinExpr {
                         span: DUMMY_SP,
-                        body: Some(FunctionBody::default()),
-                        ..Default::default()
-                    }),
-                });
+                        op: op!("&&"),
+                        left: member.obj.take(),
+                        right: Box::new(noop),
+                    })
+                } else {
+                    noop
+                };
                 true
             }
         }
     }
+}
+
+fn noop_fn_expr() -> Expr {
+    Expr::Fn(FnExpr {
+        ident: None,
+        function: Box::new(Function {
+            span: DUMMY_SP,
+            body: Some(FunctionBody::default()),
+            ..Default::default()
+        }),
+    })
 }
 
 /// Checks if `e` is a call rooted at the global `console` and decides how to
@@ -86,10 +107,15 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
         _ => return None,
     };
 
+    let mut has_optional = false;
+
     let member = match &**callee {
         Expr::Member(member) => member,
         Expr::OptChain(opt_chain) => match &*opt_chain.base {
-            OptChainBase::Member(member) => member,
+            OptChainBase::Member(member) => {
+                has_optional |= opt_chain.optional;
+                member
+            }
             _ => return None,
         },
         _ => return None,
@@ -117,6 +143,7 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
             }
             Expr::OptChain(opt_chain) => match opt_chain.base.as_member() {
                 Some(member) => {
+                    has_optional |= opt_chain.optional;
                     depth += 1;
                     cur = &member.obj;
                 }
@@ -126,14 +153,27 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
         }
     }
 
-    if depth == 1 && !member.prop.is_ident_with("call") && !member.prop.is_ident_with("apply") {
-        // A `Function.prototype` method on a console method can return a
-        // non-`undefined` value that outlives the call (e.g. `.bind`), unlike
-        // `.call`/`.apply`, which invoke the console method itself.
-        return Some(DropAction::ReplaceCalleeObjWithNoopFn);
+    // Only `Function.prototype`/`Object.prototype` methods whose results are
+    // type-preserved by an empty function are substituted; per the documented
+    // assumptions, code must not depend on the exact contents of
+    // `Function.prototype.toString()`. Custom properties attached to a
+    // console method keep the previous behavior and collapse to `undefined`.
+    let is_known_fn_method = matches!(
+        &member.prop,
+        MemberProp::Ident(prop) if matches!(&*prop.sym, "bind" | "toString" | "valueOf")
+    );
+
+    if depth == 1 && is_known_fn_method {
+        // e.g. `console.error.bind(console)`: the result (a function) can
+        // outlive the call, unlike `.call`/`.apply`, which invoke the console
+        // method itself and return `undefined`.
+        return Some(DropAction::ReplaceCalleeObjWithNoopFn {
+            guard_obj: has_optional,
+        });
     }
 
-    // Deeper chains (`console.a.b.c(...)`) cannot be preserved meaningfully
-    // and collapse to `undefined`, matching terser.
+    // Direct calls, `.call`/`.apply`, custom properties, and deeper chains
+    // (`console.a.b.c(...)`) collapse to `undefined`, matching terser and the
+    // previous behavior.
     Some(DropAction::ReplaceWithUndefined)
 }
