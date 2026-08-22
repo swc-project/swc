@@ -12639,3 +12639,36 @@ async function classify(code) {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn drop_console_value_used_chained_calls() {
+    // `drop_console` must not replace value-consumed member-chain calls like
+    // `console.error.bind(console)` with `undefined`: `.bind` returns a
+    // function and calling the held reference would throw. Only `console.*`
+    // output goes to stderr here, so stdout must be identical with and
+    // without `drop_console`.
+    let src = r#"
+    const err = console.error.bind(console);
+    err("boom");
+
+    const s = console.warn.toString();
+    process.stdout.write(typeof s + "\n");
+
+    console.error("statement");
+    console.error.call(console, "via call");
+    console.error.apply(console, ["via apply"]);
+
+    const r = console.error("value position");
+    process.stdout.write(typeof r + "\n");
+
+    process.stdout.write(typeof err + "\n");
+    "#;
+
+    let config = r#"{
+        "defaults": true,
+        "drop_console": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}

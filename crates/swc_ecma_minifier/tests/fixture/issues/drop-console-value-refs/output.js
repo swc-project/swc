@@ -1,0 +1,11 @@
+const err = (function() {}).bind();
+err("boom");
+const s = (function() {}).toString();
+process.stdout.write(typeof s + "\n");
+(function() {}).bind();
+const r = void 0;
+process.stdout.write(typeof r + "\n");
+process.stdout.write(typeof err + "\n");
+const ob = (function() {})?.bind();
+ob("boom optional");
+process.stdout.write(typeof ob + "\n");
