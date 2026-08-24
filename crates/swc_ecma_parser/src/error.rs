@@ -214,6 +214,10 @@ pub enum SyntaxError {
     DuplicatedRegExpFlags(char),
     UnknownRegExpFlags,
 
+    /// Duplicate binding in UniqueFormalParameters / non-simple
+    /// FormalParameters.
+    DuplicateFormalParameter(Atom),
+
     TS1003,
     TS1005,
     TS1009,
@@ -592,6 +596,10 @@ impl SyntaxError {
                 format!("Duplicated regular expression flag '{flag}'.").into()
             }
             SyntaxError::UnknownRegExpFlags => "Unknown regular expression flags.".into(),
+
+            SyntaxError::DuplicateFormalParameter(name) => {
+                format!("Duplicate parameter name not allowed in this context: {name}").into()
+            }
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),

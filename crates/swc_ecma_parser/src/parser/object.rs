@@ -413,7 +413,7 @@ impl<I: Tokens> Parser<I> {
                                     Vec::new(),
                                     start,
                                     |p| {
-                                        let params = p.parse_formal_params()?;
+                                        let params = p.parse_unique_formal_params()?;
 
                                         if params.len() != 1 {
                                             p.emit_err(key_span, SyntaxError::SetterParam);

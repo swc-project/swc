@@ -1,0 +1,12 @@
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/typescript-errors/unique-formal-params/tsx/generic-arrow/input.tsx:1:1]
+ 1 | const f = <T,>(a, a) => a;
+   :                   ^
+ 2 | const g = <T extends unknown>(a, a) => a;
+   `----
+  x Duplicate parameter name not allowed in this context: a
+   ,-[$DIR/tests/typescript-errors/unique-formal-params/tsx/generic-arrow/input.tsx:2:1]
+ 1 | const f = <T,>(a, a) => a;
+ 2 | const g = <T extends unknown>(a, a) => a;
+   :                                  ^
+   `----

@@ -81,6 +81,12 @@ impl<I: Tokens> Parser<I> {
             // syntax.
             let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
             if let Some(res) = res {
+                // Outer try_parse_ts sets IgnoreError, so UniqueFormalParameters
+                // checks inside parse_assignment_expr_base were discarded. Re-check
+                // after the speculative TSX generic-arrow parse commits.
+                if let Expr::Arrow(ref arrow) = *res {
+                    self.validate_arrow_params(&arrow.params, arrow.is_async);
+                }
                 return Ok(res);
             }
         }
@@ -159,6 +165,11 @@ impl<I: Tokens> Parser<I> {
                 })
             });
             if let Some(res) = res {
+                // try_parse_ts sets IgnoreError while parsing the arrow body;
+                // re-validate UniqueFormalParameters after the parse commits.
+                if let Expr::Arrow(ref arrow) = *res {
+                    self.validate_arrow_params(&arrow.params, arrow.is_async);
+                }
                 if syntax.disallow_ambiguous_jsx_like() {
                     self.emit_err(start, SyntaxError::ReservedArrowTypeParam);
                 }
@@ -1306,8 +1317,12 @@ impl<I: Tokens> Parser<I> {
                     })
                 });
 
-                if let Some(expr) = result {
-                    return Ok(expr);
+                if let Some((expr, done)) = result {
+                    // Nested try_parse_ts sets IgnoreError; re-validate after commit.
+                    if let Expr::Arrow(ref arrow) = *expr {
+                        self.validate_arrow_params(&arrow.params, arrow.is_async);
+                    }
+                    return Ok((expr, done));
                 }
             }
         }
@@ -2577,6 +2592,7 @@ impl<I: Tokens> Parser<I> {
                 }
             } {
                 let params: Vec<Pat> = self.parse_paren_items_as_params(items.clone(), None)?;
+                self.validate_arrow_params(&params, is_async);
 
                 let body: Box<ArrowFunctionBody> = self.parse_fn_block_or_expr_body(
                     false,
@@ -2612,6 +2628,40 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, Token::RParen);
         Ok((items, trailing_comma))
+    }
+
+    /// Validate arrow-function parameters (UniqueFormalParameters and
+    /// async/generator early errors). Safe to call after a speculative
+    /// `try_parse_ts` commits, since that path sets `IgnoreError` during
+    /// the speculative parse.
+    pub(crate) fn validate_arrow_params(&mut self, params: &[Pat], is_async: bool) {
+        self.ensure_unique_formal_params(params.iter());
+
+        for param in params {
+            if is_async {
+                match param {
+                    Pat::Ident(BindingIdent { id, .. }) if id.sym == *"await" => {
+                        self.emit_err(id.span, SyntaxError::ExpectedIdent);
+                    }
+                    Pat::Assign(AssignPat { right, .. })
+                        if matches!(right.as_ref(), Expr::Await(..)) =>
+                    {
+                        self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
+                    }
+                    _ => {}
+                }
+            }
+
+            if self.ctx().contains(Context::InGenerator)
+                && matches!(
+                    param,
+                    Pat::Assign(AssignPat { right, .. })
+                        if matches!(right.as_ref(), Expr::Yield(..))
+                )
+            {
+                self.emit_err(param.span(), SyntaxError::YieldParamInGen);
+            }
+        }
     }
 
     #[cfg_attr(
@@ -2688,6 +2738,12 @@ impl<I: Tokens> Parser<I> {
                     .into(),
                 ))
             }) {
+                // try_parse_ts sets IgnoreError; re-check UniqueFormalParameters
+                // after the speculative parse commits.
+                let expr: Box<Expr> = expr;
+                if let Expr::Arrow(ref arrow) = *expr {
+                    self.validate_arrow_params(&arrow.params, arrow.is_async);
+                }
                 return Ok(expr);
             }
         }
@@ -2715,34 +2771,6 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        let validate_arrow_params = |p: &mut Self, params: &[Pat], is_async: bool| {
-            for param in params {
-                if is_async {
-                    match param {
-                        Pat::Ident(BindingIdent { id, .. }) if id.sym == *"await" => {
-                            p.emit_err(id.span, SyntaxError::ExpectedIdent);
-                        }
-                        Pat::Assign(AssignPat { right, .. })
-                            if matches!(right.as_ref(), Expr::Await(..)) =>
-                        {
-                            p.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
-                        }
-                        _ => {}
-                    }
-                }
-
-                if p.ctx().contains(Context::InGenerator)
-                    && matches!(
-                        param,
-                        Pat::Assign(AssignPat { right, .. })
-                            if matches!(right.as_ref(), Expr::Yield(..))
-                    )
-                {
-                    p.emit_err(param.span(), SyntaxError::YieldParamInGen);
-                }
-            }
-        };
-
         // we parse arrow function at here, to handle it efficiently.
         if has_pattern || return_type.is_some() || self.input().is(Token::Arrow) {
             if self.input().had_line_break_before_cur() {
@@ -2759,7 +2787,7 @@ impl<I: Tokens> Parser<I> {
             expect!(self, Token::Arrow);
 
             let params: Vec<Pat> = self.parse_paren_items_as_params(paren_items, trailing_comma)?;
-            validate_arrow_params(self, &params, async_span.is_some());
+            self.validate_arrow_params(&params, async_span.is_some());
 
             let body: Box<ArrowFunctionBody> = self.parse_fn_block_or_expr_body(
                 async_span.is_some(),
@@ -3131,6 +3159,9 @@ impl<I: Tokens> Parser<I> {
                 p.assert_and_bump(Token::Async);
                 p.try_parse_ts_generic_async_arrow_fn(start)
             }) {
+                // Outer try_parse_ts sets IgnoreError; UniqueFormalParameters must be
+                // checked after the speculative parse commits.
+                self.validate_arrow_params(&res.params, res.is_async);
                 return Some(Ok(res.into()));
             }
         }
