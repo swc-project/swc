@@ -959,7 +959,14 @@ impl<I: Tokens> Parser<I> {
             }
             let closing = self.parse_jsx_expr_container()?;
             let JSXExpr::Expr(closing_tag) = closing.expr else {
-                unreachable!("empty dynamic closing tag was rejected")
+                syntax_error!(
+                    self,
+                    closing.span,
+                    SyntaxError::Unexpected {
+                        got: "an empty TSRX dynamic closing element name".into(),
+                        expected: "an identifier, member expression, or static string"
+                    }
+                )
             };
             if !tag.eq_ignore_span(&closing_tag) {
                 syntax_error!(
