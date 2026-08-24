@@ -6,12 +6,10 @@ use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
-#[cfg(feature = "typescript")]
-use crate::lexer::TokenAndSpan;
 use crate::{
     error::SyntaxError,
     input::Buffer,
-    lexer::Token,
+    lexer::{Token, TokenAndSpan},
     parser::{
         input::Tokens,
         state::{State, WithState},
@@ -61,12 +59,52 @@ pub struct ParserCheckpoint<I: Tokens> {
     allow_super_call: bool,
 }
 
+struct ProgramCheckpoint<I: Tokens> {
+    lexer: I::Checkpoint,
+    buffer_prev_span: Span,
+    buffer_cur: TokenAndSpan,
+    buffer_next: Option<crate::lexer::NextTokenAndSpan>,
+    state: State,
+    found_module_item: bool,
+    ambiguous_script_different_ast: bool,
+    program_parse_mode: ProgramParseMode,
+    diagnostic_lengths: (usize, usize),
+    token_flags: crate::lexer::TokenFlags,
+    #[cfg(feature = "flow")]
+    allow_super_call: bool,
+}
+
+struct ParsedProgram {
+    start: BytePos,
+    shebang: Option<Atom>,
+    body: Vec<ModuleItem>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum ProgramParseMode {
+    None,
+    Module,
+    Script,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum UnambiguousParseAction {
+    KeepModule,
+    RelabelAsScript,
+    RetryAsScript,
+}
+
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
+    /// Whether a top-level `await` has a different valid Script interpretation.
+    ambiguous_script_different_ast: bool,
+    /// Whether module-only syntax at the current position can classify an
+    /// unambiguous Program as a Module.
+    program_parse_mode: ProgramParseMode,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -90,6 +128,44 @@ impl<I: Tokens> Parser<I> {
     #[inline(always)]
     fn state_mut(&mut self) -> &mut State {
         &mut self.state
+    }
+
+    fn program_checkpoint_save(&self) -> ProgramCheckpoint<I> {
+        ProgramCheckpoint {
+            lexer: self.input.iter.checkpoint_save(),
+            buffer_cur: self.input.cur,
+            buffer_next: self.input.next.clone(),
+            buffer_prev_span: self.input.prev_span,
+            state: self.state.clone(),
+            found_module_item: self.found_module_item,
+            ambiguous_script_different_ast: self.ambiguous_script_different_ast,
+            program_parse_mode: self.program_parse_mode,
+            diagnostic_lengths: self.input.iter.diagnostic_checkpoint_save(),
+            token_flags: self.input.iter.token_flags(),
+            #[cfg(feature = "flow")]
+            allow_super_call: self.allow_super_call,
+        }
+    }
+
+    fn program_checkpoint_load(&mut self, checkpoint: ProgramCheckpoint<I>) {
+        self.input.iter.checkpoint_load(checkpoint.lexer);
+        self.input
+            .iter
+            .diagnostic_checkpoint_load(checkpoint.diagnostic_lengths);
+        self.input
+            .iter
+            .update_token_flags(|flags| *flags = checkpoint.token_flags);
+        self.input.cur = checkpoint.buffer_cur;
+        self.input.next = checkpoint.buffer_next;
+        self.input.prev_span = checkpoint.buffer_prev_span;
+        self.state = checkpoint.state;
+        self.found_module_item = checkpoint.found_module_item;
+        self.ambiguous_script_different_ast = checkpoint.ambiguous_script_different_ast;
+        self.program_parse_mode = checkpoint.program_parse_mode;
+        #[cfg(feature = "flow")]
+        {
+            self.allow_super_call = checkpoint.allow_super_call;
+        }
     }
 
     #[cfg(all(feature = "typescript", feature = "flow"))]
@@ -189,6 +265,8 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
+            ambiguous_script_different_ast: false,
+            program_parse_mode: ProgramParseMode::None,
             #[cfg(feature = "flow")]
             allow_super_call: false,
         };
@@ -291,28 +369,78 @@ impl<I: Tokens> Parser<I> {
     /// Note: This is not perfect yet. It means, some strict mode violations may
     /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
+        self.input_mut().iter_mut().set_defer_comments(true);
+        let result = self.parse_unambiguous_program();
+        self.input_mut().iter_mut().finalize_comments();
+
+        result
+    }
+
+    fn parse_unambiguous_program(&mut self) -> PResult<Program> {
+        // Probe with the Module Await grammar first. Most programs commit this
+        // pass directly; only syntax with a distinct Script interpretation is
+        // reparsed.
+        let module_checkpoint = self.program_checkpoint_save();
+        self.enter_unambiguous_module_context();
+
+        if let Ok(parsed) = self.parse_program_once() {
+            match self.unambiguous_parse_action(&parsed.body) {
+                UnambiguousParseAction::KeepModule => {
+                    return Ok(self.finish_program(parsed, true));
+                }
+                UnambiguousParseAction::RelabelAsScript => {
+                    return Ok(self.finish_program(parsed, false));
+                }
+                UnambiguousParseAction::RetryAsScript => {}
+            }
+        }
+
+        self.program_checkpoint_load(module_checkpoint);
+        let retry_checkpoint = self.program_checkpoint_save();
+        self.enter_unambiguous_script_context();
+
+        if let Ok(parsed) = self.parse_program_once() {
+            let is_valid_script = !self.input.iter.has_errors();
+            let has_module_syntax = self.has_module_syntax(&parsed.body);
+            if is_valid_script && !has_module_syntax {
+                return Ok(self.finish_program(parsed, false));
+            }
+        }
+
+        self.program_checkpoint_load(retry_checkpoint);
+        self.enter_unambiguous_module_context();
+        let parsed = self.parse_program_once()?;
+        Ok(self.finish_program(parsed, true))
+    }
+
+    fn parse_program_once(&mut self) -> PResult<ParsedProgram> {
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
-        let body: Vec<ModuleItem> = self
-            .do_inside_of_context(Context::CanBeModule.union(Context::TopLevel), |p| {
-                p.parse_module_item_block_body(true, None)
-            })?;
-        let has_module_item = self.found_module_item
-            || body
-                .iter()
-                .any(|item| matches!(item, ModuleItem::ModuleDecl(..)));
-        if has_module_item && !self.ctx().contains(Context::Module) {
+        let body = self.parse_module_item_block_body(true, None)?;
+
+        Ok(ParsedProgram {
+            start,
+            shebang,
+            body,
+        })
+    }
+
+    fn finish_program(&mut self, parsed: ParsedProgram, is_module: bool) -> Program {
+        let ParsedProgram {
+            start,
+            shebang,
+            body,
+        } = parsed;
+
+        let ret = if is_module {
             let ctx = self.ctx()
                 | Context::Module
                 | Context::CanBeModule
                 | Context::TopLevel
                 | Context::Strict;
-            // Emit buffered strict mode / module code violations
+            // Emit buffered strict mode / module code violations.
             self.input.set_ctx(ctx);
-        }
-
-        let ret = if has_module_item {
             if self.syntax().flow() {
                 self.report_duplicate_exports(&body);
             }
@@ -322,6 +450,8 @@ impl<I: Tokens> Parser<I> {
                 shebang,
             })
         } else {
+            let ctx = self.ctx() & !Context::Module & !Context::CanBeModule & !Context::InAsync;
+            self.input.set_ctx(ctx | Context::TopLevel);
             let body = body
                 .into_iter()
                 .map(|item| match item {
@@ -341,7 +471,57 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
 
-        Ok(ret)
+        self.program_parse_mode = ProgramParseMode::None;
+        ret
+    }
+
+    fn enter_unambiguous_module_context(&mut self) {
+        let ctx = (self.ctx() & !Context::Module) | Context::CanBeModule | Context::TopLevel;
+        self.set_ctx(ctx);
+        self.program_parse_mode = ProgramParseMode::Module;
+        self.ambiguous_script_different_ast = false;
+    }
+
+    fn enter_unambiguous_script_context(&mut self) {
+        let ctx = self.ctx() & !Context::Module & !Context::CanBeModule & !Context::InAsync;
+        self.set_ctx(ctx | Context::TopLevel);
+        self.program_parse_mode = ProgramParseMode::Script;
+        self.ambiguous_script_different_ast = false;
+    }
+
+    fn unambiguous_parse_action(&self, body: &[ModuleItem]) -> UnambiguousParseAction {
+        if self.has_module_syntax(body) {
+            UnambiguousParseAction::KeepModule
+        } else if self.ambiguous_script_different_ast {
+            UnambiguousParseAction::RetryAsScript
+        } else {
+            UnambiguousParseAction::RelabelAsScript
+        }
+    }
+
+    fn has_module_syntax(&self, body: &[ModuleItem]) -> bool {
+        self.found_module_item
+            || body
+                .iter()
+                .any(|item| matches!(item, ModuleItem::ModuleDecl(..)))
+    }
+
+    fn is_unambiguous_module(&self) -> bool {
+        self.program_parse_mode == ProgramParseMode::Module
+    }
+
+    fn is_unambiguous_script(&self) -> bool {
+        self.program_parse_mode == ProgramParseMode::Script
+    }
+
+    fn can_classify_module(&self) -> bool {
+        self.is_unambiguous_module()
+            && !self.ctx().intersects(
+                Context::InFunction
+                    .union(Context::InParameters)
+                    .union(Context::InClassField)
+                    .union(Context::InStaticBlock),
+            )
     }
 
     pub fn parse_module(&mut self) -> PResult<Module> {
@@ -392,6 +572,25 @@ impl<I: Tokens> Parser<I> {
             orig_state,
             inner: self,
         }
+    }
+
+    /// Runs `op` in a grammar production whose Await parameter does not come
+    /// from an enclosing potential async arrow.
+    #[inline(always)]
+    fn without_async_arrow_param_await_collection<T>(
+        &mut self,
+        op: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        if !self.state().collect_async_arrow_param_await {
+            return op(self);
+        }
+
+        self.state_mut().collect_async_arrow_param_await = false;
+        let pending = self.state_mut().pending_async_arrow_param_await.take();
+        let result = op(self);
+        self.state_mut().collect_async_arrow_param_await = true;
+        self.state_mut().pending_async_arrow_param_await = pending;
+        result
     }
 
     #[inline(always)]
@@ -486,6 +685,22 @@ impl<I: Tokens> Parser<I> {
         }
         let error = crate::error::Error::new(span, error);
         if self.ctx().contains(Context::Strict) {
+            self.input_mut().iter_mut().add_error(error);
+        } else {
+            self.input_mut().iter_mut().add_module_mode_error(error);
+        }
+    }
+
+    #[cold]
+    /// Buffers an early error which only applies if an unambiguous Program is
+    /// ultimately classified as a Module.
+    pub fn emit_module_mode_err(&mut self, span: Span, error: SyntaxError) {
+        if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
+            return;
+        }
+
+        let error = crate::error::Error::new(span, error);
+        if self.ctx().contains(Context::Module) {
             self.input_mut().iter_mut().add_error(error);
         } else {
             self.input_mut().iter_mut().add_module_mode_error(error);

@@ -185,6 +185,10 @@ impl<I: Tokens> Parser<I> {
             {
                 syntax_error!(self, span, SyntaxError::InvalidIdentInAsync)
             } else if incl_await {
+                if ctx.contains(Context::CanBeModule) && !self.syntax().flow() {
+                    self.emit_module_mode_err(span, SyntaxError::InvalidIdentInAsync);
+                }
+                self.record_await_in_async_arrow_params(span);
                 word = atom!("await")
             } else {
                 syntax_error!(self, span, SyntaxError::ExpectedIdent)

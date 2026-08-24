@@ -5290,6 +5290,7 @@ impl<I: Tokens> Parser<I> {
             p.do_outside_of_context(Context::InGenerator, |p| {
                 let is_generator = false;
                 let is_async = true;
+                p.record_await_in_arrow_params(&params);
                 let body = p.parse_fn_block_or_expr_body(
                     true,
                     false,

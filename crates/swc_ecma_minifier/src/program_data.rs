@@ -470,8 +470,12 @@ impl Storage for ProgramData {
             v.flags |= VarUsageInfoFlags::IS_TOP_LEVEL;
         }
 
-        // assigned or declared before this declaration
-        if init_type.is_some() {
+        if init_type.is_some() ||
+        // it may actually not be assigned if loop is empty
+        // but that's only possible to be known at runtime
+        ctx.in_left_of_for_loop()
+        {
+            // assigned or declared before this declaration
             if v.flags
                 .intersects(VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::VAR_INITIALIZED))
                 || v.assign_count > 0

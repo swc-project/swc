@@ -36,6 +36,21 @@ fn assert_module_error(src: &'static str) -> Module {
     })
 }
 
+/// Assert that Parser.parse_program returns [Program::Script] and has errors.
+#[track_caller]
+fn assert_script_error(src: &'static str) -> Script {
+    test_parser(src, Default::default(), |p| {
+        let program = p.parse_program()?;
+
+        let errors = p.take_errors();
+        assert_ne!(errors, Vec::new());
+
+        let script = program.expect_script();
+
+        Ok(script)
+    })
+}
+
 #[test]
 fn parse_program_module_01() {
     module("import 'foo';");
@@ -47,6 +62,109 @@ fn parse_program_script_01() {
     script("let a = 5;");
     script("function foo() {}");
     script("const a = 00176;");
+}
+
+#[test]
+fn parse_program_unambiguous_await() {
+    for source in [
+        "await(undefined);",
+        "await + 0;",
+        "await - 0;",
+        "await * 2;",
+        "await ** 2;",
+        "await = 2;",
+        "await++;",
+        "await < 2;",
+        "await && value;",
+        "await\n0;",
+        "await[0];",
+        "await`template`;",
+        "await / 1 / u; var await = 1, u = 1;",
+        "await.foo;",
+        "await => 0;",
+        "await in object;",
+        "await instanceof Promise;",
+        "for (await of values) {}",
+        "function f() { await(undefined); }",
+        "function f(value = await(undefined)) {}",
+        "const f = () => await(undefined);",
+        "async function f() { await value; }",
+        "async function f() { for await (const value of values) {} }",
+        "class C { field = await(undefined); }",
+    ] {
+        script(source);
+    }
+
+    for source in [
+        "await value;",
+        "{ await value; }",
+        "for await (const value of values) {}",
+        "await + 0; export {};",
+        "await(undefined); export {};",
+    ] {
+        module(source);
+    }
+
+    assert_module_error("function f() { await(undefined); } export {};");
+    assert_module_error("class C { field = await(undefined); } export {};");
+    assert_module_error("async (x = await(undefined)) => {};");
+    assert_script_error("class C { field = await value; }");
+    assert_script_error("class C { static { await value; } }");
+
+    for source in [
+        "await as unknown;",
+        "await satisfies unknown;",
+        "await! + 1;",
+    ] {
+        test_parser(source, Syntax::Typescript(TsSyntax::default()), |p| {
+            p.parse_program().map(Program::expect_script)
+        });
+    }
+}
+
+#[test]
+fn parse_program_await_call_argument_as_script_call_expression() {
+    let script = script(
+        r#"
+        function await() {}
+        import("./fixture.js", await(undefined));
+        "#,
+    );
+
+    let Stmt::Expr(ExprStmt { expr, .. }) = &script.body[1] else {
+        panic!("expected a dynamic import expression statement")
+    };
+    let Expr::Call(import_call) = &**expr else {
+        panic!("expected a dynamic import call")
+    };
+    let Expr::Call(await_call) = &*import_call.args[1].expr else {
+        panic!("expected the second argument to be a call expression")
+    };
+    let Callee::Expr(callee) = &await_call.callee else {
+        panic!("expected an expression callee")
+    };
+    let Expr::Ident(callee) = &**callee else {
+        panic!("expected an identifier callee")
+    };
+
+    assert_eq!(callee.sym, "await");
+}
+
+#[test]
+fn parse_program_retry_preserves_comments_once() {
+    let comments = SingleThreadedComments::default();
+    test_parser_comment(
+        &comments,
+        "/* leading */ await(undefined); // trailing",
+        Default::default(),
+        |p| p.parse_program(),
+    );
+
+    let (leading, trailing) = comments.take_all();
+    let leading_count: usize = leading.borrow().values().map(Vec::len).sum();
+    let trailing_count: usize = trailing.borrow().values().map(Vec::len).sum();
+
+    assert_eq!(leading_count + trailing_count, 2);
 }
 
 #[test]
