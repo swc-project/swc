@@ -375,33 +375,57 @@ impl Parallel for Finalizer<'_> {
     }
 }
 
+/// Gives bindings in a cloned expression fresh contexts so each copy remains
+/// distinct to the renamer.
+fn freshen_cloned_bindings(mut value: Box<Expr>) -> Box<Expr> {
+    let bindings: FxHashSet<Id> = collect_decls(&*value);
+    if bindings.is_empty() {
+        return value;
+    }
+
+    let new_mark = Mark::new();
+    let mut cache = FxHashMap::default();
+    let mut remap = FxHashMap::default();
+
+    // Finalizer consumes these copies after usage analysis, so the fresh IDs do
+    // not need new ProgramData entries.
+    for id in bindings {
+        let new_ctxt = *cache
+            .entry(id.1)
+            .or_insert_with(|| id.1.apply_mark(new_mark));
+
+        remap.insert(id, new_ctxt);
+    }
+
+    if !remap.is_empty() {
+        let mut remapper = Remapper::new(&remap);
+        value.visit_mut_with(&mut remapper);
+    }
+
+    value
+}
+
+/// Clones an inline value while keeping binding-bearing cheap arrows hygienic.
+fn clone_lit_for_inlining(value: &Expr) -> Box<Expr> {
+    let value = Box::new(value.clone());
+
+    // Cheap arrows are the only binding-bearing expressions stored in `lits`.
+    if !matches!(&*value, Expr::Arrow(..)) {
+        debug_assert!(
+            collect_decls::<Id, _>(&*value).is_empty(),
+            "`Finalizer::lits` contains an unhandled binding-bearing expression"
+        );
+        return value;
+    }
+
+    freshen_cloned_bindings(value)
+}
+
 impl Finalizer<'_> {
     fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
             FinalizerMode::Callee => {
-                let mut value = self.simple_functions.get(i).cloned()?;
-                let mut cache = FxHashMap::default();
-                let mut remap = FxHashMap::default();
-                let bindings: FxHashSet<Id> = collect_decls(&*value);
-                let new_mark = Mark::new();
-
-                // at this point, var usage no longer matter
-                for id in bindings {
-                    let new_ctxt = cache
-                        .entry(id.1)
-                        .or_insert_with(|| id.1.apply_mark(new_mark));
-
-                    let new_ctxt = *new_ctxt;
-
-                    remap.insert(id, new_ctxt);
-                }
-
-                if !remap.is_empty() {
-                    let mut remapper = Remapper::new(&remap);
-                    value.visit_mut_with(&mut remapper);
-                }
-
-                value
+                freshen_cloned_bindings(self.simple_functions.get(i).cloned()?)
             }
             FinalizerMode::ComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
             FinalizerMode::MemberAccess => self.lits_for_array_access.get(i).cloned()?,
@@ -497,7 +521,7 @@ impl VisitMut for Finalizer<'_> {
             Expr::Ident(i) => {
                 if can_replace_lit {
                     if let Some(expr) = self.lits.get(&i.to_id()) {
-                        *n = *expr.clone();
+                        *n = *clone_lit_for_inlining(expr);
                     }
                 }
 
@@ -634,7 +658,7 @@ impl VisitMut for Finalizer<'_> {
                 let key = prop_name_from_ident(i.take());
                 *n = Prop::KeyValue(KeyValueProp {
                     key,
-                    value: expr.clone(),
+                    value: clone_lit_for_inlining(expr),
                 });
                 self.changed = true;
             }

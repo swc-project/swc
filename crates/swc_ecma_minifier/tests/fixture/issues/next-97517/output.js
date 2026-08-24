@@ -6,11 +6,11 @@ module.exports = [
             "run",
             0,
             (r)=>(r.map((r)=>{
-                    let e, t;
-                    return e = r.g, e + (t = r.r);
+                    let e;
+                    return e = r.g, e + r.r;
                 }), r.map((r)=>(e)=>{
-                        let t, u;
-                        return t = r.g, t + (u = e.l);
+                        let t;
+                        return t = r.g, t + e.l;
                     }))
         ], 42519);
     }
