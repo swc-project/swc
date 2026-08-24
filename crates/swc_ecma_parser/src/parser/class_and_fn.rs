@@ -375,13 +375,15 @@ impl<I: Tokens> Parser<I> {
                 }
             };
 
-            let (this_param, params) = p.do_inside_of_context(Context::InParameters, |p| {
-                p.do_outside_of_context(Context::InFunction, |p| {
-                    if is_async {
-                        p.do_inside_of_context(Context::InAsync, parse_args_with_generator_ctx)
-                    } else {
-                        p.do_outside_of_context(Context::InAsync, parse_args_with_generator_ctx)
-                    }
+            let (this_param, params) = p.without_async_arrow_param_await_collection(|p| {
+                p.do_inside_of_context(Context::InParameters, |p| {
+                    p.do_outside_of_context(Context::InFunction, |p| {
+                        if is_async {
+                            p.do_inside_of_context(Context::InAsync, parse_args_with_generator_ctx)
+                        } else {
+                            p.do_outside_of_context(Context::InAsync, parse_args_with_generator_ctx)
+                        }
+                    })
                 })
             })?;
 
@@ -888,12 +890,18 @@ impl<I: Tokens> Parser<I> {
         let type_ann = self.try_parse_ts_type_ann()?;
 
         self.do_inside_of_context(Context::IncludeInExpr.union(Context::InClassField), |p| {
-            let value = if p.input().is(Token::Eq) {
-                p.assert_and_bump(Token::Eq);
-                Some(p.parse_assignment_expr()?)
-            } else {
-                None
-            };
+            // Class field initializers have their own Await grammar parameter and must
+            // not inherit the unambiguous Program probe's top-level async context.
+            let value = p.without_async_arrow_param_await_collection(|p| {
+                p.do_outside_of_context(Context::InAsync, |p| {
+                    if p.input().is(Token::Eq) {
+                        p.assert_and_bump(Token::Eq);
+                        p.parse_assignment_expr().map(Some)
+                    } else {
+                        Ok(None)
+                    }
+                })
+            })?;
 
             if declare && value.is_some() {
                 p.emit_err(p.span(start), SyntaxError::TS1183);
