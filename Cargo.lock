@@ -5987,7 +5987,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "56.0.0"
+version = "56.0.1"
 dependencies = [
  "anyhow",
  "crc",
@@ -6143,7 +6143,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "77.0.2"
+version = "77.0.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6696,7 +6696,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "61.0.1"
+version = "61.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6739,7 +6739,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "45.0.0"
+version = "45.0.1"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6931,7 +6931,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "49.0.0"
+version = "49.0.1"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
