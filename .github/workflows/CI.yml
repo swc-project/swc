@@ -27,8 +27,48 @@ concurrency:
   cancel-in-progress: "${{ github.event_name == 'pull_request' }}"
 
 jobs:
+  detect-changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      force_all: ${{ steps.changes.outputs.force_all }}
+      affected_packages: ${{ steps.changes.outputs.affected_packages }}
+      cargo_fmt: ${{ steps.changes.outputs.cargo_fmt }}
+      rust_checks: ${{ steps.changes.outputs.rust_checks }}
+      helper_codegen: ${{ steps.changes.outputs.helper_codegen }}
+      cargo_deny: ${{ steps.changes.outputs.cargo_deny }}
+      test_wasm: ${{ steps.changes.outputs.test_wasm }}
+      wasm_packages: ${{ steps.changes.outputs.wasm_packages }}
+      node_test: ${{ steps.changes.outputs.node_test }}
+      react_compiler_test: ${{ steps.changes.outputs.react_compiler_test }}
+      integration_test: ${{ steps.changes.outputs.integration_test }}
+      full_cargo_test_matrix: ${{ steps.changes.outputs.full_cargo_test_matrix }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+
+      - name: Install cargo-mono
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
+        with:
+          tool: cargo-mono@0.6.9
+
+      - name: Detect changes
+        id: changes
+        run: node ./scripts/github/detect-changes.mjs >> "$GITHUB_OUTPUT"
+
   cargo-fmt:
     name: Cargo fmt
+    needs:
+      - detect-changes
+    if: needs.detect-changes.outputs.cargo_fmt == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -49,6 +89,9 @@ jobs:
 
   helper-codegen:
     name: Helper codegen
+    needs:
+      - detect-changes
+    if: needs.detect-changes.outputs.helper_codegen == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -66,8 +109,10 @@ jobs:
 
   cargo-clippy:
     name: Cargo clippy
+    needs:
+      - detect-changes
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+      ${{ needs.detect-changes.outputs.rust_checks == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -86,11 +131,13 @@ jobs:
 
   cargo-deny:
     name: Check license of dependencies
+    needs:
+      - detect-changes
     runs-on: ubuntu-latest
     permissions:
       contents: read
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+      ${{ needs.detect-changes.outputs.cargo_deny == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
@@ -110,6 +157,9 @@ jobs:
 
   cargo-shear:
     name: Cargo shear
+    needs:
+      - detect-changes
+    if: needs.detect-changes.outputs.rust_checks == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -131,11 +181,13 @@ jobs:
 
   cargo-check:
     name: Check
+    needs:
+      - detect-changes
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+      ${{ needs.detect-changes.outputs.rust_checks == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
     strategy:
       fail-fast: false
       matrix:
@@ -163,20 +215,17 @@ jobs:
 
   test-wasm:
     name: Test wasm
+    needs:
+      - detect-changes
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+      ${{ needs.detect-changes.outputs.test_wasm == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
     strategy:
       fail-fast: false
       matrix:
-        pkg:
-          - binding_core_wasm
-          - binding_minifier_wasm
-          - binding_typescript_wasm
-          - binding_nodejs_support_wasm
-          - binding_es_ast_viewer
+        pkg: ${{ fromJson(needs.detect-changes.outputs.wasm_packages) }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
@@ -197,6 +246,8 @@ jobs:
           (cd bindings/${{ matrix.pkg }} && ./scripts/test.sh)
 
   list-cargo-tests:
+    needs:
+      - detect-changes
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     name: List crates
@@ -205,18 +256,15 @@ jobs:
       contents: read
     outputs:
       settings: ${{ steps.list-tests.outputs.settings }}
+    env:
+      AFFECTED_PACKAGES: ${{ needs.detect-changes.outputs.affected_packages }}
+      FULL_CARGO_TEST_MATRIX: ${{ needs.detect-changes.outputs.full_cargo_test_matrix }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
-          fetch-depth: 0
 
       - uses: ./.github/actions/setup-node
-
-      - name: Install cargo-mono
-        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
-        with:
-          tool: cargo-mono@0.6.9
 
       - name: List crates
         id: list-tests
@@ -404,8 +452,10 @@ jobs:
 
   node-test:
     name: Test node bindings - ${{ matrix.os }}
+    needs:
+      - detect-changes
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+      ${{ needs.detect-changes.outputs.node_test == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -463,8 +513,10 @@ jobs:
 
   react-compiler-test:
     name: Test react-compiler bindings - ${{ matrix.os }}
+    needs:
+      - detect-changes
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+      ${{ needs.detect-changes.outputs.react_compiler_test == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -513,8 +565,10 @@ jobs:
 
   integration-test:
     name: "Test with @swc/cli"
+    needs:
+      - detect-changes
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+      ${{ needs.detect-changes.outputs.integration_test == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -607,14 +661,18 @@ jobs:
 
   done:
     needs:
+      - detect-changes
       - cargo-fmt
+      - helper-codegen
       - cargo-clippy
       - cargo-deny
       - cargo-shear
       - cargo-check
       - test-wasm
+      - list-cargo-tests
       - cargo-test
       - node-test
+      - react-compiler-test
       - integration-test
     if: >-
       ${{ always() && !contains(github.event.head_commit.message, 'chore: ') }}
@@ -622,4 +680,4 @@ jobs:
     name: Done
     steps:
       - run: exit 1
-        if: ${{ always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled')) }}
+        if: ${{ always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
