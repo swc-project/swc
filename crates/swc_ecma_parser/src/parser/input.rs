@@ -51,9 +51,31 @@ pub trait Tokens: Clone {
 
     fn take_errors(&mut self) -> Vec<Error>;
 
+    /// Returns whether parsing has emitted a non-module-mode error.
+    ///
+    /// Custom token sources which buffer recoverable errors should override
+    /// this together with the diagnostic checkpoint methods.
+    fn has_errors(&self) -> bool {
+        false
+    }
+
+    /// Saves the diagnostic buffer lengths for a whole-program retry.
+    fn diagnostic_checkpoint_save(&self) -> (usize, usize) {
+        (0, 0)
+    }
+
+    /// Discards diagnostics emitted after a whole-program checkpoint.
+    fn diagnostic_checkpoint_load(&mut self, _checkpoint: (usize, usize)) {}
+
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.
     fn take_script_module_errors(&mut self) -> Vec<Error>;
+
+    /// Defers publishing buffered comments while a parse may be rewound.
+    fn set_defer_comments(&mut self, _defer: bool) {}
+
+    /// Publishes all buffered comments after the parser commits a parse.
+    fn finalize_comments(&mut self) {}
     fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags));
     fn token_flags(&self) -> TokenFlags;
 
