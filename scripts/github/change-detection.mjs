@@ -31,10 +31,13 @@ const NODE_SHARED_PATHS = new Set([
 ]);
 
 const RUST_GLOBAL_PATHS = new Set([
+  ".gitmodules",
   "Cargo.lock",
   "Cargo.toml",
   "rust-toolchain",
 ]);
+
+const TYPES_PACKAGE_PREFIX = "packages/types/";
 
 /**
  * Returns whether an event must run the complete CI suite.
@@ -68,12 +71,14 @@ export function classifyChanges({
   const rustGlobalChanged = normalizedFiles.some((file) =>
     RUST_GLOBAL_PATHS.has(file)
   );
-  const rustConfigChanged = normalizedFiles.some(
-    (file) =>
-      file === ".rustfmt.toml" ||
-      file === "clippy.toml" ||
-      file.startsWith(".cargo/")
+  const cargoConfigChanged = normalizedFiles.some((file) =>
+    file.startsWith(".cargo/")
   );
+  const rustConfigChanged =
+    cargoConfigChanged ||
+    normalizedFiles.some(
+      (file) => file === ".rustfmt.toml" || file === "clippy.toml"
+    );
   const nodeSharedChanged = normalizedFiles.some(
     (file) =>
       NODE_SHARED_PATHS.has(file) ||
@@ -115,17 +120,23 @@ export function classifyChanges({
       (file) => file === "Cargo.lock" || file === "deny.toml"
     );
 
-  const allBindingsAffected = runAll || rustGlobalChanged || nodeSharedChanged;
+  const allBindingsAffected =
+    runAll || rustGlobalChanged || cargoConfigChanged || nodeSharedChanged;
+  const typesPackageChanged = normalizedFiles.some((file) =>
+    file.startsWith(TYPES_PACKAGE_PREFIX)
+  );
   const wasmPackages = allBindingsAffected
     ? [...WASM_PACKAGES]
     : WASM_PACKAGES.filter((name) => affectedPackageSet.has(name));
   const nodeTest =
     allBindingsAffected ||
     affectedPackageSet.has("binding_core_node") ||
+    typesPackageChanged ||
     normalizedFiles.some((file) => file.startsWith("packages/core/"));
   const reactCompilerTest =
     allBindingsAffected ||
     affectedPackageSet.has("binding_react_compiler_node") ||
+    typesPackageChanged ||
     normalizedFiles.some((file) => file.startsWith("packages/react-compiler/"));
   const integrationTest =
     nodeTest ||

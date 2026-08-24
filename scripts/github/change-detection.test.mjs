@@ -87,6 +87,39 @@ test("node and react compiler packages select their own binding jobs", () => {
   assert.equal(reactResult.nodeTest, false);
 });
 
+test("shared types changes run all pnpm workspace dependents", () => {
+  const result = classifyChanges({
+    files: ["packages/types/index.ts"],
+  });
+
+  assert.equal(result.nodeTest, true);
+  assert.equal(result.reactCompilerTest, true);
+  assert.equal(result.integrationTest, true);
+  assert.equal(result.testWasm, false);
+});
+
+test("Cargo configuration changes run all Rust and binding checks", () => {
+  const result = classifyChanges({ files: [".cargo/config.toml"] });
+
+  assert.equal(result.rustChecks, true);
+  assert.equal(result.testWasm, true);
+  assert.equal(result.nodeTest, true);
+  assert.equal(result.reactCompilerTest, true);
+  assert.equal(result.integrationTest, true);
+  assert.equal(result.fullCargoTestMatrix, true);
+});
+
+test("submodule configuration changes run submodule consumers", () => {
+  const result = classifyChanges({ files: [".gitmodules"] });
+
+  assert.equal(result.rustChecks, true);
+  assert.equal(result.testWasm, true);
+  assert.equal(result.nodeTest, true);
+  assert.equal(result.reactCompilerTest, true);
+  assert.equal(result.integrationTest, true);
+  assert.equal(result.fullCargoTestMatrix, true);
+});
+
 test("shared pnpm configuration runs all JavaScript and binding tests", () => {
   const result = classifyChanges({ files: ["pnpm-lock.yaml"] });
 
