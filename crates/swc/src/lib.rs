@@ -9,11 +9,13 @@
 //!
 //! ## Dependency version management
 //!
-//! `swc` has [swc_css](https://docs.rs/swc_css), which re-exports required modules.
+//! The [swc_css](https://docs.rs/swc_css) facade crate re-exports the modules
+//! required to build CSS tooling.
 //!
 //! ## Testing
 //!
-//! See [testing] and [swc_ecma_transforms_testing](https://docs.rs/swc_ecma_transforms_testing).
+//! See [testing](https://docs.rs/testing) and
+//! [swc_ecma_transforms_testing](https://docs.rs/swc_ecma_transforms_testing).
 //!
 //! ## Custom javascript transforms
 //!
@@ -42,17 +44,18 @@
 //!
 //! ### Variable management (Scoping)
 //!
-//! See [swc_ecma_transforms_base::resolver::resolver_with_mark].
+//! See [swc_ecma_transforms::resolver].
 //!
 //! #### How identifiers work
 //!
 //! See the doc on [swc_ecma_ast::Ident] or on
-//! [swc_ecma_transforms_base::resolver::resolver_with_mark].
+//! [swc_ecma_transforms::resolver].
 //!
 //! #### Comparing two identifiers
 //!
-//! See [swc_ecma_utils::Id]. You can use [swc_ecma_utils::IdentLike::to_id] to
-//! extract important parts of an [swc_ecma_ast::Ident].
+//! See [swc_ecma_ast::Id]. You can use
+//! [swc_ecma_utils::ident::IdentLike::to_id] to extract important parts of an
+//! [swc_ecma_ast::Ident].
 //!
 //! #### Creating a unique identifier
 //!
@@ -61,7 +64,7 @@
 //! #### Prepending statements
 //!
 //! If you want to prepend statements to the beginning of a file, you can use
-//! [swc_ecma_utils::prepend_stmts] or [swc_ecma_utils::prepend] if `len == 1`.
+//! [swc_ecma_utils::prepend_stmts] or [swc_ecma_utils::prepend_stmt].
 //!
 //! These methods are aware of the fact that `"use strict"` directive should be
 //! first in a file, and insert statements after directives.
@@ -85,10 +88,6 @@
 //!    are static (e.g. `Object.prototype.hasOwnProperty`), you can use
 //!    [swc_ecma_utils::member_expr].
 //!
-//!  - If you want to create [swc_ecma_ast::MemberExpr], you can use
-//!    [swc_ecma_utils::ExprFactory::as_obj] to create object field.
-//!
-//!
 //! ### Reducing binary size
 //!
 //! The visitor expands to a lot of code. You can reduce it by using macros like
@@ -97,9 +96,8 @@
 //!  - [noop_visit_mut_type](swc_ecma_visit::noop_visit_mut_type)
 //!  - [noop_visit_type](swc_ecma_visit::noop_visit_type)
 //!
-//! Note that this will make typescript-related nodes not processed, but it's
-//! typically fine as `typescript::strip` is invoked at the start and it removes
-//! typescript-specific nodes.
+//! These macros skip type-specific nodes. Use them only at a boundary where the
+//! program is known not to contain such nodes.
 //!
 //! ### Porting `expr.evaluate()` of babel
 //!
@@ -116,308 +114,71 @@ extern crate swc_common as common;
 #[cfg_attr(docsrs, doc(cfg(feature = "react-compiler")))]
 pub extern crate swc_ecma_react_compiler as react_compiler;
 
-use std::{
-    fs::{read_to_string, File},
-    io::ErrorKind,
-    path::{Path, PathBuf},
-    sync::Arc,
-};
+use std::sync::Arc;
 
-use anyhow::{bail, Context, Error};
-use base64::prelude::{Engine, BASE64_STANDARD};
-use common::{
-    comments::{Comment, SingleThreadedComments},
-    errors::HANDLER,
-};
-use jsonc_parser::{parse_to_serde_value, ParseOptions};
-use once_cell::sync::Lazy;
-use serde_json::error::Category;
+use anyhow::Error;
 use swc_common::{
-    comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap, Span,
-    Spanned, GLOBALS,
+    comments::Comments,
+    errors::{Handler, HANDLER},
+    SourceFile, SourceMap, GLOBALS,
 };
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::types::{BoolConfig, BoolOr, BoolOrDataConfig};
-use swc_ecma_ast::{
-    noop_pass, Decl, DefaultDecl, EsVersion, Module, ModuleDecl, ModuleItem, Pass, Program, Script,
-    TsNamespaceBody,
-};
+use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::Node;
-#[cfg(feature = "module")]
-use swc_ecma_loader::resolvers::{
-    lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
-};
-use swc_ecma_minifier::option::{MangleCache, MinifyOptions, TopLevelOptions};
-use swc_ecma_parser::{
-    error::SyntaxError, parse_file_as_program, parse_file_as_script, EsSyntax, Syntax,
-};
-use swc_ecma_transforms::{
-    fixer,
-    helpers::{self, Helpers},
-    hygiene, resolver,
-};
-use swc_ecma_transforms_base::fixer::paren_remover;
-#[cfg(feature = "module")]
-use swc_ecma_transforms_module::path::NodeImportResolver;
-use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
+use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::helpers::{self, HelperData, Helpers};
+use swc_ecma_visit::{FoldWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 pub use swc_sourcemap as sourcemap;
-#[cfg(feature = "isolated-dts")]
-use swc_typescript::fast_dts::FastDts;
-#[cfg(debug_assertions)]
-use tracing::warn;
-use url::Url;
 
-use crate::config::{
-    BuiltInput, Config, ConfigFile, InputSourceMap, IsModule, JsMinifyCommentOption,
-    JsMinifyOptions, Options, OutputCharset, Rc, RootMode, SourceMapsConfig,
-};
-
-mod builder;
+mod codegen;
 pub mod config;
 mod dropped_comments_preserver;
+mod flow;
+mod input_source_map;
+mod legacy;
+mod minify;
+mod pipeline;
 mod plugin;
+pub mod resolver;
+
+pub use minify::JsMinifyExtras;
+pub use pipeline::{
+    CompileInput, CompileRequest, PipelineContext, PipelineHooks, TransformedProgram,
+};
 pub mod wasm_analysis;
-pub mod resolver {
-    use std::path::PathBuf;
 
-    use rustc_hash::FxHashMap;
-    use swc_ecma_loader::{
-        resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
-        TargetEnv,
-    };
-
-    use crate::config::CompiledPaths;
-
-    pub type NodeResolver = CachingResolver<NodeModulesResolver>;
-
-    pub fn paths_resolver(
-        target_env: TargetEnv,
-        alias: FxHashMap<String, String>,
-        base_url: PathBuf,
-        paths: CompiledPaths,
-        preserve_symlinks: bool,
-    ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
-        let r = TsConfigResolver::new(
-            NodeModulesResolver::without_node_modules(target_env, alias, preserve_symlinks),
-            base_url,
-            paths,
-        );
-        CachingResolver::new(40, r)
-    }
-
-    pub fn environment_resolver(
-        target_env: TargetEnv,
-        alias: FxHashMap<String, String>,
-        preserve_symlinks: bool,
-    ) -> NodeResolver {
-        CachingResolver::new(
-            40,
-            NodeModulesResolver::new(target_env, alias, preserve_symlinks),
-        )
-    }
-}
-
-#[cfg(feature = "module")]
-type SwcImportResolver = Arc<
-    NodeImportResolver<CachingResolver<TsConfigResolver<CachingResolver<NodeModulesResolver>>>>,
->;
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum FlowScriptLikeModuleKind {
-    Script,
-    TypeOnlyModule,
-    RuntimeModule(Span),
-}
-
-fn emit_parser_recoverable_errors(
-    handler: &Handler,
-    errors: Vec<swc_ecma_parser::error::Error>,
-) -> Result<(), Error> {
-    if errors.is_empty() {
-        return Ok(());
-    }
-
-    for error in errors {
-        error.into_diagnostic(handler).emit();
-    }
-
-    Err(Error::msg("Syntax Error"))
-}
-
-fn classify_flow_script_like_module(program: &Program) -> FlowScriptLikeModuleKind {
-    let Program::Module(module) = program else {
-        return FlowScriptLikeModuleKind::Script;
-    };
-
-    classify_flow_script_like_module_body(module)
-}
-
-fn classify_flow_script_like_module_body(module: &Module) -> FlowScriptLikeModuleKind {
-    let mut saw_module_decl = false;
-
-    for module_item in &module.body {
-        let Some(module_decl) = module_item.as_module_decl() else {
-            continue;
-        };
-
-        saw_module_decl = true;
-
-        if is_runtime_module_decl(module_decl) {
-            return FlowScriptLikeModuleKind::RuntimeModule(module_item.span());
-        }
-    }
-
-    if saw_module_decl {
-        FlowScriptLikeModuleKind::TypeOnlyModule
-    } else {
-        let span = module
-            .body
-            .first()
-            .map(Spanned::span)
-            .unwrap_or(module.span);
-        FlowScriptLikeModuleKind::RuntimeModule(span)
-    }
-}
-
-fn downgrade_flow_script_like_module(program: Program) -> Result<Program, Error> {
-    let Program::Module(module) = program else {
-        return Ok(program);
-    };
-
-    if module
-        .body
-        .iter()
-        .any(|module_item| matches!(module_item, ModuleItem::ModuleDecl(..)))
-    {
-        bail!(
-            "failed to downgrade Flow type-only module to script because module declarations \
-             remain after stripping"
-        );
-    }
-
-    let Module {
-        span,
-        body,
-        shebang,
-    } = module;
-
-    let body = body
-        .into_iter()
-        .map(|module_item| match module_item {
-            ModuleItem::Stmt(stmt) => Ok(stmt),
-            ModuleItem::ModuleDecl(..) => bail!(
-                "failed to downgrade Flow type-only module to script because module declarations \
-                 remain after stripping"
-            ),
-        })
-        .collect::<Result<_, Error>>()?;
-
-    Ok(Program::Script(Script {
-        span,
-        body,
-        shebang,
-    }))
-}
-
-fn is_runtime_module_decl(module_decl: &ModuleDecl) -> bool {
-    match module_decl {
-        ModuleDecl::Import(import_decl) => !import_decl.type_only,
-        ModuleDecl::ExportDecl(export_decl) => is_runtime_decl(&export_decl.decl),
-        ModuleDecl::ExportNamed(named_export) => !named_export.type_only,
-        ModuleDecl::ExportDefaultDecl(export_default_decl) => {
-            is_runtime_default_decl(&export_default_decl.decl)
-        }
-        ModuleDecl::ExportDefaultExpr(..) => true,
-        ModuleDecl::ExportAll(export_all) => !export_all.type_only,
-        ModuleDecl::TsImportEquals(ts_import_equals_decl) => !ts_import_equals_decl.is_type_only,
-        ModuleDecl::TsExportAssignment(..) => true,
-        ModuleDecl::TsNamespaceExport(..) => false,
-    }
-}
-
-fn is_runtime_decl(decl: &Decl) -> bool {
-    if is_declare_decl(decl) {
-        return false;
-    }
-
-    match decl {
-        Decl::TsInterface(..) | Decl::TsTypeAlias(..) => false,
-        Decl::Fn(function_decl) => function_decl.function.body.is_some(),
-        Decl::Class(..) | Decl::Var(..) | Decl::Using(..) | Decl::TsEnum(..) => true,
-        Decl::TsModule(ts_module_decl) => ts_module_decl
-            .body
-            .as_ref()
-            .map(is_runtime_namespace_body)
-            .unwrap_or_default(),
-    }
-}
-
-fn is_runtime_default_decl(default_decl: &DefaultDecl) -> bool {
-    match default_decl {
-        DefaultDecl::Class(..) => true,
-        DefaultDecl::Fn(function_expr) => function_expr.function.body.is_some(),
-        DefaultDecl::TsInterfaceDecl(..) => false,
-    }
-}
-
-fn is_runtime_namespace_body(namespace_body: &TsNamespaceBody) -> bool {
-    match namespace_body {
-        TsNamespaceBody::TsModuleBlock(ts_module_block) => {
-            ts_module_block
-                .body
-                .iter()
-                .any(|module_item| match module_item {
-                    ModuleItem::Stmt(stmt) => is_runtime_stmt(stmt),
-                    ModuleItem::ModuleDecl(module_decl) => is_runtime_module_decl(module_decl),
-                })
-        }
-        TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => {
-            is_runtime_namespace_body(&ts_namespace_decl.body)
-        }
-    }
-}
-
-fn is_runtime_stmt(stmt: &swc_ecma_ast::Stmt) -> bool {
-    match stmt {
-        swc_ecma_ast::Stmt::Empty(..) => false,
-        swc_ecma_ast::Stmt::Decl(decl) => is_runtime_decl(decl),
-        _ => true,
-    }
-}
-
-fn is_declare_decl(decl: &Decl) -> bool {
-    match decl {
-        Decl::Class(class_decl) => class_decl.declare,
-        Decl::Fn(function_decl) => function_decl.declare,
-        Decl::Var(var_decl) => var_decl.declare,
-        Decl::Using(..) => false,
-        Decl::TsInterface(..) | Decl::TsTypeAlias(..) => true,
-        Decl::TsEnum(ts_enum_decl) => ts_enum_decl.declare,
-        Decl::TsModule(ts_module_decl) => ts_module_decl.declare || ts_module_decl.global,
-    }
-}
-
-/// All methods accept [Handler], which is a storage for errors.
+/// A compiler backed by a shared source map.
 ///
-/// The caller should check if the handler contains any errors after calling
-/// method.
+/// Compilation and parsing methods that emit diagnostics accept a
+/// [`swc_common::errors::Handler`]. The caller should inspect that handler
+/// after the operation completes. Transform operations also require the caller
+/// to install [`swc_common::GLOBALS`].
 pub struct Compiler {
-    /// CodeMap
+    /// Source map used by parsing, transforms, diagnostics, and code
+    /// generation.
     pub cm: Arc<SourceMap>,
     comments: SwcComments,
 }
 
-/// These are **low-level** apis.
 impl Compiler {
+    pub fn new(cm: Arc<SourceMap>) -> Self {
+        Compiler {
+            cm,
+            comments: Default::default(),
+        }
+    }
+
     pub fn comments(&self) -> &SwcComments {
         &self.comments
     }
 
-    /// Runs `op` in current compiler's context.
+    /// Runs `op`, checking in debug builds that the caller installed
+    /// [`swc_common::GLOBALS`].
     ///
-    /// Note: Other methods of `Compiler` already uses this internally.
+    /// This method does not install the globals.
     pub fn run<R, F>(&self, op: F) -> R
     where
         F: FnOnce() -> R,
@@ -430,483 +191,49 @@ impl Compiler {
         op()
     }
 
-    fn get_orig_src_map(
-        &self,
-        fm: &SourceFile,
-        input_src_map: &InputSourceMap,
-        comments: &[Comment],
-        is_default: bool,
-    ) -> Result<Option<sourcemap::SourceMap>, Error> {
-        self.run(|| -> Result<_, Error> {
-            let name = &fm.name;
-
-            let read_inline_sourcemap =
-                |data_url: &str| -> Result<Option<sourcemap::SourceMap>, Error> {
-                    let url = Url::parse(data_url).with_context(|| {
-                        format!("failed to parse inline source map url\n{data_url}")
-                    })?;
-
-                    let idx = match url.path().find("base64,") {
-                        Some(v) => v,
-                        None => {
-                            bail!("failed to parse inline source map: not base64: {url:?}")
-                        }
-                    };
-
-                    let content = url.path()[idx + "base64,".len()..].trim();
-
-                    let res = BASE64_STANDARD
-                        .decode(content.as_bytes())
-                        .context("failed to decode base64-encoded source map")?;
-
-                    Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
-                        "failed to read input source map from inlined base64 encoded string",
-                    )?))
-                };
-
-            let read_file_sourcemap =
-                |data_url: Option<&str>| -> Result<Option<sourcemap::SourceMap>, Error> {
-                    match &**name {
-                        FileName::Real(filename) => {
-                            let dir = match filename.parent() {
-                                Some(v) => v,
-                                None => {
-                                    bail!("unexpected: root directory is given as a input file")
-                                }
-                            };
-
-                            let map_path = match data_url {
-                                Some(data_url) => {
-                                    let mut map_path = dir.join(data_url);
-                                    if !map_path.exists() {
-                                        // Old behavior. This check would prevent
-                                        // regressions.
-                                        // Perhaps it shouldn't be supported. Sometimes
-                                        // developers don't want to expose their source
-                                        // code.
-                                        // Map files are for internal troubleshooting
-                                        // convenience.
-                                        let fallback_map_path =
-                                            PathBuf::from(format!("{}.map", filename.display()));
-                                        if fallback_map_path.exists() {
-                                            map_path = fallback_map_path;
-                                        } else {
-                                            bail!(
-                                                "failed to find input source map file {:?} in \
-                                                 {:?} file as either {:?} or with appended .map",
-                                                data_url,
-                                                filename.display(),
-                                                map_path.display(),
-                                            )
-                                        }
-                                    }
-
-                                    Some(map_path)
-                                }
-                                None => {
-                                    // Old behavior.
-                                    let map_path =
-                                        PathBuf::from(format!("{}.map", filename.display()));
-                                    if map_path.exists() {
-                                        Some(map_path)
-                                    } else {
-                                        None
-                                    }
-                                }
-                            };
-
-                            match map_path {
-                                Some(map_path) => {
-                                    let path = map_path.display().to_string();
-                                    let file = File::open(&path);
-
-                                    // If file is not found, we should return None.
-                                    // Some libraries generates source map but omit them from the
-                                    // npm package.
-                                    //
-                                    // See https://github.com/swc-project/swc/issues/8789#issuecomment-2105055772
-                                    if file
-                                        .as_ref()
-                                        .is_err_and(|err| err.kind() == ErrorKind::NotFound)
-                                    {
-                                        #[cfg(debug_assertions)]
-                                        warn!(
-                                            "source map is specified by sourceMappingURL but \
-                                             there's no source map at `{}`",
-                                            path
-                                        );
-                                        return Ok(None);
-                                    }
-
-                                    // Old behavior.
-                                    let file = if !is_default {
-                                        file?
-                                    } else {
-                                        match file {
-                                            Ok(v) => v,
-                                            Err(_) => return Ok(None),
-                                        }
-                                    };
-
-                                    Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
-                                        || {
-                                            format!(
-                                                "failed to read input source map
-                                from file at {path}"
-                                            )
-                                        },
-                                    )?))
-                                }
-                                None => Ok(None),
-                            }
-                        }
-                        _ => Ok(None),
-                    }
-                };
-
-            let read_sourcemap = || -> Option<sourcemap::SourceMap> {
-                let s = "sourceMappingURL=";
-
-                let text = comments.iter().rev().find_map(|c| {
-                    let idx = c.text.rfind(s)?;
-                    let (_, url) = c.text.split_at(idx + s.len());
-
-                    Some(url.trim())
-                });
-
-                // Load original source map if possible
-                let result = match text {
-                    Some(text) if text.starts_with("data:") => read_inline_sourcemap(text),
-                    _ => read_file_sourcemap(text),
-                };
-                match result {
-                    Ok(r) => r,
-                    Err(err) => {
-                        #[cfg(debug_assertions)]
-                        tracing::error!("failed to read input source map: {:?}", err);
-                        #[cfg(not(debug_assertions))]
-                        let _ = err;
-                        None
-                    }
-                }
-            };
-
-            // Load original source map
-            match input_src_map {
-                InputSourceMap::Bool(false) => Ok(None),
-                InputSourceMap::Bool(true) => Ok(read_sourcemap()),
-                InputSourceMap::Str(ref s) => {
-                    if s == "inline" {
-                        Ok(read_sourcemap())
-                    } else {
-                        // Load source map passed by user
-                        Ok(Some(
-                            swc_sourcemap::SourceMap::from_slice(s.as_bytes()).context(
-                                "failed to read input source map from user-provided sourcemap",
-                            )?,
-                        ))
-                    }
-                }
-            }
-        })
-    }
-
-    /// This method parses a javascript / typescript file
-    pub fn parse_js(
-        &self,
-        fm: Arc<SourceFile>,
-        handler: &Handler,
-        target: EsVersion,
-        syntax: Syntax,
-        is_module: IsModule,
-        comments: Option<&dyn Comments>,
-    ) -> Result<Program, Error> {
-        swc_compiler_base::parse_js(
-            self.cm.clone(),
-            fm,
-            handler,
-            target,
-            syntax,
-            is_module,
-            comments,
-        )
-    }
-
-    fn parse_js_as_transform_input(
-        &self,
-        fm: Arc<SourceFile>,
-        handler: &Handler,
-        target: EsVersion,
-        syntax: Syntax,
-        is_module: IsModule,
-        comments: Option<&dyn Comments>,
-    ) -> Result<(Program, bool), Error> {
-        if !syntax.flow() {
-            return self
-                .parse_js(fm, handler, target, syntax, is_module, comments)
-                .map(|program| (program, false));
-        }
-
-        if matches!(is_module, IsModule::Bool(false)) {
-            let mut errors = Vec::new();
-            match parse_file_as_script(&fm, syntax, target, comments, &mut errors) {
-                Ok(script) => {
-                    emit_parser_recoverable_errors(handler, errors)?;
-                    return Ok((Program::Script(script), false));
-                }
-                Err(err) if matches!(err.kind(), SyntaxError::ImportExportInScript) => {}
-                Err(err) => {
-                    emit_parser_recoverable_errors(handler, errors)?;
-                    err.into_diagnostic(handler).emit();
-                    return Err(Error::msg("Syntax Error"));
-                }
-            }
-
-            let mut errors = Vec::new();
-            let program = parse_file_as_program(&fm, syntax, target, comments, &mut errors)
-                .map_err(|err| {
-                    err.into_diagnostic(handler).emit();
-                    Error::msg("Syntax Error")
-                })?;
-
-            emit_parser_recoverable_errors(handler, errors)?;
-
-            match classify_flow_script_like_module(&program) {
-                FlowScriptLikeModuleKind::Script => Ok((program, false)),
-                FlowScriptLikeModuleKind::TypeOnlyModule => Ok((program, true)),
-                FlowScriptLikeModuleKind::RuntimeModule(span) => {
-                    handler
-                        .struct_span_err(span, &SyntaxError::ImportExportInScript.msg())
-                        .emit();
-                    Err(Error::msg("Syntax Error"))
-                }
-            }
-        } else {
-            let program = self.parse_js(fm, handler, target, syntax, is_module, comments)?;
-            let flow_strip_script_like_module = matches!(
-                classify_flow_script_like_module(&program),
-                FlowScriptLikeModuleKind::TypeOnlyModule
-            ) && matches!(is_module, IsModule::Unknown);
-
-            Ok((program, flow_strip_script_like_module))
-        }
-    }
-
-    /// Converts ast node to source string and sourcemap.
+    /// Runs an AST transform with the helper and diagnostic scopes installed.
     ///
-    ///
-    /// This method receives target file path, but does not write file to the
-    /// path. See: https://github.com/swc-project/swc/issues/1255
-    #[allow(clippy::too_many_arguments)]
-    pub fn print<T>(&self, node: &T, args: PrintArgs) -> Result<TransformOutput, Error>
-    where
-        T: Node + VisitWith<swc_compiler_base::IdentCollector>,
-    {
-        swc_compiler_base::print(self.cm.clone(), node, args)
-    }
-}
-
-/// High-level apis.
-impl Compiler {
-    pub fn new(cm: Arc<SourceMap>) -> Self {
-        Compiler {
-            cm,
-            comments: Default::default(),
-        }
-    }
-
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
-    pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
-        static CUR_DIR: Lazy<PathBuf> = Lazy::new(|| {
-            if cfg!(target_arch = "wasm32") {
-                PathBuf::new()
-            } else {
-                ::std::env::current_dir().unwrap()
-            }
-        });
-
-        self.run(|| -> Result<_, Error> {
-            let Options {
-                ref root,
-                root_mode,
-                swcrc,
-                config_file,
-                ..
-            } = opts;
-
-            let root = root.as_ref().unwrap_or(&CUR_DIR);
-
-            let swcrc_path = match config_file {
-                Some(ConfigFile::Str(s)) => Some(PathBuf::from(s.clone())),
-                _ => {
-                    if *swcrc {
-                        if let FileName::Real(ref path) = name {
-                            // Canonicalize relative paths for proper parent traversal
-                            let abs_path = if path.is_relative() {
-                                root.join(path).canonicalize().ok()
-                            } else {
-                                path.canonicalize().ok()
-                            };
-                            let found = abs_path.and_then(|p| find_swcrc(&p, root, *root_mode));
-
-                            // "upward" mode requires a .swcrc to be found
-                            if found.is_none() && *root_mode == RootMode::Upward {
-                                bail!(
-                                    "Could not find .swcrc file while using rootMode \
-                                     \"upward\".\nSearched from: {}",
-                                    path.display()
-                                );
-                            }
-
-                            found
-                        } else {
-                            None
-                        }
-                    } else {
-                        None
-                    }
-                }
-            };
-
-            let config_file = match swcrc_path.as_deref() {
-                Some(s) => Some(load_swcrc(s)?),
-                _ => None,
-            };
-            let filename_path = match name {
-                FileName::Real(p) => Some(&**p),
-                _ => None,
-            };
-
-            if let Some(filename_path) = filename_path {
-                if let Some(config) = config_file {
-                    let dir = swcrc_path
-                        .as_deref()
-                        .and_then(|p| p.parent())
-                        .expect(".swcrc path should have parent dir");
-
-                    let mut config = config
-                        .into_config(Some(filename_path))
-                        .context("failed to process config file")?;
-
-                    if let Some(c) = &mut config {
-                        if c.jsc.base_url != PathBuf::new() {
-                            let joined = dir.join(&c.jsc.base_url);
-                            c.jsc.base_url = if cfg!(target_os = "windows")
-                                && c.jsc.base_url.as_os_str() == "."
-                            {
-                                dir.canonicalize().with_context(|| {
-                                    format!(
-                                        "failed to canonicalize base url using the path of \
-                                         .swcrc\nDir: {}\n(Used logic for windows)",
-                                        dir.display(),
-                                    )
-                                })?
-                            } else {
-                                joined.canonicalize().with_context(|| {
-                                    format!(
-                                        "failed to canonicalize base url using the path of \
-                                         .swcrc\nPath: {}\nDir: {}\nbaseUrl: {}",
-                                        joined.display(),
-                                        dir.display(),
-                                        c.jsc.base_url.display()
-                                    )
-                                })?
-                            };
-                        }
-                    }
-
-                    return Ok(config);
-                }
-
-                let config_file = config_file.unwrap_or_default();
-                let config = config_file.into_config(Some(filename_path))?;
-
-                return Ok(config);
-            }
-
-            let config = match config_file {
-                Some(config_file) => config_file.into_config(None)?,
-                None => Rc::default().into_config(None)?,
-            };
-
-            match config {
-                Some(config) => Ok(Some(config)),
-                None => {
-                    bail!("no config matched for file ({name})")
-                }
-            }
-        })
-        .with_context(|| format!("failed to read .swcrc file for input file at `{name}`"))
-    }
-
-    /// This method returns [None] if a file should be skipped.
-    ///
-    /// This method handles merging of config.
-    ///
-    /// This method does **not** parse module.
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
-    pub fn parse_js_as_input<'a, P>(
-        &'a self,
-        fm: Lrc<SourceFile>,
-        program: Option<Program>,
-        handler: &'a Handler,
-        opts: &Options,
-        name: &FileName,
-        comments: Option<&'a SingleThreadedComments>,
-        before_pass: impl 'a + FnOnce(&Program) -> P,
-    ) -> Result<Option<BuiltInput<impl 'a + Pass>>, Error>
-    where
-        P: 'a + Pass,
-    {
-        self.run(move || {
-            if let FileName::Real(ref path) = name {
-                if !opts.config.matches(path)? {
-                    return Ok(None);
-                }
-            }
-
-            let config = self.read_config(opts, name)?;
-            let config = match config {
-                Some(v) => v,
-                None => return Ok(None),
-            };
-
-            let built = opts.build_as_input(
-                &self.cm,
-                name,
-                move |syntax, target, is_module| match program {
-                    Some(v) => Ok((v, false)),
-                    _ => self.parse_js_as_transform_input(
-                        fm.clone(),
-                        handler,
-                        target,
-                        syntax,
-                        is_module,
-                        comments.as_ref().map(|v| v as _),
-                    ),
-                },
-                opts.output_path.as_deref(),
-                opts.source_root.clone(),
-                opts.source_file_name.clone(),
-                config.source_map_ignore_list.clone(),
-                handler,
-                Some(config),
-                comments,
-                before_pass,
-            )?;
-            Ok(Some(built))
-        })
-    }
-
+    /// The caller must already have installed [`swc_common::GLOBALS`].
     pub fn run_transform<F, Ret>(&self, handler: &Handler, external_helpers: bool, op: F) -> Ret
     where
         F: FnOnce() -> Ret,
     {
-        self.run(|| {
-            helpers::HELPERS.set(&Helpers::new(external_helpers), || HANDLER.set(handler, op))
+        self.run_transform_scope(handler, external_helpers, op, |result, _| result)
+    }
+
+    /// Runs an AST transform and returns the helper requirements it recorded.
+    pub(crate) fn run_transform_with_helpers<F, Ret>(
+        &self,
+        handler: &Handler,
+        external_helpers: bool,
+        op: F,
+    ) -> (Ret, HelperData)
+    where
+        F: FnOnce() -> Ret,
+    {
+        self.run_transform_scope(handler, external_helpers, op, |result, helpers| {
+            (result, helpers.data())
         })
     }
 
+    fn run_transform_scope<F, Ret, Finish, Output>(
+        &self,
+        handler: &Handler,
+        external_helpers: bool,
+        op: F,
+        finish: Finish,
+    ) -> Output
+    where
+        F: FnOnce() -> Ret,
+        Finish: FnOnce(Ret, &Helpers) -> Output,
+    {
+        self.run(|| {
+            let helpers = Helpers::new(external_helpers);
+            helpers::HELPERS.set(&helpers, || HANDLER.set(handler, || finish(op(), &helpers)))
+        })
+    }
+
+    /// Applies a fold with the helper and diagnostic scopes installed.
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     pub fn transform(
         &self,
@@ -921,531 +248,61 @@ impl Compiler {
         })
     }
 
-    /// `custom_after_pass` is applied after swc transforms are applied.
-    ///
-    /// `program`: If you already parsed `Program`, you can pass it.
-    ///
-    /// # Guarantee
-    ///
-    /// `swc` invokes `custom_before_pass` after
-    ///
-    ///  - Handling decorators, if configured
-    ///  - Applying `resolver`
-    ///  - Stripping typescript nodes
-    ///
-    /// This means, you can use `noop_visit_type`, `noop_fold_type` and
-    /// `noop_visit_mut_type` in your visitor to reduce the binary size.
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
-    pub fn process_js_with_custom_pass<P1, P2>(
+    /// Parses a JavaScript, TypeScript, or, when enabled, Flow file.
+    pub fn parse_js(
         &self,
         fm: Arc<SourceFile>,
-        program: Option<Program>,
         handler: &Handler,
-        opts: &Options,
-        comments: SingleThreadedComments,
-        custom_before_pass: impl FnOnce(&Program) -> P1,
-        custom_after_pass: impl FnOnce(&Program) -> P2,
-    ) -> Result<TransformOutput, Error>
-    where
-        P1: Pass,
-        P2: Pass,
-    {
-        self.run(|| -> Result<_, Error> {
-            let config = self.run(|| {
-                self.parse_js_as_input(
-                    fm.clone(),
-                    program,
-                    handler,
-                    opts,
-                    &fm.name,
-                    Some(&comments),
-                    |program| custom_before_pass(program),
-                )
-            })?;
-            let config = match config {
-                Some(v) => v,
-                None => {
-                    bail!("cannot process file because it's ignored by .swcrc")
-                }
-            };
-
-            let after_pass = custom_after_pass(&config.program);
-
-            let config = config.with_pass(|pass| (pass, after_pass));
-
-            let orig = if config.source_maps.enabled() {
-                self.get_orig_src_map(
-                    &fm,
-                    &config.input_source_map,
-                    config
-                        .comments
-                        .get_trailing(config.program.span_hi())
-                        .as_deref()
-                        .unwrap_or_default(),
-                    false,
-                )?
-            } else {
-                None
-            };
-
-            self.apply_transforms(handler, comments.clone(), fm.clone(), orig, config)
-        })
+        target: EsVersion,
+        syntax: Syntax,
+        is_module: config::IsModule,
+        comments: Option<&dyn Comments>,
+    ) -> Result<Program, Error> {
+        swc_compiler_base::parse_js(
+            self.cm.clone(),
+            fm,
+            handler,
+            target,
+            syntax,
+            is_module,
+            comments,
+        )
     }
 
-    #[cfg_attr(debug_assertions, tracing::instrument(skip(self, handler, opts)))]
+    /// Converts an AST node to source code and an optional source map.
+    ///
+    /// This method receives the target file path but does not write to it. See
+    /// <https://github.com/swc-project/swc/issues/1255>.
+    #[allow(clippy::too_many_arguments)]
+    pub fn print<T>(&self, node: &T, args: PrintArgs) -> Result<TransformOutput, Error>
+    where
+        T: Node + VisitWith<swc_compiler_base::IdentCollector>,
+    {
+        swc_compiler_base::print(self.cm.clone(), node, args)
+    }
+
+    /// Compiles a source file with the direct linear pipeline.
+    #[cfg_attr(
+        debug_assertions,
+        tracing::instrument(target = "swc::pipeline", skip(self, handler, opts))
+    )]
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
         handler: &Handler,
-        opts: &Options,
+        opts: &config::Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(
-            fm,
-            None,
-            handler,
-            opts,
-            SingleThreadedComments::default(),
-            |_| noop_pass(),
-            |_| noop_pass(),
-        )
+        self.compile(handler, CompileInput::source(fm), opts)
+            .codegen()
     }
 
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
-    pub fn minify(
-        &self,
-        fm: Arc<SourceFile>,
-        handler: &Handler,
-        opts: &JsMinifyOptions,
-        extras: JsMinifyExtras,
-    ) -> Result<TransformOutput, Error> {
-        self.run(|| {
-            let target = opts.ecma.clone().into();
-
-            let (source_map, orig, source_map_url) = opts
-                .source_map
-                .as_ref()
-                .map(|obj| -> Result<_, Error> {
-                    let orig = obj.content.as_ref().map(|s| s.to_sourcemap()).transpose()?;
-
-                    Ok((SourceMapsConfig::Bool(true), orig, obj.url.as_deref()))
-                })
-                .unwrap_as_option(|v| {
-                    Some(Ok(match v {
-                        Some(true) => (SourceMapsConfig::Bool(true), None, None),
-                        _ => (SourceMapsConfig::Bool(false), None, None),
-                    }))
-                })
-                .unwrap()?;
-
-            let mut min_opts = MinifyOptions {
-                compress: opts
-                    .compress
-                    .clone()
-                    .unwrap_as_option(|default| match default {
-                        Some(true) | None => Some(Default::default()),
-                        _ => None,
-                    })
-                    .map(|v| v.into_config(self.cm.clone())),
-                mangle: opts
-                    .mangle
-                    .clone()
-                    .unwrap_as_option(|default| match default {
-                        Some(true) | None => Some(Default::default()),
-                        _ => None,
-                    }),
-                ..Default::default()
-            };
-
-            // top_level defaults to true if module is true
-
-            // https://github.com/swc-project/swc/issues/2254
-
-            if opts.keep_fnames {
-                if let Some(opts) = &mut min_opts.compress {
-                    opts.keep_fnames = true;
-                }
-                if let Some(opts) = &mut min_opts.mangle {
-                    opts.keep_fn_names = true;
-                }
-            }
-
-            let comments = SingleThreadedComments::default();
-
-            let mut program = self
-                .parse_js(
-                    fm.clone(),
-                    handler,
-                    target,
-                    Syntax::Es(EsSyntax {
-                        jsx: true,
-                        decorators: true,
-                        decorators_before_export: true,
-                        import_attributes: true,
-                        ..Default::default()
-                    }),
-                    opts.module,
-                    Some(&comments),
-                )
-                .context("failed to parse input file")?;
-
-            if opts.toplevel == Some(true) || program.is_module() {
-                if let Some(opts) = &mut min_opts.compress {
-                    if opts.top_level.is_none() {
-                        opts.top_level = Some(TopLevelOptions { functions: true });
-                    }
-                }
-
-                if let Some(opts) = &mut min_opts.mangle {
-                    if opts.top_level.is_none() {
-                        opts.top_level = Some(true);
-                    }
-                }
-            }
-
-            let source_map_names = if source_map.enabled() {
-                let mut v = swc_compiler_base::IdentCollector {
-                    names: Default::default(),
-                };
-
-                program.visit_with(&mut v);
-
-                v.names
-            } else {
-                Default::default()
-            };
-
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            let is_mangler_enabled = min_opts.mangle.is_some();
-
-            program = self.run_transform(handler, false, || {
-                program.mutate(&mut paren_remover(Some(&comments)));
-
-                program.mutate(&mut resolver(unresolved_mark, top_level_mark, false));
-
-                let mut program = swc_ecma_minifier::optimize(
-                    program,
-                    self.cm.clone(),
-                    Some(&comments),
-                    None,
-                    &min_opts,
-                    &swc_ecma_minifier::option::ExtraOptions {
-                        unresolved_mark,
-                        top_level_mark,
-                        mangle_name_cache: extras.mangle_name_cache,
-                    },
-                );
-
-                if !is_mangler_enabled {
-                    program.visit_mut_with(&mut hygiene())
-                }
-                program.mutate(&mut fixer(Some(&comments as &dyn Comments)));
-                program
-            });
-
-            let preserve_comments = opts
-                .format
-                .comments
-                .clone()
-                .into_inner()
-                .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
-            let extracted_comments = swc_compiler_base::minify_file_comments(
-                &comments,
-                preserve_comments,
-                opts.extract_comments
-                    .clone()
-                    .into_inner()
-                    .unwrap_or(BoolOr::Bool(false)),
-                opts.format.preserve_annotations,
-            );
-
-            let ret = self.print(
-                &program,
-                PrintArgs {
-                    source_root: None,
-                    source_file_name: Some(&fm.name.to_string()),
-                    output_path: opts.output_path.clone().map(From::from),
-                    inline_sources_content: opts.inline_sources_content,
-                    source_map,
-                    source_map_ignore_list: opts.source_map_ignore_list.clone(),
-                    source_map_names: &source_map_names,
-                    orig,
-                    comments: Some(&comments),
-                    emit_source_map_columns: opts.emit_source_map_columns,
-                    emit_source_map_scopes: false,
-                    preamble: &opts.format.preamble,
-                    codegen_config: swc_ecma_codegen::Config::default()
-                        .with_target(target)
-                        .with_minify(true)
-                        .with_ascii_only(opts.format.ascii_only)
-                        .with_emit_assert_for_import_attributes(
-                            opts.format.emit_assert_for_import_attributes,
-                        )
-                        .with_inline_script(opts.format.inline_script)
-                        .with_reduce_escaped_newline(
-                            min_opts
-                                .compress
-                                .unwrap_or_default()
-                                .experimental
-                                .reduce_escaped_newline,
-                        ),
-                    output: None,
-                    source_map_url,
-                },
-            );
-
-            ret.map(|mut output| {
-                if !extracted_comments.is_empty() {
-                    output.extracted_comments = Some(extracted_comments);
-                }
-                output.diagnostics = handler.take_diagnostics();
-
-                output
-            })
-        })
+    /// Creates a lazy request for the direct linear compilation pipeline.
+    pub fn compile<'a>(
+        &'a self,
+        handler: &'a Handler,
+        input: CompileInput,
+        options: &'a config::Options,
+    ) -> CompileRequest<'a> {
+        CompileRequest::new(self, handler, input, options)
     }
-
-    /// You can use custom pass with this method.
-    ///
-    /// Pass building logic has been inlined into the configuration system.
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
-    pub fn process_js(
-        &self,
-        handler: &Handler,
-        program: Program,
-        opts: &Options,
-    ) -> Result<TransformOutput, Error> {
-        let loc = self.cm.lookup_char_pos(program.span().lo());
-        let fm = loc.file;
-
-        self.process_js_with_custom_pass(
-            fm,
-            Some(program),
-            handler,
-            opts,
-            SingleThreadedComments::default(),
-            |_| noop_pass(),
-            |_| noop_pass(),
-        )
-    }
-
-    #[cfg_attr(
-        debug_assertions,
-        tracing::instrument(name = "swc::Compiler::apply_transforms", skip_all)
-    )]
-    fn apply_transforms(
-        &self,
-        handler: &Handler,
-        #[allow(unused)] comments: SingleThreadedComments,
-        #[allow(unused)] fm: Arc<SourceFile>,
-        orig: Option<sourcemap::SourceMap>,
-        config: BuiltInput<impl Pass>,
-    ) -> Result<TransformOutput, Error> {
-        self.run(|| {
-            let program = config.program;
-            let is_typescript_syntax = matches!(config.syntax, Syntax::Typescript(..));
-
-            if config.emit_isolated_dts && !is_typescript_syntax {
-                handler.warn(
-                    "jsc.experimental.emitIsolatedDts is enabled but the syntax is not TypeScript",
-                );
-            }
-
-            let source_map_names = if config.source_maps.enabled() {
-                let mut v = swc_compiler_base::IdentCollector {
-                    names: Default::default(),
-                };
-
-                program.visit_with(&mut v);
-
-                v.names
-            } else {
-                Default::default()
-            };
-            #[cfg(feature = "isolated-dts")]
-            let dts_code = if is_typescript_syntax && config.emit_isolated_dts {
-                use std::cell::RefCell;
-
-                use swc_ecma_codegen::to_code_with_comments;
-                let (leading, trailing) = comments.borrow_all();
-
-                let leading = std::rc::Rc::new(RefCell::new(leading.clone()));
-                let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
-
-                let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
-
-                let mut checker =
-                    FastDts::new(fm.name.clone(), config.unresolved_mark, Default::default());
-                let mut program = program.clone();
-
-                #[cfg(feature = "module")]
-                if let Some((base, resolver)) = config.resolver {
-                    use swc_ecma_transforms_module::rewriter::import_rewriter;
-
-                    program.mutate(import_rewriter(base, resolver));
-                }
-
-                let issues = checker.transform(&mut program);
-
-                for issue in issues {
-                    handler
-                        .struct_span_err(issue.range.span, &issue.message)
-                        .emit();
-                }
-
-                let dts_code = to_code_with_comments(Some(&comments), &program);
-                Some(dts_code)
-            } else {
-                None
-            };
-
-            let pass = config.pass;
-            let (program, output) = swc_transform_common::output::capture(|| {
-                #[cfg(feature = "isolated-dts")]
-                {
-                    if let Some(dts_code) = dts_code {
-                        use swc_transform_common::output::experimental_emit;
-                        experimental_emit("__swc_isolated_declarations__".into(), dts_code);
-                    }
-                }
-
-                helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                    HANDLER.set(handler, || {
-                        // Fold module
-                        program.apply(pass)
-                    })
-                })
-            });
-
-            let program = if config.flow_strip_script_like_module {
-                downgrade_flow_script_like_module(program)?
-            } else {
-                program
-            };
-
-            if let Some(comments) = &config.comments {
-                swc_compiler_base::minify_file_comments(
-                    comments,
-                    config.preserve_comments,
-                    BoolOr::Bool(false),
-                    config.output.preserve_annotations.into_bool(),
-                );
-            }
-
-            self.print(
-                &program,
-                PrintArgs {
-                    source_root: config.source_root.as_deref(),
-                    source_file_name: config.source_file_name.as_deref(),
-                    source_map_ignore_list: config.source_map_ignore_list.clone(),
-                    output_path: config.output_path,
-                    inline_sources_content: config.inline_sources_content,
-                    source_map: config.source_maps,
-                    source_map_names: &source_map_names,
-                    orig,
-                    comments: config.comments.as_ref().map(|v| v as _),
-                    emit_source_map_columns: config.emit_source_map_columns,
-                    emit_source_map_scopes: config.emit_source_map_scopes,
-                    preamble: &config.output.preamble,
-                    codegen_config: swc_ecma_codegen::Config::default()
-                        .with_target(config.target)
-                        .with_minify(config.minify)
-                        .with_ascii_only(
-                            config
-                                .output
-                                .charset
-                                .map(|v| matches!(v, OutputCharset::Ascii))
-                                .unwrap_or(false),
-                        )
-                        .with_emit_assert_for_import_attributes(
-                            config.emit_assert_for_import_attributes,
-                        )
-                        .with_inline_script(config.codegen_inline_script),
-                    output: if output.is_empty() {
-                        None
-                    } else {
-                        Some(output)
-                    },
-                    source_map_url: config.output.source_map_url.as_deref(),
-                },
-            )
-        })
-    }
-}
-
-#[non_exhaustive]
-#[derive(Clone, Default)]
-pub struct JsMinifyExtras {
-    pub mangle_name_cache: Option<Arc<dyn MangleCache>>,
-}
-
-impl JsMinifyExtras {
-    pub fn with_mangle_name_cache(
-        mut self,
-        mangle_name_cache: Option<Arc<dyn MangleCache>>,
-    ) -> Self {
-        self.mangle_name_cache = mangle_name_cache;
-        self
-    }
-}
-
-fn find_swcrc(path: &Path, root: &Path, root_mode: RootMode) -> Option<PathBuf> {
-    let mut parent = path.parent();
-    while let Some(dir) = parent {
-        let swcrc = dir.join(".swcrc");
-
-        if swcrc.exists() {
-            return Some(swcrc);
-        }
-
-        if dir == root && root_mode == RootMode::Root {
-            break;
-        }
-        parent = dir.parent();
-    }
-
-    None
-}
-
-#[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
-fn load_swcrc(path: &Path) -> Result<Rc, Error> {
-    let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
-
-    parse_swcrc(&content)
-}
-
-fn parse_swcrc(s: &str) -> Result<Rc, Error> {
-    fn convert_json_err(e: serde_json::Error) -> Error {
-        let line = e.line();
-        let column = e.column();
-
-        let msg = match e.classify() {
-            Category::Io => "io error",
-            Category::Syntax => "syntax error",
-            Category::Data => "unmatched data",
-            Category::Eof => "unexpected eof",
-        };
-        Error::new(e).context(format!(
-            "failed to deserialize .swcrc (json) file: {msg}: {line}:{column}"
-        ))
-    }
-
-    let v = parse_to_serde_value(
-        s.trim_start_matches('\u{feff}'),
-        &ParseOptions {
-            allow_comments: true,
-            allow_trailing_commas: true,
-            allow_loose_object_property_names: false,
-        },
-    )?
-    .ok_or_else(|| Error::msg("failed to deserialize empty .swcrc (json) file"))?;
-
-    if let Ok(rc) = serde_json::from_value(v.clone()) {
-        return Ok(rc);
-    }
-
-    serde_json::from_value(v)
-        .map(Rc::Single)
-        .map_err(convert_json_err)
 }

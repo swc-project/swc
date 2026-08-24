@@ -9,8 +9,6 @@ use once_cell::sync::Lazy;
 #[doc(hidden)]
 pub use serde_wasm_bindgen;
 use serde_wasm_bindgen::Serializer;
-#[doc(hidden)]
-pub use swc::PrintArgs;
 use swc::{config::ErrorFormat, Compiler, HandlerOpts};
 #[doc(hidden)]
 pub use swc::{
@@ -18,10 +16,12 @@ pub use swc::{
     try_with_handler,
 };
 #[doc(hidden)]
+pub use swc::{CompileInput, PrintArgs};
+#[doc(hidden)]
 pub use swc_common::{
     comments::{self, SingleThreadedComments},
     errors::Handler,
-    FileName, Mark, GLOBALS,
+    FileName, Mark, Spanned, GLOBALS,
 };
 use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
 #[doc(hidden)]
@@ -296,13 +296,37 @@ macro_rules! build_print {
 
 #[macro_export]
 macro_rules! build_transform_sync {
+  // Source input uses the direct pipeline by default and the frozen legacy
+  // path for custom-pass overloads. Program input remains direct in both.
   ($(#[$m:meta])*) => {
-    build_transform_sync!($(#[$m])*, |_| $crate::wasm::noop_pass(), |_| $crate::wasm::noop_pass(), Default::default());
+    $crate::build_transform_sync!(@impl [$(#[$m])*] pipeline, |_| $crate::wasm::noop_pass(), |_| $crate::wasm::noop_pass(), Default::default());
   };
   ($(#[$m:meta])*, $before_pass: expr, $after_pass: expr) => {
-    build_transform_sync!($(#[$m])*, $before_pass, $after_pass, Default::default());
+    $crate::build_transform_sync!(@impl [$(#[$m])*] custom, $before_pass, $after_pass, Default::default());
   };
   ($(#[$m:meta])*, $before_pass: expr, $after_pass: expr, $opt: expr) => {
+    $crate::build_transform_sync!(@impl [$(#[$m])*] custom, $before_pass, $after_pass, $opt);
+  };
+  (@transform_source pipeline, $c:ident, $handler:ident, $fm:ident, $comments:ident, $opts:ident, $before_pass:expr, $after_pass:expr) => {
+    $c.compile(
+      $handler,
+      $crate::wasm::CompileInput::source($fm).with_comments($comments),
+      &$opts,
+    )
+    .codegen()
+  };
+  (@transform_source custom, $c:ident, $handler:ident, $fm:ident, $comments:ident, $opts:ident, $before_pass:expr, $after_pass:expr) => {
+    $c.process_js_with_custom_pass(
+      $fm,
+      None,
+      $handler,
+      &$opts,
+      $comments,
+      $before_pass,
+      $after_pass,
+    )
+  };
+  (@impl [$(#[$m:meta])*] $mode:ident, $before_pass:expr, $after_pass:expr, $opt:expr) => {
     $(#[$m])*
     #[allow(unused_variables)]
     pub fn transform_sync(
@@ -385,18 +409,33 @@ macro_rules! build_transform_sync {
                           let file = fm.clone();
                           let comments = $crate::wasm::SingleThreadedComments::default();
                           $crate::wasm::anyhow::Context::context(
-                            c.process_js_with_custom_pass(
-                              fm,
-                              None,
+                            $crate::build_transform_sync!(
+                              @transform_source $mode,
+                              c,
                               handler,
-                              &opts,
+                              fm,
                               comments,
+                              opts,
                               $before_pass,
-                              $after_pass,
-                          ), "failed to process js file"
+                              $after_pass
+                            ),
+                            "failed to process js file"
                           )?
                       }
-                      Err(v) => unsafe { c.process_js(handler, $crate::wasm::serde_wasm_bindgen::from_value(v).expect(""), &opts)? },
+                      Err(v) => {
+                        let program: $crate::wasm::Program =
+                          $crate::wasm::serde_wasm_bindgen::from_value(v).expect("");
+                        let fm = c
+                          .cm
+                          .lookup_char_pos($crate::wasm::Spanned::span(&program).lo())
+                          .file;
+                        c.compile(
+                          handler,
+                          $crate::wasm::CompileInput::program(fm, program),
+                          &opts,
+                        )
+                        .codegen()?
+                      }
                   };
 
                   out
