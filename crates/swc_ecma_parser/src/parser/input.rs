@@ -215,6 +215,14 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(t);
     }
 
+    #[cfg(feature = "tsrx")]
+    pub fn rescan_jsx_token_from(&mut self, start: BytePos) {
+        self.next = None;
+        let t = self.iter.rescan_jsx_token(start);
+        self.prev_span = Span::new_with_checked(start, start);
+        self.set_cur(t);
+    }
+
     pub fn scan_jsx_identifier(&mut self) {
         if !self.cur().is_word() {
             return;

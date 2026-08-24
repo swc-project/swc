@@ -1,0 +1,10 @@
+  x Expression expected
+   ,-[$DIR/tests/tsrx-errors/empty-dynamic-closing.tsrx:1:1]
+ 1 | const invalid = <{Tag}></{}>;
+   :                        ^
+   `----
+  x Expression expected
+   ,-[$DIR/tests/tsrx-errors/empty-dynamic-closing.tsrx:1:1]
+ 1 | const invalid = <{Tag}></{}>;
+   :                 ^
+   `----

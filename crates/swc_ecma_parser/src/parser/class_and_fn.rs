@@ -760,9 +760,15 @@ impl<I: Tokens> Parser<I> {
         is_simple_parameter_list: bool,
         f: impl FnOnce(&mut Self, bool) -> PResult<T>,
     ) -> PResult<T> {
+        let has_explicit_body = self.input().is(Token::LBrace);
+        #[cfg(feature = "tsrx")]
+        let has_explicit_body = has_explicit_body
+            || self.syntax().tsrx()
+                && self.input().is(Token::At)
+                && peek!(self).is_some_and(|token| token == Token::LBrace);
         if self.ctx().contains(Context::InDeclare)
             && self.syntax().typescript()
-            && self.input().is(Token::LBrace)
+            && has_explicit_body
             && (!self.syntax().flow() || !self.ctx().contains(Context::TsModuleBlock))
         {
             //            self.emit_err(
@@ -823,6 +829,16 @@ impl<I: Tokens> Parser<I> {
             is_arrow_function,
             is_simple_parameter_list,
             |p, is_simple_parameter_list| {
+                #[cfg(feature = "tsrx")]
+                if p.input().syntax().tsrx()
+                    && p.input().is(Token::At)
+                    && peek!(p).is_some_and(|token| token == Token::LBrace)
+                {
+                    return p
+                        .parse_tsrx_function_body(is_simple_parameter_list)
+                        .map(Some);
+                }
+
                 // allow omitting body and allow placing `{` on next line
                 let has_explicit_body_terminator = p.input_mut().eat(Token::Semi)
                     || (p.syntax().flow()

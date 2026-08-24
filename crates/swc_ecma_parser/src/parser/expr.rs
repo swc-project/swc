@@ -262,6 +262,11 @@ impl<I: Tokens> Parser<I> {
 
         let cur = self.input().cur();
 
+        #[cfg(feature = "tsrx")]
+        if cur == Token::At && self.is_tsrx_expr_start() {
+            return self.parse_tsrx_expr();
+        }
+
         if cur.needs_unary_expr_prefix_parse() {
             if cur == Token::Lt
                 && self.input().syntax().typescript()
@@ -288,10 +293,12 @@ impl<I: Tokens> Parser<I> {
                     peek.is_word() || peek == Token::Gt || peek.should_rescan_into_gt_in_jsx()
                 })
             {
-                fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
+                fn into_expr(e: super::jsx::ParsedJSXElement) -> Box<Expr> {
                     match e {
-                        Either::Left(l) => l.into(),
-                        Either::Right(r) => r.into(),
+                        super::jsx::ParsedJSXElement::Fragment(fragment) => fragment.into(),
+                        super::jsx::ParsedJSXElement::Element(element) => element.into(),
+                        #[cfg(feature = "tsrx")]
+                        super::jsx::ParsedJSXElement::Tsrx(expr) => expr,
                     }
                 }
                 return self.parse_jsx_element(true).map(into_expr);
