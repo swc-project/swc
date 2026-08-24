@@ -83,6 +83,24 @@ enum EntryMode {
 }
 
 #[derive(Clone, Copy)]
+enum SuspensionContext {
+    Synchronous,
+    Async,
+    Generator,
+    AsyncGenerator,
+}
+
+impl SuspensionContext {
+    fn is_async(self) -> bool {
+        matches!(self, Self::Async | Self::AsyncGenerator)
+    }
+
+    fn is_generator(self) -> bool {
+        matches!(self, Self::Generator | Self::AsyncGenerator)
+    }
+}
+
+#[derive(Clone, Copy)]
 enum ReactHelper {
     Suspense,
     Fragment,
@@ -247,7 +265,7 @@ impl<I: Tokens> Parser<I> {
             Token::LBrace => {
                 let mut block = self.parse_tsrx_code_block(false)?;
                 block.span = Span::new_with_checked(start, block.span.hi);
-                self.lower_code_block_expr(block, false)
+                self.lower_code_block_expr(block)
             }
             Token::If => {
                 let directive = self.parse_tsrx_if(start)?;
@@ -355,7 +373,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_tsrx_if(&mut self, start: BytePos) -> PResult<IfDirective> {
         self.assert_and_bump(Token::If);
         let test = self.parse_tsrx_condition()?;
-        let consequent = self.parse_tsrx_code_block(false)?;
+        let consequent = self.parse_tsrx_branch()?;
         let alternate = if self.input().is(Token::At)
             && peek!(self).is_some_and(|token| token == Token::Else)
         {
@@ -365,7 +383,7 @@ impl<I: Tokens> Parser<I> {
                 let nested_start = self.cur_pos();
                 Some(IfAlternate::If(Box::new(self.parse_tsrx_if(nested_start)?)))
             } else {
-                Some(IfAlternate::CodeBlock(self.parse_tsrx_code_block(false)?))
+                Some(IfAlternate::CodeBlock(self.parse_tsrx_branch()?))
             }
         } else {
             None
@@ -377,6 +395,13 @@ impl<I: Tokens> Parser<I> {
             consequent,
             alternate,
         })
+    }
+
+    fn parse_tsrx_branch(&mut self) -> PResult<CodeBlock> {
+        self.do_outside_of_context(
+            Context::IsBreakAllowed.union(Context::IsContinueAllowed),
+            |parser| parser.parse_tsrx_code_block(false),
+        )
     }
 
     fn parse_tsrx_for(&mut self, start: BytePos) -> PResult<ForDirective> {
@@ -640,12 +665,12 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn lower_code_block_expr(&mut self, mut block: CodeBlock, is_async: bool) -> Box<Expr> {
+    fn lower_code_block_expr(&mut self, mut block: CodeBlock) -> Box<Expr> {
         let span = block.span;
         block
             .body
             .push(return_stmt(block.render.unwrap_or_else(null_expr)));
-        self.arrow_iife(span, block.body, is_async)
+        self.suspending_iife(span, block.body, false)
     }
 
     fn lower_branch(&mut self, mut block: CodeBlock) -> Box<Expr> {
@@ -656,7 +681,7 @@ impl<I: Tokens> Parser<I> {
         block
             .body
             .push(return_stmt(block.render.unwrap_or_else(null_expr)));
-        self.arrow_iife(span, block.body, false)
+        self.suspending_iife(span, block.body, false)
     }
 
     fn lower_if(&mut self, directive: IfDirective) -> Box<Expr> {
@@ -765,7 +790,7 @@ impl<I: Tokens> Parser<I> {
             results.into()
         };
         statements.push(return_stmt(result));
-        self.arrow_iife(directive.span, statements, directive.is_await)
+        self.suspending_iife(directive.span, statements, directive.is_await)
     }
 
     fn lower_switch(&mut self, directive: SwitchDirective) -> Box<Expr> {
@@ -797,7 +822,7 @@ impl<I: Tokens> Parser<I> {
             }),
             return_stmt(null_expr()),
         ];
-        self.arrow_iife(directive.span, statements, false)
+        self.suspending_iife(directive.span, statements, false)
     }
 
     fn lower_try(&mut self, directive: TryDirective) -> Box<Expr> {
@@ -855,7 +880,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         statements.push(return_stmt(Box::new(Expr::JSXElement(Box::new(rendered)))));
-        self.arrow_iife(directive.span, statements, false)
+        self.suspending_iife(directive.span, statements, false)
     }
 
     fn apply_tsrx_key(&mut self, mut render: Box<Expr>, key: Box<Expr>) -> Box<Expr> {
@@ -986,7 +1011,7 @@ impl<I: Tokens> Parser<I> {
                 name: JSXElementName::Ident(alias.clone()),
             }),
         };
-        let expr = self.arrow_iife(
+        let expr = self.suspending_iife(
             span,
             vec![
                 var_stmt(VarDeclKind::Const, alias, tag),
@@ -1069,15 +1094,63 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn arrow_iife(&mut self, span: Span, stmts: Vec<Stmt>, is_async: bool) -> Box<Expr> {
-        let arrow = self.arrow_expr(span, Vec::new(), stmts, is_async);
-        Box::new(Expr::Call(CallExpr {
+    fn suspension_context(&self) -> SuspensionContext {
+        let context = self.ctx();
+        match (
+            context.contains(Context::InAsync),
+            context.contains(Context::InGenerator),
+        ) {
+            (false, false) => SuspensionContext::Synchronous,
+            (true, false) => SuspensionContext::Async,
+            (false, true) => SuspensionContext::Generator,
+            (true, true) => SuspensionContext::AsyncGenerator,
+        }
+    }
+
+    fn suspending_iife(&mut self, span: Span, stmts: Vec<Stmt>, requires_async: bool) -> Box<Expr> {
+        let suspension = self.suspension_context();
+        let is_async = suspension.is_async() || requires_async;
+        let callee = if suspension.is_generator() {
+            Box::new(Expr::Fn(FnExpr {
+                ident: None,
+                function: Box::new(Function {
+                    span,
+                    ctxt: self.tsrx.generated_ctxt(),
+                    params: Vec::new(),
+                    decorators: Vec::new(),
+                    body: Some(FunctionBody { span, stmts }),
+                    is_generator: true,
+                    is_async,
+                    type_params: None,
+                    return_type: None,
+                    this_param: None,
+                }),
+            }))
+        } else {
+            Box::new(Expr::Paren(ParenExpr {
+                span,
+                expr: self.arrow_expr(span, Vec::new(), stmts, is_async),
+            }))
+        };
+        let call = Box::new(Expr::Call(CallExpr {
             span,
             ctxt: self.tsrx.generated_ctxt(),
-            callee: Callee::Expr(Box::new(Expr::Paren(ParenExpr { span, expr: arrow }))),
+            callee: Callee::Expr(callee),
             args: Vec::new(),
             type_args: None,
-        }))
+        }));
+
+        match suspension {
+            SuspensionContext::Synchronous => call,
+            SuspensionContext::Async => Box::new(Expr::Await(AwaitExpr { span, arg: call })),
+            SuspensionContext::Generator | SuspensionContext::AsyncGenerator => {
+                Box::new(Expr::Yield(YieldExpr {
+                    span,
+                    arg: Some(call),
+                    delegate: true,
+                }))
+            }
+        }
     }
 
     fn arrow_expr(
