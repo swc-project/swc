@@ -131,6 +131,17 @@ test("shared pnpm configuration runs all JavaScript and binding tests", () => {
   assert.equal(result.cargoDeny, false);
 });
 
+test("workspace package manifests run pnpm-installing jobs", () => {
+  const result = classifyChanges({ files: ["packages/helpers/package.json"] });
+
+  assert.equal(result.testWasm, true);
+  assert.equal(result.nodeTest, true);
+  assert.equal(result.reactCompilerTest, true);
+  assert.equal(result.integrationTest, true);
+  assert.equal(result.fullCargoTestMatrix, true);
+  assert.equal(result.cargoDeny, false);
+});
+
 test("documentation-only changes do not select expensive jobs", () => {
   const result = classifyChanges({ files: ["docs/usage.md"] });
 

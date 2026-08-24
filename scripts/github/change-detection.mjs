@@ -82,6 +82,7 @@ export function classifyChanges({
   const nodeSharedChanged = normalizedFiles.some(
     (file) =>
       NODE_SHARED_PATHS.has(file) ||
+      file.endsWith("/package.json") ||
       file.startsWith(".github/actions/setup-node/")
   );
   const cargoTestInfraChanged = normalizedFiles.some(
