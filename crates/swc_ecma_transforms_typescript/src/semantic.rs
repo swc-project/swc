@@ -17,6 +17,7 @@ pub(crate) struct SemanticInfo {
     pub id_value: FxHashSet<Id>,
     pub exported_binding: FxHashMap<Id, Option<Id>>,
     pub enum_record: TsEnumRecord,
+    pub ambient_enum_record: TsEnumRecord,
     pub const_enum: FxHashSet<Id>,
     pub namespace_import_equals_usage: FxHashSet<Span>,
     pub const_vars: FxHashMap<Id, TsEnumRecordValue>,
@@ -256,11 +257,13 @@ impl SemanticAnalyzer {
         }
     }
 
+    #[allow(clippy::too_many_arguments)]
     fn transform_ts_enum_member(
         member: TsEnumMember,
         enum_id: &Id,
         default_init: &TsEnumRecordValue,
         record: &TsEnumRecord,
+        ambient_record: &TsEnumRecord,
         const_vars: &FxHashMap<Id, TsEnumRecordValue>,
         unresolved_ctxt: SyntaxContext,
         flow_syntax: bool,
@@ -274,6 +277,7 @@ impl SemanticAnalyzer {
                     record,
                     const_vars,
                     const_enum_only: None,
+                    ambient_record,
                 }
                 .compute(expr, EvalCtx::MEMBER)
             })
@@ -289,6 +293,56 @@ impl SemanticAnalyzer {
                     default_init.clone()
                 }
             })
+    }
+}
+
+impl SemanticAnalyzer {
+    /// Ambient enums are erased from the output, but `tsc` still treats their
+    /// members with constant initializers as constant enum expressions inside
+    /// enum and const initializers. In an ambient `const enum` every member is
+    /// constant, so the usual auto-increment applies; in a plain ambient enum
+    /// a member without an initializer stays opaque. Kept out of `enum_record`
+    /// so the inliner never rewrites runtime reads of the ambient object.
+    fn record_ambient_enum(&mut self, node: &TsEnumDecl) {
+        if node.is_const {
+            self.info.const_enum.insert(node.id.to_id());
+        }
+
+        let mut default_init: TsEnumRecordValue = 0.0.into();
+
+        for member in &node.members {
+            let value = match (&member.init, node.is_const) {
+                (Some(init), _) => EnumValueComputer {
+                    enum_id: &node.id.to_id(),
+                    unresolved_ctxt: self.unresolved_ctxt,
+                    record: &self.info.enum_record,
+                    const_vars: &self.info.const_vars,
+                    const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
+                    ambient_record: &self.info.ambient_enum_record,
+                }
+                .compute(
+                    init.clone(),
+                    // Type syntax inside an ambient initializer removes
+                    // constness, like in a const initializer: `tsc` leaves
+                    // `declare enum A { X = 1 as number }` opaque.
+                    EvalCtx::CONST_INIT,
+                ),
+                (None, true) => default_init.clone(),
+                (None, false) => continue,
+            };
+
+            default_init = value.inc();
+
+            if value.is_const() {
+                self.info.ambient_enum_record.insert(
+                    TsEnumRecordKey {
+                        enum_id: node.id.to_id(),
+                        member_name: enum_member_name(&member.id),
+                    },
+                    value,
+                );
+            }
+        }
     }
 }
 
@@ -544,7 +598,7 @@ impl Visit for SemanticAnalyzer {
     }
 
     fn visit_var_decl(&mut self, node: &VarDecl) {
-        let track = !self.skip_transform_info && !node.declare && node.kind == VarDeclKind::Const;
+        let track = node.kind == VarDeclKind::Const;
 
         for decl in &node.decls {
             decl.visit_with(self);
@@ -568,6 +622,7 @@ impl Visit for SemanticAnalyzer {
                 record: &self.info.enum_record,
                 const_vars: &self.info.const_vars,
                 const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
+                ambient_record: &self.info.ambient_enum_record,
             }
             .compute(init.clone(), EvalCtx::CONST_INIT);
 
@@ -581,6 +636,7 @@ impl Visit for SemanticAnalyzer {
         node.visit_children_with(self);
 
         if self.skip_transform_info {
+            self.record_ambient_enum(node);
             return;
         }
 
@@ -607,6 +663,7 @@ impl Visit for SemanticAnalyzer {
                 &id.to_id(),
                 &default_init,
                 &self.info.enum_record,
+                &self.info.ambient_enum_record,
                 &self.info.const_vars,
                 self.unresolved_ctxt,
                 self.flow_syntax,
@@ -698,6 +755,7 @@ mod tests {
             &TsEnumRecordValue::Void,
             &Default::default(),
             &Default::default(),
+            &Default::default(),
             SyntaxContext::empty(),
             true,
         );
@@ -714,6 +772,7 @@ mod tests {
             enum_member("A"),
             &id("E"),
             &TsEnumRecordValue::from(2.0),
+            &Default::default(),
             &Default::default(),
             &Default::default(),
             SyntaxContext::empty(),

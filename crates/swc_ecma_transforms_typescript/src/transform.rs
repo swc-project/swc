@@ -1116,6 +1116,7 @@ impl Transform {
             record: &self.semantic.enum_record,
             const_vars: &self.semantic.const_vars,
             const_enum_only: None,
+            ambient_record: &self.semantic.ambient_enum_record,
         };
 
         let member_list: Vec<_> = members

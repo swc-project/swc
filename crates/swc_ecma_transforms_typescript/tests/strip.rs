@@ -2856,6 +2856,14 @@ test!(
       A = l
     }
     console.log(L.A);
+    declare const enum M {
+      A = 7,
+    }
+    const m = M.A;
+    enum N {
+      A = m,
+      B
+    }
     "#
 );
 

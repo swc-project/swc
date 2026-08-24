@@ -105,6 +105,11 @@ pub(crate) struct EnumValueComputer<'a> {
     /// enum can be reassigned at runtime, so reads of its members are not
     /// compile-time constants and must stay opaque.
     pub const_enum_only: Option<&'a FxHashSet<Id>>,
+    /// Members of ambient (`declare`) enums. Kept separate from `record` so
+    /// only the evaluator sees them: `tsc` folds them inside enum and const
+    /// initializers but never rewrites runtime reads of the ambient object,
+    /// and the inliner keys on `record` membership.
+    pub ambient_record: &'a TsEnumRecord,
 }
 
 /// Returns a statically known enum member key without discarding lone
@@ -205,9 +210,18 @@ impl EnumValueComputer<'_> {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n),
             Expr::Ident(ref ident) if ident.ctxt == self.unresolved_ctxt => {
-                if let Some(value) = self.record.get(&TsEnumRecordKey {
+                let key = TsEnumRecordKey {
                     enum_id: self.enum_id.clone(),
                     member_name: ident.sym.clone().into(),
+                };
+
+                if let Some(value) = self.record.get(&key).or_else(|| {
+                    // Same rule as `compute_member`: crossing type syntax
+                    // clears `allow_const_var`, and an ambient sibling reached
+                    // that way is not a constant enum expression.
+                    ctx.allow_const_var
+                        .then(|| self.ambient_record.get(&key))
+                        .flatten()
                 }) {
                     if value.is_const() {
                         value.clone()
@@ -366,7 +380,7 @@ impl EnumValueComputer<'_> {
         }
     }
 
-    fn compute_member(&self, expr: MemberExpr, _ctx: EvalCtx) -> TsEnumRecordValue {
+    fn compute_member(&self, expr: MemberExpr, ctx: EvalCtx) -> TsEnumRecordValue {
         let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
 
         let Some(member_name) = static_enum_member_name(&expr.prop) else {
@@ -386,10 +400,22 @@ impl EnumValueComputer<'_> {
             return opaque_expr;
         }
 
+        let key = TsEnumRecordKey {
+            enum_id,
+            member_name,
+        };
+
+        // `allow_const_var` is cleared when evaluation crosses type syntax, so
+        // an ambient member reached through an assertion is not a constant
+        // enum expression. Only the ambient lookup is guarded: the concrete
+        // path folds these today (swc-project/swc#12150) and changing it here
+        // would revert #11769.
         self.record
-            .get(&TsEnumRecordKey {
-                enum_id,
-                member_name,
+            .get(&key)
+            .or_else(|| {
+                ctx.allow_const_var
+                    .then(|| self.ambient_record.get(&key))
+                    .flatten()
             })
             .cloned()
             .filter(TsEnumRecordValue::has_value)
