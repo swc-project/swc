@@ -2,8 +2,8 @@
 
 use std::path::PathBuf;
 
-use swc_common::{comments::SingleThreadedComments, FileName};
-use swc_ecma_parser::{Lexer, Parser, Syntax, TsSyntax};
+use swc_common::{comments::SingleThreadedComments, BytePos, FileName, GLOBALS};
+use swc_ecma_parser::{Lexer, Parser, StringInput, Syntax, TsSyntax};
 
 fn tsrx_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax {
@@ -106,4 +106,30 @@ fn rejects_non_module_entry_points() {
         Ok(())
     })
     .unwrap();
+}
+
+#[test]
+fn parses_generated_identifiers_without_globals() {
+    std::thread::spawn(|| {
+        assert!(!GLOBALS.is_set());
+        let source = r#"
+function View(items: Item[]) @{
+    @for (const item of items) {
+        <Row item={item} />
+    }
+}
+"#;
+        let lexer = Lexer::new(
+            tsrx_syntax(),
+            Default::default(),
+            StringInput::new(source, BytePos(0), BytePos(source.len() as u32)),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+        parser
+            .parse_module()
+            .expect("TSRX parsing should not need GLOBALS");
+    })
+    .join()
+    .expect("parser thread panicked");
 }

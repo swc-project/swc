@@ -16,7 +16,7 @@
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{atom, Atom};
-use swc_common::{BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use super::{input::Tokens, stmt::TempForHead, Parser};
@@ -100,9 +100,9 @@ struct HelperIdents {
 #[derive(Clone, Default)]
 pub(super) struct TsrxState {
     entry_mode: EntryMode,
-    generated_ctxt: Option<SyntaxContext>,
     generated_index: u32,
     generated_names: FxHashSet<Atom>,
+    source_names: Option<FxHashSet<Atom>>,
     render_spans: FxHashSet<u64>,
     helpers: HelperIdents,
 }
@@ -118,10 +118,8 @@ impl TsrxState {
         self.entry_mode = EntryMode::NonModule;
     }
 
-    fn generated_ctxt(&mut self) -> SyntaxContext {
-        *self
-            .generated_ctxt
-            .get_or_insert_with(|| SyntaxContext::empty().apply_mark(Mark::new()))
+    fn generated_ctxt(&self) -> SyntaxContext {
+        SyntaxContext::empty()
     }
 
     fn mark_render(&mut self, span: Span) {
@@ -1105,6 +1103,14 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn fresh_tsrx_ident(&mut self, preferred: &str) -> Ident {
+        if self.tsrx.source_names.is_none() {
+            let source = self.input().iter.read_string(Span::new_with_checked(
+                self.input().iter.start_pos(),
+                self.input().end_pos(),
+            ));
+            self.tsrx.source_names = Some(collect_identifier_names(source));
+        }
+
         let sym = loop {
             let index = self.tsrx.generated_index;
             self.tsrx.generated_index += 1;
@@ -1113,18 +1119,17 @@ impl<I: Tokens> Parser<I> {
             } else {
                 format!("{preferred}{index}").into()
             };
-            let collides_with_source = contains_identifier(
-                self.input().iter.read_string(Span::new_with_checked(
-                    self.input().iter.start_pos(),
-                    self.input().end_pos(),
-                )),
-                &candidate,
-            );
+            let collides_with_source = self
+                .tsrx
+                .source_names
+                .as_ref()
+                .expect("source identifiers were collected")
+                .contains(&candidate);
             if !collides_with_source && self.tsrx.generated_names.insert(candidate.clone()) {
                 break candidate;
             }
         };
-        Ident::new(sym, DUMMY_SP, self.tsrx.generated_ctxt())
+        Ident::new_no_ctxt(sym, DUMMY_SP)
     }
 
     fn tsrx_helper(&mut self, helper: ReactHelper) -> Ident {
@@ -1189,16 +1194,79 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-fn contains_identifier(source: &str, ident: &str) -> bool {
-    source.match_indices(ident).any(|(index, _)| {
-        let before = source[..index].chars().next_back();
-        let after = source[index + ident.len()..].chars().next();
-        !before.is_some_and(is_identifier_continue) && !after.is_some_and(is_identifier_continue)
-    })
+/// Collects a conservative superset of source identifiers in one pass.
+///
+/// Strings and comments are intentionally included: extra names only make a
+/// generated identifier slightly longer, while decoding escapes here prevents
+/// generated bindings from colliding with identifiers such as `\u005fTsrxTag`.
+fn collect_identifier_names(source: &str) -> FxHashSet<Atom> {
+    let mut names = FxHashSet::default();
+    let mut offset = 0;
+
+    while offset < source.len() {
+        let Some((first, next)) = identifier_char(source, offset) else {
+            offset += source[offset..]
+                .chars()
+                .next()
+                .expect("offset is within the source")
+                .len_utf8();
+            continue;
+        };
+        if !Ident::is_valid_start(first) {
+            offset = next;
+            continue;
+        }
+
+        let mut name = String::new();
+        name.push(first);
+        offset = next;
+        while offset < source.len() {
+            let Some((ch, next)) = identifier_char(source, offset) else {
+                break;
+            };
+            if !Ident::is_valid_continue(ch) {
+                break;
+            }
+            name.push(ch);
+            offset = next;
+        }
+        names.insert(name.into());
+    }
+
+    names
 }
 
-fn is_identifier_continue(ch: char) -> bool {
-    ch == '$' || ch == '_' || ch.is_alphanumeric() || !ch.is_ascii()
+fn identifier_char(source: &str, offset: usize) -> Option<(char, usize)> {
+    if source.as_bytes()[offset] != b'\\' {
+        let ch = source[offset..].chars().next()?;
+        return Some((ch, offset + ch.len_utf8()));
+    }
+
+    let escape = source.as_bytes().get(offset + 1..)?;
+    if escape.first() != Some(&b'u') {
+        return None;
+    }
+
+    if escape.get(1) == Some(&b'{') {
+        let digits_start = offset + 3;
+        let relative_end = source
+            .as_bytes()
+            .get(digits_start..)?
+            .iter()
+            .position(|&byte| byte == b'}')?;
+        if relative_end == 0 || relative_end > 6 {
+            return None;
+        }
+        let end = digits_start + relative_end;
+        let value = u32::from_str_radix(&source[digits_start..end], 16).ok()?;
+        return char::from_u32(value).map(|ch| (ch, end + 1));
+    }
+
+    let digits_start = offset + 2;
+    let end = digits_start.checked_add(4)?;
+    let digits = source.get(digits_start..end)?;
+    let value = u32::from_str_radix(digits, 16).ok()?;
+    char::from_u32(value).map(|ch| (ch, end))
 }
 
 fn null_expr() -> Box<Expr> {

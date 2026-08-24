@@ -1,6 +1,6 @@
 "use server";
 
-const _TsrxSuspense = "source collision";
+const \u005fTsrxSuspense = "escaped source collision";
 const _TsrxErrorBoundary = "source collision";
 
 function Boundary() @{

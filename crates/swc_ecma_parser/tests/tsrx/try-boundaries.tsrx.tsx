@@ -1,7 +1,7 @@
 "use server";
 import { Suspense as _TsrxSuspense1 } from "react";
 import { TsrxErrorBoundary as _TsrxErrorBoundary2 } from "@tsrx/react/error-boundary";
-const _TsrxSuspense = "source collision";
+const _TsrxSuspense = "escaped source collision";
 const _TsrxErrorBoundary = "source collision";
 function Boundary() {
     return (()=>{
