@@ -1,5 +1,6 @@
 ---
 swc: patch
+swc_core: patch
 swc_ecma_codegen: patch
 swc_ecma_transforms_typescript: patch
 ---
