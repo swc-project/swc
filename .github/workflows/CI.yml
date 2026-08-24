@@ -111,8 +111,7 @@ jobs:
     name: Cargo clippy
     needs:
       - detect-changes
-    if: >-
-      ${{ needs.detect-changes.outputs.rust_checks == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
+    if: needs.detect-changes.outputs.rust_checks == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -136,8 +135,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    if: >-
-      ${{ needs.detect-changes.outputs.cargo_deny == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
+    if: needs.detect-changes.outputs.cargo_deny == 'true'
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
@@ -186,8 +184,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
-    if: >-
-      ${{ needs.detect-changes.outputs.rust_checks == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
+    if: needs.detect-changes.outputs.rust_checks == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -217,8 +214,7 @@ jobs:
     name: Test wasm
     needs:
       - detect-changes
-    if: >-
-      ${{ needs.detect-changes.outputs.test_wasm == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
+    if: needs.detect-changes.outputs.test_wasm == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -248,8 +244,6 @@ jobs:
   list-cargo-tests:
     needs:
       - detect-changes
-    if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     name: List crates
     runs-on: ubuntu-latest
     permissions:
@@ -454,8 +448,7 @@ jobs:
     name: Test node bindings - ${{ matrix.os }}
     needs:
       - detect-changes
-    if: >-
-      ${{ needs.detect-changes.outputs.node_test == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
+    if: needs.detect-changes.outputs.node_test == 'true'
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -515,8 +508,7 @@ jobs:
     name: Test react-compiler bindings - ${{ matrix.os }}
     needs:
       - detect-changes
-    if: >-
-      ${{ needs.detect-changes.outputs.react_compiler_test == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
+    if: needs.detect-changes.outputs.react_compiler_test == 'true'
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -567,8 +559,7 @@ jobs:
     name: "Test with @swc/cli"
     needs:
       - detect-changes
-    if: >-
-      ${{ needs.detect-changes.outputs.integration_test == 'true' && !contains(github.event.head_commit.message, 'chore: ') }}
+    if: needs.detect-changes.outputs.integration_test == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -674,8 +665,7 @@ jobs:
       - node-test
       - react-compiler-test
       - integration-test
-    if: >-
-      ${{ always() && !contains(github.event.head_commit.message, 'chore: ') }}
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     name: Done
     steps:
