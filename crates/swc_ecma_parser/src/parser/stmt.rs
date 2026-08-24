@@ -543,6 +543,9 @@ impl<I: Tokens> Parser<I> {
         } else {
             None
         };
+        if await_token.is_some() && self.can_classify_module() {
+            self.mark_found_module_item();
+        }
         expect!(self, Token::LParen);
 
         let head = self.do_inside_of_context(Context::ForLoopInit, |p| {
@@ -1912,7 +1915,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if cur == Token::Await && (include_decl || top_level) {
-            if top_level {
+            if top_level && !self.is_unambiguous_module() && !self.is_unambiguous_script() {
                 self.mark_found_module_item();
                 if !self.ctx().contains(Context::CanBeModule) {
                     self.emit_err(self.input().cur_span(), SyntaxError::TopLevelAwaitInScript);
@@ -1921,6 +1924,9 @@ impl<I: Tokens> Parser<I> {
 
             if peek!(self).is_some_and(|peek| peek == Token::Using) {
                 let eaten_await = Some(self.input().cur_pos());
+                if self.can_classify_module() {
+                    self.mark_found_module_item();
+                }
                 self.assert_and_bump(Token::Await);
                 let v = self.parse_using_decl(start, true)?;
                 if let Some(v) = v {

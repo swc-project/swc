@@ -212,15 +212,15 @@ impl VisitMut for ExportBindingRewriter {
                     }
                     AssignTarget::Pat(pat) => {
                         let mut new_pat: Pat = pat.take().into();
-                        if replace_exported_pat(&mut new_pat, &self.exports, &self.export_setters) {
+                        let uses_export_setters =
+                            replace_exported_pat(&mut new_pat, &self.exports, &self.export_setters);
+                        *pat = AssignTargetPat::try_from(new_pat).unwrap();
+
+                        if uses_export_setters {
                             self.needs_export_setters = true;
-                            if let Ok(new_left) = AssignTarget::try_from(new_pat) {
-                                assign.left = new_left;
-                                assign.left.visit_mut_with(self);
-                            }
-                        } else {
-                            assign.left.visit_mut_with(self);
                         }
+
+                        pat.visit_mut_with(self);
                     }
                     _ => assign.left.visit_mut_with(self),
                 }

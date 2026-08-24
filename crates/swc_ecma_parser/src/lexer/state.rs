@@ -145,8 +145,34 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     #[inline]
+    fn has_errors(&self) -> bool {
+        !self.errors.is_empty()
+    }
+
+    #[inline]
+    fn diagnostic_checkpoint_save(&self) -> (usize, usize) {
+        (self.errors.len(), self.module_errors.len())
+    }
+
+    #[inline]
+    fn diagnostic_checkpoint_load(&mut self, checkpoint: (usize, usize)) {
+        self.errors.truncate(checkpoint.0);
+        self.module_errors.truncate(checkpoint.1);
+    }
+
+    #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors)
+    }
+
+    #[inline]
+    fn set_defer_comments(&mut self, defer: bool) {
+        self.defer_comments = defer;
+    }
+
+    #[inline]
+    fn finalize_comments(&mut self) {
+        Lexer::finalize_comments(self);
     }
 
     #[inline]

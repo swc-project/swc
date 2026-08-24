@@ -2374,6 +2374,8 @@ impl Optimizer<'_> {
             Mergable::Drop => return Ok(false),
         };
 
+        can_remove &= self.may_remove_ident(&left_id);
+
         let a_type = a_right.as_deref().map(|a| a.get_type(self.ctx.expr_ctx));
 
         if let Some(a_right) = a_right {
