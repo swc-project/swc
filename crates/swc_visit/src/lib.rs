@@ -597,10 +597,24 @@ where
     }
 }
 
-/// NOT A PUBLIC API
+/// Reports an AST-path state that generated visitors cannot represent.
+///
+/// This is not a public API.
+///
+/// # Panics
+///
+/// Always panics because the AST-path state is invalid.
 #[doc(hidden)]
+#[cold]
 pub fn wrong_ast_path() {
-    unsafe {
-        debug_unreachable::debug_unreachable!("Wrong ast path");
+    panic!("Wrong ast path");
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[should_panic(expected = "Wrong ast path")]
+    fn wrong_ast_path_panics() {
+        super::wrong_ast_path();
     }
 }
