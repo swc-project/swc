@@ -1562,7 +1562,15 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         impl #fields_enum_name {
                             #[inline(always)]
                             pub(crate) fn set_index(&mut self, _: usize) {
-                                swc_visit::wrong_ast_path();
+                                // SAFETY: Generated AST-path state only assigns an index to the
+                                // matching indexed field, and enum fields are never indexed.
+                                #[allow(
+                                    unsafe_code,
+                                    reason = "Generated AST-path state admits only the matching indexed field"
+                                )]
+                                unsafe {
+                                    swc_visit::wrong_ast_path();
+                                }
                             }
                         }
                     ));
@@ -1637,7 +1645,14 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                                     #(#set_index_arms)*
 
                                     _ => {
-                                        swc_visit::wrong_ast_path()
+                                        // SAFETY: Generated AST-path state only assigns an index to
+                                        // the matching indexed field, so every other field is
+                                        // unreachable here.
+                                        #[allow(
+                                            unsafe_code,
+                                            reason = "Generated AST-path state admits only the matching indexed field"
+                                        )]
+                                        unsafe { swc_visit::wrong_ast_path() }
                                     }
                                 }
                             }
@@ -2409,4 +2424,39 @@ fn generate_visit_mut_with_hook(all_types: &[FieldType]) -> Vec<Item> {
     });
 
     items
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn ast_path_index_fallbacks_are_unsafe() {
+        let enum_item: Item = parse_quote!(
+            enum EnumNode {
+                Value,
+            }
+        );
+        let struct_item: Item = parse_quote!(
+            struct StructNode {
+                values: Vec<EnumNode>,
+                scalar: bool,
+            }
+        );
+        let node_types = [&enum_item, &struct_item];
+        let generated = define_fields(&parse_quote!(test_ast), &node_types);
+        let generated = quote!(#(#generated)*).to_string();
+
+        let calls = generated.matches("swc_visit :: wrong_ast_path").count();
+        let unsafe_calls = generated
+            .matches("unsafe { swc_visit :: wrong_ast_path")
+            .count();
+        let safety_reasons = generated
+            .matches("Generated AST-path state admits only the matching indexed field")
+            .count();
+
+        assert_eq!(calls, 2, "expected enum and struct fallbacks");
+        assert_eq!(unsafe_calls, calls, "all fallback calls must be unsafe");
+        assert_eq!(safety_reasons, calls, "all unsafe calls must be documented");
+    }
 }

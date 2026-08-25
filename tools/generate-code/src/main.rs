@@ -273,15 +273,15 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String
 
     run_cargo_fmt(output)?;
 
-    if std::env::var("CI").is_ok_and(|v| v != "1") {
+    if cfg!(test) && !std::env::var("UPDATE").is_ok_and(|v| v == "1") {
         if let Some(original) = original {
             let output =
                 std::fs::read_to_string(output).context("failed to read the output file")?;
 
             if original != output {
                 bail!(
-                    "The generated code is not up to date. Please run `cargo codegen` and commit \
-                     the changes."
+                    "The generated code is not up to date. Please run `UPDATE=1 cargo test -p \
+                     generate-code` and commit the changes."
                 );
             }
         }
@@ -471,14 +471,20 @@ fn collect_input_files(input_dir: &Path) -> Result<Vec<PathBuf>> {
 fn run_cargo_fmt(file: &Path) -> Result<()> {
     let file = file.canonicalize().context("failed to canonicalize file")?;
 
-    let mut cmd = std::process::Command::new("cargo");
-    cmd.arg("fmt").arg("--").arg(file);
+    // rustfmt needs a second pass to reach a fixed point for some very large
+    // generated visitors (currently the CSS visitor). Without it, a subsequent
+    // `cargo fmt --all` changes committed generated output and makes the freshness
+    // test fail.
+    for _ in 0..2 {
+        let mut cmd = std::process::Command::new("cargo");
+        cmd.arg("fmt").arg("--").arg(&file);
 
-    eprintln!("Running: {cmd:?}");
-    let status = cmd.status().context("failed to run cargo fmt")?;
+        eprintln!("Running: {cmd:?}");
+        let status = cmd.status().context("failed to run cargo fmt")?;
 
-    if !status.success() {
-        bail!("cargo fmt failed with status: {status:?}");
+        if !status.success() {
+            bail!("cargo fmt failed with status: {status:?}");
+        }
     }
 
     Ok(())

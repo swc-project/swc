@@ -597,9 +597,23 @@ where
     }
 }
 
-/// NOT A PUBLIC API
+/// Reports an AST-path state that generated visitors cannot represent.
+///
+/// This is not a public API.
+///
+/// # Safety
+///
+/// The caller must guarantee that this function is unreachable. In particular,
+/// generated AST-path code may call it only when its state invariant guarantees
+/// that an index is assigned exclusively to the matching indexed field, making
+/// every fallback path impossible.
+///
+/// ```compile_fail,E0133
+/// swc_visit::wrong_ast_path();
+/// ```
 #[doc(hidden)]
-pub fn wrong_ast_path() {
+pub unsafe fn wrong_ast_path() {
+    // SAFETY: The caller guarantees that execution cannot reach this function.
     unsafe {
         debug_unreachable::debug_unreachable!("Wrong ast path");
     }
