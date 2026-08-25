@@ -27,3 +27,7 @@ console.log(Math.sqrt(null));
 
 // Folded: a unary argument is measurable, and `NaN` is shorter than the call.
 console.log(Math.sqrt(-2));
+
+// Folded: the hex literal overflows `u64` while being coerced to a number,
+// but the guard still measures the string and `4294967296` is shorter.
+console.log(Math.sqrt("0x10000000000000000"));

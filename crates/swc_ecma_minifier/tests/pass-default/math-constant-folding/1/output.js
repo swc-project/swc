@@ -8,4 +8,6 @@ console.log(Math.sqrt(Math.E)), // Not folded: the argument is coerced by `cast_
 // foldable, but `1.4142135623730951` is longer than `Math.sqrt("2")`.
 console.log(Math.sqrt("2")), // Folded: coerced the same way, but `1` and `0` are shorter than the call.
 console.log(1), console.log(0), // Folded: a unary argument is measurable, and `NaN` is shorter than the call.
-console.log(0 / 0);
+console.log(0 / 0), // Folded: the hex literal overflows `u64` while being coerced to a number,
+// but the guard still measures the string and `4294967296` is shorter.
+console.log(4294967296);

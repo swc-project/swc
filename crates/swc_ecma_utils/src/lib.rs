@@ -901,6 +901,27 @@ fn may_be_str(ty: Value<Type>) -> bool {
     }
 }
 
+/// Converts the digits of a radix-prefixed numeric string (the part after
+/// `0x`/`0o`/`0b`) to a [`f64`], the way ECMAScript's `ToNumber` would.
+///
+/// `u64::from_str_radix` is used when the value fits, since it is exact. When
+/// it doesn't (e.g. `"10000000000000000"` in hex, which is 2^64), digits are
+/// accumulated directly into a `f64` instead of giving up with `NaN`: real
+/// engines still produce a (possibly imprecise) `Number` for values wider than
+/// 64 bits.
+fn radix_str_to_number(s: &str, radix: u32) -> f64 {
+    if s.is_empty() || !s.bytes().all(|b| (b as char).is_digit(radix)) {
+        return f64::NAN;
+    }
+
+    match u64::from_str_radix(s, radix) {
+        Ok(n) => n as f64,
+        Err(_) => s.bytes().fold(0f64, |acc, b| {
+            acc * radix as f64 + (b as char).to_digit(radix).unwrap() as f64
+        }),
+    }
+}
+
 pub fn num_from_str(s: &str) -> Value<f64> {
     if s.contains('\u{000b}') {
         return Unknown;
@@ -914,24 +935,9 @@ pub fn num_from_str(s: &str) -> Value<f64> {
 
     if s.len() >= 2 {
         match &s.as_bytes()[..2] {
-            b"0x" | b"0X" => {
-                return match u64::from_str_radix(&s[2..], 16) {
-                    Ok(n) => Known(n as f64),
-                    Err(_) => Known(f64::NAN),
-                }
-            }
-            b"0o" | b"0O" => {
-                return match u64::from_str_radix(&s[2..], 8) {
-                    Ok(n) => Known(n as f64),
-                    Err(_) => Known(f64::NAN),
-                };
-            }
-            b"0b" | b"0B" => {
-                return match u64::from_str_radix(&s[2..], 2) {
-                    Ok(n) => Known(n as f64),
-                    Err(_) => Known(f64::NAN),
-                };
-            }
+            b"0x" | b"0X" => return Known(radix_str_to_number(&s[2..], 16)),
+            b"0o" | b"0O" => return Known(radix_str_to_number(&s[2..], 8)),
+            b"0b" | b"0B" => return Known(radix_str_to_number(&s[2..], 2)),
             _ => {}
         }
     }
@@ -3851,6 +3857,38 @@ mod tests {
         }));
 
         assert!(expr.is_nan());
+    }
+
+    #[test]
+    fn num_from_str_small_radix_values_are_exact() {
+        assert_eq!(num_from_str("0xff"), Known(255.0));
+        assert_eq!(num_from_str("0o17"), Known(15.0));
+        assert_eq!(num_from_str("0b101"), Known(5.0));
+    }
+
+    #[test]
+    fn num_from_str_overflowing_radix_values_do_not_become_nan() {
+        // 2^64, one hex digit past what `u64` can hold.
+        assert_eq!(
+            num_from_str("0x10000000000000000"),
+            Known(18446744073709552000.0)
+        );
+        assert_eq!(
+            num_from_str("0o2000000000000000000000"),
+            Known(18446744073709552000.0)
+        );
+        assert_eq!(
+            num_from_str("0b10000000000000000000000000000000000000000000000000000000000000000"),
+            Known(18446744073709552000.0)
+        );
+    }
+
+    #[test]
+    fn num_from_str_invalid_radix_digit_is_nan() {
+        match num_from_str("0xg1") {
+            Known(v) => assert!(v.is_nan()),
+            Unknown => panic!("expected a known (NaN) value"),
+        }
     }
 
     #[test]
