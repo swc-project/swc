@@ -55,6 +55,18 @@ struct InfoMarker<'a> {
 
 impl InfoMarker<'_> {
     fn is_pure_callee(&self, callee: &Expr) -> bool {
+        // A PURE annotation belongs to a call-like callee itself. It does not
+        // make invoking the value returned by that expression pure as well.
+        if matches!(callee, Expr::Call(_) | Expr::New(_) | Expr::TaggedTpl(_))
+            || matches!(
+                callee,
+                Expr::OptChain(OptChainExpr { base, .. })
+                    if matches!(&**base, OptChainBase::Call(_))
+            )
+        {
+            return false;
+        }
+
         match callee {
             Expr::Ident(callee) if self.pure_callee.contains(&callee.to_id()) => {
                 return true;
