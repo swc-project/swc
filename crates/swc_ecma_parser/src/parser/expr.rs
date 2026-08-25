@@ -392,11 +392,11 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into());
             } else if cur == Token::Await {
-                let parses_await = self
-                    .ctx()
-                    .intersects(Context::InAsync.union(Context::Module))
-                    || self.can_classify_module()
-                    || !self.can_continue_await_as_script_identifier();
+                let parses_await = self.ctx().intersects(
+                    Context::InAsync
+                        .union(Context::Module)
+                        .union(Context::InStaticBlock),
+                ) || self.is_unambiguous_module();
 
                 if parses_await {
                     return self.parse_await_expr(None);
@@ -2342,8 +2342,8 @@ impl<I: Tokens> Parser<I> {
                 )
             })
         {
-            if ctx.contains(Context::Module) {
-                self.emit_err(span, SyntaxError::InvalidIdentInAsync);
+            if ctx.intersects(Context::Module.union(Context::CanBeModule)) {
+                self.emit_module_mode_err(span, SyntaxError::InvalidIdentInAsync);
             }
 
             return Ok(Ident::new_no_ctxt(atom!("await"), span).into());
@@ -2351,14 +2351,6 @@ impl<I: Tokens> Parser<I> {
 
         let ambiguous_script_different_ast =
             self.can_classify_module() && self.is_ambiguous_await_prefix();
-
-        if start_of_await_token.is_none() && self.can_classify_module() {
-            if ambiguous_script_different_ast {
-                self.ambiguous_script_different_ast = true;
-            } else {
-                self.mark_found_module_item();
-            }
-        }
 
         if ctx.contains(Context::InFunction) && !ctx.contains(Context::InAsync) {
             self.emit_err(await_token, SyntaxError::AwaitInFunction);
@@ -2369,6 +2361,13 @@ impl<I: Tokens> Parser<I> {
         }
 
         let arg = self.parse_unary_expr()?;
+        if start_of_await_token.is_none() && self.can_classify_module() {
+            if ambiguous_script_different_ast {
+                self.ambiguous_script_different_ast = true;
+            } else {
+                self.mark_found_module_item();
+            }
+        }
         Ok(AwaitExpr {
             span: self.span(start),
             arg,
@@ -2384,82 +2383,29 @@ impl<I: Tokens> Parser<I> {
         }
 
         let cur = self.input().cur();
-        cur.is_bin_op()
-            || cur.is_assign_op()
-            || matches!(
-                cur,
-                Token::Asterisk
-                    | Token::PlusPlus
-                    | Token::MinusMinus
-                    | Token::Dot
-                    | Token::LParen
-                    | Token::LBracket
-                    | Token::Arrow
-                    | Token::QuestionMark
-                    | Token::NoSubstitutionTemplateLiteral
-                    | Token::TemplateHead
-                    | Token::Regex
-                    | Token::Slash
-                    | Token::DivEq
-                    | Token::In
-                    | Token::InstanceOf
-                    | Token::OptionalChain
-            )
-            || (self.input().syntax().typescript()
-                && matches!(cur, Token::As | Token::Satisfies | Token::Bang))
-            || (cur == Token::Of
-                && !self
-                    .input()
-                    .token_flags()
-                    .contains(crate::lexer::TokenFlags::UNICODE))
-    }
-
-    /// Returns whether the next token can continue an `await`
-    /// IdentifierReference under Script grammar.
-    fn can_continue_await_as_script_identifier(&mut self) -> bool {
-        if self.input_mut().has_linebreak_between_cur_and_peeked() {
-            return true;
+        let is_escaped = self
+            .input()
+            .token_flags()
+            .contains(crate::lexer::TokenFlags::UNICODE);
+        match cur {
+            Token::Plus
+            | Token::Minus
+            | Token::LParen
+            | Token::LBracket
+            | Token::NoSubstitutionTemplateLiteral
+            | Token::TemplateHead
+            | Token::Slash
+            | Token::DivEq
+            | Token::Bang
+            | Token::Lt => true,
+            Token::Of | Token::InstanceOf if !is_escaped => true,
+            Token::In if !is_escaped => self.ctx().contains(Context::IncludeInExpr),
+            Token::As | Token::Satisfies if !is_escaped => self.input().syntax().typescript(),
+            Token::Regex => {
+                unreachable!("regular expressions are initially scanned as '/' or '/='")
+            }
+            _ => false,
         }
-
-        let Some(next) = peek!(self) else {
-            return true;
-        };
-
-        next.is_bin_op()
-            || next.is_assign_op()
-            || matches!(
-                next,
-                Token::Asterisk
-                    | Token::PlusPlus
-                    | Token::MinusMinus
-                    | Token::Dot
-                    | Token::LParen
-                    | Token::LBracket
-                    | Token::Arrow
-                    | Token::QuestionMark
-                    | Token::NoSubstitutionTemplateLiteral
-                    | Token::TemplateHead
-                    | Token::Regex
-                    | Token::Slash
-                    | Token::DivEq
-                    | Token::In
-                    | Token::InstanceOf
-                    | Token::OptionalChain
-                    | Token::Semi
-                    | Token::RBrace
-                    | Token::RParen
-                    | Token::RBracket
-                    | Token::Comma
-                    | Token::Colon
-                    | Token::Eof
-            )
-            || (self.input().syntax().typescript()
-                && matches!(next, Token::As | Token::Satisfies | Token::Bang))
-            || (next == Token::Of
-                && !self
-                    .input()
-                    .token_flags()
-                    .contains(crate::lexer::TokenFlags::UNICODE))
     }
 
     pub(crate) fn parse_for_head_prefix(&mut self) -> PResult<Box<Expr>> {
@@ -3221,31 +3167,6 @@ impl<I: Tokens> Parser<I> {
                 !ctx.contains(Context::InGenerator),
                 !ctx.contains(Context::InAsync),
             )?;
-
-            let is_for_of_head = ctx.contains(Context::ForLoopInit)
-                && self.input().is(Token::Of)
-                && !self
-                    .input()
-                    .token_flags()
-                    .contains(crate::lexer::TokenFlags::UNICODE);
-            let continues_script_expression = (self.input().is(Token::In)
-                && ctx.contains(Context::IncludeInExpr))
-                || self.input().is(Token::InstanceOf)
-                || (self.input().syntax().typescript()
-                    && matches!(self.input().cur(), Token::As | Token::Satisfies));
-            if cur == Token::Await
-                && !is_for_of_head
-                && !continues_script_expression
-                && !self.input().had_line_break_before_cur()
-                && self.input().cur().is_word()
-            {
-                let error = if ctx.contains(Context::InFunction) {
-                    SyntaxError::AwaitInFunction
-                } else {
-                    SyntaxError::TopLevelAwaitInScript
-                };
-                self.emit_err(id.span, error);
-            }
 
             if !can_be_arrow {
                 return Ok(id.into());
