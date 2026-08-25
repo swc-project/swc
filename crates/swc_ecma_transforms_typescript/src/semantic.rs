@@ -264,6 +264,7 @@ impl SemanticAnalyzer {
         default_init: &TsEnumRecordValue,
         record: &TsEnumRecord,
         ambient_record: &TsEnumRecord,
+        ambient_const_enum_only: Option<&FxHashSet<Id>>,
         const_vars: &FxHashMap<Id, TsEnumRecordValue>,
         unresolved_ctxt: SyntaxContext,
         flow_syntax: bool,
@@ -278,6 +279,7 @@ impl SemanticAnalyzer {
                     const_vars,
                     const_enum_only: None,
                     ambient_record,
+                    ambient_const_enum_only,
                 }
                 .compute(expr, EvalCtx::MEMBER)
             })
@@ -319,6 +321,9 @@ impl SemanticAnalyzer {
                     const_vars: &self.info.const_vars,
                     const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
                     ambient_record: &self.info.ambient_enum_record,
+                    ambient_const_enum_only: self
+                        .ts_enum_is_mutable
+                        .then_some(&self.info.const_enum),
                 }
                 .compute(
                     init.clone(),
@@ -623,6 +628,7 @@ impl Visit for SemanticAnalyzer {
                 const_vars: &self.info.const_vars,
                 const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
                 ambient_record: &self.info.ambient_enum_record,
+                ambient_const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
             }
             .compute(init.clone(), EvalCtx::CONST_INIT);
 
@@ -664,6 +670,7 @@ impl Visit for SemanticAnalyzer {
                 &default_init,
                 &self.info.enum_record,
                 &self.info.ambient_enum_record,
+                self.ts_enum_is_mutable.then_some(&self.info.const_enum),
                 &self.info.const_vars,
                 self.unresolved_ctxt,
                 self.flow_syntax,
@@ -755,6 +762,7 @@ mod tests {
             &TsEnumRecordValue::Void,
             &Default::default(),
             &Default::default(),
+            None,
             &Default::default(),
             SyntaxContext::empty(),
             true,
@@ -774,6 +782,7 @@ mod tests {
             &TsEnumRecordValue::from(2.0),
             &Default::default(),
             &Default::default(),
+            None,
             &Default::default(),
             SyntaxContext::empty(),
             false,

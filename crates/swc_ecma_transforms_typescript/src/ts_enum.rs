@@ -110,6 +110,13 @@ pub(crate) struct EnumValueComputer<'a> {
     /// initializers but never rewrites runtime reads of the ambient object,
     /// and the inliner keys on `record` membership.
     pub ambient_record: &'a TsEnumRecord,
+    /// Applied to the ambient fallback only: under `tsEnumIsMutable` a plain
+    /// ambient enum is a runtime object that can be reassigned like any other
+    /// non-const enum, so only ambient `const enum` members may resolve.
+    /// Unlike `const_enum_only`, this does not touch the primary record — how
+    /// concrete enum reads behave under the option predates the ambient
+    /// support (see swc-project/swc#12151).
+    pub ambient_const_enum_only: Option<&'a FxHashSet<Id>>,
 }
 
 /// Returns a statically known enum member key without discarding lone
@@ -216,10 +223,10 @@ impl EnumValueComputer<'_> {
                 };
 
                 if let Some(value) = self.record.get(&key).or_else(|| {
-                    // Same rule as `compute_member`: crossing type syntax
-                    // clears `allow_const_var`, and an ambient sibling reached
-                    // that way is not a constant enum expression.
-                    ctx.allow_const_var
+                    // Same rules as `compute_member`: crossing type syntax
+                    // clears `allow_const_var`, and under mutable enums only
+                    // ambient `const enum` siblings may resolve.
+                    (ctx.allow_const_var && self.ambient_is_resolvable(&key.enum_id))
                         .then(|| self.ambient_record.get(&key))
                         .flatten()
                 }) {
@@ -380,6 +387,11 @@ impl EnumValueComputer<'_> {
         }
     }
 
+    fn ambient_is_resolvable(&self, enum_id: &Id) -> bool {
+        self.ambient_const_enum_only
+            .map_or(true, |set| set.contains(enum_id))
+    }
+
     fn compute_member(&self, expr: MemberExpr, ctx: EvalCtx) -> TsEnumRecordValue {
         let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
 
@@ -413,7 +425,7 @@ impl EnumValueComputer<'_> {
         self.record
             .get(&key)
             .or_else(|| {
-                ctx.allow_const_var
+                (ctx.allow_const_var && self.ambient_is_resolvable(&key.enum_id))
                     .then(|| self.ambient_record.get(&key))
                     .flatten()
             })
