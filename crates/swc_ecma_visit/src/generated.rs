@@ -139773,13 +139773,7 @@ pub mod fields {
     impl AccessibilityField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -139799,15 +139793,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -139826,15 +139812,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -139857,15 +139835,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -139892,13 +139862,7 @@ pub mod fields {
     impl ArrowFunctionBodyField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -139912,15 +139876,7 @@ pub mod fields {
     impl AssignExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -139939,13 +139895,7 @@ pub mod fields {
     impl AssignOpField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -139987,15 +139937,7 @@ pub mod fields {
     impl AssignPatField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140012,15 +139954,7 @@ pub mod fields {
     impl AssignPatPropField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140037,15 +139971,7 @@ pub mod fields {
     impl AssignPropField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140062,13 +139988,7 @@ pub mod fields {
     impl AssignTargetField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -140082,13 +140002,7 @@ pub mod fields {
     impl AssignTargetPatField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -140108,15 +140022,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140147,15 +140053,7 @@ pub mod fields {
     impl AwaitExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140170,15 +140068,7 @@ pub mod fields {
     impl BigIntField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140195,15 +140085,7 @@ pub mod fields {
     impl BinExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140222,13 +140104,7 @@ pub mod fields {
     impl BinaryOpField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -140288,15 +140164,7 @@ pub mod fields {
     impl BindingIdentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140315,15 +140183,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140340,15 +140200,7 @@ pub mod fields {
     impl BoolField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140363,15 +140215,7 @@ pub mod fields {
     impl BreakStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140390,15 +140234,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140419,13 +140255,7 @@ pub mod fields {
     impl CalleeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -140441,15 +140271,7 @@ pub mod fields {
     impl CatchClauseField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140478,15 +140300,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140515,15 +140329,7 @@ pub mod fields {
     impl ClassDeclField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140540,15 +140346,7 @@ pub mod fields {
     impl ClassExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140563,13 +140361,7 @@ pub mod fields {
     impl ClassMemberField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -140597,15 +140389,7 @@ pub mod fields {
     impl ClassMethodField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140638,15 +140422,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140683,15 +140459,7 @@ pub mod fields {
     impl ComputedPropNameField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140706,15 +140474,7 @@ pub mod fields {
     impl CondExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140737,15 +140497,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140770,15 +140522,7 @@ pub mod fields {
     impl ContinueStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140793,15 +140537,7 @@ pub mod fields {
     impl DebuggerStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140814,13 +140550,7 @@ pub mod fields {
     impl DeclField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -140846,15 +140576,7 @@ pub mod fields {
     impl DecoratorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140869,13 +140591,7 @@ pub mod fields {
     impl DefaultDeclField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -140891,15 +140607,7 @@ pub mod fields {
     impl DoWhileStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140916,15 +140624,7 @@ pub mod fields {
     impl EmptyStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140937,15 +140637,7 @@ pub mod fields {
     impl ExportAllField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140964,15 +140656,7 @@ pub mod fields {
     impl ExportDeclField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -140987,15 +140671,7 @@ pub mod fields {
     impl ExportDefaultDeclField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141010,15 +140686,7 @@ pub mod fields {
     impl ExportDefaultExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141033,15 +140701,7 @@ pub mod fields {
     impl ExportDefaultSpecifierField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141054,15 +140714,7 @@ pub mod fields {
     impl ExportNamedSpecifierField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141081,15 +140733,7 @@ pub mod fields {
     impl ExportNamespaceSpecifierField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141104,13 +140748,7 @@ pub mod fields {
     impl ExportSpecifierField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -141126,13 +140764,7 @@ pub mod fields {
     impl ExprField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -141218,15 +140850,7 @@ pub mod fields {
     impl ExprOrSpreadField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141241,15 +140865,7 @@ pub mod fields {
     impl ExprStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141264,15 +140880,7 @@ pub mod fields {
     impl FnDeclField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141289,15 +140897,7 @@ pub mod fields {
     impl FnExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141312,13 +140912,7 @@ pub mod fields {
     impl ForHeadField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -141334,15 +140928,7 @@ pub mod fields {
     impl ForInStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141361,15 +140947,7 @@ pub mod fields {
     impl ForOfStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141390,15 +140968,7 @@ pub mod fields {
     impl ForStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141427,15 +140997,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141470,15 +141032,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141493,15 +141047,7 @@ pub mod fields {
     impl GetterPropField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141518,15 +141064,7 @@ pub mod fields {
     impl IdentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141545,15 +141083,7 @@ pub mod fields {
     impl IdentNameField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141568,15 +141098,7 @@ pub mod fields {
     impl IfStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141595,15 +141117,7 @@ pub mod fields {
     impl ImportField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141622,15 +141136,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141653,15 +141159,7 @@ pub mod fields {
     impl ImportDefaultSpecifierField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141676,15 +141174,7 @@ pub mod fields {
     impl ImportNamedSpecifierField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141703,13 +141193,7 @@ pub mod fields {
     impl ImportPhaseField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -141725,13 +141209,7 @@ pub mod fields {
     impl ImportSpecifierField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -141747,15 +141225,7 @@ pub mod fields {
     impl ImportStarAsSpecifierField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141774,15 +141244,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141797,15 +141259,7 @@ pub mod fields {
     impl ImportWithItemField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141820,15 +141274,7 @@ pub mod fields {
     impl InvalidField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141841,15 +141287,7 @@ pub mod fields {
     impl JSXAttrField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141866,13 +141304,7 @@ pub mod fields {
     impl JSXAttrNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -141886,13 +141318,7 @@ pub mod fields {
     impl JSXAttrOrSpreadField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -141906,13 +141332,7 @@ pub mod fields {
     impl JSXAttrValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -141930,15 +141350,7 @@ pub mod fields {
     impl JSXClosingElementField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141953,15 +141365,7 @@ pub mod fields {
     impl JSXClosingFragmentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -141978,15 +141382,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142005,13 +141401,7 @@ pub mod fields {
     impl JSXElementChildField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142031,13 +141421,7 @@ pub mod fields {
     impl JSXElementNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142053,15 +141437,7 @@ pub mod fields {
     impl JSXEmptyExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142074,13 +141450,7 @@ pub mod fields {
     impl JSXExprField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142094,15 +141464,7 @@ pub mod fields {
     impl JSXExprContainerField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142121,15 +141483,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142148,15 +141502,7 @@ pub mod fields {
     impl JSXMemberExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142173,15 +141519,7 @@ pub mod fields {
     impl JSXNamespacedNameField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142198,13 +141536,7 @@ pub mod fields {
     impl JSXObjectField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142222,15 +141554,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142251,15 +141575,7 @@ pub mod fields {
     impl JSXOpeningFragmentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142272,15 +141588,7 @@ pub mod fields {
     impl JSXSpreadChildField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142295,15 +141603,7 @@ pub mod fields {
     impl JSXTextField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142320,13 +141620,7 @@ pub mod fields {
     impl KeyField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142340,15 +141634,7 @@ pub mod fields {
     impl KeyValuePatPropField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142363,15 +141649,7 @@ pub mod fields {
     impl KeyValuePropField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142386,15 +141664,7 @@ pub mod fields {
     impl LabeledStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142411,13 +141681,7 @@ pub mod fields {
     impl LitField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142441,15 +141705,7 @@ pub mod fields {
     impl MemberExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142466,13 +141722,7 @@ pub mod fields {
     impl MemberPropField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142488,15 +141738,7 @@ pub mod fields {
     impl MetaPropExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142511,13 +141753,7 @@ pub mod fields {
     impl MetaPropKindField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142531,13 +141767,7 @@ pub mod fields {
     impl MethodKindField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142553,15 +141783,7 @@ pub mod fields {
     impl MethodPropField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142580,15 +141802,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142605,13 +141819,7 @@ pub mod fields {
     impl ModuleDeclField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142639,13 +141847,7 @@ pub mod fields {
     impl ModuleExportNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142659,13 +141861,7 @@ pub mod fields {
     impl ModuleItemField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142683,15 +141879,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142716,15 +141904,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142745,15 +141925,7 @@ pub mod fields {
     impl NullField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142766,15 +141938,7 @@ pub mod fields {
     impl NumberField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142795,15 +141959,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142822,15 +141978,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142849,13 +141997,7 @@ pub mod fields {
     impl ObjectPatPropField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142875,15 +142017,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142904,13 +142038,7 @@ pub mod fields {
     impl OptChainBaseField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142924,15 +142052,7 @@ pub mod fields {
     impl OptChainExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142953,15 +142073,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -142978,13 +142090,7 @@ pub mod fields {
     impl ParamOrTsParamPropField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142998,15 +142104,7 @@ pub mod fields {
     impl ParenExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143021,13 +142119,7 @@ pub mod fields {
     impl PatField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -143051,15 +142143,7 @@ pub mod fields {
     impl PrivateMethodField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143088,15 +142172,7 @@ pub mod fields {
     impl PrivateNameField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143115,15 +142191,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143158,13 +142226,7 @@ pub mod fields {
     impl ProgramField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -143178,13 +142240,7 @@ pub mod fields {
     impl PropField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -143206,13 +142262,7 @@ pub mod fields {
     impl PropNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -143232,13 +142282,7 @@ pub mod fields {
     impl PropOrSpreadField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -143252,15 +142296,7 @@ pub mod fields {
     impl RegexField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143277,15 +142313,7 @@ pub mod fields {
     impl RestPatField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143304,15 +142332,7 @@ pub mod fields {
     impl ReturnStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143331,15 +142351,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143360,15 +142372,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143383,15 +142387,7 @@ pub mod fields {
     impl SetterPropField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143408,13 +142404,7 @@ pub mod fields {
     impl SimpleAssignTargetField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -143446,15 +142436,7 @@ pub mod fields {
     impl SpreadElementField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143469,15 +142451,7 @@ pub mod fields {
     impl StaticBlockField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143492,13 +142466,7 @@ pub mod fields {
     impl StmtField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -143546,15 +142514,7 @@ pub mod fields {
     impl StrField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143571,15 +142531,7 @@ pub mod fields {
     impl SuperField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143592,13 +142544,7 @@ pub mod fields {
     impl SuperPropField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -143612,15 +142558,7 @@ pub mod fields {
     impl SuperPropExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143641,15 +142579,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143670,15 +142600,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143697,15 +142619,7 @@ pub mod fields {
     impl TaggedTplField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143726,15 +142640,7 @@ pub mod fields {
     impl ThisExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143747,15 +142653,7 @@ pub mod fields {
     impl ThrowStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143778,15 +142676,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143803,15 +142693,7 @@ pub mod fields {
     impl TplElementField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143830,13 +142712,7 @@ pub mod fields {
     impl TruePlusMinusField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -143852,15 +142728,7 @@ pub mod fields {
     impl TryStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143879,15 +142747,7 @@ pub mod fields {
     impl TsArrayTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143902,15 +142762,7 @@ pub mod fields {
     impl TsAsExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143931,15 +142783,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143958,15 +142802,7 @@ pub mod fields {
     impl TsConditionalTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -143987,15 +142823,7 @@ pub mod fields {
     impl TsConstAssertionField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144014,15 +142842,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144045,15 +142865,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144074,13 +142886,7 @@ pub mod fields {
     impl TsEntityNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144098,15 +142904,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144127,15 +142925,7 @@ pub mod fields {
     impl TsEnumMemberField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144152,13 +142942,7 @@ pub mod fields {
     impl TsEnumMemberIdField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144172,15 +142956,7 @@ pub mod fields {
     impl TsExportAssignmentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144195,15 +142971,7 @@ pub mod fields {
     impl TsExprWithTypeArgsField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144220,15 +142988,7 @@ pub mod fields {
     impl TsExternalModuleRefField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144243,13 +143003,7 @@ pub mod fields {
     impl TsFnOrConstructorTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144263,13 +143017,7 @@ pub mod fields {
     impl TsFnParamField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144291,15 +143039,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144318,15 +143058,7 @@ pub mod fields {
     impl TsGetterSignatureField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144345,15 +143077,7 @@ pub mod fields {
     impl TsImportCallOptionsField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144368,15 +143092,7 @@ pub mod fields {
     impl TsImportEqualsDeclField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144397,15 +143113,7 @@ pub mod fields {
     impl TsImportTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144430,15 +143138,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144459,15 +143159,7 @@ pub mod fields {
     impl TsIndexedAccessTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144486,15 +143178,7 @@ pub mod fields {
     impl TsInferTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144509,15 +143193,7 @@ pub mod fields {
     impl TsInstantiationField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144538,15 +143214,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144565,15 +143233,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144600,15 +143260,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144623,15 +143275,7 @@ pub mod fields {
     impl TsKeywordTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144646,13 +143290,7 @@ pub mod fields {
     impl TsKeywordTypeKindField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144688,13 +143326,7 @@ pub mod fields {
     impl TsLitField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144714,15 +143346,7 @@ pub mod fields {
     impl TsLitTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144737,15 +143361,7 @@ pub mod fields {
     impl TsMappedTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144772,15 +143388,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144809,15 +143417,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144832,15 +143432,7 @@ pub mod fields {
     impl TsModuleDeclField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144863,13 +143455,7 @@ pub mod fields {
     impl TsModuleNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144883,13 +143469,7 @@ pub mod fields {
     impl TsModuleRefField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144903,13 +143483,7 @@ pub mod fields {
     impl TsNamespaceBodyField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144923,15 +143497,7 @@ pub mod fields {
     impl TsNamespaceDeclField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144952,15 +143518,7 @@ pub mod fields {
     impl TsNamespaceExportDeclField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144975,15 +143533,7 @@ pub mod fields {
     impl TsNonNullExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -144998,15 +143548,7 @@ pub mod fields {
     impl TsOptionalTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145025,15 +143567,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145056,13 +143590,7 @@ pub mod fields {
     impl TsParamPropParamField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -145076,15 +143604,7 @@ pub mod fields {
     impl TsParenthesizedTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145099,15 +143619,7 @@ pub mod fields {
     impl TsPropertySignatureField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145130,15 +143642,7 @@ pub mod fields {
     impl TsQualifiedNameField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145155,15 +143659,7 @@ pub mod fields {
     impl TsRestTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145178,15 +143674,7 @@ pub mod fields {
     impl TsSatisfiesExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145203,15 +143691,7 @@ pub mod fields {
     impl TsSetterSignatureField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145230,15 +143710,7 @@ pub mod fields {
     impl TsThisParamField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145255,15 +143727,7 @@ pub mod fields {
     impl TsThisTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145276,13 +143740,7 @@ pub mod fields {
     impl TsThisTypeOrIdentField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -145304,15 +143762,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145329,15 +143779,7 @@ pub mod fields {
     impl TsTupleElementField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145358,15 +143800,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145381,13 +143815,7 @@ pub mod fields {
     impl TsTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -145437,15 +143865,7 @@ pub mod fields {
     impl TsTypeAliasDeclField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145466,15 +143886,7 @@ pub mod fields {
     impl TsTypeAnnField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145489,15 +143901,7 @@ pub mod fields {
     impl TsTypeAssertionField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145514,13 +143918,7 @@ pub mod fields {
     impl TsTypeElementField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -145548,15 +143946,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145571,15 +143961,7 @@ pub mod fields {
     impl TsTypeOperatorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145596,13 +143978,7 @@ pub mod fields {
     impl TsTypeOperatorOpField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -145618,15 +143994,7 @@ pub mod fields {
     impl TsTypeParamField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145655,15 +144023,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145682,15 +144042,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145705,15 +144057,7 @@ pub mod fields {
     impl TsTypePredicateField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145732,15 +144076,7 @@ pub mod fields {
     impl TsTypeQueryField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145757,13 +144093,7 @@ pub mod fields {
     impl TsTypeQueryExprField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -145777,15 +144107,7 @@ pub mod fields {
     impl TsTypeRefField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145802,13 +144124,7 @@ pub mod fields {
     impl TsUnionOrIntersectionTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -145826,15 +144142,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145849,15 +144157,7 @@ pub mod fields {
     impl UnaryExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145874,13 +144174,7 @@ pub mod fields {
     impl UnaryOpField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -145904,15 +144198,7 @@ pub mod fields {
     impl UpdateExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145931,13 +144217,7 @@ pub mod fields {
     impl UpdateOpField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -145955,15 +144235,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -145984,15 +144256,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -146013,13 +144277,7 @@ pub mod fields {
     impl VarDeclKindField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -146035,13 +144293,7 @@ pub mod fields {
     impl VarDeclOrExprField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -146055,15 +144307,7 @@ pub mod fields {
     impl VarDeclaratorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -146082,15 +144326,7 @@ pub mod fields {
     impl WhileStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -146107,15 +144343,7 @@ pub mod fields {
     impl WithStmtField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -146132,15 +144360,7 @@ pub mod fields {
     impl YieldExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }

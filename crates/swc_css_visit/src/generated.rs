@@ -107953,6 +107953,6864 @@ where
         })
     }
 }
+#[doc = r" A hook trait for composable AST visitors."]
+#[doc = r""]
+#[doc = r" This trait provides `enter_xxx` and `exit_xxx` methods for each AST node type."]
+#[doc = r" The enter method is called before visiting children, and the exit method is called after."]
+pub trait VisitMutHook {
+    #[doc = "Called when entering a node of type `AbsoluteColorBase` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_absolute_color_base(&mut self, node: &mut AbsoluteColorBase) {}
+    #[doc = "Called when exiting a node of type `AbsoluteColorBase` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_absolute_color_base(&mut self, node: &mut AbsoluteColorBase) {}
+    #[doc = "Called when entering a node of type `AlphaValue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_alpha_value(&mut self, node: &mut AlphaValue) {}
+    #[doc = "Called when exiting a node of type `AlphaValue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_alpha_value(&mut self, node: &mut AlphaValue) {}
+    #[doc = "Called when entering a node of type `AnPlusB` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_an_plus_b(&mut self, node: &mut AnPlusB) {}
+    #[doc = "Called when exiting a node of type `AnPlusB` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_an_plus_b(&mut self, node: &mut AnPlusB) {}
+    #[doc = "Called when entering a node of type `AnPlusBNotation` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_an_plus_b_notation(&mut self, node: &mut AnPlusBNotation) {}
+    #[doc = "Called when exiting a node of type `AnPlusBNotation` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_an_plus_b_notation(&mut self, node: &mut AnPlusBNotation) {}
+    #[doc = "Called when entering a node of type `Angle` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_angle(&mut self, node: &mut Angle) {}
+    #[doc = "Called when exiting a node of type `Angle` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_angle(&mut self, node: &mut Angle) {}
+    #[doc = "Called when entering a node of type `AnglePercentage` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_angle_percentage(&mut self, node: &mut AnglePercentage) {}
+    #[doc = "Called when exiting a node of type `AnglePercentage` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_angle_percentage(&mut self, node: &mut AnglePercentage) {}
+    #[doc = "Called when entering a node of type `AnyNamespace` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_any_namespace(&mut self, node: &mut AnyNamespace) {}
+    #[doc = "Called when exiting a node of type `AnyNamespace` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_any_namespace(&mut self, node: &mut AnyNamespace) {}
+    #[doc = "Called when entering a node of type `AtRule` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_at_rule(&mut self, node: &mut AtRule) {}
+    #[doc = "Called when exiting a node of type `AtRule` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_at_rule(&mut self, node: &mut AtRule) {}
+    #[doc = "Called when entering a node of type `AtRuleName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_at_rule_name(&mut self, node: &mut AtRuleName) {}
+    #[doc = "Called when exiting a node of type `AtRuleName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_at_rule_name(&mut self, node: &mut AtRuleName) {}
+    #[doc = "Called when entering a node of type `AtRulePrelude` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_at_rule_prelude(&mut self, node: &mut AtRulePrelude) {}
+    #[doc = "Called when exiting a node of type `AtRulePrelude` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_at_rule_prelude(&mut self, node: &mut AtRulePrelude) {}
+    #[doc = "Called when entering a node of type `swc_atoms :: Atom` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_atom(&mut self, node: &mut swc_atoms::Atom) {}
+    #[doc = "Called when exiting a node of type `swc_atoms :: Atom` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_atom(&mut self, node: &mut swc_atoms::Atom) {}
+    #[doc = "Called when entering a node of type `AttributeSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_attribute_selector(&mut self, node: &mut AttributeSelector) {}
+    #[doc = "Called when exiting a node of type `AttributeSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_attribute_selector(&mut self, node: &mut AttributeSelector) {}
+    #[doc = "Called when entering a node of type `AttributeSelectorMatcher` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_attribute_selector_matcher(&mut self, node: &mut AttributeSelectorMatcher) {}
+    #[doc = "Called when exiting a node of type `AttributeSelectorMatcher` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_attribute_selector_matcher(&mut self, node: &mut AttributeSelectorMatcher) {}
+    #[doc = "Called when entering a node of type `AttributeSelectorMatcherValue` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_attribute_selector_matcher_value(&mut self, node: &mut AttributeSelectorMatcherValue) {
+    }
+    #[doc = "Called when exiting a node of type `AttributeSelectorMatcherValue` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_attribute_selector_matcher_value(&mut self, node: &mut AttributeSelectorMatcherValue) {}
+    #[doc = "Called when entering a node of type `AttributeSelectorModifier` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_attribute_selector_modifier(&mut self, node: &mut AttributeSelectorModifier) {}
+    #[doc = "Called when exiting a node of type `AttributeSelectorModifier` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_attribute_selector_modifier(&mut self, node: &mut AttributeSelectorModifier) {}
+    #[doc = "Called when entering a node of type `AttributeSelectorValue` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_attribute_selector_value(&mut self, node: &mut AttributeSelectorValue) {}
+    #[doc = "Called when exiting a node of type `AttributeSelectorValue` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_attribute_selector_value(&mut self, node: &mut AttributeSelectorValue) {}
+    #[doc = "Called when entering a node of type `BinOp` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_bin_op(&mut self, node: &mut BinOp) {}
+    #[doc = "Called when exiting a node of type `BinOp` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_bin_op(&mut self, node: &mut BinOp) {}
+    #[doc = "Called when entering a node of type `CalcOperator` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_calc_operator(&mut self, node: &mut CalcOperator) {}
+    #[doc = "Called when exiting a node of type `CalcOperator` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_calc_operator(&mut self, node: &mut CalcOperator) {}
+    #[doc = "Called when entering a node of type `CalcOperatorType` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_calc_operator_type(&mut self, node: &mut CalcOperatorType) {}
+    #[doc = "Called when exiting a node of type `CalcOperatorType` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_calc_operator_type(&mut self, node: &mut CalcOperatorType) {}
+    #[doc = "Called when entering a node of type `CalcProduct` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_calc_product(&mut self, node: &mut CalcProduct) {}
+    #[doc = "Called when exiting a node of type `CalcProduct` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_calc_product(&mut self, node: &mut CalcProduct) {}
+    #[doc = "Called when entering a node of type `CalcProductOrOperator` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_calc_product_or_operator(&mut self, node: &mut CalcProductOrOperator) {}
+    #[doc = "Called when exiting a node of type `CalcProductOrOperator` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_calc_product_or_operator(&mut self, node: &mut CalcProductOrOperator) {}
+    #[doc = "Called when entering a node of type `Vec < CalcProductOrOperator >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_calc_product_or_operators(&mut self, node: &mut Vec<CalcProductOrOperator>) {}
+    #[doc = "Called when exiting a node of type `Vec < CalcProductOrOperator >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_calc_product_or_operators(&mut self, node: &mut Vec<CalcProductOrOperator>) {}
+    #[doc = "Called when entering a node of type `CalcSum` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_calc_sum(&mut self, node: &mut CalcSum) {}
+    #[doc = "Called when exiting a node of type `CalcSum` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_calc_sum(&mut self, node: &mut CalcSum) {}
+    #[doc = "Called when entering a node of type `CalcValue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_calc_value(&mut self, node: &mut CalcValue) {}
+    #[doc = "Called when exiting a node of type `CalcValue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_calc_value(&mut self, node: &mut CalcValue) {}
+    #[doc = "Called when entering a node of type `CalcValueOrOperator` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_calc_value_or_operator(&mut self, node: &mut CalcValueOrOperator) {}
+    #[doc = "Called when exiting a node of type `CalcValueOrOperator` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_calc_value_or_operator(&mut self, node: &mut CalcValueOrOperator) {}
+    #[doc = "Called when entering a node of type `Vec < CalcValueOrOperator >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_calc_value_or_operators(&mut self, node: &mut Vec<CalcValueOrOperator>) {}
+    #[doc = "Called when exiting a node of type `Vec < CalcValueOrOperator >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_calc_value_or_operators(&mut self, node: &mut Vec<CalcValueOrOperator>) {}
+    #[doc = "Called when entering a node of type `ClassSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_class_selector(&mut self, node: &mut ClassSelector) {}
+    #[doc = "Called when exiting a node of type `ClassSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_class_selector(&mut self, node: &mut ClassSelector) {}
+    #[doc = "Called when entering a node of type `CmykComponent` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_cmyk_component(&mut self, node: &mut CmykComponent) {}
+    #[doc = "Called when exiting a node of type `CmykComponent` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_cmyk_component(&mut self, node: &mut CmykComponent) {}
+    #[doc = "Called when entering a node of type `Color` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_color(&mut self, node: &mut Color) {}
+    #[doc = "Called when exiting a node of type `Color` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_color(&mut self, node: &mut Color) {}
+    #[doc = "Called when entering a node of type `ColorProfileName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_color_profile_name(&mut self, node: &mut ColorProfileName) {}
+    #[doc = "Called when exiting a node of type `ColorProfileName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_color_profile_name(&mut self, node: &mut ColorProfileName) {}
+    #[doc = "Called when entering a node of type `Combinator` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_combinator(&mut self, node: &mut Combinator) {}
+    #[doc = "Called when exiting a node of type `Combinator` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_combinator(&mut self, node: &mut Combinator) {}
+    #[doc = "Called when entering a node of type `CombinatorValue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_combinator_value(&mut self, node: &mut CombinatorValue) {}
+    #[doc = "Called when exiting a node of type `CombinatorValue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_combinator_value(&mut self, node: &mut CombinatorValue) {}
+    #[doc = "Called when entering a node of type `ComplexSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_complex_selector(&mut self, node: &mut ComplexSelector) {}
+    #[doc = "Called when exiting a node of type `ComplexSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_complex_selector(&mut self, node: &mut ComplexSelector) {}
+    #[doc = "Called when entering a node of type `ComplexSelectorChildren` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_complex_selector_children(&mut self, node: &mut ComplexSelectorChildren) {}
+    #[doc = "Called when exiting a node of type `ComplexSelectorChildren` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_complex_selector_children(&mut self, node: &mut ComplexSelectorChildren) {}
+    #[doc = "Called when entering a node of type `Vec < ComplexSelectorChildren >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_complex_selector_childrens(&mut self, node: &mut Vec<ComplexSelectorChildren>) {}
+    #[doc = "Called when exiting a node of type `Vec < ComplexSelectorChildren >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_complex_selector_childrens(&mut self, node: &mut Vec<ComplexSelectorChildren>) {}
+    #[doc = "Called when entering a node of type `Vec < ComplexSelector >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_complex_selectors(&mut self, node: &mut Vec<ComplexSelector>) {}
+    #[doc = "Called when exiting a node of type `Vec < ComplexSelector >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_complex_selectors(&mut self, node: &mut Vec<ComplexSelector>) {}
+    #[doc = "Called when entering a node of type `ComponentValue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_component_value(&mut self, node: &mut ComponentValue) {}
+    #[doc = "Called when exiting a node of type `ComponentValue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_component_value(&mut self, node: &mut ComponentValue) {}
+    #[doc = "Called when entering a node of type `Vec < ComponentValue >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_component_values(&mut self, node: &mut Vec<ComponentValue>) {}
+    #[doc = "Called when exiting a node of type `Vec < ComponentValue >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_component_values(&mut self, node: &mut Vec<ComponentValue>) {}
+    #[doc = "Called when entering a node of type `CompoundSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_compound_selector(&mut self, node: &mut CompoundSelector) {}
+    #[doc = "Called when exiting a node of type `CompoundSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_compound_selector(&mut self, node: &mut CompoundSelector) {}
+    #[doc = "Called when entering a node of type `CompoundSelectorList` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_compound_selector_list(&mut self, node: &mut CompoundSelectorList) {}
+    #[doc = "Called when exiting a node of type `CompoundSelectorList` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_compound_selector_list(&mut self, node: &mut CompoundSelectorList) {}
+    #[doc = "Called when entering a node of type `Vec < CompoundSelector >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_compound_selectors(&mut self, node: &mut Vec<CompoundSelector>) {}
+    #[doc = "Called when exiting a node of type `Vec < CompoundSelector >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_compound_selectors(&mut self, node: &mut Vec<CompoundSelector>) {}
+    #[doc = "Called when entering a node of type `ContainerCondition` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_container_condition(&mut self, node: &mut ContainerCondition) {}
+    #[doc = "Called when exiting a node of type `ContainerCondition` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_container_condition(&mut self, node: &mut ContainerCondition) {}
+    #[doc = "Called when entering a node of type `ContainerName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_container_name(&mut self, node: &mut ContainerName) {}
+    #[doc = "Called when exiting a node of type `ContainerName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_container_name(&mut self, node: &mut ContainerName) {}
+    #[doc = "Called when entering a node of type `ContainerQuery` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_container_query(&mut self, node: &mut ContainerQuery) {}
+    #[doc = "Called when exiting a node of type `ContainerQuery` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_container_query(&mut self, node: &mut ContainerQuery) {}
+    #[doc = "Called when entering a node of type `ContainerQueryAnd` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_container_query_and(&mut self, node: &mut ContainerQueryAnd) {}
+    #[doc = "Called when exiting a node of type `ContainerQueryAnd` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_container_query_and(&mut self, node: &mut ContainerQueryAnd) {}
+    #[doc = "Called when entering a node of type `ContainerQueryNot` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_container_query_not(&mut self, node: &mut ContainerQueryNot) {}
+    #[doc = "Called when exiting a node of type `ContainerQueryNot` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_container_query_not(&mut self, node: &mut ContainerQueryNot) {}
+    #[doc = "Called when entering a node of type `ContainerQueryOr` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_container_query_or(&mut self, node: &mut ContainerQueryOr) {}
+    #[doc = "Called when exiting a node of type `ContainerQueryOr` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_container_query_or(&mut self, node: &mut ContainerQueryOr) {}
+    #[doc = "Called when entering a node of type `ContainerQueryType` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_container_query_type(&mut self, node: &mut ContainerQueryType) {}
+    #[doc = "Called when exiting a node of type `ContainerQueryType` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_container_query_type(&mut self, node: &mut ContainerQueryType) {}
+    #[doc = "Called when entering a node of type `Vec < ContainerQueryType >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_container_query_types(&mut self, node: &mut Vec<ContainerQueryType>) {}
+    #[doc = "Called when exiting a node of type `Vec < ContainerQueryType >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_container_query_types(&mut self, node: &mut Vec<ContainerQueryType>) {}
+    #[doc = "Called when entering a node of type `CustomHighlightName` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_custom_highlight_name(&mut self, node: &mut CustomHighlightName) {}
+    #[doc = "Called when exiting a node of type `CustomHighlightName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_custom_highlight_name(&mut self, node: &mut CustomHighlightName) {}
+    #[doc = "Called when entering a node of type `CustomIdent` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_custom_ident(&mut self, node: &mut CustomIdent) {}
+    #[doc = "Called when exiting a node of type `CustomIdent` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_custom_ident(&mut self, node: &mut CustomIdent) {}
+    #[doc = "Called when entering a node of type `Vec < CustomIdent >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_custom_idents(&mut self, node: &mut Vec<CustomIdent>) {}
+    #[doc = "Called when exiting a node of type `Vec < CustomIdent >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_custom_idents(&mut self, node: &mut Vec<CustomIdent>) {}
+    #[doc = "Called when entering a node of type `CustomMediaQuery` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_custom_media_query(&mut self, node: &mut CustomMediaQuery) {}
+    #[doc = "Called when exiting a node of type `CustomMediaQuery` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_custom_media_query(&mut self, node: &mut CustomMediaQuery) {}
+    #[doc = "Called when entering a node of type `CustomMediaQueryMediaType` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_custom_media_query_media_type(&mut self, node: &mut CustomMediaQueryMediaType) {}
+    #[doc = "Called when exiting a node of type `CustomMediaQueryMediaType` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_custom_media_query_media_type(&mut self, node: &mut CustomMediaQueryMediaType) {}
+    #[doc = "Called when entering a node of type `CustomPropertyName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_custom_property_name(&mut self, node: &mut CustomPropertyName) {}
+    #[doc = "Called when exiting a node of type `CustomPropertyName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_custom_property_name(&mut self, node: &mut CustomPropertyName) {}
+    #[doc = "Called when entering a node of type `DashedIdent` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_dashed_ident(&mut self, node: &mut DashedIdent) {}
+    #[doc = "Called when exiting a node of type `DashedIdent` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_dashed_ident(&mut self, node: &mut DashedIdent) {}
+    #[doc = "Called when entering a node of type `Declaration` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_declaration(&mut self, node: &mut Declaration) {}
+    #[doc = "Called when exiting a node of type `Declaration` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_declaration(&mut self, node: &mut Declaration) {}
+    #[doc = "Called when entering a node of type `DeclarationName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_declaration_name(&mut self, node: &mut DeclarationName) {}
+    #[doc = "Called when exiting a node of type `DeclarationName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_declaration_name(&mut self, node: &mut DeclarationName) {}
+    #[doc = "Called when entering a node of type `DeclarationOrAtRule` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_declaration_or_at_rule(&mut self, node: &mut DeclarationOrAtRule) {}
+    #[doc = "Called when exiting a node of type `DeclarationOrAtRule` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_declaration_or_at_rule(&mut self, node: &mut DeclarationOrAtRule) {}
+    #[doc = "Called when entering a node of type `Delimiter` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_delimiter(&mut self, node: &mut Delimiter) {}
+    #[doc = "Called when exiting a node of type `Delimiter` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_delimiter(&mut self, node: &mut Delimiter) {}
+    #[doc = "Called when entering a node of type `DelimiterValue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_delimiter_value(&mut self, node: &mut DelimiterValue) {}
+    #[doc = "Called when exiting a node of type `DelimiterValue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_delimiter_value(&mut self, node: &mut DelimiterValue) {}
+    #[doc = "Called when entering a node of type `Dimension` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_dimension(&mut self, node: &mut Dimension) {}
+    #[doc = "Called when exiting a node of type `Dimension` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_dimension(&mut self, node: &mut Dimension) {}
+    #[doc = "Called when entering a node of type `DimensionToken` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_dimension_token(&mut self, node: &mut DimensionToken) {}
+    #[doc = "Called when exiting a node of type `DimensionToken` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_dimension_token(&mut self, node: &mut DimensionToken) {}
+    #[doc = "Called when entering a node of type `DocumentPrelude` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_document_prelude(&mut self, node: &mut DocumentPrelude) {}
+    #[doc = "Called when exiting a node of type `DocumentPrelude` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_document_prelude(&mut self, node: &mut DocumentPrelude) {}
+    #[doc = "Called when entering a node of type `DocumentPreludeMatchingFunction` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_document_prelude_matching_function(
+        &mut self,
+        node: &mut DocumentPreludeMatchingFunction,
+    ) {
+    }
+    #[doc = "Called when exiting a node of type `DocumentPreludeMatchingFunction` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_document_prelude_matching_function(
+        &mut self,
+        node: &mut DocumentPreludeMatchingFunction,
+    ) {
+    }
+    #[doc = "Called when entering a node of type `Vec < DocumentPreludeMatchingFunction >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_document_prelude_matching_functions(
+        &mut self,
+        node: &mut Vec<DocumentPreludeMatchingFunction>,
+    ) {
+    }
+    #[doc = "Called when exiting a node of type `Vec < DocumentPreludeMatchingFunction >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_document_prelude_matching_functions(
+        &mut self,
+        node: &mut Vec<DocumentPreludeMatchingFunction>,
+    ) {
+    }
+    #[doc = "Called when entering a node of type `ExtensionName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_extension_name(&mut self, node: &mut ExtensionName) {}
+    #[doc = "Called when exiting a node of type `ExtensionName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_extension_name(&mut self, node: &mut ExtensionName) {}
+    #[doc = "Called when entering a node of type `FamilyName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_family_name(&mut self, node: &mut FamilyName) {}
+    #[doc = "Called when exiting a node of type `FamilyName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_family_name(&mut self, node: &mut FamilyName) {}
+    #[doc = "Called when entering a node of type `Vec < FamilyName >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_family_names(&mut self, node: &mut Vec<FamilyName>) {}
+    #[doc = "Called when exiting a node of type `Vec < FamilyName >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_family_names(&mut self, node: &mut Vec<FamilyName>) {}
+    #[doc = "Called when entering a node of type `Flex` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_flex(&mut self, node: &mut Flex) {}
+    #[doc = "Called when exiting a node of type `Flex` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_flex(&mut self, node: &mut Flex) {}
+    #[doc = "Called when entering a node of type `FontFeatureValuesPrelude` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_font_feature_values_prelude(&mut self, node: &mut FontFeatureValuesPrelude) {}
+    #[doc = "Called when exiting a node of type `FontFeatureValuesPrelude` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_font_feature_values_prelude(&mut self, node: &mut FontFeatureValuesPrelude) {}
+    #[doc = "Called when entering a node of type `ForgivingComplexSelector` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_forgiving_complex_selector(&mut self, node: &mut ForgivingComplexSelector) {}
+    #[doc = "Called when exiting a node of type `ForgivingComplexSelector` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_forgiving_complex_selector(&mut self, node: &mut ForgivingComplexSelector) {}
+    #[doc = "Called when entering a node of type `Vec < ForgivingComplexSelector >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_forgiving_complex_selectors(&mut self, node: &mut Vec<ForgivingComplexSelector>) {}
+    #[doc = "Called when exiting a node of type `Vec < ForgivingComplexSelector >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_forgiving_complex_selectors(&mut self, node: &mut Vec<ForgivingComplexSelector>) {}
+    #[doc = "Called when entering a node of type `ForgivingRelativeSelector` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_forgiving_relative_selector(&mut self, node: &mut ForgivingRelativeSelector) {}
+    #[doc = "Called when exiting a node of type `ForgivingRelativeSelector` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_forgiving_relative_selector(&mut self, node: &mut ForgivingRelativeSelector) {}
+    #[doc = "Called when entering a node of type `ForgivingRelativeSelectorList` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_forgiving_relative_selector_list(&mut self, node: &mut ForgivingRelativeSelectorList) {
+    }
+    #[doc = "Called when exiting a node of type `ForgivingRelativeSelectorList` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_forgiving_relative_selector_list(&mut self, node: &mut ForgivingRelativeSelectorList) {}
+    #[doc = "Called when entering a node of type `Vec < ForgivingRelativeSelector >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_forgiving_relative_selectors(&mut self, node: &mut Vec<ForgivingRelativeSelector>) {}
+    #[doc = "Called when exiting a node of type `Vec < ForgivingRelativeSelector >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_forgiving_relative_selectors(&mut self, node: &mut Vec<ForgivingRelativeSelector>) {}
+    #[doc = "Called when entering a node of type `ForgivingSelectorList` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_forgiving_selector_list(&mut self, node: &mut ForgivingSelectorList) {}
+    #[doc = "Called when exiting a node of type `ForgivingSelectorList` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_forgiving_selector_list(&mut self, node: &mut ForgivingSelectorList) {}
+    #[doc = "Called when entering a node of type `Frequency` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_frequency(&mut self, node: &mut Frequency) {}
+    #[doc = "Called when exiting a node of type `Frequency` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_frequency(&mut self, node: &mut Frequency) {}
+    #[doc = "Called when entering a node of type `FrequencyPercentage` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_frequency_percentage(&mut self, node: &mut FrequencyPercentage) {}
+    #[doc = "Called when exiting a node of type `FrequencyPercentage` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_frequency_percentage(&mut self, node: &mut FrequencyPercentage) {}
+    #[doc = "Called when entering a node of type `Function` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_function(&mut self, node: &mut Function) {}
+    #[doc = "Called when exiting a node of type `Function` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_function(&mut self, node: &mut Function) {}
+    #[doc = "Called when entering a node of type `FunctionName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_function_name(&mut self, node: &mut FunctionName) {}
+    #[doc = "Called when exiting a node of type `FunctionName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_function_name(&mut self, node: &mut FunctionName) {}
+    #[doc = "Called when entering a node of type `GeneralEnclosed` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_general_enclosed(&mut self, node: &mut GeneralEnclosed) {}
+    #[doc = "Called when exiting a node of type `GeneralEnclosed` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_general_enclosed(&mut self, node: &mut GeneralEnclosed) {}
+    #[doc = "Called when entering a node of type `HexColor` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_hex_color(&mut self, node: &mut HexColor) {}
+    #[doc = "Called when exiting a node of type `HexColor` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_hex_color(&mut self, node: &mut HexColor) {}
+    #[doc = "Called when entering a node of type `Hue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_hue(&mut self, node: &mut Hue) {}
+    #[doc = "Called when exiting a node of type `Hue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_hue(&mut self, node: &mut Hue) {}
+    #[doc = "Called when entering a node of type `IdSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_id_selector(&mut self, node: &mut IdSelector) {}
+    #[doc = "Called when exiting a node of type `IdSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_id_selector(&mut self, node: &mut IdSelector) {}
+    #[doc = "Called when entering a node of type `Ident` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ident(&mut self, node: &mut Ident) {}
+    #[doc = "Called when exiting a node of type `Ident` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ident(&mut self, node: &mut Ident) {}
+    #[doc = "Called when entering a node of type `Vec < Ident >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_idents(&mut self, node: &mut Vec<Ident>) {}
+    #[doc = "Called when exiting a node of type `Vec < Ident >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_idents(&mut self, node: &mut Vec<Ident>) {}
+    #[doc = "Called when entering a node of type `ImportConditions` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_import_conditions(&mut self, node: &mut ImportConditions) {}
+    #[doc = "Called when exiting a node of type `ImportConditions` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_import_conditions(&mut self, node: &mut ImportConditions) {}
+    #[doc = "Called when entering a node of type `ImportHref` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_import_href(&mut self, node: &mut ImportHref) {}
+    #[doc = "Called when exiting a node of type `ImportHref` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_import_href(&mut self, node: &mut ImportHref) {}
+    #[doc = "Called when entering a node of type `ImportLayerName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_import_layer_name(&mut self, node: &mut ImportLayerName) {}
+    #[doc = "Called when exiting a node of type `ImportLayerName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_import_layer_name(&mut self, node: &mut ImportLayerName) {}
+    #[doc = "Called when entering a node of type `ImportPrelude` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_import_prelude(&mut self, node: &mut ImportPrelude) {}
+    #[doc = "Called when exiting a node of type `ImportPrelude` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_import_prelude(&mut self, node: &mut ImportPrelude) {}
+    #[doc = "Called when entering a node of type `ImportantFlag` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_important_flag(&mut self, node: &mut ImportantFlag) {}
+    #[doc = "Called when exiting a node of type `ImportantFlag` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_important_flag(&mut self, node: &mut ImportantFlag) {}
+    #[doc = "Called when entering a node of type `Integer` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_integer(&mut self, node: &mut Integer) {}
+    #[doc = "Called when exiting a node of type `Integer` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_integer(&mut self, node: &mut Integer) {}
+    #[doc = "Called when entering a node of type `KeyframeBlock` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_keyframe_block(&mut self, node: &mut KeyframeBlock) {}
+    #[doc = "Called when exiting a node of type `KeyframeBlock` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_keyframe_block(&mut self, node: &mut KeyframeBlock) {}
+    #[doc = "Called when entering a node of type `KeyframeSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_keyframe_selector(&mut self, node: &mut KeyframeSelector) {}
+    #[doc = "Called when exiting a node of type `KeyframeSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_keyframe_selector(&mut self, node: &mut KeyframeSelector) {}
+    #[doc = "Called when entering a node of type `Vec < KeyframeSelector >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_keyframe_selectors(&mut self, node: &mut Vec<KeyframeSelector>) {}
+    #[doc = "Called when exiting a node of type `Vec < KeyframeSelector >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_keyframe_selectors(&mut self, node: &mut Vec<KeyframeSelector>) {}
+    #[doc = "Called when entering a node of type `KeyframesName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_keyframes_name(&mut self, node: &mut KeyframesName) {}
+    #[doc = "Called when exiting a node of type `KeyframesName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_keyframes_name(&mut self, node: &mut KeyframesName) {}
+    #[doc = "Called when entering a node of type `KeyframesPseudoFunction` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_keyframes_pseudo_function(&mut self, node: &mut KeyframesPseudoFunction) {}
+    #[doc = "Called when exiting a node of type `KeyframesPseudoFunction` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_keyframes_pseudo_function(&mut self, node: &mut KeyframesPseudoFunction) {}
+    #[doc = "Called when entering a node of type `KeyframesPseudoPrefix` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_keyframes_pseudo_prefix(&mut self, node: &mut KeyframesPseudoPrefix) {}
+    #[doc = "Called when exiting a node of type `KeyframesPseudoPrefix` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_keyframes_pseudo_prefix(&mut self, node: &mut KeyframesPseudoPrefix) {}
+    #[doc = "Called when entering a node of type `LayerName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_layer_name(&mut self, node: &mut LayerName) {}
+    #[doc = "Called when exiting a node of type `LayerName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_layer_name(&mut self, node: &mut LayerName) {}
+    #[doc = "Called when entering a node of type `LayerNameList` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_layer_name_list(&mut self, node: &mut LayerNameList) {}
+    #[doc = "Called when exiting a node of type `LayerNameList` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_layer_name_list(&mut self, node: &mut LayerNameList) {}
+    #[doc = "Called when entering a node of type `Vec < LayerName >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_layer_names(&mut self, node: &mut Vec<LayerName>) {}
+    #[doc = "Called when exiting a node of type `Vec < LayerName >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_layer_names(&mut self, node: &mut Vec<LayerName>) {}
+    #[doc = "Called when entering a node of type `LayerPrelude` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_layer_prelude(&mut self, node: &mut LayerPrelude) {}
+    #[doc = "Called when exiting a node of type `LayerPrelude` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_layer_prelude(&mut self, node: &mut LayerPrelude) {}
+    #[doc = "Called when entering a node of type `Length` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_length(&mut self, node: &mut Length) {}
+    #[doc = "Called when exiting a node of type `Length` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_length(&mut self, node: &mut Length) {}
+    #[doc = "Called when entering a node of type `LengthPercentage` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_length_percentage(&mut self, node: &mut LengthPercentage) {}
+    #[doc = "Called when exiting a node of type `LengthPercentage` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_length_percentage(&mut self, node: &mut LengthPercentage) {}
+    #[doc = "Called when entering a node of type `ListOfComponentValues` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_list_of_component_values(&mut self, node: &mut ListOfComponentValues) {}
+    #[doc = "Called when exiting a node of type `ListOfComponentValues` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_list_of_component_values(&mut self, node: &mut ListOfComponentValues) {}
+    #[doc = "Called when entering a node of type `MediaAnd` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_and(&mut self, node: &mut MediaAnd) {}
+    #[doc = "Called when exiting a node of type `MediaAnd` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_and(&mut self, node: &mut MediaAnd) {}
+    #[doc = "Called when entering a node of type `MediaCondition` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_condition(&mut self, node: &mut MediaCondition) {}
+    #[doc = "Called when exiting a node of type `MediaCondition` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_condition(&mut self, node: &mut MediaCondition) {}
+    #[doc = "Called when entering a node of type `MediaConditionAllType` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_condition_all_type(&mut self, node: &mut MediaConditionAllType) {}
+    #[doc = "Called when exiting a node of type `MediaConditionAllType` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_condition_all_type(&mut self, node: &mut MediaConditionAllType) {}
+    #[doc = "Called when entering a node of type `Vec < MediaConditionAllType >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_condition_all_types(&mut self, node: &mut Vec<MediaConditionAllType>) {}
+    #[doc = "Called when exiting a node of type `Vec < MediaConditionAllType >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_condition_all_types(&mut self, node: &mut Vec<MediaConditionAllType>) {}
+    #[doc = "Called when entering a node of type `MediaConditionType` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_condition_type(&mut self, node: &mut MediaConditionType) {}
+    #[doc = "Called when exiting a node of type `MediaConditionType` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_condition_type(&mut self, node: &mut MediaConditionType) {}
+    #[doc = "Called when entering a node of type `MediaConditionWithoutOr` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_condition_without_or(&mut self, node: &mut MediaConditionWithoutOr) {}
+    #[doc = "Called when exiting a node of type `MediaConditionWithoutOr` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_condition_without_or(&mut self, node: &mut MediaConditionWithoutOr) {}
+    #[doc = "Called when entering a node of type `MediaConditionWithoutOrType` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_condition_without_or_type(&mut self, node: &mut MediaConditionWithoutOrType) {}
+    #[doc = "Called when exiting a node of type `MediaConditionWithoutOrType` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_condition_without_or_type(&mut self, node: &mut MediaConditionWithoutOrType) {}
+    #[doc = "Called when entering a node of type `Vec < MediaConditionWithoutOrType >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_condition_without_or_types(
+        &mut self,
+        node: &mut Vec<MediaConditionWithoutOrType>,
+    ) {
+    }
+    #[doc = "Called when exiting a node of type `Vec < MediaConditionWithoutOrType >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_condition_without_or_types(
+        &mut self,
+        node: &mut Vec<MediaConditionWithoutOrType>,
+    ) {
+    }
+    #[doc = "Called when entering a node of type `MediaFeature` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_feature(&mut self, node: &mut MediaFeature) {}
+    #[doc = "Called when exiting a node of type `MediaFeature` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_feature(&mut self, node: &mut MediaFeature) {}
+    #[doc = "Called when entering a node of type `MediaFeatureBoolean` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_feature_boolean(&mut self, node: &mut MediaFeatureBoolean) {}
+    #[doc = "Called when exiting a node of type `MediaFeatureBoolean` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_feature_boolean(&mut self, node: &mut MediaFeatureBoolean) {}
+    #[doc = "Called when entering a node of type `MediaFeatureName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_feature_name(&mut self, node: &mut MediaFeatureName) {}
+    #[doc = "Called when exiting a node of type `MediaFeatureName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_feature_name(&mut self, node: &mut MediaFeatureName) {}
+    #[doc = "Called when entering a node of type `MediaFeaturePlain` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_feature_plain(&mut self, node: &mut MediaFeaturePlain) {}
+    #[doc = "Called when exiting a node of type `MediaFeaturePlain` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_feature_plain(&mut self, node: &mut MediaFeaturePlain) {}
+    #[doc = "Called when entering a node of type `MediaFeatureRange` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_feature_range(&mut self, node: &mut MediaFeatureRange) {}
+    #[doc = "Called when exiting a node of type `MediaFeatureRange` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_feature_range(&mut self, node: &mut MediaFeatureRange) {}
+    #[doc = "Called when entering a node of type `MediaFeatureRangeComparison` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_feature_range_comparison(&mut self, node: &mut MediaFeatureRangeComparison) {}
+    #[doc = "Called when exiting a node of type `MediaFeatureRangeComparison` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_feature_range_comparison(&mut self, node: &mut MediaFeatureRangeComparison) {}
+    #[doc = "Called when entering a node of type `MediaFeatureRangeInterval` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_feature_range_interval(&mut self, node: &mut MediaFeatureRangeInterval) {}
+    #[doc = "Called when exiting a node of type `MediaFeatureRangeInterval` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_feature_range_interval(&mut self, node: &mut MediaFeatureRangeInterval) {}
+    #[doc = "Called when entering a node of type `MediaFeatureValue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_feature_value(&mut self, node: &mut MediaFeatureValue) {}
+    #[doc = "Called when exiting a node of type `MediaFeatureValue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_feature_value(&mut self, node: &mut MediaFeatureValue) {}
+    #[doc = "Called when entering a node of type `MediaInParens` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_in_parens(&mut self, node: &mut MediaInParens) {}
+    #[doc = "Called when exiting a node of type `MediaInParens` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_in_parens(&mut self, node: &mut MediaInParens) {}
+    #[doc = "Called when entering a node of type `MediaNot` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_not(&mut self, node: &mut MediaNot) {}
+    #[doc = "Called when exiting a node of type `MediaNot` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_not(&mut self, node: &mut MediaNot) {}
+    #[doc = "Called when entering a node of type `MediaOr` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_or(&mut self, node: &mut MediaOr) {}
+    #[doc = "Called when exiting a node of type `MediaOr` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_or(&mut self, node: &mut MediaOr) {}
+    #[doc = "Called when entering a node of type `MediaQuery` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_query(&mut self, node: &mut MediaQuery) {}
+    #[doc = "Called when exiting a node of type `MediaQuery` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_query(&mut self, node: &mut MediaQuery) {}
+    #[doc = "Called when entering a node of type `MediaQueryList` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_query_list(&mut self, node: &mut MediaQueryList) {}
+    #[doc = "Called when exiting a node of type `MediaQueryList` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_query_list(&mut self, node: &mut MediaQueryList) {}
+    #[doc = "Called when entering a node of type `Vec < MediaQuery >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_querys(&mut self, node: &mut Vec<MediaQuery>) {}
+    #[doc = "Called when exiting a node of type `Vec < MediaQuery >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_querys(&mut self, node: &mut Vec<MediaQuery>) {}
+    #[doc = "Called when entering a node of type `MediaType` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_media_type(&mut self, node: &mut MediaType) {}
+    #[doc = "Called when exiting a node of type `MediaType` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_media_type(&mut self, node: &mut MediaType) {}
+    #[doc = "Called when entering a node of type `NamedNamespace` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_named_namespace(&mut self, node: &mut NamedNamespace) {}
+    #[doc = "Called when exiting a node of type `NamedNamespace` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_named_namespace(&mut self, node: &mut NamedNamespace) {}
+    #[doc = "Called when entering a node of type `Namespace` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_namespace(&mut self, node: &mut Namespace) {}
+    #[doc = "Called when exiting a node of type `Namespace` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_namespace(&mut self, node: &mut Namespace) {}
+    #[doc = "Called when entering a node of type `NamespacePrefix` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_namespace_prefix(&mut self, node: &mut NamespacePrefix) {}
+    #[doc = "Called when exiting a node of type `NamespacePrefix` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_namespace_prefix(&mut self, node: &mut NamespacePrefix) {}
+    #[doc = "Called when entering a node of type `NamespacePrelude` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_namespace_prelude(&mut self, node: &mut NamespacePrelude) {}
+    #[doc = "Called when exiting a node of type `NamespacePrelude` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_namespace_prelude(&mut self, node: &mut NamespacePrelude) {}
+    #[doc = "Called when entering a node of type `NamespacePreludeUri` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_namespace_prelude_uri(&mut self, node: &mut NamespacePreludeUri) {}
+    #[doc = "Called when exiting a node of type `NamespacePreludeUri` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_namespace_prelude_uri(&mut self, node: &mut NamespacePreludeUri) {}
+    #[doc = "Called when entering a node of type `NestingSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_nesting_selector(&mut self, node: &mut NestingSelector) {}
+    #[doc = "Called when exiting a node of type `NestingSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_nesting_selector(&mut self, node: &mut NestingSelector) {}
+    #[doc = "Called when entering a node of type `Number` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_number(&mut self, node: &mut Number) {}
+    #[doc = "Called when exiting a node of type `Number` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_number(&mut self, node: &mut Number) {}
+    #[doc = "Called when entering a node of type `NumberType` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_number_type(&mut self, node: &mut NumberType) {}
+    #[doc = "Called when exiting a node of type `NumberType` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_number_type(&mut self, node: &mut NumberType) {}
+    #[doc = "Called when entering a node of type `Option < Box < AtRulePrelude > >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_at_rule_prelude(&mut self, node: &mut Option<Box<AtRulePrelude>>) {}
+    #[doc = "Called when exiting a node of type `Option < Box < AtRulePrelude > >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_at_rule_prelude(&mut self, node: &mut Option<Box<AtRulePrelude>>) {}
+    #[doc = "Called when entering a node of type `Option < swc_atoms :: Atom >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {}
+    #[doc = "Called when exiting a node of type `Option < swc_atoms :: Atom >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {}
+    #[doc = "Called when entering a node of type `Option < AttributeSelectorMatcher >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_attribute_selector_matcher(
+        &mut self,
+        node: &mut Option<AttributeSelectorMatcher>,
+    ) {
+    }
+    #[doc = "Called when exiting a node of type `Option < AttributeSelectorMatcher >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_attribute_selector_matcher(&mut self, node: &mut Option<AttributeSelectorMatcher>) {
+    }
+    #[doc = "Called when entering a node of type `Option < AttributeSelectorModifier >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_attribute_selector_modifier(
+        &mut self,
+        node: &mut Option<AttributeSelectorModifier>,
+    ) {
+    }
+    #[doc = "Called when exiting a node of type `Option < AttributeSelectorModifier >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_attribute_selector_modifier(
+        &mut self,
+        node: &mut Option<AttributeSelectorModifier>,
+    ) {
+    }
+    #[doc = "Called when entering a node of type `Option < AttributeSelectorValue >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_attribute_selector_value(&mut self, node: &mut Option<AttributeSelectorValue>) {}
+    #[doc = "Called when exiting a node of type `Option < AttributeSelectorValue >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_attribute_selector_value(&mut self, node: &mut Option<AttributeSelectorValue>) {}
+    #[doc = "Called when entering a node of type `Option < Combinator >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_combinator(&mut self, node: &mut Option<Combinator>) {}
+    #[doc = "Called when exiting a node of type `Option < Combinator >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_combinator(&mut self, node: &mut Option<Combinator>) {}
+    #[doc = "Called when entering a node of type `Option < ContainerName >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_container_name(&mut self, node: &mut Option<ContainerName>) {}
+    #[doc = "Called when exiting a node of type `Option < ContainerName >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_container_name(&mut self, node: &mut Option<ContainerName>) {}
+    #[doc = "Called when entering a node of type `Option < ForgivingSelectorList >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_forgiving_selector_list(&mut self, node: &mut Option<ForgivingSelectorList>) {}
+    #[doc = "Called when exiting a node of type `Option < ForgivingSelectorList >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_forgiving_selector_list(&mut self, node: &mut Option<ForgivingSelectorList>) {}
+    #[doc = "Called when entering a node of type `Option < Box < Function > >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_function(&mut self, node: &mut Option<Box<Function>>) {}
+    #[doc = "Called when exiting a node of type `Option < Box < Function > >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_function(&mut self, node: &mut Option<Box<Function>>) {}
+    #[doc = "Called when entering a node of type `Option < Ident >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_ident(&mut self, node: &mut Option<Ident>) {}
+    #[doc = "Called when exiting a node of type `Option < Ident >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_ident(&mut self, node: &mut Option<Ident>) {}
+    #[doc = "Called when entering a node of type `Option < Box < ImportConditions > >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_import_conditions(&mut self, node: &mut Option<Box<ImportConditions>>) {}
+    #[doc = "Called when exiting a node of type `Option < Box < ImportConditions > >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_import_conditions(&mut self, node: &mut Option<Box<ImportConditions>>) {}
+    #[doc = "Called when entering a node of type `Option < Box < ImportLayerName > >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_import_layer_name(&mut self, node: &mut Option<Box<ImportLayerName>>) {}
+    #[doc = "Called when exiting a node of type `Option < Box < ImportLayerName > >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_import_layer_name(&mut self, node: &mut Option<Box<ImportLayerName>>) {}
+    #[doc = "Called when entering a node of type `Option < ImportantFlag >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_important_flag(&mut self, node: &mut Option<ImportantFlag>) {}
+    #[doc = "Called when exiting a node of type `Option < ImportantFlag >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_important_flag(&mut self, node: &mut Option<ImportantFlag>) {}
+    #[doc = "Called when entering a node of type `Option < Box < MediaConditionType > >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_media_condition_type(&mut self, node: &mut Option<Box<MediaConditionType>>) {}
+    #[doc = "Called when exiting a node of type `Option < Box < MediaConditionType > >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_media_condition_type(&mut self, node: &mut Option<Box<MediaConditionType>>) {}
+    #[doc = "Called when entering a node of type `Option < Box < MediaQueryList > >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_media_query_list(&mut self, node: &mut Option<Box<MediaQueryList>>) {}
+    #[doc = "Called when exiting a node of type `Option < Box < MediaQueryList > >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_media_query_list(&mut self, node: &mut Option<Box<MediaQueryList>>) {}
+    #[doc = "Called when entering a node of type `Option < MediaType >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_media_type(&mut self, node: &mut Option<MediaType>) {}
+    #[doc = "Called when exiting a node of type `Option < MediaType >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_media_type(&mut self, node: &mut Option<MediaType>) {}
+    #[doc = "Called when entering a node of type `Option < Namespace >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_namespace(&mut self, node: &mut Option<Namespace>) {}
+    #[doc = "Called when exiting a node of type `Option < Namespace >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_namespace(&mut self, node: &mut Option<Namespace>) {}
+    #[doc = "Called when entering a node of type `Option < NamespacePrefix >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_namespace_prefix(&mut self, node: &mut Option<NamespacePrefix>) {}
+    #[doc = "Called when exiting a node of type `Option < NamespacePrefix >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_namespace_prefix(&mut self, node: &mut Option<NamespacePrefix>) {}
+    #[doc = "Called when entering a node of type `Option < NestingSelector >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_nesting_selector(&mut self, node: &mut Option<NestingSelector>) {}
+    #[doc = "Called when exiting a node of type `Option < NestingSelector >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_nesting_selector(&mut self, node: &mut Option<NestingSelector>) {}
+    #[doc = "Called when entering a node of type `Option < Number >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_number(&mut self, node: &mut Option<Number>) {}
+    #[doc = "Called when exiting a node of type `Option < Number >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_number(&mut self, node: &mut Option<Number>) {}
+    #[doc = "Called when entering a node of type `Option < Vec < PageSelectorPseudo > >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_page_selector_pseudos(&mut self, node: &mut Option<Vec<PageSelectorPseudo>>) {}
+    #[doc = "Called when exiting a node of type `Option < Vec < PageSelectorPseudo > >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_page_selector_pseudos(&mut self, node: &mut Option<Vec<PageSelectorPseudo>>) {}
+    #[doc = "Called when entering a node of type `Option < PageSelectorType >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_page_selector_type(&mut self, node: &mut Option<PageSelectorType>) {}
+    #[doc = "Called when exiting a node of type `Option < PageSelectorType >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_page_selector_type(&mut self, node: &mut Option<PageSelectorType>) {}
+    #[doc = "Called when entering a node of type `Option < Vec < PseudoClassSelectorChildren > >` \
+             before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoClassSelectorChildren>>,
+    ) {
+    }
+    #[doc = "Called when exiting a node of type `Option < Vec < PseudoClassSelectorChildren > >` \
+             after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoClassSelectorChildren>>,
+    ) {
+    }
+    #[doc = "Called when entering a node of type `Option < Vec < PseudoElementSelectorChildren > \
+             >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoElementSelectorChildren>>,
+    ) {
+    }
+    #[doc = "Called when exiting a node of type `Option < Vec < PseudoElementSelectorChildren > >` \
+             after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoElementSelectorChildren>>,
+    ) {
+    }
+    #[doc = "Called when entering a node of type `Option < SimpleBlock >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_simple_block(&mut self, node: &mut Option<SimpleBlock>) {}
+    #[doc = "Called when exiting a node of type `Option < SimpleBlock >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_simple_block(&mut self, node: &mut Option<SimpleBlock>) {}
+    #[doc = "Called when entering a node of type `Option < Box < TypeSelector > >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_type_selector(&mut self, node: &mut Option<Box<TypeSelector>>) {}
+    #[doc = "Called when exiting a node of type `Option < Box < TypeSelector > >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_type_selector(&mut self, node: &mut Option<Box<TypeSelector>>) {}
+    #[doc = "Called when entering a node of type `Option < Vec < UrlModifier > >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_url_modifiers(&mut self, node: &mut Option<Vec<UrlModifier>>) {}
+    #[doc = "Called when exiting a node of type `Option < Vec < UrlModifier > >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_url_modifiers(&mut self, node: &mut Option<Vec<UrlModifier>>) {}
+    #[doc = "Called when entering a node of type `Option < Box < UrlValue > >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_url_value(&mut self, node: &mut Option<Box<UrlValue>>) {}
+    #[doc = "Called when exiting a node of type `Option < Box < UrlValue > >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_url_value(&mut self, node: &mut Option<Box<UrlValue>>) {}
+    #[doc = "Called when entering a node of type `PageSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_page_selector(&mut self, node: &mut PageSelector) {}
+    #[doc = "Called when exiting a node of type `PageSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_page_selector(&mut self, node: &mut PageSelector) {}
+    #[doc = "Called when entering a node of type `PageSelectorList` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_page_selector_list(&mut self, node: &mut PageSelectorList) {}
+    #[doc = "Called when exiting a node of type `PageSelectorList` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_page_selector_list(&mut self, node: &mut PageSelectorList) {}
+    #[doc = "Called when entering a node of type `PageSelectorPseudo` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_page_selector_pseudo(&mut self, node: &mut PageSelectorPseudo) {}
+    #[doc = "Called when exiting a node of type `PageSelectorPseudo` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_page_selector_pseudo(&mut self, node: &mut PageSelectorPseudo) {}
+    #[doc = "Called when entering a node of type `Vec < PageSelectorPseudo >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_page_selector_pseudos(&mut self, node: &mut Vec<PageSelectorPseudo>) {}
+    #[doc = "Called when exiting a node of type `Vec < PageSelectorPseudo >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_page_selector_pseudos(&mut self, node: &mut Vec<PageSelectorPseudo>) {}
+    #[doc = "Called when entering a node of type `PageSelectorType` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_page_selector_type(&mut self, node: &mut PageSelectorType) {}
+    #[doc = "Called when exiting a node of type `PageSelectorType` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_page_selector_type(&mut self, node: &mut PageSelectorType) {}
+    #[doc = "Called when entering a node of type `Vec < PageSelector >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_page_selectors(&mut self, node: &mut Vec<PageSelector>) {}
+    #[doc = "Called when exiting a node of type `Vec < PageSelector >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_page_selectors(&mut self, node: &mut Vec<PageSelector>) {}
+    #[doc = "Called when entering a node of type `Percentage` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_percentage(&mut self, node: &mut Percentage) {}
+    #[doc = "Called when exiting a node of type `Percentage` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_percentage(&mut self, node: &mut Percentage) {}
+    #[doc = "Called when entering a node of type `PseudoClassSelector` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_pseudo_class_selector(&mut self, node: &mut PseudoClassSelector) {}
+    #[doc = "Called when exiting a node of type `PseudoClassSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_pseudo_class_selector(&mut self, node: &mut PseudoClassSelector) {}
+    #[doc = "Called when entering a node of type `PseudoClassSelectorChildren` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_pseudo_class_selector_children(&mut self, node: &mut PseudoClassSelectorChildren) {}
+    #[doc = "Called when exiting a node of type `PseudoClassSelectorChildren` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_pseudo_class_selector_children(&mut self, node: &mut PseudoClassSelectorChildren) {}
+    #[doc = "Called when entering a node of type `Vec < PseudoClassSelectorChildren >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoClassSelectorChildren>,
+    ) {
+    }
+    #[doc = "Called when exiting a node of type `Vec < PseudoClassSelectorChildren >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoClassSelectorChildren>,
+    ) {
+    }
+    #[doc = "Called when entering a node of type `PseudoElementSelector` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_pseudo_element_selector(&mut self, node: &mut PseudoElementSelector) {}
+    #[doc = "Called when exiting a node of type `PseudoElementSelector` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_pseudo_element_selector(&mut self, node: &mut PseudoElementSelector) {}
+    #[doc = "Called when entering a node of type `PseudoElementSelectorChildren` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_pseudo_element_selector_children(&mut self, node: &mut PseudoElementSelectorChildren) {
+    }
+    #[doc = "Called when exiting a node of type `PseudoElementSelectorChildren` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_pseudo_element_selector_children(&mut self, node: &mut PseudoElementSelectorChildren) {}
+    #[doc = "Called when entering a node of type `Vec < PseudoElementSelectorChildren >` before \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoElementSelectorChildren>,
+    ) {
+    }
+    #[doc = "Called when exiting a node of type `Vec < PseudoElementSelectorChildren >` after \
+             visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoElementSelectorChildren>,
+    ) {
+    }
+    #[doc = "Called when entering a node of type `QualifiedRule` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_qualified_rule(&mut self, node: &mut QualifiedRule) {}
+    #[doc = "Called when exiting a node of type `QualifiedRule` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_qualified_rule(&mut self, node: &mut QualifiedRule) {}
+    #[doc = "Called when entering a node of type `QualifiedRulePrelude` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_qualified_rule_prelude(&mut self, node: &mut QualifiedRulePrelude) {}
+    #[doc = "Called when exiting a node of type `QualifiedRulePrelude` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_qualified_rule_prelude(&mut self, node: &mut QualifiedRulePrelude) {}
+    #[doc = "Called when entering a node of type `QueryInParens` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_query_in_parens(&mut self, node: &mut QueryInParens) {}
+    #[doc = "Called when exiting a node of type `QueryInParens` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_query_in_parens(&mut self, node: &mut QueryInParens) {}
+    #[doc = "Called when entering a node of type `Ratio` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ratio(&mut self, node: &mut Ratio) {}
+    #[doc = "Called when exiting a node of type `Ratio` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ratio(&mut self, node: &mut Ratio) {}
+    #[doc = "Called when entering a node of type `RelativeSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_relative_selector(&mut self, node: &mut RelativeSelector) {}
+    #[doc = "Called when exiting a node of type `RelativeSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_relative_selector(&mut self, node: &mut RelativeSelector) {}
+    #[doc = "Called when entering a node of type `RelativeSelectorList` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_relative_selector_list(&mut self, node: &mut RelativeSelectorList) {}
+    #[doc = "Called when exiting a node of type `RelativeSelectorList` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_relative_selector_list(&mut self, node: &mut RelativeSelectorList) {}
+    #[doc = "Called when entering a node of type `Vec < RelativeSelector >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_relative_selectors(&mut self, node: &mut Vec<RelativeSelector>) {}
+    #[doc = "Called when exiting a node of type `Vec < RelativeSelector >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_relative_selectors(&mut self, node: &mut Vec<RelativeSelector>) {}
+    #[doc = "Called when entering a node of type `Resolution` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_resolution(&mut self, node: &mut Resolution) {}
+    #[doc = "Called when exiting a node of type `Resolution` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_resolution(&mut self, node: &mut Resolution) {}
+    #[doc = "Called when entering a node of type `Rule` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_rule(&mut self, node: &mut Rule) {}
+    #[doc = "Called when exiting a node of type `Rule` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_rule(&mut self, node: &mut Rule) {}
+    #[doc = "Called when entering a node of type `Vec < Rule >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_rules(&mut self, node: &mut Vec<Rule>) {}
+    #[doc = "Called when exiting a node of type `Vec < Rule >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_rules(&mut self, node: &mut Vec<Rule>) {}
+    #[doc = "Called when entering a node of type `ScopeRange` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_scope_range(&mut self, node: &mut ScopeRange) {}
+    #[doc = "Called when exiting a node of type `ScopeRange` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_scope_range(&mut self, node: &mut ScopeRange) {}
+    #[doc = "Called when entering a node of type `SelectorList` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_selector_list(&mut self, node: &mut SelectorList) {}
+    #[doc = "Called when exiting a node of type `SelectorList` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_selector_list(&mut self, node: &mut SelectorList) {}
+    #[doc = "Called when entering a node of type `SequenceOfCustomIdents` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_sequence_of_custom_idents(&mut self, node: &mut SequenceOfCustomIdents) {}
+    #[doc = "Called when exiting a node of type `SequenceOfCustomIdents` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_sequence_of_custom_idents(&mut self, node: &mut SequenceOfCustomIdents) {}
+    #[doc = "Called when entering a node of type `SimpleBlock` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_simple_block(&mut self, node: &mut SimpleBlock) {}
+    #[doc = "Called when exiting a node of type `SimpleBlock` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_simple_block(&mut self, node: &mut SimpleBlock) {}
+    #[doc = "Called when entering a node of type `SizeFeature` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_size_feature(&mut self, node: &mut SizeFeature) {}
+    #[doc = "Called when exiting a node of type `SizeFeature` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_size_feature(&mut self, node: &mut SizeFeature) {}
+    #[doc = "Called when entering a node of type `SizeFeatureBoolean` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_size_feature_boolean(&mut self, node: &mut SizeFeatureBoolean) {}
+    #[doc = "Called when exiting a node of type `SizeFeatureBoolean` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_size_feature_boolean(&mut self, node: &mut SizeFeatureBoolean) {}
+    #[doc = "Called when entering a node of type `SizeFeatureName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_size_feature_name(&mut self, node: &mut SizeFeatureName) {}
+    #[doc = "Called when exiting a node of type `SizeFeatureName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_size_feature_name(&mut self, node: &mut SizeFeatureName) {}
+    #[doc = "Called when entering a node of type `SizeFeaturePlain` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_size_feature_plain(&mut self, node: &mut SizeFeaturePlain) {}
+    #[doc = "Called when exiting a node of type `SizeFeaturePlain` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_size_feature_plain(&mut self, node: &mut SizeFeaturePlain) {}
+    #[doc = "Called when entering a node of type `SizeFeatureRange` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_size_feature_range(&mut self, node: &mut SizeFeatureRange) {}
+    #[doc = "Called when exiting a node of type `SizeFeatureRange` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_size_feature_range(&mut self, node: &mut SizeFeatureRange) {}
+    #[doc = "Called when entering a node of type `SizeFeatureRangeComparison` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_size_feature_range_comparison(&mut self, node: &mut SizeFeatureRangeComparison) {}
+    #[doc = "Called when exiting a node of type `SizeFeatureRangeComparison` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_size_feature_range_comparison(&mut self, node: &mut SizeFeatureRangeComparison) {}
+    #[doc = "Called when entering a node of type `SizeFeatureRangeInterval` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_size_feature_range_interval(&mut self, node: &mut SizeFeatureRangeInterval) {}
+    #[doc = "Called when exiting a node of type `SizeFeatureRangeInterval` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_size_feature_range_interval(&mut self, node: &mut SizeFeatureRangeInterval) {}
+    #[doc = "Called when entering a node of type `SizeFeatureValue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_size_feature_value(&mut self, node: &mut SizeFeatureValue) {}
+    #[doc = "Called when exiting a node of type `SizeFeatureValue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_size_feature_value(&mut self, node: &mut SizeFeatureValue) {}
+    #[doc = "Called when entering a node of type `swc_common :: Span` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_span(&mut self, node: &mut swc_common::Span) {}
+    #[doc = "Called when exiting a node of type `swc_common :: Span` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_span(&mut self, node: &mut swc_common::Span) {}
+    #[doc = "Called when entering a node of type `Str` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_str(&mut self, node: &mut Str) {}
+    #[doc = "Called when exiting a node of type `Str` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_str(&mut self, node: &mut Str) {}
+    #[doc = "Called when entering a node of type `StyleBlock` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_style_block(&mut self, node: &mut StyleBlock) {}
+    #[doc = "Called when exiting a node of type `StyleBlock` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_style_block(&mut self, node: &mut StyleBlock) {}
+    #[doc = "Called when entering a node of type `Stylesheet` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_stylesheet(&mut self, node: &mut Stylesheet) {}
+    #[doc = "Called when exiting a node of type `Stylesheet` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_stylesheet(&mut self, node: &mut Stylesheet) {}
+    #[doc = "Called when entering a node of type `SubclassSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_subclass_selector(&mut self, node: &mut SubclassSelector) {}
+    #[doc = "Called when exiting a node of type `SubclassSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_subclass_selector(&mut self, node: &mut SubclassSelector) {}
+    #[doc = "Called when entering a node of type `Vec < SubclassSelector >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_subclass_selectors(&mut self, node: &mut Vec<SubclassSelector>) {}
+    #[doc = "Called when exiting a node of type `Vec < SubclassSelector >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_subclass_selectors(&mut self, node: &mut Vec<SubclassSelector>) {}
+    #[doc = "Called when entering a node of type `SupportsAnd` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_supports_and(&mut self, node: &mut SupportsAnd) {}
+    #[doc = "Called when exiting a node of type `SupportsAnd` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_supports_and(&mut self, node: &mut SupportsAnd) {}
+    #[doc = "Called when entering a node of type `SupportsCondition` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_supports_condition(&mut self, node: &mut SupportsCondition) {}
+    #[doc = "Called when exiting a node of type `SupportsCondition` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_supports_condition(&mut self, node: &mut SupportsCondition) {}
+    #[doc = "Called when entering a node of type `SupportsConditionType` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_supports_condition_type(&mut self, node: &mut SupportsConditionType) {}
+    #[doc = "Called when exiting a node of type `SupportsConditionType` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_supports_condition_type(&mut self, node: &mut SupportsConditionType) {}
+    #[doc = "Called when entering a node of type `Vec < SupportsConditionType >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_supports_condition_types(&mut self, node: &mut Vec<SupportsConditionType>) {}
+    #[doc = "Called when exiting a node of type `Vec < SupportsConditionType >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_supports_condition_types(&mut self, node: &mut Vec<SupportsConditionType>) {}
+    #[doc = "Called when entering a node of type `SupportsFeature` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_supports_feature(&mut self, node: &mut SupportsFeature) {}
+    #[doc = "Called when exiting a node of type `SupportsFeature` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_supports_feature(&mut self, node: &mut SupportsFeature) {}
+    #[doc = "Called when entering a node of type `SupportsInParens` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_supports_in_parens(&mut self, node: &mut SupportsInParens) {}
+    #[doc = "Called when exiting a node of type `SupportsInParens` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_supports_in_parens(&mut self, node: &mut SupportsInParens) {}
+    #[doc = "Called when entering a node of type `SupportsNot` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_supports_not(&mut self, node: &mut SupportsNot) {}
+    #[doc = "Called when exiting a node of type `SupportsNot` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_supports_not(&mut self, node: &mut SupportsNot) {}
+    #[doc = "Called when entering a node of type `SupportsOr` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_supports_or(&mut self, node: &mut SupportsOr) {}
+    #[doc = "Called when exiting a node of type `SupportsOr` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_supports_or(&mut self, node: &mut SupportsOr) {}
+    #[doc = "Called when entering a node of type `TagNameSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_tag_name_selector(&mut self, node: &mut TagNameSelector) {}
+    #[doc = "Called when exiting a node of type `TagNameSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_tag_name_selector(&mut self, node: &mut TagNameSelector) {}
+    #[doc = "Called when entering a node of type `Time` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_time(&mut self, node: &mut Time) {}
+    #[doc = "Called when exiting a node of type `Time` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_time(&mut self, node: &mut Time) {}
+    #[doc = "Called when entering a node of type `TimePercentage` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_time_percentage(&mut self, node: &mut TimePercentage) {}
+    #[doc = "Called when exiting a node of type `TimePercentage` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_time_percentage(&mut self, node: &mut TimePercentage) {}
+    #[doc = "Called when entering a node of type `Token` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_token(&mut self, node: &mut Token) {}
+    #[doc = "Called when exiting a node of type `Token` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_token(&mut self, node: &mut Token) {}
+    #[doc = "Called when entering a node of type `TokenAndSpan` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_token_and_span(&mut self, node: &mut TokenAndSpan) {}
+    #[doc = "Called when exiting a node of type `TokenAndSpan` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_token_and_span(&mut self, node: &mut TokenAndSpan) {}
+    #[doc = "Called when entering a node of type `TypeSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_type_selector(&mut self, node: &mut TypeSelector) {}
+    #[doc = "Called when exiting a node of type `TypeSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_type_selector(&mut self, node: &mut TypeSelector) {}
+    #[doc = "Called when entering a node of type `UnicodeRange` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_unicode_range(&mut self, node: &mut UnicodeRange) {}
+    #[doc = "Called when exiting a node of type `UnicodeRange` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_unicode_range(&mut self, node: &mut UnicodeRange) {}
+    #[doc = "Called when entering a node of type `UniversalSelector` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_universal_selector(&mut self, node: &mut UniversalSelector) {}
+    #[doc = "Called when exiting a node of type `UniversalSelector` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_universal_selector(&mut self, node: &mut UniversalSelector) {}
+    #[doc = "Called when entering a node of type `UnknownDimension` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_unknown_dimension(&mut self, node: &mut UnknownDimension) {}
+    #[doc = "Called when exiting a node of type `UnknownDimension` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_unknown_dimension(&mut self, node: &mut UnknownDimension) {}
+    #[doc = "Called when entering a node of type `Url` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_url(&mut self, node: &mut Url) {}
+    #[doc = "Called when exiting a node of type `Url` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_url(&mut self, node: &mut Url) {}
+    #[doc = "Called when entering a node of type `UrlKeyValue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_url_key_value(&mut self, node: &mut UrlKeyValue) {}
+    #[doc = "Called when exiting a node of type `UrlKeyValue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_url_key_value(&mut self, node: &mut UrlKeyValue) {}
+    #[doc = "Called when entering a node of type `UrlModifier` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_url_modifier(&mut self, node: &mut UrlModifier) {}
+    #[doc = "Called when exiting a node of type `UrlModifier` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_url_modifier(&mut self, node: &mut UrlModifier) {}
+    #[doc = "Called when entering a node of type `Vec < UrlModifier >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_url_modifiers(&mut self, node: &mut Vec<UrlModifier>) {}
+    #[doc = "Called when exiting a node of type `Vec < UrlModifier >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_url_modifiers(&mut self, node: &mut Vec<UrlModifier>) {}
+    #[doc = "Called when entering a node of type `UrlValue` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_url_value(&mut self, node: &mut UrlValue) {}
+    #[doc = "Called when exiting a node of type `UrlValue` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_url_value(&mut self, node: &mut UrlValue) {}
+    #[doc = "Called when entering a node of type `UrlValueRaw` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_url_value_raw(&mut self, node: &mut UrlValueRaw) {}
+    #[doc = "Called when exiting a node of type `UrlValueRaw` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_url_value_raw(&mut self, node: &mut UrlValueRaw) {}
+    #[doc = "Called when entering a node of type `WqName` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_wq_name(&mut self, node: &mut WqName) {}
+    #[doc = "Called when exiting a node of type `WqName` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_wq_name(&mut self, node: &mut WqName) {}
+}
+#[doc = r" A composable hook that combines two hooks."]
+#[doc = r""]
+#[doc = r" Executes hooks in nested order:"]
+#[doc = r" - Enter: first.enter -> second.enter"]
+#[doc = r" - Exit: second.exit -> first.exit"]
+pub struct CompositeHook<A, B> {
+    pub first: A,
+    pub second: B,
+}
+impl<A, B> VisitMutHook for CompositeHook<A, B>
+where
+    A: VisitMutHook,
+    B: VisitMutHook,
+{
+    #[inline]
+    fn enter_absolute_color_base(&mut self, node: &mut AbsoluteColorBase) {
+        self.first.enter_absolute_color_base(node);
+        self.second.enter_absolute_color_base(node);
+    }
+
+    #[inline]
+    fn exit_absolute_color_base(&mut self, node: &mut AbsoluteColorBase) {
+        self.second.exit_absolute_color_base(node);
+        self.first.exit_absolute_color_base(node);
+    }
+
+    #[inline]
+    fn enter_alpha_value(&mut self, node: &mut AlphaValue) {
+        self.first.enter_alpha_value(node);
+        self.second.enter_alpha_value(node);
+    }
+
+    #[inline]
+    fn exit_alpha_value(&mut self, node: &mut AlphaValue) {
+        self.second.exit_alpha_value(node);
+        self.first.exit_alpha_value(node);
+    }
+
+    #[inline]
+    fn enter_an_plus_b(&mut self, node: &mut AnPlusB) {
+        self.first.enter_an_plus_b(node);
+        self.second.enter_an_plus_b(node);
+    }
+
+    #[inline]
+    fn exit_an_plus_b(&mut self, node: &mut AnPlusB) {
+        self.second.exit_an_plus_b(node);
+        self.first.exit_an_plus_b(node);
+    }
+
+    #[inline]
+    fn enter_an_plus_b_notation(&mut self, node: &mut AnPlusBNotation) {
+        self.first.enter_an_plus_b_notation(node);
+        self.second.enter_an_plus_b_notation(node);
+    }
+
+    #[inline]
+    fn exit_an_plus_b_notation(&mut self, node: &mut AnPlusBNotation) {
+        self.second.exit_an_plus_b_notation(node);
+        self.first.exit_an_plus_b_notation(node);
+    }
+
+    #[inline]
+    fn enter_angle(&mut self, node: &mut Angle) {
+        self.first.enter_angle(node);
+        self.second.enter_angle(node);
+    }
+
+    #[inline]
+    fn exit_angle(&mut self, node: &mut Angle) {
+        self.second.exit_angle(node);
+        self.first.exit_angle(node);
+    }
+
+    #[inline]
+    fn enter_angle_percentage(&mut self, node: &mut AnglePercentage) {
+        self.first.enter_angle_percentage(node);
+        self.second.enter_angle_percentage(node);
+    }
+
+    #[inline]
+    fn exit_angle_percentage(&mut self, node: &mut AnglePercentage) {
+        self.second.exit_angle_percentage(node);
+        self.first.exit_angle_percentage(node);
+    }
+
+    #[inline]
+    fn enter_any_namespace(&mut self, node: &mut AnyNamespace) {
+        self.first.enter_any_namespace(node);
+        self.second.enter_any_namespace(node);
+    }
+
+    #[inline]
+    fn exit_any_namespace(&mut self, node: &mut AnyNamespace) {
+        self.second.exit_any_namespace(node);
+        self.first.exit_any_namespace(node);
+    }
+
+    #[inline]
+    fn enter_at_rule(&mut self, node: &mut AtRule) {
+        self.first.enter_at_rule(node);
+        self.second.enter_at_rule(node);
+    }
+
+    #[inline]
+    fn exit_at_rule(&mut self, node: &mut AtRule) {
+        self.second.exit_at_rule(node);
+        self.first.exit_at_rule(node);
+    }
+
+    #[inline]
+    fn enter_at_rule_name(&mut self, node: &mut AtRuleName) {
+        self.first.enter_at_rule_name(node);
+        self.second.enter_at_rule_name(node);
+    }
+
+    #[inline]
+    fn exit_at_rule_name(&mut self, node: &mut AtRuleName) {
+        self.second.exit_at_rule_name(node);
+        self.first.exit_at_rule_name(node);
+    }
+
+    #[inline]
+    fn enter_at_rule_prelude(&mut self, node: &mut AtRulePrelude) {
+        self.first.enter_at_rule_prelude(node);
+        self.second.enter_at_rule_prelude(node);
+    }
+
+    #[inline]
+    fn exit_at_rule_prelude(&mut self, node: &mut AtRulePrelude) {
+        self.second.exit_at_rule_prelude(node);
+        self.first.exit_at_rule_prelude(node);
+    }
+
+    #[inline]
+    fn enter_atom(&mut self, node: &mut swc_atoms::Atom) {
+        self.first.enter_atom(node);
+        self.second.enter_atom(node);
+    }
+
+    #[inline]
+    fn exit_atom(&mut self, node: &mut swc_atoms::Atom) {
+        self.second.exit_atom(node);
+        self.first.exit_atom(node);
+    }
+
+    #[inline]
+    fn enter_attribute_selector(&mut self, node: &mut AttributeSelector) {
+        self.first.enter_attribute_selector(node);
+        self.second.enter_attribute_selector(node);
+    }
+
+    #[inline]
+    fn exit_attribute_selector(&mut self, node: &mut AttributeSelector) {
+        self.second.exit_attribute_selector(node);
+        self.first.exit_attribute_selector(node);
+    }
+
+    #[inline]
+    fn enter_attribute_selector_matcher(&mut self, node: &mut AttributeSelectorMatcher) {
+        self.first.enter_attribute_selector_matcher(node);
+        self.second.enter_attribute_selector_matcher(node);
+    }
+
+    #[inline]
+    fn exit_attribute_selector_matcher(&mut self, node: &mut AttributeSelectorMatcher) {
+        self.second.exit_attribute_selector_matcher(node);
+        self.first.exit_attribute_selector_matcher(node);
+    }
+
+    #[inline]
+    fn enter_attribute_selector_matcher_value(&mut self, node: &mut AttributeSelectorMatcherValue) {
+        self.first.enter_attribute_selector_matcher_value(node);
+        self.second.enter_attribute_selector_matcher_value(node);
+    }
+
+    #[inline]
+    fn exit_attribute_selector_matcher_value(&mut self, node: &mut AttributeSelectorMatcherValue) {
+        self.second.exit_attribute_selector_matcher_value(node);
+        self.first.exit_attribute_selector_matcher_value(node);
+    }
+
+    #[inline]
+    fn enter_attribute_selector_modifier(&mut self, node: &mut AttributeSelectorModifier) {
+        self.first.enter_attribute_selector_modifier(node);
+        self.second.enter_attribute_selector_modifier(node);
+    }
+
+    #[inline]
+    fn exit_attribute_selector_modifier(&mut self, node: &mut AttributeSelectorModifier) {
+        self.second.exit_attribute_selector_modifier(node);
+        self.first.exit_attribute_selector_modifier(node);
+    }
+
+    #[inline]
+    fn enter_attribute_selector_value(&mut self, node: &mut AttributeSelectorValue) {
+        self.first.enter_attribute_selector_value(node);
+        self.second.enter_attribute_selector_value(node);
+    }
+
+    #[inline]
+    fn exit_attribute_selector_value(&mut self, node: &mut AttributeSelectorValue) {
+        self.second.exit_attribute_selector_value(node);
+        self.first.exit_attribute_selector_value(node);
+    }
+
+    #[inline]
+    fn enter_bin_op(&mut self, node: &mut BinOp) {
+        self.first.enter_bin_op(node);
+        self.second.enter_bin_op(node);
+    }
+
+    #[inline]
+    fn exit_bin_op(&mut self, node: &mut BinOp) {
+        self.second.exit_bin_op(node);
+        self.first.exit_bin_op(node);
+    }
+
+    #[inline]
+    fn enter_calc_operator(&mut self, node: &mut CalcOperator) {
+        self.first.enter_calc_operator(node);
+        self.second.enter_calc_operator(node);
+    }
+
+    #[inline]
+    fn exit_calc_operator(&mut self, node: &mut CalcOperator) {
+        self.second.exit_calc_operator(node);
+        self.first.exit_calc_operator(node);
+    }
+
+    #[inline]
+    fn enter_calc_operator_type(&mut self, node: &mut CalcOperatorType) {
+        self.first.enter_calc_operator_type(node);
+        self.second.enter_calc_operator_type(node);
+    }
+
+    #[inline]
+    fn exit_calc_operator_type(&mut self, node: &mut CalcOperatorType) {
+        self.second.exit_calc_operator_type(node);
+        self.first.exit_calc_operator_type(node);
+    }
+
+    #[inline]
+    fn enter_calc_product(&mut self, node: &mut CalcProduct) {
+        self.first.enter_calc_product(node);
+        self.second.enter_calc_product(node);
+    }
+
+    #[inline]
+    fn exit_calc_product(&mut self, node: &mut CalcProduct) {
+        self.second.exit_calc_product(node);
+        self.first.exit_calc_product(node);
+    }
+
+    #[inline]
+    fn enter_calc_product_or_operator(&mut self, node: &mut CalcProductOrOperator) {
+        self.first.enter_calc_product_or_operator(node);
+        self.second.enter_calc_product_or_operator(node);
+    }
+
+    #[inline]
+    fn exit_calc_product_or_operator(&mut self, node: &mut CalcProductOrOperator) {
+        self.second.exit_calc_product_or_operator(node);
+        self.first.exit_calc_product_or_operator(node);
+    }
+
+    #[inline]
+    fn enter_calc_product_or_operators(&mut self, node: &mut Vec<CalcProductOrOperator>) {
+        self.first.enter_calc_product_or_operators(node);
+        self.second.enter_calc_product_or_operators(node);
+    }
+
+    #[inline]
+    fn exit_calc_product_or_operators(&mut self, node: &mut Vec<CalcProductOrOperator>) {
+        self.second.exit_calc_product_or_operators(node);
+        self.first.exit_calc_product_or_operators(node);
+    }
+
+    #[inline]
+    fn enter_calc_sum(&mut self, node: &mut CalcSum) {
+        self.first.enter_calc_sum(node);
+        self.second.enter_calc_sum(node);
+    }
+
+    #[inline]
+    fn exit_calc_sum(&mut self, node: &mut CalcSum) {
+        self.second.exit_calc_sum(node);
+        self.first.exit_calc_sum(node);
+    }
+
+    #[inline]
+    fn enter_calc_value(&mut self, node: &mut CalcValue) {
+        self.first.enter_calc_value(node);
+        self.second.enter_calc_value(node);
+    }
+
+    #[inline]
+    fn exit_calc_value(&mut self, node: &mut CalcValue) {
+        self.second.exit_calc_value(node);
+        self.first.exit_calc_value(node);
+    }
+
+    #[inline]
+    fn enter_calc_value_or_operator(&mut self, node: &mut CalcValueOrOperator) {
+        self.first.enter_calc_value_or_operator(node);
+        self.second.enter_calc_value_or_operator(node);
+    }
+
+    #[inline]
+    fn exit_calc_value_or_operator(&mut self, node: &mut CalcValueOrOperator) {
+        self.second.exit_calc_value_or_operator(node);
+        self.first.exit_calc_value_or_operator(node);
+    }
+
+    #[inline]
+    fn enter_calc_value_or_operators(&mut self, node: &mut Vec<CalcValueOrOperator>) {
+        self.first.enter_calc_value_or_operators(node);
+        self.second.enter_calc_value_or_operators(node);
+    }
+
+    #[inline]
+    fn exit_calc_value_or_operators(&mut self, node: &mut Vec<CalcValueOrOperator>) {
+        self.second.exit_calc_value_or_operators(node);
+        self.first.exit_calc_value_or_operators(node);
+    }
+
+    #[inline]
+    fn enter_class_selector(&mut self, node: &mut ClassSelector) {
+        self.first.enter_class_selector(node);
+        self.second.enter_class_selector(node);
+    }
+
+    #[inline]
+    fn exit_class_selector(&mut self, node: &mut ClassSelector) {
+        self.second.exit_class_selector(node);
+        self.first.exit_class_selector(node);
+    }
+
+    #[inline]
+    fn enter_cmyk_component(&mut self, node: &mut CmykComponent) {
+        self.first.enter_cmyk_component(node);
+        self.second.enter_cmyk_component(node);
+    }
+
+    #[inline]
+    fn exit_cmyk_component(&mut self, node: &mut CmykComponent) {
+        self.second.exit_cmyk_component(node);
+        self.first.exit_cmyk_component(node);
+    }
+
+    #[inline]
+    fn enter_color(&mut self, node: &mut Color) {
+        self.first.enter_color(node);
+        self.second.enter_color(node);
+    }
+
+    #[inline]
+    fn exit_color(&mut self, node: &mut Color) {
+        self.second.exit_color(node);
+        self.first.exit_color(node);
+    }
+
+    #[inline]
+    fn enter_color_profile_name(&mut self, node: &mut ColorProfileName) {
+        self.first.enter_color_profile_name(node);
+        self.second.enter_color_profile_name(node);
+    }
+
+    #[inline]
+    fn exit_color_profile_name(&mut self, node: &mut ColorProfileName) {
+        self.second.exit_color_profile_name(node);
+        self.first.exit_color_profile_name(node);
+    }
+
+    #[inline]
+    fn enter_combinator(&mut self, node: &mut Combinator) {
+        self.first.enter_combinator(node);
+        self.second.enter_combinator(node);
+    }
+
+    #[inline]
+    fn exit_combinator(&mut self, node: &mut Combinator) {
+        self.second.exit_combinator(node);
+        self.first.exit_combinator(node);
+    }
+
+    #[inline]
+    fn enter_combinator_value(&mut self, node: &mut CombinatorValue) {
+        self.first.enter_combinator_value(node);
+        self.second.enter_combinator_value(node);
+    }
+
+    #[inline]
+    fn exit_combinator_value(&mut self, node: &mut CombinatorValue) {
+        self.second.exit_combinator_value(node);
+        self.first.exit_combinator_value(node);
+    }
+
+    #[inline]
+    fn enter_complex_selector(&mut self, node: &mut ComplexSelector) {
+        self.first.enter_complex_selector(node);
+        self.second.enter_complex_selector(node);
+    }
+
+    #[inline]
+    fn exit_complex_selector(&mut self, node: &mut ComplexSelector) {
+        self.second.exit_complex_selector(node);
+        self.first.exit_complex_selector(node);
+    }
+
+    #[inline]
+    fn enter_complex_selector_children(&mut self, node: &mut ComplexSelectorChildren) {
+        self.first.enter_complex_selector_children(node);
+        self.second.enter_complex_selector_children(node);
+    }
+
+    #[inline]
+    fn exit_complex_selector_children(&mut self, node: &mut ComplexSelectorChildren) {
+        self.second.exit_complex_selector_children(node);
+        self.first.exit_complex_selector_children(node);
+    }
+
+    #[inline]
+    fn enter_complex_selector_childrens(&mut self, node: &mut Vec<ComplexSelectorChildren>) {
+        self.first.enter_complex_selector_childrens(node);
+        self.second.enter_complex_selector_childrens(node);
+    }
+
+    #[inline]
+    fn exit_complex_selector_childrens(&mut self, node: &mut Vec<ComplexSelectorChildren>) {
+        self.second.exit_complex_selector_childrens(node);
+        self.first.exit_complex_selector_childrens(node);
+    }
+
+    #[inline]
+    fn enter_complex_selectors(&mut self, node: &mut Vec<ComplexSelector>) {
+        self.first.enter_complex_selectors(node);
+        self.second.enter_complex_selectors(node);
+    }
+
+    #[inline]
+    fn exit_complex_selectors(&mut self, node: &mut Vec<ComplexSelector>) {
+        self.second.exit_complex_selectors(node);
+        self.first.exit_complex_selectors(node);
+    }
+
+    #[inline]
+    fn enter_component_value(&mut self, node: &mut ComponentValue) {
+        self.first.enter_component_value(node);
+        self.second.enter_component_value(node);
+    }
+
+    #[inline]
+    fn exit_component_value(&mut self, node: &mut ComponentValue) {
+        self.second.exit_component_value(node);
+        self.first.exit_component_value(node);
+    }
+
+    #[inline]
+    fn enter_component_values(&mut self, node: &mut Vec<ComponentValue>) {
+        self.first.enter_component_values(node);
+        self.second.enter_component_values(node);
+    }
+
+    #[inline]
+    fn exit_component_values(&mut self, node: &mut Vec<ComponentValue>) {
+        self.second.exit_component_values(node);
+        self.first.exit_component_values(node);
+    }
+
+    #[inline]
+    fn enter_compound_selector(&mut self, node: &mut CompoundSelector) {
+        self.first.enter_compound_selector(node);
+        self.second.enter_compound_selector(node);
+    }
+
+    #[inline]
+    fn exit_compound_selector(&mut self, node: &mut CompoundSelector) {
+        self.second.exit_compound_selector(node);
+        self.first.exit_compound_selector(node);
+    }
+
+    #[inline]
+    fn enter_compound_selector_list(&mut self, node: &mut CompoundSelectorList) {
+        self.first.enter_compound_selector_list(node);
+        self.second.enter_compound_selector_list(node);
+    }
+
+    #[inline]
+    fn exit_compound_selector_list(&mut self, node: &mut CompoundSelectorList) {
+        self.second.exit_compound_selector_list(node);
+        self.first.exit_compound_selector_list(node);
+    }
+
+    #[inline]
+    fn enter_compound_selectors(&mut self, node: &mut Vec<CompoundSelector>) {
+        self.first.enter_compound_selectors(node);
+        self.second.enter_compound_selectors(node);
+    }
+
+    #[inline]
+    fn exit_compound_selectors(&mut self, node: &mut Vec<CompoundSelector>) {
+        self.second.exit_compound_selectors(node);
+        self.first.exit_compound_selectors(node);
+    }
+
+    #[inline]
+    fn enter_container_condition(&mut self, node: &mut ContainerCondition) {
+        self.first.enter_container_condition(node);
+        self.second.enter_container_condition(node);
+    }
+
+    #[inline]
+    fn exit_container_condition(&mut self, node: &mut ContainerCondition) {
+        self.second.exit_container_condition(node);
+        self.first.exit_container_condition(node);
+    }
+
+    #[inline]
+    fn enter_container_name(&mut self, node: &mut ContainerName) {
+        self.first.enter_container_name(node);
+        self.second.enter_container_name(node);
+    }
+
+    #[inline]
+    fn exit_container_name(&mut self, node: &mut ContainerName) {
+        self.second.exit_container_name(node);
+        self.first.exit_container_name(node);
+    }
+
+    #[inline]
+    fn enter_container_query(&mut self, node: &mut ContainerQuery) {
+        self.first.enter_container_query(node);
+        self.second.enter_container_query(node);
+    }
+
+    #[inline]
+    fn exit_container_query(&mut self, node: &mut ContainerQuery) {
+        self.second.exit_container_query(node);
+        self.first.exit_container_query(node);
+    }
+
+    #[inline]
+    fn enter_container_query_and(&mut self, node: &mut ContainerQueryAnd) {
+        self.first.enter_container_query_and(node);
+        self.second.enter_container_query_and(node);
+    }
+
+    #[inline]
+    fn exit_container_query_and(&mut self, node: &mut ContainerQueryAnd) {
+        self.second.exit_container_query_and(node);
+        self.first.exit_container_query_and(node);
+    }
+
+    #[inline]
+    fn enter_container_query_not(&mut self, node: &mut ContainerQueryNot) {
+        self.first.enter_container_query_not(node);
+        self.second.enter_container_query_not(node);
+    }
+
+    #[inline]
+    fn exit_container_query_not(&mut self, node: &mut ContainerQueryNot) {
+        self.second.exit_container_query_not(node);
+        self.first.exit_container_query_not(node);
+    }
+
+    #[inline]
+    fn enter_container_query_or(&mut self, node: &mut ContainerQueryOr) {
+        self.first.enter_container_query_or(node);
+        self.second.enter_container_query_or(node);
+    }
+
+    #[inline]
+    fn exit_container_query_or(&mut self, node: &mut ContainerQueryOr) {
+        self.second.exit_container_query_or(node);
+        self.first.exit_container_query_or(node);
+    }
+
+    #[inline]
+    fn enter_container_query_type(&mut self, node: &mut ContainerQueryType) {
+        self.first.enter_container_query_type(node);
+        self.second.enter_container_query_type(node);
+    }
+
+    #[inline]
+    fn exit_container_query_type(&mut self, node: &mut ContainerQueryType) {
+        self.second.exit_container_query_type(node);
+        self.first.exit_container_query_type(node);
+    }
+
+    #[inline]
+    fn enter_container_query_types(&mut self, node: &mut Vec<ContainerQueryType>) {
+        self.first.enter_container_query_types(node);
+        self.second.enter_container_query_types(node);
+    }
+
+    #[inline]
+    fn exit_container_query_types(&mut self, node: &mut Vec<ContainerQueryType>) {
+        self.second.exit_container_query_types(node);
+        self.first.exit_container_query_types(node);
+    }
+
+    #[inline]
+    fn enter_custom_highlight_name(&mut self, node: &mut CustomHighlightName) {
+        self.first.enter_custom_highlight_name(node);
+        self.second.enter_custom_highlight_name(node);
+    }
+
+    #[inline]
+    fn exit_custom_highlight_name(&mut self, node: &mut CustomHighlightName) {
+        self.second.exit_custom_highlight_name(node);
+        self.first.exit_custom_highlight_name(node);
+    }
+
+    #[inline]
+    fn enter_custom_ident(&mut self, node: &mut CustomIdent) {
+        self.first.enter_custom_ident(node);
+        self.second.enter_custom_ident(node);
+    }
+
+    #[inline]
+    fn exit_custom_ident(&mut self, node: &mut CustomIdent) {
+        self.second.exit_custom_ident(node);
+        self.first.exit_custom_ident(node);
+    }
+
+    #[inline]
+    fn enter_custom_idents(&mut self, node: &mut Vec<CustomIdent>) {
+        self.first.enter_custom_idents(node);
+        self.second.enter_custom_idents(node);
+    }
+
+    #[inline]
+    fn exit_custom_idents(&mut self, node: &mut Vec<CustomIdent>) {
+        self.second.exit_custom_idents(node);
+        self.first.exit_custom_idents(node);
+    }
+
+    #[inline]
+    fn enter_custom_media_query(&mut self, node: &mut CustomMediaQuery) {
+        self.first.enter_custom_media_query(node);
+        self.second.enter_custom_media_query(node);
+    }
+
+    #[inline]
+    fn exit_custom_media_query(&mut self, node: &mut CustomMediaQuery) {
+        self.second.exit_custom_media_query(node);
+        self.first.exit_custom_media_query(node);
+    }
+
+    #[inline]
+    fn enter_custom_media_query_media_type(&mut self, node: &mut CustomMediaQueryMediaType) {
+        self.first.enter_custom_media_query_media_type(node);
+        self.second.enter_custom_media_query_media_type(node);
+    }
+
+    #[inline]
+    fn exit_custom_media_query_media_type(&mut self, node: &mut CustomMediaQueryMediaType) {
+        self.second.exit_custom_media_query_media_type(node);
+        self.first.exit_custom_media_query_media_type(node);
+    }
+
+    #[inline]
+    fn enter_custom_property_name(&mut self, node: &mut CustomPropertyName) {
+        self.first.enter_custom_property_name(node);
+        self.second.enter_custom_property_name(node);
+    }
+
+    #[inline]
+    fn exit_custom_property_name(&mut self, node: &mut CustomPropertyName) {
+        self.second.exit_custom_property_name(node);
+        self.first.exit_custom_property_name(node);
+    }
+
+    #[inline]
+    fn enter_dashed_ident(&mut self, node: &mut DashedIdent) {
+        self.first.enter_dashed_ident(node);
+        self.second.enter_dashed_ident(node);
+    }
+
+    #[inline]
+    fn exit_dashed_ident(&mut self, node: &mut DashedIdent) {
+        self.second.exit_dashed_ident(node);
+        self.first.exit_dashed_ident(node);
+    }
+
+    #[inline]
+    fn enter_declaration(&mut self, node: &mut Declaration) {
+        self.first.enter_declaration(node);
+        self.second.enter_declaration(node);
+    }
+
+    #[inline]
+    fn exit_declaration(&mut self, node: &mut Declaration) {
+        self.second.exit_declaration(node);
+        self.first.exit_declaration(node);
+    }
+
+    #[inline]
+    fn enter_declaration_name(&mut self, node: &mut DeclarationName) {
+        self.first.enter_declaration_name(node);
+        self.second.enter_declaration_name(node);
+    }
+
+    #[inline]
+    fn exit_declaration_name(&mut self, node: &mut DeclarationName) {
+        self.second.exit_declaration_name(node);
+        self.first.exit_declaration_name(node);
+    }
+
+    #[inline]
+    fn enter_declaration_or_at_rule(&mut self, node: &mut DeclarationOrAtRule) {
+        self.first.enter_declaration_or_at_rule(node);
+        self.second.enter_declaration_or_at_rule(node);
+    }
+
+    #[inline]
+    fn exit_declaration_or_at_rule(&mut self, node: &mut DeclarationOrAtRule) {
+        self.second.exit_declaration_or_at_rule(node);
+        self.first.exit_declaration_or_at_rule(node);
+    }
+
+    #[inline]
+    fn enter_delimiter(&mut self, node: &mut Delimiter) {
+        self.first.enter_delimiter(node);
+        self.second.enter_delimiter(node);
+    }
+
+    #[inline]
+    fn exit_delimiter(&mut self, node: &mut Delimiter) {
+        self.second.exit_delimiter(node);
+        self.first.exit_delimiter(node);
+    }
+
+    #[inline]
+    fn enter_delimiter_value(&mut self, node: &mut DelimiterValue) {
+        self.first.enter_delimiter_value(node);
+        self.second.enter_delimiter_value(node);
+    }
+
+    #[inline]
+    fn exit_delimiter_value(&mut self, node: &mut DelimiterValue) {
+        self.second.exit_delimiter_value(node);
+        self.first.exit_delimiter_value(node);
+    }
+
+    #[inline]
+    fn enter_dimension(&mut self, node: &mut Dimension) {
+        self.first.enter_dimension(node);
+        self.second.enter_dimension(node);
+    }
+
+    #[inline]
+    fn exit_dimension(&mut self, node: &mut Dimension) {
+        self.second.exit_dimension(node);
+        self.first.exit_dimension(node);
+    }
+
+    #[inline]
+    fn enter_dimension_token(&mut self, node: &mut DimensionToken) {
+        self.first.enter_dimension_token(node);
+        self.second.enter_dimension_token(node);
+    }
+
+    #[inline]
+    fn exit_dimension_token(&mut self, node: &mut DimensionToken) {
+        self.second.exit_dimension_token(node);
+        self.first.exit_dimension_token(node);
+    }
+
+    #[inline]
+    fn enter_document_prelude(&mut self, node: &mut DocumentPrelude) {
+        self.first.enter_document_prelude(node);
+        self.second.enter_document_prelude(node);
+    }
+
+    #[inline]
+    fn exit_document_prelude(&mut self, node: &mut DocumentPrelude) {
+        self.second.exit_document_prelude(node);
+        self.first.exit_document_prelude(node);
+    }
+
+    #[inline]
+    fn enter_document_prelude_matching_function(
+        &mut self,
+        node: &mut DocumentPreludeMatchingFunction,
+    ) {
+        self.first.enter_document_prelude_matching_function(node);
+        self.second.enter_document_prelude_matching_function(node);
+    }
+
+    #[inline]
+    fn exit_document_prelude_matching_function(
+        &mut self,
+        node: &mut DocumentPreludeMatchingFunction,
+    ) {
+        self.second.exit_document_prelude_matching_function(node);
+        self.first.exit_document_prelude_matching_function(node);
+    }
+
+    #[inline]
+    fn enter_document_prelude_matching_functions(
+        &mut self,
+        node: &mut Vec<DocumentPreludeMatchingFunction>,
+    ) {
+        self.first.enter_document_prelude_matching_functions(node);
+        self.second.enter_document_prelude_matching_functions(node);
+    }
+
+    #[inline]
+    fn exit_document_prelude_matching_functions(
+        &mut self,
+        node: &mut Vec<DocumentPreludeMatchingFunction>,
+    ) {
+        self.second.exit_document_prelude_matching_functions(node);
+        self.first.exit_document_prelude_matching_functions(node);
+    }
+
+    #[inline]
+    fn enter_extension_name(&mut self, node: &mut ExtensionName) {
+        self.first.enter_extension_name(node);
+        self.second.enter_extension_name(node);
+    }
+
+    #[inline]
+    fn exit_extension_name(&mut self, node: &mut ExtensionName) {
+        self.second.exit_extension_name(node);
+        self.first.exit_extension_name(node);
+    }
+
+    #[inline]
+    fn enter_family_name(&mut self, node: &mut FamilyName) {
+        self.first.enter_family_name(node);
+        self.second.enter_family_name(node);
+    }
+
+    #[inline]
+    fn exit_family_name(&mut self, node: &mut FamilyName) {
+        self.second.exit_family_name(node);
+        self.first.exit_family_name(node);
+    }
+
+    #[inline]
+    fn enter_family_names(&mut self, node: &mut Vec<FamilyName>) {
+        self.first.enter_family_names(node);
+        self.second.enter_family_names(node);
+    }
+
+    #[inline]
+    fn exit_family_names(&mut self, node: &mut Vec<FamilyName>) {
+        self.second.exit_family_names(node);
+        self.first.exit_family_names(node);
+    }
+
+    #[inline]
+    fn enter_flex(&mut self, node: &mut Flex) {
+        self.first.enter_flex(node);
+        self.second.enter_flex(node);
+    }
+
+    #[inline]
+    fn exit_flex(&mut self, node: &mut Flex) {
+        self.second.exit_flex(node);
+        self.first.exit_flex(node);
+    }
+
+    #[inline]
+    fn enter_font_feature_values_prelude(&mut self, node: &mut FontFeatureValuesPrelude) {
+        self.first.enter_font_feature_values_prelude(node);
+        self.second.enter_font_feature_values_prelude(node);
+    }
+
+    #[inline]
+    fn exit_font_feature_values_prelude(&mut self, node: &mut FontFeatureValuesPrelude) {
+        self.second.exit_font_feature_values_prelude(node);
+        self.first.exit_font_feature_values_prelude(node);
+    }
+
+    #[inline]
+    fn enter_forgiving_complex_selector(&mut self, node: &mut ForgivingComplexSelector) {
+        self.first.enter_forgiving_complex_selector(node);
+        self.second.enter_forgiving_complex_selector(node);
+    }
+
+    #[inline]
+    fn exit_forgiving_complex_selector(&mut self, node: &mut ForgivingComplexSelector) {
+        self.second.exit_forgiving_complex_selector(node);
+        self.first.exit_forgiving_complex_selector(node);
+    }
+
+    #[inline]
+    fn enter_forgiving_complex_selectors(&mut self, node: &mut Vec<ForgivingComplexSelector>) {
+        self.first.enter_forgiving_complex_selectors(node);
+        self.second.enter_forgiving_complex_selectors(node);
+    }
+
+    #[inline]
+    fn exit_forgiving_complex_selectors(&mut self, node: &mut Vec<ForgivingComplexSelector>) {
+        self.second.exit_forgiving_complex_selectors(node);
+        self.first.exit_forgiving_complex_selectors(node);
+    }
+
+    #[inline]
+    fn enter_forgiving_relative_selector(&mut self, node: &mut ForgivingRelativeSelector) {
+        self.first.enter_forgiving_relative_selector(node);
+        self.second.enter_forgiving_relative_selector(node);
+    }
+
+    #[inline]
+    fn exit_forgiving_relative_selector(&mut self, node: &mut ForgivingRelativeSelector) {
+        self.second.exit_forgiving_relative_selector(node);
+        self.first.exit_forgiving_relative_selector(node);
+    }
+
+    #[inline]
+    fn enter_forgiving_relative_selector_list(&mut self, node: &mut ForgivingRelativeSelectorList) {
+        self.first.enter_forgiving_relative_selector_list(node);
+        self.second.enter_forgiving_relative_selector_list(node);
+    }
+
+    #[inline]
+    fn exit_forgiving_relative_selector_list(&mut self, node: &mut ForgivingRelativeSelectorList) {
+        self.second.exit_forgiving_relative_selector_list(node);
+        self.first.exit_forgiving_relative_selector_list(node);
+    }
+
+    #[inline]
+    fn enter_forgiving_relative_selectors(&mut self, node: &mut Vec<ForgivingRelativeSelector>) {
+        self.first.enter_forgiving_relative_selectors(node);
+        self.second.enter_forgiving_relative_selectors(node);
+    }
+
+    #[inline]
+    fn exit_forgiving_relative_selectors(&mut self, node: &mut Vec<ForgivingRelativeSelector>) {
+        self.second.exit_forgiving_relative_selectors(node);
+        self.first.exit_forgiving_relative_selectors(node);
+    }
+
+    #[inline]
+    fn enter_forgiving_selector_list(&mut self, node: &mut ForgivingSelectorList) {
+        self.first.enter_forgiving_selector_list(node);
+        self.second.enter_forgiving_selector_list(node);
+    }
+
+    #[inline]
+    fn exit_forgiving_selector_list(&mut self, node: &mut ForgivingSelectorList) {
+        self.second.exit_forgiving_selector_list(node);
+        self.first.exit_forgiving_selector_list(node);
+    }
+
+    #[inline]
+    fn enter_frequency(&mut self, node: &mut Frequency) {
+        self.first.enter_frequency(node);
+        self.second.enter_frequency(node);
+    }
+
+    #[inline]
+    fn exit_frequency(&mut self, node: &mut Frequency) {
+        self.second.exit_frequency(node);
+        self.first.exit_frequency(node);
+    }
+
+    #[inline]
+    fn enter_frequency_percentage(&mut self, node: &mut FrequencyPercentage) {
+        self.first.enter_frequency_percentage(node);
+        self.second.enter_frequency_percentage(node);
+    }
+
+    #[inline]
+    fn exit_frequency_percentage(&mut self, node: &mut FrequencyPercentage) {
+        self.second.exit_frequency_percentage(node);
+        self.first.exit_frequency_percentage(node);
+    }
+
+    #[inline]
+    fn enter_function(&mut self, node: &mut Function) {
+        self.first.enter_function(node);
+        self.second.enter_function(node);
+    }
+
+    #[inline]
+    fn exit_function(&mut self, node: &mut Function) {
+        self.second.exit_function(node);
+        self.first.exit_function(node);
+    }
+
+    #[inline]
+    fn enter_function_name(&mut self, node: &mut FunctionName) {
+        self.first.enter_function_name(node);
+        self.second.enter_function_name(node);
+    }
+
+    #[inline]
+    fn exit_function_name(&mut self, node: &mut FunctionName) {
+        self.second.exit_function_name(node);
+        self.first.exit_function_name(node);
+    }
+
+    #[inline]
+    fn enter_general_enclosed(&mut self, node: &mut GeneralEnclosed) {
+        self.first.enter_general_enclosed(node);
+        self.second.enter_general_enclosed(node);
+    }
+
+    #[inline]
+    fn exit_general_enclosed(&mut self, node: &mut GeneralEnclosed) {
+        self.second.exit_general_enclosed(node);
+        self.first.exit_general_enclosed(node);
+    }
+
+    #[inline]
+    fn enter_hex_color(&mut self, node: &mut HexColor) {
+        self.first.enter_hex_color(node);
+        self.second.enter_hex_color(node);
+    }
+
+    #[inline]
+    fn exit_hex_color(&mut self, node: &mut HexColor) {
+        self.second.exit_hex_color(node);
+        self.first.exit_hex_color(node);
+    }
+
+    #[inline]
+    fn enter_hue(&mut self, node: &mut Hue) {
+        self.first.enter_hue(node);
+        self.second.enter_hue(node);
+    }
+
+    #[inline]
+    fn exit_hue(&mut self, node: &mut Hue) {
+        self.second.exit_hue(node);
+        self.first.exit_hue(node);
+    }
+
+    #[inline]
+    fn enter_id_selector(&mut self, node: &mut IdSelector) {
+        self.first.enter_id_selector(node);
+        self.second.enter_id_selector(node);
+    }
+
+    #[inline]
+    fn exit_id_selector(&mut self, node: &mut IdSelector) {
+        self.second.exit_id_selector(node);
+        self.first.exit_id_selector(node);
+    }
+
+    #[inline]
+    fn enter_ident(&mut self, node: &mut Ident) {
+        self.first.enter_ident(node);
+        self.second.enter_ident(node);
+    }
+
+    #[inline]
+    fn exit_ident(&mut self, node: &mut Ident) {
+        self.second.exit_ident(node);
+        self.first.exit_ident(node);
+    }
+
+    #[inline]
+    fn enter_idents(&mut self, node: &mut Vec<Ident>) {
+        self.first.enter_idents(node);
+        self.second.enter_idents(node);
+    }
+
+    #[inline]
+    fn exit_idents(&mut self, node: &mut Vec<Ident>) {
+        self.second.exit_idents(node);
+        self.first.exit_idents(node);
+    }
+
+    #[inline]
+    fn enter_import_conditions(&mut self, node: &mut ImportConditions) {
+        self.first.enter_import_conditions(node);
+        self.second.enter_import_conditions(node);
+    }
+
+    #[inline]
+    fn exit_import_conditions(&mut self, node: &mut ImportConditions) {
+        self.second.exit_import_conditions(node);
+        self.first.exit_import_conditions(node);
+    }
+
+    #[inline]
+    fn enter_import_href(&mut self, node: &mut ImportHref) {
+        self.first.enter_import_href(node);
+        self.second.enter_import_href(node);
+    }
+
+    #[inline]
+    fn exit_import_href(&mut self, node: &mut ImportHref) {
+        self.second.exit_import_href(node);
+        self.first.exit_import_href(node);
+    }
+
+    #[inline]
+    fn enter_import_layer_name(&mut self, node: &mut ImportLayerName) {
+        self.first.enter_import_layer_name(node);
+        self.second.enter_import_layer_name(node);
+    }
+
+    #[inline]
+    fn exit_import_layer_name(&mut self, node: &mut ImportLayerName) {
+        self.second.exit_import_layer_name(node);
+        self.first.exit_import_layer_name(node);
+    }
+
+    #[inline]
+    fn enter_import_prelude(&mut self, node: &mut ImportPrelude) {
+        self.first.enter_import_prelude(node);
+        self.second.enter_import_prelude(node);
+    }
+
+    #[inline]
+    fn exit_import_prelude(&mut self, node: &mut ImportPrelude) {
+        self.second.exit_import_prelude(node);
+        self.first.exit_import_prelude(node);
+    }
+
+    #[inline]
+    fn enter_important_flag(&mut self, node: &mut ImportantFlag) {
+        self.first.enter_important_flag(node);
+        self.second.enter_important_flag(node);
+    }
+
+    #[inline]
+    fn exit_important_flag(&mut self, node: &mut ImportantFlag) {
+        self.second.exit_important_flag(node);
+        self.first.exit_important_flag(node);
+    }
+
+    #[inline]
+    fn enter_integer(&mut self, node: &mut Integer) {
+        self.first.enter_integer(node);
+        self.second.enter_integer(node);
+    }
+
+    #[inline]
+    fn exit_integer(&mut self, node: &mut Integer) {
+        self.second.exit_integer(node);
+        self.first.exit_integer(node);
+    }
+
+    #[inline]
+    fn enter_keyframe_block(&mut self, node: &mut KeyframeBlock) {
+        self.first.enter_keyframe_block(node);
+        self.second.enter_keyframe_block(node);
+    }
+
+    #[inline]
+    fn exit_keyframe_block(&mut self, node: &mut KeyframeBlock) {
+        self.second.exit_keyframe_block(node);
+        self.first.exit_keyframe_block(node);
+    }
+
+    #[inline]
+    fn enter_keyframe_selector(&mut self, node: &mut KeyframeSelector) {
+        self.first.enter_keyframe_selector(node);
+        self.second.enter_keyframe_selector(node);
+    }
+
+    #[inline]
+    fn exit_keyframe_selector(&mut self, node: &mut KeyframeSelector) {
+        self.second.exit_keyframe_selector(node);
+        self.first.exit_keyframe_selector(node);
+    }
+
+    #[inline]
+    fn enter_keyframe_selectors(&mut self, node: &mut Vec<KeyframeSelector>) {
+        self.first.enter_keyframe_selectors(node);
+        self.second.enter_keyframe_selectors(node);
+    }
+
+    #[inline]
+    fn exit_keyframe_selectors(&mut self, node: &mut Vec<KeyframeSelector>) {
+        self.second.exit_keyframe_selectors(node);
+        self.first.exit_keyframe_selectors(node);
+    }
+
+    #[inline]
+    fn enter_keyframes_name(&mut self, node: &mut KeyframesName) {
+        self.first.enter_keyframes_name(node);
+        self.second.enter_keyframes_name(node);
+    }
+
+    #[inline]
+    fn exit_keyframes_name(&mut self, node: &mut KeyframesName) {
+        self.second.exit_keyframes_name(node);
+        self.first.exit_keyframes_name(node);
+    }
+
+    #[inline]
+    fn enter_keyframes_pseudo_function(&mut self, node: &mut KeyframesPseudoFunction) {
+        self.first.enter_keyframes_pseudo_function(node);
+        self.second.enter_keyframes_pseudo_function(node);
+    }
+
+    #[inline]
+    fn exit_keyframes_pseudo_function(&mut self, node: &mut KeyframesPseudoFunction) {
+        self.second.exit_keyframes_pseudo_function(node);
+        self.first.exit_keyframes_pseudo_function(node);
+    }
+
+    #[inline]
+    fn enter_keyframes_pseudo_prefix(&mut self, node: &mut KeyframesPseudoPrefix) {
+        self.first.enter_keyframes_pseudo_prefix(node);
+        self.second.enter_keyframes_pseudo_prefix(node);
+    }
+
+    #[inline]
+    fn exit_keyframes_pseudo_prefix(&mut self, node: &mut KeyframesPseudoPrefix) {
+        self.second.exit_keyframes_pseudo_prefix(node);
+        self.first.exit_keyframes_pseudo_prefix(node);
+    }
+
+    #[inline]
+    fn enter_layer_name(&mut self, node: &mut LayerName) {
+        self.first.enter_layer_name(node);
+        self.second.enter_layer_name(node);
+    }
+
+    #[inline]
+    fn exit_layer_name(&mut self, node: &mut LayerName) {
+        self.second.exit_layer_name(node);
+        self.first.exit_layer_name(node);
+    }
+
+    #[inline]
+    fn enter_layer_name_list(&mut self, node: &mut LayerNameList) {
+        self.first.enter_layer_name_list(node);
+        self.second.enter_layer_name_list(node);
+    }
+
+    #[inline]
+    fn exit_layer_name_list(&mut self, node: &mut LayerNameList) {
+        self.second.exit_layer_name_list(node);
+        self.first.exit_layer_name_list(node);
+    }
+
+    #[inline]
+    fn enter_layer_names(&mut self, node: &mut Vec<LayerName>) {
+        self.first.enter_layer_names(node);
+        self.second.enter_layer_names(node);
+    }
+
+    #[inline]
+    fn exit_layer_names(&mut self, node: &mut Vec<LayerName>) {
+        self.second.exit_layer_names(node);
+        self.first.exit_layer_names(node);
+    }
+
+    #[inline]
+    fn enter_layer_prelude(&mut self, node: &mut LayerPrelude) {
+        self.first.enter_layer_prelude(node);
+        self.second.enter_layer_prelude(node);
+    }
+
+    #[inline]
+    fn exit_layer_prelude(&mut self, node: &mut LayerPrelude) {
+        self.second.exit_layer_prelude(node);
+        self.first.exit_layer_prelude(node);
+    }
+
+    #[inline]
+    fn enter_length(&mut self, node: &mut Length) {
+        self.first.enter_length(node);
+        self.second.enter_length(node);
+    }
+
+    #[inline]
+    fn exit_length(&mut self, node: &mut Length) {
+        self.second.exit_length(node);
+        self.first.exit_length(node);
+    }
+
+    #[inline]
+    fn enter_length_percentage(&mut self, node: &mut LengthPercentage) {
+        self.first.enter_length_percentage(node);
+        self.second.enter_length_percentage(node);
+    }
+
+    #[inline]
+    fn exit_length_percentage(&mut self, node: &mut LengthPercentage) {
+        self.second.exit_length_percentage(node);
+        self.first.exit_length_percentage(node);
+    }
+
+    #[inline]
+    fn enter_list_of_component_values(&mut self, node: &mut ListOfComponentValues) {
+        self.first.enter_list_of_component_values(node);
+        self.second.enter_list_of_component_values(node);
+    }
+
+    #[inline]
+    fn exit_list_of_component_values(&mut self, node: &mut ListOfComponentValues) {
+        self.second.exit_list_of_component_values(node);
+        self.first.exit_list_of_component_values(node);
+    }
+
+    #[inline]
+    fn enter_media_and(&mut self, node: &mut MediaAnd) {
+        self.first.enter_media_and(node);
+        self.second.enter_media_and(node);
+    }
+
+    #[inline]
+    fn exit_media_and(&mut self, node: &mut MediaAnd) {
+        self.second.exit_media_and(node);
+        self.first.exit_media_and(node);
+    }
+
+    #[inline]
+    fn enter_media_condition(&mut self, node: &mut MediaCondition) {
+        self.first.enter_media_condition(node);
+        self.second.enter_media_condition(node);
+    }
+
+    #[inline]
+    fn exit_media_condition(&mut self, node: &mut MediaCondition) {
+        self.second.exit_media_condition(node);
+        self.first.exit_media_condition(node);
+    }
+
+    #[inline]
+    fn enter_media_condition_all_type(&mut self, node: &mut MediaConditionAllType) {
+        self.first.enter_media_condition_all_type(node);
+        self.second.enter_media_condition_all_type(node);
+    }
+
+    #[inline]
+    fn exit_media_condition_all_type(&mut self, node: &mut MediaConditionAllType) {
+        self.second.exit_media_condition_all_type(node);
+        self.first.exit_media_condition_all_type(node);
+    }
+
+    #[inline]
+    fn enter_media_condition_all_types(&mut self, node: &mut Vec<MediaConditionAllType>) {
+        self.first.enter_media_condition_all_types(node);
+        self.second.enter_media_condition_all_types(node);
+    }
+
+    #[inline]
+    fn exit_media_condition_all_types(&mut self, node: &mut Vec<MediaConditionAllType>) {
+        self.second.exit_media_condition_all_types(node);
+        self.first.exit_media_condition_all_types(node);
+    }
+
+    #[inline]
+    fn enter_media_condition_type(&mut self, node: &mut MediaConditionType) {
+        self.first.enter_media_condition_type(node);
+        self.second.enter_media_condition_type(node);
+    }
+
+    #[inline]
+    fn exit_media_condition_type(&mut self, node: &mut MediaConditionType) {
+        self.second.exit_media_condition_type(node);
+        self.first.exit_media_condition_type(node);
+    }
+
+    #[inline]
+    fn enter_media_condition_without_or(&mut self, node: &mut MediaConditionWithoutOr) {
+        self.first.enter_media_condition_without_or(node);
+        self.second.enter_media_condition_without_or(node);
+    }
+
+    #[inline]
+    fn exit_media_condition_without_or(&mut self, node: &mut MediaConditionWithoutOr) {
+        self.second.exit_media_condition_without_or(node);
+        self.first.exit_media_condition_without_or(node);
+    }
+
+    #[inline]
+    fn enter_media_condition_without_or_type(&mut self, node: &mut MediaConditionWithoutOrType) {
+        self.first.enter_media_condition_without_or_type(node);
+        self.second.enter_media_condition_without_or_type(node);
+    }
+
+    #[inline]
+    fn exit_media_condition_without_or_type(&mut self, node: &mut MediaConditionWithoutOrType) {
+        self.second.exit_media_condition_without_or_type(node);
+        self.first.exit_media_condition_without_or_type(node);
+    }
+
+    #[inline]
+    fn enter_media_condition_without_or_types(
+        &mut self,
+        node: &mut Vec<MediaConditionWithoutOrType>,
+    ) {
+        self.first.enter_media_condition_without_or_types(node);
+        self.second.enter_media_condition_without_or_types(node);
+    }
+
+    #[inline]
+    fn exit_media_condition_without_or_types(
+        &mut self,
+        node: &mut Vec<MediaConditionWithoutOrType>,
+    ) {
+        self.second.exit_media_condition_without_or_types(node);
+        self.first.exit_media_condition_without_or_types(node);
+    }
+
+    #[inline]
+    fn enter_media_feature(&mut self, node: &mut MediaFeature) {
+        self.first.enter_media_feature(node);
+        self.second.enter_media_feature(node);
+    }
+
+    #[inline]
+    fn exit_media_feature(&mut self, node: &mut MediaFeature) {
+        self.second.exit_media_feature(node);
+        self.first.exit_media_feature(node);
+    }
+
+    #[inline]
+    fn enter_media_feature_boolean(&mut self, node: &mut MediaFeatureBoolean) {
+        self.first.enter_media_feature_boolean(node);
+        self.second.enter_media_feature_boolean(node);
+    }
+
+    #[inline]
+    fn exit_media_feature_boolean(&mut self, node: &mut MediaFeatureBoolean) {
+        self.second.exit_media_feature_boolean(node);
+        self.first.exit_media_feature_boolean(node);
+    }
+
+    #[inline]
+    fn enter_media_feature_name(&mut self, node: &mut MediaFeatureName) {
+        self.first.enter_media_feature_name(node);
+        self.second.enter_media_feature_name(node);
+    }
+
+    #[inline]
+    fn exit_media_feature_name(&mut self, node: &mut MediaFeatureName) {
+        self.second.exit_media_feature_name(node);
+        self.first.exit_media_feature_name(node);
+    }
+
+    #[inline]
+    fn enter_media_feature_plain(&mut self, node: &mut MediaFeaturePlain) {
+        self.first.enter_media_feature_plain(node);
+        self.second.enter_media_feature_plain(node);
+    }
+
+    #[inline]
+    fn exit_media_feature_plain(&mut self, node: &mut MediaFeaturePlain) {
+        self.second.exit_media_feature_plain(node);
+        self.first.exit_media_feature_plain(node);
+    }
+
+    #[inline]
+    fn enter_media_feature_range(&mut self, node: &mut MediaFeatureRange) {
+        self.first.enter_media_feature_range(node);
+        self.second.enter_media_feature_range(node);
+    }
+
+    #[inline]
+    fn exit_media_feature_range(&mut self, node: &mut MediaFeatureRange) {
+        self.second.exit_media_feature_range(node);
+        self.first.exit_media_feature_range(node);
+    }
+
+    #[inline]
+    fn enter_media_feature_range_comparison(&mut self, node: &mut MediaFeatureRangeComparison) {
+        self.first.enter_media_feature_range_comparison(node);
+        self.second.enter_media_feature_range_comparison(node);
+    }
+
+    #[inline]
+    fn exit_media_feature_range_comparison(&mut self, node: &mut MediaFeatureRangeComparison) {
+        self.second.exit_media_feature_range_comparison(node);
+        self.first.exit_media_feature_range_comparison(node);
+    }
+
+    #[inline]
+    fn enter_media_feature_range_interval(&mut self, node: &mut MediaFeatureRangeInterval) {
+        self.first.enter_media_feature_range_interval(node);
+        self.second.enter_media_feature_range_interval(node);
+    }
+
+    #[inline]
+    fn exit_media_feature_range_interval(&mut self, node: &mut MediaFeatureRangeInterval) {
+        self.second.exit_media_feature_range_interval(node);
+        self.first.exit_media_feature_range_interval(node);
+    }
+
+    #[inline]
+    fn enter_media_feature_value(&mut self, node: &mut MediaFeatureValue) {
+        self.first.enter_media_feature_value(node);
+        self.second.enter_media_feature_value(node);
+    }
+
+    #[inline]
+    fn exit_media_feature_value(&mut self, node: &mut MediaFeatureValue) {
+        self.second.exit_media_feature_value(node);
+        self.first.exit_media_feature_value(node);
+    }
+
+    #[inline]
+    fn enter_media_in_parens(&mut self, node: &mut MediaInParens) {
+        self.first.enter_media_in_parens(node);
+        self.second.enter_media_in_parens(node);
+    }
+
+    #[inline]
+    fn exit_media_in_parens(&mut self, node: &mut MediaInParens) {
+        self.second.exit_media_in_parens(node);
+        self.first.exit_media_in_parens(node);
+    }
+
+    #[inline]
+    fn enter_media_not(&mut self, node: &mut MediaNot) {
+        self.first.enter_media_not(node);
+        self.second.enter_media_not(node);
+    }
+
+    #[inline]
+    fn exit_media_not(&mut self, node: &mut MediaNot) {
+        self.second.exit_media_not(node);
+        self.first.exit_media_not(node);
+    }
+
+    #[inline]
+    fn enter_media_or(&mut self, node: &mut MediaOr) {
+        self.first.enter_media_or(node);
+        self.second.enter_media_or(node);
+    }
+
+    #[inline]
+    fn exit_media_or(&mut self, node: &mut MediaOr) {
+        self.second.exit_media_or(node);
+        self.first.exit_media_or(node);
+    }
+
+    #[inline]
+    fn enter_media_query(&mut self, node: &mut MediaQuery) {
+        self.first.enter_media_query(node);
+        self.second.enter_media_query(node);
+    }
+
+    #[inline]
+    fn exit_media_query(&mut self, node: &mut MediaQuery) {
+        self.second.exit_media_query(node);
+        self.first.exit_media_query(node);
+    }
+
+    #[inline]
+    fn enter_media_query_list(&mut self, node: &mut MediaQueryList) {
+        self.first.enter_media_query_list(node);
+        self.second.enter_media_query_list(node);
+    }
+
+    #[inline]
+    fn exit_media_query_list(&mut self, node: &mut MediaQueryList) {
+        self.second.exit_media_query_list(node);
+        self.first.exit_media_query_list(node);
+    }
+
+    #[inline]
+    fn enter_media_querys(&mut self, node: &mut Vec<MediaQuery>) {
+        self.first.enter_media_querys(node);
+        self.second.enter_media_querys(node);
+    }
+
+    #[inline]
+    fn exit_media_querys(&mut self, node: &mut Vec<MediaQuery>) {
+        self.second.exit_media_querys(node);
+        self.first.exit_media_querys(node);
+    }
+
+    #[inline]
+    fn enter_media_type(&mut self, node: &mut MediaType) {
+        self.first.enter_media_type(node);
+        self.second.enter_media_type(node);
+    }
+
+    #[inline]
+    fn exit_media_type(&mut self, node: &mut MediaType) {
+        self.second.exit_media_type(node);
+        self.first.exit_media_type(node);
+    }
+
+    #[inline]
+    fn enter_named_namespace(&mut self, node: &mut NamedNamespace) {
+        self.first.enter_named_namespace(node);
+        self.second.enter_named_namespace(node);
+    }
+
+    #[inline]
+    fn exit_named_namespace(&mut self, node: &mut NamedNamespace) {
+        self.second.exit_named_namespace(node);
+        self.first.exit_named_namespace(node);
+    }
+
+    #[inline]
+    fn enter_namespace(&mut self, node: &mut Namespace) {
+        self.first.enter_namespace(node);
+        self.second.enter_namespace(node);
+    }
+
+    #[inline]
+    fn exit_namespace(&mut self, node: &mut Namespace) {
+        self.second.exit_namespace(node);
+        self.first.exit_namespace(node);
+    }
+
+    #[inline]
+    fn enter_namespace_prefix(&mut self, node: &mut NamespacePrefix) {
+        self.first.enter_namespace_prefix(node);
+        self.second.enter_namespace_prefix(node);
+    }
+
+    #[inline]
+    fn exit_namespace_prefix(&mut self, node: &mut NamespacePrefix) {
+        self.second.exit_namespace_prefix(node);
+        self.first.exit_namespace_prefix(node);
+    }
+
+    #[inline]
+    fn enter_namespace_prelude(&mut self, node: &mut NamespacePrelude) {
+        self.first.enter_namespace_prelude(node);
+        self.second.enter_namespace_prelude(node);
+    }
+
+    #[inline]
+    fn exit_namespace_prelude(&mut self, node: &mut NamespacePrelude) {
+        self.second.exit_namespace_prelude(node);
+        self.first.exit_namespace_prelude(node);
+    }
+
+    #[inline]
+    fn enter_namespace_prelude_uri(&mut self, node: &mut NamespacePreludeUri) {
+        self.first.enter_namespace_prelude_uri(node);
+        self.second.enter_namespace_prelude_uri(node);
+    }
+
+    #[inline]
+    fn exit_namespace_prelude_uri(&mut self, node: &mut NamespacePreludeUri) {
+        self.second.exit_namespace_prelude_uri(node);
+        self.first.exit_namespace_prelude_uri(node);
+    }
+
+    #[inline]
+    fn enter_nesting_selector(&mut self, node: &mut NestingSelector) {
+        self.first.enter_nesting_selector(node);
+        self.second.enter_nesting_selector(node);
+    }
+
+    #[inline]
+    fn exit_nesting_selector(&mut self, node: &mut NestingSelector) {
+        self.second.exit_nesting_selector(node);
+        self.first.exit_nesting_selector(node);
+    }
+
+    #[inline]
+    fn enter_number(&mut self, node: &mut Number) {
+        self.first.enter_number(node);
+        self.second.enter_number(node);
+    }
+
+    #[inline]
+    fn exit_number(&mut self, node: &mut Number) {
+        self.second.exit_number(node);
+        self.first.exit_number(node);
+    }
+
+    #[inline]
+    fn enter_number_type(&mut self, node: &mut NumberType) {
+        self.first.enter_number_type(node);
+        self.second.enter_number_type(node);
+    }
+
+    #[inline]
+    fn exit_number_type(&mut self, node: &mut NumberType) {
+        self.second.exit_number_type(node);
+        self.first.exit_number_type(node);
+    }
+
+    #[inline]
+    fn enter_opt_at_rule_prelude(&mut self, node: &mut Option<Box<AtRulePrelude>>) {
+        self.first.enter_opt_at_rule_prelude(node);
+        self.second.enter_opt_at_rule_prelude(node);
+    }
+
+    #[inline]
+    fn exit_opt_at_rule_prelude(&mut self, node: &mut Option<Box<AtRulePrelude>>) {
+        self.second.exit_opt_at_rule_prelude(node);
+        self.first.exit_opt_at_rule_prelude(node);
+    }
+
+    #[inline]
+    fn enter_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        self.first.enter_opt_atom(node);
+        self.second.enter_opt_atom(node);
+    }
+
+    #[inline]
+    fn exit_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        self.second.exit_opt_atom(node);
+        self.first.exit_opt_atom(node);
+    }
+
+    #[inline]
+    fn enter_opt_attribute_selector_matcher(
+        &mut self,
+        node: &mut Option<AttributeSelectorMatcher>,
+    ) {
+        self.first.enter_opt_attribute_selector_matcher(node);
+        self.second.enter_opt_attribute_selector_matcher(node);
+    }
+
+    #[inline]
+    fn exit_opt_attribute_selector_matcher(&mut self, node: &mut Option<AttributeSelectorMatcher>) {
+        self.second.exit_opt_attribute_selector_matcher(node);
+        self.first.exit_opt_attribute_selector_matcher(node);
+    }
+
+    #[inline]
+    fn enter_opt_attribute_selector_modifier(
+        &mut self,
+        node: &mut Option<AttributeSelectorModifier>,
+    ) {
+        self.first.enter_opt_attribute_selector_modifier(node);
+        self.second.enter_opt_attribute_selector_modifier(node);
+    }
+
+    #[inline]
+    fn exit_opt_attribute_selector_modifier(
+        &mut self,
+        node: &mut Option<AttributeSelectorModifier>,
+    ) {
+        self.second.exit_opt_attribute_selector_modifier(node);
+        self.first.exit_opt_attribute_selector_modifier(node);
+    }
+
+    #[inline]
+    fn enter_opt_attribute_selector_value(&mut self, node: &mut Option<AttributeSelectorValue>) {
+        self.first.enter_opt_attribute_selector_value(node);
+        self.second.enter_opt_attribute_selector_value(node);
+    }
+
+    #[inline]
+    fn exit_opt_attribute_selector_value(&mut self, node: &mut Option<AttributeSelectorValue>) {
+        self.second.exit_opt_attribute_selector_value(node);
+        self.first.exit_opt_attribute_selector_value(node);
+    }
+
+    #[inline]
+    fn enter_opt_combinator(&mut self, node: &mut Option<Combinator>) {
+        self.first.enter_opt_combinator(node);
+        self.second.enter_opt_combinator(node);
+    }
+
+    #[inline]
+    fn exit_opt_combinator(&mut self, node: &mut Option<Combinator>) {
+        self.second.exit_opt_combinator(node);
+        self.first.exit_opt_combinator(node);
+    }
+
+    #[inline]
+    fn enter_opt_container_name(&mut self, node: &mut Option<ContainerName>) {
+        self.first.enter_opt_container_name(node);
+        self.second.enter_opt_container_name(node);
+    }
+
+    #[inline]
+    fn exit_opt_container_name(&mut self, node: &mut Option<ContainerName>) {
+        self.second.exit_opt_container_name(node);
+        self.first.exit_opt_container_name(node);
+    }
+
+    #[inline]
+    fn enter_opt_forgiving_selector_list(&mut self, node: &mut Option<ForgivingSelectorList>) {
+        self.first.enter_opt_forgiving_selector_list(node);
+        self.second.enter_opt_forgiving_selector_list(node);
+    }
+
+    #[inline]
+    fn exit_opt_forgiving_selector_list(&mut self, node: &mut Option<ForgivingSelectorList>) {
+        self.second.exit_opt_forgiving_selector_list(node);
+        self.first.exit_opt_forgiving_selector_list(node);
+    }
+
+    #[inline]
+    fn enter_opt_function(&mut self, node: &mut Option<Box<Function>>) {
+        self.first.enter_opt_function(node);
+        self.second.enter_opt_function(node);
+    }
+
+    #[inline]
+    fn exit_opt_function(&mut self, node: &mut Option<Box<Function>>) {
+        self.second.exit_opt_function(node);
+        self.first.exit_opt_function(node);
+    }
+
+    #[inline]
+    fn enter_opt_ident(&mut self, node: &mut Option<Ident>) {
+        self.first.enter_opt_ident(node);
+        self.second.enter_opt_ident(node);
+    }
+
+    #[inline]
+    fn exit_opt_ident(&mut self, node: &mut Option<Ident>) {
+        self.second.exit_opt_ident(node);
+        self.first.exit_opt_ident(node);
+    }
+
+    #[inline]
+    fn enter_opt_import_conditions(&mut self, node: &mut Option<Box<ImportConditions>>) {
+        self.first.enter_opt_import_conditions(node);
+        self.second.enter_opt_import_conditions(node);
+    }
+
+    #[inline]
+    fn exit_opt_import_conditions(&mut self, node: &mut Option<Box<ImportConditions>>) {
+        self.second.exit_opt_import_conditions(node);
+        self.first.exit_opt_import_conditions(node);
+    }
+
+    #[inline]
+    fn enter_opt_import_layer_name(&mut self, node: &mut Option<Box<ImportLayerName>>) {
+        self.first.enter_opt_import_layer_name(node);
+        self.second.enter_opt_import_layer_name(node);
+    }
+
+    #[inline]
+    fn exit_opt_import_layer_name(&mut self, node: &mut Option<Box<ImportLayerName>>) {
+        self.second.exit_opt_import_layer_name(node);
+        self.first.exit_opt_import_layer_name(node);
+    }
+
+    #[inline]
+    fn enter_opt_important_flag(&mut self, node: &mut Option<ImportantFlag>) {
+        self.first.enter_opt_important_flag(node);
+        self.second.enter_opt_important_flag(node);
+    }
+
+    #[inline]
+    fn exit_opt_important_flag(&mut self, node: &mut Option<ImportantFlag>) {
+        self.second.exit_opt_important_flag(node);
+        self.first.exit_opt_important_flag(node);
+    }
+
+    #[inline]
+    fn enter_opt_media_condition_type(&mut self, node: &mut Option<Box<MediaConditionType>>) {
+        self.first.enter_opt_media_condition_type(node);
+        self.second.enter_opt_media_condition_type(node);
+    }
+
+    #[inline]
+    fn exit_opt_media_condition_type(&mut self, node: &mut Option<Box<MediaConditionType>>) {
+        self.second.exit_opt_media_condition_type(node);
+        self.first.exit_opt_media_condition_type(node);
+    }
+
+    #[inline]
+    fn enter_opt_media_query_list(&mut self, node: &mut Option<Box<MediaQueryList>>) {
+        self.first.enter_opt_media_query_list(node);
+        self.second.enter_opt_media_query_list(node);
+    }
+
+    #[inline]
+    fn exit_opt_media_query_list(&mut self, node: &mut Option<Box<MediaQueryList>>) {
+        self.second.exit_opt_media_query_list(node);
+        self.first.exit_opt_media_query_list(node);
+    }
+
+    #[inline]
+    fn enter_opt_media_type(&mut self, node: &mut Option<MediaType>) {
+        self.first.enter_opt_media_type(node);
+        self.second.enter_opt_media_type(node);
+    }
+
+    #[inline]
+    fn exit_opt_media_type(&mut self, node: &mut Option<MediaType>) {
+        self.second.exit_opt_media_type(node);
+        self.first.exit_opt_media_type(node);
+    }
+
+    #[inline]
+    fn enter_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        self.first.enter_opt_namespace(node);
+        self.second.enter_opt_namespace(node);
+    }
+
+    #[inline]
+    fn exit_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        self.second.exit_opt_namespace(node);
+        self.first.exit_opt_namespace(node);
+    }
+
+    #[inline]
+    fn enter_opt_namespace_prefix(&mut self, node: &mut Option<NamespacePrefix>) {
+        self.first.enter_opt_namespace_prefix(node);
+        self.second.enter_opt_namespace_prefix(node);
+    }
+
+    #[inline]
+    fn exit_opt_namespace_prefix(&mut self, node: &mut Option<NamespacePrefix>) {
+        self.second.exit_opt_namespace_prefix(node);
+        self.first.exit_opt_namespace_prefix(node);
+    }
+
+    #[inline]
+    fn enter_opt_nesting_selector(&mut self, node: &mut Option<NestingSelector>) {
+        self.first.enter_opt_nesting_selector(node);
+        self.second.enter_opt_nesting_selector(node);
+    }
+
+    #[inline]
+    fn exit_opt_nesting_selector(&mut self, node: &mut Option<NestingSelector>) {
+        self.second.exit_opt_nesting_selector(node);
+        self.first.exit_opt_nesting_selector(node);
+    }
+
+    #[inline]
+    fn enter_opt_number(&mut self, node: &mut Option<Number>) {
+        self.first.enter_opt_number(node);
+        self.second.enter_opt_number(node);
+    }
+
+    #[inline]
+    fn exit_opt_number(&mut self, node: &mut Option<Number>) {
+        self.second.exit_opt_number(node);
+        self.first.exit_opt_number(node);
+    }
+
+    #[inline]
+    fn enter_opt_page_selector_pseudos(&mut self, node: &mut Option<Vec<PageSelectorPseudo>>) {
+        self.first.enter_opt_page_selector_pseudos(node);
+        self.second.enter_opt_page_selector_pseudos(node);
+    }
+
+    #[inline]
+    fn exit_opt_page_selector_pseudos(&mut self, node: &mut Option<Vec<PageSelectorPseudo>>) {
+        self.second.exit_opt_page_selector_pseudos(node);
+        self.first.exit_opt_page_selector_pseudos(node);
+    }
+
+    #[inline]
+    fn enter_opt_page_selector_type(&mut self, node: &mut Option<PageSelectorType>) {
+        self.first.enter_opt_page_selector_type(node);
+        self.second.enter_opt_page_selector_type(node);
+    }
+
+    #[inline]
+    fn exit_opt_page_selector_type(&mut self, node: &mut Option<PageSelectorType>) {
+        self.second.exit_opt_page_selector_type(node);
+        self.first.exit_opt_page_selector_type(node);
+    }
+
+    #[inline]
+    fn enter_opt_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoClassSelectorChildren>>,
+    ) {
+        self.first.enter_opt_pseudo_class_selector_childrens(node);
+        self.second.enter_opt_pseudo_class_selector_childrens(node);
+    }
+
+    #[inline]
+    fn exit_opt_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoClassSelectorChildren>>,
+    ) {
+        self.second.exit_opt_pseudo_class_selector_childrens(node);
+        self.first.exit_opt_pseudo_class_selector_childrens(node);
+    }
+
+    #[inline]
+    fn enter_opt_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoElementSelectorChildren>>,
+    ) {
+        self.first.enter_opt_pseudo_element_selector_childrens(node);
+        self.second
+            .enter_opt_pseudo_element_selector_childrens(node);
+    }
+
+    #[inline]
+    fn exit_opt_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoElementSelectorChildren>>,
+    ) {
+        self.second.exit_opt_pseudo_element_selector_childrens(node);
+        self.first.exit_opt_pseudo_element_selector_childrens(node);
+    }
+
+    #[inline]
+    fn enter_opt_simple_block(&mut self, node: &mut Option<SimpleBlock>) {
+        self.first.enter_opt_simple_block(node);
+        self.second.enter_opt_simple_block(node);
+    }
+
+    #[inline]
+    fn exit_opt_simple_block(&mut self, node: &mut Option<SimpleBlock>) {
+        self.second.exit_opt_simple_block(node);
+        self.first.exit_opt_simple_block(node);
+    }
+
+    #[inline]
+    fn enter_opt_type_selector(&mut self, node: &mut Option<Box<TypeSelector>>) {
+        self.first.enter_opt_type_selector(node);
+        self.second.enter_opt_type_selector(node);
+    }
+
+    #[inline]
+    fn exit_opt_type_selector(&mut self, node: &mut Option<Box<TypeSelector>>) {
+        self.second.exit_opt_type_selector(node);
+        self.first.exit_opt_type_selector(node);
+    }
+
+    #[inline]
+    fn enter_opt_url_modifiers(&mut self, node: &mut Option<Vec<UrlModifier>>) {
+        self.first.enter_opt_url_modifiers(node);
+        self.second.enter_opt_url_modifiers(node);
+    }
+
+    #[inline]
+    fn exit_opt_url_modifiers(&mut self, node: &mut Option<Vec<UrlModifier>>) {
+        self.second.exit_opt_url_modifiers(node);
+        self.first.exit_opt_url_modifiers(node);
+    }
+
+    #[inline]
+    fn enter_opt_url_value(&mut self, node: &mut Option<Box<UrlValue>>) {
+        self.first.enter_opt_url_value(node);
+        self.second.enter_opt_url_value(node);
+    }
+
+    #[inline]
+    fn exit_opt_url_value(&mut self, node: &mut Option<Box<UrlValue>>) {
+        self.second.exit_opt_url_value(node);
+        self.first.exit_opt_url_value(node);
+    }
+
+    #[inline]
+    fn enter_page_selector(&mut self, node: &mut PageSelector) {
+        self.first.enter_page_selector(node);
+        self.second.enter_page_selector(node);
+    }
+
+    #[inline]
+    fn exit_page_selector(&mut self, node: &mut PageSelector) {
+        self.second.exit_page_selector(node);
+        self.first.exit_page_selector(node);
+    }
+
+    #[inline]
+    fn enter_page_selector_list(&mut self, node: &mut PageSelectorList) {
+        self.first.enter_page_selector_list(node);
+        self.second.enter_page_selector_list(node);
+    }
+
+    #[inline]
+    fn exit_page_selector_list(&mut self, node: &mut PageSelectorList) {
+        self.second.exit_page_selector_list(node);
+        self.first.exit_page_selector_list(node);
+    }
+
+    #[inline]
+    fn enter_page_selector_pseudo(&mut self, node: &mut PageSelectorPseudo) {
+        self.first.enter_page_selector_pseudo(node);
+        self.second.enter_page_selector_pseudo(node);
+    }
+
+    #[inline]
+    fn exit_page_selector_pseudo(&mut self, node: &mut PageSelectorPseudo) {
+        self.second.exit_page_selector_pseudo(node);
+        self.first.exit_page_selector_pseudo(node);
+    }
+
+    #[inline]
+    fn enter_page_selector_pseudos(&mut self, node: &mut Vec<PageSelectorPseudo>) {
+        self.first.enter_page_selector_pseudos(node);
+        self.second.enter_page_selector_pseudos(node);
+    }
+
+    #[inline]
+    fn exit_page_selector_pseudos(&mut self, node: &mut Vec<PageSelectorPseudo>) {
+        self.second.exit_page_selector_pseudos(node);
+        self.first.exit_page_selector_pseudos(node);
+    }
+
+    #[inline]
+    fn enter_page_selector_type(&mut self, node: &mut PageSelectorType) {
+        self.first.enter_page_selector_type(node);
+        self.second.enter_page_selector_type(node);
+    }
+
+    #[inline]
+    fn exit_page_selector_type(&mut self, node: &mut PageSelectorType) {
+        self.second.exit_page_selector_type(node);
+        self.first.exit_page_selector_type(node);
+    }
+
+    #[inline]
+    fn enter_page_selectors(&mut self, node: &mut Vec<PageSelector>) {
+        self.first.enter_page_selectors(node);
+        self.second.enter_page_selectors(node);
+    }
+
+    #[inline]
+    fn exit_page_selectors(&mut self, node: &mut Vec<PageSelector>) {
+        self.second.exit_page_selectors(node);
+        self.first.exit_page_selectors(node);
+    }
+
+    #[inline]
+    fn enter_percentage(&mut self, node: &mut Percentage) {
+        self.first.enter_percentage(node);
+        self.second.enter_percentage(node);
+    }
+
+    #[inline]
+    fn exit_percentage(&mut self, node: &mut Percentage) {
+        self.second.exit_percentage(node);
+        self.first.exit_percentage(node);
+    }
+
+    #[inline]
+    fn enter_pseudo_class_selector(&mut self, node: &mut PseudoClassSelector) {
+        self.first.enter_pseudo_class_selector(node);
+        self.second.enter_pseudo_class_selector(node);
+    }
+
+    #[inline]
+    fn exit_pseudo_class_selector(&mut self, node: &mut PseudoClassSelector) {
+        self.second.exit_pseudo_class_selector(node);
+        self.first.exit_pseudo_class_selector(node);
+    }
+
+    #[inline]
+    fn enter_pseudo_class_selector_children(&mut self, node: &mut PseudoClassSelectorChildren) {
+        self.first.enter_pseudo_class_selector_children(node);
+        self.second.enter_pseudo_class_selector_children(node);
+    }
+
+    #[inline]
+    fn exit_pseudo_class_selector_children(&mut self, node: &mut PseudoClassSelectorChildren) {
+        self.second.exit_pseudo_class_selector_children(node);
+        self.first.exit_pseudo_class_selector_children(node);
+    }
+
+    #[inline]
+    fn enter_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoClassSelectorChildren>,
+    ) {
+        self.first.enter_pseudo_class_selector_childrens(node);
+        self.second.enter_pseudo_class_selector_childrens(node);
+    }
+
+    #[inline]
+    fn exit_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoClassSelectorChildren>,
+    ) {
+        self.second.exit_pseudo_class_selector_childrens(node);
+        self.first.exit_pseudo_class_selector_childrens(node);
+    }
+
+    #[inline]
+    fn enter_pseudo_element_selector(&mut self, node: &mut PseudoElementSelector) {
+        self.first.enter_pseudo_element_selector(node);
+        self.second.enter_pseudo_element_selector(node);
+    }
+
+    #[inline]
+    fn exit_pseudo_element_selector(&mut self, node: &mut PseudoElementSelector) {
+        self.second.exit_pseudo_element_selector(node);
+        self.first.exit_pseudo_element_selector(node);
+    }
+
+    #[inline]
+    fn enter_pseudo_element_selector_children(&mut self, node: &mut PseudoElementSelectorChildren) {
+        self.first.enter_pseudo_element_selector_children(node);
+        self.second.enter_pseudo_element_selector_children(node);
+    }
+
+    #[inline]
+    fn exit_pseudo_element_selector_children(&mut self, node: &mut PseudoElementSelectorChildren) {
+        self.second.exit_pseudo_element_selector_children(node);
+        self.first.exit_pseudo_element_selector_children(node);
+    }
+
+    #[inline]
+    fn enter_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoElementSelectorChildren>,
+    ) {
+        self.first.enter_pseudo_element_selector_childrens(node);
+        self.second.enter_pseudo_element_selector_childrens(node);
+    }
+
+    #[inline]
+    fn exit_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoElementSelectorChildren>,
+    ) {
+        self.second.exit_pseudo_element_selector_childrens(node);
+        self.first.exit_pseudo_element_selector_childrens(node);
+    }
+
+    #[inline]
+    fn enter_qualified_rule(&mut self, node: &mut QualifiedRule) {
+        self.first.enter_qualified_rule(node);
+        self.second.enter_qualified_rule(node);
+    }
+
+    #[inline]
+    fn exit_qualified_rule(&mut self, node: &mut QualifiedRule) {
+        self.second.exit_qualified_rule(node);
+        self.first.exit_qualified_rule(node);
+    }
+
+    #[inline]
+    fn enter_qualified_rule_prelude(&mut self, node: &mut QualifiedRulePrelude) {
+        self.first.enter_qualified_rule_prelude(node);
+        self.second.enter_qualified_rule_prelude(node);
+    }
+
+    #[inline]
+    fn exit_qualified_rule_prelude(&mut self, node: &mut QualifiedRulePrelude) {
+        self.second.exit_qualified_rule_prelude(node);
+        self.first.exit_qualified_rule_prelude(node);
+    }
+
+    #[inline]
+    fn enter_query_in_parens(&mut self, node: &mut QueryInParens) {
+        self.first.enter_query_in_parens(node);
+        self.second.enter_query_in_parens(node);
+    }
+
+    #[inline]
+    fn exit_query_in_parens(&mut self, node: &mut QueryInParens) {
+        self.second.exit_query_in_parens(node);
+        self.first.exit_query_in_parens(node);
+    }
+
+    #[inline]
+    fn enter_ratio(&mut self, node: &mut Ratio) {
+        self.first.enter_ratio(node);
+        self.second.enter_ratio(node);
+    }
+
+    #[inline]
+    fn exit_ratio(&mut self, node: &mut Ratio) {
+        self.second.exit_ratio(node);
+        self.first.exit_ratio(node);
+    }
+
+    #[inline]
+    fn enter_relative_selector(&mut self, node: &mut RelativeSelector) {
+        self.first.enter_relative_selector(node);
+        self.second.enter_relative_selector(node);
+    }
+
+    #[inline]
+    fn exit_relative_selector(&mut self, node: &mut RelativeSelector) {
+        self.second.exit_relative_selector(node);
+        self.first.exit_relative_selector(node);
+    }
+
+    #[inline]
+    fn enter_relative_selector_list(&mut self, node: &mut RelativeSelectorList) {
+        self.first.enter_relative_selector_list(node);
+        self.second.enter_relative_selector_list(node);
+    }
+
+    #[inline]
+    fn exit_relative_selector_list(&mut self, node: &mut RelativeSelectorList) {
+        self.second.exit_relative_selector_list(node);
+        self.first.exit_relative_selector_list(node);
+    }
+
+    #[inline]
+    fn enter_relative_selectors(&mut self, node: &mut Vec<RelativeSelector>) {
+        self.first.enter_relative_selectors(node);
+        self.second.enter_relative_selectors(node);
+    }
+
+    #[inline]
+    fn exit_relative_selectors(&mut self, node: &mut Vec<RelativeSelector>) {
+        self.second.exit_relative_selectors(node);
+        self.first.exit_relative_selectors(node);
+    }
+
+    #[inline]
+    fn enter_resolution(&mut self, node: &mut Resolution) {
+        self.first.enter_resolution(node);
+        self.second.enter_resolution(node);
+    }
+
+    #[inline]
+    fn exit_resolution(&mut self, node: &mut Resolution) {
+        self.second.exit_resolution(node);
+        self.first.exit_resolution(node);
+    }
+
+    #[inline]
+    fn enter_rule(&mut self, node: &mut Rule) {
+        self.first.enter_rule(node);
+        self.second.enter_rule(node);
+    }
+
+    #[inline]
+    fn exit_rule(&mut self, node: &mut Rule) {
+        self.second.exit_rule(node);
+        self.first.exit_rule(node);
+    }
+
+    #[inline]
+    fn enter_rules(&mut self, node: &mut Vec<Rule>) {
+        self.first.enter_rules(node);
+        self.second.enter_rules(node);
+    }
+
+    #[inline]
+    fn exit_rules(&mut self, node: &mut Vec<Rule>) {
+        self.second.exit_rules(node);
+        self.first.exit_rules(node);
+    }
+
+    #[inline]
+    fn enter_scope_range(&mut self, node: &mut ScopeRange) {
+        self.first.enter_scope_range(node);
+        self.second.enter_scope_range(node);
+    }
+
+    #[inline]
+    fn exit_scope_range(&mut self, node: &mut ScopeRange) {
+        self.second.exit_scope_range(node);
+        self.first.exit_scope_range(node);
+    }
+
+    #[inline]
+    fn enter_selector_list(&mut self, node: &mut SelectorList) {
+        self.first.enter_selector_list(node);
+        self.second.enter_selector_list(node);
+    }
+
+    #[inline]
+    fn exit_selector_list(&mut self, node: &mut SelectorList) {
+        self.second.exit_selector_list(node);
+        self.first.exit_selector_list(node);
+    }
+
+    #[inline]
+    fn enter_sequence_of_custom_idents(&mut self, node: &mut SequenceOfCustomIdents) {
+        self.first.enter_sequence_of_custom_idents(node);
+        self.second.enter_sequence_of_custom_idents(node);
+    }
+
+    #[inline]
+    fn exit_sequence_of_custom_idents(&mut self, node: &mut SequenceOfCustomIdents) {
+        self.second.exit_sequence_of_custom_idents(node);
+        self.first.exit_sequence_of_custom_idents(node);
+    }
+
+    #[inline]
+    fn enter_simple_block(&mut self, node: &mut SimpleBlock) {
+        self.first.enter_simple_block(node);
+        self.second.enter_simple_block(node);
+    }
+
+    #[inline]
+    fn exit_simple_block(&mut self, node: &mut SimpleBlock) {
+        self.second.exit_simple_block(node);
+        self.first.exit_simple_block(node);
+    }
+
+    #[inline]
+    fn enter_size_feature(&mut self, node: &mut SizeFeature) {
+        self.first.enter_size_feature(node);
+        self.second.enter_size_feature(node);
+    }
+
+    #[inline]
+    fn exit_size_feature(&mut self, node: &mut SizeFeature) {
+        self.second.exit_size_feature(node);
+        self.first.exit_size_feature(node);
+    }
+
+    #[inline]
+    fn enter_size_feature_boolean(&mut self, node: &mut SizeFeatureBoolean) {
+        self.first.enter_size_feature_boolean(node);
+        self.second.enter_size_feature_boolean(node);
+    }
+
+    #[inline]
+    fn exit_size_feature_boolean(&mut self, node: &mut SizeFeatureBoolean) {
+        self.second.exit_size_feature_boolean(node);
+        self.first.exit_size_feature_boolean(node);
+    }
+
+    #[inline]
+    fn enter_size_feature_name(&mut self, node: &mut SizeFeatureName) {
+        self.first.enter_size_feature_name(node);
+        self.second.enter_size_feature_name(node);
+    }
+
+    #[inline]
+    fn exit_size_feature_name(&mut self, node: &mut SizeFeatureName) {
+        self.second.exit_size_feature_name(node);
+        self.first.exit_size_feature_name(node);
+    }
+
+    #[inline]
+    fn enter_size_feature_plain(&mut self, node: &mut SizeFeaturePlain) {
+        self.first.enter_size_feature_plain(node);
+        self.second.enter_size_feature_plain(node);
+    }
+
+    #[inline]
+    fn exit_size_feature_plain(&mut self, node: &mut SizeFeaturePlain) {
+        self.second.exit_size_feature_plain(node);
+        self.first.exit_size_feature_plain(node);
+    }
+
+    #[inline]
+    fn enter_size_feature_range(&mut self, node: &mut SizeFeatureRange) {
+        self.first.enter_size_feature_range(node);
+        self.second.enter_size_feature_range(node);
+    }
+
+    #[inline]
+    fn exit_size_feature_range(&mut self, node: &mut SizeFeatureRange) {
+        self.second.exit_size_feature_range(node);
+        self.first.exit_size_feature_range(node);
+    }
+
+    #[inline]
+    fn enter_size_feature_range_comparison(&mut self, node: &mut SizeFeatureRangeComparison) {
+        self.first.enter_size_feature_range_comparison(node);
+        self.second.enter_size_feature_range_comparison(node);
+    }
+
+    #[inline]
+    fn exit_size_feature_range_comparison(&mut self, node: &mut SizeFeatureRangeComparison) {
+        self.second.exit_size_feature_range_comparison(node);
+        self.first.exit_size_feature_range_comparison(node);
+    }
+
+    #[inline]
+    fn enter_size_feature_range_interval(&mut self, node: &mut SizeFeatureRangeInterval) {
+        self.first.enter_size_feature_range_interval(node);
+        self.second.enter_size_feature_range_interval(node);
+    }
+
+    #[inline]
+    fn exit_size_feature_range_interval(&mut self, node: &mut SizeFeatureRangeInterval) {
+        self.second.exit_size_feature_range_interval(node);
+        self.first.exit_size_feature_range_interval(node);
+    }
+
+    #[inline]
+    fn enter_size_feature_value(&mut self, node: &mut SizeFeatureValue) {
+        self.first.enter_size_feature_value(node);
+        self.second.enter_size_feature_value(node);
+    }
+
+    #[inline]
+    fn exit_size_feature_value(&mut self, node: &mut SizeFeatureValue) {
+        self.second.exit_size_feature_value(node);
+        self.first.exit_size_feature_value(node);
+    }
+
+    #[inline]
+    fn enter_span(&mut self, node: &mut swc_common::Span) {
+        self.first.enter_span(node);
+        self.second.enter_span(node);
+    }
+
+    #[inline]
+    fn exit_span(&mut self, node: &mut swc_common::Span) {
+        self.second.exit_span(node);
+        self.first.exit_span(node);
+    }
+
+    #[inline]
+    fn enter_str(&mut self, node: &mut Str) {
+        self.first.enter_str(node);
+        self.second.enter_str(node);
+    }
+
+    #[inline]
+    fn exit_str(&mut self, node: &mut Str) {
+        self.second.exit_str(node);
+        self.first.exit_str(node);
+    }
+
+    #[inline]
+    fn enter_style_block(&mut self, node: &mut StyleBlock) {
+        self.first.enter_style_block(node);
+        self.second.enter_style_block(node);
+    }
+
+    #[inline]
+    fn exit_style_block(&mut self, node: &mut StyleBlock) {
+        self.second.exit_style_block(node);
+        self.first.exit_style_block(node);
+    }
+
+    #[inline]
+    fn enter_stylesheet(&mut self, node: &mut Stylesheet) {
+        self.first.enter_stylesheet(node);
+        self.second.enter_stylesheet(node);
+    }
+
+    #[inline]
+    fn exit_stylesheet(&mut self, node: &mut Stylesheet) {
+        self.second.exit_stylesheet(node);
+        self.first.exit_stylesheet(node);
+    }
+
+    #[inline]
+    fn enter_subclass_selector(&mut self, node: &mut SubclassSelector) {
+        self.first.enter_subclass_selector(node);
+        self.second.enter_subclass_selector(node);
+    }
+
+    #[inline]
+    fn exit_subclass_selector(&mut self, node: &mut SubclassSelector) {
+        self.second.exit_subclass_selector(node);
+        self.first.exit_subclass_selector(node);
+    }
+
+    #[inline]
+    fn enter_subclass_selectors(&mut self, node: &mut Vec<SubclassSelector>) {
+        self.first.enter_subclass_selectors(node);
+        self.second.enter_subclass_selectors(node);
+    }
+
+    #[inline]
+    fn exit_subclass_selectors(&mut self, node: &mut Vec<SubclassSelector>) {
+        self.second.exit_subclass_selectors(node);
+        self.first.exit_subclass_selectors(node);
+    }
+
+    #[inline]
+    fn enter_supports_and(&mut self, node: &mut SupportsAnd) {
+        self.first.enter_supports_and(node);
+        self.second.enter_supports_and(node);
+    }
+
+    #[inline]
+    fn exit_supports_and(&mut self, node: &mut SupportsAnd) {
+        self.second.exit_supports_and(node);
+        self.first.exit_supports_and(node);
+    }
+
+    #[inline]
+    fn enter_supports_condition(&mut self, node: &mut SupportsCondition) {
+        self.first.enter_supports_condition(node);
+        self.second.enter_supports_condition(node);
+    }
+
+    #[inline]
+    fn exit_supports_condition(&mut self, node: &mut SupportsCondition) {
+        self.second.exit_supports_condition(node);
+        self.first.exit_supports_condition(node);
+    }
+
+    #[inline]
+    fn enter_supports_condition_type(&mut self, node: &mut SupportsConditionType) {
+        self.first.enter_supports_condition_type(node);
+        self.second.enter_supports_condition_type(node);
+    }
+
+    #[inline]
+    fn exit_supports_condition_type(&mut self, node: &mut SupportsConditionType) {
+        self.second.exit_supports_condition_type(node);
+        self.first.exit_supports_condition_type(node);
+    }
+
+    #[inline]
+    fn enter_supports_condition_types(&mut self, node: &mut Vec<SupportsConditionType>) {
+        self.first.enter_supports_condition_types(node);
+        self.second.enter_supports_condition_types(node);
+    }
+
+    #[inline]
+    fn exit_supports_condition_types(&mut self, node: &mut Vec<SupportsConditionType>) {
+        self.second.exit_supports_condition_types(node);
+        self.first.exit_supports_condition_types(node);
+    }
+
+    #[inline]
+    fn enter_supports_feature(&mut self, node: &mut SupportsFeature) {
+        self.first.enter_supports_feature(node);
+        self.second.enter_supports_feature(node);
+    }
+
+    #[inline]
+    fn exit_supports_feature(&mut self, node: &mut SupportsFeature) {
+        self.second.exit_supports_feature(node);
+        self.first.exit_supports_feature(node);
+    }
+
+    #[inline]
+    fn enter_supports_in_parens(&mut self, node: &mut SupportsInParens) {
+        self.first.enter_supports_in_parens(node);
+        self.second.enter_supports_in_parens(node);
+    }
+
+    #[inline]
+    fn exit_supports_in_parens(&mut self, node: &mut SupportsInParens) {
+        self.second.exit_supports_in_parens(node);
+        self.first.exit_supports_in_parens(node);
+    }
+
+    #[inline]
+    fn enter_supports_not(&mut self, node: &mut SupportsNot) {
+        self.first.enter_supports_not(node);
+        self.second.enter_supports_not(node);
+    }
+
+    #[inline]
+    fn exit_supports_not(&mut self, node: &mut SupportsNot) {
+        self.second.exit_supports_not(node);
+        self.first.exit_supports_not(node);
+    }
+
+    #[inline]
+    fn enter_supports_or(&mut self, node: &mut SupportsOr) {
+        self.first.enter_supports_or(node);
+        self.second.enter_supports_or(node);
+    }
+
+    #[inline]
+    fn exit_supports_or(&mut self, node: &mut SupportsOr) {
+        self.second.exit_supports_or(node);
+        self.first.exit_supports_or(node);
+    }
+
+    #[inline]
+    fn enter_tag_name_selector(&mut self, node: &mut TagNameSelector) {
+        self.first.enter_tag_name_selector(node);
+        self.second.enter_tag_name_selector(node);
+    }
+
+    #[inline]
+    fn exit_tag_name_selector(&mut self, node: &mut TagNameSelector) {
+        self.second.exit_tag_name_selector(node);
+        self.first.exit_tag_name_selector(node);
+    }
+
+    #[inline]
+    fn enter_time(&mut self, node: &mut Time) {
+        self.first.enter_time(node);
+        self.second.enter_time(node);
+    }
+
+    #[inline]
+    fn exit_time(&mut self, node: &mut Time) {
+        self.second.exit_time(node);
+        self.first.exit_time(node);
+    }
+
+    #[inline]
+    fn enter_time_percentage(&mut self, node: &mut TimePercentage) {
+        self.first.enter_time_percentage(node);
+        self.second.enter_time_percentage(node);
+    }
+
+    #[inline]
+    fn exit_time_percentage(&mut self, node: &mut TimePercentage) {
+        self.second.exit_time_percentage(node);
+        self.first.exit_time_percentage(node);
+    }
+
+    #[inline]
+    fn enter_token(&mut self, node: &mut Token) {
+        self.first.enter_token(node);
+        self.second.enter_token(node);
+    }
+
+    #[inline]
+    fn exit_token(&mut self, node: &mut Token) {
+        self.second.exit_token(node);
+        self.first.exit_token(node);
+    }
+
+    #[inline]
+    fn enter_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        self.first.enter_token_and_span(node);
+        self.second.enter_token_and_span(node);
+    }
+
+    #[inline]
+    fn exit_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        self.second.exit_token_and_span(node);
+        self.first.exit_token_and_span(node);
+    }
+
+    #[inline]
+    fn enter_type_selector(&mut self, node: &mut TypeSelector) {
+        self.first.enter_type_selector(node);
+        self.second.enter_type_selector(node);
+    }
+
+    #[inline]
+    fn exit_type_selector(&mut self, node: &mut TypeSelector) {
+        self.second.exit_type_selector(node);
+        self.first.exit_type_selector(node);
+    }
+
+    #[inline]
+    fn enter_unicode_range(&mut self, node: &mut UnicodeRange) {
+        self.first.enter_unicode_range(node);
+        self.second.enter_unicode_range(node);
+    }
+
+    #[inline]
+    fn exit_unicode_range(&mut self, node: &mut UnicodeRange) {
+        self.second.exit_unicode_range(node);
+        self.first.exit_unicode_range(node);
+    }
+
+    #[inline]
+    fn enter_universal_selector(&mut self, node: &mut UniversalSelector) {
+        self.first.enter_universal_selector(node);
+        self.second.enter_universal_selector(node);
+    }
+
+    #[inline]
+    fn exit_universal_selector(&mut self, node: &mut UniversalSelector) {
+        self.second.exit_universal_selector(node);
+        self.first.exit_universal_selector(node);
+    }
+
+    #[inline]
+    fn enter_unknown_dimension(&mut self, node: &mut UnknownDimension) {
+        self.first.enter_unknown_dimension(node);
+        self.second.enter_unknown_dimension(node);
+    }
+
+    #[inline]
+    fn exit_unknown_dimension(&mut self, node: &mut UnknownDimension) {
+        self.second.exit_unknown_dimension(node);
+        self.first.exit_unknown_dimension(node);
+    }
+
+    #[inline]
+    fn enter_url(&mut self, node: &mut Url) {
+        self.first.enter_url(node);
+        self.second.enter_url(node);
+    }
+
+    #[inline]
+    fn exit_url(&mut self, node: &mut Url) {
+        self.second.exit_url(node);
+        self.first.exit_url(node);
+    }
+
+    #[inline]
+    fn enter_url_key_value(&mut self, node: &mut UrlKeyValue) {
+        self.first.enter_url_key_value(node);
+        self.second.enter_url_key_value(node);
+    }
+
+    #[inline]
+    fn exit_url_key_value(&mut self, node: &mut UrlKeyValue) {
+        self.second.exit_url_key_value(node);
+        self.first.exit_url_key_value(node);
+    }
+
+    #[inline]
+    fn enter_url_modifier(&mut self, node: &mut UrlModifier) {
+        self.first.enter_url_modifier(node);
+        self.second.enter_url_modifier(node);
+    }
+
+    #[inline]
+    fn exit_url_modifier(&mut self, node: &mut UrlModifier) {
+        self.second.exit_url_modifier(node);
+        self.first.exit_url_modifier(node);
+    }
+
+    #[inline]
+    fn enter_url_modifiers(&mut self, node: &mut Vec<UrlModifier>) {
+        self.first.enter_url_modifiers(node);
+        self.second.enter_url_modifiers(node);
+    }
+
+    #[inline]
+    fn exit_url_modifiers(&mut self, node: &mut Vec<UrlModifier>) {
+        self.second.exit_url_modifiers(node);
+        self.first.exit_url_modifiers(node);
+    }
+
+    #[inline]
+    fn enter_url_value(&mut self, node: &mut UrlValue) {
+        self.first.enter_url_value(node);
+        self.second.enter_url_value(node);
+    }
+
+    #[inline]
+    fn exit_url_value(&mut self, node: &mut UrlValue) {
+        self.second.exit_url_value(node);
+        self.first.exit_url_value(node);
+    }
+
+    #[inline]
+    fn enter_url_value_raw(&mut self, node: &mut UrlValueRaw) {
+        self.first.enter_url_value_raw(node);
+        self.second.enter_url_value_raw(node);
+    }
+
+    #[inline]
+    fn exit_url_value_raw(&mut self, node: &mut UrlValueRaw) {
+        self.second.exit_url_value_raw(node);
+        self.first.exit_url_value_raw(node);
+    }
+
+    #[inline]
+    fn enter_wq_name(&mut self, node: &mut WqName) {
+        self.first.enter_wq_name(node);
+        self.second.enter_wq_name(node);
+    }
+
+    #[inline]
+    fn exit_wq_name(&mut self, node: &mut WqName) {
+        self.second.exit_wq_name(node);
+        self.first.exit_wq_name(node);
+    }
+}
+#[doc = r" An adapter that implements VisitMut using a VisitMutHook."]
+#[doc = r""]
+#[doc = r" This allows any hook to be used as a visitor by calling:"]
+#[doc = r" - hook.enter_xxx before visiting children"]
+#[doc = r" - hook.exit_xxx after visiting children"]
+pub struct VisitMutWithHook<H> {
+    pub hook: H,
+}
+impl<H: VisitMutHook> VisitMut for VisitMutWithHook<H> {
+    #[doc = "Visits a node of type `AbsoluteColorBase` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_absolute_color_base(&mut self, node: &mut AbsoluteColorBase) {
+        self.hook.enter_absolute_color_base(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_absolute_color_base(node);
+    }
+
+    #[doc = "Visits a node of type `AlphaValue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_alpha_value(&mut self, node: &mut AlphaValue) {
+        self.hook.enter_alpha_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_alpha_value(node);
+    }
+
+    #[doc = "Visits a node of type `AnPlusB` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_an_plus_b(&mut self, node: &mut AnPlusB) {
+        self.hook.enter_an_plus_b(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_an_plus_b(node);
+    }
+
+    #[doc = "Visits a node of type `AnPlusBNotation` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_an_plus_b_notation(&mut self, node: &mut AnPlusBNotation) {
+        self.hook.enter_an_plus_b_notation(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_an_plus_b_notation(node);
+    }
+
+    #[doc = "Visits a node of type `Angle` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_angle(&mut self, node: &mut Angle) {
+        self.hook.enter_angle(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_angle(node);
+    }
+
+    #[doc = "Visits a node of type `AnglePercentage` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_angle_percentage(&mut self, node: &mut AnglePercentage) {
+        self.hook.enter_angle_percentage(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_angle_percentage(node);
+    }
+
+    #[doc = "Visits a node of type `AnyNamespace` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_any_namespace(&mut self, node: &mut AnyNamespace) {
+        self.hook.enter_any_namespace(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_any_namespace(node);
+    }
+
+    #[doc = "Visits a node of type `AtRule` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_at_rule(&mut self, node: &mut AtRule) {
+        self.hook.enter_at_rule(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_at_rule(node);
+    }
+
+    #[doc = "Visits a node of type `AtRuleName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_at_rule_name(&mut self, node: &mut AtRuleName) {
+        self.hook.enter_at_rule_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_at_rule_name(node);
+    }
+
+    #[doc = "Visits a node of type `AtRulePrelude` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_at_rule_prelude(&mut self, node: &mut AtRulePrelude) {
+        self.hook.enter_at_rule_prelude(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_at_rule_prelude(node);
+    }
+
+    #[doc = "Visits a node of type `swc_atoms :: Atom` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        self.hook.enter_atom(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_atom(node);
+    }
+
+    #[doc = "Visits a node of type `AttributeSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_attribute_selector(&mut self, node: &mut AttributeSelector) {
+        self.hook.enter_attribute_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_attribute_selector(node);
+    }
+
+    #[doc = "Visits a node of type `AttributeSelectorMatcher` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_attribute_selector_matcher(&mut self, node: &mut AttributeSelectorMatcher) {
+        self.hook.enter_attribute_selector_matcher(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_attribute_selector_matcher(node);
+    }
+
+    #[doc = "Visits a node of type `AttributeSelectorMatcherValue` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_attribute_selector_matcher_value(
+        &mut self,
+        node: &mut AttributeSelectorMatcherValue,
+    ) {
+        self.hook.enter_attribute_selector_matcher_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_attribute_selector_matcher_value(node);
+    }
+
+    #[doc = "Visits a node of type `AttributeSelectorModifier` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_attribute_selector_modifier(&mut self, node: &mut AttributeSelectorModifier) {
+        self.hook.enter_attribute_selector_modifier(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_attribute_selector_modifier(node);
+    }
+
+    #[doc = "Visits a node of type `AttributeSelectorValue` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_attribute_selector_value(&mut self, node: &mut AttributeSelectorValue) {
+        self.hook.enter_attribute_selector_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_attribute_selector_value(node);
+    }
+
+    #[doc = "Visits a node of type `BinOp` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_bin_op(&mut self, node: &mut BinOp) {
+        self.hook.enter_bin_op(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_bin_op(node);
+    }
+
+    #[doc = "Visits a node of type `CalcOperator` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_calc_operator(&mut self, node: &mut CalcOperator) {
+        self.hook.enter_calc_operator(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_calc_operator(node);
+    }
+
+    #[doc = "Visits a node of type `CalcOperatorType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_calc_operator_type(&mut self, node: &mut CalcOperatorType) {
+        self.hook.enter_calc_operator_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_calc_operator_type(node);
+    }
+
+    #[doc = "Visits a node of type `CalcProduct` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_calc_product(&mut self, node: &mut CalcProduct) {
+        self.hook.enter_calc_product(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_calc_product(node);
+    }
+
+    #[doc = "Visits a node of type `CalcProductOrOperator` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_calc_product_or_operator(&mut self, node: &mut CalcProductOrOperator) {
+        self.hook.enter_calc_product_or_operator(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_calc_product_or_operator(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < CalcProductOrOperator >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_calc_product_or_operators(&mut self, node: &mut Vec<CalcProductOrOperator>) {
+        self.hook.enter_calc_product_or_operators(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_calc_product_or_operators(node);
+    }
+
+    #[doc = "Visits a node of type `CalcSum` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_calc_sum(&mut self, node: &mut CalcSum) {
+        self.hook.enter_calc_sum(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_calc_sum(node);
+    }
+
+    #[doc = "Visits a node of type `CalcValue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_calc_value(&mut self, node: &mut CalcValue) {
+        self.hook.enter_calc_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_calc_value(node);
+    }
+
+    #[doc = "Visits a node of type `CalcValueOrOperator` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_calc_value_or_operator(&mut self, node: &mut CalcValueOrOperator) {
+        self.hook.enter_calc_value_or_operator(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_calc_value_or_operator(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < CalcValueOrOperator >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_calc_value_or_operators(&mut self, node: &mut Vec<CalcValueOrOperator>) {
+        self.hook.enter_calc_value_or_operators(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_calc_value_or_operators(node);
+    }
+
+    #[doc = "Visits a node of type `ClassSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_class_selector(&mut self, node: &mut ClassSelector) {
+        self.hook.enter_class_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_class_selector(node);
+    }
+
+    #[doc = "Visits a node of type `CmykComponent` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_cmyk_component(&mut self, node: &mut CmykComponent) {
+        self.hook.enter_cmyk_component(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_cmyk_component(node);
+    }
+
+    #[doc = "Visits a node of type `Color` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_color(&mut self, node: &mut Color) {
+        self.hook.enter_color(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_color(node);
+    }
+
+    #[doc = "Visits a node of type `ColorProfileName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_color_profile_name(&mut self, node: &mut ColorProfileName) {
+        self.hook.enter_color_profile_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_color_profile_name(node);
+    }
+
+    #[doc = "Visits a node of type `Combinator` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_combinator(&mut self, node: &mut Combinator) {
+        self.hook.enter_combinator(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_combinator(node);
+    }
+
+    #[doc = "Visits a node of type `CombinatorValue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_combinator_value(&mut self, node: &mut CombinatorValue) {
+        self.hook.enter_combinator_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_combinator_value(node);
+    }
+
+    #[doc = "Visits a node of type `ComplexSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_complex_selector(&mut self, node: &mut ComplexSelector) {
+        self.hook.enter_complex_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_complex_selector(node);
+    }
+
+    #[doc = "Visits a node of type `ComplexSelectorChildren` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_complex_selector_children(&mut self, node: &mut ComplexSelectorChildren) {
+        self.hook.enter_complex_selector_children(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_complex_selector_children(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < ComplexSelectorChildren >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_complex_selector_childrens(&mut self, node: &mut Vec<ComplexSelectorChildren>) {
+        self.hook.enter_complex_selector_childrens(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_complex_selector_childrens(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < ComplexSelector >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_complex_selectors(&mut self, node: &mut Vec<ComplexSelector>) {
+        self.hook.enter_complex_selectors(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_complex_selectors(node);
+    }
+
+    #[doc = "Visits a node of type `ComponentValue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_component_value(&mut self, node: &mut ComponentValue) {
+        self.hook.enter_component_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_component_value(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < ComponentValue >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_component_values(&mut self, node: &mut Vec<ComponentValue>) {
+        self.hook.enter_component_values(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_component_values(node);
+    }
+
+    #[doc = "Visits a node of type `CompoundSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_compound_selector(&mut self, node: &mut CompoundSelector) {
+        self.hook.enter_compound_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_compound_selector(node);
+    }
+
+    #[doc = "Visits a node of type `CompoundSelectorList` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_compound_selector_list(&mut self, node: &mut CompoundSelectorList) {
+        self.hook.enter_compound_selector_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_compound_selector_list(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < CompoundSelector >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_compound_selectors(&mut self, node: &mut Vec<CompoundSelector>) {
+        self.hook.enter_compound_selectors(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_compound_selectors(node);
+    }
+
+    #[doc = "Visits a node of type `ContainerCondition` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_container_condition(&mut self, node: &mut ContainerCondition) {
+        self.hook.enter_container_condition(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_container_condition(node);
+    }
+
+    #[doc = "Visits a node of type `ContainerName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_container_name(&mut self, node: &mut ContainerName) {
+        self.hook.enter_container_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_container_name(node);
+    }
+
+    #[doc = "Visits a node of type `ContainerQuery` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_container_query(&mut self, node: &mut ContainerQuery) {
+        self.hook.enter_container_query(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_container_query(node);
+    }
+
+    #[doc = "Visits a node of type `ContainerQueryAnd` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_container_query_and(&mut self, node: &mut ContainerQueryAnd) {
+        self.hook.enter_container_query_and(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_container_query_and(node);
+    }
+
+    #[doc = "Visits a node of type `ContainerQueryNot` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_container_query_not(&mut self, node: &mut ContainerQueryNot) {
+        self.hook.enter_container_query_not(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_container_query_not(node);
+    }
+
+    #[doc = "Visits a node of type `ContainerQueryOr` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_container_query_or(&mut self, node: &mut ContainerQueryOr) {
+        self.hook.enter_container_query_or(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_container_query_or(node);
+    }
+
+    #[doc = "Visits a node of type `ContainerQueryType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_container_query_type(&mut self, node: &mut ContainerQueryType) {
+        self.hook.enter_container_query_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_container_query_type(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < ContainerQueryType >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_container_query_types(&mut self, node: &mut Vec<ContainerQueryType>) {
+        self.hook.enter_container_query_types(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_container_query_types(node);
+    }
+
+    #[doc = "Visits a node of type `CustomHighlightName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_custom_highlight_name(&mut self, node: &mut CustomHighlightName) {
+        self.hook.enter_custom_highlight_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_custom_highlight_name(node);
+    }
+
+    #[doc = "Visits a node of type `CustomIdent` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_custom_ident(&mut self, node: &mut CustomIdent) {
+        self.hook.enter_custom_ident(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_custom_ident(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < CustomIdent >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_custom_idents(&mut self, node: &mut Vec<CustomIdent>) {
+        self.hook.enter_custom_idents(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_custom_idents(node);
+    }
+
+    #[doc = "Visits a node of type `CustomMediaQuery` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_custom_media_query(&mut self, node: &mut CustomMediaQuery) {
+        self.hook.enter_custom_media_query(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_custom_media_query(node);
+    }
+
+    #[doc = "Visits a node of type `CustomMediaQueryMediaType` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_custom_media_query_media_type(&mut self, node: &mut CustomMediaQueryMediaType) {
+        self.hook.enter_custom_media_query_media_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_custom_media_query_media_type(node);
+    }
+
+    #[doc = "Visits a node of type `CustomPropertyName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_custom_property_name(&mut self, node: &mut CustomPropertyName) {
+        self.hook.enter_custom_property_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_custom_property_name(node);
+    }
+
+    #[doc = "Visits a node of type `DashedIdent` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_dashed_ident(&mut self, node: &mut DashedIdent) {
+        self.hook.enter_dashed_ident(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_dashed_ident(node);
+    }
+
+    #[doc = "Visits a node of type `Declaration` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_declaration(&mut self, node: &mut Declaration) {
+        self.hook.enter_declaration(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_declaration(node);
+    }
+
+    #[doc = "Visits a node of type `DeclarationName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_declaration_name(&mut self, node: &mut DeclarationName) {
+        self.hook.enter_declaration_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_declaration_name(node);
+    }
+
+    #[doc = "Visits a node of type `DeclarationOrAtRule` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_declaration_or_at_rule(&mut self, node: &mut DeclarationOrAtRule) {
+        self.hook.enter_declaration_or_at_rule(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_declaration_or_at_rule(node);
+    }
+
+    #[doc = "Visits a node of type `Delimiter` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_delimiter(&mut self, node: &mut Delimiter) {
+        self.hook.enter_delimiter(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_delimiter(node);
+    }
+
+    #[doc = "Visits a node of type `DelimiterValue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_delimiter_value(&mut self, node: &mut DelimiterValue) {
+        self.hook.enter_delimiter_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_delimiter_value(node);
+    }
+
+    #[doc = "Visits a node of type `Dimension` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_dimension(&mut self, node: &mut Dimension) {
+        self.hook.enter_dimension(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_dimension(node);
+    }
+
+    #[doc = "Visits a node of type `DimensionToken` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_dimension_token(&mut self, node: &mut DimensionToken) {
+        self.hook.enter_dimension_token(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_dimension_token(node);
+    }
+
+    #[doc = "Visits a node of type `DocumentPrelude` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_document_prelude(&mut self, node: &mut DocumentPrelude) {
+        self.hook.enter_document_prelude(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_document_prelude(node);
+    }
+
+    #[doc = "Visits a node of type `DocumentPreludeMatchingFunction` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_document_prelude_matching_function(
+        &mut self,
+        node: &mut DocumentPreludeMatchingFunction,
+    ) {
+        self.hook.enter_document_prelude_matching_function(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_document_prelude_matching_function(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < DocumentPreludeMatchingFunction >` using the hook's \
+             enter and exit methods."]
+    #[inline]
+    fn visit_mut_document_prelude_matching_functions(
+        &mut self,
+        node: &mut Vec<DocumentPreludeMatchingFunction>,
+    ) {
+        self.hook.enter_document_prelude_matching_functions(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_document_prelude_matching_functions(node);
+    }
+
+    #[doc = "Visits a node of type `ExtensionName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_extension_name(&mut self, node: &mut ExtensionName) {
+        self.hook.enter_extension_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_extension_name(node);
+    }
+
+    #[doc = "Visits a node of type `FamilyName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_family_name(&mut self, node: &mut FamilyName) {
+        self.hook.enter_family_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_family_name(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < FamilyName >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_family_names(&mut self, node: &mut Vec<FamilyName>) {
+        self.hook.enter_family_names(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_family_names(node);
+    }
+
+    #[doc = "Visits a node of type `Flex` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_flex(&mut self, node: &mut Flex) {
+        self.hook.enter_flex(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_flex(node);
+    }
+
+    #[doc = "Visits a node of type `FontFeatureValuesPrelude` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_font_feature_values_prelude(&mut self, node: &mut FontFeatureValuesPrelude) {
+        self.hook.enter_font_feature_values_prelude(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_font_feature_values_prelude(node);
+    }
+
+    #[doc = "Visits a node of type `ForgivingComplexSelector` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_forgiving_complex_selector(&mut self, node: &mut ForgivingComplexSelector) {
+        self.hook.enter_forgiving_complex_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_forgiving_complex_selector(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < ForgivingComplexSelector >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_forgiving_complex_selectors(&mut self, node: &mut Vec<ForgivingComplexSelector>) {
+        self.hook.enter_forgiving_complex_selectors(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_forgiving_complex_selectors(node);
+    }
+
+    #[doc = "Visits a node of type `ForgivingRelativeSelector` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_forgiving_relative_selector(&mut self, node: &mut ForgivingRelativeSelector) {
+        self.hook.enter_forgiving_relative_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_forgiving_relative_selector(node);
+    }
+
+    #[doc = "Visits a node of type `ForgivingRelativeSelectorList` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_forgiving_relative_selector_list(
+        &mut self,
+        node: &mut ForgivingRelativeSelectorList,
+    ) {
+        self.hook.enter_forgiving_relative_selector_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_forgiving_relative_selector_list(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < ForgivingRelativeSelector >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_forgiving_relative_selectors(
+        &mut self,
+        node: &mut Vec<ForgivingRelativeSelector>,
+    ) {
+        self.hook.enter_forgiving_relative_selectors(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_forgiving_relative_selectors(node);
+    }
+
+    #[doc = "Visits a node of type `ForgivingSelectorList` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_forgiving_selector_list(&mut self, node: &mut ForgivingSelectorList) {
+        self.hook.enter_forgiving_selector_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_forgiving_selector_list(node);
+    }
+
+    #[doc = "Visits a node of type `Frequency` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_frequency(&mut self, node: &mut Frequency) {
+        self.hook.enter_frequency(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_frequency(node);
+    }
+
+    #[doc = "Visits a node of type `FrequencyPercentage` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_frequency_percentage(&mut self, node: &mut FrequencyPercentage) {
+        self.hook.enter_frequency_percentage(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_frequency_percentage(node);
+    }
+
+    #[doc = "Visits a node of type `Function` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_function(&mut self, node: &mut Function) {
+        self.hook.enter_function(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_function(node);
+    }
+
+    #[doc = "Visits a node of type `FunctionName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_function_name(&mut self, node: &mut FunctionName) {
+        self.hook.enter_function_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_function_name(node);
+    }
+
+    #[doc = "Visits a node of type `GeneralEnclosed` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_general_enclosed(&mut self, node: &mut GeneralEnclosed) {
+        self.hook.enter_general_enclosed(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_general_enclosed(node);
+    }
+
+    #[doc = "Visits a node of type `HexColor` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_hex_color(&mut self, node: &mut HexColor) {
+        self.hook.enter_hex_color(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_hex_color(node);
+    }
+
+    #[doc = "Visits a node of type `Hue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_hue(&mut self, node: &mut Hue) {
+        self.hook.enter_hue(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_hue(node);
+    }
+
+    #[doc = "Visits a node of type `IdSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_id_selector(&mut self, node: &mut IdSelector) {
+        self.hook.enter_id_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_id_selector(node);
+    }
+
+    #[doc = "Visits a node of type `Ident` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_ident(&mut self, node: &mut Ident) {
+        self.hook.enter_ident(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_ident(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < Ident >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_idents(&mut self, node: &mut Vec<Ident>) {
+        self.hook.enter_idents(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_idents(node);
+    }
+
+    #[doc = "Visits a node of type `ImportConditions` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_import_conditions(&mut self, node: &mut ImportConditions) {
+        self.hook.enter_import_conditions(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_import_conditions(node);
+    }
+
+    #[doc = "Visits a node of type `ImportHref` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_import_href(&mut self, node: &mut ImportHref) {
+        self.hook.enter_import_href(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_import_href(node);
+    }
+
+    #[doc = "Visits a node of type `ImportLayerName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_import_layer_name(&mut self, node: &mut ImportLayerName) {
+        self.hook.enter_import_layer_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_import_layer_name(node);
+    }
+
+    #[doc = "Visits a node of type `ImportPrelude` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_import_prelude(&mut self, node: &mut ImportPrelude) {
+        self.hook.enter_import_prelude(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_import_prelude(node);
+    }
+
+    #[doc = "Visits a node of type `ImportantFlag` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_important_flag(&mut self, node: &mut ImportantFlag) {
+        self.hook.enter_important_flag(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_important_flag(node);
+    }
+
+    #[doc = "Visits a node of type `Integer` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_integer(&mut self, node: &mut Integer) {
+        self.hook.enter_integer(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_integer(node);
+    }
+
+    #[doc = "Visits a node of type `KeyframeBlock` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_keyframe_block(&mut self, node: &mut KeyframeBlock) {
+        self.hook.enter_keyframe_block(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_keyframe_block(node);
+    }
+
+    #[doc = "Visits a node of type `KeyframeSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_keyframe_selector(&mut self, node: &mut KeyframeSelector) {
+        self.hook.enter_keyframe_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_keyframe_selector(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < KeyframeSelector >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_keyframe_selectors(&mut self, node: &mut Vec<KeyframeSelector>) {
+        self.hook.enter_keyframe_selectors(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_keyframe_selectors(node);
+    }
+
+    #[doc = "Visits a node of type `KeyframesName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_keyframes_name(&mut self, node: &mut KeyframesName) {
+        self.hook.enter_keyframes_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_keyframes_name(node);
+    }
+
+    #[doc = "Visits a node of type `KeyframesPseudoFunction` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_keyframes_pseudo_function(&mut self, node: &mut KeyframesPseudoFunction) {
+        self.hook.enter_keyframes_pseudo_function(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_keyframes_pseudo_function(node);
+    }
+
+    #[doc = "Visits a node of type `KeyframesPseudoPrefix` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_keyframes_pseudo_prefix(&mut self, node: &mut KeyframesPseudoPrefix) {
+        self.hook.enter_keyframes_pseudo_prefix(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_keyframes_pseudo_prefix(node);
+    }
+
+    #[doc = "Visits a node of type `LayerName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_layer_name(&mut self, node: &mut LayerName) {
+        self.hook.enter_layer_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_layer_name(node);
+    }
+
+    #[doc = "Visits a node of type `LayerNameList` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_layer_name_list(&mut self, node: &mut LayerNameList) {
+        self.hook.enter_layer_name_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_layer_name_list(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < LayerName >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_layer_names(&mut self, node: &mut Vec<LayerName>) {
+        self.hook.enter_layer_names(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_layer_names(node);
+    }
+
+    #[doc = "Visits a node of type `LayerPrelude` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_layer_prelude(&mut self, node: &mut LayerPrelude) {
+        self.hook.enter_layer_prelude(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_layer_prelude(node);
+    }
+
+    #[doc = "Visits a node of type `Length` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_length(&mut self, node: &mut Length) {
+        self.hook.enter_length(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_length(node);
+    }
+
+    #[doc = "Visits a node of type `LengthPercentage` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_length_percentage(&mut self, node: &mut LengthPercentage) {
+        self.hook.enter_length_percentage(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_length_percentage(node);
+    }
+
+    #[doc = "Visits a node of type `ListOfComponentValues` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_list_of_component_values(&mut self, node: &mut ListOfComponentValues) {
+        self.hook.enter_list_of_component_values(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_list_of_component_values(node);
+    }
+
+    #[doc = "Visits a node of type `MediaAnd` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_and(&mut self, node: &mut MediaAnd) {
+        self.hook.enter_media_and(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_and(node);
+    }
+
+    #[doc = "Visits a node of type `MediaCondition` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_condition(&mut self, node: &mut MediaCondition) {
+        self.hook.enter_media_condition(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_condition(node);
+    }
+
+    #[doc = "Visits a node of type `MediaConditionAllType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_condition_all_type(&mut self, node: &mut MediaConditionAllType) {
+        self.hook.enter_media_condition_all_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_condition_all_type(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < MediaConditionAllType >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_media_condition_all_types(&mut self, node: &mut Vec<MediaConditionAllType>) {
+        self.hook.enter_media_condition_all_types(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_condition_all_types(node);
+    }
+
+    #[doc = "Visits a node of type `MediaConditionType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_condition_type(&mut self, node: &mut MediaConditionType) {
+        self.hook.enter_media_condition_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_condition_type(node);
+    }
+
+    #[doc = "Visits a node of type `MediaConditionWithoutOr` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_media_condition_without_or(&mut self, node: &mut MediaConditionWithoutOr) {
+        self.hook.enter_media_condition_without_or(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_condition_without_or(node);
+    }
+
+    #[doc = "Visits a node of type `MediaConditionWithoutOrType` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_media_condition_without_or_type(
+        &mut self,
+        node: &mut MediaConditionWithoutOrType,
+    ) {
+        self.hook.enter_media_condition_without_or_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_condition_without_or_type(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < MediaConditionWithoutOrType >` using the hook's enter \
+             and exit methods."]
+    #[inline]
+    fn visit_mut_media_condition_without_or_types(
+        &mut self,
+        node: &mut Vec<MediaConditionWithoutOrType>,
+    ) {
+        self.hook.enter_media_condition_without_or_types(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_condition_without_or_types(node);
+    }
+
+    #[doc = "Visits a node of type `MediaFeature` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_feature(&mut self, node: &mut MediaFeature) {
+        self.hook.enter_media_feature(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_feature(node);
+    }
+
+    #[doc = "Visits a node of type `MediaFeatureBoolean` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_feature_boolean(&mut self, node: &mut MediaFeatureBoolean) {
+        self.hook.enter_media_feature_boolean(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_feature_boolean(node);
+    }
+
+    #[doc = "Visits a node of type `MediaFeatureName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_feature_name(&mut self, node: &mut MediaFeatureName) {
+        self.hook.enter_media_feature_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_feature_name(node);
+    }
+
+    #[doc = "Visits a node of type `MediaFeaturePlain` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_feature_plain(&mut self, node: &mut MediaFeaturePlain) {
+        self.hook.enter_media_feature_plain(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_feature_plain(node);
+    }
+
+    #[doc = "Visits a node of type `MediaFeatureRange` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_feature_range(&mut self, node: &mut MediaFeatureRange) {
+        self.hook.enter_media_feature_range(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_feature_range(node);
+    }
+
+    #[doc = "Visits a node of type `MediaFeatureRangeComparison` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_media_feature_range_comparison(&mut self, node: &mut MediaFeatureRangeComparison) {
+        self.hook.enter_media_feature_range_comparison(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_feature_range_comparison(node);
+    }
+
+    #[doc = "Visits a node of type `MediaFeatureRangeInterval` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_media_feature_range_interval(&mut self, node: &mut MediaFeatureRangeInterval) {
+        self.hook.enter_media_feature_range_interval(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_feature_range_interval(node);
+    }
+
+    #[doc = "Visits a node of type `MediaFeatureValue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_feature_value(&mut self, node: &mut MediaFeatureValue) {
+        self.hook.enter_media_feature_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_feature_value(node);
+    }
+
+    #[doc = "Visits a node of type `MediaInParens` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_in_parens(&mut self, node: &mut MediaInParens) {
+        self.hook.enter_media_in_parens(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_in_parens(node);
+    }
+
+    #[doc = "Visits a node of type `MediaNot` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_not(&mut self, node: &mut MediaNot) {
+        self.hook.enter_media_not(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_not(node);
+    }
+
+    #[doc = "Visits a node of type `MediaOr` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_or(&mut self, node: &mut MediaOr) {
+        self.hook.enter_media_or(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_or(node);
+    }
+
+    #[doc = "Visits a node of type `MediaQuery` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_query(&mut self, node: &mut MediaQuery) {
+        self.hook.enter_media_query(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_query(node);
+    }
+
+    #[doc = "Visits a node of type `MediaQueryList` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_query_list(&mut self, node: &mut MediaQueryList) {
+        self.hook.enter_media_query_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_query_list(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < MediaQuery >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_querys(&mut self, node: &mut Vec<MediaQuery>) {
+        self.hook.enter_media_querys(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_querys(node);
+    }
+
+    #[doc = "Visits a node of type `MediaType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_media_type(&mut self, node: &mut MediaType) {
+        self.hook.enter_media_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_media_type(node);
+    }
+
+    #[doc = "Visits a node of type `NamedNamespace` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_named_namespace(&mut self, node: &mut NamedNamespace) {
+        self.hook.enter_named_namespace(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_named_namespace(node);
+    }
+
+    #[doc = "Visits a node of type `Namespace` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_namespace(&mut self, node: &mut Namespace) {
+        self.hook.enter_namespace(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_namespace(node);
+    }
+
+    #[doc = "Visits a node of type `NamespacePrefix` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_namespace_prefix(&mut self, node: &mut NamespacePrefix) {
+        self.hook.enter_namespace_prefix(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_namespace_prefix(node);
+    }
+
+    #[doc = "Visits a node of type `NamespacePrelude` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_namespace_prelude(&mut self, node: &mut NamespacePrelude) {
+        self.hook.enter_namespace_prelude(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_namespace_prelude(node);
+    }
+
+    #[doc = "Visits a node of type `NamespacePreludeUri` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_namespace_prelude_uri(&mut self, node: &mut NamespacePreludeUri) {
+        self.hook.enter_namespace_prelude_uri(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_namespace_prelude_uri(node);
+    }
+
+    #[doc = "Visits a node of type `NestingSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_nesting_selector(&mut self, node: &mut NestingSelector) {
+        self.hook.enter_nesting_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_nesting_selector(node);
+    }
+
+    #[doc = "Visits a node of type `Number` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_number(&mut self, node: &mut Number) {
+        self.hook.enter_number(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_number(node);
+    }
+
+    #[doc = "Visits a node of type `NumberType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_number_type(&mut self, node: &mut NumberType) {
+        self.hook.enter_number_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_number_type(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Box < AtRulePrelude > >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_opt_at_rule_prelude(&mut self, node: &mut Option<Box<AtRulePrelude>>) {
+        self.hook.enter_opt_at_rule_prelude(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_at_rule_prelude(node);
+    }
+
+    #[doc = "Visits a node of type `Option < swc_atoms :: Atom >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        self.hook.enter_opt_atom(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_atom(node);
+    }
+
+    #[doc = "Visits a node of type `Option < AttributeSelectorMatcher >` using the hook's enter \
+             and exit methods."]
+    #[inline]
+    fn visit_mut_opt_attribute_selector_matcher(
+        &mut self,
+        node: &mut Option<AttributeSelectorMatcher>,
+    ) {
+        self.hook.enter_opt_attribute_selector_matcher(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_attribute_selector_matcher(node);
+    }
+
+    #[doc = "Visits a node of type `Option < AttributeSelectorModifier >` using the hook's enter \
+             and exit methods."]
+    #[inline]
+    fn visit_mut_opt_attribute_selector_modifier(
+        &mut self,
+        node: &mut Option<AttributeSelectorModifier>,
+    ) {
+        self.hook.enter_opt_attribute_selector_modifier(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_attribute_selector_modifier(node);
+    }
+
+    #[doc = "Visits a node of type `Option < AttributeSelectorValue >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_opt_attribute_selector_value(
+        &mut self,
+        node: &mut Option<AttributeSelectorValue>,
+    ) {
+        self.hook.enter_opt_attribute_selector_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_attribute_selector_value(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Combinator >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_opt_combinator(&mut self, node: &mut Option<Combinator>) {
+        self.hook.enter_opt_combinator(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_combinator(node);
+    }
+
+    #[doc = "Visits a node of type `Option < ContainerName >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_container_name(&mut self, node: &mut Option<ContainerName>) {
+        self.hook.enter_opt_container_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_container_name(node);
+    }
+
+    #[doc = "Visits a node of type `Option < ForgivingSelectorList >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_opt_forgiving_selector_list(&mut self, node: &mut Option<ForgivingSelectorList>) {
+        self.hook.enter_opt_forgiving_selector_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_forgiving_selector_list(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Box < Function > >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_function(&mut self, node: &mut Option<Box<Function>>) {
+        self.hook.enter_opt_function(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_function(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Ident >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
+        self.hook.enter_opt_ident(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_ident(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Box < ImportConditions > >` using the hook's enter \
+             and exit methods."]
+    #[inline]
+    fn visit_mut_opt_import_conditions(&mut self, node: &mut Option<Box<ImportConditions>>) {
+        self.hook.enter_opt_import_conditions(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_import_conditions(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Box < ImportLayerName > >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_opt_import_layer_name(&mut self, node: &mut Option<Box<ImportLayerName>>) {
+        self.hook.enter_opt_import_layer_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_import_layer_name(node);
+    }
+
+    #[doc = "Visits a node of type `Option < ImportantFlag >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_important_flag(&mut self, node: &mut Option<ImportantFlag>) {
+        self.hook.enter_opt_important_flag(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_important_flag(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Box < MediaConditionType > >` using the hook's enter \
+             and exit methods."]
+    #[inline]
+    fn visit_mut_opt_media_condition_type(&mut self, node: &mut Option<Box<MediaConditionType>>) {
+        self.hook.enter_opt_media_condition_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_media_condition_type(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Box < MediaQueryList > >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_opt_media_query_list(&mut self, node: &mut Option<Box<MediaQueryList>>) {
+        self.hook.enter_opt_media_query_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_media_query_list(node);
+    }
+
+    #[doc = "Visits a node of type `Option < MediaType >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_opt_media_type(&mut self, node: &mut Option<MediaType>) {
+        self.hook.enter_opt_media_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_media_type(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Namespace >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        self.hook.enter_opt_namespace(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_namespace(node);
+    }
+
+    #[doc = "Visits a node of type `Option < NamespacePrefix >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_namespace_prefix(&mut self, node: &mut Option<NamespacePrefix>) {
+        self.hook.enter_opt_namespace_prefix(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_namespace_prefix(node);
+    }
+
+    #[doc = "Visits a node of type `Option < NestingSelector >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_nesting_selector(&mut self, node: &mut Option<NestingSelector>) {
+        self.hook.enter_opt_nesting_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_nesting_selector(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Number >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_opt_number(&mut self, node: &mut Option<Number>) {
+        self.hook.enter_opt_number(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_number(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Vec < PageSelectorPseudo > >` using the hook's enter \
+             and exit methods."]
+    #[inline]
+    fn visit_mut_opt_page_selector_pseudos(&mut self, node: &mut Option<Vec<PageSelectorPseudo>>) {
+        self.hook.enter_opt_page_selector_pseudos(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_page_selector_pseudos(node);
+    }
+
+    #[doc = "Visits a node of type `Option < PageSelectorType >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_page_selector_type(&mut self, node: &mut Option<PageSelectorType>) {
+        self.hook.enter_opt_page_selector_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_page_selector_type(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Vec < PseudoClassSelectorChildren > >` using the \
+             hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_opt_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoClassSelectorChildren>>,
+    ) {
+        self.hook.enter_opt_pseudo_class_selector_childrens(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_pseudo_class_selector_childrens(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Vec < PseudoElementSelectorChildren > >` using the \
+             hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_opt_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Option<Vec<PseudoElementSelectorChildren>>,
+    ) {
+        self.hook.enter_opt_pseudo_element_selector_childrens(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_pseudo_element_selector_childrens(node);
+    }
+
+    #[doc = "Visits a node of type `Option < SimpleBlock >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_simple_block(&mut self, node: &mut Option<SimpleBlock>) {
+        self.hook.enter_opt_simple_block(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_simple_block(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Box < TypeSelector > >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_opt_type_selector(&mut self, node: &mut Option<Box<TypeSelector>>) {
+        self.hook.enter_opt_type_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_type_selector(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Vec < UrlModifier > >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_opt_url_modifiers(&mut self, node: &mut Option<Vec<UrlModifier>>) {
+        self.hook.enter_opt_url_modifiers(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_url_modifiers(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Box < UrlValue > >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_url_value(&mut self, node: &mut Option<Box<UrlValue>>) {
+        self.hook.enter_opt_url_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_url_value(node);
+    }
+
+    #[doc = "Visits a node of type `PageSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_page_selector(&mut self, node: &mut PageSelector) {
+        self.hook.enter_page_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_page_selector(node);
+    }
+
+    #[doc = "Visits a node of type `PageSelectorList` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_page_selector_list(&mut self, node: &mut PageSelectorList) {
+        self.hook.enter_page_selector_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_page_selector_list(node);
+    }
+
+    #[doc = "Visits a node of type `PageSelectorPseudo` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_page_selector_pseudo(&mut self, node: &mut PageSelectorPseudo) {
+        self.hook.enter_page_selector_pseudo(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_page_selector_pseudo(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < PageSelectorPseudo >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_page_selector_pseudos(&mut self, node: &mut Vec<PageSelectorPseudo>) {
+        self.hook.enter_page_selector_pseudos(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_page_selector_pseudos(node);
+    }
+
+    #[doc = "Visits a node of type `PageSelectorType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_page_selector_type(&mut self, node: &mut PageSelectorType) {
+        self.hook.enter_page_selector_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_page_selector_type(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < PageSelector >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_page_selectors(&mut self, node: &mut Vec<PageSelector>) {
+        self.hook.enter_page_selectors(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_page_selectors(node);
+    }
+
+    #[doc = "Visits a node of type `Percentage` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_percentage(&mut self, node: &mut Percentage) {
+        self.hook.enter_percentage(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_percentage(node);
+    }
+
+    #[doc = "Visits a node of type `PseudoClassSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_pseudo_class_selector(&mut self, node: &mut PseudoClassSelector) {
+        self.hook.enter_pseudo_class_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_pseudo_class_selector(node);
+    }
+
+    #[doc = "Visits a node of type `PseudoClassSelectorChildren` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_pseudo_class_selector_children(&mut self, node: &mut PseudoClassSelectorChildren) {
+        self.hook.enter_pseudo_class_selector_children(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_pseudo_class_selector_children(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < PseudoClassSelectorChildren >` using the hook's enter \
+             and exit methods."]
+    #[inline]
+    fn visit_mut_pseudo_class_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoClassSelectorChildren>,
+    ) {
+        self.hook.enter_pseudo_class_selector_childrens(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_pseudo_class_selector_childrens(node);
+    }
+
+    #[doc = "Visits a node of type `PseudoElementSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_pseudo_element_selector(&mut self, node: &mut PseudoElementSelector) {
+        self.hook.enter_pseudo_element_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_pseudo_element_selector(node);
+    }
+
+    #[doc = "Visits a node of type `PseudoElementSelectorChildren` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_pseudo_element_selector_children(
+        &mut self,
+        node: &mut PseudoElementSelectorChildren,
+    ) {
+        self.hook.enter_pseudo_element_selector_children(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_pseudo_element_selector_children(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < PseudoElementSelectorChildren >` using the hook's enter \
+             and exit methods."]
+    #[inline]
+    fn visit_mut_pseudo_element_selector_childrens(
+        &mut self,
+        node: &mut Vec<PseudoElementSelectorChildren>,
+    ) {
+        self.hook.enter_pseudo_element_selector_childrens(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_pseudo_element_selector_childrens(node);
+    }
+
+    #[doc = "Visits a node of type `QualifiedRule` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_qualified_rule(&mut self, node: &mut QualifiedRule) {
+        self.hook.enter_qualified_rule(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_qualified_rule(node);
+    }
+
+    #[doc = "Visits a node of type `QualifiedRulePrelude` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_qualified_rule_prelude(&mut self, node: &mut QualifiedRulePrelude) {
+        self.hook.enter_qualified_rule_prelude(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_qualified_rule_prelude(node);
+    }
+
+    #[doc = "Visits a node of type `QueryInParens` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_query_in_parens(&mut self, node: &mut QueryInParens) {
+        self.hook.enter_query_in_parens(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_query_in_parens(node);
+    }
+
+    #[doc = "Visits a node of type `Ratio` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_ratio(&mut self, node: &mut Ratio) {
+        self.hook.enter_ratio(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_ratio(node);
+    }
+
+    #[doc = "Visits a node of type `RelativeSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_relative_selector(&mut self, node: &mut RelativeSelector) {
+        self.hook.enter_relative_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_relative_selector(node);
+    }
+
+    #[doc = "Visits a node of type `RelativeSelectorList` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_relative_selector_list(&mut self, node: &mut RelativeSelectorList) {
+        self.hook.enter_relative_selector_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_relative_selector_list(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < RelativeSelector >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_relative_selectors(&mut self, node: &mut Vec<RelativeSelector>) {
+        self.hook.enter_relative_selectors(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_relative_selectors(node);
+    }
+
+    #[doc = "Visits a node of type `Resolution` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_resolution(&mut self, node: &mut Resolution) {
+        self.hook.enter_resolution(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_resolution(node);
+    }
+
+    #[doc = "Visits a node of type `Rule` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_rule(&mut self, node: &mut Rule) {
+        self.hook.enter_rule(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_rule(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < Rule >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_rules(&mut self, node: &mut Vec<Rule>) {
+        self.hook.enter_rules(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_rules(node);
+    }
+
+    #[doc = "Visits a node of type `ScopeRange` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_scope_range(&mut self, node: &mut ScopeRange) {
+        self.hook.enter_scope_range(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_scope_range(node);
+    }
+
+    #[doc = "Visits a node of type `SelectorList` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_selector_list(&mut self, node: &mut SelectorList) {
+        self.hook.enter_selector_list(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_selector_list(node);
+    }
+
+    #[doc = "Visits a node of type `SequenceOfCustomIdents` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_sequence_of_custom_idents(&mut self, node: &mut SequenceOfCustomIdents) {
+        self.hook.enter_sequence_of_custom_idents(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_sequence_of_custom_idents(node);
+    }
+
+    #[doc = "Visits a node of type `SimpleBlock` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_simple_block(&mut self, node: &mut SimpleBlock) {
+        self.hook.enter_simple_block(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_simple_block(node);
+    }
+
+    #[doc = "Visits a node of type `SizeFeature` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_size_feature(&mut self, node: &mut SizeFeature) {
+        self.hook.enter_size_feature(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_size_feature(node);
+    }
+
+    #[doc = "Visits a node of type `SizeFeatureBoolean` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_size_feature_boolean(&mut self, node: &mut SizeFeatureBoolean) {
+        self.hook.enter_size_feature_boolean(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_size_feature_boolean(node);
+    }
+
+    #[doc = "Visits a node of type `SizeFeatureName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_size_feature_name(&mut self, node: &mut SizeFeatureName) {
+        self.hook.enter_size_feature_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_size_feature_name(node);
+    }
+
+    #[doc = "Visits a node of type `SizeFeaturePlain` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_size_feature_plain(&mut self, node: &mut SizeFeaturePlain) {
+        self.hook.enter_size_feature_plain(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_size_feature_plain(node);
+    }
+
+    #[doc = "Visits a node of type `SizeFeatureRange` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_size_feature_range(&mut self, node: &mut SizeFeatureRange) {
+        self.hook.enter_size_feature_range(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_size_feature_range(node);
+    }
+
+    #[doc = "Visits a node of type `SizeFeatureRangeComparison` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_size_feature_range_comparison(&mut self, node: &mut SizeFeatureRangeComparison) {
+        self.hook.enter_size_feature_range_comparison(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_size_feature_range_comparison(node);
+    }
+
+    #[doc = "Visits a node of type `SizeFeatureRangeInterval` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_size_feature_range_interval(&mut self, node: &mut SizeFeatureRangeInterval) {
+        self.hook.enter_size_feature_range_interval(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_size_feature_range_interval(node);
+    }
+
+    #[doc = "Visits a node of type `SizeFeatureValue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_size_feature_value(&mut self, node: &mut SizeFeatureValue) {
+        self.hook.enter_size_feature_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_size_feature_value(node);
+    }
+
+    #[doc = "Visits a node of type `swc_common :: Span` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
+        self.hook.enter_span(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_span(node);
+    }
+
+    #[doc = "Visits a node of type `Str` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_str(&mut self, node: &mut Str) {
+        self.hook.enter_str(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_str(node);
+    }
+
+    #[doc = "Visits a node of type `StyleBlock` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_style_block(&mut self, node: &mut StyleBlock) {
+        self.hook.enter_style_block(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_style_block(node);
+    }
+
+    #[doc = "Visits a node of type `Stylesheet` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_stylesheet(&mut self, node: &mut Stylesheet) {
+        self.hook.enter_stylesheet(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_stylesheet(node);
+    }
+
+    #[doc = "Visits a node of type `SubclassSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_subclass_selector(&mut self, node: &mut SubclassSelector) {
+        self.hook.enter_subclass_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_subclass_selector(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < SubclassSelector >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_subclass_selectors(&mut self, node: &mut Vec<SubclassSelector>) {
+        self.hook.enter_subclass_selectors(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_subclass_selectors(node);
+    }
+
+    #[doc = "Visits a node of type `SupportsAnd` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_supports_and(&mut self, node: &mut SupportsAnd) {
+        self.hook.enter_supports_and(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_supports_and(node);
+    }
+
+    #[doc = "Visits a node of type `SupportsCondition` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_supports_condition(&mut self, node: &mut SupportsCondition) {
+        self.hook.enter_supports_condition(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_supports_condition(node);
+    }
+
+    #[doc = "Visits a node of type `SupportsConditionType` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_supports_condition_type(&mut self, node: &mut SupportsConditionType) {
+        self.hook.enter_supports_condition_type(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_supports_condition_type(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < SupportsConditionType >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_supports_condition_types(&mut self, node: &mut Vec<SupportsConditionType>) {
+        self.hook.enter_supports_condition_types(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_supports_condition_types(node);
+    }
+
+    #[doc = "Visits a node of type `SupportsFeature` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_supports_feature(&mut self, node: &mut SupportsFeature) {
+        self.hook.enter_supports_feature(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_supports_feature(node);
+    }
+
+    #[doc = "Visits a node of type `SupportsInParens` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_supports_in_parens(&mut self, node: &mut SupportsInParens) {
+        self.hook.enter_supports_in_parens(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_supports_in_parens(node);
+    }
+
+    #[doc = "Visits a node of type `SupportsNot` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_supports_not(&mut self, node: &mut SupportsNot) {
+        self.hook.enter_supports_not(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_supports_not(node);
+    }
+
+    #[doc = "Visits a node of type `SupportsOr` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_supports_or(&mut self, node: &mut SupportsOr) {
+        self.hook.enter_supports_or(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_supports_or(node);
+    }
+
+    #[doc = "Visits a node of type `TagNameSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_tag_name_selector(&mut self, node: &mut TagNameSelector) {
+        self.hook.enter_tag_name_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_tag_name_selector(node);
+    }
+
+    #[doc = "Visits a node of type `Time` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_time(&mut self, node: &mut Time) {
+        self.hook.enter_time(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_time(node);
+    }
+
+    #[doc = "Visits a node of type `TimePercentage` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_time_percentage(&mut self, node: &mut TimePercentage) {
+        self.hook.enter_time_percentage(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_time_percentage(node);
+    }
+
+    #[doc = "Visits a node of type `Token` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_token(&mut self, node: &mut Token) {
+        self.hook.enter_token(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_token(node);
+    }
+
+    #[doc = "Visits a node of type `TokenAndSpan` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        self.hook.enter_token_and_span(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_token_and_span(node);
+    }
+
+    #[doc = "Visits a node of type `TypeSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_type_selector(&mut self, node: &mut TypeSelector) {
+        self.hook.enter_type_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_type_selector(node);
+    }
+
+    #[doc = "Visits a node of type `UnicodeRange` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_unicode_range(&mut self, node: &mut UnicodeRange) {
+        self.hook.enter_unicode_range(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_unicode_range(node);
+    }
+
+    #[doc = "Visits a node of type `UniversalSelector` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_universal_selector(&mut self, node: &mut UniversalSelector) {
+        self.hook.enter_universal_selector(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_universal_selector(node);
+    }
+
+    #[doc = "Visits a node of type `UnknownDimension` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_unknown_dimension(&mut self, node: &mut UnknownDimension) {
+        self.hook.enter_unknown_dimension(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_unknown_dimension(node);
+    }
+
+    #[doc = "Visits a node of type `Url` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_url(&mut self, node: &mut Url) {
+        self.hook.enter_url(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_url(node);
+    }
+
+    #[doc = "Visits a node of type `UrlKeyValue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_url_key_value(&mut self, node: &mut UrlKeyValue) {
+        self.hook.enter_url_key_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_url_key_value(node);
+    }
+
+    #[doc = "Visits a node of type `UrlModifier` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_url_modifier(&mut self, node: &mut UrlModifier) {
+        self.hook.enter_url_modifier(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_url_modifier(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < UrlModifier >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_url_modifiers(&mut self, node: &mut Vec<UrlModifier>) {
+        self.hook.enter_url_modifiers(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_url_modifiers(node);
+    }
+
+    #[doc = "Visits a node of type `UrlValue` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_url_value(&mut self, node: &mut UrlValue) {
+        self.hook.enter_url_value(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_url_value(node);
+    }
+
+    #[doc = "Visits a node of type `UrlValueRaw` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_url_value_raw(&mut self, node: &mut UrlValueRaw) {
+        self.hook.enter_url_value_raw(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_url_value_raw(node);
+    }
+
+    #[doc = "Visits a node of type `WqName` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_wq_name(&mut self, node: &mut WqName) {
+        self.hook.enter_wq_name(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_wq_name(node);
+    }
+}
 #[cfg(any(docsrs, feature = "path"))]
 pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
 #[cfg(any(docsrs, feature = "path"))]
@@ -107972,13 +114830,7 @@ pub mod fields {
     impl AbsoluteColorBaseField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -107994,13 +114846,7 @@ pub mod fields {
     impl AlphaValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108014,13 +114860,7 @@ pub mod fields {
     impl AnPlusBField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108034,15 +114874,7 @@ pub mod fields {
     impl AnPlusBNotationField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108063,15 +114895,7 @@ pub mod fields {
     impl AngleField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108088,13 +114912,7 @@ pub mod fields {
     impl AnglePercentageField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108108,15 +114926,7 @@ pub mod fields {
     impl AnyNamespaceField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108129,15 +114939,7 @@ pub mod fields {
     impl AtRuleField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108156,13 +114958,7 @@ pub mod fields {
     impl AtRuleNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108176,13 +114972,7 @@ pub mod fields {
     impl AtRulePreludeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108230,15 +115020,7 @@ pub mod fields {
     impl AttributeSelectorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108259,15 +115041,7 @@ pub mod fields {
     impl AttributeSelectorMatcherField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108282,13 +115056,7 @@ pub mod fields {
     impl AttributeSelectorMatcherValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108310,15 +115078,7 @@ pub mod fields {
     impl AttributeSelectorModifierField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108333,13 +115093,7 @@ pub mod fields {
     impl AttributeSelectorValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108353,13 +115107,7 @@ pub mod fields {
     impl BinOpField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108377,15 +115125,7 @@ pub mod fields {
     impl CalcOperatorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108400,13 +115140,7 @@ pub mod fields {
     impl CalcOperatorTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108428,15 +115162,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108451,13 +115177,7 @@ pub mod fields {
     impl CalcProductOrOperatorField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108475,15 +115195,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108498,13 +115210,7 @@ pub mod fields {
     impl CalcValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108526,13 +115232,7 @@ pub mod fields {
     impl CalcValueOrOperatorField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108546,15 +115246,7 @@ pub mod fields {
     impl ClassSelectorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108569,13 +115261,7 @@ pub mod fields {
     impl CmykComponentField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108591,13 +115277,7 @@ pub mod fields {
     impl ColorField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108613,13 +115293,7 @@ pub mod fields {
     impl ColorProfileNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108633,15 +115307,7 @@ pub mod fields {
     impl CombinatorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108656,13 +115322,7 @@ pub mod fields {
     impl CombinatorValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108686,15 +115346,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108709,13 +115361,7 @@ pub mod fields {
     impl ComplexSelectorChildrenField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108729,13 +115375,7 @@ pub mod fields {
     impl ComponentValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108813,15 +115453,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108844,15 +115476,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108867,15 +115491,7 @@ pub mod fields {
     impl ContainerConditionField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108892,13 +115508,7 @@ pub mod fields {
     impl ContainerNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -108914,15 +115524,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108937,15 +115539,7 @@ pub mod fields {
     impl ContainerQueryAndField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108962,15 +115556,7 @@ pub mod fields {
     impl ContainerQueryNotField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -108987,15 +115573,7 @@ pub mod fields {
     impl ContainerQueryOrField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109012,13 +115590,7 @@ pub mod fields {
     impl ContainerQueryTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109036,15 +115608,7 @@ pub mod fields {
     impl CustomHighlightNameField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109061,15 +115625,7 @@ pub mod fields {
     impl CustomIdentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109086,15 +115642,7 @@ pub mod fields {
     impl CustomMediaQueryField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109111,13 +115659,7 @@ pub mod fields {
     impl CustomMediaQueryMediaTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109131,15 +115673,7 @@ pub mod fields {
     impl CustomPropertyNameField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109156,15 +115690,7 @@ pub mod fields {
     impl DashedIdentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109185,15 +115711,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109212,13 +115730,7 @@ pub mod fields {
     impl DeclarationNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109232,13 +115744,7 @@ pub mod fields {
     impl DeclarationOrAtRuleField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109254,15 +115760,7 @@ pub mod fields {
     impl DelimiterField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109277,13 +115775,7 @@ pub mod fields {
     impl DelimiterValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109299,13 +115791,7 @@ pub mod fields {
     impl DimensionField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109329,15 +115815,7 @@ pub mod fields {
     impl DimensionTokenField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109362,15 +115840,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109385,13 +115855,7 @@ pub mod fields {
     impl DocumentPreludeMatchingFunctionField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109405,15 +115869,7 @@ pub mod fields {
     impl ExtensionNameField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109430,13 +115886,7 @@ pub mod fields {
     impl FamilyNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109450,15 +115900,7 @@ pub mod fields {
     impl FlexField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109479,15 +115921,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109502,13 +115936,7 @@ pub mod fields {
     impl ForgivingComplexSelectorField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109522,13 +115950,7 @@ pub mod fields {
     impl ForgivingRelativeSelectorField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109546,15 +115968,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109573,15 +115987,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109596,15 +116002,7 @@ pub mod fields {
     impl FrequencyField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109621,13 +116019,7 @@ pub mod fields {
     impl FrequencyPercentageField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109645,15 +116037,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109670,13 +116054,7 @@ pub mod fields {
     impl FunctionNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109690,13 +116068,7 @@ pub mod fields {
     impl GeneralEnclosedField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109710,15 +116082,7 @@ pub mod fields {
     impl HexColorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109735,13 +116099,7 @@ pub mod fields {
     impl HueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109755,15 +116113,7 @@ pub mod fields {
     impl IdSelectorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109778,15 +116128,7 @@ pub mod fields {
     impl IdentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109803,15 +116145,7 @@ pub mod fields {
     impl ImportConditionsField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109828,13 +116162,7 @@ pub mod fields {
     impl ImportHrefField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109848,13 +116176,7 @@ pub mod fields {
     impl ImportLayerNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109868,15 +116190,7 @@ pub mod fields {
     impl ImportPreludeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109895,15 +116209,7 @@ pub mod fields {
     impl ImportantFlagField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109918,15 +116224,7 @@ pub mod fields {
     impl IntegerField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109947,15 +116245,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -109972,13 +116262,7 @@ pub mod fields {
     impl KeyframeSelectorField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -109992,13 +116276,7 @@ pub mod fields {
     impl KeyframesNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110016,15 +116294,7 @@ pub mod fields {
     impl KeyframesPseudoFunctionField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110041,15 +116311,7 @@ pub mod fields {
     impl KeyframesPseudoPrefixField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110070,15 +116332,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110097,15 +116351,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110120,13 +116366,7 @@ pub mod fields {
     impl LayerPreludeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110140,15 +116380,7 @@ pub mod fields {
     impl LengthField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110165,13 +116397,7 @@ pub mod fields {
     impl LengthPercentageField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110189,15 +116415,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110212,15 +116430,7 @@ pub mod fields {
     impl MediaAndField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110241,15 +116451,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110264,13 +116466,7 @@ pub mod fields {
     impl MediaConditionAllTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110288,13 +116484,7 @@ pub mod fields {
     impl MediaConditionTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110312,15 +116502,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110335,13 +116517,7 @@ pub mod fields {
     impl MediaConditionWithoutOrTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110357,13 +116533,7 @@ pub mod fields {
     impl MediaFeatureField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110381,15 +116551,7 @@ pub mod fields {
     impl MediaFeatureBooleanField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110404,13 +116566,7 @@ pub mod fields {
     impl MediaFeatureNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110424,15 +116580,7 @@ pub mod fields {
     impl MediaFeaturePlainField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110449,15 +116597,7 @@ pub mod fields {
     impl MediaFeatureRangeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110476,13 +116616,7 @@ pub mod fields {
     impl MediaFeatureRangeComparisonField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110502,15 +116636,7 @@ pub mod fields {
     impl MediaFeatureRangeIntervalField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110533,13 +116659,7 @@ pub mod fields {
     impl MediaFeatureValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110559,13 +116679,7 @@ pub mod fields {
     impl MediaInParensField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110581,15 +116695,7 @@ pub mod fields {
     impl MediaNotField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110606,15 +116712,7 @@ pub mod fields {
     impl MediaOrField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110631,15 +116729,7 @@ pub mod fields {
     impl MediaQueryField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110664,15 +116754,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110687,13 +116769,7 @@ pub mod fields {
     impl MediaTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110705,15 +116781,7 @@ pub mod fields {
     impl NamedNamespaceField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110728,13 +116796,7 @@ pub mod fields {
     impl NamespaceField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110748,15 +116810,7 @@ pub mod fields {
     impl NamespacePrefixField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110771,15 +116825,7 @@ pub mod fields {
     impl NamespacePreludeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110796,13 +116842,7 @@ pub mod fields {
     impl NamespacePreludeUriField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110816,15 +116856,7 @@ pub mod fields {
     impl NestingSelectorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110837,15 +116869,7 @@ pub mod fields {
     impl NumberField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110862,13 +116886,7 @@ pub mod fields {
     impl NumberTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110886,15 +116904,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110915,15 +116925,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110938,15 +116940,7 @@ pub mod fields {
     impl PageSelectorPseudoField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110961,15 +116955,7 @@ pub mod fields {
     impl PageSelectorTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -110984,15 +116970,7 @@ pub mod fields {
     impl PercentageField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111011,15 +116989,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111036,13 +117006,7 @@ pub mod fields {
     impl PseudoClassSelectorChildrenField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111080,15 +117044,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111105,13 +117061,7 @@ pub mod fields {
     impl PseudoElementSelectorChildrenField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111129,15 +117079,7 @@ pub mod fields {
     impl QualifiedRuleField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111154,13 +117096,7 @@ pub mod fields {
     impl QualifiedRulePreludeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111176,13 +117112,7 @@ pub mod fields {
     impl QueryInParensField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111198,15 +117128,7 @@ pub mod fields {
     impl RatioField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111223,15 +117145,7 @@ pub mod fields {
     impl RelativeSelectorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111252,15 +117166,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111275,15 +117181,7 @@ pub mod fields {
     impl ResolutionField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111300,13 +117198,7 @@ pub mod fields {
     impl RuleField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111322,15 +117214,7 @@ pub mod fields {
     impl ScopeRangeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111351,15 +117235,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111378,15 +117254,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111405,15 +117273,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111430,13 +117290,7 @@ pub mod fields {
     impl SizeFeatureField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111454,15 +117308,7 @@ pub mod fields {
     impl SizeFeatureBooleanField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111477,13 +117323,7 @@ pub mod fields {
     impl SizeFeatureNameField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111495,15 +117335,7 @@ pub mod fields {
     impl SizeFeaturePlainField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111520,15 +117352,7 @@ pub mod fields {
     impl SizeFeatureRangeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111547,13 +117371,7 @@ pub mod fields {
     impl SizeFeatureRangeComparisonField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111573,15 +117391,7 @@ pub mod fields {
     impl SizeFeatureRangeIntervalField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111604,13 +117414,7 @@ pub mod fields {
     impl SizeFeatureValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111630,15 +117434,7 @@ pub mod fields {
     impl StrField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111655,13 +117451,7 @@ pub mod fields {
     impl StyleBlockField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111683,15 +117473,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111706,13 +117488,7 @@ pub mod fields {
     impl SubclassSelectorField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111732,15 +117508,7 @@ pub mod fields {
     impl SupportsAndField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111761,15 +117529,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111784,13 +117544,7 @@ pub mod fields {
     impl SupportsConditionTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111808,13 +117562,7 @@ pub mod fields {
     impl SupportsFeatureField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111828,13 +117576,7 @@ pub mod fields {
     impl SupportsInParensField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111850,15 +117592,7 @@ pub mod fields {
     impl SupportsNotField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111875,15 +117609,7 @@ pub mod fields {
     impl SupportsOrField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111900,15 +117626,7 @@ pub mod fields {
     impl TagNameSelectorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111923,15 +117641,7 @@ pub mod fields {
     impl TimeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -111948,13 +117658,7 @@ pub mod fields {
     impl TimePercentageField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -111968,13 +117672,7 @@ pub mod fields {
     impl TokenField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -112032,15 +117730,7 @@ pub mod fields {
     impl TokenAndSpanField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -112055,13 +117745,7 @@ pub mod fields {
     impl TypeSelectorField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -112075,15 +117759,7 @@ pub mod fields {
     impl UnicodeRangeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -112102,15 +117778,7 @@ pub mod fields {
     impl UniversalSelectorField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -112125,15 +117793,7 @@ pub mod fields {
     impl UnknownDimensionField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -112154,15 +117814,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -112181,15 +117833,7 @@ pub mod fields {
     impl UrlKeyValueField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -112199,13 +117843,7 @@ pub mod fields {
     impl UrlModifierField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -112219,13 +117857,7 @@ pub mod fields {
     impl UrlValueField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            #[allow(
-                unsafe_code,
-                reason = "Generated AST-path state admits only the matching indexed field"
-            )]
-            unsafe {
-                swc_visit::wrong_ast_path();
-            }
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -112239,15 +117871,7 @@ pub mod fields {
     impl UrlValueRawField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -112264,15 +117888,7 @@ pub mod fields {
     impl WqNameField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    #[allow(
-                        unsafe_code,
-                        reason = "Generated AST-path state admits only the matching indexed field"
-                    )]
-                    unsafe {
-                        swc_visit::wrong_ast_path()
-                    }
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
