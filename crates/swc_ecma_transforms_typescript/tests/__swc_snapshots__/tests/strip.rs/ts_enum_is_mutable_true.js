@@ -34,3 +34,9 @@ var N = /*#__PURE__*/ function(N) {
     N[N["B"] = 8] = "B";
     return N;
 }(N || {});
+O.A = 5;
+var P = function(P) {
+    P[P["A"] = O.A] = "A";
+    return P;
+}(P || {});
+console.log(P.A);

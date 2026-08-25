@@ -2864,6 +2864,14 @@ test!(
       A = m,
       B
     }
+    declare enum O {
+      A = 1,
+    }
+    (O as any).A = 5;
+    enum P {
+      A = O.A
+    }
+    console.log(P.A);
     "#
 );
 
