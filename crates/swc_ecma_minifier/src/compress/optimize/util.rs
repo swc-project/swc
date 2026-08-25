@@ -21,6 +21,9 @@ use tracing::debug;
 use super::{Ctx, Optimizer};
 use crate::HEAVY_TASK_PARALLELS;
 
+#[cfg(test)]
+mod tests;
+
 impl<'b> Optimizer<'b> {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
         match e {
