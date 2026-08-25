@@ -2546,16 +2546,34 @@ impl Optimizer<'_> {
             }
         }
 
+        // `UsageCounter` also sees identifiers in syntax positions which
+        // `ExprReplacer` cannot replace (for example, JSX element names).
+        // Probe the actual replacer before taking the initializer so a failed
+        // replacement cannot report progress or discard the source binding.
+        let mut replacement_probe = b.clone();
+        if replace_id_with_expr(
+            &mut replacement_probe,
+            left_id.to_id(),
+            Box::new(Invalid { span: DUMMY_SP }.into()),
+        )
+        .is_some()
+        {
+            return Ok(false);
+        }
+
+        let to = take_a(a, false, false);
+        let unconsumed = replace_id_with_expr(b, left_id.to_id(), to);
+        assert!(
+            unconsumed.is_none(),
+            "replacement preflight must match the real replacement"
+        );
+
         self.changed = true;
         report_change!(
             "sequences: Inlining sequential expressions (`{}{:?}`)",
             left_id.sym,
             left_id.ctxt
         );
-
-        let to = take_a(a, false, false);
-
-        replace_id_with_expr(b, left_id.to_id(), to);
 
         if can_remove {
             report_change!("sequences: Removed variable ({})", left_id);
