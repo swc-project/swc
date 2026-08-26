@@ -864,6 +864,14 @@ impl<I: Tokens> Parser<I> {
         .into())
     }
 
+    #[inline]
+    fn enter_import_module_context(&mut self) {
+        if !self.ctx().contains(Context::Module) {
+            let ctx = self.ctx() | Context::Module | Context::Strict;
+            self.set_ctx(ctx);
+        }
+    }
+
     pub(crate) fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = self.cur_pos();
 
@@ -891,18 +899,11 @@ impl<I: Tokens> Parser<I> {
             .into());
         }
 
-        // It's now import statement
-
-        if !self.ctx().contains(Context::Module) {
-            // Switch to module mode
-            let ctx = self.ctx() | Context::Module | Context::Strict;
-            self.set_ctx(ctx);
-        }
-
         expect!(self, Token::Import);
 
         // Handle import 'mod.js'
         if self.input().cur() == Token::Str {
+            self.enter_import_module_context();
             let src = Box::new(self.parse_str_lit());
             let with = if self.input().syntax().import_attributes()
                 && !self.input().had_line_break_before_cur()
@@ -986,10 +987,11 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if self.input().syntax().typescript() && self.input().is(Token::Eq) {
-                    return self
-                        .parse_ts_import_equals_decl(start, local, false, type_only)
-                        .map(ModuleDecl::from)
-                        .map(ModuleItem::from);
+                    let decl = self.parse_ts_import_equals_decl(start, local, false, type_only)?;
+                    if matches!(&decl.module_ref, TsModuleRef::TsExternalModuleRef(..)) {
+                        self.enter_import_module_context();
+                    }
+                    return Ok(ModuleDecl::TsImportEquals(decl).into());
                 }
 
                 if matches!(&*local.sym, "source" | "defer") {
@@ -1028,6 +1030,8 @@ impl<I: Tokens> Parser<I> {
                 }));
             }
         }
+
+        self.enter_import_module_context();
 
         {
             let import_spec_start = self.cur_pos();
