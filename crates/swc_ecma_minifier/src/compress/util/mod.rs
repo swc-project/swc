@@ -509,6 +509,11 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
                     // crate's `AGENTS.md`, hence this comment. Checking
                     // `obj.ctxt == expr_ctx.unresolved_ctxt` would make it exact,
                     // as `eval_global_vars` does for `Number`.
+                    //
+                    // Every arm also relies on `Math`'s methods not having been
+                    // reassigned (e.g. `Math.ceil = () => 7`), but that one *is*
+                    // already covered by this crate's `AGENTS.md`: "built-in
+                    // object implementations have not been overridden".
                     Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
                         "cos" => {
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;

@@ -904,22 +904,63 @@ fn may_be_str(ty: Value<Type>) -> bool {
 /// Converts the digits of a radix-prefixed numeric string (the part after
 /// `0x`/`0o`/`0b`) to a [`f64`], the way ECMAScript's `ToNumber` would.
 ///
-/// `u64::from_str_radix` is used when the value fits, since it is exact. When
-/// it doesn't (e.g. `"10000000000000000"` in hex, which is 2^64), digits are
-/// accumulated directly into a `f64` instead of giving up with `NaN`: real
-/// engines still produce a (possibly imprecise) `Number` for values wider than
-/// 64 bits.
+/// `u64::from_str_radix` is used when the value fits, since `u64 as f64` is
+/// already a correctly-rounded conversion. When it doesn't (e.g.
+/// `"10000000000000000"` in hex, which is 2^64), the value is rounded to the
+/// nearest `f64` directly, in one step: `radix` is always a power of two here
+/// (2, 8, or 16, the only radixes ECMAScript's grammar uses for prefixed
+/// integer literals), so each digit maps to a fixed number of bits. That
+/// makes it possible to extract the top ~53 significant bits exactly and
+/// round them to nearest-even against a sticky bit for everything below,
+/// which is what a correctly-rounded conversion requires. Accumulating
+/// digit-by-digit into an `f64` (rounding after every multiply-add) is
+/// tempting but wrong: intermediate roundings can compound into a result a
+/// few ULPs off from rounding the exact integer once.
 fn radix_str_to_number(s: &str, radix: u32) -> f64 {
     if s.is_empty() || !s.bytes().all(|b| (b as char).is_digit(radix)) {
         return f64::NAN;
     }
 
-    match u64::from_str_radix(s, radix) {
-        Ok(n) => n as f64,
-        Err(_) => s.bytes().fold(0f64, |acc, b| {
-            acc * radix as f64 + (b as char).to_digit(radix).unwrap() as f64
-        }),
+    if let Ok(n) = u64::from_str_radix(s, radix) {
+        return n as f64;
     }
+
+    let bits_per_digit = radix.trailing_zeros() as usize;
+    let digits: Vec<u32> = s
+        .bytes()
+        .map(|b| (b as char).to_digit(radix).unwrap())
+        .skip_while(|&d| d == 0)
+        .collect();
+
+    if digits.is_empty() {
+        return 0.0;
+    }
+
+    // Even in the worst case (the leading digit contributes only 1 bit, e.g.
+    // a leading `1`), this many digits guarantee at least 7 bits beyond the
+    // 53-bit mantissa: a round bit plus headroom for the sticky check below.
+    let prefix_len = ((59usize).div_ceil(bits_per_digit) + 1).min(digits.len());
+    let prefix_value = digits[..prefix_len]
+        .iter()
+        .fold(0u64, |acc, &d| (acc << bits_per_digit) | d as u64);
+
+    let first_digit_bits = (32 - digits[0].leading_zeros()) as usize;
+    let high_bits_count = (prefix_len - 1) * bits_per_digit + first_digit_bits;
+    let remaining_bits = (digits.len() - prefix_len) * bits_per_digit;
+    let remaining_sticky = digits[prefix_len..].iter().any(|&d| d != 0);
+
+    let extra_bits = high_bits_count - 53;
+    let dropped = prefix_value & ((1u64 << extra_bits) - 1);
+    let mantissa = prefix_value >> extra_bits;
+    let round_bit = (dropped >> (extra_bits - 1)) & 1;
+    let lower_sticky = (dropped & ((1u64 << (extra_bits - 1)) - 1)) != 0;
+    let round_up = round_bit == 1 && (lower_sticky || remaining_sticky || mantissa & 1 == 1);
+    let mantissa = mantissa + round_up as u64;
+
+    let exponent = (remaining_bits + extra_bits) as i32;
+
+    // Exact: multiplying by a power of two never loses precision in IEEE 754.
+    mantissa as f64 * 2f64.powi(exponent)
 }
 
 pub fn num_from_str(s: &str) -> Value<f64> {
@@ -3880,6 +3921,27 @@ mod tests {
         assert_eq!(
             num_from_str("0b10000000000000000000000000000000000000000000000000000000000000000"),
             Known(18446744073709552000.0)
+        );
+    }
+
+    #[test]
+    fn num_from_str_overflowing_radix_values_round_correctly() {
+        // A leading digit worth only 1 bit (`1`) shrinks the margin between the
+        // 53-bit mantissa and the digits sampled for rounding; this case only
+        // rounds correctly if that margin is computed from the leading digit's
+        // actual bit length rather than assumed to always be a full digit wide.
+        // Reference: `u128::from_str_radix("123456789abcdef0123", 16) as f64`.
+        assert_eq!(
+            num_from_str("0x123456789abcdef0123"),
+            Known(5.373003642731685e21)
+        );
+
+        // Rounding after every digit (instead of once, on the exact value)
+        // produces a result one ULP away from this.
+        // Reference: `u128::from_str_radix("32a884c83f6f91624", 16) as f64`.
+        assert_eq!(
+            num_from_str("0x32a884c83f6f91624"),
+            Known(5.840501589722223e19)
         );
     }
 
