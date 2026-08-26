@@ -46,13 +46,13 @@ swc_ecma_transforms_module       = { version = "55.0.1", path = "../swc_ecma_tra
 swc_ecma_transforms_optimization = { version = "52.0.0", path = "../swc_ecma_transforms_optimization", optional = true }
 swc_ecma_transforms_proposal     = { version = "49.0.0", path = "../swc_ecma_transforms_proposal", optional = true }
 swc_ecma_transforms_react        = { version = "55.0.1", path = "../swc_ecma_transforms_react", optional = true }
-swc_ecma_transforms_typescript   = { version = "55.0.0", path = "../swc_ecma_transforms_typescript", optional = true }
+swc_ecma_transforms_typescript   = { version = "55.0.1", path = "../swc_ecma_transforms_typescript", optional = true }
 swc_ecma_utils                   = { version = "35.0.0", path = "../swc_ecma_utils" }
 
 
 [dev-dependencies]
 par-core = { workspace = true, features = ["chili"] }
-swc_ecma_parser = { version = "45.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "45.1.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "49.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }

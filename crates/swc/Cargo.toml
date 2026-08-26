@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc"
 repository    = { workspace = true }
-version       = "75.0.0"
+version       = "75.0.1"
 
 [lib]
 bench = false
@@ -103,8 +103,8 @@ swc_ecma_loader = { version = "27.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "61.0.2", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "45.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_minifier = { version = "61.0.3", path = "../swc_ecma_minifier" }
+swc_ecma_parser = { version = "45.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_preset_env = { version = "63.0.0", path = "../swc_ecma_preset_env", default-features = false, features = [
@@ -131,7 +131,7 @@ swc_plugin_proxy = { version = "30.0.0", path = "../swc_plugin_proxy", optional 
 swc_plugin_runner = { version = "34.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_transform_common = { version = "20.0.0", path = "../swc_transform_common" }
 swc_typescript = { version = "34.0.0", path = "../swc_typescript", optional = true }
-swc_visit = { version = "2.0.1", path = "../swc_visit" }
+swc_visit = { version = "2.0.2", path = "../swc_visit" }
 
 [dependencies.tokio]
 features  = ["rt", "rt-multi-thread"]

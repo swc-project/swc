@@ -65,7 +65,7 @@ better_scoped_tls    = { version = "1.0.1", path = "../better_scoped_tls" }
 from_variant         = { version = "3.0.0", path = "../from_variant" }
 swc_atoms            = { version = "10.0.0", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros" }
-swc_visit            = { version = "2.0.1", path = "../swc_visit" }
+swc_visit            = { version = "2.0.2", path = "../swc_visit" }
 
 [dev-dependencies]
 par-iter   = { workspace = true }
