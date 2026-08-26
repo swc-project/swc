@@ -519,6 +519,10 @@ impl ObjectRestSpreadPass {
 
         match left {
             ForHead::VarDecl(var_decl) => {
+                // Keep the original declaration kind: `var` bindings are
+                // function-scoped, while `let` and `const` need per-iteration
+                // lexical bindings.
+                let kind = var_decl.kind;
                 let ref_ident = private_ident!("_ref");
                 let pat = var_decl.decls[0].name.take();
                 var_decl.decls[0].name = ref_ident.clone().into();
@@ -527,7 +531,7 @@ impl ObjectRestSpreadPass {
                 lowerer.visit(pat, Box::new(ref_ident.into()));
 
                 let stmt: Stmt = VarDecl {
-                    kind: VarDeclKind::Let,
+                    kind,
                     decls: lowerer.out.into_decls(),
                     ..Default::default()
                 }
