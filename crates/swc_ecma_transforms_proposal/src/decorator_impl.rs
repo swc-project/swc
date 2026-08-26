@@ -2555,6 +2555,7 @@ impl VisitMut for DecoratorPass {
                     p.kind = MethodKind::Getter;
                     p.function.is_async = false;
                     p.function.is_generator = false;
+                    p.function.params = Vec::new();
                     p.function.body = Some(FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
