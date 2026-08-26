@@ -917,12 +917,17 @@ fn may_be_str(ty: Value<Type>) -> bool {
 /// tempting but wrong: intermediate roundings can compound into a result a
 /// few ULPs off from rounding the exact integer once.
 fn radix_str_to_number(s: &str, radix: u32) -> f64 {
-    if s.is_empty() || !s.bytes().all(|b| (b as char).is_digit(radix)) {
-        return f64::NAN;
-    }
-
+    // Tried first, before validating anything: `u64::from_str_radix` already
+    // rejects invalid digits and empty input on its own, and this covers the
+    // overwhelming majority of real-world radix literals (short hex color
+    // codes, bit flags, hashes), so the explicit validity scan below only
+    // needs to run on the rare failure path, not on every call.
     if let Ok(n) = u64::from_str_radix(s, radix) {
         return n as f64;
+    }
+
+    if s.is_empty() || !s.bytes().all(|b| (b as char).is_digit(radix)) {
+        return f64::NAN;
     }
 
     let bits_per_digit = radix.trailing_zeros() as usize;
@@ -3953,6 +3958,18 @@ mod tests {
     #[test]
     fn num_from_str_invalid_radix_digit_is_nan() {
         match num_from_str("0xg1") {
+            Known(v) => assert!(v.is_nan()),
+            Unknown => panic!("expected a known (NaN) value"),
+        }
+    }
+
+    #[test]
+    fn num_from_str_overflow_with_later_invalid_digit_is_nan() {
+        // The leading `f`s alone already overflow a `u64`, so
+        // `u64::from_str_radix` can report the failure before ever examining
+        // the trailing `g` — this must still come out as `NaN`, not as if
+        // the invalid digit weren't there.
+        match num_from_str("0xfffffffffffffffffg") {
             Known(v) => assert!(v.is_nan()),
             Unknown => panic!("expected a known (NaN) value"),
         }
