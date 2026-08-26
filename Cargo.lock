@@ -5863,7 +5863,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "75.0.0"
+version = "75.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6143,7 +6143,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "77.0.3"
+version = "77.1.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6696,7 +6696,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "61.0.2"
+version = "61.0.4"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6739,7 +6739,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "45.0.1"
+version = "45.1.0"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6894,7 +6894,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transformer"
-version = "21.0.0"
+version = "21.0.1"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -6968,7 +6968,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "57.0.0"
+version = "57.0.1"
 dependencies = [
  "indexmap 2.12.0",
  "par-core",
@@ -7143,7 +7143,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "55.0.0"
+version = "55.0.1"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
@@ -7200,7 +7200,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "70.0.0"
+version = "70.1.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -7644,7 +7644,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "2.0.1"
+version = "2.0.2"
 dependencies = [
  "either",
 ]

@@ -96,6 +96,12 @@ enum UnambiguousParseAction {
     RetryAsScript,
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum ProgramGrammar {
+    Module,
+    Script,
+}
+
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
@@ -408,34 +414,51 @@ impl<I: Tokens> Parser<I> {
         let module_checkpoint = self.program_checkpoint_save();
         self.enter_unambiguous_module_context();
 
-        if let Ok(parsed) = self.parse_program_once() {
-            match self.unambiguous_parse_action(&parsed.body) {
-                UnambiguousParseAction::KeepModule => {
-                    return Ok(self.finish_program(parsed, true));
-                }
-                UnambiguousParseAction::RelabelAsScript => {
-                    return Ok(self.finish_program(parsed, false));
-                }
-                UnambiguousParseAction::RetryAsScript => {}
+        let module_result = self.parse_program_once();
+        let preserve_module_result_on_script_error =
+            module_result.is_err() || self.ambiguous_script_different_ast;
+        let action = match &module_result {
+            Ok(parsed) => self.unambiguous_parse_action(&parsed.body),
+            Err(_) => UnambiguousParseAction::RetryAsScript,
+        };
+
+        match action {
+            UnambiguousParseAction::KeepModule => {
+                let Ok(parsed) = module_result else {
+                    unreachable!("a failed Module probe always retries as Script")
+                };
+                return Ok(self.finish_program(parsed, ProgramGrammar::Module));
+            }
+            UnambiguousParseAction::RelabelAsScript => {
+                let Ok(parsed) = module_result else {
+                    unreachable!("a failed Module probe always retries as Script")
+                };
+                return Ok(self.finish_program(parsed, ProgramGrammar::Script));
+            }
+            UnambiguousParseAction::RetryAsScript => {}
+        }
+
+        // Keep the first Module result and its diagnostics intact while probing
+        // Script. If both probes report errors, preserve Module only for a fatal
+        // Module failure or a known grammar ambiguity; otherwise the absence of
+        // module syntax still classifies the recoverable program as Script.
+        let mut script_parser = self.clone();
+        script_parser.program_checkpoint_load(module_checkpoint);
+        script_parser.enter_unambiguous_script_context();
+
+        if let Ok(parsed) = script_parser.parse_program_once() {
+            let script_has_errors = script_parser.input.iter.has_errors();
+            let has_module_syntax = script_parser.has_module_syntax(&parsed.body);
+            let can_commit_script = !has_module_syntax
+                && (!script_has_errors || !preserve_module_result_on_script_error);
+            if can_commit_script {
+                let program = script_parser.finish_program(parsed, ProgramGrammar::Script);
+                *self = script_parser;
+                return Ok(program);
             }
         }
 
-        self.program_checkpoint_load(module_checkpoint);
-        let retry_checkpoint = self.program_checkpoint_save();
-        self.enter_unambiguous_script_context();
-
-        if let Ok(parsed) = self.parse_program_once() {
-            let is_valid_script = !self.input.iter.has_errors();
-            let has_module_syntax = self.has_module_syntax(&parsed.body);
-            if is_valid_script && !has_module_syntax {
-                return Ok(self.finish_program(parsed, false));
-            }
-        }
-
-        self.program_checkpoint_load(retry_checkpoint);
-        self.enter_unambiguous_module_context();
-        let parsed = self.parse_program_once()?;
-        Ok(self.finish_program(parsed, true))
+        module_result.map(|parsed| self.finish_program(parsed, ProgramGrammar::Module))
     }
 
     fn parse_program_once(&mut self) -> PResult<ParsedProgram> {
@@ -451,46 +474,63 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn finish_program(&mut self, parsed: ParsedProgram, is_module: bool) -> Program {
+    fn finish_program(&mut self, parsed: ParsedProgram, grammar: ProgramGrammar) -> Program {
         let ParsedProgram {
             start,
             shebang,
             body,
         } = parsed;
 
-        let ret = if is_module {
-            let ctx = self.ctx()
-                | Context::Module
-                | Context::CanBeModule
-                | Context::TopLevel
-                | Context::Strict;
-            // Emit buffered strict mode / module code violations.
-            self.input.set_ctx(ctx);
-            if self.syntax().flow() {
-                self.report_duplicate_exports(&body);
-            }
-            Program::Module(Module {
-                span: self.span(start),
-                body,
-                shebang,
-            })
-        } else {
-            let ctx = self.ctx() & !Context::Module & !Context::CanBeModule & !Context::InAsync;
-            self.input.set_ctx(ctx | Context::TopLevel);
-            let body = body
-                .into_iter()
-                .map(|item| match item {
-                    ModuleItem::ModuleDecl(_) => unreachable!("Module is handled above"),
-                    ModuleItem::Stmt(stmt) => stmt,
-                    #[cfg(swc_ast_unknown)]
-                    _ => unreachable!(),
+        let ret = match grammar {
+            ProgramGrammar::Module => {
+                let ctx = self.ctx()
+                    | Context::Module
+                    | Context::CanBeModule
+                    | Context::TopLevel
+                    | Context::Strict;
+                // Emit buffered strict mode / module code violations.
+                self.input.set_ctx(ctx);
+                if self.syntax().flow() {
+                    self.report_duplicate_exports(&body);
+                }
+                Program::Module(Module {
+                    span: self.span(start),
+                    body,
+                    shebang,
                 })
-                .collect();
-            Program::Script(Script {
-                span: self.span(start),
-                body,
-                shebang,
-            })
+            }
+            ProgramGrammar::Script => {
+                let ctx = self.ctx() & !Context::Module & !Context::CanBeModule & !Context::InAsync;
+                self.input.set_ctx(ctx | Context::TopLevel);
+
+                let requires_module_ast = body
+                    .iter()
+                    .any(|item| matches!(item, ModuleItem::ModuleDecl(..)));
+                if requires_module_ast {
+                    // TypeScript internal import aliases use Script grammar, but the AST can
+                    // only represent them as module declarations.
+                    Program::Module(Module {
+                        span: self.span(start),
+                        body,
+                        shebang,
+                    })
+                } else {
+                    let body = body
+                        .into_iter()
+                        .map(|item| match item {
+                            ModuleItem::ModuleDecl(_) => unreachable!("handled above"),
+                            ModuleItem::Stmt(stmt) => stmt,
+                            #[cfg(swc_ast_unknown)]
+                            _ => unreachable!(),
+                        })
+                        .collect();
+                    Program::Script(Script {
+                        span: self.span(start),
+                        body,
+                        shebang,
+                    })
+                }
+            }
         };
 
         debug_assert!(self.input().cur() == Token::Eof);
@@ -517,7 +557,7 @@ impl<I: Tokens> Parser<I> {
     fn unambiguous_parse_action(&self, body: &[ModuleItem]) -> UnambiguousParseAction {
         if self.has_module_syntax(body) {
             UnambiguousParseAction::KeepModule
-        } else if self.ambiguous_script_different_ast {
+        } else if self.input.iter.has_errors() || self.ambiguous_script_different_ast {
             UnambiguousParseAction::RetryAsScript
         } else {
             UnambiguousParseAction::RelabelAsScript
@@ -526,17 +566,23 @@ impl<I: Tokens> Parser<I> {
 
     fn has_module_syntax(&self, body: &[ModuleItem]) -> bool {
         self.found_module_item
-            || body
-                .iter()
-                .any(|item| matches!(item, ModuleItem::ModuleDecl(..)))
+            || body.iter().any(|item| {
+                let ModuleItem::ModuleDecl(module_decl) = item else {
+                    return false;
+                };
+
+                match module_decl {
+                    ModuleDecl::TsImportEquals(import) => {
+                        import.is_export
+                            || matches!(&import.module_ref, TsModuleRef::TsExternalModuleRef(..))
+                    }
+                    _ => true,
+                }
+            })
     }
 
     fn is_unambiguous_module(&self) -> bool {
         self.program_parse_mode == ProgramParseMode::Module
-    }
-
-    fn is_unambiguous_script(&self) -> bool {
-        self.program_parse_mode == ProgramParseMode::Script
     }
 
     fn can_classify_module(&self) -> bool {

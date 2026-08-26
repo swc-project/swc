@@ -1,7 +1,7 @@
 var _ref;
 // ForXStatement
 for (var _ref1 of []){
-    let { a } = _ref1, b = _object_without_properties(_ref1, [
+    var { a } = _ref1, b = _object_without_properties(_ref1, [
         "a"
     ]);
 }
