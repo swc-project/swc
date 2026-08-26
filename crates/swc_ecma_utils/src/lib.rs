@@ -926,28 +926,33 @@ fn radix_str_to_number(s: &str, radix: u32) -> f64 {
     }
 
     let bits_per_digit = radix.trailing_zeros() as usize;
-    let digits: Vec<u32> = s
-        .bytes()
-        .map(|b| (b as char).to_digit(radix).unwrap())
-        .skip_while(|&d| d == 0)
-        .collect();
+    let bytes = s.as_bytes();
 
-    if digits.is_empty() {
+    // `'0'` is the zero digit in every radix used here, so finding the first
+    // significant byte doesn't need to decode anything, and neither does the
+    // sticky-bit scan below — this whole function stays allocation-free even
+    // for a multi-megabyte numeric literal.
+    let Some(first) = bytes.iter().position(|&b| b != b'0') else {
         return 0.0;
-    }
+    };
+    let significant = &bytes[first..];
 
     // Even in the worst case (the leading digit contributes only 1 bit, e.g.
     // a leading `1`), this many digits guarantee at least 7 bits beyond the
     // 53-bit mantissa: a round bit plus headroom for the sticky check below.
-    let prefix_len = ((59usize).div_ceil(bits_per_digit) + 1).min(digits.len());
-    let prefix_value = digits[..prefix_len]
-        .iter()
-        .fold(0u64, |acc, &d| (acc << bits_per_digit) | d as u64);
+    let prefix_len = ((59usize).div_ceil(bits_per_digit) + 1).min(significant.len());
+    let prefix_value = significant[..prefix_len].iter().fold(0u64, |acc, &b| {
+        (acc << bits_per_digit) | (b as char).to_digit(radix).unwrap() as u64
+    });
 
-    let first_digit_bits = (32 - digits[0].leading_zeros()) as usize;
+    let first_digit_bits = (32
+        - (significant[0] as char)
+            .to_digit(radix)
+            .unwrap()
+            .leading_zeros()) as usize;
     let high_bits_count = (prefix_len - 1) * bits_per_digit + first_digit_bits;
-    let remaining_bits = (digits.len() - prefix_len) * bits_per_digit;
-    let remaining_sticky = digits[prefix_len..].iter().any(|&d| d != 0);
+    let remaining_bits = (significant.len() - prefix_len) * bits_per_digit;
+    let remaining_sticky = significant[prefix_len..].iter().any(|&b| b != b'0');
 
     let extra_bits = high_bits_count - 53;
     let dropped = prefix_value & ((1u64 << extra_bits) - 1);
