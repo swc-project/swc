@@ -39,7 +39,7 @@ string_enum = { version = "1.0.2", path = "../string_enum" }
 swc_atoms = { version = "10.0.0", path = "../swc_atoms" }
 swc_common = { version = "26.0.0", path = "../swc_common" }
 swc_ecma_ast = { version = "29.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transformer = { version = "21.0.0", path = "../swc_ecma_transformer" }
+swc_ecma_transformer = { version = "21.0.1", path = "../swc_ecma_transformer" }
 swc_ecma_transforms = { version = "62.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "proposal",

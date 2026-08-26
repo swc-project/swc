@@ -40,12 +40,12 @@ swc_ecma_parser            = { version = "45.1.0", path = "../swc_ecma_parser", 
   "typescript",
 ] }
 swc_ecma_transforms_base   = { version = "49.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_compat = { version = "57.0.0", path = "../swc_ecma_transforms_compat/", optional = true }
+swc_ecma_transforms_compat = { version = "57.0.1", path = "../swc_ecma_transforms_compat/", optional = true }
 swc_ecma_utils             = { version = "35.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit             = { version = "29.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 swc_ecma_codegen            = { version = "32.0.0", path = "../swc_ecma_codegen/" }
-swc_ecma_transforms_compat  = { version = "57.0.0", path = "../swc_ecma_transforms_compat/" }
+swc_ecma_transforms_compat  = { version = "57.0.1", path = "../swc_ecma_transforms_compat/" }
 swc_ecma_transforms_testing = { version = "53.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "27.0.0", path = "../testing" }
