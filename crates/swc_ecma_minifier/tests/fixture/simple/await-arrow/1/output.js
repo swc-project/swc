@@ -1,3 +1,5 @@
-await (()=>{
+await(()=>{
     console.log("non-IIFE");
-}), await void console.log("IIFE");
+}), await(()=>{
+    console.log("IIFE");
+})();

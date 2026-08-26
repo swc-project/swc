@@ -208,6 +208,8 @@ pub struct Lexer<'a> {
     comments: Option<&'a dyn Comments>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     comments_buffer: Option<CommentsBuffer>,
+    /// Whether comments should remain buffered while the parser may rewind.
+    defer_comments: bool,
 
     pub ctx: Context,
     input: StringInput<'a>,
@@ -312,6 +314,7 @@ impl<'a> Lexer<'a> {
         Lexer {
             comments,
             comments_buffer: comments.is_some().then(CommentsBuffer::new),
+            defer_comments: false,
             ctx: Default::default(),
             input,
             start_pos,
@@ -1337,6 +1340,7 @@ impl<'a> Lexer<'a> {
         if let Some(comments) = self.comments() {
             let last = self.state.prev_hi;
             let start_pos = self.start_pos();
+            let defer_comments = self.defer_comments;
             let comments_buffer = self.comments_buffer_mut().unwrap();
 
             // if the file had no tokens and no shebang, then treat any
@@ -1350,6 +1354,10 @@ impl<'a> Lexer<'a> {
             // move the pending to the leading or trailing
             comments_buffer.pending_to_comment(kind, last);
 
+            if defer_comments {
+                return;
+            }
+
             // now fill the user's passed in comments
             for comment in comments_buffer.take_comments() {
                 match comment.kind {
@@ -1359,6 +1367,28 @@ impl<'a> Lexer<'a> {
                     BufferedCommentKind::Trailing => {
                         comments.add_trailing(comment.pos, comment.comment);
                     }
+                }
+            }
+        }
+    }
+
+    fn finalize_comments(&mut self) {
+        self.defer_comments = false;
+
+        let Some(comments) = self.comments() else {
+            return;
+        };
+        let Some(comments_buffer) = self.comments_buffer.as_mut() else {
+            return;
+        };
+
+        for comment in comments_buffer.take_comments() {
+            match comment.kind {
+                BufferedCommentKind::Leading => {
+                    comments.add_leading(comment.pos, comment.comment);
+                }
+                BufferedCommentKind::Trailing => {
+                    comments.add_trailing(comment.pos, comment.comment);
                 }
             }
         }

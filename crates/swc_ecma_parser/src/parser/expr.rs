@@ -16,7 +16,54 @@ pub(crate) enum AssignTargetOrSpread {
     Pat(Pat),
 }
 
+fn await_binding_span(pat: &Pat) -> Option<Span> {
+    match pat {
+        Pat::Ident(BindingIdent { id, .. }) if id.sym == *"await" => Some(id.span),
+        Pat::Array(ArrayPat { elems, .. }) => elems.iter().flatten().find_map(await_binding_span),
+        Pat::Rest(RestPat { arg, .. }) | Pat::Assign(AssignPat { left: arg, .. }) => {
+            await_binding_span(arg)
+        }
+        Pat::Object(ObjectPat { props, .. }) => props.iter().find_map(|prop| match prop {
+            ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => await_binding_span(value),
+            ObjectPatProp::Assign(AssignPatProp { key, .. }) if key.id.sym == *"await" => {
+                Some(key.id.span)
+            }
+            ObjectPatProp::Rest(RestPat { arg, .. }) => await_binding_span(arg),
+            _ => None,
+        }),
+        _ => None,
+    }
+}
+
 impl<I: Tokens> Parser<I> {
+    pub(super) fn record_await_in_async_arrow_params(&mut self, span: Span) {
+        if self.state().collect_async_arrow_param_await
+            && self.state().pending_async_arrow_param_await.is_none()
+        {
+            self.state_mut().pending_async_arrow_param_await = Some(span);
+        }
+    }
+
+    pub(super) fn record_await_in_arrow_params(&mut self, params: &[Pat]) {
+        if let Some(span) = params.iter().find_map(await_binding_span) {
+            self.record_await_in_async_arrow_params(span);
+        }
+    }
+
+    fn emit_pending_async_arrow_param_await(&mut self, pending: Option<(bool, Option<Span>)>) {
+        if let Some((_, Some(span))) = pending {
+            self.emit_err(span, SyntaxError::ExpectedIdent);
+        }
+    }
+
+    fn preserve_pending_async_call_param_await(&mut self, pending: Option<(bool, Option<Span>)>) {
+        if let Some((true, Some(span))) = pending {
+            if self.state().pending_async_arrow_param_await.is_none() {
+                self.state_mut().pending_async_arrow_param_await = Some(span);
+            }
+        }
+    }
+
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
         debug_tracing!(self, "parse_expr");
@@ -175,12 +222,15 @@ impl<I: Tokens> Parser<I> {
             return Err(err);
         }
 
-        self.state_mut().potential_arrow_start =
-            if matches!(cur, Token::Ident | Token::Yield | Token::LParen) || cur.is_known_ident() {
-                self.cur_pos()
-            } else {
-                BytePos::SYNTHESIZED
-            };
+        self.state_mut().potential_arrow_start = if matches!(
+            cur,
+            Token::Ident | Token::Yield | Token::Await | Token::LParen
+        ) || cur.is_known_ident()
+        {
+            self.cur_pos()
+        } else {
+            BytePos::SYNTHESIZED
+        };
 
         // Try to parse conditional expression.
         let cond = self.parse_cond_expr()?;
@@ -212,6 +262,11 @@ impl<I: Tokens> Parser<I> {
 
         let cur = self.input().cur();
 
+        #[cfg(feature = "tsrx")]
+        if cur == Token::At && self.is_tsrx_expr_start() {
+            return self.parse_tsrx_expr();
+        }
+
         if cur.needs_unary_expr_prefix_parse() {
             if cur == Token::Lt
                 && self.input().syntax().typescript()
@@ -238,10 +293,12 @@ impl<I: Tokens> Parser<I> {
                     peek.is_word() || peek == Token::Gt || peek.should_rescan_into_gt_in_jsx()
                 })
             {
-                fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
+                fn into_expr(e: super::jsx::ParsedJSXElement) -> Box<Expr> {
                     match e {
-                        Either::Left(l) => l.into(),
-                        Either::Right(r) => r.into(),
+                        super::jsx::ParsedJSXElement::Fragment(fragment) => fragment.into(),
+                        super::jsx::ParsedJSXElement::Element(element) => element.into(),
+                        #[cfg(feature = "tsrx")]
+                        super::jsx::ParsedJSXElement::Tsrx(expr) => expr,
                     }
                 }
                 return self.parse_jsx_element(true).map(into_expr);
@@ -335,7 +392,15 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into());
             } else if cur == Token::Await {
-                return self.parse_await_expr(None);
+                let parses_await = self
+                    .ctx()
+                    .intersects(Context::InAsync.union(Context::Module))
+                    || self.can_classify_module()
+                    || !self.can_continue_await_as_script_identifier();
+
+                if parses_await {
+                    return self.parse_await_expr(None);
+                }
             }
         }
 
@@ -2252,10 +2317,19 @@ impl<I: Tokens> Parser<I> {
         let await_token = self.span(start);
 
         if self.input().is(Token::Asterisk) {
+            if self.can_classify_module() {
+                self.ambiguous_script_different_ast = true;
+            }
             syntax_error!(self, SyntaxError::AwaitStar);
         }
 
         let ctx = self.ctx();
+
+        if !ctx.contains(Context::InFunction)
+            && ctx.intersects(Context::InClassField.union(Context::InStaticBlock))
+        {
+            self.emit_err(await_token, SyntaxError::ExpectedIdent);
+        }
 
         let span = self.span(start);
 
@@ -2275,11 +2349,14 @@ impl<I: Tokens> Parser<I> {
             return Ok(Ident::new_no_ctxt(atom!("await"), span).into());
         }
 
-        // This has been checked if start_of_await_token == true,
-        if start_of_await_token.is_none() && ctx.contains(Context::TopLevel) {
-            self.mark_found_module_item();
-            if !ctx.contains(Context::CanBeModule) {
-                self.emit_err(await_token, SyntaxError::TopLevelAwaitInScript);
+        let ambiguous_script_different_ast =
+            self.can_classify_module() && self.is_ambiguous_await_prefix();
+
+        if start_of_await_token.is_none() && self.can_classify_module() {
+            if ambiguous_script_different_ast {
+                self.ambiguous_script_different_ast = true;
+            } else {
+                self.mark_found_module_item();
             }
         }
 
@@ -2297,6 +2374,92 @@ impl<I: Tokens> Parser<I> {
             arg,
         }
         .into())
+    }
+
+    /// Returns whether the consumed `await` can start a different valid Script
+    /// expression from the Module AwaitExpression parsed by the first pass.
+    fn is_ambiguous_await_prefix(&self) -> bool {
+        if self.input().had_line_break_before_cur() {
+            return true;
+        }
+
+        let cur = self.input().cur();
+        cur.is_bin_op()
+            || cur.is_assign_op()
+            || matches!(
+                cur,
+                Token::Asterisk
+                    | Token::PlusPlus
+                    | Token::MinusMinus
+                    | Token::Dot
+                    | Token::LParen
+                    | Token::LBracket
+                    | Token::Arrow
+                    | Token::QuestionMark
+                    | Token::NoSubstitutionTemplateLiteral
+                    | Token::TemplateHead
+                    | Token::Regex
+                    | Token::Slash
+                    | Token::DivEq
+                    | Token::In
+                    | Token::InstanceOf
+                    | Token::OptionalChain
+            )
+            || (self.input().syntax().typescript()
+                && matches!(cur, Token::As | Token::Satisfies | Token::Bang))
+            || (cur == Token::Of
+                && !self
+                    .input()
+                    .token_flags()
+                    .contains(crate::lexer::TokenFlags::UNICODE))
+    }
+
+    /// Returns whether the next token can continue an `await`
+    /// IdentifierReference under Script grammar.
+    fn can_continue_await_as_script_identifier(&mut self) -> bool {
+        if self.input_mut().has_linebreak_between_cur_and_peeked() {
+            return true;
+        }
+
+        let Some(next) = peek!(self) else {
+            return true;
+        };
+
+        next.is_bin_op()
+            || next.is_assign_op()
+            || matches!(
+                next,
+                Token::Asterisk
+                    | Token::PlusPlus
+                    | Token::MinusMinus
+                    | Token::Dot
+                    | Token::LParen
+                    | Token::LBracket
+                    | Token::Arrow
+                    | Token::QuestionMark
+                    | Token::NoSubstitutionTemplateLiteral
+                    | Token::TemplateHead
+                    | Token::Regex
+                    | Token::Slash
+                    | Token::DivEq
+                    | Token::In
+                    | Token::InstanceOf
+                    | Token::OptionalChain
+                    | Token::Semi
+                    | Token::RBrace
+                    | Token::RParen
+                    | Token::RBracket
+                    | Token::Comma
+                    | Token::Colon
+                    | Token::Eof
+            )
+            || (self.input().syntax().typescript()
+                && matches!(next, Token::As | Token::Satisfies | Token::Bang))
+            || (next == Token::Of
+                && !self
+                    .input()
+                    .token_flags()
+                    .contains(crate::lexer::TokenFlags::UNICODE))
     }
 
     pub(crate) fn parse_for_head_prefix(&mut self) -> PResult<Box<Expr>> {
@@ -2577,6 +2740,7 @@ impl<I: Tokens> Parser<I> {
                 }
             } {
                 let params: Vec<Pat> = self.parse_paren_items_as_params(items.clone(), None)?;
+                self.record_await_in_arrow_params(&params);
 
                 let body: Box<ArrowFunctionBody> = self.parse_fn_block_or_expr_body(
                     false,
@@ -2632,10 +2796,22 @@ impl<I: Tokens> Parser<I> {
         // But as all patterns of javascript is subset of
         // expressions, we can parse both as expression.
 
-        let (paren_items, trailing_comma) = self
-            .do_outside_of_context(Context::WillExpectColonForCond, |p| {
-                p.allow_in_expr(Self::parse_args_or_pats)
-            })?;
+        let collection_checkpoint = async_span.map(|_| {
+            let was_collecting = self.state().collect_async_arrow_param_await;
+            let previous_pending = self.state_mut().pending_async_arrow_param_await.take();
+            self.state_mut().collect_async_arrow_param_await = true;
+            (was_collecting, previous_pending)
+        });
+        let paren_result = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+            p.allow_in_expr(Self::parse_args_or_pats)
+        });
+        let pending_await = collection_checkpoint.map(|(was_collecting, previous_pending)| {
+            let pending = self.state_mut().pending_async_arrow_param_await.take();
+            self.state_mut().collect_async_arrow_param_await = was_collecting;
+            self.state_mut().pending_async_arrow_param_await = previous_pending;
+            (was_collecting, pending)
+        });
+        let (paren_items, trailing_comma) = paren_result?;
 
         let has_pattern = paren_items
             .iter()
@@ -2675,7 +2851,7 @@ impl<I: Tokens> Parser<I> {
                     unexpected!(p, "fail")
                 }
 
-                Ok(Some(
+                Ok(Some::<Box<Expr>>(
                     ArrowExpr {
                         span: p.span(expr_start),
                         is_async: async_span.is_some(),
@@ -2688,6 +2864,10 @@ impl<I: Tokens> Parser<I> {
                     .into(),
                 ))
             }) {
+                if let Expr::Arrow(ArrowExpr { params, .. }) = expr.as_ref() {
+                    self.record_await_in_arrow_params(params);
+                }
+                self.emit_pending_async_arrow_param_await(pending_await);
                 return Ok(expr);
             }
         }
@@ -2759,7 +2939,9 @@ impl<I: Tokens> Parser<I> {
             expect!(self, Token::Arrow);
 
             let params: Vec<Pat> = self.parse_paren_items_as_params(paren_items, trailing_comma)?;
+            self.record_await_in_arrow_params(&params);
             validate_arrow_params(self, &params, async_span.is_some());
+            self.emit_pending_async_arrow_param_await(pending_await);
 
             let body: Box<ArrowFunctionBody> = self.parse_fn_block_or_expr_body(
                 async_span.is_some(),
@@ -2848,6 +3030,7 @@ impl<I: Tokens> Parser<I> {
             .collect::<Result<Vec<_>, _>>()?;
         if let Some(async_span) = async_span {
             // It's a call expression
+            self.preserve_pending_async_call_param_await(pending_await);
             return Ok(CallExpr {
                 span: self.span(async_span.lo()),
                 callee: Callee::Expr(Box::new(
@@ -2986,6 +3169,7 @@ impl<I: Tokens> Parser<I> {
                     let arg = ident.into();
                     let params = vec![arg];
                     expect!(p, Token::Arrow);
+                    p.record_await_in_arrow_params(&params);
                     let body = p.parse_fn_block_or_expr_body(
                         true,
                         false,
@@ -3009,6 +3193,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 let params = vec![id.into()];
                 p.bump();
+                p.record_await_in_arrow_params(&params);
                 let body = p.parse_fn_block_or_expr_body(
                     false,
                     false,
@@ -3030,12 +3215,38 @@ impl<I: Tokens> Parser<I> {
             Ok(id.into())
         };
 
-        if cur == Token::Let || (cur == Token::Await && self.input().syntax().typescript()) {
+        if cur == Token::Let || cur == Token::Await {
             let ctx = self.ctx();
             let id = self.parse_ident(
                 !ctx.contains(Context::InGenerator),
                 !ctx.contains(Context::InAsync),
             )?;
+
+            let is_for_of_head = ctx.contains(Context::ForLoopInit)
+                && self.input().is(Token::Of)
+                && !self
+                    .input()
+                    .token_flags()
+                    .contains(crate::lexer::TokenFlags::UNICODE);
+            let continues_script_expression = (self.input().is(Token::In)
+                && ctx.contains(Context::IncludeInExpr))
+                || self.input().is(Token::InstanceOf)
+                || (self.input().syntax().typescript()
+                    && matches!(self.input().cur(), Token::As | Token::Satisfies));
+            if cur == Token::Await
+                && !is_for_of_head
+                && !continues_script_expression
+                && !self.input().had_line_break_before_cur()
+                && self.input().cur().is_word()
+            {
+                let error = if ctx.contains(Context::InFunction) {
+                    SyntaxError::AwaitInFunction
+                } else {
+                    SyntaxError::TopLevelAwaitInScript
+                };
+                self.emit_err(id.span, error);
+            }
+
             if !can_be_arrow {
                 return Ok(id.into());
             }

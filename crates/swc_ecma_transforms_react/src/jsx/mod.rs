@@ -1964,6 +1964,7 @@ fn is_known_html_entity(name: &str) -> bool {
             | "diams"
             | "quot"
             | "amp"
+            | "apos"
             | "lt"
             | "gt"
     )

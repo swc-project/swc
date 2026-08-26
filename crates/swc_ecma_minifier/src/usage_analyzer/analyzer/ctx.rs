@@ -77,6 +77,11 @@ impl Ctx {
     pub fn is_top_level(&self) -> bool {
         self.bit_ctx.contains(BitContext::IsTopLevel)
     }
+
+    #[inline]
+    pub fn in_left_of_for_loop(&self) -> bool {
+        self.bit_ctx.contains(BitContext::InLeftOfForLoop)
+    }
 }
 
 bitflags! {
