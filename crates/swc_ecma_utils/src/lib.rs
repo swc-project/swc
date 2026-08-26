@@ -967,10 +967,23 @@ fn radix_str_to_number(s: &str, radix: u32) -> f64 {
     let round_up = round_bit == 1 && (lower_sticky || remaining_sticky || mantissa & 1 == 1);
     let mantissa = mantissa + round_up as u64;
 
-    let exponent = (remaining_bits + extra_bits) as i32;
+    let exponent = saturating_exponent(remaining_bits, extra_bits);
 
     // Exact: multiplying by a power of two never loses precision in IEEE 754.
     mantissa as f64 * 2f64.powi(exponent)
+}
+
+/// `(remaining_bits + extra_bits) as i32`, but saturating instead of
+/// wrapping when the sum exceeds `i32::MAX`.
+///
+/// An unchecked cast would wrap a large enough sum into a *negative* `i32`,
+/// turning what should be an astronomically large (legitimately `Infinity`
+/// once passed through `f64::powi`) exponent into a tiny or negative one
+/// instead — reachable only via a radix literal of hundreds of millions of
+/// digits, but `powi(i32::MAX)` already saturates to `Infinity` on its own,
+/// so clamping here is all that's needed to make that fall out correctly.
+fn saturating_exponent(remaining_bits: usize, extra_bits: usize) -> i32 {
+    (remaining_bits + extra_bits).min(i32::MAX as usize) as i32
 }
 
 pub fn num_from_str(s: &str) -> Value<f64> {
@@ -3973,6 +3986,18 @@ mod tests {
             Known(v) => assert!(v.is_nan()),
             Unknown => panic!("expected a known (NaN) value"),
         }
+    }
+
+    #[test]
+    fn saturating_exponent_clamps_instead_of_wrapping() {
+        // A plain, comfortably in-range sum is passed through unchanged.
+        assert_eq!(saturating_exponent(100, 4), 104);
+
+        // Reachable only via a radix literal of hundreds of millions of
+        // digits, but must not wrap into a negative exponent: an unchecked
+        // `as i32` cast turns `i32::MAX as usize + 1` into `i32::MIN`.
+        assert_eq!(saturating_exponent(i32::MAX as usize + 1, 0), i32::MAX);
+        assert_eq!(saturating_exponent(i32::MAX as usize, 1), i32::MAX);
     }
 
     #[test]
