@@ -264,7 +264,9 @@ impl Pure<'_> {
             Stmt::DoWhile(stmt) => {
                 let val = stmt.test.as_pure_bool(self.expr_ctx);
                 if let Value::Known(false) = val {
-                    if should_not_inline_loop_body(&stmt.body, true) {
+                    // A direct break or continue targets this loop and cannot survive
+                    // unwrapping.
+                    if should_not_inline_loop_body(&stmt.body, false) {
                         return;
                     }
 
