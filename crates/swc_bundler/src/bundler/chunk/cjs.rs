@@ -132,7 +132,7 @@ fn wrap_module(
             ],
             decorators: Vec::new(),
             span: DUMMY_SP,
-            body: Some(FunctionBody {
+            body: FunctionBody {
                 span: dep.span,
                 stmts: dep
                     .body
@@ -146,7 +146,7 @@ fn wrap_module(
                         _ => panic!("unable to access unknown nodes"),
                     })
                     .collect(),
-            }),
+            },
             is_generator: false,
             is_async: false,
             ..Default::default()

@@ -174,11 +174,9 @@ impl Optimizer<'_> {
                         op: op!("!"), arg, ..
                     }) if matches!(&**arg, Expr::Lit(..)) => {}
 
-                    Expr::Fn(FnExpr { function, .. })
-                        if matches!(&**function, Function { body: Some(..), .. }) =>
-                    {
-                        if function.body.as_ref().unwrap().stmts.len() == 1
-                            && matches!(&function.body.as_ref().unwrap().stmts[0], Stmt::Return(..))
+                    Expr::Fn(FnExpr { function, .. }) => {
+                        if function.body.stmts.len() == 1
+                            && matches!(&function.body.stmts[0], Stmt::Return(..))
                         {
                         } else {
                             log_abort!("inline: [x] It's not fn-local");
@@ -710,8 +708,8 @@ impl Optimizer<'_> {
             self.vars.inline_with_multi_replacer(decl);
             match decl {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
-                    if let Some(body) = &f.function.body {
-                        if !usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
+                    let body = &f.function.body;
+                    if !usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
                             // only callees can be inlined multiple times
                             && usage.callee_count > 0
                             // prefer single inline
@@ -721,80 +719,78 @@ impl Optimizer<'_> {
                                 f.function.params.len(),
                                 usage,
                             )
-                        {
-                            for (idx, param) in f.function.params.iter().enumerate() {
-                                match &param.pat {
-                                    Pat::Rest(..) => return,
-                                    Pat::Assign(assign) => {
-                                        // Multi-use function inlining with default params is only
-                                        // safe for defaults that are never observed directly.
-                                        let Pat::Ident(param) = &*assign.left else {
-                                            return;
-                                        };
-                                        let Some(usage) = self.data.vars.get(&param.id.to_id())
-                                        else {
-                                            return;
-                                        };
-                                        if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                                            || usage.ref_count != 0
-                                        {
-                                            return;
-                                        }
+                    {
+                        for (idx, param) in f.function.params.iter().enumerate() {
+                            match &param.pat {
+                                Pat::Rest(..) => return,
+                                Pat::Assign(assign) => {
+                                    // Multi-use function inlining with default params is only
+                                    // safe for defaults that are never observed directly.
+                                    let Pat::Ident(param) = &*assign.left else {
+                                        return;
+                                    };
+                                    let Some(usage) = self.data.vars.get(&param.id.to_id()) else {
+                                        return;
+                                    };
+                                    if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                        || usage.ref_count != 0
+                                    {
+                                        return;
+                                    }
 
-                                        if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
-                                            return;
-                                        }
+                                    if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
+                                        return;
+                                    }
 
-                                        for earlier_param in f.function.params.iter().take(idx) {
-                                            let earlier_ident = match &earlier_param.pat {
+                                    for earlier_param in f.function.params.iter().take(idx) {
+                                        let earlier_ident = match &earlier_param.pat {
+                                            Pat::Ident(id) => Some(&id.id),
+                                            Pat::Assign(assign) => match &*assign.left {
                                                 Pat::Ident(id) => Some(&id.id),
-                                                Pat::Assign(assign) => match &*assign.left {
-                                                    Pat::Ident(id) => Some(&id.id),
-                                                    _ => None,
-                                                },
                                                 _ => None,
-                                            };
+                                            },
+                                            _ => None,
+                                        };
 
-                                            let Some(earlier_ident) = earlier_ident else {
-                                                return;
-                                            };
-                                            if contains_ident_ref(&assign.right, earlier_ident) {
-                                                return;
-                                            }
+                                        let Some(earlier_ident) = earlier_ident else {
+                                            return;
+                                        };
+                                        if contains_ident_ref(&assign.right, earlier_ident) {
+                                            return;
                                         }
                                     }
-                                    _ => {}
                                 }
+                                _ => {}
                             }
-
-                            report_change!(
-                                "inline: Decided to inline function `{}{:?}` as it's very simple",
-                                id.0,
-                                id.1
-                            );
-
-                            for (i, _) in collect_infects_from(
-                                &f.function,
-                                AliasConfig::default()
-                                    .marks(Some(self.marks))
-                                    .need_all(true),
-                            ) {
-                                if let Some(usage) = self.data.vars.get_mut(&i) {
-                                    usage.ref_count += 1;
-                                }
-                            }
-
-                            self.vars.simple_functions.insert(
-                                id,
-                                FnExpr {
-                                    ident: None,
-                                    function: f.function.clone(),
-                                }
-                                .into(),
-                            );
-
-                            return;
                         }
+
+                        report_change!(
+                            "inline: Decided to inline function `{}{:?}` as it's very simple",
+                            id.0,
+                            id.1
+                        );
+
+                        for (i, _) in collect_infects_from(
+                            &f.function,
+                            AliasConfig::default()
+                                .marks(Some(self.marks))
+                                .need_all(true),
+                        ) {
+                            if let Some(usage) = self.data.vars.get_mut(&i) {
+                                usage.ref_count += 1;
+                            }
+                        }
+
+                        self.vars.simple_functions.insert(
+                            id,
+                            FnExpr {
+                                ident: None,
+                                function: f.function.clone(),
+                            }
+                            .into(),
+                        );
+
+                        return;
                     }
                 }
                 _ => {}

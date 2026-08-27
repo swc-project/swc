@@ -3,13 +3,9 @@
 macro_rules! impl_visit_mut_fn {
     () => {
         fn visit_mut_function(&mut self, f: &mut Function) {
-            if f.body.is_none() {
-                return;
-            }
-
             f.visit_mut_children_with(self);
 
-            let body = f.body.as_mut().unwrap();
+            let body = &mut f.body;
             let (params, stmts) = self.visit_mut_fn_like(&mut f.params, &mut body.stmts);
 
             f.params = params;

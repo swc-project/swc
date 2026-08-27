@@ -2693,6 +2693,7 @@ fn exec(input: PathBuf) {
     test_fixture(
         Syntax::Typescript(TsSyntax {
             tsx: input.to_string_lossy().ends_with(".tsx"),
+            no_early_errors: true,
             ..Default::default()
         }),
         &|t| (tr(t), properties(t, true)),

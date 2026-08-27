@@ -517,6 +517,7 @@ impl ClassProperties {
         let should_create_vars_for_method_names = class.body.iter().any(|m| match m {
             ClassMember::Constructor(_)
             | ClassMember::PrivateMethod(_)
+            | ClassMember::TsMethod(_)
             | ClassMember::TsIndexSignature(_)
             | ClassMember::Empty(_)
             | ClassMember::AutoAccessor(_) => false,
@@ -533,7 +534,9 @@ impl ClassProperties {
 
         for member in class.body {
             match member {
-                ClassMember::Empty(..) | ClassMember::TsIndexSignature(..) => members.push(member),
+                ClassMember::Empty(..)
+                | ClassMember::TsMethod(..)
+                | ClassMember::TsIndexSignature(..) => members.push(member),
 
                 ClassMember::Method(method) => {
                     // we handle computed key here to preserve the execution order

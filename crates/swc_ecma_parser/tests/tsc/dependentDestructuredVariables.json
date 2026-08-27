@@ -5018,7 +5018,7 @@
       }
     },
     {
-      "type": "FunctionDeclaration",
+      "type": "TsDeclareFunction",
       "identifier": {
         "type": "Identifier",
         "span": {
@@ -5081,7 +5081,6 @@
         "end": 3088
       },
       "ctxt": 0,
-      "body": null,
       "generator": false,
       "async": false,
       "typeParameters": {
@@ -5132,7 +5131,7 @@
       }
     },
     {
-      "type": "FunctionDeclaration",
+      "type": "TsDeclareFunction",
       "identifier": {
         "type": "Identifier",
         "span": {
@@ -5221,7 +5220,6 @@
         "end": 3144
       },
       "ctxt": 0,
-      "body": null,
       "generator": false,
       "async": false,
       "typeParameters": {
@@ -6498,7 +6496,7 @@
       "alternate": null
     },
     {
-      "type": "FunctionDeclaration",
+      "type": "TsDeclareFunction",
       "identifier": {
         "type": "Identifier",
         "span": {
@@ -6615,7 +6613,6 @@
         "end": 3919
       },
       "ctxt": 0,
-      "body": null,
       "generator": false,
       "async": false,
       "typeParameters": null,
@@ -7643,7 +7640,7 @@
       ]
     },
     {
-      "type": "FunctionDeclaration",
+      "type": "TsDeclareFunction",
       "identifier": {
         "type": "Identifier",
         "span": {
@@ -7923,7 +7920,6 @@
         "end": 4587
       },
       "ctxt": 0,
-      "body": null,
       "generator": false,
       "async": false,
       "typeParameters": null,
@@ -13953,7 +13949,7 @@
       "decorators": [],
       "body": [
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 8010,
             "end": 8112
@@ -14141,7 +14137,6 @@
               "end": 8112
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": {

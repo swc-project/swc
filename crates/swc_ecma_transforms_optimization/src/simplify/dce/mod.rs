@@ -489,9 +489,10 @@ fn class_def_is_trivial(class: &Class) -> bool {
         return false;
     }
     class.body.iter().all(|member| match member {
-        ClassMember::Constructor(_) | ClassMember::TsIndexSignature(_) | ClassMember::Empty(_) => {
-            true
-        }
+        ClassMember::Constructor(_)
+        | ClassMember::TsMethod(_)
+        | ClassMember::TsIndexSignature(_)
+        | ClassMember::Empty(_) => true,
         ClassMember::Method(m) => m.function.decorators.is_empty(),
         ClassMember::PrivateMethod(m) => m.function.decorators.is_empty(),
         ClassMember::ClassProp(p) => p.decorators.is_empty() && !(p.is_static && p.value.is_some()),
@@ -516,6 +517,7 @@ fn class_def_is_side_effect_free(class: &Class, expr_ctx: ExprCtx) -> bool {
         .as_deref()
         .map_or(true, |e| !e.may_have_side_effects(expr_ctx))
         && class.body.iter().all(|m| match m {
+            ClassMember::TsMethod(_) => true,
             ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
             ClassMember::ClassProp(m) => {
                 !matches!(m.key, PropName::Computed(..))
@@ -1137,14 +1139,13 @@ impl VisitMut for TreeShaker {
                         Function {
                             is_async: false,
                             is_generator: false,
-                            body: Some(..),
                             ..
                         }
                     ) && f.params.is_empty()
-                        && f.body.as_ref().is_some_and(|body| body.stmts.len() == 1) =>
+                        && f.body.stmts.len() == 1 =>
                     {
                         if let Some(Stmt::Return(ReturnStmt { arg: Some(arg), .. })) =
-                            f.body.as_mut().and_then(|body| body.stmts.first_mut())
+                            f.body.stmts.first_mut()
                         {
                             if let Expr::Object(ObjectLit { props, .. }) = &**arg {
                                 if props.iter().all(|p| match p {

@@ -4,8 +4,8 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     AssignPat, Decl, ExportDecl, Function, ModuleDecl, ModuleItem, ObjectPatProp, Param, Pat,
-    Script, Stmt, TsKeywordTypeKind, TsParenthesizedType, TsThisParam, TsType, TsTypeAnn,
-    TsUnionOrIntersectionType, TsUnionType,
+    Script, Stmt, TsFunction, TsKeywordTypeKind, TsParenthesizedType, TsThisParam, TsType,
+    TsTypeAnn, TsUnionOrIntersectionType, TsUnionType,
 };
 
 use super::{
@@ -25,7 +25,6 @@ impl FastDts {
         self.transform_function_params(func);
         func.is_async = false;
         func.is_generator = false;
-        func.body = None
     }
 
     pub(crate) fn transform_fn_return_type(&mut self, func: &mut Function) {
@@ -51,6 +50,11 @@ impl FastDts {
     }
 
     pub(crate) fn transform_function_params(&mut self, function: &mut Function) {
+        self.check_this_param(function.this_param.as_deref());
+        self.transform_fn_params(&mut function.params);
+    }
+
+    pub(crate) fn transform_ts_function_params(&mut self, function: &mut TsFunction) {
         self.check_this_param(function.this_param.as_deref());
         self.transform_fn_params(&mut function.params);
     }
@@ -214,58 +218,70 @@ impl FastDts {
         let mut is_export_default_function_overloads = false;
 
         items.retain(|item| match item {
+            ModuleItem::Stmt(Stmt::Decl(Decl::TsFn(fn_decl)))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::TsFn(fn_decl),
+                ..
+            })) => {
+                if let Some(ident) = &fn_decl.ident {
+                    last_function_name = Some(ident.sym.clone());
+                }
+                true
+            }
             ModuleItem::Stmt(Stmt::Decl(Decl::Fn(fn_decl)))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                 decl: Decl::Fn(fn_decl),
                 ..
-            })) => {
-                if fn_decl.function.body.is_some() {
-                    if last_function_name
-                        .as_ref()
-                        .is_some_and(|last_name| last_name == &fn_decl.ident.sym)
-                    {
-                        return false;
-                    }
-                } else {
-                    last_function_name = Some(fn_decl.ident.sym.clone());
+            })) => !last_function_name
+                .as_ref()
+                .is_some_and(|last_name| last_name == &fn_decl.ident.sym),
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => match &export.decl {
+                swc_ecma_ast::DefaultDecl::TsFn(_) => {
+                    is_export_default_function_overloads = true;
+                    true
                 }
-                true
-            }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
-                if let Some(fn_expr) = export.decl.as_fn_expr() {
-                    if is_export_default_function_overloads && fn_expr.function.body.is_some() {
-                        is_export_default_function_overloads = false;
-                        false
-                    } else {
-                        is_export_default_function_overloads = true;
-                        true
-                    }
-                } else {
+                swc_ecma_ast::DefaultDecl::Fn(_) if is_export_default_function_overloads => {
+                    is_export_default_function_overloads = false;
+                    false
+                }
+                swc_ecma_ast::DefaultDecl::Fn(_) => true,
+                _ => {
                     is_export_default_function_overloads = false;
                     true
                 }
-            }
+            },
             _ => true,
         });
     }
 
     pub(crate) fn remove_function_overloads_in_script(script: &mut Script) {
         let mut last_function_name: Option<Atom> = None;
-        script.body.retain(|stmt| {
-            if let Some(fn_decl) = stmt.as_decl().and_then(|decl| decl.as_fn_decl()) {
-                if fn_decl.function.body.is_some() {
-                    if last_function_name
-                        .as_ref()
-                        .is_some_and(|last_name| last_name == &fn_decl.ident.sym)
-                    {
-                        return false;
-                    }
-                } else {
-                    last_function_name = Some(fn_decl.ident.sym.clone());
+        script.body.retain(|stmt| match stmt.as_decl() {
+            Some(Decl::TsFn(fn_decl)) => {
+                if let Some(ident) = &fn_decl.ident {
+                    last_function_name = Some(ident.sym.clone());
                 }
+                true
             }
-            true
+            Some(Decl::Fn(fn_decl)) => !last_function_name
+                .as_ref()
+                .is_some_and(|last_name| last_name == &fn_decl.ident.sym),
+            _ => true,
         });
+    }
+}
+
+pub(crate) fn ts_function_from_function(function: Function) -> TsFunction {
+    TsFunction {
+        this_param: function.this_param,
+        params: function.params,
+        decorators: function.decorators,
+        span: function.span,
+        ctxt: function.ctxt,
+        is_generator: function.is_generator,
+        is_async: function.is_async,
+        type_params: function.type_params,
+        return_type: function.return_type,
     }
 }
 

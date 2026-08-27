@@ -92,7 +92,7 @@ fn lower_export_default_decl(
 
             fn_expr.as_fn_decl().map(From::from)
         }
-        DefaultDecl::TsInterfaceDecl(_) => None,
+        DefaultDecl::TsFn(_) | DefaultDecl::TsInterfaceDecl(_) => None,
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }

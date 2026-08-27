@@ -26,7 +26,7 @@
       "decorators": [],
       "body": [
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 64,
             "end": 81
@@ -47,7 +47,6 @@
               "end": 81
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -120,7 +119,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 119,
             "end": 145
@@ -141,7 +140,6 @@
               "end": 145
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,

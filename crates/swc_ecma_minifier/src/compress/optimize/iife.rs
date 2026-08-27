@@ -612,7 +612,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                let body = f.function.body.as_ref().unwrap();
+                let body = &f.function.body;
 
                 if let Some(scope) = self.data.get_scope(f.function.ctxt) {
                     if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::USED_ARGUMENTS)) {
@@ -734,7 +734,7 @@ impl Optimizer<'_> {
             Expr::Fn(f) => {
                 trace_op!("iife: Empty function");
 
-                let body = f.function.body.as_mut().unwrap();
+                let body = &mut f.function.body;
                 if body.stmts.is_empty() && call.args.is_empty() {
                     self.changed = true;
                     report_change!("iife: Inlining an empty function call as `undefined`");
@@ -816,7 +816,7 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Fn(f) => {
-                let body = f.function.body.as_mut().unwrap();
+                let body = &mut f.function.body;
                 let param_ids = f
                     .function
                     .params
@@ -1526,7 +1526,11 @@ impl Visit for DeclVisitor {
             Decl::Class(_) | Decl::Fn(_) => 1,
             Decl::Var(var_decl) => var_decl.decls.len(),
             Decl::Using(using_decl) => using_decl.decls.len(),
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => 0,
+            Decl::TsFn(_)
+            | Decl::TsInterface(_)
+            | Decl::TsTypeAlias(_)
+            | Decl::TsEnum(_)
+            | Decl::TsModule(_) => 0,
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         };

@@ -2674,6 +2674,11 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
                         ..f
                     }
                     .into(),
+                    Decl::TsFn(mut f) => {
+                        f.declare = true;
+                        f.function.span.lo = declare_start;
+                        f.into()
+                    }
                     _ => decl,
                 })
                 .map(Some);

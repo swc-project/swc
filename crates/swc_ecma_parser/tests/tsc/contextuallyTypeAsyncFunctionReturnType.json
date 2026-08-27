@@ -1693,7 +1693,7 @@
         "end": 1099
       },
       "declaration": {
-        "type": "FunctionDeclaration",
+        "type": "TsDeclareFunction",
         "identifier": {
           "type": "Identifier",
           "span": {
@@ -1831,7 +1831,6 @@
           "end": 1099
         },
         "ctxt": 0,
-        "body": null,
         "generator": false,
         "async": false,
         "typeParameters": null,
@@ -2378,7 +2377,7 @@
       }
     },
     {
-      "type": "FunctionDeclaration",
+      "type": "TsDeclareFunction",
       "identifier": {
         "type": "Identifier",
         "span": {
@@ -2441,7 +2440,6 @@
         "end": 1576
       },
       "ctxt": 0,
-      "body": null,
       "generator": false,
       "async": false,
       "typeParameters": null,

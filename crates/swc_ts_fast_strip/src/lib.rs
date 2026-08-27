@@ -16,10 +16,10 @@ use swc_ecma_ast::{
     ExportDefaultDecl, ExportSpecifier, Expr, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp,
     IfStmt, ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat,
     PrivateMethod, PrivateProp, Program, Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl,
-    TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsModuleDecl,
-    TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsThisParam,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
-    VarDeclarator, WhileStmt,
+    TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsMethod,
+    TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsThisParam, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
+    TsTypeParamInstantiation, VarDeclarator, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -1021,7 +1021,7 @@ impl Visit for TsStrip {
     }
 
     fn visit_class_method(&mut self, n: &ClassMethod) {
-        if n.function.body.is_none() || n.is_abstract {
+        if n.is_abstract {
             self.add_replacement(n.span);
             return;
         }
@@ -1131,11 +1131,6 @@ impl Visit for TsStrip {
         debug_assert!(!n.is_override);
         debug_assert!(!n.is_abstract);
 
-        if n.function.body.is_none() {
-            self.add_replacement(n.span);
-            return;
-        }
-
         // Is `private #foo()` valid?
         if n.accessibility.is_some() {
             let start_pos = n
@@ -1153,6 +1148,10 @@ impl Visit for TsStrip {
         }
 
         n.visit_children_with(self);
+    }
+
+    fn visit_ts_method(&mut self, n: &TsMethod) {
+        self.add_replacement(n.span);
     }
 
     fn visit_private_prop(&mut self, n: &PrivateProp) {
@@ -1590,7 +1589,7 @@ trait IsTsDecl {
 impl IsTsDecl for Decl {
     fn is_ts_declare(&self) -> bool {
         match self {
-            Self::TsInterface(..) | Self::TsTypeAlias(..) => true,
+            Self::TsFn(..) | Self::TsInterface(..) | Self::TsTypeAlias(..) => true,
 
             Self::TsModule(module) => module.declare || matches!(module.id, TsModuleName::Str(..)),
             Self::TsEnum(ref r#enum) => r#enum.declare,
@@ -1598,8 +1597,6 @@ impl IsTsDecl for Decl {
             Self::Var(ref var) => var.declare,
             Self::Fn(FnDecl { declare: true, .. })
             | Self::Class(ClassDecl { declare: true, .. }) => true,
-
-            Self::Fn(FnDecl { function, .. }) => function.body.is_none(),
 
             _ => false,
         }
@@ -1616,8 +1613,8 @@ impl IsTsDecl for DefaultDecl {
     fn is_ts_declare(&self) -> bool {
         match self {
             Self::Class(..) => false,
-            Self::Fn(r#fn) => r#fn.function.body.is_none(),
-            Self::TsInterfaceDecl(..) => true,
+            Self::Fn(..) => false,
+            Self::TsFn(..) | Self::TsInterfaceDecl(..) => true,
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }

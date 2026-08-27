@@ -162,43 +162,53 @@ pub(super) struct PrivateAccessVisitor<'a> {
     pub unresolved_mark: Mark,
 }
 
-macro_rules! take_vars {
-    ($name:ident, $T:tt) => {
-        fn $name(&mut self, f: &mut $T) {
-            let old_var = self.vars.take();
-
-            if f.body.is_none() {
-                return;
-            }
-
-            f.visit_mut_children_with(self);
-
-            if !self.vars.is_empty() {
-                prepend_stmt(
-                    &mut f.body.as_mut().unwrap().stmts,
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: self.vars.take(),
-
-                        ..Default::default()
-                    }
-                    .into(),
-                )
-            }
-
-            self.vars = old_var;
-        }
-    };
-}
-
 // super.#sdsa is invalid
 impl VisitMut for PrivateAccessVisitor<'_> {
     noop_visit_mut_type!(fail);
 
-    take_vars!(visit_mut_function, Function);
+    fn visit_mut_function(&mut self, function: &mut Function) {
+        let old_vars = self.vars.take();
+        function.visit_mut_children_with(self);
 
-    take_vars!(visit_mut_constructor, Constructor);
+        if !self.vars.is_empty() {
+            prepend_stmt(
+                &mut function.body.stmts,
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: self.vars.take(),
+                    ..Default::default()
+                }
+                .into(),
+            );
+        }
+
+        self.vars = old_vars;
+    }
+
+    fn visit_mut_constructor(&mut self, constructor: &mut Constructor) {
+        let old_vars = self.vars.take();
+        if constructor.body.is_none() {
+            return;
+        }
+
+        constructor.visit_mut_children_with(self);
+
+        if !self.vars.is_empty() {
+            prepend_stmt(
+                &mut constructor.body.as_mut().unwrap().stmts,
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: self.vars.take(),
+                    ..Default::default()
+                }
+                .into(),
+            );
+        }
+
+        self.vars = old_vars;
+    }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if let Expr::OptChain(opt) = e {

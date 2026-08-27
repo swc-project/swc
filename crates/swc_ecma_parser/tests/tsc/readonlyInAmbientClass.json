@@ -83,7 +83,7 @@
           "isOptional": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 53,
             "end": 80
@@ -138,7 +138,6 @@
               "end": 80
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,

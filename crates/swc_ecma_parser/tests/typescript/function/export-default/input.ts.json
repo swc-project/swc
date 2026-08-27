@@ -12,8 +12,9 @@
         "end": 43
       },
       "decl": {
-        "type": "FunctionExpression",
+        "type": "TsDeclareFunction",
         "identifier": null,
+        "declare": false,
         "params": [
           {
             "type": "Parameter",
@@ -55,7 +56,6 @@
           "end": 43
         },
         "ctxt": 0,
-        "body": null,
         "generator": false,
         "async": false,
         "typeParameters": null,

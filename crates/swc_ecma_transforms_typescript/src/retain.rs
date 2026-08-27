@@ -91,8 +91,8 @@ impl IsConcrete for ModuleDecl {
 impl IsConcrete for Decl {
     fn is_concrete(&self) -> bool {
         match self {
-            Self::TsInterface(..) | Self::TsTypeAlias(..) => false,
-            Self::Fn(function_decl) => function_decl.function.body.is_some(),
+            Self::TsFn(..) | Self::TsInterface(..) | Self::TsTypeAlias(..) => false,
+            Self::Fn(..) => true,
             Self::Class(..) | Self::Var(..) | Self::Using(..) | Self::TsEnum(..) => true,
             Self::TsModule(ts_module) => ts_module.is_concrete(),
             #[cfg(swc_ast_unknown)]
@@ -105,8 +105,8 @@ impl IsConcrete for DefaultDecl {
     fn is_concrete(&self) -> bool {
         match self {
             Self::Class(..) => true,
-            Self::Fn(function_expr) => function_expr.function.body.is_some(),
-            Self::TsInterfaceDecl(..) => false,
+            Self::Fn(..) => true,
+            Self::TsFn(..) | Self::TsInterfaceDecl(..) => false,
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
@@ -132,6 +132,7 @@ impl IsDeclare for Decl {
         match self {
             Decl::Class(class_decl) => class_decl.declare,
             Decl::Fn(function_decl) => function_decl.declare,
+            Decl::TsFn(..) => true,
             Decl::Var(var_decl) => var_decl.declare,
             Decl::Using(..) => false,
             Decl::TsInterface(..) | Decl::TsTypeAlias(..) => true,

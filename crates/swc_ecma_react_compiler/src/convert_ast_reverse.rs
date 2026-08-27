@@ -1163,7 +1163,7 @@ impl ReverseCtx {
             decorators: vec![],
             span: self.span_from_base(&f.base),
             ctxt: SyntaxContext::empty(),
-            body: Some(self.convert_function_body(&f.body)),
+            body: self.convert_function_body(&f.body),
             is_generator: f.generator,
             is_async: f.is_async,
             type_params: None,
@@ -1230,7 +1230,7 @@ impl ReverseCtx {
             decorators: vec![],
             span: self.span_from_base(&f.base),
             ctxt: SyntaxContext::empty(),
-            body: Some(self.convert_function_body(&f.body)),
+            body: self.convert_function_body(&f.body),
             is_generator: f.generator,
             is_async: f.is_async,
             type_params: None,
@@ -1257,7 +1257,7 @@ impl ReverseCtx {
             decorators: vec![],
             span: self.span_from_base(&m.base),
             ctxt: SyntaxContext::empty(),
-            body: Some(self.convert_function_body(&m.body)),
+            body: self.convert_function_body(&m.body),
             is_generator: m.generator,
             is_async: m.is_async,
             type_params: None,
@@ -1907,6 +1907,13 @@ impl ReverseCtx {
         if self
             .preserved_ast
             .borrow_mut()
+            .load_export_default_ts_function(&mut preserved_decl)
+        {
+            return swc::ModuleDecl::ExportDefaultDecl(preserved_decl);
+        }
+        if self
+            .preserved_ast
+            .borrow_mut()
             .load_export_default_ts_interface(&mut preserved_decl)
         {
             return swc::ModuleDecl::ExportDefaultDecl(preserved_decl);
@@ -2174,11 +2181,8 @@ impl ReverseCtx {
     }
 
     fn convert_ts_declare_function(&self, decl: &TSDeclareFunction) -> swc::ModuleItem {
-        let id = decl.id.as_ref().map_or_else(
-            || self.quote_ident("__declare"),
-            |id| self.convert_identifier(id),
-        );
-        let mut function = swc::Function {
+        let ident = decl.id.as_ref().map(|id| self.convert_identifier(id));
+        let mut function = swc::TsFunction {
             span: self.span_from_base(&decl.base),
             ctxt: SyntaxContext::empty(),
 
@@ -2198,9 +2202,9 @@ impl ReverseCtx {
             );
         }
 
-        swc::Stmt::Decl(swc::Decl::Fn(swc::FnDecl {
-            ident: id,
-            declare: decl.declare.unwrap_or(true),
+        swc::Stmt::Decl(swc::Decl::TsFn(swc::TsFnDecl {
+            ident,
+            declare: decl.declare.unwrap_or_default(),
             function: Box::new(function),
         }))
         .into()
@@ -2388,7 +2392,7 @@ impl ReverseCtx {
     #[cold]
     fn cold_fill_ts_function_from_raw_node(
         &self,
-        function: &mut swc::Function,
+        function: &mut swc::TsFunction,
         params: &[RawNode],
         return_type: Option<&RawNode>,
     ) {
@@ -2834,6 +2838,7 @@ fn set_statement_span(stmt: &mut swc::Stmt, span: Span) {
         swc::Stmt::Decl(decl) => match decl {
             swc::Decl::Class(d) => d.class.span = span,
             swc::Decl::Fn(d) => d.function.span = span,
+            swc::Decl::TsFn(d) => d.function.span = span,
             swc::Decl::Var(d) => d.span = span,
             swc::Decl::Using(d) => d.span = span,
             swc::Decl::TsInterface(d) => d.span = span,

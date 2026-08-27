@@ -1631,7 +1631,8 @@ fn transform_preserves_default_export_function_overload_signatures() {
         .iter()
         .filter_map(|item| match item {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => match &export.decl {
-                DefaultDecl::Fn(function) => Some(function.function.body.is_some()),
+                DefaultDecl::Fn(_) => Some(true),
+                DefaultDecl::TsFn(_) => Some(false),
                 _ => None,
             },
             _ => None,

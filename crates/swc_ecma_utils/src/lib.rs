@@ -672,6 +672,12 @@ impl Visit for Hoister {
         self.vars.push(f.ident.clone());
     }
 
+    fn visit_ts_fn_decl(&mut self, f: &TsFnDecl) {
+        if let Some(ident) = &f.ident {
+            self.vars.push(ident.clone());
+        }
+    }
+
     fn visit_function(&mut self, _: &Function) {}
 
     fn visit_pat(&mut self, p: &Pat) {
@@ -2178,9 +2184,8 @@ where
                 self.add(ident);
             }
             DefaultDecl::Fn(FnExpr {
-                ident: Some(ident),
-                function: f,
-            }) if f.body.is_some() => {
+                ident: Some(ident), ..
+            }) => {
                 self.add(ident);
             }
             _ => {}
@@ -2192,6 +2197,14 @@ where
         node.visit_children_with(self);
 
         self.add(&node.ident);
+    }
+
+    fn visit_ts_fn_decl(&mut self, node: &TsFnDecl) {
+        node.visit_children_with(self);
+
+        if let Some(ident) = &node.ident {
+            self.add(ident);
+        }
     }
 
     fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier) {
@@ -3496,9 +3509,7 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Member(MemberExpr { obj, prop, .. }) => is_pure_member_callee(obj, prop, ctx),
 
         Expr::Fn(FnExpr { function: f, .. })
-            if f.params.iter().all(|p| p.pat.is_ident())
-                && f.body.is_some()
-                && f.body.as_ref().unwrap().stmts.is_empty() =>
+            if f.params.iter().all(|p| p.pat.is_ident()) && f.body.stmts.is_empty() =>
         {
             true
         }
@@ -3515,9 +3526,7 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     match expr {
         // An empty function expression is also pure for `new`
         Expr::Fn(FnExpr { function: f, .. })
-            if f.params.iter().all(|p| p.pat.is_ident())
-                && f.body.is_some()
-                && f.body.as_ref().unwrap().stmts.is_empty() =>
+            if f.params.iter().all(|p| p.pat.is_ident()) && f.body.stmts.is_empty() =>
         {
             true
         }
@@ -3992,8 +4001,7 @@ switch (foo) {
         let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) = &module.body[0] else {
             unreachable!("expected a function declaration")
         };
-        let body = f.function.body.as_ref().unwrap();
-        body.stmts[0].terminates()
+        f.function.body.stmts[0].terminates()
     }
 }
 

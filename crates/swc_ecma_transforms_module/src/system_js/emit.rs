@@ -53,14 +53,14 @@ pub(super) fn emit(
     stmts.extend(export_inits);
 
     let execute: Expr = Function {
-        body: Some(FunctionBody {
+        body: FunctionBody {
             span: DUMMY_SP,
             stmts: module
                 .execute_stmts
                 .into_iter()
                 .map(|execute_stmt| emit_execute_stmt(execute_stmt, &export_ident))
                 .collect(),
-        }),
+        },
         is_async: module.async_execute,
         ..Default::default()
     }
@@ -93,10 +93,10 @@ pub(super) fn emit(
 
     let register = Function {
         params: vec![export_ident.into(), context_ident.into()],
-        body: Some(FunctionBody {
+        body: FunctionBody {
             span: DUMMY_SP,
             stmts,
-        }),
+        },
         ..Default::default()
     }
     .into_fn_expr(None);
@@ -302,10 +302,10 @@ fn emit_setter(dep: &DependencySlot, module: &SystemModule, export_ident: &Ident
         } else {
             Default::default()
         },
-        body: Some(FunctionBody {
+        body: FunctionBody {
             span: DUMMY_SP,
             stmts,
-        }),
+        },
         ..Default::default()
     }
     .into_fn_expr(None)
@@ -397,7 +397,7 @@ fn emit_export_setters(stmts: &mut Vec<Stmt>, module: &SystemModule, export_iden
                         id: value.clone(),
                         type_ann: None,
                     }))],
-                    body: Some(FunctionBody {
+                    body: FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![
                             value
@@ -405,7 +405,7 @@ fn emit_export_setters(stmts: &mut Vec<Stmt>, module: &SystemModule, export_iden
                                 .into_stmt(),
                             export_names_call(export_ident, exports, local).into_stmt(),
                         ],
-                    }),
+                    },
                     ..Default::default()
                 }),
                 span: DUMMY_SP,

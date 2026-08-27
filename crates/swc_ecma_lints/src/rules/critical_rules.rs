@@ -203,9 +203,7 @@ impl CriticalRules {
 
         if lexical_function {
             self.visit_with_stmt_like(s, |s| match s {
-                Stmt::Decl(Decl::Fn(FnDecl {
-                    ident, function: f, ..
-                })) if f.body.is_some() => Some(ident.clone()),
+                Stmt::Decl(Decl::Fn(FnDecl { ident, .. })) => Some(ident.clone()),
                 _ => None,
             });
         } else {
@@ -313,26 +311,20 @@ impl Visit for CriticalRules {
         self.lexical_function = true;
 
         self.visit_with_stmt_like(&m.body, |s| match s {
-            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                ident, function: f, ..
-            })))
+            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl { ident, .. })))
             | ModuleItem::ModuleDecl(
                 ModuleDecl::ExportDecl(ExportDecl {
-                    decl:
-                        Decl::Fn(FnDecl {
-                            ident, function: f, ..
-                        }),
+                    decl: Decl::Fn(FnDecl { ident, .. }),
                     ..
                 })
                 | ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl:
                         DefaultDecl::Fn(FnExpr {
-                            ident: Some(ident),
-                            function: f,
+                            ident: Some(ident), ..
                         }),
                     ..
                 }),
-            ) if f.body.is_some() => Some(ident.clone()),
+            ) => Some(ident.clone()),
             _ => None,
         });
     }
@@ -364,9 +356,17 @@ impl Visit for CriticalRules {
         } = f;
         params.visit_with(self);
         decorators.visit_with(self);
-        if let Some(body) = body {
-            self.visit_with_stmts(&body.stmts, false)
-        }
+        self.visit_with_stmts(&body.stmts, false)
+    }
+
+    fn visit_ts_function(&mut self, f: &TsFunction) {
+        check_dupe_args!(&f.params);
+
+        f.this_param.visit_with(self);
+        f.params.visit_with(self);
+        f.decorators.visit_with(self);
+        f.type_params.visit_with(self);
+        f.return_type.visit_with(self);
     }
 
     fn visit_constructor(&mut self, f: &Constructor) {
@@ -471,7 +471,7 @@ impl Visit for CriticalRules {
     }
 
     fn visit_fn_decl(&mut self, d: &FnDecl) {
-        if d.function.body.is_none() || d.declare {
+        if d.declare {
             return;
         }
 
@@ -575,10 +575,8 @@ impl Visit for CriticalRules {
                 },
             ),
             DefaultDecl::Fn(FnExpr {
-                ident: Some(ident),
-                function: f,
-                ..
-            }) if f.body.is_some() => self.add_binding(
+                ident: Some(ident), ..
+            }) => self.add_binding(
                 ident.sym.clone(),
                 BindingInfo {
                     span: ident.span,
@@ -591,11 +589,10 @@ impl Visit for CriticalRules {
         }
 
         // Check for duplicate exports
-        if match &d.decl {
-            DefaultDecl::Fn(FnExpr { function: f, .. }) if f.body.is_none() => true,
-            DefaultDecl::TsInterfaceDecl(..) => true,
-            _ => false,
-        } {
+        if matches!(
+            &d.decl,
+            DefaultDecl::TsFn(..) | DefaultDecl::TsInterfaceDecl(..)
+        ) {
             return;
         }
 
@@ -606,11 +603,6 @@ impl Visit for CriticalRules {
 
     fn visit_export_default_expr(&mut self, d: &ExportDefaultExpr) {
         d.visit_children_with(self);
-
-        match &*d.expr {
-            Expr::Fn(FnExpr { function: f, .. }) if f.body.is_none() => return,
-            _ => {}
-        }
 
         self.add_export(&Ident::new_no_ctxt(atom!("default"), d.span));
     }

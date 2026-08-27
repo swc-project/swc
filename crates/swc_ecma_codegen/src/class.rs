@@ -140,6 +140,7 @@ impl MacroNode for ClassMember {
             ClassMember::ClassProp(ref n) => emit!(n),
             ClassMember::Method(ref n) => emit!(n),
             ClassMember::PrivateMethod(ref n) => emit!(n),
+            ClassMember::TsMethod(ref n) => emit!(n),
             ClassMember::PrivateProp(ref n) => emit!(n),
             ClassMember::TsIndexSignature(ref n) => emit!(n),
             ClassMember::Empty(ref n) => emit!(n),
@@ -399,12 +400,87 @@ impl MacroNode for ClassMethod {
             emit!(ty);
         }
 
-        if let Some(body) = &self.function.body {
-            formatting_space!(emitter);
-            emit!(body);
-        } else {
-            formatting_semi!(emitter)
+        formatting_space!(emitter);
+        emit!(self.function.body);
+        emitter.end_scope()?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsMethod {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+        emitter.emit_leading_comments_of_span(self.key.span(), false)?;
+
+        srcmap!(emitter, self, true);
+        emitter.start_scope(
+            None,
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
+        if emitter.scope_tracking_enabled() {
+            let mut names = vec![];
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
         }
+
+        for decorator in &self.function.decorators {
+            emit!(decorator);
+        }
+
+        emitter.emit_accessibility(self.accessibility)?;
+
+        if self.is_static {
+            keyword!(emitter, "static");
+            space!(emitter);
+        }
+        if self.is_abstract {
+            keyword!(emitter, "abstract");
+            space!(emitter);
+        }
+        if self.is_override {
+            keyword!(emitter, "override");
+            space!(emitter);
+        }
+
+        match self.kind {
+            MethodKind::Method => {
+                if self.function.is_async {
+                    keyword!(emitter, "async");
+                    space!(emitter);
+                }
+                if self.function.is_generator {
+                    punct!(emitter, "*");
+                }
+                emit!(self.key);
+            }
+            MethodKind::Getter => {
+                keyword!(emitter, "get");
+                space!(emitter);
+                emit!(self.key);
+            }
+            MethodKind::Setter => {
+                keyword!(emitter, "set");
+                space!(emitter);
+                emit!(self.key);
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
+        }
+
+        if self.is_optional {
+            punct!(emitter, "?");
+        }
+
+        emitter.emit_ts_fn_trailing(&self.function)?;
         emitter.end_scope()?;
 
         Ok(())

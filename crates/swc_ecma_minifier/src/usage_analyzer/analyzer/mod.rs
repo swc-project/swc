@@ -1741,6 +1741,7 @@ fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
 
         ClassMember::Empty(..)
         | ClassMember::StaticBlock(..)
+        | ClassMember::TsMethod(..)
         | ClassMember::TsIndexSignature(..) => {}
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),

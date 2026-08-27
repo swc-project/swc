@@ -242,6 +242,7 @@ impl Babelify for DefaultDecl {
         match self {
             DefaultDecl::Class(c) => ExportDefaultDeclType::Class(c.babelify(ctx).into()),
             DefaultDecl::Fn(f) => ExportDefaultDeclType::Func(f.babelify(ctx).into()),
+            DefaultDecl::TsFn(f) => ExportDefaultDeclType::TSFunc(f.babelify(ctx)),
             DefaultDecl::TsInterfaceDecl(_) => panic!("unimplemented"), /* TODO(dwoznicki): */
             // Babel expects a
             // TSDeclareFunction

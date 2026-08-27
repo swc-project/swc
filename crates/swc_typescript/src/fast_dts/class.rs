@@ -2,16 +2,46 @@ use rustc_hash::FxHashMap;
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
-    Accessibility, BindingIdent, Class, ClassMember, ClassProp, Expr, Key, Lit, MethodKind, Param,
-    ParamOrTsParamProp, Pat, PrivateName, PrivateProp, PropName, TsParamProp, TsParamPropParam,
-    TsTypeAnn,
+    Accessibility, BindingIdent, Class, ClassMember, ClassMethod, ClassProp, Expr, Key, Lit,
+    MethodKind, Param, ParamOrTsParamProp, Pat, PrivateName, PrivateProp, PropName, TsMethod,
+    TsParamProp, TsParamPropParam, TsTypeAnn,
 };
 
 use super::{
+    function::ts_function_from_function,
     type_ann,
     util::ast_ext::{ExprExit, PatExt, PropNameExit, StaticProp},
     FastDts,
 };
+
+fn class_method_into_ts_method(member: ClassMember) -> ClassMember {
+    let ClassMember::Method(method) = member else {
+        unreachable!("only class methods can be converted to TypeScript method signatures")
+    };
+    let ClassMethod {
+        span,
+        key,
+        function,
+        kind,
+        is_static,
+        accessibility,
+        is_abstract,
+        is_optional,
+        is_override,
+    } = method;
+
+    ClassMember::TsMethod(TsMethod {
+        span,
+        key: Key::Public(key),
+        function: Box::new(ts_function_from_function(*function)),
+        kind,
+        is_static,
+        accessibility,
+        is_abstract,
+        is_optional,
+        is_override,
+    })
+}
 
 impl FastDts {
     pub(crate) fn transform_class(&mut self, class: &mut Class) {
@@ -62,14 +92,99 @@ impl FastDts {
                         self.transform_accessibility(constructor.accessibility);
                     class.body.push(member);
                 }
+                ClassMember::TsMethod(method) => {
+                    if self.has_internal_annotation(method.span_lo()) {
+                        continue;
+                    }
+                    let Key::Public(key) = &method.key else {
+                        has_private_key = true;
+                        continue;
+                    };
+                    if self.report_property_key(key) {
+                        continue;
+                    }
+                    if !(method.is_abstract || method.is_optional) {
+                        is_function_overloads = true;
+                    }
+
+                    if method
+                        .accessibility
+                        .is_some_and(|accessibility| accessibility == Accessibility::Private)
+                    {
+                        match method.kind {
+                            MethodKind::Method => {
+                                class.body.push(ClassMember::ClassProp(ClassProp {
+                                    span: method.span,
+                                    key: key.clone(),
+                                    value: None,
+                                    type_ann: None,
+                                    is_static: method.is_static,
+                                    decorators: Vec::new(),
+                                    accessibility: self
+                                        .transform_accessibility(method.accessibility),
+                                    is_abstract: method.is_abstract,
+                                    is_optional: method.is_optional,
+                                    is_override: false,
+                                    readonly: false,
+                                    declare: false,
+                                    definite: false,
+                                }));
+                                continue;
+                            }
+                            MethodKind::Getter => {
+                                method.function.this_param = None;
+                                method.function.params.clear();
+                                method.function.return_type = None;
+                                method.function.decorators.clear();
+                            }
+                            MethodKind::Setter => {
+                                method.function.this_param = None;
+                                method.function.params = vec![Param {
+                                    span: DUMMY_SP,
+                                    decorators: Vec::new(),
+                                    pat: Pat::Ident(BindingIdent {
+                                        id: atom!("value").into(),
+                                        type_ann: None,
+                                    }),
+                                }];
+                                method.function.decorators.clear();
+                                method.function.return_type = None;
+                            }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
+                        }
+                    } else {
+                        self.transform_ts_function_params(&mut method.function);
+                        match method.kind {
+                            MethodKind::Method if method.function.return_type.is_none() => {
+                                self.method_must_have_explicit_return_type(key.span());
+                            }
+                            MethodKind::Getter if method.function.return_type.is_none() => {
+                                method.function.return_type = key
+                                    .static_prop(self.unresolved_mark)
+                                    .and_then(|prop| setter_getter_annotations.get(&prop))
+                                    .cloned();
+                                if method.function.return_type.is_none() {
+                                    self.accessor_must_have_explicit_return_type(key.span());
+                                }
+                            }
+                            MethodKind::Setter => method.function.return_type = None,
+                            MethodKind::Method | MethodKind::Getter => {}
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
+                        }
+                    }
+
+                    method.function.is_async = false;
+                    method.function.is_generator = false;
+                    method.accessibility = self.transform_accessibility(method.accessibility);
+                    class.body.push(member);
+                }
                 ClassMember::Method(method) => {
                     if self.has_internal_annotation(method.span_lo()) {
                         continue;
                     }
-                    if !(method.is_abstract || method.is_optional) && method.function.body.is_none()
-                    {
-                        is_function_overloads = true;
-                    } else if is_function_overloads {
+                    if is_function_overloads {
                         is_function_overloads = false;
                         continue;
                     }
@@ -112,12 +227,11 @@ impl FastDts {
                                 method.function.params.clear();
                                 method.function.return_type = None;
                                 method.function.decorators.clear();
-                                method.function.body = None;
                                 method.function.is_generator = false;
                                 method.function.is_async = false;
                                 method.accessibility =
                                     self.transform_accessibility(method.accessibility);
-                                class.body.push(member);
+                                class.body.push(class_method_into_ts_method(member));
                                 continue;
                             }
                             self.transform_function_params(&mut method.function);
@@ -136,13 +250,12 @@ impl FastDts {
                                     }),
                                 }];
                                 method.function.decorators.clear();
-                                method.function.body = None;
                                 method.function.is_generator = false;
                                 method.function.is_async = false;
                                 method.function.return_type = None;
                                 method.accessibility =
                                     self.transform_accessibility(method.accessibility);
-                                class.body.push(member);
+                                class.body.push(class_method_into_ts_method(member));
                                 continue;
                             }
 
@@ -198,11 +311,10 @@ impl FastDts {
                         _ => panic!("unable to access unknown nodes"),
                     }
 
-                    method.function.body = None;
                     method.function.is_async = false;
                     method.function.is_generator = false;
                     method.accessibility = self.transform_accessibility(method.accessibility);
-                    class.body.push(member);
+                    class.body.push(class_method_into_ts_method(member));
                 }
                 ClassMember::ClassProp(prop) => {
                     if self.has_internal_annotation(prop.span_lo()) {
@@ -502,38 +614,53 @@ impl FastDts {
     ) -> FxHashMap<StaticProp, Box<TsTypeAnn>> {
         let mut annotations = FxHashMap::default();
         for member in &class.body {
-            let ClassMember::Method(method) = member else {
-                continue;
+            let (key, accessibility, kind, return_type, params) = match member {
+                ClassMember::Method(method) => (
+                    &method.key,
+                    method.accessibility,
+                    method.kind,
+                    method
+                        .function
+                        .return_type
+                        .clone()
+                        .or_else(|| self.infer_function_return_type(&method.function)),
+                    &method.function.params,
+                ),
+                ClassMember::TsMethod(method) => {
+                    let Key::Public(key) = &method.key else {
+                        continue;
+                    };
+                    (
+                        key,
+                        method.accessibility,
+                        method.kind,
+                        method.function.return_type.clone(),
+                        &method.function.params,
+                    )
+                }
+                _ => continue,
             };
 
-            if method
-                .accessibility
-                .is_some_and(|accessibility| accessibility == Accessibility::Private)
-                || (method
-                    .key
+            if accessibility.is_some_and(|accessibility| accessibility == Accessibility::Private)
+                || (key
                     .as_computed()
                     .is_some_and(|computed| Self::is_literal(&computed.expr)))
             {
                 continue;
             }
 
-            let Some(static_prop) = method.key.static_prop(self.unresolved_mark) else {
+            let Some(static_prop) = key.static_prop(self.unresolved_mark) else {
                 continue;
             };
 
-            match method.kind {
+            match kind {
                 MethodKind::Getter => {
-                    if let Some(type_ann) = method
-                        .function
-                        .return_type
-                        .clone()
-                        .or_else(|| self.infer_function_return_type(&method.function))
-                    {
+                    if let Some(type_ann) = return_type {
                         annotations.insert(static_prop, type_ann);
                     }
                 }
                 MethodKind::Setter => {
-                    let Some(first_param) = method.function.params.first() else {
+                    let Some(first_param) = params.first() else {
                         continue;
                     };
 

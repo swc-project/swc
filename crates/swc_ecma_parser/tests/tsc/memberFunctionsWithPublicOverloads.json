@@ -26,7 +26,7 @@
       "decorators": [],
       "body": [
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 15,
             "end": 37
@@ -81,7 +81,6 @@
               "end": 37
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -95,7 +94,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 42,
             "end": 75
@@ -183,7 +182,6 @@
               "end": 75
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -306,7 +304,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 117,
             "end": 137
@@ -369,7 +367,6 @@
               "end": 137
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -383,7 +380,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 142,
             "end": 164
@@ -438,7 +435,6 @@
               "end": 164
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -452,7 +448,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 169,
             "end": 202
@@ -540,7 +536,6 @@
               "end": 202
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -663,7 +658,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 244,
             "end": 273
@@ -718,7 +713,6 @@
               "end": 273
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -732,7 +726,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 278,
             "end": 318
@@ -820,7 +814,6 @@
               "end": 318
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -943,7 +936,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 367,
             "end": 394
@@ -1006,7 +999,6 @@
               "end": 394
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -1020,7 +1012,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 399,
             "end": 428
@@ -1075,7 +1067,6 @@
               "end": 428
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -1089,7 +1080,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 433,
             "end": 473
@@ -1177,7 +1168,6 @@
               "end": 473
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -1327,7 +1317,7 @@
       "decorators": [],
       "body": [
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 537,
             "end": 559
@@ -1382,7 +1372,6 @@
               "end": 559
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -1396,7 +1385,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 564,
             "end": 587
@@ -1504,7 +1493,6 @@
               "end": 587
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -1627,7 +1615,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 629,
             "end": 649
@@ -1690,7 +1678,6 @@
               "end": 649
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -1704,7 +1691,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 654,
             "end": 676
@@ -1759,7 +1746,6 @@
               "end": 676
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -1773,7 +1759,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 681,
             "end": 704
@@ -1881,7 +1867,6 @@
               "end": 704
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -2004,7 +1989,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 746,
             "end": 775
@@ -2059,7 +2044,6 @@
               "end": 775
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -2073,7 +2057,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 780,
             "end": 820
@@ -2161,7 +2145,6 @@
               "end": 820
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -2284,7 +2267,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 869,
             "end": 896
@@ -2347,7 +2330,6 @@
               "end": 896
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -2361,7 +2343,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 901,
             "end": 930
@@ -2416,7 +2398,6 @@
               "end": 930
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -2430,7 +2411,7 @@
           "isOverride": false
         },
         {
-          "type": "ClassMethod",
+          "type": "TsMethodDefinition",
           "span": {
             "start": 935,
             "end": 975
@@ -2518,7 +2499,6 @@
               "end": 975
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,

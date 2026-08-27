@@ -416,9 +416,11 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_enum_member, TsEnumMember);
         noop_fold_type!(fold_ts_enum_member_id, TsEnumMemberId);
         noop_fold_type!(fold_ts_expr_with_type_args, TsExprWithTypeArgs);
+        noop_fold_type!(fold_ts_fn_decl, TsFnDecl);
         noop_fold_type!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_fold_type!(fold_ts_fn_param, TsFnParam);
         noop_fold_type!(fold_ts_fn_type, TsFnType);
+        noop_fold_type!(fold_ts_function, TsFunction);
         noop_fold_type!(fold_ts_import_equals_decl, TsImportEqualsDecl);
         noop_fold_type!(fold_ts_import_type, TsImportType);
         noop_fold_type!(fold_ts_index_signature, TsIndexSignature);
@@ -430,6 +432,7 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_keyword_type, TsKeywordType);
         noop_fold_type!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
         noop_fold_type!(fold_ts_mapped_type, TsMappedType);
+        noop_fold_type!(fold_ts_method, TsMethod);
         noop_fold_type!(fold_ts_method_signature, TsMethodSignature);
         noop_fold_type!(fold_ts_module_block, TsModuleBlock);
         noop_fold_type!(fold_ts_module_decl, TsModuleDecl);
@@ -644,9 +647,11 @@ macro_rules! standard_only_fold {
         standard_only_fold!(fold_ts_constructor_type, TsConstructorType);
         standard_only_fold!(fold_ts_entity_name, TsEntityName);
         standard_only_fold!(fold_ts_expr_with_type_args, TsExprWithTypeArgs);
+        standard_only_fold!(fold_ts_fn_decl, TsFnDecl);
         standard_only_fold!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
         standard_only_fold!(fold_ts_fn_param, TsFnParam);
         standard_only_fold!(fold_ts_fn_type, TsFnType);
+        standard_only_fold!(fold_ts_function, TsFunction);
         standard_only_fold!(fold_ts_import_type, TsImportType);
         standard_only_fold!(fold_ts_index_signature, TsIndexSignature);
         standard_only_fold!(fold_ts_indexed_access_type, TsIndexedAccessType);
@@ -657,6 +662,7 @@ macro_rules! standard_only_fold {
         standard_only_fold!(fold_ts_keyword_type, TsKeywordType);
         standard_only_fold!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
         standard_only_fold!(fold_ts_mapped_type, TsMappedType);
+        standard_only_fold!(fold_ts_method, TsMethod);
         standard_only_fold!(fold_ts_method_signature, TsMethodSignature);
         standard_only_fold!(fold_ts_optional_type, TsOptionalType);
         standard_only_fold!(fold_ts_parenthesized_type, TsParenthesizedType);
@@ -715,9 +721,11 @@ macro_rules! standard_only_visit {
         standard_only_visit!(visit_ts_constructor_type, TsConstructorType);
         standard_only_visit!(visit_ts_entity_name, TsEntityName);
         standard_only_visit!(visit_ts_expr_with_type_args, TsExprWithTypeArgs);
+        standard_only_visit!(visit_ts_fn_decl, TsFnDecl);
         standard_only_visit!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType);
         standard_only_visit!(visit_ts_fn_param, TsFnParam);
         standard_only_visit!(visit_ts_fn_type, TsFnType);
+        standard_only_visit!(visit_ts_function, TsFunction);
         standard_only_visit!(visit_ts_import_type, TsImportType);
         standard_only_visit!(visit_ts_index_signature, TsIndexSignature);
         standard_only_visit!(visit_ts_indexed_access_type, TsIndexedAccessType);
@@ -728,6 +736,7 @@ macro_rules! standard_only_visit {
         standard_only_visit!(visit_ts_keyword_type, TsKeywordType);
         standard_only_visit!(visit_ts_keyword_type_kind, TsKeywordTypeKind);
         standard_only_visit!(visit_ts_mapped_type, TsMappedType);
+        standard_only_visit!(visit_ts_method, TsMethod);
         standard_only_visit!(visit_ts_method_signature, TsMethodSignature);
         standard_only_visit!(visit_ts_optional_type, TsOptionalType);
         standard_only_visit!(visit_ts_parenthesized_type, TsParenthesizedType);
@@ -789,9 +798,11 @@ macro_rules! standard_only_visit_mut {
         standard_only_visit_mut!(visit_mut_ts_constructor_type, TsConstructorType);
         standard_only_visit_mut!(visit_mut_ts_entity_name, TsEntityName);
         standard_only_visit_mut!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
+        standard_only_visit_mut!(visit_mut_ts_fn_decl, TsFnDecl);
         standard_only_visit_mut!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
         standard_only_visit_mut!(visit_mut_ts_fn_param, TsFnParam);
         standard_only_visit_mut!(visit_mut_ts_fn_type, TsFnType);
+        standard_only_visit_mut!(visit_mut_ts_function, TsFunction);
         standard_only_visit_mut!(visit_mut_ts_import_type, TsImportType);
         standard_only_visit_mut!(visit_mut_ts_index_signature, TsIndexSignature);
         standard_only_visit_mut!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
@@ -802,6 +813,7 @@ macro_rules! standard_only_visit_mut {
         standard_only_visit_mut!(visit_mut_ts_keyword_type, TsKeywordType);
         standard_only_visit_mut!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
         standard_only_visit_mut!(visit_mut_ts_mapped_type, TsMappedType);
+        standard_only_visit_mut!(visit_mut_ts_method, TsMethod);
         standard_only_visit_mut!(visit_mut_ts_method_signature, TsMethodSignature);
         standard_only_visit_mut!(visit_mut_ts_optional_type, TsOptionalType);
         standard_only_visit_mut!(visit_mut_ts_parenthesized_type, TsParenthesizedType);

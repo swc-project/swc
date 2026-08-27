@@ -8,7 +8,8 @@ use crate::{
     typescript::{TsParamProp, TsThisParam, TsTypeAnn, TsTypeParamDecl},
 };
 
-/// Common parts of function and method.
+/// Common parts of a JavaScript function or method with an implementation
+/// body.
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -35,12 +36,7 @@ pub struct Function {
 
     pub ctxt: SyntaxContext,
 
-    #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "cbor4ii::core::types::Maybe")
-    )]
-    pub body: Option<FunctionBody>,
+    pub body: FunctionBody,
 
     /// if it's a generator.
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "generator"))]
@@ -68,6 +64,69 @@ pub struct Function {
 impl Take for Function {
     fn dummy() -> Self {
         Function {
+            ..Default::default()
+        }
+    }
+}
+
+/// Common parts of a bodyless TypeScript or Flow function declaration or
+/// class method signature.
+///
+/// Keeping signatures separate from [`Function`] makes the implementation
+/// body invariant structural: every JavaScript function has a body, while
+/// declaration-only syntax cannot accidentally enter runtime transforms.
+#[ast_node]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+pub struct TsFunction {
+    /// TypeScript or Flow `this` parameter, which is not part of the runtime
+    /// parameter list.
+    #[cfg_attr(
+        feature = "serde-impl",
+        serde(default, rename = "thisParam", skip_serializing_if = "Option::is_none")
+    )]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub this_param: Option<Box<TsThisParam>>,
+
+    pub params: Vec<Param>,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub decorators: Vec<Decorator>,
+
+    pub span: Span,
+
+    pub ctxt: SyntaxContext,
+
+    /// if it's a generator signature.
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "generator"))]
+    pub is_generator: bool,
+
+    /// if it's an async function signature.
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "async"))]
+    pub is_async: bool,
+
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub type_params: Option<Box<TsTypeParamDecl>>,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub return_type: Option<Box<TsTypeAnn>>,
+}
+
+impl Take for TsFunction {
+    fn dummy() -> Self {
+        TsFunction {
             ..Default::default()
         }
     }

@@ -66,7 +66,7 @@ impl VisitMut for Wrapper {
 
             f.visit_mut_children_with(&mut hoister);
 
-            v.transform_and_emit_stmts(f.body.as_mut().unwrap().stmts.take(), 0);
+            v.transform_and_emit_stmts(f.body.stmts.take(), 0);
             f.is_generator = false;
 
             let mut stmts = v.build_stmts();
@@ -81,10 +81,10 @@ impl VisitMut for Wrapper {
                     pat: Pat::Ident(v.state.clone().into()),
                 }],
                 decorators: Default::default(),
-                body: Some(FunctionBody {
+                body: FunctionBody {
                     span: DUMMY_SP,
                     stmts,
-                }),
+                },
                 is_generator: false,
                 is_async: false,
                 ..Default::default()
@@ -138,7 +138,7 @@ impl VisitMut for Wrapper {
                 }
                 .into(),
             );
-            f.body.as_mut().unwrap().stmts = stmts;
+            f.body.stmts = stmts;
         }
     }
 }

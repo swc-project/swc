@@ -12,7 +12,7 @@
         "end": 67
       },
       "decl": {
-        "type": "FunctionExpression",
+        "type": "TsDeclareFunction",
         "identifier": {
           "type": "Identifier",
           "span": {
@@ -23,6 +23,7 @@
           "value": "f",
           "optional": false
         },
+        "declare": false,
         "params": [],
         "decorators": [],
         "span": {
@@ -30,7 +31,6 @@
           "end": 67
         },
         "ctxt": 0,
-        "body": null,
         "generator": false,
         "async": false,
         "typeParameters": null,
@@ -44,7 +44,7 @@
         "end": 105
       },
       "decl": {
-        "type": "FunctionExpression",
+        "type": "TsDeclareFunction",
         "identifier": {
           "type": "Identifier",
           "span": {
@@ -55,6 +55,7 @@
           "value": "f",
           "optional": false
         },
+        "declare": false,
         "params": [
           {
             "type": "Parameter",
@@ -96,7 +97,6 @@
           "end": 105
         },
         "ctxt": 0,
-        "body": null,
         "generator": false,
         "async": false,
         "typeParameters": null,

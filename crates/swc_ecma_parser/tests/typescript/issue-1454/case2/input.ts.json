@@ -32,7 +32,7 @@
         "decorators": [],
         "body": [
           {
-            "type": "ClassMethod",
+            "type": "TsMethodDefinition",
             "span": {
               "start": 103,
               "end": 144
@@ -53,7 +53,6 @@
                 "end": 144
               },
               "ctxt": 0,
-              "body": null,
               "generator": false,
               "async": true,
               "typeParameters": null,

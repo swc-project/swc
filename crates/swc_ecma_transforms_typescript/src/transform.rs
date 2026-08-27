@@ -194,18 +194,10 @@ impl VisitMut for Transform {
         let init_list = self.in_class_prop_init.take();
 
         node.retain(|member| match member {
-            ClassMember::TsIndexSignature(..) => false,
+            ClassMember::TsMethod(..) | ClassMember::TsIndexSignature(..) => false,
             ClassMember::Constructor(Constructor { body: None, .. }) => false,
-            ClassMember::Method(ClassMethod {
-                is_abstract,
-                function,
-                ..
-            })
-            | ClassMember::PrivateMethod(PrivateMethod {
-                is_abstract,
-                function,
-                ..
-            }) => !is_abstract && function.body.is_some(),
+            ClassMember::Method(ClassMethod { is_abstract, .. })
+            | ClassMember::PrivateMethod(PrivateMethod { is_abstract, .. }) => !is_abstract,
             ClassMember::ClassProp(
                 ClassProp { declare: true, .. }
                 | ClassProp {

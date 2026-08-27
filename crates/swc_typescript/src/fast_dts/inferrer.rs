@@ -67,11 +67,7 @@ impl FastDts {
             return None;
         }
 
-        function
-            .body
-            .as_ref()
-            .and_then(|body| ReturnTypeInferrer::infer(self, &body.stmts))
-            .map(type_ann)
+        ReturnTypeInferrer::infer(self, &function.body.stmts).map(type_ann)
     }
 
     pub(crate) fn infer_arrow_return_type(&mut self, arrow: &ArrowExpr) -> Option<Box<TsTypeAnn>> {

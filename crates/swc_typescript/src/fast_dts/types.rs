@@ -519,9 +519,7 @@ impl FastDts {
             match &**prop {
                 Prop::Getter(getter) => {
                     if let Some(type_ann) = getter.function.return_type.clone().or_else(|| {
-                        getter.function.body.as_ref().and_then(|body| {
-                            ReturnTypeInferrer::infer(self, &body.stmts).map(type_ann)
-                        })
+                        ReturnTypeInferrer::infer(self, &getter.function.body.stmts).map(type_ann)
                     }) {
                         annotations.insert(static_prop, type_ann);
                     }

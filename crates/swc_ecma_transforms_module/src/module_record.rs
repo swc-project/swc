@@ -411,7 +411,7 @@ impl SourceModuleCollector {
                     );
                 }
             }
-            DefaultDecl::TsInterfaceDecl(_) => {}
+            DefaultDecl::TsFn(_) | DefaultDecl::TsInterfaceDecl(_) => {}
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }

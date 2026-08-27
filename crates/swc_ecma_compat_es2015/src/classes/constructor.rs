@@ -197,10 +197,10 @@ pub(super) fn fold_constructor(
 
     let function = Function {
         params,
-        body: Some(FunctionBody {
+        body: FunctionBody {
             span: DUMMY_SP,
             stmts,
-        }),
+        },
         ..Default::default()
     };
 

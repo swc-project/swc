@@ -40,7 +40,7 @@ impl Babelify for Function {
         FunctionExpression {
             base: ctx.base(self.span),
             params,
-            body: self.body.unwrap().babelify(ctx),
+            body: self.body.babelify(ctx),
             generator: Some(self.is_generator),
             is_async: Some(self.is_async),
             type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),

@@ -684,6 +684,16 @@ impl VisitMut for Resolver<'_> {
         self.with_child(ScopeKind::Fn, |child| m.function.visit_mut_with(child));
     }
 
+    fn visit_mut_ts_method(&mut self, method: &mut TsMethod) {
+        method.key.visit_mut_with(self);
+
+        for param in method.function.params.iter_mut() {
+            param.decorators.visit_mut_with(self);
+        }
+
+        self.with_child(ScopeKind::Fn, |child| method.function.visit_mut_with(child));
+    }
+
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
         p.decorators.visit_mut_with(self);
 
@@ -830,6 +840,16 @@ impl VisitMut for Resolver<'_> {
         self.with_child(ScopeKind::Fn, |child| node.function.visit_mut_with(child));
     }
 
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl) {
+        if node.declare && !self.config.handle_types {
+            return;
+        }
+
+        node.function.decorators.visit_mut_with(self);
+
+        self.with_child(ScopeKind::Fn, |child| node.function.visit_mut_with(child));
+    }
+
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         e.function.decorators.visit_mut_with(self);
 
@@ -904,18 +924,41 @@ impl VisitMut for Resolver<'_> {
         f.return_type.visit_mut_with(self);
 
         self.ident_type = IdentType::Ref;
-        if let Some(body) = &mut f.body {
-            let old_strict_mode = self.strict_mode;
-            if !self.strict_mode {
-                self.strict_mode = body
-                    .stmts
-                    .first()
-                    .map(|stmt| stmt.is_use_strict())
-                    .unwrap_or(false);
-            }
-            body.visit_mut_with(self);
-            self.strict_mode = old_strict_mode;
+        let old_strict_mode = self.strict_mode;
+        if !self.strict_mode {
+            self.strict_mode = f
+                .body
+                .stmts
+                .first()
+                .map(|stmt| stmt.is_use_strict())
+                .unwrap_or(false);
         }
+        f.body.visit_mut_with(self);
+        self.strict_mode = old_strict_mode;
+    }
+
+    fn visit_mut_ts_function(&mut self, function: &mut TsFunction) {
+        self.mark_block(&mut function.ctxt);
+        function.type_params.visit_mut_with(self);
+
+        self.ident_type = IdentType::Ref;
+        function.decorators.visit_mut_with(self);
+
+        let params = function
+            .params
+            .iter()
+            .filter(|param| !param.pat.is_rest())
+            .flat_map(find_pat_ids::<_, Id>);
+        for id in params {
+            self.current.declared_symbols.insert(id.0, DeclKind::Param);
+        }
+
+        function.this_param.visit_mut_with(self);
+
+        self.ident_type = IdentType::Binding;
+        function.params.visit_mut_with(self);
+        function.return_type.visit_mut_with(self);
+        self.ident_type = IdentType::Ref;
     }
 
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
@@ -1772,6 +1815,13 @@ impl VisitMut for Hoister<'_, '_> {
 
                 f.visit_mut_with(self)
             }
+            DefaultDecl::TsFn(function) => {
+                if let Some(id) = &mut function.ident {
+                    self.resolver.modify(id, DeclKind::Var);
+                }
+
+                function.visit_mut_with(self)
+            }
             DefaultDecl::Class(c) => {
                 if let Some(id) = &mut c.ident {
                     self.resolver.modify(id, DeclKind::Lexical);
@@ -1814,8 +1864,38 @@ impl VisitMut for Hoister<'_, '_> {
         self.resolver.modify(&mut node.ident, DeclKind::Function);
     }
 
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl) {
+        if node.declare && !self.resolver.config.handle_types {
+            return;
+        }
+
+        let Some(ident) = &mut node.ident else {
+            return;
+        };
+
+        if self.catch_param_decls.contains(&ident.sym) {
+            return;
+        }
+
+        if self.in_block {
+            if self.resolver.strict_mode {
+                return;
+            }
+            if let Some(DeclKind::Lexical | DeclKind::Param) =
+                self.resolver.current.is_declared(&ident.sym)
+            {
+                return;
+            }
+        }
+
+        self.resolver.modify(ident, DeclKind::Function);
+    }
+
     #[inline]
     fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    #[inline]
+    fn visit_mut_ts_function(&mut self, _: &mut TsFunction) {}
 
     fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
         n.visit_mut_children_with(self);

@@ -193,7 +193,7 @@ impl<I: Tokens> Parser<I> {
             return self
                 .do_inside_of_context(Context::AllowDirectSuper, |p| {
                     p.do_outside_of_context(Context::InClassField, |p| {
-                        p.parse_fn_args_body(
+                        p.parse_required_fn_args_body(
                             // no decorator in an object literal
                             Vec::new(),
                             start,
@@ -276,7 +276,7 @@ impl<I: Tokens> Parser<I> {
             return self
                 .do_inside_of_context(Context::AllowDirectSuper, |p| {
                     p.do_outside_of_context(Context::InClassField, |p| {
-                        p.parse_fn_args_body(
+                        p.parse_required_fn_args_body(
                             // no decorator in an object literal
                             Vec::new(),
                             start,
@@ -378,7 +378,7 @@ impl<I: Tokens> Parser<I> {
                     p.do_outside_of_context(Context::InClassField, |p| {
                         match key_token {
                             Token::Get => p
-                                .parse_fn_args_body(
+                                .parse_required_fn_args_body(
                                     // no decorator in an object literal
                                     Vec::new(),
                                     start,
@@ -408,7 +408,7 @@ impl<I: Tokens> Parser<I> {
                                     })))
                                 }),
                             Token::Set => {
-                                p.parse_fn_args_body(
+                                p.parse_required_fn_args_body(
                                     // no decorator in an object literal
                                     Vec::new(),
                                     start,
@@ -448,7 +448,7 @@ impl<I: Tokens> Parser<I> {
                                 })
                             }
                             Token::Async => p
-                                .parse_fn_args_body(
+                                .parse_required_fn_args_body(
                                     // no decorator in an object literal
                                     Vec::new(),
                                     start,

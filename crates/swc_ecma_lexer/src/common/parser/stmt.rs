@@ -839,13 +839,20 @@ fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> 
 
             let body = Box::new(if p.input().is(&P::Token::FUNCTION) {
                 let f = parse_fn_decl(p, Vec::new())?;
-                if let Decl::Fn(FnDecl { function, .. }) = &f {
-                    if p.ctx().contains(Context::Strict) {
-                        p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
+                let (span, is_generator, is_async) = match &f {
+                    Decl::Fn(FnDecl { function, .. }) => {
+                        (function.span, function.is_generator, function.is_async)
                     }
-                    if function.is_generator || function.is_async {
-                        p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
+                    Decl::TsFn(TsFnDecl { function, .. }) => {
+                        (function.span, function.is_generator, function.is_async)
                     }
+                    _ => unreachable!("function parser returned a non-function declaration"),
+                };
+                if p.ctx().contains(Context::Strict) {
+                    p.emit_err(span, SyntaxError::LabelledFunctionInStrict)
+                }
+                if is_generator || is_async {
+                    p.emit_err(span, SyntaxError::LabelledGeneratorOrAsync)
                 }
 
                 f.into()

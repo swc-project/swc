@@ -1518,6 +1518,13 @@ pub trait Visit {
     fn visit_ts_external_module_ref(&mut self, node: &TsExternalModuleRef) {
         <TsExternalModuleRef as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `TsFnDecl`.\n\nBy default, this method calls \
+             [`TsFnDecl::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_ts_fn_decl(&mut self, node: &TsFnDecl) {
+        <TsFnDecl as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsFnOrConstructorType`.\n\nBy default, this method calls \
              [`TsFnOrConstructorType::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -1545,6 +1552,13 @@ pub trait Visit {
     #[inline]
     fn visit_ts_fn_type(&mut self, node: &TsFnType) {
         <TsFnType as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsFunction`.\n\nBy default, this method calls \
+             [`TsFunction::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_ts_function(&mut self, node: &TsFunction) {
+        <TsFunction as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsGetterSignature`.\n\nBy default, this method calls \
              [`TsGetterSignature::visit_children_with`]. If you want to recurse, you need to call \
@@ -1656,6 +1670,13 @@ pub trait Visit {
     #[inline]
     fn visit_ts_mapped_type(&mut self, node: &TsMappedType) {
         <TsMappedType as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsMethod`.\n\nBy default, this method calls \
+             [`TsMethod::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_ts_method(&mut self, node: &TsMethod) {
+        <TsMethod as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsMethodSignature`.\n\nBy default, this method calls \
              [`TsMethodSignature::visit_children_with`]. If you want to recurse, you need to call \
@@ -3178,6 +3199,11 @@ where
     }
 
     #[inline]
+    fn visit_ts_fn_decl(&mut self, node: &TsFnDecl) {
+        <V as Visit>::visit_ts_fn_decl(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType) {
         <V as Visit>::visit_ts_fn_or_constructor_type(&mut **self, node)
     }
@@ -3195,6 +3221,11 @@ where
     #[inline]
     fn visit_ts_fn_type(&mut self, node: &TsFnType) {
         <V as Visit>::visit_ts_fn_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_ts_function(&mut self, node: &TsFunction) {
+        <V as Visit>::visit_ts_function(&mut **self, node)
     }
 
     #[inline]
@@ -3275,6 +3306,11 @@ where
     #[inline]
     fn visit_ts_mapped_type(&mut self, node: &TsMappedType) {
         <V as Visit>::visit_ts_mapped_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_ts_method(&mut self, node: &TsMethod) {
+        <V as Visit>::visit_ts_method(&mut **self, node)
     }
 
     #[inline]
@@ -4680,6 +4716,11 @@ where
     }
 
     #[inline]
+    fn visit_ts_fn_decl(&mut self, node: &TsFnDecl) {
+        <V as Visit>::visit_ts_fn_decl(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType) {
         <V as Visit>::visit_ts_fn_or_constructor_type(&mut **self, node)
     }
@@ -4697,6 +4738,11 @@ where
     #[inline]
     fn visit_ts_fn_type(&mut self, node: &TsFnType) {
         <V as Visit>::visit_ts_fn_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_ts_function(&mut self, node: &TsFunction) {
+        <V as Visit>::visit_ts_function(&mut **self, node)
     }
 
     #[inline]
@@ -4777,6 +4823,11 @@ where
     #[inline]
     fn visit_ts_mapped_type(&mut self, node: &TsMappedType) {
         <V as Visit>::visit_ts_mapped_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_ts_method(&mut self, node: &TsMethod) {
+        <V as Visit>::visit_ts_method(&mut **self, node)
     }
 
     #[inline]
@@ -6879,6 +6930,14 @@ where
     }
 
     #[inline]
+    fn visit_ts_fn_decl(&mut self, node: &TsFnDecl) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_ts_fn_decl(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_ts_fn_decl(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -6911,6 +6970,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_fn_type(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_fn_type(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_ts_function(&mut self, node: &TsFunction) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_ts_function(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_ts_function(visitor, node),
         }
     }
 
@@ -7039,6 +7106,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_mapped_type(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_mapped_type(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_ts_method(&mut self, node: &TsMethod) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_ts_method(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_ts_method(visitor, node),
         }
     }
 
@@ -9294,6 +9369,14 @@ where
     }
 
     #[inline]
+    fn visit_ts_fn_decl(&mut self, node: &TsFnDecl) {
+        if self.enabled {
+            <V as Visit>::visit_ts_fn_decl(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType) {
         if self.enabled {
             <V as Visit>::visit_ts_fn_or_constructor_type(&mut self.visitor, node)
@@ -9321,6 +9404,14 @@ where
     fn visit_ts_fn_type(&mut self, node: &TsFnType) {
         if self.enabled {
             <V as Visit>::visit_ts_fn_type(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_ts_function(&mut self, node: &TsFunction) {
+        if self.enabled {
+            <V as Visit>::visit_ts_function(&mut self.visitor, node)
         } else {
         }
     }
@@ -9449,6 +9540,14 @@ where
     fn visit_ts_mapped_type(&mut self, node: &TsMappedType) {
         if self.enabled {
             <V as Visit>::visit_ts_mapped_type(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_ts_method(&mut self, node: &TsMethod) {
+        if self.enabled {
+            <V as Visit>::visit_ts_method(&mut self.visitor, node)
         } else {
         }
     }
@@ -10635,6 +10734,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for ClassMember {
             ClassMember::PrivateMethod { 0: _field_0 } => {
                 <PrivateMethod as VisitWith<V>>::visit_with(_field_0, visitor);
             }
+            ClassMember::TsMethod { 0: _field_0 } => {
+                <TsMethod as VisitWith<V>>::visit_with(_field_0, visitor);
+            }
             ClassMember::ClassProp { 0: _field_0 } => {
                 <ClassProp as VisitWith<V>>::visit_with(_field_0, visitor);
             }
@@ -10878,6 +10980,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for Decl {
             Decl::Fn { 0: _field_0 } => {
                 <FnDecl as VisitWith<V>>::visit_with(_field_0, visitor);
             }
+            Decl::TsFn { 0: _field_0 } => {
+                <TsFnDecl as VisitWith<V>>::visit_with(_field_0, visitor);
+            }
             Decl::Var { 0: _field_0 } => {
                 <Box<VarDecl> as VisitWith<V>>::visit_with(_field_0, visitor);
             }
@@ -10933,6 +11038,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for DefaultDecl {
             }
             DefaultDecl::Fn { 0: _field_0 } => {
                 <FnExpr as VisitWith<V>>::visit_with(_field_0, visitor);
+            }
+            DefaultDecl::TsFn { 0: _field_0 } => {
+                <TsFnDecl as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {
                 <Box<TsInterfaceDecl> as VisitWith<V>>::visit_with(_field_0, visitor);
@@ -11508,7 +11616,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Function {
                     <swc_common::SyntaxContext as VisitWith<V>>::visit_with(ctxt, visitor)
                 };
                 {
-                    <Option<FunctionBody> as VisitWith<V>>::visit_with(body, visitor)
+                    <FunctionBody as VisitWith<V>>::visit_with(body, visitor)
                 };
                 {
                     <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_with(type_params, visitor)
@@ -14107,6 +14215,29 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsExternalModuleRef {
         }
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for TsFnDecl {
+    #[doc = "Calls [Visit`::visit_ts_fn_decl`] with `self`."]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_fn_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            TsFnDecl {
+                ident,
+                declare,
+                function,
+            } => {
+                {
+                    <Option<Ident> as VisitWith<V>>::visit_with(ident, visitor)
+                };
+                {
+                    <Box<TsFunction> as VisitWith<V>>::visit_with(function, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for TsFnOrConstructorType {
     #[doc = "Calls [Visit`::visit_ts_fn_or_constructor_type`] with `self`."]
     fn visit_with(&self, visitor: &mut V) {
@@ -14176,6 +14307,50 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsFnType {
                 };
                 {
                     <Box<TsTypeAnn> as VisitWith<V>>::visit_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for TsFunction {
+    #[doc = "Calls [Visit`::visit_ts_function`] with `self`."]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_function(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            TsFunction {
+                this_param,
+                params,
+                decorators,
+                span,
+                ctxt,
+                is_generator,
+                is_async,
+                type_params,
+                return_type,
+            } => {
+                {
+                    <Option<Box<TsThisParam>> as VisitWith<V>>::visit_with(this_param, visitor)
+                };
+                {
+                    <Vec<Param> as VisitWith<V>>::visit_with(params, visitor)
+                };
+                {
+                    <Vec<Decorator> as VisitWith<V>>::visit_with(decorators, visitor)
+                };
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <swc_common::SyntaxContext as VisitWith<V>>::visit_with(ctxt, visitor)
+                };
+                {
+                    <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_with(type_params, visitor)
+                };
+                {
+                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(return_type, visitor)
                 };
             }
         }
@@ -14589,6 +14764,44 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsMappedType {
                 };
                 {
                     <Option<Box<TsType>> as VisitWith<V>>::visit_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for TsMethod {
+    #[doc = "Calls [Visit`::visit_ts_method`] with `self`."]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_method(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            TsMethod {
+                span,
+                key,
+                function,
+                kind,
+                is_static,
+                accessibility,
+                is_abstract,
+                is_optional,
+                is_override,
+            } => {
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <Key as VisitWith<V>>::visit_with(key, visitor)
+                };
+                {
+                    <Box<TsFunction> as VisitWith<V>>::visit_with(function, visitor)
+                };
+                {
+                    <MethodKind as VisitWith<V>>::visit_with(kind, visitor)
+                };
+                {
+                    <Option<Accessibility> as VisitWith<V>>::visit_with(accessibility, visitor)
                 };
             }
         }
@@ -19327,6 +19540,17 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `TsFnDecl`.\n\nBy default, this method calls \
+             [`TsFnDecl::visit_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn visit_ts_fn_decl<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFnDecl,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <TsFnDecl as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
     #[doc = "Visit a node of type `TsFnOrConstructorType`.\n\nBy default, this method calls \
              [`TsFnOrConstructorType::visit_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -19374,6 +19598,17 @@ pub trait VisitAstPath {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <TsFnType as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Visit a node of type `TsFunction`.\n\nBy default, this method calls \
+             [`TsFunction::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_ts_function<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFunction,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <TsFunction as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `TsGetterSignature`.\n\nBy default, this method calls \
              [`TsGetterSignature::visit_children_with_ast_path`]. If you want to recurse, you need \
@@ -19574,6 +19809,17 @@ pub trait VisitAstPath {
         <TsMappedType as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Visit a node of type `TsMethod`.\n\nBy default, this method calls \
+             [`TsMethod::visit_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn visit_ts_method<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsMethod,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <TsMethod as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `TsMethodSignature`.\n\nBy default, this method calls \
              [`TsMethodSignature::visit_children_with_ast_path`]. If you want to recurse, you need \
@@ -22208,6 +22454,15 @@ where
     }
 
     #[inline]
+    fn visit_ts_fn_decl<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFnDecl,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_fn_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_ts_fn_or_constructor_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast TsFnOrConstructorType,
@@ -22241,6 +22496,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_ts_fn_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_ts_function<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFunction,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_function(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -22381,6 +22645,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_ts_mapped_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_ts_method<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsMethod,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_method(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -24809,6 +25082,15 @@ where
     }
 
     #[inline]
+    fn visit_ts_fn_decl<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFnDecl,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_fn_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_ts_fn_or_constructor_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast TsFnOrConstructorType,
@@ -24842,6 +25124,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_ts_fn_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_ts_function<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFunction,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_function(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -24982,6 +25273,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_ts_mapped_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_ts_method<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsMethod,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_method(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -28913,6 +29213,22 @@ where
     }
 
     #[inline]
+    fn visit_ts_fn_decl<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFnDecl,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_ts_fn_decl(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_ts_fn_decl(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_ts_fn_or_constructor_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast TsFnOrConstructorType,
@@ -28972,6 +29288,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_ts_fn_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_ts_function<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFunction,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_ts_function(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_ts_function(visitor, node, __ast_path)
             }
         }
     }
@@ -29224,6 +29556,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_ts_mapped_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_ts_method<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsMethod,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_ts_method(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_ts_method(visitor, node, __ast_path)
             }
         }
     }
@@ -32743,6 +33091,18 @@ where
     }
 
     #[inline]
+    fn visit_ts_fn_decl<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFnDecl,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_ts_fn_decl(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_ts_fn_or_constructor_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast TsFnOrConstructorType,
@@ -32790,6 +33150,18 @@ where
     ) {
         if self.enabled {
             <V as VisitAstPath>::visit_ts_fn_type(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_ts_function<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsFunction,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_ts_function(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -32978,6 +33350,18 @@ where
     ) {
         if self.enabled {
             <V as VisitAstPath>::visit_ts_mapped_type(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_ts_method<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsMethod,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_ts_method(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -35323,6 +35707,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassMember {
                     &mut *__ast_path,
                 );
             }
+            ClassMember::TsMethod { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ClassMember(
+                    self,
+                    self::fields::ClassMemberField::TsMethod,
+                ));
+                <TsMethod as VisitWithAstPath<V>>::visit_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
             ClassMember::ClassProp { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ClassMember(
                     self,
@@ -35914,6 +36309,15 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Decl {
                     &mut *__ast_path,
                 );
             }
+            Decl::TsFn { 0: _field_0 } => {
+                let mut __ast_path = __ast_path
+                    .with_guard(AstParentNodeRef::Decl(self, self::fields::DeclField::TsFn));
+                <TsFnDecl as VisitWithAstPath<V>>::visit_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
             Decl::Var { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentNodeRef::Decl(self, self::fields::DeclField::Var));
@@ -36061,6 +36465,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DefaultDecl {
                     self::fields::DefaultDeclField::Fn,
                 ));
                 <FnExpr as VisitWithAstPath<V>>::visit_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
+            DefaultDecl::TsFn { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DefaultDecl(
+                    self,
+                    self::fields::DefaultDeclField::TsFn,
+                ));
+                <TsFnDecl as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -37538,7 +37953,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
                         self,
                         self::fields::FunctionField::Body,
                     ));
-                    <Option<FunctionBody> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <FunctionBody as VisitWithAstPath<V>>::visit_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -43808,6 +44223,55 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsExternalModuleRef {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsFnDecl {
+    #[doc = "Calls [VisitAstPath`::visit_ts_fn_decl`] with `self`."]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_fn_decl(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            TsFnDecl {
+                ident,
+                declare,
+                function,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsFnDecl(
+                        self,
+                        self::fields::TsFnDeclField::Ident,
+                    ));
+                    <Option<Ident> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        ident,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsFnDecl(
+                        self,
+                        self::fields::TsFnDeclField::Function,
+                    ));
+                    <Box<TsFunction> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        function,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsFnOrConstructorType {
     #[doc = "Calls [VisitAstPath`::visit_ts_fn_or_constructor_type`] with `self`."]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -43984,6 +44448,116 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsFnType {
                     ));
                     <Box<TsTypeAnn> as VisitWithAstPath<V>>::visit_with_ast_path(
                         type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsFunction {
+    #[doc = "Calls [VisitAstPath`::visit_ts_function`] with `self`."]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_function(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            TsFunction {
+                this_param,
+                params,
+                decorators,
+                span,
+                ctxt,
+                is_generator,
+                is_async,
+                type_params,
+                return_type,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsFunction(
+                        self,
+                        self::fields::TsFunctionField::ThisParam,
+                    ));
+                    <Option<Box<TsThisParam>> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        this_param,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsFunction(
+                        self,
+                        self::fields::TsFunctionField::Params(usize::MAX),
+                    ));
+                    <Vec<Param> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsFunction(
+                        self,
+                        self::fields::TsFunctionField::Decorators(usize::MAX),
+                    ));
+                    <Vec<Decorator> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        decorators,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsFunction(
+                        self,
+                        self::fields::TsFunctionField::Span,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsFunction(
+                        self,
+                        self::fields::TsFunctionField::Ctxt,
+                    ));
+                    <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_with_ast_path(
+                        ctxt,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsFunction(
+                        self,
+                        self::fields::TsFunctionField::TypeParams,
+                    ));
+                    <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        type_params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsFunction(
+                        self,
+                        self::fields::TsFunctionField::ReturnType,
+                    ));
+                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        return_type,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -44944,6 +45518,94 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsMappedType {
                     ));
                     <Option<Box<TsType>> as VisitWithAstPath<V>>::visit_with_ast_path(
                         type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsMethod {
+    #[doc = "Calls [VisitAstPath`::visit_ts_method`] with `self`."]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_method(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            TsMethod {
+                span,
+                key,
+                function,
+                kind,
+                is_static,
+                accessibility,
+                is_abstract,
+                is_optional,
+                is_override,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsMethod(
+                        self,
+                        self::fields::TsMethodField::Span,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsMethod(
+                        self,
+                        self::fields::TsMethodField::Key,
+                    ));
+                    <Key as VisitWithAstPath<V>>::visit_with_ast_path(
+                        key,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsMethod(
+                        self,
+                        self::fields::TsMethodField::Function,
+                    ));
+                    <Box<TsFunction> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        function,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsMethod(
+                        self,
+                        self::fields::TsMethodField::Kind,
+                    ));
+                    <MethodKind as VisitWithAstPath<V>>::visit_with_ast_path(
+                        kind,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsMethod(
+                        self,
+                        self::fields::TsMethodField::Accessibility,
+                    ));
+                    <Option<Accessibility> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -51211,6 +51873,13 @@ pub trait VisitMut {
     fn visit_mut_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {
         <TsExternalModuleRef as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `TsFnDecl`.\n\nBy default, this method calls \
+             [`TsFnDecl::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl) {
+        <TsFnDecl as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsFnOrConstructorType`.\n\nBy default, this method calls \
              [`TsFnOrConstructorType::visit_mut_children_with`]. If you want to recurse, you need \
              to call it manually."]
@@ -51238,6 +51907,13 @@ pub trait VisitMut {
     #[inline]
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType) {
         <TsFnType as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsFunction`.\n\nBy default, this method calls \
+             [`TsFunction::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction) {
+        <TsFunction as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsGetterSignature`.\n\nBy default, this method calls \
              [`TsGetterSignature::visit_mut_children_with`]. If you want to recurse, you need to \
@@ -51350,6 +52026,13 @@ pub trait VisitMut {
     #[inline]
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType) {
         <TsMappedType as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsMethod`.\n\nBy default, this method calls \
+             [`TsMethod::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod) {
+        <TsMethod as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsMethodSignature`.\n\nBy default, this method calls \
              [`TsMethodSignature::visit_mut_children_with`]. If you want to recurse, you need to \
@@ -52873,6 +53556,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl) {
+        <V as VisitMut>::visit_mut_ts_fn_decl(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
         <V as VisitMut>::visit_mut_ts_fn_or_constructor_type(&mut **self, node)
     }
@@ -52890,6 +53578,11 @@ where
     #[inline]
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType) {
         <V as VisitMut>::visit_mut_ts_fn_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction) {
+        <V as VisitMut>::visit_mut_ts_function(&mut **self, node)
     }
 
     #[inline]
@@ -52970,6 +53663,11 @@ where
     #[inline]
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType) {
         <V as VisitMut>::visit_mut_ts_mapped_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod) {
+        <V as VisitMut>::visit_mut_ts_method(&mut **self, node)
     }
 
     #[inline]
@@ -54375,6 +55073,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl) {
+        <V as VisitMut>::visit_mut_ts_fn_decl(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
         <V as VisitMut>::visit_mut_ts_fn_or_constructor_type(&mut **self, node)
     }
@@ -54392,6 +55095,11 @@ where
     #[inline]
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType) {
         <V as VisitMut>::visit_mut_ts_fn_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction) {
+        <V as VisitMut>::visit_mut_ts_function(&mut **self, node)
     }
 
     #[inline]
@@ -54472,6 +55180,11 @@ where
     #[inline]
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType) {
         <V as VisitMut>::visit_mut_ts_mapped_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod) {
+        <V as VisitMut>::visit_mut_ts_method(&mut **self, node)
     }
 
     #[inline]
@@ -56772,6 +57485,14 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_fn_decl(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_fn_decl(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -56804,6 +57525,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_fn_type(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_fn_type(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_function(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_function(visitor, node),
         }
     }
 
@@ -56970,6 +57699,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_mapped_type(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_mapped_type(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_method(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_method(visitor, node),
         }
     }
 
@@ -59305,6 +60042,14 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_ts_fn_decl(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
         if self.enabled {
             <V as VisitMut>::visit_mut_ts_fn_or_constructor_type(&mut self.visitor, node)
@@ -59332,6 +60077,14 @@ where
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType) {
         if self.enabled {
             <V as VisitMut>::visit_mut_ts_fn_type(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_ts_function(&mut self.visitor, node)
         } else {
         }
     }
@@ -59460,6 +60213,14 @@ where
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType) {
         if self.enabled {
             <V as VisitMut>::visit_mut_ts_mapped_type(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_ts_method(&mut self.visitor, node)
         } else {
         }
     }
@@ -60660,6 +61421,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ClassMember {
             ClassMember::PrivateMethod { 0: _field_0 } => {
                 <PrivateMethod as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
+            ClassMember::TsMethod { 0: _field_0 } => {
+                <TsMethod as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+            }
             ClassMember::ClassProp { 0: _field_0 } => {
                 <ClassProp as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
@@ -60912,6 +61676,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Decl {
             Decl::Fn { 0: _field_0 } => {
                 <FnDecl as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
+            Decl::TsFn { 0: _field_0 } => {
+                <TsFnDecl as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+            }
             Decl::Var { 0: _field_0 } => {
                 <Box<VarDecl> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
@@ -60967,6 +61734,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DefaultDecl {
             }
             DefaultDecl::Fn { 0: _field_0 } => {
                 <FnExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+            }
+            DefaultDecl::TsFn { 0: _field_0 } => {
+                <TsFnDecl as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {
                 <Box<TsInterfaceDecl> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
@@ -61544,7 +62314,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
                     <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_with(ctxt, visitor)
                 };
                 {
-                    <Option<FunctionBody> as VisitMutWith<V>>::visit_mut_with(body, visitor)
+                    <FunctionBody as VisitMutWith<V>>::visit_mut_with(body, visitor)
                 };
                 {
                     <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_with(
@@ -64168,6 +64938,29 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsExternalModuleRef {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsFnDecl {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_fn_decl`] with `self`."]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_fn_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            TsFnDecl {
+                ident,
+                declare,
+                function,
+            } => {
+                {
+                    <Option<Ident> as VisitMutWith<V>>::visit_mut_with(ident, visitor)
+                };
+                {
+                    <Box<TsFunction> as VisitMutWith<V>>::visit_mut_with(function, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsFnOrConstructorType {
     #[doc = "Calls [VisitMut`::visit_mut_ts_fn_or_constructor_type`] with `self`."]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -64240,6 +65033,58 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsFnType {
                 };
                 {
                     <Box<TsTypeAnn> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsFunction {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_function`] with `self`."]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_function(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            TsFunction {
+                this_param,
+                params,
+                decorators,
+                span,
+                ctxt,
+                is_generator,
+                is_async,
+                type_params,
+                return_type,
+            } => {
+                {
+                    <Option<Box<TsThisParam>> as VisitMutWith<V>>::visit_mut_with(
+                        this_param, visitor,
+                    )
+                };
+                {
+                    <Vec<Param> as VisitMutWith<V>>::visit_mut_with(params, visitor)
+                };
+                {
+                    <Vec<Decorator> as VisitMutWith<V>>::visit_mut_with(decorators, visitor)
+                };
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_with(ctxt, visitor)
+                };
+                {
+                    <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_with(
+                        type_params,
+                        visitor,
+                    )
+                };
+                {
+                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(
+                        return_type,
+                        visitor,
+                    )
                 };
             }
         }
@@ -64660,6 +65505,47 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsMappedType {
                 };
                 {
                     <Option<Box<TsType>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsMethod {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_method`] with `self`."]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_method(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            TsMethod {
+                span,
+                key,
+                function,
+                kind,
+                is_static,
+                accessibility,
+                is_abstract,
+                is_optional,
+                is_override,
+            } => {
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <Key as VisitMutWith<V>>::visit_mut_with(key, visitor)
+                };
+                {
+                    <Box<TsFunction> as VisitMutWith<V>>::visit_mut_with(function, visitor)
+                };
+                {
+                    <MethodKind as VisitMutWith<V>>::visit_mut_with(kind, visitor)
+                };
+                {
+                    <Option<Accessibility> as VisitMutWith<V>>::visit_mut_with(
+                        accessibility,
+                        visitor,
+                    )
                 };
             }
         }
@@ -69098,6 +69984,15 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `TsFnDecl`.\n\nBy default, this method calls \
+             [`TsFnDecl::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl, __ast_path: &mut AstKindPath) {
+        <TsFnDecl as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsFnOrConstructorType`.\n\nBy default, this method calls \
              [`TsFnOrConstructorType::visit_mut_children_with_ast_path`]. If you want to recurse, \
              you need to call it manually."]
@@ -69135,6 +70030,15 @@ pub trait VisitMutAstPath {
     #[inline]
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType, __ast_path: &mut AstKindPath) {
         <TsFnType as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `TsFunction`.\n\nBy default, this method calls \
+             [`TsFunction::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction, __ast_path: &mut AstKindPath) {
+        <TsFunction as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -69323,6 +70227,15 @@ pub trait VisitMutAstPath {
     #[inline]
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType, __ast_path: &mut AstKindPath) {
         <TsMappedType as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `TsMethod`.\n\nBy default, this method calls \
+             [`TsMethod::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod, __ast_path: &mut AstKindPath) {
+        <TsMethod as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -71413,6 +72326,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_fn_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_ts_fn_or_constructor_type(
         &mut self,
         node: &mut TsFnOrConstructorType,
@@ -71434,6 +72352,11 @@ where
     #[inline]
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_ts_fn_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_function(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -71558,6 +72481,11 @@ where
     #[inline]
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_ts_mapped_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_method(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -73414,6 +74342,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_fn_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_ts_fn_or_constructor_type(
         &mut self,
         node: &mut TsFnOrConstructorType,
@@ -73435,6 +74368,11 @@ where
     #[inline]
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_ts_fn_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_function(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -73559,6 +74497,11 @@ where
     #[inline]
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_ts_mapped_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_method(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -76956,6 +77899,18 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_ts_fn_decl(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_ts_fn_decl(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_ts_fn_or_constructor_type(
         &mut self,
         node: &mut TsFnOrConstructorType,
@@ -77003,6 +77958,18 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_ts_fn_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_ts_function(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_ts_function(visitor, node, __ast_path)
             }
         }
     }
@@ -77239,6 +78206,18 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_ts_mapped_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_ts_method(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_ts_method(visitor, node, __ast_path)
             }
         }
     }
@@ -80346,6 +81325,14 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_fn_decl(&mut self, node: &mut TsFnDecl, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_ts_fn_decl(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_ts_fn_or_constructor_type(
         &mut self,
         node: &mut TsFnOrConstructorType,
@@ -80381,6 +81368,14 @@ where
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_ts_fn_type(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_function(&mut self, node: &mut TsFunction, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_ts_function(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -80581,6 +81576,14 @@ where
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_ts_mapped_type(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_method(&mut self, node: &mut TsMethod, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_ts_method(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -82509,6 +83512,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassMember {
                     &mut *__ast_path,
                 );
             }
+            ClassMember::TsMethod { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassMember(
+                    self::fields::ClassMemberField::TsMethod,
+                ));
+                <TsMethod as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
             ClassMember::ClassProp { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassMember(
                     self::fields::ClassMemberField::ClassProp,
@@ -82998,6 +84011,15 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Decl {
                     &mut *__ast_path,
                 );
             }
+            Decl::TsFn { 0: _field_0 } => {
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentKind::Decl(self::fields::DeclField::TsFn));
+                <TsFnDecl as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
             Decl::Var { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Decl(self::fields::DeclField::Var));
@@ -83115,6 +84137,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DefaultDecl {
                     self::fields::DefaultDeclField::Fn,
                 ));
                 <FnExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
+            DefaultDecl::TsFn { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::DefaultDecl(
+                    self::fields::DefaultDeclField::TsFn,
+                ));
+                <TsFnDecl as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -84313,7 +85345,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
                 {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::Function(self::fields::FunctionField::Body));
-                    <Option<FunctionBody> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    <FunctionBody as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -89303,6 +90335,44 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsExternalModuleRef
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsFnDecl {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_fn_decl`] with `self`."]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_fn_decl(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            TsFnDecl {
+                ident,
+                declare,
+                function,
+            } => {
+                {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TsFnDecl(self::fields::TsFnDeclField::Ident));
+                    <Option<Ident> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        ident,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFnDecl(
+                        self::fields::TsFnDeclField::Function,
+                    ));
+                    <Box<TsFunction> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        function,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsFnOrConstructorType {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_fn_or_constructor_type`] with `self`."]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
@@ -89437,6 +90507,97 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsFnType {
                     ));
                     <Box<TsTypeAnn> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsFunction {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_function`] with `self`."]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_function(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            TsFunction {
+                this_param,
+                params,
+                decorators,
+                span,
+                ctxt,
+                is_generator,
+                is_async,
+                type_params,
+                return_type,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::ThisParam,
+                    ));
+                    <Option<Box<TsThisParam>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        this_param,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::Params(usize::MAX),
+                    ));
+                    <Vec<Param> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::Decorators(usize::MAX),
+                    ));
+                    <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        decorators,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::Span,
+                    ));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::Ctxt,
+                    ));
+                    <swc_common::SyntaxContext as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        ctxt,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::TypeParams,
+                    ));
+                    < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_params , visitor , & mut * __ast_path)
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::ReturnType,
+                    ));
+                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        return_type,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -90197,6 +91358,78 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsMappedType {
                     ));
                     <Option<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsMethod {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_method`] with `self`."]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_method(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            TsMethod {
+                span,
+                key,
+                function,
+                kind,
+                is_static,
+                accessibility,
+                is_abstract,
+                is_optional,
+                is_override,
+            } => {
+                {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TsMethod(self::fields::TsMethodField::Span));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TsMethod(self::fields::TsMethodField::Key));
+                    <Key as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        key,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsMethod(
+                        self::fields::TsMethodField::Function,
+                    ));
+                    <Box<TsFunction> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        function,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TsMethod(self::fields::TsMethodField::Kind));
+                    <MethodKind as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        kind,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsMethod(
+                        self::fields::TsMethodField::Accessibility,
+                    ));
+                    <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -95368,6 +96601,13 @@ pub trait Fold {
     fn fold_ts_external_module_ref(&mut self, node: TsExternalModuleRef) -> TsExternalModuleRef {
         <TsExternalModuleRef as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `TsFnDecl`.\n\nBy default, this method calls \
+             [`TsFnDecl::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl) -> TsFnDecl {
+        <TsFnDecl as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsFnOrConstructorType`.\n\nBy default, this method calls \
              [`TsFnOrConstructorType::fold_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -95398,6 +96638,13 @@ pub trait Fold {
     #[inline]
     fn fold_ts_fn_type(&mut self, node: TsFnType) -> TsFnType {
         <TsFnType as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsFunction`.\n\nBy default, this method calls \
+             [`TsFunction::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction) -> TsFunction {
+        <TsFunction as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsGetterSignature`.\n\nBy default, this method calls \
              [`TsGetterSignature::fold_children_with`]. If you want to recurse, you need to call \
@@ -95509,6 +96756,13 @@ pub trait Fold {
     #[inline]
     fn fold_ts_mapped_type(&mut self, node: TsMappedType) -> TsMappedType {
         <TsMappedType as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsMethod`.\n\nBy default, this method calls \
+             [`TsMethod::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod) -> TsMethod {
+        <TsMethod as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsMethodSignature`.\n\nBy default, this method calls \
              [`TsMethodSignature::fold_children_with`]. If you want to recurse, you need to call \
@@ -97089,6 +98343,11 @@ where
     }
 
     #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl) -> TsFnDecl {
+        <V as Fold>::fold_ts_fn_decl(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
@@ -97109,6 +98368,11 @@ where
     #[inline]
     fn fold_ts_fn_type(&mut self, node: TsFnType) -> TsFnType {
         <V as Fold>::fold_ts_fn_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction) -> TsFunction {
+        <V as Fold>::fold_ts_function(&mut **self, node)
     }
 
     #[inline]
@@ -97189,6 +98453,11 @@ where
     #[inline]
     fn fold_ts_mapped_type(&mut self, node: TsMappedType) -> TsMappedType {
         <V as Fold>::fold_ts_mapped_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod) -> TsMethod {
+        <V as Fold>::fold_ts_method(&mut **self, node)
     }
 
     #[inline]
@@ -98654,6 +99923,11 @@ where
     }
 
     #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl) -> TsFnDecl {
+        <V as Fold>::fold_ts_fn_decl(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
@@ -98674,6 +99948,11 @@ where
     #[inline]
     fn fold_ts_fn_type(&mut self, node: TsFnType) -> TsFnType {
         <V as Fold>::fold_ts_fn_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction) -> TsFunction {
+        <V as Fold>::fold_ts_function(&mut **self, node)
     }
 
     #[inline]
@@ -98754,6 +100033,11 @@ where
     #[inline]
     fn fold_ts_mapped_type(&mut self, node: TsMappedType) -> TsMappedType {
         <V as Fold>::fold_ts_mapped_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod) -> TsMethod {
+        <V as Fold>::fold_ts_method(&mut **self, node)
     }
 
     #[inline]
@@ -100896,6 +102180,14 @@ where
     }
 
     #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl) -> TsFnDecl {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_ts_fn_decl(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_ts_fn_decl(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
@@ -100929,6 +102221,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_fn_type(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_fn_type(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction) -> TsFunction {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_ts_function(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_ts_function(visitor, node),
         }
     }
 
@@ -101057,6 +102357,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_mapped_type(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_mapped_type(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod) -> TsMethod {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_ts_method(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_ts_method(visitor, node),
         }
     }
 
@@ -103588,6 +104896,15 @@ where
     }
 
     #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl) -> TsFnDecl {
+        if self.enabled {
+            <V as Fold>::fold_ts_fn_decl(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
@@ -103621,6 +104938,15 @@ where
     fn fold_ts_fn_type(&mut self, node: TsFnType) -> TsFnType {
         if self.enabled {
             <V as Fold>::fold_ts_fn_type(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction) -> TsFunction {
+        if self.enabled {
+            <V as Fold>::fold_ts_function(&mut self.visitor, node)
         } else {
             node
         }
@@ -103765,6 +105091,15 @@ where
     fn fold_ts_mapped_type(&mut self, node: TsMappedType) -> TsMappedType {
         if self.enabled {
             <V as Fold>::fold_ts_mapped_type(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod) -> TsMethod {
+        if self.enabled {
+            <V as Fold>::fold_ts_method(&mut self.visitor, node)
         } else {
             node
         }
@@ -104992,6 +106327,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for ClassMember {
                 let _field_0 = <PrivateMethod as FoldWith<V>>::fold_with(_field_0, visitor);
                 ClassMember::PrivateMethod { 0: _field_0 }
             }
+            ClassMember::TsMethod { 0: _field_0 } => {
+                let _field_0 = <TsMethod as FoldWith<V>>::fold_with(_field_0, visitor);
+                ClassMember::TsMethod { 0: _field_0 }
+            }
             ClassMember::ClassProp { 0: _field_0 } => {
                 let _field_0 = <ClassProp as FoldWith<V>>::fold_with(_field_0, visitor);
                 ClassMember::ClassProp { 0: _field_0 }
@@ -105241,6 +106580,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for Decl {
                 let _field_0 = <FnDecl as FoldWith<V>>::fold_with(_field_0, visitor);
                 Decl::Fn { 0: _field_0 }
             }
+            Decl::TsFn { 0: _field_0 } => {
+                let _field_0 = <TsFnDecl as FoldWith<V>>::fold_with(_field_0, visitor);
+                Decl::TsFn { 0: _field_0 }
+            }
             Decl::Var { 0: _field_0 } => {
                 let _field_0 = <Box<VarDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
                 Decl::Var { 0: _field_0 }
@@ -105301,6 +106644,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for DefaultDecl {
             DefaultDecl::Fn { 0: _field_0 } => {
                 let _field_0 = <FnExpr as FoldWith<V>>::fold_with(_field_0, visitor);
                 DefaultDecl::Fn { 0: _field_0 }
+            }
+            DefaultDecl::TsFn { 0: _field_0 } => {
+                let _field_0 = <TsFnDecl as FoldWith<V>>::fold_with(_field_0, visitor);
+                DefaultDecl::TsFn { 0: _field_0 }
             }
             DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {
                 let _field_0 = <Box<TsInterfaceDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
@@ -105883,7 +107230,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
                     { <Vec<Decorator> as FoldWith<V>>::fold_with(decorators, visitor) };
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
-                let body = { <Option<FunctionBody> as FoldWith<V>>::fold_with(body, visitor) };
+                let body = { <FunctionBody as FoldWith<V>>::fold_with(body, visitor) };
                 let type_params = {
                     <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_with(type_params, visitor)
                 };
@@ -108465,6 +109812,30 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsExternalModuleRef {
         }
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for TsFnDecl {
+    #[doc = "Calls [Fold`::fold_ts_fn_decl`] with `self`."]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_fn_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        match self {
+            TsFnDecl {
+                ident,
+                declare,
+                function,
+            } => {
+                let ident = { <Option<Ident> as FoldWith<V>>::fold_with(ident, visitor) };
+                let function = { <Box<TsFunction> as FoldWith<V>>::fold_with(function, visitor) };
+                TsFnDecl {
+                    ident,
+                    declare,
+                    function,
+                }
+            }
+        }
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for TsFnOrConstructorType {
     #[doc = "Calls [Fold`::fold_ts_fn_or_constructor_type`] with `self`."]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -108540,6 +109911,52 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsFnType {
                     params,
                     type_params,
                     type_ann,
+                }
+            }
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for TsFunction {
+    #[doc = "Calls [Fold`::fold_ts_function`] with `self`."]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_function(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        match self {
+            TsFunction {
+                this_param,
+                params,
+                decorators,
+                span,
+                ctxt,
+                is_generator,
+                is_async,
+                type_params,
+                return_type,
+            } => {
+                let this_param =
+                    { <Option<Box<TsThisParam>> as FoldWith<V>>::fold_with(this_param, visitor) };
+                let params = { <Vec<Param> as FoldWith<V>>::fold_with(params, visitor) };
+                let decorators =
+                    { <Vec<Decorator> as FoldWith<V>>::fold_with(decorators, visitor) };
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
+                let type_params = {
+                    <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_with(type_params, visitor)
+                };
+                let return_type =
+                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(return_type, visitor) };
+                TsFunction {
+                    this_param,
+                    params,
+                    decorators,
+                    span,
+                    ctxt,
+                    is_generator,
+                    is_async,
+                    type_params,
+                    return_type,
                 }
             }
         }
@@ -108948,6 +110365,46 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsMappedType {
                     name_type,
                     optional,
                     type_ann,
+                }
+            }
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for TsMethod {
+    #[doc = "Calls [Fold`::fold_ts_method`] with `self`."]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_method(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        match self {
+            TsMethod {
+                span,
+                key,
+                function,
+                kind,
+                is_static,
+                accessibility,
+                is_abstract,
+                is_optional,
+                is_override,
+            } => {
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let key = { <Key as FoldWith<V>>::fold_with(key, visitor) };
+                let function = { <Box<TsFunction> as FoldWith<V>>::fold_with(function, visitor) };
+                let kind = { <MethodKind as FoldWith<V>>::fold_with(kind, visitor) };
+                let accessibility =
+                    { <Option<Accessibility> as FoldWith<V>>::fold_with(accessibility, visitor) };
+                TsMethod {
+                    span,
+                    key,
+                    function,
+                    kind,
+                    is_static,
+                    accessibility,
+                    is_abstract,
+                    is_optional,
+                    is_override,
                 }
             }
         }
@@ -113250,6 +114707,13 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `TsFnDecl`.\n\nBy default, this method calls \
+             [`TsFnDecl::fold_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl, __ast_path: &mut AstKindPath) -> TsFnDecl {
+        <TsFnDecl as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
     #[doc = "Visit a node of type `TsFnOrConstructorType`.\n\nBy default, this method calls \
              [`TsFnOrConstructorType::fold_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -113289,6 +114753,13 @@ pub trait FoldAstPath {
     #[inline]
     fn fold_ts_fn_type(&mut self, node: TsFnType, __ast_path: &mut AstKindPath) -> TsFnType {
         <TsFnType as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Visit a node of type `TsFunction`.\n\nBy default, this method calls \
+             [`TsFunction::fold_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction, __ast_path: &mut AstKindPath) -> TsFunction {
+        <TsFunction as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `TsGetterSignature`.\n\nBy default, this method calls \
              [`TsGetterSignature::fold_children_with_ast_path`]. If you want to recurse, you need \
@@ -113479,6 +114950,13 @@ pub trait FoldAstPath {
         __ast_path: &mut AstKindPath,
     ) -> TsMappedType {
         <TsMappedType as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Visit a node of type `TsMethod`.\n\nBy default, this method calls \
+             [`TsMethod::fold_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod, __ast_path: &mut AstKindPath) -> TsMethod {
+        <TsMethod as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `TsMethodSignature`.\n\nBy default, this method calls \
              [`TsMethodSignature::fold_children_with_ast_path`]. If you want to recurse, you need \
@@ -115743,6 +117221,11 @@ where
     }
 
     #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl, __ast_path: &mut AstKindPath) -> TsFnDecl {
+        <V as FoldAstPath>::fold_ts_fn_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
@@ -115768,6 +117251,11 @@ where
     #[inline]
     fn fold_ts_fn_type(&mut self, node: TsFnType, __ast_path: &mut AstKindPath) -> TsFnType {
         <V as FoldAstPath>::fold_ts_fn_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction, __ast_path: &mut AstKindPath) -> TsFunction {
+        <V as FoldAstPath>::fold_ts_function(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -115904,6 +117392,11 @@ where
         __ast_path: &mut AstKindPath,
     ) -> TsMappedType {
         <V as FoldAstPath>::fold_ts_mapped_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod, __ast_path: &mut AstKindPath) -> TsMethod {
+        <V as FoldAstPath>::fold_ts_method(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -117984,6 +119477,11 @@ where
     }
 
     #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl, __ast_path: &mut AstKindPath) -> TsFnDecl {
+        <V as FoldAstPath>::fold_ts_fn_decl(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
@@ -118009,6 +119507,11 @@ where
     #[inline]
     fn fold_ts_fn_type(&mut self, node: TsFnType, __ast_path: &mut AstKindPath) -> TsFnType {
         <V as FoldAstPath>::fold_ts_fn_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction, __ast_path: &mut AstKindPath) -> TsFunction {
+        <V as FoldAstPath>::fold_ts_function(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -118145,6 +119648,11 @@ where
         __ast_path: &mut AstKindPath,
     ) -> TsMappedType {
         <V as FoldAstPath>::fold_ts_mapped_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod, __ast_path: &mut AstKindPath) -> TsMethod {
+        <V as FoldAstPath>::fold_ts_method(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -121670,6 +123178,18 @@ where
     }
 
     #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl, __ast_path: &mut AstKindPath) -> TsFnDecl {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_ts_fn_decl(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_ts_fn_decl(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
@@ -121721,6 +123241,18 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_ts_fn_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction, __ast_path: &mut AstKindPath) -> TsFunction {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_ts_function(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_ts_function(visitor, node, __ast_path)
             }
         }
     }
@@ -121967,6 +123499,18 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_ts_mapped_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod, __ast_path: &mut AstKindPath) -> TsMethod {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_ts_method(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_ts_method(visitor, node, __ast_path)
             }
         }
     }
@@ -125350,6 +126894,15 @@ where
     }
 
     #[inline]
+    fn fold_ts_fn_decl(&mut self, node: TsFnDecl, __ast_path: &mut AstKindPath) -> TsFnDecl {
+        if self.enabled {
+            <V as FoldAstPath>::fold_ts_fn_decl(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
@@ -125388,6 +126941,15 @@ where
     fn fold_ts_fn_type(&mut self, node: TsFnType, __ast_path: &mut AstKindPath) -> TsFnType {
         if self.enabled {
             <V as FoldAstPath>::fold_ts_fn_type(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_ts_function(&mut self, node: TsFunction, __ast_path: &mut AstKindPath) -> TsFunction {
+        if self.enabled {
+            <V as FoldAstPath>::fold_ts_function(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -125588,6 +127150,15 @@ where
     ) -> TsMappedType {
         if self.enabled {
             <V as FoldAstPath>::fold_ts_mapped_type(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_ts_method(&mut self, node: TsMethod, __ast_path: &mut AstKindPath) -> TsMethod {
+        if self.enabled {
+            <V as FoldAstPath>::fold_ts_method(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -127672,6 +129243,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassMember {
                 );
                 ClassMember::PrivateMethod { 0: _field_0 }
             }
+            ClassMember::TsMethod { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassMember(
+                    self::fields::ClassMemberField::TsMethod,
+                ));
+                let _field_0 = <TsMethod as FoldWithAstPath<V>>::fold_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+                ClassMember::TsMethod { 0: _field_0 }
+            }
             ClassMember::ClassProp { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassMember(
                     self::fields::ClassMemberField::ClassProp,
@@ -128213,6 +129795,16 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Decl {
                 );
                 Decl::Fn { 0: _field_0 }
             }
+            Decl::TsFn { 0: _field_0 } => {
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentKind::Decl(self::fields::DeclField::TsFn));
+                let _field_0 = <TsFnDecl as FoldWithAstPath<V>>::fold_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+                Decl::TsFn { 0: _field_0 }
+            }
             Decl::Var { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Decl(self::fields::DeclField::Var));
@@ -128343,6 +129935,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DefaultDecl {
                     &mut *__ast_path,
                 );
                 DefaultDecl::Fn { 0: _field_0 }
+            }
+            DefaultDecl::TsFn { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::DefaultDecl(
+                    self::fields::DefaultDeclField::TsFn,
+                ));
+                let _field_0 = <TsFnDecl as FoldWithAstPath<V>>::fold_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+                DefaultDecl::TsFn { 0: _field_0 }
             }
             DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::DefaultDecl(
@@ -129629,7 +131232,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                 let body = {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::Function(self::fields::FunctionField::Body));
-                    <Option<FunctionBody> as FoldWithAstPath<V>>::fold_with_ast_path(
+                    <FunctionBody as FoldWithAstPath<V>>::fold_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -134999,6 +136602,49 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsExternalModuleRef {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsFnDecl {
+    #[doc = "Calls [FoldAstPath`::fold_ts_fn_decl`] with `self`."]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_fn_decl(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        match self {
+            TsFnDecl {
+                ident,
+                declare,
+                function,
+            } => {
+                let ident = {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TsFnDecl(self::fields::TsFnDeclField::Ident));
+                    <Option<Ident> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        ident,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let function = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFnDecl(
+                        self::fields::TsFnDeclField::Function,
+                    ));
+                    <Box<TsFunction> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        function,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                TsFnDecl {
+                    ident,
+                    declare,
+                    function,
+                }
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsFnOrConstructorType {
     #[doc = "Calls [FoldAstPath`::fold_ts_fn_or_constructor_type`] with `self`."]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
@@ -135152,6 +136798,112 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsFnType {
                     params,
                     type_params,
                     type_ann,
+                }
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsFunction {
+    #[doc = "Calls [FoldAstPath`::fold_ts_function`] with `self`."]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_function(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        match self {
+            TsFunction {
+                this_param,
+                params,
+                decorators,
+                span,
+                ctxt,
+                is_generator,
+                is_async,
+                type_params,
+                return_type,
+            } => {
+                let this_param = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::ThisParam,
+                    ));
+                    <Option<Box<TsThisParam>> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        this_param,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let params = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::Params(usize::MAX),
+                    ));
+                    <Vec<Param> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let decorators = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::Decorators(usize::MAX),
+                    ));
+                    <Vec<Decorator> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        decorators,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let span = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::Span,
+                    ));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let ctxt = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::Ctxt,
+                    ));
+                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_with_ast_path(
+                        ctxt,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let type_params = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::TypeParams,
+                    ));
+                    <Option<Box<TsTypeParamDecl>> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        type_params,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let return_type = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsFunction(
+                        self::fields::TsFunctionField::ReturnType,
+                    ));
+                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        return_type,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                TsFunction {
+                    this_param,
+                    params,
+                    decorators,
+                    span,
+                    ctxt,
+                    is_generator,
+                    is_async,
+                    type_params,
+                    return_type,
                 }
             }
         }
@@ -135973,6 +137725,85 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsMappedType {
                     name_type,
                     optional,
                     type_ann,
+                }
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsMethod {
+    #[doc = "Calls [FoldAstPath`::fold_ts_method`] with `self`."]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_method(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        match self {
+            TsMethod {
+                span,
+                key,
+                function,
+                kind,
+                is_static,
+                accessibility,
+                is_abstract,
+                is_optional,
+                is_override,
+            } => {
+                let span = {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TsMethod(self::fields::TsMethodField::Span));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let key = {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TsMethod(self::fields::TsMethodField::Key));
+                    <Key as FoldWithAstPath<V>>::fold_with_ast_path(key, visitor, &mut *__ast_path)
+                };
+                let function = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsMethod(
+                        self::fields::TsMethodField::Function,
+                    ));
+                    <Box<TsFunction> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        function,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let kind = {
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TsMethod(self::fields::TsMethodField::Kind));
+                    <MethodKind as FoldWithAstPath<V>>::fold_with_ast_path(
+                        kind,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let accessibility = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsMethod(
+                        self::fields::TsMethodField::Accessibility,
+                    ));
+                    <Option<Accessibility> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        accessibility,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                TsMethod {
+                    span,
+                    key,
+                    function,
+                    kind,
+                    is_static,
+                    accessibility,
+                    is_abstract,
+                    is_optional,
+                    is_override,
                 }
             }
         }
@@ -140373,6 +142204,8 @@ pub mod fields {
         Method,
         #[doc = "Represents [`ClassMember::PrivateMethod`]"]
         PrivateMethod,
+        #[doc = "Represents [`ClassMember::TsMethod`]"]
+        TsMethod,
         #[doc = "Represents [`ClassMember::ClassProp`]"]
         ClassProp,
         #[doc = "Represents [`ClassMember::PrivateProp`]"]
@@ -140560,6 +142393,8 @@ pub mod fields {
         Class,
         #[doc = "Represents [`Decl::Fn`]"]
         Fn,
+        #[doc = "Represents [`Decl::TsFn`]"]
+        TsFn,
         #[doc = "Represents [`Decl::Var`]"]
         Var,
         #[doc = "Represents [`Decl::Using`]"]
@@ -140601,6 +142436,8 @@ pub mod fields {
         Class,
         #[doc = "Represents [`DefaultDecl::Fn`]"]
         Fn,
+        #[doc = "Represents [`DefaultDecl::TsFn`]"]
+        TsFn,
         #[doc = "Represents [`DefaultDecl::TsInterfaceDecl`]"]
         TsInterfaceDecl,
     }
@@ -143000,6 +144837,23 @@ pub mod fields {
         #[doc = "Represents [`TsExternalModuleRef::expr`]"]
         Expr,
     }
+    impl TsFnDeclField {
+        pub(crate) fn set_index(&mut self, index: usize) {
+            match self {
+                _ => swc_visit::wrong_ast_path(),
+            }
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+    pub enum TsFnDeclField {
+        #[doc = "Represents [`TsFnDecl::ident`]"]
+        Ident,
+        #[doc = "Represents [`TsFnDecl::declare`]"]
+        Declare,
+        #[doc = "Represents [`TsFnDecl::function`]"]
+        Function,
+    }
     impl TsFnOrConstructorTypeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
@@ -143054,6 +144908,43 @@ pub mod fields {
         TypeParams,
         #[doc = "Represents [`TsFnType::type_ann`]"]
         TypeAnn,
+    }
+    impl TsFunctionField {
+        pub(crate) fn set_index(&mut self, index: usize) {
+            match self {
+                Self::Params(idx) => {
+                    assert_initial_index(*idx, index);
+                    *idx = index;
+                }
+                Self::Decorators(idx) => {
+                    assert_initial_index(*idx, index);
+                    *idx = index;
+                }
+                _ => swc_visit::wrong_ast_path(),
+            }
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+    pub enum TsFunctionField {
+        #[doc = "Represents [`TsFunction::this_param`]"]
+        ThisParam,
+        #[doc = "Represents [`TsFunction::params`]"]
+        Params(usize),
+        #[doc = "Represents [`TsFunction::decorators`]"]
+        Decorators(usize),
+        #[doc = "Represents [`TsFunction::span`]"]
+        Span,
+        #[doc = "Represents [`TsFunction::ctxt`]"]
+        Ctxt,
+        #[doc = "Represents [`TsFunction::is_generator`]"]
+        IsGenerator,
+        #[doc = "Represents [`TsFunction::is_async`]"]
+        IsAsync,
+        #[doc = "Represents [`TsFunction::type_params`]"]
+        TypeParams,
+        #[doc = "Represents [`TsFunction::return_type`]"]
+        ReturnType,
     }
     impl TsGetterSignatureField {
         pub(crate) fn set_index(&mut self, index: usize) {
@@ -143380,6 +145271,35 @@ pub mod fields {
         Optional,
         #[doc = "Represents [`TsMappedType::type_ann`]"]
         TypeAnn,
+    }
+    impl TsMethodField {
+        pub(crate) fn set_index(&mut self, index: usize) {
+            match self {
+                _ => swc_visit::wrong_ast_path(),
+            }
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+    pub enum TsMethodField {
+        #[doc = "Represents [`TsMethod::span`]"]
+        Span,
+        #[doc = "Represents [`TsMethod::key`]"]
+        Key,
+        #[doc = "Represents [`TsMethod::function`]"]
+        Function,
+        #[doc = "Represents [`TsMethod::kind`]"]
+        Kind,
+        #[doc = "Represents [`TsMethod::is_static`]"]
+        IsStatic,
+        #[doc = "Represents [`TsMethod::accessibility`]"]
+        Accessibility,
+        #[doc = "Represents [`TsMethod::is_abstract`]"]
+        IsAbstract,
+        #[doc = "Represents [`TsMethod::is_optional`]"]
+        IsOptional,
+        #[doc = "Represents [`TsMethod::is_override`]"]
+        IsOverride,
     }
     impl TsMethodSignatureField {
         pub(crate) fn set_index(&mut self, index: usize) {
@@ -144543,9 +146463,11 @@ pub mod fields {
         TsExportAssignment(TsExportAssignmentField),
         TsExprWithTypeArgs(TsExprWithTypeArgsField),
         TsExternalModuleRef(TsExternalModuleRefField),
+        TsFnDecl(TsFnDeclField),
         TsFnOrConstructorType(TsFnOrConstructorTypeField),
         TsFnParam(TsFnParamField),
         TsFnType(TsFnTypeField),
+        TsFunction(TsFunctionField),
         TsGetterSignature(TsGetterSignatureField),
         TsImportCallOptions(TsImportCallOptionsField),
         TsImportEqualsDecl(TsImportEqualsDeclField),
@@ -144562,6 +146484,7 @@ pub mod fields {
         TsLit(TsLitField),
         TsLitType(TsLitTypeField),
         TsMappedType(TsMappedTypeField),
+        TsMethod(TsMethodField),
         TsMethodSignature(TsMethodSignatureField),
         TsModuleBlock(TsModuleBlockField),
         TsModuleDecl(TsModuleDeclField),
@@ -144786,9 +146709,11 @@ pub mod fields {
                 Self::TsExportAssignment(v) => v.set_index(index),
                 Self::TsExprWithTypeArgs(v) => v.set_index(index),
                 Self::TsExternalModuleRef(v) => v.set_index(index),
+                Self::TsFnDecl(v) => v.set_index(index),
                 Self::TsFnOrConstructorType(v) => v.set_index(index),
                 Self::TsFnParam(v) => v.set_index(index),
                 Self::TsFnType(v) => v.set_index(index),
+                Self::TsFunction(v) => v.set_index(index),
                 Self::TsGetterSignature(v) => v.set_index(index),
                 Self::TsImportCallOptions(v) => v.set_index(index),
                 Self::TsImportEqualsDecl(v) => v.set_index(index),
@@ -144805,6 +146730,7 @@ pub mod fields {
                 Self::TsLit(v) => v.set_index(index),
                 Self::TsLitType(v) => v.set_index(index),
                 Self::TsMappedType(v) => v.set_index(index),
+                Self::TsMethod(v) => v.set_index(index),
                 Self::TsMethodSignature(v) => v.set_index(index),
                 Self::TsModuleBlock(v) => v.set_index(index),
                 Self::TsModuleDecl(v) => v.set_index(index),
@@ -145035,9 +146961,11 @@ pub mod fields {
         TsExportAssignment(&'ast TsExportAssignment, TsExportAssignmentField),
         TsExprWithTypeArgs(&'ast TsExprWithTypeArgs, TsExprWithTypeArgsField),
         TsExternalModuleRef(&'ast TsExternalModuleRef, TsExternalModuleRefField),
+        TsFnDecl(&'ast TsFnDecl, TsFnDeclField),
         TsFnOrConstructorType(&'ast TsFnOrConstructorType, TsFnOrConstructorTypeField),
         TsFnParam(&'ast TsFnParam, TsFnParamField),
         TsFnType(&'ast TsFnType, TsFnTypeField),
+        TsFunction(&'ast TsFunction, TsFunctionField),
         TsGetterSignature(&'ast TsGetterSignature, TsGetterSignatureField),
         TsImportCallOptions(&'ast TsImportCallOptions, TsImportCallOptionsField),
         TsImportEqualsDecl(&'ast TsImportEqualsDecl, TsImportEqualsDeclField),
@@ -145054,6 +146982,7 @@ pub mod fields {
         TsLit(&'ast TsLit, TsLitField),
         TsLitType(&'ast TsLitType, TsLitTypeField),
         TsMappedType(&'ast TsMappedType, TsMappedTypeField),
+        TsMethod(&'ast TsMethod, TsMethodField),
         TsMethodSignature(&'ast TsMethodSignature, TsMethodSignatureField),
         TsModuleBlock(&'ast TsModuleBlock, TsModuleBlockField),
         TsModuleDecl(&'ast TsModuleDecl, TsModuleDeclField),
@@ -145290,9 +147219,11 @@ pub mod fields {
                 Self::TsExportAssignment(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsExprWithTypeArgs(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsExternalModuleRef(_, __field_kind) => __field_kind.set_index(index),
+                Self::TsFnDecl(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsFnOrConstructorType(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsFnParam(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsFnType(_, __field_kind) => __field_kind.set_index(index),
+                Self::TsFunction(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsGetterSignature(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsImportCallOptions(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsImportEqualsDecl(_, __field_kind) => __field_kind.set_index(index),
@@ -145309,6 +147240,7 @@ pub mod fields {
                 Self::TsLit(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsLitType(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsMappedType(_, __field_kind) => __field_kind.set_index(index),
+                Self::TsMethod(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsMethodSignature(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsModuleBlock(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsModuleDecl(_, __field_kind) => __field_kind.set_index(index),
@@ -145610,11 +147542,13 @@ pub mod fields {
                 Self::TsExternalModuleRef(_, __field_kind) => {
                     AstParentKind::TsExternalModuleRef(*__field_kind)
                 }
+                Self::TsFnDecl(_, __field_kind) => AstParentKind::TsFnDecl(*__field_kind),
                 Self::TsFnOrConstructorType(_, __field_kind) => {
                     AstParentKind::TsFnOrConstructorType(*__field_kind)
                 }
                 Self::TsFnParam(_, __field_kind) => AstParentKind::TsFnParam(*__field_kind),
                 Self::TsFnType(_, __field_kind) => AstParentKind::TsFnType(*__field_kind),
+                Self::TsFunction(_, __field_kind) => AstParentKind::TsFunction(*__field_kind),
                 Self::TsGetterSignature(_, __field_kind) => {
                     AstParentKind::TsGetterSignature(*__field_kind)
                 }
@@ -145651,6 +147585,7 @@ pub mod fields {
                 Self::TsLit(_, __field_kind) => AstParentKind::TsLit(*__field_kind),
                 Self::TsLitType(_, __field_kind) => AstParentKind::TsLitType(*__field_kind),
                 Self::TsMappedType(_, __field_kind) => AstParentKind::TsMappedType(*__field_kind),
+                Self::TsMethod(_, __field_kind) => AstParentKind::TsMethod(*__field_kind),
                 Self::TsMethodSignature(_, __field_kind) => {
                     AstParentKind::TsMethodSignature(*__field_kind)
                 }
@@ -146582,6 +148517,11 @@ impl<'ast> From<&'ast TsExternalModuleRef> for NodeRef<'ast> {
         NodeRef::TsExternalModuleRef(node)
     }
 }
+impl<'ast> From<&'ast TsFnDecl> for NodeRef<'ast> {
+    fn from(node: &'ast TsFnDecl) -> Self {
+        NodeRef::TsFnDecl(node)
+    }
+}
 impl<'ast> From<&'ast TsFnOrConstructorType> for NodeRef<'ast> {
     fn from(node: &'ast TsFnOrConstructorType) -> Self {
         NodeRef::TsFnOrConstructorType(node)
@@ -146595,6 +148535,11 @@ impl<'ast> From<&'ast TsFnParam> for NodeRef<'ast> {
 impl<'ast> From<&'ast TsFnType> for NodeRef<'ast> {
     fn from(node: &'ast TsFnType) -> Self {
         NodeRef::TsFnType(node)
+    }
+}
+impl<'ast> From<&'ast TsFunction> for NodeRef<'ast> {
+    fn from(node: &'ast TsFunction) -> Self {
+        NodeRef::TsFunction(node)
     }
 }
 impl<'ast> From<&'ast TsGetterSignature> for NodeRef<'ast> {
@@ -146675,6 +148620,11 @@ impl<'ast> From<&'ast TsLitType> for NodeRef<'ast> {
 impl<'ast> From<&'ast TsMappedType> for NodeRef<'ast> {
     fn from(node: &'ast TsMappedType) -> Self {
         NodeRef::TsMappedType(node)
+    }
+}
+impl<'ast> From<&'ast TsMethod> for NodeRef<'ast> {
+    fn from(node: &'ast TsMethod) -> Self {
+        NodeRef::TsMethod(node)
     }
 }
 impl<'ast> From<&'ast TsMethodSignature> for NodeRef<'ast> {
@@ -147110,9 +149060,11 @@ pub enum NodeRef<'ast> {
     TsExportAssignment(&'ast TsExportAssignment),
     TsExprWithTypeArgs(&'ast TsExprWithTypeArgs),
     TsExternalModuleRef(&'ast TsExternalModuleRef),
+    TsFnDecl(&'ast TsFnDecl),
     TsFnOrConstructorType(&'ast TsFnOrConstructorType),
     TsFnParam(&'ast TsFnParam),
     TsFnType(&'ast TsFnType),
+    TsFunction(&'ast TsFunction),
     TsGetterSignature(&'ast TsGetterSignature),
     TsImportCallOptions(&'ast TsImportCallOptions),
     TsImportEqualsDecl(&'ast TsImportEqualsDecl),
@@ -147129,6 +149081,7 @@ pub enum NodeRef<'ast> {
     TsLit(&'ast TsLit),
     TsLitType(&'ast TsLitType),
     TsMappedType(&'ast TsMappedType),
+    TsMethod(&'ast TsMethod),
     TsMethodSignature(&'ast TsMethodSignature),
     TsModuleBlock(&'ast TsModuleBlock),
     TsModuleDecl(&'ast TsModuleDecl),
@@ -147465,6 +149418,7 @@ impl<'ast> NodeRef<'ast> {
                 ClassMember::PrivateMethod(v0) => {
                     Box::new(::std::iter::once(NodeRef::PrivateMethod(v0)))
                 }
+                ClassMember::TsMethod(v0) => Box::new(::std::iter::once(NodeRef::TsMethod(v0))),
                 ClassMember::ClassProp(v0) => Box::new(::std::iter::once(NodeRef::ClassProp(v0))),
                 ClassMember::PrivateProp(v0) => {
                     Box::new(::std::iter::once(NodeRef::PrivateProp(v0)))
@@ -147577,6 +149531,7 @@ impl<'ast> NodeRef<'ast> {
             NodeRef::Decl(node) => match node {
                 Decl::Class(v0) => Box::new(::std::iter::once(NodeRef::ClassDecl(v0))),
                 Decl::Fn(v0) => Box::new(::std::iter::once(NodeRef::FnDecl(v0))),
+                Decl::TsFn(v0) => Box::new(::std::iter::once(NodeRef::TsFnDecl(v0))),
                 Decl::Var(v0) => Box::new(::std::iter::once(NodeRef::VarDecl(v0))),
                 Decl::Using(v0) => Box::new(::std::iter::once(NodeRef::UsingDecl(v0))),
                 Decl::TsInterface(v0) => Box::new(::std::iter::once(NodeRef::TsInterfaceDecl(v0))),
@@ -147595,6 +149550,7 @@ impl<'ast> NodeRef<'ast> {
             NodeRef::DefaultDecl(node) => match node {
                 DefaultDecl::Class(v0) => Box::new(::std::iter::once(NodeRef::ClassExpr(v0))),
                 DefaultDecl::Fn(v0) => Box::new(::std::iter::once(NodeRef::FnExpr(v0))),
+                DefaultDecl::TsFn(v0) => Box::new(::std::iter::once(NodeRef::TsFnDecl(v0))),
                 DefaultDecl::TsInterfaceDecl(v0) => {
                     Box::new(::std::iter::once(NodeRef::TsInterfaceDecl(v0)))
                 }
@@ -147831,11 +149787,7 @@ impl<'ast> NodeRef<'ast> {
                             .iter()
                             .flat_map(|item| ::std::iter::once(NodeRef::Decorator(&item))),
                     )
-                    .chain(
-                        node.body
-                            .iter()
-                            .flat_map(|item| ::std::iter::once(NodeRef::FunctionBody(&item))),
-                    )
+                    .chain(::std::iter::once(NodeRef::FunctionBody(&node.body)))
                     .chain(node.type_params.iter().flat_map(|item| {
                         let item = &*item;
                         ::std::iter::once(NodeRef::TsTypeParamDecl(&item))
@@ -148835,6 +150787,19 @@ impl<'ast> NodeRef<'ast> {
                     .chain(::std::iter::once(NodeRef::Str(&node.expr)));
                 Box::new(iterator)
             }
+            NodeRef::TsFnDecl(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(
+                        node.ident
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Ident(&item))),
+                    )
+                    .chain({
+                        let item = &*node.function;
+                        ::std::iter::once(NodeRef::TsFunction(&item))
+                    });
+                Box::new(iterator)
+            }
             NodeRef::TsFnOrConstructorType(node) => match node {
                 TsFnOrConstructorType::TsFnType(v0) => {
                     Box::new(::std::iter::once(NodeRef::TsFnType(v0)))
@@ -148866,6 +150831,32 @@ impl<'ast> NodeRef<'ast> {
                         let item = &*node.type_ann;
                         ::std::iter::once(NodeRef::TsTypeAnn(&item))
                     });
+                Box::new(iterator)
+            }
+            NodeRef::TsFunction(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(node.this_param.iter().flat_map(|item| {
+                        let item = &*item;
+                        ::std::iter::once(NodeRef::TsThisParam(&item))
+                    }))
+                    .chain(
+                        node.params
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Param(&item))),
+                    )
+                    .chain(
+                        node.decorators
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Decorator(&item))),
+                    )
+                    .chain(node.type_params.iter().flat_map(|item| {
+                        let item = &*item;
+                        ::std::iter::once(NodeRef::TsTypeParamDecl(&item))
+                    }))
+                    .chain(node.return_type.iter().flat_map(|item| {
+                        let item = &*item;
+                        ::std::iter::once(NodeRef::TsTypeAnn(&item))
+                    }));
                 Box::new(iterator)
             }
             NodeRef::TsGetterSignature(node) => {
@@ -149027,6 +151018,21 @@ impl<'ast> NodeRef<'ast> {
                         let item = &*item;
                         ::std::iter::once(NodeRef::TsType(&item))
                     }));
+                Box::new(iterator)
+            }
+            NodeRef::TsMethod(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(::std::iter::once(NodeRef::Key(&node.key)))
+                    .chain({
+                        let item = &*node.function;
+                        ::std::iter::once(NodeRef::TsFunction(&item))
+                    })
+                    .chain(::std::iter::once(NodeRef::MethodKind(&node.kind)))
+                    .chain(
+                        node.accessibility
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Accessibility(&item))),
+                    );
                 Box::new(iterator)
             }
             NodeRef::TsMethodSignature(node) => {

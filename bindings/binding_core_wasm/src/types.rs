@@ -1355,6 +1355,7 @@ export type ClassMember =
   | Constructor
   | ClassMethod
   | PrivateMethod
+  | TsMethodDefinition
   | ClassProperty
   | PrivateProperty
   | TsIndexSignature
@@ -1442,6 +1443,26 @@ export interface PrivateMethod extends ClassMethodBase {
   key: PrivateName;
 }
 
+export interface TsMethodDefinition extends Node, HasSpan {
+  type: "TsMethodDefinition";
+
+  key: PropertyName | PrivateName;
+
+  function: TsFunction;
+
+  kind: MethodKind;
+
+  isStatic: boolean;
+
+  accessibility?: Accessibility;
+
+  isAbstract: boolean;
+
+  isOptional: boolean;
+
+  isOverride: boolean;
+}
+
 export interface StaticBlock extends Node, HasSpan {
   type: "StaticBlock";
 
@@ -1459,6 +1480,7 @@ export type MethodKind = "method" | "getter" | "setter";
 export type Declaration =
   | ClassDeclaration
   | FunctionDeclaration
+  | TsDeclareFunction
   | VariableDeclaration
   | TsInterfaceDeclaration
   | TsTypeAliasDeclaration
@@ -1469,6 +1491,14 @@ export interface FunctionDeclaration extends Fn {
   type: "FunctionDeclaration";
 
   identifier: Identifier;
+
+  declare: boolean;
+}
+
+export interface TsDeclareFunction extends TsFunction {
+  type: "TsDeclareFunction";
+
+  identifier?: Identifier;
 
   declare: boolean;
 }
@@ -1788,7 +1818,21 @@ export interface Fn extends HasSpan, HasDecorator {
 
   params: Param[];
 
-  body?: FunctionBody;
+  body: FunctionBody;
+
+  generator: boolean;
+
+  async: boolean;
+
+  typeParameters?: TsTypeParameterDeclaration;
+
+  returnType?: TsTypeAnnotation;
+}
+
+export interface TsFunction extends HasSpan, HasDecorator {
+  thisParam?: TsThisParameter;
+
+  params: Param[];
 
   generator: boolean;
 
@@ -2045,6 +2089,7 @@ export interface ExportDefaultDeclaration extends Node, HasSpan {
 export type DefaultDecl =
   | ClassExpression
   | FunctionExpression
+  | TsDeclareFunction
   | TsInterfaceDeclaration;
 
 export type ImportSpecifier =

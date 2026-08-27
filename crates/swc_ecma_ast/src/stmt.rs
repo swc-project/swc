@@ -98,6 +98,7 @@ pub enum Stmt {
 
     #[tag("ClassDeclaration")]
     #[tag("FunctionDeclaration")]
+    #[tag("TsDeclareFunction")]
     #[tag("VariableDeclaration")]
     #[tag("TsInterfaceDeclaration")]
     #[tag("TsTypeAliasDeclaration")]

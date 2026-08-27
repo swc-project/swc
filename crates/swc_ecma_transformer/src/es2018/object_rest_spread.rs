@@ -255,9 +255,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
 
     // Object Rest: Transform functions
     fn exit_function(&mut self, func: &mut Function, ctx: &mut TraverseCtx) {
-        let Some(body) = &mut func.body else {
-            return;
-        };
+        let body = &mut func.body;
 
         // Fast path: check if params need transformation
         if !params_have_rest(&func.params) {
@@ -360,9 +358,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         for member in &mut class.body {
             match member {
                 ClassMember::Method(method) => {
-                    let Some(body) = &mut method.function.body else {
-                        continue;
-                    };
+                    let body = &mut method.function.body;
 
                     if params_have_rest(&method.function.params) {
                         let mut collector = ParamCollector::new(self.config, ctx);
@@ -382,9 +378,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     }
                 }
                 ClassMember::PrivateMethod(method) => {
-                    let Some(body) = &mut method.function.body else {
-                        continue;
-                    };
+                    let body = &mut method.function.body;
 
                     if params_have_rest(&method.function.params) {
                         let mut collector = ParamCollector::new(self.config, ctx);

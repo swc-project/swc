@@ -34,9 +34,7 @@ impl Pure<'_> {
             *e = ArrowExpr {
                 span: function.span,
                 params: function.params.take().into_iter().map(|p| p.pat).collect(),
-                body: Box::new(ArrowFunctionBody::FunctionBody(
-                    function.body.take().unwrap(),
-                )),
+                body: Box::new(ArrowFunctionBody::FunctionBody(function.body.take())),
                 is_async: function.is_async,
                 is_generator: function.is_generator,
                 ..Default::default()
@@ -79,48 +77,47 @@ impl Pure<'_> {
 
             let m_span = m.function.span;
 
-            if let Some(body) = &mut m.function.body {
-                if body.stmts.len() == 1
-                    && matches!(
-                        body.stmts[0],
-                        Stmt::Return(ReturnStmt { arg: Some(..), .. })
-                    )
-                {
-                    if contains_this_expr(body) {
-                        return;
-                    }
-                    self.changed = true;
-                    report_change!("Method property => arrow");
-
-                    let arg = body
-                        .take()
-                        .stmts
-                        .remove(0)
-                        .expect_return_stmt()
-                        .arg
-                        .take()
-                        .unwrap();
-
-                    *p = Prop::KeyValue(KeyValueProp {
-                        key: m.key.take(),
-                        value: ArrowExpr {
-                            span: m_span,
-                            params: m
-                                .function
-                                .params
-                                .take()
-                                .into_iter()
-                                .map(|v| v.pat)
-                                .collect(),
-                            body: Box::new(ArrowFunctionBody::Expr(arg)),
-                            is_async: m.function.is_async,
-                            is_generator: m.function.is_generator,
-                            ..Default::default()
-                        }
-                        .into(),
-                    });
+            let body = &mut m.function.body;
+            if body.stmts.len() == 1
+                && matches!(
+                    body.stmts[0],
+                    Stmt::Return(ReturnStmt { arg: Some(..), .. })
+                )
+            {
+                if contains_this_expr(body) {
                     return;
                 }
+                self.changed = true;
+                report_change!("Method property => arrow");
+
+                let arg = body
+                    .take()
+                    .stmts
+                    .remove(0)
+                    .expect_return_stmt()
+                    .arg
+                    .take()
+                    .unwrap();
+
+                *p = Prop::KeyValue(KeyValueProp {
+                    key: m.key.take(),
+                    value: ArrowExpr {
+                        span: m_span,
+                        params: m
+                            .function
+                            .params
+                            .take()
+                            .into_iter()
+                            .map(|v| v.pat)
+                            .collect(),
+                        body: Box::new(ArrowFunctionBody::Expr(arg)),
+                        is_async: m.function.is_async,
+                        is_generator: m.function.is_generator,
+                        ..Default::default()
+                    }
+                    .into(),
+                });
+                return;
             }
         }
 
@@ -141,6 +138,11 @@ impl Pure<'_> {
 
             match &mut *kv.value {
                 Expr::Arrow(m) if m.body.is_function_body() => {
+                    let body = m
+                        .body
+                        .take()
+                        .function_body()
+                        .expect("checked as a function body");
                     *p = Prop::Method(MethodProp {
                         key: kv.key.take(),
                         function: Box::new(Function {
@@ -155,7 +157,7 @@ impl Pure<'_> {
                                 })
                                 .collect(),
                             span: m.span,
-                            body: m.body.take().function_body(),
+                            body,
                             is_generator: m.is_generator,
                             is_async: m.is_async,
                             ..Default::default()

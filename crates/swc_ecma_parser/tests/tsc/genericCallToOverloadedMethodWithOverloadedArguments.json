@@ -307,7 +307,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -360,7 +360,6 @@
               "end": 165
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -863,7 +862,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -916,7 +915,6 @@
               "end": 462
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -963,7 +961,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -1016,7 +1014,6 @@
               "end": 525
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -1838,7 +1835,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -1891,7 +1888,6 @@
               "end": 913
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -2713,7 +2709,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -2766,7 +2762,6 @@
               "end": 1301
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -2813,7 +2808,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -2866,7 +2861,6 @@
               "end": 1364
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -4048,7 +4042,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -4101,7 +4095,6 @@
               "end": 1874
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -4148,7 +4141,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -4201,7 +4194,6 @@
               "end": 1937
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -5023,7 +5015,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -5076,7 +5068,6 @@
               "end": 2325
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -5123,7 +5114,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -5176,7 +5167,6 @@
               "end": 2388
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
@@ -5223,7 +5213,7 @@
             }
           },
           {
-            "type": "FunctionDeclaration",
+            "type": "TsDeclareFunction",
             "identifier": {
               "type": "Identifier",
               "span": {
@@ -5276,7 +5266,6 @@
               "end": 2453
             },
             "ctxt": 0,
-            "body": null,
             "generator": false,
             "async": false,
             "typeParameters": null,
