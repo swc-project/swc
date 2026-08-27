@@ -396,7 +396,11 @@ impl<I: Tokens> Parser<I> {
                     Context::InAsync
                         .union(Context::Module)
                         .union(Context::InStaticBlock),
-                ) || self.is_unambiguous_module();
+                ) || self.is_unambiguous_module()
+                    // Direct node parsers, such as `parse_file_as_expr`, opt into
+                    // module-capable grammar without parsing an entire Program.
+                    || (self.program_parse_mode == ProgramParseMode::None
+                        && self.ctx().contains(Context::CanBeModule));
 
                 if parses_await {
                     return self.parse_await_expr(None);
