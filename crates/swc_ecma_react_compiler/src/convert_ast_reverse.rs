@@ -26,19 +26,25 @@ use swc_ecma_ast as swc;
 use crate::preserved_ast::PreservedAst;
 
 /// Convert with source text and preserved SWC nodes from the forward pass.
-pub fn convert_program_to_swc(file: &File, preserved_ast: PreservedAst) -> swc::Program {
-    let ctx = ReverseCtx::new(preserved_ast);
+pub fn convert_program_to_swc(
+    file: &File,
+    preserved_ast: PreservedAst,
+    source_start: BytePos,
+) -> swc::Program {
+    let ctx = ReverseCtx::new(preserved_ast, source_start);
     ctx.convert_program(&file.program)
 }
 
 struct ReverseCtx {
     preserved_ast: RefCell<PreservedAst>,
+    source_start: BytePos,
 }
 
 impl ReverseCtx {
-    fn new(preserved_ast: PreservedAst) -> Self {
+    fn new(preserved_ast: PreservedAst, source_start: BytePos) -> Self {
         Self {
             preserved_ast: RefCell::new(preserved_ast),
+            source_start,
         }
     }
 
@@ -106,6 +112,26 @@ impl ReverseCtx {
         match (base.start, base.end) {
             (Some(start), Some(end)) => Span::new(BytePos(start), BytePos(end)),
             (Some(start), None) => Span::new(BytePos(start), BytePos(start)),
+            _ => self.span_from_loc(base),
+        }
+    }
+
+    fn span_from_loc(&self, base: &BaseNode) -> Span {
+        let Some(loc) = &base.loc else {
+            return DUMMY_SP;
+        };
+
+        // The React Compiler preserves `loc` for rebuilt source nodes but does
+        // not preserve Babel's `start` and `end` offsets. `loc.index` is a
+        // file-relative byte offset, while SWC's `BytePos` is global.
+        let byte_pos = |index: Option<u32>| {
+            index
+                .and_then(|index| self.source_start.0.checked_add(index))
+                .map(BytePos)
+        };
+        match (byte_pos(loc.start.index), byte_pos(loc.end.index)) {
+            (Some(start), Some(end)) => Span::new(start, end),
+            (Some(start), None) => Span::new(start, start),
             _ => DUMMY_SP,
         }
     }
@@ -262,11 +288,20 @@ impl ReverseCtx {
                     .map(|arg| Box::new(self.convert_expression(arg))),
             })
             .into(),
-            Statement::ExpressionStatement(expr) => swc::Stmt::Expr(swc::ExprStmt {
-                span: self.span_from_base(&expr.base),
-                expr: Box::new(self.convert_expression(&expr.expression)),
-            })
-            .into(),
+            Statement::ExpressionStatement(expr) => {
+                let span = self.span_from_base(&expr.base);
+                let mut expression = self.convert_expression(&expr.expression);
+                // Codegen emits this mapping from the expression span. The
+                // compiler may only retain a location on the rebuilt statement.
+                if expression.span().is_dummy() {
+                    expression.set_span(span);
+                }
+                swc::Stmt::Expr(swc::ExprStmt {
+                    span,
+                    expr: Box::new(expression),
+                })
+                .into()
+            }
             Statement::IfStatement(if_stmt) => swc::Stmt::If(swc::IfStmt {
                 span: self.span_from_base(&if_stmt.base),
                 test: Box::new(self.convert_expression(&if_stmt.test)),

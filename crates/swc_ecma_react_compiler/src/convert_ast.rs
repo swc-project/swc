@@ -19,7 +19,7 @@ use react_compiler_ast::{
 use swc_common::{
     comments::{Comment as SwcComment, CommentKind, SingleThreadedComments},
     util::take::Take,
-    Span, Spanned,
+    BytePos, Span, Spanned,
 };
 use swc_ecma_ast as swc;
 
@@ -28,6 +28,7 @@ use crate::preserved_ast::PreservedAst;
 pub struct ConvertResult {
     pub file: File,
     pub preserved_ast: PreservedAst,
+    pub source_start: BytePos,
 }
 
 /// Converts an SWC AST to the React compiler's Babel-compatible AST.
@@ -36,7 +37,8 @@ pub fn convert_program(
     source_text: &str,
     comments: Option<&SingleThreadedComments>,
 ) -> ConvertResult {
-    let ctx = ConvertCtx::new(source_text);
+    let source_start = BytePos(program.span().lo.0.max(1));
+    let ctx = ConvertCtx::new(source_text, source_start);
     let comments = convert_swc_comments(&ctx, comments);
     let mut ctx = ctx.with_comments(comments);
     let file = ctx.convert_program(program);
@@ -44,18 +46,20 @@ pub fn convert_program(
     ConvertResult {
         file,
         preserved_ast: ctx.preserved_ast.into_inner(),
+        source_start,
     }
 }
 
 struct ConvertCtx<'a> {
     source_text: &'a str,
+    source_start: BytePos,
     line_offsets: Vec<u32>,
     comments: Vec<Comment>,
     preserved_ast: RefCell<PreservedAst>,
 }
 
 impl<'a> ConvertCtx<'a> {
-    fn new(source_text: &'a str) -> Self {
+    fn new(source_text: &'a str, source_start: BytePos) -> Self {
         let mut line_offsets = vec![0u32];
         for (i, ch) in source_text.char_indices() {
             let next = i + ch.len_utf8();
@@ -65,6 +69,7 @@ impl<'a> ConvertCtx<'a> {
         }
         Self {
             source_text,
+            source_start,
             line_offsets,
             comments: Default::default(),
             preserved_ast: Default::default(),
@@ -93,15 +98,17 @@ impl<'a> ConvertCtx<'a> {
 
     /// Converts a SWC span to a Babel-compatible position.
     ///
-    /// SWC `BytePos` values are byte offsets and 1-based. Base node offsets
-    /// stay 1-based so scope keys can use `span.lo` directly, while `loc`
-    /// follows Babel's 1-based lines and 0-based columns/indices.
+    /// SWC `BytePos` values are global offsets within a `SourceMap`. Base node
+    /// offsets stay global so scope keys can use `span.lo` directly, while
+    /// `loc` follows Babel's file-relative, 0-based columns and indices.
     ///
     /// Assumption: the React Compiler does not receive the original source text
     /// from this bridge, so UTF-8 byte offsets are enough for `column` and
     /// `index`. If that changes, switch these offsets to UTF-16 code units.
     fn position(&self, offset: u32) -> Position {
-        let offset = offset.saturating_sub(1).min(self.source_text.len() as u32);
+        let offset = offset
+            .saturating_sub(self.source_start.0)
+            .min(self.source_text.len() as u32);
         let line_idx = match self.line_offsets.binary_search(&offset) {
             Ok(idx) => idx,
             Err(idx) => idx.saturating_sub(1),
@@ -151,7 +158,8 @@ impl<'a> ConvertCtx<'a> {
                     .source_text
                     .find('\n')
                     .unwrap_or(self.source_text.len()) as u32;
-                let span = Span::new(swc_common::BytePos(1), swc_common::BytePos(1 + end));
+                let start = self.source_start;
+                let span = Span::new(start, BytePos(start.0 + end));
                 InterpreterDirective {
                     base: self.make_base_node(span),
                     value: shebang.to_string(),

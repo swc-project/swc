@@ -9,7 +9,7 @@ use react_compiler_ast::{
     statements::Statement,
     File,
 };
-use swc_common::{sync::Lrc, FileName, SourceMap};
+use swc_common::{sync::Lrc, BytePos, FileName, SourceMap};
 use swc_ecma_ast::{DefaultDecl, EsVersion, ModuleDecl, ModuleItem};
 use swc_ecma_codegen::Node;
 use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, EsSyntax, Syntax};
@@ -22,7 +22,7 @@ use crate::{
 };
 
 fn convert_program_to_swc(file: &File) -> swc_ecma_ast::Program {
-    convert_program_to_swc_with_preserved_ast(file, Default::default())
+    convert_program_to_swc_with_preserved_ast(file, Default::default(), BytePos(1))
 }
 
 fn convert_module(module: &swc_ecma_ast::Module, source_text: &str) -> File {
@@ -1808,7 +1808,11 @@ fn convert_ts_source(source: &str) -> crate::convert_ast::ConvertResult {
 fn round_trip_convert_result(result: crate::convert_ast::ConvertResult) -> swc_ecma_ast::Program {
     assert_file_serializes_to_json(&result.file);
 
-    convert_program_to_swc_with_preserved_ast(&result.file, result.preserved_ast)
+    convert_program_to_swc_with_preserved_ast(
+        &result.file,
+        result.preserved_ast,
+        result.source_start,
+    )
 }
 
 /// TS module-interop statements (`import x = require(...)`, `export = x`,
