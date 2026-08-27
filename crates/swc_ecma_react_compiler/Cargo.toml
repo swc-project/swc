@@ -30,7 +30,7 @@ swc_ecma_parser    = { version = "45.1.0", path = "../swc_ecma_parser", default-
 swc_ecma_visit     = { version = "29.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_common      = { version = "26.0.0", path = "../swc_common" }
+swc_common      = { version = "26.0.0", path = "../swc_common", features = ["sourcemap"] }
 swc_ecma_parser = { version = "45.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }

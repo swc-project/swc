@@ -4,7 +4,10 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, SourceMap};
+use swc_common::{
+    comments::SingleThreadedComments, source_map::DefaultSourceMapGenConfig, sync::Lrc, BytePos,
+    FileName, LineCol, SourceMap,
+};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
@@ -100,10 +103,14 @@ fn parse_program(
     (program, comments, source_type)
 }
 
-fn emit_program(program: &Program, cm: Lrc<SourceMap>) -> String {
+fn emit_program(
+    program: &Program,
+    cm: Lrc<SourceMap>,
+    mappings: Option<&mut Vec<(BytePos, LineCol)>>,
+) -> String {
     let mut buf = Vec::new();
     {
-        let wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
+        let wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, mappings)) as Box<dyn WriteJs>;
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config::default(),
             cm,
@@ -152,7 +159,7 @@ fn run_compile_pass(input: PathBuf) {
                 result.diagnostics
             )
         });
-        let code = emit_program(&transformed, cm);
+        let code = emit_program(&transformed, cm, None);
 
         NormalizedOutput::from(code)
             .compare_to_file(&output)
@@ -173,6 +180,65 @@ fn run_build_pass(input: PathBuf) {
     .unwrap();
 }
 
+fn position_of(text: &str, needle: &str) -> LineCol {
+    let offset = text
+        .find(needle)
+        .unwrap_or_else(|| panic!("failed to find `{needle}`"));
+    let prefix = &text[..offset];
+    LineCol {
+        line: prefix.bytes().filter(|byte| *byte == b'\n').count() as u32,
+        col: prefix
+            .rsplit_once('\n')
+            .map_or(prefix, |(_, line)| line)
+            .encode_utf16()
+            .count() as u32,
+    }
+}
+
+fn run_source_map(input: PathBuf) {
+    run_test2(false, |cm, _| {
+        let source = read_to_string(&input)
+            .unwrap_or_else(|err| panic!("failed to read {}: {err}", input.display()));
+        cm.new_source_file(
+            Lrc::new(FileName::Custom("preloaded.js".into())),
+            " ".repeat(source.len() + 1),
+        );
+        let transformed = transform_fixture(&input, cm.clone())
+            .program
+            .expect("React Compiler should transform source-map fixture");
+        let mut mappings = Vec::new();
+        let code = emit_program(&transformed, cm.clone(), Some(&mut mappings));
+        let source_map = cm.build_source_map(&mappings, None, DefaultSourceMapGenConfig);
+
+        for needle in ["Promise.resolve", "setValue(next)", "Count:"] {
+            let original = position_of(&source, needle);
+            let generated = position_of(&code, needle);
+            let token = source_map
+                .lookup_token(generated.line, generated.col)
+                .unwrap_or_else(|| panic!("missing source-map entry for `{needle}`"));
+
+            assert_eq!(
+                token.get_dst_line(),
+                generated.line,
+                "wrong generated line for `{needle}`"
+            );
+            assert_eq!(
+                token.get_source().map(|source| &**source),
+                Some(input.to_string_lossy().as_ref()),
+                "wrong source file for `{needle}`"
+            );
+            assert_eq!(
+                token.get_src_line(),
+                original.line,
+                "wrong original line for `{needle}`"
+            );
+        }
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 #[testing::fixture("tests/fixture/compile-pass/**/input/*")]
 fn compile_pass(input: PathBuf) {
     run_compile_pass(input);
@@ -181,4 +247,9 @@ fn compile_pass(input: PathBuf) {
 #[testing::fixture("tests/fixture/build-pass/*")]
 fn build_pass(input: PathBuf) {
     run_build_pass(input);
+}
+
+#[testing::fixture("tests/fixture/source-map/**/input.*")]
+fn source_map(input: PathBuf) {
+    run_source_map(input);
 }
