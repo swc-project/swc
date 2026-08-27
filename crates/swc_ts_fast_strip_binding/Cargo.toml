@@ -26,7 +26,7 @@ unicode-width       = { workspace = true }
 [dev-dependencies]
 codspeed-criterion-compat.workspace = true
 serde_json.workspace = true
-swc_ecma_parser = { version = "45.1.0", path = "../../crates/swc_ecma_parser" }
+swc_ecma_parser = { version = "45.1.1", path = "../../crates/swc_ecma_parser" }
 
 [[bench]]
 harness = false

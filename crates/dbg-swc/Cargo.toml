@@ -31,7 +31,7 @@ swc_ecma_codegen = { version = "32.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_minifier = { version = "61.0.4", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_parser = { version = "45.1.0", path = "../swc_ecma_parser", features = [
+swc_ecma_parser = { version = "45.1.1", path = "../swc_ecma_parser", features = [
   "flow",
 ] }
 swc_ecma_transforms_base = { version = "49.0.1", path = "../swc_ecma_transforms_base" }
