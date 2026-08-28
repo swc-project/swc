@@ -1,7 +1,9 @@
 #[cfg(feature = "react-compiler")]
-use swc::{config::TransformConfig, BoolOrDataConfig};
+use swc::BoolOrDataConfig;
 use swc::{
-    config::{Config, IsModule, JscConfig, Options},
+    config::{
+        Config, GlobalPassOption, IsModule, JscConfig, OptimizerConfig, Options, TransformConfig,
+    },
     Compiler,
 };
 use swc_common::FileName;
@@ -29,6 +31,44 @@ fn compile(src: &str, options: Options) -> String {
             }
         })
         .unwrap()
+}
+
+fn compile_with_optimizer_globals(src: &str, globals: &str) -> String {
+    let globals: GlobalPassOption = serde_json::from_str(globals).expect("invalid globals");
+
+    compile(
+        src,
+        Options {
+            swcrc: false,
+            config: Config {
+                jsc: JscConfig {
+                    transform: Some(TransformConfig {
+                        optimizer: Some(OptimizerConfig {
+                            globals: Some(globals),
+                            ..Default::default()
+                        }),
+                        ..Default::default()
+                    })
+                    .into(),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn optimizer_globals_env_map_cache_key_includes_env_values() {
+    const SRC: &str = "console.log(process.env.REPRO_VALUE);";
+
+    let first = compile_with_optimizer_globals(SRC, r#"{ "envs": { "REPRO_VALUE": "'first'" } }"#);
+    let second =
+        compile_with_optimizer_globals(SRC, r#"{ "envs": { "REPRO_VALUE": "'second'" } }"#);
+
+    assert!(first.contains("first"));
+    assert!(second.contains("second"));
 }
 
 #[test]
