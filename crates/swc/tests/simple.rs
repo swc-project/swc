@@ -67,8 +67,8 @@ fn optimizer_globals_env_map_cache_key_includes_env_values() {
     let second =
         compile_with_optimizer_globals(SRC, r#"{ "envs": { "REPRO_VALUE": "'second'" } }"#);
 
-    assert!(first.contains("first"));
-    assert!(second.contains("second"));
+    assert_eq!(first, "console.log('first');\n");
+    assert_eq!(second, "console.log('second');\n");
 }
 
 #[test]
