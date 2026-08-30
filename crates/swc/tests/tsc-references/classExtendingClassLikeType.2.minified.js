@@ -2,4 +2,4 @@
 import "@swc/helpers/_/_call_super";
 import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_inherits";
-/*#__PURE__*/ Base, /*#__PURE__*/ getBase(), /*#__PURE__*/ getBase(), /*#__PURE__*/ getBase(), /*#__PURE__*/ getBase(), /*#__PURE__*/ getBadBase();
+/*#__PURE__*/ Base, getBase(), getBase(), getBase(), getBase(), getBadBase();

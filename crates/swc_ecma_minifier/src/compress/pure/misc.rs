@@ -1613,9 +1613,24 @@ impl Pure<'_> {
 
     fn make_ignored_expr_without_span(
         &mut self,
+        span: Span,
         exprs: impl Iterator<Item = Box<Expr>>,
     ) -> Option<Expr> {
-        self.make_ignored_expr_inner(None, exprs)
+        let mut expr = self.make_ignored_expr_inner(None, exprs)?;
+
+        // A PURE annotation on an IIFE does not make a surviving call-like
+        // argument pure. Keep the annotation on other expressions (such as a
+        // member access) so generated output remains stable, but avoid
+        // attaching it to an expression which the next minifier pass could
+        // interpret as a pure call itself.
+        if !matches!(
+            expr,
+            Expr::Call(..) | Expr::New(..) | Expr::TaggedTpl(..) | Expr::Seq(..)
+        ) {
+            expr.set_span(span);
+        }
+
+        Some(expr)
     }
 
     fn make_ignored_expr_inner(
@@ -1750,7 +1765,7 @@ impl Pure<'_> {
                     &**callee,
                     Expr::Fn(..) | Expr::Arrow(..)
                 )) {
-                    self.make_ignored_expr_without_span(args)
+                    self.make_ignored_expr_without_span(*span, args)
                 } else {
                     self.make_ignored_expr(*span, args)
                 };
