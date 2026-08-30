@@ -10,8 +10,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
-    prepend_stmts, prop_name_from_ident, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike,
-    StmtLike, Type, Value,
+    find_pat_ids, prepend_stmts, prop_name_from_ident, ExprCtx, ExprExt, ExprFactory, IsEmpty,
+    ModuleItemLike, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(all(debug_assertions, feature = "debug"))]
@@ -196,6 +196,9 @@ bitflags! {
 
         /// `true` while we are inside a class body.
         const InClass = 1 << 27;
+
+        /// `true` while optimizing an initializer whose binding can be removed.
+        const DontInvokePureIife = 1 << 28;
     }
 }
 
@@ -373,6 +376,44 @@ impl Optimizer<'_> {
         }
 
         false
+    }
+
+    fn can_drop_unused_vars(&self, name: &Pat) -> bool {
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsExported | BitCtx::InAsm)
+            || !self.options.unused && !self.options.side_effects
+            || self.ctx.bit_ctx.contains(BitCtx::InVarDeclOfForInOrOfLoop)
+        {
+            return false;
+        }
+
+        for (_, ctx) in find_pat_ids::<_, Id>(name) {
+            if let Some(scope) = self.data.get_scope(ctx) {
+                if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                    return false;
+                }
+            }
+        }
+
+        true
+    }
+
+    fn is_unused_ident_with_no_usage(&self, id: &Ident) -> bool {
+        self.may_remove_ident(id)
+            && self
+                .data
+                .vars
+                .get(&id.to_id())
+                .map(|usage| {
+                    usage.ref_count == 0
+                        && usage.usage_count == 0
+                        && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                        && usage.property_mutation_count == 0
+                        && !usage.flags.contains(VarUsageInfoFlags::USED_AS_REF)
+                })
+                .unwrap_or(false)
     }
 
     fn may_add_ident(&self) -> bool {
@@ -3225,7 +3266,34 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
         var.name.visit_mut_with(self);
 
-        var.init.visit_mut_with(self);
+        let dont_invoke_pure_iife =
+            if !self.mode.preserve_vars() && self.can_drop_unused_vars(&var.name) {
+                match &var.name {
+                    Pat::Ident(id) => self.is_unused_ident_with_no_usage(id),
+                    _ => false,
+                }
+            } else {
+                false
+            };
+
+        if dont_invoke_pure_iife {
+            if let Some(Expr::Call(call)) = var.init.as_deref_mut() {
+                if call.ctxt.has_mark(self.marks.pure)
+                    && matches!(&call.callee, Callee::Expr(callee) if matches!(
+                        &**callee,
+                        Expr::Fn(..) | Expr::Arrow(..)
+                    ))
+                {
+                    call.ctxt = call.ctxt.apply_mark(self.marks.noinline);
+                }
+            }
+        }
+
+        let ctx = self
+            .ctx
+            .clone()
+            .with(BitCtx::DontInvokePureIife, dont_invoke_pure_iife);
+        var.init.visit_mut_with(&mut *self.with_ctx(ctx));
 
         debug_assert_valid(&var.init);
 
