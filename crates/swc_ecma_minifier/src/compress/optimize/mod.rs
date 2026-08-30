@@ -416,6 +416,13 @@ impl Optimizer<'_> {
                 .unwrap_or(false)
     }
 
+    fn can_drop_unused_pat(&self, name: &Pat) -> bool {
+        self.can_drop_unused_vars(name)
+            && find_pat_ids::<_, Ident>(name)
+                .iter()
+                .all(|id| self.is_unused_ident_with_no_usage(id))
+    }
+
     fn may_add_ident(&self) -> bool {
         // in class field
         if self.ctx.bit_ctx.contains(BitCtx::InClass)
@@ -3267,14 +3274,7 @@ impl VisitMut for Optimizer<'_> {
         var.name.visit_mut_with(self);
 
         let dont_invoke_pure_iife =
-            if !self.mode.preserve_vars() && self.can_drop_unused_vars(&var.name) {
-                match &var.name {
-                    Pat::Ident(id) => self.is_unused_ident_with_no_usage(id),
-                    _ => false,
-                }
-            } else {
-                false
-            };
+            !self.mode.preserve_vars() && self.can_drop_unused_pat(&var.name);
 
         if dont_invoke_pure_iife {
             if let Some(Expr::Call(call)) = var.init.as_deref_mut() {

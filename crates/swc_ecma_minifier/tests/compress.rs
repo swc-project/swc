@@ -365,6 +365,137 @@ fn custom_fixture(input: PathBuf) {
     .unwrap()
 }
 
+fn minify_issue_12165_case(name: &str, source: &str, config: &str) -> String {
+    let root = env::temp_dir();
+    let input = root.join(format!("swc-12165-{name}-{}.js", std::process::id()));
+    std::fs::write(&input, source).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let comments = SingleThreadedComments::default();
+        let output = run(
+            cm.clone(),
+            &handler,
+            &input,
+            config,
+            Some(&comments),
+            None,
+            false,
+        )
+        .expect("minification failed");
+        Ok(print(cm, &[output], Some(&comments), false, false))
+    })
+    .unwrap()
+}
+
+#[test]
+fn issue_12165_pure_annotation_is_safe_across_two_passes() {
+    let config = read_to_string(
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixture/issues/12165/config.json"),
+    )
+    .unwrap();
+    let source = r#"let dead = /* @__PURE__ */ function (value) {
+    return value;
+}(console.log("P1_SIDE_EFFECT"));
+"#;
+    let root = env::temp_dir();
+    let first_input = root.join(format!("swc-12165-p1-first-{}.js", std::process::id()));
+    let second_input = root.join(format!("swc-12165-p1-second-{}.js", std::process::id()));
+    std::fs::write(&first_input, source).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let expected_stdout = stdout_of(source).unwrap();
+        let first_comments = SingleThreadedComments::default();
+        let first = run(
+            cm.clone(),
+            &handler,
+            &first_input,
+            &config,
+            Some(&first_comments),
+            None,
+            false,
+        )
+        .expect("first minification failed");
+        let first = print(cm.clone(), &[first], Some(&first_comments), false, false);
+        assert!(!first.contains("@__PURE__"), "{first}");
+        assert_eq!(stdout_of(&first).unwrap(), expected_stdout);
+        std::fs::write(&second_input, &first).unwrap();
+
+        let second_comments = SingleThreadedComments::default();
+        let second = run(
+            cm.clone(),
+            &handler,
+            &second_input,
+            &config,
+            Some(&second_comments),
+            None,
+            false,
+        )
+        .expect("second minification failed");
+        let second = print(cm, &[second], Some(&second_comments), false, false);
+        assert_eq!(stdout_of(&second).unwrap(), expected_stdout);
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
+fn issue_12165_unused_destructuring_preserves_pure_iife() {
+    let config = read_to_string(
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixture/issues/12165/config.json"),
+    )
+    .unwrap();
+    let source = r#"let { x, y } = /* @__PURE__ */ function (value) {
+    value.a = "P2_REMOVABLE_BODY";
+    return value;
+}({});
+console.log("P2_KEEP");
+"#;
+    let output = minify_issue_12165_case("unused-destructuring", source, &config);
+    assert!(!output.contains("P2_REMOVABLE_BODY"), "{output}");
+    assert_eq!(stdout_of(&output).unwrap(), "P2_KEEP\n");
+}
+
+#[test]
+fn issue_12165_preserves_live_destructuring_binding() {
+    let config = read_to_string(
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixture/issues/12165/config.json"),
+    )
+    .unwrap();
+    let source = r#"let { x, y } = /* @__PURE__ */ function (value) {
+    value.x = "P2_UNUSED";
+    value.y = "P2_LIVE_VALUE";
+    return value;
+}({});
+console.log(y);
+"#;
+    let output = minify_issue_12165_case("live-destructuring", source, &config);
+    assert!(output.contains("P2_LIVE_VALUE"), "{output}");
+    assert_eq!(stdout_of(&output).unwrap(), "P2_LIVE_VALUE\n");
+}
+
+#[test]
+fn issue_12165_preserves_destructuring_in_eval_scope() {
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "passes": 3,
+    "module": false
+}"#;
+    let source = r#"function issueEval() {
+    let { x, y } = /* @__PURE__ */ function (value) {
+        value.a = "P2_EVAL_BODY";
+        return value;
+    }({});
+    eval("console.log('P2_EVAL_KEEP')");
+}
+issueEval();
+"#;
+    let output = minify_issue_12165_case("eval-destructuring", source, config);
+    assert!(output.contains("P2_EVAL_BODY"), "{output}");
+    assert_eq!(stdout_of(&output).unwrap(), "P2_EVAL_KEEP\n");
+}
+
 #[derive(Default)]
 struct NonFiniteLiteralValidator {
     nan_count: usize,

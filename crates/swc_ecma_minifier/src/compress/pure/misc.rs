@@ -1608,6 +1608,21 @@ impl Pure<'_> {
         span: Span,
         exprs: impl Iterator<Item = Box<Expr>>,
     ) -> Option<Expr> {
+        self.make_ignored_expr_inner(Some(span), exprs)
+    }
+
+    fn make_ignored_expr_without_span(
+        &mut self,
+        exprs: impl Iterator<Item = Box<Expr>>,
+    ) -> Option<Expr> {
+        self.make_ignored_expr_inner(None, exprs)
+    }
+
+    fn make_ignored_expr_inner(
+        &mut self,
+        span: Option<Span>,
+        exprs: impl Iterator<Item = Box<Expr>>,
+    ) -> Option<Expr> {
         let mut exprs = exprs
             .filter_map(|mut e| {
                 self.ignore_return_value(
@@ -1630,7 +1645,9 @@ impl Pure<'_> {
         }
         if exprs.len() == 1 {
             let mut new = *exprs.remove(0);
-            new.set_span(span);
+            if let Some(span) = span {
+                new.set_span(span);
+            }
             return Some(new);
         }
 
@@ -1719,13 +1736,24 @@ impl Pure<'_> {
             }
 
             Expr::Call(CallExpr {
-                span, ctxt, args, ..
+                span,
+                ctxt,
+                callee,
+                args,
+                ..
             }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
-                let new =
-                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+                let args = args.take().into_iter().map(|arg| arg.expr);
+                let new = if matches!(callee, Callee::Expr(callee) if matches!(
+                    &**callee,
+                    Expr::Fn(..) | Expr::Arrow(..)
+                )) {
+                    self.make_ignored_expr_without_span(args)
+                } else {
+                    self.make_ignored_expr(*span, args)
+                };
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
@@ -1769,10 +1797,8 @@ impl Pure<'_> {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
-                let new = self.make_ignored_expr(
-                    *span,
-                    args.take().into_iter().flatten().map(|arg| arg.expr),
-                );
+                let args = args.take().into_iter().flatten().map(|arg| arg.expr);
+                let new = self.make_ignored_expr(*span, args);
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
