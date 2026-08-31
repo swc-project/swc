@@ -1017,9 +1017,7 @@ impl<'a> Resolver<'a> {
             .iter()
             .filter(|(sym, _)| !scan.erased_namespace_ids.contains(*sym))
             .for_each(|(sym, kind)| {
-                symbols
-                    .entry(sym.clone())
-                    .or_insert((*kind, instance_mark));
+                symbols.entry(sym.clone()).or_insert((*kind, instance_mark));
             });
         scan.types.iter().for_each(|sym| {
             namespace_owned_types.remove(sym);
