@@ -1314,7 +1314,7 @@
             class AbstractChainedBatch {
                 constructor(db){
                     if ('object' != typeof db || null === db) {
-                        const hint = null === db ? 'null' : typeof db;
+                        let hint = null === db ? 'null' : typeof db;
                         throw TypeError(`The first argument must be an abstract-level database, received ${hint}`);
                     }
                     this[kOperations] = [], this[kCloseCallbacks] = [], this[kStatus] = 'open', this[kFinishClose] = this[kFinishClose].bind(this), this.db = db, this.db.attachResource(this), this.nextTick = db.nextTick;
@@ -1399,7 +1399,7 @@
             class CommonIterator {
                 constructor(db, options, legacy){
                     if ('object' != typeof db || null === db) {
-                        const hint = null === db ? 'null' : typeof db;
+                        let hint = null === db ? 'null' : typeof db;
                         throw TypeError(`The first argument must be an abstract-level database, received ${hint}`);
                     }
                     if ('object' != typeof options || null === options) throw TypeError('The second argument must be an options object');
@@ -1642,9 +1642,9 @@
             class AbstractLevel extends EventEmitter {
                 constructor(manifest, options){
                     if (super(), 'object' != typeof manifest || null === manifest) throw TypeError("The first argument 'manifest' must be an object");
-                    const { keyEncoding, valueEncoding, passive, ...forward } = options = getOptions(options);
+                    let { keyEncoding, valueEncoding, passive, ...forward } = options = getOptions(options);
                     // Add custom and transcoder encodings to manifest
-                    for (const encoding of (this[kResources] = new Set(), this[kOperations] = [], this[kDeferOpen] = !0, this[kOptions] = forward, this[kStatus] = 'opening', this.supports = supports(manifest, {
+                    for (let encoding of (this[kResources] = new Set(), this[kOperations] = [], this[kDeferOpen] = !0, this[kOptions] = forward, this[kStatus] = 'opening', this.supports = supports(manifest, {
                         status: !0,
                         promises: !0,
                         clear: !0,
@@ -2101,17 +2101,17 @@
                     // TODO: add autoClose option, which if true, does parent.attachResource(this)
                     constructor(db, name, options){
                         // Don't forward AbstractSublevel options to AbstractLevel
-                        const { separator, manifest, ...forward } = AbstractSublevel.defaults(options);
+                        let { separator, manifest, ...forward } = AbstractSublevel.defaults(options);
                         name = trim(name, separator);
                         // Reserve one character between separator and name to give us an upper bound
-                        const reserved = separator.charCodeAt(0) + 1, parent = db[kParent] || db;
+                        let reserved = separator.charCodeAt(0) + 1, parent = db[kParent] || db;
                         // Keys should sort like ['!a!', '!a!!a!', '!a"', '!aa!', '!b!'].
                         // Use ASCII for consistent length between string, Buffer and Uint8Array
                         if (!textEncoder.encode(name).every((x)=>x > reserved && x < 127)) throw new ModuleError(`Prefix must use bytes > ${reserved} < 127`, {
                             code: 'LEVEL_INVALID_PREFIX'
                         });
                         super(mergeManifests(parent, manifest), forward);
-                        const prefix = (db.prefix || '') + separator + name + separator, upperBound = prefix.slice(0, -1) + String.fromCharCode(reserved);
+                        let prefix = (db.prefix || '') + separator + name + separator, upperBound = prefix.slice(0, -1) + String.fromCharCode(reserved);
                         this[kParent] = parent, this[kPrefix] = new MultiFormat(prefix), this[kUpperBound] = new MultiFormat(upperBound), this[kUnfix] = new Unfixer(), this.nextTick = parent.nextTick;
                     }
                     prefixKey(key, keyFormat) {
@@ -10211,7 +10211,7 @@
                     if ('function' == typeof options || 'function' == typeof _) throw new ModuleError('The levelup-style callback argument has been removed', {
                         code: 'LEVEL_LEGACY'
                     });
-                    const { prefix, version, ...forward } = options || {};
+                    let { prefix, version, ...forward } = options || {};
                     if (super({
                         encodings: {
                             view: !0
@@ -16767,7 +16767,7 @@
                         throw TypeError("Format must be one of 'buffer', 'view', 'utf8'");
                     } else throw TypeError("The first argument 'formats' must be an array");
                     // Register encodings (done early in order to populate encodings())
-                    for(const k in /** @type {Map<string|MixedEncoding<any, any, any>, Encoding<any, any, any>>} */ this[kEncodings] = new Map(), this[kFormats] = new Set(formats), encodings)try {
+                    for(let k in /** @type {Map<string|MixedEncoding<any, any, any>, Encoding<any, any, any>>} */ this[kEncodings] = new Map(), this[kFormats] = new Set(formats), encodings)try {
                         this.encoding(k);
                     } catch (err) {
                         /* istanbul ignore if: assertion */ if ('LEVEL_ENCODING_NOT_SUPPORTED' !== err.code) throw err;
@@ -20524,7 +20524,7 @@
  */ class Section {
                 constructor(sectionType, section, it, index){
                     this._it = it, this._index = index, this.type = SECTIONS[sectionType], this._type = sectionType, this._section = section;
-                    const pipe = new Pipe(section);
+                    let pipe = new Pipe(section);
                     'custom' !== this.type && (this.count = Number(leb128.read(pipe))), this._body = pipe.buffer;
                 }
                 /**
@@ -23743,7 +23743,7 @@ function _get9(dt, pos) {
                     });
                     else {
                         if (!cacheOptions.dbLocation) throw Error('LevelDb cache configuration error - no db location specified');
-                        const dbLocation = cacheOptions.dbLocation;
+                        let dbLocation = cacheOptions.dbLocation;
                         this.logger.info(`Using location ${dbLocation}`), this.db = new level_1.Level(dbLocation, {
                             valueEncoding: 'json'
                         });
@@ -23904,13 +23904,13 @@ function _get9(dt, pos) {
                 constructor(_contractTxId, warp, _parentContract = null, _callingInteraction = null){
                     if (this._contractTxId = _contractTxId, this.warp = warp, this._parentContract = _parentContract, this._callingInteraction = _callingInteraction, this.logger = LoggerFactory_1.LoggerFactory.INST.create('HandlerBasedContract'), this._evaluationOptions = new StateEvaluator_1.DefaultEvaluationOptions(), this._innerWritesEvaluator = new InnerWritesEvaluator_1.InnerWritesEvaluator(), this._benchmarkStats = null, this.waitForConfirmation = this.waitForConfirmation.bind(this), this._arweaveWrapper = new ArweaveWrapper_1.ArweaveWrapper(warp.arweave), this._sorter = new LexicographicalInteractionsSorter_1.LexicographicalInteractionsSorter(warp.arweave), null != _parentContract) {
                         this._evaluationOptions = _parentContract.evaluationOptions(), this._callDepth = _parentContract.callDepth() + 1;
-                        const interaction = _parentContract.getCallStack().getInteraction(_callingInteraction.id);
+                        let interaction = _parentContract.getCallStack().getInteraction(_callingInteraction.id);
                         if (this._callDepth > this._evaluationOptions.maxCallDepth) throw Error(`Max call depth of ${this._evaluationOptions.maxCallDepth} has been exceeded for interaction ${JSON.stringify(interaction.interactionInput)}`);
                         this.logger.debug('Calling interaction', {
                             id: _callingInteraction.id,
                             sortKey: _callingInteraction.sortKey
                         });
-                        const callStack = new ContractCallStack_1.ContractCallStack(_contractTxId, this._callDepth);
+                        let callStack = new ContractCallStack_1.ContractCallStack(_contractTxId, this._callDepth);
                         interaction.interactionInput.foreignContractCalls.set(_contractTxId, callStack), this._callStack = callStack, this._rootSortKey = _parentContract.rootSortKey;
                     } else this._callDepth = 0, this._callStack = new ContractCallStack_1.ContractCallStack(_contractTxId, 0), this._rootSortKey = null;
                 }
@@ -26160,8 +26160,7 @@ function _get9(dt, pos) {
             class Go {
                 constructor(swGlobal){
                     this._callbackTimeouts = new Map(), this._nextCallbackTimeoutID = 1;
-                    const wasmLogger = LoggerFactory_1.LoggerFactory.INST.create('WASM:Go');
-                    let go = this;
+                    let wasmLogger = LoggerFactory_1.LoggerFactory.INST.create('WASM:Go'), go = this;
                     // it is safe to redeclare this for each new module in the global scope
                     // - this function is called only during module initialization.
                     globalJsModule.redstone.go = {
@@ -26212,7 +26211,7 @@ function _get9(dt, pos) {
                             }
                         }
                     };
-                    const mem = ()=>new DataView(this._inst.exports.memory.buffer), setInt64 = (addr, v)=>{
+                    let mem = ()=>new DataView(this._inst.exports.memory.buffer), setInt64 = (addr, v)=>{
                         mem().setUint32(addr + 0, v, !0), mem().setUint32(addr + 4, Math.floor(v / 4294967296), !0);
                     }, loadValue = (addr)=>{
                         let f = mem().getFloat64(addr, !0);

@@ -386,6 +386,16 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
+    fn convert_function_body(&self, body: &swc::FunctionBody) -> BlockStatement {
+        let (statements, directives) = self.convert_stmt_list_with_directives(&body.stmts);
+
+        BlockStatement {
+            base: self.make_base_node(body.span),
+            body: statements,
+            directives,
+        }
+    }
+
     fn convert_return_stmt(&self, ret: &swc::ReturnStmt) -> ReturnStatement {
         ReturnStatement {
             base: self.make_base_node(ret.span),
@@ -631,7 +641,7 @@ impl<'a> ConvertCtx<'a> {
                 }),
                 swc::Lit::JSXText(t) => Expression::StringLiteral(StringLiteral {
                     base: self.make_base_node(t.span),
-                    value: decode_jsx_entities(t.value.as_ref()).into(),
+                    value: decode_jsx_entities(&t.value.to_string_lossy()).into(),
                 }),
             },
             swc::Expr::Ident(id) => Expression::Identifier(self.convert_ident(id)),
@@ -1118,12 +1128,12 @@ impl<'a> ConvertCtx<'a> {
     fn convert_arrow_expr(&self, arrow: &swc::ArrowExpr) -> ArrowFunctionExpression {
         self.preserved_ast.borrow_mut().save_arrow(arrow);
 
-        let is_expression = matches!(&*arrow.body, swc::BlockStmtOrExpr::Expr(_));
+        let is_expression = matches!(&*arrow.body, swc::ArrowFunctionBody::Expr(_));
         let body = match &*arrow.body {
-            swc::BlockStmtOrExpr::BlockStmt(block) => {
-                ArrowFunctionBody::BlockStatement(self.convert_block_stmt(block))
+            swc::ArrowFunctionBody::FunctionBody(body) => {
+                ArrowFunctionBody::BlockStatement(self.convert_function_body(body))
             }
-            swc::BlockStmtOrExpr::Expr(expr) => {
+            swc::ArrowFunctionBody::Expr(expr) => {
                 ArrowFunctionBody::Expression(Box::new(self.convert_expr(expr)))
             }
         };
@@ -1154,7 +1164,7 @@ impl<'a> ConvertCtx<'a> {
 
     fn convert_block_stmt_as_optional_function_body(
         &self,
-        body: Option<&swc::BlockStmt>,
+        body: Option<&swc::FunctionBody>,
         span: Span,
     ) -> BlockStatement {
         body.map_or_else(
@@ -1163,7 +1173,7 @@ impl<'a> ConvertCtx<'a> {
                 body: vec![],
                 directives: vec![],
             },
-            |b| self.convert_block_stmt(b),
+            |body| self.convert_function_body(body),
         )
     }
 
@@ -1469,6 +1479,39 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
+    fn convert_object_method(
+        &self,
+        key: &swc::PropName,
+        function: &swc::Function,
+        kind: ObjectMethodKind,
+        method: bool,
+    ) -> ObjectExpressionProperty {
+        self.preserved_ast.borrow_mut().save_function(function);
+
+        ObjectExpressionProperty::ObjectMethod(ObjectMethod {
+            base: self.make_base_node(function.span),
+            method,
+            kind,
+            key: Box::new(self.convert_prop_name(key)),
+            params: self.convert_param_list(&function.params),
+            body: self.convert_block_stmt_as_optional_function_body(
+                function.body.as_ref(),
+                function.span,
+            ),
+            computed: self.convert_prop_name_computed(key),
+            id: None,
+            generator: function.is_generator,
+            is_async: function.is_async,
+            decorators: None,
+            return_type: function
+                .return_type
+                .as_ref()
+                .map(|t| self.convert_ts_type_ann_json(t)),
+            type_parameters: function.type_params.as_ref().map(|_| RawNode::null()),
+            predicate: None,
+        })
+    }
+
     fn convert_prop_or_spread(&self, prop: &swc::PropOrSpread) -> ObjectExpressionProperty {
         match prop {
             swc::PropOrSpread::Spread(s) => {
@@ -1493,69 +1536,14 @@ impl<'a> ConvertCtx<'a> {
                 swc::Prop::KeyValue(kv) => {
                     ObjectExpressionProperty::ObjectProperty(self.convert_key_value_prop(kv))
                 }
-                swc::Prop::Getter(g) => ObjectExpressionProperty::ObjectMethod(ObjectMethod {
-                    base: self.make_base_node(g.span),
-                    method: false,
-                    kind: ObjectMethodKind::Get,
-                    key: Box::new(self.convert_prop_name(&g.key)),
-                    params: vec![],
-                    body: self
-                        .convert_block_stmt_as_optional_function_body(g.body.as_ref(), g.span),
-                    computed: self.convert_prop_name_computed(&g.key),
-                    id: None,
-                    generator: false,
-                    is_async: false,
-                    decorators: None,
-                    return_type: g
-                        .type_ann
-                        .as_ref()
-                        .map(|t| self.convert_ts_type_ann_json(t)),
-                    type_parameters: None,
-                    predicate: None,
-                }),
-                swc::Prop::Setter(s) => ObjectExpressionProperty::ObjectMethod(ObjectMethod {
-                    base: self.make_base_node(s.span),
-                    method: false,
-                    kind: ObjectMethodKind::Set,
-                    key: Box::new(self.convert_prop_name(&s.key)),
-                    params: vec![self.convert_pat(&s.param)],
-                    body: self
-                        .convert_block_stmt_as_optional_function_body(s.body.as_ref(), s.span),
-                    computed: self.convert_prop_name_computed(&s.key),
-                    id: None,
-                    generator: false,
-                    is_async: false,
-                    decorators: None,
-                    return_type: None,
-                    type_parameters: None,
-                    predicate: None,
-                }),
+                swc::Prop::Getter(g) => {
+                    self.convert_object_method(&g.key, &g.function, ObjectMethodKind::Get, false)
+                }
+                swc::Prop::Setter(s) => {
+                    self.convert_object_method(&s.key, &s.function, ObjectMethodKind::Set, false)
+                }
                 swc::Prop::Method(m) => {
-                    self.preserved_ast.borrow_mut().save_function(&m.function);
-
-                    ObjectExpressionProperty::ObjectMethod(ObjectMethod {
-                        base: self.make_base_node(m.span()),
-                        method: true,
-                        kind: ObjectMethodKind::Method,
-                        key: Box::new(self.convert_prop_name(&m.key)),
-                        params: self.convert_param_list(&m.function.params),
-                        body: self.convert_block_stmt_as_optional_function_body(
-                            m.function.body.as_ref(),
-                            m.function.span,
-                        ),
-                        computed: self.convert_prop_name_computed(&m.key),
-                        id: None,
-                        generator: m.function.is_generator,
-                        is_async: m.function.is_async,
-                        decorators: None,
-                        return_type: m
-                            .function
-                            .return_type
-                            .as_ref()
-                            .map(|t| self.convert_ts_type_ann_json(t)),
-                        type_parameters: m.function.type_params.as_ref().map(|_| RawNode::null()),
-                        predicate: None,
-                    })
+                    self.convert_object_method(&m.key, &m.function, ObjectMethodKind::Method, true)
                 }
                 swc::Prop::Assign(a) => {
                     let ident = self.convert_ident(&a.key);
@@ -1939,7 +1927,7 @@ impl<'a> ConvertCtx<'a> {
                 base: self.make_base_node(t.span),
                 // SWC stores the Babel-compatible decoded JSX text value here.
                 // Future parser refactors must preserve that decoded value contract.
-                value: decode_jsx_entities(t.value.as_ref()),
+                value: decode_jsx_entities(&t.value.to_string_lossy()),
             }),
             swc::JSXElementChild::JSXExprContainer(ec) => {
                 JSXChild::JSXExpressionContainer(self.convert_jsx_expr_container(ec))

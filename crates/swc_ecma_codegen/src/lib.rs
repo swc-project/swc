@@ -414,15 +414,28 @@ where
         Ok(())
     }
 
+    fn emit_fn_params(&mut self, node: &Function) -> Result {
+        punct!(self, "(");
+        if let Some(this_param) = &node.this_param {
+            emit!(self, this_param);
+            if !node.params.is_empty() {
+                punct!(self, ",");
+                formatting_space!(self);
+            }
+        }
+        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
+        punct!(self, ")");
+
+        Ok(())
+    }
+
     /// prints `(b){}` from `function a(b){}`
     fn emit_fn_trailing(&mut self, node: &Function) -> Result {
         if let Some(type_params) = &node.type_params {
             emit!(self, type_params);
         }
 
-        punct!(self, "(");
-        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        punct!(self, ")");
+        self.emit_fn_params(node)?;
 
         if let Some(ty) = &node.return_type {
             punct!(self, ":");
@@ -432,7 +445,7 @@ where
 
         if let Some(body) = &node.body {
             formatting_space!(self);
-            self.emit_block_stmt_inner(body, true)?;
+            self.emit_function_body_inner(body, true)?;
         } else {
             semi!(self);
         }
@@ -847,14 +860,34 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         self.start_scope(None, ScopeKind::Block, false, false, Some(node.span))?;
+        self.emit_braced_stmts(node.span, &node.stmts, skip_first_src_map)?;
+        self.end_scope()?;
 
+        Ok(())
+    }
+
+    fn emit_function_body_inner(
+        &mut self,
+        node: &FunctionBody,
+        skip_first_src_map: bool,
+    ) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_braced_stmts(node.span, &node.stmts, skip_first_src_map)
+    }
+
+    fn emit_braced_stmts(
+        &mut self,
+        span: Span,
+        stmts: &[Stmt],
+        skip_first_src_map: bool,
+    ) -> Result {
         if !skip_first_src_map {
-            srcmap!(self, node, true);
+            srcmap!(self, span, true);
         }
         punct!(self, "{");
 
-        let emit_new_line = !self.cfg.minify
-            && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
+        let emit_new_line =
+            !self.cfg.minify && !(stmts.is_empty() && is_empty_comments(&span, &self.comments));
 
         let mut list_format = ListFormat::MultiLineBlockStatements;
 
@@ -862,13 +895,12 @@ where
             list_format -= ListFormat::MultiLine | ListFormat::Indented;
         }
 
-        self.emit_list(node.span(), Some(&node.stmts), list_format)?;
+        self.emit_list(span, Some(stmts), list_format)?;
 
-        self.emit_leading_comments_of_span(node.span(), true)?;
+        self.emit_leading_comments_of_span(span, true)?;
 
-        srcmap!(self, node, false, true);
+        srcmap!(self, span, false, true);
         punct!(self, "}");
-        self.end_scope()?;
 
         Ok(())
     }
@@ -2191,13 +2223,13 @@ impl MacroNode for FnExpr {
 }
 
 #[node_impl]
-impl MacroNode for BlockStmtOrExpr {
+impl MacroNode for ArrowFunctionBody {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            BlockStmtOrExpr::BlockStmt(block) => {
-                emitter.emit_block_stmt_inner(block, true)?;
+            ArrowFunctionBody::FunctionBody(body) => {
+                emitter.emit_function_body_inner(body, true)?;
             }
-            BlockStmtOrExpr::Expr(expr) => {
+            ArrowFunctionBody::Expr(expr) => {
                 emitter.wr.increase_indent()?;
                 emit!(expr);
                 emitter.wr.decrease_indent()?;

@@ -299,7 +299,7 @@ impl VisitMut for Transform {
             });
 
         node.params.visit_mut_children_with(self);
-        node.body.visit_mut_children_with(self);
+        node.body.visit_mut_with(self);
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
@@ -409,6 +409,9 @@ impl VisitMut for Transform {
             if let Decl::Var(var_decl) = &mut node.decl {
                 // visit inner directly to bypass visit_mut_var_declarator
                 for decl in var_decl.decls.iter_mut() {
+                    if self.flow_syntax {
+                        convert_flow_component_arrow(decl);
+                    }
                     decl.name.visit_mut_with(self);
                     decl.init.visit_mut_with(self);
                 }
@@ -427,6 +430,10 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        if self.flow_syntax {
+            convert_flow_component_arrow(n);
+        }
+
         let ref_rewriter = self.ref_rewriter.take();
         n.name.visit_mut_with(self);
         self.ref_rewriter = ref_rewriter;
@@ -646,6 +653,11 @@ impl VisitMut for Transform {
         node.visit_mut_children_with(self);
     }
 
+    fn visit_mut_function(&mut self, node: &mut Function) {
+        node.this_param = None;
+        node.visit_mut_children_with(self);
+    }
+
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
         node.accessibility = None;
         node.is_abstract = false;
@@ -660,11 +672,6 @@ impl VisitMut for Transform {
         node.is_optional = false;
         node.definite = false;
         node.accessibility = None;
-        node.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        node.this_param = None;
         node.visit_mut_children_with(self);
     }
 
@@ -2090,6 +2097,100 @@ impl ModuleId for TsModuleName {
             .expect("Only ambient modules can use quoted names.")
             .to_id()
     }
+}
+
+/// Gives a Flow component-typed arrow binding the function semantics required
+/// by Flow's component runtime contract.
+fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
+    let Pat::Ident(BindingIdent {
+        id,
+        type_ann: Some(type_ann),
+    }) = &declarator.name
+    else {
+        return;
+    };
+
+    if !is_flow_component_type(&type_ann.type_ann) {
+        return;
+    }
+
+    let Some(init) = &mut declarator.init else {
+        return;
+    };
+    let Expr::Arrow(arrow) = init.as_mut() else {
+        return;
+    };
+
+    let arrow = arrow.take();
+    let body = match *arrow.body {
+        ArrowFunctionBody::FunctionBody(body) => body,
+        ArrowFunctionBody::Expr(expr) => {
+            let span = expr.span();
+            FunctionBody {
+                span,
+                stmts: vec![Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(expr),
+                })],
+            }
+        }
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    };
+
+    **init = Expr::Fn(FnExpr {
+        ident: Some(id.clone()),
+        function: Box::new(Function {
+            this_param: None,
+            params: arrow
+                .params
+                .into_iter()
+                .map(|pat| Param {
+                    span: pat.span(),
+                    decorators: Vec::new(),
+                    pat,
+                })
+                .collect(),
+            decorators: Vec::new(),
+            span: arrow.span,
+            ctxt: arrow.ctxt,
+            body: Some(body),
+            is_generator: arrow.is_generator,
+            is_async: arrow.is_async,
+            type_params: arrow.type_params,
+            return_type: arrow.return_type,
+        }),
+    });
+}
+
+/// Returns whether a syntactic type annotation identifies a Flow component.
+fn is_flow_component_type(ty: &TsType) -> bool {
+    match ty {
+        TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(fn_type)) => {
+            is_flow_component_fn_type(fn_type)
+        }
+        TsType::TsParenthesizedType(parenthesized) => {
+            is_flow_component_type(&parenthesized.type_ann)
+        }
+        _ => false,
+    }
+}
+
+/// Returns whether this function type is the parser's representation of a
+/// Flow `component(...)` type.
+///
+/// Flow component parameters describe a single props object. The parser
+/// preserves that syntax without extending the public AST by giving the
+/// synthetic object pattern the same non-dummy span as the function type.
+#[inline]
+fn is_flow_component_fn_type(fn_type: &TsFnType) -> bool {
+    matches!(
+        fn_type.params.as_slice(),
+        [TsFnParam::Object(props)]
+            if !fn_type.span.is_dummy()
+                && props.span == fn_type.span
+                && props.type_ann.is_none()
+    )
 }
 
 fn id_to_var_declarator(id: Id) -> VarDeclarator {

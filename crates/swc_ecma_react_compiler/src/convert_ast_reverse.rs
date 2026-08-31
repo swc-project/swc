@@ -323,6 +323,7 @@ impl ReverseCtx {
             .into(),
             Statement::SwitchStatement(switch_stmt) => swc::Stmt::Switch(swc::SwitchStmt {
                 span: self.span_from_base(&switch_stmt.base),
+                body_ctxt: SyntaxContext::empty(),
                 discriminant: Box::new(self.convert_expression(&switch_stmt.discriminant)),
                 cases: switch_stmt
                     .cases
@@ -479,6 +480,12 @@ impl ReverseCtx {
             ctxt: SyntaxContext::empty(),
             stmts,
         }
+    }
+
+    fn convert_function_body(&self, block: &BlockStatement) -> swc::FunctionBody {
+        let swc::BlockStmt { span, stmts, .. } = self.convert_block_statement(block);
+
+        swc::FunctionBody { span, stmts }
     }
 
     fn convert_catch_clause(&self, clause: &CatchClause) -> swc::CatchClause {
@@ -1061,21 +1068,14 @@ impl ReverseCtx {
                         swc::PropOrSpread::Prop(Box::new(swc::Prop::Getter(swc::GetterProp {
                             span: self.span_from_base(&method.base),
                             key,
-                            type_ann: function.return_type,
-                            body: function.body,
+                            function: Box::new(function),
                         })))
                     }
                     ObjectMethodKind::Set => {
-                        let param = function.params.into_iter().next().map_or_else(
-                            || Box::new(swc::Pat::Invalid(swc::Invalid { span: DUMMY_SP })),
-                            |param| Box::new(param.pat),
-                        );
                         swc::PropOrSpread::Prop(Box::new(swc::Prop::Setter(swc::SetterProp {
                             span: self.span_from_base(&method.base),
                             key,
-                            this_param: None,
-                            param,
-                            body: function.body,
+                            function: Box::new(function),
                         })))
                     }
                     ObjectMethodKind::Method => {
@@ -1154,6 +1154,7 @@ impl ReverseCtx {
 
     fn convert_function_declaration(&self, f: &FunctionDeclaration) -> swc::FnDecl {
         let mut function = swc::Function {
+            this_param: None,
             params: f
                 .params
                 .iter()
@@ -1162,7 +1163,7 @@ impl ReverseCtx {
             decorators: vec![],
             span: self.span_from_base(&f.base),
             ctxt: SyntaxContext::empty(),
-            body: Some(self.convert_block_statement(&f.body)),
+            body: Some(self.convert_function_body(&f.body)),
             is_generator: f.generator,
             is_async: f.is_async,
             type_params: None,
@@ -1220,6 +1221,7 @@ impl ReverseCtx {
 
     fn convert_function_expression(&self, f: &FunctionExpression) -> swc::Function {
         let mut function = swc::Function {
+            this_param: None,
             params: f
                 .params
                 .iter()
@@ -1228,7 +1230,7 @@ impl ReverseCtx {
             decorators: vec![],
             span: self.span_from_base(&f.base),
             ctxt: SyntaxContext::empty(),
-            body: Some(self.convert_block_statement(&f.body)),
+            body: Some(self.convert_function_body(&f.body)),
             is_generator: f.generator,
             is_async: f.is_async,
             type_params: None,
@@ -1246,6 +1248,7 @@ impl ReverseCtx {
 
     fn convert_object_method_to_function(&self, m: &ObjectMethod) -> swc::Function {
         swc::Function {
+            this_param: None,
             params: m
                 .params
                 .iter()
@@ -1254,7 +1257,7 @@ impl ReverseCtx {
             decorators: vec![],
             span: self.span_from_base(&m.base),
             ctxt: SyntaxContext::empty(),
-            body: Some(self.convert_block_statement(&m.body)),
+            body: Some(self.convert_function_body(&m.body)),
             is_generator: m.generator,
             is_async: m.is_async,
             type_params: None,
@@ -1273,10 +1276,10 @@ impl ReverseCtx {
                 .collect(),
             body: Box::new(match arrow.body.as_ref() {
                 ArrowFunctionBody::BlockStatement(block) => {
-                    swc::BlockStmtOrExpr::BlockStmt(self.convert_block_statement(block))
+                    swc::ArrowFunctionBody::FunctionBody(self.convert_function_body(block))
                 }
                 ArrowFunctionBody::Expression(expr) => {
-                    swc::BlockStmtOrExpr::Expr(Box::new(self.convert_expression(expr)))
+                    swc::ArrowFunctionBody::Expr(Box::new(self.convert_expression(expr)))
                 }
             }),
             is_async: arrow.is_async,
@@ -1638,7 +1641,7 @@ impl ReverseCtx {
             }
             JSXChild::JSXText(text) => swc::JSXElementChild::JSXText(swc::JSXText {
                 span: self.span_from_base(&text.base),
-                value: Atom::from(text.value.as_str()),
+                value: Atom::from(text.value.as_str()).into(),
                 raw: Atom::from(encode_jsx_text(&text.value)),
             }),
         }

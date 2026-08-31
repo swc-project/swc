@@ -9,9 +9,16 @@ use crate::{
     Context, PResult,
 };
 
+pub(crate) enum ParsedJSXElement {
+    Fragment(JSXFragment),
+    Element(JSXElement),
+    #[cfg(feature = "tsrx")]
+    Tsrx(Box<Expr>),
+}
+
 impl<I: Tokens> Parser<I> {
     /// Parses JSX expression enclosed into curly brackets.
-    fn parse_jsx_expr_container(&mut self) -> PResult<JSXExprContainer> {
+    pub(super) fn parse_jsx_expr_container(&mut self) -> PResult<JSXExprContainer> {
         debug_assert!(self.input().syntax().jsx());
         debug_assert!(self.input().is(Token::LBrace));
 
@@ -136,7 +143,7 @@ impl<I: Tokens> Parser<I> {
         Ok(node)
     }
 
-    fn parse_jsx_closing_element(
+    pub(super) fn parse_jsx_closing_element(
         &mut self,
         in_expr_context: bool,
         open_name: &JSXElementName,
@@ -193,7 +200,7 @@ impl<I: Tokens> Parser<I> {
         Ok(JSXClosingFragment { span })
     }
 
-    fn parse_jsx_children(&mut self) -> Vec<JSXElementChild> {
+    pub(super) fn parse_jsx_children(&mut self) -> Vec<JSXElementChild> {
         let mut list = Vec::with_capacity(8);
         loop {
             self.input_mut().rescan_jsx_token();
@@ -245,12 +252,31 @@ impl<I: Tokens> Parser<I> {
             Token::Lt => {
                 let ele = self.parse_jsx_element(false)?;
                 match ele {
-                    either::Either::Left(frag) => Ok(Some(JSXElementChild::JSXFragment(frag))),
-                    either::Either::Right(ele) => {
+                    ParsedJSXElement::Fragment(frag) => {
+                        Ok(Some(JSXElementChild::JSXFragment(frag)))
+                    }
+                    ParsedJSXElement::Element(ele) => {
                         Ok(Some(JSXElementChild::JSXElement(Box::new(ele))))
+                    }
+                    #[cfg(feature = "tsrx")]
+                    ParsedJSXElement::Tsrx(expr) => {
+                        Ok(Some(JSXElementChild::JSXExprContainer(JSXExprContainer {
+                            span: expr.span(),
+                            expr: JSXExpr::Expr(expr),
+                        })))
                     }
                 }
             }
+            #[cfg(feature = "tsrx")]
+            Token::At if self.input().syntax().tsrx() => Ok(Some({
+                let expr = self.parse_tsrx_expr()?;
+                let end = expr.span_hi();
+                self.input_mut().rescan_jsx_token_from(end);
+                JSXElementChild::JSXExprContainer(JSXExprContainer {
+                    span: expr.span(),
+                    expr: JSXExpr::Expr(expr),
+                })
+            })),
             Token::JSXText => Ok(Some(JSXElementChild::JSXText(self.parse_jsx_text()))),
             Token::Eof => {
                 unexpected!(self, "< (jsx tag start), jsx text or {")
@@ -297,8 +323,17 @@ impl<I: Tokens> Parser<I> {
                         .map(Some)
                 }
                 Token::Lt => match self.parse_jsx_element(true)? {
-                    either::Either::Left(frag) => Ok(Some(JSXAttrValue::JSXFragment(frag))),
-                    either::Either::Right(ele) => Ok(Some(JSXAttrValue::JSXElement(Box::new(ele)))),
+                    ParsedJSXElement::Fragment(frag) => Ok(Some(JSXAttrValue::JSXFragment(frag))),
+                    ParsedJSXElement::Element(ele) => {
+                        Ok(Some(JSXAttrValue::JSXElement(Box::new(ele))))
+                    }
+                    #[cfg(feature = "tsrx")]
+                    ParsedJSXElement::Tsrx(expr) => {
+                        Ok(Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                            span: expr.span(),
+                            expr: JSXExpr::Expr(expr),
+                        })))
+                    }
                 },
                 _ => {
                     let span = self.input().cur_span();
@@ -313,7 +348,14 @@ impl<I: Tokens> Parser<I> {
     fn parse_jsx_attr(&mut self) -> PResult<JSXAttrOrSpread> {
         debug_assert!(self.input().syntax().jsx());
         trace_cur!(self, parse_jsx_attr);
-        if self.input_mut().eat(Token::LBrace) {
+        if self.input().is(Token::LBrace) {
+            #[cfg(feature = "tsrx")]
+            let start = self.cur_pos();
+            self.bump();
+            #[cfg(feature = "tsrx")]
+            if self.input().syntax().tsrx() && !self.input().is(Token::DotDotDot) {
+                return self.parse_tsrx_shorthand_attr(start);
+            }
             let dot3_start = self.input().cur_pos();
             self.expect(Token::DotDotDot)?;
             let dot3_token = self.span(dot3_start);
@@ -338,7 +380,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_jsx_attrs(&mut self) -> PResult<Vec<JSXAttrOrSpread>> {
+    pub(super) fn parse_jsx_attrs(&mut self) -> PResult<Vec<JSXAttrOrSpread>> {
         let mut attrs = Vec::with_capacity(8);
 
         loop {
@@ -355,10 +397,7 @@ impl<I: Tokens> Parser<I> {
         Ok(attrs)
     }
 
-    pub(crate) fn parse_jsx_element(
-        &mut self,
-        in_expr_context: bool,
-    ) -> PResult<either::Either<JSXFragment, JSXElement>> {
+    pub(crate) fn parse_jsx_element(&mut self, in_expr_context: bool) -> PResult<ParsedJSXElement> {
         debug_assert!(self.input().syntax().jsx());
         trace_cur!(self, parse_jsx_element);
 
@@ -372,6 +411,13 @@ impl<I: Tokens> Parser<I> {
             // Use rescan_jsx_open_el_terminal_token to split >= back into >
             p.input_mut().rescan_jsx_open_el_terminal_token();
 
+            #[cfg(feature = "tsrx")]
+            if p.input().syntax().tsrx() && p.input().is(Token::LBrace) {
+                return p
+                    .parse_tsrx_dynamic_jsx_element(start, in_expr_context)
+                    .map(ParsedJSXElement::Tsrx);
+            }
+
             if p.input().cur() == Token::Gt {
                 // <>xxxxxx</>
                 p.input_mut().scan_jsx_token();
@@ -381,7 +427,7 @@ impl<I: Tokens> Parser<I> {
                 let children = p.parse_jsx_children();
                 let closing = p.parse_jsx_closing_fragment(in_expr_context)?;
                 let span = p.span(start);
-                Ok(either::Either::Left(JSXFragment {
+                Ok(ParsedJSXElement::Fragment(JSXFragment {
                     span,
                     opening,
                     children,
@@ -402,16 +448,27 @@ impl<I: Tokens> Parser<I> {
                 };
                 let attrs = p.parse_jsx_attrs()?;
                 if p.input().cur() == Token::Gt {
-                    // <xxxxx>xxxxx</xxxxx>
-                    p.input_mut().scan_jsx_token();
-                    let span = Span::new_with_checked(start, p.input.get_cur().span.lo);
+                    let opening_span =
+                        Span::new_with_checked(start, p.input().cur_span().hi);
                     let opening = JSXOpeningElement {
-                        span,
+                        span: opening_span,
                         name,
                         type_args,
                         attrs,
                         self_closing: false,
                     };
+
+                    #[cfg(feature = "tsrx")]
+                    if p.input().syntax().tsrx()
+                        && matches!(&opening.name, JSXElementName::Ident(name) if name.sym == "style")
+                    {
+                        return p
+                            .parse_tsrx_raw_style_element(start, opening, in_expr_context)
+                            .map(ParsedJSXElement::Element);
+                    }
+
+                    // <xxxxx>xxxxx</xxxxx>
+                    p.input_mut().scan_jsx_token();
                     let children = p.parse_jsx_children();
                     let closing = p.parse_jsx_closing_element(in_expr_context, &opening.name)?;
                     let span = if in_expr_context {
@@ -419,7 +476,7 @@ impl<I: Tokens> Parser<I> {
                     } else {
                         Span::new_with_checked(start, p.cur_pos())
                     };
-                    Ok(either::Either::Right(JSXElement {
+                    Ok(ParsedJSXElement::Element(JSXElement {
                         span,
                         opening,
                         children,
@@ -445,7 +502,7 @@ impl<I: Tokens> Parser<I> {
                     } else {
                         Span::new_with_checked(start, p.cur_pos())
                     };
-                    Ok(either::Either::Right(JSXElement {
+                    Ok(ParsedJSXElement::Element(JSXElement {
                         span,
                         opening: JSXOpeningElement {
                             span,
@@ -544,7 +601,7 @@ mod tests {
                 children: vec![JSXElementChild::JSXText(JSXText {
                     span,
                     raw: atom!("foo"),
-                    value: atom!("foo"),
+                    value: atom!("foo").into(),
                 })],
                 closing: Some(JSXClosingElement {
                     span,

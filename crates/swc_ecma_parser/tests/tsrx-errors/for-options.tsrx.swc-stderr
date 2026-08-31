@@ -1,0 +1,5 @@
+  x Unexpected token `TSRX @for options on a non-for-of loop`. Expected `index` and `key` options only on a for-of loop
+   ,-[$DIR/tests/tsrx-errors/for-options.tsrx:1:1]
+ 1 | const invalid = @for (let i = 0; i < 1; i++; key i) { <Row /> };
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

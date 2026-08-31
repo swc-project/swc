@@ -3318,11 +3318,11 @@ function(global, factory) {
             return new Delaunator(coords);
         }
         constructor(coords){
-            const n = coords.length >> 1;
+            let n = coords.length >> 1;
             if (n > 0 && 'number' != typeof coords[0]) throw Error('Expected coords to contain numbers.');
             this.coords = coords;
             // arrays that will store the triangulation graph
-            const maxTriangles = Math.max(2 * n - 5, 0);
+            let maxTriangles = Math.max(2 * n - 5, 0);
             this._triangles = new Uint32Array(3 * maxTriangles), this._halfedges = new Int32Array(3 * maxTriangles), // temporary arrays for tracking the edges of the advancing convex hull
             this._hashSize = Math.ceil(Math.sqrt(n)), this._hullPrev = new Uint32Array(n), this._hullNext = new Uint32Array(n), this._hullTri = new Uint32Array(n), this._hullHash = new Int32Array(this._hashSize).fill(-1), // temporary arrays for sorting points
             this._ids = new Uint32Array(n), this._dists = new Float64Array(n), this.update();

@@ -20,8 +20,8 @@ pub fn is_builtin_hook(name: &str) -> bool {
     )
 }
 
-pub fn is_body_arrow_fn(body: &BlockStmtOrExpr) -> bool {
-    if let BlockStmtOrExpr::Expr(body) = body {
+pub fn is_body_arrow_fn(body: &ArrowFunctionBody) -> bool {
+    if let ArrowFunctionBody::Expr(body) = body {
         body.is_arrow()
     } else {
         false

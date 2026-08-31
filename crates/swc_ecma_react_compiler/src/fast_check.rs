@@ -1,6 +1,6 @@
 use react_compiler_hir::environment::is_hook_name;
 use swc_ecma_ast::{
-    ArrowExpr, BlockStmtOrExpr, CallExpr, Callee, Expr, Function, JSXElement, JSXFragment, Lit,
+    ArrowExpr, ArrowFunctionBody, CallExpr, Callee, Expr, Function, JSXElement, JSXFragment, Lit,
     MemberProp, Module, ModuleItem, Program, Script, Stmt, Str,
 };
 use swc_ecma_visit::{Visit, VisitWith};
@@ -94,7 +94,7 @@ fn module_has_opt_in_directive(module: &Module) -> bool {
 
 impl Visit for Finder {
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
-        if let BlockStmtOrExpr::BlockStmt(body) = &*node.body {
+        if let ArrowFunctionBody::FunctionBody(body) = &*node.body {
             if has_opt_in_directive(&body.stmts) {
                 self.found = true;
                 return;
@@ -400,7 +400,9 @@ mod tests {
             "function lower() { 'use strict'; 'use memo'; return 1; }",
             true,
         );
+        assert_required("const lower = () => { 'use memo'; return 1; };", true);
         assert_required("function lower() { work(); 'use memo'; return 1; }", false);
+        assert_required("const lower = () => 'use memo';", false);
         assert_required("const marker = 'use memo';", false);
         assert_required("import value from 'use memo'; export default value;", false);
     }

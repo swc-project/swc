@@ -1,4 +1,4 @@
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
@@ -13,7 +13,6 @@ use crate::{
         parser::{
             buffer::Buffer,
             class_and_fn::parse_fn_args_body,
-            is_not_this,
             pat::{parse_formal_params, parse_unique_formal_params},
             typescript::eat_any_ts_modifier,
         },
@@ -316,7 +315,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                             |p| {
                                 let params = parse_formal_params(p)?;
 
-                                if params.iter().any(is_not_this) {
+                                if !params.is_empty() {
                                     p.emit_err(key_span, SyntaxError::GetterParam);
                                 }
 
@@ -325,25 +324,19 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                             false,
                             false,
                         )
-                        .map(|v| *v)
-                        .map(
-                            |Function {
-                                 body, return_type, ..
-                             }| {
-                                if parser.input().syntax().typescript()
-                                    && parser.input().target() == EsVersion::Es3
-                                {
-                                    parser.emit_err(key_span, SyntaxError::TS1056);
-                                }
+                        .map(|function| {
+                            if parser.input().syntax().typescript()
+                                && parser.input().target() == EsVersion::Es3
+                            {
+                                parser.emit_err(key_span, SyntaxError::TS1056);
+                            }
 
-                                PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
-                                    span: parser.span(start),
-                                    key,
-                                    type_ann: return_type,
-                                    body,
-                                })))
-                            },
-                        ),
+                            PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
+                                span: parser.span(start),
+                                key,
+                                function,
+                            })))
+                        }),
                         "set" => {
                             parse_fn_args_body(
                                 parser,
@@ -353,16 +346,13 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                                 |p| {
                                     let params = parse_formal_params(p)?;
 
-                                    if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                                    if params.len() != 1 {
                                         p.emit_err(key_span, SyntaxError::SetterParam);
                                     }
 
-                                    if !params.is_empty() {
-                                        if let Pat::Rest(..) = params[0].pat {
-                                            p.emit_err(
-                                                params[0].span(),
-                                                SyntaxError::RestPatInSetter,
-                                            );
+                                    if let Some(param) = params.first() {
+                                        if let Pat::Rest(..) = param.pat {
+                                            p.emit_err(param.span(), SyntaxError::RestPatInSetter);
                                         }
                                     }
 
@@ -377,36 +367,13 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                                 false,
                                 false,
                             )
-                            .map(|v| *v)
-                            .map(
-                                |Function {
-                                     mut params, body, ..
-                                 }| {
-                                    let mut this = None;
-                                    if params.len() >= 2 {
-                                        this = Some(params.remove(0).pat);
-                                    }
-
-                                    let param = Box::new(
-                                        params.into_iter().next().map(|v| v.pat).unwrap_or_else(
-                                            || {
-                                                parser.emit_err(key_span, SyntaxError::SetterParam);
-
-                                                Invalid { span: DUMMY_SP }.into()
-                                            },
-                                        ),
-                                    );
-
-                                    // debug_assert_eq!(params.len(), 1);
-                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                        span: parser.span(start),
-                                        key,
-                                        body,
-                                        param,
-                                        this_param: this,
-                                    })))
-                                },
-                            )
+                            .map(|function| {
+                                PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                    span: parser.span(start),
+                                    key,
+                                    function,
+                                })))
+                            })
                         }
                         "async" => parse_fn_args_body(
                             parser,

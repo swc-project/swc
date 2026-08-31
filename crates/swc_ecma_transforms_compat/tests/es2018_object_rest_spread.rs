@@ -2502,6 +2502,33 @@ compare_stdout!(
     "###
 );
 
+compare_stdout!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_12153_var_and_lexical_scope,
+    r###"
+    const values = [
+      { a: 1, extra: 2 },
+      { a: 3, extra: 4 },
+    ];
+
+    for (var { a, ...b } of values) {}
+    console.log(typeof a, a, b.extra);
+
+    const letClosures = [];
+    for (let { a, ...b } of values) {
+      letClosures.push(() => [a, b.extra]);
+    }
+    console.log(JSON.stringify(letClosures.map((f) => f())));
+
+    const constClosures = [];
+    for (const { a, ...b } of values) {
+      constClosures.push(() => [a, b.extra]);
+    }
+    console.log(JSON.stringify(constClosures.map((f) => f())));
+    "###
+);
+
 #[testing::fixture("tests/object-rest-spread/**/input.js")]
 fn fixture(input: PathBuf) {
     let parent = input.parent().unwrap();

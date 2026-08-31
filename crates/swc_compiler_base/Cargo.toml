@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_compiler_base"
 repository    = { workspace = true }
-version       = "63.0.0"
+version       = "64.0.0"
 
 [features]
 node = ["napi", "napi-derive"]
@@ -24,17 +24,17 @@ serde_json    = { workspace = true }
 swc_sourcemap = { workspace = true }
 
 swc_atoms = { version = "10.0.0", path = "../swc_atoms" }
-swc_common = { version = "25.0.0", path = "../swc_common", features = [
+swc_common = { version = "26.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_config = { version = "6.0.0", path = "../swc_config" }
-swc_ecma_ast = { version = "28.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "31.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "60.0.0", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "44.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_ast = { version = "29.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "32.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_minifier = { version = "61.0.4", path = "../swc_ecma_minifier" }
+swc_ecma_parser = { version = "45.1.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_visit = { version = "28.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "29.0.0", path = "../swc_ecma_visit" }
 
 [dependencies.napi-derive]
 default-features = false

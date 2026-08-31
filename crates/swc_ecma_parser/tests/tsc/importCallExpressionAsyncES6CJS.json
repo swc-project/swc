@@ -32,12 +32,11 @@
         },
         "ctxt": 0,
         "body": {
-          "type": "BlockStatement",
+          "type": "FunctionBody",
           "span": {
             "start": 87,
             "end": 136
           },
-          "ctxt": 0,
           "stmts": [
             {
               "type": "VariableDeclaration",
@@ -165,12 +164,11 @@
               },
               "ctxt": 0,
               "body": {
-                "type": "BlockStatement",
+                "type": "FunctionBody",
                 "span": {
                   "start": 178,
                   "end": 235
                 },
-                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "VariableDeclaration",
@@ -322,12 +320,11 @@
                     "ctxt": 0,
                     "params": [],
                     "body": {
-                      "type": "BlockStatement",
+                      "type": "FunctionBody",
                       "span": {
                         "start": 279,
                         "end": 338
                       },
-                      "ctxt": 0,
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -479,12 +476,11 @@
                     "ctxt": 0,
                     "params": [],
                     "body": {
-                      "type": "BlockStatement",
+                      "type": "FunctionBody",
                       "span": {
                         "start": 401,
                         "end": 467
                       },
-                      "ctxt": 0,
                       "stmts": [
                         {
                           "type": "VariableDeclaration",
@@ -626,12 +622,11 @@
               "ctxt": 0,
               "params": [],
               "body": {
-                "type": "BlockStatement",
+                "type": "FunctionBody",
                 "span": {
                   "start": 506,
                   "end": 556
                 },
-                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "VariableDeclaration",

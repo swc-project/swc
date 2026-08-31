@@ -1,8 +1,8 @@
 var o = function(o) {
     console.log("async", o);
 };
-var a = function(o) {
+var n = function(o) {
     console.log("await", o);
 };
 o(1);
-await (2);
+n(2);

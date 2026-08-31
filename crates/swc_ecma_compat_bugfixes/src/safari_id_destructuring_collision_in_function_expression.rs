@@ -52,7 +52,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             self.in_body = false;
             n.function.params.visit_mut_children_with(self);
             self.in_body = true;
-            n.function.body.visit_mut_children_with(self);
+            n.function.body.visit_mut_with(self);
 
             if let Some(id_ctxt) = self.destructured_id_span.take() {
                 let mut rename_map = HashMap::default();
@@ -80,7 +80,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             self.in_body = false;
             n.function.params.visit_mut_children_with(self);
             self.in_body = true;
-            n.function.body.visit_mut_children_with(self);
+            n.function.body.visit_mut_with(self);
         }
         self.in_body = old_in_body;
     }

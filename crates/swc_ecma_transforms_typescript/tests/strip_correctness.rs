@@ -150,17 +150,9 @@ fn identity(entry: PathBuf) {
             None,
         );
 
-        // It's very unscientific.
-        // TODO: Change this with visitor
-        if js_content.contains("import") || js_content.contains("export") {
-            parser
-                .parse_module()
-                .unwrap_or_else(|err| panic!("{js_content} is invalid module\n{err:?}"));
-        } else {
-            parser
-                .parse_script()
-                .unwrap_or_else(|err| panic!("{js_content} is invalid script\n{err:?}"));
-        }
+        parser
+            .parse_program()
+            .unwrap_or_else(|err| panic!("{js_content} is invalid program\n{err:?}"));
 
         Ok(())
     })

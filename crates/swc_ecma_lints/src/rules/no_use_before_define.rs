@@ -179,6 +179,16 @@ impl NoUseBeforeDefine {
             Pat::Expr(_) => {}
         }
     }
+
+    fn visit_scope(&mut self, span: Span, op: impl FnOnce(&mut Self)) {
+        self.scoped_indents.insert(span, Default::default());
+        self.scope.push(span);
+
+        op(self);
+
+        self.scoped_indents.remove(&span);
+        self.scope.pop();
+    }
 }
 
 impl Visit for NoUseBeforeDefine {
@@ -189,13 +199,11 @@ impl Visit for NoUseBeforeDefine {
     }
 
     fn visit_block_stmt(&mut self, block: &BlockStmt) {
-        self.scoped_indents.insert(block.span, Default::default());
-        self.scope.push(block.span);
+        self.visit_scope(block.span, |visitor| block.visit_children_with(visitor));
+    }
 
-        block.visit_children_with(self);
-
-        self.scoped_indents.remove(&block.span);
-        self.scope.pop();
+    fn visit_function_body(&mut self, body: &FunctionBody) {
+        self.visit_scope(body.span, |visitor| body.visit_children_with(visitor));
     }
 
     fn visit_var_decl(&mut self, var_decl: &VarDecl) {

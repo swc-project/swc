@@ -53,15 +53,26 @@
                   },
                   "value": "Foo"
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 21,
+                    "start": 11,
                     "end": 24
                   },
                   "ctxt": 0,
-                  "stmts": []
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 21,
+                      "end": 24
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

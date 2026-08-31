@@ -83,6 +83,15 @@ impl Preserver<'_> {
 
         self.idents.push(ident.to_id());
     }
+
+    fn visit_non_top_level_stmts(&mut self, stmts: &[Stmt]) {
+        let old_top_level = self.in_top_level;
+        for stmt in stmts {
+            self.in_top_level = false;
+            stmt.visit_with(self);
+        }
+        self.in_top_level = old_top_level;
+    }
 }
 
 impl Visit for Preserver<'_> {
@@ -91,12 +100,11 @@ impl Visit for Preserver<'_> {
     visit_obj_and_computed!();
 
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
-        let old_top_level = self.in_top_level;
-        for n in n.stmts.iter() {
-            self.in_top_level = false;
-            n.visit_with(self);
-        }
-        self.in_top_level = old_top_level;
+        self.visit_non_top_level_stmts(&n.stmts);
+    }
+
+    fn visit_function_body(&mut self, n: &FunctionBody) {
+        self.visit_non_top_level_stmts(&n.stmts);
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause) {

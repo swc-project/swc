@@ -142,11 +142,11 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
         match &mut *node.body {
-            BlockStmtOrExpr::Expr(e) if e.is_seq() => {
+            ArrowFunctionBody::Expr(e) if e.is_seq() => {
                 self.wrap(e);
             }
 
-            BlockStmtOrExpr::Expr(e) if e.is_assign() => {
+            ArrowFunctionBody::Expr(e) if e.is_assign() => {
                 if let Expr::Assign(assign) = &**e {
                     if let AssignTarget::Pat(..) = &assign.left {
                         self.wrap(e);
@@ -393,11 +393,17 @@ impl VisitMut for Fixer<'_> {
         self.in_for_stmt_head = in_for_stmt_head;
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+    fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        n.visit_mut_children_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+    }
+
+    fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
         body.visit_mut_children_with(self);
 
         match body {
-            BlockStmtOrExpr::Expr(expr) if expr.is_object() => {
+            ArrowFunctionBody::Expr(expr) if expr.is_object() => {
                 self.wrap(expr);
             }
 

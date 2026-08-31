@@ -304,10 +304,10 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             if !stmts.is_empty() {
                 // Insert into body
                 match &mut *arrow.body {
-                    BlockStmtOrExpr::BlockStmt(block) => {
+                    ArrowFunctionBody::FunctionBody(block) => {
                         prepend_stmts_to_front(&mut block.stmts, stmts);
                     }
-                    BlockStmtOrExpr::Expr(expr) => {
+                    ArrowFunctionBody::Expr(expr) => {
                         let mut body_stmts = stmts;
                         body_stmts.push(
                             ReturnStmt {
@@ -316,9 +316,9 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                             }
                             .into(),
                         );
-                        *arrow.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                        *arrow.body = ArrowFunctionBody::FunctionBody(FunctionBody {
+                            span: DUMMY_SP,
                             stmts: body_stmts,
-                            ..Default::default()
                         });
                     }
                     #[cfg(swc_ast_unknown)]
@@ -519,6 +519,10 @@ impl ObjectRestSpreadPass {
 
         match left {
             ForHead::VarDecl(var_decl) => {
+                // Keep the original declaration kind: `var` bindings are
+                // function-scoped, while `let` and `const` need per-iteration
+                // lexical bindings.
+                let kind = var_decl.kind;
                 let ref_ident = private_ident!("_ref");
                 let pat = var_decl.decls[0].name.take();
                 var_decl.decls[0].name = ref_ident.clone().into();
@@ -527,7 +531,7 @@ impl ObjectRestSpreadPass {
                 lowerer.visit(pat, Box::new(ref_ident.into()));
 
                 let stmt: Stmt = VarDecl {
-                    kind: VarDeclKind::Let,
+                    kind,
                     decls: lowerer.out.into_decls(),
                     ..Default::default()
                 }
