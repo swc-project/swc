@@ -361,7 +361,7 @@ fn dummy_span_expression_leaves_are_source_less() {
     let Expr::Bin(binary) = &mut *expr_stmt.expr else {
         panic!("expected a binary expression");
     };
-    binary.right = Box::new(Expr::This(ThisExpr { span: DUMMY_SP }));
+    *binary.right = Expr::This(ThisExpr { span: DUMMY_SP });
 
     let (code, map, _) = emit_source_map(cm, &comments, &module, false, true, None);
 
@@ -410,13 +410,13 @@ fn dummy_span_typescript_bool_is_source_less() {
     let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0] else {
         panic!("expected a type alias declaration");
     };
-    type_alias.type_ann = Box::new(TsType::TsLitType(TsLitType {
+    *type_alias.type_ann = TsType::TsLitType(TsLitType {
         span: DUMMY_SP,
         lit: TsLit::Bool(Bool {
             span: DUMMY_SP,
             value: true,
         }),
-    }));
+    });
 
     let (code, map, _) = emit_source_map(cm, &comments, &module, false, true, None);
 
