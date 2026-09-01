@@ -8,8 +8,9 @@ use swc_common::{
     LineCol, SourceMap as CommonSourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::{
-    ArrayLit, EmptyStmt, EsVersion, Expr, ExprOrSpread, ExprStmt, ImportDecl, ImportPhase, Invalid,
-    Module, ModuleDecl, ModuleItem, Stmt, Str,
+    ArrayLit, Bool, CallExpr, Callee, Decl, EmptyStmt, EsVersion, Expr, ExprOrSpread, ExprStmt,
+    Ident, Import, ImportDecl, ImportPhase, Invalid, Module, ModuleDecl, ModuleItem, Stmt, Str,
+    Super, ThisExpr, TsLit, TsLitType, TsType,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
@@ -31,23 +32,26 @@ fn generated_import() -> ModuleItem {
     }))
 }
 
-fn parse_module(cm: &Lrc<CommonSourceMap>, source: &str) -> (Module, SingleThreadedComments) {
+fn parse_module_with_syntax(
+    cm: &Lrc<CommonSourceMap>,
+    source: &str,
+    syntax: Syntax,
+) -> (Module, SingleThreadedComments) {
     let fm = cm.new_source_file(
         FileName::Custom("source.js".into()).into(),
         source.to_owned(),
     );
     let comments = SingleThreadedComments::default();
-    let lexer = Lexer::new(
-        Syntax::default(),
-        Default::default(),
-        (&*fm).into(),
-        Some(&comments),
-    );
+    let lexer = Lexer::new(syntax, Default::default(), (&*fm).into(), Some(&comments));
     let mut parser = Parser::new_from(lexer);
     let module = parser.parse_module().expect("failed to parse test module");
     assert!(parser.take_errors().is_empty());
 
     (module, comments)
+}
+
+fn parse_module(cm: &Lrc<CommonSourceMap>, source: &str) -> (Module, SingleThreadedComments) {
+    parse_module_with_syntax(cm, source, Syntax::default())
 }
 
 fn emit_source_map(
@@ -133,6 +137,27 @@ fn assert_source_less_boundary(map: &SourceMap, code: &str, needle: &str) {
         token.get_dst(),
         (line, col),
         "source-less boundary should start at {needle:?}"
+    );
+}
+
+fn assert_source_less_boundary_after(map: &SourceMap, code: &str, needle: &str) {
+    let offset = code.find(needle).expect("generated text not found") + needle.len();
+    let prefix = &code[..offset];
+    let line = prefix.bytes().filter(|&byte| byte == b'\n').count() as u32;
+    let line_start = prefix.rfind('\n').map_or(0, |index| index + 1);
+    let col = code[line_start..offset].encode_utf16().count() as u32;
+    let token = map
+        .lookup_token(line, col)
+        .unwrap_or_else(|| panic!("missing source-less boundary after {needle:?} at {line}:{col}"));
+
+    assert!(
+        !token.has_source(),
+        "boundary after {needle:?} should be source-less"
+    );
+    assert_eq!(
+        token.get_dst(),
+        (line, col),
+        "source-less boundary should start after {needle:?}"
     );
 }
 
@@ -287,6 +312,117 @@ fn dummy_span_array_delimiters_are_source_less() {
         assert_source_less_boundary(&map, &code, "]");
         assert_source_location(&map, &code, "after", 2, 0);
     }
+}
+
+#[test]
+fn dummy_span_call_delimiters_are_source_less() {
+    let source = "before();\nargument;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        let argument = expr_stmt.expr.clone();
+        *expr_stmt.expr = Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            ctxt: Default::default(),
+            callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                "generated".into(),
+                DUMMY_SP,
+            )))),
+            args: vec![ExprOrSpread {
+                spread: None,
+                expr: argument,
+            }],
+            type_args: None,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, "argument", 1, 0);
+        assert_source_less_boundary_after(&map, &code, "argument");
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn dummy_span_expression_leaves_are_source_less() {
+    let source = "before();\nleft + right;\nafter();\n";
+
+    let cm = Lrc::<CommonSourceMap>::default();
+    let (mut module, comments) = parse_module(&cm, source);
+    let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+        panic!("expected an expression statement");
+    };
+    let Expr::Bin(binary) = &mut *expr_stmt.expr else {
+        panic!("expected a binary expression");
+    };
+    binary.right = Box::new(Expr::This(ThisExpr { span: DUMMY_SP }));
+
+    let (code, map, _) = emit_source_map(cm, &comments, &module, false, true, None);
+
+    assert_source_location(&map, &code, "left", 1, 0);
+    assert_source_less_boundary(&map, &code, "this");
+    assert_source_location(&map, &code, "after", 2, 0);
+}
+
+#[test]
+fn dummy_span_callee_leaves_are_source_less() {
+    let source = "before();\ncallee();\nafter();\n";
+
+    for (callee, needle) in [
+        (Callee::Super(Super { span: DUMMY_SP }), "super"),
+        (
+            Callee::Import(Import {
+                span: DUMMY_SP,
+                phase: ImportPhase::Evaluation,
+            }),
+            "import",
+        ),
+    ] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::Call(call) = &mut *expr_stmt.expr else {
+            panic!("expected a call expression");
+        };
+        call.callee = callee;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, false, true, None);
+
+        assert_source_less_boundary(&map, &code, needle);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn dummy_span_typescript_bool_is_source_less() {
+    let source = "type Value = original;\nafter();\n";
+    let cm = Lrc::<CommonSourceMap>::default();
+    let (mut module, comments) =
+        parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+    let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0] else {
+        panic!("expected a type alias declaration");
+    };
+    type_alias.type_ann = Box::new(TsType::TsLitType(TsLitType {
+        span: DUMMY_SP,
+        lit: TsLit::Bool(Bool {
+            span: DUMMY_SP,
+            value: true,
+        }),
+    }));
+
+    let (code, map, _) = emit_source_map(cm, &comments, &module, false, true, None);
+
+    assert_source_location(&map, &code, "Value", 0, 5);
+    assert_source_less_boundary(&map, &code, "true");
+    assert_source_location(&map, &code, "after", 1, 0);
 }
 
 #[test]

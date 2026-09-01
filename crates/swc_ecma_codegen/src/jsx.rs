@@ -34,6 +34,8 @@ impl MacroNode for JSXElement {
 #[node_impl]
 impl MacroNode for JSXOpeningElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "<");
         emit!(self.name);
 
@@ -54,6 +56,7 @@ impl MacroNode for JSXOpeningElement {
         if self.self_closing {
             punct!(emitter, "/");
         }
+        srcmap_if_dummy!(emitter, self);
         punct!(emitter, ">");
         Ok(())
     }
@@ -120,8 +123,10 @@ impl MacroNode for JSXAttrOrSpread {
         match *self {
             JSXAttrOrSpread::JSXAttr(ref n) => emit!(n),
             JSXAttrOrSpread::SpreadElement(ref n) => {
+                srcmap_if_dummy!(emitter, self);
                 punct!(emitter, "{");
                 emit!(n);
+                srcmap_if_dummy!(emitter, self);
                 punct!(emitter, "}");
             }
             #[cfg(swc_ast_unknown)]
@@ -150,9 +155,12 @@ impl MacroNode for JSXElementChild {
 #[node_impl]
 impl MacroNode for JSXSpreadChild {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "{");
         punct!(emitter, "...");
         emit!(self.expr);
+        srcmap_if_dummy!(emitter, self);
         punct!(emitter, "}");
         Ok(())
     }
@@ -161,9 +169,12 @@ impl MacroNode for JSXSpreadChild {
 #[node_impl]
 impl MacroNode for JSXExprContainer {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "{");
         emitter.emit_trailing_comments_of_pos(self.span.lo + BytePos(1), true, false)?;
         emit!(self.expr);
+        srcmap_if_dummy!(emitter, self);
         punct!(emitter, "}");
         Ok(())
     }
@@ -185,8 +196,11 @@ impl MacroNode for JSXExpr {
 #[node_impl]
 impl MacroNode for JSXClosingElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "</");
         emit!(self.name);
+        srcmap_if_dummy!(emitter, self);
         punct!(emitter, ">");
         Ok(())
     }
@@ -212,6 +226,8 @@ impl MacroNode for JSXFragment {
 #[node_impl]
 impl MacroNode for JSXOpeningFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "<>");
         Ok(())
     }
@@ -220,6 +236,8 @@ impl MacroNode for JSXOpeningFragment {
 #[node_impl]
 impl MacroNode for JSXClosingFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "</>");
         Ok(())
     }
@@ -246,6 +264,8 @@ impl MacroNode for JSXEmptyExpr {
 #[node_impl]
 impl MacroNode for JSXText {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         emitter.emit_atom(self.span(), &self.raw)?;
         Ok(())
     }

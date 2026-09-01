@@ -166,6 +166,18 @@ macro_rules! srcmap {
     };
 }
 
+/// Emits a source-less boundary only when the owning AST node is synthesized.
+///
+/// This is used for delimiters that are not at the end of a real node's span,
+/// where mapping to `span.hi` would be inaccurate for parsed source.
+macro_rules! srcmap_if_dummy {
+    ($emitter:expr, $n:expr) => {{
+        if $n.span_lo().is_dummy() {
+            $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
+        }
+    }};
+}
+
 macro_rules! emit_node_inner {
     ($emitter:expr, true, $n:expr) => {
         crate::Node::emit_with(&$n, $emitter)?

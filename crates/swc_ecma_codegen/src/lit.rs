@@ -172,6 +172,8 @@ impl MacroNode for BigInt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         if emitter.cfg.minify {
             let value = if *self.value >= 10000000000000000_i64.into() {
                 format!("0x{}", self.value.to_str_radix(16))
@@ -207,6 +209,8 @@ impl MacroNode for BigInt {
 impl MacroNode for Bool {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         if self.value {
             keyword!(emitter, self.span, "true")
@@ -337,6 +341,8 @@ where
 
         self.emit_leading_comments_of_span(num.span(), false)?;
 
+        srcmap!(self, num, true);
+
         // Handle infinity
         if num.value.is_infinite() && num.raw.is_none() {
             self.wr.write_str_lit(num.span, &num.value.print())?;
@@ -346,8 +352,6 @@ where
 
         let mut striped_raw = None;
         let mut value = String::default();
-
-        srcmap!(self, num, true);
 
         if self.cfg.minify {
             if let Some(raw) = &num.raw {

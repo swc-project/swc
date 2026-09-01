@@ -163,6 +163,7 @@ impl MacroNode for ArrayPat {
         }
 
         emitter.emit_list(self.span(), Some(&self.elems), format)?;
+        srcmap_if_dummy!(emitter, self);
         punct!(emitter, "]");
         if self.optional {
             punct!(emitter, "?");
@@ -213,6 +214,7 @@ impl MacroNode for ObjectPat {
             ListFormat::ObjectBindingPatternElements | ListFormat::CanSkipTrailingComma,
         )?;
 
+        srcmap_if_dummy!(emitter, self);
         punct!(emitter, "}");
 
         if self.optional {

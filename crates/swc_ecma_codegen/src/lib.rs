@@ -298,6 +298,7 @@ where
             if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
                 punct!(self, "(");
                 self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
+                srcmap!(self, node, false, true);
                 punct!(self, ")");
             }
         }
@@ -328,13 +329,13 @@ where
             } else {
                 punct!(self, "${");
                 emit!(self, node.exprs[i / 2]);
+                srcmap_if_dummy!(self, node);
                 punct!(self, "}");
             }
         }
 
+        srcmap!(self, node, false, true);
         punct!(self, "`");
-
-        srcmap!(self, node, false);
 
         Ok(())
     }
@@ -1695,6 +1696,8 @@ impl MacroNode for Callee {
 #[node_impl]
 impl MacroNode for Super {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         keyword!(emitter, self.span, "super");
 
         Ok(())
@@ -1704,6 +1707,8 @@ impl MacroNode for Super {
 #[node_impl]
 impl MacroNode for Import {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         keyword!(emitter, self.span, "import");
         match self.phase {
             ImportPhase::Source => {
@@ -1784,6 +1789,8 @@ impl MacroNode for OptChainExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         match &*self.base {
             OptChainBase::Member(e) => {
                 if let Expr::New(new) = &*e.obj {
@@ -1819,6 +1826,7 @@ impl MacroNode for OptChainExpr {
                     &e.args,
                     ListFormat::CallExpressionArguments,
                 )?;
+                srcmap!(emitter, self, false, true);
                 punct!(emitter, ")");
             }
             #[cfg(swc_ast_unknown)]
@@ -1863,9 +1871,8 @@ impl MacroNode for CallExpr {
             &self.args,
             ListFormat::CallExpressionArguments,
         )?;
+        srcmap!(emitter, self, false, true);
         punct!(emitter, ")");
-
-        // srcmap!(emitter, self, false);
 
         Ok(())
     }
@@ -2249,6 +2256,8 @@ impl MacroNode for ThisExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         keyword!(emitter, self.span, "this");
 
         Ok(())
@@ -2272,13 +2281,13 @@ impl MacroNode for Tpl {
             } else {
                 punct!(emitter, "${");
                 emit!(self.exprs[i / 2]);
+                srcmap_if_dummy!(emitter, self);
                 punct!(emitter, "}");
             }
         }
 
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "`");
-
-        srcmap!(emitter, self, false);
 
         Ok(())
     }

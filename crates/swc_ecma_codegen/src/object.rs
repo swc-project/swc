@@ -294,9 +294,8 @@ impl MacroNode for ComputedPropName {
 
         punct!(emitter, "[");
         emit!(self.expr);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "]");
-
-        srcmap!(emitter, self, false);
 
         Ok(())
     }
