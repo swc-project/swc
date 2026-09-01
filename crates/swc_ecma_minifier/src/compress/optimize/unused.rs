@@ -302,6 +302,20 @@ impl Optimizer<'_> {
                 return;
             }
 
+            // `in` and `instanceof` can throw even when both operands have no side
+            // effects. Do not pass these defaults to `ignore_return_value`, which is
+            // allowed to discard arithmetic exceptions under minifier assumptions.
+            if matches!(
+                value,
+                Expr::Bin(BinExpr {
+                    op: op!("in") | op!("instanceof"),
+                    ..
+                })
+            ) {
+                log_abort!("unused: Preserving potentially throwing object pattern default");
+                return;
+            }
+
             // A destructuring default is evaluated only when the property access produces
             // `undefined`, so any remaining effects must stay in this default expression.
             // The enclosing pattern has already proven the property access itself
@@ -438,17 +452,12 @@ impl Optimizer<'_> {
         };
         // Without a pure annotation, restrict this to structural values known to be
         // non-nullish so removing the whole pattern cannot remove a destructuring
-        // error.
+        // error. Classes are excluded because accessing a static property can invoke
+        // a user-defined static getter.
         let can_drop_object_assign_default = has_pure_ann
             || matches!(
                 init.as_deref(),
-                Some(
-                    Expr::Object(..)
-                        | Expr::Array(..)
-                        | Expr::Fn(..)
-                        | Expr::Arrow(..)
-                        | Expr::Class(..)
-                )
+                Some(Expr::Object(..) | Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..))
             );
 
         if !name.is_ident() {
