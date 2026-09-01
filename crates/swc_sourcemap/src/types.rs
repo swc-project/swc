@@ -983,6 +983,46 @@ impl SourceMap {
     }
 }
 
+#[derive(Debug, Clone, Copy)]
+struct PositionRange {
+    start: (u32, u32),
+    end: (u32, u32),
+}
+
+fn split_unmapped_tokens(
+    mut tokens: Vec<RawToken>,
+) -> (Vec<RawToken>, Vec<RawToken>, Vec<PositionRange>) {
+    tokens.sort_unstable_by_key(|token| (token.dst_line, token.dst_col));
+
+    let mut unmapped_ranges = Vec::new();
+    for (index, token) in tokens.iter().enumerate() {
+        if token.src_id != !0 {
+            continue;
+        }
+
+        let start = (token.dst_line, token.dst_col);
+        let next_start = tokens.get(index + 1).map_or((u32::MAX, u32::MAX), |token| {
+            (token.dst_line, token.dst_col)
+        });
+        unmapped_ranges.push(PositionRange {
+            start,
+            end: std::cmp::min(next_start, (start.0, u32::MAX)),
+        });
+    }
+
+    let (unmapped_tokens, mapped_tokens) = tokens.into_iter().partition(|token| token.src_id == !0);
+
+    (mapped_tokens, unmapped_tokens, unmapped_ranges)
+}
+
+#[inline]
+fn is_in_ranges(position: (u32, u32), ranges: &[PositionRange]) -> bool {
+    let index = ranges.partition_point(|range| range.end <= position);
+    ranges
+        .get(index)
+        .is_some_and(|range| range.start <= position)
+}
+
 pub(crate) fn adjust_mappings(
     mut self_tokens: Vec<RawToken>,
     adjustments: Cow<[RawToken]>,
@@ -1022,12 +1062,6 @@ pub(crate) fn adjust_mappings(
         value: &'a RawToken,
     }
 
-    #[derive(Debug, Clone, Copy)]
-    struct PositionRange {
-        start: (u32, u32),
-        end: (u32, u32),
-    }
-
     /// Turns a list of tokens into a list of ranges, using the provided `key`
     /// function to determine the order of the tokens.
     #[allow(clippy::ptr_arg)]
@@ -1053,39 +1087,12 @@ pub(crate) fn adjust_mappings(
         ranges
     }
 
-    #[inline]
-    fn is_in_ranges(position: (u32, u32), ranges: &[PositionRange]) -> bool {
-        let index = ranges.partition_point(|range| range.end <= position);
-        ranges
-            .get(index)
-            .is_some_and(|range| range.start <= position)
-    }
-
-    let mut new_tokens = Vec::new();
-
     // Unmapped adjustment tokens describe generated boundaries, not positions
     // in the intermediate source. Preserve them verbatim, record the generated
     // ranges they cover, and keep them out of the source-coordinate range
     // calculations below.
-    let mut adjustment_tokens = adjustments.into_owned();
-    adjustment_tokens.sort_unstable_by_key(|t| (t.dst_line, t.dst_col));
-    let mut unmapped_ranges = Vec::new();
-    for (index, token) in adjustment_tokens.iter().enumerate() {
-        if token.src_id != !0 {
-            continue;
-        }
-
-        let start = (token.dst_line, token.dst_col);
-        let next_start = adjustment_tokens
-            .get(index + 1)
-            .map_or((u32::MAX, u32::MAX), |t| (t.dst_line, t.dst_col));
-        unmapped_ranges.push(PositionRange {
-            start,
-            end: std::cmp::min(next_start, (start.0, u32::MAX)),
-        });
-        new_tokens.push(*token);
-    }
-    adjustment_tokens.retain(|token| token.src_id != !0);
+    let (mut adjustment_tokens, mut new_tokens, unmapped_ranges) =
+        split_unmapped_tokens(adjustments.into_owned());
     new_tokens.reserve(self_tokens.len());
 
     // Turn `self.tokens` and `adjustment.tokens` into vectors of ranges so we have
@@ -1226,11 +1233,6 @@ pub fn adjust_mappings_from_multiple(
         })
         .collect::<Vec<_>>();
     let input_ranges = create_ranges(&mut input_tokens[..], |t| (t.dst_line, t.dst_col));
-    let mut self_tokens = std::mem::take(&mut this.tokens)
-        .into_iter()
-        .map(|t| (0u32, t))
-        .collect::<Vec<_>>();
-    let self_ranges = create_ranges(&mut self_tokens[..], |t| (t.src_line, t.src_col));
 
     let mut input_ranges_iter = input_ranges.iter();
     let mut input_range = match input_ranges_iter.next() {
@@ -1238,12 +1240,36 @@ pub fn adjust_mappings_from_multiple(
         None => return this,
     };
 
+    // Source-less `self` tokens delimit generated output and have no useful
+    // intermediate source coordinates. Preserve their generated ranges while
+    // excluding them from source-coordinate range construction.
+    let (mapped_self_tokens, unmapped_tokens, unmapped_ranges) =
+        split_unmapped_tokens(std::mem::take(&mut this.tokens));
+    let mut self_tokens = mapped_self_tokens
+        .into_iter()
+        .map(|token| (0u32, token))
+        .collect::<Vec<_>>();
+    let self_ranges = create_ranges(&mut self_tokens[..], |token| {
+        (token.src_line, token.src_col)
+    });
+
     let covered_input_files = input_maps
         .iter_mut()
         .flat_map(|m| m.file().cloned())
         .collect::<FxHashSet<_>>();
 
     let mut new_map = SourceMapBuilder::new(None);
+    for token in unmapped_tokens {
+        new_map.add_raw(
+            token.dst_line,
+            token.dst_col,
+            0,
+            0,
+            None,
+            None,
+            token.is_range,
+        );
+    }
     let mut add_mapping = |input_maps: &mut Vec<crate::lazy::SourceMap<'_>>,
                            map_idx: u32,
                            dst_line: u32,
@@ -1253,6 +1279,10 @@ pub fn adjust_mappings_from_multiple(
                            src_id: u32,
                            name_id: u32,
                            is_range: bool| {
+        if is_in_ranges((dst_line, dst_col), &unmapped_ranges) {
+            return;
+        }
+
         let (src_id, name) = if map_idx == 0 {
             let src = this.get_source(src_id).cloned();
             (
@@ -1881,6 +1911,42 @@ mod tests {
         assert!(!tokens[1].has_source());
         assert_eq!(tokens[2].get_dst(), (0, 16));
         assert_eq!(tokens[2].get_src(), (10, 16));
+        assert!(tokens[2].has_source());
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_preserves_unmapped_self_segments() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 16, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,YAAY,IAAI"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let tokens = composed.tokens().collect::<Vec<_>>();
+        assert_eq!(tokens.len(), 3);
+        assert_eq!(tokens[0].get_dst(), (0, 0));
+        assert_eq!(tokens[0].get_src(), (0, 0));
+        assert!(tokens[0].has_source());
+        assert_eq!(tokens[1].get_dst(), (0, 8));
+        assert!(!tokens[1].has_source());
+        assert_eq!(tokens[2].get_dst(), (0, 16));
+        assert_eq!(tokens[2].get_src(), (0, 16));
         assert!(tokens[2].has_source());
     }
 
