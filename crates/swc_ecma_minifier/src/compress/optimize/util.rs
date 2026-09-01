@@ -191,7 +191,11 @@ pub(crate) fn extract_class_side_effect<'a>(
 
     for m in &mut c.body {
         if let ClassMember::PrivateProp(PrivateProp { key, .. })
-        | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = m
+        | ClassMember::PrivateMethod(PrivateMethod { key, .. })
+        | ClassMember::AutoAccessor(AutoAccessor {
+            key: Key::Private(key),
+            ..
+        }) = m
         {
             visitor.private_ident.insert(key.name.clone());
         }
@@ -352,7 +356,11 @@ impl Visit for ClassEffectVisitor {
 
         for m in &n.body {
             if let ClassMember::PrivateProp(PrivateProp { key, .. })
-            | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = m
+            | ClassMember::PrivateMethod(PrivateMethod { key, .. })
+            | ClassMember::AutoAccessor(AutoAccessor {
+                key: Key::Private(key),
+                ..
+            }) = m
             {
                 private_ident.remove(&key.name);
             }
@@ -385,7 +393,11 @@ impl Visit for PrivateNameUsageVisitor {
 
         for member in &n.body {
             if let ClassMember::PrivateProp(PrivateProp { key, .. })
-            | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = member
+            | ClassMember::PrivateMethod(PrivateMethod { key, .. })
+            | ClassMember::AutoAccessor(AutoAccessor {
+                key: Key::Private(key),
+                ..
+            }) = member
             {
                 private_ident.remove(&key.name);
             }

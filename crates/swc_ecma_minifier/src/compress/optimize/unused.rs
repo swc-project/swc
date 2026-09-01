@@ -1506,6 +1506,7 @@ fn is_discardable_class_default_member(member: &ClassMember) -> bool {
 #[derive(Default)]
 struct NonDiscardableDefaultVisitor {
     found: bool,
+    in_class_static_initializer: bool,
 }
 
 fn has_observable_param_initialization(pat: &Pat) -> bool {
@@ -1518,6 +1519,29 @@ fn has_observable_param_initialization(pat: &Pat) -> bool {
 
 impl Visit for NonDiscardableDefaultVisitor {
     noop_visit_type!();
+
+    fn visit_assign_expr(&mut self, e: &AssignExpr) {
+        if self.in_class_static_initializer {
+            // Class static initializers run in strict mode. Extracting an assignment
+            // into the surrounding script can turn a ReferenceError into a global
+            // property creation, so retain the class instead.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, e: &UpdateExpr) {
+        if self.in_class_static_initializer {
+            // Like assignments, updates of unresolved names throw in a class's
+            // strict-mode static initializer but can create globals when moved.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
 
     fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
         // Arrows capture `new.target` lexically. A class side-effect extraction
@@ -1616,6 +1640,31 @@ impl Visit for NonDiscardableDefaultVisitor {
         {
             self.found = true;
             return;
+        }
+
+        for member in &e.body {
+            let initializer = match member {
+                ClassMember::ClassProp(prop) if prop.is_static => prop.value.as_deref(),
+                ClassMember::PrivateProp(prop) if prop.is_static => prop.value.as_deref(),
+                ClassMember::StaticBlock(block) if block.body.stmts.len() == 1 => block
+                    .body
+                    .stmts
+                    .first()
+                    .and_then(|stmt| stmt.as_expr())
+                    .map(|stmt| &*stmt.expr),
+                _ => None,
+            };
+
+            if let Some(initializer) = initializer {
+                let was_in_class_static_initializer = self.in_class_static_initializer;
+                self.in_class_static_initializer = true;
+                initializer.visit_with(self);
+                self.in_class_static_initializer = was_in_class_static_initializer;
+
+                if self.found {
+                    return;
+                }
+            }
         }
 
         e.visit_children_with(self);
