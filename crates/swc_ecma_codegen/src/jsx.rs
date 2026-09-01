@@ -174,7 +174,7 @@ impl MacroNode for JSXExprContainer {
         punct!(emitter, "{");
         emitter.emit_trailing_comments_of_pos(self.span.lo + BytePos(1), true, false)?;
         emit!(self.expr);
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
         Ok(())
     }

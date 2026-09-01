@@ -10,7 +10,7 @@ use swc_common::{
 use swc_ecma_ast::{
     ArrayLit, AssignTarget, Bool, CallExpr, Callee, DebuggerStmt, Decl, EmptyStmt, EsVersion, Expr,
     ExprOrSpread, ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, JSXElementChild,
-    JSXElementName, Module, ModuleDecl, ModuleItem, ObjectPatProp, Pat, SeqExpr,
+    JSXElementName, JSXExpr, Module, ModuleDecl, ModuleItem, ObjectPatProp, Pat, SeqExpr,
     SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit, TsLitType, TsNonNullExpr, TsType,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -417,6 +417,47 @@ fn jsx_opening_delimiters_resume_after_dummy_siblings() {
         assert_source_location(&map, &code, "<real", 0, 32);
         assert_source_less_boundary(&map, &code, "<generated2");
         assert_source_location(&map, &code, "<>fragment", 0, 52);
+    }
+}
+
+#[test]
+fn real_jsx_expression_container_resumes_before_closing_delimiters() {
+    let source = "const element = <div>{value}</div>;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+        let JSXElementChild::JSXExprContainer(container) = &mut element.children[0] else {
+            panic!("expected a JSX expression container");
+        };
+        let JSXExpr::Expr(expr) = &mut container.expr else {
+            panic!("expected a JSX expression");
+        };
+        **expr = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, "}", 0, 27);
+        assert_source_location(&map, &code, "</", 0, 27);
+        assert_source_location(&map, &code, "after", 1, 0);
     }
 }
 
