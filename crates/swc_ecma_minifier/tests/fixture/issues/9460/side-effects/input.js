@@ -74,6 +74,16 @@ const proxyKey = new Proxy({}, {
 });
 const { objectValue = "object-default" } = { [proxyKey]: 1 };
 
+const defaultProxyKey = new Proxy({}, {
+    get(_, key) {
+        if (key === Symbol.toPrimitive) {
+            record("default-computed-key-coercion");
+            return () => "key";
+        }
+    }
+});
+const { defaultObjectValue = { [defaultProxyKey]: 1 } } = {};
+
 class B {}
 class C extends B {
     constructor() {

@@ -1498,8 +1498,12 @@ impl Visit for NonDiscardableDefaultVisitor {
 
     fn visit_object_lit(&mut self, e: &ObjectLit) {
         // Object spread performs observable property enumeration and access,
-        // even if the spread operand itself has no direct side effects.
-        if e.props.iter().any(PropOrSpread::is_spread) {
+        // while computed keys perform ToPropertyKey coercion. Neither operation
+        // is preserved by side-effect extraction when its operand is pure.
+        if e.props
+            .iter()
+            .any(|prop| !is_non_computed_object_prop(prop))
+        {
             self.found = true;
             return;
         }

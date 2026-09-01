@@ -49,7 +49,13 @@ const { objectValue = "object-default" } = {
             if (key === Symbol.toPrimitive) return record("computed-key-coercion"), ()=>"key";
         }
     })]: 1
-};
+}, defaultProxyKey = new Proxy({}, {
+    get (_, key) {
+        if (key === Symbol.toPrimitive) return record("default-computed-key-coercion"), ()=>"key";
+    }
+}), { defaultObjectValue = {
+    [defaultProxyKey]: 1
+} } = {};
 class B {
 }
 try {
