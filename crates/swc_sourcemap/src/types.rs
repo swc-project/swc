@@ -9,7 +9,7 @@ use std::{
 
 use bytes_str::BytesStr;
 use debugid::DebugId;
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use crate::{
     builder::SourceMapBuilder,
@@ -1060,36 +1060,39 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
     }
 
     // A source-less boundary also stops the preceding mapping in the
-    // intermediate source. Project the first boundary in each unmapped run
-    // back through that mapping so tokens skipped before the next mapped
-    // segment cannot be composed through the preceding segment.
-    let mut previous_mapped: Option<&RawToken> = None;
+    // intermediate source. Walk backwards so the end comes from the nearest
+    // later mapping for the same source, even when mappings from other sources
+    // are interleaved in generated order.
+    let mut next_mapped_by_source: FxHashMap<u32, &RawToken> = FxHashMap::default();
     let mut first_unmapped = None;
     let mut unmapped_source_ranges = Vec::new();
-    for token in &tokens {
+    for token in tokens.iter().rev() {
         if token.src_id == !0 {
-            first_unmapped.get_or_insert(token);
+            first_unmapped = Some(token);
             continue;
         }
 
-        if let (Some(previous), Some(unmapped)) = (previous_mapped, first_unmapped.take()) {
+        if let (Some(next), Some(unmapped)) = (
+            next_mapped_by_source.get(&token.src_id),
+            first_unmapped.take(),
+        ) {
             let start = offset_position(
                 (unmapped.dst_line, unmapped.dst_col),
-                previous.src_line as i64 - previous.dst_line as i64,
-                previous.src_col as i64 - previous.dst_col as i64,
+                token.src_line as i64 - token.dst_line as i64,
+                token.src_col as i64 - token.dst_col as i64,
             );
             if let Some(start) = start {
-                let end = std::cmp::min((token.src_line, token.src_col), (start.0, u32::MAX));
+                let end = std::cmp::min((next.src_line, next.src_col), (start.0, u32::MAX));
                 if start < end {
                     unmapped_source_ranges.push(SourceRange {
-                        src_id: previous.src_id,
+                        src_id: token.src_id,
                         range: PositionRange { start, end },
                     });
                 }
             }
         }
 
-        previous_mapped = Some(token);
+        next_mapped_by_source.insert(token.src_id, token);
     }
 
     let (unmapped_tokens, mapped_tokens) = tokens.into_iter().partition(|token| token.src_id == !0);
@@ -2142,6 +2145,43 @@ mod tests {
             .expect("b.js mapping should be preserved");
         assert_eq!(token.get_src(), (0, 10));
         assert_eq!(composed.get_source(token.get_src_id()).unwrap(), "b.js");
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_ends_unmapped_ranges_at_same_source() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let source_a = bundled_builder.add_source("a.js".into());
+        let source_b = bundled_builder.add_source("b.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(source_a), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 20, Some(source_b), None, false);
+        bundled_builder.add_raw(0, 24, 0, 10, Some(source_a), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "a.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,UAAU"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (0, 24))
+            .expect("later a.js mapping should be preserved");
+        assert_eq!(token.get_src(), (0, 10));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
     }
 
     #[test]
