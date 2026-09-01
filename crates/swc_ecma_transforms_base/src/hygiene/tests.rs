@@ -357,27 +357,27 @@ fn mangling_respects_non_finite_output_symbols() {
     });
 }
 
-#[test]
-fn mangling_respects_preserved_names_in_relevant_scopes() {
-    struct PreservedNameMangler;
+struct PreservedNameMangler;
 
-    impl Renamer for PreservedNameMangler {
-        type Target = Atom;
+impl Renamer for PreservedNameMangler {
+    type Target = Atom;
 
-        const MANGLE: bool = true;
-        const RESET_N: bool = false;
+    const MANGLE: bool = true;
+    const RESET_N: bool = false;
 
-        fn new_name_for(&self, _orig: &Id, n: &mut usize) -> Atom {
-            let symbol = if *n == 0 { "kept" } else { "safe" };
-            *n += 1;
-            symbol.into()
-        }
-
-        fn preserve_name(&self, orig: &Id) -> bool {
-            orig.0 == "kept"
-        }
+    fn new_name_for(&self, _orig: &Id, n: &mut usize) -> Atom {
+        let symbol = if *n == 0 { "kept" } else { "safe" };
+        *n += 1;
+        symbol.into()
     }
 
+    fn preserve_name(&self, orig: &Id) -> bool {
+        orig.0 == "kept"
+    }
+}
+
+#[test]
+fn mangling_respects_preserved_names_in_relevant_scopes() {
     crate::tests::Tester::run(|tester| {
         let kept_mark = Mark::fresh(Mark::root());
         let used_mark = Mark::fresh(Mark::root());
@@ -405,6 +405,41 @@ fn mangling_respects_preserved_names_in_relevant_scopes() {
             "expected.js",
             "let safe; let kept; console.log(safe, kept); { let safe; console.log(kept, safe); } \
              { let kept; console.log(kept); }",
+        )?;
+        let expected = tester.print(&Program::Module(expected));
+
+        assert_eq!(DebugUsingDisplay(&actual), DebugUsingDisplay(&expected));
+
+        Ok(())
+    });
+}
+
+#[test]
+fn mangling_respects_preserved_names_in_descendant_scopes() {
+    crate::tests::Tester::run(|tester| {
+        let used_mark = Mark::fresh(Mark::root());
+        let kept_mark = Mark::fresh(Mark::root());
+        let unrelated_mark = Mark::fresh(Mark::root());
+        let mut program = Program::Module(
+            tester
+                .parse_module(
+                    "actual.js",
+                    "let used; { let kept; console.log(used, kept); } { let unrelated; \
+                     console.log(unrelated); }",
+                )?
+                .fold_with(&mut marker(&[
+                    ("used", used_mark),
+                    ("kept", kept_mark),
+                    ("unrelated", unrelated_mark),
+                ])),
+        );
+
+        program.visit_mut_with(&mut renamer(Default::default(), PreservedNameMangler));
+
+        let actual = tester.print(&program);
+        let expected = tester.parse_module(
+            "expected.js",
+            "let safe; { let kept; console.log(safe, kept); } { let kept; console.log(kept); }",
         )?;
         let expected = tester.print(&Program::Module(expected));
 
