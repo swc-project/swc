@@ -74,6 +74,15 @@ const proxyKey = new Proxy({}, {
 });
 const { objectValue = "object-default" } = { [proxyKey]: 1 };
 
+const { protoValue = "proto-default" } = {
+    "__proto__": {
+        get protoValue() {
+            record("quoted-proto-getter");
+            return undefined;
+        }
+    }
+};
+
 const defaultProxyKey = new Proxy({}, {
     get(_, key) {
         if (key === Symbol.toPrimitive) {

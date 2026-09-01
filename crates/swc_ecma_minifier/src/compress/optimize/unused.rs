@@ -386,10 +386,8 @@ impl Optimizer<'_> {
                         Prop::KeyValue(k) => {
                             // Check if `k` is __proto__
 
-                            if let PropName::Ident(i) = &k.key {
-                                if i.sym == "__proto__" {
-                                    return true;
-                                }
+                            if is_proto_key(&k.key) {
+                                return true;
                             }
 
                             false
@@ -1452,7 +1450,7 @@ fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
         PropOrSpread::Spread(..) => false,
         PropOrSpread::Prop(prop) => match &**prop {
             Prop::Shorthand(..) | Prop::Assign(..) => true,
-            Prop::KeyValue(prop) => !prop.key.is_computed(),
+            Prop::KeyValue(prop) => !prop.key.is_computed() && !is_proto_key(&prop.key),
             Prop::Getter(prop) => !prop.key.is_computed(),
             Prop::Setter(prop) => !prop.key.is_computed(),
             Prop::Method(prop) => !prop.key.is_computed(),
@@ -1461,6 +1459,15 @@ fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
         },
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
+    }
+}
+
+/// Returns true for object literal keys with special `__proto__` semantics.
+fn is_proto_key(key: &PropName) -> bool {
+    match key {
+        PropName::Ident(ident) => ident.sym == "__proto__",
+        PropName::Str(string) => string.value.as_str() == Some("__proto__"),
+        _ => false,
     }
 }
 
@@ -1503,6 +1510,11 @@ impl Visit for NonDiscardableDefaultVisitor {
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
     fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_decorator(&mut self, _: &Decorator) {
+        // `extract_class_side_effect` does not retain class or member decorators.
+        self.found = true;
+    }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         // `this` can be uninitialized before `super()` in a derived constructor.
