@@ -114,6 +114,8 @@ impl MacroNode for DebuggerStmt {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap!(emitter, self, true);
+
         keyword!(emitter, self.span, "debugger");
         semi!(emitter);
 

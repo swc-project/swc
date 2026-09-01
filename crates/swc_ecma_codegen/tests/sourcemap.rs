@@ -8,9 +8,9 @@ use swc_common::{
     LineCol, SourceMap as CommonSourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::{
-    ArrayLit, AssignTarget, Bool, CallExpr, Callee, Decl, EmptyStmt, EsVersion, Expr, ExprOrSpread,
-    ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, Module, ModuleDecl, ModuleItem, Pat,
-    SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit, TsLitType, TsType,
+    ArrayLit, AssignTarget, Bool, CallExpr, Callee, DebuggerStmt, Decl, EmptyStmt, EsVersion, Expr,
+    ExprOrSpread, ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, Module, ModuleDecl,
+    ModuleItem, Pat, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit, TsLitType, TsType,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
@@ -219,7 +219,7 @@ fn dummy_span_between_mapped_regions_clears_mapping() {
 
 #[test]
 fn dummy_leaf_nodes_between_mapped_regions_clear_mapping() {
-    let source = "before();\nmiddle();\nafter();\n";
+    let source = "before();\nmiddle();\nlater();\nafter();\n";
     let cm = Lrc::<CommonSourceMap>::default();
     let (mut module, comments) = parse_module(&cm, source);
 
@@ -234,6 +234,10 @@ fn dummy_leaf_nodes_between_mapped_regions_clear_mapping() {
             expr: Box::new(Expr::Invalid(Invalid { span: DUMMY_SP })),
         })),
     );
+    module.body.insert(
+        5,
+        ModuleItem::Stmt(Stmt::Debugger(DebuggerStmt { span: DUMMY_SP })),
+    );
 
     let (code, map, mappings) = emit_source_map(cm, &comments, &module, true, true, None);
 
@@ -241,13 +245,15 @@ fn dummy_leaf_nodes_between_mapped_regions_clear_mapping() {
     assert_source_less_boundary(&map, &code, ";middle");
     assert_source_location(&map, &code, "middle", 1, 0);
     assert_source_less_boundary(&map, &code, "<invalid>");
-    assert_source_location(&map, &code, "after", 2, 0);
+    assert_source_location(&map, &code, "later", 2, 0);
+    assert_source_less_boundary(&map, &code, "debugger");
+    assert_source_location(&map, &code, "after", 3, 0);
     assert_eq!(
         mappings
             .iter()
             .filter(|(pos, _)| *pos == BytePos::SYNTHESIZED)
             .count(),
-        2,
+        3,
         "each generated leaf region should have one source-less boundary: {code}"
     );
 }
