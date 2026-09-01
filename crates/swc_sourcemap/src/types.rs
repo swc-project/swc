@@ -992,6 +992,10 @@ struct PositionRange {
 fn split_unmapped_tokens(
     mut tokens: Vec<RawToken>,
 ) -> (Vec<RawToken>, Vec<RawToken>, Vec<PositionRange>) {
+    if tokens.iter().all(|token| token.src_id != !0) {
+        return (tokens, Vec::new(), Vec::new());
+    }
+
     tokens.sort_unstable_by_key(|token| (token.dst_line, token.dst_col));
 
     let mut unmapped_ranges = Vec::new();
@@ -1750,8 +1754,11 @@ mod tests {
 
     use debugid::DebugId;
 
-    use super::{DecodedMap, RewriteOptions, SourceMap, SourceMapIndex, SourceMapSection};
-    use crate::{lazy::MaybeRawValue, SourceMapBuilder};
+    use super::{
+        split_unmapped_tokens, DecodedMap, RewriteOptions, SourceMap, SourceMapIndex,
+        SourceMapSection,
+    };
+    use crate::{lazy::MaybeRawValue, RawToken, SourceMapBuilder};
 
     fn map_with_scopes() -> SourceMap {
         SourceMap::from_slice(
@@ -1853,6 +1860,37 @@ mod tests {
                 "bundler = {bundler}"
             );
         }
+    }
+
+    #[test]
+    fn split_unmapped_tokens_preserves_all_mapped_tokens() {
+        let tokens = vec![
+            RawToken {
+                dst_line: 1,
+                dst_col: 0,
+                src_line: 1,
+                src_col: 0,
+                src_id: 0,
+                name_id: !0,
+                is_range: false,
+            },
+            RawToken {
+                dst_line: 0,
+                dst_col: 0,
+                src_line: 0,
+                src_col: 0,
+                src_id: 0,
+                name_id: !0,
+                is_range: false,
+            },
+        ];
+
+        let (mapped_tokens, unmapped_tokens, unmapped_ranges) =
+            split_unmapped_tokens(tokens.clone());
+
+        assert_eq!(mapped_tokens, tokens);
+        assert!(unmapped_tokens.is_empty());
+        assert!(unmapped_ranges.is_empty());
     }
 
     #[test]

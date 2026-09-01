@@ -139,11 +139,13 @@ macro_rules! semi {
 macro_rules! srcmap {
     ($emitter:expr, $n:expr, true) => {{
         let lo = $n.span_lo();
-        $emitter.wr.add_srcmap(if lo.is_dummy() {
-            swc_common::BytePos::SYNTHESIZED
+        if lo.is_dummy() {
+            if $emitter.wr.care_about_srcmap() {
+                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
+            }
         } else {
-            lo
-        })?;
+            $emitter.wr.add_srcmap(lo)?;
+        }
     }};
     ($emitter:expr, $n:expr, false) => {
         srcmap!($emitter, $n, false, false)
@@ -153,15 +155,15 @@ macro_rules! srcmap {
         if $subtract && !hi.is_dummy() {
             // hi is exclusive
             $emitter.wr.add_srcmap(hi - swc_common::BytePos(1))?;
-        } else {
-            $emitter.wr.add_srcmap(if hi.is_dummy() {
+        } else if hi.is_dummy() {
+            if $emitter.wr.care_about_srcmap() {
                 // Token writers also use DUMMY_SP when an enclosing real node
                 // already supplied the mapping. Only node boundaries convert
                 // it to an explicitly source-less segment.
-                swc_common::BytePos::SYNTHESIZED
-            } else {
-                hi
-            })?;
+                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
+            }
+        } else {
+            $emitter.wr.add_srcmap(hi)?;
         }
     };
 }
@@ -172,7 +174,7 @@ macro_rules! srcmap {
 /// where mapping to `span.hi` would be inaccurate for parsed source.
 macro_rules! srcmap_if_dummy {
     ($emitter:expr, $n:expr) => {{
-        if $n.span_lo().is_dummy() {
+        if $n.span_lo().is_dummy() && $emitter.wr.care_about_srcmap() {
             $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
         }
     }};
