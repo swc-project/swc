@@ -3,12 +3,192 @@ use std::{fs::read_to_string, path::PathBuf};
 use base64::prelude::{Engine, BASE64_STANDARD};
 use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
-use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
-use swc_ecma_ast::EsVersion;
+use swc_common::{
+    comments::SingleThreadedComments, source_map::SourceMapGenConfig, sync::Lrc, BytePos, FileName,
+    LineCol, SourceMap as CommonSourceMap, DUMMY_SP,
+};
+use swc_ecma_ast::{EsVersion, ImportDecl, ImportPhase, Module, ModuleDecl, ModuleItem, Str};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_sourcemap::SourceMap;
+
+fn generated_import() -> ModuleItem {
+    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+        span: DUMMY_SP,
+        specifiers: Vec::new(),
+        src: Box::new(Str {
+            span: DUMMY_SP,
+            value: "generated-only".into(),
+            raw: None,
+        }),
+        type_only: false,
+        with: None,
+        phase: ImportPhase::Evaluation,
+    }))
+}
+
+fn parse_module(cm: &Lrc<CommonSourceMap>, source: &str) -> (Module, SingleThreadedComments) {
+    let fm = cm.new_source_file(
+        FileName::Custom("source.js".into()).into(),
+        source.to_owned(),
+    );
+    let comments = SingleThreadedComments::default();
+    let lexer = Lexer::new(
+        Syntax::default(),
+        Default::default(),
+        (&*fm).into(),
+        Some(&comments),
+    );
+    let mut parser = Parser::new_from(lexer);
+    let module = parser.parse_module().expect("failed to parse test module");
+    assert!(parser.take_errors().is_empty());
+
+    (module, comments)
+}
+
+fn emit_source_map(
+    cm: Lrc<CommonSourceMap>,
+    comments: &SingleThreadedComments,
+    module: &Module,
+    minify: bool,
+    emit_columns: bool,
+) -> (String, SourceMap, Vec<(BytePos, LineCol)>) {
+    let mut code = Vec::new();
+    let mut mappings = Vec::new();
+    {
+        let wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+            cm.clone(),
+            "\n",
+            &mut code,
+            Some(&mut mappings),
+        )) as Box<dyn WriteJs>;
+        let mut emitter = Emitter {
+            cfg: swc_ecma_codegen::Config::default().with_minify(minify),
+            cm: cm.clone(),
+            wr,
+            comments: Some(comments),
+        };
+        emitter.emit_module(module).unwrap();
+    }
+
+    let map = cm.build_source_map(&mappings, None, SourceMapConfigImpl { emit_columns });
+
+    (String::from_utf8(code).unwrap(), map, mappings)
+}
+
+fn generated_position(code: &str, needle: &str) -> (u32, u32) {
+    let offset = code.find(needle).expect("generated text not found");
+    let prefix = &code[..offset];
+    let line = prefix.bytes().filter(|&byte| byte == b'\n').count() as u32;
+    let line_start = prefix.rfind('\n').map_or(0, |index| index + 1);
+    let col = code[line_start..offset].encode_utf16().count() as u32;
+
+    (line, col)
+}
+
+fn assert_source_location(
+    map: &SourceMap,
+    code: &str,
+    needle: &str,
+    expected_line: u32,
+    expected_col: u32,
+) {
+    let (line, col) = generated_position(code, needle);
+    let token = map
+        .lookup_token(line, col)
+        .unwrap_or_else(|| panic!("missing mapping for {needle:?} at {line}:{col}"));
+    assert!(token.has_source(), "{needle:?} should have a source");
+    assert_eq!(token.get_src_line(), expected_line, "line for {needle:?}");
+    assert_eq!(token.get_src_col(), expected_col, "column for {needle:?}");
+}
+
+fn assert_source_less(map: &SourceMap, code: &str, needle: &str) {
+    let (line, col) = generated_position(code, needle);
+    if let Some(token) = map.lookup_token(line, col) {
+        assert!(
+            !token.has_source(),
+            "{needle:?} unexpectedly maps to {}:{}",
+            token.get_src_line(),
+            token.get_src_col()
+        );
+    }
+}
+
+fn assert_source_less_boundary(map: &SourceMap, code: &str, needle: &str) {
+    let (line, col) = generated_position(code, needle);
+    let token = map
+        .lookup_token(line, col)
+        .unwrap_or_else(|| panic!("missing source-less boundary for {needle:?} at {line}:{col}"));
+    assert!(!token.has_source(), "{needle:?} should clear its mapping");
+}
+
+#[test]
+fn dummy_span_import_is_source_less() {
+    let source =
+        "/* leading comment */\nvar first;\nimport value from './value.js';\nconsole.log(value);\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        module.body.insert(0, generated_import());
+
+        let (code, map, mappings) = emit_source_map(cm, &comments, &module, minify, true);
+
+        assert_source_location(&map, &code, "/* leading comment */", 0, 0);
+        assert_source_less(&map, &code, "generated-only");
+        assert_source_location(&map, &code, "var first", 1, 0);
+        assert_source_location(&map, &code, "import value", 2, 0);
+        assert_source_location(&map, &code, "log(value)", 3, 8);
+        assert_eq!(
+            mappings
+                .iter()
+                .filter(|(pos, _)| *pos == BytePos::SYNTHESIZED)
+                .count(),
+            0,
+            "an initially unmapped generated region needs no boundary: {code}"
+        );
+    }
+}
+
+#[test]
+fn dummy_span_between_mapped_regions_clears_mapping() {
+    let source = "before();\nafter();\n";
+
+    for minify in [false, true] {
+        for emit_columns in [false, true] {
+            let cm = Lrc::<CommonSourceMap>::default();
+            let (mut module, comments) = parse_module(&cm, source);
+            module.body.insert(1, generated_import());
+
+            let (code, map, mappings) =
+                emit_source_map(cm, &comments, &module, minify, emit_columns);
+
+            assert_source_location(&map, &code, "before", 0, 0);
+            assert_source_less_boundary(&map, &code, "generated-only");
+            assert_source_location(&map, &code, "after", 1, 0);
+            assert_eq!(
+                mappings
+                    .iter()
+                    .filter(|(pos, _)| *pos == BytePos::SYNTHESIZED)
+                    .count(),
+                1,
+                "dummy source-map events should be deduplicated: {code}"
+            );
+        }
+    }
+}
+
+#[test]
+fn empty_module_source_map_stays_empty() {
+    let cm = Lrc::<CommonSourceMap>::default();
+    let (module, comments) = parse_module(&cm, "");
+    let (code, map, mappings) = emit_source_map(cm, &comments, &module, false, true);
+
+    assert!(code.is_empty());
+    assert!(mappings.is_empty());
+    assert_eq!(map.get_token_count(), 0);
+}
 
 static IGNORED_PASS_TESTS: &[&str] = &[
     // Temporally ignored
@@ -357,7 +537,8 @@ fn identity(entry: PathBuf) {
         }
 
         let actual_code = String::from_utf8(wr).unwrap();
-        let actual_map = cm.build_source_map(&src_map, None, SourceMapConfigImpl);
+        let actual_map =
+            cm.build_source_map(&src_map, None, SourceMapConfigImpl { emit_columns: true });
 
         let visualizer_url_for_actual = visualizer_url(&actual_code, &actual_map);
 
@@ -499,7 +680,9 @@ fn visualizer_url(code: &str, map: &SourceMap) -> String {
     format!("https://evanw.github.io/source-map-visualization/#{hash}")
 }
 
-struct SourceMapConfigImpl;
+struct SourceMapConfigImpl {
+    emit_columns: bool,
+}
 
 impl SourceMapGenConfig for SourceMapConfigImpl {
     fn file_name_to_source(&self, f: &swc_common::FileName) -> String {
@@ -508,5 +691,9 @@ impl SourceMapGenConfig for SourceMapConfigImpl {
 
     fn inline_sources_content(&self, _: &swc_common::FileName) -> bool {
         true
+    }
+
+    fn emit_columns(&self, _: &swc_common::FileName) -> bool {
+        self.emit_columns
     }
 }

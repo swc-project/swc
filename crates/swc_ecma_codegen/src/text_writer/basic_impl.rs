@@ -22,11 +22,19 @@ pub struct JsWriter<'a, W: Write> {
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     srcmap_done: HashSet<(BytePos, u32, u32), FxBuildHasher>,
+    srcmap_state: SourceMapState,
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
     scopes: Option<&'a mut Vec<ScopeRecord>>,
     scope_stack: Vec<u32>,
+}
+
+#[derive(Clone, Copy, Default, PartialEq, Eq)]
+enum SourceMapState {
+    Mapped,
+    #[default]
+    Unmapped,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
@@ -57,6 +65,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             wr,
             pending_srcmap: Default::default(),
             srcmap_done: Default::default(),
+            srcmap_state: Default::default(),
             scopes,
             scope_stack: Default::default(),
         }
@@ -164,9 +173,30 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     #[inline]
-    fn srcmap(&mut self, byte_pos: BytePos) {
-        if byte_pos.is_dummy() && byte_pos != BytePos(u32::MAX) {
+    fn srcmap(&mut self, mut byte_pos: BytePos) {
+        if self.srcmap.is_none() {
             return;
+        }
+
+        // Low-level token writers use DUMMY when an enclosing node already
+        // supplied the source mapping. Generated nodes use SYNTHESIZED
+        // explicitly so these two cases remain distinguishable.
+        if byte_pos.is_dummy() {
+            return;
+        }
+
+        if byte_pos == BytePos::SYNTHESIZED {
+            if self.srcmap_state == SourceMapState::Unmapped {
+                return;
+            }
+
+            // A synthesized position is an unmapped source-map segment. One
+            // segment is enough to clear the preceding mapping for a whole
+            // contiguous region of generated output.
+            byte_pos = BytePos::SYNTHESIZED;
+            self.srcmap_state = SourceMapState::Unmapped;
+        } else {
+            self.srcmap_state = SourceMapState::Mapped;
         }
 
         if let Some(ref mut srcmap) = self.srcmap {

@@ -139,23 +139,29 @@ macro_rules! semi {
 macro_rules! srcmap {
     ($emitter:expr, $n:expr, true) => {{
         let lo = $n.span_lo();
-        if !lo.is_dummy() {
-            $emitter.wr.add_srcmap(lo)?;
-        }
+        $emitter.wr.add_srcmap(if lo.is_dummy() {
+            swc_common::BytePos::SYNTHESIZED
+        } else {
+            lo
+        })?;
     }};
     ($emitter:expr, $n:expr, false) => {
         srcmap!($emitter, $n, false, false)
     };
     ($emitter:expr, $n:expr, false, $subtract:expr) => {
         let hi = $n.span_hi();
-        if !hi.is_dummy() {
-            if $subtract {
-                // hi is exclusive
-                $emitter.wr.add_srcmap(hi - swc_common::BytePos(1))?;
+        if $subtract && !hi.is_dummy() {
+            // hi is exclusive
+            $emitter.wr.add_srcmap(hi - swc_common::BytePos(1))?;
+        } else {
+            $emitter.wr.add_srcmap(if hi.is_dummy() {
+                // Token writers also use DUMMY_SP when an enclosing real node
+                // already supplied the mapping. Only node boundaries convert
+                // it to an explicitly source-less segment.
+                swc_common::BytePos::SYNTHESIZED
             } else {
-                // TODO(kdy1): Remove this branch.
-                $emitter.wr.add_srcmap(hi)?;
-            }
+                hi
+            })?;
         }
     };
 }
