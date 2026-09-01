@@ -22,7 +22,9 @@ use crate::{
     retain::{should_retain_module_item, should_retain_stmt},
     semantic::SemanticInfo,
     shared::enum_member_name,
-    ts_enum::{static_enum_member_name, EnumValueComputer, TsEnumRecordKey, TsEnumRecordValue},
+    ts_enum::{
+        static_enum_member_name, EnumValueComputer, EvalCtx, TsEnumRecordKey, TsEnumRecordValue,
+    },
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
 
@@ -1119,6 +1121,10 @@ impl Transform {
             enum_id: &id.to_id(),
             unresolved_ctxt: self.unresolved_ctxt,
             record: &self.semantic.enum_record,
+            const_vars: &self.semantic.const_vars,
+            const_enum_only: None,
+            ambient_record: &self.semantic.ambient_enum_record,
+            ambient_const_enum_only: None,
         };
 
         let member_list: Vec<_> = members
@@ -1140,7 +1146,7 @@ impl Transform {
                         // references can be rewritten to runtime property
                         // accesses. Implicit Flow enum members do not have an
                         // initializer, so keep the semantic value as-is.
-                        let mut recomputed = enum_computer.compute(init);
+                        let mut recomputed = enum_computer.compute(init, EvalCtx::RECOMPUTE);
                         if let TsEnumRecordValue::Opaque(expr) = &mut recomputed {
                             expr.visit_mut_with(&mut RefRewriter {
                                 query: EnumMemberRefQuery {

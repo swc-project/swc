@@ -1,4 +1,4 @@
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{wtf8::Wtf8Buf, Atom, Wtf8Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -97,6 +97,26 @@ pub(crate) struct EnumValueComputer<'a> {
     pub enum_id: &'a Id,
     pub unresolved_ctxt: SyntaxContext,
     pub record: &'a TsEnumRecord,
+    pub const_vars: &'a FxHashMap<Id, TsEnumRecordValue>,
+    /// When `Some`, only enums in this set may be resolved through a member
+    /// expression.
+    ///
+    /// Mirrors the `ts_enum_is_mutable` guard in `transform.rs`: a non-const
+    /// enum can be reassigned at runtime, so reads of its members are not
+    /// compile-time constants and must stay opaque.
+    pub const_enum_only: Option<&'a FxHashSet<Id>>,
+    /// Members of ambient (`declare`) enums. Kept separate from `record` so
+    /// only the evaluator sees them: `tsc` folds them inside enum and const
+    /// initializers but never rewrites runtime reads of the ambient object,
+    /// and the inliner keys on `record` membership.
+    pub ambient_record: &'a TsEnumRecord,
+    /// Applied to the ambient fallback only: under `tsEnumIsMutable` a plain
+    /// ambient enum is a runtime object that can be reassigned like any other
+    /// non-const enum, so only ambient `const enum` members may resolve.
+    /// Unlike `const_enum_only`, this does not touch the primary record — how
+    /// concrete enum reads behave under the option predates the ambient
+    /// support (see swc-project/swc#12151).
+    pub ambient_const_enum_only: Option<&'a FxHashSet<Id>>,
 }
 
 /// Returns a statically known enum member key without discarding lone
@@ -117,20 +137,98 @@ pub(crate) fn static_enum_member_name(property: &MemberProp) -> Option<Wtf8Atom>
     }
 }
 
+/// Evaluation context for [`EnumValueComputer::compute_rec`].
+///
+/// TypeScript decides enum member constness from the *syntactic* form of the
+/// initializer, without type resolution. See
+/// https://github.com/microsoft/TypeScript/pull/50528 and the constraints
+/// described in https://github.com/evanw/esbuild/issues/4387.
+#[derive(Clone, Copy)]
+pub(crate) struct EvalCtx {
+    /// Whether a reference to a `const` binding may be resolved to its value.
+    /// Disabled under type syntax: `enum E { A = foo as string }` is not a
+    /// constant for TypeScript even when `foo` is.
+    allow_const_var: bool,
+    /// Whether type syntax makes the whole expression non-constant instead of
+    /// being stripped. Used when evaluating a `const` initializer, where any
+    /// annotation or assertion removes constness.
+    ts_is_opaque: bool,
+}
+
+impl EvalCtx {
+    /// Context for a `const` variable initializer.
+    pub(crate) const CONST_INIT: Self = Self {
+        allow_const_var: true,
+        ts_is_opaque: true,
+    };
+    /// Context for an enum member initializer.
+    pub(crate) const MEMBER: Self = Self {
+        allow_const_var: true,
+        ts_is_opaque: false,
+    };
+    /// Context for re-computing a member whose value the pre-pass already
+    /// classified as non-constant. Resolving `const` bindings here would
+    /// override that verdict: the binding map is complete by this point, and
+    /// type assertions have already been stripped from the initializer.
+    pub(crate) const RECOMPUTE: Self = Self {
+        allow_const_var: false,
+        ts_is_opaque: false,
+    };
+}
+
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl EnumValueComputer<'_> {
-    pub fn compute(&self, expr: Box<Expr>) -> TsEnumRecordValue {
-        self.compute_rec(expr)
+    /// Whether [`Self::compute`] could fold this expression at all, decided
+    /// from its outermost form alone.
+    ///
+    /// `compute` takes the expression by value, so evaluating an initializer
+    /// means cloning it. Every form not listed here hits the `Opaque`
+    /// catch-all immediately, and `const` initializers in real TypeScript are
+    /// mostly arrow functions, object literals and calls — cloning those to
+    /// discard the result dominated the cost of the collection pass.
+    ///
+    /// Kept in sync with the arms of `compute_rec`. An omission here can only
+    /// under-fold; it can never produce a wrong value.
+    pub fn can_fold_shape(expr: &Expr) -> bool {
+        matches!(
+            expr,
+            Expr::Lit(..)
+                | Expr::Ident(..)
+                | Expr::Paren(..)
+                | Expr::Unary(..)
+                | Expr::Bin(..)
+                | Expr::Member(..)
+                | Expr::Tpl(..)
+                | Expr::TsAs(..)
+                | Expr::TsNonNull(..)
+                | Expr::TsTypeAssertion(..)
+                | Expr::TsConstAssertion(..)
+                | Expr::TsInstantiation(..)
+                | Expr::TsSatisfies(..)
+        )
     }
 
-    fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
+    pub fn compute(&self, expr: Box<Expr>, ctx: EvalCtx) -> TsEnumRecordValue {
+        self.compute_rec(expr, ctx)
+    }
+
+    fn compute_rec(&self, expr: Box<Expr>, ctx: EvalCtx) -> TsEnumRecordValue {
         match *expr {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n),
             Expr::Ident(ref ident) if ident.ctxt == self.unresolved_ctxt => {
-                if let Some(value) = self.record.get(&TsEnumRecordKey {
+                let key = TsEnumRecordKey {
                     enum_id: self.enum_id.clone(),
                     member_name: ident.sym.clone().into(),
+                };
+
+                if let Some(value) = self.record.get(&key).or_else(|| {
+                    // Same rules as `compute_member`: crossing type syntax
+                    // clears `allow_const_var`, and under mutable enums only
+                    // ambient `const enum` siblings may resolve.
+                    (ctx.allow_const_var && self.ambient_is_resolvable(&key.enum_id))
+                        .then(|| self.ambient_record.get(&key))
+                        .flatten()
                 }) {
                     if value.is_const() {
                         value.clone()
@@ -155,29 +253,51 @@ impl EnumValueComputer<'_> {
                     }
                 }
             }
-            Expr::Paren(e) => self.compute_rec(e.expr),
-            Expr::Unary(e) => self.compute_unary(e),
-            Expr::Bin(e) => self.compute_bin(e),
-            Expr::Member(e) => self.compute_member(e),
-            Expr::Tpl(e) => self.compute_tpl(e),
+            // A reference to a `const` binding whose initializer is a constant
+            // expression. TypeScript treats it as a compile-time constant, so
+            // the member is emitted as a string enum instead of a reverse
+            // mapping. Only reachable when not under type syntax.
+            Expr::Ident(ref ident) if ctx.allow_const_var => self
+                .const_vars
+                .get(&ident.to_id())
+                .cloned()
+                .unwrap_or_else(|| TsEnumRecordValue::Opaque(expr)),
+            Expr::Paren(e) => self.compute_rec(e.expr, ctx),
+            Expr::Unary(e) => self.compute_unary(e, ctx),
+            Expr::Bin(e) => self.compute_bin(e, ctx),
+            Expr::Member(e) => self.compute_member(e, ctx),
+            Expr::Tpl(e) => self.compute_tpl(e, ctx),
             // Handle TypeScript type expressions by stripping them
             // and computing the inner expression
-            Expr::TsAs(TsAsExpr { expr, .. })
-            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-            | Expr::TsInstantiation(TsInstantiation { expr, .. })
-            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => self.compute_rec(expr),
+            Expr::TsAs(TsAsExpr { expr: inner, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr: inner, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr: inner, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr: inner, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr: inner, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr: inner, .. }) => {
+                if ctx.ts_is_opaque {
+                    // Any annotation or assertion removes constness from a
+                    // `const` initializer.
+                    return TsEnumRecordValue::Opaque(inner);
+                }
+                self.compute_rec(
+                    inner,
+                    EvalCtx {
+                        allow_const_var: false,
+                        ..ctx
+                    },
+                )
+            }
             _ => TsEnumRecordValue::Opaque(expr),
         }
     }
 
-    fn compute_unary(&self, expr: UnaryExpr) -> TsEnumRecordValue {
+    fn compute_unary(&self, expr: UnaryExpr, ctx: EvalCtx) -> TsEnumRecordValue {
         if !matches!(expr.op, op!(unary, "+") | op!(unary, "-") | op!("~")) {
             return TsEnumRecordValue::Opaque(expr.into());
         }
 
-        let inner = self.compute_rec(expr.arg);
+        let inner = self.compute_rec(expr.arg, ctx);
 
         let TsEnumRecordValue::Number(num) = inner else {
             return TsEnumRecordValue::Opaque(
@@ -198,7 +318,7 @@ impl EnumValueComputer<'_> {
         }
     }
 
-    fn compute_bin(&self, expr: BinExpr) -> TsEnumRecordValue {
+    fn compute_bin(&self, expr: BinExpr, ctx: EvalCtx) -> TsEnumRecordValue {
         let origin_expr = expr.clone();
         if !matches!(
             expr.op,
@@ -218,8 +338,8 @@ impl EnumValueComputer<'_> {
             return TsEnumRecordValue::Opaque(origin_expr.into());
         }
 
-        let left = self.compute_rec(expr.left);
-        let right = self.compute_rec(expr.right);
+        let left = self.compute_rec(expr.left, ctx);
+        let right = self.compute_rec(expr.right, ctx);
 
         if expr.op == BinaryOp::Add && (left.is_string() || right.is_string()) {
             let mut value = Wtf8Buf::new();
@@ -267,7 +387,12 @@ impl EnumValueComputer<'_> {
         }
     }
 
-    fn compute_member(&self, expr: MemberExpr) -> TsEnumRecordValue {
+    fn ambient_is_resolvable(&self, enum_id: &Id) -> bool {
+        self.ambient_const_enum_only
+            .map_or(true, |set| set.contains(enum_id))
+    }
+
+    fn compute_member(&self, expr: MemberExpr, ctx: EvalCtx) -> TsEnumRecordValue {
         let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
 
         let Some(member_name) = static_enum_member_name(&expr.prop) else {
@@ -278,17 +403,38 @@ impl EnumValueComputer<'_> {
             return opaque_expr;
         };
 
+        let enum_id = ident.to_id();
+
+        if self
+            .const_enum_only
+            .is_some_and(|set| !set.contains(&enum_id))
+        {
+            return opaque_expr;
+        }
+
+        let key = TsEnumRecordKey {
+            enum_id,
+            member_name,
+        };
+
+        // `allow_const_var` is cleared when evaluation crosses type syntax, so
+        // an ambient member reached through an assertion is not a constant
+        // enum expression. Only the ambient lookup is guarded: the concrete
+        // path folds these today (swc-project/swc#12150) and changing it here
+        // would revert #11769.
         self.record
-            .get(&TsEnumRecordKey {
-                enum_id: ident.to_id(),
-                member_name,
+            .get(&key)
+            .or_else(|| {
+                (ctx.allow_const_var && self.ambient_is_resolvable(&key.enum_id))
+                    .then(|| self.ambient_record.get(&key))
+                    .flatten()
             })
             .cloned()
             .filter(TsEnumRecordValue::has_value)
             .unwrap_or(opaque_expr)
     }
 
-    fn compute_tpl(&self, expr: Tpl) -> TsEnumRecordValue {
+    fn compute_tpl(&self, expr: Tpl, ctx: EvalCtx) -> TsEnumRecordValue {
         let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
 
         let Tpl { exprs, quasis, .. } = expr;
@@ -304,7 +450,7 @@ impl EnumValueComputer<'_> {
         let mut string = Wtf8Buf::from(first_cooked);
 
         for (q, expr) in quasis_iter.zip(exprs) {
-            let expr = self.compute_rec(expr);
+            let expr = self.compute_rec(expr, ctx);
 
             if !expr.push_to_string(&mut string) {
                 return opaque_expr;
