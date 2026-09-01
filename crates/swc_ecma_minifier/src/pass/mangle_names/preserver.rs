@@ -22,7 +22,7 @@ where
         preserved: Default::default(),
         should_preserve: false,
         in_top_level: false,
-        preserve_top_level_vars: false,
+        preserve_top_level_hoisted_decls: false,
 
         idents: Vec::new(),
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
@@ -65,7 +65,7 @@ pub(crate) struct Preserver<'a> {
 
     should_preserve: bool,
     in_top_level: bool,
-    preserve_top_level_vars: bool,
+    preserve_top_level_hoisted_decls: bool,
 
     idents: Vec<Id>,
     unresolved_ctx: SyntaxContext,
@@ -105,17 +105,17 @@ impl Preserver<'_> {
         self.in_top_level = old_top_level;
     }
 
-    /// Visits a loop body while preserving `var` declarations hoisted to the
+    /// Visits a loop body while preserving declarations hoisted to the
     /// surrounding top-level scope.
     fn visit_loop_body(&mut self, body: &Stmt) {
         let old_top_level = self.in_top_level;
-        let old_preserve_top_level_vars = self.preserve_top_level_vars;
+        let old_preserve_top_level_hoisted_decls = self.preserve_top_level_hoisted_decls;
 
         self.in_top_level = false;
-        self.preserve_top_level_vars |= old_top_level;
+        self.preserve_top_level_hoisted_decls |= old_top_level;
         body.visit_with(self);
 
-        self.preserve_top_level_vars = old_preserve_top_level_vars;
+        self.preserve_top_level_hoisted_decls = old_preserve_top_level_hoisted_decls;
         self.in_top_level = old_top_level;
     }
 }
@@ -130,10 +130,17 @@ impl Visit for Preserver<'_> {
     }
 
     fn visit_function_body(&mut self, n: &FunctionBody) {
-        let old_preserve_top_level_vars = self.preserve_top_level_vars;
-        self.preserve_top_level_vars = false;
+        let old_preserve_top_level_hoisted_decls = self.preserve_top_level_hoisted_decls;
+        self.preserve_top_level_hoisted_decls = false;
         self.visit_non_top_level_stmts(&n.stmts);
-        self.preserve_top_level_vars = old_preserve_top_level_vars;
+        self.preserve_top_level_hoisted_decls = old_preserve_top_level_hoisted_decls;
+    }
+
+    fn visit_static_block(&mut self, n: &StaticBlock) {
+        let old_preserve_top_level_hoisted_decls = self.preserve_top_level_hoisted_decls;
+        self.preserve_top_level_hoisted_decls = false;
+        n.visit_children_with(self);
+        self.preserve_top_level_hoisted_decls = old_preserve_top_level_hoisted_decls;
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause) {
@@ -200,7 +207,8 @@ impl Visit for Preserver<'_> {
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         n.visit_children_with(self);
 
-        if (self.in_top_level && !self.options.top_level.unwrap_or_default())
+        if ((self.in_top_level || self.preserve_top_level_hoisted_decls)
+            && !self.options.top_level.unwrap_or_default())
             || self.is_reserved(&n.ident)
             || self.options.keep_fn_names
         {
@@ -303,7 +311,7 @@ impl Visit for Preserver<'_> {
     }
 
     fn visit_var_decl(&mut self, n: &VarDecl) {
-        if n.kind == VarDeclKind::Var && self.preserve_top_level_vars {
+        if n.kind == VarDeclKind::Var && self.preserve_top_level_hoisted_decls {
             let old_top_level = self.in_top_level;
             self.in_top_level = true;
             n.visit_children_with(self);
