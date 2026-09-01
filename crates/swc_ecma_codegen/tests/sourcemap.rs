@@ -9,7 +9,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrayLit, AssignTarget, Bool, CallExpr, Callee, Decl, EmptyStmt, EsVersion, Expr, ExprOrSpread,
-    ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, Module, ModuleDecl, ModuleItem,
+    ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, Module, ModuleDecl, ModuleItem, Pat,
     SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit, TsLitType, TsType,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -310,6 +310,33 @@ fn dummy_span_array_delimiters_are_source_less() {
         assert_source_less_boundary(&map, &code, "[");
         assert_source_location(&map, &code, "element", 1, 0);
         assert_source_less_boundary(&map, &code, "]");
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn real_array_pattern_resumes_before_closing_delimiter() {
+    let source = "before();\nlet [element] = values;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[1] else {
+            panic!("expected a variable declaration");
+        };
+        let Pat::Array(pattern) = &mut var.decls[0].name else {
+            panic!("expected an array pattern");
+        };
+        let Some(Pat::Ident(element)) = &mut pattern.elems[0] else {
+            panic!("expected an identifier pattern");
+        };
+        element.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "element");
+        assert_source_location(&map, &code, "]", 1, 12);
         assert_source_location(&map, &code, "after", 2, 0);
     }
 }

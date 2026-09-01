@@ -163,7 +163,7 @@ impl MacroNode for ArrayPat {
         }
 
         emitter.emit_list(self.span(), Some(&self.elems), format)?;
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "]");
         if self.optional {
             punct!(emitter, "?");
