@@ -153,13 +153,14 @@ impl Scope {
         let mut latest_n = FxHashMap::default();
         let mut n = 0;
 
+        self.record_preserved_names(renamer, to, previous, reverse, &queue, preserved);
+
         for id in queue {
             if to.get(&id).is_some() || previous.get(&id).is_some() || id.0 == "eval" {
                 continue;
             }
 
             if renamer.preserve_name(&id) || preserved.contains(&id) {
-                self.record_preserved_name(&id, reverse);
                 continue;
             }
 
@@ -304,13 +305,14 @@ impl Scope {
     {
         let mut n = 0;
 
+        self.record_preserved_names(renamer, to, previous, reverse, &queue, preserved);
+
         for id in queue {
             if to.get(&id).is_some() || previous.get(&id).is_some() || id.0 == "eval" {
                 continue;
             }
 
             if renamer.preserve_name(&id) || preserved.contains(&id) {
-                self.record_preserved_name(&id, reverse);
                 continue;
             }
 
@@ -347,12 +349,31 @@ impl Scope {
         self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
     }
 
-    /// Records the output of a binding which intentionally keeps its name.
+    /// Records the outputs of bindings which intentionally keep their names.
     ///
-    /// Child scopes inherit the reverse map. Without this entry they can emit
-    /// the same symbol for a different binding and capture references to the
-    /// preserved binding.
-    fn record_preserved_name(&self, id: &Id, reverse: &mut ReverseMap) {
-        reverse.push_entry(id.0.clone(), id.clone());
+    /// These names must be recorded before assigning any names in the scope,
+    /// and child scopes inherit the resulting reverse map. Otherwise a renamed
+    /// binding can capture references to a preserved binding.
+    fn record_preserved_names<R, V>(
+        &self,
+        renamer: &R,
+        to: &FxHashMap<Id, V>,
+        previous: &FxHashMap<Id, V>,
+        reverse: &mut ReverseMap,
+        queue: &FxIndexSet<Id>,
+        preserved: &FxHashSet<Id>,
+    ) where
+        R: Renamer,
+        V: RenamedVariable,
+    {
+        for id in queue {
+            if to.get(id).is_some() || previous.get(id).is_some() || id.0 == "eval" {
+                continue;
+            }
+
+            if renamer.preserve_name(id) || preserved.contains(id) {
+                reverse.push_entry(id.0.clone(), id.clone());
+            }
+        }
     }
 }

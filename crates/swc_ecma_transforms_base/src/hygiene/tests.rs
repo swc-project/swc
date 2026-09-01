@@ -381,17 +381,19 @@ fn mangling_respects_preserved_names_in_relevant_scopes() {
     crate::tests::Tester::run(|tester| {
         let kept_mark = Mark::fresh(Mark::root());
         let used_mark = Mark::fresh(Mark::root());
+        let child_mark = Mark::fresh(Mark::root());
         let unrelated_mark = Mark::fresh(Mark::root());
         let mut program = Program::Module(
             tester
                 .parse_module(
                     "actual.js",
-                    "let kept; { let used; console.log(kept, used); } { let unrelated; \
-                     console.log(unrelated); }",
+                    "let used; let kept; console.log(used, kept); { let child; console.log(kept, \
+                     child); } { let unrelated; console.log(unrelated); }",
                 )?
                 .fold_with(&mut marker(&[
                     ("kept", kept_mark),
                     ("used", used_mark),
+                    ("child", child_mark),
                     ("unrelated", unrelated_mark),
                 ])),
         );
@@ -401,7 +403,8 @@ fn mangling_respects_preserved_names_in_relevant_scopes() {
         let actual = tester.print(&program);
         let expected = tester.parse_module(
             "expected.js",
-            "let kept; { let safe; console.log(kept, safe); } { let kept; console.log(kept); }",
+            "let safe; let kept; console.log(safe, kept); { let safe; console.log(kept, safe); } \
+             { let kept; console.log(kept); }",
         )?;
         let expected = tester.print(&Program::Module(expected));
 
