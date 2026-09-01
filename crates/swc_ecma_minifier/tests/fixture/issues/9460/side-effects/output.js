@@ -49,6 +49,12 @@ const { objectValue = "object-default" } = {
             if (key === Symbol.toPrimitive) return record("computed-key-coercion"), ()=>"key";
         }
     })]: 1
+}, { protoValue = "proto-default" } = {
+    __proto__: {
+        get protoValue () {
+            record("quoted-proto-getter");
+        }
+    }
 }, defaultProxyKey = new Proxy({}, {
     get (_, key) {
         if (key === Symbol.toPrimitive) return record("default-computed-key-coercion"), ()=>"key";
