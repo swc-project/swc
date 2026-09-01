@@ -25,6 +25,7 @@ where
         preserve_top_level_hoisted_decls: false,
 
         idents: Vec::new(),
+        top_level_ctxt: marks.top_level_ctxt,
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
     };
     n.visit_with(&mut v);
@@ -68,6 +69,7 @@ pub(crate) struct Preserver<'a> {
     preserve_top_level_hoisted_decls: bool,
 
     idents: Vec<Id>,
+    top_level_ctxt: SyntaxContext,
     unresolved_ctx: SyntaxContext,
 }
 
@@ -207,8 +209,12 @@ impl Visit for Preserver<'_> {
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         n.visit_children_with(self);
 
-        if ((self.in_top_level || self.preserve_top_level_hoisted_decls)
-            && !self.options.top_level.unwrap_or_default())
+        // The resolver assigns the program context to a block function only
+        // when it receives a sloppy-script Annex B binding.
+        let is_top_level = self.in_top_level
+            || (self.preserve_top_level_hoisted_decls && n.ident.ctxt == self.top_level_ctxt);
+
+        if (is_top_level && !self.options.top_level.unwrap_or_default())
             || self.is_reserved(&n.ident)
             || self.options.keep_fn_names
         {
