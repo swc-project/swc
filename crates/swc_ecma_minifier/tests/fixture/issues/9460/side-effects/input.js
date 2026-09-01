@@ -55,6 +55,9 @@ try {
 const { iifeValue = (function (value = record("iife-param")) {})() } = {};
 const { iifeRestValue = (function (...[value = record("iife-rest-param")]) {})() } = {};
 
+function namedEmptyFunction(value = record("named-function-param")) {}
+const { namedFunctionValue = namedEmptyFunction() } = {};
+
 function returnsNull() {
     return null;
 }
@@ -102,6 +105,20 @@ const classProxyKey = new Proxy({}, {
     }
 });
 const { defaultClassValue = class { [classProxyKey]() {} } } = {};
+
+const { newTargetValue = class {
+    static value = record(new.target === undefined ? "class-new-target" : "unexpected-new-target");
+} } = {};
+
+const { directEvalValue = class {
+    static value = eval("record(typeof this)");
+} } = {};
+
+try {
+    const { shorthandValue = { missing } } = {};
+} catch {
+    record("shorthand-reference-throws");
+}
 
 try {
     const { arguments = 0 } = () => {};

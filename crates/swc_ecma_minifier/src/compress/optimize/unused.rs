@@ -1449,7 +1449,10 @@ fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
     match prop {
         PropOrSpread::Spread(..) => false,
         PropOrSpread::Prop(prop) => match &**prop {
-            Prop::Shorthand(..) | Prop::Assign(..) => true,
+            // `ignore_return_value` cannot retain shorthand identifier reads,
+            // which can throw for unresolved bindings.
+            Prop::Shorthand(..) => false,
+            Prop::Assign(..) => true,
             Prop::KeyValue(prop) => !prop.key.is_computed() && !is_proto_key(&prop.key),
             Prop::Getter(prop) => !prop.key.is_computed(),
             Prop::Setter(prop) => !prop.key.is_computed(),
@@ -1509,7 +1512,14 @@ impl Visit for NonDiscardableDefaultVisitor {
     // default value.
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
-    fn visit_function(&mut self, _: &Function) {}
+    fn visit_function(&mut self, function: &Function) {
+        // Method and parameter decorators run while the class is evaluated, but
+        // the function body and parameter patterns run only when it is called.
+        function.decorators.visit_with(self);
+        for param in &function.params {
+            param.decorators.visit_with(self);
+        }
+    }
 
     fn visit_decorator(&mut self, _: &Decorator) {
         // `extract_class_side_effect` does not retain class or member decorators.
@@ -1521,6 +1531,14 @@ impl Visit for NonDiscardableDefaultVisitor {
         // The side-effect extractor cannot reconstruct that runtime error, so retain
         // defaults that evaluate it.
         self.found = true;
+    }
+
+    fn visit_meta_prop_expr(&mut self, e: &MetaPropExpr) {
+        if e.kind == MetaPropKind::NewTarget {
+            // `new.target` is valid in class field initialization, but moving it
+            // outside the class would produce invalid syntax.
+            self.found = true;
+        }
     }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
@@ -1575,6 +1593,16 @@ impl Visit for NonDiscardableDefaultVisitor {
     }
 
     fn visit_call_expr(&mut self, e: &CallExpr) {
+        if matches!(
+            &e.callee,
+            Callee::Expr(callee) if matches!(&**callee, Expr::Ident(Ident { sym, .. }) if &**sym == "eval")
+        ) {
+            // Direct eval observes the class evaluation environment, which cannot
+            // be preserved when class side effects are extracted.
+            self.found = true;
+            return;
+        }
+
         let has_observable_param_initialization = match &e.callee {
             Callee::Expr(callee) => match &**callee {
                 Expr::Fn(FnExpr { function, .. }) => {

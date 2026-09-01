@@ -38,17 +38,22 @@ try {
     record("class-heritage-throws");
 }
 const { iifeValue = function(value = record("iife-param")) {}() } = {}, { iifeRestValue = function(...[value = record("iife-rest-param")]) {}() } = {};
+function namedEmptyFunction(value = record("named-function-param")) {}
+const { namedFunctionValue = namedEmptyFunction() } = {};
+function returnsNull() {
+    return null;
+}
 try {
-    const { pureNullValue = "pure-null-default" } = null;
+    const { pureNullValue = "pure-null-default" } = /*#__PURE__*/ returnsNull();
 } catch  {
     record("pure-null-throws");
 }
-const { objectValue = "object-default" } = {
-    [new Proxy({}, {
-        get (_, key) {
-            if (key === Symbol.toPrimitive) return record("computed-key-coercion"), ()=>"key";
-        }
-    })]: 1
+const proxyKey = new Proxy({}, {
+    get (_, key) {
+        if (key === Symbol.toPrimitive) return record("computed-key-coercion"), ()=>"key";
+    }
+}), { objectValue = "object-default" } = {
+    [proxyKey]: 1
 }, { protoValue = "proto-default" } = {
     __proto__: {
         get protoValue () {
@@ -67,7 +72,18 @@ const { objectValue = "object-default" } = {
     }
 }), { defaultClassValue = class {
     [classProxyKey]() {}
+} } = {}, { newTargetValue = class {
+    static value = record(new.target === void 0 ? "class-new-target" : "unexpected-new-target");
+} } = {}, { directEvalValue = class {
+    static value = eval("record(typeof this)");
 } } = {};
+try {
+    const { shorthandValue = {
+        missing
+    } } = {};
+} catch  {
+    record("shorthand-reference-throws");
+}
 try {
     const { arguments = 0 } = ()=>{};
 } catch  {
@@ -75,13 +91,14 @@ try {
 }
 class B {
 }
+class C extends B {
+    constructor(){
+        let { thisValue = this } = {};
+        super();
+    }
+}
 try {
-    new class extends B {
-        constructor(){
-            let { thisValue = this } = {};
-            super();
-        }
-    }();
+    new C();
 } catch  {
     record("pre-super-this-throws");
 }
