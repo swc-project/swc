@@ -303,15 +303,12 @@ impl Optimizer<'_> {
             }
 
             // `in` and `instanceof` can throw even when both operands have no side
-            // effects. Do not pass these defaults to `ignore_return_value`, which is
-            // allowed to discard arithmetic exceptions under minifier assumptions.
-            if matches!(
-                value,
-                Expr::Bin(BinExpr {
-                    op: op!("in") | op!("instanceof"),
-                    ..
-                })
-            ) {
+            // effects. Do not pass defaults that evaluate either operator to
+            // `ignore_return_value`, which is allowed to discard arithmetic
+            // exceptions under minifier assumptions.
+            let mut visitor = PotentiallyThrowingOperatorVisitor::default();
+            value.visit_with(&mut visitor);
+            if visitor.found {
                 log_abort!("unused: Preserving potentially throwing object pattern default");
                 return;
             }
@@ -1433,6 +1430,32 @@ impl Optimizer<'_> {
 fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
     sym.as_str()
         .map_or(true, |s| !matches!(s, "toString" | "valueOf"))
+}
+
+/// Finds `in` and `instanceof` operators evaluated while computing an
+/// expression.
+#[derive(Default)]
+struct PotentiallyThrowingOperatorVisitor {
+    found: bool,
+}
+
+impl Visit for PotentiallyThrowingOperatorVisitor {
+    noop_visit_type!();
+
+    // Function bodies are evaluated only when called, not while creating the
+    // default value.
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_bin_expr(&mut self, e: &BinExpr) {
+        if matches!(e.op, op!("in") | op!("instanceof")) {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
 }
 
 #[derive(Default)]

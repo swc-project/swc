@@ -21,4 +21,9 @@ try {
 } catch  {
     record("in-throws");
 }
+try {
+    const { wrappedInValue = !("value" in null) } = {};
+} catch  {
+    record("wrapped-in-throws");
+}
 console.log(events.join(","));
