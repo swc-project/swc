@@ -1083,8 +1083,10 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
                 // extends through the source's final segment on this line.
                 let end = next_mapped_by_source
                     .get(&token.src_id)
+                    .map(|next| (next.src_line, next.src_col))
+                    .filter(|&next| next >= start)
                     .map_or((start.0, u32::MAX), |next| {
-                        std::cmp::min((next.src_line, next.src_col), (start.0, u32::MAX))
+                        std::cmp::min(next, (start.0, u32::MAX))
                     });
                 if start < end {
                     unmapped_source_ranges.push(SourceRange {
@@ -2222,6 +2224,45 @@ mod tests {
         assert_eq!(token.get_dst(), (0, 16));
         assert_eq!(token.get_src(), (0, 30));
         assert_eq!(composed.get_source(token.get_src_id()).unwrap(), "b.js");
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_extends_backward_unmapped_source_range() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 0, 0, 20, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 0, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,wCAAwC"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        assert!(
+            composed.tokens().all(|token| token.get_dst() != (0, 20)),
+            "a mapping after the source-less boundary must not override the resumed segment"
+        );
+        let token = composed
+            .lookup_token(0, 20)
+            .expect("the resumed mapping should remain active");
+        assert_eq!(token.get_dst(), (0, 16));
+        assert_eq!(token.get_src(), (0, 0));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
     }
 
     #[test]
