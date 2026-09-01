@@ -26,6 +26,11 @@ try {
 } catch  {
     record("wrapped-in-throws");
 }
+try {
+    const { relationalValue = 1 > Symbol() } = {};
+} catch  {
+    record("relational-throws");
+}
 const proxy = new Proxy({}, {
     ownKeys: ()=>(record("spread-own-keys"), [])
 }), { spreadValue = {

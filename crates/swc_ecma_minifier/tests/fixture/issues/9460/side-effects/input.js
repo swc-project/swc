@@ -38,6 +38,12 @@ try {
     record("wrapped-in-throws");
 }
 
+try {
+    const { relationalValue = Symbol() < 1 } = {};
+} catch {
+    record("relational-throws");
+}
+
 const proxy = new Proxy({}, {
     ownKeys() {
         record("spread-own-keys");

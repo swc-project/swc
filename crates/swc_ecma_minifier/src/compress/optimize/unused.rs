@@ -1580,7 +1580,10 @@ impl Visit for NonDiscardableDefaultVisitor {
     }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
-        if matches!(e.op, op!("in") | op!("instanceof")) {
+        if matches!(
+            e.op,
+            op!("in") | op!("instanceof") | op!("<") | op!("<=") | op!(">") | op!(">=")
+        ) {
             self.found = true;
             return;
         }
