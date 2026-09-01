@@ -237,13 +237,13 @@ fn dummy_span_array_delimiters_are_source_less() {
             panic!("expected an expression statement");
         };
         let element = expr_stmt.expr.clone();
-        expr_stmt.expr = Box::new(Expr::Array(ArrayLit {
+        *expr_stmt.expr = Expr::Array(ArrayLit {
             span: DUMMY_SP,
             elems: vec![Some(ExprOrSpread {
                 spread: None,
                 expr: element,
             })],
-        }));
+        });
 
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
