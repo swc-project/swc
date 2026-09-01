@@ -1072,17 +1072,20 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
             continue;
         }
 
-        if let (Some(next), Some(unmapped)) = (
-            next_mapped_by_source.get(&token.src_id),
-            first_unmapped.take(),
-        ) {
+        if let Some(unmapped) = first_unmapped.take() {
             let start = offset_position(
                 (unmapped.dst_line, unmapped.dst_col),
                 token.src_line as i64 - token.dst_line as i64,
                 token.src_col as i64 - token.dst_col as i64,
             );
             if let Some(start) = start {
-                let end = std::cmp::min((next.src_line, next.src_col), (start.0, u32::MAX));
+                // Without another mapping for this source, the skipped region
+                // extends through the source's final segment on this line.
+                let end = next_mapped_by_source
+                    .get(&token.src_id)
+                    .map_or((start.0, u32::MAX), |next| {
+                        std::cmp::min((next.src_line, next.src_col), (start.0, u32::MAX))
+                    });
                 if start < end {
                     unmapped_source_ranges.push(SourceRange {
                         src_id: token.src_id,
@@ -2182,6 +2185,43 @@ mod tests {
             composed.get_source(token.get_src_id()).unwrap(),
             "original.js"
         );
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_extends_final_unmapped_source_range() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let source_a = bundled_builder.add_source("a.js".into());
+        let source_b = bundled_builder.add_source("b.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(source_a), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 30, Some(source_b), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "a.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,kBAAkB"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        assert!(
+            composed.tokens().all(|token| token.get_dst() != (0, 18)),
+            "a.js mapping after the source-less boundary should be skipped"
+        );
+        let token = composed
+            .lookup_token(0, 18)
+            .expect("b.js mapping should remain active");
+        assert_eq!(token.get_dst(), (0, 16));
+        assert_eq!(token.get_src(), (0, 30));
+        assert_eq!(composed.get_source(token.get_src_id()).unwrap(), "b.js");
     }
 
     #[test]
