@@ -270,6 +270,58 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Drops an unused shorthand object-pattern binding only when its default
+    /// can be discarded.
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
+    fn take_assign_pat_prop_if_unused(&mut self, key: &mut Ident, value: &mut Expr) {
+        trace_op!("unused: Checking object pattern identifier `{}`", key);
+
+        if !self.may_remove_ident(key) {
+            log_abort!(
+                "unused: Preserving object pattern var `{:#?}` because it's top-level",
+                key
+            );
+            return;
+        }
+
+        if let Some(v) = self.data.vars.get(&key.to_id()) {
+            let is_used_in_member =
+                v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
+            if v.ref_count != 0
+                || v.usage_count != 0
+                || v.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                || is_used_in_member
+            {
+                log_abort!(
+                    "unused: Cannot drop object pattern binding ({}) because it's used",
+                    dump(&*key, false)
+                );
+                return;
+            }
+
+            // A destructuring default is evaluated only when the property access produces
+            // `undefined`, so any remaining effects must stay in this default expression.
+            // The enclosing pattern has already proven the property access itself
+            // discardable.
+            if let Some(side_effects) = self.ignore_return_value(value) {
+                *value = side_effects;
+                return;
+            }
+
+            self.changed = true;
+            report_change!(
+                "unused: Dropping object pattern binding '{}{:?}' because it and its default are \
+                 unused",
+                key.sym,
+                key.ctxt
+            );
+            key.take();
+        }
+    }
+
     pub(crate) fn should_preserve_property_access(
         &self,
         e: &Expr,
@@ -384,6 +436,20 @@ impl Optimizer<'_> {
             Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(pure_mark),
             _ => false,
         };
+        // Without a pure annotation, restrict this to structural values known to be
+        // non-nullish so removing the whole pattern cannot remove a destructuring
+        // error.
+        let can_drop_object_assign_default = has_pure_ann
+            || matches!(
+                init.as_deref(),
+                Some(
+                    Expr::Object(..)
+                        | Expr::Array(..)
+                        | Expr::Fn(..)
+                        | Expr::Arrow(..)
+                        | Expr::Class(..)
+                )
+            );
 
         if !name.is_ident() {
             // For Pat::Assign (default parameters), we can skip the pure_getters check
@@ -465,13 +531,11 @@ impl Optimizer<'_> {
                             self.take_pat_if_unused(&mut p.value, None, is_var_decl);
                         }
                         ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
-                            if has_pure_ann {
-                                if let Some(e) = value {
-                                    *value = self.ignore_return_value(e).map(Box::new);
+                            if let Some(value) = value {
+                                if can_drop_object_assign_default {
+                                    self.take_assign_pat_prop_if_unused(key, value.as_mut());
                                 }
-                            }
-
-                            if value.is_none() {
+                            } else {
                                 self.take_ident_of_pat_if_unused(key, None);
                             }
                         }
