@@ -102,6 +102,15 @@ impl Preserver<'_> {
         node.visit_with(self);
         self.in_top_level = old_top_level;
     }
+
+    /// Visits a loop body while preserving a directly declared `var` in the
+    /// surrounding scope.
+    fn visit_loop_body(&mut self, body: &Stmt) {
+        match body {
+            Stmt::Decl(Decl::Var(var)) if var.kind == VarDeclKind::Var => body.visit_with(self),
+            _ => self.visit_non_top_level(body),
+        }
+    }
 }
 
 impl Visit for Preserver<'_> {
@@ -205,7 +214,7 @@ impl Visit for Preserver<'_> {
             left => self.visit_non_top_level(left),
         }
         n.right.visit_with(self);
-        self.visit_non_top_level(&n.body);
+        self.visit_loop_body(&n.body);
     }
 
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
@@ -214,7 +223,7 @@ impl Visit for Preserver<'_> {
             left => self.visit_non_top_level(left),
         }
         n.right.visit_with(self);
-        self.visit_non_top_level(&n.body);
+        self.visit_loop_body(&n.body);
     }
 
     fn visit_for_stmt(&mut self, n: &ForStmt) {
@@ -226,7 +235,7 @@ impl Visit for Preserver<'_> {
         }
         n.test.visit_with(self);
         n.update.visit_with(self);
-        self.visit_non_top_level(&n.body);
+        self.visit_loop_body(&n.body);
     }
 
     fn visit_ident(&mut self, i: &Ident) {
