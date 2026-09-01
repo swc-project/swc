@@ -92,6 +92,16 @@ impl Preserver<'_> {
         }
         self.in_top_level = old_top_level;
     }
+
+    fn visit_non_top_level<N>(&mut self, node: &N)
+    where
+        N: VisitWith<Self>,
+    {
+        let old_top_level = self.in_top_level;
+        self.in_top_level = false;
+        node.visit_with(self);
+        self.in_top_level = old_top_level;
+    }
 }
 
 impl Visit for Preserver<'_> {
@@ -187,6 +197,36 @@ impl Visit for Preserver<'_> {
                 self.preserved.insert(i.to_id());
             }
         }
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        match &n.left {
+            ForHead::VarDecl(var) if var.kind == VarDeclKind::Var => var.visit_with(self),
+            left => self.visit_non_top_level(left),
+        }
+        n.right.visit_with(self);
+        self.visit_non_top_level(&n.body);
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        match &n.left {
+            ForHead::VarDecl(var) if var.kind == VarDeclKind::Var => var.visit_with(self),
+            left => self.visit_non_top_level(left),
+        }
+        n.right.visit_with(self);
+        self.visit_non_top_level(&n.body);
+    }
+
+    fn visit_for_stmt(&mut self, n: &ForStmt) {
+        match &n.init {
+            Some(VarDeclOrExpr::VarDecl(var)) if var.kind == VarDeclKind::Var => {
+                var.visit_with(self)
+            }
+            init => self.visit_non_top_level(init),
+        }
+        n.test.visit_with(self);
+        n.update.visit_with(self);
+        self.visit_non_top_level(&n.body);
     }
 
     fn visit_ident(&mut self, i: &Ident) {

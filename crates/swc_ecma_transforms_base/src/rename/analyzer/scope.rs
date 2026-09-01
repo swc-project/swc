@@ -158,9 +158,8 @@ impl Scope {
                 continue;
             }
 
-            if (renamer.preserve_name(&id) || preserved.contains(&id))
-                && self.try_preserve_name(&id, reverse)
-            {
+            if renamer.preserve_name(&id) || preserved.contains(&id) {
+                self.record_preserved_name(&id, reverse);
                 continue;
             }
 
@@ -310,9 +309,8 @@ impl Scope {
                 continue;
             }
 
-            if (renamer.preserve_name(&id) || preserved.contains(&id))
-                && self.try_preserve_name(&id, reverse)
-            {
+            if renamer.preserve_name(&id) || preserved.contains(&id) {
+                self.record_preserved_name(&id, reverse);
                 continue;
             }
 
@@ -349,17 +347,12 @@ impl Scope {
         self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
     }
 
-    /// Keeps `id` unchanged only if its emitted symbol is safe in this scope.
+    /// Records the output of a binding which intentionally keeps its name.
     ///
-    /// A preserved binding still has to be recorded in the reverse map. Child
-    /// scopes inherit this map, and without the entry they can emit the same
-    /// symbol for a different binding and capture references to this one.
-    fn try_preserve_name(&self, id: &Id, reverse: &mut ReverseMap) -> bool {
-        if !self.can_rename(id, &id.0, reverse) {
-            return false;
-        }
-
+    /// Child scopes inherit the reverse map. Without this entry they can emit
+    /// the same symbol for a different binding and capture references to the
+    /// preserved binding.
+    fn record_preserved_name(&self, id: &Id, reverse: &mut ReverseMap) {
         reverse.push_entry(id.0.clone(), id.clone());
-        true
     }
 }
