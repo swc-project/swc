@@ -1022,6 +1022,12 @@ pub(crate) fn adjust_mappings(
         value: &'a RawToken,
     }
 
+    #[derive(Debug, Clone, Copy)]
+    struct PositionRange {
+        start: (u32, u32),
+        end: (u32, u32),
+    }
+
     /// Turns a list of tokens into a list of ranges, using the provided `key`
     /// function to determine the order of the tokens.
     #[allow(clippy::ptr_arg)]
@@ -1047,20 +1053,40 @@ pub(crate) fn adjust_mappings(
         ranges
     }
 
-    let mut new_tokens = Vec::with_capacity(self_tokens.len());
+    #[inline]
+    fn is_in_ranges(position: (u32, u32), ranges: &[PositionRange]) -> bool {
+        let index = ranges.partition_point(|range| range.end <= position);
+        ranges
+            .get(index)
+            .is_some_and(|range| range.start <= position)
+    }
+
+    let mut new_tokens = Vec::new();
 
     // Unmapped adjustment tokens describe generated boundaries, not positions
-    // in the intermediate source. Preserve them verbatim and keep them out of
-    // the source-coordinate range calculations below.
+    // in the intermediate source. Preserve them verbatim, record the generated
+    // ranges they cover, and keep them out of the source-coordinate range
+    // calculations below.
     let mut adjustment_tokens = adjustments.into_owned();
-    adjustment_tokens.retain(|token| {
-        if token.src_id == !0 {
-            new_tokens.push(*token);
-            false
-        } else {
-            true
+    adjustment_tokens.sort_unstable_by_key(|t| (t.dst_line, t.dst_col));
+    let mut unmapped_ranges = Vec::new();
+    for (index, token) in adjustment_tokens.iter().enumerate() {
+        if token.src_id != !0 {
+            continue;
         }
-    });
+
+        let start = (token.dst_line, token.dst_col);
+        let next_start = adjustment_tokens
+            .get(index + 1)
+            .map_or((u32::MAX, u32::MAX), |t| (t.dst_line, t.dst_col));
+        unmapped_ranges.push(PositionRange {
+            start,
+            end: std::cmp::min(next_start, (start.0, u32::MAX)),
+        });
+        new_tokens.push(*token);
+    }
+    adjustment_tokens.retain(|token| token.src_id != !0);
+    new_tokens.reserve(self_tokens.len());
 
     // Turn `self.tokens` and `adjustment.tokens` into vectors of ranges so we have
     // easy access to both start and end.
@@ -1116,7 +1142,9 @@ pub(crate) fn adjust_mappings(
             token.dst_line = (token.dst_line as i32 + line_diff) as u32;
             token.dst_col = (token.dst_col as i32 + col_diff) as u32;
 
-            new_tokens.push(token);
+            if !is_in_ranges((token.dst_line, token.dst_col), &unmapped_ranges) {
+                new_tokens.push(token);
+            }
 
             if original_range.end >= adjustment_range.end {
                 // There are surely no more `original_ranges` for this `adjustment_range`.
@@ -1823,6 +1851,36 @@ mod tests {
         assert!(!tokens[1].has_source());
         assert_eq!(tokens[2].get_dst(), (0, 16));
         assert_eq!(tokens[2].get_src(), (11, 0));
+        assert!(tokens[2].has_source());
+    }
+
+    #[test]
+    fn adjust_mappings_clips_tokens_inside_unmapped_adjustment_segments() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 0, 10, 0, Some(original_source), None, false);
+        original_builder.add_raw(0, 10, 10, 10, Some(original_source), None, false);
+        original_builder.add_raw(0, 16, 10, 16, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
+        adjustment_builder.add_raw(0, 16, 0, 16, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let tokens = original.tokens().collect::<Vec<_>>();
+        assert_eq!(tokens.len(), 3);
+        assert_eq!(tokens[0].get_dst(), (0, 0));
+        assert_eq!(tokens[0].get_src(), (10, 0));
+        assert!(tokens[0].has_source());
+        assert_eq!(tokens[1].get_dst(), (0, 8));
+        assert!(!tokens[1].has_source());
+        assert_eq!(tokens[2].get_dst(), (0, 16));
+        assert_eq!(tokens[2].get_src(), (10, 16));
         assert!(tokens[2].has_source());
     }
 
