@@ -989,11 +989,17 @@ struct PositionRange {
     end: (u32, u32),
 }
 
+#[derive(Debug, Clone, Copy)]
+struct SourceRange {
+    src_id: u32,
+    range: PositionRange,
+}
+
 struct SplitUnmappedTokens {
     mapped_tokens: Vec<RawToken>,
     unmapped_tokens: Vec<RawToken>,
     unmapped_generated_ranges: Vec<PositionRange>,
-    unmapped_source_ranges: Vec<PositionRange>,
+    unmapped_source_ranges: Vec<SourceRange>,
 }
 
 fn offset_position(position: (u32, u32), line_diff: i64, col_diff: i64) -> Option<(u32, u32)> {
@@ -1007,14 +1013,14 @@ fn offset_position(position: (u32, u32), line_diff: i64, col_diff: i64) -> Optio
     Some((line as u32, col as u32))
 }
 
-fn normalize_ranges(mut ranges: Vec<PositionRange>) -> Vec<PositionRange> {
-    ranges.sort_unstable_by_key(|range| range.start);
+fn normalize_source_ranges(mut ranges: Vec<SourceRange>) -> Vec<SourceRange> {
+    ranges.sort_unstable_by_key(|range| (range.src_id, range.range.start));
 
-    let mut normalized: Vec<PositionRange> = Vec::with_capacity(ranges.len());
+    let mut normalized: Vec<SourceRange> = Vec::with_capacity(ranges.len());
     for range in ranges {
         if let Some(previous) = normalized.last_mut() {
-            if range.start <= previous.end {
-                previous.end = std::cmp::max(previous.end, range.end);
+            if range.src_id == previous.src_id && range.range.start <= previous.range.end {
+                previous.range.end = std::cmp::max(previous.range.end, range.range.end);
                 continue;
             }
         }
@@ -1075,7 +1081,10 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
             if let Some(start) = start {
                 let end = std::cmp::min((token.src_line, token.src_col), (start.0, u32::MAX));
                 if start < end {
-                    unmapped_source_ranges.push(PositionRange { start, end });
+                    unmapped_source_ranges.push(SourceRange {
+                        src_id: previous.src_id,
+                        range: PositionRange { start, end },
+                    });
                 }
             }
         }
@@ -1089,7 +1098,7 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
         mapped_tokens,
         unmapped_tokens,
         unmapped_generated_ranges,
-        unmapped_source_ranges: normalize_ranges(unmapped_source_ranges),
+        unmapped_source_ranges: normalize_source_ranges(unmapped_source_ranges),
     }
 }
 
@@ -1099,6 +1108,16 @@ fn is_in_ranges(position: (u32, u32), ranges: &[PositionRange]) -> bool {
     ranges
         .get(index)
         .is_some_and(|range| range.start <= position)
+}
+
+#[inline]
+fn is_in_source_ranges(src_id: u32, position: (u32, u32), ranges: &[SourceRange]) -> bool {
+    let index = ranges.partition_point(|range| {
+        range.src_id < src_id || (range.src_id == src_id && range.range.end <= position)
+    });
+    ranges
+        .get(index)
+        .is_some_and(|range| range.src_id == src_id && range.range.start <= position)
 }
 
 pub(crate) fn adjust_mappings(
@@ -1232,8 +1251,11 @@ pub(crate) fn adjust_mappings(
             token.dst_line = (token.dst_line as i32 + line_diff) as u32;
             token.dst_col = (token.dst_col as i32 + col_diff) as u32;
 
-            if !is_in_ranges(intermediate_position, &unmapped_source_ranges)
-                && !is_in_ranges((token.dst_line, token.dst_col), &unmapped_generated_ranges)
+            if !is_in_source_ranges(
+                adjustment_range.value.src_id,
+                intermediate_position,
+                &unmapped_source_ranges,
+            ) && !is_in_ranges((token.dst_line, token.dst_col), &unmapped_generated_ranges)
             {
                 new_tokens.push(token);
             }
@@ -1361,6 +1383,7 @@ pub fn adjust_mappings_from_multiple(
     }
     let mut add_mapping = |input_maps: &mut Vec<crate::lazy::SourceMap<'_>>,
                            map_idx: u32,
+                           intermediate_src_id: u32,
                            intermediate_line: u32,
                            intermediate_col: u32,
                            dst_line: u32,
@@ -1370,7 +1393,8 @@ pub fn adjust_mappings_from_multiple(
                            src_id: u32,
                            name_id: u32,
                            is_range: bool| {
-        if is_in_ranges(
+        if is_in_source_ranges(
+            intermediate_src_id,
             (intermediate_line, intermediate_col),
             &unmapped_source_ranges,
         ) || is_in_ranges((dst_line, dst_col), &unmapped_generated_ranges)
@@ -1441,6 +1465,7 @@ pub fn adjust_mappings_from_multiple(
                 add_mapping(
                     &mut input_maps,
                     0,
+                    self_range.value.src_id,
                     self_range.value.src_line,
                     self_range.value.src_col,
                     self_range.value.dst_line,
@@ -1462,6 +1487,7 @@ pub fn adjust_mappings_from_multiple(
                 add_mapping(
                     &mut input_maps,
                     input_range_value.map_idx,
+                    self_range.value.src_id,
                     dst_line,
                     dst_col,
                     (dst_line as i32 + line_diff) as u32,
@@ -2082,6 +2108,40 @@ mod tests {
         assert_eq!(tokens[2].get_dst(), (0, 16));
         assert_eq!(tokens[2].get_src(), (0, 20));
         assert!(tokens[2].has_source());
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_scopes_unmapped_ranges_to_their_source() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let source_a = bundled_builder.add_source("a.js".into());
+        let source_b = bundled_builder.add_source("b.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(source_a), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 20, 0, 20, Some(source_a), None, false);
+        bundled_builder.add_raw(0, 30, 0, 10, Some(source_b), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "a.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,oBAAoB"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (0, 30))
+            .expect("b.js mapping should be preserved");
+        assert_eq!(token.get_src(), (0, 10));
+        assert_eq!(composed.get_source(token.get_src_id()).unwrap(), "b.js");
     }
 
     #[test]
