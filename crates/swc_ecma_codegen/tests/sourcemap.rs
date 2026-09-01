@@ -350,6 +350,52 @@ fn dummy_span_call_delimiters_are_source_less() {
 }
 
 #[test]
+fn dummy_span_operators_are_source_less() {
+    let source = "before();\nleft + right;\ntarget = value;\noperand++;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected a binary expression statement");
+        };
+        let Expr::Bin(binary) = &mut *expr_stmt.expr else {
+            panic!("expected a binary expression");
+        };
+        binary.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[2] else {
+            panic!("expected an assignment expression statement");
+        };
+        let Expr::Assign(assign) = &mut *expr_stmt.expr else {
+            panic!("expected an assignment expression");
+        };
+        assign.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[3] else {
+            panic!("expected an update expression statement");
+        };
+        let Expr::Update(update) = &mut *expr_stmt.expr else {
+            panic!("expected an update expression");
+        };
+        update.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, "left", 1, 0);
+        assert_source_less_boundary(&map, &code, "+");
+        assert_source_location(&map, &code, "right", 1, 7);
+        assert_source_location(&map, &code, "target", 2, 0);
+        assert_source_less_boundary(&map, &code, "=");
+        assert_source_location(&map, &code, "value", 2, 9);
+        assert_source_location(&map, &code, "operand", 3, 0);
+        assert_source_less_boundary(&map, &code, "++");
+        assert_source_location(&map, &code, "after", 4, 0);
+    }
+}
+
+#[test]
 fn dummy_span_expression_leaves_are_source_less() {
     let source = "before();\nleft + right;\nafter();\n";
 

@@ -383,6 +383,7 @@ where
         } else {
             formatting_space!(self);
         }
+        srcmap_if_dummy!(self, node);
         operator!(self, node.op.as_str());
 
         let need_post_space = if self.cfg.minify {
@@ -2094,6 +2095,7 @@ impl MacroNode for AssignExpr {
 
         emit!(self.left);
         formatting_space!(emitter);
+        srcmap_if_dummy!(emitter, self);
         operator!(emitter, self.op.as_str());
         formatting_space!(emitter);
         emit!(self.right);
@@ -2406,6 +2408,7 @@ impl MacroNode for UpdateExpr {
             emit!(self.arg);
         } else {
             emit!(self.arg);
+            srcmap_if_dummy!(emitter, self);
             operator!(emitter, self.op.as_str());
         }
 

@@ -191,16 +191,19 @@ fn constructed_binary(op: BinaryOp, left: Box<Expr>, right: Box<Expr>) -> Expr {
     })
 }
 
-fn constructed_block() -> BlockStmt {
+fn constructed_block(child_span: Span) -> BlockStmt {
     BlockStmt {
         span: DUMMY_SP,
         ctxt: Default::default(),
         stmts: vec![Stmt::Expr(ExprStmt {
-            span: DUMMY_SP,
+            span: child_span,
             expr: Box::new(Expr::Call(CallExpr {
-                span: DUMMY_SP,
+                span: child_span,
                 ctxt: Default::default(),
-                callee: Callee::Expr(constructed_ident("foo")),
+                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                    "foo".into(),
+                    child_span,
+                )))),
                 args: vec![],
                 type_args: None,
             })),
@@ -267,17 +270,19 @@ where
 
 #[test]
 fn minified_dummy_block_omits_trailing_semi_without_source_map() {
-    let block = constructed_block();
+    let block = constructed_block(DUMMY_SP);
     assert_eq!(emit_constructed_node(&block, true), "{foo()}");
 }
 
 #[test]
 fn minified_dummy_block_omits_trailing_semi_with_source_map() {
-    let block = constructed_block();
+    let block = constructed_block(Span::new(BytePos(1), BytePos(6)));
     let (output, mappings) = emit_constructed_node_with_source_map(&block, true);
 
     assert_eq!(output, "{foo()}");
-    assert!(mappings.is_empty());
+    assert!(mappings
+        .iter()
+        .any(|(pos, loc)| *pos == BytePos::SYNTHESIZED && *loc == LineCol { line: 0, col: 6 }));
 }
 
 fn assert_valid_constructed_expr(code: &str, syntax: Syntax) {
