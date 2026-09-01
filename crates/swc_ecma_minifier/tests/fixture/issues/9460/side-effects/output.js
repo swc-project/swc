@@ -82,6 +82,21 @@ const proxyKey = new Proxy({}, {
     static value = record(new.target === void 0 ? "class-new-target" : "unexpected-new-target");
 } } = {}, { arrowNewTargetValue = class {
     static value = record(new.target === void 0 ? "arrow-new-target" : "unexpected-arrow-new-target");
+} } = {};
+function run(callback) {
+    callback();
+}
+const { callbackArrowNewTargetValue = class {
+    static value = run(()=>record(new.target === void 0 ? "callback-arrow-new-target" : "unexpected-callback-arrow-new-target"));
+} } = {}, saved = [];
+function keep(callback) {
+    saved.push(callback);
+}
+const { privateEnvironmentValue = class {
+    static #privateName;
+    static value = keep(function() {
+        return #privateName in {};
+    });
 } } = {}, { directEvalValue = class {
     static value = eval("record(typeof this)");
 } } = {};

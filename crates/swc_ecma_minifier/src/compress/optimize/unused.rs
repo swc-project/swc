@@ -1519,9 +1519,12 @@ fn has_observable_param_initialization(pat: &Pat) -> bool {
 impl Visit for NonDiscardableDefaultVisitor {
     noop_visit_type!();
 
-    // Function bodies are evaluated only when called, not while creating the
-    // default value.
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+    fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
+        // Arrows capture `new.target` lexically. A class side-effect extraction
+        // can relocate an arrow without invoking it, which still makes a
+        // captured `new.target` invalid at the relocation site.
+        e.visit_children_with(self);
+    }
 
     fn visit_function(&mut self, function: &Function) {
         // Method and parameter decorators run while the class is evaluated, but

@@ -124,6 +124,24 @@ const { arrowNewTargetValue = class {
     static value = (() => record(new.target === undefined ? "arrow-new-target" : "unexpected-arrow-new-target"))();
 } } = {};
 
+function run(callback) {
+    callback();
+}
+const { callbackArrowNewTargetValue = class {
+    static value = run(() => record(new.target === undefined ? "callback-arrow-new-target" : "unexpected-callback-arrow-new-target"));
+} } = {};
+
+const saved = [];
+function keep(callback) {
+    saved.push(callback);
+}
+const { privateEnvironmentValue = class {
+    static #privateName;
+    static value = keep(function () {
+        return #privateName in {};
+    });
+} } = {};
+
 const { directEvalValue = class {
     static value = eval("record(typeof this)");
 } } = {};

@@ -298,14 +298,19 @@ impl Visit for ClassEffectVisitor {
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}
 
-    /// Don't recurse into fn
-    fn visit_fn_decl(&mut self, _: &FnDecl) {}
+    fn visit_function(&mut self, n: &Function) {
+        // Function bodies are normally evaluated after the class, but private
+        // names resolve in the surrounding class environment. Moving a static
+        // initializer containing such a function outside the class would make
+        // the emitted private-name reference invalid.
+        let mut visitor = PrivateNameUsageVisitor {
+            found: false,
+            private_ident: self.private_ident.clone(),
+        };
+        n.visit_children_with(&mut visitor);
 
-    /// Don't recurse into fn
-    fn visit_fn_expr(&mut self, _: &FnExpr) {}
-
-    /// Don't recurse into fn
-    fn visit_function(&mut self, _: &Function) {}
+        self.found |= visitor.found;
+    }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
@@ -345,6 +350,37 @@ impl Visit for ClassEffectVisitor {
         let old_set = mem::replace(&mut self.private_ident, new_set);
         n.visit_children_with(self);
         self.private_ident = old_set;
+    }
+}
+
+/// Finds uses of the current class's private names, respecting nested class
+/// private-name scopes.
+struct PrivateNameUsageVisitor {
+    found: bool,
+    private_ident: FxHashSet<Atom>,
+}
+
+impl Visit for PrivateNameUsageVisitor {
+    noop_visit_type!();
+
+    fn visit_private_name(&mut self, n: &PrivateName) {
+        self.found |= self.private_ident.contains(&n.name);
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        let mut private_ident = FxHashSet::default();
+
+        for member in &n.body {
+            if let ClassMember::PrivateProp(PrivateProp { key, .. })
+            | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = member
+            {
+                private_ident.insert(key.name.clone());
+            }
+        }
+
+        let old_private_ident = mem::replace(&mut self.private_ident, private_ident);
+        n.visit_children_with(self);
+        self.private_ident = old_private_ident;
     }
 }
 
