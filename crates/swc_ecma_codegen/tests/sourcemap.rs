@@ -9,9 +9,10 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrayLit, AssignTarget, Bool, CallExpr, Callee, DebuggerStmt, Decl, EmptyStmt, EsVersion, Expr,
-    ExprOrSpread, ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, JSXElementChild,
-    JSXElementName, JSXExpr, Module, ModuleDecl, ModuleItem, ObjectPatProp, Pat, SeqExpr,
-    SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit, TsLitType, TsNonNullExpr, TsType,
+    ExprOrSpread, ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, JSXAttrName,
+    JSXAttrOrSpread, JSXElementChild, JSXElementName, JSXExpr, Module, ModuleDecl, ModuleItem,
+    ObjectPatProp, Pat, SeqExpr, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit, TsLitType,
+    TsNonNullExpr, TsType,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -417,6 +418,48 @@ fn jsx_opening_delimiters_resume_after_dummy_siblings() {
         assert_source_location(&map, &code, "<real", 0, 32);
         assert_source_less_boundary(&map, &code, "<generated2");
         assert_source_location(&map, &code, "<>fragment", 0, 52);
+    }
+}
+
+#[test]
+fn real_jsx_opening_element_resumes_before_self_closing_delimiters() {
+    let source = "const element = <root generated />;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+        let JSXAttrOrSpread::JSXAttr(attr) = &mut element.opening.attrs[0] else {
+            panic!("expected a JSX attribute");
+        };
+        attr.span = DUMMY_SP;
+        let JSXAttrName::Ident(name) = &mut attr.name else {
+            panic!("expected a JSX attribute identifier");
+        };
+        name.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, "/", 0, 33);
+        assert_source_location(&map, &code, ">", 0, 33);
+        assert_source_location(&map, &code, "after", 1, 0);
     }
 }
 

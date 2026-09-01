@@ -54,9 +54,10 @@ impl MacroNode for JSXOpeningElement {
         }
 
         if self.self_closing {
+            srcmap!(emitter, self, false, true);
             punct!(emitter, "/");
         }
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, ">");
         Ok(())
     }
