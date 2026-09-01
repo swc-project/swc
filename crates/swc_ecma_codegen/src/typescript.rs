@@ -937,7 +937,7 @@ impl MacroNode for TsParenthesizedType {
         srcmap_if_dummy!(emitter, self);
         punct!(emitter, "(");
         emit!(self.type_ann);
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, ")");
         Ok(())
     }
