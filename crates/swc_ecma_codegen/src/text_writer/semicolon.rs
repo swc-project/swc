@@ -87,6 +87,10 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 
     #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        if pos == BytePos::SYNTHESIZED {
+            self.commit_pending_semi()?;
+        }
+
         self.inner.add_srcmap(pos)
     }
 
@@ -141,7 +145,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 mod tests {
     use std::sync::Arc;
 
-    use swc_common::SourceMap;
+    use swc_common::{BytePos, LineCol, SourceMap};
 
     use crate::text_writer::{basic_impl::JsWriter, BindingStorage, ScopeKind, WriteJs};
 
@@ -167,5 +171,30 @@ mod tests {
         assert_eq!(scopes.len(), 1);
         assert_eq!(scopes[0].bindings.len(), 1);
         assert_eq!(scopes[0].bindings[0].name, "x");
+    }
+
+    #[test]
+    fn flushes_pending_semi_before_unmapped_boundary() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut out = vec![];
+        let mut mappings = vec![];
+        {
+            let writer = JsWriter::new(source_map, "\n", &mut out, Some(&mut mappings));
+            let mut writer = super::omit_trailing_semi(writer);
+
+            writer.write_str("before()").unwrap();
+            writer.add_srcmap(BytePos(1)).unwrap();
+            writer.write_semi(None).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+        }
+
+        assert_eq!(out, b"before();");
+        assert_eq!(
+            mappings,
+            vec![
+                (BytePos(1), LineCol { line: 0, col: 8 }),
+                (BytePos::SYNTHESIZED, LineCol { line: 0, col: 9 }),
+            ]
+        );
     }
 }

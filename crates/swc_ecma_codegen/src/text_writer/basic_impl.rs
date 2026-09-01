@@ -201,12 +201,23 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
         if let Some(ref mut srcmap) = self.srcmap {
             let key = (byte_pos, self.line_count as _, self.line_pos as _);
-            if self.srcmap_done.insert(key) {
-                let loc = LineCol {
-                    line: key.1,
-                    col: key.2,
-                };
+            let loc = LineCol {
+                line: key.1,
+                col: key.2,
+            };
 
+            // Equal generated positions are ambiguous after SourceMap sorts its
+            // tokens. Coalesce them here so the last emitted transition wins.
+            if let Some(last) = srcmap.last_mut() {
+                if last.1 == loc {
+                    self.srcmap_done.remove(&(last.0, last.1.line, last.1.col));
+                    *last = (byte_pos, loc);
+                    self.srcmap_done.insert(key);
+                    return;
+                }
+            }
+
+            if self.srcmap_done.insert(key) {
                 srcmap.push((byte_pos, loc));
             }
         }
@@ -512,7 +523,7 @@ fn compute_line_starts_from_bytes(bytes: &[u8]) -> LineStart {
 mod test {
     use std::sync::Arc;
 
-    use swc_common::SourceMap;
+    use swc_common::{BytePos, LineCol, SourceMap};
 
     use super::{compute_line_starts_from_bytes, JsWriter};
     use crate::text_writer::{BindingStorage, ScopeKind, WriteJs};
@@ -656,6 +667,33 @@ mod test {
 
         assert_eq!(writer.line_count, 1);
         assert_eq!(writer.line_pos, 1);
+    }
+
+    #[test]
+    fn last_source_map_transition_wins_at_same_generated_position() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut srcmap = vec![];
+        {
+            let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
+
+            writer.write_str("x").unwrap();
+            writer.add_srcmap(BytePos(1)).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+
+            writer.write_str("y").unwrap();
+            writer.add_srcmap(BytePos(2)).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer.add_srcmap(BytePos(3)).unwrap();
+        }
+
+        assert_eq!(
+            srcmap,
+            vec![
+                (BytePos::SYNTHESIZED, LineCol { line: 0, col: 1 }),
+                (BytePos(3), LineCol { line: 0, col: 2 }),
+            ]
+        );
     }
 
     #[test]
