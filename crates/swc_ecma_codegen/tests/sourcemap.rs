@@ -5,13 +5,13 @@ use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
 use swc_common::{
     comments::SingleThreadedComments, source_map::SourceMapGenConfig, sync::Lrc, BytePos, FileName,
-    LineCol, SourceMap as CommonSourceMap, DUMMY_SP,
+    LineCol, SourceMap as CommonSourceMap, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::{
     ArrayLit, AssignTarget, Bool, CallExpr, Callee, DebuggerStmt, Decl, EmptyStmt, EsVersion, Expr,
     ExprOrSpread, ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, JSXElementChild,
-    JSXElementName, Module, ModuleDecl, ModuleItem, ObjectPatProp, Pat, SimpleAssignTarget, Stmt,
-    Str, Super, ThisExpr, TsLit, TsLitType, TsType,
+    JSXElementName, Module, ModuleDecl, ModuleItem, ObjectPatProp, Pat, SeqExpr,
+    SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit, TsLitType, TsNonNullExpr, TsType,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -551,6 +551,88 @@ fn real_span_operators_resume_after_dummy_children() {
         assert_source_location(&map, &code, "=", 2, 0);
         assert_source_location(&map, &code, "value", 2, 9);
         assert_source_less_boundary(&map, &code, "operand");
+        assert_source_location(&map, &code, "++", 3, 0);
+        assert_source_location(&map, &code, "after", 4, 0);
+    }
+}
+
+#[test]
+fn real_member_separator_resumes_after_dummy_object() {
+    let source = "before();\nobject.member;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected a member expression statement");
+        };
+        let Expr::Member(member) = &mut *expr_stmt.expr else {
+            panic!("expected a member expression");
+        };
+        *member.obj = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, ".member", 1, 0);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn real_span_separators_resume_after_nested_dummy_descendants() {
+    let source = "before();\nleft + right;\ntarget = value;\noperand++;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected a binary expression statement");
+        };
+        let Expr::Bin(binary) = &mut *expr_stmt.expr else {
+            panic!("expected a binary expression");
+        };
+        let left = binary.left.clone();
+        *binary.left = Expr::Seq(SeqExpr {
+            span: left.span(),
+            exprs: vec![left, Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))],
+        });
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[2] else {
+            panic!("expected an assignment expression statement");
+        };
+        let Expr::Assign(assign) = &mut *expr_stmt.expr else {
+            panic!("expected an assignment expression");
+        };
+        let AssignTarget::Simple(target) = &assign.left else {
+            panic!("expected a simple assignment target");
+        };
+        assign.left = AssignTarget::Simple(SimpleAssignTarget::TsNonNull(TsNonNullExpr {
+            span: target.span(),
+            expr: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+        }));
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[3] else {
+            panic!("expected an update expression statement");
+        };
+        let Expr::Update(update) = &mut *expr_stmt.expr else {
+            panic!("expected an update expression");
+        };
+        let arg_span = update.arg.span();
+        *update.arg = Expr::TsNonNull(TsNonNullExpr {
+            span: arg_span,
+            expr: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, "+", 1, 0);
+        assert_source_less_boundary(&map, &code, "this!");
+        assert_source_location(&map, &code, "=", 2, 0);
+        assert_source_less_boundary(&map, &code, "this!++");
         assert_source_location(&map, &code, "++", 3, 0);
         assert_source_location(&map, &code, "after", 4, 0);
     }

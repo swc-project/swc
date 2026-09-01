@@ -1910,6 +1910,8 @@ impl MacroNode for MemberExpr {
             }
         }
 
+        srcmap_for_separator!(emitter, self, self.obj);
+
         match &self.prop {
             MemberProp::Computed(computed) => emit!(computed),
             MemberProp::Ident(ident) => {

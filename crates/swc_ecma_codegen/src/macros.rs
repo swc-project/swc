@@ -180,17 +180,21 @@ macro_rules! srcmap_if_dummy {
     }};
 }
 
-/// Restores the mapping owned by a separator after a synthesized child.
+/// Restores the mapping owned by a separator after an unmapped child.
 ///
 /// A synthesized owner keeps the separator source-less, while a real owner
-/// resumes its mapping after the child cleared it.
+/// resumes its mapping after the child or one of its descendants cleared it.
 macro_rules! srcmap_for_separator {
     ($emitter:expr, $owner:expr, $child:expr) => {{
         if $emitter.wr.care_about_srcmap() {
             let owner_lo = $owner.span_lo();
             if owner_lo.is_dummy() {
                 $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
-            } else if $child.span_lo().is_dummy() {
+            } else if $child.span_lo().is_dummy()
+                || !$emitter
+                    .wr
+                    .will_add_srcmap(swc_common::BytePos::SYNTHESIZED)
+            {
                 $emitter.wr.add_srcmap(owner_lo)?;
             }
         }
