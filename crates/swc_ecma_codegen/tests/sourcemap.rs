@@ -7,7 +7,10 @@ use swc_common::{
     comments::SingleThreadedComments, source_map::SourceMapGenConfig, sync::Lrc, BytePos, FileName,
     LineCol, SourceMap as CommonSourceMap, DUMMY_SP,
 };
-use swc_ecma_ast::{EsVersion, ImportDecl, ImportPhase, Module, ModuleDecl, ModuleItem, Str};
+use swc_ecma_ast::{
+    ArrayLit, EsVersion, Expr, ExprOrSpread, ImportDecl, ImportPhase, Module, ModuleDecl,
+    ModuleItem, Stmt, Str,
+};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
@@ -219,6 +222,35 @@ fn dummy_span_between_composed_mapped_regions_clears_mapping() {
         assert_source_location(&map, &code, "before", 10, 0);
         assert_source_less_boundary(&map, &code, "import");
         assert_source_location(&map, &code, "after", 11, 0);
+    }
+}
+
+#[test]
+fn dummy_span_array_delimiters_are_source_less() {
+    let source = "before();\nelement;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        let element = expr_stmt.expr.clone();
+        expr_stmt.expr = Box::new(Expr::Array(ArrayLit {
+            span: DUMMY_SP,
+            elems: vec![Some(ExprOrSpread {
+                spread: None,
+                expr: element,
+            })],
+        }));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "[");
+        assert_source_location(&map, &code, "element", 1, 0);
+        assert_source_less_boundary(&map, &code, "]");
+        assert_source_location(&map, &code, "after", 2, 0);
     }
 }
 

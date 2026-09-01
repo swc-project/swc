@@ -2483,9 +2483,8 @@ impl MacroNode for ArrayLit {
         }
 
         emitter.emit_list(self.span(), Some(&self.elems), format)?;
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "]");
-
-        srcmap!(emitter, self, false);
 
         Ok(())
     }
