@@ -989,16 +989,55 @@ struct PositionRange {
     end: (u32, u32),
 }
 
-fn split_unmapped_tokens(
-    mut tokens: Vec<RawToken>,
-) -> (Vec<RawToken>, Vec<RawToken>, Vec<PositionRange>) {
+struct SplitUnmappedTokens {
+    mapped_tokens: Vec<RawToken>,
+    unmapped_tokens: Vec<RawToken>,
+    unmapped_generated_ranges: Vec<PositionRange>,
+    unmapped_source_ranges: Vec<PositionRange>,
+}
+
+fn offset_position(position: (u32, u32), line_diff: i64, col_diff: i64) -> Option<(u32, u32)> {
+    let line = position.0 as i64 + line_diff;
+    let col = position.1 as i64 + col_diff;
+
+    if line < 0 || line > u32::MAX as i64 || col < 0 || col > u32::MAX as i64 {
+        return None;
+    }
+
+    Some((line as u32, col as u32))
+}
+
+fn normalize_ranges(mut ranges: Vec<PositionRange>) -> Vec<PositionRange> {
+    ranges.sort_unstable_by_key(|range| range.start);
+
+    let mut normalized: Vec<PositionRange> = Vec::with_capacity(ranges.len());
+    for range in ranges {
+        if let Some(previous) = normalized.last_mut() {
+            if range.start <= previous.end {
+                previous.end = std::cmp::max(previous.end, range.end);
+                continue;
+            }
+        }
+
+        normalized.push(range);
+    }
+
+    normalized
+}
+
+fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
     if tokens.iter().all(|token| token.src_id != !0) {
-        return (tokens, Vec::new(), Vec::new());
+        return SplitUnmappedTokens {
+            mapped_tokens: tokens,
+            unmapped_tokens: Vec::new(),
+            unmapped_generated_ranges: Vec::new(),
+            unmapped_source_ranges: Vec::new(),
+        };
     }
 
     tokens.sort_unstable_by_key(|token| (token.dst_line, token.dst_col));
 
-    let mut unmapped_ranges = Vec::new();
+    let mut unmapped_generated_ranges = Vec::new();
     for (index, token) in tokens.iter().enumerate() {
         if token.src_id != !0 {
             continue;
@@ -1008,15 +1047,50 @@ fn split_unmapped_tokens(
         let next_start = tokens.get(index + 1).map_or((u32::MAX, u32::MAX), |token| {
             (token.dst_line, token.dst_col)
         });
-        unmapped_ranges.push(PositionRange {
+        unmapped_generated_ranges.push(PositionRange {
             start,
             end: std::cmp::min(next_start, (start.0, u32::MAX)),
         });
     }
 
+    // A source-less boundary also stops the preceding mapping in the
+    // intermediate source. Project the first boundary in each unmapped run
+    // back through that mapping so tokens skipped before the next mapped
+    // segment cannot be composed through the preceding segment.
+    let mut previous_mapped: Option<&RawToken> = None;
+    let mut first_unmapped = None;
+    let mut unmapped_source_ranges = Vec::new();
+    for token in &tokens {
+        if token.src_id == !0 {
+            first_unmapped.get_or_insert(token);
+            continue;
+        }
+
+        if let (Some(previous), Some(unmapped)) = (previous_mapped, first_unmapped.take()) {
+            let start = offset_position(
+                (unmapped.dst_line, unmapped.dst_col),
+                previous.src_line as i64 - previous.dst_line as i64,
+                previous.src_col as i64 - previous.dst_col as i64,
+            );
+            if let Some(start) = start {
+                let end = std::cmp::min((token.src_line, token.src_col), (start.0, u32::MAX));
+                if start < end {
+                    unmapped_source_ranges.push(PositionRange { start, end });
+                }
+            }
+        }
+
+        previous_mapped = Some(token);
+    }
+
     let (unmapped_tokens, mapped_tokens) = tokens.into_iter().partition(|token| token.src_id == !0);
 
-    (mapped_tokens, unmapped_tokens, unmapped_ranges)
+    SplitUnmappedTokens {
+        mapped_tokens,
+        unmapped_tokens,
+        unmapped_generated_ranges,
+        unmapped_source_ranges: normalize_ranges(unmapped_source_ranges),
+    }
 }
 
 #[inline]
@@ -1095,8 +1169,12 @@ pub(crate) fn adjust_mappings(
     // in the intermediate source. Preserve them verbatim, record the generated
     // ranges they cover, and keep them out of the source-coordinate range
     // calculations below.
-    let (mut adjustment_tokens, mut new_tokens, unmapped_ranges) =
-        split_unmapped_tokens(adjustments.into_owned());
+    let SplitUnmappedTokens {
+        mapped_tokens: mut adjustment_tokens,
+        unmapped_tokens: mut new_tokens,
+        unmapped_generated_ranges,
+        unmapped_source_ranges,
+    } = split_unmapped_tokens(adjustments.into_owned());
     new_tokens.reserve(self_tokens.len());
 
     // Turn `self.tokens` and `adjustment.tokens` into vectors of ranges so we have
@@ -1143,7 +1221,8 @@ pub(crate) fn adjust_mappings(
         while original_range.start < adjustment_range.end {
             // If `original_range` started before `adjustment_range`, cut off the token's
             // start.
-            let (dst_line, dst_col) = std::cmp::max(original_range.start, adjustment_range.start);
+            let intermediate_position = std::cmp::max(original_range.start, adjustment_range.start);
+            let (dst_line, dst_col) = intermediate_position;
             let mut token = RawToken {
                 dst_line,
                 dst_col,
@@ -1153,7 +1232,9 @@ pub(crate) fn adjust_mappings(
             token.dst_line = (token.dst_line as i32 + line_diff) as u32;
             token.dst_col = (token.dst_col as i32 + col_diff) as u32;
 
-            if !is_in_ranges((token.dst_line, token.dst_col), &unmapped_ranges) {
+            if !is_in_ranges(intermediate_position, &unmapped_source_ranges)
+                && !is_in_ranges((token.dst_line, token.dst_col), &unmapped_generated_ranges)
+            {
                 new_tokens.push(token);
             }
 
@@ -1247,9 +1328,13 @@ pub fn adjust_mappings_from_multiple(
     // Source-less `self` tokens delimit generated output and have no useful
     // intermediate source coordinates. Preserve their generated ranges while
     // excluding them from source-coordinate range construction.
-    let (mapped_self_tokens, unmapped_tokens, unmapped_ranges) =
-        split_unmapped_tokens(std::mem::take(&mut this.tokens));
-    let mut self_tokens = mapped_self_tokens
+    let SplitUnmappedTokens {
+        mapped_tokens,
+        unmapped_tokens,
+        unmapped_generated_ranges,
+        unmapped_source_ranges,
+    } = split_unmapped_tokens(std::mem::take(&mut this.tokens));
+    let mut self_tokens = mapped_tokens
         .into_iter()
         .map(|token| (0u32, token))
         .collect::<Vec<_>>();
@@ -1276,6 +1361,8 @@ pub fn adjust_mappings_from_multiple(
     }
     let mut add_mapping = |input_maps: &mut Vec<crate::lazy::SourceMap<'_>>,
                            map_idx: u32,
+                           intermediate_line: u32,
+                           intermediate_col: u32,
                            dst_line: u32,
                            dst_col: u32,
                            src_line: u32,
@@ -1283,7 +1370,11 @@ pub fn adjust_mappings_from_multiple(
                            src_id: u32,
                            name_id: u32,
                            is_range: bool| {
-        if is_in_ranges((dst_line, dst_col), &unmapped_ranges) {
+        if is_in_ranges(
+            (intermediate_line, intermediate_col),
+            &unmapped_source_ranges,
+        ) || is_in_ranges((dst_line, dst_col), &unmapped_generated_ranges)
+        {
             return;
         }
 
@@ -1350,6 +1441,8 @@ pub fn adjust_mappings_from_multiple(
                 add_mapping(
                     &mut input_maps,
                     0,
+                    self_range.value.src_line,
+                    self_range.value.src_col,
                     self_range.value.dst_line,
                     self_range.value.dst_col,
                     self_range.value.src_line,
@@ -1369,6 +1462,8 @@ pub fn adjust_mappings_from_multiple(
                 add_mapping(
                     &mut input_maps,
                     input_range_value.map_idx,
+                    dst_line,
+                    dst_col,
                     (dst_line as i32 + line_diff) as u32,
                     (dst_col as i32 + col_diff) as u32,
                     input_range_value.value.src_line,
@@ -1885,12 +1980,12 @@ mod tests {
             },
         ];
 
-        let (mapped_tokens, unmapped_tokens, unmapped_ranges) =
-            split_unmapped_tokens(tokens.clone());
+        let split = split_unmapped_tokens(tokens.clone());
 
-        assert_eq!(mapped_tokens, tokens);
-        assert!(unmapped_tokens.is_empty());
-        assert!(unmapped_ranges.is_empty());
+        assert_eq!(split.mapped_tokens, tokens);
+        assert!(split.unmapped_tokens.is_empty());
+        assert!(split.unmapped_generated_ranges.is_empty());
+        assert!(split.unmapped_source_ranges.is_empty());
     }
 
     #[test]
@@ -1928,14 +2023,15 @@ mod tests {
         let original_source = original_builder.add_source("original.js".into());
         original_builder.add_raw(0, 0, 10, 0, Some(original_source), None, false);
         original_builder.add_raw(0, 10, 10, 10, Some(original_source), None, false);
-        original_builder.add_raw(0, 16, 10, 16, Some(original_source), None, false);
+        original_builder.add_raw(0, 18, 10, 18, Some(original_source), None, false);
+        original_builder.add_raw(0, 20, 10, 20, Some(original_source), None, false);
         let mut original = original_builder.into_sourcemap();
 
         let mut adjustment_builder = SourceMapBuilder::new(None);
         let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
         adjustment_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
         adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
-        adjustment_builder.add_raw(0, 16, 0, 16, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 16, 0, 20, Some(intermediate_source), None, false);
         let adjustment = adjustment_builder.into_sourcemap();
 
         original.adjust_mappings(&adjustment);
@@ -1948,7 +2044,7 @@ mod tests {
         assert_eq!(tokens[1].get_dst(), (0, 8));
         assert!(!tokens[1].has_source());
         assert_eq!(tokens[2].get_dst(), (0, 16));
-        assert_eq!(tokens[2].get_src(), (10, 16));
+        assert_eq!(tokens[2].get_src(), (10, 20));
         assert!(tokens[2].has_source());
     }
 
@@ -1958,7 +2054,7 @@ mod tests {
         let intermediate_source = bundled_builder.add_source("intermediate.js".into());
         bundled_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
         bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
-        bundled_builder.add_raw(0, 16, 0, 16, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 16, 0, 20, Some(intermediate_source), None, false);
         let bundled = bundled_builder.into_sourcemap();
 
         let input = crate::lazy::decode(
@@ -1967,7 +2063,7 @@ mod tests {
                 "file": "intermediate.js",
                 "sources": ["original.js"],
                 "names": [],
-                "mappings": "AAAA,YAAY,IAAI"
+                "mappings": "AAAA,UAAU,QAAQ,EAAE"
             }"#,
         )
         .unwrap()
@@ -1984,7 +2080,7 @@ mod tests {
         assert_eq!(tokens[1].get_dst(), (0, 8));
         assert!(!tokens[1].has_source());
         assert_eq!(tokens[2].get_dst(), (0, 16));
-        assert_eq!(tokens[2].get_src(), (0, 16));
+        assert_eq!(tokens[2].get_src(), (0, 20));
         assert!(tokens[2].has_source());
     }
 
