@@ -38,4 +38,28 @@ try {
     record("class-heritage-throws");
 }
 const { iifeValue = function(value = record("iife-param")) {}() } = {}, { iifeRestValue = function(...[value = record("iife-rest-param")]) {}() } = {};
+try {
+    const { pureNullValue = "pure-null-default" } = null;
+} catch  {
+    record("pure-null-throws");
+}
+const { objectValue = "object-default" } = {
+    [new Proxy({}, {
+        get (_, key) {
+            if (key === Symbol.toPrimitive) return record("computed-key-coercion"), ()=>"key";
+        }
+    })]: 1
+};
+class B {
+}
+try {
+    new class extends B {
+        constructor(){
+            let { thisValue = this } = {};
+            super();
+        }
+    }();
+} catch  {
+    record("pre-super-this-throws");
+}
 console.log(events.join(","));

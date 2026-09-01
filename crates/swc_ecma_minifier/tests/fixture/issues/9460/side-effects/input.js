@@ -55,4 +55,36 @@ try {
 const { iifeValue = (function (value = record("iife-param")) {})() } = {};
 const { iifeRestValue = (function (...[value = record("iife-rest-param")]) {})() } = {};
 
+function returnsNull() {
+    return null;
+}
+try {
+    const { pureNullValue = "pure-null-default" } = /*#__PURE__*/ returnsNull();
+} catch {
+    record("pure-null-throws");
+}
+
+const proxyKey = new Proxy({}, {
+    get(_, key) {
+        if (key === Symbol.toPrimitive) {
+            record("computed-key-coercion");
+            return () => "key";
+        }
+    }
+});
+const { objectValue = "object-default" } = { [proxyKey]: 1 };
+
+class B {}
+class C extends B {
+    constructor() {
+        const { thisValue = this } = {};
+        super();
+    }
+}
+try {
+    new C();
+} catch {
+    record("pre-super-this-throws");
+}
+
 console.log(events.join(","));

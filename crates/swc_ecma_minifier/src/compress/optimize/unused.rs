@@ -449,15 +449,18 @@ impl Optimizer<'_> {
             Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(pure_mark),
             _ => false,
         };
-        // Without a pure annotation, restrict this to structural values known to be
-        // non-nullish so removing the whole pattern cannot remove a destructuring
-        // error. Classes are excluded because accessing a static property can invoke
-        // a user-defined static getter.
-        let can_drop_object_assign_default = has_pure_ann
-            || matches!(
-                init.as_deref(),
-                Some(Expr::Object(..) | Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..))
-            );
+        // Restrict this to structural values known to be non-nullish so removing
+        // the whole pattern cannot remove a destructuring error. A pure annotation
+        // only describes evaluation effects, not the value produced by the
+        // initializer. Classes are excluded because accessing a static property can
+        // invoke a user-defined static getter.
+        let can_drop_object_assign_default = matches!(
+            init.as_deref(),
+            Some(Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..))
+        ) || matches!(
+            init.as_deref(),
+            Some(Expr::Object(object)) if object.props.iter().all(is_non_computed_object_prop)
+        );
 
         if !name.is_ident() {
             // For Pat::Assign (default parameters), we can skip the pure_getters check
@@ -1434,6 +1437,25 @@ fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
         .map_or(true, |s| !matches!(s, "toString" | "valueOf"))
 }
 
+/// Returns true when evaluating an object literal property cannot perform
+/// construction-time property-key coercion or spread enumeration.
+fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
+    match prop {
+        PropOrSpread::Spread(..) => false,
+        PropOrSpread::Prop(prop) => match &**prop {
+            Prop::Shorthand(..) | Prop::Assign(..) => true,
+            Prop::KeyValue(prop) => !prop.key.is_computed(),
+            Prop::Getter(prop) => !prop.key.is_computed(),
+            Prop::Setter(prop) => !prop.key.is_computed(),
+            Prop::Method(prop) => !prop.key.is_computed(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        },
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    }
+}
+
 /// Finds expressions whose evaluation cannot be reconstructed by
 /// `ignore_return_value`.
 #[derive(Default)]
@@ -1457,6 +1479,13 @@ impl Visit for NonDiscardableDefaultVisitor {
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
     fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
+        // `this` can be uninitialized before `super()` in a derived constructor.
+        // The side-effect extractor cannot reconstruct that runtime error, so retain
+        // defaults that evaluate it.
+        self.found = true;
+    }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         if matches!(e.op, op!("in") | op!("instanceof")) {
