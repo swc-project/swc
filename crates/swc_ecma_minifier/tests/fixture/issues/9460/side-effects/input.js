@@ -53,5 +53,6 @@ try {
 }
 
 const { iifeValue = (function (value = record("iife-param")) {})() } = {};
+const { iifeRestValue = (function (...[value = record("iife-rest-param")]) {})() } = {};
 
 console.log(events.join(","));

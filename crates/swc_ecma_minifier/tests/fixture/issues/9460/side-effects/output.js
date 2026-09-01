@@ -37,5 +37,5 @@ try {
 } catch  {
     record("class-heritage-throws");
 }
-const { iifeValue = function(value = record("iife-param")) {}() } = {};
+const { iifeValue = function(value = record("iife-param")) {}() } = {}, { iifeRestValue = function(...[value = record("iife-rest-param")]) {}() } = {};
 console.log(events.join(","));

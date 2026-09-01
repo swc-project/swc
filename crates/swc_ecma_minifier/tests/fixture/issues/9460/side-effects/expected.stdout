@@ -1,1 +1,1 @@
-default,getter,getter-default,computed,rest-default,class-getter,throws,in-throws,wrapped-in-throws,spread-own-keys,class-heritage-throws,iife-param
+default,getter,getter-default,computed,rest-default,class-getter,throws,in-throws,wrapped-in-throws,spread-own-keys,class-heritage-throws,iife-param,iife-rest-param

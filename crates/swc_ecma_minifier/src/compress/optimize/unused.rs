@@ -1441,6 +1441,14 @@ struct NonDiscardableDefaultVisitor {
     found: bool,
 }
 
+fn has_observable_param_initialization(pat: &Pat) -> bool {
+    match pat {
+        Pat::Ident(..) => false,
+        Pat::Rest(rest) => has_observable_param_initialization(&rest.arg),
+        _ => true,
+    }
+}
+
 impl Visit for NonDiscardableDefaultVisitor {
     noop_visit_type!();
 
@@ -1495,15 +1503,13 @@ impl Visit for NonDiscardableDefaultVisitor {
                         && function
                             .params
                             .iter()
-                            .any(|param| !matches!(param.pat, Pat::Ident(..) | Pat::Rest(..)))
+                            .any(|param| has_observable_param_initialization(&param.pat))
                 }
                 Expr::Arrow(ArrowExpr { body, params, .. }) => {
                     matches!(
                         &**body,
                         ArrowFunctionBody::FunctionBody(body) if body.stmts.is_empty()
-                    ) && params
-                        .iter()
-                        .any(|param| !matches!(param, Pat::Ident(..) | Pat::Rest(..)))
+                    ) && params.iter().any(has_observable_param_initialization)
                 }
                 _ => false,
             },
