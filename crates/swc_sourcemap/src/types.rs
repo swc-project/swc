@@ -1049,6 +1049,19 @@ pub(crate) fn adjust_mappings(
 
     let mut new_tokens = Vec::with_capacity(self_tokens.len());
 
+    // Unmapped adjustment tokens describe generated boundaries, not positions
+    // in the intermediate source. Preserve them verbatim and keep them out of
+    // the source-coordinate range calculations below.
+    let mut adjustment_tokens = adjustments.into_owned();
+    adjustment_tokens.retain(|token| {
+        if token.src_id == !0 {
+            new_tokens.push(*token);
+            false
+        } else {
+            true
+        }
+    });
+
     // Turn `self.tokens` and `adjustment.tokens` into vectors of ranges so we have
     // easy access to both start and end.
     // We want to compare `self` and `adjustment` tokens by line/column numbers in
@@ -1056,14 +1069,16 @@ pub(crate) fn adjust_mappings(
     // `dst_line/col` for the `self` tokens and `src_line/col` for the
     // `adjustment` tokens.
     let original_ranges = create_ranges(&mut self_tokens, |t| (t.dst_line, t.dst_col));
-    let mut adjustment_tokens = adjustments.into_owned();
     let adjustment_ranges = create_ranges(&mut adjustment_tokens, |t| (t.src_line, t.src_col));
 
     let mut original_ranges_iter = original_ranges.iter();
 
     let mut original_range = match original_ranges_iter.next() {
         Some(r) => r,
-        None => return self_tokens,
+        None => {
+            new_tokens.sort_unstable_by_key(|t| (t.dst_line, t.dst_col));
+            return new_tokens;
+        }
     };
 
     // Iterate over `adjustment_ranges` (sorted by `src_line/col`). For each such
@@ -1678,7 +1693,7 @@ mod tests {
     use debugid::DebugId;
 
     use super::{DecodedMap, RewriteOptions, SourceMap, SourceMapIndex, SourceMapSection};
-    use crate::lazy::MaybeRawValue;
+    use crate::{lazy::MaybeRawValue, SourceMapBuilder};
 
     fn map_with_scopes() -> SourceMap {
         SourceMap::from_slice(
@@ -1780,6 +1795,35 @@ mod tests {
                 "bundler = {bundler}"
             );
         }
+    }
+
+    #[test]
+    fn adjust_mappings_preserves_unmapped_adjustment_segments() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 0, 10, 0, Some(original_source), None, false);
+        original_builder.add_raw(1, 0, 11, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
+        adjustment_builder.add_raw(0, 16, 1, 0, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let tokens = original.tokens().collect::<Vec<_>>();
+        assert_eq!(tokens.len(), 3);
+        assert_eq!(tokens[0].get_dst(), (0, 0));
+        assert_eq!(tokens[0].get_src(), (10, 0));
+        assert!(tokens[0].has_source());
+        assert_eq!(tokens[1].get_dst(), (0, 8));
+        assert!(!tokens[1].has_source());
+        assert_eq!(tokens[2].get_dst(), (0, 16));
+        assert_eq!(tokens[2].get_src(), (11, 0));
+        assert!(tokens[2].has_source());
     }
 
     #[test]

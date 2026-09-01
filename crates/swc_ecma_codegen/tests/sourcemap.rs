@@ -53,6 +53,7 @@ fn emit_source_map(
     module: &Module,
     minify: bool,
     emit_columns: bool,
+    input_source_map: Option<SourceMap>,
 ) -> (String, SourceMap, Vec<(BytePos, LineCol)>) {
     let mut code = Vec::new();
     let mut mappings = Vec::new();
@@ -72,7 +73,11 @@ fn emit_source_map(
         emitter.emit_module(module).unwrap();
     }
 
-    let map = cm.build_source_map(&mappings, None, SourceMapConfigImpl { emit_columns });
+    let map = cm.build_source_map(
+        &mappings,
+        input_source_map,
+        SourceMapConfigImpl { emit_columns },
+    );
 
     (String::from_utf8(code).unwrap(), map, mappings)
 }
@@ -121,6 +126,11 @@ fn assert_source_less_boundary(map: &SourceMap, code: &str, needle: &str) {
         .lookup_token(line, col)
         .unwrap_or_else(|| panic!("missing source-less boundary for {needle:?} at {line}:{col}"));
     assert!(!token.has_source(), "{needle:?} should clear its mapping");
+    assert_eq!(
+        token.get_dst(),
+        (line, col),
+        "source-less boundary should start at {needle:?}"
+    );
 }
 
 #[test]
@@ -133,7 +143,7 @@ fn dummy_span_import_is_source_less() {
         let (mut module, comments) = parse_module(&cm, source);
         module.body.insert(0, generated_import());
 
-        let (code, map, mappings) = emit_source_map(cm, &comments, &module, minify, true);
+        let (code, map, mappings) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_location(&map, &code, "/* leading comment */", 0, 0);
         assert_source_less(&map, &code, "generated-only");
@@ -162,10 +172,10 @@ fn dummy_span_between_mapped_regions_clears_mapping() {
             module.body.insert(1, generated_import());
 
             let (code, map, mappings) =
-                emit_source_map(cm, &comments, &module, minify, emit_columns);
+                emit_source_map(cm, &comments, &module, minify, emit_columns, None);
 
             assert_source_location(&map, &code, "before", 0, 0);
-            assert_source_less_boundary(&map, &code, "generated-only");
+            assert_source_less_boundary(&map, &code, "import");
             assert_source_location(&map, &code, "after", 1, 0);
             assert_eq!(
                 mappings
@@ -180,10 +190,43 @@ fn dummy_span_between_mapped_regions_clears_mapping() {
 }
 
 #[test]
+fn dummy_span_between_composed_mapped_regions_clears_mapping() {
+    let source = "before();\nafter();\n";
+    let input_source_map = SourceMap::from_slice(
+        br#"{
+            "version": 3,
+            "sources": ["original.js"],
+            "names": [],
+            "mappings": "AAUA;AACA"
+        }"#,
+    )
+    .unwrap();
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        module.body.insert(1, generated_import());
+
+        let (code, map, _) = emit_source_map(
+            cm,
+            &comments,
+            &module,
+            minify,
+            true,
+            Some(input_source_map.clone()),
+        );
+
+        assert_source_location(&map, &code, "before", 10, 0);
+        assert_source_less_boundary(&map, &code, "import");
+        assert_source_location(&map, &code, "after", 11, 0);
+    }
+}
+
+#[test]
 fn empty_module_source_map_stays_empty() {
     let cm = Lrc::<CommonSourceMap>::default();
     let (module, comments) = parse_module(&cm, "");
-    let (code, map, mappings) = emit_source_map(cm, &comments, &module, false, true);
+    let (code, map, mappings) = emit_source_map(cm, &comments, &module, false, true, None);
 
     assert!(code.is_empty());
     assert!(mappings.is_empty());
