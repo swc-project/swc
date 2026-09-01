@@ -55,7 +55,18 @@ const { objectValue = "object-default" } = {
     }
 }), { defaultObjectValue = {
     [defaultProxyKey]: 1
+} } = {}, classProxyKey = new Proxy({}, {
+    get (_, key) {
+        if (key === Symbol.toPrimitive) return record("default-class-computed-key-coercion"), ()=>"key";
+    }
+}), { defaultClassValue = class {
+    [classProxyKey]() {}
 } } = {};
+try {
+    const { arguments = 0 } = ()=>{};
+} catch  {
+    record("function-arguments-throws");
+}
 class B {
 }
 try {

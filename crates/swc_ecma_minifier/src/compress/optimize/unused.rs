@@ -461,6 +461,8 @@ impl Optimizer<'_> {
             init.as_deref(),
             Some(Expr::Object(object)) if object.props.iter().all(is_non_computed_object_prop)
         );
+        let is_function_object_assign_default =
+            matches!(init.as_deref(), Some(Expr::Fn(..) | Expr::Arrow(..)));
 
         if !name.is_ident() {
             // For Pat::Assign (default parameters), we can skip the pure_getters check
@@ -543,7 +545,13 @@ impl Optimizer<'_> {
                         }
                         ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
                             if let Some(value) = value {
-                                if can_drop_object_assign_default {
+                                // Accessing `arguments` on a function throws. Unlike
+                                // `caller`, this behavior is not covered by the minifier's
+                                // documented assumptions.
+                                if can_drop_object_assign_default
+                                    && !(is_function_object_assign_default
+                                        && key.sym == "arguments")
+                                {
                                     self.take_assign_pat_prop_if_unused(key, value.as_mut());
                                 }
                             } else {
@@ -1456,6 +1464,22 @@ fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
     }
 }
 
+/// Returns true when a class member is safely discardable by
+/// `extract_class_side_effect`.
+fn is_discardable_class_default_member(member: &ClassMember) -> bool {
+    match member {
+        ClassMember::Method(method) => !method.key.is_computed(),
+        ClassMember::ClassProp(prop) => !prop.key.is_computed(),
+        ClassMember::AutoAccessor(accessor) => {
+            // Static auto-accessor initializers run while evaluating the class,
+            // but the class-side-effect extractor cannot reconstruct them.
+            (!accessor.is_static || accessor.value.is_none())
+                && !matches!(&accessor.key, Key::Public(key) if key.is_computed())
+        }
+        _ => true,
+    }
+}
+
 /// Finds expressions whose evaluation cannot be reconstructed by
 /// `ignore_return_value`.
 #[derive(Default)]
@@ -1519,6 +1543,17 @@ impl Visit for NonDiscardableDefaultVisitor {
         if e.super_class
             .as_deref()
             .is_some_and(|super_class| !matches!(super_class, Expr::Lit(Lit::Null(..))))
+        {
+            self.found = true;
+            return;
+        }
+
+        // Computed class keys perform ToPropertyKey coercion. The side-effect
+        // extractor can omit that coercion when the key expression itself is
+        // pure, so retain the whole default instead.
+        if e.body
+            .iter()
+            .any(|member| !is_discardable_class_default_member(member))
         {
             self.found = true;
             return;
