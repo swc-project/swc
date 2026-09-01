@@ -1060,9 +1060,10 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
     }
 
     // A source-less boundary also stops the preceding mapping in the
-    // intermediate source. Walk backwards so the end comes from the nearest
-    // later mapping for the same source, even when mappings from other sources
-    // are interleaved in generated order.
+    // intermediate source when both are on the same generated line. Walk
+    // backwards so the end comes from the nearest later mapping for the same
+    // source, even when mappings from other sources are interleaved in generated
+    // order.
     let mut next_mapped_by_source: FxHashMap<u32, &RawToken> = FxHashMap::default();
     let mut first_unmapped = None;
     let mut unmapped_source_ranges = Vec::new();
@@ -1072,7 +1073,10 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
             continue;
         }
 
-        if let Some(unmapped) = first_unmapped.take() {
+        if let Some(unmapped) = first_unmapped
+            .take()
+            .filter(|unmapped| unmapped.dst_line == token.dst_line)
+        {
             let start = offset_position(
                 (unmapped.dst_line, unmapped.dst_col),
                 token.src_line as i64 - token.dst_line as i64,
@@ -2083,6 +2087,33 @@ mod tests {
     }
 
     #[test]
+    fn adjust_mappings_does_not_project_unmapped_boundaries_across_generated_lines() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(6, 20, 10, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 10, 5, 20, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(1, 3, 0, 0, None, None, false);
+        adjustment_builder.add_raw(1, 5, 6, 5, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let token = original
+            .tokens()
+            .find(|token| token.get_dst() == (1, 20))
+            .expect("the resumed mapping should compose on the new generated line");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            original.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
     fn adjust_mappings_from_multiple_preserves_unmapped_self_segments() {
         let mut bundled_builder = SourceMapBuilder::new(None);
         let intermediate_source = bundled_builder.add_source("intermediate.js".into());
@@ -2116,6 +2147,41 @@ mod tests {
         assert_eq!(tokens[2].get_dst(), (0, 16));
         assert_eq!(tokens[2].get_src(), (0, 20));
         assert!(tokens[2].has_source());
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_does_not_project_unmapped_boundaries_across_generated_lines() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 10, 5, 20, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(1, 3, 0, 0, None, None, false);
+        bundled_builder.add_raw(1, 5, 6, 5, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": ";;;;;;oBAUA"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (1, 20))
+            .expect("the resumed mapping should compose on the new generated line");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
     }
 
     #[test]
