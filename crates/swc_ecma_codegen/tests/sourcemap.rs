@@ -8,9 +8,9 @@ use swc_common::{
     LineCol, SourceMap as CommonSourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::{
-    ArrayLit, Bool, CallExpr, Callee, Decl, EmptyStmt, EsVersion, Expr, ExprOrSpread, ExprStmt,
-    Ident, Import, ImportDecl, ImportPhase, Invalid, Module, ModuleDecl, ModuleItem, Stmt, Str,
-    Super, ThisExpr, TsLit, TsLitType, TsType,
+    ArrayLit, AssignTarget, Bool, CallExpr, Callee, Decl, EmptyStmt, EsVersion, Expr, ExprOrSpread,
+    ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, Module, ModuleDecl, ModuleItem,
+    SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit, TsLitType, TsType,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
@@ -391,6 +391,61 @@ fn dummy_span_operators_are_source_less() {
         assert_source_location(&map, &code, "value", 2, 9);
         assert_source_location(&map, &code, "operand", 3, 0);
         assert_source_less_boundary(&map, &code, "++");
+        assert_source_location(&map, &code, "after", 4, 0);
+    }
+}
+
+#[test]
+fn real_span_operators_resume_after_dummy_children() {
+    let source = "before();\nleft + right;\ntarget = value;\noperand++;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected a binary expression statement");
+        };
+        let Expr::Bin(binary) = &mut *expr_stmt.expr else {
+            panic!("expected a binary expression");
+        };
+        let Expr::Ident(left) = &mut *binary.left else {
+            panic!("expected an identifier on the left");
+        };
+        left.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[2] else {
+            panic!("expected an assignment expression statement");
+        };
+        let Expr::Assign(assign) = &mut *expr_stmt.expr else {
+            panic!("expected an assignment expression");
+        };
+        let AssignTarget::Simple(SimpleAssignTarget::Ident(target)) = &mut assign.left else {
+            panic!("expected an identifier assignment target");
+        };
+        target.id.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[3] else {
+            panic!("expected an update expression statement");
+        };
+        let Expr::Update(update) = &mut *expr_stmt.expr else {
+            panic!("expected an update expression");
+        };
+        let Expr::Ident(operand) = &mut *update.arg else {
+            panic!("expected an identifier update operand");
+        };
+        operand.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "left");
+        assert_source_location(&map, &code, "+", 1, 0);
+        assert_source_location(&map, &code, "right", 1, 7);
+        assert_source_less_boundary(&map, &code, "target");
+        assert_source_location(&map, &code, "=", 2, 0);
+        assert_source_location(&map, &code, "value", 2, 9);
+        assert_source_less_boundary(&map, &code, "operand");
+        assert_source_location(&map, &code, "++", 3, 0);
         assert_source_location(&map, &code, "after", 4, 0);
     }
 }
