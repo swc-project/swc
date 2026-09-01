@@ -581,6 +581,31 @@ fn real_member_separator_resumes_after_dummy_object() {
 }
 
 #[test]
+fn real_sequence_separator_resumes_after_dummy_child() {
+    let source = "before();\nfirst, second;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::Seq(sequence) = &mut *expr_stmt.expr else {
+            panic!("expected a sequence expression");
+        };
+        *sequence.exprs[0] = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, ",", 1, 0);
+        assert_source_location(&map, &code, "second", 1, 7);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
 fn real_span_separators_resume_after_nested_dummy_descendants() {
     let source = "before();\nleft + right;\ntarget = value;\noperand++;\nafter();\n";
 

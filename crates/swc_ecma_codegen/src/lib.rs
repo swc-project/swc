@@ -2073,12 +2073,10 @@ impl MacroNode for SeqExpr {
 
         srcmap!(emitter, self, true);
 
-        let mut first = true;
         //TODO: Indention
-        for e in &self.exprs {
-            if first {
-                first = false
-            } else {
+        for (index, e) in self.exprs.iter().enumerate() {
+            if index != 0 {
+                srcmap_for_separator!(emitter, self, &self.exprs[index - 1]);
                 punct!(emitter, ",");
                 formatting_space!(emitter);
             }
