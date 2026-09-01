@@ -2291,11 +2291,11 @@ impl GlobalPassOption {
                     static CACHE: Lazy<DashMap<Vec<(Atom, Atom)>, ValuesMap, FxBuildHasher>> =
                         Lazy::new(Default::default);
 
-                    let cache_key = self
-                        .vars
+                    let mut cache_key = map
                         .iter()
                         .map(|(k, v)| (k.clone(), v.clone()))
                         .collect::<Vec<_>>();
+                    cache_key.sort_unstable();
                     if let Some(v) = CACHE.get(&cache_key) {
                         (*v).clone()
                     } else {
