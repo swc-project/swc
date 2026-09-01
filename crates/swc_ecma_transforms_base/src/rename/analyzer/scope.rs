@@ -154,11 +154,12 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if renamer.preserve_name(&id)
-                || preserved.contains(&id)
-                || to.get(&id).is_some()
-                || previous.get(&id).is_some()
-                || id.0 == "eval"
+            if to.get(&id).is_some() || previous.get(&id).is_some() || id.0 == "eval" {
+                continue;
+            }
+
+            if (renamer.preserve_name(&id) || preserved.contains(&id))
+                && self.try_preserve_name(&id, reverse)
             {
                 continue;
             }
@@ -305,11 +306,12 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if renamer.preserve_name(&id)
-                || preserved.contains(&id)
-                || to.get(&id).is_some()
-                || previous.get(&id).is_some()
-                || id.0 == "eval"
+            if to.get(&id).is_some() || previous.get(&id).is_some() || id.0 == "eval" {
+                continue;
+            }
+
+            if (renamer.preserve_name(&id) || preserved.contains(&id))
+                && self.try_preserve_name(&id, reverse)
             {
                 continue;
             }
@@ -345,5 +347,19 @@ impl Scope {
     pub fn rename_cost(&self) -> usize {
         let children = &self.children;
         self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
+    }
+
+    /// Keeps `id` unchanged only if its emitted symbol is safe in this scope.
+    ///
+    /// A preserved binding still has to be recorded in the reverse map. Child
+    /// scopes inherit this map, and without the entry they can emit the same
+    /// symbol for a different binding and capture references to this one.
+    fn try_preserve_name(&self, id: &Id, reverse: &mut ReverseMap) -> bool {
+        if !self.can_rename(id, &id.0, reverse) {
+            return false;
+        }
+
+        reverse.push_entry(id.0.clone(), id.clone());
+        true
     }
 }
