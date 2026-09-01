@@ -1036,7 +1036,7 @@ impl MacroNode for TsTupleType {
             Some(&self.elem_types),
             ListFormat::TupleTypeElements,
         )?;
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "]");
         Ok(())
     }

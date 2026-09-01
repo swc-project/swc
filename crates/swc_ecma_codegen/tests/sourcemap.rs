@@ -740,6 +740,37 @@ fn dummy_span_typescript_bool_is_source_less() {
 }
 
 #[test]
+fn real_tuple_type_resumes_before_closing_delimiter() {
+    let source = "type Value = [original];\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsTupleType(tuple) = &mut *type_alias.type_ann else {
+            panic!("expected a tuple type");
+        };
+        *tuple.elem_types[0].ty = TsType::TsLitType(TsLitType {
+            span: DUMMY_SP,
+            lit: TsLit::Bool(Bool {
+                span: DUMMY_SP,
+                value: true,
+            }),
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "true");
+        assert_source_location(&map, &code, "]", 0, 22);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn empty_module_source_map_stays_empty() {
     let cm = Lrc::<CommonSourceMap>::default();
     let (module, comments) = parse_module(&cm, "");
