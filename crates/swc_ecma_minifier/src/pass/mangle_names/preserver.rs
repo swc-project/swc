@@ -22,6 +22,7 @@ where
         preserved: Default::default(),
         should_preserve: false,
         in_top_level: false,
+        preserve_top_level_vars: false,
 
         idents: Vec::new(),
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
@@ -64,6 +65,7 @@ pub(crate) struct Preserver<'a> {
 
     should_preserve: bool,
     in_top_level: bool,
+    preserve_top_level_vars: bool,
 
     idents: Vec<Id>,
     unresolved_ctx: SyntaxContext,
@@ -103,13 +105,18 @@ impl Preserver<'_> {
         self.in_top_level = old_top_level;
     }
 
-    /// Visits a loop body while preserving a directly declared `var` in the
-    /// surrounding scope.
+    /// Visits a loop body while preserving `var` declarations hoisted to the
+    /// surrounding top-level scope.
     fn visit_loop_body(&mut self, body: &Stmt) {
-        match body {
-            Stmt::Decl(Decl::Var(var)) if var.kind == VarDeclKind::Var => body.visit_with(self),
-            _ => self.visit_non_top_level(body),
-        }
+        let old_top_level = self.in_top_level;
+        let old_preserve_top_level_vars = self.preserve_top_level_vars;
+
+        self.in_top_level = false;
+        self.preserve_top_level_vars |= old_top_level;
+        body.visit_with(self);
+
+        self.preserve_top_level_vars = old_preserve_top_level_vars;
+        self.in_top_level = old_top_level;
     }
 }
 
@@ -123,7 +130,10 @@ impl Visit for Preserver<'_> {
     }
 
     fn visit_function_body(&mut self, n: &FunctionBody) {
+        let old_preserve_top_level_vars = self.preserve_top_level_vars;
+        self.preserve_top_level_vars = false;
         self.visit_non_top_level_stmts(&n.stmts);
+        self.preserve_top_level_vars = old_preserve_top_level_vars;
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause) {
@@ -290,5 +300,17 @@ impl Visit for Preserver<'_> {
                 _ => {}
             }
         }
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        if n.kind == VarDeclKind::Var && self.preserve_top_level_vars {
+            let old_top_level = self.in_top_level;
+            self.in_top_level = true;
+            n.visit_children_with(self);
+            self.in_top_level = old_top_level;
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 }
