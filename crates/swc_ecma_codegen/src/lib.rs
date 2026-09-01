@@ -1834,6 +1834,8 @@ impl MacroNode for Invalid {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
+        srcmap!(emitter, self, true);
+
         emitter.wr.write_str_lit(self.span, "<invalid>")?;
 
         Ok(())

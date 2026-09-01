@@ -86,8 +86,13 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     }
 
     #[inline]
+    fn will_add_srcmap(&self, pos: BytePos) -> bool {
+        self.inner.will_add_srcmap(pos)
+    }
+
+    #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
-        if pos == BytePos::SYNTHESIZED && self.inner.care_about_srcmap() {
+        if pos == BytePos::SYNTHESIZED && self.inner.will_add_srcmap(pos) {
             self.commit_pending_semi()?;
         }
 
@@ -196,5 +201,25 @@ mod tests {
                 (BytePos::SYNTHESIZED, LineCol { line: 0, col: 9 }),
             ]
         );
+    }
+
+    #[test]
+    fn preserves_pending_semi_before_redundant_unmapped_boundary() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut out = vec![];
+        let mut mappings = vec![];
+        {
+            let writer = JsWriter::new(source_map, "\n", &mut out, Some(&mut mappings));
+            let mut writer = super::omit_trailing_semi(writer);
+
+            writer.write_punct(None, "{", false).unwrap();
+            writer.write_str("foo()").unwrap();
+            writer.write_semi(None).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer.write_punct(None, "}", false).unwrap();
+        }
+
+        assert_eq!(out, b"{foo()}");
+        assert!(mappings.is_empty());
     }
 }

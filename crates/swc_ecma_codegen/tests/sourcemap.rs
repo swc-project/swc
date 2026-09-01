@@ -8,8 +8,8 @@ use swc_common::{
     LineCol, SourceMap as CommonSourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::{
-    ArrayLit, EsVersion, Expr, ExprOrSpread, ImportDecl, ImportPhase, Module, ModuleDecl,
-    ModuleItem, Stmt, Str,
+    ArrayLit, EmptyStmt, EsVersion, Expr, ExprOrSpread, ExprStmt, ImportDecl, ImportPhase, Invalid,
+    Module, ModuleDecl, ModuleItem, Stmt, Str,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
@@ -190,6 +190,41 @@ fn dummy_span_between_mapped_regions_clears_mapping() {
             );
         }
     }
+}
+
+#[test]
+fn dummy_leaf_nodes_between_mapped_regions_clear_mapping() {
+    let source = "before();\nmiddle();\nafter();\n";
+    let cm = Lrc::<CommonSourceMap>::default();
+    let (mut module, comments) = parse_module(&cm, source);
+
+    module.body.insert(
+        1,
+        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
+    );
+    module.body.insert(
+        3,
+        ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Invalid(Invalid { span: DUMMY_SP })),
+        })),
+    );
+
+    let (code, map, mappings) = emit_source_map(cm, &comments, &module, true, true, None);
+
+    assert_source_location(&map, &code, "before", 0, 0);
+    assert_source_less_boundary(&map, &code, ";middle");
+    assert_source_location(&map, &code, "middle", 1, 0);
+    assert_source_less_boundary(&map, &code, "<invalid>");
+    assert_source_location(&map, &code, "after", 2, 0);
+    assert_eq!(
+        mappings
+            .iter()
+            .filter(|(pos, _)| *pos == BytePos::SYNTHESIZED)
+            .count(),
+        2,
+        "each generated leaf region should have one source-less boundary: {code}"
+    );
 }
 
 #[test]

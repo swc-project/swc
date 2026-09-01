@@ -102,6 +102,14 @@ pub trait WriteJs {
 
     fn care_about_srcmap(&self) -> bool;
 
+    /// Returns whether adding `pos` would record a source-map transition.
+    ///
+    /// Writers that do not track their current mapping state conservatively
+    /// report whether they collect source maps at all.
+    fn will_add_srcmap(&self, _pos: BytePos) -> bool {
+        self.care_about_srcmap()
+    }
+
     fn add_srcmap(&mut self, pos: BytePos) -> Result;
 
     fn commit_pending_semi(&mut self) -> Result;
@@ -246,6 +254,11 @@ where
     }
 
     #[inline]
+    fn will_add_srcmap(&self, pos: BytePos) -> bool {
+        (**self).will_add_srcmap(pos)
+    }
+
+    #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
         (**self).add_srcmap(pos)
     }
@@ -379,6 +392,11 @@ where
     #[inline]
     fn care_about_srcmap(&self) -> bool {
         (**self).care_about_srcmap()
+    }
+
+    #[inline]
+    fn will_add_srcmap(&self, pos: BytePos) -> bool {
+        (**self).will_add_srcmap(pos)
     }
 
     #[inline]

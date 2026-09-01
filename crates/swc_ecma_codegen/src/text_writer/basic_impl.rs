@@ -357,6 +357,13 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
     }
 
     #[inline]
+    fn will_add_srcmap(&self, pos: BytePos) -> bool {
+        self.srcmap.is_some()
+            && !pos.is_dummy()
+            && (pos != BytePos::SYNTHESIZED || self.srcmap_state != SourceMapState::Unmapped)
+    }
+
+    #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
         if self.srcmap.is_some() {
             if self.line_start {

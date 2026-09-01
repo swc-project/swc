@@ -64,6 +64,8 @@ impl MacroNode for EmptyStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap!(emitter, self, true);
+
         emitter.wr.write_punct(None, ";", false)?;
 
         Ok(())
