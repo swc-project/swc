@@ -37,7 +37,7 @@ try {
 } catch  {
     record("class-heritage-throws");
 }
-const { iifeValue = function(value = record("iife-param")) {}() } = {}, { iifeRestValue = function(...[value = record("iife-rest-param")]) {}() } = {};
+const { iifeValue = function(value = record("iife-param")) {}() } = {}, { iifeRestValue = function(...[value = record("iife-rest-param")]) {}() } = {}, { generatorValue = function*(value = record("generator-param")) {}() } = {}, { asyncGeneratorValue = async function*(value = record("async-generator-param")) {}() } = {};
 function namedEmptyFunction(value = record("named-function-param")) {}
 const { namedFunctionValue = namedEmptyFunction() } = {};
 function returnsNull() {
@@ -72,8 +72,16 @@ const proxyKey = new Proxy({}, {
     }
 }), { defaultClassValue = class {
     [classProxyKey]() {}
-} } = {}, { newTargetValue = class {
+} } = {}, nestedProxy = new Proxy({}, {
+    ownKeys: ()=>(record("nested-spread-own-keys"), [])
+}), { nestedSpreadValue = 0 } = {
+    other: {
+        ...nestedProxy
+    }
+}, { newTargetValue = class {
     static value = record(new.target === void 0 ? "class-new-target" : "unexpected-new-target");
+} } = {}, { arrowNewTargetValue = class {
+    static value = record(new.target === void 0 ? "arrow-new-target" : "unexpected-arrow-new-target");
 } } = {}, { directEvalValue = class {
     static value = eval("record(typeof this)");
 } } = {};

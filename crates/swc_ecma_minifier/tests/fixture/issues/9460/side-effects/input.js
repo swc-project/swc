@@ -54,6 +54,8 @@ try {
 
 const { iifeValue = (function (value = record("iife-param")) {})() } = {};
 const { iifeRestValue = (function (...[value = record("iife-rest-param")]) {})() } = {};
+const { generatorValue = (function* (value = record("generator-param")) {})() } = {};
+const { asyncGeneratorValue = (async function* (value = record("async-generator-param")) {})() } = {};
 
 function namedEmptyFunction(value = record("named-function-param")) {}
 const { namedFunctionValue = namedEmptyFunction() } = {};
@@ -106,8 +108,20 @@ const classProxyKey = new Proxy({}, {
 });
 const { defaultClassValue = class { [classProxyKey]() {} } } = {};
 
+const nestedProxy = new Proxy({}, {
+    ownKeys() {
+        record("nested-spread-own-keys");
+        return [];
+    }
+});
+const { nestedSpreadValue = 0 } = { other: { ...nestedProxy } };
+
 const { newTargetValue = class {
     static value = record(new.target === undefined ? "class-new-target" : "unexpected-new-target");
+} } = {};
+
+const { arrowNewTargetValue = class {
+    static value = (() => record(new.target === undefined ? "arrow-new-target" : "unexpected-arrow-new-target"))();
 } } = {};
 
 const { directEvalValue = class {

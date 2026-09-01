@@ -452,13 +452,9 @@ impl Optimizer<'_> {
         // only describes evaluation effects, not the value produced by the
         // initializer. Classes are excluded because accessing a static property can
         // invoke a user-defined static getter.
-        let can_drop_object_assign_default = matches!(
-            init.as_deref(),
-            Some(Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..))
-        ) || matches!(
-            init.as_deref(),
-            Some(Expr::Object(object)) if object.props.iter().all(is_non_computed_object_prop)
-        );
+        let can_drop_object_assign_default = init
+            .as_deref()
+            .is_some_and(is_safe_object_assign_default_initializer);
         let is_function_object_assign_default =
             matches!(init.as_deref(), Some(Expr::Fn(..) | Expr::Arrow(..)));
 
@@ -1465,6 +1461,21 @@ fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
     }
 }
 
+/// Returns true when an initializer is both non-nullish and can be reduced by
+/// `ignore_return_value` without losing construction-time effects.
+fn is_safe_object_assign_default_initializer(init: &Expr) -> bool {
+    if !matches!(
+        init,
+        Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Object(..)
+    ) {
+        return false;
+    }
+
+    let mut visitor = NonDiscardableDefaultVisitor::default();
+    init.visit_with(&mut visitor);
+    !visitor.found
+}
+
 /// Returns true for object literal keys with special `__proto__` semantics.
 fn is_proto_key(key: &PropName) -> bool {
     match key {
@@ -1565,6 +1576,21 @@ impl Visit for NonDiscardableDefaultVisitor {
         e.visit_children_with(self);
     }
 
+    fn visit_array_lit(&mut self, e: &ArrayLit) {
+        // Array spread invokes the iterator protocol, which cannot be preserved
+        // by reducing the array to its element expressions.
+        if e.elems
+            .iter()
+            .flatten()
+            .any(|element| element.spread.is_some())
+        {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
     fn visit_class(&mut self, e: &Class) {
         // Evaluating `class extends value {}` throws unless `value` is a
         // constructor or `null`. The side-effect extractor intentionally only
@@ -1603,11 +1629,21 @@ impl Visit for NonDiscardableDefaultVisitor {
             return;
         }
 
+        if let Callee::Expr(callee) = &e.callee {
+            if let Expr::Arrow(arrow) = &**callee {
+                // Unlike a standalone arrow expression, a directly invoked arrow
+                // evaluates its body during class evaluation.
+                arrow.body.visit_with(self);
+                if self.found {
+                    return;
+                }
+            }
+        }
+
         let has_observable_param_initialization = match &e.callee {
             Callee::Expr(callee) => match &**callee {
                 Expr::Fn(FnExpr { function, .. }) => {
-                    !function.is_generator
-                        && function.body.is_empty()
+                    function.body.is_empty()
                         && function
                             .params
                             .iter()
