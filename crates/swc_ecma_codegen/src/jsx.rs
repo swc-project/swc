@@ -34,7 +34,7 @@ impl MacroNode for JSXElement {
 #[node_impl]
 impl MacroNode for JSXOpeningElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, true);
 
         punct!(emitter, "<");
         emit!(self.name);
@@ -226,7 +226,7 @@ impl MacroNode for JSXFragment {
 #[node_impl]
 impl MacroNode for JSXOpeningFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, true);
 
         punct!(emitter, "<>");
         Ok(())

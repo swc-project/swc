@@ -9,12 +9,12 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrayLit, AssignTarget, Bool, CallExpr, Callee, DebuggerStmt, Decl, EmptyStmt, EsVersion, Expr,
-    ExprOrSpread, ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, Module, ModuleDecl,
-    ModuleItem, ObjectPatProp, Pat, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit,
-    TsLitType, TsType,
+    ExprOrSpread, ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, JSXElementChild,
+    JSXElementName, Module, ModuleDecl, ModuleItem, ObjectPatProp, Pat, SimpleAssignTarget, Stmt,
+    Str, Super, ThisExpr, TsLit, TsLitType, TsType,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_sourcemap::SourceMap;
 
@@ -371,6 +371,52 @@ fn real_object_pattern_resumes_before_closing_delimiter() {
 
         assert_source_location(&map, &code, "}", 1, 14);
         assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn jsx_opening_delimiters_resume_after_dummy_siblings() {
+    let source = "const value = <root><generated/><real/><generated2/><>fragment</></root>;\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(root) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+
+        for index in [0, 2] {
+            let JSXElementChild::JSXElement(element) = &mut root.children[index] else {
+                panic!("expected a generated JSX element");
+            };
+            element.span = DUMMY_SP;
+            element.opening.span = DUMMY_SP;
+            let JSXElementName::Ident(name) = &mut element.opening.name else {
+                panic!("expected a JSX identifier");
+            };
+            name.span = DUMMY_SP;
+        }
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "<generated");
+        assert_source_location(&map, &code, "<real", 0, 32);
+        assert_source_less_boundary(&map, &code, "<generated2");
+        assert_source_location(&map, &code, "<>fragment", 0, 52);
     }
 }
 
