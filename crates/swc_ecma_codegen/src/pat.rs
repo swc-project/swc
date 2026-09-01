@@ -214,7 +214,7 @@ impl MacroNode for ObjectPat {
             ListFormat::ObjectBindingPatternElements | ListFormat::CanSkipTrailingComma,
         )?;
 
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
 
         if self.optional {
