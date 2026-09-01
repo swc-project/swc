@@ -26,4 +26,16 @@ try {
 } catch  {
     record("wrapped-in-throws");
 }
+const proxy = new Proxy({}, {
+    ownKeys: ()=>(record("spread-own-keys"), [])
+}), { spreadValue = {
+    ...proxy
+} } = {};
+try {
+    const { classHeritage = class extends 1 {
+    } } = {};
+} catch  {
+    record("class-heritage-throws");
+}
+const { iifeValue = function(value = record("iife-param")) {}() } = {};
 console.log(events.join(","));

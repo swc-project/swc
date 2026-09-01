@@ -4,7 +4,9 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, Value};
+use swc_ecma_utils::{
+    contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, IsEmpty, Value,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -302,14 +304,14 @@ impl Optimizer<'_> {
                 return;
             }
 
-            // `in` and `instanceof` can throw even when both operands have no side
-            // effects. Do not pass defaults that evaluate either operator to
-            // `ignore_return_value`, which is allowed to discard arithmetic
-            // exceptions under minifier assumptions.
-            let mut visitor = PotentiallyThrowingOperatorVisitor::default();
+            // Some expressions have observable evaluation that
+            // `ignore_return_value` cannot preserve. Do not pass those defaults
+            // to it, because a destructuring default is evaluated when the
+            // property value is `undefined`.
+            let mut visitor = NonDiscardableDefaultVisitor::default();
             value.visit_with(&mut visitor);
             if visitor.found {
-                log_abort!("unused: Preserving potentially throwing object pattern default");
+                log_abort!("unused: Preserving object pattern default with observable evaluation");
                 return;
             }
 
@@ -1432,14 +1434,14 @@ fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
         .map_or(true, |s| !matches!(s, "toString" | "valueOf"))
 }
 
-/// Finds `in` and `instanceof` operators evaluated while computing an
-/// expression.
+/// Finds expressions whose evaluation cannot be reconstructed by
+/// `ignore_return_value`.
 #[derive(Default)]
-struct PotentiallyThrowingOperatorVisitor {
+struct NonDiscardableDefaultVisitor {
     found: bool,
 }
 
-impl Visit for PotentiallyThrowingOperatorVisitor {
+impl Visit for NonDiscardableDefaultVisitor {
     noop_visit_type!();
 
     // Function bodies are evaluated only when called, not while creating the
@@ -1450,6 +1452,68 @@ impl Visit for PotentiallyThrowingOperatorVisitor {
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         if matches!(e.op, op!("in") | op!("instanceof")) {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_object_lit(&mut self, e: &ObjectLit) {
+        // Object spread performs observable property enumeration and access,
+        // even if the spread operand itself has no direct side effects.
+        if e.props.iter().any(PropOrSpread::is_spread) {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_class(&mut self, e: &Class) {
+        // Evaluating `class extends value {}` throws unless `value` is a
+        // constructor or `null`. The side-effect extractor intentionally only
+        // keeps expressions with direct effects, so retain the class default
+        // when its heritage cannot be proven to be `null`.
+        if e.super_class
+            .as_deref()
+            .is_some_and(|super_class| !matches!(super_class, Expr::Lit(Lit::Null(..))))
+        {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_call_expr(&mut self, e: &CallExpr) {
+        let has_observable_param_initialization = match &e.callee {
+            Callee::Expr(callee) => match &**callee {
+                Expr::Fn(FnExpr { function, .. }) => {
+                    !function.is_generator
+                        && function.body.is_empty()
+                        && function
+                            .params
+                            .iter()
+                            .any(|param| !matches!(param.pat, Pat::Ident(..) | Pat::Rest(..)))
+                }
+                Expr::Arrow(ArrowExpr { body, params, .. }) => {
+                    matches!(
+                        &**body,
+                        ArrowFunctionBody::FunctionBody(body) if body.stmts.is_empty()
+                    ) && params
+                        .iter()
+                        .any(|param| !matches!(param, Pat::Ident(..) | Pat::Rest(..)))
+                }
+                _ => false,
+            },
+            _ => false,
+        };
+
+        if e.args.is_empty() && has_observable_param_initialization {
+            // Calling an empty function still initializes omitted parameters.
+            // In particular, defaults can run user code and destructuring can
+            // throw, neither of which is preserved by the pure-call shortcut.
             self.found = true;
             return;
         }
