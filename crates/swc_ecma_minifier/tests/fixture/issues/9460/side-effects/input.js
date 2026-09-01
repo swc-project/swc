@@ -142,6 +142,15 @@ const { privateEnvironmentValue = class {
     });
 } } = {};
 
+const { nestedClassPrivateEnvironmentValue = class {
+    static #nestedPrivateName;
+    static value = keep(class {
+        method() {
+            return #nestedPrivateName in {};
+        }
+    });
+} } = {};
+
 const { directEvalValue = class {
     static value = eval("record(typeof this)");
 } } = {};

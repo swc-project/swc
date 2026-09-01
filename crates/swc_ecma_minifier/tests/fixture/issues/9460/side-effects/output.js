@@ -97,6 +97,13 @@ const { privateEnvironmentValue = class {
     static value = keep(function() {
         return #privateName in {};
     });
+} } = {}, { nestedClassPrivateEnvironmentValue = class {
+    static #nestedPrivateName;
+    static value = keep(class {
+        method() {
+            return #nestedPrivateName in {};
+        }
+    });
 } } = {}, { directEvalValue = class {
     static value = eval("record(typeof this)");
 } } = {};

@@ -186,6 +186,7 @@ pub(crate) fn extract_class_side_effect<'a>(
     let mut visitor = ClassEffectVisitor {
         found: false,
         private_ident: FxHashSet::default(),
+        nested_class_depth: 0,
     };
 
     for m in &mut c.body {
@@ -290,6 +291,7 @@ pub(crate) fn extract_class_side_effect<'a>(
 struct ClassEffectVisitor {
     found: bool,
     private_ident: FxHashSet<Atom>,
+    nested_class_depth: usize,
 }
 
 impl Visit for ClassEffectVisitor {
@@ -310,6 +312,15 @@ impl Visit for ClassEffectVisitor {
         n.visit_children_with(&mut visitor);
 
         self.found |= visitor.found;
+
+        // Ordinary functions inherit strict mode from the containing class.
+        // Extracting an outer class's static initializer would relocate those
+        // functions into the surrounding scope and can change their semantics.
+        // Functions inside a nested class stay within that class when the
+        // initializer is relocated, so their strictness is preserved.
+        if self.nested_class_depth == 0 {
+            self.found = true;
+        }
     }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
@@ -337,18 +348,20 @@ impl Visit for ClassEffectVisitor {
     }
 
     fn visit_class(&mut self, n: &Class) {
-        let mut new_set = FxHashSet::default();
+        let mut private_ident = self.private_ident.clone();
 
         for m in &n.body {
             if let ClassMember::PrivateProp(PrivateProp { key, .. })
             | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = m
             {
-                new_set.insert(key.name.clone());
+                private_ident.remove(&key.name);
             }
         }
 
-        let old_set = mem::replace(&mut self.private_ident, new_set);
+        let old_set = mem::replace(&mut self.private_ident, private_ident);
+        self.nested_class_depth += 1;
         n.visit_children_with(self);
+        self.nested_class_depth -= 1;
         self.private_ident = old_set;
     }
 }
@@ -368,13 +381,13 @@ impl Visit for PrivateNameUsageVisitor {
     }
 
     fn visit_class(&mut self, n: &Class) {
-        let mut private_ident = FxHashSet::default();
+        let mut private_ident = self.private_ident.clone();
 
         for member in &n.body {
             if let ClassMember::PrivateProp(PrivateProp { key, .. })
             | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = member
             {
-                private_ident.insert(key.name.clone());
+                private_ident.remove(&key.name);
             }
         }
 
