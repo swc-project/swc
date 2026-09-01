@@ -87,7 +87,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 
     #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
-        if pos == BytePos::SYNTHESIZED {
+        if pos == BytePos::SYNTHESIZED && self.inner.care_about_srcmap() {
             self.commit_pending_semi()?;
         }
 

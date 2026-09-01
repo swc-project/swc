@@ -212,6 +212,26 @@ where
     .unwrap()
 }
 
+#[test]
+fn minified_dummy_block_omits_trailing_semi_without_source_map() {
+    let block = BlockStmt {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        stmts: vec![Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                ctxt: Default::default(),
+                callee: Callee::Expr(constructed_ident("foo")),
+                args: vec![],
+                type_args: None,
+            })),
+        })],
+    };
+
+    assert_eq!(emit_constructed_node(&block, true), "{foo()}");
+}
+
 fn assert_valid_constructed_expr(code: &str, syntax: Syntax) {
     let source = format!("const value = {code};");
     parse_then_emit(&source, Default::default(), syntax);
