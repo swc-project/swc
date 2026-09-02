@@ -289,7 +289,8 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
             if self.srcmap.is_some() {
                 self.line_count += 1;
                 self.line_pos = 0;
-                self.srcmap_state = SourceMapState::Unmapped;
+                // A consumer may carry the previous mapping across generated
+                // lines, so only an explicit source-less segment clears it.
             }
             self.line_start = true;
 
@@ -705,7 +706,7 @@ mod test {
     }
 
     #[test]
-    fn generated_line_starts_unmapped() {
+    fn generated_line_emits_source_less_boundary() {
         let source_map = Arc::new(SourceMap::default());
         let mut output = Vec::new();
         let mut srcmap = vec![];
@@ -716,13 +717,19 @@ mod test {
             writer.add_srcmap(BytePos(1)).unwrap();
             writer.write_line().unwrap();
 
-            assert!(!writer.will_add_srcmap(BytePos::SYNTHESIZED));
+            assert!(writer.will_add_srcmap(BytePos::SYNTHESIZED));
             writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
             writer.write_str("generated").unwrap();
         }
 
         assert_eq!(output, b"mapped\ngenerated");
-        assert_eq!(srcmap, vec![(BytePos(1), LineCol { line: 0, col: 6 })]);
+        assert_eq!(
+            srcmap,
+            vec![
+                (BytePos(1), LineCol { line: 0, col: 6 }),
+                (BytePos::SYNTHESIZED, LineCol { line: 1, col: 0 }),
+            ]
+        );
     }
 
     #[test]
