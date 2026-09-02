@@ -992,6 +992,7 @@ struct PositionRange {
 #[derive(Debug, Clone, Copy)]
 struct SourceRange {
     src_id: u32,
+    generated_start: (u32, u32),
     range: PositionRange,
 }
 
@@ -1014,12 +1015,15 @@ fn offset_position(position: (u32, u32), line_diff: i64, col_diff: i64) -> Optio
 }
 
 fn normalize_source_ranges(mut ranges: Vec<SourceRange>) -> Vec<SourceRange> {
-    ranges.sort_unstable_by_key(|range| (range.src_id, range.range.start));
+    ranges.sort_unstable_by_key(|range| (range.src_id, range.generated_start, range.range.start));
 
     let mut normalized: Vec<SourceRange> = Vec::with_capacity(ranges.len());
     for range in ranges {
         if let Some(previous) = normalized.last_mut() {
-            if range.src_id == previous.src_id && range.range.start <= previous.range.end {
+            if range.src_id == previous.src_id
+                && range.generated_start == previous.generated_start
+                && range.range.start <= previous.range.end
+            {
                 previous.range.end = std::cmp::max(previous.range.end, range.range.end);
                 continue;
             }
@@ -1095,6 +1099,7 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
                 if start < end {
                     unmapped_source_ranges.push(SourceRange {
                         src_id: token.src_id,
+                        generated_start: (token.dst_line, token.dst_col),
                         range: PositionRange { start, end },
                     });
                 }
@@ -1123,13 +1128,23 @@ fn is_in_ranges(position: (u32, u32), ranges: &[PositionRange]) -> bool {
 }
 
 #[inline]
-fn is_in_source_ranges(src_id: u32, position: (u32, u32), ranges: &[SourceRange]) -> bool {
+fn is_in_source_ranges_for_generated(
+    src_id: u32,
+    generated_start: (u32, u32),
+    position: (u32, u32),
+    ranges: &[SourceRange],
+) -> bool {
     let index = ranges.partition_point(|range| {
-        range.src_id < src_id || (range.src_id == src_id && range.range.end <= position)
+        range.src_id < src_id
+            || (range.src_id == src_id
+                && (range.generated_start < generated_start
+                    || (range.generated_start == generated_start && range.range.end <= position)))
     });
-    ranges
-        .get(index)
-        .is_some_and(|range| range.src_id == src_id && range.range.start <= position)
+    ranges.get(index).is_some_and(|range| {
+        range.src_id == src_id
+            && range.generated_start == generated_start
+            && range.range.start <= position
+    })
 }
 
 pub(crate) fn adjust_mappings(
@@ -1263,8 +1278,12 @@ pub(crate) fn adjust_mappings(
             token.dst_line = (token.dst_line as i32 + line_diff) as u32;
             token.dst_col = (token.dst_col as i32 + col_diff) as u32;
 
-            if !is_in_source_ranges(
+            if !is_in_source_ranges_for_generated(
                 adjustment_range.value.src_id,
+                (
+                    adjustment_range.value.dst_line,
+                    adjustment_range.value.dst_col,
+                ),
                 intermediate_position,
                 &unmapped_source_ranges,
             ) && !is_in_ranges((token.dst_line, token.dst_col), &unmapped_generated_ranges)
@@ -1396,6 +1415,7 @@ pub fn adjust_mappings_from_multiple(
     let mut add_mapping = |input_maps: &mut Vec<crate::lazy::SourceMap<'_>>,
                            map_idx: u32,
                            intermediate_src_id: u32,
+                           generated_start: (u32, u32),
                            intermediate_line: u32,
                            intermediate_col: u32,
                            dst_line: u32,
@@ -1405,8 +1425,9 @@ pub fn adjust_mappings_from_multiple(
                            src_id: u32,
                            name_id: u32,
                            is_range: bool| {
-        if is_in_source_ranges(
+        if is_in_source_ranges_for_generated(
             intermediate_src_id,
+            generated_start,
             (intermediate_line, intermediate_col),
             &unmapped_source_ranges,
         ) || is_in_ranges((dst_line, dst_col), &unmapped_generated_ranges)
@@ -1478,6 +1499,7 @@ pub fn adjust_mappings_from_multiple(
                     &mut input_maps,
                     0,
                     self_range.value.src_id,
+                    (self_range.value.dst_line, self_range.value.dst_col),
                     self_range.value.src_line,
                     self_range.value.src_col,
                     self_range.value.dst_line,
@@ -1500,6 +1522,7 @@ pub fn adjust_mappings_from_multiple(
                     &mut input_maps,
                     input_range_value.map_idx,
                     self_range.value.src_id,
+                    (self_range.value.dst_line, self_range.value.dst_col),
                     dst_line,
                     dst_col,
                     (dst_line as i32 + line_diff) as u32,
@@ -2168,6 +2191,34 @@ mod tests {
     }
 
     #[test]
+    fn adjust_mappings_scopes_unmapped_ranges_to_generated_occurrence() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 10, 10, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
+        adjustment_builder.add_raw(0, 16, 0, 20, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(1, 0, 0, 10, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let token = original
+            .tokens()
+            .find(|token| token.get_dst() == (1, 0))
+            .expect("the reused source interval should map through its later occurrence");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            original.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
     fn adjust_mappings_from_multiple_preserves_unmapped_self_segments() {
         let mut bundled_builder = SourceMapBuilder::new(None);
         let intermediate_source = bundled_builder.add_source("intermediate.js".into());
@@ -2448,6 +2499,42 @@ mod tests {
             .tokens()
             .find(|token| token.get_dst() == (0, 26))
             .expect("the equal-position resumed mapping should own the later source range");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_scopes_unmapped_ranges_to_generated_occurrence() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 20, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(1, 0, 0, 10, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "UAUA"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (1, 0))
+            .expect("the reused source interval should map through its later occurrence");
         assert_eq!(token.get_src(), (10, 0));
         assert_eq!(
             composed.get_source(token.get_src_id()).unwrap(),
