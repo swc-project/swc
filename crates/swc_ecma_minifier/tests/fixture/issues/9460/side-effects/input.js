@@ -161,6 +161,10 @@ const { directEvalValue = class {
     static value = eval("record(typeof this)");
 } } = {};
 
+const { parenthesizedDirectEvalValue = class {
+    static value = (eval)("record(typeof this)");
+} } = {};
+
 try {
     const { shorthandValue = { missing } } = {};
 } catch {

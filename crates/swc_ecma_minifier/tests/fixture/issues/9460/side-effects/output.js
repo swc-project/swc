@@ -111,6 +111,8 @@ const { privateEnvironmentValue = class {
     });
 } } = {}, { directEvalValue = class {
     static value = eval("record(typeof this)");
+} } = {}, { parenthesizedDirectEvalValue = class {
+    static value = eval("record(typeof this)");
 } } = {};
 try {
     const { shorthandValue = {

@@ -1700,7 +1700,7 @@ impl Visit for NonDiscardableDefaultVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         if matches!(
             &e.callee,
-            Callee::Expr(callee) if matches!(&**callee, Expr::Ident(Ident { sym, .. }) if &**sym == "eval")
+            Callee::Expr(callee) if matches!(callee.unwrap_parens(), Expr::Ident(Ident { sym, .. }) if &**sym == "eval")
         ) {
             // Direct eval observes the class evaluation environment, which cannot
             // be preserved when class side effects are extracted.
