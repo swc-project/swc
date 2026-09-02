@@ -230,6 +230,7 @@ impl MacroNode for VarDeclarator {
 
         if let Some(ref init) = self.init {
             formatting_space!(emitter);
+            srcmap_for_separator!(emitter, self, self.name);
             punct!(emitter, "=");
             formatting_space!(emitter);
             emit!(init);

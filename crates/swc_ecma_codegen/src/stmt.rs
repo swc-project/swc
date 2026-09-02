@@ -401,6 +401,7 @@ impl MacroNode for DoWhileStmt {
         }
         emit!(self.body);
 
+        srcmap_for_separator!(emitter, self, self.body);
         keyword!(emitter, "while");
 
         formatting_space!(emitter);

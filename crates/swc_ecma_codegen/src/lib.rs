@@ -292,6 +292,9 @@ where
 
         if let Some(type_args) = &node.type_args {
             emit!(self, type_args);
+            srcmap_for_separator!(self, node, type_args);
+        } else {
+            srcmap_for_separator!(self, node, node.callee);
         }
 
         if let Some(ref args) = node.args {
@@ -603,6 +606,7 @@ where
                 self.emit_leading_comments(previous_sibling.hi(), true)?;
             }
 
+            srcmap_for_separator!(self, parent_node, previous_sibling);
             self.write_delim(format)?;
 
             // Write either a line terminator or whitespace to separate the elements.
@@ -1864,6 +1868,9 @@ impl MacroNode for CallExpr {
 
         if let Some(type_args) = &self.type_args {
             emit!(type_args);
+            srcmap_for_separator!(emitter, self, type_args);
+        } else {
+            srcmap_for_separator!(emitter, self, self.callee);
         }
 
         punct!(emitter, "(");

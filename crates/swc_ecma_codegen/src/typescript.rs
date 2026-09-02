@@ -464,7 +464,7 @@ impl MacroNode for TsInterfaceBody {
 
         emitter.emit_list(self.span, Some(&self.body), ListFormat::InterfaceMembers)?;
 
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
         Ok(())
     }
