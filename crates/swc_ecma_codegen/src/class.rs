@@ -28,7 +28,11 @@ where
             }
 
             self.emit_expr_with_precedence(super_class, ExprPrecedence::POSTFIX)?;
-            emit!(self, node.super_type_params);
+            srcmap_for_separator!(self, node, super_class);
+            if let Some(super_type_params) = &node.super_type_params {
+                emit!(self, super_type_params);
+                srcmap_for_separator!(self, node, super_type_params);
+            }
         }
 
         if !node.implements.is_empty() {
@@ -42,6 +46,7 @@ where
                 Some(&node.implements),
                 ListFormat::ClassHeritageClauses,
             )?;
+            srcmap_for_separator!(self, node, node.implements.last().unwrap());
         }
 
         formatting_space!(self);

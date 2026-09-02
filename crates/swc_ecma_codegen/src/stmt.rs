@@ -592,6 +592,7 @@ impl MacroNode for IfStmt {
         emit!(self.cons);
 
         if let Some(ref alt) = self.alt {
+            srcmap_for_separator!(emitter, self, self.cons);
             if is_cons_block {
                 formatting_space!(emitter);
             }

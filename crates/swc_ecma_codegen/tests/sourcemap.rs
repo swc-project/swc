@@ -8,11 +8,12 @@ use swc_common::{
     LineCol, SourceMap as CommonSourceMap, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::{
-    ArrayLit, AssignTarget, Bool, CallExpr, Callee, DebuggerStmt, Decl, EmptyStmt, EsVersion, Expr,
-    ExprOrSpread, ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, JSXAttrName,
-    JSXAttrOrSpread, JSXElementChild, JSXElementName, JSXExpr, Module, ModuleDecl, ModuleItem,
-    ObjectPatProp, Pat, SeqExpr, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsKeywordType,
-    TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement,
+    ArrayLit, AssignTarget, Bool, CallExpr, Callee, ClassMember, DebuggerStmt, Decl, EmptyStmt,
+    EsVersion, ExportSpecifier, Expr, ExprOrSpread, ExprStmt, Ident, Import, ImportDecl,
+    ImportPhase, ImportSpecifier, Invalid, JSXAttrName, JSXAttrOrSpread, JSXElementChild,
+    JSXElementName, JSXExpr, Module, ModuleDecl, ModuleExportName, ModuleItem, ObjectPatProp, Pat,
+    SeqExpr, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsKeywordType, TsKeywordTypeKind,
+    TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -1536,6 +1537,217 @@ fn real_interface_body_resumes_before_closing_brace() {
         assert_source_less_boundary(&map, &code, "property");
         assert_source_less(&map, &code, "boolean");
         assert_source_location(&map, &code, "}", 0, 35);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_super_property_separator_resumes_after_dummy_super() {
+    let source = "class Derived { method() { super.property; } }\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+        let ClassMember::Method(method) = &mut class.class.body[0] else {
+            panic!("expected a class method");
+        };
+        let body = method
+            .function
+            .body
+            .as_mut()
+            .expect("expected a method body");
+        let Stmt::Expr(expr_stmt) = &mut body.stmts[0] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::SuperProp(super_prop) = &mut *expr_stmt.expr else {
+            panic!("expected a super property expression");
+        };
+        super_prop.obj.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "super");
+        assert_source_location(&map, &code, ".property", 0, 27);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_class_heritage_resumes_after_dummy_children() {
+    let source = "class Derived extends Base<Type> implements Contract {}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+        **class
+            .class
+            .super_class
+            .as_mut()
+            .expect("expected a superclass") = Expr::This(ThisExpr { span: DUMMY_SP });
+        *class
+            .class
+            .implements
+            .last_mut()
+            .expect("expected an implements type")
+            .expr = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, "<", 0, 0);
+        assert_source_location(&map, &code, "implements", 0, 31);
+        assert_source_location(&map, &code, "{", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_if_else_resumes_after_dummy_consequent() {
+    let source = "if (test) consequent(); else alternate();\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::If(if_stmt)) = &mut module.body[0] else {
+            panic!("expected an if statement");
+        };
+        *if_stmt.cons = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, ";");
+        assert_source_location(&map, &code, "else", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_optional_type_resumes_before_question_mark() {
+    let source = "type Tuple = [Original?];\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsTupleType(tuple) = &mut *type_alias.type_ann else {
+            panic!("expected a tuple type");
+        };
+        let TsType::TsOptionalType(optional) = &mut *tuple.elem_types[0].ty else {
+            panic!("expected an optional tuple element");
+        };
+        *optional.type_ann = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "boolean");
+        assert_source_location(&map, &code, "?", 0, 14);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_jsx_attribute_resumes_before_equals_sign() {
+    let source = "const element = <root original=\"value\" />;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+        let JSXAttrOrSpread::JSXAttr(attr) = &mut element.opening.attrs[0] else {
+            panic!("expected a JSX attribute");
+        };
+        let JSXAttrName::Ident(name) = &mut attr.name else {
+            panic!("expected a JSX attribute identifier");
+        };
+        name.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "original");
+        assert_source_location(&map, &code, "=\"value\"", 0, 22);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_module_specifiers_resume_before_alias_keywords() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(
+            &cm,
+            "import { original as local } from \"mod\";\nafter();\n",
+        );
+
+        let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = &mut module.body[0] else {
+            panic!("expected an import declaration");
+        };
+        let ImportSpecifier::Named(specifier) = &mut import.specifiers[0] else {
+            panic!("expected a named import specifier");
+        };
+        let Some(ModuleExportName::Ident(imported)) = &mut specifier.imported else {
+            panic!("expected an imported identifier");
+        };
+        imported.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "original");
+        assert_source_location(&map, &code, "as", 0, 9);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module(&cm, "export { original as publicName };\nafter();\n");
+
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = &mut module.body[0] else {
+            panic!("expected a named export declaration");
+        };
+        let ExportSpecifier::Named(specifier) = &mut export.specifiers[0] else {
+            panic!("expected a named export specifier");
+        };
+        let ModuleExportName::Ident(original) = &mut specifier.orig else {
+            panic!("expected an original export identifier");
+        };
+        original.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "original");
+        assert_source_location(&map, &code, "as", 0, 9);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

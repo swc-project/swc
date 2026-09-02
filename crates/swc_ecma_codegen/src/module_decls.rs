@@ -242,6 +242,7 @@ impl MacroNode for ImportNamedSpecifier {
 
         if let Some(ref imported) = self.imported {
             emit!(imported);
+            srcmap_for_separator!(emitter, self, imported);
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
@@ -305,6 +306,7 @@ impl MacroNode for ExportNamedSpecifier {
 
         if let Some(exported) = &self.exported {
             emit!(self.orig);
+            srcmap_for_separator!(emitter, self, self.orig);
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);

@@ -885,6 +885,7 @@ impl MacroNode for TsOptionalType {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emit!(self.type_ann);
+        srcmap_for_separator!(emitter, self, self.type_ann);
         punct!(emitter, "?");
         Ok(())
     }

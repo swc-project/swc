@@ -1965,6 +1965,7 @@ impl MacroNode for SuperPropExpr {
         srcmap!(emitter, self, true);
 
         emit!(self.obj);
+        srcmap_for_separator!(emitter, self, self.obj);
 
         match &self.prop {
             SuperProp::Computed(computed) => emit!(computed),

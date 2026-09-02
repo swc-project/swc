@@ -83,6 +83,7 @@ impl MacroNode for JSXAttr {
         emit!(self.name);
 
         if let Some(ref value) = self.value {
+            srcmap_for_separator!(emitter, self, self.name);
             punct!(emitter, "=");
             emit!(value);
         }
