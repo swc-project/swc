@@ -161,7 +161,7 @@ impl MacroNode for JSXSpreadChild {
         punct!(emitter, "{");
         punct!(emitter, "...");
         emit!(self.expr);
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
         Ok(())
     }
