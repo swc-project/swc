@@ -247,20 +247,23 @@ macro_rules! srcmap_for_separator {
 /// high position does not necessarily point just after the closing delimiter.
 macro_rules! srcmap_for_pattern_close {
     ($emitter:expr, $pattern:expr) => {{
-        let span = $pattern.span();
-        if span.is_dummy() {
-            if $emitter.wr.care_about_srcmap() {
+        if $emitter.wr.care_about_srcmap() {
+            let span = $pattern.span();
+            if span.is_dummy() {
                 $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
+            } else {
+                let delimiter_offset = swc_common::BytePos(if $pattern.optional { 2 } else { 1 });
+                let delimiter_pos = match $pattern.type_ann.as_ref() {
+                    Some(type_ann) if !type_ann.span.is_dummy() => {
+                        type_ann.span.lo() - delimiter_offset
+                    }
+                    // Replacing the annotation discards the exact delimiter
+                    // position, so retain the real pattern's mapping instead.
+                    Some(_) => span.lo(),
+                    None => span.hi() - delimiter_offset,
+                };
+                $emitter.wr.add_srcmap(delimiter_pos)?;
             }
-        } else {
-            let suffix_lo = $pattern
-                .type_ann
-                .as_ref()
-                .map_or(span.hi(), |type_ann| type_ann.span.lo());
-            let delimiter_offset = if $pattern.optional { 2 } else { 1 };
-            $emitter
-                .wr
-                .add_srcmap(suffix_lo - swc_common::BytePos(delimiter_offset))?;
         }
     }};
 }

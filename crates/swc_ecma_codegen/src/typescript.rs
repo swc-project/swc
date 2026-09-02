@@ -986,10 +986,11 @@ impl MacroNode for TsPropertySignature {
 
         if self.computed {
             punct!(emitter, "[");
-            emit!(self.key);
+        }
+        emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
+        if self.computed {
             punct!(emitter, "]");
-        } else {
-            emit!(self.key);
         }
 
         if self.optional {
@@ -1011,6 +1012,7 @@ impl MacroNode for TsQualifiedName {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emit!(self.left);
+        srcmap_for_separator!(emitter, self, self.left);
         punct!(emitter, ".");
         emit!(self.right);
         Ok(())

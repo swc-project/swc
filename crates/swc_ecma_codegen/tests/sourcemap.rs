@@ -13,8 +13,8 @@ use swc_ecma_ast::{
     ImportPhase, ImportSpecifier, Invalid, JSXAttrName, JSXAttrOrSpread, JSXElementChild,
     JSXElementName, JSXExpr, Lit, Module, ModuleDecl, ModuleExportName, ModuleItem, ObjectPatProp,
     OptChainBase, Pat, Prop, PropName, PropOrSpread, SeqExpr, SimpleAssignTarget, Stmt, Str, Super,
-    ThisExpr, TsFnOrConstructorType, TsFnParam, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
-    TsNonNullExpr, TsType, TsTypeElement, WithStmt,
+    ThisExpr, TsEntityName, TsFnOrConstructorType, TsFnParam, TsKeywordType, TsKeywordTypeKind,
+    TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement, WithStmt,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -91,6 +91,32 @@ fn emit_source_map(
     );
 
     (String::from_utf8(code).unwrap(), map, mappings)
+}
+
+fn emit_without_source_map(
+    cm: Lrc<CommonSourceMap>,
+    comments: &SingleThreadedComments,
+    module: &Module,
+    minify: bool,
+) -> String {
+    let mut code = Vec::new();
+    {
+        let wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+            cm.clone(),
+            "\n",
+            &mut code,
+            None,
+        )) as Box<dyn WriteJs>;
+        let mut emitter = Emitter {
+            cfg: swc_ecma_codegen::Config::default().with_minify(minify),
+            cm,
+            wr,
+            comments: Some(comments),
+        };
+        emitter.emit_module(module).unwrap();
+    }
+
+    String::from_utf8(code).unwrap()
 }
 
 fn generated_position(code: &str, needle: &str) -> (u32, u32) {
@@ -460,6 +486,114 @@ fn typed_pattern_closers_use_delimiter_positions() {
         assert_source_less_boundary(&map, &code, "element");
         assert_source_location(&map, &code, "]", 0, 23);
         assert_source_location(&map, &code, "}?", 1, 35);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn dummy_typed_pattern_annotations_fall_back_to_owner_mapping() {
+    let source = "function array([element]: Tuple) {}\ndeclare function object({ property }?: \
+                  Shape): void;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected an array function declaration");
+        };
+        let Pat::Array(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an array parameter");
+        };
+        pattern
+            .type_ann
+            .as_mut()
+            .expect("expected an array type annotation")
+            .span = DUMMY_SP;
+        let Some(Pat::Ident(element)) = &mut pattern.elems[0] else {
+            panic!("expected an array element");
+        };
+        element.id.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[1] else {
+            panic!("expected an object function declaration");
+        };
+        let Pat::Object(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an object parameter");
+        };
+        pattern
+            .type_ann
+            .as_mut()
+            .expect("expected an object type annotation")
+            .span = DUMMY_SP;
+        let ObjectPatProp::Assign(property) = &mut pattern.props[0] else {
+            panic!("expected an object property");
+        };
+        property.span = DUMMY_SP;
+
+        let code_without_source_map =
+            emit_without_source_map(cm.clone(), &comments, &module, minify);
+        assert!(code_without_source_map.contains(']'));
+        assert!(code_without_source_map.contains('}'));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "element");
+        assert_source_location(&map, &code, "]", 0, 15);
+        assert_source_location(&map, &code, "}?", 1, 24);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn typescript_separators_resume_after_dummy_children() {
+    let source =
+        "type Shape = { [property]?: string };\ntype Qualified = Namespace.Member;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a shape type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let TsTypeElement::TsPropertySignature(property) = &mut type_lit.members[0] else {
+            panic!("expected a property signature");
+        };
+        let Expr::Ident(key) = &mut *property.key else {
+            panic!("expected an identifier property key");
+        };
+        key.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[1]
+        else {
+            panic!("expected a qualified type alias");
+        };
+        let TsType::TsTypeRef(type_ref) = &mut *type_alias.type_ann else {
+            panic!("expected a type reference");
+        };
+        let TsEntityName::TsQualifiedName(qualified) = &mut type_ref.type_name else {
+            panic!("expected a qualified name");
+        };
+        let TsEntityName::Ident(left) = &mut qualified.left else {
+            panic!("expected an identifier on the left");
+        };
+        left.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "property");
+        assert_source_location(&map, &code, "]", 0, 15);
+        assert_source_location(&map, &code, "?", 0, 15);
+        assert_source_location(&map, &code, ":", 0, 15);
+        assert_source_less_boundary(&map, &code, "Namespace");
+        assert_source_location(&map, &code, ".Member", 1, 17);
         assert_source_location(&map, &code, "after", 2, 0);
     }
 }
