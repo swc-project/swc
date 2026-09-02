@@ -75,11 +75,18 @@ impl MacroNode for TsCallSignatureDecl {
 
         srcmap_if_dummy!(emitter, self);
 
-        emit!(self.type_params);
+        if let Some(type_params) = &self.type_params {
+            emit!(type_params);
+            srcmap_for_separator!(emitter, self, type_params);
+        }
 
         punct!(emitter, "(");
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
-        srcmap_if_dummy!(emitter, self);
+        if let Some(last_param) = self.params.last() {
+            srcmap_for_separator!(emitter, self, last_param);
+        } else {
+            srcmap_if_dummy!(emitter, self);
+        }
         punct!(emitter, ")");
 
         if let Some(type_ann) = &self.type_ann {

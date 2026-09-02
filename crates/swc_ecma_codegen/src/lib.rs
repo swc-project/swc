@@ -1803,6 +1803,7 @@ impl MacroNode for OptChainExpr {
                 } else {
                     emitter.emit_expr_with_precedence(&e.obj, ExprPrecedence::POSTFIX)?;
                 }
+                srcmap_for_separator!(emitter, self, e.obj);
                 if self.optional {
                     punct!(emitter, "?.");
                 } else if !e.prop.is_computed() {
@@ -1820,6 +1821,7 @@ impl MacroNode for OptChainExpr {
             OptChainBase::Call(e) => {
                 debug_assert!(!e.callee.is_new());
                 emitter.emit_expr_with_precedence(&e.callee, ExprPrecedence::POSTFIX)?;
+                srcmap_for_separator!(emitter, self, e.callee);
 
                 if self.optional {
                     punct!(emitter, "?.");

@@ -139,6 +139,8 @@ impl MacroNode for UsingDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap!(emitter, self, true);
+
         if self.is_await {
             keyword!(emitter, "await");
             space!(emitter);

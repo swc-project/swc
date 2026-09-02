@@ -8,12 +8,13 @@ use swc_common::{
     Globals, LineCol, SourceMap as CommonSourceMap, Span, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::{
-    ArrayLit, AssignTarget, Bool, CallExpr, Callee, ClassMember, DebuggerStmt, Decl, EmptyStmt,
-    EsVersion, ExportSpecifier, Expr, ExprOrSpread, ExprStmt, Ident, Import, ImportDecl,
+    ArrayLit, AssignProp, AssignTarget, Bool, CallExpr, Callee, ClassMember, DebuggerStmt, Decl,
+    EmptyStmt, EsVersion, ExportSpecifier, Expr, ExprOrSpread, ExprStmt, Ident, Import, ImportDecl,
     ImportPhase, ImportSpecifier, Invalid, JSXAttrName, JSXAttrOrSpread, JSXElementChild,
     JSXElementName, JSXExpr, Lit, Module, ModuleDecl, ModuleExportName, ModuleItem, ObjectPatProp,
-    Pat, SeqExpr, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsKeywordType, TsKeywordTypeKind,
-    TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement, WithStmt,
+    OptChainBase, Pat, Prop, PropName, PropOrSpread, SeqExpr, SimpleAssignTarget, Stmt, Str, Super,
+    ThisExpr, TsFnParam, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsType,
+    TsTypeElement, WithStmt,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -418,6 +419,241 @@ fn real_object_pattern_resumes_before_closing_delimiter() {
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_location(&map, &code, "}", 1, 14);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn typed_pattern_closers_use_delimiter_positions() {
+    let source = "function array([element]: Tuple) {}\ndeclare function object({ property }?: \
+                  Shape): void;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected an array function declaration");
+        };
+        let Pat::Array(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an array parameter");
+        };
+        let Some(Pat::Ident(element)) = &mut pattern.elems[0] else {
+            panic!("expected an array element");
+        };
+        element.id.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[1] else {
+            panic!("expected an object function declaration");
+        };
+        let Pat::Object(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an object parameter");
+        };
+        let ObjectPatProp::Assign(property) = &mut pattern.props[0] else {
+            panic!("expected an object property");
+        };
+        property.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "element");
+        assert_source_location(&map, &code, "]", 0, 23);
+        assert_source_location(&map, &code, "}?", 1, 35);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn call_signature_delimiters_resume_after_dummy_children() {
+    let source = "type Signature = { <T>(param: string): void };\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let TsTypeElement::TsCallSignatureDecl(signature) = &mut type_lit.members[0] else {
+            panic!("expected a call signature");
+        };
+        signature
+            .type_params
+            .as_mut()
+            .expect("expected type parameters")
+            .span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "<");
+        assert_source_location(&map, &code, "(", 0, 19);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let TsTypeElement::TsCallSignatureDecl(signature) = &mut type_lit.members[0] else {
+            panic!("expected a call signature");
+        };
+        signature.params[0] =
+            TsFnParam::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP).into());
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ")", 0, 19);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn dummy_using_prefixes_are_source_less() {
+    let source = "before();\nusing original = resource;\nafter();\n";
+
+    for is_await in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                explicit_resource_management: true,
+                ..Default::default()
+            }),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Using(using_decl))) = &mut module.body[1] else {
+            panic!("expected a using declaration");
+        };
+        using_decl.span = DUMMY_SP;
+        using_decl.is_await = is_await;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, true, true, None);
+
+        assert_source_location(&map, &code, "before", 0, 0);
+        let prefix = if is_await { "await using" } else { "using" };
+        assert_source_less_boundary(&map, &code, prefix);
+        assert_source_location(&map, &code, "original", 1, 6);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn optional_chain_separators_resume_after_dummy_bases() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "before();\nobject?.member;\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::OptChain(chain) = &mut *expr_stmt.expr else {
+            panic!("expected an optional chain");
+        };
+        let OptChainBase::Member(member) = &mut *chain.base else {
+            panic!("expected an optional member chain");
+        };
+        *member.obj = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, "?.member", 1, 0);
+        assert_source_location(&map, &code, "after", 2, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module(&cm, "before();\ncallee?.(argument);\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::OptChain(chain) = &mut *expr_stmt.expr else {
+            panic!("expected an optional chain");
+        };
+        let OptChainBase::Call(call) = &mut *chain.base else {
+            panic!("expected an optional call chain");
+        };
+        *call.callee = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, "?.(", 1, 0);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn object_property_separators_resume_after_dummy_keys() {
+    let source = "before();\nconst object = { key: value };\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[1] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected an object initializer");
+        };
+        let Expr::Object(object) = &mut **init else {
+            panic!("expected an object expression");
+        };
+        let PropOrSpread::Prop(prop) = &mut object.props[0] else {
+            panic!("expected an object property");
+        };
+        let Prop::KeyValue(property) = &mut **prop else {
+            panic!("expected a key-value property");
+        };
+        let PropName::Ident(key) = &mut property.key else {
+            panic!("expected an identifier key");
+        };
+        key.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "key");
+        assert_source_location(&map, &code, ":", 1, 22);
+        assert_source_location(&map, &code, "after", 2, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[1] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected an object initializer");
+        };
+        let Expr::Object(object) = &mut **init else {
+            panic!("expected an object expression");
+        };
+        let PropOrSpread::Prop(prop) = &mut object.props[0] else {
+            panic!("expected an object property");
+        };
+        let Prop::KeyValue(property) = &mut **prop else {
+            panic!("expected a key-value property");
+        };
+        let span = property.span();
+        let value = property.value.clone();
+        **prop = Prop::Assign(AssignProp {
+            span,
+            key: Ident::new_no_ctxt("key".into(), DUMMY_SP),
+            value,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "key");
+        assert_source_location(&map, &code, "=value", 1, 17);
         assert_source_location(&map, &code, "after", 2, 0);
     }
 }

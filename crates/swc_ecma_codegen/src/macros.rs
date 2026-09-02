@@ -204,6 +204,30 @@ macro_rules! srcmap_for_separator {
     }};
 }
 
+/// Maps the closing delimiter of an array or object binding pattern.
+///
+/// A pattern span also covers its optional marker and type annotation, so its
+/// high position does not necessarily point just after the closing delimiter.
+macro_rules! srcmap_for_pattern_close {
+    ($emitter:expr, $pattern:expr) => {{
+        let span = $pattern.span();
+        if span.is_dummy() {
+            if $emitter.wr.care_about_srcmap() {
+                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
+            }
+        } else {
+            let suffix_lo = $pattern
+                .type_ann
+                .as_ref()
+                .map_or(span.hi(), |type_ann| type_ann.span.lo());
+            let delimiter_offset = if $pattern.optional { 2 } else { 1 };
+            $emitter
+                .wr
+                .add_srcmap(suffix_lo - swc_common::BytePos(delimiter_offset))?;
+        }
+    }};
+}
+
 macro_rules! emit_node_inner {
     ($emitter:expr, true, $n:expr) => {
         crate::Node::emit_with(&$n, $emitter)?

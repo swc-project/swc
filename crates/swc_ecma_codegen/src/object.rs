@@ -78,11 +78,11 @@ impl MacroNode for KeyValueProp {
         if !key_span.is_dummy() && value_span.is_dummy() {
             emitter.wr.add_srcmap(key_span.hi)?;
         }
-        punct!(emitter, ":");
-        formatting_space!(emitter);
         if key_span.is_dummy() && !value_span.is_dummy() {
             emitter.wr.add_srcmap(value_span.lo)?;
         }
+        punct!(emitter, ":");
+        formatting_space!(emitter);
         emit!(self.value);
 
         Ok(())
@@ -97,6 +97,7 @@ impl MacroNode for AssignProp {
         srcmap!(emitter, self, true);
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
         punct!(emitter, "=");
         emit!(self.value);
 
