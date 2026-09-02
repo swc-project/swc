@@ -187,6 +187,7 @@ impl MacroNode for LabeledStmt {
         emitter.wr.commit_pending_semi()?;
 
         emit!(self.label);
+        srcmap_for_separator!(emitter, self, self.label);
 
         // TODO: Comment
         punct!(emitter, ":");
@@ -357,6 +358,11 @@ impl MacroNode for TryStmt {
         }
 
         if let Some(ref finally) = self.finalizer {
+            if let Some(ref catch) = self.handler {
+                srcmap_for_separator!(emitter, self, catch);
+            } else {
+                srcmap_for_separator!(emitter, self, self.block);
+            }
             formatting_space!(emitter);
             keyword!(emitter, "finally");
             // space!(emitter);
@@ -413,6 +419,7 @@ impl MacroNode for DoWhileStmt {
 
         punct!(emitter, "(");
         emit!(self.test);
+        srcmap_for_separator!(emitter, self, self.test);
         punct!(emitter, ")");
 
         if emitter.cfg.target <= EsVersion::Es5 {
@@ -472,6 +479,7 @@ impl MacroNode for ForInStmt {
 
         punct!(emitter, "(");
         emit!(self.left);
+        srcmap_for_separator!(emitter, self, self.left);
 
         if self.left.ends_with_alpha_num() {
             space!(emitter);
@@ -490,6 +498,7 @@ impl MacroNode for ForInStmt {
             }
             emit!(self.right);
         }
+        srcmap_for_separator!(emitter, self, self.right);
 
         punct!(emitter, ")");
 
@@ -517,6 +526,7 @@ impl MacroNode for ForOfStmt {
         formatting_space!(emitter);
         punct!(emitter, "(");
         emit!(self.left);
+        srcmap_for_separator!(emitter, self, self.left);
         if self.left.ends_with_alpha_num() {
             space!(emitter);
         } else {
@@ -534,6 +544,7 @@ impl MacroNode for ForOfStmt {
             }
             emit!(self.right);
         }
+        srcmap_for_separator!(emitter, self, self.right);
         punct!(emitter, ")");
         emit!(self.body);
 

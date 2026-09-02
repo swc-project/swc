@@ -2172,6 +2172,23 @@ fn real_do_while_suffix_resumes_after_dummy_body() {
         assert_source_less_boundary(&map, &code, ";");
         assert_source_location(&map, &code, "while", 0, 0);
         assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "do {} while (test);\nafter();\n");
+
+        let ModuleItem::Stmt(Stmt::DoWhile(do_while)) = &mut module.body[0] else {
+            panic!("expected a do-while statement");
+        };
+        do_while.test = Box::new(Expr::Ident(Ident::new_no_ctxt(
+            "generated".into(),
+            DUMMY_SP,
+        )));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ")", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
     }
 }
 
@@ -2860,6 +2877,56 @@ fn for_statement_separators_resume_after_dummy_clauses() {
         assert_source_less_boundary(&map, &code, "generated");
         assert_source_location(&map, &code, ")", 0, 0);
         assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "for (left in right) body();\nafter();\n");
+        let ModuleItem::Stmt(Stmt::ForIn(for_in)) = &mut module.body[0] else {
+            panic!("expected a for-in statement");
+        };
+        let swc_ecma_ast::ForHead::Pat(left) = &mut for_in.left else {
+            panic!("expected a pattern for-in left operand");
+        };
+        let Pat::Ident(left) = &mut **left else {
+            panic!("expected an identifier for-in left operand");
+        };
+        left.id.span = DUMMY_SP;
+        for_in.right = Box::new(Expr::Ident(Ident::new_no_ctxt(
+            "generated".into(),
+            DUMMY_SP,
+        )));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "left");
+        assert_source_location(&map, &code, "in", 0, 0);
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ")", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "for (left of right) body();\nafter();\n");
+        let ModuleItem::Stmt(Stmt::ForOf(for_of)) = &mut module.body[0] else {
+            panic!("expected a for-of statement");
+        };
+        let swc_ecma_ast::ForHead::Pat(left) = &mut for_of.left else {
+            panic!("expected a pattern for-of left operand");
+        };
+        let Pat::Ident(left) = &mut **left else {
+            panic!("expected an identifier for-of left operand");
+        };
+        left.id.span = DUMMY_SP;
+        for_of.right = Box::new(Expr::Ident(Ident::new_no_ctxt(
+            "generated".into(),
+            DUMMY_SP,
+        )));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "left");
+        assert_source_location(&map, &code, "of", 0, 0);
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ")", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
     }
 }
 
@@ -2969,6 +3036,47 @@ fn statement_delimiters_resume_after_dummy_header_children() {
 
         assert_source_less_boundary(&map, &code, "original");
         assert_source_location(&map, &code, ":", 0, 17);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "before();\nlabel: body();\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Labeled(labeled)) = &mut module.body[1] else {
+            panic!("expected a labeled statement");
+        };
+        labeled.label.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "label");
+        assert_source_location(&map, &code, ":", 1, 0);
+        assert_source_location(&map, &code, "after", 2, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "try {} finally {}\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Try(try_stmt)) = &mut module.body[0] else {
+            panic!("expected a try statement");
+        };
+        try_stmt.block.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "{");
+        assert_source_location(&map, &code, "finally", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "try {} catch {} finally {}\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Try(try_stmt)) = &mut module.body[0] else {
+            panic!("expected a try statement");
+        };
+        let handler = try_stmt.handler.as_mut().expect("expected a catch clause");
+        handler.span = DUMMY_SP;
+        handler.body.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "catch");
+        assert_source_location(&map, &code, "finally", 0, 0);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
