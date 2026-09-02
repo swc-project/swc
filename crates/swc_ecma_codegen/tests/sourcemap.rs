@@ -14,8 +14,8 @@ use swc_ecma_ast::{
     JSXElementName, JSXExpr, JSXObject, Lit, Module, ModuleDecl, ModuleExportName, ModuleItem,
     ObjectPatProp, OptChainBase, Pat, Prop, PropName, PropOrSpread, RestPat, SeqExpr,
     SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsEntityName, TsFnOrConstructorType, TsFnParam,
-    TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement,
-    VarDeclOrExpr, WithStmt,
+    TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsThisTypeOrIdent, TsType,
+    TsTypeElement, VarDeclOrExpr, WithStmt,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -2925,6 +2925,109 @@ fn jsx_name_separators_resume_after_dummy_left_children() {
 
         assert_source_less_boundary(&map, &code, "object");
         assert_source_location(&map, &code, ".property", 0, 17);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn statement_delimiters_resume_after_dummy_header_children() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "try {} catch (original) {}\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Try(try_stmt)) = &mut module.body[0] else {
+            panic!("expected a try statement");
+        };
+        let handler = try_stmt.handler.as_mut().expect("expected a catch clause");
+        let Pat::Ident(param) = &mut *handler.param.as_mut().expect("expected a catch parameter")
+        else {
+            panic!("expected an identifier catch parameter");
+        };
+        param.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "original");
+        assert_source_location(&map, &code, ")", 0, 7);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module(&cm, "switch (value) { case original: body(); }\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Switch(switch_stmt)) = &mut module.body[0] else {
+            panic!("expected a switch statement");
+        };
+        let case = switch_stmt
+            .cases
+            .first_mut()
+            .expect("expected a switch case");
+        let Expr::Ident(test) = &mut **case.test.as_mut().expect("expected a case test") else {
+            panic!("expected an identifier case test");
+        };
+        test.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "original");
+        assert_source_location(&map, &code, ":", 0, 17);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn typescript_suffixes_resume_after_dummy_children() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "type Reference = Original<boolean>;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsTypeRef(type_ref) = &mut *type_alias.type_ann else {
+            panic!("expected a type reference");
+        };
+        let TsEntityName::Ident(type_name) = &mut type_ref.type_name else {
+            panic!("expected an identifier type name");
+        };
+        type_name.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "Original");
+        assert_source_location(&map, &code, "<", 0, 17);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "type Predicate = (original: unknown) => original is string;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(function)) =
+            &mut *type_alias.type_ann
+        else {
+            panic!("expected a function type");
+        };
+        let TsType::TsTypePredicate(predicate) = &mut *function.type_ann.type_ann else {
+            panic!("expected a type predicate");
+        };
+        let TsThisTypeOrIdent::Ident(param) = &mut predicate.param_name else {
+            panic!("expected an identifier predicate parameter");
+        };
+        param.sym = "generated".into();
+        param.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, "is", 0, 40);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

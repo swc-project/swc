@@ -247,6 +247,7 @@ impl MacroNode for CatchClause {
 
             punct!(emitter, "(");
             emit!(param);
+            srcmap_for_separator!(emitter, self, param);
             punct!(emitter, ")");
         }
 
@@ -278,6 +279,7 @@ impl MacroNode for SwitchCase {
             }
 
             emit!(test);
+            srcmap_for_separator!(emitter, self, test);
         } else {
             keyword!(emitter, "default");
         }

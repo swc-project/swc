@@ -1453,6 +1453,7 @@ impl MacroNode for TsTypePredicate {
         emit!(self.param_name);
 
         if let Some(type_ann) = &self.type_ann {
+            srcmap_for_separator!(emitter, self, self.param_name);
             space!(emitter);
             keyword!(emitter, "is");
             space!(emitter);
@@ -1498,6 +1499,7 @@ impl MacroNode for TsTypeRef {
         emit!(self.type_name);
 
         if let Some(n) = &self.type_params {
+            srcmap_for_separator!(emitter, self, self.type_name);
             punct!(emitter, "<");
             emitter.emit_list(n.span, Some(&n.params), ListFormat::TypeArguments)?;
             punct!(emitter, ">");
