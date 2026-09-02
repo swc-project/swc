@@ -445,6 +445,7 @@ where
     fn emit_fn_trailing(&mut self, node: &Function) -> Result {
         if let Some(type_params) = &node.type_params {
             emit!(self, type_params);
+            srcmap_for_separator!(self, node, type_params);
         }
 
         self.emit_fn_params(node)?;
@@ -453,6 +454,7 @@ where
             punct!(self, ":");
             formatting_space!(self);
             emit!(self, ty);
+            srcmap_for_separator!(self, node, ty);
         }
 
         if let Some(body) = &node.body {

@@ -1279,6 +1279,36 @@ fn real_jsx_spread_attribute_resumes_before_closing_delimiter() {
         assert_source_less(&map, &code, "this");
         assert_source_location(&map, &code, "}", 0, 31);
         assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+        let JSXAttrOrSpread::SpreadElement(spread) = &mut element.opening.attrs[0] else {
+            panic!("expected a JSX spread attribute");
+        };
+        *spread.expr = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, "}", 0, 26);
+        assert_source_location(&map, &code, "after", 1, 0);
     }
 }
 
@@ -2165,7 +2195,7 @@ fn real_arrow_suffix_resumes_after_dummy_final_parameter() {
 }
 
 #[test]
-fn real_function_suffix_resumes_after_dummy_final_parameter() {
+fn real_function_suffix_resumes_after_dummy_children() {
     let source = "function example(first, second) {}\nafter();\n";
 
     for minify in [false, true] {
@@ -2191,6 +2221,76 @@ fn real_function_suffix_resumes_after_dummy_final_parameter() {
         assert_source_less_boundary(&map, &code, "second");
         assert_source_location(&map, &code, ")", 0, 30);
         assert_source_location(&map, &code, "{", 0, 30);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "function example<T>(): Original {}\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        function
+            .function
+            .type_params
+            .as_mut()
+            .expect("expected type parameters")
+            .span = DUMMY_SP;
+        let return_type = function
+            .function
+            .return_type
+            .as_mut()
+            .expect("expected a return type");
+        return_type.span = DUMMY_SP;
+        *return_type.type_ann = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less(&map, &code, "<");
+        assert_source_location(&map, &code, "(", 0, 0);
+        assert_source_less_boundary(&map, &code, "boolean");
+        assert_source_location(&map, &code, "{", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "declare function example<T>(): Original;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a declared function");
+        };
+        function
+            .function
+            .type_params
+            .as_mut()
+            .expect("expected type parameters")
+            .span = DUMMY_SP;
+        let return_type = function
+            .function
+            .return_type
+            .as_mut()
+            .expect("expected a return type");
+        return_type.span = DUMMY_SP;
+        *return_type.type_ann = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsNumberKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less(&map, &code, "<");
+        assert_source_location(&map, &code, "(", 0, 0);
+        assert_source_less_boundary(&map, &code, "number");
+        assert_source_location(&map, &code, ";", 0, 0);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

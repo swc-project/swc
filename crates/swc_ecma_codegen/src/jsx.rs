@@ -128,7 +128,13 @@ impl MacroNode for JSXAttrOrSpread {
                 srcmap_if_dummy!(emitter, self);
                 punct!(emitter, "{");
                 emit!(n);
-                srcmap_at_hi_offset!(emitter, n.expr, 0);
+                if n.expr.span().is_dummy() {
+                    // The expression supplies `SpreadElement`'s high bound, so
+                    // fall back to the remaining real spread-token span.
+                    srcmap!(emitter, n.dot3_token, false);
+                } else {
+                    srcmap_at_hi_offset!(emitter, n.expr, 0);
+                }
                 punct!(emitter, "}");
             }
             #[cfg(swc_ast_unknown)]
