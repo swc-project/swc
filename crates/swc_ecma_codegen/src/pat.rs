@@ -54,6 +54,7 @@ impl MacroNode for RestPat {
 
         punct!(emitter, self.dot3_token, "...");
         emit!(self.arg);
+        srcmap_for_separator!(emitter, self, self.arg);
 
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");

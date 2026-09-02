@@ -1740,6 +1740,71 @@ fn dummy_span_expression_leaves_are_source_less() {
 }
 
 #[test]
+fn statement_semicolons_resume_after_dummy_expressions() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "before();\noriginal;\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Expr(statement)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        *statement.expr = Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_has_source(&map, &code, if minify { ";after" } else { ";\nafter" });
+        assert_source_location(&map, &code, "after", 2, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module(&cm, "function example() { return original; }\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        let Stmt::Return(statement) = &mut function
+            .function
+            .body
+            .as_mut()
+            .expect("expected a function body")
+            .stmts[0]
+        else {
+            panic!("expected a return statement");
+        };
+        **statement.arg.as_mut().expect("expected a return value") =
+            Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_has_source(&map, &code, ";");
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module(&cm, "function example() { throw original; }\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        let Stmt::Throw(statement) = &mut function
+            .function
+            .body
+            .as_mut()
+            .expect("expected a function body")
+            .stmts[0]
+        else {
+            panic!("expected a throw statement");
+        };
+        *statement.arg = Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_has_source(&map, &code, ";");
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn dummy_span_callee_leaves_are_source_less() {
     let source = "before();\ncallee();\nafter();\n";
 
@@ -3497,12 +3562,13 @@ fn object_method_delimiters_resume_after_dummy_keys() {
 
 #[test]
 fn binding_pattern_separators_resume_after_dummy_children() {
-    let source =
-        "function pattern(left = right, { key: value, shorthand = fallback }) {}\nafter();\n";
+    let source = "function pattern(left = right, { key: value, shorthand = fallback }, ...rest: \
+                  string) {}\nafter();\n";
 
     for minify in [false, true] {
         let cm = Lrc::<CommonSourceMap>::default();
-        let (mut module, comments) = parse_module(&cm, source);
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
         let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
             panic!("expected a function declaration");
         };
@@ -3531,6 +3597,14 @@ fn binding_pattern_separators_resume_after_dummy_children() {
         };
         property.key.id.span = DUMMY_SP;
 
+        let Pat::Rest(rest) = &mut function.function.params[2].pat else {
+            panic!("expected a rest pattern");
+        };
+        let Pat::Ident(argument) = &mut *rest.arg else {
+            panic!("expected an identifier rest argument");
+        };
+        argument.id.span = DUMMY_SP;
+
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_less_boundary(&map, &code, "left");
@@ -3539,6 +3613,8 @@ fn binding_pattern_separators_resume_after_dummy_children() {
         assert_has_source(&map, &code, if minify { ":value" } else { ": value" });
         assert_source_less_boundary(&map, &code, "shorthand");
         assert_has_source(&map, &code, if minify { "=fallback" } else { "= fallback" });
+        assert_source_less_boundary(&map, &code, "rest");
+        assert_has_source(&map, &code, if minify { ":string" } else { ": string" });
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -3546,7 +3622,8 @@ fn binding_pattern_separators_resume_after_dummy_children() {
 #[test]
 fn typescript_accessor_delimiters_resume_after_dummy_children() {
     let source = "type Accessors = {\n  get [getter](): string;\n  set [setter](parameter: \
-                  string);\n};\nafter();\n";
+                  string);\n  [method]?(argument: string): void;\n};\nclass Example { \
+                  constructor(value: string) {} }\nafter();\n";
 
     for minify in [false, true] {
         let cm = Lrc::<CommonSourceMap>::default();
@@ -3580,6 +3657,32 @@ fn typescript_accessor_delimiters_resume_after_dummy_children() {
         };
         parameter.id.span = DUMMY_SP;
 
+        let TsTypeElement::TsMethodSignature(method) = &mut type_lit.members[2] else {
+            panic!("expected a method signature");
+        };
+        let Expr::Ident(key) = &mut *method.key else {
+            panic!("expected an identifier method key");
+        };
+        key.span = DUMMY_SP;
+        let TsFnParam::Ident(argument) = &mut method.params[0] else {
+            panic!("expected an identifier method parameter");
+        };
+        argument.id.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[1] else {
+            panic!("expected a class declaration");
+        };
+        let ClassMember::Constructor(constructor) = &mut class.class.body[0] else {
+            panic!("expected a constructor");
+        };
+        let swc_ecma_ast::ParamOrTsParamProp::Param(parameter) = &mut constructor.params[0] else {
+            panic!("expected a constructor parameter");
+        };
+        let Pat::Ident(value) = &mut parameter.pat else {
+            panic!("expected an identifier constructor parameter");
+        };
+        value.id.span = DUMMY_SP;
+
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_less_boundary(&map, &code, "getter");
@@ -3588,13 +3691,19 @@ fn typescript_accessor_delimiters_resume_after_dummy_children() {
         assert_has_source(&map, &code, "](parameter");
         assert_source_less_boundary(&map, &code, "parameter");
         assert_has_source(&map, &code, ")");
-        assert_source_location(&map, &code, "after", 4, 0);
+        assert_source_less_boundary(&map, &code, "method");
+        assert_has_source(&map, &code, "]?(");
+        assert_source_less_boundary(&map, &code, "argument");
+        assert_has_source(&map, &code, if minify { "):void" } else { "): void" });
+        assert_source_less_boundary(&map, &code, "value");
+        assert_has_source(&map, &code, "){}");
+        assert_source_location(&map, &code, "after", 6, 0);
     }
 }
 
 #[test]
 fn typescript_declaration_and_mapped_type_separators_resume() {
-    let source = "before();\nenum Enumeration { Member }\nimport Imported = \
+    let source = "before();\nenum Enumeration { Member = 1 }\nimport Imported = \
                   require('dep');\ninterface Interface<T> extends Base {}\ntype Alias<U> = \
                   U;\ntype Mapped = { [K in Keys as Name]: Value };\nafter();\n";
 
@@ -3607,6 +3716,10 @@ fn typescript_declaration_and_mapped_type_separators_resume() {
             panic!("expected an enum declaration");
         };
         enumeration.id.span = DUMMY_SP;
+        let swc_ecma_ast::TsEnumMemberId::Ident(member) = &mut enumeration.members[0].id else {
+            panic!("expected an identifier enum member");
+        };
+        member.span = DUMMY_SP;
 
         let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = &mut module.body[2] else {
             panic!("expected an import-equals declaration");
@@ -3617,6 +3730,15 @@ fn typescript_declaration_and_mapped_type_separators_resume() {
             panic!("expected an interface declaration");
         };
         interface.id.span = DUMMY_SP;
+        interface
+            .type_params
+            .as_mut()
+            .expect("expected interface type parameters")
+            .span = DUMMY_SP;
+        let Expr::Ident(base) = &mut *interface.extends[0].expr else {
+            panic!("expected an identifier interface heritage expression");
+        };
+        base.span = DUMMY_SP;
 
         let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &mut module.body[4] else {
             panic!("expected a type alias declaration");
@@ -3649,10 +3771,23 @@ fn typescript_declaration_and_mapped_type_separators_resume() {
 
         assert_source_less_boundary(&map, &code, "Enumeration");
         assert_has_source(&map, &code, "{");
+        assert_source_less_boundary(&map, &code, "Member");
+        assert_has_source(&map, &code, if minify { "=1" } else { "= 1" });
         assert_source_less_boundary(&map, &code, "Imported");
         assert_has_source(&map, &code, if minify { "=require" } else { "= require" });
         assert_source_less_boundary(&map, &code, "Interface");
-        assert_has_source(&map, &code, "<T>");
+        assert_source_less_boundary(&map, &code, "<T>");
+        assert_has_source(&map, &code, "extends");
+        assert_source_less_boundary(&map, &code, "Base");
+        assert_has_source(
+            &map,
+            &code,
+            if minify {
+                "{}type Alias"
+            } else {
+                "{\n}\ntype Alias"
+            },
+        );
         assert_source_less_boundary(&map, &code, "Alias");
         assert_has_source(&map, &code, "<U>");
         assert_source_less_boundary(&map, &code, "Generated");

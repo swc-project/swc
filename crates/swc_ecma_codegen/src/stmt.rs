@@ -97,6 +97,7 @@ impl MacroNode for ExprStmt {
 
         emitter.emit_trailing_comments_of_pos_with(self.span.hi, true, |emitter| {
             emit!(self.expr);
+            srcmap_for_separator!(emitter, self, self.expr);
 
             semi!(emitter);
 
@@ -173,6 +174,7 @@ impl MacroNode for ReturnStmt {
             if need_paren {
                 punct!(emitter, ")");
             }
+            srcmap_for_separator!(emitter, self, arg);
         }
 
         semi!(emitter);
@@ -332,6 +334,7 @@ impl MacroNode for ThrowStmt {
                 punct!(emitter, ")");
             }
         }
+        srcmap_for_separator!(emitter, self, self.arg);
         semi!(emitter);
 
         Ok(())

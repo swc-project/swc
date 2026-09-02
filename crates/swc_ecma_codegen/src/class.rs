@@ -608,6 +608,9 @@ impl MacroNode for Constructor {
         keyword!(emitter, "constructor");
         punct!(emitter, "(");
         emitter.emit_list(self.span(), Some(&self.params), ListFormat::Parameters)?;
+        if let Some(last_param) = self.params.last() {
+            srcmap_for_separator!(emitter, self, last_param);
+        }
         punct!(emitter, ")");
 
         if let Some(body) = &self.body {
