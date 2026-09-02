@@ -436,10 +436,19 @@ impl MacroNode for ForStmt {
 
         punct!(emitter, "(");
         opt!(emitter, self.init);
+        if let Some(init) = &self.init {
+            srcmap_for_separator!(emitter, self, init);
+        }
         emitter.wr.write_punct(None, ";", false)?;
         opt_leading_space!(emitter, self.test);
+        if let Some(test) = &self.test {
+            srcmap_for_separator!(emitter, self, test);
+        }
         emitter.wr.write_punct(None, ";", false)?;
         opt_leading_space!(emitter, self.update);
+        if let Some(update) = &self.update {
+            srcmap_for_separator!(emitter, self, update);
+        }
         punct!(emitter, ")");
 
         emit!(self.body);

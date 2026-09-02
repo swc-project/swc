@@ -11,10 +11,11 @@ use swc_ecma_ast::{
     ArrayLit, AssignProp, AssignTarget, Bool, CallExpr, Callee, ClassMember, DebuggerStmt, Decl,
     EmptyStmt, EsVersion, ExportSpecifier, Expr, ExprOrSpread, ExprStmt, Ident, Import, ImportDecl,
     ImportPhase, ImportSpecifier, Invalid, JSXAttrName, JSXAttrOrSpread, JSXElementChild,
-    JSXElementName, JSXExpr, Lit, Module, ModuleDecl, ModuleExportName, ModuleItem, ObjectPatProp,
-    OptChainBase, Pat, Prop, PropName, PropOrSpread, SeqExpr, SimpleAssignTarget, Stmt, Str, Super,
-    ThisExpr, TsEntityName, TsFnOrConstructorType, TsFnParam, TsKeywordType, TsKeywordTypeKind,
-    TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement, WithStmt,
+    JSXElementName, JSXExpr, JSXObject, Lit, Module, ModuleDecl, ModuleExportName, ModuleItem,
+    ObjectPatProp, OptChainBase, Pat, Prop, PropName, PropOrSpread, SeqExpr, SimpleAssignTarget,
+    Stmt, Str, Super, ThisExpr, TsEntityName, TsFnOrConstructorType, TsFnParam, TsKeywordType,
+    TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement, VarDeclOrExpr,
+    WithStmt,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -2625,6 +2626,201 @@ fn empty_module_source_map_stays_empty() {
     assert!(code.is_empty());
     assert!(mappings.is_empty());
     assert_eq!(map.get_token_count(), 0);
+}
+
+#[test]
+fn function_type_delimiters_resume_after_dummy_children() {
+    let source = "type Function = <T>(param: string) => Result;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(function)) =
+            &mut *type_alias.type_ann
+        else {
+            panic!("expected a function type");
+        };
+        function
+            .type_params
+            .as_mut()
+            .expect("expected type parameters")
+            .span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "<");
+        assert_source_location(&map, &code, "(", 0, 16);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(function)) =
+            &mut *type_alias.type_ann
+        else {
+            panic!("expected a function type");
+        };
+        function.params[0] =
+            TsFnParam::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP).into());
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ")", 0, 16);
+        assert_source_location(&map, &code, "=>", 0, 16);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn const_assertion_suffix_resumes_after_dummy_expression() {
+    let source = "const asserted = value as const;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected an initializer");
+        };
+        let Expr::TsConstAssertion(assertion) = &mut **init else {
+            panic!("expected a const assertion");
+        };
+        *assertion.expr = Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, "as const", 0, 17);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn for_statement_separators_resume_after_dummy_clauses() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "for (init;;) body();\nafter();\n");
+        let ModuleItem::Stmt(Stmt::For(for_stmt)) = &mut module.body[0] else {
+            panic!("expected a for statement");
+        };
+        let Some(VarDeclOrExpr::Expr(init)) = &mut for_stmt.init else {
+            panic!("expected an expression initializer");
+        };
+        **init = Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ";;", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "for (;test;) body();\nafter();\n");
+        let ModuleItem::Stmt(Stmt::For(for_stmt)) = &mut module.body[0] else {
+            panic!("expected a for statement");
+        };
+        **for_stmt.test.as_mut().expect("expected a test") =
+            Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ";)", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "for (;;update) body();\nafter();\n");
+        let ModuleItem::Stmt(Stmt::For(for_stmt)) = &mut module.body[0] else {
+            panic!("expected a for statement");
+        };
+        **for_stmt.update.as_mut().expect("expected an update") =
+            Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ")", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn jsx_name_separators_resume_after_dummy_left_children() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "const element = <namespace:name />;\nafter();\n",
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected an initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element");
+        };
+        let JSXElementName::JSXNamespacedName(name) = &mut element.opening.name else {
+            panic!("expected a namespaced name");
+        };
+        name.ns.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "namespace");
+        assert_source_location(&map, &code, ":", 0, 17);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "const element = <object.property />;\nafter();\n",
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected an initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element");
+        };
+        let JSXElementName::JSXMemberExpr(member) = &mut element.opening.name else {
+            panic!("expected a member name");
+        };
+        let JSXObject::Ident(object) = &mut member.obj else {
+            panic!("expected an identifier object");
+        };
+        object.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "object");
+        assert_source_location(&map, &code, ".property", 0, 17);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
 }
 
 static IGNORED_PASS_TESTS: &[&str] = &[

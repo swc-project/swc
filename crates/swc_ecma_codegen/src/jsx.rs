@@ -249,6 +249,7 @@ impl MacroNode for JSXClosingFragment {
 impl MacroNode for JSXNamespacedName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emit!(self.ns);
+        srcmap_for_separator!(emitter, self, self.ns);
         punct!(emitter, ":");
         emit!(self.name);
         Ok(())
@@ -277,6 +278,7 @@ impl MacroNode for JSXText {
 impl MacroNode for JSXMemberExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emit!(self.obj);
+        srcmap_for_separator!(emitter, self, self.obj);
         punct!(emitter, ".");
         emit!(self.prop);
         Ok(())

@@ -377,10 +377,20 @@ impl MacroNode for TsFnType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.type_params);
+        srcmap_if_dummy!(emitter, self);
+
+        if let Some(type_params) = &self.type_params {
+            emit!(type_params);
+            srcmap_for_separator!(emitter, self, type_params);
+        }
 
         punct!(emitter, "(");
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
+        if let Some(last_param) = self.params.last() {
+            srcmap_for_separator!(emitter, self, last_param);
+        } else {
+            srcmap_if_dummy!(emitter, self);
+        }
         punct!(emitter, ")");
 
         formatting_space!(emitter);
@@ -1242,6 +1252,7 @@ impl MacroNode for TsConstAssertion {
         emit!(self.expr);
 
         space!(emitter);
+        srcmap_for_separator!(emitter, self, self.expr);
         keyword!(emitter, "as");
         space!(emitter);
         keyword!(emitter, "const");
