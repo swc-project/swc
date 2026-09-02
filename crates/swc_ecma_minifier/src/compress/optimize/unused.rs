@@ -1543,6 +1543,17 @@ impl Visit for NonDiscardableDefaultVisitor {
         e.visit_children_with(self);
     }
 
+    fn visit_unary_expr(&mut self, e: &UnaryExpr) {
+        if self.in_class_static_initializer && e.op == op!("delete") {
+            // Class static initializers run in strict mode. Moving a deletion into
+            // a surrounding sloppy script can turn its TypeError into `false`.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
     fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
         // Arrows capture `new.target` lexically. A class side-effect extraction
         // can relocate an arrow without invoking it, which still makes a

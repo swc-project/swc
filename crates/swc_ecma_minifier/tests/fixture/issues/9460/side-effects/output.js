@@ -145,4 +145,15 @@ try {
 } catch  {
     record("private-brand-throws");
 }
+const deleteTarget = {};
+Object.defineProperty(deleteTarget, "fixed", {
+    configurable: !1
+});
+try {
+    const { strictDeleteValue = class {
+        static value = delete deleteTarget.fixed;
+    } } = {};
+} catch  {
+    record("strict-delete-throws");
+}
 console.log(events.join(","));
