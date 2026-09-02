@@ -352,6 +352,13 @@ impl Visit for ClassEffectVisitor {
     }
 
     fn visit_class(&mut self, n: &Class) {
+        // Private declarations belong to the class body, not its heritage or
+        // decorators. Those expressions can still reference an enclosing
+        // class's private names even if this class redeclares the same name.
+        self.nested_class_depth += 1;
+        n.decorators.visit_with(self);
+        n.super_class.visit_with(self);
+
         let mut private_ident = self.private_ident.clone();
 
         for m in &n.body {
@@ -367,8 +374,7 @@ impl Visit for ClassEffectVisitor {
         }
 
         let old_set = mem::replace(&mut self.private_ident, private_ident);
-        self.nested_class_depth += 1;
-        n.visit_children_with(self);
+        n.body.visit_with(self);
         self.nested_class_depth -= 1;
         self.private_ident = old_set;
     }
@@ -389,6 +395,9 @@ impl Visit for PrivateNameUsageVisitor {
     }
 
     fn visit_class(&mut self, n: &Class) {
+        n.decorators.visit_with(self);
+        n.super_class.visit_with(self);
+
         let mut private_ident = self.private_ident.clone();
 
         for member in &n.body {
@@ -404,7 +413,7 @@ impl Visit for PrivateNameUsageVisitor {
         }
 
         let old_private_ident = mem::replace(&mut self.private_ident, private_ident);
-        n.visit_children_with(self);
+        n.body.visit_with(self);
         self.private_ident = old_private_ident;
     }
 }

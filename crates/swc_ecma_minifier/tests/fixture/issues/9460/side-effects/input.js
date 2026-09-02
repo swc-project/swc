@@ -157,6 +157,13 @@ const { nestedClassPrivateEnvironmentValue = class {
     });
 } } = {};
 
+const { nestedClassHeritagePrivateEnvironmentValue = class {
+    static #nestedClassHeritagePrivateName;
+    static value = class extends ((#nestedClassHeritagePrivateName in {}), record("nested-class-heritage-private"), class {}) {
+        #nestedClassHeritagePrivateName;
+    };
+} } = {};
+
 const { directEvalValue = class {
     static value = eval("record(typeof this)");
 } } = {};
