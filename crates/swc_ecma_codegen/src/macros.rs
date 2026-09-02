@@ -138,8 +138,9 @@ macro_rules! semi {
 /// - `srcmap!(false)` for end (span.hi)
 macro_rules! srcmap {
     ($emitter:expr, $n:expr, true) => {{
-        let lo = $n.span_lo();
-        if lo.is_dummy() {
+        let span = $n.span();
+        let lo = span.lo();
+        if span.is_dummy() {
             if $emitter.wr.care_about_srcmap() {
                 $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
             }
@@ -151,11 +152,12 @@ macro_rules! srcmap {
         srcmap!($emitter, $n, false, false)
     };
     ($emitter:expr, $n:expr, false, $subtract:expr) => {
-        let hi = $n.span_hi();
-        if $subtract && !hi.is_dummy() {
+        let span = $n.span();
+        let hi = span.hi();
+        if $subtract && !span.is_dummy() {
             // hi is exclusive
             $emitter.wr.add_srcmap(hi - swc_common::BytePos(1))?;
-        } else if hi.is_dummy() {
+        } else if span.is_dummy() {
             if $emitter.wr.care_about_srcmap() {
                 // Token writers also use DUMMY_SP when an enclosing real node
                 // already supplied the mapping. Only node boundaries convert
@@ -174,7 +176,7 @@ macro_rules! srcmap {
 /// where mapping to `span.hi` would be inaccurate for parsed source.
 macro_rules! srcmap_if_dummy {
     ($emitter:expr, $n:expr) => {{
-        if $n.span_lo().is_dummy() && $emitter.wr.care_about_srcmap() {
+        if $n.span().is_dummy() && $emitter.wr.care_about_srcmap() {
             $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
         }
     }};
@@ -187,10 +189,11 @@ macro_rules! srcmap_if_dummy {
 macro_rules! srcmap_for_separator {
     ($emitter:expr, $owner:expr, $child:expr) => {{
         if $emitter.wr.care_about_srcmap() {
-            let owner_lo = $owner.span_lo();
-            if owner_lo.is_dummy() {
+            let owner_span = $owner.span();
+            let owner_lo = owner_span.lo();
+            if owner_span.is_dummy() {
                 $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
-            } else if $child.span_lo().is_dummy()
+            } else if $child.span().is_dummy()
                 || !$emitter
                     .wr
                     .will_add_srcmap(swc_common::BytePos::SYNTHESIZED)

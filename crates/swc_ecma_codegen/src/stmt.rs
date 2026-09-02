@@ -135,6 +135,7 @@ impl MacroNode for WithStmt {
 
         punct!(emitter, "(");
         emit!(self.obj);
+        srcmap_for_separator!(emitter, self, self.obj);
         punct!(emitter, ")");
 
         emit!(self.body);
@@ -210,6 +211,7 @@ impl MacroNode for SwitchStmt {
 
         punct!(emitter, "(");
         emit!(self.discriminant);
+        srcmap_for_separator!(emitter, self, self.discriminant);
         punct!(emitter, ")");
 
         punct!(emitter, "{");
@@ -376,6 +378,7 @@ impl MacroNode for WhileStmt {
 
         punct!(emitter, "(");
         emit!(self.test);
+        srcmap_for_separator!(emitter, self, self.test);
         punct!(emitter, ")");
 
         emit!(self.body);

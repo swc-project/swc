@@ -447,6 +447,8 @@ impl MacroNode for TsInferType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         keyword!(emitter, "infer");
         space!(emitter);
         emit!(self.type_param);
@@ -1318,6 +1320,8 @@ impl MacroNode for TsTypeOperator {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         match self.op {
             TsTypeOperatorOp::KeyOf => keyword!(emitter, "keyof"),
             TsTypeOperatorOp::Unique => keyword!(emitter, "unique"),
@@ -1427,6 +1431,8 @@ impl MacroNode for TsTypePredicate {
 impl MacroNode for TsTypeQuery {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         keyword!(emitter, "typeof");
         space!(emitter);

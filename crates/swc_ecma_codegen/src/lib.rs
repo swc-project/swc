@@ -2471,6 +2471,7 @@ impl MacroNode for ExprOrSpread {
         if let Some(span) = self.spread {
             emitter.emit_leading_comments_of_span(span, false)?;
 
+            srcmap_if_dummy!(emitter, span);
             punct!(emitter, "...");
         }
 

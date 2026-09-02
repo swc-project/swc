@@ -5,15 +5,15 @@ use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
 use swc_common::{
     comments::SingleThreadedComments, source_map::SourceMapGenConfig, sync::Lrc, BytePos, FileName,
-    LineCol, SourceMap as CommonSourceMap, Spanned, DUMMY_SP,
+    Globals, LineCol, SourceMap as CommonSourceMap, Span, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::{
     ArrayLit, AssignTarget, Bool, CallExpr, Callee, ClassMember, DebuggerStmt, Decl, EmptyStmt,
     EsVersion, ExportSpecifier, Expr, ExprOrSpread, ExprStmt, Ident, Import, ImportDecl,
     ImportPhase, ImportSpecifier, Invalid, JSXAttrName, JSXAttrOrSpread, JSXElementChild,
-    JSXElementName, JSXExpr, Module, ModuleDecl, ModuleExportName, ModuleItem, ObjectPatProp, Pat,
-    SeqExpr, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsKeywordType, TsKeywordTypeKind,
-    TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement,
+    JSXElementName, JSXExpr, Lit, Module, ModuleDecl, ModuleExportName, ModuleItem, ObjectPatProp,
+    Pat, SeqExpr, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsKeywordType, TsKeywordTypeKind,
+    TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement, WithStmt,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -1749,6 +1749,206 @@ fn real_module_specifiers_resume_before_alias_keywords() {
         assert_source_less_boundary(&map, &code, "original");
         assert_source_location(&map, &code, "as", 0, 9);
         assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn comment_preserving_dummy_span_is_source_less() {
+    let globals = Globals::new();
+
+    GLOBALS.set(&globals, || {
+        for minify in [false, true] {
+            let cm = Lrc::<CommonSourceMap>::default();
+            let (mut module, comments) = parse_module(&cm, "before();\nleft;\nright;\nafter();\n");
+
+            let left = match &module.body[1] {
+                ModuleItem::Stmt(Stmt::Expr(expr_stmt)) => expr_stmt.expr.clone(),
+                _ => panic!("expected the left expression statement"),
+            };
+            let right = match &module.body[2] {
+                ModuleItem::Stmt(Stmt::Expr(expr_stmt)) => expr_stmt.expr.clone(),
+                _ => panic!("expected the right expression statement"),
+            };
+            let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+                panic!("expected an expression statement");
+            };
+            *expr_stmt.expr = Expr::Array(ArrayLit {
+                span: Span::dummy_with_cmt(),
+                elems: vec![
+                    Some(ExprOrSpread {
+                        spread: None,
+                        expr: left,
+                    }),
+                    Some(ExprOrSpread {
+                        spread: None,
+                        expr: right,
+                    }),
+                ],
+            });
+            module.body.remove(2);
+
+            let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+            assert_source_location(&map, &code, "before", 0, 0);
+            assert_source_less_boundary(&map, &code, "[");
+            assert_source_location(&map, &code, "left", 1, 0);
+            assert_source_less_boundary(&map, &code, ",");
+            assert_source_location(&map, &code, "right", 2, 0);
+            assert_source_less_boundary(&map, &code, "]");
+            assert_source_location(&map, &code, "after", 3, 0);
+        }
+    });
+}
+
+#[test]
+fn control_statement_closing_parentheses_resume_after_dummy_children() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "while (condition) body();\nafter();\n");
+        let ModuleItem::Stmt(Stmt::While(while_stmt)) = &mut module.body[0] else {
+            panic!("expected a while statement");
+        };
+        *while_stmt.test = Expr::Lit(Lit::Bool(Bool {
+            span: DUMMY_SP,
+            value: true,
+        }));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "true");
+        assert_source_location(&map, &code, ")", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "while (object) body();\nafter();\n");
+        let ModuleItem::Stmt(stmt @ Stmt::While(_)) = &mut module.body[0] else {
+            panic!("expected a while statement");
+        };
+        let Stmt::While(while_stmt) = stmt else {
+            unreachable!();
+        };
+        let span = while_stmt.span;
+        let body = while_stmt.body.clone();
+        *stmt = Stmt::With(WithStmt {
+            span,
+            obj: Box::new(Expr::Lit(Lit::Bool(Bool {
+                span: DUMMY_SP,
+                value: true,
+            }))),
+            body,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "true");
+        assert_source_location(&map, &code, ")", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module(&cm, "switch (value) { default: body(); }\nafter();\n");
+        let ModuleItem::Stmt(Stmt::Switch(switch_stmt)) = &mut module.body[0] else {
+            panic!("expected a switch statement");
+        };
+        *switch_stmt.discriminant = Expr::Lit(Lit::Bool(Bool {
+            span: DUMMY_SP,
+            value: true,
+        }));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "true");
+        assert_source_location(&map, &code, ")", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn dummy_typescript_prefixes_are_source_less() {
+    let source = "type Infer = T extends infer R ? R : never;\ntype Operator = keyof \
+                  Original;\ntype Query = typeof original;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected an infer type alias");
+        };
+        let TsType::TsConditionalType(conditional) = &mut *type_alias.type_ann else {
+            panic!("expected a conditional type");
+        };
+        let TsType::TsInferType(infer) = &mut *conditional.extends_type else {
+            panic!("expected an infer type");
+        };
+        infer.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[1]
+        else {
+            panic!("expected an operator type alias");
+        };
+        let TsType::TsTypeOperator(operator) = &mut *type_alias.type_ann else {
+            panic!("expected a type operator");
+        };
+        operator.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[2]
+        else {
+            panic!("expected a query type alias");
+        };
+        let TsType::TsTypeQuery(query) = &mut *type_alias.type_ann else {
+            panic!("expected a type query");
+        };
+        query.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "infer");
+        assert_source_location(&map, &code, "R", 0, 29);
+        assert_source_less_boundary(&map, &code, "keyof");
+        assert_source_location(&map, &code, "Original", 1, 22);
+        assert_source_less_boundary(&map, &code, "typeof");
+        assert_source_location(&map, &code, "original", 2, 20);
+        assert_source_location(&map, &code, "after", 3, 0);
+    }
+}
+
+#[test]
+fn dummy_spread_prefixes_are_source_less() {
+    let source = "callee(first, callArg);\n[first, arrayArg];\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[0] else {
+            panic!("expected a call expression statement");
+        };
+        let Expr::Call(call) = &mut *expr_stmt.expr else {
+            panic!("expected a call expression");
+        };
+        call.args[1].spread = Some(DUMMY_SP);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an array expression statement");
+        };
+        let Expr::Array(array) = &mut *expr_stmt.expr else {
+            panic!("expected an array expression");
+        };
+        array.elems[1]
+            .as_mut()
+            .expect("expected a second array element")
+            .spread = Some(DUMMY_SP);
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "...callArg");
+        assert_source_location(&map, &code, "callArg", 0, 14);
+        assert_source_less_boundary(&map, &code, "...arrayArg");
+        assert_source_location(&map, &code, "arrayArg", 1, 8);
+        assert_source_location(&map, &code, "after", 2, 0);
     }
 }
 
