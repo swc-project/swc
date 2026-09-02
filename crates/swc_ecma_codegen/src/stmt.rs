@@ -606,6 +606,7 @@ impl MacroNode for IfStmt {
         formatting_space!(emitter);
         punct!(emitter, "(");
         emit!(self.test);
+        srcmap_for_separator!(emitter, self, self.test);
         punct!(emitter, ")");
         formatting_space!(emitter);
 

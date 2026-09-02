@@ -2250,6 +2250,7 @@ impl MacroNode for FnExpr {
         if let Some(ref i) = self.ident {
             space!(emitter);
             emit!(i);
+            srcmap_for_separator!(emitter, self, i);
         }
 
         emitter.emit_fn_trailing(&self.function)?;
@@ -2324,6 +2325,8 @@ impl MacroNode for Tpl {
 #[node_impl]
 impl MacroNode for TplElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         let raw = self.raw.replace("\r\n", "\n").replace('\r', "\n");
         if emitter.cfg.minify || (emitter.cfg.ascii_only && !self.raw.is_ascii()) {
             let v = get_template_element_from_raw(
@@ -2332,6 +2335,10 @@ impl MacroNode for TplElement {
                 emitter.cfg.reduce_escaped_newline,
             );
             let span = self.span();
+            if span.is_dummy() {
+                emitter.wr.write_str_lit(DUMMY_SP, &v)?;
+                return Ok(());
+            }
 
             let mut last_offset_gen = 0;
             let mut last_offset_origin = 0;

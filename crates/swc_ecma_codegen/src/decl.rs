@@ -33,6 +33,9 @@ where
             for dec in &node.class.decorators {
                 emit!(self, dec);
             }
+            if let Some(dec) = node.class.decorators.last() {
+                srcmap_for_separator!(self, node, dec);
+            }
         }
 
         if node.class.is_abstract {
@@ -43,6 +46,7 @@ where
         keyword!(self, "class");
         space!(self);
         emit!(self, node.ident);
+        srcmap_for_separator!(self, node, node.ident);
         emit!(self, node.class.type_params);
 
         self.emit_class_trailing(&node.class)?;
@@ -205,6 +209,7 @@ impl MacroNode for FnDecl {
         }
 
         emit!(self.ident);
+        srcmap_for_separator!(emitter, self, self.ident);
 
         emitter.emit_fn_trailing(&self.function)?;
         emitter.end_scope()?;

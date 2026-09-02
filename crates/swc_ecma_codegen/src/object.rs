@@ -131,6 +131,7 @@ impl MacroNode for GetterProp {
             formatting_space!(emitter);
         }
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
         formatting_space!(emitter);
         emitter.emit_fn_trailing(&self.function)?;
         emitter.end_scope()?;
@@ -176,6 +177,7 @@ impl MacroNode for SetterProp {
         }
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
         formatting_space!(emitter);
 
         if let Some(type_params) = &self.function.type_params {
@@ -234,6 +236,7 @@ impl MacroNode for MethodProp {
         }
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
         formatting_space!(emitter);
         // TODO
         emitter.emit_fn_trailing(&self.function)?;

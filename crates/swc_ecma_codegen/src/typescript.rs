@@ -238,6 +238,7 @@ impl MacroNode for TsEnumDecl {
         space!(emitter);
 
         emit!(self.id);
+        srcmap_for_separator!(emitter, self, self.id);
         formatting_space!(emitter);
 
         punct!(emitter, "{");
@@ -285,6 +286,8 @@ impl MacroNode for TsExportAssignment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         keyword!(emitter, "export");
         formatting_space!(emitter);
         punct!(emitter, "=");
@@ -314,6 +317,7 @@ impl MacroNode for TsExternalModuleRef {
         keyword!(emitter, "require");
         punct!(emitter, "(");
         emit!(self.expr);
+        srcmap_for_separator!(emitter, self, self.expr);
         punct!(emitter, ")");
         Ok(())
     }
@@ -422,6 +426,7 @@ impl MacroNode for TsImportEqualsDecl {
         }
 
         emit!(self.id);
+        srcmap_for_separator!(emitter, self, self.id);
 
         formatting_space!(emitter);
 
@@ -438,6 +443,8 @@ impl MacroNode for TsImportEqualsDecl {
 impl MacroNode for TsIndexSignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         if self.readonly {
             keyword!(emitter, "readonly");
@@ -463,9 +470,11 @@ impl MacroNode for TsIndexedAccessType {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emit!(self.obj_type);
+        srcmap_for_separator!(emitter, self, self.obj_type);
 
         punct!(emitter, "[");
         emit!(self.index_type);
+        srcmap_for_separator!(emitter, self, self.index_type);
         punct!(emitter, "]");
         Ok(())
     }
@@ -515,6 +524,7 @@ impl MacroNode for TsInterfaceDecl {
         space!(emitter);
 
         emit!(self.id);
+        srcmap_for_separator!(emitter, self, self.id);
 
         if let Some(type_params) = &self.type_params {
             emit!(type_params);
@@ -669,12 +679,14 @@ impl MacroNode for TsMappedType {
         punct!(emitter, "[");
 
         emit!(self.type_param.name);
+        srcmap_for_separator!(emitter, self, self.type_param.name);
 
         if let Some(constraints) = &self.type_param.constraint {
             space!(emitter);
             keyword!(emitter, "in");
             space!(emitter);
             emit!(constraints);
+            srcmap_for_separator!(emitter, self, constraints);
         }
 
         if let Some(default) = &self.type_param.default {
@@ -682,6 +694,7 @@ impl MacroNode for TsMappedType {
             punct!(emitter, "=");
             formatting_space!(emitter);
             emit!(default);
+            srcmap_for_separator!(emitter, self, default);
         }
 
         if let Some(name_type) = &self.name_type {
@@ -689,6 +702,7 @@ impl MacroNode for TsMappedType {
             keyword!(emitter, "as");
             space!(emitter);
             emit!(name_type);
+            srcmap_for_separator!(emitter, self, name_type);
         }
 
         punct!(emitter, "]");
@@ -854,6 +868,7 @@ impl MacroNode for TsNamespaceBody {
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
+        srcmap_for_owner!(emitter, self);
         emitter.wr.decrease_indent()?;
         punct!(emitter, "}");
         Ok(())
@@ -929,6 +944,9 @@ impl MacroNode for TsParamProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
+        if let Some(dec) = self.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
+        }
 
         if self.accessibility.is_some() {
             match self.accessibility.as_ref().unwrap() {
@@ -1035,6 +1053,8 @@ impl MacroNode for TsRestType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "...");
         emit!(self.type_ann);
         Ok(())
@@ -1093,6 +1113,7 @@ impl MacroNode for TsTupleElement {
 
         if let Some(label) = &self.label {
             emit!(label);
+            srcmap_for_separator!(emitter, self, label);
             punct!(emitter, ":");
             formatting_space!(emitter);
         }
@@ -1206,6 +1227,7 @@ impl MacroNode for TsTypeAliasDecl {
         space!(emitter);
 
         emit!(self.id);
+        srcmap_for_separator!(emitter, self, self.id);
         if let Some(type_params) = &self.type_params {
             emit!(type_params);
         }
@@ -1239,6 +1261,7 @@ impl MacroNode for TsTypeAssertion {
 
         punct!(emitter, "<");
         emit!(self.type_ann);
+        srcmap_for_separator!(emitter, self, self.type_ann);
         punct!(emitter, ">");
         emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::EXPONENTIATION)?;
         Ok(())
@@ -1293,9 +1316,12 @@ impl MacroNode for TsGetterSignature {
         if self.computed {
             punct!(emitter, "[");
             emit!(self.key);
-            punct!(emitter, "]");
         } else {
             emit!(self.key)
+        }
+        srcmap_for_separator!(emitter, self, self.key);
+        if self.computed {
+            punct!(emitter, "]");
         }
 
         punct!(emitter, "(");
@@ -1320,13 +1346,17 @@ impl MacroNode for TsSetterSignature {
         if self.computed {
             punct!(emitter, "[");
             emit!(self.key);
-            punct!(emitter, "]");
         } else {
             emit!(self.key)
+        }
+        srcmap_for_separator!(emitter, self, self.key);
+        if self.computed {
+            punct!(emitter, "]");
         }
 
         punct!(emitter, "(");
         emit!(self.param);
+        srcmap_for_separator!(emitter, self, self.param);
         punct!(emitter, ")");
         Ok(())
     }

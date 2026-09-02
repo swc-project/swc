@@ -72,6 +72,9 @@ impl MacroNode for ClassExpr {
         for dec in &self.class.decorators {
             emit!(dec);
         }
+        if let Some(dec) = self.class.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
+        }
 
         if self.class.is_abstract {
             keyword!(emitter, "abstract");
@@ -83,6 +86,7 @@ impl MacroNode for ClassExpr {
         if let Some(ref i) = self.ident {
             space!(emitter);
             emit!(i);
+            srcmap_for_separator!(emitter, self, i);
             emit!(self.class.type_params);
         }
 
@@ -167,6 +171,9 @@ impl MacroNode for ClassMember {
 impl MacroNode for AutoAccessor {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
+        if let Some(dec) = self.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
+        }
 
         emitter.emit_accessibility(self.accessibility)?;
 
@@ -189,6 +196,7 @@ impl MacroNode for AutoAccessor {
         space!(emitter);
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
 
         if let Some(type_ann) = &self.type_ann {
             if self.definite {
@@ -281,6 +289,8 @@ impl MacroNode for PrivateMethod {
             _ => return Err(unknown_error()),
         }
 
+        srcmap_for_separator!(emitter, self, self.key);
+
         emitter.emit_fn_trailing(&self.function)?;
         emitter.end_scope()?;
 
@@ -315,6 +325,9 @@ impl MacroNode for ClassMethod {
 
         for d in &self.function.decorators {
             emit!(d);
+        }
+        if let Some(dec) = self.function.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
         }
 
         emitter.emit_accessibility(self.accessibility)?;
@@ -430,6 +443,9 @@ impl MacroNode for PrivateProp {
         srcmap!(emitter, self, true);
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
+        if let Some(dec) = self.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
+        }
 
         emitter.emit_accessibility(self.accessibility)?;
 
@@ -494,6 +510,9 @@ impl MacroNode for ClassProp {
 
         for dec in &self.decorators {
             emit!(dec)
+        }
+        if let Some(dec) = self.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
         }
 
         if self.declare {

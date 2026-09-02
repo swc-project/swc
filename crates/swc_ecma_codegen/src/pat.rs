@@ -191,6 +191,7 @@ impl MacroNode for AssignPat {
         srcmap!(emitter, self, true);
 
         emit!(self.left);
+        srcmap_for_separator!(emitter, self, self.left);
         formatting_space!(emitter);
         punct!(emitter, "=");
         formatting_space!(emitter);
@@ -258,6 +259,7 @@ impl MacroNode for KeyValuePatProp {
         srcmap!(emitter, self, true);
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self.value, self.key);
         punct!(emitter, ":");
         formatting_space!(emitter);
         emit!(self.value);
@@ -277,6 +279,7 @@ impl MacroNode for AssignPatProp {
 
         emit!(self.key);
         if let Some(value) = &self.value {
+            srcmap_for_separator!(emitter, self, self.key);
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
