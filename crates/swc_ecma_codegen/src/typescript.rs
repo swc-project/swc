@@ -204,6 +204,8 @@ impl MacroNode for TsEnumDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         if self.declare {
             keyword!(emitter, "declare");
             space!(emitter);
@@ -852,6 +854,8 @@ impl MacroNode for TsNamespaceExportDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         keyword!(emitter, "export");
         space!(emitter);
         keyword!(emitter, "as");
@@ -1152,6 +1156,8 @@ impl MacroNode for TsImportCallOptions {
 impl MacroNode for TsTypeAliasDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         if self.declare {
             keyword!(emitter, "declare");

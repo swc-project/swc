@@ -220,6 +220,52 @@ fn dummy_span_between_mapped_regions_clears_mapping() {
 }
 
 #[test]
+fn dummy_typescript_declaration_prefixes_are_source_less() {
+    let source = "before_enum();\nenum Original {}\nafter_enum();\ntype Original = \
+                  boolean;\nafter_type_alias();\nexport as namespace \
+                  OriginalNamespace;\nafter_namespace_export();\n";
+    let cm = Lrc::<CommonSourceMap>::default();
+    let (mut module, comments) =
+        parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+    let ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(enum_decl))) = &mut module.body[1] else {
+        panic!("expected an enum declaration");
+    };
+    enum_decl.span = DUMMY_SP;
+    enum_decl.declare = true;
+    enum_decl.is_const = true;
+    enum_decl.id.span = DUMMY_SP;
+
+    let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[3] else {
+        panic!("expected a type alias declaration");
+    };
+    type_alias.span = DUMMY_SP;
+    type_alias.id.span = DUMMY_SP;
+    *type_alias.type_ann = TsType::TsKeywordType(TsKeywordType {
+        span: DUMMY_SP,
+        kind: TsKeywordTypeKind::TsBooleanKeyword,
+    });
+
+    let ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(namespace_export)) =
+        &mut module.body[5]
+    else {
+        panic!("expected a namespace export declaration");
+    };
+    namespace_export.span = DUMMY_SP;
+    namespace_export.id.span = DUMMY_SP;
+
+    let (code, map, _) = emit_source_map(cm, &comments, &module, true, true, None);
+
+    assert_source_location(&map, &code, "before_enum", 0, 0);
+    assert_source_less_boundary(&map, &code, "declare const enum");
+    assert_source_location(&map, &code, "after_enum", 2, 0);
+    assert_source_less_boundary(&map, &code, "type Original");
+    assert_source_location(&map, &code, "after_type_alias", 4, 0);
+    assert_source_less_boundary(&map, &code, "export as namespace");
+    assert_source_location(&map, &code, "after_namespace_export", 6, 0);
+}
+
+#[test]
 fn dummy_leaf_nodes_between_mapped_regions_clear_mapping() {
     let source = "before();\nmiddle();\nlater();\nafter();\n";
     let cm = Lrc::<CommonSourceMap>::default();
