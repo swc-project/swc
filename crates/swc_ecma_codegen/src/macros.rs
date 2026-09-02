@@ -182,6 +182,43 @@ macro_rules! srcmap_if_dummy {
     }};
 }
 
+/// Maps a token at a fixed byte offset before a node's exclusive high bound.
+///
+/// Synthesized nodes retain the source-less behavior of other node boundaries.
+macro_rules! srcmap_at_hi_offset {
+    ($emitter:expr, $n:expr, $offset:expr) => {{
+        let span = $n.span();
+        if span.is_dummy() {
+            if $emitter.wr.care_about_srcmap() {
+                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
+            }
+        } else {
+            $emitter
+                .wr
+                .add_srcmap(span.hi() - swc_common::BytePos($offset))?;
+        }
+    }};
+}
+
+/// Restores a real owner's mapping when the current output is source-less.
+///
+/// This is useful for suffixes whose final child is optional or varies by node.
+macro_rules! srcmap_for_owner {
+    ($emitter:expr, $owner:expr) => {{
+        if $emitter.wr.care_about_srcmap() {
+            let owner_span = $owner.span();
+            if owner_span.is_dummy() {
+                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
+            } else if !$emitter
+                .wr
+                .will_add_srcmap(swc_common::BytePos::SYNTHESIZED)
+            {
+                $emitter.wr.add_srcmap(owner_span.lo())?;
+            }
+        }
+    }};
+}
+
 /// Restores the mapping owned by a separator after an unmapped child.
 ///
 /// A synthesized owner keeps the separator source-less, while a real owner

@@ -54,7 +54,7 @@ impl MacroNode for JSXOpeningElement {
         }
 
         if self.self_closing {
-            srcmap!(emitter, self, false, true);
+            srcmap_at_hi_offset!(emitter, self, 2);
             punct!(emitter, "/");
         }
         srcmap!(emitter, self, false, true);
@@ -128,7 +128,7 @@ impl MacroNode for JSXAttrOrSpread {
                 srcmap_if_dummy!(emitter, self);
                 punct!(emitter, "{");
                 emit!(n);
-                srcmap!(emitter, n.dot3_token, false);
+                srcmap_at_hi_offset!(emitter, n.expr, 0);
                 punct!(emitter, "}");
             }
             #[cfg(swc_ast_unknown)]

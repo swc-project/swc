@@ -27,8 +27,9 @@ impl MacroNode for TsArrayType {
 
         srcmap_if_dummy!(emitter, self);
         emit!(self.elem_type);
-        srcmap!(emitter, self, false, true);
+        srcmap_at_hi_offset!(emitter, self, 2);
         punct!(emitter, "[");
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "]");
         Ok(())
     }
@@ -601,7 +602,7 @@ impl MacroNode for TsTplLitType {
             } else {
                 punct!(emitter, "${");
                 emit!(self.types[i / 2]);
-                srcmap_if_dummy!(emitter, self);
+                srcmap_for_separator!(emitter, self, self.types[i / 2]);
                 punct!(emitter, "}");
             }
         }
@@ -706,11 +707,11 @@ impl MacroNode for TsMappedType {
             emit!(type_ann);
         }
 
+        srcmap_for_owner!(emitter, self);
         formatting_semi!(emitter);
 
         emitter.wr.write_line()?;
         emitter.wr.decrease_indent()?;
-        srcmap_if_dummy!(emitter, self);
         punct!(emitter, "}");
         Ok(())
     }
@@ -893,6 +894,7 @@ impl MacroNode for TsNonNullExpr {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::POSTFIX)?;
+        srcmap_for_separator!(emitter, self, self.expr);
         punct!(emitter, "!");
         Ok(())
     }

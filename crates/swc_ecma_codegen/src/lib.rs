@@ -429,6 +429,13 @@ where
             }
         }
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
+        if let Some(last_param) = node.params.last() {
+            srcmap_for_separator!(self, node, last_param);
+        } else if let Some(this_param) = &node.this_param {
+            srcmap_for_separator!(self, node, this_param);
+        } else {
+            srcmap_for_owner!(self, node);
+        }
         punct!(self, ")");
 
         Ok(())

@@ -902,7 +902,7 @@ fn real_jsx_opening_element_resumes_before_self_closing_delimiters() {
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_less_boundary(&map, &code, "generated");
-        assert_source_location(&map, &code, "/", 0, 33);
+        assert_source_location(&map, &code, "/", 0, 32);
         assert_source_location(&map, &code, ">", 0, 33);
         assert_source_location(&map, &code, "after", 1, 0);
     }
@@ -935,12 +935,15 @@ fn real_jsx_spread_attribute_resumes_before_closing_delimiter() {
         let JSXAttrOrSpread::SpreadElement(spread) = &mut element.opening.attrs[0] else {
             panic!("expected a JSX spread attribute");
         };
-        *spread.expr = Expr::This(ThisExpr { span: DUMMY_SP });
+        *spread.expr = Expr::Seq(SeqExpr {
+            span: spread.expr.span(),
+            exprs: vec![Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))],
+        });
 
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_less(&map, &code, "this");
-        assert_source_location(&map, &code, "}", 0, 26);
+        assert_source_location(&map, &code, "}", 0, 31);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -1372,8 +1375,10 @@ fn real_span_separators_resume_after_nested_dummy_descendants() {
         assert_source_less_boundary(&map, &code, "this");
         assert_source_location(&map, &code, "+", 1, 0);
         assert_source_less_boundary(&map, &code, "this!");
+        assert_source_location(&map, &code, "!", 2, 0);
         assert_source_location(&map, &code, "=", 2, 0);
         assert_source_less_boundary(&map, &code, "this!++");
+        assert_source_location(&map, &code, "!++", 3, 0);
         assert_source_location(&map, &code, "++", 3, 0);
         assert_source_location(&map, &code, "after", 4, 0);
     }
@@ -1481,7 +1486,8 @@ fn real_array_type_resumes_before_brackets() {
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_less_boundary(&map, &code, "true");
-        assert_source_location(&map, &code, "[]", 0, 22);
+        assert_source_location(&map, &code, "[", 0, 21);
+        assert_source_location(&map, &code, "]", 0, 22);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -1722,6 +1728,110 @@ fn real_arrow_suffix_resumes_after_dummy_final_parameter() {
         assert_source_location(&map, &code, ")", 0, 0);
         assert_source_location(&map, &code, ":", 0, 0);
         assert_source_location(&map, &code, "=>", 0, 23);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_function_suffix_resumes_after_dummy_final_parameter() {
+    let source = "function example(first, second) {}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        let Pat::Ident(param) = &mut function
+            .function
+            .params
+            .last_mut()
+            .expect("expected a final parameter")
+            .pat
+        else {
+            panic!("expected an identifier parameter");
+        };
+        param.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "second");
+        assert_source_location(&map, &code, ")", 0, 30);
+        assert_source_location(&map, &code, "{", 0, 30);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_template_literal_type_resumes_after_dummy_embedded_type() {
+    let source = "type Value = `prefix${Original}`;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsLitType(lit_type) = &mut *type_alias.type_ann else {
+            panic!("expected a literal type");
+        };
+        let TsLit::Tpl(template) = &mut lit_type.lit else {
+            panic!("expected a template literal type");
+        };
+        *template.types[0] = TsType::TsLitType(TsLitType {
+            span: DUMMY_SP,
+            lit: TsLit::Bool(Bool {
+                span: DUMMY_SP,
+                value: true,
+            }),
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "true");
+        assert_source_location(&map, &code, "}", 0, 13);
+        assert_source_location(
+            &map,
+            &code,
+            if minify { "`;after" } else { "`;\nafter" },
+            0,
+            if minify { 31 } else { 13 },
+        );
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_mapped_type_resumes_before_suffix() {
+    let source = "type Mapped = { [K in Keys]: Original };\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsMappedType(mapped) = &mut *type_alias.type_ann else {
+            panic!("expected a mapped type");
+        };
+        **mapped.type_ann.as_mut().expect("expected a value type") = TsType::TsLitType(TsLitType {
+            span: DUMMY_SP,
+            lit: TsLit::Bool(Bool {
+                span: DUMMY_SP,
+                value: true,
+            }),
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "true");
+        assert_source_location(&map, &code, ";", 0, 14);
+        assert_source_location(&map, &code, "}", 0, 14);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -2024,6 +2134,28 @@ fn real_if_else_resumes_after_dummy_consequent() {
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_less_boundary(&map, &code, ";");
+        assert_source_location(&map, &code, "else", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_if_else_defers_mapping_past_dummy_debugger_semicolon() {
+    let source = "if (test) consequent(); else alternate();\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::If(if_stmt)) = &mut module.body[0] else {
+            panic!("expected an if statement");
+        };
+        *if_stmt.cons = Stmt::Debugger(DebuggerStmt { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "debugger");
+        assert_source_less(&map, &code, ";");
         assert_source_location(&map, &code, "else", 0, 0);
         assert_source_location(&map, &code, "after", 1, 0);
     }

@@ -107,13 +107,11 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
         if self.pending_srcmap.is_some()
-            || (self.pending_semi.is_some()
-                && pos == BytePos::SYNTHESIZED
-                && self.inner.will_add_srcmap(pos))
+            || (self.pending_semi.is_some() && self.inner.will_add_srcmap(pos))
         {
             // Keep the transition immediately before the next output token.
             // A closing delimiter may discard the pending semicolon first,
-            // while any other token commits it before becoming unmapped.
+            // while any other token commits it before changing mappings.
             self.pending_srcmap = Some(pos);
             return Ok(());
         }
