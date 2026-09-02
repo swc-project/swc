@@ -1347,7 +1347,7 @@ pub fn build_source_map(
             // A synthesized position terminates the preceding source mapping.
             // It is intentionally emitted without a source ID: assigning the
             // current source would turn generated code into source line 0.
-            builder.add_raw(lc.line, lc.col, 0, 0, None, None, false);
+            builder.add_raw(lc.line, lc.col, u32::MAX, u32::MAX, None, None, false);
             // Compact source maps normally keep one mapping per generated
             // line, but a real mapping after this boundary must be allowed to
             // resume on the same line.

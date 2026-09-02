@@ -244,6 +244,7 @@ impl MacroNode for TsEnumDecl {
 
         emitter.emit_list(self.span, Some(&self.members), ListFormat::EnumMembers)?;
 
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
         Ok(())
     }
@@ -1182,7 +1183,7 @@ impl MacroNode for TsImportCallOptions {
             emitter.wr.decrease_indent()?;
             emitter.wr.write_line()?;
         }
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
         Ok(())
     }

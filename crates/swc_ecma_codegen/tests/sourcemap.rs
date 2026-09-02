@@ -165,6 +165,11 @@ fn assert_source_less_boundary(map: &SourceMap, code: &str, needle: &str) {
         .unwrap_or_else(|| panic!("missing source-less boundary for {needle:?} at {line}:{col}"));
     assert!(!token.has_source(), "{needle:?} should clear its mapping");
     assert_eq!(
+        token.get_src(),
+        (u32::MAX, u32::MAX),
+        "{needle:?} should use the unmapped source-coordinate sentinel"
+    );
+    assert_eq!(
         token.get_dst(),
         (line, col),
         "source-less boundary should start at {needle:?}"
@@ -236,6 +241,12 @@ fn dummy_span_between_mapped_regions_clears_mapping() {
             assert_source_location(&map, &code, "before", 0, 0);
             assert_source_less_boundary(&map, &code, "import");
             assert_source_location(&map, &code, "after", 1, 0);
+
+            let mut encoded = Vec::new();
+            map.to_writer(&mut encoded).unwrap();
+            let decoded = SourceMap::from_slice(&encoded).unwrap();
+            assert_source_less_boundary(&decoded, &code, "import");
+
             assert_eq!(
                 mappings
                     .iter()
@@ -292,6 +303,37 @@ fn dummy_typescript_declaration_prefixes_are_source_less() {
     assert_source_location(&map, &code, "after_type_alias", 4, 0);
     assert_source_less_boundary(&map, &code, "export as namespace");
     assert_source_location(&map, &code, "after_namespace_export", 6, 0);
+}
+
+#[test]
+fn real_enum_resumes_before_closing_brace() {
+    let source = "enum Values { First, Last = original }\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(enum_decl))) = &mut module.body[0] else {
+            panic!("expected an enum declaration");
+        };
+        **enum_decl
+            .members
+            .last_mut()
+            .expect("expected a final enum member")
+            .init
+            .as_mut()
+            .expect("expected an enum initializer") = Expr::Lit(Lit::Bool(Bool {
+            span: DUMMY_SP,
+            value: true,
+        }));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "true");
+        assert_source_location(&map, &code, "}", 0, 37);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
 }
 
 #[test]
@@ -844,6 +886,37 @@ fn import_type_closers_resume_after_dummy_children() {
         assert_source_less_boundary(&map, &code, "{");
         assert_source_location(&map, &code, ")", 0, 16);
         assert_source_location(&map, &code, ".Qualified", 0, 16);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_import_call_options_resume_before_closing_brace() {
+    let source =
+        "type Imported = import(\"module\", { with: { type: \"json\" } }).Qualified;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsImportType(import_type) = &mut *type_alias.type_ann else {
+            panic!("expected an import type");
+        };
+        let attributes = import_type
+            .attributes
+            .as_mut()
+            .expect("expected import attributes");
+        attributes.with.span = DUMMY_SP;
+        attributes.with.props.clear();
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "{}");
+        assert_source_location(&map, &code, "}).Qualified", 0, 58);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
