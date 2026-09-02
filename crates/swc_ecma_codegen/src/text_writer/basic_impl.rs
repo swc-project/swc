@@ -289,6 +289,7 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
             if self.srcmap.is_some() {
                 self.line_count += 1;
                 self.line_pos = 0;
+                self.srcmap_state = SourceMapState::Unmapped;
             }
             self.line_start = true;
 
@@ -701,6 +702,27 @@ mod test {
                 (BytePos(3), LineCol { line: 0, col: 2 }),
             ]
         );
+    }
+
+    #[test]
+    fn generated_line_starts_unmapped() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut srcmap = vec![];
+        {
+            let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
+
+            writer.write_str("mapped").unwrap();
+            writer.add_srcmap(BytePos(1)).unwrap();
+            writer.write_line().unwrap();
+
+            assert!(!writer.will_add_srcmap(BytePos::SYNTHESIZED));
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer.write_str("generated").unwrap();
+        }
+
+        assert_eq!(output, b"mapped\ngenerated");
+        assert_eq!(srcmap, vec![(BytePos(1), LineCol { line: 0, col: 6 })]);
     }
 
     #[test]

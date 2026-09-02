@@ -205,14 +205,18 @@ fn dummy_span_between_mapped_regions_clears_mapping() {
                 emit_source_map(cm, &comments, &module, minify, emit_columns, None);
 
             assert_source_location(&map, &code, "before", 0, 0);
-            assert_source_less_boundary(&map, &code, "import");
+            if minify {
+                assert_source_less_boundary(&map, &code, "import");
+            } else {
+                assert_source_less(&map, &code, "import");
+            }
             assert_source_location(&map, &code, "after", 1, 0);
             assert_eq!(
                 mappings
                     .iter()
                     .filter(|(pos, _)| *pos == BytePos::SYNTHESIZED)
                     .count(),
-                1,
+                usize::from(minify),
                 "dummy source-map events should be deduplicated: {code}"
             );
         }
