@@ -162,6 +162,7 @@ impl MacroNode for ImportDecl {
                 }
                 ImportSpecifier::Default(ref s) => {
                     emit!(s.local);
+                    srcmap_for_separator!(emitter, self, s.local);
                     emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
@@ -178,6 +179,7 @@ impl MacroNode for ImportDecl {
                     keyword!(emitter, "as");
                     space!(emitter);
                     emit!(ns.local);
+                    srcmap_for_separator!(emitter, self, ns.local);
                 }
                 #[cfg(swc_ast_unknown)]
                 _ => return Err(unknown_error()),
@@ -202,6 +204,9 @@ impl MacroNode for ImportDecl {
                 Some(&specifiers),
                 ListFormat::NamedImportsOrExportsElements,
             )?;
+            if let Some(last) = specifiers.last() {
+                srcmap_for_separator!(emitter, self, *last);
+            }
             punct!(emitter, "}");
             formatting_space!(emitter);
 
@@ -210,6 +215,7 @@ impl MacroNode for ImportDecl {
         }
 
         emit!(self.src);
+        srcmap_for_separator!(emitter, self, self.src);
 
         if let Some(with) = &self.with {
             formatting_space!(emitter);
@@ -372,6 +378,7 @@ impl MacroNode for NamedExport {
 
         if let Some(spec) = namespace_spec {
             emit!(spec);
+            srcmap_for_separator!(emitter, self, spec);
             if has_named_specs {
                 punct!(emitter, ",");
                 formatting_space!(emitter);
@@ -384,6 +391,9 @@ impl MacroNode for NamedExport {
                 Some(&named_specs),
                 ListFormat::NamedImportsOrExportsElements,
             )?;
+            if let Some(last) = named_specs.last() {
+                srcmap_for_separator!(emitter, self, *last);
+            }
             punct!(emitter, "}");
         }
 
@@ -396,6 +406,7 @@ impl MacroNode for NamedExport {
             keyword!(emitter, "from");
             formatting_space!(emitter);
             emit!(src);
+            srcmap_for_separator!(emitter, self, src);
 
             if let Some(with) = &self.with {
                 formatting_space!(emitter);
@@ -438,6 +449,7 @@ impl MacroNode for ExportAll {
         keyword!(emitter, "from");
         formatting_space!(emitter);
         emit!(self.src);
+        srcmap_for_separator!(emitter, self, self.src);
 
         if let Some(with) = &self.with {
             formatting_space!(emitter);

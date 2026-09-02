@@ -2035,7 +2035,10 @@ impl MacroNode for ArrowExpr {
                 _ => true,
             };
 
-        emit!(self.type_params);
+        if let Some(type_params) = &self.type_params {
+            emit!(type_params);
+            srcmap_for_separator!(emitter, self, type_params);
+        }
 
         if parens {
             punct!(emitter, "(");
@@ -2053,6 +2056,7 @@ impl MacroNode for ArrowExpr {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(ty);
+            srcmap_for_separator!(emitter, self, ty);
             formatting_space!(emitter);
         }
 

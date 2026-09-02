@@ -1391,12 +1391,14 @@ impl MacroNode for TsTypeParam {
         }
 
         emit!(self.name);
+        srcmap_for_separator!(emitter, self, self.name);
 
         if let Some(constraints) = &self.constraint {
             space!(emitter);
             keyword!(emitter, "extends");
             space!(emitter);
             emit!(constraints);
+            srcmap_for_separator!(emitter, self, constraints);
         }
 
         if let Some(default) = &self.default {

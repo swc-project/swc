@@ -108,7 +108,11 @@ impl MacroNode for Class {
             }
 
             emitter.emit_expr_with_precedence(super_class, ExprPrecedence::POSTFIX)?;
-            emit!(self.super_type_params);
+            srcmap_for_separator!(emitter, self, super_class);
+            if let Some(super_type_params) = &self.super_type_params {
+                emit!(super_type_params);
+                srcmap_for_separator!(emitter, self, super_type_params);
+            }
         }
 
         if !self.implements.is_empty() {
@@ -122,6 +126,7 @@ impl MacroNode for Class {
                 Some(&self.implements),
                 ListFormat::ClassHeritageClauses,
             )?;
+            srcmap_for_separator!(emitter, self, self.implements.last().unwrap());
         }
 
         formatting_space!(emitter);
@@ -387,6 +392,7 @@ impl MacroNode for ClassMethod {
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
+        srcmap_for_separator!(emitter, self, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -443,6 +449,7 @@ impl MacroNode for PrivateProp {
         }
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -517,6 +524,7 @@ impl MacroNode for ClassProp {
         }
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");

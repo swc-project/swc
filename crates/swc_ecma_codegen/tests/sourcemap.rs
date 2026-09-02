@@ -17,7 +17,7 @@ use swc_ecma_ast::{
     TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsThisTypeOrIdent, TsType,
     TsTypeElement, VarDeclOrExpr, WithStmt,
 };
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
+use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_sourcemap::SourceMap;
@@ -67,6 +67,20 @@ fn emit_source_map(
     emit_columns: bool,
     input_source_map: Option<SourceMap>,
 ) -> (String, SourceMap, Vec<(BytePos, LineCol)>) {
+    emit_node_source_map(cm, comments, module, minify, emit_columns, input_source_map)
+}
+
+fn emit_node_source_map<N>(
+    cm: Lrc<CommonSourceMap>,
+    comments: &SingleThreadedComments,
+    node: &N,
+    minify: bool,
+    emit_columns: bool,
+    input_source_map: Option<SourceMap>,
+) -> (String, SourceMap, Vec<(BytePos, LineCol)>)
+where
+    N: Node,
+{
     let mut code = Vec::new();
     let mut mappings = Vec::new();
     {
@@ -82,7 +96,7 @@ fn emit_source_map(
             wr,
             comments: Some(comments),
         };
-        emitter.emit_module(module).unwrap();
+        node.emit_with(&mut emitter).unwrap();
     }
 
     let map = cm.build_source_map(
@@ -222,6 +236,75 @@ fn dummy_span_import_is_source_less() {
             0,
             "an initially unmapped generated region needs no boundary: {code}"
         );
+    }
+}
+
+#[test]
+fn module_declaration_suffixes_resume_after_dummy_children() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(
+            &cm,
+            "import original from 'dep' with { type: 'json' };\nafter();\n",
+        );
+        let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = &mut module.body[0] else {
+            panic!("expected an import declaration");
+        };
+        let ImportSpecifier::Default(default) = &mut import.specifiers[0] else {
+            panic!("expected a default import");
+        };
+        default.local.span = DUMMY_SP;
+        import.src.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "original");
+        assert_source_location(&map, &code, "from", 0, 0);
+        assert_source_less(&map, &code, "dep");
+        assert_source_location(&map, &code, "with", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(
+            &cm,
+            "export { original } from 'exported-dep' with { type: 'json' };\nafter();\n",
+        );
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = &mut module.body[0] else {
+            panic!("expected a named export");
+        };
+        let ExportSpecifier::Named(specifier) = &mut export.specifiers[0] else {
+            panic!("expected a named export specifier");
+        };
+        specifier.span = DUMMY_SP;
+        let ModuleExportName::Ident(original) = &mut specifier.orig else {
+            panic!("expected an identifier export name");
+        };
+        original.span = DUMMY_SP;
+        export.src.as_mut().expect("expected an export source").span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "original");
+        assert_source_location(&map, &code, "}", 0, 0);
+        assert_source_less(&map, &code, "exported-dep");
+        assert_source_location(&map, &code, "with", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(
+            &cm,
+            "export * from 'all-dep' with { type: 'json' };\nafter();\n",
+        );
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) = &mut module.body[0] else {
+            panic!("expected an export-all declaration");
+        };
+        export.src.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less(&map, &code, "all-dep");
+        assert_source_location(&map, &code, "with", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
     }
 }
 
@@ -1970,6 +2053,39 @@ fn real_arrow_suffix_resumes_after_dummy_final_parameter() {
         assert_source_location(&map, &code, ":", 0, 0);
         assert_source_location(&map, &code, "=>", 0, 23);
         assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "<T>(): void => body;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[0] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::Arrow(arrow) = &mut *expr_stmt.expr else {
+            panic!("expected an arrow expression");
+        };
+        arrow
+            .type_params
+            .as_mut()
+            .expect("expected type parameters")
+            .span = DUMMY_SP;
+        let return_type = arrow.return_type.as_mut().expect("expected a return type");
+        return_type.span = DUMMY_SP;
+        *return_type.type_ann = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsVoidKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less(&map, &code, "<");
+        assert_source_location(&map, &code, "(", 0, 0);
+        assert_source_less_boundary(&map, &code, "void");
+        assert_source_location(&map, &code, "=>", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
     }
 }
 
@@ -2373,6 +2489,115 @@ fn real_class_heritage_resumes_after_dummy_children() {
         assert_source_location(&map, &code, "implements", 0, 31);
         assert_source_location(&map, &code, "{", 0, 0);
         assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+        **class
+            .class
+            .super_class
+            .as_mut()
+            .expect("expected a superclass") = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_node_source_map(cm, &comments, &*class.class, minify, true, None);
+
+        assert_source_less(&map, &code, "this");
+        assert_source_location(&map, &code, "<", 0, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "class Derived extends Base<Type> {}\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+        class
+            .class
+            .super_type_params
+            .as_mut()
+            .expect("expected superclass type parameters")
+            .span = DUMMY_SP;
+
+        let (code, map, _) = emit_node_source_map(cm, &comments, &*class.class, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "<");
+        assert_source_location(&map, &code, "{", 0, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "class Derived implements Contract {}\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+        *class
+            .class
+            .implements
+            .last_mut()
+            .expect("expected an implements type")
+            .expr = Expr::Lit(Lit::Bool(Bool {
+            span: DUMMY_SP,
+            value: true,
+        }));
+
+        let (code, map, _) = emit_node_source_map(cm, &comments, &*class.class, minify, true, None);
+
+        assert_source_less(&map, &code, "true");
+        assert_source_location(&map, &code, "{", 0, 0);
+    }
+}
+
+#[test]
+fn class_member_suffixes_resume_after_dummy_keys() {
+    let source = "class Example {\n  method?(): void;\n  property!: string;\n  #private = \
+                  value;\n}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+        let ClassMember::Method(method) = &mut class.class.body[0] else {
+            panic!("expected a class method");
+        };
+        let PropName::Ident(key) = &mut method.key else {
+            panic!("expected an identifier method key");
+        };
+        key.span = DUMMY_SP;
+
+        let ClassMember::ClassProp(property) = &mut class.class.body[1] else {
+            panic!("expected a class property");
+        };
+        let PropName::Ident(key) = &mut property.key else {
+            panic!("expected an identifier property key");
+        };
+        key.span = DUMMY_SP;
+
+        let ClassMember::PrivateProp(property) = &mut class.class.body[2] else {
+            panic!("expected a private property");
+        };
+        property.key.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "method");
+        assert_source_location(&map, &code, "?", 1, 2);
+        assert_source_less_boundary(&map, &code, "property");
+        assert_source_location(&map, &code, "!", 2, 2);
+        assert_source_less_boundary(&map, &code, "#private");
+        assert_source_location(&map, &code, "=", 3, 2);
+        assert_source_location(&map, &code, "after", 5, 0);
     }
 }
 
@@ -3136,6 +3361,37 @@ fn typescript_suffixes_resume_after_dummy_children() {
 
         assert_source_less_boundary(&map, &code, "generated");
         assert_source_location(&map, &code, "is", 0, 40);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "type Value<Original extends Constraint = Default> = Original;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let type_param = type_alias
+            .type_params
+            .as_mut()
+            .expect("expected type parameters")
+            .params
+            .first_mut()
+            .expect("expected a type parameter");
+        type_param.name.span = DUMMY_SP;
+        type_param.constraint = Some(Box::new(TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        })));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "Original");
+        assert_source_location(&map, &code, "extends", 0, 11);
+        assert_source_less_boundary(&map, &code, "boolean");
+        assert_source_location(&map, &code, "=", 0, 11);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
