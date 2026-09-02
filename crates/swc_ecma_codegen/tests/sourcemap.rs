@@ -762,6 +762,70 @@ fn real_span_operators_resume_after_dummy_children() {
 }
 
 #[test]
+fn real_conditional_separators_resume_after_dummy_children() {
+    let source = "before();\ntest ? consequent : alternative;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::Cond(conditional) = &mut *expr_stmt.expr else {
+            panic!("expected a conditional expression");
+        };
+        *conditional.test = Expr::This(ThisExpr { span: DUMMY_SP });
+        *conditional.cons = Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        if minify {
+            assert_source_less_boundary(&map, &code, "this");
+        }
+        assert_source_location(&map, &code, "?", 1, 0);
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ":", 1, 0);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn real_template_interpolation_closers_resume_after_dummy_expressions() {
+    let source =
+        "before();\n`plain${value}plain_tail`;\ntag`tagged${value}tagged_tail`;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::Tpl(template) = &mut *expr_stmt.expr else {
+            panic!("expected a template expression");
+        };
+        *template.exprs[0] = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[2] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::TaggedTpl(tagged) = &mut *expr_stmt.expr else {
+            panic!("expected a tagged template expression");
+        };
+        *tagged.tpl.exprs[0] = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this}plain_tail");
+        assert_source_location(&map, &code, "}plain_tail", 1, 0);
+        assert_source_less_boundary(&map, &code, "this}tagged_tail");
+        assert_source_location(&map, &code, "}tagged_tail", 2, 3);
+        assert_source_location(&map, &code, "after", 3, 0);
+    }
+}
+
+#[test]
 fn real_member_separator_resumes_after_dummy_object() {
     let source = "before();\nobject.member;\nafter();\n";
 
@@ -1002,6 +1066,39 @@ fn real_type_arguments_resume_before_closing_delimiter() {
 
         assert_source_less_boundary(&map, &code, "boolean");
         assert_source_location(&map, &code, ">", 0, 11);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_type_parameter_declaration_resumes_before_closing_delimiter() {
+    let source = "function fn<T extends Original>() {}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        let type_params = function
+            .function
+            .type_params
+            .as_mut()
+            .expect("expected type parameters");
+        let constraint = type_params.params[0]
+            .constraint
+            .as_mut()
+            .expect("expected a type parameter constraint");
+        **constraint = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "boolean");
+        assert_source_location(&map, &code, ">", 0, 30);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

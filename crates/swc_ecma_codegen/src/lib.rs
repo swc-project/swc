@@ -329,7 +329,7 @@ where
             } else {
                 punct!(self, "${");
                 emit!(self, node.exprs[i / 2]);
-                srcmap_if_dummy!(self, node);
+                srcmap_for_separator!(self, node, node.exprs[i / 2]);
                 punct!(self, "}");
             }
         }
@@ -2173,10 +2173,12 @@ impl MacroNode for CondExpr {
 
         emit!(self.test);
         formatting_space!(emitter);
+        srcmap_for_separator!(emitter, self, self.test);
         punct!(emitter, "?");
         formatting_space!(emitter);
         emit!(self.cons);
         formatting_space!(emitter);
+        srcmap_for_separator!(emitter, self, self.cons);
         punct!(emitter, ":");
         formatting_space!(emitter);
         emit!(self.alt);
@@ -2283,7 +2285,7 @@ impl MacroNode for Tpl {
             } else {
                 punct!(emitter, "${");
                 emit!(self.exprs[i / 2]);
-                srcmap_if_dummy!(emitter, self);
+                srcmap_for_separator!(emitter, self, self.exprs[i / 2]);
                 punct!(emitter, "}");
             }
         }

@@ -1373,7 +1373,7 @@ impl MacroNode for TsTypeParamDecl {
 
         emitter.emit_list(self.span, Some(&self.params), ListFormat::TypeParameters)?;
 
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, ">");
         Ok(())
     }
