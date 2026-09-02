@@ -2295,10 +2295,7 @@ fn real_do_while_suffix_resumes_after_dummy_body() {
         let ModuleItem::Stmt(Stmt::DoWhile(do_while)) = &mut module.body[0] else {
             panic!("expected a do-while statement");
         };
-        do_while.test = Box::new(Expr::Ident(Ident::new_no_ctxt(
-            "generated".into(),
-            DUMMY_SP,
-        )));
+        *do_while.test = Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
 
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
@@ -3115,10 +3112,7 @@ fn for_statement_separators_resume_after_dummy_clauses() {
             panic!("expected an identifier for-in left operand");
         };
         left.id.span = DUMMY_SP;
-        for_in.right = Box::new(Expr::Ident(Ident::new_no_ctxt(
-            "generated".into(),
-            DUMMY_SP,
-        )));
+        *for_in.right = Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
 
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
@@ -3140,10 +3134,7 @@ fn for_statement_separators_resume_after_dummy_clauses() {
             panic!("expected an identifier for-of left operand");
         };
         left.id.span = DUMMY_SP;
-        for_of.right = Box::new(Expr::Ident(Ident::new_no_ctxt(
-            "generated".into(),
-            DUMMY_SP,
-        )));
+        *for_of.right = Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
 
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
