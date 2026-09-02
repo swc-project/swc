@@ -13,8 +13,8 @@ use swc_ecma_ast::{
     ImportPhase, ImportSpecifier, Invalid, JSXAttrName, JSXAttrOrSpread, JSXElementChild,
     JSXElementName, JSXExpr, Lit, Module, ModuleDecl, ModuleExportName, ModuleItem, ObjectPatProp,
     OptChainBase, Pat, Prop, PropName, PropOrSpread, SeqExpr, SimpleAssignTarget, Stmt, Str, Super,
-    ThisExpr, TsFnParam, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsType,
-    TsTypeElement, WithStmt,
+    ThisExpr, TsFnOrConstructorType, TsFnParam, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
+    TsNonNullExpr, TsType, TsTypeElement, WithStmt,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -514,6 +514,168 @@ fn call_signature_delimiters_resume_after_dummy_children() {
 
         assert_source_less_boundary(&map, &code, "generated");
         assert_source_location(&map, &code, ")", 0, 19);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn construct_signature_delimiters_resume_after_dummy_children() {
+    let source = "type Signature = { new<T>(param: string): Result };\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let TsTypeElement::TsConstructSignatureDecl(signature) = &mut type_lit.members[0] else {
+            panic!("expected a construct signature");
+        };
+        signature
+            .type_params
+            .as_mut()
+            .expect("expected type parameters")
+            .span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "<");
+        assert_source_location(&map, &code, "(", 0, 19);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let TsTypeElement::TsConstructSignatureDecl(signature) = &mut type_lit.members[0] else {
+            panic!("expected a construct signature");
+        };
+        signature.params[0] =
+            TsFnParam::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP).into());
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ")", 0, 19);
+        assert_source_location(&map, &code, ":", 0, 19);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn constructor_type_delimiters_resume_after_dummy_children() {
+    let source = "type Constructor = new<T>(param: string) => Result;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(constructor)) =
+            &mut *type_alias.type_ann
+        else {
+            panic!("expected a constructor type");
+        };
+        constructor
+            .type_params
+            .as_mut()
+            .expect("expected type parameters")
+            .span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "<");
+        assert_source_location(&map, &code, "(", 0, 19);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(constructor)) =
+            &mut *type_alias.type_ann
+        else {
+            panic!("expected a constructor type");
+        };
+        constructor.params[0] =
+            TsFnParam::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP).into());
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ")", 0, 19);
+        assert_source_location(&map, &code, "=>", 0, 19);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn import_type_closers_resume_after_dummy_children() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "type Imported = import(\"module\").Qualified;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsImportType(import_type) = &mut *type_alias.type_ann else {
+            panic!("expected an import type");
+        };
+        import_type.arg.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "\"module\"");
+        assert_source_location(&map, &code, ")", 0, 16);
+        assert_source_location(&map, &code, ".Qualified", 0, 16);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "type Imported = import(\"module\", { with: { type: \"json\" } \
+             }).Qualified;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsImportType(import_type) = &mut *type_alias.type_ann else {
+            panic!("expected an import type");
+        };
+        import_type
+            .attributes
+            .as_mut()
+            .expect("expected import attributes")
+            .span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "{");
+        assert_source_location(&map, &code, ")", 0, 16);
+        assert_source_location(&map, &code, ".Qualified", 0, 16);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

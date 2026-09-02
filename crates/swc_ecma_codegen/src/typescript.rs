@@ -141,11 +141,16 @@ impl MacroNode for TsConstructSignatureDecl {
         if let Some(type_params) = &self.type_params {
             space!(emitter);
             emit!(type_params);
+            srcmap_for_separator!(emitter, self, type_params);
         }
 
         punct!(emitter, "(");
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
-        srcmap_if_dummy!(emitter, self);
+        if let Some(last_param) = self.params.last() {
+            srcmap_for_separator!(emitter, self, last_param);
+        } else {
+            srcmap_if_dummy!(emitter, self);
+        }
         punct!(emitter, ")");
 
         if let Some(type_ann) = &self.type_ann {
@@ -173,11 +178,16 @@ impl MacroNode for TsConstructorType {
         if let Some(type_params) = &self.type_params {
             space!(emitter);
             emit!(type_params);
+            srcmap_for_separator!(emitter, self, type_params);
         }
 
         punct!(emitter, "(");
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
-        srcmap_if_dummy!(emitter, self);
+        if let Some(last_param) = self.params.last() {
+            srcmap_for_separator!(emitter, self, last_param);
+        } else {
+            srcmap_if_dummy!(emitter, self);
+        }
         punct!(emitter, ")");
 
         formatting_space!(emitter);
@@ -1122,8 +1132,10 @@ impl MacroNode for TsImportType {
             punct!(emitter, ",");
             formatting_space!(emitter);
             emit!(attributes);
+            srcmap_for_separator!(emitter, self, attributes);
+        } else {
+            srcmap_for_separator!(emitter, self, self.arg);
         }
-        srcmap_if_dummy!(emitter, self);
         punct!(emitter, ")");
 
         if let Some(n) = &self.qualifier {
