@@ -1306,7 +1306,7 @@ impl MacroNode for TsTypeLit {
             Some(&self.members),
             ListFormat::MultiLineTypeLiteralMembers,
         )?;
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
         Ok(())
     }

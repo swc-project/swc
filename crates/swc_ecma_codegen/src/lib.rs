@@ -2032,6 +2032,9 @@ impl MacroNode for ArrowExpr {
         }
 
         emitter.emit_list(self.span, Some(&self.params), ListFormat::CommaListElements)?;
+        if let Some(last_param) = self.params.last() {
+            srcmap_for_separator!(emitter, self, last_param);
+        }
         if parens {
             punct!(emitter, ")");
         }

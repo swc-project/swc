@@ -620,11 +620,17 @@ fn real_jsx_closing_element_resumes_after_dummy_child() {
             panic!("expected a JSX identifier");
         };
         name.span = DUMMY_SP;
+        let closing = root.closing.as_mut().expect("expected a closing element");
+        let JSXElementName::Ident(name) = &mut closing.name else {
+            panic!("expected a closing JSX identifier");
+        };
+        name.span = DUMMY_SP;
 
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_less_boundary(&map, &code, "<generated");
         assert_source_location(&map, &code, "</root", 0, 34);
+        assert_source_location(&map, &code, ">;", 0, 40);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -1265,6 +1271,101 @@ fn real_parenthesized_type_resumes_before_closing_delimiter() {
 
         assert_source_less_boundary(&map, &code, "true");
         assert_source_location(&map, &code, ")", 0, 22);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_arrow_suffix_resumes_after_dummy_final_parameter() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, "(first, second) => body;\nafter();\n");
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[0] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::Arrow(arrow) = &mut *expr_stmt.expr else {
+            panic!("expected an arrow expression");
+        };
+        let Pat::Ident(param) = arrow.params.last_mut().expect("expected a final parameter") else {
+            panic!("expected an identifier parameter");
+        };
+        param.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "second");
+        assert_source_location(&map, &code, ")", 0, 0);
+        assert_source_location(&map, &code, "=>", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "(first, second): number => body;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[0] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::Arrow(arrow) = &mut *expr_stmt.expr else {
+            panic!("expected an arrow expression");
+        };
+        let Pat::Ident(param) = arrow.params.last_mut().expect("expected a final parameter") else {
+            panic!("expected an identifier parameter");
+        };
+        param.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "second");
+        assert_source_location(&map, &code, ")", 0, 0);
+        assert_source_location(&map, &code, ":", 0, 0);
+        assert_source_location(&map, &code, "=>", 0, 23);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_type_literal_resumes_before_closing_brace() {
+    let source = "type Shape = { property: string };\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let TsTypeElement::TsPropertySignature(property) = &mut type_lit.members[0] else {
+            panic!("expected a type literal property");
+        };
+        property.span = DUMMY_SP;
+        let Expr::Ident(key) = &mut *property.key else {
+            panic!("expected an identifier property key");
+        };
+        key.span = DUMMY_SP;
+        let type_ann = property
+            .type_ann
+            .as_mut()
+            .expect("expected a property type annotation");
+        type_ann.span = DUMMY_SP;
+        *type_ann.type_ann = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "property");
+        assert_source_less(&map, &code, "boolean");
+        assert_source_location(&map, &code, "}", 0, 32);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

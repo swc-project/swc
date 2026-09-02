@@ -201,7 +201,7 @@ impl MacroNode for JSXClosingElement {
 
         punct!(emitter, "</");
         emit!(self.name);
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, ">");
         Ok(())
     }
