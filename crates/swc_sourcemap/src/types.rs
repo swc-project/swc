@@ -1088,7 +1088,7 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
                 let end = next_mapped_by_source
                     .get(&token.src_id)
                     .map(|next| (next.src_line, next.src_col))
-                    .filter(|&next| next > (token.src_line, token.src_col))
+                    .filter(|&next| next >= (token.src_line, token.src_col))
                     .map_or((start.0, u32::MAX), |next| {
                         std::cmp::min(next, (start.0, u32::MAX))
                     });
@@ -2141,6 +2141,33 @@ mod tests {
     }
 
     #[test]
+    fn adjust_mappings_preserves_equal_position_resumed_source_range() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 10, 10, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
+        adjustment_builder.add_raw(0, 16, 0, 0, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let token = original
+            .tokens()
+            .find(|token| token.get_dst() == (0, 26))
+            .expect("the equal-position resumed mapping should own the later source range");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            original.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
     fn adjust_mappings_from_multiple_preserves_unmapped_self_segments() {
         let mut bundled_builder = SourceMapBuilder::new(None);
         let intermediate_source = bundled_builder.add_source("intermediate.js".into());
@@ -2386,6 +2413,41 @@ mod tests {
             .tokens()
             .find(|token| token.get_dst() == (1, 5))
             .expect("the forward resumed mapping should own the later source range");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_preserves_equal_position_resumed_source_range() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 0, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "UAUA"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (0, 26))
+            .expect("the equal-position resumed mapping should own the later source range");
         assert_eq!(token.get_src(), (10, 0));
         assert_eq!(
             composed.get_source(token.get_src_id()).unwrap(),
