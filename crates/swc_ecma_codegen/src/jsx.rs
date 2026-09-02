@@ -127,7 +127,7 @@ impl MacroNode for JSXAttrOrSpread {
                 srcmap_if_dummy!(emitter, self);
                 punct!(emitter, "{");
                 emit!(n);
-                srcmap_if_dummy!(emitter, self);
+                srcmap!(emitter, n.dot3_token, false);
                 punct!(emitter, "}");
             }
             #[cfg(swc_ast_unknown)]
@@ -197,7 +197,7 @@ impl MacroNode for JSXExpr {
 #[node_impl]
 impl MacroNode for JSXClosingElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, true);
 
         punct!(emitter, "</");
         emit!(self.name);

@@ -468,6 +468,43 @@ fn real_jsx_opening_element_resumes_before_self_closing_delimiters() {
 }
 
 #[test]
+fn real_jsx_spread_attribute_resumes_before_closing_delimiter() {
+    let source = "const element = <root {...value} />;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+        let JSXAttrOrSpread::SpreadElement(spread) = &mut element.opening.attrs[0] else {
+            panic!("expected a JSX spread attribute");
+        };
+        *spread.expr = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less(&map, &code, "this");
+        assert_source_location(&map, &code, "}", 0, 26);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn real_jsx_expression_container_resumes_before_closing_delimiters() {
     let source = "const element = <div>{value}</div>;\nafter();\n";
 
@@ -503,7 +540,49 @@ fn real_jsx_expression_container_resumes_before_closing_delimiters() {
 
         assert_source_less_boundary(&map, &code, "this");
         assert_source_location(&map, &code, "}", 0, 27);
-        assert_source_location(&map, &code, "</", 0, 27);
+        assert_source_location(&map, &code, "</", 0, 28);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_jsx_closing_element_resumes_after_dummy_child() {
+    let source = "const element = <root><generated/></root>;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(root) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+        let JSXElementChild::JSXElement(child) = &mut root.children[0] else {
+            panic!("expected a JSX element child");
+        };
+        child.span = DUMMY_SP;
+        child.opening.span = DUMMY_SP;
+        let JSXElementName::Ident(name) = &mut child.opening.name else {
+            panic!("expected a JSX identifier");
+        };
+        name.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "<generated");
+        assert_source_location(&map, &code, "</root", 0, 34);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -541,7 +620,7 @@ fn real_jsx_spread_child_resumes_before_closing_delimiter() {
 
         assert_source_less_boundary(&map, &code, "this");
         assert_source_location(&map, &code, "}", 0, 30);
-        assert_source_location(&map, &code, "</", 0, 30);
+        assert_source_location(&map, &code, "</", 0, 31);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -892,6 +971,37 @@ fn real_array_type_resumes_before_brackets() {
 
         assert_source_less_boundary(&map, &code, "true");
         assert_source_location(&map, &code, "[]", 0, 22);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_type_arguments_resume_before_closing_delimiter() {
+    let source = "fn<Original>();\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[0] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::Call(call) = &mut *expr_stmt.expr else {
+            panic!("expected a call expression");
+        };
+        let type_args = call
+            .type_args
+            .as_mut()
+            .expect("expected call type arguments");
+        *type_args.params[0] = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "boolean");
+        assert_source_location(&map, &code, ">", 0, 11);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

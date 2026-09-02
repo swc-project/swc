@@ -1388,7 +1388,7 @@ impl MacroNode for TsTypeParamInstantiation {
         punct!(emitter, "<");
         emitter.emit_list(self.span, Some(&self.params), ListFormat::TypeParameters)?;
 
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, ">");
         Ok(())
     }
