@@ -16,3 +16,11 @@ enum FromNested {
     X = nested,
     Y,
 }
+enum InMember {
+    X = E?.A,
+    Y,
+}
+const obj = { foo: 1 } as const;
+enum NotEnum {
+    X = obj?.foo,
+}

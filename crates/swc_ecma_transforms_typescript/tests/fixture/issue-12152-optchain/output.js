@@ -20,3 +20,15 @@ var FromNested = function(FromNested) {
     FromNested[FromNested["Y"] = void 0] = "Y";
     return FromNested;
 }(FromNested || {});
+var InMember = /*#__PURE__*/ function(InMember) {
+    InMember[InMember["X"] = 1] = "X";
+    InMember[InMember["Y"] = 2] = "Y";
+    return InMember;
+}(InMember || {});
+const obj = {
+    foo: 1
+};
+var NotEnum = function(NotEnum) {
+    NotEnum[NotEnum["X"] = obj?.foo] = "X";
+    return NotEnum;
+}(NotEnum || {});
