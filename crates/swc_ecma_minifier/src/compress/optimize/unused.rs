@@ -1673,6 +1673,19 @@ impl Visit for NonDiscardableDefaultVisitor {
         e.visit_children_with(self);
     }
 
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        if matches!(e.prop, MemberProp::PrivateName(..)) {
+            // Private member access performs a brand check that can throw even when
+            // evaluating the object expression itself has no observable effects.
+            // `extract_class_side_effect` cannot reproduce that check outside the
+            // class, so keep the class default intact.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
     fn visit_call_expr(&mut self, e: &CallExpr) {
         if matches!(
             &e.callee,

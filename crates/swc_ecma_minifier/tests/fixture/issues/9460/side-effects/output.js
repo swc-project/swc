@@ -137,4 +137,12 @@ try {
 } catch  {
     record("pre-super-this-throws");
 }
+try {
+    const { privateBrandValue = class {
+        #privateBrand;
+        static value = ({}).#privateBrand;
+    } } = {};
+} catch  {
+    record("private-brand-throws");
+}
 console.log(events.join(","));
