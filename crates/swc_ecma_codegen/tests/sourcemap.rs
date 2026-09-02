@@ -12,10 +12,10 @@ use swc_ecma_ast::{
     EmptyStmt, EsVersion, ExportSpecifier, Expr, ExprOrSpread, ExprStmt, Ident, Import, ImportDecl,
     ImportPhase, ImportSpecifier, Invalid, JSXAttrName, JSXAttrOrSpread, JSXElementChild,
     JSXElementName, JSXExpr, JSXObject, Lit, Module, ModuleDecl, ModuleExportName, ModuleItem,
-    ObjectPatProp, OptChainBase, Pat, Prop, PropName, PropOrSpread, SeqExpr, SimpleAssignTarget,
-    Stmt, Str, Super, ThisExpr, TsEntityName, TsFnOrConstructorType, TsFnParam, TsKeywordType,
-    TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement, VarDeclOrExpr,
-    WithStmt,
+    ObjectPatProp, OptChainBase, Pat, Prop, PropName, PropOrSpread, RestPat, SeqExpr,
+    SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsEntityName, TsFnOrConstructorType, TsFnParam,
+    TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsType, TsTypeElement,
+    VarDeclOrExpr, WithStmt,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -420,6 +420,39 @@ fn real_array_pattern_resumes_before_closing_delimiter() {
 
         assert_source_less_boundary(&map, &code, "element");
         assert_source_location(&map, &code, "]", 1, 12);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn dummy_rest_pattern_prefix_is_source_less() {
+    let source = "before();\nlet [first, rest] = values;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[1] else {
+            panic!("expected a variable declaration");
+        };
+        let Pat::Array(pattern) = &mut var.decls[0].name else {
+            panic!("expected an array pattern");
+        };
+        let arg = pattern.elems[1]
+            .take()
+            .expect("expected a second array element");
+        pattern.elems[1] = Some(Pat::Rest(RestPat {
+            span: DUMMY_SP,
+            dot3_token: DUMMY_SP,
+            arg: Box::new(arg),
+            type_ann: None,
+        }));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "...rest");
+        assert_source_location(&map, &code, "rest", 1, 12);
+        assert_source_location(&map, &code, "]", 1, 16);
         assert_source_location(&map, &code, "after", 2, 0);
     }
 }

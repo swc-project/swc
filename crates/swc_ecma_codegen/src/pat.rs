@@ -50,6 +50,8 @@ impl MacroNode for RestPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap!(emitter, self, true);
+
         punct!(emitter, self.dot3_token, "...");
         emit!(self.arg);
 
