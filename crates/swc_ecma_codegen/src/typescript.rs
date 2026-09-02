@@ -27,7 +27,7 @@ impl MacroNode for TsArrayType {
 
         srcmap_if_dummy!(emitter, self);
         emit!(self.elem_type);
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "[");
         punct!(emitter, "]");
         Ok(())
@@ -42,6 +42,7 @@ impl MacroNode for TsAsExpr {
         emit!(self.expr);
 
         space!(emitter);
+        srcmap_for_separator!(emitter, self, self.expr);
         keyword!(emitter, "as");
         space!(emitter);
 
@@ -58,6 +59,7 @@ impl MacroNode for TsSatisfiesExpr {
         emit!(self.expr);
 
         space!(emitter);
+        srcmap_for_separator!(emitter, self, self.expr);
         keyword!(emitter, "satisfies");
         space!(emitter);
 
@@ -99,17 +101,20 @@ impl MacroNode for TsConditionalType {
         emit!(self.check_type);
         space!(emitter);
 
+        srcmap_for_separator!(emitter, self, self.check_type);
         keyword!(emitter, "extends");
         space!(emitter);
 
         emit!(self.extends_type);
         space!(emitter);
+        srcmap_for_separator!(emitter, self, self.extends_type);
         punct!(emitter, "?");
 
         space!(emitter);
         emit!(self.true_type);
         space!(emitter);
 
+        srcmap_for_separator!(emitter, self, self.true_type);
         punct!(emitter, ":");
 
         space!(emitter);

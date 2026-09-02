@@ -11,8 +11,8 @@ use swc_ecma_ast::{
     ArrayLit, AssignTarget, Bool, CallExpr, Callee, DebuggerStmt, Decl, EmptyStmt, EsVersion, Expr,
     ExprOrSpread, ExprStmt, Ident, Import, ImportDecl, ImportPhase, Invalid, JSXAttrName,
     JSXAttrOrSpread, JSXElementChild, JSXElementName, JSXExpr, Module, ModuleDecl, ModuleItem,
-    ObjectPatProp, Pat, SeqExpr, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsLit, TsLitType,
-    TsNonNullExpr, TsType,
+    ObjectPatProp, Pat, SeqExpr, SimpleAssignTarget, Stmt, Str, Super, ThisExpr, TsKeywordType,
+    TsKeywordTypeKind, TsLit, TsLitType, TsNonNullExpr, TsType,
 };
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
@@ -821,6 +821,99 @@ fn dummy_span_typescript_bool_is_source_less() {
     assert_source_location(&map, &code, "Value", 0, 5);
     assert_source_less_boundary(&map, &code, "true");
     assert_source_location(&map, &code, "after", 1, 0);
+}
+
+#[test]
+fn real_array_type_resumes_before_brackets() {
+    let source = "type Value = original[];\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsArrayType(array) = &mut *type_alias.type_ann else {
+            panic!("expected an array type");
+        };
+        *array.elem_type = TsType::TsLitType(TsLitType {
+            span: DUMMY_SP,
+            lit: TsLit::Bool(Bool {
+                span: DUMMY_SP,
+                value: true,
+            }),
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "true");
+        assert_source_location(&map, &code, "[]", 0, 22);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn real_typescript_separators_resume_after_dummy_children() {
+    let source = "before();\nvalue as Type;\nvalue satisfies Type;\ntype Choice = Check extends \
+                  Base ? Yes : No;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::TsAs(as_expr) = &mut *expr_stmt.expr else {
+            panic!("expected an as expression");
+        };
+        *as_expr.expr = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[2] else {
+            panic!("expected an expression statement");
+        };
+        let Expr::TsSatisfies(satisfies) = &mut *expr_stmt.expr else {
+            panic!("expected a satisfies expression");
+        };
+        *satisfies.expr = Expr::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[3]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsConditionalType(conditional) = &mut *type_alias.type_ann else {
+            panic!("expected a conditional type");
+        };
+        *conditional.check_type = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        });
+        *conditional.extends_type = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsNumberKeyword,
+        });
+        *conditional.true_type = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsStringKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, "as", 1, 0);
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, "satisfies", 2, 0);
+        assert_source_less_boundary(&map, &code, "boolean");
+        assert_source_location(&map, &code, "extends", 3, 14);
+        assert_source_less_boundary(&map, &code, "number");
+        assert_source_location(&map, &code, "?", 3, 14);
+        assert_source_less_boundary(&map, &code, "string");
+        assert_source_location(&map, &code, ":", 3, 14);
+        assert_source_location(&map, &code, "after", 4, 0);
+    }
 }
 
 #[test]
