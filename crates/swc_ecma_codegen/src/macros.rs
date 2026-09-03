@@ -310,17 +310,24 @@ macro_rules! srcmap_for_pattern_close {
                     // so retain the real pattern's mapping instead of scanning
                     // into the annotation's original source.
                     Some(_) => span.lo(),
-                    None if $pattern.optional => $emitter
+                    // TypeScript transforms can remove `type_ann` while the
+                    // pattern retains its parsed span, including the original
+                    // annotation. Scan that source instead of assuming the
+                    // span ends at the closing delimiter.
+                    None => $emitter
                         .cm
                         .span_to_snippet(span)
                         .ok()
                         .and_then(|snippet| {
-                            $crate::macros::pattern_close_offset(&snippet, $delimiter, true)
+                            $crate::macros::pattern_close_offset(
+                                &snippet,
+                                $delimiter,
+                                $pattern.optional,
+                            )
                         })
                         .map_or(span.lo(), |offset| {
                             span.lo() + swc_common::BytePos(offset as u32)
                         }),
-                    None => span.hi() - swc_common::BytePos(1),
                 }
             };
             $emitter.wr.add_srcmap(pos)?;
@@ -328,9 +335,9 @@ macro_rules! srcmap_for_pattern_close {
     }};
 }
 
-/// Finds a pattern's closing delimiter when it is followed only by trivia and
-/// an optional marker. Validating the suffix avoids mistaking delimiters inside
-/// trailing comments for the pattern delimiter.
+/// Finds a pattern's closing delimiter before trivia, an optional marker, and
+/// an optional type annotation. Validating the suffix avoids mistaking
+/// delimiters inside the pattern or trailing comments for its delimiter.
 pub(crate) fn pattern_close_offset(
     snippet: &str,
     delimiter: char,
@@ -338,7 +345,7 @@ pub(crate) fn pattern_close_offset(
 ) -> Option<usize> {
     snippet.match_indices(delimiter).find_map(|(offset, _)| {
         let suffix = &snippet[offset + delimiter.len_utf8()..];
-        pattern_suffix_is_trivia(suffix, optional).then_some(offset)
+        pattern_suffix_matches(suffix, optional).then_some(offset)
     })
 }
 
@@ -369,7 +376,7 @@ pub(crate) fn jsx_spread_close_pos(
         .then(|| expr_hi + swc_common::BytePos((suffix.len() - stripped.len()) as u32))
 }
 
-fn pattern_suffix_is_trivia(mut suffix: &str, optional: bool) -> bool {
+fn pattern_suffix_matches(mut suffix: &str, optional: bool) -> bool {
     let Some(stripped) = strip_source_trivia(suffix) else {
         return false;
     };
@@ -385,7 +392,7 @@ fn pattern_suffix_is_trivia(mut suffix: &str, optional: bool) -> bool {
         suffix = stripped;
     }
 
-    suffix.is_empty()
+    suffix.is_empty() || suffix.starts_with(':')
 }
 
 fn strip_source_trivia(mut suffix: &str) -> Option<&str> {

@@ -1031,6 +1031,62 @@ fn dummy_typed_pattern_annotations_fall_back_to_owner_mapping() {
 }
 
 #[test]
+fn removed_typed_pattern_annotations_keep_delimiter_positions() {
+    let source = "declare function array([element]: Tuple): void;\ndeclare function object({ \
+                  property }?: Shape): void;\nafter();\n";
+    let array_close_col = source
+        .lines()
+        .next()
+        .expect("expected an array declaration")
+        .find(']')
+        .expect("expected an array pattern closer") as u32;
+    let object_close_col = source
+        .lines()
+        .nth(1)
+        .expect("expected an object declaration")
+        .find('}')
+        .expect("expected an object pattern closer") as u32;
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected an array function declaration");
+        };
+        let Pat::Array(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an array parameter");
+        };
+        pattern.type_ann = None;
+        let Some(Pat::Ident(element)) = &mut pattern.elems[0] else {
+            panic!("expected an array element");
+        };
+        element.id.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[1] else {
+            panic!("expected an object function declaration");
+        };
+        let Pat::Object(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an object parameter");
+        };
+        pattern.type_ann = None;
+        let ObjectPatProp::Assign(property) = &mut pattern.props[0] else {
+            panic!("expected an object property");
+        };
+        property.key.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "element");
+        assert_source_location(&map, &code, "]", 0, array_close_col);
+        assert_source_less_boundary(&map, &code, "property");
+        assert_source_location(&map, &code, "}?", 1, object_close_col);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
 fn typescript_separators_resume_after_dummy_children() {
     let source =
         "type Shape = { [property]?: string };\ntype Qualified = Namespace.Member;\nafter();\n";
@@ -2409,6 +2465,31 @@ fn real_template_interpolation_closers_resume_after_dummy_expressions() {
 }
 
 #[test]
+fn tagged_template_interpolation_resumes_after_dummy_quasi() {
+    let source = "before();\ntag`tagged${value}tail`;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Expr(expr_stmt)) = &mut module.body[1] else {
+            panic!("expected a tagged template statement");
+        };
+        let Expr::TaggedTpl(tagged) = &mut *expr_stmt.expr else {
+            panic!("expected a tagged template expression");
+        };
+        tagged.tpl.quasis[0].span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "tagged");
+        assert_has_source(&map, &code, "${");
+        assert_source_location(&map, &code, "value", 1, 12);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
 fn real_member_separator_resumes_after_dummy_object() {
     let source = "before();\nobject.member;\nafter();\n";
 
@@ -2673,6 +2754,52 @@ fn comment_parentheses_resume_after_dummy_expression_descendants() {
         assert_source_less_boundary(&map, &code, "generatedThrow");
         assert_has_source_after(&map, &code, "generatedThrow");
         assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn yield_comment_parenthesis_resumes_after_dummy_expression_descendant() {
+    let source = "function* yields() { yield condition ? consequent : alternate; }\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a generator function declaration");
+        };
+        let Stmt::Expr(statement) = &mut function
+            .function
+            .body
+            .as_mut()
+            .expect("expected a function body")
+            .stmts[0]
+        else {
+            panic!("expected a yield expression statement");
+        };
+        let Expr::Yield(yield_expr) = &mut *statement.expr else {
+            panic!("expected a yield expression");
+        };
+        let arg = yield_expr.arg.as_mut().expect("expected a yield argument");
+        comments.add_leading(
+            arg.span().lo(),
+            Comment {
+                kind: CommentKind::Line,
+                span: DUMMY_SP,
+                text: " leading yield".into(),
+            },
+        );
+        let Expr::Cond(conditional) = &mut **arg else {
+            panic!("expected a conditional yield argument");
+        };
+        *conditional.alt = Expr::Ident(Ident::new_no_ctxt("generatedYield".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert!(code.contains("generatedYield)"));
+        assert_source_less_boundary(&map, &code, "generatedYield");
+        assert_has_source_after(&map, &code, "generatedYield");
+        assert_source_location(&map, &code, "after", 1, 0);
     }
 }
 

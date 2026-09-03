@@ -330,6 +330,7 @@ where
             if i % 2 == 0 {
                 self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
             } else {
+                srcmap_for_separator!(self, node, node.quasis[i / 2]);
                 punct!(self, "${");
                 emit!(self, node.exprs[i / 2]);
                 srcmap_for_separator!(self, node, node.exprs[i / 2]);
@@ -2483,6 +2484,7 @@ impl MacroNode for YieldExpr {
             }
 
             emit!(self.arg);
+            srcmap_for_separator!(emitter, self, arg);
             if need_paren {
                 punct!(emitter, ")")
             }
