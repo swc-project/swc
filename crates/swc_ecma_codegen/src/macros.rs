@@ -454,18 +454,12 @@ enum PatternSuffixKind {
 }
 
 fn pattern_suffix_kind(mut suffix: &str, optional: bool) -> Option<PatternSuffixKind> {
-    let Some(stripped) = strip_source_trivia(suffix) else {
-        return None;
-    };
+    let stripped = strip_source_trivia(suffix)?;
     suffix = stripped;
 
     if optional {
-        let Some(stripped) = suffix.strip_prefix('?') else {
-            return None;
-        };
-        let Some(stripped) = strip_source_trivia(stripped) else {
-            return None;
-        };
+        let stripped = suffix.strip_prefix('?')?;
+        let stripped = strip_source_trivia(stripped)?;
         suffix = stripped;
     }
 
