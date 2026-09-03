@@ -2,7 +2,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_pat_ids;
+use swc_ecma_utils::{find_pat_ids, for_each_binding_ident};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 use crate::{option::MangleOptions, usage_analyzer::marks::Marks};
@@ -318,10 +318,15 @@ impl Visit for Preserver<'_> {
 
     fn visit_var_decl(&mut self, n: &VarDecl) {
         if n.kind == VarDeclKind::Var && self.preserve_top_level_hoisted_decls {
-            let old_top_level = self.in_top_level;
-            self.in_top_level = true;
             n.visit_children_with(self);
-            self.in_top_level = old_top_level;
+
+            if !self.options.top_level.unwrap_or_default() {
+                // Only the bindings are hoisted; initializers retain their
+                // actual scope while they are visited above.
+                for_each_binding_ident(&n.decls, |ident| {
+                    self.preserved.insert(ident.to_id());
+                });
+            }
             return;
         }
 

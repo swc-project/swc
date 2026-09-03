@@ -9,4 +9,12 @@ for (; condition;) {
             consume(a, staticValue);
         }
     });
+
+    var holder = class {
+        static {
+            var privateName;
+            consume(privateName);
+        }
+    };
+    consume(holder);
 }
