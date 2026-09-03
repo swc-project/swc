@@ -56,8 +56,11 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Test change detection
-        run: node --test ./scripts/github/change-detection.test.mjs
+      - name: Test GitHub scripts
+        run: |
+          node --test \
+            ./scripts/github/change-detection.test.mjs \
+            ./scripts/github/tag-npm-package.test.mjs
 
       - name: Install cargo-mono
         uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
