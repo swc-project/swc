@@ -366,6 +366,7 @@ impl MacroNode for TsThisParam {
         keyword!(emitter, "this");
 
         if let Some(type_ann) = &self.type_ann {
+            srcmap!(emitter, type_ann, true);
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(type_ann);
@@ -415,6 +416,8 @@ impl MacroNode for TsFnType {
 impl MacroNode for TsImportEqualsDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         if self.is_export {
             keyword!(emitter, "export");

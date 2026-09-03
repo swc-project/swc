@@ -485,6 +485,29 @@ fn dummy_typescript_declaration_prefixes_are_source_less() {
 }
 
 #[test]
+fn dummy_import_equals_prefix_is_source_less() {
+    let source = "before();\nexport import type Imported = require(\"dep\");\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = &mut module.body[1] else {
+            panic!("expected an import-equals declaration");
+        };
+        import.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, "before", 0, 0);
+        assert_source_less_boundary(&map, &code, "export");
+        assert_source_location(&map, &code, "Imported", 1, 19);
+        assert_has_source(&map, &code, "dep");
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
 fn namespace_delimiters_resume_after_dummy_identifiers() {
     let source = "namespace Outer.Inner {}\nafter();\n";
 
@@ -2778,6 +2801,34 @@ fn real_function_suffix_resumes_after_dummy_children() {
         assert_source_less(&map, &code, "boolean");
         assert_has_source(&map, &code, ",");
         assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn this_parameter_annotation_resumes_after_dummy_keyword() {
+    let source = "before();\nfunction example(this: Context) {}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[1] else {
+            panic!("expected a function declaration");
+        };
+        let this_param = function
+            .function
+            .this_param
+            .as_mut()
+            .expect("expected a this parameter");
+        this_param.this_span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, "before", 0, 0);
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(&map, &code, ":", 1, 21);
+        assert_source_location(&map, &code, "Context", 1, 23);
+        assert_source_location(&map, &code, "after", 2, 0);
     }
 }
 
