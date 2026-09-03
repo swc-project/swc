@@ -218,6 +218,7 @@ impl MacroNode for AutoAccessor {
             punct!(emitter, "=");
             formatting_space!(emitter);
             emit!(init);
+            srcmap_for_separator!(emitter, self, init);
         }
 
         semi!(emitter);
@@ -500,6 +501,7 @@ impl MacroNode for PrivateProp {
             } else {
                 emit!(value);
             }
+            srcmap_for_separator!(emitter, self, value);
         }
 
         semi!(emitter);
@@ -579,6 +581,7 @@ impl MacroNode for ClassProp {
             } else {
                 emit!(v);
             }
+            srcmap_for_separator!(emitter, self, v);
         }
 
         semi!(emitter);

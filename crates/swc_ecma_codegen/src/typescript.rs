@@ -1259,6 +1259,7 @@ impl MacroNode for TsTypeAliasDecl {
         formatting_space!(emitter);
 
         emit!(self.type_ann);
+        srcmap_for_separator!(emitter, self, self.type_ann);
 
         formatting_semi!(emitter);
         Ok(())

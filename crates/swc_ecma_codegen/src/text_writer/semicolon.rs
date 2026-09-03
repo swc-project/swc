@@ -118,6 +118,12 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 
     #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        // Match the inner writer's no-op semantics without discarding a
+        // transition that is already deferred until after a pending semicolon.
+        if pos.is_dummy() {
+            return Ok(());
+        }
+
         if self.pending_srcmap.is_some()
             || (self.pending_semi.is_some() && self.inner.will_add_srcmap(pos))
         {
@@ -313,5 +319,34 @@ mod tests {
 
         assert_eq!(out, b"{foo()}");
         assert!(mappings.is_empty());
+    }
+
+    #[test]
+    fn preserves_deferred_srcmap_when_dummy_position_is_added() {
+        for deferred in [BytePos(2), BytePos::SYNTHESIZED] {
+            let source_map = Arc::new(SourceMap::default());
+            let mut out = vec![];
+            let mut mappings = vec![];
+            {
+                let writer = JsWriter::new(source_map, "\n", &mut out, Some(&mut mappings));
+                let mut writer = super::omit_trailing_semi(writer);
+
+                writer.write_str("before()").unwrap();
+                writer.add_srcmap(BytePos(1)).unwrap();
+                writer.write_semi(None).unwrap();
+                writer.add_srcmap(deferred).unwrap();
+                writer.add_srcmap(BytePos::DUMMY).unwrap();
+                writer.write_str("after").unwrap();
+            }
+
+            assert_eq!(out, b"before();after");
+            assert_eq!(
+                mappings,
+                vec![
+                    (BytePos(1), LineCol { line: 0, col: 8 }),
+                    (deferred, LineCol { line: 0, col: 9 }),
+                ]
+            );
+        }
     }
 }

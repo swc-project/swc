@@ -4873,6 +4873,79 @@ fn class_fields_resume_after_dummy_type_annotations() {
 }
 
 #[test]
+fn class_field_semicolons_resume_after_dummy_initializers() {
+    let source = "class Example {\n  property = classValue;\n  #private = privateValue;\n  \
+                  accessor auto = accessorValue;\n  tail;\n}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+
+        let ClassMember::ClassProp(property) = &mut class.class.body[0] else {
+            panic!("expected a class property");
+        };
+        **property.value.as_mut().expect("expected an initializer") =
+            Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let ClassMember::PrivateProp(property) = &mut class.class.body[1] else {
+            panic!("expected a private property");
+        };
+        **property.value.as_mut().expect("expected an initializer") = Expr::Lit(Lit::Bool(Bool {
+            span: DUMMY_SP,
+            value: true,
+        }));
+
+        let ClassMember::AutoAccessor(accessor) = &mut class.class.body[2] else {
+            panic!("expected an auto-accessor");
+        };
+        **accessor.value.as_mut().expect("expected an initializer") = Expr::Lit(Lit::Bool(Bool {
+            span: DUMMY_SP,
+            value: false,
+        }));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(
+            &map,
+            &code,
+            if minify {
+                ";#private"
+            } else {
+                ";\n    #private"
+            },
+            1,
+            2,
+        );
+        assert_source_less_boundary(&map, &code, "true");
+        assert_source_location(
+            &map,
+            &code,
+            if minify {
+                ";accessor"
+            } else {
+                ";\n    accessor"
+            },
+            2,
+            2,
+        );
+        assert_source_less_boundary(&map, &code, "false");
+        assert_source_location(
+            &map,
+            &code,
+            if minify { ";tail" } else { ";\n    tail" },
+            3,
+            2,
+        );
+        assert_source_location(&map, &code, "after", 6, 0);
+    }
+}
+
+#[test]
 fn type_alias_resumes_after_dummy_type_parameters() {
     let source = "type Alias<T> = T;\nafter();\n";
 
@@ -4894,6 +4967,31 @@ fn type_alias_resumes_after_dummy_type_parameters() {
 
         assert_source_less_boundary(&map, &code, "<");
         assert_source_location(&map, &code, "=", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn type_alias_semicolon_resumes_after_dummy_type() {
+    let source = "type Alias = Original;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        *type_alias.type_ann = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "boolean");
+        assert_source_location(&map, &code, ";", 0, 0);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
