@@ -164,6 +164,13 @@ try {
 } catch  {
     record("strict-delete-throws");
 }
+try {
+    const { functionArgumentsValue = class {
+        static value = (function() {}).arguments;
+    } } = {};
+} catch  {
+    record("class-function-arguments-throws");
+}
 const iterable = {
     [Symbol.iterator]: ()=>(record("array-spread-iterator"), [][Symbol.iterator]())
 }, { arraySpreadValue = [

@@ -1439,6 +1439,14 @@ fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
         .map_or(true, |s| !matches!(s, "toString" | "valueOf"))
 }
 
+/// Returns true for a function `arguments` access that can throw.
+fn is_restricted_function_property_access(member: &MemberExpr) -> bool {
+    matches!(
+        &member.prop,
+        MemberProp::Ident(prop) if prop.sym == "arguments"
+    ) && matches!(member.obj.unwrap_parens(), Expr::Fn(..) | Expr::Arrow(..))
+}
+
 /// Returns true when evaluating an object literal property cannot perform
 /// construction-time property-key coercion or spread enumeration.
 fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
@@ -1685,6 +1693,14 @@ impl Visit for NonDiscardableDefaultVisitor {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
+        if is_restricted_function_property_access(e) {
+            // Function `arguments` is a restricted property. Reading it can throw
+            // while a function is evaluated in a class initializer, but class-side
+            // effect extraction treats ordinary member reads as discardable.
+            self.found = true;
+            return;
+        }
+
         if matches!(e.prop, MemberProp::PrivateName(..)) {
             // Private member access performs a brand check that can throw even when
             // evaluating the object expression itself has no observable effects.
