@@ -178,6 +178,7 @@ impl MacroNode for ImportDecl {
                     emitted_ns = true;
 
                     assert!(self.specifiers.len() <= 2);
+                    srcmap_if_dummy!(emitter, ns);
                     punct!(emitter, "*");
                     formatting_space!(emitter);
                     keyword!(emitter, "as");

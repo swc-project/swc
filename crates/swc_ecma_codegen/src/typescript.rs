@@ -699,7 +699,7 @@ impl MacroNode for TsMappedType {
         punct!(emitter, "[");
 
         emit!(self.type_param.name);
-        srcmap_for_separator!(emitter, self, self.type_param.name);
+        srcmap_for_separator!(emitter, self.type_param, self.type_param.name);
 
         if let Some(constraints) = &self.type_param.constraint {
             space!(emitter);
@@ -850,6 +850,7 @@ impl MacroNode for TsModuleDecl {
 
         if let Some(mut body) = self.body.as_ref() {
             while let TsNamespaceBody::TsNamespaceDecl(decl) = body {
+                srcmap_if_dummy!(emitter, decl);
                 punct!(emitter, ".");
                 emit!(decl.id);
                 srcmap_for_separator!(emitter, decl, decl.id);

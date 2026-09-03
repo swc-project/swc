@@ -398,6 +398,30 @@ fn module_declaration_suffixes_resume_after_dummy_children() {
 }
 
 #[test]
+fn dummy_namespace_import_prefix_is_source_less() {
+    let source = "before();\nimport * as original from 'dep';\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = &mut module.body[1] else {
+            panic!("expected an import declaration");
+        };
+        let ImportSpecifier::Namespace(namespace) = &mut import.specifiers[0] else {
+            panic!("expected a namespace import");
+        };
+        namespace.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "*");
+        assert_source_less(&map, &code, "as original");
+        assert_source_location(&map, &code, "original", 1, 12);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
 fn module_declaration_semicolons_resume_after_dummy_import_attributes() {
     for minify in [false, true] {
         let cm = Lrc::<CommonSourceMap>::default();
@@ -734,6 +758,34 @@ fn namespace_delimiters_resume_after_dummy_identifiers() {
 
         assert_source_less(&map, &code, "Inner");
         assert_has_source(&map, &code, "{");
+    }
+}
+
+#[test]
+fn flattened_dummy_namespace_prefix_is_source_less() {
+    let source = "before();\nnamespace Outer.Inner {}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(namespace))) = &mut module.body[1] else {
+            panic!("expected a namespace declaration");
+        };
+        let swc_ecma_ast::TsNamespaceBody::TsNamespaceDecl(inner) = namespace
+            .body
+            .as_mut()
+            .expect("expected a nested namespace")
+        else {
+            panic!("expected a nested namespace declaration");
+        };
+        inner.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, ".");
+        assert_source_location(&map, &code, "Inner", 1, 16);
+        assert_source_location(&map, &code, "after", 2, 0);
     }
 }
 
@@ -1156,6 +1208,43 @@ fn removed_nested_typed_pattern_uses_owner_delimiter_position() {
             0,
             source_close_col,
             "the outer pattern closer",
+        );
+    }
+}
+
+#[test]
+fn removed_typed_pattern_ignores_delimiters_in_comments() {
+    let source = "function f({ x /* }: Fake */ }: Outer) {}";
+    let source_close_col = source
+        .rfind("}: Outer")
+        .expect("expected the object pattern closer") as u32;
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        let Pat::Object(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an object parameter");
+        };
+        pattern.type_ann = None;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+        let params_close = code.find(')').expect("expected the parameter list closer");
+        let pattern_close = code[..params_close]
+            .rfind('}')
+            .expect("expected the object pattern closer");
+
+        assert_source_location_at_offset(
+            &map,
+            &code,
+            pattern_close,
+            0,
+            source_close_col,
+            "the object pattern closer",
         );
     }
 }
@@ -3698,6 +3787,33 @@ fn real_mapped_type_resumes_before_suffix() {
         assert_source_less_boundary(&map, &code, "true");
         assert_source_location(&map, &code, ";", 0, 14);
         assert_source_location(&map, &code, "}", 0, 14);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn dummy_mapped_type_parameter_owns_constraint_separator() {
+    let source = "type Mapped = { [K in Keys]: Value };\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsMappedType(mapped) = &mut *type_alias.type_ann else {
+            panic!("expected a mapped type");
+        };
+        mapped.type_param.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, "K", 0, 17);
+        assert_source_less_boundary_after(&map, &code, "K");
+        assert_source_less(&map, &code, "in Keys");
+        assert_source_location(&map, &code, "Keys", 0, 22);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

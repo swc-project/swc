@@ -358,10 +358,45 @@ pub(crate) fn pattern_close_offset(
     delimiter: char,
     optional: bool,
 ) -> Option<usize> {
-    snippet.match_indices(delimiter).find_map(|(offset, _)| {
-        let suffix = &snippet[offset + delimiter.len_utf8()..];
-        pattern_suffix_matches(suffix, optional).then_some(offset)
-    })
+    let mut chars = snippet.char_indices().peekable();
+
+    while let Some((offset, ch)) = chars.next() {
+        if ch == '/' {
+            match chars.peek().map(|(_, ch)| *ch) {
+                Some('/') => {
+                    chars.next();
+                    chars.find(|(_, ch)| swc_ecma_utils::str::is_line_terminator(*ch));
+                    continue;
+                }
+                Some('*') => {
+                    chars.next();
+                    let mut previous_was_star = false;
+                    let mut terminated = false;
+                    for (_, ch) in chars.by_ref() {
+                        if previous_was_star && ch == '/' {
+                            terminated = true;
+                            break;
+                        }
+                        previous_was_star = ch == '*';
+                    }
+                    if !terminated {
+                        return None;
+                    }
+                    continue;
+                }
+                _ => {}
+            }
+        }
+
+        if ch == delimiter {
+            let suffix = &snippet[offset + delimiter.len_utf8()..];
+            if pattern_suffix_matches(suffix, optional) {
+                return Some(offset);
+            }
+        }
+    }
+
+    None
 }
 
 /// Finds the opening bracket of the final array-type suffix.
@@ -464,6 +499,18 @@ mod tests {
         assert_eq!(
             pattern_close_offset("}\u{feff}: Shape", '}', false),
             Some(0)
+        );
+
+        let block_comment = " /* }: Fake */ }: Outer";
+        assert_eq!(
+            pattern_close_offset(block_comment, '}', false),
+            block_comment.rfind("}: Outer")
+        );
+
+        let line_comment = " // }: Fake\n }: Outer";
+        assert_eq!(
+            pattern_close_offset(line_comment, '}', false),
+            line_comment.rfind("}: Outer")
         );
     }
 }
