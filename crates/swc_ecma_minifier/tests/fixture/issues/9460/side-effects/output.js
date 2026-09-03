@@ -164,4 +164,9 @@ try {
 } catch  {
     record("strict-delete-throws");
 }
+const iterable = {
+    [Symbol.iterator]: ()=>(record("array-spread-iterator"), [][Symbol.iterator]())
+}, { arraySpreadValue = [
+    ...iterable
+] } = {};
 console.log(events.join(","));
