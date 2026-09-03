@@ -449,6 +449,63 @@ fn mangling_respects_preserved_names_in_descendant_scopes() {
     });
 }
 
+struct PreservedNameHygieneRenamer;
+
+impl Renamer for PreservedNameHygieneRenamer {
+    type Target = Atom;
+
+    const MANGLE: bool = false;
+    const RESET_N: bool = false;
+
+    fn new_name_for(&self, _orig: &Id, n: &mut usize) -> Atom {
+        let symbol = if *n == 0 { "kept" } else { "safe" };
+        *n += 1;
+        symbol.into()
+    }
+
+    fn preserve_name(&self, orig: &Id) -> bool {
+        orig.0 == "kept"
+    }
+}
+
+#[test]
+fn normal_renaming_respects_preserved_names_in_descendant_scopes() {
+    crate::tests::Tester::run(|tester| {
+        let used_mark = Mark::fresh(Mark::root());
+        let kept_mark = Mark::fresh(Mark::root());
+        let unrelated_mark = Mark::fresh(Mark::root());
+        let mut program = Program::Module(
+            tester
+                .parse_module(
+                    "actual.js",
+                    "let used; { let kept; console.log(used, kept); } { let unrelated; \
+                     console.log(unrelated); }",
+                )?
+                .fold_with(&mut marker(&[
+                    ("used", used_mark),
+                    ("kept", kept_mark),
+                    ("unrelated", unrelated_mark),
+                ])),
+        );
+
+        program.visit_mut_with(&mut renamer(
+            Default::default(),
+            PreservedNameHygieneRenamer,
+        ));
+
+        let actual = tester.print(&program);
+        let expected = tester.parse_module(
+            "expected.js",
+            "let safe; { let kept; console.log(safe, kept); } { let kept; console.log(kept); }",
+        )?;
+        let expected = tester.print(&Program::Module(expected));
+
+        assert_eq!(DebugUsingDisplay(&actual), DebugUsingDisplay(&expected));
+
+        Ok(())
+    });
+}
+
 #[test]
 fn block_scoping_with_usage() {
     test(
