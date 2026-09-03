@@ -80,6 +80,7 @@ impl MacroNode for ExportDefaultExpr {
                 formatting_space!(emitter);
             }
             emit!(self.expr);
+            srcmap_for_separator!(emitter, self, self.expr);
         }
         semi!(emitter);
 

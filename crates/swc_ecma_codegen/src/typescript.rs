@@ -305,6 +305,9 @@ impl MacroNode for TsExprWithTypeArgs {
 
         emit!(self.expr);
 
+        if self.type_args.is_some() {
+            srcmap_for_separator!(emitter, self, self.expr);
+        }
         emit!(self.type_args);
         Ok(())
     }
@@ -632,7 +635,7 @@ impl MacroNode for TsTplLitType {
             }
         }
 
-        srcmap_if_dummy!(emitter, self);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "`");
         Ok(())
     }
@@ -825,12 +828,14 @@ impl MacroNode for TsModuleDecl {
             }
             space!(emitter);
             emit!(self.id);
+            srcmap_for_separator!(emitter, self, self.id);
         }
 
         if let Some(mut body) = self.body.as_ref() {
             while let TsNamespaceBody::TsNamespaceDecl(decl) = body {
                 punct!(emitter, ".");
                 emit!(decl.id);
+                srcmap_for_separator!(emitter, decl, decl.id);
                 body = &*decl.body;
             }
             formatting_space!(emitter);
@@ -901,6 +906,7 @@ impl MacroNode for TsNamespaceDecl {
         keyword!(emitter, "namespace");
         space!(emitter);
         emit!(self.id);
+        srcmap_for_separator!(emitter, self, self.id);
         formatting_space!(emitter);
 
         emit!(self.body);
@@ -1593,6 +1599,7 @@ impl MacroNode for TsInstantiation {
 
         emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::POSTFIX)?;
 
+        srcmap_for_separator!(emitter, self, self.expr);
         emit!(self.type_args);
         Ok(())
     }

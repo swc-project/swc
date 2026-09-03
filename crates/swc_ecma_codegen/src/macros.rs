@@ -222,24 +222,102 @@ macro_rules! srcmap_for_separator {
 /// A pattern span also covers its optional marker and type annotation, so its
 /// high position does not necessarily point just after the closing delimiter.
 macro_rules! srcmap_for_pattern_close {
-    ($emitter:expr, $pattern:expr) => {{
-        let span = $pattern.span();
-        let pos = if span.is_dummy() {
-            swc_common::BytePos::SYNTHESIZED
-        } else {
-            let delimiter_offset = swc_common::BytePos(if $pattern.optional { 2 } else { 1 });
-            match $pattern.type_ann.as_ref() {
-                Some(type_ann) if !type_ann.span.is_dummy() => {
-                    type_ann.span.lo() - delimiter_offset
+    ($emitter:expr, $pattern:expr, $delimiter:expr) => {{
+        if $emitter.wr.care_about_srcmap() {
+            let span = $pattern.span();
+            let pos = if span.is_dummy() {
+                swc_common::BytePos::SYNTHESIZED
+            } else {
+                match $pattern.type_ann.as_ref() {
+                    Some(type_ann) if !type_ann.span.is_dummy() => {
+                        let search_span = span.with_hi(type_ann.span.lo());
+                        $emitter
+                            .cm
+                            .span_to_snippet(search_span)
+                            .ok()
+                            .and_then(|snippet| {
+                                $crate::macros::pattern_close_offset(
+                                    &snippet,
+                                    $delimiter,
+                                    $pattern.optional,
+                                )
+                            })
+                            .map_or(span.lo(), |offset| {
+                                span.lo() + swc_common::BytePos(offset as u32)
+                            })
+                    }
+                    // Replacing the annotation discards the suffix boundary,
+                    // so retain the real pattern's mapping instead of scanning
+                    // into the annotation's original source.
+                    Some(_) => span.lo(),
+                    None if $pattern.optional => $emitter
+                        .cm
+                        .span_to_snippet(span)
+                        .ok()
+                        .and_then(|snippet| {
+                            $crate::macros::pattern_close_offset(&snippet, $delimiter, true)
+                        })
+                        .map_or(span.lo(), |offset| {
+                            span.lo() + swc_common::BytePos(offset as u32)
+                        }),
+                    None => span.hi() - swc_common::BytePos(1),
                 }
-                // Replacing the annotation discards the exact delimiter
-                // position, so retain the real pattern's mapping instead.
-                Some(_) => span.lo(),
-                None => span.hi() - delimiter_offset,
-            }
-        };
-        $emitter.wr.add_srcmap(pos)?;
+            };
+            $emitter.wr.add_srcmap(pos)?;
+        }
     }};
+}
+
+/// Finds a pattern's closing delimiter when it is followed only by trivia and
+/// an optional marker. Validating the suffix avoids mistaking delimiters inside
+/// trailing comments for the pattern delimiter.
+pub(crate) fn pattern_close_offset(
+    snippet: &str,
+    delimiter: char,
+    optional: bool,
+) -> Option<usize> {
+    snippet.match_indices(delimiter).find_map(|(offset, _)| {
+        let suffix = &snippet[offset + delimiter.len_utf8()..];
+        pattern_suffix_is_trivia(suffix, optional).then_some(offset)
+    })
+}
+
+fn pattern_suffix_is_trivia(mut suffix: &str, optional: bool) -> bool {
+    let Some(stripped) = strip_pattern_trivia(suffix) else {
+        return false;
+    };
+    suffix = stripped;
+
+    if optional {
+        let Some(stripped) = suffix.strip_prefix('?') else {
+            return false;
+        };
+        let Some(stripped) = strip_pattern_trivia(stripped) else {
+            return false;
+        };
+        suffix = stripped;
+    }
+
+    suffix.is_empty()
+}
+
+fn strip_pattern_trivia(mut suffix: &str) -> Option<&str> {
+    loop {
+        suffix = suffix.trim_start_matches(char::is_whitespace);
+
+        if let Some(comment) = suffix.strip_prefix("//") {
+            suffix = comment.find(['\r', '\n']).map_or("", |end| &comment[end..]);
+            continue;
+        }
+
+        if let Some(comment) = suffix.strip_prefix("/*") {
+            let end = comment.find("*/")?;
+            suffix = &comment[end + 2..];
+            continue;
+        }
+
+        return Some(suffix);
+    }
 }
 
 macro_rules! emit_node_inner {

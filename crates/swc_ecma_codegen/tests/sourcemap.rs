@@ -378,6 +378,33 @@ fn module_declaration_semicolons_resume_after_dummy_import_attributes() {
 }
 
 #[test]
+fn export_default_semicolon_resumes_after_dummy_expression() {
+    let source = "export default original;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) = &mut module.body[0]
+        else {
+            panic!("expected an export-default expression");
+        };
+        *export.expr = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_location(
+            &map,
+            &code,
+            if minify { ";after" } else { ";\nafter" },
+            0,
+            0,
+        );
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn dummy_span_between_mapped_regions_clears_mapping() {
     let source = "before();\nafter();\n";
 
@@ -455,6 +482,60 @@ fn dummy_typescript_declaration_prefixes_are_source_less() {
     assert_source_location(&map, &code, "after_type_alias", 4, 0);
     assert_source_less_boundary(&map, &code, "export as namespace");
     assert_source_location(&map, &code, "after_namespace_export", 6, 0);
+}
+
+#[test]
+fn namespace_delimiters_resume_after_dummy_identifiers() {
+    let source = "namespace Outer.Inner {}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(namespace))) = &mut module.body[0] else {
+            panic!("expected a namespace declaration");
+        };
+        let swc_ecma_ast::TsModuleName::Ident(outer) = &mut namespace.id else {
+            panic!("expected an identifier namespace name");
+        };
+        outer.span = DUMMY_SP;
+        let swc_ecma_ast::TsNamespaceBody::TsNamespaceDecl(inner) = namespace
+            .body
+            .as_mut()
+            .expect("expected a nested namespace")
+        else {
+            panic!("expected a nested namespace declaration");
+        };
+        inner.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less(&map, &code, "Outer");
+        assert_has_source(&map, &code, ".");
+        assert_source_less_boundary(&map, &code, "Inner");
+        assert_has_source(&map, &code, "{");
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(namespace))) = &mut module.body[0] else {
+            panic!("expected a namespace declaration");
+        };
+        let swc_ecma_ast::TsNamespaceBody::TsNamespaceDecl(inner) = namespace
+            .body
+            .as_mut()
+            .expect("expected a nested namespace")
+        else {
+            panic!("expected a nested namespace declaration");
+        };
+        inner.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_node_source_map(cm, &comments, &*inner, minify, true, None);
+
+        assert_source_less(&map, &code, "Inner");
+        assert_has_source(&map, &code, "{");
+    }
 }
 
 #[test]
@@ -679,8 +760,9 @@ fn real_object_pattern_resumes_before_closing_delimiter() {
 
 #[test]
 fn typed_pattern_closers_use_delimiter_positions() {
-    let source = "function array([element]: Tuple) {}\ndeclare function object({ property }?: \
-                  Shape): void;\nafter();\n";
+    let source = "declare function array([element] /* trailing ] */ : Tuple): void;\ndeclare \
+                  function object({ property } /* trailing comment */ ? : Shape): \
+                  void;\nafter();\n";
 
     for minify in [false, true] {
         let cm = Lrc::<CommonSourceMap>::default();
@@ -712,8 +794,8 @@ fn typed_pattern_closers_use_delimiter_positions() {
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_less_boundary(&map, &code, "element");
-        assert_source_location(&map, &code, "]", 0, 23);
-        assert_source_location(&map, &code, "}?", 1, 35);
+        assert_source_location(&map, &code, "]", 0, 31);
+        assert_source_location(&map, &code, "}", 1, 35);
         assert_source_location(&map, &code, "after", 2, 0);
     }
 }
@@ -2070,6 +2152,72 @@ fn real_type_arguments_resume_before_closing_delimiter() {
 }
 
 #[test]
+fn type_argument_openers_resume_after_dummy_expressions() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "interface Shape extends Base<Heritage> {}\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(interface))) = &mut module.body[0] else {
+            panic!("expected an interface declaration");
+        };
+        *interface.extends[0].expr = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_has_source(&map, &code, "<Heritage>");
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "const value = factory<Instantiation>;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Expr::TsInstantiation(instantiation) =
+            &mut **var.decls[0].init.as_mut().expect("expected an initializer")
+        else {
+            panic!("expected an instantiation expression");
+        };
+        *instantiation.expr = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_has_source(&map, &code, "<Instantiation>");
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "const value = tag<TagType>`template`;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Expr::TaggedTpl(tagged) =
+            &mut **var.decls[0].init.as_mut().expect("expected an initializer")
+        else {
+            panic!("expected a tagged template");
+        };
+        *tagged.tag = Expr::This(ThisExpr { span: DUMMY_SP });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_has_source(&map, &code, "<TagType>");
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn real_type_parameter_declaration_resumes_before_closing_delimiter() {
     let source = "function fn<T extends Original>() {}\nafter();\n";
 
@@ -2481,7 +2629,7 @@ fn real_template_literal_type_resumes_after_dummy_embedded_type() {
             &code,
             if minify { "`;after" } else { "`;\nafter" },
             0,
-            if minify { 31 } else { 13 },
+            31,
         );
         assert_source_location(&map, &code, "after", 1, 0);
 
@@ -2504,6 +2652,40 @@ fn real_template_literal_type_resumes_after_dummy_embedded_type() {
 
         assert_source_less_boundary(&map, &code, "prefix");
         assert_has_source(&map, &code, "${");
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "type Value = `prefix${Original}tail`;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsLitType(lit_type) = &mut *type_alias.type_ann else {
+            panic!("expected a literal type");
+        };
+        let TsLit::Tpl(template) = &mut lit_type.lit else {
+            panic!("expected a template literal type");
+        };
+        template
+            .quasis
+            .last_mut()
+            .expect("expected a final template quasi")
+            .span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "tail");
+        assert_source_location(
+            &map,
+            &code,
+            if minify { "`;after" } else { "`;\nafter" },
+            0,
+            35,
+        );
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

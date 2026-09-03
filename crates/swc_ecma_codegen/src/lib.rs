@@ -2390,6 +2390,9 @@ impl MacroNode for TaggedTpl {
             emitter.emit_expr_with_precedence(&self.tag, ExprPrecedence::POSTFIX)?;
         }
 
+        if self.type_params.is_some() {
+            srcmap_for_separator!(emitter, self, self.tag);
+        }
         emit!(self.type_params);
         emitter.emit_template_for_tagged_template(&self.tpl)?;
 
