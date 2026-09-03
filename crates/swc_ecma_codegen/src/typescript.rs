@@ -461,6 +461,11 @@ impl MacroNode for TsIndexSignature {
 
         punct!(emitter, "[");
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
+        if let Some(last_param) = self.params.last() {
+            srcmap_for_separator!(emitter, self, last_param);
+        } else {
+            srcmap_if_dummy!(emitter, self);
+        }
         punct!(emitter, "]");
 
         if let Some(type_ann) = &self.type_ann {

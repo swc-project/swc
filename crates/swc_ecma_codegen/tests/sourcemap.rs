@@ -1084,6 +1084,36 @@ fn type_element_semicolons_resume_after_dummy_type_annotations() {
 }
 
 #[test]
+fn index_signature_delimiters_resume_after_dummy_final_parameter() {
+    let source = "type Shape = { [key: string]: Value };\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let TsTypeElement::TsIndexSignature(signature) = &mut type_lit.members[0] else {
+            panic!("expected an index signature");
+        };
+        signature.params[0] =
+            TsFnParam::Ident(Ident::new_no_ctxt("generated".into(), DUMMY_SP).into());
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, "]", 0, 15);
+        assert_source_location(&map, &code, ":", 0, 15);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn construct_signature_delimiters_resume_after_dummy_children() {
     let source = "type Signature = { new<T>(param: string): Result };\nafter();\n";
 
@@ -5230,6 +5260,39 @@ fn class_method_resumes_after_dummy_type_parameters() {
 }
 
 #[test]
+fn bodyless_class_method_terminator_resumes_after_dummy_return_type() {
+    let source = "declare class Example { method(): Original; }\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+        let ClassMember::Method(method) = &mut class.class.body[0] else {
+            panic!("expected a class method");
+        };
+        let return_type = method
+            .function
+            .return_type
+            .as_mut()
+            .expect("expected a return type");
+        return_type.span = DUMMY_SP;
+        *return_type.type_ann = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "boolean");
+        assert_source_location(&map, &code, ";", 0, 24);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn typescript_method_signature_resumes_after_dummy_type_parameters() {
     let source = "type Shape = { method<T>(): void };\nafter();\n";
 
@@ -5425,6 +5488,60 @@ fn class_field_semicolons_resume_after_dummy_initializers() {
             2,
         );
         assert_source_location(&map, &code, "after", 6, 0);
+    }
+}
+
+#[test]
+fn class_field_sequence_closers_resume_after_dummy_initializers() {
+    let source = "class Example {\n  property = first;\n  #private = second;\n}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+
+        let ClassMember::ClassProp(property) = &mut class.class.body[0] else {
+            panic!("expected a class property");
+        };
+        **property.value.as_mut().expect("expected an initializer") = Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs: vec![Box::new(Expr::Ident(Ident::new_no_ctxt(
+                "classGenerated".into(),
+                DUMMY_SP,
+            )))],
+        });
+
+        let ClassMember::PrivateProp(property) = &mut class.class.body[1] else {
+            panic!("expected a private property");
+        };
+        **property.value.as_mut().expect("expected an initializer") = Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs: vec![Box::new(Expr::Ident(Ident::new_no_ctxt(
+                "privateGenerated".into(),
+                DUMMY_SP,
+            )))],
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "classGenerated");
+        assert_source_location(
+            &map,
+            &code,
+            if minify {
+                ");#private"
+            } else {
+                ");\n    #private"
+            },
+            1,
+            2,
+        );
+        assert_source_less_boundary(&map, &code, "privateGenerated");
+        assert_source_location(&map, &code, if minify { ");}" } else { ");\n}" }, 2, 2);
+        assert_source_location(&map, &code, "after", 4, 0);
     }
 }
 

@@ -429,6 +429,7 @@ impl MacroNode for ClassMethod {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(ty);
+            srcmap_for_separator!(emitter, self, ty);
         }
 
         if let Some(body) = &self.function.body {
@@ -497,11 +498,12 @@ impl MacroNode for PrivateProp {
             if value.is_seq() {
                 punct!(emitter, "(");
                 emit!(value);
+                srcmap_for_separator!(emitter, self, value);
                 punct!(emitter, ")");
             } else {
                 emit!(value);
+                srcmap_for_separator!(emitter, self, value);
             }
-            srcmap_for_separator!(emitter, self, value);
         }
 
         semi!(emitter);
@@ -577,11 +579,12 @@ impl MacroNode for ClassProp {
             if v.is_seq() {
                 punct!(emitter, "(");
                 emit!(v);
+                srcmap_for_separator!(emitter, self, v);
                 punct!(emitter, ")");
             } else {
                 emit!(v);
+                srcmap_for_separator!(emitter, self, v);
             }
-            srcmap_for_separator!(emitter, self, v);
         }
 
         semi!(emitter);
