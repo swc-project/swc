@@ -421,6 +421,7 @@ where
     }
 
     fn emit_fn_params(&mut self, node: &Function) -> Result {
+        srcmap_if_dummy!(self, node);
         punct!(self, "(");
         if let Some(this_param) = &node.this_param {
             emit!(self, this_param);
@@ -684,6 +685,9 @@ where
             && format.contains(ListFormat::CommaDelimited)
             && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
         {
+            if let Some(previous_sibling) = previous_sibling {
+                srcmap_for_separator!(self, parent_node, previous_sibling);
+            }
             punct!(self, ",");
             formatting_space!(self);
         }

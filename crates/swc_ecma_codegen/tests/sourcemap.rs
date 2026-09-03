@@ -398,6 +398,33 @@ fn module_declaration_suffixes_resume_after_dummy_children() {
 }
 
 #[test]
+fn module_trailing_commas_resume_after_dummy_specifiers() {
+    let source = "export { value, }\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = &mut module.body[0] else {
+            panic!("expected a named export");
+        };
+        let ExportSpecifier::Named(specifier) = &mut export.specifiers[0] else {
+            panic!("expected a named export specifier");
+        };
+        specifier.span = DUMMY_SP;
+        let ModuleExportName::Ident(value) = &mut specifier.orig else {
+            panic!("expected an identifier export name");
+        };
+        value.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "value");
+        assert_source_location(&map, &code, ",", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn dummy_namespace_import_prefix_is_source_less() {
     let source = "before();\nimport * as original from 'dep';\nafter();\n";
 
@@ -984,6 +1011,34 @@ fn dummy_rest_pattern_prefix_is_source_less() {
 }
 
 #[test]
+fn dummy_rest_token_prefix_is_source_less() {
+    let source = "before();\nlet [...rest] = values;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[1] else {
+            panic!("expected a variable declaration");
+        };
+        let Pat::Array(pattern) = &mut var.decls[0].name else {
+            panic!("expected an array pattern");
+        };
+        let Some(Pat::Rest(rest)) = &mut pattern.elems[0] else {
+            panic!("expected a rest pattern");
+        };
+        rest.dot3_token = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "...");
+        assert_source_location(&map, &code, "rest", 1, 8);
+        assert_source_location(&map, &code, "]", 1, 12);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
 fn real_object_pattern_resumes_before_closing_delimiter() {
     let source = "before();\nlet { element } = values;\nafter();\n";
 
@@ -1159,6 +1214,52 @@ fn removed_typed_pattern_annotations_keep_delimiter_positions() {
         assert_source_location(&map, &code, "]", 0, array_close_col);
         assert_source_less_boundary(&map, &code, "property");
         assert_source_location(&map, &code, "}?", 1, object_close_col);
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn removed_typed_pattern_annotations_exclude_annotation_delimiters() {
+    let source = "declare function array([x]: [number]): void;\ndeclare function object({ x }: { \
+                  x: number }): void;\nafter();\n";
+    let array_close_col = source
+        .lines()
+        .next()
+        .expect("expected an array declaration")
+        .find(']')
+        .expect("expected an array pattern closer") as u32;
+    let object_close_col = source
+        .lines()
+        .nth(1)
+        .expect("expected an object declaration")
+        .find('}')
+        .expect("expected an object pattern closer") as u32;
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected an array function declaration");
+        };
+        let Pat::Array(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an array parameter");
+        };
+        pattern.type_ann = None;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[1] else {
+            panic!("expected an object function declaration");
+        };
+        let Pat::Object(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an object parameter");
+        };
+        pattern.type_ann = None;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, "]", 0, array_close_col);
+        assert_source_location(&map, &code, "}", 1, object_close_col);
         assert_source_location(&map, &code, "after", 2, 0);
     }
 }
@@ -2318,6 +2419,42 @@ fn real_jsx_opening_element_resumes_after_dummy_children() {
 
         assert_source_less_boundary(&map, &code, "Component");
         assert_has_source(&map, &code, "<Type>");
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn dummy_jsx_opening_element_resumes_after_type_arguments() {
+    let source = "const element = <Component<Type> attr />;\nafter();\n";
+    let attr_col = source.find("attr").expect("expected a JSX attribute") as u32;
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+        element.opening.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, "Type", 0, 27);
+        assert_source_less_boundary_after(&map, &code, "<Type>");
+        assert_source_location(&map, &code, "attr", 0, attr_col);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -3746,6 +3883,28 @@ fn real_function_suffix_resumes_after_dummy_children() {
         assert_source_less_boundary(&map, &code, "this");
         assert_source_less(&map, &code, "boolean");
         assert_has_source(&map, &code, ",");
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn dummy_function_starts_before_parameter_opener() {
+    let source = "function example(value) {}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        function.function.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "(");
+        assert_source_location(&map, &code, "value", 0, 17);
+        assert_source_less_boundary_after(&map, &code, "value");
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

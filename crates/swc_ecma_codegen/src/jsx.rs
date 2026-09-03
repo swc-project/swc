@@ -42,6 +42,7 @@ impl MacroNode for JSXOpeningElement {
 
         if let Some(type_args) = &self.type_args {
             emit!(type_args);
+            srcmap_for_separator!(emitter, self, type_args);
         }
 
         if !self.attrs.is_empty() {

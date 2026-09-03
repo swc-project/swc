@@ -305,6 +305,7 @@ macro_rules! srcmap_for_pattern_close {
                                     &snippet,
                                     $delimiter,
                                     $pattern.optional,
+                                    $crate::macros::PatternCloseMode::LastCandidate,
                                 )
                             })
                             .map_or(span.lo(), |offset| {
@@ -337,6 +338,7 @@ macro_rules! srcmap_for_pattern_close {
                                     &snippet,
                                     $delimiter,
                                     $pattern.optional,
+                                    $crate::macros::PatternCloseMode::RemovedTypeAnnotation,
                                 )
                             })
                             .map_or(span.lo(), |offset| {
@@ -352,16 +354,24 @@ macro_rules! srcmap_for_pattern_close {
 
 /// Finds a pattern's closing delimiter before trivia, an optional marker, and
 /// an optional type annotation. Validating the suffix avoids mistaking
-/// delimiters inside the pattern or trailing comments for its delimiter. The
-/// last valid candidate wins so a synthesized final child cannot expose an
-/// earlier nested typed-pattern delimiter.
+/// delimiters inside the pattern or trailing comments for its delimiter.
+/// When an annotation was removed, type-annotation candidates take precedence
+/// over terminal candidates so a delimiter inside the annotation cannot
+/// replace the owner's delimiter.
+pub(crate) enum PatternCloseMode {
+    LastCandidate,
+    RemovedTypeAnnotation,
+}
+
 pub(crate) fn pattern_close_offset(
     snippet: &str,
     delimiter: char,
     optional: bool,
+    mode: PatternCloseMode,
 ) -> Option<usize> {
     let mut chars = snippet.char_indices().peekable();
     let mut candidate = None;
+    let mut annotation_candidate = None;
 
     while let Some((offset, ch)) = chars.next() {
         if ch == '/' {
@@ -393,13 +403,21 @@ pub(crate) fn pattern_close_offset(
 
         if ch == delimiter {
             let suffix = &snippet[offset + delimiter.len_utf8()..];
-            if pattern_suffix_matches(suffix, optional) {
-                candidate = Some(offset);
+            match pattern_suffix_kind(suffix, optional) {
+                Some(PatternSuffixKind::TypeAnnotation) => {
+                    candidate = Some(offset);
+                    annotation_candidate = Some(offset);
+                }
+                Some(PatternSuffixKind::Terminal) => candidate = Some(offset),
+                None => {}
             }
         }
     }
 
-    candidate
+    match mode {
+        PatternCloseMode::LastCandidate => candidate,
+        PatternCloseMode::RemovedTypeAnnotation => annotation_candidate.or(candidate),
+    }
 }
 
 /// Finds the opening bracket of the final array-type suffix.
@@ -429,23 +447,35 @@ pub(crate) fn jsx_spread_close_pos(
         .then(|| expr_hi + swc_common::BytePos((suffix.len() - stripped.len()) as u32))
 }
 
-fn pattern_suffix_matches(mut suffix: &str, optional: bool) -> bool {
+#[derive(Clone, Copy)]
+enum PatternSuffixKind {
+    TypeAnnotation,
+    Terminal,
+}
+
+fn pattern_suffix_kind(mut suffix: &str, optional: bool) -> Option<PatternSuffixKind> {
     let Some(stripped) = strip_source_trivia(suffix) else {
-        return false;
+        return None;
     };
     suffix = stripped;
 
     if optional {
         let Some(stripped) = suffix.strip_prefix('?') else {
-            return false;
+            return None;
         };
         let Some(stripped) = strip_source_trivia(stripped) else {
-            return false;
+            return None;
         };
         suffix = stripped;
     }
 
-    suffix.is_empty() || suffix.starts_with(':')
+    if suffix.starts_with(':') {
+        Some(PatternSuffixKind::TypeAnnotation)
+    } else if suffix.is_empty() {
+        Some(PatternSuffixKind::Terminal)
+    } else {
+        None
+    }
 }
 
 fn strip_source_trivia(mut suffix: &str) -> Option<&str> {
@@ -480,7 +510,7 @@ macro_rules! emit_node_inner {
 
 #[cfg(test)]
 mod tests {
-    use super::{array_type_open_offset, pattern_close_offset};
+    use super::{array_type_open_offset, pattern_close_offset, PatternCloseMode};
 
     #[test]
     fn finds_array_type_opener_before_trivia() {
@@ -496,35 +526,65 @@ mod tests {
         let child_hi = snippet.rfind(" }").expect("expected the owner delimiter");
 
         assert_eq!(
-            pattern_close_offset(&snippet[child_hi..], '}', false),
+            pattern_close_offset(
+                &snippet[child_hi..],
+                '}',
+                false,
+                PatternCloseMode::RemovedTypeAnnotation,
+            ),
             Some(1)
         );
         assert_eq!(
-            pattern_close_offset("}\u{feff}: Shape", '}', false),
+            pattern_close_offset(
+                "}\u{feff}: Shape",
+                '}',
+                false,
+                PatternCloseMode::RemovedTypeAnnotation,
+            ),
             Some(0)
         );
 
         let block_comment = " /* }: Fake */ }: Outer";
         assert_eq!(
-            pattern_close_offset(block_comment, '}', false),
+            pattern_close_offset(
+                block_comment,
+                '}',
+                false,
+                PatternCloseMode::RemovedTypeAnnotation,
+            ),
             block_comment.rfind("}: Outer")
         );
 
         let line_comment = " // }: Fake\n }: Outer";
         assert_eq!(
-            pattern_close_offset(line_comment, '}', false),
+            pattern_close_offset(
+                line_comment,
+                '}',
+                false,
+                PatternCloseMode::RemovedTypeAnnotation,
+            ),
             line_comment.rfind("}: Outer")
         );
 
         let synthesized_array_child = "x = ([y]: Inner) => y]: Outer";
         assert_eq!(
-            pattern_close_offset(synthesized_array_child, ']', false),
+            pattern_close_offset(
+                synthesized_array_child,
+                ']',
+                false,
+                PatternCloseMode::LastCandidate,
+            ),
             synthesized_array_child.rfind("]: Outer")
         );
 
         let synthesized_object_child = "x = ({ y }: Inner) => y }: Outer";
         assert_eq!(
-            pattern_close_offset(synthesized_object_child, '}', false),
+            pattern_close_offset(
+                synthesized_object_child,
+                '}',
+                false,
+                PatternCloseMode::LastCandidate,
+            ),
             synthesized_object_child.rfind("}: Outer")
         );
     }
