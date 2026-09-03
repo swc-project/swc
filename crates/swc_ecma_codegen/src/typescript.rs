@@ -441,6 +441,7 @@ impl MacroNode for TsImportEqualsDecl {
         formatting_space!(emitter);
 
         emit!(self.module_ref);
+        srcmap_for_separator!(emitter, self, self.module_ref);
         formatting_semi!(emitter);
         Ok(())
     }
@@ -521,6 +522,8 @@ impl MacroNode for TsInterfaceBody {
 impl MacroNode for TsInterfaceDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         if self.declare {
             keyword!(emitter, "declare");
@@ -931,6 +934,7 @@ impl MacroNode for TsNamespaceExportDecl {
         keyword!(emitter, "namespace");
         space!(emitter);
         emit!(self.id);
+        srcmap_for_separator!(emitter, self, self.id);
         formatting_semi!(emitter);
         Ok(())
     }
@@ -964,6 +968,8 @@ impl MacroNode for TsOptionalType {
 impl MacroNode for TsParamProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
         if let Some(dec) = self.decorators.last() {
@@ -1285,6 +1291,8 @@ impl MacroNode for TsTypeAssertion {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "<");
         emit!(self.type_ann);
         srcmap_for_separator!(emitter, self, self.type_ann);
@@ -1337,6 +1345,8 @@ impl MacroNode for TsTypeElement {
 #[node_impl]
 impl MacroNode for TsGetterSignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         keyword!(emitter, "get");
         space!(emitter);
 
@@ -1367,6 +1377,8 @@ impl MacroNode for TsGetterSignature {
 #[node_impl]
 impl MacroNode for TsSetterSignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         keyword!(emitter, "set");
         space!(emitter);
 
@@ -1431,6 +1443,8 @@ impl MacroNode for TsTypeOperator {
 impl MacroNode for TsTypeParam {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         if self.is_const {
             keyword!(emitter, "const");
@@ -1503,6 +1517,8 @@ impl MacroNode for TsTypeParamInstantiation {
 impl MacroNode for TsTypePredicate {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         if self.asserts {
             keyword!(emitter, "asserts");

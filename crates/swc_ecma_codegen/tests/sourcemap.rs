@@ -1357,6 +1357,229 @@ fn dummy_using_prefixes_are_source_less() {
 }
 
 #[test]
+fn declaration_semicolons_resume_after_dummy_final_initializers() {
+    let source = "const binding = value;\nusing resource = disposable;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                explicit_resource_management: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Expr::Ident(value) = &mut **var.decls[0]
+            .init
+            .as_mut()
+            .expect("expected a variable initializer")
+        else {
+            panic!("expected an identifier initializer");
+        };
+        value.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Using(using_decl))) = &mut module.body[1] else {
+            panic!("expected a using declaration");
+        };
+        let Expr::Ident(disposable) = &mut **using_decl.decls[0]
+            .init
+            .as_mut()
+            .expect("expected a using initializer")
+        else {
+            panic!("expected an identifier initializer");
+        };
+        disposable.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "value");
+        assert_source_location(
+            &map,
+            &code,
+            if minify { ";using" } else { ";\nusing" },
+            0,
+            0,
+        );
+        assert_source_less_boundary(&map, &code, "disposable");
+        assert_source_location(
+            &map,
+            &code,
+            if minify { ";after" } else { ";\nafter" },
+            1,
+            0,
+        );
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn typescript_declaration_semicolons_resume_after_dummy_final_children() {
+    let source = "import Imported = Original;\nexport as namespace Namespace;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = &mut module.body[0] else {
+            panic!("expected an import-equals declaration");
+        };
+        let swc_ecma_ast::TsModuleRef::TsEntityName(module_ref) = &mut import.module_ref else {
+            panic!("expected an entity-name module reference");
+        };
+        let TsEntityName::Ident(module_ref) = module_ref else {
+            panic!("expected an identifier module reference");
+        };
+        module_ref.span = DUMMY_SP;
+
+        let ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(namespace_export)) =
+            &mut module.body[1]
+        else {
+            panic!("expected a namespace export declaration");
+        };
+        namespace_export.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "Original");
+        assert_source_location(
+            &map,
+            &code,
+            if minify { ";export" } else { ";\nexport" },
+            0,
+            0,
+        );
+        assert_source_less_boundary(&map, &code, "Namespace");
+        assert_source_location(
+            &map,
+            &code,
+            if minify { ";after" } else { ";\nafter" },
+            1,
+            0,
+        );
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn dummy_typescript_owner_prefixes_are_source_less() {
+    let source = "before();\ndeclare interface Interface {}\nconst asserted = \
+                  <Original>value;\nclass Example extends Base { constructor(public override \
+                  readonly parameter: string) {} }\ntype Accessors = { get getter(): string; set \
+                  setter(parameter: string); };\ntype Generic<GenericParam> = GenericParam;\ntype \
+                  Predicate = (predicateParam: unknown) => asserts predicateParam is \
+                  string;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(interface))) = &mut module.body[1] else {
+            panic!("expected an interface declaration");
+        };
+        interface.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[2] else {
+            panic!("expected an asserted variable declaration");
+        };
+        let Expr::TsTypeAssertion(assertion) = &mut **var.decls[0]
+            .init
+            .as_mut()
+            .expect("expected an assertion initializer")
+        else {
+            panic!("expected a type assertion");
+        };
+        assertion.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[3] else {
+            panic!("expected a class declaration");
+        };
+        let ClassMember::Constructor(constructor) = &mut class.class.body[0] else {
+            panic!("expected a constructor");
+        };
+        let swc_ecma_ast::ParamOrTsParamProp::TsParamProp(parameter) = &mut constructor.params[0]
+        else {
+            panic!("expected a parameter property");
+        };
+        parameter.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(accessors_alias))) = &mut module.body[4]
+        else {
+            panic!("expected an accessors type alias");
+        };
+        let TsType::TsTypeLit(accessors) = &mut *accessors_alias.type_ann else {
+            panic!("expected an accessors type literal");
+        };
+        let TsTypeElement::TsGetterSignature(getter) = &mut accessors.members[0] else {
+            panic!("expected a getter signature");
+        };
+        getter.span = DUMMY_SP;
+        let TsTypeElement::TsSetterSignature(setter) = &mut accessors.members[1] else {
+            panic!("expected a setter signature");
+        };
+        setter.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(generic_alias))) = &mut module.body[5]
+        else {
+            panic!("expected a generic type alias");
+        };
+        let type_param = generic_alias
+            .type_params
+            .as_mut()
+            .expect("expected type parameters")
+            .params
+            .first_mut()
+            .expect("expected a type parameter");
+        type_param.span = DUMMY_SP;
+        type_param.is_const = true;
+        type_param.is_in = true;
+        type_param.is_out = true;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(predicate_alias))) = &mut module.body[6]
+        else {
+            panic!("expected a predicate type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(function)) =
+            &mut *predicate_alias.type_ann
+        else {
+            panic!("expected a function type");
+        };
+        let TsType::TsTypePredicate(predicate) = &mut *function.type_ann.type_ann else {
+            panic!("expected a type predicate");
+        };
+        predicate.span = DUMMY_SP;
+        let TsThisTypeOrIdent::Ident(predicate_name) = &mut predicate.param_name else {
+            panic!("expected an identifier predicate parameter");
+        };
+        predicate_name.sym = "predicateName".into();
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "declare interface");
+        assert_has_source(&map, &code, "Interface");
+        assert_source_less_boundary(&map, &code, "<");
+        assert_has_source(&map, &code, "Original");
+        assert_source_less_boundary(&map, &code, "public override readonly");
+        assert_has_source(&map, &code, "parameter");
+        assert_source_less_boundary(&map, &code, "get getter");
+        assert_has_source(&map, &code, "getter");
+        assert_source_less_boundary(&map, &code, "set setter");
+        assert_has_source(&map, &code, "setter");
+        assert_source_less_boundary(&map, &code, "const in out");
+        assert_has_source(&map, &code, "GenericParam");
+        assert_source_less_boundary(&map, &code, "asserts");
+        assert_has_source(&map, &code, "predicateName is");
+        assert_source_location(&map, &code, "after", 7, 0);
+    }
+}
+
+#[test]
 fn optional_chain_separators_resume_after_dummy_bases() {
     for minify in [false, true] {
         let cm = Lrc::<CommonSourceMap>::default();

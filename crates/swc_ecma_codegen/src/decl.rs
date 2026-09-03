@@ -102,6 +102,9 @@ where
             Some(&node.decls),
             ListFormat::VariableDeclarationList,
         )?;
+        if let Some(decl) = node.decls.last() {
+            srcmap_for_separator!(self, node, decl);
+        }
 
         Ok(())
     }
@@ -161,6 +164,9 @@ impl MacroNode for UsingDecl {
             Some(&self.decls),
             ListFormat::VariableDeclarationList,
         )?;
+        if let Some(decl) = self.decls.last() {
+            srcmap_for_separator!(emitter, self, decl);
+        }
 
         Ok(())
     }
