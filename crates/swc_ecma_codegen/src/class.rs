@@ -205,6 +205,7 @@ impl MacroNode for AutoAccessor {
             punct!(emitter, ":");
             space!(emitter);
             emit!(type_ann);
+            srcmap_for_separator!(emitter, self, type_ann);
         }
 
         if let Some(init) = &self.value {
@@ -413,6 +414,7 @@ impl MacroNode for ClassMethod {
 
         if let Some(type_params) = &self.function.type_params {
             emit!(type_params);
+            srcmap_for_separator!(emitter, self, type_params);
         }
 
         emitter.emit_fn_params(&self.function)?;
@@ -478,6 +480,7 @@ impl MacroNode for PrivateProp {
             punct!(emitter, ":");
             space!(emitter);
             emit!(type_ann);
+            srcmap_for_separator!(emitter, self, type_ann);
         }
 
         if let Some(value) = &self.value {
@@ -556,6 +559,7 @@ impl MacroNode for ClassProp {
             punct!(emitter, ":");
             space!(emitter);
             emit!(ty);
+            srcmap_for_separator!(emitter, self, ty);
         }
 
         if let Some(v) = &self.value {

@@ -47,7 +47,10 @@ where
         space!(self);
         emit!(self, node.ident);
         srcmap_for_separator!(self, node, node.ident);
-        emit!(self, node.class.type_params);
+        if let Some(type_params) = &node.class.type_params {
+            emit!(self, type_params);
+            srcmap_for_separator!(self, node, type_params);
+        }
 
         self.emit_class_trailing(&node.class)?;
 

@@ -767,6 +767,7 @@ impl MacroNode for TsMethodSignature {
 
         if let Some(type_params) = &self.type_params {
             emit!(type_params);
+            srcmap_for_separator!(emitter, self, type_params);
         }
 
         punct!(emitter, "(");
@@ -1241,6 +1242,7 @@ impl MacroNode for TsTypeAliasDecl {
         srcmap_for_separator!(emitter, self, self.id);
         if let Some(type_params) = &self.type_params {
             emit!(type_params);
+            srcmap_for_separator!(emitter, self, type_params);
         }
         formatting_space!(emitter);
 
@@ -1516,7 +1518,10 @@ impl MacroNode for TsTypeQuery {
         keyword!(emitter, "typeof");
         space!(emitter);
         emit!(self.expr_name);
-        emit!(self.type_args);
+        if let Some(type_args) = &self.type_args {
+            srcmap_for_separator!(emitter, self, self.expr_name);
+            emit!(type_args);
+        }
         Ok(())
     }
 }
@@ -1545,6 +1550,7 @@ impl MacroNode for TsTypeRef {
             srcmap_for_separator!(emitter, self, self.type_name);
             punct!(emitter, "<");
             emitter.emit_list(n.span, Some(&n.params), ListFormat::TypeArguments)?;
+            srcmap_for_separator!(emitter, self, n);
             punct!(emitter, ">");
         }
         Ok(())
