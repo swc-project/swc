@@ -1,8 +1,6 @@
 use std::io::Write;
 
 use memchr::memchr2;
-use rustc_hash::FxBuildHasher;
-use swc_allocator::api::global::HashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
 use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
@@ -21,7 +19,6 @@ pub struct JsWriter<'a, W: Write> {
     line_pos: usize,
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-    srcmap_done: HashSet<(BytePos, u32, u32), FxBuildHasher>,
     srcmap_state: SourceMapState,
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
@@ -64,7 +61,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             pending_srcmap: Default::default(),
-            srcmap_done: Default::default(),
             srcmap_state: Default::default(),
             scopes,
             scope_stack: Default::default(),
@@ -173,10 +169,10 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     #[inline]
-    fn srcmap(&mut self, mut byte_pos: BytePos) {
-        if self.srcmap.is_none() {
+    fn srcmap(&mut self, byte_pos: BytePos) {
+        let Some(srcmap) = self.srcmap.as_deref_mut() else {
             return;
-        }
+        };
 
         // Low-level token writers use DUMMY when an enclosing node already
         // supplied the source mapping. Generated nodes use SYNTHESIZED
@@ -193,34 +189,28 @@ impl<'a, W: Write> JsWriter<'a, W> {
             // A synthesized position is an unmapped source-map segment. One
             // segment is enough to clear the preceding mapping for a whole
             // contiguous region of generated output.
-            byte_pos = BytePos::SYNTHESIZED;
             self.srcmap_state = SourceMapState::Unmapped;
         } else {
             self.srcmap_state = SourceMapState::Mapped;
         }
 
-        if let Some(ref mut srcmap) = self.srcmap {
-            let key = (byte_pos, self.line_count as _, self.line_pos as _);
-            let loc = LineCol {
-                line: key.1,
-                col: key.2,
-            };
+        let loc = LineCol {
+            line: self.line_count as u32,
+            col: self.line_pos as u32,
+        };
 
-            // Equal generated positions are ambiguous after SourceMap sorts its
-            // tokens. Coalesce them here so the last emitted transition wins.
-            if let Some(last) = srcmap.last_mut() {
-                if last.1 == loc {
-                    self.srcmap_done.remove(&(last.0, last.1.line, last.1.col));
-                    *last = (byte_pos, loc);
-                    self.srcmap_done.insert(key);
-                    return;
-                }
-            }
-
-            if self.srcmap_done.insert(key) {
-                srcmap.push((byte_pos, loc));
+        // Generated positions never move backwards, so every mapping recorded
+        // for one position is adjacent to the previous one. Coalescing with the
+        // last entry therefore both deduplicates and makes the last emitted
+        // transition win, without tracking the emitted positions separately.
+        if let Some(last) = srcmap.last_mut() {
+            if last.1 == loc {
+                last.0 = byte_pos;
+                return;
             }
         }
+
+        srcmap.push((byte_pos, loc));
     }
 
     #[inline]

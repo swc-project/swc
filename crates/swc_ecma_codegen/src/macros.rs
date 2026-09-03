@@ -139,34 +139,32 @@ macro_rules! semi {
 macro_rules! srcmap {
     ($emitter:expr, $n:expr, true) => {{
         let span = $n.span();
-        let lo = span.lo();
-        if span.is_dummy() {
-            if $emitter.wr.care_about_srcmap() {
-                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
-            }
+        // A synthesized node has no source location, so its boundary is
+        // recorded as an explicitly source-less segment instead.
+        let pos = if span.is_dummy() {
+            swc_common::BytePos::SYNTHESIZED
         } else {
-            $emitter.wr.add_srcmap(lo)?;
-        }
+            span.lo()
+        };
+        $emitter.wr.add_srcmap(pos)?;
     }};
     ($emitter:expr, $n:expr, false) => {
         srcmap!($emitter, $n, false, false)
     };
     ($emitter:expr, $n:expr, false, $subtract:expr) => {
         let span = $n.span();
-        let hi = span.hi();
-        if $subtract && !span.is_dummy() {
+        // Token writers also use DUMMY_SP when an enclosing real node already
+        // supplied the mapping. Only node boundaries convert it to an
+        // explicitly source-less segment.
+        let pos = if span.is_dummy() {
+            swc_common::BytePos::SYNTHESIZED
+        } else if $subtract {
             // hi is exclusive
-            $emitter.wr.add_srcmap(hi - swc_common::BytePos(1))?;
-        } else if span.is_dummy() {
-            if $emitter.wr.care_about_srcmap() {
-                // Token writers also use DUMMY_SP when an enclosing real node
-                // already supplied the mapping. Only node boundaries convert
-                // it to an explicitly source-less segment.
-                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
-            }
+            span.hi() - swc_common::BytePos(1)
         } else {
-            $emitter.wr.add_srcmap(hi)?;
-        }
+            span.hi()
+        };
+        $emitter.wr.add_srcmap(pos)?;
     };
 }
 
@@ -176,7 +174,7 @@ macro_rules! srcmap {
 /// where mapping to `span.hi` would be inaccurate for parsed source.
 macro_rules! srcmap_if_dummy {
     ($emitter:expr, $n:expr) => {{
-        if $n.span().is_dummy() && $emitter.wr.care_about_srcmap() {
+        if $n.span().is_dummy() {
             $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
         }
     }};
@@ -188,15 +186,12 @@ macro_rules! srcmap_if_dummy {
 macro_rules! srcmap_at_hi_offset {
     ($emitter:expr, $n:expr, $offset:expr) => {{
         let span = $n.span();
-        if span.is_dummy() {
-            if $emitter.wr.care_about_srcmap() {
-                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
-            }
+        let pos = if span.is_dummy() {
+            swc_common::BytePos::SYNTHESIZED
         } else {
-            $emitter
-                .wr
-                .add_srcmap(span.hi() - swc_common::BytePos($offset))?;
-        }
+            span.hi() - swc_common::BytePos($offset)
+        };
+        $emitter.wr.add_srcmap(pos)?;
     }};
 }
 
@@ -205,17 +200,7 @@ macro_rules! srcmap_at_hi_offset {
 /// This is useful for suffixes whose final child is optional or varies by node.
 macro_rules! srcmap_for_owner {
     ($emitter:expr, $owner:expr) => {{
-        if $emitter.wr.care_about_srcmap() {
-            let owner_span = $owner.span();
-            if owner_span.is_dummy() {
-                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
-            } else if !$emitter
-                .wr
-                .will_add_srcmap(swc_common::BytePos::SYNTHESIZED)
-            {
-                $emitter.wr.add_srcmap(owner_span.lo())?;
-            }
-        }
+        $emitter.wr.add_srcmap_for_owner($owner.span(), false)?;
     }};
 }
 
@@ -225,19 +210,10 @@ macro_rules! srcmap_for_owner {
 /// resumes its mapping after the child or one of its descendants cleared it.
 macro_rules! srcmap_for_separator {
     ($emitter:expr, $owner:expr, $child:expr) => {{
-        if $emitter.wr.care_about_srcmap() {
-            let owner_span = $owner.span();
-            let owner_lo = owner_span.lo();
-            if owner_span.is_dummy() {
-                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
-            } else if $child.span().is_dummy()
-                || !$emitter
-                    .wr
-                    .will_add_srcmap(swc_common::BytePos::SYNTHESIZED)
-            {
-                $emitter.wr.add_srcmap(owner_lo)?;
-            }
-        }
+        let owner_span = $owner.span();
+        $emitter
+            .wr
+            .add_srcmap_for_owner(owner_span, $child.span().is_dummy())?;
     }};
 }
 
@@ -247,24 +223,22 @@ macro_rules! srcmap_for_separator {
 /// high position does not necessarily point just after the closing delimiter.
 macro_rules! srcmap_for_pattern_close {
     ($emitter:expr, $pattern:expr) => {{
-        if $emitter.wr.care_about_srcmap() {
-            let span = $pattern.span();
-            if span.is_dummy() {
-                $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
-            } else {
-                let delimiter_offset = swc_common::BytePos(if $pattern.optional { 2 } else { 1 });
-                let delimiter_pos = match $pattern.type_ann.as_ref() {
-                    Some(type_ann) if !type_ann.span.is_dummy() => {
-                        type_ann.span.lo() - delimiter_offset
-                    }
-                    // Replacing the annotation discards the exact delimiter
-                    // position, so retain the real pattern's mapping instead.
-                    Some(_) => span.lo(),
-                    None => span.hi() - delimiter_offset,
-                };
-                $emitter.wr.add_srcmap(delimiter_pos)?;
+        let span = $pattern.span();
+        let pos = if span.is_dummy() {
+            swc_common::BytePos::SYNTHESIZED
+        } else {
+            let delimiter_offset = swc_common::BytePos(if $pattern.optional { 2 } else { 1 });
+            match $pattern.type_ann.as_ref() {
+                Some(type_ann) if !type_ann.span.is_dummy() => {
+                    type_ann.span.lo() - delimiter_offset
+                }
+                // Replacing the annotation discards the exact delimiter
+                // position, so retain the real pattern's mapping instead.
+                Some(_) => span.lo(),
+                None => span.hi() - delimiter_offset,
             }
-        }
+        };
+        $emitter.wr.add_srcmap(pos)?;
     }};
 }
 

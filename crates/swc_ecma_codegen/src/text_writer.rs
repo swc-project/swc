@@ -112,6 +112,31 @@ pub trait WriteJs {
 
     fn add_srcmap(&mut self, pos: BytePos) -> Result;
 
+    /// Records the mapping of a token owned by `owner_span` that is emitted
+    /// after one of the owner's children.
+    ///
+    /// A synthesized owner keeps the token source-less, while a real owner
+    /// resumes its own mapping once the child, or one of its descendants,
+    /// cleared it. `child_is_dummy` reports whether the preceding child was
+    /// itself synthesized.
+    ///
+    /// This is a single entry point on purpose: it is called for most tokens
+    /// that follow a child node, and going through the writer once keeps the
+    /// cost of a `dyn WriteJs` emitter down.
+    fn add_srcmap_for_owner(&mut self, owner_span: Span, child_is_dummy: bool) -> Result {
+        if !self.care_about_srcmap() {
+            return Ok(());
+        }
+
+        if owner_span.is_dummy() {
+            self.add_srcmap(BytePos::SYNTHESIZED)
+        } else if child_is_dummy || !self.will_add_srcmap(BytePos::SYNTHESIZED) {
+            self.add_srcmap(owner_span.lo())
+        } else {
+            Ok(())
+        }
+    }
+
     fn commit_pending_semi(&mut self) -> Result;
 
     /// If true, the code generator will skip **modification** of invalid
@@ -263,6 +288,11 @@ where
         (**self).add_srcmap(pos)
     }
 
+    #[inline]
+    fn add_srcmap_for_owner(&mut self, owner_span: Span, child_is_dummy: bool) -> Result {
+        (**self).add_srcmap_for_owner(owner_span, child_is_dummy)
+    }
+
     fn commit_pending_semi(&mut self) -> Result {
         (**self).commit_pending_semi()
     }
@@ -402,6 +432,11 @@ where
     #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
         (**self).add_srcmap(pos)
+    }
+
+    #[inline]
+    fn add_srcmap_for_owner(&mut self, owner_span: Span, child_is_dummy: bool) -> Result {
+        (**self).add_srcmap_for_owner(owner_span, child_is_dummy)
     }
 
     #[inline(always)]
