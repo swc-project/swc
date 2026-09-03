@@ -1190,7 +1190,7 @@ pub(crate) fn adjust_mappings(
     /// function to determine the order of the tokens.
     #[allow(clippy::ptr_arg)]
     fn create_ranges(tokens: &mut [RawToken], key: fn(&RawToken) -> (u32, u32)) -> Vec<Range<'_>> {
-        tokens.sort_unstable_by_key(key);
+        tokens.sort_unstable_by_key(|token| (key(token), token.dst_line, token.dst_col));
 
         let mut token_iter = tokens.iter().peekable();
         let mut ranges = Vec::new();
@@ -2183,6 +2183,36 @@ mod tests {
             .tokens()
             .find(|token| token.get_dst() == (0, 26))
             .expect("the equal-position resumed mapping should own the later source range");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            original.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_preserves_generated_order_for_equal_source_positions() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 10, 10, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        for dst_col in (0..64).step_by(2) {
+            if dst_col == 32 {
+                adjustment_builder.add_raw(0, 31, 0, 0, None, None, false);
+            }
+            adjustment_builder.add_raw(0, dst_col, 0, 0, Some(intermediate_source), None, false);
+        }
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let token = original
+            .tokens()
+            .find(|token| token.get_dst() == (0, 72))
+            .expect("the final generated occurrence should own the equal source range");
         assert_eq!(token.get_src(), (10, 0));
         assert_eq!(
             original.get_source(token.get_src_id()).unwrap(),
