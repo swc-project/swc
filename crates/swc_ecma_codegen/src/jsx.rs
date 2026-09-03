@@ -126,7 +126,7 @@ impl MacroNode for JSXAttrOrSpread {
         match *self {
             JSXAttrOrSpread::JSXAttr(ref n) => emit!(n),
             JSXAttrOrSpread::SpreadElement(ref n) => {
-                srcmap_if_dummy!(emitter, self);
+                srcmap_if_dummy!(emitter, n.dot3_token);
                 punct!(emitter, "{");
                 emit!(n);
                 srcmap_for_jsx_spread_close!(emitter, n);

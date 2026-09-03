@@ -352,13 +352,16 @@ macro_rules! srcmap_for_pattern_close {
 
 /// Finds a pattern's closing delimiter before trivia, an optional marker, and
 /// an optional type annotation. Validating the suffix avoids mistaking
-/// delimiters inside the pattern or trailing comments for its delimiter.
+/// delimiters inside the pattern or trailing comments for its delimiter. The
+/// last valid candidate wins so a synthesized final child cannot expose an
+/// earlier nested typed-pattern delimiter.
 pub(crate) fn pattern_close_offset(
     snippet: &str,
     delimiter: char,
     optional: bool,
 ) -> Option<usize> {
     let mut chars = snippet.char_indices().peekable();
+    let mut candidate = None;
 
     while let Some((offset, ch)) = chars.next() {
         if ch == '/' {
@@ -391,12 +394,12 @@ pub(crate) fn pattern_close_offset(
         if ch == delimiter {
             let suffix = &snippet[offset + delimiter.len_utf8()..];
             if pattern_suffix_matches(suffix, optional) {
-                return Some(offset);
+                candidate = Some(offset);
             }
         }
     }
 
-    None
+    candidate
 }
 
 /// Finds the opening bracket of the final array-type suffix.
@@ -511,6 +514,18 @@ mod tests {
         assert_eq!(
             pattern_close_offset(line_comment, '}', false),
             line_comment.rfind("}: Outer")
+        );
+
+        let synthesized_array_child = "x = ([y]: Inner) => y]: Outer";
+        assert_eq!(
+            pattern_close_offset(synthesized_array_child, ']', false),
+            synthesized_array_child.rfind("]: Outer")
+        );
+
+        let synthesized_object_child = "x = ({ y }: Inner) => y }: Outer";
+        assert_eq!(
+            pattern_close_offset(synthesized_object_child, '}', false),
+            synthesized_object_child.rfind("}: Outer")
         );
     }
 }

@@ -1213,6 +1213,80 @@ fn removed_nested_typed_pattern_uses_owner_delimiter_position() {
 }
 
 #[test]
+fn synthesized_final_pattern_children_use_owner_delimiter_positions() {
+    let source = "function array([a, x = ([y]: Inner) => y]: Outer) {}\nfunction object({ a, x = \
+                  ({ y }: Inner) => y }: Outer) {}\nafter();\n";
+    let array_close_col = source
+        .lines()
+        .next()
+        .expect("expected the array function")
+        .rfind("]: Outer")
+        .expect("expected the outer array pattern closer") as u32;
+    let object_close_col = source
+        .lines()
+        .nth(1)
+        .expect("expected the object function")
+        .rfind("}: Outer")
+        .expect("expected the outer object pattern closer") as u32;
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected an array function declaration");
+        };
+        let Pat::Array(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an array parameter");
+        };
+        let Some(Some(Pat::Assign(element))) = pattern.elems.last_mut() else {
+            panic!("expected a final assignment element");
+        };
+        element.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[1] else {
+            panic!("expected an object function declaration");
+        };
+        let Pat::Object(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an object parameter");
+        };
+        let Some(ObjectPatProp::Assign(property)) = pattern.props.last_mut() else {
+            panic!("expected a final assignment property");
+        };
+        property.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+        let array_type = code.find("Outer").expect("expected the array type");
+        let array_close = code[..array_type]
+            .rfind(']')
+            .expect("expected the outer array pattern closer");
+        let object_type = code.rfind("Outer").expect("expected the object type");
+        let object_close = code[..object_type]
+            .rfind('}')
+            .expect("expected the outer object pattern closer");
+
+        assert_source_location_at_offset(
+            &map,
+            &code,
+            array_close,
+            0,
+            array_close_col,
+            "the outer array pattern closer",
+        );
+        assert_source_location_at_offset(
+            &map,
+            &code,
+            object_close,
+            1,
+            object_close_col,
+            "the outer object pattern closer",
+        );
+        assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
 fn removed_typed_pattern_ignores_delimiters_in_comments() {
     let source = "function f({ x /* }: Fake */ }: Outer) {}";
     let source_close_col = source
@@ -2267,6 +2341,47 @@ fn jsx_spread_closing_delimiter_skips_source_trivia() {
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_location(&map, &code, "}", 0, closing_brace_col);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn dummy_jsx_spread_prefix_is_source_less() {
+    let source = "const element = <root first {...value} />;\nafter();\n";
+    let value_col = source.find("value").expect("expected the spread value") as u32;
+    let close_col = source.find('}').expect("expected the closing brace") as u32;
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+        let JSXAttrOrSpread::SpreadElement(spread) = &mut element.opening.attrs[1] else {
+            panic!("expected a JSX spread attribute");
+        };
+        spread.dot3_token = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "{...");
+        assert_source_less(&map, &code, "...");
+        assert_source_location(&map, &code, "value", 0, value_col);
+        assert_source_location(&map, &code, "}", 0, close_col);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -4636,7 +4751,14 @@ fn dummy_typescript_prefixes_are_source_less() {
 
 #[test]
 fn dummy_spread_prefixes_are_source_less() {
-    let source = "callee(first, callArg);\n[first, arrayArg];\nafter();\n";
+    let source = "callee(first, callArg);\n[first, arrayArg];\nconst object = { first, \
+                  ...objectArg };\nafter();\n";
+    let object_arg_col = source
+        .lines()
+        .nth(2)
+        .expect("expected the object declaration")
+        .find("objectArg")
+        .expect("expected the object spread argument") as u32;
 
     for minify in [false, true] {
         let cm = Lrc::<CommonSourceMap>::default();
@@ -4661,13 +4783,30 @@ fn dummy_spread_prefixes_are_source_less() {
             .expect("expected a second array element")
             .spread = Some(DUMMY_SP);
 
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[2] else {
+            panic!("expected an object variable declaration");
+        };
+        let Expr::Object(object) = &mut **var.decls[0]
+            .init
+            .as_mut()
+            .expect("expected an object initializer")
+        else {
+            panic!("expected an object expression");
+        };
+        let PropOrSpread::Spread(spread) = &mut object.props[1] else {
+            panic!("expected an object spread property");
+        };
+        spread.dot3_token = DUMMY_SP;
+
         let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
 
         assert_source_less_boundary(&map, &code, "...callArg");
         assert_source_location(&map, &code, "callArg", 0, 14);
         assert_source_less_boundary(&map, &code, "...arrayArg");
         assert_source_location(&map, &code, "arrayArg", 1, 8);
-        assert_source_location(&map, &code, "after", 2, 0);
+        assert_source_less_boundary(&map, &code, "...objectArg");
+        assert_source_location(&map, &code, "objectArg", 2, object_arg_col);
+        assert_source_location(&map, &code, "after", 3, 0);
     }
 }
 

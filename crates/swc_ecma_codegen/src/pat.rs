@@ -87,7 +87,7 @@ impl MacroNode for SpreadElement {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
-        srcmap!(emitter, self, true);
+        srcmap!(emitter, self.dot3_token, true);
 
         punct!(emitter, "...");
         emit!(self.expr);
