@@ -3162,6 +3162,57 @@ fn class_member_suffixes_resume_after_dummy_keys() {
 }
 
 #[test]
+fn dummy_auto_accessor_prefix_is_source_less() {
+    let source = "class Example { parsed; public accessor generated; }\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Class(class))) = &mut module.body[0] else {
+            panic!("expected a class declaration");
+        };
+        let ClassMember::AutoAccessor(accessor) = &mut class.class.body[1] else {
+            panic!("expected an auto-accessor");
+        };
+        accessor.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "public accessor");
+        assert_source_location(&map, &code, "generated", 0, 40);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn binding_annotation_resumes_after_dummy_identifier() {
+    let source = "let generated: Original;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Pat::Ident(binding) = &mut var.decls[0].name else {
+            panic!("expected an identifier binding");
+        };
+        binding.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generated");
+        assert_source_location(&map, &code, ":", 0, 13);
+        assert_source_location(&map, &code, "Original", 0, 15);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn real_if_else_resumes_after_dummy_consequent() {
     let source = "if (test) consequent(); else alternate();\nafter();\n";
 

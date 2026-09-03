@@ -2586,6 +2586,7 @@ impl MacroNode for BindingIdent {
         emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
 
         if let Some(ty) = &self.type_ann {
+            srcmap!(emitter, ty, true);
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(ty);

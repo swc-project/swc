@@ -173,6 +173,8 @@ impl MacroNode for ClassMember {
 #[node_impl]
 impl MacroNode for AutoAccessor {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(emitter, self, true);
+
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
         if let Some(dec) = self.decorators.last() {
             srcmap_for_separator!(emitter, self, dec);
