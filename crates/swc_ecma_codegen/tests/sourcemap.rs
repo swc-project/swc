@@ -2121,6 +2121,23 @@ fn real_array_type_resumes_before_brackets() {
 }
 
 #[test]
+fn array_type_brackets_use_source_positions_with_trivia() {
+    let source = "type Value = original[ ];\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, "[", 0, 21);
+        assert_source_location(&map, &code, "]", 0, 23);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn real_type_arguments_resume_before_closing_delimiter() {
     let source = "fn<Original>();\nafter();\n";
 
@@ -4069,6 +4086,35 @@ fn binding_pattern_separators_resume_after_dummy_children() {
         assert_has_source(&map, &code, if minify { "=fallback" } else { "= fallback" });
         assert_source_less_boundary(&map, &code, "rest");
         assert_has_source(&map, &code, if minify { ":string" } else { ": string" });
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn object_pattern_colon_uses_real_key_mapping_before_dummy_value() {
+    let source = "let { key: value } = object;\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Pat::Object(object) = &mut var.decls[0].name else {
+            panic!("expected an object pattern");
+        };
+        let ObjectPatProp::KeyValue(property) = &mut object.props[0] else {
+            panic!("expected a key-value property");
+        };
+        let Pat::Ident(value) = &mut *property.value else {
+            panic!("expected an identifier value");
+        };
+        value.id.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, ":", 0, 9);
+        assert_source_less_boundary(&map, &code, "value");
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

@@ -260,7 +260,12 @@ impl MacroNode for KeyValuePatProp {
         srcmap!(emitter, self, true);
 
         emit!(self.key);
-        srcmap_for_separator!(emitter, self.value, self.key);
+        let key_span = self.key.span();
+        if !key_span.is_dummy() && self.value.span().is_dummy() {
+            emitter.wr.add_srcmap(key_span.hi)?;
+        } else {
+            srcmap_for_separator!(emitter, self.value, self.key);
+        }
         punct!(emitter, ":");
         formatting_space!(emitter);
         emit!(self.value);

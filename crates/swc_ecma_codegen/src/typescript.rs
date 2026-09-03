@@ -27,7 +27,7 @@ impl MacroNode for TsArrayType {
 
         srcmap_if_dummy!(emitter, self);
         emit!(self.elem_type);
-        srcmap_at_hi_offset!(emitter, self, 2);
+        srcmap_for_array_type_open!(emitter, self);
         punct!(emitter, "[");
         srcmap!(emitter, self, false, true);
         punct!(emitter, "]");

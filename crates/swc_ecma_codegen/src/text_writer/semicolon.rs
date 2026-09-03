@@ -101,7 +101,19 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 
     #[inline]
     fn will_add_srcmap(&self, pos: BytePos) -> bool {
-        self.inner.will_add_srcmap(pos)
+        let Some(pending) = self.pending_srcmap else {
+            return self.inner.will_add_srcmap(pos);
+        };
+
+        // A new mapping replaces the deferred transition, so predict from its
+        // effective mapped state instead of the inner writer's stale state.
+        if pos.is_dummy() {
+            false
+        } else if pos == BytePos::SYNTHESIZED {
+            pending != BytePos::SYNTHESIZED
+        } else {
+            true
+        }
     }
 
     #[inline]
@@ -172,7 +184,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 mod tests {
     use std::sync::Arc;
 
-    use swc_common::{BytePos, LineCol, SourceMap};
+    use swc_common::{BytePos, LineCol, SourceMap, Span};
 
     use crate::text_writer::{basic_impl::JsWriter, BindingStorage, ScopeKind, WriteJs};
 
@@ -249,6 +261,36 @@ mod tests {
             vec![
                 (BytePos(1), LineCol { line: 0, col: 1 }),
                 (BytePos::SYNTHESIZED, LineCol { line: 0, col: 6 }),
+            ]
+        );
+    }
+
+    #[test]
+    fn restores_owner_mapping_after_deferred_unmapped_boundary() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut out = vec![];
+        let mut mappings = vec![];
+        {
+            let writer = JsWriter::new(source_map, "\n", &mut out, Some(&mut mappings));
+            let mut writer = super::omit_trailing_semi(writer);
+
+            writer.write_punct(None, "{", false).unwrap();
+            writer.add_srcmap(BytePos(1)).unwrap();
+            writer.write_str("foo()").unwrap();
+            writer.write_semi(None).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer
+                .add_srcmap_for_owner(Span::new(BytePos(1), BytePos(7)), false)
+                .unwrap();
+            writer.write_punct(None, "}", false).unwrap();
+        }
+
+        assert_eq!(out, b"{foo()}");
+        assert_eq!(
+            mappings,
+            vec![
+                (BytePos(1), LineCol { line: 0, col: 1 }),
+                (BytePos(1), LineCol { line: 0, col: 6 }),
             ]
         );
     }

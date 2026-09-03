@@ -195,6 +195,40 @@ macro_rules! srcmap_at_hi_offset {
     }};
 }
 
+/// Maps the opening bracket of a TypeScript array type from its source text.
+///
+/// Trivia is permitted between the brackets, so the opening position cannot be
+/// derived from a fixed offset relative to the node's high position.
+macro_rules! srcmap_for_array_type_open {
+    ($emitter:expr, $array_type:expr) => {{
+        if $emitter.wr.care_about_srcmap() {
+            let span = $array_type.span();
+            let pos = if span.is_dummy() {
+                swc_common::BytePos::SYNTHESIZED
+            } else {
+                let elem_span = $array_type.elem_type.span();
+                let search_span = if !elem_span.is_dummy()
+                    && span.lo() <= elem_span.hi()
+                    && elem_span.hi() <= span.hi()
+                {
+                    span.with_lo(elem_span.hi())
+                } else {
+                    span
+                };
+                $emitter
+                    .cm
+                    .span_to_snippet(search_span)
+                    .ok()
+                    .and_then(|snippet| $crate::macros::array_type_open_offset(&snippet))
+                    .map_or(span.lo(), |offset| {
+                        search_span.lo() + swc_common::BytePos(offset as u32)
+                    })
+            };
+            $emitter.wr.add_srcmap(pos)?;
+        }
+    }};
+}
+
 /// Restores a real owner's mapping when the current output is source-less.
 ///
 /// This is useful for suffixes whose final child is optional or varies by node.
@@ -282,6 +316,18 @@ pub(crate) fn pattern_close_offset(
     })
 }
 
+/// Finds the opening bracket of the final array-type suffix.
+///
+/// Validating the remainder avoids treating brackets inside comments or a
+/// nested element type as the suffix delimiter.
+pub(crate) fn array_type_open_offset(snippet: &str) -> Option<usize> {
+    snippet.match_indices('[').find_map(|(offset, _)| {
+        let suffix = strip_pattern_trivia(&snippet[offset + 1..])?;
+        let suffix = suffix.strip_prefix(']')?;
+        strip_pattern_trivia(suffix)?.is_empty().then_some(offset)
+    })
+}
+
 fn pattern_suffix_is_trivia(mut suffix: &str, optional: bool) -> bool {
     let Some(stripped) = strip_pattern_trivia(suffix) else {
         return false;
@@ -324,4 +370,15 @@ macro_rules! emit_node_inner {
     ($emitter:expr, true, $n:expr) => {
         crate::Node::emit_with(&$n, $emitter)?
     };
+}
+
+#[cfg(test)]
+mod tests {
+    use super::array_type_open_offset;
+
+    #[test]
+    fn finds_array_type_opener_before_trivia() {
+        assert_eq!(array_type_open_offset("[ ]"), Some(0));
+        assert_eq!(array_type_open_offset("[][ /* [ */ ]"), Some(2));
+    }
 }
