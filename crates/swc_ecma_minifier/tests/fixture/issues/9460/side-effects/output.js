@@ -171,6 +171,25 @@ try {
 } catch  {
     record("class-function-arguments-throws");
 }
+try {
+    const { computedFunctionArgumentsValue = class {
+        static value = (function() {}).arguments;
+    } } = {};
+} catch  {
+    record("computed-class-function-arguments-throws");
+}
+const noPrimitive = Object.create(null);
+try {
+    const { looseEqualityValue = 1 == noPrimitive } = {};
+} catch  {
+    record("loose-equality-throws");
+}
+const otherNoPrimitive = Object.create(null);
+try {
+    const { looseInequalityValue = 1 != otherNoPrimitive } = {};
+} catch  {
+    record("loose-inequality-throws");
+}
 const iterable = {
     [Symbol.iterator]: ()=>(record("array-spread-iterator"), [][Symbol.iterator]())
 }, { arraySpreadValue = [

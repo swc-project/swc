@@ -224,6 +224,28 @@ try {
     record("class-function-arguments-throws");
 }
 
+try {
+    const { computedFunctionArgumentsValue = class {
+        static value = (function () {})["arguments"];
+    } } = {};
+} catch {
+    record("computed-class-function-arguments-throws");
+}
+
+const noPrimitive = Object.create(null);
+try {
+    const { looseEqualityValue = noPrimitive == 1 } = {};
+} catch {
+    record("loose-equality-throws");
+}
+
+const otherNoPrimitive = Object.create(null);
+try {
+    const { looseInequalityValue = otherNoPrimitive != 1 } = {};
+} catch {
+    record("loose-inequality-throws");
+}
+
 const iterable = {
     [Symbol.iterator]() {
         record("array-spread-iterator");

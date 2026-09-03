@@ -1441,10 +1441,16 @@ fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
 
 /// Returns true for a function `arguments` access that can throw.
 fn is_restricted_function_property_access(member: &MemberExpr) -> bool {
-    matches!(
-        &member.prop,
-        MemberProp::Ident(prop) if prop.sym == "arguments"
-    ) && matches!(member.obj.unwrap_parens(), Expr::Fn(..) | Expr::Arrow(..))
+    let is_arguments = match &member.prop {
+        MemberProp::Ident(prop) => prop.sym == "arguments",
+        MemberProp::Computed(prop) => matches!(
+            &*prop.expr,
+            Expr::Lit(Lit::Str(prop)) if prop.value.as_str() == Some("arguments")
+        ),
+        _ => false,
+    };
+
+    is_arguments && matches!(member.obj.unwrap_parens(), Expr::Fn(..) | Expr::Arrow(..))
 }
 
 /// Returns true when evaluating an object literal property cannot perform
@@ -1601,7 +1607,14 @@ impl Visit for NonDiscardableDefaultVisitor {
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         if matches!(
             e.op,
-            op!("in") | op!("instanceof") | op!("<") | op!("<=") | op!(">") | op!(">=")
+            op!("in")
+                | op!("instanceof")
+                | op!("<")
+                | op!("<=")
+                | op!(">")
+                | op!(">=")
+                | op!("==")
+                | op!("!=")
         ) {
             self.found = true;
             return;
