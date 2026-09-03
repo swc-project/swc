@@ -1189,6 +1189,7 @@ impl MacroNode for TsImportType {
         if let Some(n) = &self.qualifier {
             punct!(emitter, ".");
             emit!(n);
+            srcmap_for_separator!(emitter, self, n);
         }
 
         emit!(self.type_args);

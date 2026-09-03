@@ -226,6 +226,7 @@ impl MacroNode for ImportDecl {
             };
             formatting_space!(emitter);
             emit!(with);
+            srcmap_for_separator!(emitter, self, with);
         }
 
         semi!(emitter);
@@ -417,6 +418,7 @@ impl MacroNode for NamedExport {
                 };
                 formatting_space!(emitter);
                 emit!(with);
+                srcmap_for_separator!(emitter, self, with);
             }
         }
         semi!(emitter);
@@ -460,6 +462,7 @@ impl MacroNode for ExportAll {
             };
             formatting_space!(emitter);
             emit!(with);
+            srcmap_for_separator!(emitter, self, with);
         }
 
         semi!(emitter);

@@ -319,6 +319,65 @@ fn module_declaration_suffixes_resume_after_dummy_children() {
 }
 
 #[test]
+fn module_declaration_semicolons_resume_after_dummy_import_attributes() {
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(
+            &cm,
+            "import value from 'dep' with { type: 'json' };\nafter();\n",
+        );
+        let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = &mut module.body[0] else {
+            panic!("expected an import declaration");
+        };
+        let with = import.with.as_mut().expect("expected import attributes");
+        with.span = DUMMY_SP;
+        with.props.clear();
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "{}");
+        assert_source_location(&map, &code, ";", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(
+            &cm,
+            "export { value } from 'dep' with { type: 'json' };\nafter();\n",
+        );
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = &mut module.body[0] else {
+            panic!("expected a named export");
+        };
+        let with = export.with.as_mut().expect("expected export attributes");
+        with.span = DUMMY_SP;
+        with.props.clear();
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "{}");
+        assert_source_location(&map, &code, ";", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(
+            &cm,
+            "export * from 'dep' with { type: 'json' };\nafter();\n",
+        );
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) = &mut module.body[0] else {
+            panic!("expected an export-all declaration");
+        };
+        let with = export.with.as_mut().expect("expected export attributes");
+        with.span = DUMMY_SP;
+        with.props.clear();
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "{}");
+        assert_source_location(&map, &code, ";", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn dummy_span_between_mapped_regions_clears_mapping() {
     let source = "before();\nafter();\n";
 
@@ -979,6 +1038,34 @@ fn import_type_closers_resume_after_dummy_children() {
         assert_source_less_boundary(&map, &code, "{");
         assert_source_location(&map, &code, ")", 0, 16);
         assert_source_location(&map, &code, ".Qualified", 0, 16);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "type Imported = import(\"module\").Qualified<Value>;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsImportType(import_type) = &mut *type_alias.type_ann else {
+            panic!("expected an import type");
+        };
+        let TsEntityName::Ident(qualifier) = import_type
+            .qualifier
+            .as_mut()
+            .expect("expected an import-type qualifier")
+        else {
+            panic!("expected an identifier import-type qualifier");
+        };
+        qualifier.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "Qualified");
+        assert_source_location(&map, &code, "<", 0, 16);
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
