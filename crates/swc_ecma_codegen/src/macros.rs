@@ -195,6 +195,32 @@ macro_rules! srcmap_at_hi_offset {
     }};
 }
 
+/// Maps a JSX spread attribute's closing brace to its source delimiter.
+///
+/// The spread expression's span excludes trailing trivia and the closing
+/// brace, so a fixed offset from its high bound is not sufficient.
+macro_rules! srcmap_for_jsx_spread_close {
+    ($emitter:expr, $spread:expr) => {{
+        if $emitter.wr.care_about_srcmap() {
+            let expr_span = $spread.expr.span();
+            let pos = if expr_span.is_dummy() {
+                // The expression supplies `SpreadElement`'s high bound, so
+                // fall back to the remaining real spread-token span.
+                let spread_span = $spread.dot3_token;
+                if spread_span.is_dummy() {
+                    swc_common::BytePos::SYNTHESIZED
+                } else {
+                    spread_span.hi()
+                }
+            } else {
+                $crate::macros::jsx_spread_close_pos($emitter.cm.get_code_map(), expr_span.hi())
+                    .unwrap_or_else(|| expr_span.hi())
+            };
+            $emitter.wr.add_srcmap(pos)?;
+        }
+    }};
+}
+
 /// Maps the opening bracket of a TypeScript array type from its source text.
 ///
 /// Trivia is permitted between the brackets, so the opening position cannot be
@@ -322,14 +348,29 @@ pub(crate) fn pattern_close_offset(
 /// nested element type as the suffix delimiter.
 pub(crate) fn array_type_open_offset(snippet: &str) -> Option<usize> {
     snippet.match_indices('[').find_map(|(offset, _)| {
-        let suffix = strip_pattern_trivia(&snippet[offset + 1..])?;
+        let suffix = strip_source_trivia(&snippet[offset + 1..])?;
         let suffix = suffix.strip_prefix(']')?;
-        strip_pattern_trivia(suffix)?.is_empty().then_some(offset)
+        strip_source_trivia(suffix)?.is_empty().then_some(offset)
     })
 }
 
+/// Finds a JSX spread attribute's closing brace after expression trivia.
+pub(crate) fn jsx_spread_close_pos(
+    cm: &dyn swc_common::SourceMapper,
+    expr_hi: swc_common::BytePos,
+) -> Option<swc_common::BytePos> {
+    let file = cm.lookup_char_pos(expr_hi).file;
+    let local_offset = (expr_hi - file.start_pos).0 as usize;
+    let suffix = file.src.get(local_offset..)?;
+    let stripped = strip_source_trivia(suffix)?;
+
+    stripped
+        .starts_with('}')
+        .then(|| expr_hi + swc_common::BytePos((suffix.len() - stripped.len()) as u32))
+}
+
 fn pattern_suffix_is_trivia(mut suffix: &str, optional: bool) -> bool {
-    let Some(stripped) = strip_pattern_trivia(suffix) else {
+    let Some(stripped) = strip_source_trivia(suffix) else {
         return false;
     };
     suffix = stripped;
@@ -338,7 +379,7 @@ fn pattern_suffix_is_trivia(mut suffix: &str, optional: bool) -> bool {
         let Some(stripped) = suffix.strip_prefix('?') else {
             return false;
         };
-        let Some(stripped) = strip_pattern_trivia(stripped) else {
+        let Some(stripped) = strip_source_trivia(stripped) else {
             return false;
         };
         suffix = stripped;
@@ -347,7 +388,7 @@ fn pattern_suffix_is_trivia(mut suffix: &str, optional: bool) -> bool {
     suffix.is_empty()
 }
 
-fn strip_pattern_trivia(mut suffix: &str) -> Option<&str> {
+fn strip_source_trivia(mut suffix: &str) -> Option<&str> {
     loop {
         suffix = suffix.trim_start_matches(char::is_whitespace);
 

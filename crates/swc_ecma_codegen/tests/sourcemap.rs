@@ -4,8 +4,11 @@ use base64::prelude::{Engine, BASE64_STANDARD};
 use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
 use swc_common::{
-    comments::SingleThreadedComments, source_map::SourceMapGenConfig, sync::Lrc, BytePos, FileName,
-    Globals, LineCol, SourceMap as CommonSourceMap, Span, Spanned, DUMMY_SP, GLOBALS,
+    comments::{Comment, CommentKind, Comments, SingleThreadedComments},
+    source_map::SourceMapGenConfig,
+    sync::Lrc,
+    BytePos, FileName, Globals, LineCol, SourceMap as CommonSourceMap, Span, Spanned, DUMMY_SP,
+    GLOBALS,
 };
 use swc_ecma_ast::{
     ArrayLit, AssignProp, AssignTarget, Bool, CallExpr, Callee, ClassMember, DebuggerStmt, Decl,
@@ -108,6 +111,41 @@ where
     (String::from_utf8(code).unwrap(), map, mappings)
 }
 
+fn emit_two_nodes_source_map<A, B>(
+    cm: Lrc<CommonSourceMap>,
+    comments: &SingleThreadedComments,
+    first: &A,
+    second: &B,
+    minify: bool,
+) -> (String, SourceMap, Vec<(BytePos, LineCol)>)
+where
+    A: Node,
+    B: Node,
+{
+    let mut code = Vec::new();
+    let mut mappings = Vec::new();
+    {
+        let wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+            cm.clone(),
+            "\n",
+            &mut code,
+            Some(&mut mappings),
+        )) as Box<dyn WriteJs>;
+        let mut emitter = Emitter {
+            cfg: swc_ecma_codegen::Config::default().with_minify(minify),
+            cm: cm.clone(),
+            wr,
+            comments: Some(comments),
+        };
+        first.emit_with(&mut emitter).unwrap();
+        second.emit_with(&mut emitter).unwrap();
+    }
+
+    let map = cm.build_source_map(&mappings, None, SourceMapConfigImpl { emit_columns: true });
+
+    (String::from_utf8(code).unwrap(), map, mappings)
+}
+
 fn emit_without_source_map(
     cm: Lrc<CommonSourceMap>,
     comments: &SingleThreadedComments,
@@ -180,6 +218,22 @@ fn assert_has_source(map: &SourceMap, code: &str, needle: &str) {
         .lookup_token(line, col)
         .unwrap_or_else(|| panic!("missing mapping for {needle:?} at {line}:{col}"));
     assert!(token.has_source(), "{needle:?} should have a source");
+}
+
+fn assert_has_source_after(map: &SourceMap, code: &str, needle: &str) {
+    let offset = code.find(needle).expect("generated text not found") + needle.len();
+    let prefix = &code[..offset];
+    let line = prefix.bytes().filter(|&byte| byte == b'\n').count() as u32;
+    let line_start = prefix.rfind('\n').map_or(0, |index| index + 1);
+    let col = code[line_start..offset].encode_utf16().count() as u32;
+    let token = map
+        .lookup_token(line, col)
+        .unwrap_or_else(|| panic!("missing mapping after {needle:?} at {line}:{col}"));
+
+    assert!(
+        token.has_source(),
+        "position after {needle:?} should have a source"
+    );
 }
 
 fn assert_source_less_boundary(map: &SourceMap, code: &str, needle: &str) {
@@ -504,6 +558,103 @@ fn dummy_import_equals_prefix_is_source_less() {
         assert_source_location(&map, &code, "Imported", 1, 19);
         assert_has_source(&map, &code, "dep");
         assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn dummy_typescript_owners_start_source_less_before_real_children() {
+    let source = "before();\nexport import Imported = require('dep');\ntype Shape = { [method](): \
+                  void };\ndeclare namespace Space {}\nnamespace Body { const member = 1; \
+                  }\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = &mut module.body[1] else {
+            panic!("expected an import-equals declaration");
+        };
+        let swc_ecma_ast::TsModuleRef::TsExternalModuleRef(reference) = &mut import.module_ref
+        else {
+            panic!("expected an external module reference");
+        };
+        reference.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[2]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let TsTypeElement::TsMethodSignature(method) = &mut type_lit.members[0] else {
+            panic!("expected a method signature");
+        };
+        method.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(namespace))) = &mut module.body[3] else {
+            panic!("expected a namespace declaration");
+        };
+        namespace.span = DUMMY_SP;
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(namespace))) = &mut module.body[4] else {
+            panic!("expected a namespace declaration");
+        };
+        let swc_ecma_ast::TsNamespaceBody::TsModuleBlock(block) =
+            namespace.body.as_mut().expect("expected a namespace body")
+        else {
+            panic!("expected a namespace module block");
+        };
+        block.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "require");
+        assert_has_source(&map, &code, "dep");
+        assert_source_less_boundary(&map, &code, "[");
+        assert_has_source(&map, &code, "method");
+        assert_source_less_boundary(&map, &code, "declare");
+        assert_has_source(&map, &code, "Space");
+        assert_source_less_boundary_after(
+            &map,
+            &code,
+            if minify {
+                "namespace Body"
+            } else {
+                "namespace Body "
+            },
+        );
+        assert_has_source(&map, &code, "member");
+        assert_source_location(&map, &code, "after", 5, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "before;\nnamespace Outer.Inner {}\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Expr(statement)) = &module.body[0] else {
+            panic!("expected an expression statement");
+        };
+        let before = statement.expr.clone();
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(namespace))) = &mut module.body[1] else {
+            panic!("expected a namespace declaration");
+        };
+        let swc_ecma_ast::TsNamespaceBody::TsNamespaceDecl(inner) = namespace
+            .body
+            .as_mut()
+            .expect("expected a nested namespace")
+        else {
+            panic!("expected a nested namespace declaration");
+        };
+        inner.span = DUMMY_SP;
+
+        let (code, map, _) = emit_two_nodes_source_map(cm, &comments, &*before, &*inner, minify);
+
+        assert_source_location(&map, &code, "before", 0, 0);
+        assert_source_less_boundary(&map, &code, "namespace");
+        assert_has_source(&map, &code, "Inner");
     }
 }
 
@@ -1838,6 +1989,29 @@ fn real_jsx_opening_element_resumes_after_dummy_children() {
 }
 
 #[test]
+fn jsx_spread_closing_delimiter_skips_source_trivia() {
+    let source = "const element = <X {...value /* comment */} />;\nafter();\n";
+    let closing_brace_col = source.find('}').expect("expected a closing brace") as u32;
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, "}", 0, closing_brace_col);
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn real_jsx_spread_attribute_resumes_before_closing_delimiter() {
     let source = "const element = <root {...value} />;\nafter();\n";
 
@@ -2426,6 +2600,79 @@ fn statement_semicolons_resume_after_dummy_expressions() {
         assert_source_less_boundary(&map, &code, "generated");
         assert_has_source(&map, &code, ";");
         assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn comment_parentheses_resume_after_dummy_expression_descendants() {
+    let source = "function returns() { return condition ? consequent : alternate; }\nfunction \
+                  throws() { throw condition ? consequent : alternate; }\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        let Stmt::Return(statement) = &mut function
+            .function
+            .body
+            .as_mut()
+            .expect("expected a function body")
+            .stmts[0]
+        else {
+            panic!("expected a return statement");
+        };
+        comments.add_leading(
+            statement.arg.span().lo(),
+            Comment {
+                kind: CommentKind::Line,
+                span: DUMMY_SP,
+                text: " leading return".into(),
+            },
+        );
+        let Expr::Cond(conditional) =
+            &mut **statement.arg.as_mut().expect("expected a return value")
+        else {
+            panic!("expected a conditional return value");
+        };
+        *conditional.alt = Expr::Ident(Ident::new_no_ctxt("generatedReturn".into(), DUMMY_SP));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[1] else {
+            panic!("expected a function declaration");
+        };
+        let Stmt::Throw(statement) = &mut function
+            .function
+            .body
+            .as_mut()
+            .expect("expected a function body")
+            .stmts[0]
+        else {
+            panic!("expected a throw statement");
+        };
+        comments.add_leading(
+            statement.arg.span().lo(),
+            Comment {
+                kind: CommentKind::Line,
+                span: DUMMY_SP,
+                text: " leading throw".into(),
+            },
+        );
+        let Expr::Cond(conditional) = &mut *statement.arg else {
+            panic!("expected a conditional throw value");
+        };
+        *conditional.alt = Expr::Ident(Ident::new_no_ctxt("generatedThrow".into(), DUMMY_SP));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert!(code.contains("generatedReturn)"));
+        assert_source_less_boundary(&map, &code, "generatedReturn");
+        assert_has_source_after(&map, &code, "generatedReturn");
+        assert!(code.contains("generatedThrow)"));
+        assert_source_less_boundary(&map, &code, "generatedThrow");
+        assert_has_source_after(&map, &code, "generatedThrow");
+        assert_source_location(&map, &code, "after", 2, 0);
     }
 }
 

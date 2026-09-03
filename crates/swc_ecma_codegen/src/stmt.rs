@@ -171,10 +171,10 @@ impl MacroNode for ReturnStmt {
             }
 
             emit!(arg);
+            srcmap_for_separator!(emitter, self, arg);
             if need_paren {
                 punct!(emitter, ")");
             }
-            srcmap_for_separator!(emitter, self, arg);
         }
 
         semi!(emitter);
@@ -330,11 +330,11 @@ impl MacroNode for ThrowStmt {
             }
 
             emit!(self.arg);
+            srcmap_for_separator!(emitter, self, self.arg);
             if need_paren {
                 punct!(emitter, ")");
             }
         }
-        srcmap_for_separator!(emitter, self, self.arg);
         semi!(emitter);
 
         Ok(())

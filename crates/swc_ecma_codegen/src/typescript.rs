@@ -318,6 +318,8 @@ impl MacroNode for TsExternalModuleRef {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         keyword!(emitter, "require");
         punct!(emitter, "(");
         emit!(self.expr);
@@ -765,6 +767,8 @@ impl MacroNode for TsMethodSignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         if self.computed {
             punct!(emitter, "[");
             emit!(self.key);
@@ -820,6 +824,8 @@ impl MacroNode for TsModuleBlock {
 impl MacroNode for TsModuleDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         if self.declare {
             keyword!(emitter, "declare");
@@ -889,6 +895,8 @@ impl MacroNode for TsNamespaceBody {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "{");
         emitter.wr.increase_indent()?;
         match self {
@@ -908,6 +916,8 @@ impl MacroNode for TsNamespaceBody {
 impl MacroNode for TsNamespaceDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap_if_dummy!(emitter, self);
 
         if self.declare {
             keyword!(emitter, "declare");
