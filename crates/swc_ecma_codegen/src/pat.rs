@@ -166,7 +166,11 @@ impl MacroNode for ArrayPat {
         }
 
         emitter.emit_list(self.span(), Some(&self.elems), format)?;
-        srcmap_for_pattern_close!(emitter, self, ']');
+        let last_child_hi = self.elems.iter().flatten().rev().find_map(|element| {
+            let span = element.span();
+            (!span.is_dummy()).then_some(span.hi())
+        });
+        srcmap_for_pattern_close!(emitter, self, last_child_hi, ']');
         punct!(emitter, "]");
         if self.optional {
             punct!(emitter, "?");
@@ -218,7 +222,11 @@ impl MacroNode for ObjectPat {
             ListFormat::ObjectBindingPatternElements | ListFormat::CanSkipTrailingComma,
         )?;
 
-        srcmap_for_pattern_close!(emitter, self, '}');
+        let last_child_hi = self.props.iter().rev().find_map(|property| {
+            let span = property.span();
+            (!span.is_dummy()).then_some(span.hi())
+        });
+        srcmap_for_pattern_close!(emitter, self, last_child_hi, '}');
         punct!(emitter, "}");
 
         if self.optional {

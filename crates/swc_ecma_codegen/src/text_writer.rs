@@ -116,24 +116,25 @@ pub trait WriteJs {
     /// after one of the owner's children.
     ///
     /// A synthesized owner keeps the token source-less, while a real owner
-    /// resumes its own mapping once the child, or one of its descendants,
-    /// cleared it. `child_is_dummy` reports whether the preceding child was
-    /// itself synthesized.
+    /// resumes its own mapping. `child_is_dummy` lets state-aware writers avoid
+    /// redundant transitions when neither the child nor one of its descendants
+    /// cleared the mapping.
     ///
     /// This is a single entry point on purpose: it is called for most tokens
     /// that follow a child node, and going through the writer once keeps the
     /// cost of a `dyn WriteJs` emitter down.
-    fn add_srcmap_for_owner(&mut self, owner_span: Span, child_is_dummy: bool) -> Result {
+    fn add_srcmap_for_owner(&mut self, owner_span: Span, _child_is_dummy: bool) -> Result {
         if !self.care_about_srcmap() {
             return Ok(());
         }
 
         if owner_span.is_dummy() {
             self.add_srcmap(BytePos::SYNTHESIZED)
-        } else if child_is_dummy || !self.will_add_srcmap(BytePos::SYNTHESIZED) {
-            self.add_srcmap(owner_span.lo())
         } else {
-            Ok(())
+            // Writers that do not expose their mapping state must restore the
+            // owner conservatively: a non-dummy child may contain a synthesized
+            // descendant that cleared the current mapping.
+            self.add_srcmap(owner_span.lo())
         }
     }
 
@@ -479,5 +480,107 @@ where
         storage: BindingStorage,
     ) -> Result {
         (**self).add_scope_variable(name, expression, storage)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[derive(Default)]
+    struct StateBlindWriter {
+        mappings: Vec<BytePos>,
+    }
+
+    impl WriteJs for StateBlindWriter {
+        fn increase_indent(&mut self) -> Result {
+            Ok(())
+        }
+
+        fn decrease_indent(&mut self) -> Result {
+            Ok(())
+        }
+
+        fn write_semi(&mut self, _span: Option<Span>) -> Result {
+            Ok(())
+        }
+
+        fn write_space(&mut self) -> Result {
+            Ok(())
+        }
+
+        fn write_keyword(&mut self, _span: Option<Span>, _s: &'static str) -> Result {
+            Ok(())
+        }
+
+        fn write_operator(&mut self, _span: Option<Span>, _s: &str) -> Result {
+            Ok(())
+        }
+
+        fn write_param(&mut self, _s: &str) -> Result {
+            Ok(())
+        }
+
+        fn write_property(&mut self, _s: &str) -> Result {
+            Ok(())
+        }
+
+        fn write_line(&mut self) -> Result {
+            Ok(())
+        }
+
+        fn write_lit(&mut self, _span: Span, _s: &str) -> Result {
+            Ok(())
+        }
+
+        fn write_comment(&mut self, _s: &str) -> Result {
+            Ok(())
+        }
+
+        fn write_str_lit(&mut self, _span: Span, _s: &str) -> Result {
+            Ok(())
+        }
+
+        fn write_str(&mut self, _s: &str) -> Result {
+            Ok(())
+        }
+
+        fn write_symbol(&mut self, _span: Span, _s: &str) -> Result {
+            Ok(())
+        }
+
+        fn write_punct(
+            &mut self,
+            _span: Option<Span>,
+            _s: &'static str,
+            _commit_pending_semi: bool,
+        ) -> Result {
+            Ok(())
+        }
+
+        fn care_about_srcmap(&self) -> bool {
+            true
+        }
+
+        fn add_srcmap(&mut self, pos: BytePos) -> Result {
+            self.mappings.push(pos);
+            Ok(())
+        }
+
+        fn commit_pending_semi(&mut self) -> Result {
+            Ok(())
+        }
+    }
+
+    #[test]
+    fn state_blind_writer_restores_real_owner() {
+        let mut writer = StateBlindWriter::default();
+
+        writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+        writer
+            .add_srcmap_for_owner(Span::new(BytePos(1), BytePos(2)), false)
+            .unwrap();
+
+        assert_eq!(writer.mappings, [BytePos::SYNTHESIZED, BytePos(1)]);
     }
 }

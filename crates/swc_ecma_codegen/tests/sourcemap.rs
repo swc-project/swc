@@ -191,13 +191,38 @@ fn assert_source_location(
     expected_line: u32,
     expected_col: u32,
 ) {
-    let (line, col) = generated_position(code, needle);
+    let offset = code
+        .find(needle)
+        .unwrap_or_else(|| panic!("generated text {needle:?} not found in {code:?}"));
+    assert_source_location_at_offset(map, code, offset, expected_line, expected_col, needle);
+}
+
+fn assert_source_location_at_offset(
+    map: &SourceMap,
+    code: &str,
+    offset: usize,
+    expected_line: u32,
+    expected_col: u32,
+    description: &str,
+) {
+    let prefix = &code[..offset];
+    let line = prefix.bytes().filter(|&byte| byte == b'\n').count() as u32;
+    let line_start = prefix.rfind('\n').map_or(0, |index| index + 1);
+    let col = code[line_start..offset].encode_utf16().count() as u32;
     let token = map
         .lookup_token(line, col)
-        .unwrap_or_else(|| panic!("missing mapping for {needle:?} at {line}:{col}"));
-    assert!(token.has_source(), "{needle:?} should have a source");
-    assert_eq!(token.get_src_line(), expected_line, "line for {needle:?}");
-    assert_eq!(token.get_src_col(), expected_col, "column for {needle:?}");
+        .unwrap_or_else(|| panic!("missing mapping for {description} at {line}:{col}"));
+    assert!(token.has_source(), "{description} should have a source");
+    assert_eq!(
+        token.get_src_line(),
+        expected_line,
+        "line for {description}"
+    );
+    assert_eq!(
+        token.get_src_col(),
+        expected_col,
+        "column for {description}"
+    );
 }
 
 fn assert_source_less(map: &SourceMap, code: &str, needle: &str) {
@@ -1083,6 +1108,96 @@ fn removed_typed_pattern_annotations_keep_delimiter_positions() {
         assert_source_less_boundary(&map, &code, "property");
         assert_source_location(&map, &code, "}?", 1, object_close_col);
         assert_source_location(&map, &code, "after", 2, 0);
+    }
+}
+
+#[test]
+fn removed_nested_typed_pattern_uses_owner_delimiter_position() {
+    let source = "function f({ x = ({ y }: Inner) => y }: Outer) {}";
+    let source_close_col = source
+        .rfind("}: Outer")
+        .expect("expected the outer pattern closer") as u32;
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        let Pat::Object(pattern) = &mut function.function.params[0].pat else {
+            panic!("expected an object parameter");
+        };
+        pattern.type_ann = None;
+
+        let ObjectPatProp::Assign(property) = &mut pattern.props[0] else {
+            panic!("expected an assignment property");
+        };
+        let value = property.value.as_mut().expect("expected a default value");
+        let Expr::Arrow(arrow) = &mut **value else {
+            panic!("expected an arrow expression");
+        };
+        let Pat::Object(inner) = &mut arrow.params[0] else {
+            panic!("expected a nested object parameter");
+        };
+        inner.type_ann = None;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+        let params_close = code.rfind(')').expect("expected the parameter list closer");
+        let pattern_close = code[..params_close]
+            .rfind('}')
+            .expect("expected the outer pattern closer");
+
+        assert_source_location_at_offset(
+            &map,
+            &code,
+            pattern_close,
+            0,
+            source_close_col,
+            "the outer pattern closer",
+        );
+    }
+}
+
+#[test]
+fn source_trivia_scanners_accept_javascript_whitespace() {
+    let source = "type Value = Original[\u{feff}];\nconst element = <Component {...value\u{200b}} \
+                  />;\ndeclare function object({ property }\u{feff}: Shape): void;\n";
+    let array_close_col = source.lines().next().unwrap().find('[').unwrap() as u32;
+    let jsx_close_col = source
+        .lines()
+        .nth(1)
+        .unwrap()
+        .split_once('}')
+        .map(|(prefix, _)| prefix.encode_utf16().count() as u32)
+        .unwrap();
+    let pattern_close_col = source.lines().nth(2).unwrap().find('}').unwrap() as u32;
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_location(&map, &code, "[", 0, array_close_col);
+        assert_source_location(&map, &code, "}", 1, jsx_close_col);
+        let object_close = code.rfind('}').expect("expected the object pattern closer");
+        assert_source_location_at_offset(
+            &map,
+            &code,
+            object_close,
+            2,
+            pattern_close_col,
+            "the object pattern closer",
+        );
     }
 }
 

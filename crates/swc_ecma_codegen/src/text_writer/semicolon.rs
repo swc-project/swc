@@ -137,6 +137,21 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
         self.inner.add_srcmap(pos)
     }
 
+    #[inline]
+    fn add_srcmap_for_owner(&mut self, owner_span: Span, child_is_dummy: bool) -> Result {
+        if !self.care_about_srcmap() {
+            return Ok(());
+        }
+
+        if owner_span.is_dummy() {
+            self.add_srcmap(BytePos::SYNTHESIZED)
+        } else if child_is_dummy || !self.will_add_srcmap(BytePos::SYNTHESIZED) {
+            self.add_srcmap(owner_span.lo())
+        } else {
+            Ok(())
+        }
+    }
+
     fn commit_pending_semi(&mut self) -> Result {
         if let Some(span) = self.pending_semi {
             self.inner.write_semi(Some(span))?;
