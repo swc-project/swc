@@ -909,6 +909,40 @@ fn typescript_separators_resume_after_dummy_children() {
 }
 
 #[test]
+fn dummy_property_signature_prefixes_are_source_less() {
+    let source = "type Shape = { property: string };\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let TsTypeElement::TsPropertySignature(property) = &type_lit.members[0] else {
+            panic!("expected a property signature");
+        };
+        let mut property = property.clone();
+        property.span = DUMMY_SP;
+        property.readonly = true;
+        property.computed = true;
+        type_lit
+            .members
+            .push(TsTypeElement::TsPropertySignature(property));
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "readonly");
+        assert_source_less(&map, &code, "[property]");
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
 fn call_signature_delimiters_resume_after_dummy_children() {
     let source = "type Signature = { <T>(param: string): void };\nafter();\n";
 
@@ -959,6 +993,70 @@ fn call_signature_delimiters_resume_after_dummy_children() {
         assert_source_less_boundary(&map, &code, "generated");
         assert_source_location(&map, &code, ")", 0, 19);
         assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn type_element_semicolons_resume_after_dummy_type_annotations() {
+    let source = "type Signatures = {\n  (): CallResult;\n  new (): ConstructResult;\n  property: \
+                  PropertyResult;\n  method(): MethodResult;\n  [key: string]: IndexResult;\n  \
+                  get getter(): GetterResult;\n};\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &mut *type_alias.type_ann else {
+            panic!("expected a type literal");
+        };
+        let kinds = [
+            TsKeywordTypeKind::TsBooleanKeyword,
+            TsKeywordTypeKind::TsNumberKeyword,
+            TsKeywordTypeKind::TsStringKeyword,
+            TsKeywordTypeKind::TsUnknownKeyword,
+            TsKeywordTypeKind::TsAnyKeyword,
+            TsKeywordTypeKind::TsNeverKeyword,
+        ];
+
+        for (member, kind) in type_lit.members.iter_mut().zip(kinds) {
+            let type_ann = match member {
+                TsTypeElement::TsCallSignatureDecl(signature) => &mut signature.type_ann,
+                TsTypeElement::TsConstructSignatureDecl(signature) => &mut signature.type_ann,
+                TsTypeElement::TsPropertySignature(signature) => &mut signature.type_ann,
+                TsTypeElement::TsMethodSignature(signature) => &mut signature.type_ann,
+                TsTypeElement::TsIndexSignature(signature) => &mut signature.type_ann,
+                TsTypeElement::TsGetterSignature(signature) => &mut signature.type_ann,
+                _ => panic!("unexpected type element"),
+            }
+            .as_mut()
+            .expect("expected a type annotation");
+            type_ann.span = DUMMY_SP;
+            *type_ann.type_ann = TsType::TsKeywordType(TsKeywordType {
+                span: DUMMY_SP,
+                kind,
+            });
+        }
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        for keyword in ["boolean", "number", "string", "unknown", "any", "never"] {
+            assert_source_less_boundary(&map, &code, keyword);
+        }
+        for next in ["new", "property", "method", "[", "get", "}"] {
+            let needle = if minify {
+                format!(";{next}")
+            } else if next == "}" {
+                ";\n}".into()
+            } else {
+                format!(";\n    {next}")
+            };
+            assert_has_source(&map, &code, &needle);
+        }
+        assert_source_location(&map, &code, "after", 8, 0);
     }
 }
 
@@ -1073,6 +1171,28 @@ fn constructor_type_delimiters_resume_after_dummy_children() {
 #[test]
 fn import_type_closers_resume_after_dummy_children() {
     for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "type Imported = import(\"module\", { with: { type: \"json\" } \
+             }).Qualified;\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias");
+        };
+        let TsType::TsImportType(import_type) = &mut *type_alias.type_ann else {
+            panic!("expected an import type");
+        };
+        import_type.arg.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "\"module\"");
+        assert_source_location(&map, &code, ",", 0, 16);
+        assert_source_location(&map, &code, "after", 1, 0);
+
         let cm = Lrc::<CommonSourceMap>::default();
         let (mut module, comments) = parse_module_with_syntax(
             &cm,
@@ -2029,6 +2149,56 @@ fn statement_semicolons_resume_after_dummy_expressions() {
 
         assert_source_less_boundary(&map, &code, "generated");
         assert_has_source(&map, &code, ";");
+        assert_source_location(&map, &code, "after", 1, 0);
+    }
+}
+
+#[test]
+fn labeled_jump_semicolons_resume_after_dummy_labels() {
+    let source = "outer: while (condition) { break outer; continue outer; }\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module(&cm, source);
+        let ModuleItem::Stmt(Stmt::Labeled(labeled)) = &mut module.body[0] else {
+            panic!("expected a labeled statement");
+        };
+        let Stmt::While(while_stmt) = &mut *labeled.body else {
+            panic!("expected a while statement");
+        };
+        let Stmt::Block(block) = &mut *while_stmt.body else {
+            panic!("expected a block statement");
+        };
+        let Stmt::Break(break_stmt) = &mut block.stmts[0] else {
+            panic!("expected a break statement");
+        };
+        let break_label = break_stmt.label.as_mut().expect("expected a break label");
+        break_label.sym = "generatedBreak".into();
+        break_label.span = DUMMY_SP;
+        let Stmt::Continue(continue_stmt) = &mut block.stmts[1] else {
+            panic!("expected a continue statement");
+        };
+        let continue_label = continue_stmt
+            .label
+            .as_mut()
+            .expect("expected a continue label");
+        continue_label.sym = "generatedContinue".into();
+        continue_label.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "generatedBreak");
+        assert_has_source(
+            &map,
+            &code,
+            if minify {
+                ";continue"
+            } else {
+                ";\n    continue"
+            },
+        );
+        assert_source_less_boundary(&map, &code, "generatedContinue");
+        assert_has_source(&map, &code, if minify { ";}" } else { ";\n}" });
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -4659,6 +4829,45 @@ fn class_mappings_resume_after_dummy_decorators() {
         assert_source_less_boundary(&map, &code, "@expressionDecorator");
         assert_has_source(&map, &code, if minify { "class{}" } else { "class {" });
         assert_source_location(&map, &code, "after", 7, 0);
+    }
+}
+
+#[test]
+fn export_mapping_resumes_after_dummy_class_decorator() {
+    let source = "before();\n@decorator\nexport class Exported {}\nafter();\n";
+
+    for minify in [false, true] {
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            source,
+            Syntax::Typescript(TsSyntax {
+                decorators: true,
+                ..Default::default()
+            }),
+        );
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) = &mut module.body[1] else {
+            panic!("expected an export declaration");
+        };
+        let Decl::Class(class) = &mut export.decl else {
+            panic!("expected an exported class");
+        };
+        let decorator = class
+            .class
+            .decorators
+            .first_mut()
+            .expect("expected a class decorator");
+        decorator.span = DUMMY_SP;
+        let Expr::Ident(name) = &mut *decorator.expr else {
+            panic!("expected an identifier decorator");
+        };
+        name.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "@decorator");
+        assert_source_location(&map, &code, "export", 2, 0);
+        assert_source_location(&map, &code, "after", 3, 0);
     }
 }
 

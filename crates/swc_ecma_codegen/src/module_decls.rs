@@ -45,6 +45,9 @@ impl MacroNode for ExportDecl {
                 for dec in &decl.class.decorators {
                     emit!(dec);
                 }
+                if let Some(dec) = decl.class.decorators.last() {
+                    srcmap_for_separator!(emitter, self, dec);
+                }
 
                 keyword!(emitter, "export");
 

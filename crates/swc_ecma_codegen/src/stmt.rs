@@ -567,6 +567,7 @@ impl MacroNode for BreakStmt {
         if let Some(ref label) = self.label {
             space!(emitter);
             emit!(label);
+            srcmap_for_separator!(emitter, self, label);
         }
 
         semi!(emitter);
@@ -587,6 +588,7 @@ impl MacroNode for ContinueStmt {
         if let Some(ref label) = self.label {
             space!(emitter);
             emit!(label);
+            srcmap_for_separator!(emitter, self, label);
         }
 
         semi!(emitter);

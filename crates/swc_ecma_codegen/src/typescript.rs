@@ -1027,6 +1027,8 @@ impl MacroNode for TsPropertySignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap_if_dummy!(emitter, self);
+
         if self.readonly {
             keyword!(emitter, "readonly");
             space!(emitter);
@@ -1183,13 +1185,12 @@ impl MacroNode for TsImportType {
         keyword!(emitter, "import");
         punct!(emitter, "(");
         emit!(self.arg);
+        srcmap_for_separator!(emitter, self, self.arg);
         if let Some(attributes) = &self.attributes {
             punct!(emitter, ",");
             formatting_space!(emitter);
             emit!(attributes);
             srcmap_for_separator!(emitter, self, attributes);
-        } else {
-            srcmap_for_separator!(emitter, self, self.arg);
         }
         punct!(emitter, ")");
 
@@ -1324,6 +1325,7 @@ impl MacroNode for TsTypeElement {
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
+        srcmap_for_owner!(emitter, self);
         formatting_semi!(emitter);
         Ok(())
     }
