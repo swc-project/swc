@@ -1288,7 +1288,7 @@ fn jsx_opening_delimiters_resume_after_dummy_siblings() {
 }
 
 #[test]
-fn real_jsx_opening_element_resumes_before_self_closing_delimiters() {
+fn real_jsx_opening_element_resumes_after_dummy_children() {
     let source = "const element = <root generated />;\nafter();\n";
 
     for minify in [false, true] {
@@ -1325,6 +1325,36 @@ fn real_jsx_opening_element_resumes_before_self_closing_delimiters() {
         assert_source_less_boundary(&map, &code, "generated");
         assert_source_location(&map, &code, "/", 0, 32);
         assert_source_location(&map, &code, ">", 0, 33);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "const element = <Component<Type> />;\nafter();\n",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &mut var.decls[0].init else {
+            panic!("expected a variable initializer");
+        };
+        let Expr::JSXElement(element) = &mut **init else {
+            panic!("expected a JSX element initializer");
+        };
+        let JSXElementName::Ident(name) = &mut element.opening.name else {
+            panic!("expected a JSX identifier");
+        };
+        name.span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "Component");
+        assert_has_source(&map, &code, "<Type>");
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -2379,6 +2409,40 @@ fn real_function_suffix_resumes_after_dummy_children() {
         assert_source_less_boundary(&map, &code, "number");
         assert_source_location(&map, &code, ";", 0, 0);
         assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "function example(this: Context, value: string) {}\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(function))) = &mut module.body[0] else {
+            panic!("expected a function declaration");
+        };
+        let this_param = function
+            .function
+            .this_param
+            .as_mut()
+            .expect("expected a this parameter");
+        this_param.span = DUMMY_SP;
+        this_param.this_span = DUMMY_SP;
+        let type_ann = this_param
+            .type_ann
+            .as_mut()
+            .expect("expected a this-parameter type annotation");
+        type_ann.span = DUMMY_SP;
+        *type_ann.type_ann = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        });
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "this");
+        assert_source_less(&map, &code, "boolean");
+        assert_has_source(&map, &code, ",");
+        assert_source_location(&map, &code, "after", 1, 0);
     }
 }
 
@@ -2419,6 +2483,27 @@ fn real_template_literal_type_resumes_after_dummy_embedded_type() {
             0,
             if minify { 31 } else { 13 },
         );
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) =
+            parse_module_with_syntax(&cm, source, Syntax::Typescript(Default::default()));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(type_alias))) = &mut module.body[0]
+        else {
+            panic!("expected a type alias declaration");
+        };
+        let TsType::TsLitType(lit_type) = &mut *type_alias.type_ann else {
+            panic!("expected a literal type");
+        };
+        let TsLit::Tpl(template) = &mut lit_type.lit else {
+            panic!("expected a template literal type");
+        };
+        template.quasis[0].span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "prefix");
+        assert_has_source(&map, &code, "${");
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }
@@ -4138,7 +4223,7 @@ fn dummy_typescript_prefix_nodes_are_source_less() {
 
 #[test]
 fn dummy_template_quasis_are_source_less() {
-    let source = "before();\nconst value = `original\nquasi`;\nafter();\n";
+    let source = "before();\nconst value = `original\nquasi${expression}tail`;\nafter();\n";
 
     for minify in [false, true] {
         let cm = Lrc::<CommonSourceMap>::default();
@@ -4159,6 +4244,7 @@ fn dummy_template_quasis_are_source_less() {
 
         assert_source_less_boundary(&map, &code, "original");
         assert_source_less(&map, &code, "quasi");
+        assert_has_source(&map, &code, "${");
         assert_source_location(&map, &code, "after", 3, 0);
     }
 }
@@ -4319,6 +4405,35 @@ fn class_declaration_resumes_after_dummy_type_parameters() {
 
         assert_source_less_boundary(&map, &code, "<");
         assert_source_location(&map, &code, "extends", 0, 0);
+        assert_source_location(&map, &code, "after", 1, 0);
+
+        let cm = Lrc::<CommonSourceMap>::default();
+        let (mut module, comments) = parse_module_with_syntax(
+            &cm,
+            "const Value = class Derived<T> extends Base {};\nafter();\n",
+            Syntax::Typescript(Default::default()),
+        );
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) = &mut module.body[0] else {
+            panic!("expected a variable declaration");
+        };
+        let Expr::Class(class) = &mut **var.decls[0]
+            .init
+            .as_mut()
+            .expect("expected a class initializer")
+        else {
+            panic!("expected a class expression");
+        };
+        class
+            .class
+            .type_params
+            .as_mut()
+            .expect("expected class type parameters")
+            .span = DUMMY_SP;
+
+        let (code, map, _) = emit_source_map(cm, &comments, &module, minify, true, None);
+
+        assert_source_less_boundary(&map, &code, "<");
+        assert_has_source(&map, &code, "extends");
         assert_source_location(&map, &code, "after", 1, 0);
     }
 }

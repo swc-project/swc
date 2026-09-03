@@ -624,6 +624,7 @@ impl MacroNode for TsTplLitType {
             if i % 2 == 0 {
                 emit!(self.quasis[i / 2]);
             } else {
+                srcmap_for_separator!(emitter, self, self.quasis[i / 2]);
                 punct!(emitter, "${");
                 emit!(self.types[i / 2]);
                 srcmap_for_separator!(emitter, self, self.types[i / 2]);

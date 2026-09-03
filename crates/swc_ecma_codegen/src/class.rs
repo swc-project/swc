@@ -87,7 +87,10 @@ impl MacroNode for ClassExpr {
             space!(emitter);
             emit!(i);
             srcmap_for_separator!(emitter, self, i);
-            emit!(self.class.type_params);
+            if let Some(type_params) = &self.class.type_params {
+                emit!(type_params);
+                srcmap_for_separator!(emitter, self, type_params);
+            }
         }
 
         emitter.emit_class_trailing(&self.class)?;

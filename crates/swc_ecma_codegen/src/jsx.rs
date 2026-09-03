@@ -38,6 +38,7 @@ impl MacroNode for JSXOpeningElement {
 
         punct!(emitter, "<");
         emit!(self.name);
+        srcmap_for_separator!(emitter, self, self.name);
 
         if let Some(type_args) = &self.type_args {
             emit!(type_args);

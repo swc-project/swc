@@ -424,6 +424,7 @@ where
         if let Some(this_param) = &node.this_param {
             emit!(self, this_param);
             if !node.params.is_empty() {
+                srcmap_for_separator!(self, node, this_param);
                 punct!(self, ",");
                 formatting_space!(self);
             }
@@ -2310,6 +2311,7 @@ impl MacroNode for Tpl {
             if i % 2 == 0 {
                 emit!(self.quasis[i / 2]);
             } else {
+                srcmap_for_separator!(emitter, self, self.quasis[i / 2]);
                 punct!(emitter, "${");
                 emit!(self.exprs[i / 2]);
                 srcmap_for_separator!(emitter, self, self.exprs[i / 2]);
