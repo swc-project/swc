@@ -2,6 +2,15 @@ function publicFunction(parameter) {
     return parameter;
 }
 
+class PublicClass {
+    static {
+        for (; condition;) {
+            var staticLoopLocal;
+            consume(staticLoopLocal);
+        }
+    }
+}
+
 for (; condition;) {
     (class {
         static {

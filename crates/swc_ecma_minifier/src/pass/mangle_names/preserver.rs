@@ -141,7 +141,7 @@ impl Visit for Preserver<'_> {
     fn visit_static_block(&mut self, n: &StaticBlock) {
         let old_preserve_top_level_hoisted_decls = self.preserve_top_level_hoisted_decls;
         self.preserve_top_level_hoisted_decls = false;
-        n.visit_children_with(self);
+        self.visit_non_top_level(&n.body);
         self.preserve_top_level_hoisted_decls = old_preserve_top_level_hoisted_decls;
     }
 

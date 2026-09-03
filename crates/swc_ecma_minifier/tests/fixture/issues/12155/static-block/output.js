@@ -1,6 +1,14 @@
 function publicFunction(a) {
     return a;
 }
+class PublicClass {
+    static{
+        for(; condition;){
+            var a;
+            consume(a);
+        }
+    }
+}
 for(; condition;){
     (class {
         static{
