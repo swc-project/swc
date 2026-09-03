@@ -1035,7 +1035,9 @@ fn normalize_source_ranges(mut ranges: Vec<SourceRange>) -> Vec<SourceRange> {
     normalized
 }
 
-fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
+/// Splits tokens owned by a [`SourceMap`], which stores them in generated
+/// position order.
+fn split_unmapped_tokens(tokens: Vec<RawToken>) -> SplitUnmappedTokens {
     if tokens.iter().all(|token| token.src_id != !0) {
         return SplitUnmappedTokens {
             mapped_tokens: tokens,
@@ -1044,8 +1046,6 @@ fn split_unmapped_tokens(mut tokens: Vec<RawToken>) -> SplitUnmappedTokens {
             unmapped_source_ranges: Vec::new(),
         };
     }
-
-    tokens.sort_unstable_by_key(|token| (token.dst_line, token.dst_col));
 
     let mut unmapped_generated_ranges = Vec::new();
     for (index, token) in tokens.iter().enumerate() {
