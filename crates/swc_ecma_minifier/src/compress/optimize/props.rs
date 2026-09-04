@@ -2,6 +2,7 @@ use std::borrow::Borrow;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
 
 use super::{unused::PropertyAccessOpts, BitCtx, Optimizer};
@@ -252,9 +253,13 @@ fn is_expr_fine_for_hoist_props(value: &Expr, may_be_callee: bool) -> bool {
 
         Expr::Lit(..) | Expr::Class(..) => true,
 
-        Expr::Arrow(a) => !may_be_callee || !contains_this_expr(&a.body),
+        // Arrows keep their lexical `this` when detached from an object.
+        Expr::Arrow(..) => true,
 
-        Expr::Fn(f) => !contains_this_expr(&f.function.body),
+        Expr::Fn(f) => {
+            !contains_this_expr(&f.function.body)
+                && (!may_be_callee || !contains_eval(&f.function, false))
+        }
 
         Expr::Unary(u) => match u.op {
             op!("void") | op!("typeof") | op!("!") => {
