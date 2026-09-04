@@ -62,6 +62,13 @@ const { iifeValue = (function (value = record("iife-param")) {})() } = {};
 const { iifeRestValue = (function (...[value = record("iife-rest-param")]) {})() } = {};
 const { generatorValue = (function* (value = record("generator-param")) {})() } = {};
 const { asyncGeneratorValue = (async function* (value = record("async-generator-param")) {})() } = {};
+const { arrowIifeValue = ((value = record("arrow-iife-param")) => {})() } = {};
+
+try {
+    const { arrowDestructuringIifeValue = (({ value }) => {})() } = {};
+} catch {
+    record("arrow-destructuring-param-throws");
+}
 
 function namedEmptyFunction(value = record("named-function-param")) {}
 const { namedFunctionValue = namedEmptyFunction() } = {};
@@ -253,5 +260,11 @@ const iterable = {
     }
 };
 const { arraySpreadValue = [...iterable] } = {};
+
+try {
+    const { instanceofValue = {} instanceof 1 } = {};
+} catch {
+    record("instanceof-throws");
+}
 
 console.log(events.join(","));

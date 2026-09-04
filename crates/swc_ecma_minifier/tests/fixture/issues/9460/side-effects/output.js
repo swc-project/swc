@@ -42,7 +42,12 @@ try {
 } catch  {
     record("class-heritage-throws");
 }
-const { iifeValue = function(value = record("iife-param")) {}() } = {}, { iifeRestValue = function(...[value = record("iife-rest-param")]) {}() } = {}, { generatorValue = function*(value = record("generator-param")) {}() } = {}, { asyncGeneratorValue = async function*(value = record("async-generator-param")) {}() } = {};
+const { iifeValue = function(value = record("iife-param")) {}() } = {}, { iifeRestValue = function(...[value = record("iife-rest-param")]) {}() } = {}, { generatorValue = function*(value = record("generator-param")) {}() } = {}, { asyncGeneratorValue = async function*(value = record("async-generator-param")) {}() } = {}, { arrowIifeValue = ((value = record("arrow-iife-param"))=>{})() } = {};
+try {
+    const { arrowDestructuringIifeValue = (({ value })=>{})() } = {};
+} catch  {
+    record("arrow-destructuring-param-throws");
+}
 function namedEmptyFunction(value = record("named-function-param")) {}
 const { namedFunctionValue = namedEmptyFunction() } = {};
 function returnsNull() {
@@ -195,4 +200,9 @@ const iterable = {
 }, { arraySpreadValue = [
     ...iterable
 ] } = {};
+try {
+    const { instanceofValue = ({}) instanceof 1 } = {};
+} catch  {
+    record("instanceof-throws");
+}
 console.log(events.join(","));
