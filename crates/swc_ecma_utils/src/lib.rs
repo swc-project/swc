@@ -3616,6 +3616,9 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                 match member {
                     ClassMember::ClassProp(p) if !p.is_static => return false,
                     ClassMember::PrivateProp(p) if !p.is_static => return false,
+                    // Auto-accessor initializers run when the instance is constructed,
+                    // just like instance field initializers.
+                    ClassMember::AutoAccessor(p) if !p.is_static => return false,
                     _ => {}
                 }
             }

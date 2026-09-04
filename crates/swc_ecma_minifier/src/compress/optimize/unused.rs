@@ -1453,8 +1453,8 @@ fn is_restricted_function_property_access(member: &MemberExpr) -> bool {
     is_arguments && matches!(member.obj.unwrap_parens(), Expr::Fn(..) | Expr::Arrow(..))
 }
 
-/// Returns true for string-method calls whose argument coercion can throw.
-fn is_potentially_throwing_string_method_call(call: &CallExpr) -> bool {
+/// Returns true for pure member calls whose argument coercion can throw.
+fn is_potentially_throwing_pure_member_call(call: &CallExpr) -> bool {
     if call.args.is_empty() {
         return false;
     }
@@ -1473,6 +1473,7 @@ fn is_potentially_throwing_string_method_call(call: &CallExpr) -> bool {
 
     matches!(&**obj, Expr::Lit(Lit::Str(..)))
         || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
+        || matches!(&**obj, Expr::Ident(Ident { sym, .. }) if &**sym == "Math")
 }
 
 /// Returns true when evaluating an object literal property cannot perform
@@ -1728,6 +1729,14 @@ impl Visit for NonDiscardableDefaultVisitor {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
+        if matches!(e.prop, MemberProp::Computed(..)) {
+            // A computed member access performs ToPropertyKey coercion. The class
+            // side-effect extractor can discard that coercion when the key itself
+            // is pure, so retain the default instead.
+            self.found = true;
+            return;
+        }
+
         if is_restricted_function_property_access(e) {
             // Function `arguments` is a restricted property. Reading it can throw
             // while a function is evaluated in a class initializer, but class-side
@@ -1749,8 +1758,15 @@ impl Visit for NonDiscardableDefaultVisitor {
     }
 
     fn visit_call_expr(&mut self, e: &CallExpr) {
-        if is_potentially_throwing_string_method_call(e) {
-            // `may_have_side_effects` recognizes known string methods as pure,
+        if e.args.iter().any(|arg| arg.spread.is_some()) {
+            // Spread call arguments invoke the iterator protocol, which cannot be
+            // preserved by class-side-effect extraction.
+            self.found = true;
+            return;
+        }
+
+        if is_potentially_throwing_pure_member_call(e) {
+            // `may_have_side_effects` recognizes known string and Math methods as pure,
             // but their arguments may throw while being coerced. Class-side effect
             // extraction cannot preserve that exception, so retain the default.
             self.found = true;
@@ -1802,6 +1818,20 @@ impl Visit for NonDiscardableDefaultVisitor {
             // Calling an empty function still initializes omitted parameters.
             // In particular, defaults can run user code and destructuring can
             // throw, neither of which is preserved by the pure-call shortcut.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_new_expr(&mut self, e: &NewExpr) {
+        if e.args
+            .as_ref()
+            .is_some_and(|args| args.iter().any(|arg| arg.spread.is_some()))
+        {
+            // Spread constructor arguments invoke the iterator protocol, which
+            // cannot be preserved by class-side-effect extraction.
             self.found = true;
             return;
         }

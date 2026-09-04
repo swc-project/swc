@@ -282,4 +282,44 @@ const { constructorParameterValue = class {
     })();
 } } = {};
 
+function checkMath(value) {
+    try {
+        const { mathValue = class {
+            static value = Math.abs(value);
+        } } = {};
+    } catch {
+        record("math-throws");
+    }
+}
+checkMath(Symbol());
+
+const callIterable = {
+    [Symbol.iterator]() {
+        record("call-spread-iterator");
+        return [][Symbol.iterator]();
+    }
+};
+const { callSpreadValue = class {
+    static value = (function () {})(...callIterable);
+} } = {};
+
+const newIterable = {
+    [Symbol.iterator]() {
+        record("new-spread-iterator");
+        return [][Symbol.iterator]();
+    }
+};
+const { newSpreadValue = class {
+    static value = new (class {})(...newIterable);
+} } = {};
+
+const nullPrototypeKey = Object.create(null);
+try {
+    const { computedMemberValue = class {
+        static value = (() => {})[nullPrototypeKey];
+    } } = {};
+} catch {
+    record("computed-member-key-throws");
+}
+
 console.log(events.join(","));
