@@ -30,8 +30,4 @@ var i, a, B = /*#__PURE__*/ function(A) {
 }();
 new C().f(), new C().g(new B()), i.foo.foo(), i.foo.foo(), a().foo(), a().foo();
 var aB = new B();
-a(aB, aB).foo(), a(aB, aB).foo(), ({
-    foo: function(x, y) {
-        return x.foo() + x.foo();
-    }
-}).foo(aB, aB);
+a(aB, aB).foo(), a(aB, aB).foo(), aB.foo(), aB.foo();

@@ -196,6 +196,13 @@ bitflags! {
 
         /// `true` while we are inside a class body.
         const InClass = 1 << 27;
+
+        /// `true` only while visiting the callee of a `/*#__NOINLINE__*/` call.
+        const IsNoInlineCallee = 1 << 28;
+
+        /// `true` only while visiting [CallExpr::callee] when the call result is
+        /// not itself used as a receiver-aware callee.
+        const IsCallCallee = 1 << 29;
     }
 }
 
@@ -1678,11 +1685,19 @@ impl VisitMut for Optimizer<'_> {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         };
+        let is_noinline = self.has_noinline(e.ctxt);
+        // If this call produces the value for another receiver-aware callee, such
+        // as a template tag, keep the inner callee as a reference. Replacing its
+        // member expression can expose the returned callable to later callee
+        // rewrites and lose the required `this` form.
+        let can_replace_callee = !self.ctx.bit_ctx.contains(BitCtx::IsThisAwareCallee);
         {
             let ctx = self
                 .ctx
                 .clone()
                 .with(BitCtx::IsCallee, true)
+                .with(BitCtx::IsCallCallee, can_replace_callee)
+                .with(BitCtx::IsNoInlineCallee, is_noinline)
                 .with(
                     BitCtx::IsThisAwareCallee,
                     is_this_undefined
