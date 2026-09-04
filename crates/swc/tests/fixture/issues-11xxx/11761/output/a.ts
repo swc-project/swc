@@ -1,6 +1,6 @@
-export var RefType = /*#__PURE__*/ function(RefType) {
-    RefType["property"] = "11";
-    RefType["event"] = "22";
+export var RefType = function(RefType) {
+    RefType[RefType["property"] = "11"] = "property";
+    RefType[RefType["event"] = "22"] = "event";
     return RefType;
 }({});
-console.log("11", "22");
+console.log(RefType.property, RefType.event);
