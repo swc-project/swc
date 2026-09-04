@@ -1155,8 +1155,20 @@ impl Transform {
                                     unresolved_ctxt: self.unresolved_ctxt,
                                 },
                             });
+                            value = recomputed;
+                        } else if let TsEnumRecordValue::Opaque(expr) = &mut value {
+                            // The semantic pass may classify an initializer as
+                            // non-constant from syntax that has since been
+                            // stripped. Do not replace that verdict with a
+                            // recomputed constant value.
+                            expr.visit_mut_with(&mut RefRewriter {
+                                query: EnumMemberRefQuery {
+                                    enum_id: &id.to_id(),
+                                    member_names: &member_names,
+                                    unresolved_ctxt: self.unresolved_ctxt,
+                                },
+                            });
                         }
-                        value = recomputed;
                     }
                 }
 
