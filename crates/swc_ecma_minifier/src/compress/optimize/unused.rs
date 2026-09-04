@@ -1450,7 +1450,11 @@ fn is_restricted_function_property_access(member: &MemberExpr) -> bool {
         _ => false,
     };
 
-    is_arguments && matches!(member.obj.unwrap_parens(), Expr::Fn(..) | Expr::Arrow(..))
+    is_arguments
+        && matches!(
+            member.obj.unwrap_parens(),
+            Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..)
+        )
 }
 
 /// Returns true for pure member calls whose argument coercion can throw.
@@ -1818,6 +1822,17 @@ impl Visit for NonDiscardableDefaultVisitor {
             // Calling an empty function still initializes omitted parameters.
             // In particular, defaults can run user code and destructuring can
             // throw, neither of which is preserved by the pure-call shortcut.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_opt_call(&mut self, e: &OptCall) {
+        if e.args.iter().any(|arg| arg.spread.is_some()) {
+            // Spread optional-call arguments invoke the iterator protocol, which
+            // cannot be preserved by class-side-effect extraction.
             self.found = true;
             return;
         }

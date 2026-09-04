@@ -183,6 +183,14 @@ try {
 } catch  {
     record("computed-class-function-arguments-throws");
 }
+try {
+    const { classExpressionArgumentsValue = class {
+        static value = (class {
+        }).arguments;
+    } } = {};
+} catch  {
+    record("class-expression-arguments-throws");
+}
 const noPrimitive = Object.create(null);
 try {
     const { looseEqualityValue = 1 == noPrimitive } = {};
@@ -232,6 +240,10 @@ const callIterable = {
     [Symbol.iterator]: ()=>(record("call-spread-iterator"), [][Symbol.iterator]())
 }, { callSpreadValue = class {
     static value = (function() {})(...callIterable);
+} } = {}, optionalCallIterable = {
+    [Symbol.iterator]: ()=>(record("optional-call-spread-iterator"), [][Symbol.iterator]())
+}, { optionalCallSpreadValue = class {
+    static value = (function() {})?.(...optionalCallIterable);
 } } = {}, newIterable = {
     [Symbol.iterator]: ()=>(record("new-spread-iterator"), [][Symbol.iterator]())
 }, { newSpreadValue = class {
