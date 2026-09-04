@@ -32,7 +32,7 @@ swc_config = { version = "6.0.0", path = "../swc_config" }
 swc_ecma_ast = { version = "29.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "35.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "35.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "29.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]

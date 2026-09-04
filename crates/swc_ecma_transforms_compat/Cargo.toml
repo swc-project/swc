@@ -44,7 +44,7 @@ swc_ecma_compat_es2021   = { version = "50.0.0", path = "../swc_ecma_compat_es20
 swc_ecma_compat_es2022   = { version = "53.0.0", path = "../swc_ecma_compat_es2022" }
 swc_ecma_compat_es3      = { version = "41.0.0", path = "../swc_ecma_compat_es3", optional = true }
 swc_ecma_transforms_base = { version = "49.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils           = { version = "35.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils           = { version = "35.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit           = { version = "29.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
