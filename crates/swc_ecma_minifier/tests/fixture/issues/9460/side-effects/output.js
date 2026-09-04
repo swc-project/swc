@@ -205,4 +205,17 @@ try {
 } catch  {
     record("instanceof-throws");
 }
+const includesSymbol = Symbol();
+try {
+    const { stringMethodValue = class {
+        static value = "".includes(includesSymbol);
+    } } = {};
+} catch  {
+    record("string-method-throws");
+}
+const { constructorParameterValue = class {
+    static value = new class {
+        constructor(value = record("constructor-parameter")){}
+    }();
+} } = {};
 console.log(events.join(","));

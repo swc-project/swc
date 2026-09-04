@@ -1453,6 +1453,28 @@ fn is_restricted_function_property_access(member: &MemberExpr) -> bool {
     is_arguments && matches!(member.obj.unwrap_parens(), Expr::Fn(..) | Expr::Arrow(..))
 }
 
+/// Returns true for string-method calls whose argument coercion can throw.
+fn is_potentially_throwing_string_method_call(call: &CallExpr) -> bool {
+    if call.args.is_empty() {
+        return false;
+    }
+
+    let Callee::Expr(callee) = &call.callee else {
+        return false;
+    };
+    let Expr::Member(MemberExpr {
+        obj,
+        prop: MemberProp::Ident(..),
+        ..
+    }) = callee.unwrap_parens()
+    else {
+        return false;
+    };
+
+    matches!(&**obj, Expr::Lit(Lit::Str(..)))
+        || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
+}
+
 /// Returns true when evaluating an object literal property cannot perform
 /// construction-time property-key coercion or spread enumeration.
 fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
@@ -1727,6 +1749,14 @@ impl Visit for NonDiscardableDefaultVisitor {
     }
 
     fn visit_call_expr(&mut self, e: &CallExpr) {
+        if is_potentially_throwing_string_method_call(e) {
+            // `may_have_side_effects` recognizes known string methods as pure,
+            // but their arguments may throw while being coerced. Class-side effect
+            // extraction cannot preserve that exception, so retain the default.
+            self.found = true;
+            return;
+        }
+
         if matches!(
             &e.callee,
             Callee::Expr(callee) if matches!(callee.unwrap_parens(), Expr::Ident(Ident { sym, .. }) if &**sym == "eval")

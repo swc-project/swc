@@ -3623,6 +3623,14 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
             // Check constructor - must be empty or not present
             for member in &class.body {
                 if let ClassMember::Constructor(ctor) = member {
+                    if !ctor
+                        .params
+                        .iter()
+                        .all(|param| param.as_param().is_some_and(|param| param.pat.is_ident()))
+                    {
+                        return false;
+                    }
+
                     if let Some(body) = &ctor.body {
                         if !body.stmts.is_empty() {
                             return false;

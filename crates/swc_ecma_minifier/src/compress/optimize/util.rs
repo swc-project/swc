@@ -305,6 +305,20 @@ impl Visit for ClassEffectVisitor {
     fn visit_constructor(&mut self, _: &Constructor) {}
 
     fn visit_function(&mut self, n: &Function) {
+        if self.found {
+            return;
+        }
+
+        // Ordinary functions inherit strict mode from the containing class.
+        // Extracting an outer class's static initializer would relocate those
+        // functions into the surrounding scope and can change their semantics.
+        // Functions inside a nested class stay within that class when the
+        // initializer is relocated, so their strictness is preserved.
+        if self.nested_class_depth == 0 {
+            self.found = true;
+            return;
+        }
+
         // Function bodies are normally evaluated after the class, but private
         // names resolve in the surrounding class environment. Moving a static
         // initializer containing such a function outside the class would make
@@ -316,15 +330,6 @@ impl Visit for ClassEffectVisitor {
         n.visit_children_with(&mut visitor);
 
         self.found |= visitor.found;
-
-        // Ordinary functions inherit strict mode from the containing class.
-        // Extracting an outer class's static initializer would relocate those
-        // functions into the surrounding scope and can change their semantics.
-        // Functions inside a nested class stay within that class when the
-        // initializer is relocated, so their strictness is preserved.
-        if self.nested_class_depth == 0 {
-            self.found = true;
-        }
     }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
