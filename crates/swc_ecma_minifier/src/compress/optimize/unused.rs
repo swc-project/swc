@@ -1458,14 +1458,11 @@ fn is_restricted_function_property_access(member: &MemberExpr) -> bool {
 }
 
 /// Returns true for pure member calls whose argument coercion can throw.
-fn is_potentially_throwing_pure_member_call(call: &CallExpr) -> bool {
-    if call.args.is_empty() {
+fn is_potentially_throwing_pure_member_call(callee: &Expr, args: &[ExprOrSpread]) -> bool {
+    if args.is_empty() {
         return false;
     }
 
-    let Callee::Expr(callee) = &call.callee else {
-        return false;
-    };
     let Expr::Member(MemberExpr {
         obj,
         prop: MemberProp::Ident(..),
@@ -1769,12 +1766,14 @@ impl Visit for NonDiscardableDefaultVisitor {
             return;
         }
 
-        if is_potentially_throwing_pure_member_call(e) {
-            // `may_have_side_effects` recognizes known string and Math methods as pure,
-            // but their arguments may throw while being coerced. Class-side effect
-            // extraction cannot preserve that exception, so retain the default.
-            self.found = true;
-            return;
+        if let Callee::Expr(callee) = &e.callee {
+            if is_potentially_throwing_pure_member_call(callee, &e.args) {
+                // `may_have_side_effects` recognizes known string and Math methods as pure,
+                // but their arguments may throw while being coerced. Class-side effect
+                // extraction cannot preserve that exception, so retain the default.
+                self.found = true;
+                return;
+            }
         }
 
         if matches!(
@@ -1833,6 +1832,13 @@ impl Visit for NonDiscardableDefaultVisitor {
         if e.args.iter().any(|arg| arg.spread.is_some()) {
             // Spread optional-call arguments invoke the iterator protocol, which
             // cannot be preserved by class-side-effect extraction.
+            self.found = true;
+            return;
+        }
+
+        if is_potentially_throwing_pure_member_call(&e.callee, &e.args) {
+            // Optional calls use the same pure-member shortcut as ordinary calls.
+            // Retain the default so argument coercion exceptions are preserved.
             self.found = true;
             return;
         }

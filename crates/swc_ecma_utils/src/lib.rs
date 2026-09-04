@@ -3583,9 +3583,12 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
 /// - But `new (class {})()` can be pure if the class has no side effects
 fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     match expr {
-        // An empty function expression is also pure for `new`
+        // Only an empty non-async, non-generator function expression is pure for `new`.
+        // Async and generator functions are not constructible, so `new` throws.
         Expr::Fn(FnExpr { function: f, .. })
-            if f.params.iter().all(|p| p.pat.is_ident())
+            if !f.is_async
+                && !f.is_generator
+                && f.params.iter().all(|p| p.pat.is_ident())
                 && f.body.is_some()
                 && f.body.as_ref().unwrap().stmts.is_empty() =>
         {

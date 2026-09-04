@@ -235,7 +235,16 @@ function checkMath(value) {
         record("math-throws");
     }
 }
-checkMath(Symbol());
+function checkOptionalMath(value) {
+    try {
+        let { optionalMathValue = class {
+            static value = Math.abs?.(value);
+        } } = {};
+    } catch  {
+        record("optional-math-throws");
+    }
+}
+checkMath(Symbol()), checkOptionalMath(Symbol());
 const callIterable = {
     [Symbol.iterator]: ()=>(record("call-spread-iterator"), [][Symbol.iterator]())
 }, { callSpreadValue = class {
@@ -249,7 +258,29 @@ const callIterable = {
 }, { newSpreadValue = class {
     static value = new class {
     }(...newIterable);
-} } = {}, nullPrototypeKey = Object.create(null);
+} } = {};
+try {
+    const { asyncConstructorValue = class {
+        static value = new async function() {}();
+    } } = {};
+} catch  {
+    record("async-constructor-throws");
+}
+try {
+    const { generatorConstructorValue = class {
+        static value = new function*() {}();
+    } } = {};
+} catch  {
+    record("generator-constructor-throws");
+}
+try {
+    const { asyncGeneratorConstructorValue = class {
+        static value = new async function*() {}();
+    } } = {};
+} catch  {
+    record("async-generator-constructor-throws");
+}
+const nullPrototypeKey = Object.create(null);
 try {
     const { computedMemberValue = class {
         static value = (()=>{})[nullPrototypeKey];
