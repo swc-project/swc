@@ -1,6 +1,7 @@
 use swc_ecma_ast::*;
 
 use super::Optimizer;
+use crate::program_data::ScopeData;
 
 /// Methods related to rest parameter optimization.
 impl Optimizer<'_> {
@@ -21,6 +22,12 @@ impl Optimizer<'_> {
     pub(super) fn drop_unused_rest_params(&mut self, f: &mut Function) {
         if !self.options.arguments && !self.options.unused {
             return;
+        }
+
+        if let Some(scope) = self.data.get_scope(f.ctxt) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
         }
 
         // Don't optimize if there's no rest parameter
