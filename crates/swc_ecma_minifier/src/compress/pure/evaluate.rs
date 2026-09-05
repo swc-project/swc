@@ -1070,7 +1070,9 @@ fn f64_to_precision(value: f64, precision: usize) -> Option<String> {
         // The fixed intermediate has only 100 fractional digits. If it does not retain
         // enough unrounded precision for the requested precision, evaluating from it
         // can produce a different result than Number.prototype.toPrecision at runtime.
-        if e <= p_i32 - 100 {
+        // A round at the final retained fractional digit can also carry into the
+        // preceding digit, so preserve one extra digit of distance from the boundary.
+        if e <= p_i32 - 99 {
             return None;
         }
 
