@@ -321,6 +321,25 @@ impl Visit for EagerEffectFinder {
         if self.evaluating_class_instance
             && n.params.iter().any(|param| match param {
                 ParamOrTsParamProp::Param(param) => {
+                    matches!(&param.pat, Pat::Assign(assign) if assign.right.may_have_side_effects(self.expr_ctx))
+                }
+                ParamOrTsParamProp::TsParamProp(param) => {
+                    matches!(&param.param, TsParamPropParam::Assign(assign) if assign.right.may_have_side_effects(self.expr_ctx))
+                }
+                #[cfg(swc_ast_unknown)]
+                _ => false,
+            })
+        {
+            // Default parameters execute while an immediately constructed class is
+            // evaluated. A member read from a local Proxy is not discovered by recursive
+            // visitation alone, so use the general side-effect predicate here.
+            self.found = true;
+            return;
+        }
+
+        if self.evaluating_class_instance
+            && n.params.iter().any(|param| match param {
+                ParamOrTsParamProp::Param(param) => {
                     matches!(&param.pat, Pat::Array(..) | Pat::Object(..))
                 }
                 ParamOrTsParamProp::TsParamProp(param) => {
