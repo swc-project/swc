@@ -18,17 +18,20 @@ use crate::{
 };
 
 #[derive(Default)]
-struct InstanceOfFinder {
+struct CalleeRebindingFinder {
     found: bool,
 }
 
-impl Visit for InstanceOfFinder {
+impl Visit for CalleeRebindingFinder {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
     fn visit_bin_expr(&mut self, n: &BinExpr) {
-        if n.op == op!("instanceof") {
+        // These operators can invoke user-defined hooks (`Symbol.hasInstance` and
+        // Proxy's `has` trap), which may rebind the constructor before the
+        // selected branch runs.
+        if matches!(n.op, op!("instanceof") | op!("in")) {
             self.found = true;
             return;
         }
@@ -44,7 +47,7 @@ fn test_can_rebind_callee(test: &Expr, ctx: swc_ecma_utils::ExprCtx) -> bool {
         return true;
     }
 
-    let mut finder = InstanceOfFinder::default();
+    let mut finder = CalleeRebindingFinder::default();
     test.visit_with(&mut finder);
     finder.found
 }
