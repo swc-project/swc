@@ -682,15 +682,37 @@ impl Optimizer<'_> {
                 if self.data.ident_is_unresolved(cons_callee) {
                     return None;
                 }
+                let cons_callee_usage = self.data.vars.get(&cons_callee.to_id());
+
+                // `ident_is_unresolved` treats these host globals as resolved, but they can be
+                // absent in the target environment. Moving such a lookup before the test would
+                // change whether the test is evaluated before a ReferenceError.
+                if matches!(&*cons_callee.sym, "window" | "global")
+                    && !cons_callee_usage
+                        .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::DECLARED))
+                {
+                    return None;
+                }
 
                 // Import specifiers are live bindings. Their value can change in another module
                 // while evaluating the test, but this module's usage data cannot observe that
                 // assignment.
-                if self
-                    .data
-                    .vars
-                    .get(&cons_callee.to_id())
+                if cons_callee_usage
                     .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::IMPORTED))
+                {
+                    return None;
+                }
+
+                // In non-strict functions, `arguments` aliases simple parameters. A write such
+                // as `arguments[0] = other` in the test can therefore change the callee without
+                // recording a reassignment of the parameter itself.
+                if !self.ctx.expr_ctx.in_strict
+                    && cons_callee_usage.is_some_and(|usage| {
+                        usage
+                            .flags
+                            .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                    })
+                    && self.data.used_arguments(self.ctx.scope)
                 {
                     return None;
                 }
@@ -699,10 +721,7 @@ impl Optimizer<'_> {
                 // callee. `REASSIGNED` tracks assignments from child scopes as
                 // well as direct ones.
                 if test.may_have_side_effects(self.ctx.expr_ctx)
-                    && self
-                        .data
-                        .vars
-                        .get(&cons_callee.to_id())
+                    && cons_callee_usage
                         .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::REASSIGNED))
                 {
                     return None;
