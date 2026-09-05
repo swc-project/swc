@@ -1049,7 +1049,11 @@ impl VisitMut for Pure<'_> {
             self.do_outside_of_context(
                 Ctx::IS_CALLEE
                     .union(Ctx::IS_UPDATE_ARG)
-                    .union(Ctx::IS_LHS_OF_ASSIGN),
+                    .union(Ctx::IS_LHS_OF_ASSIGN)
+                    // A computed key is not part of the optional-chain
+                    // continuation, so nested optional chains can be folded
+                    // independently.
+                    .union(Ctx::IN_OPT_CHAIN),
                 |this| {
                     c.visit_mut_with(this);
                 },
@@ -1098,7 +1102,11 @@ impl VisitMut for Pure<'_> {
             opt_call.callee.visit_mut_with(this);
         });
 
-        opt_call.args.visit_mut_with(self);
+        // Arguments are evaluated independently of the optional-chain
+        // continuation, unlike the callee.
+        self.do_outside_of_context(Ctx::IN_OPT_CHAIN, |this| {
+            opt_call.args.visit_mut_with(this);
+        });
 
         self.eval_spread_array_in_args(&mut opt_call.args);
     }
