@@ -71,7 +71,7 @@ impl Visit for EagerEffectFinder {
             && !n
                 .args
                 .iter()
-                .any(|arg| arg.expr.may_have_side_effects(self.expr_ctx));
+                .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(self.expr_ctx));
 
         if !is_pure {
             self.found = true;
@@ -84,9 +84,34 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_class(&mut self, n: &Class) {
+        // Defining a derived class reads the superclass's `prototype` property. The
+        // lookup can execute user code through a Proxy even when the superclass is
+        // only an identifier.
+        if n.super_class.is_some() {
+            self.found = true;
+            return;
+        }
+
         n.decorators.visit_with(self);
-        n.super_class.visit_with(self);
         n.body.visit_with(self);
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        // `may_have_side_effects` treats `Math.*` member reads as pure. A custom
+        // property may nevertheless be an accessor, so do not move it ahead of a
+        // conditional test in this ordering-sensitive optimization.
+        if matches!(
+            &*n.obj,
+            Expr::Ident(Ident { ctxt, sym, .. })
+                if &**sym == "Math"
+                    && (*ctxt == self.expr_ctx.unresolved_ctxt
+                        || *ctxt == SyntaxContext::empty())
+        ) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_class_method(&mut self, n: &ClassMethod) {
