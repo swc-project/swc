@@ -143,6 +143,16 @@ impl Visit for EagerEffectFinder {
 
     fn visit_new_expr(&mut self, n: &NewExpr) {
         if n.callee.is_class() {
+            // Constructing spread arguments obtains and iterates an iterator, which can run
+            // user code even when the argument expression itself appears pure.
+            if n.args
+                .as_deref()
+                .is_some_and(|args| args.iter().any(|arg| arg.spread.is_some()))
+            {
+                self.found = true;
+                return;
+            }
+
             let evaluating_class_instance = self.evaluating_class_instance;
             self.evaluating_class_instance = true;
             n.callee.visit_with(self);
@@ -166,6 +176,20 @@ impl Visit for EagerEffectFinder {
         if n.is_static {
             n.value.visit_with(self);
         }
+    }
+
+    fn visit_prop(&mut self, n: &Prop) {
+        if let Prop::Shorthand(ident) = n {
+            // Reading an unresolved global can invoke an accessor. This is normally hidden
+            // from the generic purity predicate because shorthands have no expression
+            // child.
+            if ident.ctxt == self.expr_ctx.unresolved_ctxt {
+                self.found = true;
+                return;
+            }
+        }
+
+        n.visit_children_with(self);
     }
 }
 
