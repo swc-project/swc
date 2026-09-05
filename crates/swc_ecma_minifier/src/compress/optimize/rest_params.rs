@@ -1,3 +1,4 @@
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -30,8 +31,13 @@ pub(super) fn has_use_strict_directive(f: &Function) -> bool {
 ///
 /// A lexical `arguments` declaration has a distinct syntax context, while a
 /// `var arguments` declaration aliases the implicit arguments object unless it
-/// belongs to a nested arrow function.
-fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
+/// belongs to a nested arrow function. Its declaration occurrence is not a
+/// read.
+fn uses_implicit_arguments(
+    f: &Function,
+    data: &ProgramData,
+    unresolved_ctxt: SyntaxContext,
+) -> bool {
     struct ArrowVarFinder {
         ids: Vec<Id>,
     }
@@ -58,7 +64,9 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
 
     struct Finder<'a> {
         data: &'a ProgramData,
+        unresolved_ctxt: SyntaxContext,
         shadowed_arguments: Vec<Id>,
+        in_var_declaration: bool,
         found: bool,
     }
 
@@ -164,7 +172,7 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             // are skipped above, while arrows share the enclosing lexical scope.
             if matches!(
                 &call.callee,
-                Callee::Expr(expr) if matches!(&**expr, Expr::Ident(Ident { sym, .. }) if *sym == *"eval")
+                Callee::Expr(expr) if matches!(&**expr, Expr::Ident(ident) if ident.sym == "eval" && ident.ctxt == self.unresolved_ctxt)
             ) && self.shadowed_arguments.is_empty()
             {
                 self.found = true;
@@ -174,12 +182,22 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             call.visit_children_with(self);
         }
 
+        fn visit_var_declarator(&mut self, declarator: &VarDeclarator) {
+            let was_in_var_declaration = self.in_var_declaration;
+            self.in_var_declaration = true;
+            declarator.name.visit_with(self);
+            self.in_var_declaration = was_in_var_declaration;
+
+            declarator.init.visit_with(self);
+        }
+
         fn visit_ident(&mut self, ident: &Ident) {
             if self.found {
                 return;
             }
 
             if ident.sym == "arguments"
+                && !self.in_var_declaration
                 && !self.shadowed_arguments.contains(&ident.to_id())
                 && self.data.vars.get(&ident.to_id()).map_or(true, |usage| {
                     usage.var_kind == Some(VarDeclKind::Var)
@@ -193,7 +211,9 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
 
     let mut finder = Finder {
         data,
+        unresolved_ctxt,
         shadowed_arguments: Vec::new(),
+        in_var_declaration: false,
         found: false,
     };
     f.body.visit_with(&mut finder);
@@ -259,7 +279,8 @@ impl Optimizer<'_> {
             // Preserve the rest parameter only if removing it can change an
             // `arguments` object from unmapped to mapped.
             if usage.ref_count == 0
-                && (!can_make_arguments_mapped || !uses_implicit_arguments(f, self.data))
+                && (!can_make_arguments_mapped
+                    || !uses_implicit_arguments(f, self.data, self.ctx.expr_ctx.unresolved_ctxt))
             {
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");
