@@ -355,6 +355,36 @@ impl Optimizer<'_> {
                                         PropName::Str(key) => (key.value.clone(), key.span),
                                         PropName::Num(key) => {
                                             (key.value.to_js_string().into(), key.span)
+                                        PropName::Ident(key) => {
+                                            // A non-computed `__proto__` key-value property sets
+                                            // the object's prototype instead of defining an own
+                                            // property, so it is not returned by `Object.keys`.
+                                            if key.sym == "__proto__" {
+                                                continue;
+                                            }
+
+                                            keys.push(Some(ExprOrSpread {
+                                                spread: None,
+                                                expr: Lit::Str(Str {
+                                                    span: key.span,
+                                                    raw: None,
+                                                    value: key.sym.clone().into(),
+                                                })
+                                                .into(),
+                                            }));
+                                        }
+                                        PropName::Str(key) => {
+                                            // String-literal `__proto__` key-value properties have
+                                            // the same prototype-setter semantics as identifier
+                                            // keys. Computed keys remain ineligible for folding.
+                                            if key.value.as_str() == Some("__proto__") {
+                                                continue;
+                                            }
+
+                                            keys.push(Some(ExprOrSpread {
+                                                spread: None,
+                                                expr: Lit::Str(key.clone()).into(),
+                                            }));
                                         }
                                         _ => return,
                                     },

@@ -183,6 +183,7 @@ fn run(
             Syntax::Es(EsSyntax {
                 jsx: true,
                 decorators: true,
+                auto_accessors: true,
                 ..Default::default()
             }),
             Default::default(),
