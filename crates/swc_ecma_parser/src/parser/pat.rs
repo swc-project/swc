@@ -375,17 +375,22 @@ impl<I: Tokens> Parser<I> {
                     }
                     .into());
                 }
-                // Trailing comma may exist. We should remove those commas.
-                let count_of_trailing_comma =
-                    exprs.iter().rev().take_while(|e| e.is_none()).count();
+                let count_of_trailing_elisions = if pat_ty == PatType::AssignPat {
+                    // Array literal parsing does not add an element for a trailing comma, but it
+                    // does add `None` for each elision. Preserve trailing elisions in assignment
+                    // patterns because array destructuring advances the iterator for each one.
+                    0
+                } else {
+                    exprs.iter().rev().take_while(|e| e.is_none()).count()
+                };
                 let len = exprs.len();
-                let mut params = Vec::with_capacity(exprs.len() - count_of_trailing_comma);
+                let mut params = Vec::with_capacity(len - count_of_trailing_elisions);
                 // Comma or other pattern cannot follow a rest pattern.
-                let idx_of_rest_not_allowed = if count_of_trailing_comma == 0 {
+                let idx_of_rest_not_allowed = if count_of_trailing_elisions == 0 {
                     len - 1
                 } else {
-                    // last element is comma, so rest is not allowed for every pattern element.
-                    len - count_of_trailing_comma
+                    // The last element is an elision, so a rest pattern cannot be used.
+                    len - count_of_trailing_elisions
                 };
                 for expr in exprs.drain(..idx_of_rest_not_allowed) {
                     match expr {
@@ -400,7 +405,7 @@ impl<I: Tokens> Parser<I> {
                         None => params.push(None),
                     }
                 }
-                if count_of_trailing_comma == 0 {
+                if count_of_trailing_elisions == 0 {
                     let expr = exprs.into_iter().next().unwrap();
                     let outer_expr_span = expr.span();
                     let last = match expr {
