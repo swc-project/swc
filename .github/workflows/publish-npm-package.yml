@@ -305,6 +305,15 @@ jobs:
               else
                 pnpm build --target aarch64-pc-windows-msvc
               fi
+          - host: ubuntu-latest
+            target: wasm32-wasip1-threads
+            # `plugin` (wasmer) cannot run inside a wasm module. Only built for core.
+            build: |
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                pnpm build --target wasm32-wasip1-threads --no-default-features --features swc_v1
+              else
+                echo "wasm32-wasip1-threads is only built for @swc/core; skipping"
+              fi
     name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }} - node@20"
     runs-on: ${{ matrix.settings.host }}
     steps:
@@ -419,7 +428,9 @@ jobs:
           path: |
             packages/${{ inputs.package }}/swc*
             packages/${{ inputs.package }}/*.node
-          if-no-files-found: error
+            packages/${{ inputs.package }}/wasi-worker*
+          # wasm32-wasip1-threads is only built for core, so other packages have no files there.
+          if-no-files-found: ${{ matrix.settings.target == 'wasm32-wasip1-threads' && inputs.package != 'core' && 'ignore' || 'error' }}
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
     needs:
