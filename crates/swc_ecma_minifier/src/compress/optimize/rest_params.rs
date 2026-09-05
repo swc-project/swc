@@ -182,21 +182,17 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
                 return;
             }
 
-            // The right-hand side is evaluated before the loop's lexical binding
-            // exists, while the head and body execute within that binding's scope.
-            for_in.right.visit_with(self);
-            if self.found {
-                return;
-            }
-
             let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
             if let ForHead::VarDecl(var) = &for_in.left {
                 binding_finder.collect_lexical_var_decl(var);
             }
 
+            // A lexical loop binding is in scope (and in its TDZ) while the
+            // right-hand side is evaluated.
             let shadowed_len = self.shadowed_arguments.len();
             self.shadowed_arguments.extend(binding_finder.ids);
             for_in.left.visit_with(self);
+            for_in.right.visit_with(self);
             for_in.body.visit_with(self);
             self.shadowed_arguments.truncate(shadowed_len);
         }
@@ -206,21 +202,17 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
                 return;
             }
 
-            // The right-hand side is evaluated before the loop's lexical binding
-            // exists, while the head and body execute within that binding's scope.
-            for_of.right.visit_with(self);
-            if self.found {
-                return;
-            }
-
             let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
             if let ForHead::VarDecl(var) = &for_of.left {
                 binding_finder.collect_lexical_var_decl(var);
             }
 
+            // A lexical loop binding is in scope (and in its TDZ) while the
+            // right-hand side is evaluated.
             let shadowed_len = self.shadowed_arguments.len();
             self.shadowed_arguments.extend(binding_finder.ids);
             for_of.left.visit_with(self);
+            for_of.right.visit_with(self);
             for_of.body.visit_with(self);
             self.shadowed_arguments.truncate(shadowed_len);
         }
