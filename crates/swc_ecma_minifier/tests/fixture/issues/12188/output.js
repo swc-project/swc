@@ -5,7 +5,7 @@ function member(a, b) {
 }
 function destructuring(a, b) {
     let index = 0;
-    [a[index++]] = (console.log("destructuring test", index), b) ? [
+    console.log("destructuring test", 0), [a[index++]] = b ? [
         1
     ] : [
         2

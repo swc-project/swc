@@ -216,12 +216,13 @@ impl Pure<'_> {
             _ => return,
         };
 
-        // Only identifier targets have no evaluation to reorder. Moving the
-        // conditional test sequence before another target can change observable
-        // member base or computed-key evaluation order.
+        // Assignment patterns evaluate their right-hand side before evaluating
+        // their targets. For simple targets, only identifiers have no evaluation
+        // to reorder; moving the conditional test sequence before a member target
+        // can change observable base or computed-key evaluation order.
         if !matches!(
             &assign.left,
-            AssignTarget::Simple(SimpleAssignTarget::Ident(..))
+            AssignTarget::Pat(_) | AssignTarget::Simple(SimpleAssignTarget::Ident(..))
         ) {
             return;
         }
