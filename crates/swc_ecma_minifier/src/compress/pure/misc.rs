@@ -17,7 +17,7 @@ use super::Pure;
 use crate::{
     compress::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-        util::is_pure_undefined,
+        util::{eval_to_undefined, is_pure_undefined},
     },
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
@@ -79,6 +79,24 @@ fn may_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             expr.get_type(expr_ctx),
             Value::Known(Type::Undefined | Type::Null) | Value::Unknown
         ),
+    }
+}
+
+/// Returns true if evaluating `expr` always produces a nullish value.
+///
+/// Unlike [`is_pure_undefined`], this accepts expressions with effects because
+/// callers can preserve those effects separately.
+fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(ParenExpr { expr, .. }) => eval_to_nullish(expr_ctx, expr),
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| eval_to_nullish(expr_ctx, last)),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            eval_to_nullish(expr_ctx, cons) && eval_to_nullish(expr_ctx, alt)
+        }
+        Expr::Lit(Lit::Null(..)) => true,
+        _ => eval_to_undefined(expr_ctx, expr),
     }
 }
 
@@ -2274,16 +2292,27 @@ impl Pure<'_> {
             match e {
                 // Map and Set synchronously consume their iterable argument. Keeping only the
                 // argument expression would skip observable iterator acquisition and iteration.
-                // Construction without arguments does not consume an iterable and is still pure.
+                // Construction without arguments or with a nullish first argument does not
+                // consume an iterable and is still pure.
                 Expr::New(NewExpr {
                     span, callee, args, ..
-                }) if matches!(args.as_deref(), None | Some([]))
+                }) if (matches!(args.as_deref(), None | Some([]))
+                    || args.as_deref().is_some_and(|args| {
+                        args.first().is_some_and(|arg| {
+                            arg.spread.is_none() && eval_to_nullish(self.expr_ctx, &arg.expr)
+                        })
+                    }))
                     && callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"]) =>
                 {
                     report_change!("Dropping a pure new expression");
 
                     self.changed = true;
-                    *e = Invalid { span: *span }.into();
+                    *e = self
+                        .make_ignored_expr(
+                            *span,
+                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                        )
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     return;
                 }
 
