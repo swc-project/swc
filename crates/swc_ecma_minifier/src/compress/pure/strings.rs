@@ -602,25 +602,16 @@ impl Pure<'_> {
 
 pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<'_, str> {
     let mut result = String::with_capacity(value.len());
-    let mut code_points = value.code_points().peekable();
 
-    while let Some(code_point) = code_points.next() {
+    for code_point in value.code_points() {
         if let Some(ch) = code_point.to_char() {
             match ch {
                 '\\' => result.push_str("\\\\"),
                 '`' => result.push_str("\\`"),
                 '$' => result.push_str("\\$"),
-                '\0' => {
-                    if code_points
-                        .peek()
-                        .and_then(|code_point| code_point.to_char())
-                        .is_some_and(|ch| ch.is_ascii_digit())
-                    {
-                        result.push_str("\\x00");
-                    } else {
-                        result.push_str("\\0");
-                    }
-                }
+                // A following quasi can begin with a digit, so `\\0` could become an invalid
+                // legacy octal escape when template raws are concatenated.
+                '\0' => result.push_str("\\x00"),
                 '\x08' => result.push_str("\\b"),
                 '\t' => result.push('\t'),
                 '\n' => result.push_str("\\n"),

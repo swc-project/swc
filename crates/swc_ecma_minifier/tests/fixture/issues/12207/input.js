@@ -18,10 +18,15 @@ function concatenate(left, right) {
     return (`${left}` + "\${middle}") + `${right}\``;
 }
 
+function nullBeforeDigit(value) {
+    return `${value}${"\0"}1`;
+}
+
 console.log([
     suffixDollar("a"),
     suffixBacktick("a"),
     prefixDollar("a"),
     interpolation("a").split("").map((ch) => ch.charCodeAt(0).toString(16)).join(","),
     concatenate("a", "b"),
+    nullBeforeDigit("a").charCodeAt(1),
 ].join("|"));

@@ -76,8 +76,10 @@ fn inline_script() {
     let src = r#"
 console.log("</sCrIpT>");
 foo("/-->/");
+console.log(`${value}</script>`);
 "#;
-    let expected = r#"console.log("<\/sCrIpT>");foo("/--\x3e/");"#;
+    let expected =
+        r#"console.log("<\/sCrIpT>");foo("/--\x3e/");console.log(`${value}<\/script>`);"#;
     assert_format(
         src,
         expected,

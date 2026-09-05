@@ -2286,12 +2286,18 @@ impl MacroNode for Tpl {
 impl MacroNode for TplElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         let raw = self.raw.replace("\r\n", "\n").replace('\r', "\n");
+
         if emitter.cfg.minify || (emitter.cfg.ascii_only && !self.raw.is_ascii()) {
             let v = get_template_element_from_raw(
                 &raw,
                 emitter.cfg.ascii_only,
                 emitter.cfg.reduce_escaped_newline,
             );
+            let v = if emitter.cfg.inline_script {
+                lit::replace_close_inline_script(&v)
+            } else {
+                CowStr::Borrowed(&v)
+            };
             let span = self.span();
 
             let mut last_offset_gen = 0;
@@ -2320,6 +2326,11 @@ impl MacroNode for TplElement {
             emitter.wr.write_str_lit(DUMMY_SP, &v[last_offset_gen..])?;
             emitter.wr.add_srcmap(span.hi)?;
         } else {
+            let raw = if emitter.cfg.inline_script {
+                lit::replace_close_inline_script(&raw)
+            } else {
+                CowStr::Borrowed(&raw)
+            };
             emitter.wr.write_str_lit(self.span(), &raw)?;
         }
 
