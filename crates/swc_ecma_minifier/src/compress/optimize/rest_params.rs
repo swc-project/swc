@@ -51,7 +51,9 @@ fn uses_implicit_arguments(
 
         fn visit_var_decl(&mut self, var: &VarDecl) {
             if var.kind == VarDeclKind::Var {
-                var.decls.visit_with(self);
+                for declarator in &var.decls {
+                    declarator.name.visit_with(self);
+                }
             }
         }
 
@@ -66,7 +68,6 @@ fn uses_implicit_arguments(
         data: &'a ProgramData,
         unresolved_ctxt: SyntaxContext,
         shadowed_arguments: Vec<Id>,
-        in_var_declaration: bool,
         found: bool,
     }
 
@@ -182,14 +183,9 @@ fn uses_implicit_arguments(
             call.visit_children_with(self);
         }
 
-        fn visit_var_declarator(&mut self, declarator: &VarDeclarator) {
-            let was_in_var_declaration = self.in_var_declaration;
-            self.in_var_declaration = true;
-            declarator.name.visit_with(self);
-            self.in_var_declaration = was_in_var_declaration;
-
-            declarator.init.visit_with(self);
-        }
+        // A binding identifier declares a name, while expressions nested in a binding
+        // pattern (defaults and computed keys) still execute and can read `arguments`.
+        fn visit_binding_ident(&mut self, _: &BindingIdent) {}
 
         fn visit_ident(&mut self, ident: &Ident) {
             if self.found {
@@ -197,7 +193,6 @@ fn uses_implicit_arguments(
             }
 
             if ident.sym == "arguments"
-                && !self.in_var_declaration
                 && !self.shadowed_arguments.contains(&ident.to_id())
                 && self.data.vars.get(&ident.to_id()).map_or(true, |usage| {
                     usage.var_kind == Some(VarDeclKind::Var)
@@ -213,7 +208,6 @@ fn uses_implicit_arguments(
         data,
         unresolved_ctxt,
         shadowed_arguments: Vec::new(),
-        in_var_declaration: false,
         found: false,
     };
     f.body.visit_with(&mut finder);
