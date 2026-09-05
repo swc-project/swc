@@ -11057,8 +11057,8 @@
                     case 'utf16le':
                     case 'utf-16le':
                         return offset4 = offset, length4 = length, blitBuffer(function(str, units) {
-                            let c, hi, byteArray = [];
-                            for(let i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
+                            let c, hi, lo, byteArray = [];
+                            for(let i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, lo = c % 256, byteArray.push(lo), byteArray.push(hi);
                             return byteArray;
                         }(string, this.length - offset4), this, offset4, length4);
                     default:

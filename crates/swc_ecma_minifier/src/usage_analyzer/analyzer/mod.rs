@@ -292,6 +292,21 @@ where
 
         self.data.var_or_default(id).store_param_count(arity);
     }
+
+    /// Records usage for the loop after entering its lexical scope, if it has
+    /// one.
+    fn visit_for_stmt_contents(&mut self, n: &ForStmt) {
+        n.init.visit_with(self);
+
+        let ctx = self
+            .ctx
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
+
+        self.with_ctx(ctx).visit_in_cond(&n.test);
+        self.with_ctx(ctx).visit_in_cond(&n.update);
+        self.with_ctx(ctx).visit_in_cond(&n.body);
+    }
 }
 
 impl<S> Visit for UsageAnalyzer<S>
@@ -1022,16 +1037,26 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_for_stmt(&mut self, n: &ForStmt) {
-        n.init.visit_with(self);
+        let lexical_scope_ctxt = n.init.as_ref().and_then(|init| match init {
+            VarDeclOrExpr::VarDecl(decl)
+                if matches!(decl.kind, VarDeclKind::Let | VarDeclKind::Const) =>
+            {
+                decl.decls
+                    .iter()
+                    .flat_map(|decl| find_pat_ids::<_, Id>(&decl.name))
+                    .next()
+                    .map(|(_, ctxt)| ctxt)
+            }
+            _ => None,
+        });
 
-        let ctx = self
-            .ctx
-            .with(BitContext::ExecutedMultipleTime, true)
-            .with(BitContext::InCond, true);
-
-        self.with_ctx(ctx).visit_in_cond(&n.test);
-        self.with_ctx(ctx).visit_in_cond(&n.update);
-        self.with_ctx(ctx).visit_in_cond(&n.body);
+        if let Some(ctxt) = lexical_scope_ctxt {
+            self.with_child(ctxt, ScopeKind::Block, |child| {
+                child.visit_for_stmt_contents(n);
+            });
+        } else {
+            self.visit_for_stmt_contents(n);
+        }
     }
 
     #[cfg_attr(
