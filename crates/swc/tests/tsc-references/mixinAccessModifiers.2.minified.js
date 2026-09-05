@@ -12,10 +12,10 @@ var Private = function Private() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Public);
 };
-/*#__PURE__*/ Mix(Private, function Private2() {
+Mix(Private, function Private2() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Private2);
-}), /*#__PURE__*/ Mix(Private, Protected), /*#__PURE__*/ Mix(Private, Public);
+}), Mix(Private, Protected), Mix(Private, Public);
 var C4 = /*#__PURE__*/ function(_Mix) {
     function C4() {
         return _class_call_check(this, C4), _call_super(this, C4, arguments);

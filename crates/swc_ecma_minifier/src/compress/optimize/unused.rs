@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, Value};
+use swc_ecma_utils::{contains_ident_ref, contains_this_expr, ExprExt, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -126,34 +126,10 @@ impl Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
-        if self
-            .ctx
-            .bit_ctx
-            .intersects(BitCtx::IsExported | BitCtx::InAsm)
-        {
-            return;
-        }
-
         trace_op!("unused: drop_unused_vars({})", dump(&*name, false));
 
-        if !self.options.unused && !self.options.side_effects {
+        if !self.can_drop_unused_vars(name) {
             return;
-        }
-
-        if self.ctx.bit_ctx.contains(BitCtx::InVarDeclOfForInOrOfLoop) {
-            return;
-        }
-
-        for (_, ctx) in find_pat_ids::<_, Id>(name) {
-            if let Some(scope) = self.data.get_scope(ctx) {
-                if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
-                    log_abort!(
-                        "unused: Preserving `{}` because of usages",
-                        dump(&*name, false)
-                    );
-                    return;
-                }
-            }
         }
 
         if !name.is_ident() && init.is_none() {
@@ -210,30 +186,24 @@ impl Optimizer<'_> {
     fn take_ident_of_pat_if_unused(&mut self, i: &mut Ident, init: Option<&mut Expr>) {
         trace_op!("unused: Checking identifier `{}`", i);
 
+        if self.is_unused_ident_with_no_usage(i) {
+            self.changed = true;
+            report_change!(
+                "unused: Dropping a variable '{}{:?}' because it is not used",
+                i.sym,
+                i.ctxt
+            );
+            // This will remove variable.
+            i.take();
+            return;
+        }
+
         if !self.may_remove_ident(i) {
             log_abort!("unused: Preserving var `{:#?}` because it's top-level", i);
             return;
         }
 
         if let Some(v) = self.data.vars.get(&i.to_id()) {
-            let is_used_in_member =
-                v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
-            if v.ref_count == 0
-                && v.usage_count == 0
-                && !v.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                && !is_used_in_member
-            {
-                self.changed = true;
-                report_change!(
-                    "unused: Dropping a variable '{}{:?}' because it is not used",
-                    i.sym,
-                    i.ctxt
-                );
-                // This will remove variable.
-                i.take();
-                return;
-            }
-
             if v.ref_count == 0 && v.usage_count == 0 {
                 if let Some(e) = init {
                     if self

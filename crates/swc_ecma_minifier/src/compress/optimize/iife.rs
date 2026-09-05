@@ -516,6 +516,13 @@ impl Optimizer<'_> {
     }
 
     fn may_invoke_iife(&self, call: &mut CallExpr) -> bool {
+        if self.ctx.bit_ctx.contains(BitCtx::DontInvokePureIife)
+            && call.ctxt.has_mark(self.marks.pure)
+        {
+            log_abort!("iife: Has pure annotation");
+            return false;
+        }
+
         if self.options.inline == 0
             && !(self.options.reduce_vars && self.options.reduce_fns && self.options.evaluate)
         {
@@ -1621,6 +1628,12 @@ impl Optimizer<'_> {
 
     /// Checks if an arrow function IIFE in a sequence can be optimized
     fn can_optimize_arrow_iife_in_seq(&self, arrow: &ArrowExpr, call: &CallExpr) -> bool {
+        if self.ctx.bit_ctx.contains(BitCtx::DontInvokePureIife)
+            && call.ctxt.has_mark(self.marks.pure)
+        {
+            return false;
+        }
+
         // Only optimize simple arrow functions with expression bodies
         if arrow.is_async || arrow.is_generator {
             return false;
