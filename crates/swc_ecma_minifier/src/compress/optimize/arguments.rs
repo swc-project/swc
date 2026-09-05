@@ -1,6 +1,6 @@
 use std::iter::repeat_with;
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     find_pat_ids, is_valid_prop_ident,
@@ -125,6 +125,7 @@ impl Optimizer<'_> {
             changed: false,
             keep_fargs: self.options.keep_fargs,
             prevent: false,
+            mutation_positions: find_arguments_mutations(&f.body),
         };
 
         // Visit the body twice to keep parameter injection local to each access.
@@ -140,6 +141,7 @@ struct ArgReplacer<'a> {
     changed: bool,
     keep_fargs: bool,
     prevent: bool,
+    mutation_positions: Vec<BytePos>,
 }
 
 impl<'a> ArgReplacer<'a> {
@@ -174,6 +176,22 @@ impl<'a> ArgReplacer<'a> {
         )
     }
 
+    /// Returns whether a loop contains a mutation of `arguments`.
+    fn loop_contains_arguments_mutation<N>(&self, n: &N) -> bool
+    where
+        N: Spanned,
+    {
+        let span = n.span();
+        let first_in_span = self
+            .mutation_positions
+            .partition_point(|position| *position < span.lo);
+
+        matches!(
+            self.mutation_positions.get(first_in_span),
+            Some(position) if *position < span.hi
+        )
+    }
+
     /// Disables replacements before visiting a loop which mutates `arguments`.
     ///
     /// A loop can read an `arguments` property before mutating it. Replacing
@@ -182,13 +200,13 @@ impl<'a> ArgReplacer<'a> {
     /// first visit.
     fn visit_mut_loop<N>(&mut self, n: &mut N)
     where
-        N: VisitWith<ArgumentsMutationFinder> + VisitMutWith<Self>,
+        N: Spanned + VisitMutWith<Self>,
     {
         if self.prevent {
             return;
         }
 
-        if contains_arguments_mutation(n) {
+        if self.loop_contains_arguments_mutation(n) {
             self.prevent = true;
         }
 
@@ -303,10 +321,11 @@ impl VisitMut for ArgReplacer<'_> {
     }
 }
 
-/// Finds mutations of the current function's `arguments` object.
+/// Finds the source positions of mutations of the current function's
+/// `arguments` object.
 #[derive(Default)]
 struct ArgumentsMutationFinder {
-    found: bool,
+    positions: Vec<BytePos>,
 }
 
 impl Visit for ArgumentsMutationFinder {
@@ -319,7 +338,7 @@ impl Visit for ArgumentsMutationFinder {
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
         if is_left_access_to_arguments(&n.left) {
-            self.found = true;
+            self.positions.push(n.span.lo);
             return;
         }
 
@@ -328,7 +347,7 @@ impl Visit for ArgumentsMutationFinder {
 
     fn visit_unary_expr(&mut self, n: &UnaryExpr) {
         if n.op == op!("delete") && is_access_to_arguments(&n.arg) {
-            self.found = true;
+            self.positions.push(n.span.lo);
             return;
         }
 
@@ -337,7 +356,7 @@ impl Visit for ArgumentsMutationFinder {
 
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         if is_access_to_arguments(&n.arg) {
-            self.found = true;
+            self.positions.push(n.span.lo);
             return;
         }
 
@@ -345,13 +364,11 @@ impl Visit for ArgumentsMutationFinder {
     }
 }
 
-fn contains_arguments_mutation<N>(n: &N) -> bool
-where
-    N: VisitWith<ArgumentsMutationFinder>,
-{
+fn find_arguments_mutations(n: &impl VisitWith<ArgumentsMutationFinder>) -> Vec<BytePos> {
     let mut finder = ArgumentsMutationFinder::default();
     n.visit_with(&mut finder);
-    finder.found
+    finder.positions.sort_unstable();
+    finder.positions
 }
 
 /// Returns true if `expr` directly accesses a property of `arguments`.
