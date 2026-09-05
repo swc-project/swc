@@ -483,6 +483,7 @@ impl Optimizer<'_> {
         {
             let mut child_ctx = self.ctx.clone();
             let mut directive_count = 0;
+            let mut directive_contexts = Vec::new();
 
             if has_directive_prologue {
                 for stmt in stmts.iter() {
@@ -493,6 +494,9 @@ impl Optimizer<'_> {
                         break;
                     };
 
+                    // Each directive observes the context established by the preceding
+                    // directives, but the first directive remains in the parent context.
+                    directive_contexts.push(child_ctx.clone());
                     directive_count += 1;
 
                     match &v.raw {
@@ -514,9 +518,12 @@ impl Optimizer<'_> {
                 // debug_assert_eq!(self.prepend_stmts, Vec::new());
                 // debug_assert_eq!(self.append_stmts, Vec::new());
 
-                if i < directive_count {
-                    // Don't set in_strict for directive itself.
+                if i == 0 && i < directive_count {
+                    // Don't set in_strict for the first directive itself.
                     stmt.visit_mut_with(self);
+                } else if i < directive_count {
+                    let directive_optimizer = &mut *self.with_ctx(directive_contexts[i].clone());
+                    stmt.visit_mut_with(directive_optimizer);
                 } else {
                     let child_optimizer = &mut *self.with_ctx(child_ctx.clone());
                     stmt.visit_mut_with(child_optimizer);

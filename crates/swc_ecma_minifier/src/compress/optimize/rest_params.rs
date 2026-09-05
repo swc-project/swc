@@ -217,13 +217,6 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
                 return;
             }
 
-            // Default parameter initializers execute in this lexical scope and can read the
-            // enclosing function's implicit `arguments` object.
-            arrow.params.visit_with(self);
-            if self.found {
-                return;
-            }
-
             let mut param_finder = ArrowVarFinder { ids: Vec::new() };
             // Arrow parameters shadow the enclosing implicit `arguments` object in both
             // their initializers and the arrow body.

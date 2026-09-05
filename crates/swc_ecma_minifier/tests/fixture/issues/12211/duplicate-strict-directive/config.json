@@ -1,0 +1,8 @@
+{
+    "defaults": false,
+    "unused": true,
+    "arguments": false,
+    "keep_fargs": true,
+    "directives": true,
+    "module": false
+}
