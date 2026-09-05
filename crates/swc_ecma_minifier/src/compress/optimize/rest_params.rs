@@ -40,6 +40,15 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
     impl Visit for Finder<'_> {
         fn visit_function(&mut self, _: &Function) {}
 
+        fn visit_labeled_stmt(&mut self, labeled: &LabeledStmt) {
+            // Labels are not expression references and live in a separate namespace.
+            labeled.body.visit_with(self);
+        }
+
+        fn visit_break_stmt(&mut self, _: &BreakStmt) {}
+
+        fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
+
         fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
             let mut var_finder = ArrowVarFinder { ids: Vec::new() };
             arrow.body.visit_with(&mut var_finder);
