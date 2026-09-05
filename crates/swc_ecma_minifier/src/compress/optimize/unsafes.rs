@@ -13,14 +13,16 @@ impl Optimizer<'_> {
         match &e.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(callee) => match &**callee {
-                Expr::Ident(Ident { sym, .. }) if &**sym == "Symbol" => {}
+                Expr::Ident(Ident { sym, ctxt, .. })
+                    if &**sym == "Symbol" && *ctxt == self.ctx.expr_ctx.unresolved_ctxt => {}
                 _ => return,
             },
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
 
-        e.args
-            .retain(|arg| arg.expr.may_have_side_effects(self.ctx.expr_ctx));
+        e.args.retain(|arg| {
+            arg.spread.is_some() || arg.expr.may_have_side_effects(self.ctx.expr_ctx)
+        });
     }
 }
