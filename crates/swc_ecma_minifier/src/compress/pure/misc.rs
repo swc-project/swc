@@ -2272,13 +2272,26 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
+                // Map and Set synchronously consume their iterable argument. Keeping only the
+                // argument expression would skip observable iterator acquisition and iteration.
+                // Construction without arguments does not consume an iterable and is still pure.
+                Expr::New(NewExpr {
+                    span, callee, args, ..
+                }) if matches!(args.as_deref(), None | Some([]))
+                    && callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"]) =>
+                {
+                    report_change!("Dropping a pure new expression");
+
+                    self.changed = true;
+                    *e = Invalid { span: *span }.into();
+                    return;
+                }
+
                 Expr::New(NewExpr {
                     span, callee, args, ..
                 }) if callee.is_one_of_global_ref_to(
                     self.expr_ctx,
-                    &[
-                        "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
-                    ],
+                    &["Array", "Object", "Boolean", "Number", "String"],
                 ) =>
                 {
                     report_change!("Dropping a pure new expression");
