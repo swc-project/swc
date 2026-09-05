@@ -3,8 +3,10 @@ function run(key) {
     function f(a, b) {
         return b;
     }
-    return f(key in {
+    return x ? f(key in {
         a: 0
-    }, x ? 1 : 2);
+    }, 1) : f(key in {
+        a: 0
+    }, 2);
 }
 console.log(run("a"));

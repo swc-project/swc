@@ -55,15 +55,13 @@ fn is_pure_primitive_call(callee: &Expr, args: &[ExprOrSpread], expr_ctx: ExprCt
         return false;
     }
 
-    let has_primitive_receiver = callee.is_pure_callee(expr_ctx)
+    callee.is_pure_callee(expr_ctx)
         && matches!(
             callee,
             Expr::Member(MemberExpr { obj, .. })
                 if matches!(&**obj, Expr::Lit(Lit::Str(..)))
                     || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
-        );
-
-    has_primitive_receiver
+        )
 }
 
 /// Returns whether an object literal cannot install a proxy-bearing prototype
@@ -82,6 +80,19 @@ fn is_untrapped_plain_object(expr: &Expr) -> bool {
                     || matches!(key, PropName::Str(key) if &*key.value == "__proto__")
         ),
     })
+}
+
+/// Returns whether converting an expression to a property key cannot invoke
+/// user-defined coercion hooks.
+///
+/// A computed member access and the left operand of `in` both perform an
+/// implicit `ToPropertyKey`. The generic side-effect predicate only visits the
+/// key expression, so a local Proxy identifier would otherwise appear pure.
+fn is_non_coercing_property_key(expr: &Expr) -> bool {
+    matches!(
+        expr,
+        Expr::Lit(Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::Num(..) | Lit::BigInt(..))
+    ) || matches!(expr, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
 }
 
 impl Visit for ValueReadFinder {
@@ -183,7 +194,10 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_bin_expr(&mut self, n: &BinExpr) {
-        if n.op == op!("in") && is_untrapped_plain_object(&n.right) {
+        if n.op == op!("in")
+            && is_untrapped_plain_object(&n.right)
+            && is_non_coercing_property_key(&n.left)
+        {
             n.visit_children_with(self);
             return;
         }
@@ -236,6 +250,12 @@ impl Visit for EagerEffectFinder {
                     && (*ctxt == self.expr_ctx.unresolved_ctxt
                         || *ctxt == SyntaxContext::empty())
         ) {
+            self.found = true;
+            return;
+        }
+
+        if matches!(&n.prop, MemberProp::Computed(prop) if !is_non_coercing_property_key(&prop.expr))
+        {
             self.found = true;
             return;
         }
