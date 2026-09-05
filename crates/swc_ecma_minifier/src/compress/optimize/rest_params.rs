@@ -45,10 +45,13 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        // Check if the rest parameter is used using ProgramData
+        // Removing a rest parameter can make a sloppy function's parameter list simple.
+        // In that case, `arguments` becomes mapped to the remaining parameters, which
+        // changes observable behavior when the function uses `arguments`.
         if let Some(usage) = self.data.vars.get(&rest_id) {
-            // If the parameter is not referenced, we can remove it
-            if usage.ref_count == 0 {
+            // If the parameter is not referenced and the function does not use
+            // `arguments`, we can remove it.
+            if usage.ref_count == 0 && !self.data.used_arguments(f.ctxt) {
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");
                 f.params.pop();
