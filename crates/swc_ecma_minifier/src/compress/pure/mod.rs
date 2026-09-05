@@ -115,7 +115,9 @@ impl Pure<'_> {
                 e.visit_mut_with(this);
             });
         } else {
-            e.visit_mut_with(self);
+            self.do_outside_of_context(Ctx::IN_OPT_CHAIN, |this| {
+                e.visit_mut_with(this);
+            });
         }
     }
 
