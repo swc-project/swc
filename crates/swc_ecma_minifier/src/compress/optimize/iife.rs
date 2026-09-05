@@ -1485,7 +1485,8 @@ fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
 ///
 /// Arrow functions do not create a new `new.target` binding, while ordinary
 /// functions and constructors do. Consequently, this visitor descends into
-/// arrows by default but stops at ordinary function boundaries.
+/// arrows by default, but skips ordinary function and field initializer
+/// execution scopes while still inspecting decorators and computed keys.
 #[derive(Default)]
 struct NewTargetFinder {
     found: bool,
@@ -1494,14 +1495,41 @@ struct NewTargetFinder {
 impl Visit for NewTargetFinder {
     noop_visit_type!(fail);
 
-    fn visit_constructor(&mut self, _: &Constructor) {}
+    fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
+        n.key.visit_with(self);
+        n.decorators.visit_with(self);
+    }
 
-    fn visit_function(&mut self, _: &Function) {}
+    fn visit_class_prop(&mut self, n: &ClassProp) {
+        n.key.visit_with(self);
+        n.decorators.visit_with(self);
+    }
+
+    fn visit_constructor(&mut self, n: &Constructor) {
+        for param in &n.params {
+            match param {
+                ParamOrTsParamProp::Param(param) => param.decorators.visit_with(self),
+                ParamOrTsParamProp::TsParamProp(param) => param.decorators.visit_with(self),
+            }
+        }
+    }
+
+    fn visit_function(&mut self, n: &Function) {
+        n.decorators.visit_with(self);
+
+        for param in &n.params {
+            param.decorators.visit_with(self);
+        }
+    }
 
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
         if matches!(n.kind, MetaPropKind::NewTarget) {
             self.found = true;
         }
+    }
+
+    fn visit_private_prop(&mut self, n: &PrivateProp) {
+        n.decorators.visit_with(self);
     }
 }
 
