@@ -1,6 +1,6 @@
 //// [objectRestParameter.ts]
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
-function foobar(_0) {
+function foobar(_0 = void 0) {
     let [_ref1 = {}] = [
         _0
     ], { bar = {} } = _ref1;
