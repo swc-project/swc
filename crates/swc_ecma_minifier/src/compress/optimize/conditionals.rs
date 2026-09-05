@@ -284,6 +284,14 @@ impl Visit for EagerEffectFinder {
             return;
         }
 
+        if matches!(&*n.obj, Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..)) {
+            // Function and class values inherit from `Function.prototype`. Its properties
+            // are mutable under the minifier assumptions, so even a property read from a
+            // freshly allocated value can invoke an inherited accessor.
+            self.found = true;
+            return;
+        }
+
         if matches!(&n.prop, MemberProp::Computed(prop) if !is_non_coercing_property_key(&prop.expr))
         {
             self.found = true;
