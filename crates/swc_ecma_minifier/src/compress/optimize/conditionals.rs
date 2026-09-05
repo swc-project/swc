@@ -5,6 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
 use crate::{
@@ -15,6 +16,38 @@ use crate::{
     program_data::{ProgramData, VarUsageInfoFlags},
     DISABLE_BUGGY_PASSES,
 };
+
+/// Finds calls that are evaluated as part of the expression itself.
+///
+/// Calls in function-like expressions are deferred and therefore do not affect
+/// the evaluation order of the containing expression.
+struct EagerCallFinder {
+    found: bool,
+}
+
+impl Visit for EagerCallFinder {
+    noop_visit_type!(fail);
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_call_expr(&mut self, _: &CallExpr) {
+        self.found = true;
+    }
+
+    fn visit_class(&mut self, _: &Class) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_opt_call(&mut self, _: &OptCall) {
+        self.found = true;
+    }
+}
+
+fn contains_eager_call(expr: &Expr) -> bool {
+    let mut finder = EagerCallFinder { found: false };
+    expr.visit_with(&mut finder);
+    finder.found
+}
 
 impl ProgramData {
     fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
@@ -582,7 +615,8 @@ impl Optimizer<'_> {
                         // those arguments may affect the condition.
                         if cons.args[..diff_idx].iter().any(|arg| {
                             !arg.expr.is_ident()
-                                && arg.expr.may_have_side_effects(self.ctx.expr_ctx)
+                                && (arg.expr.may_have_side_effects(self.ctx.expr_ctx)
+                                    || contains_eager_call(&arg.expr))
                         }) {
                             return None;
                         }
