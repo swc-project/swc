@@ -454,15 +454,18 @@ fn is_arguments_element_member(member: &MemberExpr) -> bool {
         return false;
     }
 
-    let MemberProp::Computed(computed) = &member.prop else {
-        return false;
-    };
-
-    match &*computed.expr {
-        Expr::Lit(Lit::Str(..) | Lit::Num(..)) => {
-            argument_access_index(&Expr::Member(member.clone())).is_some()
-        }
-        _ => true,
+    match &member.prop {
+        // Assigning to `__proto__` can expose inherited indexed values, so
+        // subsequent `arguments[index]` reads must remain intact.
+        MemberProp::Ident(ident) => &*ident.sym == "__proto__",
+        MemberProp::Computed(computed) => match &*computed.expr {
+            Expr::Lit(Lit::Str(string)) if string.value.as_str() == Some("__proto__") => true,
+            Expr::Lit(Lit::Str(..) | Lit::Num(..)) => {
+                argument_access_index(&Expr::Member(member.clone())).is_some()
+            }
+            _ => true,
+        },
+        MemberProp::PrivateName(..) => false,
     }
 }
 
