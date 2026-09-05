@@ -48,10 +48,18 @@ impl Optimizer<'_> {
         // Removing a rest parameter can make a sloppy function's parameter list simple.
         // In that case, `arguments` becomes mapped to the remaining parameters, which
         // changes observable behavior when the function uses `arguments`.
+        let can_make_arguments_mapped = f.params.len() > 1
+            && !self.ctx.expr_ctx.in_strict
+            && f.params[..f.params.len() - 1]
+                .iter()
+                .all(|param| matches!(&param.pat, Pat::Ident(..)));
+
         if let Some(usage) = self.data.vars.get(&rest_id) {
-            // If the parameter is not referenced and the function does not use
-            // `arguments`, we can remove it.
-            if usage.ref_count == 0 && !self.data.used_arguments(f.ctxt) {
+            // Preserve the rest parameter only if removing it can change an
+            // `arguments` object from unmapped to mapped.
+            if usage.ref_count == 0
+                && (!self.data.used_arguments(f.ctxt) || !can_make_arguments_mapped)
+            {
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");
                 f.params.pop();
