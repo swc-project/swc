@@ -91,8 +91,7 @@ impl Pure<'_> {
 
         let mut var_ids = Vec::new();
         let mut cases = Vec::new();
-        let mut nonmatching_tests = Vec::new();
-        let mut default_case_idx = None;
+        let mut removed_case = false;
         let mut exact = None;
         let mut may_match_other_than_exact = false;
 
@@ -105,30 +104,30 @@ impl Pure<'_> {
                         }
                         _ => e.eq_ignore_span(tail),
                     } {
-                        if !nonmatching_tests.is_empty() {
-                            let test = case.test.as_mut().unwrap();
-                            nonmatching_tests.push(test.take());
-                            *test = SeqExpr {
-                                span: DUMMY_SP,
-                                exprs: nonmatching_tests.take(),
-                            }
-                            .into();
-                        }
-
                         cases.push(case.take());
 
                         exact = Some(idx);
                         break;
                     } else {
-                        var_ids.extend(extract_var_ids(&case.cons));
-                        let mut test = case.test.take().unwrap();
-                        self.ignore_return_value(
-                            &mut test,
-                            DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
-                        );
+                        let test = case.test.take().unwrap();
 
-                        if !test.is_invalid() && test.may_have_side_effects(self.expr_ctx) {
-                            nonmatching_tests.push(test);
+                        if case.cons.is_empty() && test.may_have_side_effects(self.expr_ctx) {
+                            // This case is already a search-only case from an earlier pass.
+                            // Retain it unchanged so that compression reaches a fixed point.
+                            case.test = Some(test);
+                            cases.push(case.take());
+                        } else {
+                            removed_case = true;
+                            var_ids.extend(extract_var_ids(&case.cons));
+
+                            if test.may_have_side_effects(self.expr_ctx) {
+                                // Keep the original test in the search path. Its primitive tail is
+                                // known not to match, while an expression statement would evaluate
+                                // it incorrectly after an earlier fallthrough match.
+                                case.test = Some(test);
+                                case.cons = Default::default();
+                                cases.push(case.take());
+                            }
                         }
                     }
                 } else {
@@ -139,43 +138,11 @@ impl Pure<'_> {
                         may_match_other_than_exact = true;
                     }
 
-                    if !nonmatching_tests.is_empty() {
-                        let test = case.test.as_mut().unwrap();
-                        nonmatching_tests.push(test.take());
-                        *test = SeqExpr {
-                            span: DUMMY_SP,
-                            exprs: nonmatching_tests.take(),
-                        }
-                        .into();
-                    }
-
                     cases.push(case.take())
                 }
             } else {
-                default_case_idx = Some(cases.len());
                 cases.push(case.take())
             }
-        }
-
-        if !nonmatching_tests.is_empty() {
-            let default_case = if let Some(idx) = default_case_idx {
-                &mut cases[idx]
-            } else {
-                cases.push(SwitchCase {
-                    span: DUMMY_SP,
-                    test: None,
-                    cons: Default::default(),
-                });
-                cases.last_mut().unwrap()
-            };
-
-            let mut cons: Vec<Stmt> = nonmatching_tests
-                .take()
-                .into_iter()
-                .map(|test| test.into_stmt())
-                .collect();
-            cons.extend(default_case.cons.take());
-            default_case.cons = cons;
         }
 
         if let Some(exact) = exact {
@@ -214,7 +181,7 @@ impl Pure<'_> {
             }
         }
 
-        if cases.len() == stmt.cases.len() {
+        if !removed_case && cases.len() == stmt.cases.len() {
             stmt.cases = cases;
             return;
         }
