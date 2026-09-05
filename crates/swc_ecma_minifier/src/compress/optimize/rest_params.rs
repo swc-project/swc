@@ -18,6 +18,8 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
 
         fn visit_function(&mut self, _: &Function) {}
 
+        fn visit_constructor(&mut self, _: &Constructor) {}
+
         fn visit_var_decl(&mut self, var: &VarDecl) {
             if var.kind == VarDeclKind::Var {
                 var.decls.visit_with(self);
@@ -38,7 +40,16 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
     }
 
     impl Visit for Finder<'_> {
-        fn visit_function(&mut self, _: &Function) {}
+        fn visit_function(&mut self, function: &Function) {
+            // Function and parameter decorators execute while the enclosing scope is
+            // active, unlike the nested function's parameters and body.
+            function.decorators.visit_with(self);
+            for param in &function.params {
+                param.decorators.visit_with(self);
+            }
+        }
+
+        fn visit_constructor(&mut self, _: &Constructor) {}
 
         fn visit_labeled_stmt(&mut self, labeled: &LabeledStmt) {
             // Labels are not expression references and live in a separate namespace.
@@ -50,6 +61,10 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
         fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
 
         fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
+            // Default parameter initializers execute in this lexical scope and can read the
+            // enclosing function's implicit `arguments` object.
+            arrow.params.visit_with(self);
+
             let mut var_finder = ArrowVarFinder { ids: Vec::new() };
             arrow.body.visit_with(&mut var_finder);
 
