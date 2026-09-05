@@ -1000,7 +1000,7 @@ provides: [Browser, Window, Document]
         case 8:
             setEngine("trident", 6);
     }
-    if (Browser1.firefox && (Browser1.Engine.gecko = !0, setEngine("gecko", Browser1.version >= 3 ? 19 : 18)), Browser1.safari || Browser1.chrome) switch(Browser1.Engine.webkit = !0, Browser1.version){
+    if (Browser1.firefox && (Browser1.Engine.gecko = !0, Browser1.version >= 3 ? setEngine("gecko", 19) : setEngine("gecko", 18)), Browser1.safari || Browser1.chrome) switch(Browser1.Engine.webkit = !0, Browser1.version){
         case 2:
             setEngine("webkit", 419);
             break;
@@ -1010,7 +1010,7 @@ provides: [Browser, Window, Document]
         case 4:
             setEngine("webkit", 525);
     }
-    if (Browser1.opera && (Browser1.Engine.presto = !0, setEngine("presto", Browser1.version >= 9.6 ? 960 : Browser1.version >= 9.5 ? 950 : 925)), "unknown" == Browser1.name) switch((ua.match(/(?:webkit|khtml|gecko)/) || [])[0]){
+    if (Browser1.opera && (Browser1.Engine.presto = !0, Browser1.version >= 9.6 ? setEngine("presto", 960) : Browser1.version >= 9.5 ? setEngine("presto", 950) : setEngine("presto", 925)), "unknown" == Browser1.name) switch((ua.match(/(?:webkit|khtml|gecko)/) || [])[0]){
         case "webkit":
         case "khtml":
             Browser1.Engine.webkit = !0;

@@ -24,6 +24,7 @@ use crate::{
 struct EagerEffectFinder {
     found: bool,
     evaluating_class_instance: bool,
+    evaluating_static_block: bool,
     expr_ctx: ExprCtx,
 }
 
@@ -56,6 +57,20 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr) {
+        // String `split` dispatches through the argument's `Symbol.split` hook.  Unlike
+        // the other recognized string methods, it can execute user code even when the
+        // argument expression itself has no side effects.
+        let dispatches_protocol_hook = matches!(
+            &n.callee,
+            Callee::Expr(callee)
+                if matches!(
+                    &**callee,
+                    Expr::Member(MemberExpr {
+                        prop: MemberProp::Ident(prop),
+                        ..
+                    }) if &*prop.sym == "split"
+                )
+        );
         let has_primitive_receiver = matches!(
             &n.callee,
             Callee::Expr(callee)
@@ -67,7 +82,8 @@ impl Visit for EagerEffectFinder {
                                 || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
                     )
         );
-        let is_pure = has_primitive_receiver
+        let is_pure = !dispatches_protocol_hook
+            && has_primitive_receiver
             && !n
                 .args
                 .iter()
@@ -131,6 +147,13 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_constructor(&mut self, n: &Constructor) {
+        for param in &n.params {
+            match param {
+                ParamOrTsParamProp::Param(param) => param.decorators.visit_with(self),
+                ParamOrTsParamProp::TsParamProp(param) => param.decorators.visit_with(self),
+            }
+        }
+
         if self.evaluating_class_instance {
             n.params.visit_with(self);
         }
@@ -194,23 +217,29 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_static_block(&mut self, n: &StaticBlock) {
+        let evaluating_static_block = self.evaluating_static_block;
+        self.evaluating_static_block = true;
+        n.body.visit_with(self);
+        self.evaluating_static_block = evaluating_static_block;
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
         // `StmtExt::may_have_side_effects` deliberately treats lexical declarations as
-        // effect-free. Their initializers still run while the class is defined.
-        if n.body.stmts.iter().any(|stmt| match stmt {
-            Stmt::Decl(Decl::Var(var_decl)) if var_decl.kind != VarDeclKind::Var => {
-                var_decl.decls.iter().any(|decl| {
-                    decl.init
-                        .as_deref()
-                        .is_some_and(|init| init.may_have_side_effects(self.expr_ctx))
-                })
-            }
-            _ => false,
-        }) {
+        // effect-free. Their initializers still run while a static block is evaluated,
+        // including when the declaration is nested in another statement.
+        if self.evaluating_static_block
+            && n.kind != VarDeclKind::Var
+            && n.decls.iter().any(|decl| {
+                decl.init
+                    .as_deref()
+                    .is_some_and(|init| init.may_have_side_effects(self.expr_ctx))
+            })
+        {
             self.found = true;
             return;
         }
 
-        n.body.visit_with(self);
+        n.visit_children_with(self);
     }
 
     fn visit_prop(&mut self, n: &Prop) {
@@ -232,6 +261,7 @@ fn contains_eager_effect(expr: &Expr, expr_ctx: ExprCtx) -> bool {
     let mut finder = EagerEffectFinder {
         found: false,
         evaluating_class_instance: false,
+        evaluating_static_block: false,
         expr_ctx,
     };
     expr.visit_with(&mut finder);
@@ -791,7 +821,7 @@ impl Optimizer<'_> {
                         if !cons.eq_ignore_span(alt) {
                             diff_count += 1;
                             diff_idx = Some(idx);
-                        } else if side_effects_in_test && !cons.expr.is_pure(self.ctx.expr_ctx) {
+                        } else if side_effects_in_test {
                             // The condition may change a value read by this common argument.
                             return None;
                         }
