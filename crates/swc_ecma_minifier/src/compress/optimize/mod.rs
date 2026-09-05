@@ -1483,6 +1483,8 @@ impl Optimizer<'_> {
                 .ctx
                 .bit_ctx
                 .with(BitCtx::InFnLike, true)
+                // The outer try/finally cannot observe termination within a nested function.
+                .with(BitCtx::InTryBlock, false)
                 .with(BitCtx::TopLevel, false)
                 .with(BitCtx::InParam, false),
             scope,

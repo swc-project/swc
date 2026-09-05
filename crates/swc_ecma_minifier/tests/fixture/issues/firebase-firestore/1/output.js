@@ -6497,19 +6497,11 @@
                     // existence filter mismatches.
                     n1.targetMismatches.forEach((e)=>{
                         let n = t.Qr.get(e);
-                        if (!n) // A watched target might have been removed already.
-                        return;
-                        // Clear the resume token for the target, since we're in a known mismatch
+                        n && (// Clear the resume token for the target, since we're in a known mismatch
                         // state.
                         t.Qr.set(e, n.withResumeToken(_t.EMPTY_BYTE_STRING, n.snapshotVersion)), // Cause a hard reset by unwatching and rewatching immediately, but
                         // deliberately don't send a resume token so that we get a full update.
-                        ho(t, e);
-                        // Mark the target we send as being on behalf of an existence filter
-                        // mismatch, but don't actually retain that in listenTargets. This ensures
-                        // that we flag the first re-listen this way without impacting future
-                        // listens of this target (that might happen e.g. on reconnect).
-                        let s = new ii(n.target, e, 1 /* ExistenceFilterMismatch */ , n.sequenceNumber);
-                        uo(t, s);
+                        ho(t, e), uo(t, new ii(n.target, e, 1 /* ExistenceFilterMismatch */ , n.sequenceNumber)));
                     }), t.remoteSyncer.applyRemoteEvent(n1));
                 } catch (e) {
                     $("RemoteStore", "Failed to raise snapshot:", e), await po(t, e);
