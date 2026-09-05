@@ -33,6 +33,19 @@ pub(super) fn has_use_strict_directive(f: &Function) -> bool {
 /// belongs to a nested arrow function. Its declaration occurrence is not a
 /// read.
 fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
+    fn is_direct_eval_callee(callee: &Callee) -> bool {
+        let mut expr = match callee {
+            Callee::Expr(expr) => &**expr,
+            _ => return false,
+        };
+
+        while let Expr::Paren(ParenExpr { expr: inner, .. }) = expr {
+            expr = inner;
+        }
+
+        matches!(expr, Expr::Ident(ident) if ident.sym == "eval")
+    }
+
     struct ArrowVarFinder {
         ids: Vec<Id>,
     }
@@ -66,6 +79,69 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
     }
 
     impl Visit for Finder<'_> {
+        fn visit_function_body(&mut self, body: &FunctionBody) {
+            if self.found {
+                return;
+            }
+
+            // A function body has its own lexical scope even though it is not represented
+            // by a BlockStmt node.
+            let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
+            for stmt in &body.stmts {
+                if let Stmt::Decl(Decl::Var(var)) = stmt {
+                    if var.kind != VarDeclKind::Var {
+                        for declarator in &var.decls {
+                            declarator.name.visit_with(&mut binding_finder);
+                        }
+                    }
+                }
+            }
+
+            let shadowed_len = self.shadowed_arguments.len();
+            self.shadowed_arguments.extend(binding_finder.ids);
+            body.visit_children_with(self);
+            self.shadowed_arguments.truncate(shadowed_len);
+        }
+
+        fn visit_block_stmt(&mut self, block: &BlockStmt) {
+            if self.found {
+                return;
+            }
+
+            // Lexical declarations shadow the implicit arguments object throughout their
+            // containing block, including before their declaration is evaluated.
+            let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
+            for stmt in &block.stmts {
+                if let Stmt::Decl(Decl::Var(var)) = stmt {
+                    if var.kind != VarDeclKind::Var {
+                        for declarator in &var.decls {
+                            declarator.name.visit_with(&mut binding_finder);
+                        }
+                    }
+                }
+            }
+
+            let shadowed_len = self.shadowed_arguments.len();
+            self.shadowed_arguments.extend(binding_finder.ids);
+            block.visit_children_with(self);
+            self.shadowed_arguments.truncate(shadowed_len);
+        }
+
+        fn visit_catch_clause(&mut self, catch: &CatchClause) {
+            if self.found {
+                return;
+            }
+
+            let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
+            catch.param.visit_with(&mut binding_finder);
+
+            let shadowed_len = self.shadowed_arguments.len();
+            self.shadowed_arguments.extend(binding_finder.ids);
+            catch.param.visit_with(self);
+            catch.body.visit_with(self);
+            self.shadowed_arguments.truncate(shadowed_len);
+        }
+
         fn visit_stmts(&mut self, stmts: &[Stmt]) {
             for stmt in stmts {
                 if self.found {
@@ -167,11 +243,7 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             // intrinsic evaluator, so its syntax context alone cannot prove this call
             // indirect. Nested ordinary functions and constructors are skipped above,
             // while arrows share the enclosing lexical scope.
-            if matches!(
-                &call.callee,
-                Callee::Expr(expr) if matches!(&**expr, Expr::Ident(ident) if ident.sym == "eval")
-            ) && self.shadowed_arguments.is_empty()
-            {
+            if is_direct_eval_callee(&call.callee) && self.shadowed_arguments.is_empty() {
                 self.found = true;
                 return;
             }
