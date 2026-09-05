@@ -620,6 +620,13 @@ impl Optimizer<'_> {
                     }
                 }
 
+                let mut new_target = NewTargetFinder::default();
+                body.visit_with(&mut new_target);
+                if new_target.found {
+                    log_abort!("iife: [x] Found new.target");
+                    return false;
+                }
+
                 if contains_this_expr(body) {
                     return false;
                 }
@@ -1471,6 +1478,30 @@ fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
                 .collect(),
         ),
         _ => None,
+    }
+}
+
+/// Finds `new.target` references that inherit an IIFE's function environment.
+///
+/// Arrow functions do not create a new `new.target` binding, while ordinary
+/// functions and constructors do. Consequently, this visitor descends into
+/// arrows by default but stops at ordinary function boundaries.
+#[derive(Default)]
+struct NewTargetFinder {
+    found: bool,
+}
+
+impl Visit for NewTargetFinder {
+    noop_visit_type!(fail);
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
+        if matches!(n.kind, MetaPropKind::NewTarget) {
+            self.found = true;
+        }
     }
 }
 
