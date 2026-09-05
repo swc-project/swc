@@ -10,7 +10,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Optimizer;
-use crate::compress::optimize::is_left_access_to_arguments;
+use crate::{compress::optimize::is_left_access_to_arguments, program_data::VarUsageInfoFlags};
 
 /// Matches Terser's `index < argnames.length + 5` condition.
 const MAX_INJECTED_PARAMS: usize = 5;
@@ -98,7 +98,7 @@ impl Optimizer<'_> {
                 .data
                 .vars
                 .get(&i.id.to_id())
-                .map(|v| v.declared_count >= 2)
+                .map(|v| v.declared_count >= 2 || v.flags.contains(VarUsageInfoFlags::REASSIGNED))
                 .unwrap_or(false),
             _ => true,
         }) {
