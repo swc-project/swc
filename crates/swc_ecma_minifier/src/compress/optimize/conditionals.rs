@@ -688,7 +688,7 @@ impl Optimizer<'_> {
                 // scope, even when the conditional is in a nested block.
                 if self
                     .data
-                    .get_scope(self.ctx.var_scope)
+                    .get_scope(self.ctx.scope)
                     .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
                 {
                     return None;
@@ -729,7 +729,7 @@ impl Optimizer<'_> {
                             .flags
                             .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
                     })
-                    && self.data.used_arguments(self.ctx.var_scope)
+                    && self.data.used_arguments(self.ctx.scope)
                 {
                     return None;
                 }
