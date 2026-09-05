@@ -9,7 +9,9 @@ use swc_ecma_utils::{
 
 use super::{BitCtx, Optimizer};
 use crate::{
-    compress::util::eval_as_number, program_data::VarUsageInfoFlags, util::make_number,
+    compress::util::{eval_as_number, is_valid_regexp_literal},
+    program_data::VarUsageInfoFlags,
+    util::make_number,
     DISABLE_BUGGY_PASSES,
 };
 
@@ -249,6 +251,9 @@ impl Optimizer<'_> {
                             let Some(value) = exp.value.as_str() else {
                                 return;
                             };
+                            if !is_valid_regexp_literal(value, "", self.options.ecma) {
+                                return;
+                            }
                             self.changed = true;
                             report_change!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
@@ -273,6 +278,9 @@ impl Optimizer<'_> {
                             let Some(flags) = flags.value.as_str() else {
                                 return;
                             };
+                            if !is_valid_regexp_literal(value, flags, self.options.ecma) {
+                                return;
+                            }
 
                             self.changed = true;
                             report_change!(

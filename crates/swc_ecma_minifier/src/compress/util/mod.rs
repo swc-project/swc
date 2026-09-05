@@ -2,6 +2,7 @@ use std::{cmp::Ordering, f64};
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_regexp::{LiteralParser, Options as RegexpOptions};
 use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Type, Value};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -10,6 +11,27 @@ use swc_ecma_visit::{
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::util::ModuleItemExt;
+
+/// Returns true if decoded `RegExp` constructor arguments can be emitted as a
+/// regular expression literal for the configured ECMAScript target.
+///
+/// An invalid constructor throws a catchable runtime error, whereas an invalid
+/// literal makes the generated program fail to parse. Keep constructors that
+/// the regexp grammar rejects instead of turning those errors into early ones.
+pub(super) fn is_valid_regexp_literal(pattern: &str, flags: &str, ecma: EsVersion) -> bool {
+    if !flags.chars().all(|flag| {
+        matches!(flag, 'g' | 'i' | 'm')
+            || (ecma >= EsVersion::Es2015 && matches!(flag, 'u' | 'y'))
+            || (ecma >= EsVersion::Es2018 && flag == 's')
+            || (ecma >= EsVersion::Es2022 && flag == 'd')
+    }) {
+        return false;
+    }
+
+    LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
+        .parse()
+        .is_ok()
+}
 
 #[cfg(test)]
 mod tests;

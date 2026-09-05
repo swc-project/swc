@@ -1,6 +1,5 @@
 use std::{borrow::Cow, num::FpCategory};
 
-use rustc_hash::FxHashSet;
 use swc_atoms::{
     atom,
     wtf8::{Wtf8, Wtf8Buf},
@@ -1083,25 +1082,15 @@ impl Pure<'_> {
                 None
             }
         }
-        fn valid_flag(flag: &Expr, es_version: EsVersion) -> Option<Atom> {
+        fn valid_flag(flag: &Expr) -> Option<Atom> {
             if let Expr::Lit(Lit::Str(s)) = flag {
-                let mut set = FxHashSet::default();
                 for c in s.value.code_points() {
-                    if !(matches!(c.to_char()?, 'g' | 'i' | 'm')
-                        || (es_version >= EsVersion::Es2015 && matches!(c.to_char()?, 'u' | 'y'))
-                        || (es_version >= EsVersion::Es2018 && matches!(c.to_char()?, 's')))
-                        || (es_version >= EsVersion::Es2022 && matches!(c.to_char()?, 'd'))
-                    {
-                        return None;
-                    }
-
-                    if !set.insert(c) {
+                    if !matches!(c.to_char()?, 'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y') {
                         return None;
                     }
                 }
 
-                // SAFETY: matches above ensure that the string is valid UTF-8 ('g', 'i', 'm',
-                // 'u', 'y', 's', 'd')
+                // SAFETY: matches above ensure that the string is valid UTF-8 regex flags.
                 Some(unsafe { Atom::from_wtf8_unchecked(s.value.clone()) })
             } else {
                 None
@@ -1116,12 +1105,17 @@ impl Pure<'_> {
             }, ExprOrSpread {
                 spread: None,
                 expr: flag,
-            }] => (
-                valid_pattern(pattern)?,
-                valid_flag(flag, self.options.ecma)?,
-            ),
+            }] => (valid_pattern(pattern)?, valid_flag(flag)?),
             _ => return None,
         };
+
+        if !super::super::util::is_valid_regexp_literal(
+            pattern.as_str(),
+            flag.as_str(),
+            self.options.ecma,
+        ) {
+            return None;
+        }
 
         if pattern.is_empty() {
             // For some expressions `RegExp()` and `RegExp("")`
