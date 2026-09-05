@@ -1,7 +1,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
-use super::{Optimizer, ProgramData, VarUsageInfoFlags};
+use super::{Optimizer, ProgramData, ScopeData, VarUsageInfoFlags};
 
 /// Returns true if a function body reads its implicit `arguments` object.
 ///
@@ -9,6 +9,14 @@ use super::{Optimizer, ProgramData, VarUsageInfoFlags};
 /// `var arguments` declaration aliases the implicit arguments object unless it
 /// belongs to a nested arrow function.
 fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
+    // A direct eval can read `arguments` without a corresponding identifier node.
+    if data
+        .get_scope(f.ctxt)
+        .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
+    {
+        return true;
+    }
+
     struct ArrowVarFinder {
         ids: Vec<Id>,
     }
@@ -49,7 +57,17 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             }
         }
 
-        fn visit_constructor(&mut self, _: &Constructor) {}
+        fn visit_constructor(&mut self, constructor: &Constructor) {
+            // Constructor parameter decorators execute in the enclosing scope. The
+            // parameter patterns and constructor body execute in the constructor's
+            // own scope and must remain skipped.
+            for param in &constructor.params {
+                match param {
+                    ParamOrTsParamProp::Param(param) => param.decorators.visit_with(self),
+                    ParamOrTsParamProp::TsParamProp(param) => param.decorators.visit_with(self),
+                }
+            }
+        }
 
         fn visit_labeled_stmt(&mut self, labeled: &LabeledStmt) {
             // Labels are not expression references and live in a separate namespace.
