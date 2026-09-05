@@ -676,10 +676,13 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                // The merged expression evaluates the callee before the test, so the test must
-                // not be able to change the constructor binding.
-                let cons_callee = cons.callee.as_ident()?;
+                // The merged expression evaluates the callee before the test, so a
+                // side-effecting test must not be able to change the constructor binding.
+                // An effect-free test cannot observe this reordered lookup, so retain folds for
+                // equal member callees as well as identifiers.
                 if test.may_have_side_effects(self.ctx.expr_ctx) {
+                    let cons_callee = cons.callee.as_ident()?;
+
                     // A `with` statement can dynamically resolve the constructor binding.
                     if self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
                         return None;
@@ -758,10 +761,10 @@ impl Optimizer<'_> {
                     }) {
                         return None;
                     }
-                }
 
-                if IdentUsageFinder::find(cons_callee, &**test) {
-                    return None;
+                    if IdentUsageFinder::find(cons_callee, &**test) {
+                        return None;
+                    }
                 }
 
                 // TODO: Handle new expression with no args.
