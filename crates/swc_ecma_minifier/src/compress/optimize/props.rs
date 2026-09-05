@@ -257,7 +257,10 @@ fn is_expr_fine_for_hoist_props(value: &Expr, may_be_callee: bool) -> bool {
         Expr::Arrow(..) => true,
 
         Expr::Fn(f) => {
-            !contains_this_expr(&f.function.body)
+            // Parameter initializers run with the call receiver too, so checking
+            // only the body can miss receiver-sensitive default values.
+            !contains_this_expr(&f.function.params)
+                && !contains_this_expr(&f.function.body)
                 && (!may_be_callee || !contains_eval(&f.function, false))
         }
 

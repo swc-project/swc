@@ -1,1 +1,2 @@
 variable noinline
+direct noinline
