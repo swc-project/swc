@@ -21,10 +21,14 @@ impl Optimizer<'_> {
             _ => panic!("unable to access unknown nodes"),
         }
 
-        let preserve_first_arg = e.args.iter().skip(1).any(|arg| arg.spread.is_some());
+        let preserve_first_arg = e
+            .args
+            .iter()
+            .position(|arg| arg.spread.is_none())
+            .filter(|&index| e.args[index + 1..].iter().any(|arg| arg.spread.is_some()));
         let mut index = 0;
         e.args.retain(|arg| {
-            let should_retain = (index == 0 && preserve_first_arg)
+            let should_retain = (Some(index) == preserve_first_arg)
                 || arg.spread.is_some()
                 || arg.expr.may_have_side_effects(self.ctx.expr_ctx);
             index += 1;
