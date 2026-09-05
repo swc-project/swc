@@ -772,18 +772,29 @@ impl Optimizer<'_> {
                         return None;
                     }
 
-                    if self.data.ident_is_unresolved(cons_callee) {
+                    let cons_callee_usage = self.data.vars.get(&cons_callee.to_id());
+
+                    // Named function-expression self bindings are recorded separately from
+                    // ordinary declarations, so `ident_is_unresolved` does not recognize them.
+                    if self.data.ident_is_unresolved(cons_callee)
+                        && !cons_callee_usage.is_some_and(|usage| {
+                            usage.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
+                        })
+                    {
                         return None;
                     }
-                    let cons_callee_usage = self.data.vars.get(&cons_callee.to_id());
 
                     // `ident_is_unresolved` treats several host globals as resolved, but they
                     // can be absent in the target environment. Moving an implicit lookup before
                     // a side-effecting test would change whether the test runs before a
-                    // ReferenceError.
-                    if !cons_callee_usage
-                        .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::DECLARED))
-                    {
+                    // ReferenceError. Named function-expression self bindings are safe too, but
+                    // are tracked separately because they are not ordinary declarations.
+                    if !cons_callee_usage.is_some_and(|usage| {
+                        usage.flags.intersects(
+                            VarUsageInfoFlags::DECLARED
+                                .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR),
+                        )
+                    }) {
                         return None;
                     }
 
@@ -840,7 +851,10 @@ impl Optimizer<'_> {
                                         && matches!(
                                             usage.var_kind,
                                             Some(VarDeclKind::Let | VarDeclKind::Const)
-                                        )))
+                                        ))
+                                    && !usage
+                                        .flags
+                                        .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM))
                         })
                     {
                         return None;
