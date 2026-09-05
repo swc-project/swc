@@ -123,7 +123,7 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
 
 #[derive(Debug)]
 enum GroupType<'a> {
-    Literals(Vec<&'a ExprOrSpread>),
+    Literals(Vec<Option<&'a ExprOrSpread>>),
     Expression(&'a ExprOrSpread),
 }
 
@@ -786,11 +786,14 @@ impl Pure<'_> {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
 
-            for elem in elems.iter().flatten() {
-                let is_literal = match &*elem.expr {
-                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                    e if is_pure_undefined(self.expr_ctx, e) => true,
-                    _ => false,
+            for elem in elems.iter() {
+                let is_literal = match elem {
+                    None => true,
+                    Some(elem) => match &*elem.expr {
+                        Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                        e if is_pure_undefined(self.expr_ctx, e) => true,
+                        _ => false,
+                    },
                 };
 
                 if is_literal {
@@ -825,21 +828,26 @@ impl Pure<'_> {
         let mut groups = Vec::new();
         let mut current_group = Vec::new();
 
-        for elem in elems.iter().flatten() {
-            let is_literal = match &*elem.expr {
-                Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                e if is_pure_undefined(self.expr_ctx, e) => true,
-                _ => false,
+        for elem in elems.iter() {
+            let is_literal = match elem {
+                None => true,
+                Some(elem) => match &*elem.expr {
+                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                    e if is_pure_undefined(self.expr_ctx, e) => true,
+                    _ => false,
+                },
             };
 
             if is_literal {
-                current_group.push(elem);
+                // An elision is an empty join element, so it must stay in the
+                // group to preserve its surrounding separator positions.
+                current_group.push(elem.as_ref());
             } else {
                 if !current_group.is_empty() {
                     groups.push(GroupType::Literals(current_group));
                     current_group = Vec::new();
                 }
-                groups.push(GroupType::Expression(elem));
+                groups.push(GroupType::Expression(elem.as_ref().unwrap()));
             }
         }
 
@@ -916,6 +924,10 @@ impl Pure<'_> {
                     GroupType::Literals(literals) => {
                         let mut joined = Wtf8Buf::new();
                         for literal in literals.iter() {
+                            let Some(literal) = literal else {
+                                continue;
+                            };
+
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
                                 Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
@@ -971,6 +983,10 @@ impl Pure<'_> {
                             if idx > 0 {
                                 joined.push_wtf8(separator);
                             }
+
+                            let Some(literal) = literal else {
+                                continue;
+                            };
 
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
@@ -1150,6 +1166,13 @@ impl Pure<'_> {
 
     /// Array() -> []
     fn optimize_array(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+        // Literal array spreads are expanded before this optimization. Any
+        // remaining spread has unknown runtime arity, so it may expand to one
+        // numeric argument and invoke Array's length-constructor behavior.
+        if args.iter().any(|arg| arg.spread.is_some()) {
+            return None;
+        }
+
         if args.len() == 1 {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
@@ -1495,13 +1518,17 @@ impl Pure<'_> {
         let mut cur_cooked = Wtf8Buf::default();
         let mut first = true;
 
-        for elem in elems.take().into_iter().flatten() {
+        for elem in elems.take() {
             if first {
                 first = false;
             } else {
                 cur_raw.push_str(&convert_str_value_to_tpl_raw(sep));
                 cur_cooked.push_wtf8(sep);
             }
+
+            let Some(elem) = elem else {
+                continue;
+            };
 
             match *elem.expr {
                 Expr::Tpl(mut tpl) => {

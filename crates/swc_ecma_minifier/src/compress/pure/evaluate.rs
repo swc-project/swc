@@ -900,6 +900,12 @@ impl Pure<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
 
+        // These methods ignore their arguments, but evaluating an argument can
+        // still throw or iterate a spread. Fold only calls without arguments.
+        if matches!(&*method, "toLowerCase" | "toUpperCase") && !call.args.is_empty() {
+            return;
+        }
+
         let new_val = match &*method {
             "toLowerCase" => s.value.to_lowercase(),
             "toUpperCase" => s.value.to_uppercase(),
@@ -997,9 +1003,10 @@ impl Pure<'_> {
                         None => {
                             self.changed = true;
                             report_change!(
-                                "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
+                                "evaluate: Evaluated `codePointAt` of a string literal as \
+                                 `undefined`",
                             );
-                            *e = make_number(e.span(), f64::NAN)
+                            *e = *Expr::undefined(call.span)
                         }
                     }
                 }

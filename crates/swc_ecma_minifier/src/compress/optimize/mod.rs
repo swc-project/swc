@@ -80,7 +80,6 @@ pub(super) fn optimizer<'a>(
             remaining_depth: 6,
         },
         scope: marks.top_level_ctxt,
-        var_scope: marks.top_level_ctxt,
         bit_ctx: BitCtx::default(),
     };
 
@@ -111,9 +110,6 @@ struct Ctx {
 
     /// Current scope.
     scope: SyntaxContext,
-
-    /// fn or top level scope
-    var_scope: SyntaxContext,
 
     bit_ctx: BitCtx,
 }
@@ -355,7 +351,7 @@ impl From<&Function> for FnMetadata {
             len: f
                 .params
                 .iter()
-                .filter(|p| matches!(&p.pat, Pat::Ident(..) | Pat::Array(..) | Pat::Object(..)))
+                .take_while(|p| !matches!(&p.pat, Pat::Assign(..) | Pat::Rest(..)))
                 .count(),
         }
     }
@@ -399,7 +395,7 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .get_scope(self.ctx.var_scope)
+            .get_scope(self.ctx.scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL)
         {
@@ -1493,7 +1489,6 @@ impl Optimizer<'_> {
                 .with(BitCtx::TopLevel, false)
                 .with(BitCtx::InParam, false),
             scope,
-            var_scope: scope,
             ..self.ctx.clone()
         }
     }
@@ -1847,7 +1842,6 @@ impl VisitMut for Optimizer<'_> {
                         .with(BitCtx::InBlock, true)
                         .with(BitCtx::InParam, false),
                     scope: s.body.ctxt,
-                    var_scope: s.body.ctxt,
                     ..self.ctx.clone()
                 };
                 n.visit_mut_children_with(&mut *self.with_ctx(ctx));
