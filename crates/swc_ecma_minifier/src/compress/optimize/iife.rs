@@ -348,6 +348,9 @@ impl Optimizer<'_> {
                                     }
 
                                     match &*arg.expr {
+                                        // RegExp literals allocate on each evaluation; moving one
+                                        // into a returned closure changes its identity.
+                                        Expr::Lit(Lit::Regex(..)) => true,
                                         Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => true,
                                         Expr::Lit(..) => false,
                                         _ => true,
