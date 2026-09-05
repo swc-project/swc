@@ -1149,6 +1149,15 @@ impl VisitMut for Pure<'_> {
         n.pat.visit_mut_children_with(self);
     }
 
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        // Arrow parameters are patterns rather than `Param`s, so preserve the
+        // root defaults here for the same observable arity reason as above.
+        for param in &mut n.params {
+            param.visit_mut_children_with(self);
+        }
+        n.body.visit_mut_with(self);
+    }
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
 
