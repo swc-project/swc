@@ -6,6 +6,14 @@ function argumentsDefault() {
         }
     }).m();
 }
+function evalDefault() {
+    if (2 != arguments.length) throw Error("arguments were dropped");
+    return ({
+        m (value = eval("arguments.length")) {
+            return value;
+        }
+    }).m();
+}
 const superDefault = {
     __proto__: {
         value: 7
@@ -31,4 +39,4 @@ const superBody = {
 }, safeDefault = {
     m: (value = 5)=>value
 };
-console.log(argumentsDefault(1, 2), superDefault.m(), argumentsBody(), superBody.m(), safeDefault.m());
+console.log(argumentsDefault(1, 2), evalDefault(1, 2), superDefault.m(), argumentsBody(1, 2), superBody.m(), safeDefault.m());

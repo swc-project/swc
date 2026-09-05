@@ -1,5 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_arguments, contains_this_expr};
 
 use super::Pure;
@@ -73,7 +74,10 @@ impl Pure<'_> {
                 || contains_arguments(&m.function.body)
                 || contains_super(&m.function.body)
                 || m.function.params.iter().any(|param| {
-                    contains_this_expr(param) || contains_arguments(param) || contains_super(param)
+                    contains_this_expr(param)
+                        || contains_arguments(param)
+                        || contains_super(param)
+                        || contains_eval(param, false)
                 })
             {
                 return;
