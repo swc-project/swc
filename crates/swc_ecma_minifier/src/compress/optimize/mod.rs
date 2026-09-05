@@ -634,6 +634,40 @@ impl Optimizer<'_> {
         )
     }
 
+    /// Returns true if invoking an empty-body IIFE without arguments cannot
+    /// have observable parameter-initialization effects.
+    ///
+    /// Destructuring and non-identifier rest parameters are deliberately
+    /// rejected. They can throw while binding omitted arguments, and modeling
+    /// every safe pattern here would make this otherwise local optimization
+    /// unsound. A simple rest binding only initializes an empty array.
+    fn can_drop_empty_iife(&self, callee: &Expr) -> bool {
+        match callee {
+            Expr::Fn(f) if f.function.body.is_empty() => f
+                .function
+                .params
+                .iter()
+                .all(|param| self.is_empty_iife_param_safe(&param.pat)),
+            Expr::Arrow(f) if matches!(&*f.body, ArrowFunctionBody::FunctionBody(body) if body.stmts.is_empty()) => {
+                f.params
+                    .iter()
+                    .all(|param| self.is_empty_iife_param_safe(param))
+            }
+            _ => false,
+        }
+    }
+
+    fn is_empty_iife_param_safe(&self, pat: &Pat) -> bool {
+        match pat {
+            Pat::Ident(..) => true,
+            Pat::Rest(rest) if rest.arg.is_ident() => true,
+            Pat::Assign(assign) if assign.left.is_ident() => {
+                !assign.right.may_have_side_effects(self.ctx.expr_ctx)
+            }
+            _ => false,
+        }
+    }
+
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
     #[cfg_attr(
@@ -803,22 +837,7 @@ impl Optimizer<'_> {
                 callee: Callee::Expr(callee),
                 args,
                 ..
-            }) if match &**callee {
-                Expr::Fn(f) => f
-                    .function
-                    .body
-                    .as_ref()
-                    .map(|body| body.stmts.is_empty())
-                    .unwrap_or(false),
-                Expr::Arrow(f) => match &*f.body {
-                    ArrowFunctionBody::FunctionBody(body) => body.stmts.is_empty(),
-                    ArrowFunctionBody::Expr(_) => false,
-                    #[cfg(swc_ast_unknown)]
-                    _ => panic!("unable to access unknown nodes"),
-                },
-                _ => false,
-            } && args.is_empty() =>
-            {
+            }) if args.is_empty() && self.can_drop_empty_iife(callee) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
                 return None;
@@ -843,12 +862,8 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if args.is_empty() {
-                    if let Expr::Fn(f) = &mut **callee {
-                        if f.function.body.is_empty() {
-                            return None;
-                        }
-                    }
+                if args.is_empty() && self.can_drop_empty_iife(callee) {
+                    return None;
                 }
 
                 if let Expr::Ident(callee) = &**callee {
