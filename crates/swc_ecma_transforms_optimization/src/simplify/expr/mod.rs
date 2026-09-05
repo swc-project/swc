@@ -1151,59 +1151,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                     };
 
                     *expr = seq.into()
-                };
-            }
-        }
-        op!("instanceof") => {
-            fn is_non_obj(e: &Expr) -> bool {
-                match e {
-                    // Non-object types are never instances.
-                    Expr::Lit(Lit::Str { .. })
-                    | Expr::Lit(Lit::Num(..))
-                    | Expr::Lit(Lit::Null(..))
-                    | Expr::Lit(Lit::Bool(..)) => true,
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => true,
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => true,
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => true,
-
-                    Expr::Unary(UnaryExpr {
-                        op: op!("!"),
-                        ref arg,
-                        ..
-                    })
-                    | Expr::Unary(UnaryExpr {
-                        op: op!(unary, "-"),
-                        ref arg,
-                        ..
-                    })
-                    | Expr::Unary(UnaryExpr {
-                        op: op!("void"),
-                        ref arg,
-                        ..
-                    }) => is_non_obj(arg),
-                    _ => false,
                 }
-            }
-
-            fn is_obj(e: &Expr) -> bool {
-                matches!(
-                    *e,
-                    Expr::Array { .. } | Expr::Object { .. } | Expr::Fn { .. } | Expr::New { .. }
-                )
-            }
-
-            // Non-object types are never instances.
-            if is_non_obj(left) {
-                *changed = true;
-
-                *expr = *make_bool_expr(expr_ctx, *span, false, iter::once(right.take()));
-                return;
-            }
-
-            if is_obj(left) && right.is_global_ref_to(expr_ctx, "Object") {
-                *changed = true;
-
-                *expr = *make_bool_expr(expr_ctx, *span, true, iter::once(left.take()));
             }
         }
 
