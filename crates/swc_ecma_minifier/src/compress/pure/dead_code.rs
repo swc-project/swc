@@ -660,7 +660,12 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Unary(..) | Expr::Bin(..) | Expr::Cond(..) => {
+            Expr::Unary(..) | Expr::Bin(..) | Expr::Cond(..)
+                if !arg.may_have_side_effects(ExprCtx {
+                    is_unresolved_ref_safe: true,
+                    ..self.expr_ctx
+                }) =>
+            {
                 *e = make_bool(e.span(), true);
             }
 
