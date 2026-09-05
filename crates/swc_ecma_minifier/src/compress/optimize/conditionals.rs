@@ -142,17 +142,18 @@ impl Visit for EagerEffectFinder {
     fn visit_function(&mut self, _: &Function) {}
 
     fn visit_new_expr(&mut self, n: &NewExpr) {
-        if n.callee.is_class() {
-            // Constructing spread arguments obtains and iterates an iterator, which can run
-            // user code even when the argument expression itself appears pure.
-            if n.args
-                .as_deref()
-                .is_some_and(|args| args.iter().any(|arg| arg.spread.is_some()))
-            {
-                self.found = true;
-                return;
-            }
+        // Constructing spread arguments obtains and iterates an iterator, which can run
+        // user code even when the constructor and argument expression appear pure. This
+        // includes empty function expressions, which are accepted as pure constructors.
+        if n.args
+            .as_deref()
+            .is_some_and(|args| args.iter().any(|arg| arg.spread.is_some()))
+        {
+            self.found = true;
+            return;
+        }
 
+        if n.callee.is_class() {
             let evaluating_class_instance = self.evaluating_class_instance;
             self.evaluating_class_instance = true;
             n.callee.visit_with(self);
@@ -165,6 +166,17 @@ impl Visit for EagerEffectFinder {
 
     fn visit_opt_call(&mut self, _: &OptCall) {
         self.found = true;
+    }
+
+    fn visit_ident(&mut self, n: &Ident) {
+        // The minifier only assumes these bindings cannot be redefined. Other
+        // unresolved globals, including built-in-looking names such as
+        // `Object`, can be accessors.
+        if n.ctxt == self.expr_ctx.unresolved_ctxt
+            && !matches!(&*n.sym, "undefined" | "NaN" | "Infinity")
+        {
+            self.found = true;
+        }
     }
 
     fn visit_private_method(&mut self, n: &PrivateMethod) {
