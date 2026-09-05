@@ -24,12 +24,6 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.get_scope(f.ctxt) {
-            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
-                return;
-            }
-        }
-
         // Don't optimize if there's no rest parameter
         if f.params.is_empty() {
             return;
@@ -56,6 +50,12 @@ impl Optimizer<'_> {
         if let Some(usage) = self.data.vars.get(&rest_id) {
             // If the parameter is not referenced, we can remove it
             if usage.ref_count == 0 {
+                if let Some(scope) = self.data.get_scope(f.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                        return;
+                    }
+                }
+
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");
                 f.params.pop();
