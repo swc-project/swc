@@ -291,6 +291,7 @@ impl Optimizer<'_> {
                                 Some(cur_if) => {
                                     if SyntaxContext::within_ignored_ctxt(|| {
                                         cur_if.cons.eq_ignore_span(&stmt.cons)
+                                            && cur_if.cons.terminates()
                                     }) {
                                         cur_if.test = BinExpr {
                                             span: DUMMY_SP,
