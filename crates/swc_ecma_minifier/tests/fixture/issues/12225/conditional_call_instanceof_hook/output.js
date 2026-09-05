@@ -11,4 +11,11 @@ function run() {
     }
     return x ? f(({}) instanceof C, 1) : f(({}) instanceof C, 2);
 }
-console.log(run());
+function safePrimitiveInstanceof() {
+    let x = true;
+    function f(a, b) {
+        return b;
+    }
+    return f(false, x ? 1 : 2);
+}
+console.log(run(), safePrimitiveInstanceof());

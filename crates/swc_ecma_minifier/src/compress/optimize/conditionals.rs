@@ -95,6 +95,24 @@ fn is_non_coercing_property_key(expr: &Expr) -> bool {
     ) || matches!(expr, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
 }
 
+/// Returns whether an `instanceof` operation cannot invoke a custom hook.
+///
+/// An ordinary function expression is freshly allocated, so an earlier test
+/// cannot install an own `Symbol.hasInstance` method on it. Its built-in
+/// implementation returns `false` for primitive left operands before reading
+/// the function's `prototype` property.
+fn is_safe_primitive_instanceof(n: &BinExpr) -> bool {
+    matches!(
+        (&*n.left, &*n.right),
+        (
+            Expr::Lit(
+                Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::Num(..) | Lit::BigInt(..)
+            ),
+            Expr::Fn(..)
+        )
+    )
+}
+
 impl Visit for ValueReadFinder {
     noop_visit_type!();
 
@@ -194,6 +212,18 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_bin_expr(&mut self, n: &BinExpr) {
+        if matches!(
+            n.op,
+            op!("==") | op!("!=") | op!("<") | op!("<=") | op!(">") | op!(">=")
+        ) && (!is_non_coercing_property_key(&n.left) || !is_non_coercing_property_key(&n.right))
+        {
+            // These operators implicitly convert object operands to primitives. A local
+            // identifier can therefore run a Proxy hook even though visiting the operand
+            // alone appears effect-free.
+            self.found = true;
+            return;
+        }
+
         if n.op == op!("in")
             && is_untrapped_plain_object(&n.right)
             && is_non_coercing_property_key(&n.left)
@@ -202,7 +232,7 @@ impl Visit for EagerEffectFinder {
             return;
         }
 
-        if matches!(n.op, op!("in") | op!("instanceof")) {
+        if n.op == op!("in") || (n.op == op!("instanceof") && !is_safe_primitive_instanceof(n)) {
             self.found = true;
             return;
         }
@@ -401,6 +431,20 @@ impl Visit for EagerEffectFinder {
             if ident.ctxt == self.expr_ctx.unresolved_ctxt
                 && !matches!(&*ident.sym, "undefined" | "NaN" | "Infinity")
             {
+                self.found = true;
+                return;
+            }
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        if let PropName::Computed(prop) = n {
+            // Object and class property definitions convert computed keys with
+            // `ToPropertyKey`. The generic predicate only visits the key expression,
+            // which misses coercion hooks on local objects and Proxies.
+            if !is_non_coercing_property_key(&prop.expr) {
                 self.found = true;
                 return;
             }
