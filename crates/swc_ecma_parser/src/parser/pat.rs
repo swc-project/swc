@@ -375,14 +375,16 @@ impl<I: Tokens> Parser<I> {
                     }
                     .into());
                 }
-                let count_of_trailing_elisions = if pat_ty == PatType::AssignPat {
-                    // Array literal parsing does not add an element for a trailing comma, but it
-                    // does add `None` for each elision. Preserve trailing elisions in assignment
-                    // patterns because array destructuring advances the iterator for each one.
-                    0
-                } else {
-                    exprs.iter().rev().take_while(|e| e.is_none()).count()
-                };
+                let count_of_trailing_elisions =
+                    if matches!(pat_ty, PatType::AssignPat | PatType::AssignElement) {
+                        // Array literal parsing does not add an element for a trailing comma, but
+                        // it does add `None` for each elision. Preserve
+                        // trailing elisions in assignment patterns because
+                        // array destructuring advances the iterator for each one.
+                        0
+                    } else {
+                        exprs.iter().rev().take_while(|e| e.is_none()).count()
+                    };
                 let len = exprs.len();
                 let mut params = Vec::with_capacity(len - count_of_trailing_elisions);
                 // Comma or other pattern cannot follow a rest pattern.
