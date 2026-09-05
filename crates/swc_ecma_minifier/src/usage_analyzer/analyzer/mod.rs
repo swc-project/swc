@@ -27,6 +27,7 @@ where
         data,
         marks,
         scope: Default::default(),
+        lexical_loop_scope_ctxts: Default::default(),
         ctx: Default::default(),
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty()
@@ -76,6 +77,12 @@ where
     data: S,
     marks: Option<Marks>,
     scope: S::ScopeData,
+    /// Lexical loop scopes visible from the current traversal position.
+    ///
+    /// Direct eval can assign a loop binding without producing a normal
+    /// assignment record, so its scope data must be available to consumers
+    /// that reason about that binding.
+    lexical_loop_scope_ctxts: Vec<SyntaxContext>,
     ctx: Ctx,
     expr_ctx: ExprCtx,
     used_recursively: FxHashMap<Id, RecursiveUsage>,
@@ -103,6 +110,7 @@ where
             ctx: self.ctx.with(BitContext::IsTopLevel, false),
             expr_ctx: self.expr_ctx,
             scope: S::ScopeData::new(kind),
+            lexical_loop_scope_ctxts: self.lexical_loop_scope_ctxts.clone(),
             used_recursively,
         };
 
@@ -118,6 +126,37 @@ where
         self.used_recursively = child.used_recursively;
 
         ret
+    }
+
+    /// Visits `op` while recording direct eval calls against a lexical loop
+    /// scope.
+    fn with_lexical_loop_scope<F, Ret>(&mut self, ctxt: SyntaxContext, op: F) -> Ret
+    where
+        F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
+    {
+        self.lexical_loop_scope_ctxts.push(ctxt);
+        let ret = op(self);
+        self.lexical_loop_scope_ctxts.pop();
+        ret
+    }
+
+    fn lexical_scope_ctxt_of_var_decl(n: &VarDecl) -> Option<SyntaxContext> {
+        if !matches!(n.kind, VarDeclKind::Let | VarDeclKind::Const) {
+            return None;
+        }
+
+        n.decls
+            .iter()
+            .flat_map(|decl| find_pat_ids::<_, Id>(&decl.name))
+            .next()
+            .map(|(_, ctxt)| ctxt)
+    }
+
+    fn lexical_scope_ctxt_of_for_head(n: &ForHead) -> Option<SyntaxContext> {
+        match n {
+            ForHead::VarDecl(decl) => Self::lexical_scope_ctxt_of_var_decl(decl),
+            _ => None,
+        }
     }
 
     fn visit_pat_id(&mut self, i: &Ident) {
@@ -305,6 +344,48 @@ where
 
         self.with_ctx(ctx).visit_in_cond(&n.test);
         self.with_ctx(ctx).visit_in_cond(&n.update);
+        self.with_ctx(ctx).visit_in_cond(&n.body);
+    }
+
+    fn visit_for_in_stmt_contents(&mut self, n: &ForInStmt) {
+        let head_ctx = self
+            .ctx
+            .with(BitContext::InLeftOfForLoop, true)
+            .with(BitContext::IsIdRef, true)
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
+        n.left.visit_with(&mut *self.with_ctx(head_ctx));
+
+        n.right.visit_with(self);
+
+        if let ForHead::Pat(pat) = &n.left {
+            self.with_ctx(head_ctx).report_assign_pat(pat, true)
+        }
+
+        let ctx = self
+            .ctx
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
+        self.with_ctx(ctx).visit_in_cond(&n.body);
+    }
+
+    fn visit_for_of_stmt_contents(&mut self, n: &ForOfStmt) {
+        let head_ctx = self
+            .ctx
+            .with(BitContext::InLeftOfForLoop, true)
+            .with(BitContext::IsIdRef, true)
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
+        n.left.visit_with(&mut *self.with_ctx(head_ctx));
+
+        if let ForHead::Pat(pat) = &n.left {
+            self.with_ctx(head_ctx).report_assign_pat(pat, true)
+        }
+
+        let ctx = self
+            .ctx
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
         self.with_ctx(ctx).visit_in_cond(&n.body);
     }
 }
@@ -608,6 +689,13 @@ where
             match &**callee {
                 Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
                     self.scope.mark_eval_called();
+
+                    // A direct eval nested in a loop can rebind its lexical declarations. The
+                    // loop itself is not an analyzer child because doing so loses optimization
+                    // facts for function-scoped variables used in its body.
+                    for ctxt in self.lexical_loop_scope_ctxts.clone() {
+                        self.data.scope(ctxt).mark_eval_called();
+                    }
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
                     for_each_id_ref_in_expr(&m.obj, &mut |id| {
@@ -980,28 +1068,15 @@ where
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.right.visit_with(self);
 
-        self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
-            let head_ctx = child
-                .ctx
-                .with(BitContext::InLeftOfForLoop, true)
-                .with(BitContext::IsIdRef, true)
-                .with(BitContext::ExecutedMultipleTime, true)
-                .with(BitContext::InCond, true);
-            n.left.visit_with(&mut *child.with_ctx(head_ctx));
-
-            n.right.visit_with(child);
-
-            if let ForHead::Pat(pat) = &n.left {
-                child.with_ctx(head_ctx).report_assign_pat(pat, true)
-            }
-
-            let ctx = child
-                .ctx
-                .with(BitContext::ExecutedMultipleTime, true)
-                .with(BitContext::InCond, true);
-
-            child.with_ctx(ctx).visit_in_cond(&n.body);
-        });
+        if let Some(ctxt) = Self::lexical_scope_ctxt_of_for_head(&n.left) {
+            self.with_lexical_loop_scope(ctxt, |analyzer| {
+                analyzer.visit_for_in_stmt_contents(n);
+            });
+        } else {
+            self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
+                child.visit_for_in_stmt_contents(n);
+            });
+        }
     }
 
     #[cfg_attr(
@@ -1011,25 +1086,15 @@ where
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.right.visit_with(self);
 
-        self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
-            let head_ctx = child
-                .ctx
-                .with(BitContext::InLeftOfForLoop, true)
-                .with(BitContext::IsIdRef, true)
-                .with(BitContext::ExecutedMultipleTime, true)
-                .with(BitContext::InCond, true);
-            n.left.visit_with(&mut *child.with_ctx(head_ctx));
-
-            if let ForHead::Pat(pat) = &n.left {
-                child.with_ctx(head_ctx).report_assign_pat(pat, true)
-            }
-
-            let ctx = child
-                .ctx
-                .with(BitContext::ExecutedMultipleTime, true)
-                .with(BitContext::InCond, true);
-            child.with_ctx(ctx).visit_in_cond(&n.body);
-        });
+        if let Some(ctxt) = Self::lexical_scope_ctxt_of_for_head(&n.left) {
+            self.with_lexical_loop_scope(ctxt, |analyzer| {
+                analyzer.visit_for_of_stmt_contents(n);
+            });
+        } else {
+            self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
+                child.visit_for_of_stmt_contents(n);
+            });
+        }
     }
 
     #[cfg_attr(
@@ -1038,25 +1103,13 @@ where
     )]
     fn visit_for_stmt(&mut self, n: &ForStmt) {
         let lexical_scope_ctxt = n.init.as_ref().and_then(|init| match init {
-            VarDeclOrExpr::VarDecl(decl)
-                if matches!(decl.kind, VarDeclKind::Let | VarDeclKind::Const) =>
-            {
-                decl.decls
-                    .iter()
-                    .flat_map(|decl| find_pat_ids::<_, Id>(&decl.name))
-                    .next()
-                    .map(|(_, ctxt)| ctxt)
-            }
+            VarDeclOrExpr::VarDecl(decl) => Self::lexical_scope_ctxt_of_var_decl(decl),
             _ => None,
         });
 
         if let Some(ctxt) = lexical_scope_ctxt {
-            let is_top_level = self.ctx.is_top_level();
-            self.with_child(ctxt, ScopeKind::Block, |child| {
-                // A `var` declared in a top-level loop body is function-scoped even though
-                // the loop initializer creates a lexical scope.
-                let ctx = child.ctx.with(BitContext::IsTopLevel, is_top_level);
-                child.with_ctx(ctx).visit_for_stmt_contents(n);
+            self.with_lexical_loop_scope(ctxt, |analyzer| {
+                analyzer.visit_for_stmt_contents(n);
             });
         } else {
             self.visit_for_stmt_contents(n);

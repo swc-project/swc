@@ -17,6 +17,38 @@ use crate::{
     DISABLE_BUGGY_PASSES,
 };
 
+#[derive(Default)]
+struct InstanceOfFinder {
+    found: bool,
+}
+
+impl Visit for InstanceOfFinder {
+    noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_bin_expr(&mut self, n: &BinExpr) {
+        if n.op == op!("instanceof") {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_fn_expr(&mut self, _: &FnExpr) {}
+}
+
+fn test_can_rebind_callee(test: &Expr, ctx: swc_ecma_utils::ExprCtx) -> bool {
+    if test.may_have_side_effects(ctx) {
+        return true;
+    }
+
+    let mut finder = InstanceOfFinder::default();
+    test.visit_with(&mut finder);
+    finder.found
+}
+
 impl ProgramData {
     fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
         match &*o.base {
@@ -727,7 +759,7 @@ impl Optimizer<'_> {
                 // side-effecting test must not be able to change the constructor binding.
                 // An effect-free test cannot observe this reordered lookup, so retain folds for
                 // equal member callees as well as identifiers.
-                if test.may_have_side_effects(self.ctx.expr_ctx) {
+                if test_can_rebind_callee(test, self.ctx.expr_ctx) {
                     let cons_callee = cons.callee.as_ident()?;
 
                     // Direct eval can reassign a local constructor without recording it as
