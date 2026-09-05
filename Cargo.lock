@@ -6717,6 +6717,7 @@ dependencies = [
  "swc_ecma_codegen",
  "swc_ecma_hooks",
  "swc_ecma_parser",
+ "swc_ecma_regexp",
  "swc_ecma_testing",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_optimization",
