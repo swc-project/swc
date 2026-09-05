@@ -676,6 +676,13 @@ impl Optimizer<'_> {
                     return None;
                 }
 
+                // The merged expression evaluates the callee before the test, so the test must
+                // not be able to change the constructor binding.
+                let cons_callee = cons.callee.as_ident()?;
+                if IdentUsageFinder::find(cons_callee, &**test) {
+                    return None;
+                }
+
                 // TODO: Handle new expression with no args.
 
                 if cons.callee.eq_ignore_span(&alt.callee)
