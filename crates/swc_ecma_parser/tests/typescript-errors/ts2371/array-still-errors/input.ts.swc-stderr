@@ -1,0 +1,12 @@
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/array-still-errors/input.ts:1:1]
+ 1 | declare function bar([x = 1]: number[]): void;
+   :                       ^^^^^
+ 2 | declare function baz([x, y = 2]: number[]): void;
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/array-still-errors/input.ts:2:1]
+ 1 | declare function bar([x = 1]: number[]): void;
+ 2 | declare function baz([x, y = 2]: number[]): void;
+   :                          ^^^^^
+   `----
