@@ -44,7 +44,23 @@ impl Visit for ValueReadFinder {
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
+    fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
+        n.decorators.visit_with(self);
+        n.key.visit_with(self);
+        if n.is_static {
+            n.value.visit_with(self);
+        }
+    }
+
     fn visit_binding_ident(&mut self, _: &BindingIdent) {}
+
+    fn visit_class_prop(&mut self, n: &ClassProp) {
+        n.decorators.visit_with(self);
+        n.key.visit_with(self);
+        if n.is_static {
+            n.value.visit_with(self);
+        }
+    }
 
     fn visit_function(&mut self, _: &Function) {}
 
@@ -70,6 +86,13 @@ impl Visit for ValueReadFinder {
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(prop) = n {
             prop.expr.visit_with(self);
+        }
+    }
+
+    fn visit_private_prop(&mut self, n: &PrivateProp) {
+        n.decorators.visit_with(self);
+        if n.is_static {
+            n.value.visit_with(self);
         }
     }
 }
@@ -116,7 +139,7 @@ impl Visit for EagerEffectFinder {
                         ..
                     }) if matches!(&*prop.sym, "split" | "includes" | "startsWith" | "endsWith")
                 )
-        );
+        ) && !n.args.is_empty();
         let has_primitive_receiver = matches!(
             &n.callee,
             Callee::Expr(callee)
@@ -161,10 +184,13 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_class(&mut self, n: &Class) {
-        // Defining a derived class reads the superclass's `prototype` property. The
-        // lookup can execute user code through a Proxy even when the superclass is
-        // only an identifier.
-        if n.super_class.is_some() {
+        // Defining a derived class reads the superclass's `prototype` property, except
+        // for `class extends null {}`. The lookup can execute user code through a Proxy
+        // even when the superclass is only an identifier.
+        if !matches!(
+            n.super_class.as_deref(),
+            None | Some(Expr::Lit(Lit::Null(..)))
+        ) {
             self.found = true;
             return;
         }
