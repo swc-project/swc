@@ -415,7 +415,15 @@ impl Pure<'_> {
 
             e if is_pure_undefined(self.expr_ctx, e) => true,
 
-            Expr::Ident(i) => i.ctxt != self.expr_ctx.unresolved_ctxt,
+            // Deleting a declared binding is false in sloppy mode. Keep unresolved
+            // identifiers untouched because they may refer to a deletable global property.
+            Expr::Ident(i) if i.ctxt != self.expr_ctx.unresolved_ctxt => {
+                self.changed = true;
+                let span = delete.arg.span();
+                report_change!("booleans: Compressing `delete` => false");
+                *e = make_bool(span, false);
+                return;
+            }
 
             // NaN
             Expr::Bin(BinExpr {
