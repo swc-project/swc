@@ -187,6 +187,31 @@ impl VisitMut for ArgReplacer<'_> {
         }
     }
 
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if n.op != op!("delete") || !is_access_to_arguments(&n.arg) {
+            n.visit_mut_children_with(self);
+            return;
+        }
+
+        // Visit the member expression's children without passing the deleted
+        // access through `visit_mut_expr`, which would replace it with a
+        // parameter binding.
+        n.arg.visit_mut_children_with(self);
+        self.prevent = true;
+    }
+
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        if !is_access_to_arguments(&n.arg) {
+            n.visit_mut_children_with(self);
+            return;
+        }
+
+        // An update mutates the arguments object, so preserve its direct
+        // member access and stop substituting subsequent arguments accesses.
+        n.arg.visit_mut_children_with(self);
+        self.prevent = true;
+    }
+
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         if self.prevent {
             return;
@@ -233,6 +258,15 @@ impl VisitMut for ArgReplacer<'_> {
             c.visit_mut_with(self);
         }
     }
+}
+
+/// Returns true if `expr` directly accesses a property of `arguments`.
+fn is_access_to_arguments(expr: &Expr) -> bool {
+    let Expr::Member(MemberExpr { obj, .. }) = expr else {
+        return false;
+    };
+
+    matches!(&**obj, Expr::Ident(Ident { sym, .. }) if &**sym == "arguments")
 }
 
 /// Returns an `arguments` index only when the property key is already in its
