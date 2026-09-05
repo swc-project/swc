@@ -716,6 +716,13 @@ impl Optimizer<'_> {
                     return None;
                 }
 
+                // A `with` statement can dynamically resolve the constructor binding. Reject
+                // this independently of the test's side effects because even a pure test can
+                // observe a reordered constructor lookup through a getter.
+                if self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
+                    return None;
+                }
+
                 // The merged expression evaluates the callee before the test, so a
                 // side-effecting test must not be able to change the constructor binding.
                 // An effect-free test cannot observe this reordered lookup, so retain folds for
@@ -723,17 +730,12 @@ impl Optimizer<'_> {
                 if test.may_have_side_effects(self.ctx.expr_ctx) {
                     let cons_callee = cons.callee.as_ident()?;
 
-                    // A `with` statement can dynamically resolve the constructor binding.
-                    if self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
-                        return None;
-                    }
-
                     // Direct eval can reassign a local constructor without recording it as
-                    // `REASSIGNED` in the usage data. This is tracked on the enclosing function
-                    // scope, even when the conditional is in a nested block.
+                    // `REASSIGNED` in the usage data. Check the constructor's declaring scope,
+                    // because the conditional can be in a nested function or block.
                     if self
                         .data
-                        .get_scope(self.ctx.var_scope)
+                        .get_scope(cons_callee.ctxt)
                         .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
                     {
                         return None;
@@ -763,16 +765,16 @@ impl Optimizer<'_> {
                         return None;
                     }
 
-                    // In non-strict functions, `arguments` aliases simple parameters. A write
-                    // such as `arguments[0] = other` in the test can therefore change the callee
-                    // without recording a reassignment of the parameter itself.
-                    if !self.ctx.expr_ctx.in_strict
-                        && cons_callee_usage.is_some_and(|usage| {
-                            usage
-                                .flags
-                                .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-                        })
-                        && self.data.used_arguments(self.ctx.var_scope)
+                    // In sloppy functions, `arguments` aliases simple parameters. A write such
+                    // as `arguments[0] = other` in the test can therefore change the callee
+                    // without recording a reassignment of the parameter itself. Scope data does
+                    // not retain the declaring function's strictness, so conservatively reject
+                    // the fold whenever that scope uses `arguments`.
+                    if cons_callee_usage.is_some_and(|usage| {
+                        usage
+                            .flags
+                            .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                    }) && self.data.used_arguments(cons_callee.ctxt)
                     {
                         return None;
                     }
