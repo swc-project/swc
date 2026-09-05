@@ -216,6 +216,16 @@ impl Pure<'_> {
             _ => return,
         };
 
+        // Only identifier targets have no evaluation to reorder. Moving the
+        // conditional test sequence before another target can change observable
+        // member base or computed-key evaluation order.
+        if !matches!(
+            &assign.left,
+            AssignTarget::Simple(SimpleAssignTarget::Ident(..))
+        ) {
+            return;
+        }
+
         let cond = match &mut *assign.right {
             Expr::Cond(v) => v,
             _ => return,
