@@ -431,6 +431,13 @@ impl Optimizer<'_> {
             return;
         }
 
+        // A dynamic spread prevents syntactic argument indices from matching parameter
+        // indices. Removing a parameter-indexed argument after one would change
+        // which value a later parameter receives.
+        if e.args.iter().any(|arg| arg.spread.is_some()) {
+            return;
+        }
+
         let callee = match &mut e.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
