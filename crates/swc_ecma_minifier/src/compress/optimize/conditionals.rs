@@ -40,23 +40,21 @@ struct ValueReadFinder {
     expr_ctx: ExprCtx,
 }
 
-/// Returns whether a call to a recognized primitive string method cannot
-/// execute user code.
+/// Returns whether a recognized primitive string call is safe to reorder.
 ///
 /// Optional calls use the same rules as direct calls. For a primitive string
 /// receiver, the optional check cannot short-circuit, so it does not add an
-/// observable effect of its own.
+/// observable effect of its own. Calls with arguments are rejected because a
+/// method can coerce an otherwise effect-free argument and throw before an
+/// effectful conditional test.
 fn is_pure_primitive_call(callee: &Expr, args: &[ExprOrSpread], expr_ctx: ExprCtx) -> bool {
-    // These string methods dispatch through protocol hooks on their search
-    // argument. Unlike the other recognized string methods, they can execute
-    // user code even when the argument expression itself has no side effects.
-    let dispatches_protocol_hook = matches!(
-        callee,
-        Expr::Member(MemberExpr {
-            prop: MemberProp::Ident(prop),
-            ..
-        }) if matches!(&*prop.sym, "split" | "includes" | "startsWith" | "endsWith")
-    ) && !args.is_empty();
+    // Any supplied argument can cause observable coercion or exception behavior.
+    // In particular, String#charAt rejects BigInt indices. Reordering such a call
+    // ahead of an effectful test would incorrectly change exception order.
+    if !args.is_empty() {
+        return false;
+    }
+
     let has_primitive_receiver = callee.is_pure_callee(expr_ctx)
         && matches!(
             callee,
@@ -64,23 +62,8 @@ fn is_pure_primitive_call(callee: &Expr, args: &[ExprOrSpread], expr_ctx: ExprCt
                 if matches!(&**obj, Expr::Lit(Lit::Str(..)))
                     || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
         );
-    // Locale-sensitive string methods inspect their supplied arguments while
-    // canonicalizing locales and options. That inspection can invoke a Proxy
-    // even when the argument expression itself appears pure.
-    let inspects_locale_arguments = matches!(
-        callee,
-        Expr::Member(MemberExpr {
-            prop: MemberProp::Ident(prop),
-            ..
-        }) if matches!(&*prop.sym, "localeCompare" | "toLocaleLowerCase" | "toLocaleUpperCase")
-    ) && !args.is_empty();
 
-    !dispatches_protocol_hook
-        && !inspects_locale_arguments
-        && has_primitive_receiver
-        && !args
-            .iter()
-            .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(expr_ctx))
+    has_primitive_receiver
 }
 
 /// Returns whether an object literal cannot install a proxy-bearing prototype
