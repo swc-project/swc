@@ -50,6 +50,41 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
         ids: Vec<Id>,
     }
 
+    impl ArrowVarFinder {
+        /// Collects bindings declared by a pattern without visiting expressions
+        /// in it.
+        fn collect_pat(&mut self, pat: &Pat) {
+            match pat {
+                Pat::Ident(ident) => {
+                    if ident.id.sym == "arguments" {
+                        self.ids.push(ident.id.to_id());
+                    }
+                }
+                Pat::Array(array) => {
+                    for pat in array.elems.iter().flatten() {
+                        self.collect_pat(pat);
+                    }
+                }
+                Pat::Rest(rest) => self.collect_pat(&rest.arg),
+                Pat::Object(object) => {
+                    for prop in &object.props {
+                        match prop {
+                            ObjectPatProp::KeyValue(prop) => self.collect_pat(&prop.value),
+                            ObjectPatProp::Assign(prop) => {
+                                if prop.key.id.sym == "arguments" {
+                                    self.ids.push(prop.key.id.to_id());
+                                }
+                            }
+                            ObjectPatProp::Rest(rest) => self.collect_pat(&rest.arg),
+                        }
+                    }
+                }
+                Pat::Assign(assign) => self.collect_pat(&assign.left),
+                Pat::Invalid(..) | Pat::Expr(..) => {}
+            }
+        }
+    }
+
     impl Visit for ArrowVarFinder {
         fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
@@ -60,26 +95,8 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
         fn visit_var_decl(&mut self, var: &VarDecl) {
             if var.kind == VarDeclKind::Var {
                 for declarator in &var.decls {
-                    declarator.name.visit_with(self);
+                    self.collect_pat(&declarator.name);
                 }
-            }
-        }
-
-        // Binding-pattern defaults execute expressions, but do not declare the
-        // identifiers that appear in those expressions.
-        fn visit_assign_pat(&mut self, pat: &AssignPat) {
-            pat.left.visit_with(self);
-        }
-
-        // Likewise, an object-pattern property's default value is not part of
-        // its declaration.
-        fn visit_assign_pat_prop(&mut self, prop: &AssignPatProp) {
-            prop.key.visit_with(self);
-        }
-
-        fn visit_binding_ident(&mut self, ident: &BindingIdent) {
-            if ident.id.sym == "arguments" {
-                self.ids.push(ident.id.to_id());
             }
         }
     }
@@ -103,7 +120,7 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
                 if let Stmt::Decl(Decl::Var(var)) = stmt {
                     if var.kind != VarDeclKind::Var {
                         for declarator in &var.decls {
-                            declarator.name.visit_with(&mut binding_finder);
+                            binding_finder.collect_pat(&declarator.name);
                         }
                     }
                 }
@@ -127,7 +144,7 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
                 if let Stmt::Decl(Decl::Var(var)) = stmt {
                     if var.kind != VarDeclKind::Var {
                         for declarator in &var.decls {
-                            declarator.name.visit_with(&mut binding_finder);
+                            binding_finder.collect_pat(&declarator.name);
                         }
                     }
                 }
@@ -145,7 +162,9 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             }
 
             let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
-            catch.param.visit_with(&mut binding_finder);
+            if let Some(param) = &catch.param {
+                binding_finder.collect_pat(param);
+            }
 
             let shadowed_len = self.shadowed_arguments.len();
             self.shadowed_arguments.extend(binding_finder.ids);
@@ -232,7 +251,9 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             let mut param_finder = ArrowVarFinder { ids: Vec::new() };
             // Arrow parameters shadow the enclosing implicit `arguments` object in both
             // their initializers and the arrow body.
-            arrow.params.visit_with(&mut param_finder);
+            for param in &arrow.params {
+                param_finder.collect_pat(param);
+            }
 
             let shadowed_len = self.shadowed_arguments.len();
             self.shadowed_arguments.extend(param_finder.ids);
@@ -270,6 +291,16 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
         // A binding identifier declares a name, while expressions nested in a binding
         // pattern (defaults and computed keys) still execute and can read `arguments`.
         fn visit_binding_ident(&mut self, _: &BindingIdent) {}
+
+        fn visit_assign_expr(&mut self, assign: &AssignExpr) {
+            if assign.op != op!("=") {
+                if let Some(SimpleAssignTarget::Ident(ident)) = assign.left.as_simple() {
+                    self.visit_ident(&ident.id);
+                }
+            }
+
+            assign.visit_children_with(self);
+        }
 
         fn visit_ident(&mut self, ident: &Ident) {
             if self.found {
@@ -342,7 +373,8 @@ impl Optimizer<'_> {
 
         // Removing a rest parameter can make a sloppy function's parameter list simple.
         // In that case, `arguments` becomes mapped to the remaining parameters, which
-        // changes observable behavior when the function uses `arguments`.
+        // changes observable behavior when the function uses `arguments`. Removing a
+        // rest parameter named `arguments` can also expose the implicit binding.
         let can_make_arguments_mapped = f.params.len() > 1
             && !in_strict
             && f.params[..f.params.len() - 1].iter().all(|param| {
@@ -351,12 +383,14 @@ impl Optimizer<'_> {
                     Pat::Ident(BindingIdent { id, .. }) if id.sym != "arguments"
                 )
             });
+        let can_expose_implicit_arguments = !in_strict && rest_id.0 == "arguments";
 
         if let Some(usage) = self.data.vars.get(&rest_id) {
             // Preserve the rest parameter only if removing it can change an
-            // `arguments` object from unmapped to mapped.
+            // `arguments` binding or change an arguments object from unmapped to mapped.
             if usage.ref_count == 0
-                && (!can_make_arguments_mapped || !uses_implicit_arguments(f, self.data))
+                && (!(can_make_arguments_mapped || can_expose_implicit_arguments)
+                    || !uses_implicit_arguments(f, self.data))
             {
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");
