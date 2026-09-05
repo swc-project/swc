@@ -17,34 +17,78 @@ use crate::{
     DISABLE_BUGGY_PASSES,
 };
 
-/// Finds calls that are evaluated as part of the expression itself.
+/// Finds expressions that can execute user code as part of their evaluation.
 ///
-/// Calls in function-like expressions are deferred and therefore do not affect
-/// the evaluation order of the containing expression.
-struct EagerCallFinder {
+/// Function-like bodies and instance field initializers are deferred and do
+/// not affect the evaluation order of the containing expression.
+struct EagerEffectFinder {
     found: bool,
 }
 
-impl Visit for EagerCallFinder {
+impl Visit for EagerEffectFinder {
     noop_visit_type!(fail);
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
+        n.decorators.visit_with(self);
+        n.key.visit_with(self);
+        if n.is_static {
+            n.value.visit_with(self);
+        }
+    }
+
+    fn visit_bin_expr(&mut self, n: &BinExpr) {
+        if n.op == op!("instanceof") {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
 
     fn visit_call_expr(&mut self, _: &CallExpr) {
         self.found = true;
     }
 
-    fn visit_class(&mut self, _: &Class) {}
+    fn visit_class(&mut self, n: &Class) {
+        n.decorators.visit_with(self);
+        n.super_class.visit_with(self);
+        n.body.visit_with(self);
+    }
+
+    fn visit_class_method(&mut self, n: &ClassMethod) {
+        n.key.visit_with(self);
+    }
+
+    fn visit_class_prop(&mut self, n: &ClassProp) {
+        n.decorators.visit_with(self);
+        n.key.visit_with(self);
+        if n.is_static {
+            n.value.visit_with(self);
+        }
+    }
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
 
     fn visit_function(&mut self, _: &Function) {}
 
     fn visit_opt_call(&mut self, _: &OptCall) {
         self.found = true;
     }
+
+    fn visit_private_method(&mut self, _: &PrivateMethod) {}
+
+    fn visit_private_prop(&mut self, n: &PrivateProp) {
+        n.decorators.visit_with(self);
+        if n.is_static {
+            n.value.visit_with(self);
+        }
+    }
 }
 
-fn contains_eager_call(expr: &Expr) -> bool {
-    let mut finder = EagerCallFinder { found: false };
+fn contains_eager_effect(expr: &Expr) -> bool {
+    let mut finder = EagerEffectFinder { found: false };
     expr.visit_with(&mut finder);
     finder.found
 }
@@ -614,9 +658,9 @@ impl Optimizer<'_> {
                         // differing argument in the merged call. Reject the merge if any of
                         // those arguments may affect the condition.
                         if cons.args[..diff_idx].iter().any(|arg| {
-                            !arg.expr.is_ident()
-                                && (arg.expr.may_have_side_effects(self.ctx.expr_ctx)
-                                    || contains_eager_call(&arg.expr))
+                            self.data.contains_unresolved(&arg.expr)
+                                || arg.expr.may_have_side_effects(self.ctx.expr_ctx)
+                                || contains_eager_effect(&arg.expr)
                         }) {
                             return None;
                         }
