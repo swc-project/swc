@@ -35,8 +35,4 @@
         u: 23
     };
     _ref.u;
-}(), ({
-    a: function(n) {
-        return n;
-    }
-}).a(11);
+}();

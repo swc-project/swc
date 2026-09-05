@@ -10,8 +10,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
-    prepend_stmts, prop_name_from_ident, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike,
-    StmtLike, Type, Value,
+    prepend_stmts, prop_name_eq, prop_name_from_ident, ExprCtx, ExprExt, ExprFactory, IsEmpty,
+    ModuleItemLike, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(all(debug_assertions, feature = "debug"))]
@@ -192,6 +192,13 @@ bitflags! {
 
         /// `true` while we are inside a class body.
         const InClass = 1 << 27;
+
+        /// `true` only while visiting the callee of a `/*#__NOINLINE__*/` call.
+        const IsNoInlineCallee = 1 << 28;
+
+        /// `true` only while visiting [CallExpr::callee] when the call result is
+        /// not itself used as a receiver-aware callee.
+        const IsCallCallee = 1 << 29;
     }
 }
 
@@ -1653,6 +1660,16 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    /// Preserve the unbound-call form when an optional call's callee is itself
+    /// a call.
+    fn visit_mut_opt_call(&mut self, n: &mut OptCall) {
+        n.callee.visit_mut_with(
+            &mut *self.with_ctx(self.ctx.clone().with(BitCtx::IsThisAwareCallee, true)),
+        );
+
+        n.args.visit_mut_with(self);
+    }
+
     #[cfg_attr(
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
@@ -1673,11 +1690,19 @@ impl VisitMut for Optimizer<'_> {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         };
+        let is_noinline = self.has_noinline(e.ctxt);
+        // If this call produces the value for another receiver-aware callee, such
+        // as a template tag, keep the inner callee as a reference. Replacing its
+        // member expression can expose the returned callable to later callee
+        // rewrites and lose the required `this` form.
+        let can_replace_callee = !self.ctx.bit_ctx.contains(BitCtx::IsThisAwareCallee);
         {
             let ctx = self
                 .ctx
                 .clone()
                 .with(BitCtx::IsCallee, true)
+                .with(BitCtx::IsCallCallee, can_replace_callee)
+                .with(BitCtx::IsNoInlineCallee, is_noinline)
                 .with(
                     BitCtx::IsThisAwareCallee,
                     is_this_undefined
@@ -3474,7 +3499,26 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
     match callee {
         Expr::Arrow(..) => return false,
         Expr::Seq(..) => return true,
-        Expr::Member(MemberExpr { obj, .. }) => {
+        Expr::Member(MemberExpr { obj, prop, .. }) => {
+            // An object-literal arrow property has no receiver-sensitive `this`.
+            // Treating it like a normal member would unnecessarily block safe
+            // call reduction after property inlining.
+            if let (Expr::Object(obj), MemberProp::Ident(prop)) = (&**obj, prop) {
+                let mut matching_props = obj.props.iter().filter(|item| match item {
+                    PropOrSpread::Prop(item) => match &**item {
+                        Prop::KeyValue(item) => prop_name_eq(&item.key, &prop.sym),
+                        _ => false,
+                    },
+                    _ => false,
+                });
+                if let Some(PropOrSpread::Prop(item)) = matching_props.next() {
+                    if matching_props.next().is_none()
+                        && matches!(&**item, Prop::KeyValue(item) if matches!(&*item.value, Expr::Arrow(..)))
+                    {
+                        return false;
+                    }
+                }
+            }
             if let Expr::Ident(obj) = &**obj {
                 if &*obj.sym == "console" {
                     return false;
