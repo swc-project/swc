@@ -191,8 +191,8 @@ impl ProgramData {
     }
 }
 
-/// Finds assignments and updates of an identifier without treating ordinary
-/// reads as writes.
+/// Finds direct assignments and updates of an identifier without treating
+/// member-property writes or ordinary reads as binding writes.
 struct IdentWriteFinder<'a> {
     ident: &'a Ident,
     found: bool,
@@ -202,7 +202,15 @@ impl Visit for IdentWriteFinder<'_> {
     noop_visit_type!();
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
-        if IdentUsageFinder::find(self.ident, &n.left) {
+        if matches!(
+            &n.left,
+            AssignTarget::Simple(SimpleAssignTarget::Ident(target))
+                if target.id.to_id() == self.ident.to_id()
+        ) || n
+            .left
+            .as_pat()
+            .is_some_and(|target| IdentUsageFinder::find(self.ident, target))
+        {
             self.found = true;
         }
 
@@ -210,7 +218,10 @@ impl Visit for IdentWriteFinder<'_> {
     }
 
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
-        if IdentUsageFinder::find(self.ident, &n.arg) {
+        if n.arg
+            .as_ident()
+            .is_some_and(|target| target.to_id() == self.ident.to_id())
+        {
             self.found = true;
         }
     }
