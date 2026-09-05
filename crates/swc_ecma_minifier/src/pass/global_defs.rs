@@ -51,10 +51,13 @@ impl VisitMut for GlobalDefs {
             return;
         }
 
-        if let Some(i) = root_ident(n) {
-            if i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt {
-                return;
-            }
+        let has_local_root = match root_ident(n) {
+            Some(i) => i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt,
+            None => false,
+        };
+        if has_local_root {
+            self.visit_mut_computed_props(n);
+            return;
         }
 
         if let Some((_, new)) = self
@@ -80,6 +83,32 @@ impl VisitMut for GlobalDefs {
             _ => {
                 e.arg.visit_mut_with(self);
             }
+        }
+    }
+}
+
+impl GlobalDefs {
+    /// Visits computed property expressions without visiting a protected member
+    /// chain's locally bound root or its static property accesses.
+    fn visit_mut_computed_props(&mut self, expr: &mut Expr) {
+        match expr {
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                self.visit_mut_computed_props(obj);
+                if let MemberProp::Computed(prop) = prop {
+                    prop.expr.visit_mut_with(self);
+                }
+            }
+            Expr::OptChain(OptChainExpr { base, .. }) => match &mut **base {
+                OptChainBase::Member(MemberExpr { obj, prop, .. }) => {
+                    self.visit_mut_computed_props(obj);
+                    if let MemberProp::Computed(prop) = prop {
+                        prop.expr.visit_mut_with(self);
+                    }
+                }
+                _ => unreachable!("root_ident only accepts member optional chains"),
+            },
+            Expr::Ident(..) => {}
+            _ => unreachable!("root_ident only accepts identifiers and member chains"),
         }
     }
 }

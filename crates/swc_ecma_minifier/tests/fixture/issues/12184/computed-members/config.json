@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "global_defs": {
+        "DEBUG": false
+    }
+}
