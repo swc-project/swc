@@ -4095,7 +4095,7 @@
             var hour = +match[4] || 0;
             return 'Z' !== match[8].toUpperCase() && (hour -= match[8].slice(0, 3)), new Date(Date.UTC(+match[1], (match[2] || 1) - 1, +match[3] || 1, hour, +(match[5] || 0), +match[6] || 0, +match[7] || 0));
         }
-        return null == value ? new Date(0 / 0) : new Date(Math.round(value));
+        return new Date(null == value ? 0 / 0 : Math.round(value));
     }
     /**
      * Quantity of a number. e.g. 0.1, 1, 10, 100

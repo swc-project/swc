@@ -676,87 +676,88 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                // A `with` statement can dynamically resolve the constructor binding. Moving
-                // the constructor lookup before the test would then change which property is
-                // read when the test mutates the with object.
-                if self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
-                    return None;
-                }
-
-                // Direct eval can reassign a local constructor without recording it as
-                // `REASSIGNED` in the usage data. This is tracked on the enclosing function
-                // scope, even when the conditional is in a nested block.
-                if self
-                    .data
-                    .get_scope(self.ctx.scope)
-                    .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
-                {
-                    return None;
-                }
-
                 // The merged expression evaluates the callee before the test, so the test must
                 // not be able to change the constructor binding.
                 let cons_callee = cons.callee.as_ident()?;
-                if self.data.ident_is_unresolved(cons_callee) {
-                    return None;
-                }
-                let cons_callee_usage = self.data.vars.get(&cons_callee.to_id());
+                if test.may_have_side_effects(self.ctx.expr_ctx) {
+                    // A `with` statement can dynamically resolve the constructor binding.
+                    if self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
+                        return None;
+                    }
 
-                // `ident_is_unresolved` treats several host globals as resolved, but they can
-                // be absent in the target environment. Moving an implicit lookup before the
-                // test would then change whether the test is evaluated before a ReferenceError.
-                if !cons_callee_usage
-                    .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::DECLARED))
-                {
-                    return None;
-                }
+                    // Direct eval can reassign a local constructor without recording it as
+                    // `REASSIGNED` in the usage data. This is tracked on the enclosing function
+                    // scope, even when the conditional is in a nested block.
+                    if self
+                        .data
+                        .get_scope(self.ctx.scope)
+                        .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
+                    {
+                        return None;
+                    }
 
-                // Import specifiers are live bindings. Their value can change in another module
-                // while evaluating the test, but this module's usage data cannot observe that
-                // assignment.
-                if cons_callee_usage
-                    .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::IMPORTED))
-                {
-                    return None;
-                }
+                    if self.data.ident_is_unresolved(cons_callee) {
+                        return None;
+                    }
+                    let cons_callee_usage = self.data.vars.get(&cons_callee.to_id());
 
-                // In non-strict functions, `arguments` aliases simple parameters. A write such
-                // as `arguments[0] = other` in the test can therefore change the callee without
-                // recording a reassignment of the parameter itself.
-                if !self.ctx.expr_ctx.in_strict
-                    && cons_callee_usage.is_some_and(|usage| {
-                        usage
-                            .flags
-                            .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-                    })
-                    && self.data.used_arguments(self.ctx.scope)
-                {
-                    return None;
-                }
+                    // `ident_is_unresolved` treats several host globals as resolved, but they
+                    // can be absent in the target environment. Moving an implicit lookup before
+                    // a side-effecting test would change whether the test runs before a
+                    // ReferenceError.
+                    if !cons_callee_usage
+                        .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::DECLARED))
+                    {
+                        return None;
+                    }
 
-                // A side-effecting test can invoke a nested function which reassigns the
-                // callee. `REASSIGNED` tracks assignments from child scopes as
-                // well as direct ones.
-                if test.may_have_side_effects(self.ctx.expr_ctx)
-                    && cons_callee_usage
+                    // Import specifiers are live bindings. Their value can change in another
+                    // module while evaluating the test, but this module's usage data cannot
+                    // observe that assignment.
+                    if cons_callee_usage
+                        .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::IMPORTED))
+                    {
+                        return None;
+                    }
+
+                    // In non-strict functions, `arguments` aliases simple parameters. A write
+                    // such as `arguments[0] = other` in the test can therefore change the callee
+                    // without recording a reassignment of the parameter itself.
+                    if !self.ctx.expr_ctx.in_strict
+                        && cons_callee_usage.is_some_and(|usage| {
+                            usage
+                                .flags
+                                .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                        })
+                        && self.data.used_arguments(self.ctx.scope)
+                    {
+                        return None;
+                    }
+
+                    // A side-effecting test can invoke a nested function which reassigns the
+                    // callee. `REASSIGNED` tracks assignments from child scopes as well as
+                    // direct ones.
+                    if cons_callee_usage
                         .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::REASSIGNED))
-                {
-                    return None;
-                }
+                    {
+                        return None;
+                    }
 
-                // Top-level `var`, `let`, and function bindings can be changed while evaluating
-                // the test. `var` and function bindings are aliased by global-object properties
-                // in scripts, while indirect eval can update global lexical `let` bindings. The
-                // usage data does not associate either operation with the binding, so it cannot
-                // prove that hoisting the constructor lookup is safe.
-                if test.may_have_side_effects(self.ctx.expr_ctx)
-                    && cons_callee_usage.is_some_and(|usage| {
+                    // Top-level `var`, `let`, function, and class bindings can be changed while
+                    // evaluating the test. `var` and function bindings are aliased by
+                    // global-object properties in scripts, while indirect eval can update global
+                    // lexical `let` and class bindings. The usage data does not associate either
+                    // operation with the binding, so it cannot prove that hoisting the
+                    // constructor lookup is safe.
+                    if cons_callee_usage.is_some_and(|usage| {
                         usage.flags.contains(VarUsageInfoFlags::IS_TOP_LEVEL)
-                            && (matches!(usage.var_kind, Some(VarDeclKind::Var | VarDeclKind::Let))
-                                || usage.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_DECL))
-                    })
-                {
-                    return None;
+                            && matches!(
+                                usage.var_kind,
+                                Some(VarDeclKind::Var | VarDeclKind::Let) | None
+                            )
+                    }) {
+                        return None;
+                    }
                 }
 
                 if IdentUsageFinder::find(cons_callee, &**test) {
