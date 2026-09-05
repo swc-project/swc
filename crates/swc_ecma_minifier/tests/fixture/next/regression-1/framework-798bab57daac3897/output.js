@@ -214,7 +214,7 @@
                     if (l && d && "string" == typeof l.stack) {
                         for(var e = l.stack.split("\n"), f = d.stack.split("\n"), g = e.length - 1, h = f.length - 1; 1 <= g && 0 <= h && e[g] !== f[h];)h--;
                         for(; 1 <= g && 0 <= h; g--, h--)if (e[g] !== f[h]) {
-                            if (1 !== g || 1 !== h) do if (g--, 0 > --h || e[g] !== f[h]) {
+                            if (1 !== g || 1 !== h) do if (g--, h--, 0 > h || e[g] !== f[h]) {
                                 var k = "\n" + e[g].replace(" at new ", " at ");
                                 return a.displayName && k.includes("<anonymous>") && (k = k.replace("<anonymous>", a.displayName)), k;
                             }
