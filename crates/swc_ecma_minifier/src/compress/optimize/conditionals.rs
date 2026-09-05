@@ -683,6 +683,18 @@ impl Optimizer<'_> {
                     return None;
                 }
 
+                // Import specifiers are live bindings. Their value can change in another module
+                // while evaluating the test, but this module's usage data cannot observe that
+                // assignment.
+                if self
+                    .data
+                    .vars
+                    .get(&cons_callee.to_id())
+                    .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::IMPORTED))
+                {
+                    return None;
+                }
+
                 // A side-effecting test can invoke a nested function which reassigns the
                 // callee. `REASSIGNED` tracks assignments from child scopes as
                 // well as direct ones.

@@ -90,6 +90,8 @@ bitflags::bitflags! {
 
         /// The variable is declared without initializer.
         const LAZY_INIT                 = 1 << 25;
+        /// The variable is a live binding imported from another module.
+        const IMPORTED                  = 1 << 26;
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -295,6 +297,7 @@ impl Storage for ProgramData {
                     *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::IMPORTED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_PARAM;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
@@ -680,6 +683,10 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_as_exported(&mut self) {
         self.flags.insert(VarUsageInfoFlags::EXPORTED);
+    }
+
+    fn mark_as_imported(&mut self) {
+        self.flags.insert(VarUsageInfoFlags::IMPORTED);
     }
 
     fn mark_initialized_with_safe_value(&mut self) {

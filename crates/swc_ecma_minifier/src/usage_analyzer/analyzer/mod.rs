@@ -1064,15 +1064,18 @@ where
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
-        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false)
+            .mark_as_imported();
     }
 
     fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier) {
-        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false)
+            .mark_as_imported();
     }
 
     fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
-        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false)
+            .mark_as_imported();
     }
 
     #[cfg_attr(
