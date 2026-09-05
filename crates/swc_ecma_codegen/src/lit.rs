@@ -252,7 +252,9 @@ pub fn escape_inline_script(raw: &str) -> CowStr<'_> {
 
     if raw.contains("\x3c!--") || raw.contains("--\x3e") {
         CowStr::Owned(
-            raw.replace("\x3c!--", "\\x3c!--")
+            // Escaping the `!` avoids combining with a preceding identity escape
+            // in a template element (for example, `\\<!--`).
+            raw.replace("\x3c!--", "<\\x21--")
                 .replace("--\x3e", "--\\x3e")
                 .into(),
         )
