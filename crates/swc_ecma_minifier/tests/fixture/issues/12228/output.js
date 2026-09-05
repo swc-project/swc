@@ -1,7 +1,7 @@
 const values = {
     *[Symbol.iterator] () {
         console.log("iterated");
-        yield "value";
+        yield Symbol();
     }
 };
-Symbol(...values);
+console.log(Symbol("description", ...values).description);
