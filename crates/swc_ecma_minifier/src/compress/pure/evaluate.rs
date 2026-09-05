@@ -997,9 +997,10 @@ impl Pure<'_> {
                         None => {
                             self.changed = true;
                             report_change!(
-                                "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
+                                "evaluate: Evaluated `codePointAt` of a string literal as \
+                                 `undefined`",
                             );
-                            *e = make_number(e.span(), f64::NAN)
+                            *e = *Expr::undefined(call.span)
                         }
                     }
                 }
