@@ -92,6 +92,7 @@ impl Pure<'_> {
         let mut var_ids = Vec::new();
         let mut cases = Vec::new();
         let mut nonmatching_tests = Vec::new();
+        let mut default_case_idx = None;
         let mut exact = None;
         let mut may_match_other_than_exact = false;
 
@@ -104,13 +105,31 @@ impl Pure<'_> {
                         }
                         _ => e.eq_ignore_span(tail),
                     } {
+                        if !nonmatching_tests.is_empty() {
+                            let test = case.test.as_mut().unwrap();
+                            nonmatching_tests.push(test.take());
+                            *test = SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: nonmatching_tests.take(),
+                            }
+                            .into();
+                        }
+
                         cases.push(case.take());
 
                         exact = Some(idx);
                         break;
                     } else {
                         var_ids.extend(extract_var_ids(&case.cons));
-                        nonmatching_tests.push(test.clone());
+                        let mut test = case.test.take().unwrap();
+                        self.ignore_return_value(
+                            &mut test,
+                            DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
+                        );
+
+                        if !test.is_invalid() && test.may_have_side_effects(self.expr_ctx) {
+                            nonmatching_tests.push(test);
+                        }
                     }
                 } else {
                     if !may_match_other_than_exact
@@ -120,11 +139,43 @@ impl Pure<'_> {
                         may_match_other_than_exact = true;
                     }
 
+                    if !nonmatching_tests.is_empty() {
+                        let test = case.test.as_mut().unwrap();
+                        nonmatching_tests.push(test.take());
+                        *test = SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: nonmatching_tests.take(),
+                        }
+                        .into();
+                    }
+
                     cases.push(case.take())
                 }
             } else {
+                default_case_idx = Some(cases.len());
                 cases.push(case.take())
             }
+        }
+
+        if !nonmatching_tests.is_empty() {
+            let default_case = if let Some(idx) = default_case_idx {
+                &mut cases[idx]
+            } else {
+                cases.push(SwitchCase {
+                    span: DUMMY_SP,
+                    test: None,
+                    cons: Default::default(),
+                });
+                cases.last_mut().unwrap()
+            };
+
+            let mut cons: Vec<Stmt> = nonmatching_tests
+                .take()
+                .into_iter()
+                .map(|test| test.into_stmt())
+                .collect();
+            cons.extend(default_case.cons.take());
+            default_case.cons = cons;
         }
 
         if let Some(exact) = exact {
@@ -210,17 +261,6 @@ impl Pure<'_> {
 
             if !discriminant.is_invalid() {
                 stmts.push(discriminant.take().into_stmt());
-            }
-
-            for mut test in nonmatching_tests {
-                self.ignore_return_value(
-                    &mut test,
-                    DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
-                );
-
-                if !test.is_invalid() {
-                    stmts.push(test.into_stmt());
-                }
             }
 
             let mut last = cases.pop().unwrap();
