@@ -744,14 +744,15 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                // Top-level `var` and function bindings are aliased by global-object properties
-                // in scripts. The usage data does not associate a property write in the test
-                // with the binding, so it cannot prove that hoisting the constructor lookup is
-                // safe.
+                // Top-level `var`, `let`, and function bindings can be changed while evaluating
+                // the test. `var` and function bindings are aliased by global-object properties
+                // in scripts, while indirect eval can update global lexical `let` bindings. The
+                // usage data does not associate either operation with the binding, so it cannot
+                // prove that hoisting the constructor lookup is safe.
                 if test.may_have_side_effects(self.ctx.expr_ctx)
                     && cons_callee_usage.is_some_and(|usage| {
                         usage.flags.contains(VarUsageInfoFlags::IS_TOP_LEVEL)
-                            && (usage.var_kind == Some(VarDeclKind::Var)
+                            && (matches!(usage.var_kind, Some(VarDeclKind::Var | VarDeclKind::Let))
                                 || usage.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_DECL))
                     })
                 {
