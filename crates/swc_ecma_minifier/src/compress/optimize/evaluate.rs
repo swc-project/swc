@@ -331,7 +331,9 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
+                Expr::Ident(Ident { sym, .. })
+                    if &**sym == "Object" && obj.is_global_ref_to(self.ctx.expr_ctx, "Object") =>
+                {
                     if &*prop.sym == "keys" {
                         if args.len() != 1 {
                             return;
