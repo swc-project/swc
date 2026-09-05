@@ -827,21 +827,24 @@ impl Optimizer<'_> {
                     // changed while evaluating the test. `var` and function bindings are
                     // aliased by global-object properties, while indirect eval can update global
                     // lexical `let` and class bindings. A lexical loop-head declaration is not a
-                    // global lexical binding, even when its usage is marked `IS_TOP_LEVEL`.
+                    // global lexical binding, even when its usage is marked `IS_TOP_LEVEL`, while
+                    // `var` and sloppy Annex B functions in nested top-level blocks are global
+                    // even though they are not marked `IS_TOP_LEVEL`.
                     if !self.is_module
                         && cons_callee_usage.is_some_and(|usage| {
-                            usage.flags.contains(VarUsageInfoFlags::IS_TOP_LEVEL)
-                                && matches!(
-                                    usage.var_kind,
-                                    Some(VarDeclKind::Var | VarDeclKind::Let) | None
-                                )
-                                && !(usage
-                                    .flags
-                                    .contains(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
+                            usage.flags.contains(VarUsageInfoFlags::IS_GLOBAL_VAR)
+                                || (usage.flags.contains(VarUsageInfoFlags::IS_TOP_LEVEL)
                                     && matches!(
                                         usage.var_kind,
-                                        Some(VarDeclKind::Let | VarDeclKind::Const)
-                                    ))
+                                        Some(VarDeclKind::Var | VarDeclKind::Let) | None
+                                    )
+                                    && !(usage
+                                        .flags
+                                        .contains(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
+                                        && matches!(
+                                            usage.var_kind,
+                                            Some(VarDeclKind::Let | VarDeclKind::Const)
+                                        )))
                         })
                     {
                         return None;

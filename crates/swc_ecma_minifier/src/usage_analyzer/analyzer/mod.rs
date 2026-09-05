@@ -107,7 +107,10 @@ where
         let mut child = UsageAnalyzer {
             data: child_data,
             marks: self.marks,
-            ctx: self.ctx.with(BitContext::IsTopLevel, false),
+            ctx: self.ctx.with(BitContext::IsTopLevel, false).with(
+                BitContext::IsGlobalVarScope,
+                matches!(kind, ScopeKind::Block) && self.ctx.is_global_var_scope(),
+            ),
             expr_ctx: self.expr_ctx,
             scope: S::ScopeData::new(kind),
             lexical_loop_scope_ctxts: self.lexical_loop_scope_ctxts.clone(),
@@ -245,6 +248,12 @@ where
 
         if is_fn_decl {
             v.mark_declared_as_fn_decl();
+        }
+
+        if self.ctx.is_global_var_scope()
+            && (matches!(kind, Some(VarDeclKind::Var)) || (is_fn_decl && !self.ctx.in_strict()))
+        {
+            v.mark_declared_in_global_var_scope();
         }
 
         v
@@ -1404,7 +1413,38 @@ where
     }
 
     fn visit_script(&mut self, n: &Script) {
-        let ctx = self.ctx.with(BitContext::IsTopLevel, true);
+        let in_strict = n
+            .body
+            .iter()
+            .take_while(|stmt| {
+                matches!(
+                    stmt,
+                    Stmt::Expr(ExprStmt {
+                        expr,
+                        ..
+                    }) if matches!(&**expr, Expr::Lit(Lit::Str(_)))
+                )
+            })
+            .any(|stmt| {
+                matches!(
+                    stmt,
+                    Stmt::Expr(ExprStmt {
+                        expr,
+                        ..
+                    }) if matches!(
+                        &**expr,
+                        Expr::Lit(Lit::Str(Str {
+                            raw: Some(raw),
+                            ..
+                        })) if raw == "\"use strict\"" || raw == "'use strict'"
+                    )
+                )
+            });
+        let ctx = self
+            .ctx
+            .with(BitContext::IsTopLevel, true)
+            .with(BitContext::IsGlobalVarScope, true)
+            .with(BitContext::InStrict, in_strict);
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 

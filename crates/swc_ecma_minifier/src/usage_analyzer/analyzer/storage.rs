@@ -72,6 +72,8 @@ pub trait VarDataLike: Sized {
 
     fn mark_declared_as_for_init(&mut self);
 
+    fn mark_declared_in_global_var_scope(&mut self);
+
     fn mark_has_property_access(&mut self);
 
     fn mark_used_as_callee(&mut self);
