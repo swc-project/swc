@@ -356,8 +356,10 @@ to!(
 to!(
     ts_enum_with_type_assertion,
     "enum RefType {
-  property = '11' as any,
+  property = '11' as string,
   event = '22' as any,
+  constant = '33' as const,
+  legacy = <string>'44',
 }"
 );
 

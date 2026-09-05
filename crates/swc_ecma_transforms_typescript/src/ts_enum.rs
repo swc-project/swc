@@ -150,8 +150,8 @@ pub(crate) struct EvalCtx {
     /// constant for TypeScript even when `foo` is.
     allow_const_var: bool,
     /// Whether type syntax makes the whole expression non-constant instead of
-    /// being stripped. Used when evaluating a `const` initializer, where any
-    /// annotation or assertion removes constness.
+    /// being stripped. TypeScript uses the syntactic form to determine
+    /// constness for both `const` and enum member initializers.
     ts_is_opaque: bool,
 }
 
@@ -164,7 +164,7 @@ impl EvalCtx {
     /// Context for an enum member initializer.
     pub(crate) const MEMBER: Self = Self {
         allow_const_var: true,
-        ts_is_opaque: false,
+        ts_is_opaque: true,
     };
     /// Context for re-computing a member whose value the pre-pass already
     /// classified as non-constant. Resolving `const` bindings here would
