@@ -36,6 +36,7 @@ struct EagerEffectFinder {
 /// value.
 struct ValueReadFinder {
     found: bool,
+    evaluating_class_instance: bool,
     expr_ctx: ExprCtx,
 }
 
@@ -47,7 +48,7 @@ impl Visit for ValueReadFinder {
     fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
         n.decorators.visit_with(self);
         n.key.visit_with(self);
-        if n.is_static {
+        if n.is_static || self.evaluating_class_instance {
             n.value.visit_with(self);
         }
     }
@@ -83,6 +84,18 @@ impl Visit for ValueReadFinder {
         }
     }
 
+    fn visit_new_expr(&mut self, n: &NewExpr) {
+        if n.callee.is_class() {
+            let evaluating_class_instance = self.evaluating_class_instance;
+            self.evaluating_class_instance = true;
+            n.callee.visit_with(self);
+            self.evaluating_class_instance = evaluating_class_instance;
+            n.args.visit_with(self);
+        } else {
+            n.visit_children_with(self);
+        }
+    }
+
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(prop) = n {
             prop.expr.visit_with(self);
@@ -104,6 +117,15 @@ impl Visit for EagerEffectFinder {
 
     fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
         n.decorators.visit_with(self);
+        if let Key::Public(PropName::Computed(key)) = &n.key {
+            // A computed key is evaluated while the class is defined. In
+            // particular, a property read can invoke a Proxy trap even when
+            // the key expression itself appears pure to the generic check.
+            if key.expr.may_have_side_effects(self.expr_ctx) {
+                self.found = true;
+                return;
+            }
+        }
         n.key.visit_with(self);
         if n.is_static || self.evaluating_class_instance {
             if n.value
@@ -372,6 +394,7 @@ fn contains_eager_effect(expr: &Expr, expr_ctx: ExprCtx) -> bool {
 fn contains_value_read(expr: &Expr, expr_ctx: ExprCtx) -> bool {
     let mut finder = ValueReadFinder {
         found: false,
+        evaluating_class_instance: false,
         expr_ctx,
     };
     expr.visit_with(&mut finder);
