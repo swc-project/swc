@@ -1150,6 +1150,13 @@ impl Pure<'_> {
 
     /// Array() -> []
     fn optimize_array(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+        // Literal array spreads are expanded before this optimization. Any
+        // remaining spread has unknown runtime arity, so it may expand to one
+        // numeric argument and invoke Array's length-constructor behavior.
+        if args.iter().any(|arg| arg.spread.is_some()) {
+            return None;
+        }
+
         if args.len() == 1 {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
