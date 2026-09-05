@@ -5,6 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
 use crate::{
@@ -152,6 +153,45 @@ impl ProgramData {
 
             _ => false,
         }
+    }
+}
+
+/// Finds assignments and updates of an identifier without treating ordinary
+/// reads as writes.
+struct IdentWriteFinder<'a> {
+    ident: &'a Ident,
+    found: bool,
+}
+
+impl Visit for IdentWriteFinder<'_> {
+    noop_visit_type!();
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if IdentUsageFinder::find(self.ident, &n.left) {
+            self.found = true;
+        }
+
+        n.right.visit_with(self);
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
+        if IdentUsageFinder::find(self.ident, &n.arg) {
+            self.found = true;
+        }
+    }
+}
+
+impl<'a> IdentWriteFinder<'a> {
+    fn find<N>(ident: &'a Ident, node: &N) -> bool
+    where
+        N: VisitWith<Self>,
+    {
+        let mut v = Self {
+            ident,
+            found: false,
+        };
+        node.visit_with(&mut v);
+        v.found
     }
 }
 
@@ -732,7 +772,7 @@ impl Optimizer<'_> {
                                 .flags
                                 .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
                         })
-                        && self.data.used_arguments(self.ctx.scope)
+                        && self.data.used_arguments(self.ctx.var_scope)
                     {
                         return None;
                     }
@@ -764,9 +804,16 @@ impl Optimizer<'_> {
                         return None;
                     }
 
-                    if IdentUsageFinder::find(cons_callee, &**test) {
+                    if IdentWriteFinder::find(cons_callee, &**test) {
                         return None;
                     }
+                }
+
+                // The merged expression evaluates the callee before the test. A pure test can
+                // still observe that reorder if evaluating a member callee invokes a getter or
+                // if a computed key changes the test's value.
+                if cons.callee.may_have_side_effects(self.ctx.expr_ctx) {
+                    return None;
                 }
 
                 // TODO: Handle new expression with no args.

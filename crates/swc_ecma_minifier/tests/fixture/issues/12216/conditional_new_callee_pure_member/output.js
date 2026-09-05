@@ -5,6 +5,6 @@ const ns = {
     Widget
 };
 function run(test) {
-    return new ns.Widget(test ? 1 : 2);
+    return test ? new ns.Widget(1) : new ns.Widget(2);
 }
 console.log(run(true).value);
