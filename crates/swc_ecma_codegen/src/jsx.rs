@@ -34,11 +34,15 @@ impl MacroNode for JSXElement {
 #[node_impl]
 impl MacroNode for JSXOpeningElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(emitter, self, true);
+
         punct!(emitter, "<");
         emit!(self.name);
+        srcmap_for_separator!(emitter, self, self.name);
 
         if let Some(type_args) = &self.type_args {
             emit!(type_args);
+            srcmap_for_separator!(emitter, self, type_args);
         }
 
         if !self.attrs.is_empty() {
@@ -52,8 +56,10 @@ impl MacroNode for JSXOpeningElement {
         }
 
         if self.self_closing {
+            srcmap_at_hi_offset!(emitter, self, 2);
             punct!(emitter, "/");
         }
+        srcmap!(emitter, self, false, true);
         punct!(emitter, ">");
         Ok(())
     }
@@ -79,6 +85,7 @@ impl MacroNode for JSXAttr {
         emit!(self.name);
 
         if let Some(ref value) = self.value {
+            srcmap_for_separator!(emitter, self, self.name);
             punct!(emitter, "=");
             emit!(value);
         }
@@ -120,8 +127,10 @@ impl MacroNode for JSXAttrOrSpread {
         match *self {
             JSXAttrOrSpread::JSXAttr(ref n) => emit!(n),
             JSXAttrOrSpread::SpreadElement(ref n) => {
+                srcmap_if_dummy!(emitter, n.dot3_token);
                 punct!(emitter, "{");
                 emit!(n);
+                srcmap_for_jsx_spread_close!(emitter, n);
                 punct!(emitter, "}");
             }
             #[cfg(swc_ast_unknown)]
@@ -150,9 +159,12 @@ impl MacroNode for JSXElementChild {
 #[node_impl]
 impl MacroNode for JSXSpreadChild {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "{");
         punct!(emitter, "...");
         emit!(self.expr);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
         Ok(())
     }
@@ -161,9 +173,12 @@ impl MacroNode for JSXSpreadChild {
 #[node_impl]
 impl MacroNode for JSXExprContainer {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         punct!(emitter, "{");
         emitter.emit_trailing_comments_of_pos(self.span.lo + BytePos(1), true, false)?;
         emit!(self.expr);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
         Ok(())
     }
@@ -185,8 +200,11 @@ impl MacroNode for JSXExpr {
 #[node_impl]
 impl MacroNode for JSXClosingElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(emitter, self, true);
+
         punct!(emitter, "</");
         emit!(self.name);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, ">");
         Ok(())
     }
@@ -212,6 +230,8 @@ impl MacroNode for JSXFragment {
 #[node_impl]
 impl MacroNode for JSXOpeningFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(emitter, self, true);
+
         punct!(emitter, "<>");
         Ok(())
     }
@@ -220,6 +240,8 @@ impl MacroNode for JSXOpeningFragment {
 #[node_impl]
 impl MacroNode for JSXClosingFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(emitter, self, true);
+
         punct!(emitter, "</>");
         Ok(())
     }
@@ -229,6 +251,7 @@ impl MacroNode for JSXClosingFragment {
 impl MacroNode for JSXNamespacedName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emit!(self.ns);
+        srcmap_for_separator!(emitter, self, self.ns);
         punct!(emitter, ":");
         emit!(self.name);
         Ok(())
@@ -246,6 +269,8 @@ impl MacroNode for JSXEmptyExpr {
 #[node_impl]
 impl MacroNode for JSXText {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap_if_dummy!(emitter, self);
+
         emitter.emit_atom(self.span(), &self.raw)?;
         Ok(())
     }
@@ -255,6 +280,7 @@ impl MacroNode for JSXText {
 impl MacroNode for JSXMemberExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emit!(self.obj);
+        srcmap_for_separator!(emitter, self, self.obj);
         punct!(emitter, ".");
         emit!(self.prop);
         Ok(())
