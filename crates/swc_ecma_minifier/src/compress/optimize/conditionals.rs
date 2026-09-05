@@ -23,7 +23,7 @@ use crate::{
 /// when a class expression is immediately constructed with `new`.
 struct EagerEffectFinder {
     found: bool,
-    evaluating_instance_fields: bool,
+    evaluating_class_instance: bool,
 }
 
 impl Visit for EagerEffectFinder {
@@ -34,7 +34,7 @@ impl Visit for EagerEffectFinder {
     fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
         n.decorators.visit_with(self);
         n.key.visit_with(self);
-        if n.is_static || self.evaluating_instance_fields {
+        if n.is_static || self.evaluating_class_instance {
             n.value.visit_with(self);
         }
     }
@@ -59,6 +59,7 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_class_method(&mut self, n: &ClassMethod) {
+        n.function.decorators.visit_with(self);
         n.key.visit_with(self);
     }
 
@@ -70,7 +71,11 @@ impl Visit for EagerEffectFinder {
         }
     }
 
-    fn visit_constructor(&mut self, _: &Constructor) {}
+    fn visit_constructor(&mut self, n: &Constructor) {
+        if self.evaluating_class_instance {
+            n.params.visit_with(self);
+        }
+    }
 
     fn visit_decorator(&mut self, _: &Decorator) {
         // Applying a decorator calls user code even when the decorator
@@ -82,10 +87,10 @@ impl Visit for EagerEffectFinder {
 
     fn visit_new_expr(&mut self, n: &NewExpr) {
         if n.callee.is_class() {
-            let evaluating_instance_fields = self.evaluating_instance_fields;
-            self.evaluating_instance_fields = true;
+            let evaluating_class_instance = self.evaluating_class_instance;
+            self.evaluating_class_instance = true;
             n.callee.visit_with(self);
-            self.evaluating_instance_fields = evaluating_instance_fields;
+            self.evaluating_class_instance = evaluating_class_instance;
             n.args.visit_with(self);
         } else {
             n.visit_children_with(self);
@@ -96,7 +101,9 @@ impl Visit for EagerEffectFinder {
         self.found = true;
     }
 
-    fn visit_private_method(&mut self, _: &PrivateMethod) {}
+    fn visit_private_method(&mut self, n: &PrivateMethod) {
+        n.function.decorators.visit_with(self);
+    }
 
     fn visit_private_prop(&mut self, n: &PrivateProp) {
         n.decorators.visit_with(self);
@@ -109,7 +116,7 @@ impl Visit for EagerEffectFinder {
 fn contains_eager_effect(expr: &Expr) -> bool {
     let mut finder = EagerEffectFinder {
         found: false,
-        evaluating_instance_fields: false,
+        evaluating_class_instance: false,
     };
     expr.visit_with(&mut finder);
     finder.found
@@ -681,8 +688,7 @@ impl Optimizer<'_> {
                         // differing argument in the merged call. Reject the merge if any of
                         // those arguments may affect the condition.
                         if cons.args[..diff_idx].iter().any(|arg| {
-                            self.data.contains_unresolved(&arg.expr)
-                                || arg.expr.may_have_side_effects(self.ctx.expr_ctx)
+                            arg.expr.may_have_side_effects(self.ctx.expr_ctx)
                                 || contains_eager_effect(&arg.expr)
                         }) {
                             return None;
