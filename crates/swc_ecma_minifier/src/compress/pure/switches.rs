@@ -91,6 +91,7 @@ impl Pure<'_> {
 
         let mut var_ids = Vec::new();
         let mut cases = Vec::new();
+        let mut nonmatching_tests = Vec::new();
         let mut exact = None;
         let mut may_match_other_than_exact = false;
 
@@ -108,7 +109,8 @@ impl Pure<'_> {
                         exact = Some(idx);
                         break;
                     } else {
-                        var_ids.extend(extract_var_ids(&case.cons))
+                        var_ids.extend(extract_var_ids(&case.cons));
+                        nonmatching_tests.push(test.clone());
                     }
                 } else {
                     if !may_match_other_than_exact
@@ -208,6 +210,17 @@ impl Pure<'_> {
 
             if !discriminant.is_invalid() {
                 stmts.push(discriminant.take().into_stmt());
+            }
+
+            for mut test in nonmatching_tests {
+                self.ignore_return_value(
+                    &mut test,
+                    DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
+                );
+
+                if !test.is_invalid() {
+                    stmts.push(test.into_stmt());
+                }
             }
 
             let mut last = cases.pop().unwrap();
