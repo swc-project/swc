@@ -1,6 +1,7 @@
 console.log(
     (1e-101).toPrecision(3),
     (-1e-101).toPrecision(3),
+    (6e-101).toPrecision(3),
     (0).toPrecision(3),
     (-0).toPrecision(3),
     (1e-99).toPrecision(3),
