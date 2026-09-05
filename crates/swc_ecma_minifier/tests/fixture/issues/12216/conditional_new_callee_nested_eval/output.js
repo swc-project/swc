@@ -9,6 +9,9 @@ function run(F, G) {
         eval("F = G");
         return true;
     }
-    return swap() ? new F(1) : new F(2);
+    {
+        let keep;
+        return swap() ? new F(1) : new F(2);
+    }
 }
 console.log(run(A, B).value);

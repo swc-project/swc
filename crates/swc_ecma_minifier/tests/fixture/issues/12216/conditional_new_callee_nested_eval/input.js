@@ -13,6 +13,7 @@ function run(F, G) {
     }
 
     {
+        let keep;
         return swap() ? new F(1) : new F(2);
     }
 }
