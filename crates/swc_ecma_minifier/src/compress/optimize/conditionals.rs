@@ -5,6 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
 use crate::{
@@ -12,7 +13,7 @@ use crate::{
         optimize::BitCtx,
         util::{negate, negate_cost},
     },
-    program_data::{ProgramData, VarUsageInfoFlags},
+    program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
     DISABLE_BUGGY_PASSES,
 };
 
@@ -152,6 +153,45 @@ impl ProgramData {
 
             _ => false,
         }
+    }
+}
+
+/// Finds assignments and updates of an identifier without treating ordinary
+/// reads as writes.
+struct IdentWriteFinder<'a> {
+    ident: &'a Ident,
+    found: bool,
+}
+
+impl Visit for IdentWriteFinder<'_> {
+    noop_visit_type!();
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if IdentUsageFinder::find(self.ident, &n.left) {
+            self.found = true;
+        }
+
+        n.right.visit_with(self);
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
+        if IdentUsageFinder::find(self.ident, &n.arg) {
+            self.found = true;
+        }
+    }
+}
+
+impl<'a> IdentWriteFinder<'a> {
+    fn find<N>(ident: &'a Ident, node: &N) -> bool
+    where
+        N: VisitWith<Self>,
+    {
+        let mut v = Self {
+            ident,
+            found: false,
+        };
+        node.visit_with(&mut v);
+        v.found
     }
 }
 
@@ -673,6 +713,108 @@ impl Optimizer<'_> {
 
             (Expr::New(cons), Expr::New(alt)) => {
                 if self.data.contains_unresolved(test) {
+                    return None;
+                }
+
+                // A `with` statement can dynamically resolve the constructor binding. Reject
+                // this independently of the test's side effects because even a pure test can
+                // observe a reordered constructor lookup through a getter.
+                if self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
+                    return None;
+                }
+
+                // The merged expression evaluates the callee before the test, so a
+                // side-effecting test must not be able to change the constructor binding.
+                // An effect-free test cannot observe this reordered lookup, so retain folds for
+                // equal member callees as well as identifiers.
+                if test.may_have_side_effects(self.ctx.expr_ctx) {
+                    let cons_callee = cons.callee.as_ident()?;
+
+                    // Direct eval can reassign a local constructor without recording it as
+                    // `REASSIGNED` in the usage data. Check the constructor's declaring scope,
+                    // because the conditional can be in a nested function or block.
+                    if self
+                        .data
+                        .get_scope(cons_callee.ctxt)
+                        .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
+                    {
+                        return None;
+                    }
+
+                    if self.data.ident_is_unresolved(cons_callee) {
+                        return None;
+                    }
+                    let cons_callee_usage = self.data.vars.get(&cons_callee.to_id());
+
+                    // `ident_is_unresolved` treats several host globals as resolved, but they
+                    // can be absent in the target environment. Moving an implicit lookup before
+                    // a side-effecting test would change whether the test runs before a
+                    // ReferenceError.
+                    if !cons_callee_usage
+                        .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::DECLARED))
+                    {
+                        return None;
+                    }
+
+                    // Import specifiers are live bindings. Their value can change in another
+                    // module while evaluating the test, but this module's usage data cannot
+                    // observe that assignment.
+                    if cons_callee_usage
+                        .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::IMPORTED))
+                    {
+                        return None;
+                    }
+
+                    // In sloppy functions, `arguments` aliases simple parameters. A write such
+                    // as `arguments[0] = other` in the test can therefore change the callee
+                    // without recording a reassignment of the parameter itself. Scope data does
+                    // not retain the declaring function's strictness, so conservatively reject
+                    // the fold whenever that scope uses `arguments`.
+                    if cons_callee_usage.is_some_and(|usage| {
+                        usage
+                            .flags
+                            .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                    }) && self.data.used_arguments(cons_callee.ctxt)
+                    {
+                        return None;
+                    }
+
+                    // A side-effecting test can invoke a nested function which reassigns the
+                    // callee. `REASSIGNED` tracks assignments from child scopes as well as
+                    // direct ones.
+                    if cons_callee_usage
+                        .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::REASSIGNED))
+                    {
+                        return None;
+                    }
+
+                    // In scripts, top-level `var`, `let`, function, and class bindings can be
+                    // changed while evaluating the test. `var` and function bindings are
+                    // aliased by global-object properties, while indirect eval can update global
+                    // lexical `let` and class bindings. The usage data does not associate either
+                    // operation with the binding, so it cannot prove that hoisting the
+                    // constructor lookup is safe.
+                    if !self.is_module
+                        && cons_callee_usage.is_some_and(|usage| {
+                            usage.flags.contains(VarUsageInfoFlags::IS_TOP_LEVEL)
+                                && matches!(
+                                    usage.var_kind,
+                                    Some(VarDeclKind::Var | VarDeclKind::Let) | None
+                                )
+                        })
+                    {
+                        return None;
+                    }
+
+                    if IdentWriteFinder::find(cons_callee, &**test) {
+                        return None;
+                    }
+                }
+
+                // The merged expression evaluates the callee before the test. A pure test can
+                // still observe that reorder if evaluating a member callee invokes a getter or
+                // if a computed key changes the test's value.
+                if cons.callee.may_have_side_effects(self.ctx.expr_ctx) {
                     return None;
                 }
 
