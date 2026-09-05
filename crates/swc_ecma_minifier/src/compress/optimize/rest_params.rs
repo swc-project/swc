@@ -156,6 +156,34 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             self.shadowed_arguments.truncate(shadowed_len);
         }
 
+        fn visit_switch_stmt(&mut self, switch_stmt: &SwitchStmt) {
+            if self.found {
+                return;
+            }
+
+            // The discriminant is evaluated before the switch's lexical scope is
+            // created, while lexical declarations in all case consequents share that
+            // scope.
+            switch_stmt.discriminant.visit_with(self);
+            if self.found {
+                return;
+            }
+
+            let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
+            for case in &switch_stmt.cases {
+                for stmt in &case.cons {
+                    if let Stmt::Decl(Decl::Var(var)) = stmt {
+                        binding_finder.collect_lexical_var_decl(var);
+                    }
+                }
+            }
+
+            let shadowed_len = self.shadowed_arguments.len();
+            self.shadowed_arguments.extend(binding_finder.ids);
+            switch_stmt.cases.visit_with(self);
+            self.shadowed_arguments.truncate(shadowed_len);
+        }
+
         fn visit_for_stmt(&mut self, for_stmt: &ForStmt) {
             if self.found {
                 return;
