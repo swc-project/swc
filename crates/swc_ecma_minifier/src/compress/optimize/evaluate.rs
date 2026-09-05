@@ -335,14 +335,11 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Ident(Ident { sym, .. })
-                    if &**sym == "Object" && obj.is_global_ref_to(self.ctx.expr_ctx, "Object") =>
+                Expr::Ident(Ident { sym, ctxt, .. })
+                    if &**sym == "Object"
+                        && *ctxt == self.ctx.expr_ctx.unresolved_ctxt
+                        && obj.is_global_ref_to(self.ctx.expr_ctx, "Object") =>
                 {
-                Expr::Ident(Ident { sym, ctxt, .. }) if &**sym == "Object" => {
-                    if *ctxt != self.ctx.expr_ctx.unresolved_ctxt {
-                        return;
-                    }
-
                     if &*prop.sym == "keys" {
                         if args.len() != 1 {
                             return;
