@@ -4,7 +4,30 @@ var AppType1 = ((AppType = {}).HeaderDetail = "HeaderDetail", AppType.HeaderMult
 export { AppType1 as AppType };
 var AppStyle1 = ((AppStyle = {})[AppStyle.Tree = 0] = "Tree", AppStyle[AppStyle.TreeEntity = 1] = "TreeEntity", AppStyle[AppStyle.Standard = 2] = "Standard", AppStyle[AppStyle.MiniApp = 3] = "MiniApp", AppStyle[AppStyle.PivotTable = 4] = "PivotTable", AppStyle);
 export { AppStyle1 as AppStyle };
-foo({
+new Map([
+    [
+        "Standard",
+        [
+            2,
+            3
+        ]
+    ],
+    [
+        "Relationship",
+        [
+            2,
+            0,
+            1
+        ]
+    ],
+    [
+        "AdvancedList",
+        [
+            2,
+            3
+        ]
+    ]
+]), foo({
     x: !0
 }, {
     x: !1
