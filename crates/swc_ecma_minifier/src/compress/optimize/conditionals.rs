@@ -4,7 +4,8 @@ use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_S
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_utils::{ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
+use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
 use crate::{
@@ -15,6 +16,341 @@ use crate::{
     program_data::{ProgramData, VarUsageInfoFlags},
     DISABLE_BUGGY_PASSES,
 };
+
+/// Finds expressions that can execute user code as part of their evaluation.
+///
+/// Function-like bodies and instance field initializers are deferred, except
+/// when a class expression is immediately constructed with `new`.
+struct EagerEffectFinder {
+    found: bool,
+    evaluating_class_instance: bool,
+    evaluating_static_block: bool,
+    expr_ctx: ExprCtx,
+}
+
+/// Finds reads whose value can change while an earlier conditional test runs.
+///
+/// `ExprExt::is_pure` only proves that converting an expression to a boolean is
+/// pure and known. For example, `[x]` is always truthy, but its value still
+/// depends on `x`. Moving it before an effectful test would capture a stale
+/// value.
+struct ValueReadFinder {
+    found: bool,
+    expr_ctx: ExprCtx,
+}
+
+impl Visit for ValueReadFinder {
+    noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_binding_ident(&mut self, _: &BindingIdent) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_ident(&mut self, n: &Ident) {
+        // These globals are documented minifier constants and cannot be
+        // redefined under the minifier's semantic assumptions.
+        if n.ctxt == self.expr_ctx.unresolved_ctxt
+            && matches!(&*n.sym, "undefined" | "NaN" | "Infinity")
+        {
+            return;
+        }
+
+        self.found = true;
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        n.obj.visit_with(self);
+        if let MemberProp::Computed(prop) = &n.prop {
+            prop.expr.visit_with(self);
+        }
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        if let PropName::Computed(prop) = n {
+            prop.expr.visit_with(self);
+        }
+    }
+}
+
+impl Visit for EagerEffectFinder {
+    noop_visit_type!(fail);
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
+        n.decorators.visit_with(self);
+        n.key.visit_with(self);
+        if n.is_static || self.evaluating_class_instance {
+            if n.value
+                .as_deref()
+                .is_some_and(|value| value.may_have_side_effects(self.expr_ctx))
+            {
+                self.found = true;
+            }
+            n.value.visit_with(self);
+        }
+    }
+
+    fn visit_bin_expr(&mut self, n: &BinExpr) {
+        if matches!(n.op, op!("in") | op!("instanceof")) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_call_expr(&mut self, n: &CallExpr) {
+        // These string methods dispatch through protocol hooks on their search
+        // argument. Unlike the other recognized string methods, they can execute user
+        // code even when the argument expression itself has no side effects.
+        let dispatches_protocol_hook = matches!(
+            &n.callee,
+            Callee::Expr(callee)
+                if matches!(
+                    &**callee,
+                    Expr::Member(MemberExpr {
+                        prop: MemberProp::Ident(prop),
+                        ..
+                    }) if matches!(&*prop.sym, "split" | "includes" | "startsWith" | "endsWith")
+                )
+        );
+        let has_primitive_receiver = matches!(
+            &n.callee,
+            Callee::Expr(callee)
+                if callee.is_pure_callee(self.expr_ctx)
+                    && matches!(
+                        &**callee,
+                        Expr::Member(MemberExpr { obj, .. })
+                            if matches!(&**obj, Expr::Lit(Lit::Str(..)))
+                                || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
+                    )
+        );
+        // Locale-sensitive string methods inspect their supplied arguments while
+        // canonicalizing locales and options. That inspection can invoke a Proxy
+        // even when the argument expression itself appears pure.
+        let inspects_locale_arguments = matches!(
+            &n.callee,
+            Callee::Expr(callee)
+                if matches!(
+                    &**callee,
+                    Expr::Member(MemberExpr {
+                        prop: MemberProp::Ident(prop),
+                        ..
+                    }) if matches!(&*prop.sym, "localeCompare" | "toLocaleLowerCase" | "toLocaleUpperCase")
+                )
+        ) && !n.args.is_empty();
+        let is_pure = !dispatches_protocol_hook
+            && !inspects_locale_arguments
+            && has_primitive_receiver
+            && !n
+                .args
+                .iter()
+                .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(self.expr_ctx));
+
+        if !is_pure {
+            self.found = true;
+        } else {
+            // The general predicate intentionally treats known primitive calls as pure, but
+            // their arguments can still contain eager operations such as `in` or
+            // `instanceof`.
+            n.visit_children_with(self);
+        }
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        // Defining a derived class reads the superclass's `prototype` property. The
+        // lookup can execute user code through a Proxy even when the superclass is
+        // only an identifier.
+        if n.super_class.is_some() {
+            self.found = true;
+            return;
+        }
+
+        n.decorators.visit_with(self);
+        n.body.visit_with(self);
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        // `may_have_side_effects` treats `Math.*` member reads as pure. A custom
+        // property may nevertheless be an accessor, so do not move it ahead of a
+        // conditional test in this ordering-sensitive optimization.
+        if matches!(
+            &*n.obj,
+            Expr::Ident(Ident { ctxt, sym, .. })
+                if &**sym == "Math"
+                    && (*ctxt == self.expr_ctx.unresolved_ctxt
+                        || *ctxt == SyntaxContext::empty())
+        ) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_class_method(&mut self, n: &ClassMethod) {
+        n.function.decorators.visit_with(self);
+        for param in &n.function.params {
+            param.decorators.visit_with(self);
+        }
+        n.key.visit_with(self);
+    }
+
+    fn visit_class_prop(&mut self, n: &ClassProp) {
+        n.decorators.visit_with(self);
+        n.key.visit_with(self);
+        if n.is_static {
+            n.value.visit_with(self);
+        }
+    }
+
+    fn visit_constructor(&mut self, n: &Constructor) {
+        for param in &n.params {
+            match param {
+                ParamOrTsParamProp::Param(param) => param.decorators.visit_with(self),
+                ParamOrTsParamProp::TsParamProp(param) => param.decorators.visit_with(self),
+            }
+        }
+
+        if self.evaluating_class_instance {
+            n.params.visit_with(self);
+        }
+    }
+
+    fn visit_decorator(&mut self, _: &Decorator) {
+        // Applying a decorator calls user code even when the decorator
+        // expression itself is only an identifier.
+        self.found = true;
+    }
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_new_expr(&mut self, n: &NewExpr) {
+        // Constructing spread arguments obtains and iterates an iterator, which can run
+        // user code even when the constructor and argument expression appear pure. This
+        // includes empty function expressions, which are accepted as pure constructors.
+        if n.args
+            .as_deref()
+            .is_some_and(|args| args.iter().any(|arg| arg.spread.is_some()))
+        {
+            self.found = true;
+            return;
+        }
+
+        if n.callee.is_class() {
+            let evaluating_class_instance = self.evaluating_class_instance;
+            self.evaluating_class_instance = true;
+            n.callee.visit_with(self);
+            self.evaluating_class_instance = evaluating_class_instance;
+            n.args.visit_with(self);
+        } else {
+            n.visit_children_with(self);
+        }
+    }
+
+    fn visit_opt_call(&mut self, _: &OptCall) {
+        self.found = true;
+    }
+
+    fn visit_ident(&mut self, n: &Ident) {
+        // The minifier only assumes these bindings cannot be redefined. Other
+        // unresolved globals, including built-in-looking names such as
+        // `Object`, can be accessors.
+        if n.ctxt == self.expr_ctx.unresolved_ctxt
+            && !matches!(&*n.sym, "undefined" | "NaN" | "Infinity")
+        {
+            self.found = true;
+        }
+    }
+
+    fn visit_private_method(&mut self, n: &PrivateMethod) {
+        n.function.decorators.visit_with(self);
+    }
+
+    fn visit_private_prop(&mut self, n: &PrivateProp) {
+        n.decorators.visit_with(self);
+        if n.is_static {
+            n.value.visit_with(self);
+        }
+    }
+
+    fn visit_static_block(&mut self, n: &StaticBlock) {
+        let evaluating_static_block = self.evaluating_static_block;
+        self.evaluating_static_block = true;
+        n.body.visit_with(self);
+        self.evaluating_static_block = evaluating_static_block;
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        // `StmtExt::may_have_side_effects` deliberately treats declarations as
+        // effect-free. Their initializers still run while a static block is
+        // evaluated, and destructuring bindings can read properties or iterate
+        // their initializer even when it is a local.
+        if self.evaluating_static_block
+            && n.decls.iter().any(|decl| {
+                matches!(&decl.name, Pat::Array(..) | Pat::Object(..))
+                    || decl
+                        .init
+                        .as_deref()
+                        .is_some_and(|init| init.may_have_side_effects(self.expr_ctx))
+            })
+        {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_using_decl(&mut self, n: &UsingDecl) {
+        // Resource disposal runs when the static block exits. The disposer is selected
+        // from the resource at runtime, so even a local resource can execute
+        // user code here.
+        if self.evaluating_static_block {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_prop(&mut self, n: &Prop) {
+        if let Prop::Shorthand(ident) = n {
+            // Reading an unresolved global can invoke an accessor. This is normally hidden
+            // from the generic purity predicate because shorthands have no expression
+            // child.
+            if ident.ctxt == self.expr_ctx.unresolved_ctxt {
+                self.found = true;
+                return;
+            }
+        }
+
+        n.visit_children_with(self);
+    }
+}
+
+fn contains_eager_effect(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+    let mut finder = EagerEffectFinder {
+        found: false,
+        evaluating_class_instance: false,
+        evaluating_static_block: false,
+        expr_ctx,
+    };
+    expr.visit_with(&mut finder);
+    finder.found
+}
+
+fn contains_value_read(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+    let mut finder = ValueReadFinder {
+        found: false,
+        expr_ctx,
+    };
+    expr.visit_with(&mut finder);
+    finder.found
+}
 
 impl ProgramData {
     fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
@@ -527,11 +863,10 @@ impl Optimizer<'_> {
 
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
-                // Test expr may change the variables that cons and alt **may use** in their
-                // common args. For example:
-                // from (a = 1) ? f(a, true) : f(a, false)
-                // to   f(a, a = 1 ? true : false)
-                let side_effects_in_test = test.may_have_side_effects(self.ctx.expr_ctx);
+                // The condition is evaluated before all arguments in the original calls, but
+                // after common arguments before the differing argument in the merged call.
+                let side_effects_in_test = test.may_have_side_effects(self.ctx.expr_ctx)
+                    || contains_eager_effect(test, self.ctx.expr_ctx);
 
                 if self.data.contains_unresolved(test) {
                     return None;
@@ -570,16 +905,33 @@ impl Optimizer<'_> {
                         if !cons.eq_ignore_span(alt) {
                             diff_count += 1;
                             diff_idx = Some(idx);
-                        } else {
-                            // See the comments for `side_effects_in_test`
-                            if side_effects_in_test && !cons.expr.is_pure(self.ctx.expr_ctx) {
-                                return None;
-                            }
                         }
                     }
 
                     if diff_count == 1 {
                         let diff_idx = diff_idx.unwrap();
+
+                        let common_args_before_test = &cons.args[..diff_idx];
+
+                        // Only common arguments before the differing argument move before the
+                        // condition. The condition may change a value read by one of them.
+                        if side_effects_in_test
+                            && common_args_before_test
+                                .iter()
+                                .any(|arg| contains_value_read(&arg.expr, self.ctx.expr_ctx))
+                        {
+                            return None;
+                        }
+
+                        // The condition is evaluated after all common arguments before the
+                        // differing argument in the merged call. Reject the merge if any of
+                        // those arguments may affect the condition.
+                        if common_args_before_test.iter().any(|arg| {
+                            arg.expr.may_have_side_effects(self.ctx.expr_ctx)
+                                || contains_eager_effect(&arg.expr, self.ctx.expr_ctx)
+                        }) {
+                            return None;
+                        }
 
                         report_change!(
                             "conditionals: Merging cons and alt as only one argument differs"
