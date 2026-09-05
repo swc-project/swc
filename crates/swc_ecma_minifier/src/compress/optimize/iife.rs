@@ -477,12 +477,15 @@ impl Optimizer<'_> {
             return;
         };
 
-        for idx in removed {
-            if let Some(arg) = e.args.get_mut(idx) {
-                if arg.spread.is_some() {
-                    break;
-                }
+        let first_spread = e.args.iter().position(|arg| arg.spread.is_some());
 
+        for idx in removed {
+            // Arguments at and after a dynamic spread no longer map to parameters by index.
+            if matches!(first_spread, Some(first_spread) if idx >= first_spread) {
+                break;
+            }
+
+            if let Some(arg) = e.args.get_mut(idx) {
                 // Optimize
                 let new = self.ignore_return_value(&mut arg.expr);
 
