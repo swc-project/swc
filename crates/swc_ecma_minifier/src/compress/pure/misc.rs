@@ -2210,7 +2210,7 @@ impl Pure<'_> {
                 callee: Callee::Expr(callee),
                 ..
             }) if callee.is_fn_expr() => match &mut **callee {
-                Expr::Fn(callee) => {
+                Expr::Fn(callee) if !callee.function.is_async => {
                     if callee.ident.is_none() {
                         if let Some(body) = &mut callee.function.body {
                             if self.options.side_effects {
@@ -2219,6 +2219,8 @@ impl Pure<'_> {
                         }
                     }
                 }
+
+                Expr::Fn(..) => {}
 
                 _ => {
                     unreachable!()
@@ -2235,7 +2237,7 @@ impl Pure<'_> {
             }) = e
             {
                 match &mut **callee {
-                    Expr::Fn(callee) => {
+                    Expr::Fn(callee) if !callee.function.is_async => {
                         if let Some(body) = &mut callee.function.body {
                             if let Some(ident) = &callee.ident {
                                 if IdentUsageFinder::find(ident, body) {
@@ -2248,7 +2250,7 @@ impl Pure<'_> {
                             }
                         }
                     }
-                    Expr::Arrow(callee) => match &mut *callee.body {
+                    Expr::Arrow(callee) if !callee.is_async => match &mut *callee.body {
                         ArrowFunctionBody::FunctionBody(body) => {
                             for stmt in &mut body.stmts {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);
