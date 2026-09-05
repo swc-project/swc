@@ -89,20 +89,30 @@ impl Optimizer<'_> {
             return;
         }
 
-        if f.params.iter().any(|param| match &param.pat {
-            Pat::Ident(BindingIdent {
-                id: Ident { sym, .. },
-                ..
-            }) if &**sym == "arguments" => true,
-            Pat::Ident(i) => self
-                .data
-                .vars
-                .get(&i.id.to_id())
-                .map(|v| v.declared_count >= 2 || v.flags.contains(VarUsageInfoFlags::REASSIGNED))
-                .unwrap_or(false),
-            _ => true,
-        }) {
-            return;
+        let mut reassigned_params = Vec::with_capacity(f.params.len());
+        for param in &f.params {
+            let Pat::Ident(i) = &param.pat else {
+                return;
+            };
+
+            // A parameter named `arguments` shadows the implicit arguments object.
+            if i.id.sym == "arguments" {
+                return;
+            }
+
+            let Some(usage) = self.data.vars.get(&i.id.to_id()) else {
+                reassigned_params.push(false);
+                continue;
+            };
+
+            // A parameter redeclared in the function body cannot safely replace an
+            // arguments access, but reassignment affects only its corresponding
+            // arguments index.
+            if usage.declared_count >= 2 {
+                return;
+            }
+
+            reassigned_params.push(usage.flags.contains(VarUsageInfoFlags::REASSIGNED));
         }
 
         {
@@ -120,6 +130,7 @@ impl Optimizer<'_> {
 
         let mut v = ArgReplacer {
             params: &mut f.params,
+            reassigned_params,
             changed: false,
             keep_fargs: self.options.keep_fargs,
             prevent: false,
@@ -135,6 +146,8 @@ impl Optimizer<'_> {
 
 struct ArgReplacer<'a> {
     params: &'a mut Vec<Param>,
+    /// Reassigned original parameters, indexed by their `arguments` slot.
+    reassigned_params: Vec<bool>,
     changed: bool,
     keep_fargs: bool,
     prevent: bool,
@@ -197,6 +210,10 @@ impl VisitMut for ArgReplacer<'_> {
         let Some(idx) = argument_access_index(n) else {
             return;
         };
+
+        if self.reassigned_params.get(idx).copied().unwrap_or(false) {
+            return;
+        }
 
         self.inject_params_if_within_limit(idx);
 
