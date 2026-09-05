@@ -1665,6 +1665,16 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    /// Preserve the unbound-call form when an optional call's callee is itself
+    /// a call.
+    fn visit_mut_opt_call(&mut self, n: &mut OptCall) {
+        n.callee.visit_mut_with(
+            &mut *self.with_ctx(self.ctx.clone().with(BitCtx::IsThisAwareCallee, true)),
+        );
+
+        n.args.visit_mut_with(self);
+    }
+
     #[cfg_attr(
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)

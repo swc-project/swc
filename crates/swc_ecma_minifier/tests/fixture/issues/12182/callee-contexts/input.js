@@ -13,5 +13,8 @@ console.log(({
     get: () => receiver.read,
 }).get()());
 console.log(({
+    get: () => receiver.read,
+}).get()?.());
+console.log(({
     get: () => receiver.tag,
 }).get()`template`);
