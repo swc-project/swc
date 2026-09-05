@@ -1051,8 +1051,12 @@ where
         });
 
         if let Some(ctxt) = lexical_scope_ctxt {
+            let is_top_level = self.ctx.is_top_level();
             self.with_child(ctxt, ScopeKind::Block, |child| {
-                child.visit_for_stmt_contents(n);
+                // A `var` declared in a top-level loop body is function-scoped even though
+                // the loop initializer creates a lexical scope.
+                let ctx = child.ctx.with(BitContext::IsTopLevel, is_top_level);
+                child.with_ctx(ctx).visit_for_stmt_contents(n);
             });
         } else {
             self.visit_for_stmt_contents(n);
