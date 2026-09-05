@@ -51,19 +51,10 @@ impl VisitMut for GlobalDefs {
             return;
         }
 
-        match n {
-            Expr::Ident(i) if i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt => {
+        if let Some(i) = root_ident(n) {
+            if i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt {
                 return;
             }
-            Expr::Ident(..) => {}
-            Expr::Member(MemberExpr { obj, .. }) => {
-                if let Expr::Ident(i) = &**obj {
-                    if i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt {
-                        return;
-                    }
-                }
-            }
-            _ => {}
         }
 
         if let Some((_, new)) = self
@@ -89,6 +80,21 @@ impl VisitMut for GlobalDefs {
             _ => {
                 e.arg.visit_mut_with(self);
             }
+        }
+    }
+}
+
+/// Returns the binding at the root of an ordinary or optional member chain.
+///
+/// Global-definition matching ignores syntax contexts, so callers must validate
+/// this binding before matching a configured definition.
+fn root_ident(mut expr: &Expr) -> Option<&Ident> {
+    loop {
+        match expr {
+            Expr::Ident(ident) => return Some(ident),
+            Expr::Member(MemberExpr { obj, .. }) => expr = obj,
+            Expr::OptChain(OptChainExpr { base, .. }) => expr = &base.as_member()?.obj,
+            _ => return None,
         }
     }
 }
