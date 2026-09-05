@@ -7,7 +7,9 @@ use swc_ecma_utils::{
     number::{parse_canonical_index, ToJsString},
     private_ident,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use super::Optimizer;
 use crate::compress::optimize::is_left_access_to_arguments;
@@ -140,7 +142,7 @@ struct ArgReplacer<'a> {
     prevent: bool,
 }
 
-impl ArgReplacer<'_> {
+impl<'a> ArgReplacer<'a> {
     /// Materializes only a bounded number of missing parameters.
     fn inject_params_if_within_limit(&mut self, idx: usize) {
         if idx < self.params.len() || self.keep_fargs {
@@ -171,6 +173,27 @@ impl ArgReplacer<'_> {
             .take(new_args),
         )
     }
+
+    /// Disables replacements before visiting a loop which mutates `arguments`.
+    ///
+    /// A loop can read an `arguments` property before mutating it. Replacing
+    /// the read with a parameter would then use the stale parameter value
+    /// on a later iteration, so the whole loop must be preserved before its
+    /// first visit.
+    fn visit_mut_loop<N>(&mut self, n: &mut N)
+    where
+        N: VisitWith<ArgumentsMutationFinder> + VisitMutWith<Self>,
+    {
+        if self.prevent {
+            return;
+        }
+
+        if contains_arguments_mutation(n) {
+            self.prevent = true;
+        }
+
+        n.visit_mut_children_with(self);
+    }
 }
 
 impl VisitMut for ArgReplacer<'_> {
@@ -185,6 +208,22 @@ impl VisitMut for ArgReplacer<'_> {
         if is_left_access_to_arguments(&n.left) {
             self.prevent = true;
         }
+    }
+
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        self.visit_mut_loop(n);
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        self.visit_mut_loop(n);
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        self.visit_mut_loop(n);
+    }
+
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        self.visit_mut_loop(n);
     }
 
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
@@ -258,6 +297,61 @@ impl VisitMut for ArgReplacer<'_> {
             c.visit_mut_with(self);
         }
     }
+
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        self.visit_mut_loop(n);
+    }
+}
+
+/// Finds mutations of the current function's `arguments` object.
+#[derive(Default)]
+struct ArgumentsMutationFinder {
+    found: bool,
+}
+
+impl Visit for ArgumentsMutationFinder {
+    noop_visit_type!(fail);
+
+    /// Nested functions own a distinct `arguments` object.
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if is_left_access_to_arguments(&n.left) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_unary_expr(&mut self, n: &UnaryExpr) {
+        if n.op == op!("delete") && is_access_to_arguments(&n.arg) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
+        if is_access_to_arguments(&n.arg) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+}
+
+fn contains_arguments_mutation<N>(n: &N) -> bool
+where
+    N: VisitWith<ArgumentsMutationFinder>,
+{
+    let mut finder = ArgumentsMutationFinder::default();
+    n.visit_with(&mut finder);
+    finder.found
 }
 
 /// Returns true if `expr` directly accesses a property of `arguments`.
