@@ -1,8 +1,9 @@
-use swc_atoms::atom;
+use rustc_hash::FxHashSet;
+use swc_atoms::{atom, Wtf8Atom};
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    number::{minify_number, JsNumber},
+    number::{minify_number, parse_canonical_index, JsNumber, ToJsString},
     ExprExt,
     Value::Known,
 };
@@ -342,39 +343,18 @@ impl Optimizer<'_> {
                         };
 
                         let mut keys = Vec::new();
+                        let mut seen = FxHashSet::default();
 
                         for prop in &obj.props {
-                            match prop {
+                            let (key, key_span) = match prop {
                                 PropOrSpread::Spread(_) => return,
                                 PropOrSpread::Prop(p) => match &**p {
-                                    Prop::Shorthand(p) => {
-                                        keys.push(Some(ExprOrSpread {
-                                            spread: None,
-                                            expr: Lit::Str(Str {
-                                                span: p.span,
-                                                raw: None,
-                                                value: p.sym.clone().into(),
-                                            })
-                                            .into(),
-                                        }));
-                                    }
+                                    Prop::Shorthand(p) => (p.sym.clone().into(), p.span),
                                     Prop::KeyValue(p) => match &p.key {
-                                        PropName::Ident(key) => {
-                                            keys.push(Some(ExprOrSpread {
-                                                spread: None,
-                                                expr: Lit::Str(Str {
-                                                    span: key.span,
-                                                    raw: None,
-                                                    value: key.sym.clone().into(),
-                                                })
-                                                .into(),
-                                            }));
-                                        }
-                                        PropName::Str(key) => {
-                                            keys.push(Some(ExprOrSpread {
-                                                spread: None,
-                                                expr: Lit::Str(key.clone()).into(),
-                                            }));
+                                        PropName::Ident(key) => (key.sym.clone().into(), key.span),
+                                        PropName::Str(key) => (key.value.clone(), key.span),
+                                        PropName::Num(key) => {
+                                            (key.value.to_js_string().into(), key.span)
                                         }
                                         _ => return,
                                     },
@@ -382,10 +362,37 @@ impl Optimizer<'_> {
                                 },
                                 #[cfg(swc_ast_unknown)]
                                 _ => panic!("unable to access unknown nodes"),
+                            };
+
+                            if seen.insert(key.clone()) {
+                                let index = array_index(&key);
+                                keys.push((key, key_span, index));
                             }
                         }
 
-                        *e = ArrayLit { span, elems: keys }.into()
+                        keys.sort_by_key(|(_, _, index)| match index {
+                            Some(index) => (0, *index),
+                            None => (1, 0),
+                        });
+
+                        *e = ArrayLit {
+                            span,
+                            elems: keys
+                                .into_iter()
+                                .map(|(value, span, _)| {
+                                    Some(ExprOrSpread {
+                                        spread: None,
+                                        expr: Lit::Str(Str {
+                                            span,
+                                            raw: None,
+                                            value,
+                                        })
+                                        .into(),
+                                    })
+                                })
+                                .collect(),
+                        }
+                        .into()
                     }
                 }
 
@@ -505,6 +512,18 @@ impl Optimizer<'_> {
             }
         }
     }
+}
+
+/// Returns a property key's integer index when it participates in the first
+/// group returned by `Object.keys`.
+///
+/// ECMAScript orders array-index keys before other string keys. `2^32 - 1` is
+/// not an array index and must therefore retain its insertion position with
+/// the other string keys.
+fn array_index(key: &Wtf8Atom) -> Option<u32> {
+    parse_canonical_index(key.as_str()?)
+        .and_then(|index| u32::try_from(index).ok())
+        .filter(|&index| index != u32::MAX)
 }
 
 /// `Math` methods whose folded value can be longer than the call it replaces.
