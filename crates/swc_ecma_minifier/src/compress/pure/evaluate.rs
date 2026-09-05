@@ -1,5 +1,6 @@
 use std::{num::FpCategory, ops::RangeInclusive};
 
+use num_bigint::BigUint;
 use radix_fmt::Radix;
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned};
@@ -1200,31 +1201,88 @@ fn f64_to_exponential(n: f64) -> Option<String> {
 /// Formats a finite float as an ECMAScript exponential number string with
 /// `prec` digits after the decimal point.
 ///
-/// The precision formatter performs ECMAScript's decimal half-tie rounding:
-/// when two candidate decimal integers are equally close, it chooses the
-/// larger one. We only use its fixed-decimal intermediate when all significant
-/// and rounding digits are available before Rust's 100th decimal-place
-/// rounding; otherwise constant folding must leave the runtime call intact.
+/// The formatter performs ECMAScript's decimal half-tie rounding: when two
+/// candidate decimal integers are equally close, it chooses the larger one.
+/// It rounds the exact binary representation instead of using a fixed-decimal
+/// intermediate, whose final-place rounding can carry into the target digit.
 fn f64_to_exponential_with_precision(n: f64, prec: usize) -> Option<String> {
     if !n.is_finite() {
         return Some(n.to_js_string());
     }
 
-    let significant_digits = prec + 1;
-
-    if n != 0.0 {
-        let (_, exponent) = decimal_parts(&n.abs().to_js_string())?;
-
-        // `f64_to_precision` obtains its digits with `{x:.100}`. Keep one
-        // decimal place of slack so the final digit used for rounding cannot
-        // itself be changed by Rust's formatter.
-        if exponent < significant_digits as i32 - 98 {
-            return None;
-        }
+    if n == 0.0 {
+        return Some(if prec == 0 {
+            "0e+0".into()
+        } else {
+            format!("0.{}e+0", "0".repeat(prec))
+        });
     }
 
-    let value = f64_to_precision(n, significant_digits);
-    let value = decimal_to_exponential(&value, Some(prec))?;
+    let negative = n.is_sign_negative();
+    let (_, mut exponent) = decimal_parts(&n.abs().to_js_string())?;
+    let bits = n.abs().to_bits();
+    let ieee_mantissa = bits & ((1 << 52) - 1);
+    let ieee_exponent = ((bits >> 52) & 0x7ff) as i32;
+    let (mantissa, binary_exponent) = if ieee_exponent == 0 {
+        (ieee_mantissa, 1 - 1023 - 52)
+    } else {
+        (ieee_mantissa | (1 << 52), ieee_exponent - 1023 - 52)
+    };
+
+    // Compute round(abs(n) * 10^(prec - exponent)) using the exact binary
+    // significand. This is the integer `m` from Number::toExponential.
+    let decimal_shift = prec as i32 - exponent;
+    let binary_shift = binary_exponent + decimal_shift;
+    let mut numerator = BigUint::from(mantissa);
+    let mut denominator = BigUint::from(1u8);
+
+    if decimal_shift >= 0 {
+        numerator *= BigUint::from(5u8).pow(decimal_shift as u32);
+    } else {
+        denominator *= BigUint::from(5u8).pow(decimal_shift.unsigned_abs());
+    }
+
+    if binary_shift >= 0 {
+        numerator <<= binary_shift as usize;
+    } else {
+        denominator <<= binary_shift.unsigned_abs() as usize;
+    }
+
+    let mut rounded = &numerator / &denominator;
+    let remainder = numerator % denominator.clone();
+    if remainder * 2u8 >= denominator {
+        rounded += 1u8;
+    }
+
+    let mut digits = rounded.to_string();
+    let significant_digits = prec + 1;
+    if digits.len() == significant_digits + 1 {
+        // Rounding 9.99... up changes the exponent and contributes one
+        // trailing zero that is not part of the requested precision.
+        if !digits.ends_with('0') {
+            return None;
+        }
+        digits.pop();
+        exponent += 1;
+    }
+    if digits.len() != significant_digits {
+        return None;
+    }
+
+    let mut value = String::with_capacity(digits.len() + 6);
+    if negative {
+        value.push('-');
+    }
+    value.push(digits.remove(0));
+    if !digits.is_empty() {
+        value.push('.');
+        value.push_str(&digits);
+    }
+    value.push('e');
+    if exponent >= 0 {
+        value.push('+');
+    }
+    value.push_str(&exponent.to_string());
 
     Some(value)
 }
