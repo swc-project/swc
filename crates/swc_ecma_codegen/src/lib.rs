@@ -2294,7 +2294,7 @@ impl MacroNode for TplElement {
                 emitter.cfg.reduce_escaped_newline,
             );
             let v = if emitter.cfg.inline_script {
-                lit::replace_close_inline_script(&v)
+                lit::escape_inline_script(&v)
             } else {
                 CowStr::Borrowed(&v)
             };
@@ -2327,7 +2327,7 @@ impl MacroNode for TplElement {
             emitter.wr.add_srcmap(span.hi)?;
         } else {
             let raw = if emitter.cfg.inline_script {
-                lit::replace_close_inline_script(&raw)
+                lit::escape_inline_script(&raw)
             } else {
                 CowStr::Borrowed(&raw)
             };
