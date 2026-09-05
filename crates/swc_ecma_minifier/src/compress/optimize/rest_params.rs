@@ -65,6 +65,18 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             }
         }
 
+        // Binding-pattern defaults execute expressions, but do not declare the
+        // identifiers that appear in those expressions.
+        fn visit_assign_pat(&mut self, pat: &AssignPat) {
+            pat.left.visit_with(self);
+        }
+
+        // Likewise, an object-pattern property's default value is not part of
+        // its declaration.
+        fn visit_assign_pat_prop(&mut self, prop: &AssignPatProp) {
+            prop.key.visit_with(self);
+        }
+
         fn visit_binding_ident(&mut self, ident: &BindingIdent) {
             if ident.id.sym == "arguments" {
                 self.ids.push(ident.id.to_id());
