@@ -63,20 +63,56 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
     }
 
     impl Visit for Finder<'_> {
+        fn visit_stmts(&mut self, stmts: &[Stmt]) {
+            for stmt in stmts {
+                if self.found {
+                    return;
+                }
+
+                stmt.visit_with(self);
+            }
+        }
+
+        fn visit_expr_or_spreads(&mut self, exprs: &[ExprOrSpread]) {
+            for expr in exprs {
+                if self.found {
+                    return;
+                }
+
+                expr.visit_with(self);
+            }
+        }
+
         fn visit_function(&mut self, function: &Function) {
+            if self.found {
+                return;
+            }
+
             // Function and parameter decorators execute while the enclosing scope is
             // active, unlike the nested function's parameters and body.
             function.decorators.visit_with(self);
             for param in &function.params {
+                if self.found {
+                    return;
+                }
+
                 param.decorators.visit_with(self);
             }
         }
 
         fn visit_constructor(&mut self, constructor: &Constructor) {
+            if self.found {
+                return;
+            }
+
             // Constructor parameter decorators execute in the enclosing scope. The
             // parameter patterns and constructor body execute in the constructor's
             // own scope and must remain skipped.
             for param in &constructor.params {
+                if self.found {
+                    return;
+                }
+
                 match param {
                     ParamOrTsParamProp::Param(param) => param.decorators.visit_with(self),
                     ParamOrTsParamProp::TsParamProp(param) => param.decorators.visit_with(self),
@@ -85,6 +121,10 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
         }
 
         fn visit_labeled_stmt(&mut self, labeled: &LabeledStmt) {
+            if self.found {
+                return;
+            }
+
             // Labels are not expression references and live in a separate namespace.
             labeled.body.visit_with(self);
         }
@@ -94,9 +134,16 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
         fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
 
         fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
+            if self.found {
+                return;
+            }
+
             // Default parameter initializers execute in this lexical scope and can read the
             // enclosing function's implicit `arguments` object.
             arrow.params.visit_with(self);
+            if self.found {
+                return;
+            }
 
             let mut var_finder = ArrowVarFinder { ids: Vec::new() };
             arrow.body.visit_with(&mut var_finder);
@@ -108,6 +155,10 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
         }
 
         fn visit_call_expr(&mut self, call: &CallExpr) {
+            if self.found {
+                return;
+            }
+
             // Direct eval can read the enclosing implicit `arguments` object without a
             // corresponding identifier node. Nested ordinary functions and constructors
             // are skipped above, while arrows share the enclosing lexical scope.
@@ -117,12 +168,17 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             ) && self.shadowed_arguments.is_empty()
             {
                 self.found = true;
+                return;
             }
 
             call.visit_children_with(self);
         }
 
         fn visit_ident(&mut self, ident: &Ident) {
+            if self.found {
+                return;
+            }
+
             if ident.sym == "arguments"
                 && !self.shadowed_arguments.contains(&ident.to_id())
                 && self.data.vars.get(&ident.to_id()).map_or(true, |usage| {
