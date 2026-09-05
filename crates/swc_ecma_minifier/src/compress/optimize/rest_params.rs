@@ -50,9 +50,12 @@ impl Optimizer<'_> {
         // changes observable behavior when the function uses `arguments`.
         let can_make_arguments_mapped = f.params.len() > 1
             && !self.ctx.expr_ctx.in_strict
-            && f.params[..f.params.len() - 1]
-                .iter()
-                .all(|param| matches!(&param.pat, Pat::Ident(..)));
+            && f.params[..f.params.len() - 1].iter().all(|param| {
+                matches!(
+                    &param.pat,
+                    Pat::Ident(BindingIdent { id, .. }) if id.sym != "arguments"
+                )
+            });
 
         if let Some(usage) = self.data.vars.get(&rest_id) {
             // Preserve the rest parameter only if removing it can change an
