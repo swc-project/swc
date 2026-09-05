@@ -1,0 +1,10 @@
+  x Regular expression flags cannot contain unicode escapes.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/non-ascii-start/input.js:1:1]
+ 1 | /a/π\u0067;
+   : ^^^^^^^^^^
+   `----
+  x Unknown regular expression flags.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/non-ascii-start/input.js:1:1]
+ 1 | /a/π\u0067;
+   : ^^^^^^^^^^
+   `----
