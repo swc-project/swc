@@ -72,7 +72,9 @@ impl Pure<'_> {
             if m.function.is_generator
                 || contains_arguments(&m.function.body)
                 || contains_super(&m.function.body)
-                || m.function.params.iter().any(contains_this_expr)
+                || m.function.params.iter().any(|param| {
+                    contains_this_expr(param) || contains_arguments(param) || contains_super(param)
+                })
             {
                 return;
             }
