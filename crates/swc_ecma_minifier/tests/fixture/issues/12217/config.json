@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "conditionals": true,
+    "comparisons": true,
+    "module": false
+}
