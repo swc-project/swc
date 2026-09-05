@@ -883,14 +883,6 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if call
-            .args
-            .iter()
-            .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(self.expr_ctx))
-        {
-            return;
-        }
-
         let (s, method) = match &call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(callee) => match &**callee {
@@ -907,6 +899,15 @@ impl Pure<'_> {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         };
+
+        if matches!(&*method, "toLowerCase" | "toUpperCase")
+            && call
+                .args
+                .iter()
+                .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(self.expr_ctx))
+        {
+            return;
+        }
 
         let new_val = match &*method {
             "toLowerCase" => s.value.to_lowercase(),
