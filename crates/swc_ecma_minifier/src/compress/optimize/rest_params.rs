@@ -6,18 +6,53 @@ use super::{Optimizer, ProgramData, VarUsageInfoFlags};
 /// Returns true if a function body reads its implicit `arguments` object.
 ///
 /// A lexical `arguments` declaration has a distinct syntax context, while a
-/// `var arguments` declaration aliases the implicit arguments object.
+/// `var arguments` declaration aliases the implicit arguments object unless it
+/// belongs to a nested arrow function.
 fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
+    struct ArrowVarFinder {
+        ids: Vec<Id>,
+    }
+
+    impl Visit for ArrowVarFinder {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+        fn visit_function(&mut self, _: &Function) {}
+
+        fn visit_var_decl(&mut self, var: &VarDecl) {
+            if var.kind == VarDeclKind::Var {
+                var.decls.visit_with(self);
+            }
+        }
+
+        fn visit_binding_ident(&mut self, ident: &BindingIdent) {
+            if ident.id.sym == "arguments" {
+                self.ids.push(ident.id.to_id());
+            }
+        }
+    }
+
     struct Finder<'a> {
         data: &'a ProgramData,
+        shadowed_arguments: Vec<Id>,
         found: bool,
     }
 
     impl Visit for Finder<'_> {
         fn visit_function(&mut self, _: &Function) {}
 
+        fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
+            let mut var_finder = ArrowVarFinder { ids: Vec::new() };
+            arrow.body.visit_with(&mut var_finder);
+
+            let shadowed_len = self.shadowed_arguments.len();
+            self.shadowed_arguments.extend(var_finder.ids);
+            arrow.body.visit_with(self);
+            self.shadowed_arguments.truncate(shadowed_len);
+        }
+
         fn visit_ident(&mut self, ident: &Ident) {
             if ident.sym == "arguments"
+                && !self.shadowed_arguments.contains(&ident.to_id())
                 && self.data.vars.get(&ident.to_id()).map_or(true, |usage| {
                     usage.var_kind == Some(VarDeclKind::Var)
                         || !usage.flags.contains(VarUsageInfoFlags::DECLARED)
@@ -28,7 +63,11 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
         }
     }
 
-    let mut finder = Finder { data, found: false };
+    let mut finder = Finder {
+        data,
+        shadowed_arguments: Vec::new(),
+        found: false,
+    };
     f.body.visit_with(&mut finder);
     finder.found
 }
@@ -92,7 +131,7 @@ impl Optimizer<'_> {
             // Preserve the rest parameter only if removing it can change an
             // `arguments` object from unmapped to mapped.
             if usage.ref_count == 0
-                && (!uses_implicit_arguments(f, &self.data) || !can_make_arguments_mapped)
+                && (!can_make_arguments_mapped || !uses_implicit_arguments(f, self.data))
             {
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");

@@ -414,9 +414,15 @@ impl Optimizer<'_> {
         }
     }
 
-    fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
-        // Skip if `use asm` exists.
-        if maybe_par!(
+    fn handle_stmts(
+        &mut self,
+        stmts: &mut Vec<Stmt>,
+        will_terminate: bool,
+        has_directive_prologue: bool,
+    ) {
+        // `use asm` only has meaning in a directive prologue.
+        if has_directive_prologue
+            && maybe_par!(
             stmts.iter().any(|stmt| match stmt.as_stmt() {
                 Some(Stmt::Expr(stmt)) => match &*stmt.expr {
                     Expr::Lit(Lit::Str(Str { raw, .. })) => {
@@ -433,8 +439,11 @@ impl Optimizer<'_> {
 
         self.with_ctx(self.ctx.clone()).inject_else(stmts);
 
-        self.with_ctx(self.ctx.clone())
-            .handle_stmt_likes(stmts, will_terminate);
+        self.with_ctx(self.ctx.clone()).handle_stmt_likes(
+            stmts,
+            will_terminate,
+            has_directive_prologue,
+        );
 
         drop_invalid_stmts(stmts);
 
@@ -458,8 +467,12 @@ impl Optimizer<'_> {
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
-    where
+    fn handle_stmt_likes<T>(
+        &mut self,
+        stmts: &mut Vec<T>,
+        will_terminate: bool,
+        has_directive_prologue: bool,
+    ) where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
     {
@@ -471,26 +484,28 @@ impl Optimizer<'_> {
             let mut child_ctx = self.ctx.clone();
             let mut directive_count = 0;
 
-            for stmt in stmts.iter() {
-                let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmt.as_stmt() else {
-                    break;
-                };
-                let Expr::Lit(Lit::Str(v)) = &**expr else {
-                    break;
-                };
+            if has_directive_prologue {
+                for stmt in stmts.iter() {
+                    let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmt.as_stmt() else {
+                        break;
+                    };
+                    let Expr::Lit(Lit::Str(v)) = &**expr else {
+                        break;
+                    };
 
-                directive_count += 1;
+                    directive_count += 1;
 
-                match &v.raw {
-                    Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
-                        child_ctx.expr_ctx.in_strict = true;
+                    match &v.raw {
+                        Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
+                            child_ctx.expr_ctx.in_strict = true;
+                        }
+                        Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
+                            child_ctx.bit_ctx.insert(BitCtx::InAsm);
+                            self.ctx.bit_ctx.insert(BitCtx::InAsm);
+                            use_asm = true;
+                        }
+                        _ => {}
                     }
-                    Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
-                        child_ctx.bit_ctx.insert(BitCtx::InAsm);
-                        self.ctx.bit_ctx.insert(BitCtx::InAsm);
-                        use_asm = true;
-                    }
-                    _ => {}
                 }
             }
 
@@ -1647,14 +1662,13 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_arrow_function_body(&mut self, n: &mut ArrowFunctionBody) {
-        n.visit_mut_children_with(self);
-
         match n {
             ArrowFunctionBody::FunctionBody(n) => {
+                self.handle_stmts(&mut n.stmts, false, true);
                 self.merge_if_returns(&mut n.stmts, false, true);
                 self.drop_else_token(&mut n.stmts);
             }
-            ArrowFunctionBody::Expr(_) => {}
+            ArrowFunctionBody::Expr(n) => n.visit_mut_with(self),
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
@@ -2371,7 +2385,7 @@ impl VisitMut for Optimizer<'_> {
 
             n.params.visit_mut_with(optimizer);
             if let Some(body) = n.body.as_mut() {
-                optimizer.handle_stmts(&mut body.stmts, true);
+                optimizer.handle_stmts(&mut body.stmts, true, true);
                 #[cfg(debug_assertions)]
                 {
                     body.visit_with(&mut AssertValid);
@@ -2507,7 +2521,7 @@ impl VisitMut for Optimizer<'_> {
     )]
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
-        self.with_ctx(ctx).handle_stmt_likes(stmts, true);
+        self.with_ctx(ctx).handle_stmt_likes(stmts, true, true);
 
         if self.vars.inline_with_multi_replacer(stmts) {
             self.changed = true;
@@ -2672,7 +2686,7 @@ impl VisitMut for Optimizer<'_> {
     )]
     fn visit_mut_script(&mut self, s: &mut Script) {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
-        s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        self.with_ctx(ctx).handle_stmts(&mut s.body, false, true);
 
         if self.vars.inline_with_multi_replacer(s) {
             self.changed = true;
@@ -2974,7 +2988,7 @@ impl VisitMut for Optimizer<'_> {
         {
             stmts.visit_with(&mut AssertValid);
         }
-        self.handle_stmts(stmts, false);
+        self.handle_stmts(stmts, false, false);
 
         if stmts.len() == 1 {
             if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
