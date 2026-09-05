@@ -675,7 +675,10 @@ impl Pure<'_> {
 
         if &*method.sym == "toExponential" {
             if first_arg.is_none() {
-                let value = f64_to_exponential(num.value).into();
+                let Some(value) = f64_to_exponential(num.value) else {
+                    return;
+                };
+                let value = value.into();
 
                 self.changed = true;
                 report_change!(
@@ -703,7 +706,11 @@ impl Pure<'_> {
                         return;
                     };
 
-                    f64_to_exponential_with_precision(num.value, usize::from(p)).into()
+                    let Some(value) = f64_to_exponential_with_precision(num.value, usize::from(p))
+                    else {
+                        return;
+                    };
+                    value.into()
                 } else {
                     // 4. If x is not finite, return Number::toString(x, 10).
                     num.value.to_js_string().into()
@@ -1177,34 +1184,129 @@ fn round_to_precision(digits: &mut String, precision: usize) -> bool {
     }
 }
 
-/// Helper function that formats a float as a ES6-style exponential number
-/// string.
-fn f64_to_exponential(n: f64) -> String {
+/// Formats a finite float as an ECMAScript exponential number string.
+///
+/// `Number::toExponential` omits the sign of both zero values. For all other
+/// values, the omitted-precision form uses the shortest ECMAScript decimal
+/// representation rather than Rust's formatter, whose rounding rules differ.
+fn f64_to_exponential(n: f64) -> Option<String> {
     if !n.is_finite() {
-        return n.to_js_string();
+        return Some(n.to_js_string());
     }
 
-    match n.abs() {
-        x if x >= 1.0 || x == 0.0 => format!("{n:e}").replace('e', "e+"),
-        _ => format!("{n:e}"),
-    }
+    decimal_to_exponential(&n.to_js_string(), None)
 }
 
-/// Helper function that formats a float as a ES6-style exponential number
-/// string with a given precision.
-// We can't use the same approach as in `f64_to_exponential`
-// because in cases like (0.999).toExponential(0) the result will be 1e0.
-// Instead we get the index of 'e', and if the next character is not '-'
-// we insert the plus sign
-fn f64_to_exponential_with_precision(n: f64, prec: usize) -> String {
+/// Formats a finite float as an ECMAScript exponential number string with
+/// `prec` digits after the decimal point.
+///
+/// The precision formatter performs ECMAScript's decimal half-tie rounding:
+/// when two candidate decimal integers are equally close, it chooses the
+/// larger one. We only use its fixed-decimal intermediate when all significant
+/// and rounding digits are available before Rust's 100th decimal-place
+/// rounding; otherwise constant folding must leave the runtime call intact.
+fn f64_to_exponential_with_precision(n: f64, prec: usize) -> Option<String> {
     if !n.is_finite() {
-        return n.to_js_string();
+        return Some(n.to_js_string());
     }
 
-    let mut res = format!("{n:.prec$e}");
-    let idx = res.find('e').expect("'e' not found in exponential string");
-    if res.as_bytes()[idx + 1] != b'-' {
-        res.insert(idx + 1, '+');
+    let significant_digits = prec + 1;
+
+    if n != 0.0 {
+        let (_, exponent) = decimal_parts(&n.abs().to_js_string())?;
+
+        // `f64_to_precision` obtains its digits with `{x:.100}`. Keep one
+        // decimal place of slack so the final digit used for rounding cannot
+        // itself be changed by Rust's formatter.
+        if exponent < significant_digits as i32 - 98 {
+            return None;
+        }
     }
-    res
+
+    let value = f64_to_precision(n, significant_digits);
+    let value = decimal_to_exponential(&value, Some(prec))?;
+
+    Some(value)
+}
+
+/// Parses an ECMAScript decimal string into its significant digits and base-10
+/// exponent. The returned digits preserve trailing zeroes, which are required
+/// by explicit `fractionDigits` formatting.
+fn decimal_parts(value: &str) -> Option<(String, i32)> {
+    let value = value.strip_prefix('-').unwrap_or(value);
+    let (coefficient, exponent) = match value.split_once(['e', 'E']) {
+        Some((coefficient, exponent)) => (coefficient, exponent.parse::<i32>().ok()?),
+        None => (value, 0),
+    };
+
+    let (integer, fraction) = match coefficient.split_once('.') {
+        Some((integer, fraction)) => (integer, fraction),
+        None => (coefficient, ""),
+    };
+
+    if integer.is_empty()
+        || !integer.bytes().all(|byte| byte.is_ascii_digit())
+        || !fraction.bytes().all(|byte| byte.is_ascii_digit())
+    {
+        return None;
+    }
+
+    let decimal_index = integer.len() as i32;
+    let mut digits = String::with_capacity(integer.len() + fraction.len());
+    digits.push_str(integer);
+    digits.push_str(fraction);
+
+    let first_non_zero = digits.bytes().position(|byte| byte != b'0');
+    let Some(first_non_zero) = first_non_zero else {
+        return Some((String::new(), 0));
+    };
+
+    let exponent = exponent + decimal_index - first_non_zero as i32 - 1;
+    Some((digits.split_off(first_non_zero), exponent))
+}
+
+/// Converts a decimal string produced by ECMAScript-compatible formatting into
+/// the canonical notation required by `Number::toExponential`.
+fn decimal_to_exponential(value: &str, fraction_digits: Option<usize>) -> Option<String> {
+    let negative = value.starts_with('-');
+    let (mut digits, exponent) = decimal_parts(value)?;
+
+    if digits.is_empty() {
+        let fraction_digits = fraction_digits.unwrap_or(0);
+        return Some(if fraction_digits == 0 {
+            "0e+0".into()
+        } else {
+            format!("0.{}e+0", "0".repeat(fraction_digits))
+        });
+    }
+
+    match fraction_digits {
+        Some(fraction_digits) => {
+            if digits.len() != fraction_digits + 1 {
+                return None;
+            }
+        }
+        None => {
+            while digits.ends_with('0') {
+                digits.pop();
+            }
+        }
+    }
+
+    let mut result = String::with_capacity(digits.len() + 5);
+    if negative {
+        result.push('-');
+    }
+    result.push(digits.remove(0));
+    if !digits.is_empty() {
+        result.push('.');
+        result.push_str(&digits);
+    }
+    result.push('e');
+    if exponent >= 0 {
+        result.push('+');
+    }
+    result.push_str(&exponent.to_string());
+
+    Some(result)
 }
