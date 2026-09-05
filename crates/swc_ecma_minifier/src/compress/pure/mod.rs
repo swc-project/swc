@@ -1139,6 +1139,16 @@ impl VisitMut for Pure<'_> {
         self.eval_spread_array_in_array(nodes);
     }
 
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        n.decorators.visit_mut_with(self);
+
+        // A parameter default is observable even if it evaluates to `undefined`: it
+        // affects Function.length and whether a non-arrow function has mapped
+        // arguments. Visit the pattern's children so nested patterns are still
+        // simplified, but preserve its root.
+        n.pat.visit_mut_children_with(self);
+    }
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
 
