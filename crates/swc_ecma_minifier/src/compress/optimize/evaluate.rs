@@ -351,10 +351,6 @@ impl Optimizer<'_> {
                                 PropOrSpread::Prop(p) => match &**p {
                                     Prop::Shorthand(p) => (p.sym.clone().into(), p.span),
                                     Prop::KeyValue(p) => match &p.key {
-                                        PropName::Ident(key) => (key.sym.clone().into(), key.span),
-                                        PropName::Str(key) => (key.value.clone(), key.span),
-                                        PropName::Num(key) => {
-                                            (key.value.to_js_string().into(), key.span)
                                         PropName::Ident(key) => {
                                             // A non-computed `__proto__` key-value property sets
                                             // the object's prototype instead of defining an own
@@ -363,15 +359,7 @@ impl Optimizer<'_> {
                                                 continue;
                                             }
 
-                                            keys.push(Some(ExprOrSpread {
-                                                spread: None,
-                                                expr: Lit::Str(Str {
-                                                    span: key.span,
-                                                    raw: None,
-                                                    value: key.sym.clone().into(),
-                                                })
-                                                .into(),
-                                            }));
+                                            (key.sym.clone().into(), key.span)
                                         }
                                         PropName::Str(key) => {
                                             // String-literal `__proto__` key-value properties have
@@ -381,10 +369,10 @@ impl Optimizer<'_> {
                                                 continue;
                                             }
 
-                                            keys.push(Some(ExprOrSpread {
-                                                spread: None,
-                                                expr: Lit::Str(key.clone()).into(),
-                                            }));
+                                            (key.value.clone(), key.span)
+                                        }
+                                        PropName::Num(key) => {
+                                            (key.value.to_js_string().into(), key.span)
                                         }
                                         _ => return,
                                     },
