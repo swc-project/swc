@@ -1068,9 +1068,9 @@ fn f64_to_precision(value: f64, precision: usize) -> Option<String> {
         e = flt_str_to_exp(&m);
 
         // The fixed intermediate has only 100 fractional digits. If it does not retain
-        // enough significant digits for the requested precision, evaluating from it can
-        // produce a different result than Number.prototype.toPrecision at runtime.
-        if e < p_i32 - 100 {
+        // enough unrounded precision for the requested precision, evaluating from it
+        // can produce a different result than Number.prototype.toPrecision at runtime.
+        if e <= p_i32 - 100 {
             return None;
         }
 
