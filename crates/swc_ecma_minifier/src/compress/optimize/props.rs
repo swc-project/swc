@@ -381,7 +381,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        for prop in &obj.props {
+        for (idx, prop) in obj.props.iter().enumerate() {
             match prop {
                 PropOrSpread::Spread(_) => {}
                 PropOrSpread::Prop(p) => match &**p {
@@ -390,6 +390,17 @@ impl Optimizer<'_> {
                         if prop_name_eq(&p.key, &key.sym) {
                             if self.ctx.bit_ctx.contains(BitCtx::IsCallee)
                                 && !is_expr_fine_for_hoist_props(&p.value, true)
+                            {
+                                return;
+                            }
+
+                            // A later spread can replace this property even if reading the
+                            // spread itself has no observable side effect. Do not detach the
+                            // earlier callee unless it remains the property's final value.
+                            if self.ctx.bit_ctx.contains(BitCtx::IsCallee)
+                                && obj.props[idx + 1..]
+                                    .iter()
+                                    .any(|prop| matches!(prop, PropOrSpread::Spread(_)))
                             {
                                 return;
                             }
