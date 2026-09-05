@@ -1,4 +1,4 @@
-function f(value) {
+function f(value, ...rest) {
     const eval = (value)=>value;
     return eval("value");
 }

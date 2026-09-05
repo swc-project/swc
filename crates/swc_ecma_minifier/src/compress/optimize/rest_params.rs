@@ -1,4 +1,3 @@
-use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -33,11 +32,7 @@ pub(super) fn has_use_strict_directive(f: &Function) -> bool {
 /// `var arguments` declaration aliases the implicit arguments object unless it
 /// belongs to a nested arrow function. Its declaration occurrence is not a
 /// read.
-fn uses_implicit_arguments(
-    f: &Function,
-    data: &ProgramData,
-    unresolved_ctxt: SyntaxContext,
-) -> bool {
+fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
     struct ArrowVarFinder {
         ids: Vec<Id>,
     }
@@ -66,7 +61,6 @@ fn uses_implicit_arguments(
 
     struct Finder<'a> {
         data: &'a ProgramData,
-        unresolved_ctxt: SyntaxContext,
         shadowed_arguments: Vec<Id>,
         found: bool,
     }
@@ -169,11 +163,13 @@ fn uses_implicit_arguments(
             }
 
             // Direct eval can read the enclosing implicit `arguments` object without a
-            // corresponding identifier node. Nested ordinary functions and constructors
-            // are skipped above, while arrows share the enclosing lexical scope.
+            // corresponding identifier node. A locally resolved `eval` might hold the
+            // intrinsic evaluator, so its syntax context alone cannot prove this call
+            // indirect. Nested ordinary functions and constructors are skipped above,
+            // while arrows share the enclosing lexical scope.
             if matches!(
                 &call.callee,
-                Callee::Expr(expr) if matches!(&**expr, Expr::Ident(ident) if ident.sym == "eval" && ident.ctxt == self.unresolved_ctxt)
+                Callee::Expr(expr) if matches!(&**expr, Expr::Ident(ident) if ident.sym == "eval")
             ) && self.shadowed_arguments.is_empty()
             {
                 self.found = true;
@@ -206,7 +202,6 @@ fn uses_implicit_arguments(
 
     let mut finder = Finder {
         data,
-        unresolved_ctxt,
         shadowed_arguments: Vec::new(),
         found: false,
     };
@@ -273,8 +268,7 @@ impl Optimizer<'_> {
             // Preserve the rest parameter only if removing it can change an
             // `arguments` object from unmapped to mapped.
             if usage.ref_count == 0
-                && (!can_make_arguments_mapped
-                    || !uses_implicit_arguments(f, self.data, self.ctx.expr_ctx.unresolved_ctxt))
+                && (!can_make_arguments_mapped || !uses_implicit_arguments(f, self.data))
             {
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");
