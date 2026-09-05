@@ -348,7 +348,7 @@ impl From<&Function> for FnMetadata {
             len: f
                 .params
                 .iter()
-                .filter(|p| matches!(&p.pat, Pat::Ident(..) | Pat::Array(..) | Pat::Object(..)))
+                .take_while(|p| !matches!(&p.pat, Pat::Assign(..) | Pat::Rest(..)))
                 .count(),
         }
     }
