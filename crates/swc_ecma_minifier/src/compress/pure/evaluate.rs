@@ -651,7 +651,11 @@ impl Pure<'_> {
                         return;
                     };
 
-                    f64_to_precision(num.value, usize::from(p))
+                    let Some(value) = f64_to_precision(num.value, usize::from(p)) else {
+                        return;
+                    };
+
+                    value
                 } else {
                     // 4. If x is not finite, return Number::toString(x, 10).
                     num.value.to_js_string()
@@ -1021,9 +1025,9 @@ impl Pure<'_> {
 
 // Code from boa
 // https://github.com/boa-dev/boa/blob/f8b682085d7fe0bbfcd0333038e93cf2f5aee710/boa_engine/src/builtins/number/mod.rs#L408
-fn f64_to_precision(value: f64, precision: usize) -> String {
+fn f64_to_precision(value: f64, precision: usize) -> Option<String> {
     if !value.is_finite() {
-        return value.to_js_string();
+        return Some(value.to_js_string());
     }
 
     let mut x = value;
@@ -1052,6 +1056,13 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
         // but has the same effect. It manipulates the string constructed
         // by `format`: digits with an optional dot between two of them.
         m = format!("{x:.100}");
+
+        // The fixed 100-fractional-digit intermediate can round tiny nonzero values to
+        // zero. Do not derive an exponent from that representation; leave the
+        // call for runtime to evaluate with its full precision instead.
+        if m.bytes().all(|byte| matches!(byte, b'0' | b'.')) {
+            return None;
+        }
 
         // a: getting an exponent
         e = flt_str_to_exp(&m);
@@ -1084,14 +1095,14 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
             // iv, v
             m.push_str(&e.to_string());
 
-            return s + &*m;
+            return Some(s + &*m);
         }
     }
 
     // 11
     let e_inc = e + 1;
     if e_inc == p_i32 {
-        return s + &*m;
+        return Some(s + &*m);
     }
 
     // 12
@@ -1105,7 +1116,7 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
     }
 
     // 14
-    s + &*m
+    Some(s + &*m)
 }
 
 fn flt_str_to_exp(flt: &str) -> i32 {
