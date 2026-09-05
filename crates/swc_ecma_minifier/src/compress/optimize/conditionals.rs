@@ -527,10 +527,8 @@ impl Optimizer<'_> {
 
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
-                // Test expr may change the variables that cons and alt **may use** in their
-                // common args. For example:
-                // from (a = 1) ? f(a, true) : f(a, false)
-                // to   f(a, a = 1 ? true : false)
+                // The condition is evaluated before all arguments in the original calls, but
+                // after common arguments before the differing argument in the merged call.
                 let side_effects_in_test = test.may_have_side_effects(self.ctx.expr_ctx);
 
                 if self.data.contains_unresolved(test) {
@@ -570,16 +568,24 @@ impl Optimizer<'_> {
                         if !cons.eq_ignore_span(alt) {
                             diff_count += 1;
                             diff_idx = Some(idx);
-                        } else {
-                            // See the comments for `side_effects_in_test`
-                            if side_effects_in_test && !cons.expr.is_pure(self.ctx.expr_ctx) {
-                                return None;
-                            }
+                        } else if side_effects_in_test && !cons.expr.is_pure(self.ctx.expr_ctx) {
+                            // The condition may change a value read by this common argument.
+                            return None;
                         }
                     }
 
                     if diff_count == 1 {
                         let diff_idx = diff_idx.unwrap();
+
+                        // The condition is evaluated after all common arguments before the
+                        // differing argument in the merged call. Reject the merge if any of
+                        // those arguments may affect the condition.
+                        if cons.args[..diff_idx].iter().any(|arg| {
+                            !arg.expr.is_ident()
+                                && arg.expr.may_have_side_effects(self.ctx.expr_ctx)
+                        }) {
+                            return None;
+                        }
 
                         report_change!(
                             "conditionals: Merging cons and alt as only one argument differs"
