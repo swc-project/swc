@@ -369,15 +369,7 @@ impl Pure<'_> {
                             cur_cooked.push_wtf8(&Cow::Borrowed(&s.value));
                         }
 
-                        if let Some(raw) = &s.raw {
-                            if raw.len() >= 2 {
-                                // Exclude quotes
-                                cur_raw
-                                    .push_str(&convert_str_raw_to_tpl_raw(&raw[1..raw.len() - 1]));
-                            }
-                        } else {
-                            cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
-                        }
+                        cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                     }
                     _ => {
                         quasis.push(TplElement {
@@ -434,15 +426,8 @@ impl Pure<'_> {
                         *cooked = c.into();
                     }
 
-                    l_last.raw = format!(
-                        "{}{}",
-                        l_last.raw,
-                        rs.raw
-                            .clone()
-                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
-                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into())
-                    )
-                    .into();
+                    l_last.raw =
+                        format!("{}{}", l_last.raw, convert_str_value_to_tpl_raw(&rs.value)).into();
 
                     r.take();
                 }
@@ -471,15 +456,9 @@ impl Pure<'_> {
                         *cooked = c.into();
                     }
 
-                    let new: Atom = format!(
-                        "{}{}",
-                        ls.raw
-                            .clone()
-                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
-                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into()),
-                        r_first.raw
-                    )
-                    .into();
+                    let new: Atom =
+                        format!("{}{}", convert_str_value_to_tpl_raw(&ls.value), r_first.raw)
+                            .into();
                     r_first.raw = new;
 
                     l.take();
@@ -622,39 +601,47 @@ impl Pure<'_> {
 }
 
 pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<'_, str> {
-    let mut result = String::default();
+    let mut result = String::with_capacity(value.len());
+    let mut code_points = value.code_points().peekable();
 
-    let iter = value.code_points();
-    for code_point in iter {
+    while let Some(code_point) = code_points.next() {
         if let Some(ch) = code_point.to_char() {
             match ch {
-                '\\' => {
-                    result.push_str("\\\\");
+                '\\' => result.push_str("\\\\"),
+                '`' => result.push_str("\\`"),
+                '$' => result.push_str("\\$"),
+                '\0' => {
+                    if code_points
+                        .peek()
+                        .and_then(|code_point| code_point.to_char())
+                        .is_some_and(|ch| ch.is_ascii_digit())
+                    {
+                        result.push_str("\\x00");
+                    } else {
+                        result.push_str("\\0");
+                    }
                 }
-                '`' => {
-                    result.push_str("\\`");
-                }
-                '$' => {
-                    result.push_str("\\$");
-                }
-                '\n' => {
-                    result.push_str("\\n");
-                }
-                '\r' => {
-                    result.push_str("\\r");
+                '\x08' => result.push_str("\\b"),
+                '\t' => result.push('\t'),
+                '\n' => result.push_str("\\n"),
+                '\r' => result.push_str("\\r"),
+                '\x0b' => result.push_str("\\v"),
+                '\x0c' => result.push_str("\\f"),
+                '\x01'..='\x07' | '\x0e'..='\x1f' => {
+                    use std::fmt::Write;
+
+                    write!(result, "\\x{:02X}", ch as u8).unwrap();
                 }
                 _ => result.push(ch),
             }
         } else {
-            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
+            use std::fmt::Write;
+
+            write!(result, "\\u{:04X}", code_point.to_u32()).unwrap();
         }
     }
 
     result.into()
-}
-
-pub(super) fn convert_str_raw_to_tpl_raw(value: &str) -> Atom {
-    value.replace('`', "\\`").replace('$', "\\$").into()
 }
 
 #[cfg(test)]
