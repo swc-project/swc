@@ -679,6 +679,23 @@ impl Optimizer<'_> {
                 // The merged expression evaluates the callee before the test, so the test must
                 // not be able to change the constructor binding.
                 let cons_callee = cons.callee.as_ident()?;
+                if self.data.ident_is_unresolved(cons_callee) {
+                    return None;
+                }
+
+                // A side-effecting test can invoke a nested function which reassigns the
+                // callee. `REASSIGNED` tracks assignments from child scopes as
+                // well as direct ones.
+                if test.may_have_side_effects(self.ctx.expr_ctx)
+                    && self
+                        .data
+                        .vars
+                        .get(&cons_callee.to_id())
+                        .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::REASSIGNED))
+                {
+                    return None;
+                }
+
                 if IdentUsageFinder::find(cons_callee, &**test) {
                     return None;
                 }
