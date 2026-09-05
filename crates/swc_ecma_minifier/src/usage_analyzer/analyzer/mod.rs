@@ -247,6 +247,16 @@ where
         self.data.var_or_default(id).store_param_count(arity);
     }
 
+    /// Returns true when omitting an argument can evaluate or throw while
+    /// initializing this parameter.
+    fn has_observable_param_initialization(pat: &Pat) -> bool {
+        match pat {
+            Pat::Ident(..) => false,
+            Pat::Rest(rest) => Self::has_observable_param_initialization(&rest.arg),
+            _ => true,
+        }
+    }
+
     fn store_arrow_arity(&mut self, id: Id, arrow: &ArrowExpr) {
         let scope = self.data.scope(arrow.ctxt);
         let known = !scope.used_eval() && !arrow.params.iter().any(|p| p.is_rest());
@@ -889,7 +899,13 @@ where
         self.with_ctx(ctx)
             .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
-        if n.function.body.is_empty() {
+        if n.function.body.is_empty()
+            && !n
+                .function
+                .params
+                .iter()
+                .any(|param| Self::has_observable_param_initialization(&param.pat))
+        {
             self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
         }
 

@@ -4,7 +4,9 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, Value};
+use swc_ecma_utils::{
+    contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, IsEmpty, Value,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -270,6 +272,69 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Drops an unused shorthand object-pattern binding only when its default
+    /// can be discarded.
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
+    fn take_assign_pat_prop_if_unused(&mut self, key: &mut Ident, value: &mut Expr) {
+        trace_op!("unused: Checking object pattern identifier `{}`", key);
+
+        if !self.may_remove_ident(key) {
+            log_abort!(
+                "unused: Preserving object pattern var `{:#?}` because it's top-level",
+                key
+            );
+            return;
+        }
+
+        if let Some(v) = self.data.vars.get(&key.to_id()) {
+            let is_used_in_member =
+                v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
+            if v.ref_count != 0
+                || v.usage_count != 0
+                || v.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                || is_used_in_member
+            {
+                log_abort!(
+                    "unused: Cannot drop object pattern binding ({}) because it's used",
+                    dump(&*key, false)
+                );
+                return;
+            }
+
+            // Some expressions have observable evaluation that
+            // `ignore_return_value` cannot preserve. Do not pass those defaults
+            // to it, because a destructuring default is evaluated when the
+            // property value is `undefined`.
+            let mut visitor = NonDiscardableDefaultVisitor::default();
+            value.visit_with(&mut visitor);
+            if visitor.found {
+                log_abort!("unused: Preserving object pattern default with observable evaluation");
+                return;
+            }
+
+            // A destructuring default is evaluated only when the property access produces
+            // `undefined`, so any remaining effects must stay in this default expression.
+            // The enclosing pattern has already proven the property access itself
+            // discardable.
+            if let Some(side_effects) = self.ignore_return_value(value) {
+                *value = side_effects;
+                return;
+            }
+
+            self.changed = true;
+            report_change!(
+                "unused: Dropping object pattern binding '{}{:?}' because it and its default are \
+                 unused",
+                key.sym,
+                key.ctxt
+            );
+            key.take();
+        }
+    }
+
     pub(crate) fn should_preserve_property_access(
         &self,
         e: &Expr,
@@ -321,10 +386,8 @@ impl Optimizer<'_> {
                         Prop::KeyValue(k) => {
                             // Check if `k` is __proto__
 
-                            if let PropName::Ident(i) = &k.key {
-                                if i.sym == "__proto__" {
-                                    return true;
-                                }
+                            if is_proto_key(&k.key) {
+                                return true;
                             }
 
                             false
@@ -384,6 +447,16 @@ impl Optimizer<'_> {
             Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(pure_mark),
             _ => false,
         };
+        // Restrict this to structural values known to be non-nullish so removing
+        // the whole pattern cannot remove a destructuring error. A pure annotation
+        // only describes evaluation effects, not the value produced by the
+        // initializer. Classes are excluded because accessing a static property can
+        // invoke a user-defined static getter.
+        let can_drop_object_assign_default = init
+            .as_deref()
+            .is_some_and(is_safe_object_assign_default_initializer);
+        let is_function_object_assign_default =
+            matches!(init.as_deref(), Some(Expr::Fn(..) | Expr::Arrow(..)));
 
         if !name.is_ident() {
             // For Pat::Assign (default parameters), we can skip the pure_getters check
@@ -465,13 +538,17 @@ impl Optimizer<'_> {
                             self.take_pat_if_unused(&mut p.value, None, is_var_decl);
                         }
                         ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
-                            if has_pure_ann {
-                                if let Some(e) = value {
-                                    *value = self.ignore_return_value(e).map(Box::new);
+                            if let Some(value) = value {
+                                // Accessing `arguments` on a function throws. Unlike
+                                // `caller`, this behavior is not covered by the minifier's
+                                // documented assumptions.
+                                if can_drop_object_assign_default
+                                    && !(is_function_object_assign_default
+                                        && key.sym == "arguments")
+                                {
+                                    self.take_assign_pat_prop_if_unused(key, value.as_mut());
                                 }
-                            }
-
-                            if value.is_none() {
+                            } else {
                                 self.take_ident_of_pat_if_unused(key, None);
                             }
                         }
@@ -1354,6 +1431,428 @@ impl Optimizer<'_> {
 fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
     sym.as_str()
         .map_or(true, |s| !matches!(s, "toString" | "valueOf"))
+}
+
+/// Returns true for a function `arguments` access that can throw.
+fn is_restricted_function_property_access(member: &MemberExpr) -> bool {
+    let is_arguments = match &member.prop {
+        MemberProp::Ident(prop) => prop.sym == "arguments",
+        MemberProp::Computed(prop) => matches!(
+            &*prop.expr,
+            Expr::Lit(Lit::Str(prop)) if prop.value.as_str() == Some("arguments")
+        ),
+        _ => false,
+    };
+
+    is_arguments
+        && matches!(
+            member.obj.unwrap_parens(),
+            Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..)
+        )
+}
+
+/// Returns true for pure member calls whose argument coercion can throw.
+fn is_potentially_throwing_pure_member_call(callee: &Expr, args: &[ExprOrSpread]) -> bool {
+    if args.is_empty() {
+        return false;
+    }
+
+    let Expr::Member(MemberExpr {
+        obj,
+        prop: MemberProp::Ident(..),
+        ..
+    }) = callee.unwrap_parens()
+    else {
+        return false;
+    };
+
+    matches!(&**obj, Expr::Lit(Lit::Str(..)))
+        || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
+        || matches!(&**obj, Expr::Ident(Ident { sym, .. }) if &**sym == "Math")
+}
+
+/// Returns true when evaluating an object literal property cannot perform
+/// construction-time property-key coercion or spread enumeration.
+fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
+    match prop {
+        PropOrSpread::Spread(..) => false,
+        PropOrSpread::Prop(prop) => match &**prop {
+            // `ignore_return_value` cannot retain shorthand identifier reads,
+            // which can throw for unresolved bindings.
+            Prop::Shorthand(..) => false,
+            Prop::Assign(..) => true,
+            Prop::KeyValue(prop) => !prop.key.is_computed() && !is_proto_key(&prop.key),
+            Prop::Getter(prop) => !prop.key.is_computed(),
+            Prop::Setter(prop) => !prop.key.is_computed(),
+            Prop::Method(prop) => !prop.key.is_computed(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        },
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    }
+}
+
+/// Returns true when an initializer is both non-nullish and can be reduced by
+/// `ignore_return_value` without losing construction-time effects.
+fn is_safe_object_assign_default_initializer(init: &Expr) -> bool {
+    if !matches!(
+        init,
+        Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Object(..)
+    ) {
+        return false;
+    }
+
+    let mut visitor = NonDiscardableDefaultVisitor::default();
+    init.visit_with(&mut visitor);
+    !visitor.found
+}
+
+/// Returns true for object literal keys with special `__proto__` semantics.
+fn is_proto_key(key: &PropName) -> bool {
+    match key {
+        PropName::Ident(ident) => ident.sym == "__proto__",
+        PropName::Str(string) => string.value.as_str() == Some("__proto__"),
+        _ => false,
+    }
+}
+
+/// Returns true when a class member is safely discardable by
+/// `extract_class_side_effect`.
+fn is_discardable_class_default_member(member: &ClassMember) -> bool {
+    match member {
+        ClassMember::Method(method) => !method.key.is_computed(),
+        ClassMember::ClassProp(prop) => !prop.key.is_computed(),
+        ClassMember::AutoAccessor(accessor) => {
+            // Static auto-accessor initializers run while evaluating the class,
+            // but the class-side-effect extractor cannot reconstruct them.
+            (!accessor.is_static || accessor.value.is_none())
+                && !matches!(&accessor.key, Key::Public(key) if key.is_computed())
+        }
+        _ => true,
+    }
+}
+
+/// Finds expressions whose evaluation cannot be reconstructed by
+/// `ignore_return_value`.
+#[derive(Default)]
+struct NonDiscardableDefaultVisitor {
+    found: bool,
+    in_class_static_initializer: bool,
+}
+
+fn has_observable_param_initialization(pat: &Pat) -> bool {
+    match pat {
+        Pat::Ident(..) => false,
+        Pat::Rest(rest) => has_observable_param_initialization(&rest.arg),
+        _ => true,
+    }
+}
+
+impl Visit for NonDiscardableDefaultVisitor {
+    noop_visit_type!();
+
+    fn visit_assign_expr(&mut self, e: &AssignExpr) {
+        if self.in_class_static_initializer {
+            // Class static initializers run in strict mode. Extracting an assignment
+            // into the surrounding script can turn a ReferenceError into a global
+            // property creation, so retain the class instead.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, e: &UpdateExpr) {
+        if self.in_class_static_initializer {
+            // Like assignments, updates of unresolved names throw in a class's
+            // strict-mode static initializer but can create globals when moved.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_unary_expr(&mut self, e: &UnaryExpr) {
+        if self.in_class_static_initializer && e.op == op!("delete") {
+            // Class static initializers run in strict mode. Moving a deletion into
+            // a surrounding sloppy script can turn its TypeError into `false`.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
+        // Arrows capture `new.target` lexically. A class side-effect extraction
+        // can relocate an arrow without invoking it, which still makes a
+        // captured `new.target` invalid at the relocation site.
+        e.visit_children_with(self);
+    }
+
+    fn visit_function(&mut self, function: &Function) {
+        // Method and parameter decorators run while the class is evaluated, but
+        // the function body and parameter patterns run only when it is called.
+        function.decorators.visit_with(self);
+        for param in &function.params {
+            param.decorators.visit_with(self);
+        }
+    }
+
+    fn visit_decorator(&mut self, _: &Decorator) {
+        // `extract_class_side_effect` does not retain class or member decorators.
+        self.found = true;
+    }
+
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
+        // `this` can be uninitialized before `super()` in a derived constructor.
+        // The side-effect extractor cannot reconstruct that runtime error, so retain
+        // defaults that evaluate it.
+        self.found = true;
+    }
+
+    fn visit_meta_prop_expr(&mut self, e: &MetaPropExpr) {
+        if e.kind == MetaPropKind::NewTarget {
+            // `new.target` is valid in class field initialization, but moving it
+            // outside the class would produce invalid syntax.
+            self.found = true;
+        }
+    }
+
+    fn visit_bin_expr(&mut self, e: &BinExpr) {
+        if matches!(
+            e.op,
+            op!("in")
+                | op!("instanceof")
+                | op!("<")
+                | op!("<=")
+                | op!(">")
+                | op!(">=")
+                | op!("==")
+                | op!("!=")
+        ) {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_object_lit(&mut self, e: &ObjectLit) {
+        // Object spread performs observable property enumeration and access,
+        // while computed keys perform ToPropertyKey coercion. Neither operation
+        // is preserved by side-effect extraction when its operand is pure.
+        if e.props
+            .iter()
+            .any(|prop| !is_non_computed_object_prop(prop))
+        {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_array_lit(&mut self, e: &ArrayLit) {
+        // Array spread invokes the iterator protocol, which cannot be preserved
+        // by reducing the array to its element expressions.
+        if e.elems
+            .iter()
+            .flatten()
+            .any(|element| element.spread.is_some())
+        {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_class(&mut self, e: &Class) {
+        // Evaluating `class extends value {}` throws unless `value` is a
+        // constructor or `null`. The side-effect extractor intentionally only
+        // keeps expressions with direct effects, so retain the class default
+        // when its heritage cannot be proven to be `null`.
+        if e.super_class
+            .as_deref()
+            .is_some_and(|super_class| !matches!(super_class, Expr::Lit(Lit::Null(..))))
+        {
+            self.found = true;
+            return;
+        }
+
+        // Computed class keys perform ToPropertyKey coercion. The side-effect
+        // extractor can omit that coercion when the key expression itself is
+        // pure, so retain the whole default instead.
+        if e.body
+            .iter()
+            .any(|member| !is_discardable_class_default_member(member))
+        {
+            self.found = true;
+            return;
+        }
+
+        for member in &e.body {
+            let initializer = match member {
+                ClassMember::ClassProp(prop) if prop.is_static => prop.value.as_deref(),
+                ClassMember::PrivateProp(prop) if prop.is_static => prop.value.as_deref(),
+                ClassMember::StaticBlock(block) if block.body.stmts.len() == 1 => block
+                    .body
+                    .stmts
+                    .first()
+                    .and_then(|stmt| stmt.as_expr())
+                    .map(|stmt| &*stmt.expr),
+                _ => None,
+            };
+
+            if let Some(initializer) = initializer {
+                let was_in_class_static_initializer = self.in_class_static_initializer;
+                self.in_class_static_initializer = true;
+                initializer.visit_with(self);
+                self.in_class_static_initializer = was_in_class_static_initializer;
+
+                if self.found {
+                    return;
+                }
+            }
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        if matches!(e.prop, MemberProp::Computed(..)) {
+            // A computed member access performs ToPropertyKey coercion. The class
+            // side-effect extractor can discard that coercion when the key itself
+            // is pure, so retain the default instead.
+            self.found = true;
+            return;
+        }
+
+        if is_restricted_function_property_access(e) {
+            // Function `arguments` is a restricted property. Reading it can throw
+            // while a function is evaluated in a class initializer, but class-side
+            // effect extraction treats ordinary member reads as discardable.
+            self.found = true;
+            return;
+        }
+
+        if matches!(e.prop, MemberProp::PrivateName(..)) {
+            // Private member access performs a brand check that can throw even when
+            // evaluating the object expression itself has no observable effects.
+            // `extract_class_side_effect` cannot reproduce that check outside the
+            // class, so keep the class default intact.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_call_expr(&mut self, e: &CallExpr) {
+        if e.args.iter().any(|arg| arg.spread.is_some()) {
+            // Spread call arguments invoke the iterator protocol, which cannot be
+            // preserved by class-side-effect extraction.
+            self.found = true;
+            return;
+        }
+
+        if let Callee::Expr(callee) = &e.callee {
+            if is_potentially_throwing_pure_member_call(callee, &e.args) {
+                // `may_have_side_effects` recognizes known string and Math methods as pure,
+                // but their arguments may throw while being coerced. Class-side effect
+                // extraction cannot preserve that exception, so retain the default.
+                self.found = true;
+                return;
+            }
+        }
+
+        if matches!(
+            &e.callee,
+            Callee::Expr(callee) if matches!(callee.unwrap_parens(), Expr::Ident(Ident { sym, .. }) if &**sym == "eval")
+        ) {
+            // Direct eval observes the class evaluation environment, which cannot
+            // be preserved when class side effects are extracted.
+            self.found = true;
+            return;
+        }
+
+        if let Callee::Expr(callee) = &e.callee {
+            if let Expr::Arrow(arrow) = &**callee {
+                // Unlike a standalone arrow expression, a directly invoked arrow
+                // evaluates its body during class evaluation.
+                arrow.body.visit_with(self);
+                if self.found {
+                    return;
+                }
+            }
+        }
+
+        let has_observable_param_initialization = match &e.callee {
+            Callee::Expr(callee) => match &**callee {
+                Expr::Fn(FnExpr { function, .. }) => {
+                    function.body.is_empty()
+                        && function
+                            .params
+                            .iter()
+                            .any(|param| has_observable_param_initialization(&param.pat))
+                }
+                Expr::Arrow(ArrowExpr { body, params, .. }) => {
+                    matches!(
+                        &**body,
+                        ArrowFunctionBody::FunctionBody(body) if body.stmts.is_empty()
+                    ) && params.iter().any(has_observable_param_initialization)
+                }
+                _ => false,
+            },
+            _ => false,
+        };
+
+        if e.args.is_empty() && has_observable_param_initialization {
+            // Calling an empty function still initializes omitted parameters.
+            // In particular, defaults can run user code and destructuring can
+            // throw, neither of which is preserved by the pure-call shortcut.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_opt_call(&mut self, e: &OptCall) {
+        if e.args.iter().any(|arg| arg.spread.is_some()) {
+            // Spread optional-call arguments invoke the iterator protocol, which
+            // cannot be preserved by class-side-effect extraction.
+            self.found = true;
+            return;
+        }
+
+        if is_potentially_throwing_pure_member_call(&e.callee, &e.args) {
+            // Optional calls use the same pure-member shortcut as ordinary calls.
+            // Retain the default so argument coercion exceptions are preserved.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_new_expr(&mut self, e: &NewExpr) {
+        if e.args
+            .as_ref()
+            .is_some_and(|args| args.iter().any(|arg| arg.spread.is_some()))
+        {
+            // Spread constructor arguments invoke the iterator protocol, which
+            // cannot be preserved by class-side-effect extraction.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
 }
 
 #[derive(Default)]
