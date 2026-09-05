@@ -900,12 +900,9 @@ impl Pure<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
 
-        if matches!(&*method, "toLowerCase" | "toUpperCase")
-            && call
-                .args
-                .iter()
-                .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(self.expr_ctx))
-        {
+        // These methods ignore their arguments, but evaluating an argument can
+        // still throw or iterate a spread. Fold only calls without arguments.
+        if matches!(&*method, "toLowerCase" | "toUpperCase") && !call.args.is_empty() {
             return;
         }
 
