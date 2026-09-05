@@ -337,6 +337,7 @@ impl Optimizer<'_> {
 
                 Expr::Ident(Ident { sym, ctxt, .. })
                     if &**sym == "Object"
+                        && self.options.pristine_globals
                         && *ctxt == self.ctx.expr_ctx.unresolved_ctxt
                         && obj.is_global_ref_to(self.ctx.expr_ctx, "Object") =>
                 {
