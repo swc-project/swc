@@ -13,7 +13,7 @@ suddenly((_0)=>{
     return _object_without_properties(_0, [
         "x"
     ]).y;
-}), suddenly((_0)=>{
+}), suddenly((_0 = void 0)=>{
     let [_ref1 = {
         x: {
             z: 1,
