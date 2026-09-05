@@ -347,11 +347,13 @@ where
         n.init.visit_with(self);
 
         if let Some(VarDeclOrExpr::VarDecl(decl)) = &n.init {
-            for decl in &decl.decls {
-                for (sym, ctxt) in find_pat_ids::<_, Id>(&decl.name) {
-                    self.data
-                        .var_or_default((sym, ctxt))
-                        .mark_declared_as_for_init();
+            if matches!(decl.kind, VarDeclKind::Let | VarDeclKind::Const) {
+                for decl in &decl.decls {
+                    for (sym, ctxt) in find_pat_ids::<_, Id>(&decl.name) {
+                        self.data
+                            .var_or_default((sym, ctxt))
+                            .mark_declared_as_for_init();
+                    }
                 }
             }
         }

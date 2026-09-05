@@ -747,10 +747,6 @@ impl Optimizer<'_> {
             }
 
             (Expr::New(cons), Expr::New(alt)) => {
-                if self.data.contains_unresolved(test) {
-                    return None;
-                }
-
                 // A `with` statement can dynamically resolve the constructor binding. Reject
                 // this independently of the test's side effects because even a pure test can
                 // observe a reordered constructor lookup through a getter.

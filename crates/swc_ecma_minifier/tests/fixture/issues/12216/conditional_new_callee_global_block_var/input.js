@@ -6,6 +6,8 @@ function B(n) {
     this.value = "B" + n;
 }
 
+void F;
+
 {
     var F = A;
 }

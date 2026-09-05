@@ -302,6 +302,7 @@ impl Storage for ProgramData {
                     *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::IMPORTED;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::IS_GLOBAL_VAR;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_PARAM;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
