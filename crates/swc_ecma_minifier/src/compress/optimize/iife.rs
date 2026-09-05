@@ -3,7 +3,7 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
+use swc_ecma_utils::{contains_ident_ref, find_pat_ids, ExprExt, ExprFactory};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
@@ -620,14 +620,14 @@ impl Optimizer<'_> {
                     }
                 }
 
-                let mut new_target = NewTargetFinder::default();
-                body.visit_with(&mut new_target);
-                if new_target.found {
+                let mut env = IifeEnvFinder::default();
+                body.visit_with(&mut env);
+                if env.has_new_target {
                     log_abort!("iife: [x] Found new.target");
                     return false;
                 }
 
-                if contains_this_expr(body) {
+                if env.has_this {
                     return false;
                 }
             }
@@ -1481,18 +1481,20 @@ fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
     }
 }
 
-/// Finds `new.target` references that inherit an IIFE's function environment.
+/// Finds lexical `this` and `new.target` references that inherit an IIFE's
+/// function environment.
 ///
-/// Arrow functions do not create a new `new.target` binding, while ordinary
-/// functions and constructors do. Consequently, this visitor descends into
-/// arrows by default, but skips ordinary function and field initializer
-/// execution scopes while still inspecting decorators and computed keys.
+/// Arrow functions do not create new `this` or `new.target` bindings, while
+/// ordinary functions, constructors, and static blocks do. Consequently, this
+/// visitor descends into arrows by default, but skips those execution scopes
+/// and field initializers while still inspecting decorators and computed keys.
 #[derive(Default)]
-struct NewTargetFinder {
-    found: bool,
+struct IifeEnvFinder {
+    has_new_target: bool,
+    has_this: bool,
 }
 
-impl Visit for NewTargetFinder {
+impl Visit for IifeEnvFinder {
     noop_visit_type!(fail);
 
     fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
@@ -1524,12 +1526,18 @@ impl Visit for NewTargetFinder {
 
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
         if matches!(n.kind, MetaPropKind::NewTarget) {
-            self.found = true;
+            self.has_new_target = true;
         }
     }
 
     fn visit_private_prop(&mut self, n: &PrivateProp) {
         n.decorators.visit_with(self);
+    }
+
+    fn visit_static_block(&mut self, _: &StaticBlock) {}
+
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
+        self.has_this = true;
     }
 }
 
