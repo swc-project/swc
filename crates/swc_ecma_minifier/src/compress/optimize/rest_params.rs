@@ -224,10 +224,21 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
                 return;
             }
 
-            let mut var_finder = ArrowVarFinder { ids: Vec::new() };
-            arrow.body.visit_with(&mut var_finder);
+            let mut param_finder = ArrowVarFinder { ids: Vec::new() };
+            // Arrow parameters shadow the enclosing implicit `arguments` object in both
+            // their initializers and the arrow body.
+            arrow.params.visit_with(&mut param_finder);
 
             let shadowed_len = self.shadowed_arguments.len();
+            self.shadowed_arguments.extend(param_finder.ids);
+            arrow.params.visit_with(self);
+            if self.found {
+                self.shadowed_arguments.truncate(shadowed_len);
+                return;
+            }
+
+            let mut var_finder = ArrowVarFinder { ids: Vec::new() };
+            arrow.body.visit_with(&mut var_finder);
             self.shadowed_arguments.extend(var_finder.ids);
             arrow.body.visit_with(self);
             self.shadowed_arguments.truncate(shadowed_len);
