@@ -11102,7 +11102,15 @@
     };
     hasBadMapPolyfill = !1;
     try {
-        Object.preventExtensions({});
+        var nonExtensibleObject = Object.preventExtensions({});
+        /* eslint-disable no-new */ new Map([
+            [
+                nonExtensibleObject,
+                null
+            ]
+        ]), new Set([
+            nonExtensibleObject
+        ]);
     /* eslint-enable no-new */ } catch (e) {
         // TODO: Consider warning about bad polyfills
         hasBadMapPolyfill = !0;

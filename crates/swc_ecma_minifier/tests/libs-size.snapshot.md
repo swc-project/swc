@@ -6,7 +6,7 @@
 | jquery.js | 280.89 KiB | 87.79 KiB | 30.20 KiB |
 | lodash.js | 531.35 KiB | 68.92 KiB | 24.63 KiB |
 | moment.js | 169.83 KiB | 57.33 KiB | 18.25 KiB |
-| react.js | 70.45 KiB | 22.45 KiB | 8.04 KiB |
+| react.js | 70.45 KiB | 22.49 KiB | 8.07 KiB |
 | terser.js | 1.08 MiB | 446.63 KiB | 120.49 KiB |
 | three.js | 1.19 MiB | 630.47 KiB | 154.75 KiB |
 | typescript.js | 10.45 MiB | 3.17 MiB | 840.58 KiB |
