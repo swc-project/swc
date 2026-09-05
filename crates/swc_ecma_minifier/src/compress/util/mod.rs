@@ -24,6 +24,7 @@ pub(super) fn is_valid_regexp_literal(pattern: &str, flags: &str, ecma: EsVersio
             || (ecma >= EsVersion::Es2015 && matches!(flag, 'u' | 'y'))
             || (ecma >= EsVersion::Es2018 && flag == 's')
             || (ecma >= EsVersion::Es2022 && flag == 'd')
+            || (ecma >= EsVersion::Es2024 && flag == 'v')
     }) {
         return false;
     }
