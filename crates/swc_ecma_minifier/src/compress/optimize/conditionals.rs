@@ -684,10 +684,11 @@ impl Optimizer<'_> {
                 }
 
                 // Direct eval can reassign a local constructor without recording it as
-                // `REASSIGNED` in the usage data.
+                // `REASSIGNED` in the usage data. This is tracked on the enclosing function
+                // scope, even when the conditional is in a nested block.
                 if self
                     .data
-                    .get_scope(self.ctx.scope)
+                    .get_scope(self.ctx.var_scope)
                     .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
                 {
                     return None;
@@ -701,12 +702,11 @@ impl Optimizer<'_> {
                 }
                 let cons_callee_usage = self.data.vars.get(&cons_callee.to_id());
 
-                // `ident_is_unresolved` treats these host globals as resolved, but they can be
-                // absent in the target environment. Moving such a lookup before the test would
-                // change whether the test is evaluated before a ReferenceError.
-                if matches!(&*cons_callee.sym, "window" | "global")
-                    && !cons_callee_usage
-                        .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::DECLARED))
+                // `ident_is_unresolved` treats several host globals as resolved, but they can
+                // be absent in the target environment. Moving an implicit lookup before the
+                // test would then change whether the test is evaluated before a ReferenceError.
+                if !cons_callee_usage
+                    .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::DECLARED))
                 {
                     return None;
                 }
@@ -729,7 +729,7 @@ impl Optimizer<'_> {
                             .flags
                             .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
                     })
-                    && self.data.used_arguments(self.ctx.scope)
+                    && self.data.used_arguments(self.ctx.var_scope)
                 {
                     return None;
                 }
@@ -744,13 +744,15 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                // A top-level `var` binding is aliased by a global-object property in scripts.
-                // The usage data does not associate a property write in the test with the
-                // binding, so it cannot prove that hoisting the constructor lookup is safe.
+                // Top-level `var` and function bindings are aliased by global-object properties
+                // in scripts. The usage data does not associate a property write in the test
+                // with the binding, so it cannot prove that hoisting the constructor lookup is
+                // safe.
                 if test.may_have_side_effects(self.ctx.expr_ctx)
                     && cons_callee_usage.is_some_and(|usage| {
                         usage.flags.contains(VarUsageInfoFlags::IS_TOP_LEVEL)
-                            && usage.var_kind == Some(VarDeclKind::Var)
+                            && (usage.var_kind == Some(VarDeclKind::Var)
+                                || usage.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_DECL))
                     })
                 {
                     return None;
