@@ -1,7 +1,30 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
-use super::{Optimizer, ProgramData, ScopeData, VarUsageInfoFlags};
+use super::{Optimizer, ProgramData, VarUsageInfoFlags};
+
+/// Returns true if a function body has a strict-mode directive.
+pub(super) fn has_use_strict_directive(f: &Function) -> bool {
+    f.body.as_ref().is_some_and(|body| {
+        body.stmts
+            .iter()
+            .take_while(|stmt| {
+                matches!(stmt, Stmt::Expr(ExprStmt { expr, .. }) if matches!(&**expr, Expr::Lit(Lit::Str(..))))
+            })
+            .any(|stmt| {
+                matches!(stmt,
+                    Stmt::Expr(ExprStmt {
+                        expr,
+                        ..
+                    }) if matches!(
+                        &**expr,
+                        Expr::Lit(Lit::Str(Str { raw: Some(raw), .. }))
+                            if raw == "\"use strict\"" || raw == "'use strict'"
+                    )
+                )
+            })
+    })
+}
 
 /// Returns true if a function body reads its implicit `arguments` object.
 ///
@@ -9,14 +32,6 @@ use super::{Optimizer, ProgramData, ScopeData, VarUsageInfoFlags};
 /// `var arguments` declaration aliases the implicit arguments object unless it
 /// belongs to a nested arrow function.
 fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
-    // A direct eval can read `arguments` without a corresponding identifier node.
-    if data
-        .get_scope(f.ctxt)
-        .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
-    {
-        return true;
-    }
-
     struct ArrowVarFinder {
         ids: Vec<Id>,
     }
@@ -92,6 +107,21 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             self.shadowed_arguments.truncate(shadowed_len);
         }
 
+        fn visit_call_expr(&mut self, call: &CallExpr) {
+            // Direct eval can read the enclosing implicit `arguments` object without a
+            // corresponding identifier node. Nested ordinary functions and constructors
+            // are skipped above, while arrows share the enclosing lexical scope.
+            if matches!(
+                &call.callee,
+                Callee::Expr(expr) if matches!(&**expr, Expr::Ident(Ident { sym, .. }) if *sym == *"eval")
+            ) && self.shadowed_arguments.is_empty()
+            {
+                self.found = true;
+            }
+
+            call.visit_children_with(self);
+        }
+
         fn visit_ident(&mut self, ident: &Ident) {
             if ident.sym == "arguments"
                 && !self.shadowed_arguments.contains(&ident.to_id())
@@ -130,7 +160,7 @@ impl Optimizer<'_> {
     ///     console.log(a);
     /// }
     /// ```
-    pub(super) fn drop_unused_rest_params(&mut self, f: &mut Function) {
+    pub(super) fn drop_unused_rest_params(&mut self, f: &mut Function, in_strict: bool) {
         if !self.options.arguments && !self.options.unused {
             return;
         }
@@ -161,7 +191,7 @@ impl Optimizer<'_> {
         // In that case, `arguments` becomes mapped to the remaining parameters, which
         // changes observable behavior when the function uses `arguments`.
         let can_make_arguments_mapped = f.params.len() > 1
-            && !self.ctx.expr_ctx.in_strict
+            && !in_strict
             && f.params[..f.params.len() - 1].iter().all(|param| {
                 matches!(
                     &param.pat,

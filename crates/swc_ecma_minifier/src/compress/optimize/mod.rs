@@ -2378,6 +2378,8 @@ impl VisitMut for Optimizer<'_> {
         n.decorators.visit_mut_with(self);
 
         let old_in_asm = self.ctx.bit_ctx.contains(BitCtx::InAsm);
+        let function_is_strict =
+            self.ctx.expr_ctx.in_strict || rest_params::has_use_strict_directive(n);
 
         {
             let ctx = self.function_like_ctx(n.ctxt);
@@ -2420,7 +2422,8 @@ impl VisitMut for Optimizer<'_> {
         }
 
         {
-            self.with_ctx(self.ctx.clone()).drop_unused_rest_params(n);
+            self.with_ctx(self.ctx.clone())
+                .drop_unused_rest_params(n, function_is_strict);
         }
 
         self.ctx.bit_ctx.set(BitCtx::InAsm, old_in_asm);
