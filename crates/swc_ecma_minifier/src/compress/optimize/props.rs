@@ -264,17 +264,15 @@ fn is_expr_fine_for_hoist_props(value: &Expr, may_be_callee: bool) -> bool {
                 && (!may_be_callee || !contains_eval(&f.function, false))
         }
 
+        // Expressions nested in these containers cannot receive the original
+        // object's receiver, so do not propagate `may_be_callee` into them.
         Expr::Unary(u) => match u.op {
-            op!("void") | op!("typeof") | op!("!") => {
-                is_expr_fine_for_hoist_props(&u.arg, may_be_callee)
-            }
+            op!("void") | op!("typeof") | op!("!") => is_expr_fine_for_hoist_props(&u.arg, false),
             _ => false,
         },
 
         Expr::Array(a) => a.elems.iter().all(|elem| match elem {
-            Some(elem) => {
-                elem.spread.is_none() && is_expr_fine_for_hoist_props(&elem.expr, may_be_callee)
-            }
+            Some(elem) => elem.spread.is_none() && is_expr_fine_for_hoist_props(&elem.expr, false),
             None => true,
         }),
 
@@ -282,7 +280,7 @@ fn is_expr_fine_for_hoist_props(value: &Expr, may_be_callee: bool) -> bool {
             PropOrSpread::Spread(_) => false,
             PropOrSpread::Prop(p) => match &**p {
                 Prop::Shorthand(..) => true,
-                Prop::KeyValue(p) => is_expr_fine_for_hoist_props(&p.value, may_be_callee),
+                Prop::KeyValue(p) => is_expr_fine_for_hoist_props(&p.value, false),
                 _ => false,
             },
             #[cfg(swc_ast_unknown)]
