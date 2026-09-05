@@ -181,7 +181,6 @@ fn run(
 
         let lexer = Lexer::new(
             Syntax::Es(EsSyntax {
-                auto_accessors: true,
                 jsx: true,
                 decorators: true,
                 ..Default::default()
