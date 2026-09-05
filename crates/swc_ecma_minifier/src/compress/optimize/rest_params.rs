@@ -83,6 +83,14 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
                 Pat::Invalid(..) | Pat::Expr(..) => {}
             }
         }
+
+        fn collect_lexical_var_decl(&mut self, var: &VarDecl) {
+            if var.kind != VarDeclKind::Var {
+                for declarator in &var.decls {
+                    self.collect_pat(&declarator.name);
+                }
+            }
+        }
     }
 
     impl Visit for ArrowVarFinder {
@@ -118,11 +126,7 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
             for stmt in &body.stmts {
                 if let Stmt::Decl(Decl::Var(var)) = stmt {
-                    if var.kind != VarDeclKind::Var {
-                        for declarator in &var.decls {
-                            binding_finder.collect_pat(&declarator.name);
-                        }
-                    }
+                    binding_finder.collect_lexical_var_decl(var);
                 }
             }
 
@@ -142,17 +146,82 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
             let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
             for stmt in &block.stmts {
                 if let Stmt::Decl(Decl::Var(var)) = stmt {
-                    if var.kind != VarDeclKind::Var {
-                        for declarator in &var.decls {
-                            binding_finder.collect_pat(&declarator.name);
-                        }
-                    }
+                    binding_finder.collect_lexical_var_decl(var);
                 }
             }
 
             let shadowed_len = self.shadowed_arguments.len();
             self.shadowed_arguments.extend(binding_finder.ids);
             block.visit_children_with(self);
+            self.shadowed_arguments.truncate(shadowed_len);
+        }
+
+        fn visit_for_stmt(&mut self, for_stmt: &ForStmt) {
+            if self.found {
+                return;
+            }
+
+            // A lexical declaration in a for initializer is in scope for the
+            // initializer, condition, update, and body.
+            let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
+            if let Some(VarDeclOrExpr::VarDecl(var)) = &for_stmt.init {
+                binding_finder.collect_lexical_var_decl(var);
+            }
+
+            let shadowed_len = self.shadowed_arguments.len();
+            self.shadowed_arguments.extend(binding_finder.ids);
+            for_stmt.init.visit_with(self);
+            for_stmt.test.visit_with(self);
+            for_stmt.update.visit_with(self);
+            for_stmt.body.visit_with(self);
+            self.shadowed_arguments.truncate(shadowed_len);
+        }
+
+        fn visit_for_in_stmt(&mut self, for_in: &ForInStmt) {
+            if self.found {
+                return;
+            }
+
+            // The right-hand side is evaluated before the loop's lexical binding
+            // exists, while the head and body execute within that binding's scope.
+            for_in.right.visit_with(self);
+            if self.found {
+                return;
+            }
+
+            let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
+            if let ForHead::VarDecl(var) = &for_in.left {
+                binding_finder.collect_lexical_var_decl(var);
+            }
+
+            let shadowed_len = self.shadowed_arguments.len();
+            self.shadowed_arguments.extend(binding_finder.ids);
+            for_in.left.visit_with(self);
+            for_in.body.visit_with(self);
+            self.shadowed_arguments.truncate(shadowed_len);
+        }
+
+        fn visit_for_of_stmt(&mut self, for_of: &ForOfStmt) {
+            if self.found {
+                return;
+            }
+
+            // The right-hand side is evaluated before the loop's lexical binding
+            // exists, while the head and body execute within that binding's scope.
+            for_of.right.visit_with(self);
+            if self.found {
+                return;
+            }
+
+            let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
+            if let ForHead::VarDecl(var) = &for_of.left {
+                binding_finder.collect_lexical_var_decl(var);
+            }
+
+            let shadowed_len = self.shadowed_arguments.len();
+            self.shadowed_arguments.extend(binding_finder.ids);
+            for_of.left.visit_with(self);
+            for_of.body.visit_with(self);
             self.shadowed_arguments.truncate(shadowed_len);
         }
 
