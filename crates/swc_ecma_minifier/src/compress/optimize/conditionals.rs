@@ -28,6 +28,52 @@ struct EagerEffectFinder {
     expr_ctx: ExprCtx,
 }
 
+/// Finds reads whose value can change while an earlier conditional test runs.
+///
+/// `ExprExt::is_pure` only proves that converting an expression to a boolean is
+/// pure and known. For example, `[x]` is always truthy, but its value still
+/// depends on `x`. Moving it before an effectful test would capture a stale
+/// value.
+struct ValueReadFinder {
+    found: bool,
+    expr_ctx: ExprCtx,
+}
+
+impl Visit for ValueReadFinder {
+    noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_binding_ident(&mut self, _: &BindingIdent) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_ident(&mut self, n: &Ident) {
+        // These globals are documented minifier constants and cannot be
+        // redefined under the minifier's semantic assumptions.
+        if n.ctxt == self.expr_ctx.unresolved_ctxt
+            && matches!(&*n.sym, "undefined" | "NaN" | "Infinity")
+        {
+            return;
+        }
+
+        self.found = true;
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        n.obj.visit_with(self);
+        if let MemberProp::Computed(prop) = &n.prop {
+            prop.expr.visit_with(self);
+        }
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        if let PropName::Computed(prop) = n {
+            prop.expr.visit_with(self);
+        }
+    }
+}
+
 impl Visit for EagerEffectFinder {
     noop_visit_type!(fail);
 
@@ -57,9 +103,9 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr) {
-        // String `split` dispatches through the argument's `Symbol.split` hook.  Unlike
-        // the other recognized string methods, it can execute user code even when the
-        // argument expression itself has no side effects.
+        // These string methods dispatch through protocol hooks on their search
+        // argument. Unlike the other recognized string methods, they can execute user
+        // code even when the argument expression itself has no side effects.
         let dispatches_protocol_hook = matches!(
             &n.callee,
             Callee::Expr(callee)
@@ -68,7 +114,7 @@ impl Visit for EagerEffectFinder {
                     Expr::Member(MemberExpr {
                         prop: MemberProp::Ident(prop),
                         ..
-                    }) if &*prop.sym == "split"
+                    }) if matches!(&*prop.sym, "split" | "includes" | "startsWith" | "endsWith")
                 )
         );
         let has_primitive_receiver = matches!(
@@ -291,6 +337,15 @@ fn contains_eager_effect(expr: &Expr, expr_ctx: ExprCtx) -> bool {
         found: false,
         evaluating_class_instance: false,
         evaluating_static_block: false,
+        expr_ctx,
+    };
+    expr.visit_with(&mut finder);
+    finder.found
+}
+
+fn contains_value_read(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+    let mut finder = ValueReadFinder {
+        found: false,
         expr_ctx,
     };
     expr.visit_with(&mut finder);
@@ -863,7 +918,7 @@ impl Optimizer<'_> {
                         if side_effects_in_test
                             && common_args_before_test
                                 .iter()
-                                .any(|arg| !arg.expr.is_pure(self.ctx.expr_ctx))
+                                .any(|arg| contains_value_read(&arg.expr, self.ctx.expr_ctx))
                         {
                             return None;
                         }
