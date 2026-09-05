@@ -1,0 +1,68 @@
+{
+    "name": "@swc-internal/core-v2",
+    "version": "2.0.0-next.0",
+    "description": "Private workspace source for the SWC v2 JavaScript API",
+    "private": true,
+    "homepage": "https://swc.rs",
+    "main": "./src/index.js",
+    "types": "./src/index.d.ts",
+    "license": "Apache-2.0",
+    "engines": {
+        "node": ">=20"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git",
+        "directory": "packages/core-v2"
+    },
+    "napi": {
+        "binaryName": "swc",
+        "targets": [
+            "x86_64-apple-darwin",
+            "x86_64-pc-windows-msvc",
+            "x86_64-unknown-linux-gnu",
+            "powerpc64le-unknown-linux-gnu",
+            "s390x-unknown-linux-gnu",
+            "x86_64-unknown-linux-musl",
+            "i686-pc-windows-msvc",
+            "armv7-unknown-linux-gnueabihf",
+            "aarch64-apple-darwin",
+            "aarch64-unknown-linux-gnu",
+            "aarch64-unknown-linux-musl",
+            "aarch64-pc-windows-msvc"
+        ]
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public",
+        "provenance": true
+    },
+    "files": [
+        "LICENSE",
+        "README.md",
+        "binding.d.ts",
+        "binding.js",
+        "package.json",
+        "src/*.d.ts",
+        "src/*.js"
+    ],
+    "scripts": {
+        "artifacts": "napi artifacts --npm-dir scripts/npm",
+        "build": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform --js-package-name @swc/core -p binding_core_node_v2 --js ./binding.js --dts ./binding.d.ts --release -o .",
+        "build:dev": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform --js-package-name @swc/core -p binding_core_node_v2 --js ./binding.js --dts ./binding.d.ts -o .",
+        "build:ts": "tsc -d",
+        "build:wasm": "wasm-pack build ../../bindings/binding_core_wasm_v2 --scope swc --target nodejs --features plugin",
+        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
+        "test": "pnpm build:ts && node --test tests/api.test.js",
+        "test:native": "pnpm --dir ../core build:dev && pnpm build:dev && node --test tests/api.test.js tests/native.test.js",
+        "test:plugin-v1": "cargo build --manifest-path ../core/e2e/fixtures/plugin_analyze/Cargo.toml --target wasm32-wasip1 && node --test tests/plugin-v1.test.js"
+    },
+    "dependencies": {
+        "@swc/counter": "^0.1.3",
+        "@swc-internal/types-v2": "workspace:^"
+    },
+    "devDependencies": {
+        "@napi-rs/cli": "^3.2.0",
+        "typescript": "^5.3.3"
+    }
+}
