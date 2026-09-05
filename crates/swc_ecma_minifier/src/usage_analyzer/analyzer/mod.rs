@@ -787,7 +787,8 @@ where
     )]
     fn visit_class_expr(&mut self, n: &ClassExpr) {
         if let Some(id) = &n.ident {
-            self.declare_decl(id, Some(Value::Unknown), None, false);
+            self.declare_decl(id, Some(Value::Unknown), None, false)
+                .mark_declared_as_class_expr();
 
             let id = id.to_id();
             self.used_recursively

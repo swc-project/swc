@@ -760,19 +760,25 @@ impl Optimizer<'_> {
                 // equal member callees as well as identifiers.
                 if test_can_rebind_callee(test, self.ctx.expr_ctx) {
                     let cons_callee = cons.callee.as_ident()?;
+                    let cons_callee_usage = self.data.vars.get(&cons_callee.to_id());
 
                     // Direct eval can reassign a local constructor without recording it as
-                    // `REASSIGNED` in the usage data. Check the constructor's declaring scope,
-                    // because the conditional can be in a nested function or block.
+                    // `REASSIGNED` in the usage data. Immutable lexical bindings and expression
+                    // self bindings cannot be changed by eval, so keep this fold for them.
                     if self
                         .data
                         .get_scope(cons_callee.ctxt)
                         .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
+                        && !cons_callee_usage.is_some_and(|usage| {
+                            usage.var_kind == Some(VarDeclKind::Const)
+                                || usage.flags.intersects(
+                                    VarUsageInfoFlags::DECLARED_AS_FN_EXPR
+                                        .union(VarUsageInfoFlags::DECLARED_AS_CLASS_EXPR),
+                                )
+                        })
                     {
                         return None;
                     }
-
-                    let cons_callee_usage = self.data.vars.get(&cons_callee.to_id());
 
                     // Named function-expression self bindings are recorded separately from
                     // ordinary declarations, so `ident_is_unresolved` does not recognize them.
@@ -792,7 +798,8 @@ impl Optimizer<'_> {
                     if !cons_callee_usage.is_some_and(|usage| {
                         usage.flags.intersects(
                             VarUsageInfoFlags::DECLARED
-                                .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR),
+                                .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
+                                .union(VarUsageInfoFlags::DECLARED_AS_CLASS_EXPR),
                         )
                     }) {
                         return None;
@@ -855,6 +862,9 @@ impl Optimizer<'_> {
                                     && !usage
                                         .flags
                                         .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM))
+                                    && !usage
+                                        .flags
+                                        .contains(VarUsageInfoFlags::DECLARED_AS_CLASS_EXPR)
                         })
                     {
                         return None;

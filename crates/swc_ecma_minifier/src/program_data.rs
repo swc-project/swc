@@ -96,6 +96,8 @@ bitflags::bitflags! {
         /// This includes `var` and sloppy Annex B function declarations in
         /// nested top-level blocks.
         const IS_GLOBAL_VAR             = 1 << 27;
+        /// The variable is the immutable self binding of a named class expression.
+        const DECLARED_AS_CLASS_EXPR    = 1 << 28;
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -646,6 +648,10 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_declared_as_fn_expr(&mut self) {
         self.flags.insert(VarUsageInfoFlags::DECLARED_AS_FN_EXPR);
+    }
+
+    fn mark_declared_as_class_expr(&mut self) {
+        self.flags.insert(VarUsageInfoFlags::DECLARED_AS_CLASS_EXPR);
     }
 
     fn mark_declared_as_for_init(&mut self) {
