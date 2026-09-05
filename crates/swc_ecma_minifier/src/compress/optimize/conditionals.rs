@@ -116,6 +116,9 @@ impl Visit for EagerEffectFinder {
 
     fn visit_class_method(&mut self, n: &ClassMethod) {
         n.function.decorators.visit_with(self);
+        for param in &n.function.params {
+            param.decorators.visit_with(self);
+        }
         n.key.visit_with(self);
     }
 
@@ -188,6 +191,26 @@ impl Visit for EagerEffectFinder {
         if n.is_static {
             n.value.visit_with(self);
         }
+    }
+
+    fn visit_static_block(&mut self, n: &StaticBlock) {
+        // `StmtExt::may_have_side_effects` deliberately treats lexical declarations as
+        // effect-free. Their initializers still run while the class is defined.
+        if n.body.stmts.iter().any(|stmt| match stmt {
+            Stmt::Decl(Decl::Var(var_decl)) if var_decl.kind != VarDeclKind::Var => {
+                var_decl.decls.iter().any(|decl| {
+                    decl.init
+                        .as_deref()
+                        .is_some_and(|init| init.may_have_side_effects(self.expr_ctx))
+                })
+            }
+            _ => false,
+        }) {
+            self.found = true;
+            return;
+        }
+
+        n.body.visit_with(self);
     }
 
     fn visit_prop(&mut self, n: &Prop) {
