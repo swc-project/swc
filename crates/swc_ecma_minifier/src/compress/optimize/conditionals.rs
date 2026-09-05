@@ -12,7 +12,7 @@ use crate::{
         optimize::BitCtx,
         util::{negate, negate_cost},
     },
-    program_data::{ProgramData, VarUsageInfoFlags},
+    program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
     DISABLE_BUGGY_PASSES,
 };
 
@@ -676,6 +676,23 @@ impl Optimizer<'_> {
                     return None;
                 }
 
+                // A `with` statement can dynamically resolve the constructor binding. Moving
+                // the constructor lookup before the test would then change which property is
+                // read when the test mutates the with object.
+                if self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
+                    return None;
+                }
+
+                // Direct eval can reassign a local constructor without recording it as
+                // `REASSIGNED` in the usage data.
+                if self
+                    .data
+                    .get_scope(self.ctx.scope)
+                    .is_some_and(|scope| scope.contains(ScopeData::HAS_EVAL_CALL))
+                {
+                    return None;
+                }
+
                 // The merged expression evaluates the callee before the test, so the test must
                 // not be able to change the constructor binding.
                 let cons_callee = cons.callee.as_ident()?;
@@ -723,6 +740,18 @@ impl Optimizer<'_> {
                 if test.may_have_side_effects(self.ctx.expr_ctx)
                     && cons_callee_usage
                         .is_some_and(|usage| usage.flags.contains(VarUsageInfoFlags::REASSIGNED))
+                {
+                    return None;
+                }
+
+                // A top-level `var` binding is aliased by a global-object property in scripts.
+                // The usage data does not associate a property write in the test with the
+                // binding, so it cannot prove that hoisting the constructor lookup is safe.
+                if test.may_have_side_effects(self.ctx.expr_ctx)
+                    && cons_callee_usage.is_some_and(|usage| {
+                        usage.flags.contains(VarUsageInfoFlags::IS_TOP_LEVEL)
+                            && usage.var_kind == Some(VarDeclKind::Var)
+                    })
                 {
                     return None;
                 }
