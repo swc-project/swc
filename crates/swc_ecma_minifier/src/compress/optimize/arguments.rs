@@ -1,6 +1,6 @@
 use std::iter::repeat_with;
 
-use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     find_pat_ids, is_valid_prop_ident,
@@ -12,7 +12,6 @@ use swc_ecma_visit::{
 };
 
 use super::Optimizer;
-use crate::compress::optimize::is_left_access_to_arguments;
 
 /// Matches Terser's `index < argnames.length + 5` condition.
 const MAX_INJECTED_PARAMS: usize = 5;
@@ -125,11 +124,13 @@ impl Optimizer<'_> {
             changed: false,
             keep_fargs: self.options.keep_fargs,
             prevent: false,
-            mutation_positions: find_arguments_mutations(&f.body),
+            loop_mutations: find_loop_arguments_mutations(&f.body),
+            loop_index: 0,
         };
 
         // Visit the body twice to keep parameter injection local to each access.
         f.body.visit_mut_children_with(&mut v);
+        v.reset_loop_index();
         f.body.visit_mut_children_with(&mut v);
 
         self.changed |= v.changed;
@@ -141,7 +142,8 @@ struct ArgReplacer<'a> {
     changed: bool,
     keep_fargs: bool,
     prevent: bool,
-    mutation_positions: Vec<BytePos>,
+    loop_mutations: Vec<bool>,
+    loop_index: usize,
 }
 
 impl<'a> ArgReplacer<'a> {
@@ -176,20 +178,8 @@ impl<'a> ArgReplacer<'a> {
         )
     }
 
-    /// Returns whether a loop contains a mutation of `arguments`.
-    fn loop_contains_arguments_mutation<N>(&self, n: &N) -> bool
-    where
-        N: Spanned,
-    {
-        let span = n.span();
-        let first_in_span = self
-            .mutation_positions
-            .partition_point(|position| *position < span.lo);
-
-        matches!(
-            self.mutation_positions.get(first_in_span),
-            Some(position) if *position < span.hi
-        )
+    fn reset_loop_index(&mut self) {
+        self.loop_index = 0;
     }
 
     /// Disables replacements before visiting a loop which mutates `arguments`.
@@ -200,13 +190,20 @@ impl<'a> ArgReplacer<'a> {
     /// first visit.
     fn visit_mut_loop<N>(&mut self, n: &mut N)
     where
-        N: Spanned + VisitMutWith<Self>,
+        N: VisitMutWith<Self>,
     {
+        let contains_mutation = self
+            .loop_mutations
+            .get(self.loop_index)
+            .copied()
+            .unwrap_or(true);
+        self.loop_index += 1;
+
         if self.prevent {
             return;
         }
 
-        if self.loop_contains_arguments_mutation(n) {
+        if contains_mutation {
             self.prevent = true;
         }
 
@@ -223,7 +220,7 @@ impl VisitMut for ArgReplacer<'_> {
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);
 
-        if is_left_access_to_arguments(&n.left) {
+        if is_left_access_to_arguments_element(&n.left) {
             self.prevent = true;
         }
     }
@@ -245,7 +242,7 @@ impl VisitMut for ArgReplacer<'_> {
     }
 
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
-        if n.op != op!("delete") || !is_access_to_arguments(&n.arg) {
+        if n.op != op!("delete") || !is_arguments_element_access(&n.arg) {
             n.visit_mut_children_with(self);
             return;
         }
@@ -258,7 +255,7 @@ impl VisitMut for ArgReplacer<'_> {
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
-        if !is_access_to_arguments(&n.arg) {
+        if !is_arguments_element_access(&n.arg) {
             n.visit_mut_children_with(self);
             return;
         }
@@ -321,11 +318,55 @@ impl VisitMut for ArgReplacer<'_> {
     }
 }
 
-/// Finds the source positions of mutations of the current function's
-/// `arguments` object.
+/// Finds whether each loop mutates an indexed property of the current
+/// function's `arguments` object.
 #[derive(Default)]
 struct ArgumentsMutationFinder {
-    positions: Vec<BytePos>,
+    loops: Vec<LoopMutation>,
+    loop_stack: Vec<usize>,
+}
+
+#[derive(Default)]
+struct LoopMutation {
+    parent: Option<usize>,
+    contains_mutation: bool,
+}
+
+impl ArgumentsMutationFinder {
+    fn visit_loop<N>(&mut self, n: &N)
+    where
+        N: VisitWith<Self>,
+    {
+        let index = self.loops.len();
+        self.loops.push(LoopMutation {
+            parent: self.loop_stack.last().copied(),
+            contains_mutation: false,
+        });
+        self.loop_stack.push(index);
+        n.visit_children_with(self);
+        self.loop_stack.pop();
+    }
+
+    fn record_mutation(&mut self) {
+        if let Some(&index) = self.loop_stack.last() {
+            self.loops[index].contains_mutation = true;
+        }
+    }
+
+    fn finish(mut self) -> Vec<bool> {
+        for index in (0..self.loops.len()).rev() {
+            if self.loops[index].contains_mutation {
+                if let Some(parent) = self.loops[index].parent {
+                    self.loops[parent].contains_mutation = true;
+                }
+            }
+        }
+
+        self.loops
+            .into_iter()
+            .map(|loop_mutation| loop_mutation.contains_mutation)
+            .collect()
+    }
 }
 
 impl Visit for ArgumentsMutationFinder {
@@ -337,8 +378,8 @@ impl Visit for ArgumentsMutationFinder {
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
-        if is_left_access_to_arguments(&n.left) {
-            self.positions.push(n.span.lo);
+        if is_left_access_to_arguments_element(&n.left) {
+            self.record_mutation();
             return;
         }
 
@@ -346,8 +387,8 @@ impl Visit for ArgumentsMutationFinder {
     }
 
     fn visit_unary_expr(&mut self, n: &UnaryExpr) {
-        if n.op == op!("delete") && is_access_to_arguments(&n.arg) {
-            self.positions.push(n.span.lo);
+        if n.op == op!("delete") && is_arguments_element_access(&n.arg) {
+            self.record_mutation();
             return;
         }
 
@@ -355,29 +396,74 @@ impl Visit for ArgumentsMutationFinder {
     }
 
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
-        if is_access_to_arguments(&n.arg) {
-            self.positions.push(n.span.lo);
+        if is_arguments_element_access(&n.arg) {
+            self.record_mutation();
             return;
         }
 
         n.visit_children_with(self);
     }
+
+    fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
+        self.visit_loop(n);
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        self.visit_loop(n);
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        self.visit_loop(n);
+    }
+
+    fn visit_for_stmt(&mut self, n: &ForStmt) {
+        self.visit_loop(n);
+    }
+
+    fn visit_while_stmt(&mut self, n: &WhileStmt) {
+        self.visit_loop(n);
+    }
 }
 
-fn find_arguments_mutations(n: &impl VisitWith<ArgumentsMutationFinder>) -> Vec<BytePos> {
+fn find_loop_arguments_mutations(n: &impl VisitWith<ArgumentsMutationFinder>) -> Vec<bool> {
     let mut finder = ArgumentsMutationFinder::default();
     n.visit_with(&mut finder);
-    finder.positions.sort_unstable();
-    finder.positions
+    finder.finish()
 }
 
-/// Returns true if `expr` directly accesses a property of `arguments`.
-fn is_access_to_arguments(expr: &Expr) -> bool {
-    let Expr::Member(MemberExpr { obj, .. }) = expr else {
+/// Returns true if `expr` accesses an `arguments` property that may be an
+/// indexed argument binding.
+fn is_arguments_element_access(expr: &Expr) -> bool {
+    let Expr::Member(member) = expr else {
         return false;
     };
 
-    matches!(&**obj, Expr::Ident(Ident { sym, .. }) if &**sym == "arguments")
+    is_arguments_element_member(member)
+}
+
+fn is_left_access_to_arguments_element(target: &AssignTarget) -> bool {
+    let AssignTarget::Simple(SimpleAssignTarget::Member(member)) = target else {
+        return false;
+    };
+
+    is_arguments_element_member(member)
+}
+
+fn is_arguments_element_member(member: &MemberExpr) -> bool {
+    if !matches!(&*member.obj, Expr::Ident(Ident { sym, .. }) if &**sym == "arguments") {
+        return false;
+    }
+
+    let MemberProp::Computed(computed) = &member.prop else {
+        return false;
+    };
+
+    match &*computed.expr {
+        Expr::Lit(Lit::Str(..) | Lit::Num(..)) => {
+            argument_access_index(&Expr::Member(member.clone())).is_some()
+        }
+        _ => true,
+    }
 }
 
 /// Returns an `arguments` index only when the property key is already in its

@@ -121,13 +121,23 @@ struct TestOptions {
 
     #[serde(default)]
     passes: usize,
+
+    /// Drops parsed spans before optimizing to cover programmatic AST inputs.
+    #[serde(default)]
+    drop_spans: bool,
 }
 
 fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOptions) {
     let opts: TestOptions =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
-    let mut c: TerserCompressorOptions =
+    let mut config: serde_json::Value =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+    config
+        .as_object_mut()
+        .expect("compressor config must be an object")
+        .remove("drop_spans");
+    let mut c: TerserCompressorOptions = serde_json::from_value(config)
+        .expect("failed to deserialize value into a compressor config");
 
     c.defaults = opts.defaults;
     c.pristine_globals = Some(true);
@@ -147,6 +157,8 @@ fn run(
 ) -> Option<Program> {
     HANDLER.set(handler, || {
         let disable_hygiene = mangle.is_some() || skip_hygiene;
+        let test_options: TestOptions =
+            serde_json::from_str(config).expect("failed to deserialize test options");
 
         let (_module, mut config) = parse_compressor_config(cm.clone(), config);
 
@@ -209,6 +221,12 @@ fn run(
         let program = match program {
             Ok(v) => v,
             _ => return None,
+        };
+
+        let program = if test_options.drop_spans {
+            drop_span(program)
+        } else {
+            program
         };
 
         if config.top_level.is_none() {
