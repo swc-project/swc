@@ -82,7 +82,22 @@ impl Visit for EagerEffectFinder {
                                 || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
                     )
         );
+        // Locale-sensitive string methods inspect their supplied arguments while
+        // canonicalizing locales and options. That inspection can invoke a Proxy
+        // even when the argument expression itself appears pure.
+        let inspects_locale_arguments = matches!(
+            &n.callee,
+            Callee::Expr(callee)
+                if matches!(
+                    &**callee,
+                    Expr::Member(MemberExpr {
+                        prop: MemberProp::Ident(prop),
+                        ..
+                    }) if matches!(&*prop.sym, "localeCompare" | "toLocaleLowerCase" | "toLocaleUpperCase")
+                )
+        ) && !n.args.is_empty();
         let is_pure = !dispatches_protocol_hook
+            && !inspects_locale_arguments
             && has_primitive_receiver
             && !n
                 .args
@@ -224,17 +239,31 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_var_decl(&mut self, n: &VarDecl) {
-        // `StmtExt::may_have_side_effects` deliberately treats lexical declarations as
-        // effect-free. Their initializers still run while a static block is evaluated,
-        // including when the declaration is nested in another statement.
+        // `StmtExt::may_have_side_effects` deliberately treats declarations as
+        // effect-free. Their initializers still run while a static block is
+        // evaluated, and destructuring bindings can read properties or iterate
+        // their initializer even when it is a local.
         if self.evaluating_static_block
-            && n.kind != VarDeclKind::Var
             && n.decls.iter().any(|decl| {
-                decl.init
-                    .as_deref()
-                    .is_some_and(|init| init.may_have_side_effects(self.expr_ctx))
+                matches!(&decl.name, Pat::Array(..) | Pat::Object(..))
+                    || decl
+                        .init
+                        .as_deref()
+                        .is_some_and(|init| init.may_have_side_effects(self.expr_ctx))
             })
         {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_using_decl(&mut self, n: &UsingDecl) {
+        // Resource disposal runs when the static block exits. The disposer is selected
+        // from the resource at runtime, so even a local resource can execute
+        // user code here.
+        if self.evaluating_static_block {
             self.found = true;
             return;
         }
@@ -821,19 +850,28 @@ impl Optimizer<'_> {
                         if !cons.eq_ignore_span(alt) {
                             diff_count += 1;
                             diff_idx = Some(idx);
-                        } else if side_effects_in_test {
-                            // The condition may change a value read by this common argument.
-                            return None;
                         }
                     }
 
                     if diff_count == 1 {
                         let diff_idx = diff_idx.unwrap();
 
+                        let common_args_before_test = &cons.args[..diff_idx];
+
+                        // Only common arguments before the differing argument move before the
+                        // condition. The condition may change a value read by one of them.
+                        if side_effects_in_test
+                            && common_args_before_test
+                                .iter()
+                                .any(|arg| !arg.expr.is_pure(self.ctx.expr_ctx))
+                        {
+                            return None;
+                        }
+
                         // The condition is evaluated after all common arguments before the
                         // differing argument in the merged call. Reject the merge if any of
                         // those arguments may affect the condition.
-                        if cons.args[..diff_idx].iter().any(|arg| {
+                        if common_args_before_test.iter().any(|arg| {
                             arg.expr.may_have_side_effects(self.ctx.expr_ctx)
                                 || contains_eager_effect(&arg.expr, self.ctx.expr_ctx)
                         }) {
