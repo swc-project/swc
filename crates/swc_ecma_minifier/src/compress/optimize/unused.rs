@@ -705,15 +705,6 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self
-            .data
-            .get_scope(self.ctx.var_scope)
-            .unwrap()
-            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
-        {
-            return;
-        }
-
         let assign = match e {
             Expr::Assign(AssignExpr { op: op!("="), .. }) => return,
             // RHS may not be evaluated
@@ -723,6 +714,12 @@ impl Optimizer<'_> {
         };
 
         if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
+            if let Some(scope) = self.data.get_scope(left.id.ctxt) {
+                if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                    return;
+                }
+            }
+
             if let Some(var) = self.data.vars.get(&left.to_id()) {
                 // TODO: We don't need fn_local check
                 if var
@@ -752,15 +749,6 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self
-            .data
-            .get_scope(self.ctx.var_scope)
-            .unwrap()
-            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
-        {
-            return;
-        }
-
         let assign = match e {
             Expr::Assign(e) => e,
             _ => return,
@@ -780,6 +768,12 @@ impl Optimizer<'_> {
                 return;
             }
 
+            if let Some(scope) = self.data.get_scope(i.ctxt) {
+                if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                    return;
+                }
+            }
+
             if let Some(var) = self.data.vars.get(&i.to_id()) {
                 // technically this is inline
                 if !var.flags.intersects(
@@ -787,7 +781,7 @@ impl Optimizer<'_> {
                 ) && var.usage_count == 0
                     && var.flags.contains(VarUsageInfoFlags::DECLARED)
                     && (!var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-                        || !self.data.used_arguments(self.ctx.scope)
+                        || !self.data.used_arguments(i.ctxt)
                         || self.ctx.expr_ctx.in_strict)
                 {
                     report_change!(
