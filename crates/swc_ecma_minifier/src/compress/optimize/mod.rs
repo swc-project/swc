@@ -641,9 +641,10 @@ impl Optimizer<'_> {
     /// Returns true if invoking an empty-body IIFE without arguments cannot
     /// have observable parameter-initialization effects.
     ///
-    /// Destructuring and rest parameters are deliberately rejected. They can
-    /// throw while binding omitted arguments, and modeling every safe
-    /// pattern here would make this otherwise local optimization unsound.
+    /// Destructuring and non-identifier rest parameters are deliberately
+    /// rejected. They can throw while binding omitted arguments, and modeling
+    /// every safe pattern here would make this otherwise local optimization
+    /// unsound. A simple rest binding only initializes an empty array.
     fn can_drop_empty_iife(&self, callee: &Expr) -> bool {
         match callee {
             Expr::Fn(f) if f.function.body.is_empty() => f
@@ -663,6 +664,7 @@ impl Optimizer<'_> {
     fn is_empty_iife_param_safe(&self, pat: &Pat) -> bool {
         match pat {
             Pat::Ident(..) => true,
+            Pat::Rest(rest) if rest.arg.is_ident() => true,
             Pat::Assign(assign) if assign.left.is_ident() => {
                 !assign.right.may_have_side_effects(self.ctx.expr_ctx)
             }

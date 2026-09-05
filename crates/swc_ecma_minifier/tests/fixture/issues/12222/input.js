@@ -20,5 +20,7 @@ try {
 (function (value = 1) {})();
 ((value) => {})();
 (function (value) {})();
+((...values) => {})();
+(function (...values) {})();
 
 console.log(results.join(","));
