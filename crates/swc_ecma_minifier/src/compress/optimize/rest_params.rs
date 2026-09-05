@@ -1,6 +1,7 @@
 use swc_ecma_ast::*;
 
 use super::Optimizer;
+use crate::program_data::ScopeData;
 
 /// Methods related to rest parameter optimization.
 impl Optimizer<'_> {
@@ -49,6 +50,12 @@ impl Optimizer<'_> {
         if let Some(usage) = self.data.vars.get(&rest_id) {
             // If the parameter is not referenced, we can remove it
             if usage.ref_count == 0 {
+                if let Some(scope) = self.data.get_scope(f.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                        return;
+                    }
+                }
+
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");
                 f.params.pop();
