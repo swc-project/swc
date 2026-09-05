@@ -318,6 +318,24 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_constructor(&mut self, n: &Constructor) {
+        if self.evaluating_class_instance
+            && n.params.iter().any(|param| match param {
+                ParamOrTsParamProp::Param(param) => {
+                    matches!(&param.pat, Pat::Array(..) | Pat::Object(..))
+                }
+                ParamOrTsParamProp::TsParamProp(param) => {
+                    matches!(&param.param, TsParamPropParam::Assign(assign) if matches!(&*assign.left, Pat::Array(..) | Pat::Object(..)))
+                }
+                #[cfg(swc_ast_unknown)]
+                _ => false,
+            })
+        {
+            // Binding a destructuring parameter reads properties or iterates the argument
+            // while an immediately constructed class is evaluated.
+            self.found = true;
+            return;
+        }
+
         for param in &n.params {
             match param {
                 ParamOrTsParamProp::Param(param) => param.decorators.visit_with(self),
@@ -1020,7 +1038,8 @@ impl Optimizer<'_> {
                     .map(|v| {
                         v.flags.contains(
                             VarUsageInfoFlags::IS_FN_LOCAL.union(VarUsageInfoFlags::DECLARED),
-                        )
+                        ) && !(v.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                            && self.data.used_arguments(cons_callee.ctxt))
                     })
                     .unwrap_or(false);
 
