@@ -1,3 +1,4 @@
+"custom";
 "use strict";
 function f(value) {
     return arguments[0];

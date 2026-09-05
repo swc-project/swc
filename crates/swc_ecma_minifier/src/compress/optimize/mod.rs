@@ -471,24 +471,26 @@ impl Optimizer<'_> {
             let mut child_ctx = self.ctx.clone();
             let mut directive_count = 0;
 
-            if !stmts.is_empty() {
-                // TODO: Handle multiple directives.
-                if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts[0].as_stmt() {
-                    if let Expr::Lit(Lit::Str(v)) = &**expr {
-                        directive_count += 1;
+            for stmt in stmts.iter() {
+                let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmt.as_stmt() else {
+                    break;
+                };
+                let Expr::Lit(Lit::Str(v)) = &**expr else {
+                    break;
+                };
 
-                        match &v.raw {
-                            Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
-                                child_ctx.expr_ctx.in_strict = true;
-                            }
-                            Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
-                                child_ctx.bit_ctx.insert(BitCtx::InAsm);
-                                self.ctx.bit_ctx.insert(BitCtx::InAsm);
-                                use_asm = true;
-                            }
-                            _ => {}
-                        }
+                directive_count += 1;
+
+                match &v.raw {
+                    Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
+                        child_ctx.expr_ctx.in_strict = true;
                     }
+                    Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
+                        child_ctx.bit_ctx.insert(BitCtx::InAsm);
+                        self.ctx.bit_ctx.insert(BitCtx::InAsm);
+                        use_asm = true;
+                    }
+                    _ => {}
                 }
             }
 

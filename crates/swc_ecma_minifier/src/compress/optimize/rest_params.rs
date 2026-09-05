@@ -1,6 +1,37 @@
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Visit, VisitWith};
 
-use super::Optimizer;
+use super::{Optimizer, ProgramData, VarUsageInfoFlags};
+
+/// Returns true if a function body reads its implicit `arguments` object.
+///
+/// A lexical `arguments` declaration has a distinct syntax context, while a
+/// `var arguments` declaration aliases the implicit arguments object.
+fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
+    struct Finder<'a> {
+        data: &'a ProgramData,
+        found: bool,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_function(&mut self, _: &Function) {}
+
+        fn visit_ident(&mut self, ident: &Ident) {
+            if ident.sym == "arguments"
+                && self.data.vars.get(&ident.to_id()).map_or(true, |usage| {
+                    usage.var_kind == Some(VarDeclKind::Var)
+                        || !usage.flags.contains(VarUsageInfoFlags::DECLARED)
+                })
+            {
+                self.found = true;
+            }
+        }
+    }
+
+    let mut finder = Finder { data, found: false };
+    f.body.visit_with(&mut finder);
+    finder.found
+}
 
 /// Methods related to rest parameter optimization.
 impl Optimizer<'_> {
@@ -61,7 +92,7 @@ impl Optimizer<'_> {
             // Preserve the rest parameter only if removing it can change an
             // `arguments` object from unmapped to mapped.
             if usage.ref_count == 0
-                && (!self.data.used_arguments(f.ctxt) || !can_make_arguments_mapped)
+                && (!uses_implicit_arguments(f, &self.data) || !can_make_arguments_mapped)
             {
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");
