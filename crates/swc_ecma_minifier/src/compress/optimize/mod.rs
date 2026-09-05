@@ -3487,19 +3487,3 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
 
     true
 }
-
-fn is_expr_access_to_arguments(l: &SimpleAssignTarget) -> bool {
-    match l {
-        SimpleAssignTarget::Member(MemberExpr { obj, .. }) => {
-            matches!(&**obj, Expr::Ident(Ident { sym, .. }) if (&**sym == "arguments"))
-        }
-        _ => false,
-    }
-}
-
-fn is_left_access_to_arguments(l: &AssignTarget) -> bool {
-    match l {
-        AssignTarget::Simple(e) => is_expr_access_to_arguments(e),
-        _ => false,
-    }
-}
