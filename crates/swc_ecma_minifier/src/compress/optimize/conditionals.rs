@@ -19,10 +19,11 @@ use crate::{
 
 /// Finds expressions that can execute user code as part of their evaluation.
 ///
-/// Function-like bodies and instance field initializers are deferred and do
-/// not affect the evaluation order of the containing expression.
+/// Function-like bodies and instance field initializers are deferred, except
+/// when a class expression is immediately constructed with `new`.
 struct EagerEffectFinder {
     found: bool,
+    evaluating_instance_fields: bool,
 }
 
 impl Visit for EagerEffectFinder {
@@ -33,13 +34,13 @@ impl Visit for EagerEffectFinder {
     fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
         n.decorators.visit_with(self);
         n.key.visit_with(self);
-        if n.is_static {
+        if n.is_static || self.evaluating_instance_fields {
             n.value.visit_with(self);
         }
     }
 
     fn visit_bin_expr(&mut self, n: &BinExpr) {
-        if n.op == op!("instanceof") {
+        if matches!(n.op, op!("in") | op!("instanceof")) {
             self.found = true;
             return;
         }
@@ -71,7 +72,25 @@ impl Visit for EagerEffectFinder {
 
     fn visit_constructor(&mut self, _: &Constructor) {}
 
+    fn visit_decorator(&mut self, _: &Decorator) {
+        // Applying a decorator calls user code even when the decorator
+        // expression itself is only an identifier.
+        self.found = true;
+    }
+
     fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_new_expr(&mut self, n: &NewExpr) {
+        if n.callee.is_class() {
+            let evaluating_instance_fields = self.evaluating_instance_fields;
+            self.evaluating_instance_fields = true;
+            n.callee.visit_with(self);
+            self.evaluating_instance_fields = evaluating_instance_fields;
+            n.args.visit_with(self);
+        } else {
+            n.visit_children_with(self);
+        }
+    }
 
     fn visit_opt_call(&mut self, _: &OptCall) {
         self.found = true;
@@ -88,7 +107,10 @@ impl Visit for EagerEffectFinder {
 }
 
 fn contains_eager_effect(expr: &Expr) -> bool {
-    let mut finder = EagerEffectFinder { found: false };
+    let mut finder = EagerEffectFinder {
+        found: false,
+        evaluating_instance_fields: false,
+    };
     expr.visit_with(&mut finder);
     finder.found
 }
@@ -606,7 +628,8 @@ impl Optimizer<'_> {
             (Expr::Call(cons), Expr::Call(alt)) => {
                 // The condition is evaluated before all arguments in the original calls, but
                 // after common arguments before the differing argument in the merged call.
-                let side_effects_in_test = test.may_have_side_effects(self.ctx.expr_ctx);
+                let side_effects_in_test =
+                    test.may_have_side_effects(self.ctx.expr_ctx) || contains_eager_effect(test);
 
                 if self.data.contains_unresolved(test) {
                     return None;
