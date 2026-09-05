@@ -1,5 +1,6 @@
 use std::{num::FpCategory, ops::RangeInclusive};
 
+use num_bigint::BigUint;
 use radix_fmt::Radix;
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned};
@@ -651,11 +652,7 @@ impl Pure<'_> {
                         return;
                     };
 
-                    let Some(value) = f64_to_precision(num.value, usize::from(p)) else {
-                        return;
-                    };
-
-                    value
+                    f64_to_precision(num.value, usize::from(p))
                 } else {
                     // 4. If x is not finite, return Number::toString(x, 10).
                     num.value.to_js_string()
@@ -1023,11 +1020,54 @@ impl Pure<'_> {
     }
 }
 
+/// Returns the exact base-10 digits and decimal exponent of a nonzero positive
+/// `f64`.
+fn f64_to_decimal_digits(value: f64) -> (String, i32) {
+    debug_assert!(value.is_finite() && value > 0.0);
+
+    const FRACTION_MASK: u64 = (1 << 52) - 1;
+
+    let bits = value.to_bits();
+    let exponent_bits = ((bits >> 52) & 0x7ff) as i32;
+    let fraction = bits & FRACTION_MASK;
+    let (significand, binary_exponent) = if exponent_bits == 0 {
+        (fraction, -1074)
+    } else {
+        (fraction | (1 << 52), exponent_bits - 1023 - 52)
+    };
+
+    let mut coefficient = BigUint::from(significand);
+    let decimal_scale = if binary_exponent >= 0 {
+        coefficient <<= binary_exponent as usize;
+        0
+    } else {
+        let mut power = (-binary_exponent) as u32;
+        let mut factor = BigUint::from(5_u8);
+
+        while power != 0 {
+            if power & 1 != 0 {
+                coefficient *= &factor;
+            }
+            power >>= 1;
+            if power != 0 {
+                factor = &factor * &factor;
+            }
+        }
+
+        -binary_exponent
+    };
+
+    let digits = coefficient.to_str_radix(10);
+    let exponent = digits.len() as i32 - decimal_scale - 1;
+
+    (digits, exponent)
+}
+
 // Code from boa
 // https://github.com/boa-dev/boa/blob/f8b682085d7fe0bbfcd0333038e93cf2f5aee710/boa_engine/src/builtins/number/mod.rs#L408
-fn f64_to_precision(value: f64, precision: usize) -> Option<String> {
+fn f64_to_precision(value: f64, precision: usize) -> String {
     if !value.is_finite() {
-        return Some(value.to_js_string());
+        return value.to_js_string();
     }
 
     let mut x = value;
@@ -1052,36 +1092,10 @@ fn f64_to_precision(value: f64, precision: usize) -> Option<String> {
         e = 0;
     // 10
     } else {
-        // Due to f64 limitations, this part differs a bit from the spec,
-        // but has the same effect. It manipulates the string constructed
-        // by `format`: digits with an optional dot between two of them.
-        m = format!("{x:.100}");
-
-        // The fixed 100-fractional-digit intermediate can round tiny nonzero values to
-        // zero. Do not derive an exponent from that representation; leave the
-        // call for runtime to evaluate with its full precision instead.
-        if m.bytes().all(|byte| matches!(byte, b'0' | b'.')) {
-            return None;
-        }
-
-        // a: getting an exponent
-        e = flt_str_to_exp(&m);
-
-        // The fixed intermediate has only 100 fractional digits. If it does not retain
-        // enough unrounded precision for the requested precision, evaluating from it
-        // can produce a different result than Number.prototype.toPrecision at runtime.
-        // A round at the final retained fractional digit can also carry into the
-        // preceding digit, so preserve one extra digit of distance from the boundary.
-        if e <= p_i32 - 99 {
-            return None;
-        }
-
-        // b: getting relevant digits only
-        if e < 0 {
-            m = m.split_off((1 - e) as usize);
-        } else if let Some(n) = m.find('.') {
-            m.remove(n);
-        }
+        // Use the exact decimal expansion of the binary float. A fixed-size decimal
+        // intermediate can round through an arbitrary carry chain before the requested
+        // precision is applied, which changes the result of `Number#toPrecision`.
+        (m, e) = f64_to_decimal_digits(x);
         // impl: having exactly `precision` digits in `suffix`
         if round_to_precision(&mut m, precision) {
             e += 1;
@@ -1105,14 +1119,14 @@ fn f64_to_precision(value: f64, precision: usize) -> Option<String> {
             // iv, v
             m.push_str(&e.to_string());
 
-            return Some(s + &*m);
+            return s + &*m;
         }
     }
 
     // 11
     let e_inc = e + 1;
     if e_inc == p_i32 {
-        return Some(s + &*m);
+        return s + &*m;
     }
 
     // 12
@@ -1126,26 +1140,7 @@ fn f64_to_precision(value: f64, precision: usize) -> Option<String> {
     }
 
     // 14
-    Some(s + &*m)
-}
-
-fn flt_str_to_exp(flt: &str) -> i32 {
-    let mut non_zero_encountered = false;
-    let mut dot_encountered = false;
-    for (i, c) in flt.chars().enumerate() {
-        if c == '.' {
-            if non_zero_encountered {
-                return (i as i32) - 1;
-            }
-            dot_encountered = true;
-        } else if c != '0' {
-            if dot_encountered {
-                return 1 - (i as i32);
-            }
-            non_zero_encountered = true;
-        }
-    }
-    (flt.len() as i32) - 1
+    s + &*m
 }
 
 fn round_to_precision(digits: &mut String, precision: usize) -> bool {

@@ -1,1 +1,1 @@
-console.log(1e-101.toPrecision(3), (-1e-101).toPrecision(3), 6e-101.toPrecision(3), "0.00", "0.00", 1e-99.toPrecision(3), 1.4623645086558605e-99.toPrecision(1), 5.49645917997034174e-98.toPrecision(1), "1.00e-50", "Infinity", "NaN");
+console.log("1.00e-101", "-1.00e-101", "6.00e-101", "0.00", "0.00", "1.00e-99", "1e-99", "5e-98", "1e-97", "1.00e-50", "Infinity", "NaN");
