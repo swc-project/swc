@@ -40,6 +40,67 @@ struct ValueReadFinder {
     expr_ctx: ExprCtx,
 }
 
+/// Returns whether a call to a recognized primitive string method cannot
+/// execute user code.
+///
+/// Optional calls use the same rules as direct calls. For a primitive string
+/// receiver, the optional check cannot short-circuit, so it does not add an
+/// observable effect of its own.
+fn is_pure_primitive_call(callee: &Expr, args: &[ExprOrSpread], expr_ctx: ExprCtx) -> bool {
+    // These string methods dispatch through protocol hooks on their search
+    // argument. Unlike the other recognized string methods, they can execute
+    // user code even when the argument expression itself has no side effects.
+    let dispatches_protocol_hook = matches!(
+        callee,
+        Expr::Member(MemberExpr {
+            prop: MemberProp::Ident(prop),
+            ..
+        }) if matches!(&*prop.sym, "split" | "includes" | "startsWith" | "endsWith")
+    ) && !args.is_empty();
+    let has_primitive_receiver = callee.is_pure_callee(expr_ctx)
+        && matches!(
+            callee,
+            Expr::Member(MemberExpr { obj, .. })
+                if matches!(&**obj, Expr::Lit(Lit::Str(..)))
+                    || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
+        );
+    // Locale-sensitive string methods inspect their supplied arguments while
+    // canonicalizing locales and options. That inspection can invoke a Proxy
+    // even when the argument expression itself appears pure.
+    let inspects_locale_arguments = matches!(
+        callee,
+        Expr::Member(MemberExpr {
+            prop: MemberProp::Ident(prop),
+            ..
+        }) if matches!(&*prop.sym, "localeCompare" | "toLocaleLowerCase" | "toLocaleUpperCase")
+    ) && !args.is_empty();
+
+    !dispatches_protocol_hook
+        && !inspects_locale_arguments
+        && has_primitive_receiver
+        && !args
+            .iter()
+            .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(expr_ctx))
+}
+
+/// Returns whether an object literal cannot install a proxy-bearing prototype
+/// or enumerate a spread operand while it is created.
+fn is_untrapped_plain_object(expr: &Expr) -> bool {
+    let Expr::Object(ObjectLit { props, .. }) = expr else {
+        return false;
+    };
+
+    props.iter().all(|prop| match prop {
+        PropOrSpread::Spread(..) => false,
+        PropOrSpread::Prop(prop) => !matches!(
+            &**prop,
+            Prop::KeyValue(KeyValueProp { key, .. })
+                if matches!(key, PropName::Ident(key) if &*key.sym == "__proto__")
+                    || matches!(key, PropName::Str(key) if &*key.value == "__proto__")
+        ),
+    })
+}
+
 impl Visit for ValueReadFinder {
     noop_visit_type!();
 
@@ -139,6 +200,11 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_bin_expr(&mut self, n: &BinExpr) {
+        if n.op == op!("in") && is_untrapped_plain_object(&n.right) {
+            n.visit_children_with(self);
+            return;
+        }
+
         if matches!(n.op, op!("in") | op!("instanceof")) {
             self.found = true;
             return;
@@ -148,52 +214,7 @@ impl Visit for EagerEffectFinder {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr) {
-        // These string methods dispatch through protocol hooks on their search
-        // argument. Unlike the other recognized string methods, they can execute user
-        // code even when the argument expression itself has no side effects.
-        let dispatches_protocol_hook = matches!(
-            &n.callee,
-            Callee::Expr(callee)
-                if matches!(
-                    &**callee,
-                    Expr::Member(MemberExpr {
-                        prop: MemberProp::Ident(prop),
-                        ..
-                    }) if matches!(&*prop.sym, "split" | "includes" | "startsWith" | "endsWith")
-                )
-        ) && !n.args.is_empty();
-        let has_primitive_receiver = matches!(
-            &n.callee,
-            Callee::Expr(callee)
-                if callee.is_pure_callee(self.expr_ctx)
-                    && matches!(
-                        &**callee,
-                        Expr::Member(MemberExpr { obj, .. })
-                            if matches!(&**obj, Expr::Lit(Lit::Str(..)))
-                                || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
-                    )
-        );
-        // Locale-sensitive string methods inspect their supplied arguments while
-        // canonicalizing locales and options. That inspection can invoke a Proxy
-        // even when the argument expression itself appears pure.
-        let inspects_locale_arguments = matches!(
-            &n.callee,
-            Callee::Expr(callee)
-                if matches!(
-                    &**callee,
-                    Expr::Member(MemberExpr {
-                        prop: MemberProp::Ident(prop),
-                        ..
-                    }) if matches!(&*prop.sym, "localeCompare" | "toLocaleLowerCase" | "toLocaleUpperCase")
-                )
-        ) && !n.args.is_empty();
-        let is_pure = !dispatches_protocol_hook
-            && !inspects_locale_arguments
-            && has_primitive_receiver
-            && !n
-                .args
-                .iter()
-                .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(self.expr_ctx));
+        let is_pure = matches!(&n.callee, Callee::Expr(callee) if is_pure_primitive_call(callee, &n.args, self.expr_ctx));
 
         if !is_pure {
             self.found = true;
@@ -299,8 +320,12 @@ impl Visit for EagerEffectFinder {
         }
     }
 
-    fn visit_opt_call(&mut self, _: &OptCall) {
-        self.found = true;
+    fn visit_opt_call(&mut self, n: &OptCall) {
+        if is_pure_primitive_call(&n.callee, &n.args, self.expr_ctx) {
+            n.visit_children_with(self);
+        } else {
+            self.found = true;
+        }
     }
 
     fn visit_ident(&mut self, n: &Ident) {
@@ -370,7 +395,9 @@ impl Visit for EagerEffectFinder {
             // Reading an unresolved global can invoke an accessor. This is normally hidden
             // from the generic purity predicate because shorthands have no expression
             // child.
-            if ident.ctxt == self.expr_ctx.unresolved_ctxt {
+            if ident.ctxt == self.expr_ctx.unresolved_ctxt
+                && !matches!(&*ident.sym, "undefined" | "NaN" | "Infinity")
+            {
                 self.found = true;
                 return;
             }
