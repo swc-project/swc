@@ -297,7 +297,11 @@ impl Optimizer<'_> {
                 prop: MemberProp::Ident(prop),
                 ..
             }) => match &**obj {
-                Expr::Ident(Ident { sym, .. }) if &**sym == "String" => {
+                Expr::Ident(Ident { sym, ctxt, .. }) if &**sym == "String" => {
+                    if *ctxt != self.ctx.expr_ctx.unresolved_ctxt {
+                        return;
+                    }
+
                     if &*prop.sym == "fromCharCode" {
                         if args.len() != 1 {
                             return;
@@ -330,7 +334,11 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
+                Expr::Ident(Ident { sym, ctxt, .. }) if &**sym == "Object" => {
+                    if *ctxt != self.ctx.expr_ctx.unresolved_ctxt {
+                        return;
+                    }
+
                     if &*prop.sym == "keys" {
                         if args.len() != 1 {
                             return;
