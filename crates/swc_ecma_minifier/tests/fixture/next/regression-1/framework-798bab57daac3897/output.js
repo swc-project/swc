@@ -214,7 +214,7 @@
                     if (l && d && "string" == typeof l.stack) {
                         for(var e = l.stack.split("\n"), f = d.stack.split("\n"), g = e.length - 1, h = f.length - 1; 1 <= g && 0 <= h && e[g] !== f[h];)h--;
                         for(; 1 <= g && 0 <= h; g--, h--)if (e[g] !== f[h]) {
-                            if (1 !== g || 1 !== h) do if (g--, 0 > --h || e[g] !== f[h]) {
+                            if (1 !== g || 1 !== h) do if (g--, h--, 0 > h || e[g] !== f[h]) {
                                 var k = "\n" + e[g].replace(" at new ", " at ");
                                 return a.displayName && k.includes("<anonymous>") && (k = k.replace("<anonymous>", a.displayName)), k;
                             }
@@ -4720,11 +4720,11 @@
                                 var e1 = 31 - nc(c1), f1 = 1 << e1;
                                 b1[e1] = 0, d1[e1] = -1, a1[e1] = -1, c1 &= ~f1;
                             }
-                            if (a === P && (X = P = null, Y = 0), 0 == (2064 & c.subtreeFlags) && 0 == (2064 & c.flags) || tk || (tk = !0, b2 = function() {
+                            if (a === P && (X = P = null, Y = 0), 0 == (2064 & c.subtreeFlags) && 0 == (2064 & c.flags) || tk || (tk = !0, $b(gc, function() {
                                 return Gk(), null;
-                            }, $b(gc, b2)), f = 0 != (15990 & c.flags), 0 != (15990 & c.subtreeFlags) || f) {
+                            })), f = 0 != (15990 & c.flags), 0 != (15990 & c.subtreeFlags) || f) {
                                 f = mk.transition, mk.transition = null;
-                                var b2, a2, b3, g = C;
+                                var a2, b2, g = C;
                                 C = 1;
                                 var h = W;
                                 W |= 4, lk.current = null, function(a, b) {
@@ -4832,7 +4832,7 @@
                                         });
                                         for("function" == typeof c.focus && c.focus(), c = 0; c < b.length; c++)(a = b[c]).element.scrollLeft = a.left, a.element.scrollTop = a.top;
                                     }
-                                }(Cf), cd = !!Bf, Cf = Bf = null, a.current = c, a2 = c, b3 = a, T = a2, function gk(a, b, c) {
+                                }(Cf), cd = !!Bf, Cf = Bf = null, a.current = c, a2 = c, b2 = a, T = a2, function gk(a, b, c) {
                                     for(var d = 0 != (1 & a.mode); null !== T;){
                                         var e = T, f = e.child;
                                         if (22 === e.tag && d) {
@@ -4848,7 +4848,7 @@
                                             ik(a);
                                         } else 0 != (8772 & e.subtreeFlags) && null !== f ? (f.return = e, T = f) : ik(a);
                                     }
-                                }(a2, b3, e), cc(), W = h, C = g, mk.transition = f;
+                                }(a2, b2, e), cc(), W = h, C = g, mk.transition = f;
                             } else a.current = c;
                             tk && (tk = !1, uk = a, vk = e), 0 === (f = a.pendingLanes) && (Oi = null);
                             var a3 = c.stateNode;

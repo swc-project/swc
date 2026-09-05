@@ -1479,6 +1479,8 @@ impl Optimizer<'_> {
                 .ctx
                 .bit_ctx
                 .with(BitCtx::InFnLike, true)
+                // The outer try/finally cannot observe termination within a nested function.
+                .with(BitCtx::InTryBlock, false)
                 .with(BitCtx::TopLevel, false)
                 .with(BitCtx::InParam, false),
             scope,
@@ -3060,9 +3062,16 @@ impl VisitMut for Optimizer<'_> {
     )]
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
         let ctx = self.ctx.clone().with(BitCtx::InTryBlock, true);
-        n.block.visit_mut_with(&mut *self.with_ctx(ctx));
+        n.block.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
 
-        n.handler.visit_mut_with(self);
+        if n.finalizer.is_some() {
+            // A return or throw in the catch runs the finalizer before terminating the
+            // function. Keep assignments intact so the finalizer can observe
+            // them.
+            n.handler.visit_mut_with(&mut *self.with_ctx(ctx));
+        } else {
+            n.handler.visit_mut_with(self);
+        }
 
         n.finalizer.visit_mut_with(self);
     }
