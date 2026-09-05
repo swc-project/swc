@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_S
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_utils::{ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
+use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -24,6 +24,7 @@ use crate::{
 struct EagerEffectFinder {
     found: bool,
     evaluating_class_instance: bool,
+    expr_ctx: ExprCtx,
 }
 
 impl Visit for EagerEffectFinder {
@@ -35,6 +36,12 @@ impl Visit for EagerEffectFinder {
         n.decorators.visit_with(self);
         n.key.visit_with(self);
         if n.is_static || self.evaluating_class_instance {
+            if n.value
+                .as_deref()
+                .is_some_and(|value| value.may_have_side_effects(self.expr_ctx))
+            {
+                self.found = true;
+            }
             n.value.visit_with(self);
         }
     }
@@ -48,8 +55,32 @@ impl Visit for EagerEffectFinder {
         n.visit_children_with(self);
     }
 
-    fn visit_call_expr(&mut self, _: &CallExpr) {
-        self.found = true;
+    fn visit_call_expr(&mut self, n: &CallExpr) {
+        let has_primitive_receiver = matches!(
+            &n.callee,
+            Callee::Expr(callee)
+                if callee.is_pure_callee(self.expr_ctx)
+                    && matches!(
+                        &**callee,
+                        Expr::Member(MemberExpr { obj, .. })
+                            if matches!(&**obj, Expr::Lit(Lit::Str(..)))
+                                || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
+                    )
+        );
+        let is_pure = has_primitive_receiver
+            && !n
+                .args
+                .iter()
+                .any(|arg| arg.expr.may_have_side_effects(self.expr_ctx));
+
+        if !is_pure {
+            self.found = true;
+        } else {
+            // The general predicate intentionally treats known primitive calls as pure, but
+            // their arguments can still contain eager operations such as `in` or
+            // `instanceof`.
+            n.visit_children_with(self);
+        }
     }
 
     fn visit_class(&mut self, n: &Class) {
@@ -113,10 +144,11 @@ impl Visit for EagerEffectFinder {
     }
 }
 
-fn contains_eager_effect(expr: &Expr) -> bool {
+fn contains_eager_effect(expr: &Expr, expr_ctx: ExprCtx) -> bool {
     let mut finder = EagerEffectFinder {
         found: false,
         evaluating_class_instance: false,
+        expr_ctx,
     };
     expr.visit_with(&mut finder);
     finder.found
@@ -635,8 +667,8 @@ impl Optimizer<'_> {
             (Expr::Call(cons), Expr::Call(alt)) => {
                 // The condition is evaluated before all arguments in the original calls, but
                 // after common arguments before the differing argument in the merged call.
-                let side_effects_in_test =
-                    test.may_have_side_effects(self.ctx.expr_ctx) || contains_eager_effect(test);
+                let side_effects_in_test = test.may_have_side_effects(self.ctx.expr_ctx)
+                    || contains_eager_effect(test, self.ctx.expr_ctx);
 
                 if self.data.contains_unresolved(test) {
                     return None;
@@ -689,7 +721,7 @@ impl Optimizer<'_> {
                         // those arguments may affect the condition.
                         if cons.args[..diff_idx].iter().any(|arg| {
                             arg.expr.may_have_side_effects(self.ctx.expr_ctx)
-                                || contains_eager_effect(&arg.expr)
+                                || contains_eager_effect(&arg.expr, self.ctx.expr_ctx)
                         }) {
                             return None;
                         }
