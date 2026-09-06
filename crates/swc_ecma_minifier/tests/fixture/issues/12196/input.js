@@ -1,0 +1,9 @@
+console.log(
+    "a".codePointAt(0),
+    "𐀀".codePointAt(0),
+    "𐀀".codePointAt(1),
+    "a".codePointAt(1),
+    "a".codePointAt(-1),
+    "".codePointAt(0),
+    "a".charCodeAt(1),
+);

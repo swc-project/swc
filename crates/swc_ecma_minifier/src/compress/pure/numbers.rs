@@ -163,7 +163,7 @@ impl Pure<'_> {
                 | (op!("|"), Expr::Lit(Lit::Num(n)), Expr::Bin(bin_inner))
                     if matches!(
                         bin_inner.op,
-                        op!("<<") | op!(">>") | op!(">>>") | op!("|") | op!("^") | op!("&")
+                        op!("<<") | op!(">>") | op!("|") | op!("^") | op!("&")
                     ) && n.value == 0.0 =>
                 {
                     report_change!("numbers: Turn '(a & b) | 0' into 'a & b'");

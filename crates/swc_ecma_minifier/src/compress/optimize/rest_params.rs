@@ -416,6 +416,8 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
     f.body.visit_with(&mut finder);
     finder.found
 }
+use super::Optimizer;
+use crate::program_data::ScopeData;
 
 /// Methods related to rest parameter optimization.
 impl Optimizer<'_> {
@@ -481,6 +483,14 @@ impl Optimizer<'_> {
                 && (!(can_make_arguments_mapped || can_expose_implicit_arguments)
                     || !uses_implicit_arguments(f, self.data))
             {
+            // If the parameter is not referenced, we can remove it
+            if usage.ref_count == 0 {
+                if let Some(scope) = self.data.get_scope(f.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                        return;
+                    }
+                }
+
                 self.changed = true;
                 report_change!("rest_params: Removing unused rest parameter");
                 f.params.pop();

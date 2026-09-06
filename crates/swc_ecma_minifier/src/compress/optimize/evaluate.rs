@@ -297,7 +297,11 @@ impl Optimizer<'_> {
                 prop: MemberProp::Ident(prop),
                 ..
             }) => match &**obj {
-                Expr::Ident(Ident { sym, .. }) if &**sym == "String" => {
+                Expr::Ident(Ident { sym, ctxt, .. }) if &**sym == "String" => {
+                    if *ctxt != self.ctx.expr_ctx.unresolved_ctxt {
+                        return;
+                    }
+
                     if &*prop.sym == "fromCharCode" {
                         if args.len() != 1 {
                             return;
@@ -330,7 +334,11 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
+                Expr::Ident(Ident { sym, ctxt, .. }) if &**sym == "Object" => {
+                    if *ctxt != self.ctx.expr_ctx.unresolved_ctxt {
+                        return;
+                    }
+
                     if &*prop.sym == "keys" {
                         if args.len() != 1 {
                             return;
@@ -360,6 +368,13 @@ impl Optimizer<'_> {
                                     }
                                     Prop::KeyValue(p) => match &p.key {
                                         PropName::Ident(key) => {
+                                            // A non-computed `__proto__` key-value property sets
+                                            // the object's prototype instead of defining an own
+                                            // property, so it is not returned by `Object.keys`.
+                                            if key.sym == "__proto__" {
+                                                continue;
+                                            }
+
                                             keys.push(Some(ExprOrSpread {
                                                 spread: None,
                                                 expr: Lit::Str(Str {
@@ -371,6 +386,13 @@ impl Optimizer<'_> {
                                             }));
                                         }
                                         PropName::Str(key) => {
+                                            // String-literal `__proto__` key-value properties have
+                                            // the same prototype-setter semantics as identifier
+                                            // keys. Computed keys remain ineligible for folding.
+                                            if key.value.as_str() == Some("__proto__") {
+                                                continue;
+                                            }
+
                                             keys.push(Some(ExprOrSpread {
                                                 spread: None,
                                                 expr: Lit::Str(key.clone()).into(),
