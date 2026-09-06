@@ -1,5 +1,7 @@
 #![allow(clippy::needless_update)]
 
+use std::sync::Arc;
+
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -84,7 +86,7 @@ struct Pure<'a> {
 
     ctx: Ctx,
     changed: bool,
-    mutated_ids: FxHashSet<Id>,
+    mutated_ids: Arc<FxHashSet<Id>>,
 }
 
 impl Parallel for Pure<'_> {
@@ -127,14 +129,17 @@ impl Pure<'_> {
             return;
         }
 
-        self.mutated_ids = analyze(node, Some(self.marks), false)
-            .vars
-            .into_iter()
-            .filter_map(|(id, usage)| {
-                (usage.flags.contains(VarUsageInfoFlags::REASSIGNED) || usage.declared_count > 1)
-                    .then_some(id)
-            })
-            .collect();
+        self.mutated_ids = Arc::new(
+            analyze(node, Some(self.marks), false)
+                .vars
+                .into_iter()
+                .filter_map(|(id, usage)| {
+                    (usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                        || usage.declared_count > 1)
+                        .then_some(id)
+                })
+                .collect(),
+        );
     }
 
     #[inline(always)]
@@ -400,11 +405,15 @@ impl VisitMut for Pure<'_> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
-        self.do_inside_of_context(Ctx::IS_LHS_OF_ASSIGN, |this| {
-            e.left.visit_mut_children_with(this);
+        // Only the right-hand side supplies the assignment's value. A computed
+        // assignment target cannot make an enclosing comparison fold.
+        self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+            this.do_inside_of_context(Ctx::IS_LHS_OF_ASSIGN, |this| {
+                e.left.visit_mut_children_with(this);
+            });
         });
 
-        e.right.visit_mut_with(self);
+        self.visit_mut_expr(&mut e.right);
 
         self.compress_bin_assignment_to_left(e);
         self.compress_bin_assignment_to_right(e);
@@ -581,6 +590,7 @@ impl VisitMut for Pure<'_> {
                 }
                 Expr::Seq(e) => self.visit_mut_seq_expr(e),
                 Expr::Unary(e) => self.visit_mut_unary_expr(e),
+                Expr::Assign(e) => self.visit_mut_assign_expr(e),
                 _ => self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
                     e.visit_mut_children_with(this);
                 }),

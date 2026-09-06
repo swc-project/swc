@@ -10,6 +10,18 @@ async function asynchronous() {
     };
 }
 
+function* generatorDefault() {
+    return function (value = yield) {
+        return value;
+    };
+}
+
+async function asynchronousDefault() {
+    return function (value = await) {
+        return value;
+    };
+}
+
 const asyncArrow = async () => function (await) {
     return ++await;
 };
