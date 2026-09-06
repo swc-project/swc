@@ -134,12 +134,7 @@ impl MacroNode for Str {
         let (quote_char, mut value) = get_quoted_utf16(&self.value, emitter.cfg.ascii_only, target);
 
         if emitter.cfg.inline_script {
-            value = CowStr::Owned(
-                replace_close_inline_script(&value)
-                    .replace("\x3c!--", "\\x3c!--")
-                    .replace("--\x3e", "--\\x3e")
-                    .into(),
-            );
+            value = CowStr::Owned(escape_inline_script(&value).to_string().into());
         }
 
         let quote_str = [quote_char.as_byte()];
@@ -248,6 +243,24 @@ pub fn replace_close_inline_script(raw: &str) -> CowStr<'_> {
     }
 
     CowStr::Owned(result)
+}
+
+/// Escapes sequences that can alter HTML parsing when JavaScript is inlined in
+/// a script element.
+pub fn escape_inline_script(raw: &str) -> CowStr<'_> {
+    let raw = replace_close_inline_script(raw);
+
+    if raw.contains("\x3c!--") || raw.contains("--\x3e") {
+        CowStr::Owned(
+            // Escaping the `!` avoids combining with a preceding identity escape
+            // in a template element (for example, `\\<!--`).
+            raw.replace("\x3c!--", "<\\x21--")
+                .replace("--\x3e", "--\\x3e")
+                .into(),
+        )
+    } else {
+        raw
+    }
 }
 
 impl<W, S: swc_common::SourceMapper> Emitter<'_, W, S>

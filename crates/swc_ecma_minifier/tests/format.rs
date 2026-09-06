@@ -76,12 +76,20 @@ fn inline_script() {
     let src = r#"
 console.log("</sCrIpT>");
 foo("/-->/");
+console.log(`${value}</script>`);
+console.log(`<!--<script></script>-->`);
+console.log(`\<!--`);
 "#;
-    let expected = r#"console.log("<\/sCrIpT>");foo("/--\x3e/");"#;
+    let expected = r#"console.log("<\/sCrIpT>");foo("/--\x3e/");console.log(`${value}<\/script>`);console.log(`<\x21--<script><\/script>--\x3e`);console.log(`<\x21--`);"#;
     assert_format(
         src,
         expected,
         Config::default().with_inline_script(true).with_minify(true),
+    );
+    assert_format(
+        r#"console.log(`\<!--`);"#,
+        r#"console.log(`\<\x21--`);"#,
+        Config::default().with_inline_script(true),
     )
 }
 
