@@ -10,7 +10,14 @@ async function asynchronous() {
     };
 }
 
+const asyncArrow = async () => function (await) {
+    return ++await;
+};
+
 console.log(generator().next().value(0));
 asynchronous().then(function (fn) {
+    console.log(fn(0));
+});
+asyncArrow().then(function (fn) {
     console.log(fn(0));
 });

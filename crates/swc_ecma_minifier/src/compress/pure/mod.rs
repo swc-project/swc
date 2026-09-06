@@ -427,6 +427,17 @@ impl VisitMut for Pure<'_> {
         }
     }
 
+    fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
+        // Arrows inherit async grammar context from their enclosing scope.
+        // Ordinary functions nested inside must see it before they can safely
+        // be converted to arrows themselves.
+        if e.is_async {
+            self.do_inside_of_context(Ctx::IN_ASYNC, |this| e.visit_mut_children_with(this));
+        } else {
+            e.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         let old_ctx = self.ctx;
         if matches!(e.op, op!("==") | op!("!=") | op!("===") | op!("!==")) {
@@ -569,6 +580,7 @@ impl VisitMut for Pure<'_> {
                     self.visit_mut_expr(&mut e.right);
                 }
                 Expr::Seq(e) => self.visit_mut_seq_expr(e),
+                Expr::Unary(e) => self.visit_mut_unary_expr(e),
                 _ => self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
                     e.visit_mut_children_with(this);
                 }),
