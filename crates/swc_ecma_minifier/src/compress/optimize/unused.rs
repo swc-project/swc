@@ -966,6 +966,54 @@ impl Optimizer<'_> {
             _ => return None,
         };
 
+        // A simple parameter and its `var` redeclaration share one binding.
+        // Retain the initializer at its original position: moving it to the
+        // parameter list would overwrite assignments that precede this statement.
+        if self.ctx.bit_ctx.contains(BitCtx::HasSimpleParams)
+            && !self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
+            && var.kind == VarDeclKind::Var
+            && var.decls.len() == 1
+        {
+            let decl = &mut var.decls[0];
+            if let Pat::Ident(name) = &decl.name {
+                if decl.init.is_some()
+                    && !self.data.get_scope(self.ctx.scope)?.intersects(
+                        ScopeData::HAS_EVAL_CALL
+                            | ScopeData::HAS_WITH_STMT
+                            | ScopeData::USED_ARGUMENTS,
+                    )
+                {
+                    if let Some(usage) = self.data.vars.get_mut(&name.to_id()) {
+                        if usage
+                            .flags
+                            .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                            && usage.declared_count >= 2
+                            && !usage.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_DECL)
+                        {
+                            usage.declared_count -= 1;
+                            usage.ref_count += 1;
+                            *s = ExprStmt {
+                                span: var.span,
+                                expr: AssignExpr {
+                                    span: decl.span,
+                                    op: op!("="),
+                                    left: name.clone().into(),
+                                    right: decl.init.take().unwrap(),
+                                }
+                                .into(),
+                            }
+                            .into();
+                            self.changed = true;
+                            report_change!(
+                                "unused: Replacing a parameter redeclaration with an assignment"
+                            );
+                            return Some(());
+                        }
+                    }
+                }
+            }
+        }
+
         for d in var.decls.iter_mut() {
             if d.init.is_none() {
                 if let Pat::Ident(name) = &d.name {

@@ -942,6 +942,17 @@ impl Optimizer<'_> {
                             }
 
                             if let Some(id) = a.ident() {
+                                // Initializing a redeclaration writes the binding even
+                                // when its initializer does not read it. An earlier
+                                // assignment or update must not cross that write.
+                                if e2.init.is_some()
+                                    && e2
+                                        .name
+                                        .as_ident()
+                                        .is_some_and(|name| name.id.eq_ignore_span(id))
+                                {
+                                    break;
+                                }
                                 if merge_seq_cache.is_ident_used_by(id, &**e2, b_idx) {
                                     break;
                                 }
@@ -2727,6 +2738,7 @@ impl Mergable<'_> {
             },
             Mergable::Expr(s) => match &**s {
                 Expr::Assign(s) => s.left.as_ident().map(|i| &i.id),
+                Expr::Update(s) => s.arg.as_ident(),
                 _ => None,
             },
             Mergable::FnDecl(f) => Some(&f.ident),

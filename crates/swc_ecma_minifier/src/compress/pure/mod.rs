@@ -34,10 +34,19 @@ mod strings;
 mod switches;
 mod vars;
 
-#[derive(Debug, Clone, Copy)]
+/// Mutable parameters must finish data-flow compression before becoming arrows.
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum UnsafeArrowStage {
+    #[default]
+    Compress,
+    Finalize,
+}
+
+#[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct PureOptimizerConfig {
     /// pass > 1
     pub enable_join_vars: bool,
+    pub unsafe_arrow_stage: UnsafeArrowStage,
 }
 
 #[allow(clippy::needless_lifetimes)]
@@ -386,12 +395,17 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
+        let old_ctx = self.ctx;
+        if matches!(e.op, op!("==") | op!("!=") | op!("===") | op!("!==")) {
+            self.ctx.insert(Ctx::IN_COMPARISON);
+        }
         if !Self::is_expr_leaf(&e.left) {
             self.visit_mut_expr(&mut e.left);
         }
         if !Self::is_expr_leaf(&e.right) {
             self.visit_mut_expr(&mut e.right);
         }
+        self.ctx = old_ctx;
 
         self.compress_cmp_with_long_op(e);
 
@@ -419,7 +433,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
-        body.visit_mut_children_with(self);
+        self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+            body.visit_mut_children_with(this)
+        });
 
         match body {
             ArrowFunctionBody::FunctionBody(b) => self.optimize_fn_stmts(&mut b.stmts),
@@ -1010,7 +1026,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
-        self.do_outside_of_context(Ctx::IN_TRY_BLOCK, |this| f.visit_mut_children_with(this));
+        self.do_outside_of_context(Ctx::IN_TRY_BLOCK | Ctx::IN_COMPARISON, |this| {
+            f.visit_mut_children_with(this)
+        });
 
         if let Some(body) = &mut f.body {
             self.optimize_fn_stmts(&mut body.stmts)

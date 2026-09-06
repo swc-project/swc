@@ -2,9 +2,10 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_arguments, contains_this_expr};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use super::Pure;
-use crate::compress::util::contains_super;
+use super::{Pure, UnsafeArrowStage};
+use crate::compress::util::{contains_new_target, contains_super};
 
 /// Methods related to the option `arrows`.
 impl Pure<'_> {
@@ -24,9 +25,47 @@ impl Pure<'_> {
         {
             if function.params.iter().any(contains_this_expr)
                 || contains_this_expr(&function.body)
+                || function.params.iter().any(contains_arguments)
+                || contains_arguments(&function.body)
+                || contains_super(&function.params)
+                || contains_super(&function.body)
+                || contains_new_target(&function.params)
+                || contains_new_target(&function.body)
+                || contains_eval(&function.params, true)
+                || contains_eval(&function.body, true)
                 || function.is_generator
             {
                 return;
+            }
+
+            if !function.params.is_empty() {
+                let simple_params = function.params.iter().all(|param| param.pat.is_ident());
+                // Sloppy ordinary functions allow duplicates, but arrows never do.
+                if simple_params
+                    && function.params.iter().enumerate().any(|(idx, param)| {
+                        let id = param.pat.as_ident().unwrap();
+                        function.params[..idx]
+                            .iter()
+                            .any(|earlier| earlier.pat.as_ident().unwrap().sym == id.sym)
+                    })
+                {
+                    return;
+                }
+                let mut mutations = ParameterMutationFinder {
+                    params: &function.params,
+                    found: false,
+                };
+                function.body.visit_with(&mut mutations);
+                if mutations.found {
+                    // Arrow parameters are conservatively marked INLINE_PREVENTED.
+                    // Keep the ordinary function until its assignments and parameter
+                    // redeclarations have been compressed using fresh usage data.
+                    if self.config.unsafe_arrow_stage == UnsafeArrowStage::Compress
+                        || !simple_params
+                    {
+                        return;
+                    }
+                }
             }
 
             self.changed = true;
@@ -34,6 +73,7 @@ impl Pure<'_> {
 
             *e = ArrowExpr {
                 span: function.span,
+                ctxt: function.ctxt,
                 params: function.params.take().into_iter().map(|p| p.pat).collect(),
                 body: Box::new(ArrowFunctionBody::FunctionBody(
                     function.body.take().unwrap(),
@@ -171,5 +211,55 @@ impl Pure<'_> {
                 _ => (),
             }
         }
+    }
+}
+
+/// Detect writes to parameter bindings, including writes from nested closures.
+/// Full binding identity keeps shadowing declarations out of this decision.
+struct ParameterMutationFinder<'a> {
+    params: &'a [Param],
+    found: bool,
+}
+
+impl ParameterMutationFinder<'_> {
+    fn check(&mut self, id: &Ident) {
+        self.found |= self.params.iter().any(|param| {
+            param
+                .pat
+                .as_ident()
+                .is_some_and(|param| param.id.ctxt == id.ctxt && param.id.sym == id.sym)
+        });
+    }
+}
+
+impl Visit for ParameterMutationFinder<'_> {
+    noop_visit_type!();
+
+    fn visit_expr(&mut self, expr: &Expr) {
+        if !self.found {
+            expr.visit_children_with(self);
+        }
+    }
+
+    fn visit_stmt(&mut self, stmt: &Stmt) {
+        if !self.found {
+            stmt.visit_children_with(self);
+        }
+    }
+
+    fn visit_binding_ident(&mut self, id: &BindingIdent) {
+        self.check(&id.id);
+    }
+
+    fn visit_update_expr(&mut self, expr: &UpdateExpr) {
+        if let Expr::Ident(id) = &*expr.arg {
+            self.check(id);
+        }
+        expr.visit_children_with(self);
+    }
+
+    fn visit_fn_decl(&mut self, decl: &FnDecl) {
+        self.check(&decl.ident);
+        decl.visit_children_with(self);
     }
 }

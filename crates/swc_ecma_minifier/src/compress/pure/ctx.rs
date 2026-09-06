@@ -2,7 +2,7 @@ use super::Pure;
 
 bitflags::bitflags! {
 #[derive(Default, Clone, Copy)]
-    pub(super) struct Ctx: u8 {
+    pub(super) struct Ctx: u16 {
         const IN_DELETE         = 1 << 0;
         /// true if we are in `arg` of `++arg` or `--arg`.
         const IS_UPDATE_ARG     = 1 << 1;
@@ -12,6 +12,7 @@ bitflags::bitflags! {
         const PRESERVE_BLOCK    = 1 << 5;
         const IS_LABEL_BODY     = 1 << 6;
         const IN_OPT_CHAIN      = 1 << 7;
+        const IN_COMPARISON     = 1 << 8;
     }
 }
 

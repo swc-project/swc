@@ -199,6 +199,9 @@ bitflags! {
         /// `true` only while visiting [CallExpr::callee] when the call result is
         /// not itself used as a receiver-aware callee.
         const IsCallCallee = 1 << 29;
+
+        /// A simple parameter list guarantees shared parameter/body `var` bindings.
+        const HasSimpleParams = 1 << 30;
     }
 }
 
@@ -1492,6 +1495,7 @@ impl Optimizer<'_> {
                 // The outer try/finally cannot observe termination within a nested function.
                 .with(BitCtx::InTryBlock, false)
                 .with(BitCtx::TopLevel, false)
+                .with(BitCtx::HasSimpleParams, false)
                 .with(BitCtx::InParam, false),
             scope,
             ..self.ctx.clone()
@@ -1531,7 +1535,10 @@ impl VisitMut for Optimizer<'_> {
         }
 
         {
-            let ctx = self.function_like_ctx(n.ctxt);
+            let ctx = self.function_like_ctx(n.ctxt).with(
+                BitCtx::HasSimpleParams,
+                n.params.iter().all(|param| param.is_ident()),
+            );
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
@@ -1945,6 +1952,8 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        self.invoke_iife_wrapper(e);
+
         #[cfg(all(debug_assertions, feature = "trace-ast"))]
         let _tracing = {
             let s = dump(&*e, true);
@@ -2388,7 +2397,10 @@ impl VisitMut for Optimizer<'_> {
         let old_in_asm = self.ctx.bit_ctx.contains(BitCtx::InAsm);
 
         {
-            let ctx = self.function_like_ctx(n.ctxt);
+            let ctx = self.function_like_ctx(n.ctxt).with(
+                BitCtx::HasSimpleParams,
+                n.params.iter().all(|param| param.pat.is_ident()),
+            );
             let optimizer = &mut *self.with_ctx(ctx);
 
             n.params.visit_mut_with(optimizer);

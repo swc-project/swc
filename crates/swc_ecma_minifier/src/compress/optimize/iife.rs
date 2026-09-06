@@ -3,6 +3,7 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
@@ -10,6 +11,7 @@ use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
+    compress::util::contains_new_target,
     program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
     util::{idents_captured_by, make_number},
 };
@@ -121,6 +123,58 @@ impl Optimizer<'_> {
 
 /// Methods related to iife.
 impl Optimizer<'_> {
+    /// Peel an empty-scope wrapper before visiting its callee. Otherwise the
+    /// inner IIFE can move its mutable parameters into this temporary scope,
+    /// preventing removal of the wrapper at top level on the next pass.
+    pub(super) fn invoke_iife_wrapper(&mut self, expr: &mut Expr) {
+        let Expr::Call(call) = expr else {
+            return;
+        };
+        if !call.args.is_empty() {
+            return;
+        }
+        let Callee::Expr(callee) = &call.callee else {
+            return;
+        };
+        let body = match &**callee {
+            Expr::Fn(FnExpr {
+                ident: None,
+                function,
+            }) if function.params.is_empty() && !function.is_async && !function.is_generator => {
+                let Some(body) = &function.body else {
+                    return;
+                };
+                body
+            }
+            Expr::Arrow(arrow)
+                if arrow.params.is_empty() && !arrow.is_async && !arrow.is_generator =>
+            {
+                let ArrowFunctionBody::FunctionBody(body) = &*arrow.body else {
+                    return;
+                };
+                body
+            }
+            _ => return,
+        };
+        let [Stmt::Expr(stmt)] = body.stmts.as_slice() else {
+            return;
+        };
+        let inner = match &*stmt.expr {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => &**arg,
+            inner => inner,
+        };
+        if !matches!(inner, Expr::Call(CallExpr { callee: Callee::Expr(callee), .. })
+            if matches!(&**callee, Expr::Fn(_) | Expr::Arrow(_)))
+            || contains_eval(body, true)
+            || callee.is_fn_expr() && contains_new_target(body)
+        {
+            return;
+        }
+        self.invoke_iife(expr);
+    }
+
     /// # Example
     ///
     /// ## Input

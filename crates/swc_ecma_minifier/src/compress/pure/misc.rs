@@ -1953,6 +1953,17 @@ impl Pure<'_> {
                         *e = Invalid { span: DUMMY_SP }.into();
                         return;
                     }
+                    if matches!(&**arg, Expr::Call(CallExpr { callee: Callee::Expr(callee), .. })
+                        if callee.is_arrow())
+                    {
+                        // Unlike a function expression, an arrow does not need
+                        // `!` to disambiguate an expression statement. Its result
+                        // is already ignored here, including after late conversion.
+                        *e = *arg.take();
+                        self.changed = true;
+                        report_change!("unsafe_arrows: Dropping an unused arrow IIFE negation");
+                        return;
+                    }
                 }
 
                 Expr::Unary(UnaryExpr {

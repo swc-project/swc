@@ -230,6 +230,7 @@ impl Evaluator {
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: true,
+                        ..Default::default()
                     },
                 ));
                 return Some(Box::new(e));
@@ -254,6 +255,7 @@ impl Evaluator {
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: false,
+                        ..Default::default()
                     },
                 ));
                 return Some(Box::new(e));
@@ -290,6 +292,7 @@ impl Evaluator {
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
+                    ..Default::default()
                 },
             ));
         }

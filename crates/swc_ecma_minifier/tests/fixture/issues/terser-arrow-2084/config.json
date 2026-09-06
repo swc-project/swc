@@ -1,0 +1,14 @@
+{
+    "unsafe_arrows": true,
+    "collapse_vars": true,
+    "conditionals": true,
+    "ecma": 2015,
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "sequences": true,
+    "side_effects": true,
+    "unused": true
+}
