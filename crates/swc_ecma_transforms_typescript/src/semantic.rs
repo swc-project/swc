@@ -1,4 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Atom;
 use swc_common::{Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
@@ -16,6 +17,24 @@ pub(crate) struct SemanticInfo {
     pub id_type: FxHashSet<Id>,
     pub id_value: FxHashSet<Id>,
     pub exported_binding: FxHashMap<Id, Option<Id>>,
+    /// One shared [`SyntaxContext`] per namespace declaration id.
+    ///
+    /// The resolver binds every exported value member of a merged namespace
+    /// (across all re-opens) with one shared instance mark, so every routed
+    /// member of one namespace carries the same context. The transform uses
+    /// this to recognize refs to members of the namespace instance currently
+    /// being emitted, including forward refs to members declared by a later
+    /// re-open.
+    pub member_ctxt: FxHashMap<Id, SyntaxContext>,
+    /// Per namespace body (keyed by the declaration's span, which is
+    /// unique per re-open even when re-opened declarations share an id):
+    /// the exported member names whose declarations stay local bindings in
+    /// that body's emit (an exported function or class keeps
+    /// `function f() {}` / `class C {}` plus a trailing `N.f = f`
+    /// assignment). A same-body reference to such a member must stay bare
+    /// (the local binding is the one in scope, and function references
+    /// rely on hoisting), while a cross-body reference must be qualified.
+    pub local_member: FxHashMap<Span, FxHashSet<Atom>>,
     pub enum_record: TsEnumRecord,
     pub ambient_enum_record: TsEnumRecord,
     pub const_enum: FxHashSet<Id>,
@@ -61,6 +80,8 @@ pub(crate) fn analyze_program(
         import_chain: Default::default(),
         namespace_block_stack: Default::default(),
         namespace_id: None,
+        namespace_span: None,
+        namespace_parent: Default::default(),
         skip_transform_info: false,
         flow_syntax,
         ts_enum_is_mutable,
@@ -77,6 +98,12 @@ struct SemanticAnalyzer {
     import_chain: FxHashMap<Id, Id>,
     namespace_block_stack: Vec<NamespaceBlock>,
     namespace_id: Option<Id>,
+    /// Span of the namespace declaration whose body is being visited; keys
+    /// [SemanticInfo::local_member] per body.
+    namespace_span: Option<Span>,
+    /// Exported nested namespace declaration id -> enclosing namespace
+    /// body id; drives [Self::propagate_member_ctxt].
+    namespace_parent: FxHashMap<Id, Id>,
     skip_transform_info: bool,
     flow_syntax: bool,
     ts_enum_is_mutable: bool,
@@ -123,6 +150,7 @@ impl NamespaceBlock {
 impl SemanticAnalyzer {
     fn finish(mut self) -> SemanticInfo {
         self.analyze_import_chain();
+        self.propagate_member_ctxt();
         self.info
     }
 
@@ -146,6 +174,70 @@ impl SemanticAnalyzer {
         }
 
         self.info.usage.extend(new_usage);
+    }
+
+    /// Record the shared member context of the current namespace. All routed
+    /// members of one namespace carry the same context, so the first insert
+    /// wins.
+    fn record_member_ctxt(&mut self, ctxt: SyntaxContext) {
+        if let Some(namespace_id) = self.namespace_id.clone() {
+            self.info.member_ctxt.entry(namespace_id).or_insert(ctxt);
+        }
+    }
+
+    /// Record an exported member of the current namespace body whose
+    /// declaration keeps a local binding in the emitted body.
+    fn record_local_member(&mut self, sym: Atom) {
+        if let Some(namespace_span) = self.namespace_span {
+            self.info
+                .local_member
+                .entry(namespace_span)
+                .or_default()
+                .insert(sym);
+        }
+    }
+
+    /// The canonical grouping key of a namespace body id: the chain of
+    /// exported-namespace names from the outermost registered ancestor.
+    /// Re-opened bodies of one merged namespace map to one key: top-level
+    /// (and same-parent private) re-opens share their declaration id, and
+    /// exported nested re-opens under different parent bodies share the
+    /// ancestor chain.
+    fn canonical_namespace_key(&self, id: &Id) -> (Id, Vec<Atom>) {
+        self.namespace_parent
+            .get(id)
+            .map(|parent| {
+                let (root, mut path) = self.canonical_namespace_key(parent);
+                path.push(id.0.clone());
+                (root, path)
+            })
+            .unwrap_or_else(|| (id.clone(), Vec::new()))
+    }
+
+    /// Share the recorded member context across re-opened bodies of one
+    /// merged namespace. A body whose exports are all namespaces records
+    /// no member context itself, and exported nested re-opens under
+    /// different parent bodies have distinct declaration ids: group the
+    /// bodies by canonical key, then fill each unrecorded body from its
+    /// group, so every body arms the cross-body reference rewrite.
+    fn propagate_member_ctxt(&mut self) {
+        let group_ctxt: FxHashMap<(Id, Vec<Atom>), SyntaxContext> = self
+            .info
+            .member_ctxt
+            .iter()
+            .map(|(id, ctxt)| (self.canonical_namespace_key(id), *ctxt))
+            .collect();
+        let filled: Vec<(Id, SyntaxContext)> = self
+            .namespace_parent
+            .keys()
+            .filter(|id| !self.info.member_ctxt.contains_key(*id))
+            .filter_map(|id| {
+                group_ctxt
+                    .get(&self.canonical_namespace_key(id))
+                    .map(|ctxt| (id.clone(), *ctxt))
+            })
+            .collect();
+        self.info.member_ctxt.extend(filled);
     }
 
     fn collect_top_level_module_item(&mut self, item: &ModuleItem) {
@@ -428,6 +520,9 @@ impl Visit for SemanticAnalyzer {
             self.info
                 .exported_binding
                 .insert(node.id.to_id(), self.namespace_id.clone());
+            if !node.is_type_only {
+                self.record_member_ctxt(node.id.ctxt);
+            }
         }
 
         if node.is_type_only {
@@ -470,6 +565,7 @@ impl Visit for SemanticAnalyzer {
         match &node.decl {
             Decl::Var(var_decl) => {
                 let ids: Vec<Id> = find_pat_ids(&var_decl.decls);
+                ids.iter().for_each(|id| self.record_member_ctxt(id.1));
                 self.info.exported_binding.extend(
                     ids.into_iter()
                         .zip(std::iter::repeat(self.namespace_id.clone())),
@@ -479,12 +575,31 @@ impl Visit for SemanticAnalyzer {
                 self.info
                     .exported_binding
                     .insert(ts_enum_decl.id.to_id(), self.namespace_id.clone());
+                self.record_member_ctxt(ts_enum_decl.id.ctxt);
+            }
+            // Exported functions and classes are deliberately absent from
+            // `exported_binding` (their declarations keep local bindings in
+            // the emitted body), but they carry the shared instance context
+            // like every routed value member: record it so bodies whose
+            // exports are only functions/classes still arm the
+            // cross-body-reference rewrite, and record the name as locally
+            // bound so same-body references stay bare.
+            Decl::Fn(fn_decl) => {
+                self.record_member_ctxt(fn_decl.ident.ctxt);
+                self.record_local_member(fn_decl.ident.sym.clone());
+            }
+            Decl::Class(class_decl) => {
+                self.record_member_ctxt(class_decl.ident.ctxt);
+                self.record_local_member(class_decl.ident.sym.clone());
             }
             Decl::TsModule(ts_module_decl) => {
                 if let TsModuleName::Ident(ident) = &ts_module_decl.id {
                     self.info
                         .exported_binding
                         .insert(ident.to_id(), self.namespace_id.clone());
+                    if let Some(parent) = self.namespace_id.clone() {
+                        self.namespace_parent.insert(ident.to_id(), parent);
+                    }
                 }
             }
             _ => {}
@@ -539,10 +654,12 @@ impl Visit for SemanticAnalyzer {
         }
 
         let namespace_id = self.namespace_id.replace(node.id.to_id());
+        let namespace_span = self.namespace_span.replace(node.span);
 
         node.body.visit_with(self);
 
         self.namespace_id = namespace_id;
+        self.namespace_span = namespace_span;
     }
 
     fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
@@ -565,9 +682,11 @@ impl Visit for SemanticAnalyzer {
         };
 
         let namespace_id = self.namespace_id.replace(id);
+        let namespace_span = self.namespace_span.replace(node.span);
 
         body.visit_with(self);
         self.namespace_id = namespace_id;
+        self.namespace_span = namespace_span;
     }
 
     fn visit_ts_module_block(&mut self, node: &TsModuleBlock) {
