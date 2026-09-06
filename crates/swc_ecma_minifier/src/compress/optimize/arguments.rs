@@ -12,6 +12,8 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use super::Optimizer;
 use crate::compress::optimize::is_left_access_to_arguments;
 
+mod mapped;
+
 /// Matches Terser's `index < argnames.length + 5` condition.
 const MAX_INJECTED_PARAMS: usize = 5;
 
@@ -238,11 +240,18 @@ impl VisitMut for ArgReplacer<'_> {
 /// Returns an `arguments` index only when the property key is already in its
 /// canonical non-negative integer spelling.
 fn argument_access_index(expr: &Expr) -> Option<usize> {
-    let Expr::Member(MemberExpr {
+    let Expr::Member(member) = expr else {
+        return None;
+    };
+    argument_member_index(member)
+}
+
+fn argument_member_index(member: &MemberExpr) -> Option<usize> {
+    let MemberExpr {
         obj,
         prop: MemberProp::Computed(computed),
         ..
-    }) = expr
+    } = member
     else {
         return None;
     };

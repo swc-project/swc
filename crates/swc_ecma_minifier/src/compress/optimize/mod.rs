@@ -474,24 +474,29 @@ impl Optimizer<'_> {
             let mut child_ctx = self.ctx.clone();
             let mut directive_count = 0;
 
-            if !stmts.is_empty() {
-                // TODO: Handle multiple directives.
-                if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts[0].as_stmt() {
-                    if let Expr::Lit(Lit::Str(v)) = &**expr {
-                        directive_count += 1;
+            for stmt in stmts
+                .iter()
+                .take_while(|stmt| stmt.as_stmt().is_some_and(Stmt::can_precede_directive))
+            {
+                let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmt.as_stmt() else {
+                    unreachable!("directive statements are expression statements");
+                };
+                let Expr::Lit(Lit::Str(v)) = &**expr else {
+                    unreachable!("directive statements are string literals");
+                };
 
-                        match &v.raw {
-                            Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
-                                child_ctx.expr_ctx.in_strict = true;
-                            }
-                            Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
-                                child_ctx.bit_ctx.insert(BitCtx::InAsm);
-                                self.ctx.bit_ctx.insert(BitCtx::InAsm);
-                                use_asm = true;
-                            }
-                            _ => {}
-                        }
+                directive_count += 1;
+
+                match &v.raw {
+                    Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
+                        child_ctx.expr_ctx.in_strict = true;
                     }
+                    Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
+                        child_ctx.bit_ctx.insert(BitCtx::InAsm);
+                        self.ctx.bit_ctx.insert(BitCtx::InAsm);
+                        use_asm = true;
+                    }
+                    _ => {}
                 }
             }
 
@@ -1761,6 +1766,8 @@ impl VisitMut for Optimizer<'_> {
         self.ignore_unused_args_of_call(e);
         self.inline_args_of_iife(e);
         self.drop_arguments_of_symbol_call(e);
+
+        self.optimize_mapped_arguments_of_iife(e);
 
         // Try to replace static method call with alias (after other transformations)
         if let Callee::Expr(callee) = &mut e.callee {
