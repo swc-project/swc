@@ -16,11 +16,7 @@ use tracing::Level;
 
 use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
-    debug::AssertValid,
-    maybe_par,
-    option::CompressOptions,
-    program_data::{analyze, ProgramData, VarUsageInfoFlags},
-    usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks},
+    debug::AssertValid, maybe_par, option::CompressOptions, usage_analyzer::marks::Marks,
     util::ModuleItemExt,
 };
 
@@ -120,7 +116,7 @@ impl Pure<'_> {
     /// conversion does not rescan every nested function body.
     fn collect_mutated_ids<N>(&mut self, node: &N)
     where
-        N: VisitWith<UsageAnalyzer<ProgramData>>,
+        N: VisitWith<arrows::MutationCollector>,
     {
         if !self.options.unsafe_arrows
             || self.options.ecma < EsVersion::Es2015
@@ -129,17 +125,7 @@ impl Pure<'_> {
             return;
         }
 
-        self.mutated_ids = Arc::new(
-            analyze(node, Some(self.marks), false)
-                .vars
-                .into_iter()
-                .filter_map(|(id, usage)| {
-                    (usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                        || usage.declared_count > 1)
-                        .then_some(id)
-                })
-                .collect(),
-        );
+        self.mutated_ids = Arc::new(arrows::MutationCollector::collect(node));
     }
 
     #[inline(always)]
@@ -468,7 +454,17 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         let old_ctx = self.ctx;
-        if matches!(e.op, op!("==") | op!("!=") | op!("===") | op!("!==")) {
+        if matches!(
+            e.op,
+            op!("==")
+                | op!("!=")
+                | op!("===")
+                | op!("!==")
+                | op!("<")
+                | op!(">")
+                | op!("<=")
+                | op!(">=")
+        ) {
             self.ctx.insert(Ctx::IN_COMPARISON);
         }
         if !Self::is_expr_leaf(&e.left) {

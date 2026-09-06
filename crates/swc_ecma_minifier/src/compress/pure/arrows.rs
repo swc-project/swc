@@ -1,11 +1,85 @@
+use rustc_hash::FxHashSet;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
-use swc_ecma_utils::{contains_arguments, contains_this_expr};
+use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::{ctx::Ctx, Pure, UnsafeArrowStage};
 use crate::compress::util::contains_super;
+
+/// Collects bindings that cannot safely become arrow parameters before the
+/// data-flow optimizer has processed their assignments and redeclarations.
+///
+/// This deliberately records only the information required by arrow
+/// conversion, avoiding a complete
+/// [`ProgramData`](crate::program_data::ProgramData) construction before every
+/// pure-optimizer pass.
+pub(super) struct MutationCollector {
+    declared_ids: FxHashSet<Id>,
+    mutated_ids: FxHashSet<Id>,
+}
+
+impl MutationCollector {
+    pub(super) fn collect<N>(node: &N) -> FxHashSet<Id>
+    where
+        N: VisitWith<Self>,
+    {
+        let mut collector = Self {
+            declared_ids: Default::default(),
+            mutated_ids: Default::default(),
+        };
+        node.visit_with(&mut collector);
+        collector.mutated_ids
+    }
+
+    fn record_declaration(&mut self, id: Id) {
+        if !self.declared_ids.insert(id.clone()) {
+            self.mutated_ids.insert(id);
+        }
+    }
+}
+
+impl Visit for MutationCollector {
+    noop_visit_type!();
+
+    fn visit_binding_ident(&mut self, ident: &BindingIdent) {
+        self.record_declaration(ident.id.to_id());
+    }
+
+    fn visit_assign_expr(&mut self, expr: &AssignExpr) {
+        expr.visit_children_with(self);
+
+        match &expr.left {
+            AssignTarget::Pat(pat) => self.mutated_ids.extend(find_pat_ids(pat)),
+            AssignTarget::Simple(target) => {
+                if let Some(ident) = target.as_ident() {
+                    self.mutated_ids.insert(ident.to_id());
+                }
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        }
+    }
+
+    fn visit_update_expr(&mut self, expr: &UpdateExpr) {
+        expr.visit_children_with(self);
+
+        if let Some(ident) = expr.arg.as_ident() {
+            self.mutated_ids.insert(ident.to_id());
+        }
+    }
+
+    fn visit_fn_decl(&mut self, decl: &FnDecl) {
+        self.record_declaration(decl.ident.to_id());
+        decl.visit_children_with(self);
+    }
+
+    fn visit_class_decl(&mut self, decl: &ClassDecl) {
+        self.record_declaration(decl.ident.to_id());
+        decl.visit_children_with(self);
+    }
+}
 
 /// Finds references to a contextual keyword in a parameter pattern.
 ///
