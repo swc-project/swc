@@ -437,14 +437,19 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
-        // Arrows inherit async grammar context from their enclosing scope.
-        // Ordinary functions nested inside must see it before they can safely
-        // be converted to arrows themselves.
-        if e.is_async {
-            self.do_inside_of_context(Ctx::IN_ASYNC, |this| e.visit_mut_children_with(this));
-        } else {
-            e.visit_mut_children_with(self);
-        }
+        // Arrow parameters inherit their enclosing async and generator grammar
+        // context, but the body introduces a new grammar context. An async arrow
+        // re-enables only its own async context for its body.
+        e.params.visit_mut_children_with(self);
+        self.do_outside_of_context(Ctx::IN_ASYNC | Ctx::IN_GENERATOR, |this| {
+            if e.is_async {
+                this.do_inside_of_context(Ctx::IN_ASYNC, |this| {
+                    e.body.visit_mut_with(this);
+                });
+            } else {
+                e.body.visit_mut_with(this);
+            }
+        });
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {

@@ -21,8 +21,16 @@ async function asynchronousDefault() {
 const asyncArrow = async ()=>function(await1) {
         return ++await1;
     };
+function* generatorArrowBody() {
+    return ()=>(yield1)=>++yield1;
+}
+async function asyncArrowBody() {
+    return ()=>(await1)=>++await1;
+}
 console.log(generator().next().value(0)), asynchronous().then((fn)=>{
     console.log(fn(0));
 }), asyncArrow().then((fn)=>{
     console.log(fn(0));
+}), console.log(generatorArrowBody().next().value()(0)), asyncArrowBody().then((fn)=>{
+    console.log(fn()(0));
 });
