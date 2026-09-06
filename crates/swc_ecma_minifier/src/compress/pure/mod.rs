@@ -568,8 +568,7 @@ impl VisitMut for Pure<'_> {
             match e {
                 Expr::Cond(e) => self.visit_mut_cond_expr(e),
                 Expr::Bin(e) if matches!(e.op, op!("==") | op!("!=") | op!("===") | op!("!==")) => {
-                    self.visit_mut_expr(&mut e.left);
-                    self.visit_mut_expr(&mut e.right);
+                    self.visit_mut_bin_expr(e);
                 }
                 Expr::Bin(e) if matches!(e.op, op!("&&") | op!("||") | op!("??")) => {
                     self.visit_mut_expr(&mut e.left);
