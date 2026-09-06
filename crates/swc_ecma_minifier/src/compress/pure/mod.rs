@@ -549,15 +549,6 @@ impl VisitMut for Pure<'_> {
         }
 
         let old_ctx = self.ctx;
-        if matches!(
-            e,
-            Expr::Bin(BinExpr {
-                op: op!("==") | op!("!=") | op!("===") | op!("!=="),
-                ..
-            })
-        ) {
-            self.ctx.insert(Ctx::IN_COMPARISON);
-        }
 
         self.handle_known_delete(e);
 
@@ -582,6 +573,11 @@ impl VisitMut for Pure<'_> {
         } else {
             e.visit_mut_children_with(self);
         }
+
+        // The comparison context only applies while traversing value paths.
+        // Do not keep it active while simplifying the comparison itself, as
+        // that changes the evaluation rules for unrelated nested expressions.
+        self.ctx = old_ctx;
 
         // Expression simplifier
         match e {
