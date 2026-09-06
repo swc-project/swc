@@ -120,6 +120,10 @@ impl Pure<'_> {
     where
         N: VisitWith<UsageAnalyzer<ProgramData>>,
     {
+        if !self.options.unsafe_arrows || self.options.ecma < EsVersion::Es2015 {
+            return;
+        }
+
         self.mutated_ids = analyze(node, Some(self.marks), false)
             .vars
             .into_iter()
@@ -538,7 +542,12 @@ impl VisitMut for Pure<'_> {
 
         self.handle_known_delete(e);
 
-        e.visit_mut_children_with(self);
+        // A comparison only constrains simplifying its direct operands. Nested
+        // expressions cannot make the comparison itself fold, so let them use
+        // their normal evaluation rules.
+        self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+            e.visit_mut_children_with(this);
+        });
 
         // Expression simplifier
         match e {
