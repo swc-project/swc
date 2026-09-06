@@ -47,6 +47,7 @@ mod iife;
 mod inline;
 mod loops;
 mod ops;
+mod property_assignments;
 mod props;
 mod rest_params;
 mod sequences;
@@ -941,6 +942,17 @@ impl Optimizer<'_> {
                 if right.is_invalid() {
                     return None;
                 }
+            }
+
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left: AssignTarget::Simple(SimpleAssignTarget::Member(member)),
+                right,
+                ..
+            }) if self.can_drop_property_assignment(member) => {
+                self.changed = true;
+                report_change!("side_effects: Dropping a property write to a fresh object");
+                return self.ignore_return_value(right);
             }
 
             Expr::Assign(AssignExpr {
