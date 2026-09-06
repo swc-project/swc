@@ -27,6 +27,7 @@ where
         data,
         marks,
         scope: Default::default(),
+        lexical_loop_scope_ctxts: Default::default(),
         ctx: Default::default(),
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty()
@@ -76,6 +77,12 @@ where
     data: S,
     marks: Option<Marks>,
     scope: S::ScopeData,
+    /// Lexical loop scopes visible from the current traversal position.
+    ///
+    /// Direct eval can assign a loop binding without producing a normal
+    /// assignment record, so its scope data must be available to consumers
+    /// that reason about that binding.
+    lexical_loop_scope_ctxts: Vec<SyntaxContext>,
     ctx: Ctx,
     expr_ctx: ExprCtx,
     used_recursively: FxHashMap<Id, RecursiveUsage>,
@@ -100,9 +107,13 @@ where
         let mut child = UsageAnalyzer {
             data: child_data,
             marks: self.marks,
-            ctx: self.ctx.with(BitContext::IsTopLevel, false),
+            ctx: self.ctx.with(BitContext::IsTopLevel, false).with(
+                BitContext::IsGlobalVarScope,
+                matches!(kind, ScopeKind::Block) && self.ctx.is_global_var_scope(),
+            ),
             expr_ctx: self.expr_ctx,
             scope: S::ScopeData::new(kind),
+            lexical_loop_scope_ctxts: self.lexical_loop_scope_ctxts.clone(),
             used_recursively,
         };
 
@@ -118,6 +129,37 @@ where
         self.used_recursively = child.used_recursively;
 
         ret
+    }
+
+    /// Visits `op` while recording direct eval calls against a lexical loop
+    /// scope.
+    fn with_lexical_loop_scope<F, Ret>(&mut self, ctxt: SyntaxContext, op: F) -> Ret
+    where
+        F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
+    {
+        self.lexical_loop_scope_ctxts.push(ctxt);
+        let ret = op(self);
+        self.lexical_loop_scope_ctxts.pop();
+        ret
+    }
+
+    fn lexical_scope_ctxt_of_var_decl(n: &VarDecl) -> Option<SyntaxContext> {
+        if !matches!(n.kind, VarDeclKind::Let | VarDeclKind::Const) {
+            return None;
+        }
+
+        n.decls
+            .iter()
+            .flat_map(|decl| find_pat_ids::<_, Id>(&decl.name))
+            .next()
+            .map(|(_, ctxt)| ctxt)
+    }
+
+    fn lexical_scope_ctxt_of_for_head(n: &ForHead) -> Option<SyntaxContext> {
+        match n {
+            ForHead::VarDecl(decl) => Self::lexical_scope_ctxt_of_var_decl(decl),
+            _ => None,
+        }
     }
 
     fn visit_pat_id(&mut self, i: &Ident) {
@@ -206,6 +248,12 @@ where
 
         if is_fn_decl {
             v.mark_declared_as_fn_decl();
+        }
+
+        if self.ctx.is_global_var_scope()
+            && (matches!(kind, Some(VarDeclKind::Var)) || (is_fn_decl && !self.ctx.in_strict()))
+        {
+            v.mark_declared_in_global_var_scope();
         }
 
         v
@@ -301,6 +349,75 @@ where
         };
 
         self.data.var_or_default(id).store_param_count(arity);
+    }
+
+    /// Records usage for the loop after entering its lexical scope, if it has
+    /// one.
+    fn visit_for_stmt_contents(&mut self, n: &ForStmt) {
+        n.init.visit_with(self);
+
+        if let Some(VarDeclOrExpr::VarDecl(decl)) = &n.init {
+            if matches!(decl.kind, VarDeclKind::Let | VarDeclKind::Const) {
+                for decl in &decl.decls {
+                    for (sym, ctxt) in find_pat_ids::<_, Id>(&decl.name) {
+                        self.data
+                            .var_or_default((sym, ctxt))
+                            .mark_declared_as_for_init();
+                    }
+                }
+            }
+        }
+
+        let ctx = self
+            .ctx
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
+
+        self.with_ctx(ctx).visit_in_cond(&n.test);
+        self.with_ctx(ctx).visit_in_cond(&n.update);
+        self.with_ctx(ctx).visit_in_cond(&n.body);
+    }
+
+    fn visit_for_in_stmt_contents(&mut self, n: &ForInStmt) {
+        let head_ctx = self
+            .ctx
+            .with(BitContext::InLeftOfForLoop, true)
+            .with(BitContext::IsIdRef, true)
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
+        n.left.visit_with(&mut *self.with_ctx(head_ctx));
+
+        n.right.visit_with(self);
+
+        if let ForHead::Pat(pat) = &n.left {
+            self.with_ctx(head_ctx).report_assign_pat(pat, true)
+        }
+
+        let ctx = self
+            .ctx
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
+        self.with_ctx(ctx).visit_in_cond(&n.body);
+    }
+
+    fn visit_for_of_stmt_contents(&mut self, n: &ForOfStmt) {
+        let head_ctx = self
+            .ctx
+            .with(BitContext::InLeftOfForLoop, true)
+            .with(BitContext::IsIdRef, true)
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
+        n.left.visit_with(&mut *self.with_ctx(head_ctx));
+
+        if let ForHead::Pat(pat) = &n.left {
+            self.with_ctx(head_ctx).report_assign_pat(pat, true)
+        }
+
+        let ctx = self
+            .ctx
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
+        self.with_ctx(ctx).visit_in_cond(&n.body);
     }
 }
 
@@ -603,6 +720,13 @@ where
             match &**callee {
                 Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
                     self.scope.mark_eval_called();
+
+                    // A direct eval nested in a loop can rebind its lexical declarations. The
+                    // loop itself is not an analyzer child because doing so loses optimization
+                    // facts for function-scoped variables used in its body.
+                    for ctxt in self.lexical_loop_scope_ctxts.clone() {
+                        self.data.scope(ctxt).mark_eval_called();
+                    }
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
                     for_each_id_ref_in_expr(&m.obj, &mut |id| {
@@ -673,7 +797,8 @@ where
     )]
     fn visit_class_expr(&mut self, n: &ClassExpr) {
         if let Some(id) = &n.ident {
-            self.declare_decl(id, Some(Value::Unknown), None, false);
+            self.declare_decl(id, Some(Value::Unknown), None, false)
+                .mark_declared_as_class_expr();
 
             let id = id.to_id();
             self.used_recursively
@@ -981,28 +1106,15 @@ where
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.right.visit_with(self);
 
-        self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
-            let head_ctx = child
-                .ctx
-                .with(BitContext::InLeftOfForLoop, true)
-                .with(BitContext::IsIdRef, true)
-                .with(BitContext::ExecutedMultipleTime, true)
-                .with(BitContext::InCond, true);
-            n.left.visit_with(&mut *child.with_ctx(head_ctx));
-
-            n.right.visit_with(child);
-
-            if let ForHead::Pat(pat) = &n.left {
-                child.with_ctx(head_ctx).report_assign_pat(pat, true)
-            }
-
-            let ctx = child
-                .ctx
-                .with(BitContext::ExecutedMultipleTime, true)
-                .with(BitContext::InCond, true);
-
-            child.with_ctx(ctx).visit_in_cond(&n.body);
-        });
+        if let Some(ctxt) = Self::lexical_scope_ctxt_of_for_head(&n.left) {
+            self.with_lexical_loop_scope(ctxt, |analyzer| {
+                analyzer.visit_for_in_stmt_contents(n);
+            });
+        } else {
+            self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
+                child.visit_for_in_stmt_contents(n);
+            });
+        }
     }
 
     #[cfg_attr(
@@ -1012,25 +1124,15 @@ where
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.right.visit_with(self);
 
-        self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
-            let head_ctx = child
-                .ctx
-                .with(BitContext::InLeftOfForLoop, true)
-                .with(BitContext::IsIdRef, true)
-                .with(BitContext::ExecutedMultipleTime, true)
-                .with(BitContext::InCond, true);
-            n.left.visit_with(&mut *child.with_ctx(head_ctx));
-
-            if let ForHead::Pat(pat) = &n.left {
-                child.with_ctx(head_ctx).report_assign_pat(pat, true)
-            }
-
-            let ctx = child
-                .ctx
-                .with(BitContext::ExecutedMultipleTime, true)
-                .with(BitContext::InCond, true);
-            child.with_ctx(ctx).visit_in_cond(&n.body);
-        });
+        if let Some(ctxt) = Self::lexical_scope_ctxt_of_for_head(&n.left) {
+            self.with_lexical_loop_scope(ctxt, |analyzer| {
+                analyzer.visit_for_of_stmt_contents(n);
+            });
+        } else {
+            self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
+                child.visit_for_of_stmt_contents(n);
+            });
+        }
     }
 
     #[cfg_attr(
@@ -1038,16 +1140,18 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_for_stmt(&mut self, n: &ForStmt) {
-        n.init.visit_with(self);
+        let lexical_scope_ctxt = n.init.as_ref().and_then(|init| match init {
+            VarDeclOrExpr::VarDecl(decl) => Self::lexical_scope_ctxt_of_var_decl(decl),
+            _ => None,
+        });
 
-        let ctx = self
-            .ctx
-            .with(BitContext::ExecutedMultipleTime, true)
-            .with(BitContext::InCond, true);
-
-        self.with_ctx(ctx).visit_in_cond(&n.test);
-        self.with_ctx(ctx).visit_in_cond(&n.update);
-        self.with_ctx(ctx).visit_in_cond(&n.body);
+        if let Some(ctxt) = lexical_scope_ctxt {
+            self.with_lexical_loop_scope(ctxt, |analyzer| {
+                analyzer.visit_for_stmt_contents(n);
+            });
+        } else {
+            self.visit_for_stmt_contents(n);
+        }
     }
 
     #[cfg_attr(
@@ -1080,15 +1184,18 @@ where
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
-        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false)
+            .mark_as_imported();
     }
 
     fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier) {
-        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false)
+            .mark_as_imported();
     }
 
     fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
-        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false)
+            .mark_as_imported();
     }
 
     #[cfg_attr(
@@ -1325,7 +1432,38 @@ where
     }
 
     fn visit_script(&mut self, n: &Script) {
-        let ctx = self.ctx.with(BitContext::IsTopLevel, true);
+        let in_strict = n
+            .body
+            .iter()
+            .take_while(|stmt| {
+                matches!(
+                    stmt,
+                    Stmt::Expr(ExprStmt {
+                        expr,
+                        ..
+                    }) if matches!(&**expr, Expr::Lit(Lit::Str(_)))
+                )
+            })
+            .any(|stmt| {
+                matches!(
+                    stmt,
+                    Stmt::Expr(ExprStmt {
+                        expr,
+                        ..
+                    }) if matches!(
+                        &**expr,
+                        Expr::Lit(Lit::Str(Str {
+                            raw: Some(raw),
+                            ..
+                        })) if raw == "\"use strict\"" || raw == "'use strict'"
+                    )
+                )
+            });
+        let ctx = self
+            .ctx
+            .with(BitContext::IsTopLevel, true)
+            .with(BitContext::IsGlobalVarScope, true)
+            .with(BitContext::InStrict, in_strict);
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 

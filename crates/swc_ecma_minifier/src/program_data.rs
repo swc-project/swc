@@ -90,6 +90,14 @@ bitflags::bitflags! {
 
         /// The variable is declared without initializer.
         const LAZY_INIT                 = 1 << 25;
+        /// The variable is a live binding imported from another module.
+        const IMPORTED                  = 1 << 26;
+        /// The binding is backed by the script's global variable environment.
+        /// This includes `var` and sloppy Annex B function declarations in
+        /// nested top-level blocks.
+        const IS_GLOBAL_VAR             = 1 << 27;
+        /// The variable is the immutable self binding of a named class expression.
+        const DECLARED_AS_CLASS_EXPR    = 1 << 28;
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -295,6 +303,8 @@ impl Storage for ProgramData {
                     *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::IMPORTED;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::IS_GLOBAL_VAR;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_PARAM;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
@@ -640,8 +650,16 @@ impl VarDataLike for VarUsageInfo {
         self.flags.insert(VarUsageInfoFlags::DECLARED_AS_FN_EXPR);
     }
 
+    fn mark_declared_as_class_expr(&mut self) {
+        self.flags.insert(VarUsageInfoFlags::DECLARED_AS_CLASS_EXPR);
+    }
+
     fn mark_declared_as_for_init(&mut self) {
         self.flags.insert(VarUsageInfoFlags::DECLARED_AS_FOR_INIT);
+    }
+
+    fn mark_declared_in_global_var_scope(&mut self) {
+        self.flags.insert(VarUsageInfoFlags::IS_GLOBAL_VAR);
     }
 
     fn mark_has_property_access(&mut self) {
@@ -680,6 +698,10 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_as_exported(&mut self) {
         self.flags.insert(VarUsageInfoFlags::EXPORTED);
+    }
+
+    fn mark_as_imported(&mut self) {
+        self.flags.insert(VarUsageInfoFlags::IMPORTED);
     }
 
     fn mark_initialized_with_safe_value(&mut self) {
