@@ -17,6 +17,7 @@ use crate::{
     util::ModuleItemExt,
 };
 
+mod array_join;
 mod arrows;
 mod bools;
 mod conds;
