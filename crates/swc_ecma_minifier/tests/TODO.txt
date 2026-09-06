@@ -12,7 +12,6 @@ async/async_inline/input.js
 class_properties/class_expression_constant/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 class_properties/static_means_execution/input.js
-collapse_vars/cascade_statement/input.js
 collapse_vars/chained_1/input.js
 collapse_vars/chained_2/input.js
 collapse_vars/chained_3/input.js
