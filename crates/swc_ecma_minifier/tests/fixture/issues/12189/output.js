@@ -1,0 +1,1 @@
+console.log(delete (console.log("binary") + 1)), console.log(delete !console.log("unary")), console.log(delete (console.log("conditional") ? 1 : 2)), console.log(delete console.log("call")), console.log(!0), console.log(!0), console.log(!0), console.log(!1, !1, !1);
