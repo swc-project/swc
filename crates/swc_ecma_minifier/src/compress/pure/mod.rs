@@ -518,7 +518,15 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
-        e.visit_mut_children_with(self);
+        if self.ctx.contains(Ctx::IN_COMPARISON) {
+            self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+                e.test.visit_mut_with(this);
+            });
+            self.visit_mut_expr(&mut e.cons);
+            self.visit_mut_expr(&mut e.alt);
+        } else {
+            e.visit_mut_children_with(self);
+        }
 
         self.optimize_expr_in_bool_ctx(&mut e.test, false);
     }
@@ -540,14 +548,41 @@ impl VisitMut for Pure<'_> {
             return;
         }
 
+        let old_ctx = self.ctx;
+        if matches!(
+            e,
+            Expr::Bin(BinExpr {
+                op: op!("==") | op!("!=") | op!("===") | op!("!=="),
+                ..
+            })
+        ) {
+            self.ctx.insert(Ctx::IN_COMPARISON);
+        }
+
         self.handle_known_delete(e);
 
-        // A comparison only constrains simplifying its direct operands. Nested
-        // expressions cannot make the comparison itself fold, so let them use
-        // their normal evaluation rules.
-        self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
-            e.visit_mut_children_with(this);
-        });
+        // A comparison constrains expressions that determine either operand's
+        // value. Other descendants cannot make the comparison fold, so visit
+        // them with the normal evaluation rules.
+        if self.ctx.contains(Ctx::IN_COMPARISON) {
+            match e {
+                Expr::Cond(e) => self.visit_mut_cond_expr(e),
+                Expr::Bin(e) if matches!(e.op, op!("==") | op!("!=") | op!("===") | op!("!==")) => {
+                    self.visit_mut_expr(&mut e.left);
+                    self.visit_mut_expr(&mut e.right);
+                }
+                Expr::Bin(e) if matches!(e.op, op!("&&") | op!("||") | op!("??")) => {
+                    self.visit_mut_expr(&mut e.left);
+                    self.visit_mut_expr(&mut e.right);
+                }
+                Expr::Seq(e) => self.visit_mut_seq_expr(e),
+                _ => self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+                    e.visit_mut_children_with(this);
+                }),
+            }
+        } else {
+            e.visit_mut_children_with(self);
+        }
 
         // Expression simplifier
         match e {
@@ -602,7 +637,10 @@ impl VisitMut for Pure<'_> {
                 *e = *seq.exprs.pop().unwrap();
             }
             Expr::Seq(..) => {}
-            Expr::Invalid(..) | Expr::Lit(..) => return,
+            Expr::Invalid(..) | Expr::Lit(..) => {
+                self.ctx = old_ctx;
+                return;
+            }
 
             _ => {}
         }
@@ -631,6 +669,7 @@ impl VisitMut for Pure<'_> {
                     );
                     if arg.is_invalid() {
                         *e = *Expr::undefined(*span);
+                        self.ctx = old_ctx;
                         return;
                     }
                 }
@@ -679,6 +718,7 @@ impl VisitMut for Pure<'_> {
                 if let Expr::Seq(seq) = e {
                     if seq.exprs.is_empty() {
                         *e = Invalid { span: DUMMY_SP }.into();
+                        self.ctx = old_ctx;
                         return;
                     }
                     if seq.exprs.len() == 1 {
@@ -956,6 +996,8 @@ impl VisitMut for Pure<'_> {
         ) {
             self.optimize_to_int(e);
         }
+
+        self.ctx = old_ctx;
     }
 
     fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
@@ -1310,7 +1352,18 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
-        e.exprs.visit_mut_with(self);
+        if self.ctx.contains(Ctx::IN_COMPARISON) {
+            if let Some((last, prefix)) = e.exprs.split_last_mut() {
+                self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+                    for expr in prefix {
+                        expr.visit_mut_with(this);
+                    }
+                });
+                self.visit_mut_expr(last);
+            }
+        } else {
+            e.exprs.visit_mut_with(self);
+        }
 
         self.shift_void(e);
 
