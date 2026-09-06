@@ -26,6 +26,61 @@ pub(super) fn has_use_strict_directive(f: &Function) -> bool {
     })
 }
 
+fn is_direct_eval_callee(callee: &Callee) -> bool {
+    let mut expr = match callee {
+        Callee::Expr(expr) => &**expr,
+        _ => return false,
+    };
+
+    while let Expr::Paren(ParenExpr { expr: inner, .. }) = expr {
+        expr = inner;
+    }
+
+    matches!(expr, Expr::Ident(ident) if ident.sym == "eval")
+}
+
+/// Returns true if a direct eval can read the rest binding.
+fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
+    struct Finder<'a> {
+        rest_id: &'a Id,
+        found: bool,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_function(&mut self, _: &Function) {}
+
+        fn visit_constructor(&mut self, _: &Constructor) {}
+
+        fn visit_call_expr(&mut self, call: &CallExpr) {
+            if self.found {
+                return;
+            }
+
+            if is_direct_eval_callee(&call.callee) {
+                match call.args.first() {
+                    Some(ExprOrSpread { spread: None, expr }) => match &**expr {
+                        Expr::Lit(Lit::Str(Str { value, .. })) => {
+                            self.found = value.to_string_lossy().contains(self.rest_id.0.as_ref());
+                        }
+                        _ => self.found = true,
+                    },
+                    _ => self.found = true,
+                }
+                return;
+            }
+
+            call.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder {
+        rest_id,
+        found: false,
+    };
+    f.body.visit_with(&mut finder);
+    finder.found
+}
+
 /// Returns true if a function body reads its implicit `arguments` object.
 ///
 /// A lexical `arguments` declaration has a distinct syntax context, while a
@@ -35,19 +90,6 @@ pub(super) fn has_use_strict_directive(f: &Function) -> bool {
 /// property; minification assumes code does not use that property to observe
 /// the active arguments object.
 fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
-    fn is_direct_eval_callee(callee: &Callee) -> bool {
-        let mut expr = match callee {
-            Callee::Expr(expr) => &**expr,
-            _ => return false,
-        };
-
-        while let Expr::Paren(ParenExpr { expr: inner, .. }) = expr {
-            expr = inner;
-        }
-
-        matches!(expr, Expr::Ident(ident) if ident.sym == "eval")
-    }
-
     struct ArrowVarFinder {
         ids: Vec<Id>,
     }
@@ -481,11 +523,13 @@ impl Optimizer<'_> {
 
         if let Some(usage) = self.data.vars.get(&rest_id) {
             // Preserve the rest parameter only if removing it can change an
-            // `arguments` binding or change an arguments object from unmapped to mapped.
+            // `arguments` binding, change an arguments object from unmapped to mapped,
+            // or make a binding unavailable to direct eval.
             if usage.ref_count == 0 && (!can_change_arguments || !uses_arguments) {
                 if let Some(scope) = self.data.get_scope(f.ctxt) {
                     let has_relevant_dynamic_scope = scope.contains(ScopeData::HAS_WITH_STMT)
-                        || (scope.contains(ScopeData::HAS_EVAL_CALL) && uses_arguments);
+                        || (scope.contains(ScopeData::HAS_EVAL_CALL)
+                            && uses_rest_in_direct_eval(f, &rest_id));
                     if has_relevant_dynamic_scope {
                         return;
                     }
