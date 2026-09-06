@@ -7,10 +7,11 @@ use swc_ecma_utils::{
     number::{parse_canonical_index, ToJsString},
     private_ident,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use super::Optimizer;
-use crate::compress::optimize::is_left_access_to_arguments;
 
 /// Matches Terser's `index < argnames.length + 5` condition.
 const MAX_INJECTED_PARAMS: usize = 5;
@@ -123,10 +124,13 @@ impl Optimizer<'_> {
             changed: false,
             keep_fargs: self.options.keep_fargs,
             prevent: false,
+            loop_mutations: find_loop_arguments_mutations(&f.body),
+            loop_index: 0,
         };
 
         // Visit the body twice to keep parameter injection local to each access.
         f.body.visit_mut_children_with(&mut v);
+        v.reset_loop_index();
         f.body.visit_mut_children_with(&mut v);
 
         self.changed |= v.changed;
@@ -138,9 +142,11 @@ struct ArgReplacer<'a> {
     changed: bool,
     keep_fargs: bool,
     prevent: bool,
+    loop_mutations: Vec<bool>,
+    loop_index: usize,
 }
 
-impl ArgReplacer<'_> {
+impl<'a> ArgReplacer<'a> {
     /// Materializes only a bounded number of missing parameters.
     fn inject_params_if_within_limit(&mut self, idx: usize) {
         if idx < self.params.len() || self.keep_fargs {
@@ -171,6 +177,38 @@ impl ArgReplacer<'_> {
             .take(new_args),
         )
     }
+
+    fn reset_loop_index(&mut self) {
+        self.loop_index = 0;
+    }
+
+    /// Disables replacements before visiting a loop which mutates `arguments`.
+    ///
+    /// A loop can read an `arguments` property before mutating it. Replacing
+    /// the read with a parameter would then use the stale parameter value
+    /// on a later iteration, so the whole loop must be preserved before its
+    /// first visit.
+    fn visit_mut_loop<N>(&mut self, n: &mut N)
+    where
+        N: VisitMutWith<Self>,
+    {
+        let contains_mutation = self
+            .loop_mutations
+            .get(self.loop_index)
+            .copied()
+            .unwrap_or(true);
+        self.loop_index += 1;
+
+        if self.prevent {
+            return;
+        }
+
+        if contains_mutation {
+            self.prevent = true;
+        }
+
+        n.visit_mut_children_with(self);
+    }
 }
 
 impl VisitMut for ArgReplacer<'_> {
@@ -182,9 +220,50 @@ impl VisitMut for ArgReplacer<'_> {
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);
 
-        if is_left_access_to_arguments(&n.left) {
+        if is_left_access_to_arguments_element(&n.left) {
             self.prevent = true;
         }
+    }
+
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        self.visit_mut_loop(n);
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        self.visit_mut_loop(n);
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        self.visit_mut_loop(n);
+    }
+
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        self.visit_mut_loop(n);
+    }
+
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if n.op != op!("delete") || !is_arguments_element_access(&n.arg) {
+            n.visit_mut_children_with(self);
+            return;
+        }
+
+        // Visit the member expression's children without passing the deleted
+        // access through `visit_mut_expr`, which would replace it with a
+        // parameter binding.
+        n.arg.visit_mut_children_with(self);
+        self.prevent = true;
+    }
+
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        if !is_arguments_element_access(&n.arg) {
+            n.visit_mut_children_with(self);
+            return;
+        }
+
+        // An update mutates the arguments object, so preserve its direct
+        // member access and stop substituting subsequent arguments accesses.
+        n.arg.visit_mut_children_with(self);
+        self.prevent = true;
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -232,6 +311,161 @@ impl VisitMut for ArgReplacer<'_> {
         if let SuperProp::Computed(c) = &mut n.prop {
             c.visit_mut_with(self);
         }
+    }
+
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        self.visit_mut_loop(n);
+    }
+}
+
+/// Finds whether each loop mutates an indexed property of the current
+/// function's `arguments` object.
+#[derive(Default)]
+struct ArgumentsMutationFinder {
+    loops: Vec<LoopMutation>,
+    loop_stack: Vec<usize>,
+}
+
+#[derive(Default)]
+struct LoopMutation {
+    parent: Option<usize>,
+    contains_mutation: bool,
+}
+
+impl ArgumentsMutationFinder {
+    fn visit_loop<N>(&mut self, n: &N)
+    where
+        N: VisitWith<Self>,
+    {
+        let index = self.loops.len();
+        self.loops.push(LoopMutation {
+            parent: self.loop_stack.last().copied(),
+            contains_mutation: false,
+        });
+        self.loop_stack.push(index);
+        n.visit_children_with(self);
+        self.loop_stack.pop();
+    }
+
+    fn record_mutation(&mut self) {
+        if let Some(&index) = self.loop_stack.last() {
+            self.loops[index].contains_mutation = true;
+        }
+    }
+
+    fn finish(mut self) -> Vec<bool> {
+        for index in (0..self.loops.len()).rev() {
+            if self.loops[index].contains_mutation {
+                if let Some(parent) = self.loops[index].parent {
+                    self.loops[parent].contains_mutation = true;
+                }
+            }
+        }
+
+        self.loops
+            .into_iter()
+            .map(|loop_mutation| loop_mutation.contains_mutation)
+            .collect()
+    }
+}
+
+impl Visit for ArgumentsMutationFinder {
+    noop_visit_type!(fail);
+
+    /// Nested functions own a distinct `arguments` object.
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if is_left_access_to_arguments_element(&n.left) {
+            self.record_mutation();
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_unary_expr(&mut self, n: &UnaryExpr) {
+        if n.op == op!("delete") && is_arguments_element_access(&n.arg) {
+            self.record_mutation();
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
+        if is_arguments_element_access(&n.arg) {
+            self.record_mutation();
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
+        self.visit_loop(n);
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        self.visit_loop(n);
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        self.visit_loop(n);
+    }
+
+    fn visit_for_stmt(&mut self, n: &ForStmt) {
+        self.visit_loop(n);
+    }
+
+    fn visit_while_stmt(&mut self, n: &WhileStmt) {
+        self.visit_loop(n);
+    }
+}
+
+fn find_loop_arguments_mutations(n: &impl VisitWith<ArgumentsMutationFinder>) -> Vec<bool> {
+    let mut finder = ArgumentsMutationFinder::default();
+    n.visit_with(&mut finder);
+    finder.finish()
+}
+
+/// Returns true if `expr` accesses an `arguments` property that may be an
+/// indexed argument binding.
+fn is_arguments_element_access(expr: &Expr) -> bool {
+    let Expr::Member(member) = expr else {
+        return false;
+    };
+
+    is_arguments_element_member(member)
+}
+
+fn is_left_access_to_arguments_element(target: &AssignTarget) -> bool {
+    let AssignTarget::Simple(SimpleAssignTarget::Member(member)) = target else {
+        return false;
+    };
+
+    is_arguments_element_member(member)
+}
+
+fn is_arguments_element_member(member: &MemberExpr) -> bool {
+    if !matches!(&*member.obj, Expr::Ident(Ident { sym, .. }) if &**sym == "arguments") {
+        return false;
+    }
+
+    match &member.prop {
+        // Assigning to `__proto__` can expose inherited indexed values, so
+        // subsequent `arguments[index]` reads must remain intact.
+        MemberProp::Ident(ident) => &*ident.sym == "__proto__",
+        MemberProp::Computed(computed) => match &*computed.expr {
+            Expr::Lit(Lit::Str(string)) if string.value.as_str() == Some("__proto__") => true,
+            Expr::Lit(Lit::Str(..) | Lit::Num(..)) => {
+                argument_access_index(&Expr::Member(member.clone())).is_some()
+            }
+            _ => true,
+        },
+        MemberProp::PrivateName(..) => false,
     }
 }
 
