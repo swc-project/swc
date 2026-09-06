@@ -5,6 +5,8 @@ function single(value) {
         [value].join("-"),
         [value].join(null),
         [value].join(void 0),
+        [value = null].join(),
+        [value = void 0].join(),
         [value + "x"].join(),
         [value + value].join(),
     ].join("|");

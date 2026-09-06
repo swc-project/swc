@@ -5,6 +5,12 @@ function single(value) {
         "" + value,
         "" + value,
         "" + value,
+        [
+            value = null
+        ].join(),
+        [
+            value = void 0
+        ].join(),
         value + "x",
         "" + (value + value)
     ].join("|");

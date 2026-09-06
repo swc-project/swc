@@ -95,6 +95,11 @@ fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         Expr::Cond(CondExpr { cons, alt, .. }) => {
             eval_to_nullish(expr_ctx, cons) && eval_to_nullish(expr_ctx, alt)
         }
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => eval_to_nullish(expr_ctx, right),
         Expr::Lit(Lit::Null(..)) => true,
         _ => eval_to_undefined(expr_ctx, expr),
     }
