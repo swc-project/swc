@@ -482,7 +482,10 @@ impl Optimizer<'_> {
         {
             let mut child_ctx = self.ctx.clone();
             let mut directive_count = 0;
-            let mut directive_contexts = None;
+            // Directives only need a separate context after a preceding directive
+            // changed it. Keep those transitions sparse so inert directive prologues
+            // can reuse the parent context without allocating or cloning `Ctx`.
+            let mut directive_contexts = Vec::new();
 
             if has_directive_prologue {
                 for stmt in stmts.iter() {
@@ -495,26 +498,22 @@ impl Optimizer<'_> {
 
                     directive_count += 1;
 
-                    // Each directive after the first observes the context established
-                    // by its predecessors. The first uses the parent context directly,
-                    // so avoid allocating or cloning a context for a lone directive.
-                    if directive_count > 1 {
-                        directive_contexts
-                            .get_or_insert_with(Vec::new)
-                            .push(child_ctx.clone());
-                    }
-
                     match &v.raw {
                         Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
-                            child_ctx.expr_ctx.in_strict = true;
+                            if !child_ctx.expr_ctx.in_strict {
+                                child_ctx.expr_ctx.in_strict = true;
+                                directive_contexts.push((directive_count, child_ctx.clone()));
+                            }
                         }
                         Some(value)
                             if is_function_body
                                 && (value == "\"use asm\"" || value == "'use asm'") =>
                         {
-                            child_ctx.bit_ctx.insert(BitCtx::InAsm);
-                            self.ctx.bit_ctx.insert(BitCtx::InAsm);
-                            use_asm = true;
+                            if !child_ctx.bit_ctx.contains(BitCtx::InAsm) {
+                                child_ctx.bit_ctx.insert(BitCtx::InAsm);
+                                directive_contexts.push((directive_count, child_ctx.clone()));
+                                use_asm = true;
+                            }
                         }
                         _ => {}
                     }
@@ -526,13 +525,16 @@ impl Optimizer<'_> {
                 // debug_assert_eq!(self.prepend_stmts, Vec::new());
                 // debug_assert_eq!(self.append_stmts, Vec::new());
 
-                if i == 0 && i < directive_count {
-                    // Don't set in_strict for the first directive itself.
-                    stmt.visit_mut_with(self);
-                } else if i < directive_count {
-                    let directive_optimizer =
-                        &mut *self.with_ctx(directive_contexts.as_ref().unwrap()[i - 1].clone());
-                    stmt.visit_mut_with(directive_optimizer);
+                if i < directive_count {
+                    if let Some((_, ctx)) = directive_contexts
+                        .iter()
+                        .rev()
+                        .find(|(start, _)| *start <= i)
+                    {
+                        stmt.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
+                    } else {
+                        stmt.visit_mut_with(self);
+                    }
                 } else {
                     let child_optimizer = &mut *self.with_ctx(child_ctx.clone());
                     stmt.visit_mut_with(child_optimizer);
