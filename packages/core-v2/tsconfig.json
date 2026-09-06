@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "declaration": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "incremental": true,
+        "module": "commonjs",
+        "paths": {
+            "@swc/types": ["../types-v2/index.ts"]
+        },
+        "skipLibCheck": true,
+        "strict": true,
+        "target": "es2021",
+        "tsBuildInfoFile": ".tsbuildinfo"
+    },
+    "include": ["src/"],
+    "exclude": ["*.js"]
+}
