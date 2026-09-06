@@ -32,6 +32,12 @@ struct ContextualKeywordRefFinder<'a> {
 impl Visit for ContextualKeywordRefFinder<'_> {
     noop_visit_type!();
 
+    fn visit_binding_ident(&mut self, ident: &BindingIdent) {
+        if ident.id.sym == self.keyword {
+            self.found = true;
+        }
+    }
+
     fn visit_expr(&mut self, expr: &Expr) {
         if expr.is_ident_ref_to(self.keyword) {
             self.found = true;

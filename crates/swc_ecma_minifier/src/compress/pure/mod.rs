@@ -538,12 +538,22 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
-        if let ClassMember::StaticBlock(sb) = m {
-            self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
-                sb.visit_mut_children_with(this);
-            });
-        } else {
-            m.visit_mut_children_with(self);
+        match m {
+            ClassMember::StaticBlock(..)
+            | ClassMember::ClassProp(ClassProp {
+                is_static: true, ..
+            })
+            | ClassMember::PrivateProp(PrivateProp {
+                is_static: true, ..
+            })
+            | ClassMember::AutoAccessor(AutoAccessor {
+                is_static: true, ..
+            }) => {
+                self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
+                    m.visit_mut_children_with(this);
+                });
+            }
+            _ => m.visit_mut_children_with(self),
         }
 
         if let ClassMember::StaticBlock(sb) = m {
@@ -617,6 +627,7 @@ impl VisitMut for Pure<'_> {
                 Expr::Unary(e) => self.visit_mut_unary_expr(e),
                 Expr::Assign(e) => self.visit_mut_assign_expr(e),
                 Expr::Member(e) => self.visit_mut_member_expr(e),
+                Expr::Tpl(e) => self.visit_mut_tpl(e),
                 _ => self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
                     e.visit_mut_children_with(this);
                 }),
