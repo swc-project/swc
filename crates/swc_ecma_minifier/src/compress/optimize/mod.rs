@@ -415,6 +415,7 @@ impl Optimizer<'_> {
         stmts: &mut Vec<Stmt>,
         will_terminate: bool,
         has_directive_prologue: bool,
+        is_function_body: bool,
     ) {
         // `use asm` only has meaning in a directive prologue.
         if has_directive_prologue
@@ -439,6 +440,7 @@ impl Optimizer<'_> {
             stmts,
             will_terminate,
             has_directive_prologue,
+            is_function_body,
         );
 
         drop_invalid_stmts(stmts);
@@ -468,6 +470,7 @@ impl Optimizer<'_> {
         stmts: &mut Vec<T>,
         will_terminate: bool,
         has_directive_prologue: bool,
+        is_function_body: bool,
     ) where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
@@ -499,7 +502,10 @@ impl Optimizer<'_> {
                         Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
                             child_ctx.expr_ctx.in_strict = true;
                         }
-                        Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
+                        Some(value)
+                            if is_function_body
+                                && (value == "\"use asm\"" || value == "'use asm'") =>
+                        {
                             child_ctx.bit_ctx.insert(BitCtx::InAsm);
                             self.ctx.bit_ctx.insert(BitCtx::InAsm);
                             use_asm = true;
@@ -1669,7 +1675,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_arrow_function_body(&mut self, n: &mut ArrowFunctionBody) {
         match n {
             ArrowFunctionBody::FunctionBody(n) => {
-                self.handle_stmts(&mut n.stmts, false, true);
+                self.handle_stmts(&mut n.stmts, false, true, false);
                 self.merge_if_returns(&mut n.stmts, false, true);
                 self.drop_else_token(&mut n.stmts);
             }
@@ -2391,7 +2397,7 @@ impl VisitMut for Optimizer<'_> {
 
             n.params.visit_mut_with(optimizer);
             if let Some(body) = n.body.as_mut() {
-                optimizer.handle_stmts(&mut body.stmts, true, true);
+                optimizer.handle_stmts(&mut body.stmts, true, true, true);
                 #[cfg(debug_assertions)]
                 {
                     body.visit_with(&mut AssertValid);
@@ -2528,7 +2534,8 @@ impl VisitMut for Optimizer<'_> {
     )]
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
-        self.with_ctx(ctx).handle_stmt_likes(stmts, true, true);
+        self.with_ctx(ctx)
+            .handle_stmt_likes(stmts, true, true, false);
 
         if self.vars.inline_with_multi_replacer(stmts) {
             self.changed = true;
@@ -2693,7 +2700,8 @@ impl VisitMut for Optimizer<'_> {
     )]
     fn visit_mut_script(&mut self, s: &mut Script) {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
-        self.with_ctx(ctx).handle_stmts(&mut s.body, false, true);
+        self.with_ctx(ctx)
+            .handle_stmts(&mut s.body, false, true, false);
 
         if self.vars.inline_with_multi_replacer(s) {
             self.changed = true;
@@ -2995,7 +3003,7 @@ impl VisitMut for Optimizer<'_> {
         {
             stmts.visit_with(&mut AssertValid);
         }
-        self.handle_stmts(stmts, false, false);
+        self.handle_stmts(stmts, false, false, false);
 
         if stmts.len() == 1 {
             if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {

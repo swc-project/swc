@@ -31,7 +31,9 @@ pub(super) fn has_use_strict_directive(f: &Function) -> bool {
 /// A lexical `arguments` declaration has a distinct syntax context, while a
 /// `var arguments` declaration aliases the implicit arguments object unless it
 /// belongs to a nested arrow function. Its declaration occurrence is not a
-/// read.
+/// read. This deliberately does not model the legacy `Function#arguments`
+/// property; minification assumes code does not use that property to observe
+/// the active arguments object.
 fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
     fn is_direct_eval_callee(callee: &Callee) -> bool {
         let mut expr = match callee {
@@ -474,18 +476,16 @@ impl Optimizer<'_> {
                 )
             });
         let can_expose_implicit_arguments = !in_strict && rest_id.0 == "arguments";
+        let can_change_arguments = can_make_arguments_mapped || can_expose_implicit_arguments;
+        let uses_arguments = can_change_arguments && uses_implicit_arguments(f, self.data);
 
         if let Some(usage) = self.data.vars.get(&rest_id) {
             // Preserve the rest parameter only if removing it can change an
             // `arguments` binding or change an arguments object from unmapped to mapped.
-            if usage.ref_count == 0
-                && (!(can_make_arguments_mapped || can_expose_implicit_arguments)
-                    || !uses_implicit_arguments(f, self.data))
-            {
+            if usage.ref_count == 0 && (!can_change_arguments || !uses_arguments) {
                 if let Some(scope) = self.data.get_scope(f.ctxt) {
                     let has_relevant_dynamic_scope = scope.contains(ScopeData::HAS_WITH_STMT)
-                        || (scope.contains(ScopeData::HAS_EVAL_CALL)
-                            && uses_implicit_arguments(f, self.data));
+                        || (scope.contains(ScopeData::HAS_EVAL_CALL) && uses_arguments);
                     if has_relevant_dynamic_scope {
                         return;
                     }
