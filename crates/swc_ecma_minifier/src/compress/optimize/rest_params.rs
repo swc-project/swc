@@ -39,33 +39,83 @@ fn is_direct_eval_callee(callee: &Callee) -> bool {
     matches!(expr, Expr::Ident(ident) if ident.sym == "eval")
 }
 
+/// Returns true if source text can spell the rest binding with identifier
+/// escapes decoded.
+fn eval_source_can_read_rest(source: &str, rest_name: &str) -> bool {
+    if source.contains(rest_name) {
+        return true;
+    }
+
+    let mut decoded = String::with_capacity(source.len());
+    let mut chars = source.chars().peekable();
+
+    while let Some(ch) = chars.next() {
+        if ch != '\\' {
+            decoded.push(ch);
+            continue;
+        }
+
+        if chars.next() != Some('u') {
+            return true;
+        }
+
+        let value = if chars.next_if_eq(&'{').is_some() {
+            let mut digits = String::new();
+            loop {
+                match chars.next() {
+                    Some('}') if !digits.is_empty() => break,
+                    Some(ch) if ch.is_ascii_hexdigit() => digits.push(ch),
+                    _ => return true,
+                }
+            }
+            u32::from_str_radix(&digits, 16).ok()
+        } else {
+            let mut digits = String::new();
+            for _ in 0..4 {
+                match chars.next() {
+                    Some(ch) if ch.is_ascii_hexdigit() => digits.push(ch),
+                    _ => return true,
+                }
+            }
+            u32::from_str_radix(&digits, 16).ok()
+        };
+
+        match value.and_then(char::from_u32) {
+            Some(ch) => decoded.push(ch),
+            None => return true,
+        }
+    }
+
+    decoded.contains(rest_name)
+}
+
 /// Returns true if a direct eval can read the rest binding.
 fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
     struct Finder<'a> {
-        rest_id: &'a Id,
+        rest_name: &'a str,
         found: bool,
     }
 
     impl Visit for Finder<'_> {
-        fn visit_function(&mut self, _: &Function) {}
-
-        fn visit_constructor(&mut self, _: &Constructor) {}
-
         fn visit_call_expr(&mut self, call: &CallExpr) {
             if self.found {
                 return;
             }
 
             if is_direct_eval_callee(&call.callee) {
-                match call.args.first() {
+                // Eval source can use escapes to spell an identifier, so inspecting a
+                // literal string without decoding escapes is unsound. Nested functions
+                // and constructors can capture the rest binding, and their decorators
+                // execute in the enclosing scope.
+                self.found = match call.args.first() {
                     Some(ExprOrSpread { spread: None, expr }) => match &**expr {
                         Expr::Lit(Lit::Str(Str { value, .. })) => {
-                            self.found = value.to_string_lossy().contains(self.rest_id.0.as_ref());
+                            eval_source_can_read_rest(&value.to_string_lossy(), self.rest_name)
                         }
-                        _ => self.found = true,
+                        _ => true,
                     },
-                    _ => self.found = true,
-                }
+                    _ => true,
+                };
                 return;
             }
 
@@ -74,7 +124,7 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
     }
 
     let mut finder = Finder {
-        rest_id,
+        rest_name: rest_id.0.as_ref(),
         found: false,
     };
     f.body.visit_with(&mut finder);
