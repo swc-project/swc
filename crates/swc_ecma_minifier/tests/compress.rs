@@ -639,7 +639,8 @@ fn fixture(input: PathBuf) {
             print(cm.clone(), &[expected], Some(&comments), false, false)
         };
         {
-            // Check output.teraer.js
+            // Accept the existing Terser baseline without rewriting a fixture
+            // during validation. It can preserve effects missing from output.js.
             let identical = (|| -> Option<()> {
                 let expected = {
                     let expected = read_to_string(dir.join("output.terser.js")).ok()?;
@@ -702,10 +703,7 @@ fn fixture(input: PathBuf) {
             })()
             .is_some();
             if identical {
-                let s = read_to_string(dir.join("output.terser.js"))
-                    .expect("failed to read output.terser.js");
-                std::fs::write(dir.join("output.js"), s.as_bytes())
-                    .expect("failed to update output.js");
+                return Ok(());
             }
         }
 

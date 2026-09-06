@@ -38,7 +38,6 @@ issue_1443/unsafe_undefined/input.js
 issue_1446/typeof_eq_undefined_ie8/input.js
 issue_1588/unsafe_undefined/input.js
 issue_1733/function_iife_catch_ie8/input.js
-properties/const_prop_assign_pure/input.js
 properties/const_prop_assign_strict/input.js
 properties/dont_mangle_computed_property_1/input.js
 properties/dont_mangle_computed_property_2/input.js
