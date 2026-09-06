@@ -31,8 +31,8 @@ impl Pure<'_> {
                 || contains_super(&function.body)
                 || contains_new_target(&function.params)
                 || contains_new_target(&function.body)
-                || contains_eval(&function.params, true)
-                || contains_eval(&function.body, true)
+                || contains_eval_in_arrow_scope(&function.params)
+                || contains_eval_in_arrow_scope(&function.body)
                 || function.is_generator
             {
                 return;
@@ -51,12 +51,13 @@ impl Pure<'_> {
                 {
                     return;
                 }
-                let mut mutations = ParameterMutationFinder {
-                    params: &function.params,
-                    found: false,
-                };
-                function.body.visit_with(&mut mutations);
-                if mutations.found {
+                let has_mutated_params = function.params.iter().any(|param| {
+                    param
+                        .pat
+                        .as_ident()
+                        .is_some_and(|ident| self.mutated_ids.contains(&ident.id.to_id()))
+                });
+                if has_mutated_params {
                     // Arrow parameters are conservatively marked INLINE_PREVENTED.
                     // Keep the ordinary function until its assignments and parameter
                     // redeclarations have been compressed using fresh usage data.
@@ -214,25 +215,23 @@ impl Pure<'_> {
     }
 }
 
-/// Detect writes to parameter bindings, including writes from nested closures.
-/// Full binding identity keeps shadowing declarations out of this decision.
-struct ParameterMutationFinder<'a> {
-    params: &'a [Param],
+/// Finds eval and with in the lexical scope that would change if an ordinary
+/// function became an arrow. Nested ordinary functions create their own scope,
+/// while nested arrows inherit this one.
+fn contains_eval_in_arrow_scope<N>(node: &N) -> bool
+where
+    N: VisitWith<EvalInArrowScopeFinder>,
+{
+    let mut finder = EvalInArrowScopeFinder { found: false };
+    node.visit_with(&mut finder);
+    finder.found
+}
+
+struct EvalInArrowScopeFinder {
     found: bool,
 }
 
-impl ParameterMutationFinder<'_> {
-    fn check(&mut self, id: &Ident) {
-        self.found |= self.params.iter().any(|param| {
-            param
-                .pat
-                .as_ident()
-                .is_some_and(|param| param.id.ctxt == id.ctxt && param.id.sym == id.sym)
-        });
-    }
-}
-
-impl Visit for ParameterMutationFinder<'_> {
+impl Visit for EvalInArrowScopeFinder {
     noop_visit_type!();
 
     fn visit_expr(&mut self, expr: &Expr) {
@@ -247,19 +246,22 @@ impl Visit for ParameterMutationFinder<'_> {
         }
     }
 
-    fn visit_binding_ident(&mut self, id: &BindingIdent) {
-        self.check(&id.id);
-    }
-
-    fn visit_update_expr(&mut self, expr: &UpdateExpr) {
-        if let Expr::Ident(id) = &*expr.arg {
-            self.check(id);
+    fn visit_callee(&mut self, callee: &Callee) {
+        if callee
+            .as_expr()
+            .is_some_and(|expr| expr.is_ident_ref_to("eval"))
+        {
+            self.found = true;
+        } else {
+            callee.visit_children_with(self);
         }
-        expr.visit_children_with(self);
     }
 
-    fn visit_fn_decl(&mut self, decl: &FnDecl) {
-        self.check(&decl.ident);
-        decl.visit_children_with(self);
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_with_stmt(&mut self, _: &WithStmt) {
+        self.found = true;
     }
 }

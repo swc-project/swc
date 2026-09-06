@@ -1,5 +1,6 @@
 #![allow(clippy::needless_update)]
 
+use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
@@ -13,7 +14,11 @@ use tracing::Level;
 
 use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
-    debug::AssertValid, maybe_par, option::CompressOptions, usage_analyzer::marks::Marks,
+    debug::AssertValid,
+    maybe_par,
+    option::CompressOptions,
+    program_data::{analyze, ProgramData, VarUsageInfoFlags},
+    usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks},
     util::ModuleItemExt,
 };
 
@@ -67,6 +72,7 @@ pub(crate) fn pure_optimizer<'a>(
         },
         ctx: Default::default(),
         changed: Default::default(),
+        mutated_ids: Default::default(),
     }
 }
 
@@ -78,11 +84,15 @@ struct Pure<'a> {
 
     ctx: Ctx,
     changed: bool,
+    mutated_ids: FxHashSet<Id>,
 }
 
 impl Parallel for Pure<'_> {
     fn create(&self) -> Self {
-        Self { ..*self }
+        Self {
+            mutated_ids: self.mutated_ids.clone(),
+            ..*self
+        }
     }
 
     fn merge(&mut self, other: Self) {
@@ -104,6 +114,22 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    /// Collect mutation information once per pure-optimizer pass so arrow
+    /// conversion does not rescan every nested function body.
+    fn collect_mutated_ids<N>(&mut self, node: &N)
+    where
+        N: VisitWith<UsageAnalyzer<ProgramData>>,
+    {
+        self.mutated_ids = analyze(node, Some(self.marks), false)
+            .vars
+            .into_iter()
+            .filter_map(|(id, usage)| {
+                (usage.flags.contains(VarUsageInfoFlags::REASSIGNED) || usage.declared_count > 1)
+                    .then_some(id)
+            })
+            .collect();
+    }
+
     #[inline(always)]
     fn is_expr_leaf(e: &Expr) -> bool {
         matches!(
@@ -1111,6 +1137,16 @@ impl VisitMut for Pure<'_> {
         self.visit_par(1, items);
 
         self.handle_stmt_likes(items);
+    }
+
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        self.collect_mutated_ids(&*module);
+        module.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        self.collect_mutated_ids(&*script);
+        script.visit_mut_children_with(self);
     }
 
     fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
