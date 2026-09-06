@@ -1666,6 +1666,17 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Returns true if replacing a parameter with this expression cannot remove
+    /// observable argument evaluation when the parameter is unused.
+    fn is_primitive_literal_for_seq_iife_substitution(expr: &Expr) -> bool {
+        matches!(
+            expr,
+            Expr::Lit(
+                Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::BigInt(..)
+            )
+        )
+    }
+
     /// Optimizes a single arrow IIFE in a sequence expression
     fn optimize_single_arrow_iife_in_seq(
         &mut self,
@@ -1682,7 +1693,8 @@ impl Optimizer<'_> {
             // For arrow functions with simple parameters, inline them
             if arrow.params.len() == call.args.len() {
                 let can_inline = arrow.params.iter().zip(&call.args).all(|(param, arg)| {
-                    param.is_ident() && self.is_simple_expr_for_seq_optimization(&arg.expr)
+                    param.is_ident()
+                        && Self::is_primitive_literal_for_seq_iife_substitution(&arg.expr)
                 });
 
                 if can_inline {
