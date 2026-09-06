@@ -458,6 +458,8 @@ impl Optimizer<'_> {
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
+        Vec<T>:
+            for<'aa> VisitMutWith<NormalMultiReplacer<'aa>> + for<'aa> VisitMutWith<Finalizer<'aa>>,
     {
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
@@ -539,6 +541,33 @@ impl Optimizer<'_> {
         #[cfg(debug_assertions)]
         {
             stmts.visit_with(&mut AssertValid);
+        }
+
+        // Apply pending substitutions (required before `merge_similar_ifs` to
+        // avoid https://github.com/swc-project/swc/issues/11517). Strategy
+        // depends on `if` density: for `if`-dense lists a single batch walk
+        // beats two walks per `if`; for `if`-sparse lists the per-`if` walks
+        // stay cheaper than walking the whole list twice. Both are
+        // semantically equivalent: the substitution maps do not change during
+        // application except for consumption of applied entries, which happens
+        // in the same statement order either way.
+        let if_count = stmts
+            .iter()
+            .filter(|s| {
+                s.as_stmt()
+                    .map(|s| matches!(s, Stmt::If(_)))
+                    .unwrap_or(false)
+            })
+            .count();
+        if if_count >= 16 {
+            self.changed |= self.vars.inline_with_multi_replacer(stmts);
+        } else {
+            stmts
+                .iter_mut()
+                .filter_map(|s| s.as_stmt_mut().and_then(|s| s.as_mut_if_stmt()))
+                .for_each(|s| {
+                    self.changed |= self.vars.inline_with_multi_replacer(s);
+                });
         }
 
         self.merge_similar_ifs(stmts);
