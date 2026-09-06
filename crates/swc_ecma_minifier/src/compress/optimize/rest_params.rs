@@ -18,8 +18,11 @@ pub(super) fn has_use_strict_directive(f: &Function) -> bool {
                         ..
                     }) if matches!(
                         &**expr,
-                        Expr::Lit(Lit::Str(Str { raw: Some(raw), .. }))
-                            if raw == "\"use strict\"" || raw == "'use strict'"
+                        Expr::Lit(Lit::Str(Str { value, raw, .. }))
+                            if match raw {
+                                Some(raw) => raw == "\"use strict\"" || raw == "'use strict'",
+                                None => value == "use strict",
+                            }
                     )
                 )
             })
@@ -718,26 +721,65 @@ impl Optimizer<'_> {
             });
         let can_expose_implicit_arguments = !in_strict && rest_id.0 == "arguments";
         let can_change_arguments = can_make_arguments_mapped || can_expose_implicit_arguments;
-        let uses_arguments = can_change_arguments && uses_implicit_arguments(f);
 
         if let Some(usage) = self.data.vars.get(&rest_id) {
             // Preserve the rest parameter only if removing it can change an
             // `arguments` binding, change an arguments object from unmapped to mapped,
             // or make a binding unavailable to direct eval.
-            if usage.ref_count == 0 && (!can_change_arguments || !uses_arguments) {
-                if let Some(scope) = self.data.get_scope(f.ctxt) {
-                    let has_relevant_dynamic_scope = scope.contains(ScopeData::HAS_WITH_STMT)
-                        || (scope.contains(ScopeData::HAS_EVAL_CALL)
-                            && uses_rest_in_direct_eval(f, &rest_id));
-                    if has_relevant_dynamic_scope {
-                        return;
+            if usage.ref_count == 0 {
+                let uses_arguments = can_change_arguments && uses_implicit_arguments(f);
+                if !can_change_arguments || !uses_arguments {
+                    if let Some(scope) = self.data.get_scope(f.ctxt) {
+                        let has_relevant_dynamic_scope = scope.contains(ScopeData::HAS_WITH_STMT)
+                            || (scope.contains(ScopeData::HAS_EVAL_CALL)
+                                && uses_rest_in_direct_eval(f, &rest_id));
+                        if has_relevant_dynamic_scope {
+                            return;
+                        }
                     }
-                }
 
-                self.changed = true;
-                report_change!("rest_params: Removing unused rest parameter");
-                f.params.pop();
+                    self.changed = true;
+                    report_change!("rest_params: Removing unused rest parameter");
+                    f.params.pop();
+                }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::Atom;
+    use swc_common::DUMMY_SP;
+
+    use super::*;
+
+    fn function_with_directive(value: &str, raw: Option<&str>) -> Function {
+        Function {
+            body: Some(FunctionBody {
+                span: DUMMY_SP,
+                stmts: vec![Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: value.into(),
+                        raw: raw.map(Atom::from),
+                    }))),
+                })],
+            }),
+            ..Default::default()
+        }
+    }
+
+    #[test]
+    fn recognizes_synthesized_strict_directives() {
+        assert!(has_use_strict_directive(&function_with_directive(
+            "use strict",
+            None
+        )));
+        assert!(!has_use_strict_directive(&function_with_directive(
+            "use strict",
+            Some("\"use\\x20strict\"")
+        )));
     }
 }
