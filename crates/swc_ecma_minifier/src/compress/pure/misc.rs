@@ -904,6 +904,25 @@ impl Pure<'_> {
                 return None;
             }
 
+            // A sequence can evaluate a later join element after an earlier
+            // value has been captured. Concatenation can coerce that earlier
+            // value before the sequence runs, so preserve join's evaluation
+            // order for this shape.
+            if self.options.unsafe_passes && groups.iter().any(|group| {
+                matches!(group, GroupType::Expression(expr) if matches!(&*expr.expr, Expr::Seq(..)))
+            }) {
+                return None;
+            }
+
+            // Addition uses the default primitive hint for objects, while join
+            // uses the string hint. Do not replace a statically known object
+            // with concatenation, even for unsafe passes.
+            if self.options.unsafe_passes && groups.iter().any(|group| {
+                matches!(group, GroupType::Expression(expr) if expr.expr.get_type(self.expr_ctx) == Value::Known(Type::Obj))
+            }) {
+                return None;
+            }
+
             // Convert to string concatenation
             let mut result_parts = Vec::with_capacity(groups.len());
 
