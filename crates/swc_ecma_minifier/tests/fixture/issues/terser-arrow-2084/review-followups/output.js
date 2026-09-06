@@ -14,3 +14,4 @@ console.log(23..toString() < 4);
 console.log(23..toString() > 4);
 console.log(23..toString() <= 4);
 console.log(23..toString() >= 4);
+console.log(23..toString() + "" !== "23");
