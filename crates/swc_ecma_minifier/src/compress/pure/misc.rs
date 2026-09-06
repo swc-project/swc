@@ -880,30 +880,27 @@ impl Pure<'_> {
 
             // Only add empty string prefix when the first element is a non-string
             // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion
+            // literal early enough to provide coercion.
             let needs_empty_string_prefix = match groups.first() {
                 Some(GroupType::Expression(first_expr)) => {
-                    // Check if the first expression is already a string concatenation
                     let first_needs_coercion = match &*first_expr.expr {
                         Expr::Bin(BinExpr {
                             op: op!(bin, "+"), ..
-                        }) => false, // Already string concat
-                        Expr::Lit(Lit::Str(..)) => false, // Already a string literal
-                        Expr::Call(_call) => {
-                            // Function calls may return any type and need string coercion
-                            true
+                        }) => {
+                            // `+` is only already a string concatenation when its
+                            // result is proven to be a string. Otherwise adjacent
+                            // join elements could be added numerically first.
+                            first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
                         }
-                        _ => true, // Other expressions need string coercion
+                        Expr::Lit(Lit::Str(..)) => false,
+                        Expr::Call(..) => true,
+                        _ => true,
                     };
 
-                    // If the first element needs coercion, check if the second element is a string
-                    // literal that can provide the coercion
+                    // A following literal provides the string coercion for the
+                    // first element before the next dynamic element is evaluated.
                     if first_needs_coercion {
-                        match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, /* String literals will */
-                            // provide coercion
-                            _ => true, // No string literal to provide coercion
-                        }
+                        !matches!(groups.get(1), Some(GroupType::Literals(_)))
                     } else {
                         false
                     }
