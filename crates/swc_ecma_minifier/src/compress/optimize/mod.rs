@@ -1762,6 +1762,8 @@ impl VisitMut for Optimizer<'_> {
         self.inline_args_of_iife(e);
         self.drop_arguments_of_symbol_call(e);
 
+        self.optimize_mapped_arguments_of_iife(e);
+
         // Try to replace static method call with alias (after other transformations)
         if let Callee::Expr(callee) = &mut e.callee {
             if self
