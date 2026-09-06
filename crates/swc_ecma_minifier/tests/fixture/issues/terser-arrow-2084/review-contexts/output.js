@@ -12,5 +12,20 @@ class StaticInitializers {
         return await;
     };
 }
+async function asyncInstanceInitializers() {
+    return class {
+        field = (await)=>await;
+        #private = (await)=>await;
+        accessor value = (await)=>await;
+    };
+}
+class StaticInstanceInitializers {
+    static value = class {
+        field = (await)=>await;
+        #private = (await)=>await;
+        accessor value = (await)=>await;
+    };
+}
 "23";
 `${23..toString()}` !== value;
+void 0 !== value;

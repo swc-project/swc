@@ -567,6 +567,29 @@ impl VisitMut for Pure<'_> {
                     accessor.value.visit_mut_with(this);
                 });
             }
+            ClassMember::ClassProp(prop) => {
+                prop.key.visit_mut_with(self);
+                prop.type_ann.visit_mut_with(self);
+                prop.decorators.visit_mut_with(self);
+                self.do_outside_of_context(Ctx::IN_ASYNC | Ctx::IN_STATIC_BLOCK, |this| {
+                    prop.value.visit_mut_with(this);
+                });
+            }
+            ClassMember::PrivateProp(prop) => {
+                prop.type_ann.visit_mut_with(self);
+                prop.decorators.visit_mut_with(self);
+                self.do_outside_of_context(Ctx::IN_ASYNC | Ctx::IN_STATIC_BLOCK, |this| {
+                    prop.value.visit_mut_with(this);
+                });
+            }
+            ClassMember::AutoAccessor(accessor) => {
+                accessor.key.visit_mut_with(self);
+                accessor.type_ann.visit_mut_with(self);
+                accessor.decorators.visit_mut_with(self);
+                self.do_outside_of_context(Ctx::IN_ASYNC | Ctx::IN_STATIC_BLOCK, |this| {
+                    accessor.value.visit_mut_with(this);
+                });
+            }
             _ => m.visit_mut_children_with(self),
         }
 
@@ -1743,6 +1766,10 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_unary_expr(&mut self, e: &mut UnaryExpr) {
         if e.op == op!("delete") {
             self.do_inside_of_context(Ctx::IN_DELETE, |this| {
+                e.visit_mut_children_with(this);
+            })
+        } else if e.op == op!("void") {
+            self.do_outside_of_context(Ctx::IN_DELETE | Ctx::IN_COMPARISON, |this| {
                 e.visit_mut_children_with(this);
             })
         } else {
