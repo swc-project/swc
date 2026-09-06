@@ -10,7 +10,7 @@ use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::util::{contains_eval_in_fn_scope, contains_new_target},
+    compress::util::contains_new_target,
     program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
     util::{idents_captured_by, make_number},
 };
@@ -139,6 +139,9 @@ impl Optimizer<'_> {
         let Callee::Expr(callee) = &call.callee else {
             return;
         };
+        let Some(scope) = find_scope(self.data, callee) else {
+            return;
+        };
         let body = match &**callee {
             Expr::Fn(FnExpr {
                 ident: None,
@@ -170,7 +173,9 @@ impl Optimizer<'_> {
         };
         if !matches!(inner, Expr::Call(CallExpr { callee: Callee::Expr(callee), .. })
             if matches!(&**callee, Expr::Fn(_) | Expr::Arrow(_)))
-            || contains_eval_in_fn_scope(body)
+            || scope.intersects(
+                ScopeData::HAS_EVAL_CALL_IN_FN_SCOPE.union(ScopeData::HAS_WITH_STMT_IN_FN_SCOPE),
+            )
             || callee.is_fn_expr() && contains_new_target(body)
         {
             return;
