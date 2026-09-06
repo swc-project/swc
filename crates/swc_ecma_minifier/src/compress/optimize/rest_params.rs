@@ -39,87 +39,239 @@ fn is_direct_eval_callee(callee: &Callee) -> bool {
     matches!(expr, Expr::Ident(ident) if ident.sym == "eval")
 }
 
-/// Returns true if source text can spell the rest binding with identifier
-/// escapes decoded.
-fn eval_source_can_read_rest(source: &str, rest_name: &str) -> bool {
-    if source.contains(rest_name) {
-        return true;
-    }
-
-    let mut decoded = String::with_capacity(source.len());
-    let mut chars = source.chars().peekable();
-
-    while let Some(ch) = chars.next() {
-        if ch != '\\' {
-            decoded.push(ch);
-            continue;
-        }
-
-        if chars.next() != Some('u') {
-            return true;
-        }
-
-        let value = if chars.next_if_eq(&'{').is_some() {
-            let mut digits = String::new();
-            loop {
-                match chars.next() {
-                    Some('}') if !digits.is_empty() => break,
-                    Some(ch) if ch.is_ascii_hexdigit() => digits.push(ch),
-                    _ => return true,
-                }
-            }
-            u32::from_str_radix(&digits, 16).ok()
-        } else {
-            let mut digits = String::new();
-            for _ in 0..4 {
-                match chars.next() {
-                    Some(ch) if ch.is_ascii_hexdigit() => digits.push(ch),
-                    _ => return true,
-                }
-            }
-            u32::from_str_radix(&digits, 16).ok()
-        };
-
-        match value.and_then(char::from_u32) {
-            Some(ch) => decoded.push(ch),
-            None => return true,
-        }
-    }
-
-    decoded.contains(rest_name)
-}
-
 /// Returns true if a direct eval can read the rest binding.
 fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
+    fn eval_source_may_read_rest(source: &str, rest_name: &str) -> bool {
+        // A source containing `eval` can construct a later direct eval, and an escaped
+        // identifier can spell either the rest name or `eval` without appearing as
+        // text.
+        source.contains(rest_name) || source.contains("eval") || source.contains('\\')
+    }
+
+    fn pat_binds_name(pat: &Pat, name: &str) -> bool {
+        match pat {
+            Pat::Ident(ident) => ident.id.sym == name,
+            Pat::Array(array) => array
+                .elems
+                .iter()
+                .flatten()
+                .any(|pat| pat_binds_name(pat, name)),
+            Pat::Rest(rest) => pat_binds_name(&rest.arg, name),
+            Pat::Object(object) => object.props.iter().any(|prop| match prop {
+                ObjectPatProp::KeyValue(prop) => pat_binds_name(&prop.value, name),
+                ObjectPatProp::Assign(prop) => prop.key.id.sym == name,
+                ObjectPatProp::Rest(rest) => pat_binds_name(&rest.arg, name),
+            }),
+            Pat::Assign(assign) => pat_binds_name(&assign.left, name),
+            Pat::Invalid(..) | Pat::Expr(..) => false,
+        }
+    }
+
+    fn stmts_shadow_name(stmts: &[Stmt], name: &str) -> bool {
+        stmts.iter().any(|stmt| {
+            matches!(stmt, Stmt::Decl(Decl::Var(var)) if var.kind != VarDeclKind::Var
+                && var.decls.iter().any(|decl| pat_binds_name(&decl.name, name)))
+        })
+    }
+
     struct Finder<'a> {
         rest_name: &'a str,
+        shadowed: usize,
         found: bool,
     }
 
     impl Visit for Finder<'_> {
+        fn visit_function_body(&mut self, body: &FunctionBody) {
+            if self.found {
+                return;
+            }
+
+            let shadowed = stmts_shadow_name(&body.stmts, self.rest_name);
+            self.shadowed += usize::from(shadowed);
+            body.stmts.visit_with(self);
+            self.shadowed -= usize::from(shadowed);
+        }
+
+        fn visit_block_stmt(&mut self, block: &BlockStmt) {
+            if self.found {
+                return;
+            }
+
+            let shadowed = stmts_shadow_name(&block.stmts, self.rest_name);
+            self.shadowed += usize::from(shadowed);
+            block.stmts.visit_with(self);
+            self.shadowed -= usize::from(shadowed);
+        }
+
+        fn visit_switch_stmt(&mut self, switch_stmt: &SwitchStmt) {
+            if self.found {
+                return;
+            }
+
+            switch_stmt.discriminant.visit_with(self);
+            if self.found {
+                return;
+            }
+
+            let shadowed = switch_stmt
+                .cases
+                .iter()
+                .any(|case| stmts_shadow_name(&case.cons, self.rest_name));
+            self.shadowed += usize::from(shadowed);
+            switch_stmt.cases.visit_with(self);
+            self.shadowed -= usize::from(shadowed);
+        }
+
+        fn visit_for_stmt(&mut self, for_stmt: &ForStmt) {
+            if self.found {
+                return;
+            }
+
+            let shadowed = matches!(
+                &for_stmt.init,
+                Some(VarDeclOrExpr::VarDecl(var)) if var.kind != VarDeclKind::Var
+                    && var.decls.iter().any(|decl| pat_binds_name(&decl.name, self.rest_name))
+            );
+            self.shadowed += usize::from(shadowed);
+            for_stmt.init.visit_with(self);
+            for_stmt.test.visit_with(self);
+            for_stmt.update.visit_with(self);
+            for_stmt.body.visit_with(self);
+            self.shadowed -= usize::from(shadowed);
+        }
+
+        fn visit_for_in_stmt(&mut self, for_in: &ForInStmt) {
+            if self.found {
+                return;
+            }
+
+            let shadowed = matches!(
+                &for_in.left,
+                ForHead::VarDecl(var) if var.kind != VarDeclKind::Var
+                    && var.decls.iter().any(|decl| pat_binds_name(&decl.name, self.rest_name))
+            );
+            self.shadowed += usize::from(shadowed);
+            for_in.left.visit_with(self);
+            for_in.right.visit_with(self);
+            for_in.body.visit_with(self);
+            self.shadowed -= usize::from(shadowed);
+        }
+
+        fn visit_for_of_stmt(&mut self, for_of: &ForOfStmt) {
+            if self.found {
+                return;
+            }
+
+            let shadowed = matches!(
+                &for_of.left,
+                ForHead::VarDecl(var) if var.kind != VarDeclKind::Var
+                    && var.decls.iter().any(|decl| pat_binds_name(&decl.name, self.rest_name))
+            );
+            self.shadowed += usize::from(shadowed);
+            for_of.left.visit_with(self);
+            for_of.right.visit_with(self);
+            for_of.body.visit_with(self);
+            self.shadowed -= usize::from(shadowed);
+        }
+
+        fn visit_catch_clause(&mut self, catch: &CatchClause) {
+            if self.found {
+                return;
+            }
+
+            let shadowed = catch
+                .param
+                .as_ref()
+                .is_some_and(|param| pat_binds_name(param, self.rest_name));
+            self.shadowed += usize::from(shadowed);
+            catch.param.visit_with(self);
+            catch.body.visit_with(self);
+            self.shadowed -= usize::from(shadowed);
+        }
+
+        fn visit_function(&mut self, function: &Function) {
+            if self.found {
+                return;
+            }
+
+            function.decorators.visit_with(self);
+            for param in &function.params {
+                param.decorators.visit_with(self);
+            }
+            if self.found {
+                return;
+            }
+
+            let shadowed = function
+                .params
+                .iter()
+                .any(|param| pat_binds_name(&param.pat, self.rest_name));
+            self.shadowed += usize::from(shadowed);
+            function.params.visit_with(self);
+            function.body.visit_with(self);
+            self.shadowed -= usize::from(shadowed);
+        }
+
+        fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
+            if self.found {
+                return;
+            }
+
+            let shadowed = arrow
+                .params
+                .iter()
+                .any(|param| pat_binds_name(param, self.rest_name));
+            self.shadowed += usize::from(shadowed);
+            arrow.params.visit_with(self);
+            arrow.body.visit_with(self);
+            self.shadowed -= usize::from(shadowed);
+        }
+
+        fn visit_stmts(&mut self, stmts: &[Stmt]) {
+            for stmt in stmts {
+                if self.found {
+                    return;
+                }
+
+                stmt.visit_with(self);
+            }
+        }
+
+        fn visit_expr_or_spreads(&mut self, exprs: &[ExprOrSpread]) {
+            for expr in exprs {
+                if self.found {
+                    return;
+                }
+
+                expr.visit_with(self);
+            }
+        }
+
         fn visit_call_expr(&mut self, call: &CallExpr) {
             if self.found {
                 return;
             }
 
-            if is_direct_eval_callee(&call.callee) {
-                // Eval source can use escapes to spell an identifier, so inspecting a
-                // literal string without decoding escapes is unsound. Nested functions
-                // and constructors can capture the rest binding, and their decorators
-                // execute in the enclosing scope.
+            if is_direct_eval_callee(&call.callee) && self.shadowed == 0 {
+                // A non-literal source can access any enclosing binding. For a literal
+                // source, preserve the rest for visible or escaped references and for
+                // sources that can construct a later direct eval in the same scope.
                 self.found = match call.args.first() {
                     Some(ExprOrSpread { spread: None, expr }) => match &**expr {
                         Expr::Lit(Lit::Str(Str { value, .. })) => {
-                            eval_source_can_read_rest(&value.to_string_lossy(), self.rest_name)
+                            eval_source_may_read_rest(&value.to_string_lossy(), self.rest_name)
                         }
                         _ => true,
                     },
                     _ => true,
                 };
-
-                if !self.found {
-                    call.args[1..].visit_with(self);
+                if self.found {
+                    return;
                 }
+
+                // Additional arguments are evaluated normally and can contain a
+                // relevant direct eval even though the outer call ignores them.
+                call.args[1..].visit_with(self);
                 return;
             }
 
@@ -129,6 +281,7 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
 
     let mut finder = Finder {
         rest_name: rest_id.0.as_ref(),
+        shadowed: 0,
         found: false,
     };
     f.body.visit_with(&mut finder);
