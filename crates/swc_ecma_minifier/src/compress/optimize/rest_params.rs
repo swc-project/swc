@@ -84,14 +84,49 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
     /// while `var` declarations in the function currently being optimized still
     /// alias its parameter binding and must not be treated as shadows.
     fn function_body_shadows_name(stmts: &[Stmt], name: &str) -> bool {
-        stmts.iter().any(|stmt| match stmt {
-            Stmt::Decl(Decl::Var(var)) => var
-                .decls
-                .iter()
-                .any(|decl| pat_binds_name(&decl.name, name)),
-            Stmt::Decl(Decl::Fn(fn_decl)) => fn_decl.ident.sym == name,
-            _ => false,
-        })
+        struct VarFinder<'a> {
+            name: &'a str,
+            found: bool,
+        }
+
+        impl Visit for VarFinder<'_> {
+            fn visit_var_decl(&mut self, var: &VarDecl) {
+                if var.kind == VarDeclKind::Var
+                    && var
+                        .decls
+                        .iter()
+                        .any(|decl| pat_binds_name(&decl.name, self.name))
+                {
+                    self.found = true;
+                }
+            }
+
+            // Nested callable bodies own their `var` declarations, so they do not
+            // contribute bindings to the callable body currently being inspected.
+            fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+            fn visit_constructor(&mut self, _: &Constructor) {}
+
+            fn visit_fn_decl(&mut self, _: &FnDecl) {}
+
+            fn visit_fn_expr(&mut self, _: &FnExpr) {}
+
+            fn visit_function(&mut self, _: &Function) {}
+
+            // A class static block also owns its `var` declarations.
+            fn visit_class(&mut self, _: &Class) {}
+        }
+
+        if stmts
+            .iter()
+            .any(|stmt| matches!(stmt, Stmt::Decl(Decl::Fn(fn_decl)) if fn_decl.ident.sym == name))
+        {
+            return true;
+        }
+
+        let mut finder = VarFinder { name, found: false };
+        stmts.visit_with(&mut finder);
+        finder.found
     }
 
     struct Finder<'a> {

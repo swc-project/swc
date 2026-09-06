@@ -18,6 +18,15 @@ function nestedVar(...rest) {
     }();
 }
 
+function nestedControlFlowVar(...rest) {
+    return function () {
+        if (false) {
+            var rest = [1, 2, 3, 4];
+        }
+        return typeof eval("rest");
+    }();
+}
+
 function nestedFunction(...rest) {
     return function () {
         function rest() {}
@@ -28,4 +37,5 @@ function nestedFunction(...rest) {
 console.log(parameter(1, 2));
 console.log(block(1, 2));
 console.log(nestedVar(1, 2));
+console.log(nestedControlFlowVar(1, 2));
 console.log(nestedFunction(1, 2));
