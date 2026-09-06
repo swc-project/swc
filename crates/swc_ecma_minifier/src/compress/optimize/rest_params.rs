@@ -222,18 +222,28 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
                 return;
             }
 
-            let shadowed = function
+            let param_shadowed = function
                 .params
                 .iter()
-                .any(|param| pat_binds_name(&param.pat, self.rest_name))
+                .any(|param| pat_binds_name(&param.pat, self.rest_name));
+            self.shadowed += usize::from(param_shadowed);
+            function.params.visit_with(self);
+            self.shadowed -= usize::from(param_shadowed);
+
+            if self.found {
+                return;
+            }
+
+            // A callable's body-local `var` and function declarations do not
+            // participate in its parameter-initializer scope.
+            let body_shadowed = param_shadowed
                 || function
                     .body
                     .as_ref()
                     .is_some_and(|body| function_body_shadows_name(&body.stmts, self.rest_name));
-            self.shadowed += usize::from(shadowed);
-            function.params.visit_with(self);
+            self.shadowed += usize::from(body_shadowed);
             function.body.visit_with(self);
-            self.shadowed -= usize::from(shadowed);
+            self.shadowed -= usize::from(body_shadowed);
         }
 
         fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
@@ -241,19 +251,29 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
                 return;
             }
 
-            let shadowed = arrow
+            let param_shadowed = arrow
                 .params
                 .iter()
-                .any(|param| pat_binds_name(param, self.rest_name))
+                .any(|param| pat_binds_name(param, self.rest_name));
+            self.shadowed += usize::from(param_shadowed);
+            arrow.params.visit_with(self);
+            self.shadowed -= usize::from(param_shadowed);
+
+            if self.found {
+                return;
+            }
+
+            // A callable's body-local `var` and function declarations do not
+            // participate in its parameter-initializer scope.
+            let body_shadowed = param_shadowed
                 || matches!(
                     &*arrow.body,
                     ArrowFunctionBody::FunctionBody(body)
                         if function_body_shadows_name(&body.stmts, self.rest_name)
                 );
-            self.shadowed += usize::from(shadowed);
-            arrow.params.visit_with(self);
+            self.shadowed += usize::from(body_shadowed);
             arrow.body.visit_with(self);
-            self.shadowed -= usize::from(shadowed);
+            self.shadowed -= usize::from(body_shadowed);
         }
 
         fn visit_stmts(&mut self, stmts: &[Stmt]) {
