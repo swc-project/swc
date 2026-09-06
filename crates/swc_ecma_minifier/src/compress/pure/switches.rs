@@ -91,6 +91,7 @@ impl Pure<'_> {
 
         let mut var_ids = Vec::new();
         let mut cases = Vec::new();
+        let mut removed_case = false;
         let mut exact = None;
         let mut may_match_other_than_exact = false;
 
@@ -108,7 +109,26 @@ impl Pure<'_> {
                         exact = Some(idx);
                         break;
                     } else {
-                        var_ids.extend(extract_var_ids(&case.cons))
+                        let test = case.test.take().unwrap();
+
+                        if case.cons.is_empty() && test.may_have_side_effects(self.expr_ctx) {
+                            // This case is already a search-only case from an earlier pass.
+                            // Retain it unchanged so that compression reaches a fixed point.
+                            case.test = Some(test);
+                            cases.push(case.take());
+                        } else {
+                            removed_case = true;
+                            var_ids.extend(extract_var_ids(&case.cons));
+
+                            if test.may_have_side_effects(self.expr_ctx) {
+                                // Keep the original test in the search path. Its primitive tail is
+                                // known not to match, while an expression statement would evaluate
+                                // it incorrectly after an earlier fallthrough match.
+                                case.test = Some(test);
+                                case.cons = Default::default();
+                                cases.push(case.take());
+                            }
+                        }
                     }
                 } else {
                     if !may_match_other_than_exact
@@ -161,7 +181,7 @@ impl Pure<'_> {
             }
         }
 
-        if cases.len() == stmt.cases.len() {
+        if !removed_case && cases.len() == stmt.cases.len() {
             stmt.cases = cases;
             return;
         }
