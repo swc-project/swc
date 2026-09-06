@@ -287,6 +287,15 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
         shadowed: 0,
         found: false,
     };
+
+    // Parameter initializers execute in the function's parameter scope. Although
+    // the rest binding is still in its TDZ at that point, direct eval can
+    // create a closure that reads it after parameter initialization completes.
+    f.params[..f.params.len() - 1].visit_with(&mut finder);
+    if finder.found {
+        return true;
+    }
+
     f.body.visit_with(&mut finder);
     finder.found
 }
