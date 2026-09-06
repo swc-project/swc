@@ -107,6 +107,18 @@ impl Visit for MappedArgumentsUsage {
         }
     }
 
+    fn visit_opt_chain_expr(&mut self, chain: &OptChainExpr) {
+        // Optional member accesses have a distinct AST shape which the replacer
+        // does not rewrite. Reject them so `changed` only signals a real rewrite.
+        if let OptChainBase::Member(member) = &*chain.base {
+            if argument_member_index(member).is_some_and(|index| index < self.param_count) {
+                self.safe = false;
+                return;
+            }
+        }
+        chain.visit_children_with(self);
+    }
+
     fn visit_unary_expr(&mut self, expr: &UnaryExpr) {
         if expr.op == op!("delete") && contains_arguments(&expr.arg) {
             self.safe = false;
