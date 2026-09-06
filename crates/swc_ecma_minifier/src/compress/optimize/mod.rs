@@ -574,8 +574,11 @@ impl Optimizer<'_> {
     ///
     /// - `undefined` => `void 0`
     fn compress_undefined(&mut self, e: &mut Expr) {
-        if let Expr::Ident(Ident { span, sym, .. }) = e {
-            if &**sym == "undefined" {
+        if let Expr::Ident(Ident {
+            span, sym, ctxt, ..
+        }) = e
+        {
+            if &**sym == "undefined" && *ctxt == self.ctx.expr_ctx.unresolved_ctxt {
                 *e = *Expr::undefined(*span);
             }
         }
