@@ -46,6 +46,16 @@ impl Visit for ContextualKeywordRefFinder<'_> {
         }
     }
 
+    fn visit_prop(&mut self, prop: &Prop) {
+        if let Prop::Shorthand(ident) = prop {
+            if ident.sym == self.keyword {
+                self.found = true;
+            }
+        } else if !self.found {
+            prop.visit_children_with(self);
+        }
+    }
+
     fn visit_function(&mut self, _: &Function) {}
 
     fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {

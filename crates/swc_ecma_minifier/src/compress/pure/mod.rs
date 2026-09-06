@@ -641,6 +641,7 @@ impl VisitMut for Pure<'_> {
                 Expr::Unary(e) => self.visit_mut_unary_expr(e),
                 Expr::Assign(e) => self.visit_mut_assign_expr(e),
                 Expr::Member(e) => self.visit_mut_member_expr(e),
+                Expr::OptChain(e) => self.visit_mut_opt_chain_expr(e),
                 Expr::Tpl(e) => self.visit_mut_tpl(e),
                 _ => self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
                     e.visit_mut_children_with(this);
@@ -1336,6 +1337,10 @@ impl VisitMut for Pure<'_> {
                         Ctx::IS_CALLEE
                             .union(Ctx::IS_UPDATE_ARG)
                             .union(Ctx::IS_LHS_OF_ASSIGN)
+                            // Computed keys are not part of the optional-chain
+                            // value path, so they cannot constrain an enclosing
+                            // comparison.
+                            .union(Ctx::IN_COMPARISON)
                             .union(Ctx::IN_OPT_CHAIN),
                         |this| {
                             c.visit_mut_with(this);
@@ -1360,7 +1365,7 @@ impl VisitMut for Pure<'_> {
                     this.visit_opt_chain_continuation(&mut call.callee);
                 });
 
-                self.do_outside_of_context(Ctx::IN_OPT_CHAIN, |this| {
+                self.do_outside_of_context(Ctx::IN_COMPARISON | Ctx::IN_OPT_CHAIN, |this| {
                     call.args.visit_mut_with(this);
                 });
                 self.eval_spread_array_in_args(&mut call.args);
