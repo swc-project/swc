@@ -100,6 +100,7 @@ fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             right,
             ..
         }) => eval_to_nullish(expr_ctx, right),
+        Expr::Await(AwaitExpr { arg, .. }) => eval_to_nullish(expr_ctx, arg),
         Expr::Lit(Lit::Null(..)) => true,
         _ => eval_to_undefined(expr_ctx, expr),
     }
@@ -942,11 +943,7 @@ impl Pure<'_> {
                 }
             }
 
-            Some(join_to_concat(
-                result_parts,
-                self.expr_ctx,
-                self.options.unsafe_passes,
-            ))
+            join_to_concat(result_parts, self.expr_ctx, self.options.unsafe_passes)
         } else {
             // For non-empty separator, create a more compact array
             let mut new_elems = Vec::new();
@@ -2285,9 +2282,10 @@ impl Pure<'_> {
                     span, callee, args, ..
                 }) if (matches!(args.as_deref(), None | Some([]))
                     || args.as_deref().is_some_and(|args| {
-                        args.first().is_some_and(|arg| {
-                            arg.spread.is_none() && eval_to_nullish(self.expr_ctx, &arg.expr)
-                        })
+                        args.iter().all(|arg| arg.spread.is_none())
+                            && args
+                                .first()
+                                .is_some_and(|arg| eval_to_nullish(self.expr_ctx, &arg.expr))
                     }))
                     && callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"]) =>
                 {

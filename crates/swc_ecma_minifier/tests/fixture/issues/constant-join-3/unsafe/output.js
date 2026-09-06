@@ -62,7 +62,29 @@ function effects() {
     console.log([
         mark("element", 5)
     ].join((mark("separator", 6), "-")));
+    let state = 1;
+    console.log([
+        {
+            toString () {
+                return state;
+            },
+            valueOf () {
+                return state;
+            }
+        },
+        "x" + (state = 2, "y")
+    ].join(""));
     console.log(events.join(","));
+}
+async function awaited() {
+    return [
+        [
+            await null
+        ].join(""),
+        [
+            await void 0
+        ].join("")
+    ].join("|");
 }
 function spread(values) {
     return [
@@ -82,3 +104,4 @@ console.log(spread([
     3
 ]));
 effects();
+awaited().then(console.log);

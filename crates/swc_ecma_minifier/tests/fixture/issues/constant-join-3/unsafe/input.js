@@ -50,7 +50,23 @@ function effects() {
     console.log([void mark("void", 3)].join());
     console.log(["head", void mark("mixed", 4)].join(""));
     console.log([mark("element", 5)].join((mark("separator", 6), "-")));
+    let state = 1;
+    console.log([
+        {
+            toString() {
+                return state;
+            },
+            valueOf() {
+                return state;
+            },
+        },
+        "x" + (state = 2, "y"),
+    ].join(""));
     console.log(events.join(","));
+}
+
+async function awaited() {
+    return [[await null].join(""), [await void 0].join("")].join("|");
 }
 
 function spread(values) {
@@ -64,3 +80,4 @@ console.log(concatenate("a", "b", "c"));
 console.log(nullish("x"));
 console.log(spread([null, , 3]));
 effects();
+awaited().then(console.log);
