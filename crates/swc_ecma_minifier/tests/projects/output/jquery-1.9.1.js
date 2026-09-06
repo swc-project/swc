@@ -328,7 +328,7 @@
             var ret = [], i = 0, length = elems.length;
             // Go through the array, only saving the items
             // that pass the validator function
-            for(inv = !!inv; i < length; i++)!!callback(elems[i], i) !== inv && ret.push(elems[i]);
+            for(inv = !!inv; i < length; i++)inv !== !!callback(elems[i], i) && ret.push(elems[i]);
             return ret;
         },
         // arg is for internal usage only

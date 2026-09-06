@@ -707,20 +707,24 @@ impl Pure<'_> {
 
             (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
 
-            (Expr::Ident(..), Expr::Lit(..))
-            | (
+            (
                 Expr::Ident(..) | Expr::Member(..),
                 Expr::Unary(UnaryExpr {
                     op: op!("void") | op!("!"),
+                    arg,
                     ..
                 }),
             )
             | (
                 Expr::This(..),
                 Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
+                    op: op!("void"),
+                    arg,
+                    ..
                 }),
-            )
+            ) if !arg.may_have_side_effects(self.expr_ctx) => true,
+
+            (Expr::Ident(..), Expr::Lit(..))
             | (Expr::Unary(..), Expr::Lit(..))
             | (Expr::Tpl(..), Expr::Lit(..)) => true,
             _ => false,
