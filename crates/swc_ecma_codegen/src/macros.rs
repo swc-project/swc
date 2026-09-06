@@ -138,30 +138,448 @@ macro_rules! semi {
 /// - `srcmap!(false)` for end (span.hi)
 macro_rules! srcmap {
     ($emitter:expr, $n:expr, true) => {{
-        let lo = $n.span_lo();
-        if !lo.is_dummy() {
-            $emitter.wr.add_srcmap(lo)?;
-        }
+        let span = $n.span();
+        // A synthesized node has no source location, so its boundary is
+        // recorded as an explicitly source-less segment instead.
+        let pos = if span.is_dummy() {
+            swc_common::BytePos::SYNTHESIZED
+        } else {
+            span.lo()
+        };
+        $emitter.wr.add_srcmap(pos)?;
     }};
     ($emitter:expr, $n:expr, false) => {
         srcmap!($emitter, $n, false, false)
     };
     ($emitter:expr, $n:expr, false, $subtract:expr) => {
-        let hi = $n.span_hi();
-        if !hi.is_dummy() {
-            if $subtract {
-                // hi is exclusive
-                $emitter.wr.add_srcmap(hi - swc_common::BytePos(1))?;
+        let span = $n.span();
+        // Token writers also use DUMMY_SP when an enclosing real node already
+        // supplied the mapping. Only node boundaries convert it to an
+        // explicitly source-less segment.
+        let pos = if span.is_dummy() {
+            swc_common::BytePos::SYNTHESIZED
+        } else if $subtract {
+            // hi is exclusive
+            span.hi() - swc_common::BytePos(1)
+        } else {
+            span.hi()
+        };
+        $emitter.wr.add_srcmap(pos)?;
+    };
+}
+
+/// Emits a source-less boundary only when the owning AST node is synthesized.
+///
+/// This is used for delimiters that are not at the end of a real node's span,
+/// where mapping to `span.hi` would be inaccurate for parsed source.
+macro_rules! srcmap_if_dummy {
+    ($emitter:expr, $n:expr) => {{
+        if $n.span().is_dummy() {
+            $emitter.wr.add_srcmap(swc_common::BytePos::SYNTHESIZED)?;
+        }
+    }};
+}
+
+/// Maps a token at a fixed byte offset before a node's exclusive high bound.
+///
+/// Synthesized nodes retain the source-less behavior of other node boundaries.
+macro_rules! srcmap_at_hi_offset {
+    ($emitter:expr, $n:expr, $offset:expr) => {{
+        let span = $n.span();
+        let pos = if span.is_dummy() {
+            swc_common::BytePos::SYNTHESIZED
+        } else {
+            span.hi() - swc_common::BytePos($offset)
+        };
+        $emitter.wr.add_srcmap(pos)?;
+    }};
+}
+
+/// Maps a JSX spread attribute's closing brace to its source delimiter.
+///
+/// The spread expression's span excludes trailing trivia and the closing
+/// brace, so a fixed offset from its high bound is not sufficient.
+macro_rules! srcmap_for_jsx_spread_close {
+    ($emitter:expr, $spread:expr) => {{
+        if $emitter.wr.care_about_srcmap() {
+            let expr_span = $spread.expr.span();
+            let pos = if expr_span.is_dummy() {
+                // The expression supplies `SpreadElement`'s high bound, so
+                // fall back to the remaining real spread-token span.
+                let spread_span = $spread.dot3_token;
+                if spread_span.is_dummy() {
+                    swc_common::BytePos::SYNTHESIZED
+                } else {
+                    spread_span.hi()
+                }
             } else {
-                // TODO(kdy1): Remove this branch.
-                $emitter.wr.add_srcmap(hi)?;
+                $crate::macros::jsx_spread_close_pos($emitter.cm.get_code_map(), expr_span.hi())
+                    .unwrap_or_else(|| expr_span.hi())
+            };
+            $emitter.wr.add_srcmap(pos)?;
+        }
+    }};
+}
+
+/// Maps the opening bracket of a TypeScript array type from its source text.
+///
+/// Trivia is permitted between the brackets, so the opening position cannot be
+/// derived from a fixed offset relative to the node's high position.
+macro_rules! srcmap_for_array_type_open {
+    ($emitter:expr, $array_type:expr) => {{
+        if $emitter.wr.care_about_srcmap() {
+            let span = $array_type.span();
+            let pos = if span.is_dummy() {
+                swc_common::BytePos::SYNTHESIZED
+            } else {
+                let elem_span = $array_type.elem_type.span();
+                let search_span = if !elem_span.is_dummy()
+                    && span.lo() <= elem_span.hi()
+                    && elem_span.hi() <= span.hi()
+                {
+                    span.with_lo(elem_span.hi())
+                } else {
+                    span
+                };
+                $emitter
+                    .cm
+                    .span_to_snippet(search_span)
+                    .ok()
+                    .and_then(|snippet| $crate::macros::array_type_open_offset(&snippet))
+                    .map_or(span.lo(), |offset| {
+                        search_span.lo() + swc_common::BytePos(offset as u32)
+                    })
+            };
+            $emitter.wr.add_srcmap(pos)?;
+        }
+    }};
+}
+
+/// Restores a real owner's mapping when the current output is source-less.
+///
+/// This is useful for suffixes whose final child is optional or varies by node.
+macro_rules! srcmap_for_owner {
+    ($emitter:expr, $owner:expr) => {{
+        $emitter.wr.add_srcmap_for_owner($owner.span(), false)?;
+    }};
+}
+
+/// Restores the mapping owned by a separator after an unmapped child.
+///
+/// A synthesized owner keeps the separator source-less, while a real owner
+/// resumes its mapping after the child or one of its descendants cleared it.
+macro_rules! srcmap_for_separator {
+    ($emitter:expr, $owner:expr, $child:expr) => {{
+        let owner_span = $owner.span();
+        $emitter
+            .wr
+            .add_srcmap_for_owner(owner_span, $child.span().is_dummy())?;
+    }};
+}
+
+/// Maps the closing delimiter of an array or object binding pattern.
+///
+/// A pattern span also covers its optional marker and type annotation, so its
+/// high position does not necessarily point just after the closing delimiter.
+macro_rules! srcmap_for_pattern_close {
+    ($emitter:expr, $pattern:expr, $last_child_hi:expr, $delimiter:expr) => {{
+        if $emitter.wr.care_about_srcmap() {
+            let span = $pattern.span();
+            let pos = if span.is_dummy() {
+                swc_common::BytePos::SYNTHESIZED
+            } else {
+                let last_child_hi = $last_child_hi;
+                match $pattern.type_ann.as_ref() {
+                    Some(type_ann) if !type_ann.span.is_dummy() => {
+                        let search_hi = type_ann.span.lo();
+                        let search_lo = last_child_hi
+                            .filter(|&lo| span.lo() <= lo && lo <= search_hi)
+                            .unwrap_or_else(|| span.lo());
+                        let search_span = span.with_lo(search_lo).with_hi(search_hi);
+                        $emitter
+                            .cm
+                            .span_to_snippet(search_span)
+                            .ok()
+                            .and_then(|snippet| {
+                                $crate::macros::pattern_close_offset(
+                                    &snippet,
+                                    $delimiter,
+                                    $pattern.optional,
+                                    $crate::macros::PatternCloseMode::LastCandidate,
+                                )
+                            })
+                            .map_or(span.lo(), |offset| {
+                                search_span.lo() + swc_common::BytePos(offset as u32)
+                            })
+                    }
+                    // Replacing the annotation discards the suffix boundary,
+                    // so retain the real pattern's mapping instead of scanning
+                    // into the annotation's original source.
+                    Some(_) => span.lo(),
+                    // TypeScript transforms can remove `type_ann` while the
+                    // pattern retains its parsed span, including the original
+                    // annotation. Scan that source instead of assuming the
+                    // span ends at the closing delimiter.
+                    None => {
+                        // The owning delimiter follows every real child. Starting
+                        // there excludes typed delimiters nested in the final
+                        // child while still finding the owner before its removed
+                        // annotation.
+                        let search_lo = last_child_hi
+                            .filter(|&lo| span.lo() <= lo && lo <= span.hi())
+                            .unwrap_or_else(|| span.lo());
+                        let search_span = span.with_lo(search_lo);
+                        $emitter
+                            .cm
+                            .span_to_snippet(search_span)
+                            .ok()
+                            .and_then(|snippet| {
+                                $crate::macros::pattern_close_offset(
+                                    &snippet,
+                                    $delimiter,
+                                    $pattern.optional,
+                                    $crate::macros::PatternCloseMode::RemovedTypeAnnotation,
+                                )
+                            })
+                            .map_or(span.lo(), |offset| {
+                                search_span.lo() + swc_common::BytePos(offset as u32)
+                            })
+                    }
+                }
+            };
+            $emitter.wr.add_srcmap(pos)?;
+        }
+    }};
+}
+
+/// Finds a pattern's closing delimiter before trivia, an optional marker, and
+/// an optional type annotation. Validating the suffix avoids mistaking
+/// delimiters inside the pattern or trailing comments for its delimiter.
+/// When an annotation was removed, type-annotation candidates take precedence
+/// over terminal candidates so a delimiter inside the annotation cannot
+/// replace the owner's delimiter.
+pub(crate) enum PatternCloseMode {
+    LastCandidate,
+    RemovedTypeAnnotation,
+}
+
+pub(crate) fn pattern_close_offset(
+    snippet: &str,
+    delimiter: char,
+    optional: bool,
+    mode: PatternCloseMode,
+) -> Option<usize> {
+    let mut chars = snippet.char_indices().peekable();
+    let mut candidate = None;
+    let mut annotation_candidate = None;
+
+    while let Some((offset, ch)) = chars.next() {
+        if ch == '/' {
+            match chars.peek().map(|(_, ch)| *ch) {
+                Some('/') => {
+                    chars.next();
+                    chars.find(|(_, ch)| swc_ecma_utils::str::is_line_terminator(*ch));
+                    continue;
+                }
+                Some('*') => {
+                    chars.next();
+                    let mut previous_was_star = false;
+                    let mut terminated = false;
+                    for (_, ch) in chars.by_ref() {
+                        if previous_was_star && ch == '/' {
+                            terminated = true;
+                            break;
+                        }
+                        previous_was_star = ch == '*';
+                    }
+                    if !terminated {
+                        return None;
+                    }
+                    continue;
+                }
+                _ => {}
             }
         }
-    };
+
+        if ch == delimiter {
+            let suffix = &snippet[offset + delimiter.len_utf8()..];
+            match pattern_suffix_kind(suffix, optional) {
+                Some(PatternSuffixKind::TypeAnnotation) => {
+                    candidate = Some(offset);
+                    annotation_candidate = Some(offset);
+                }
+                Some(PatternSuffixKind::Terminal) => candidate = Some(offset),
+                None => {}
+            }
+        }
+    }
+
+    match mode {
+        PatternCloseMode::LastCandidate => candidate,
+        PatternCloseMode::RemovedTypeAnnotation => annotation_candidate.or(candidate),
+    }
+}
+
+/// Finds the opening bracket of the final array-type suffix.
+///
+/// Validating the remainder avoids treating brackets inside comments or a
+/// nested element type as the suffix delimiter.
+pub(crate) fn array_type_open_offset(snippet: &str) -> Option<usize> {
+    snippet.match_indices('[').find_map(|(offset, _)| {
+        let suffix = strip_source_trivia(&snippet[offset + 1..])?;
+        let suffix = suffix.strip_prefix(']')?;
+        strip_source_trivia(suffix)?.is_empty().then_some(offset)
+    })
+}
+
+/// Finds a JSX spread attribute's closing brace after expression trivia.
+pub(crate) fn jsx_spread_close_pos(
+    cm: &dyn swc_common::SourceMapper,
+    expr_hi: swc_common::BytePos,
+) -> Option<swc_common::BytePos> {
+    let file = cm.lookup_char_pos(expr_hi).file;
+    let local_offset = (expr_hi - file.start_pos).0 as usize;
+    let suffix = file.src.get(local_offset..)?;
+    let stripped = strip_source_trivia(suffix)?;
+
+    stripped
+        .starts_with('}')
+        .then(|| expr_hi + swc_common::BytePos((suffix.len() - stripped.len()) as u32))
+}
+
+#[derive(Clone, Copy)]
+enum PatternSuffixKind {
+    TypeAnnotation,
+    Terminal,
+}
+
+fn pattern_suffix_kind(mut suffix: &str, optional: bool) -> Option<PatternSuffixKind> {
+    let stripped = strip_source_trivia(suffix)?;
+    suffix = stripped;
+
+    if optional {
+        let stripped = suffix.strip_prefix('?')?;
+        let stripped = strip_source_trivia(stripped)?;
+        suffix = stripped;
+    }
+
+    if suffix.starts_with(':') {
+        Some(PatternSuffixKind::TypeAnnotation)
+    } else if suffix.is_empty() {
+        Some(PatternSuffixKind::Terminal)
+    } else {
+        None
+    }
+}
+
+fn strip_source_trivia(mut suffix: &str) -> Option<&str> {
+    loop {
+        suffix = suffix.trim_start_matches(|c| {
+            swc_ecma_utils::str::is_white_space_single_line(c)
+                || swc_ecma_utils::str::is_line_terminator(c)
+        });
+
+        if let Some(comment) = suffix.strip_prefix("//") {
+            suffix = comment
+                .find(swc_ecma_utils::str::is_line_terminator)
+                .map_or("", |end| &comment[end..]);
+            continue;
+        }
+
+        if let Some(comment) = suffix.strip_prefix("/*") {
+            let end = comment.find("*/")?;
+            suffix = &comment[end + 2..];
+            continue;
+        }
+
+        return Some(suffix);
+    }
 }
 
 macro_rules! emit_node_inner {
     ($emitter:expr, true, $n:expr) => {
         crate::Node::emit_with(&$n, $emitter)?
     };
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{array_type_open_offset, pattern_close_offset, PatternCloseMode};
+
+    #[test]
+    fn finds_array_type_opener_before_trivia() {
+        assert_eq!(array_type_open_offset("[ ]"), Some(0));
+        assert_eq!(array_type_open_offset("[][ /* [ */ ]"), Some(2));
+        assert_eq!(array_type_open_offset("[\u{feff}]"), Some(0));
+        assert_eq!(array_type_open_offset("[\u{200b}]"), Some(0));
+    }
+
+    #[test]
+    fn finds_pattern_closer_after_nested_typed_child() {
+        let snippet = "({ y }: Inner) => y }: Outer";
+        let child_hi = snippet.rfind(" }").expect("expected the owner delimiter");
+
+        assert_eq!(
+            pattern_close_offset(
+                &snippet[child_hi..],
+                '}',
+                false,
+                PatternCloseMode::RemovedTypeAnnotation,
+            ),
+            Some(1)
+        );
+        assert_eq!(
+            pattern_close_offset(
+                "}\u{feff}: Shape",
+                '}',
+                false,
+                PatternCloseMode::RemovedTypeAnnotation,
+            ),
+            Some(0)
+        );
+
+        let block_comment = " /* }: Fake */ }: Outer";
+        assert_eq!(
+            pattern_close_offset(
+                block_comment,
+                '}',
+                false,
+                PatternCloseMode::RemovedTypeAnnotation,
+            ),
+            block_comment.rfind("}: Outer")
+        );
+
+        let line_comment = " // }: Fake\n }: Outer";
+        assert_eq!(
+            pattern_close_offset(
+                line_comment,
+                '}',
+                false,
+                PatternCloseMode::RemovedTypeAnnotation,
+            ),
+            line_comment.rfind("}: Outer")
+        );
+
+        let synthesized_array_child = "x = ([y]: Inner) => y]: Outer";
+        assert_eq!(
+            pattern_close_offset(
+                synthesized_array_child,
+                ']',
+                false,
+                PatternCloseMode::LastCandidate,
+            ),
+            synthesized_array_child.rfind("]: Outer")
+        );
+
+        let synthesized_object_child = "x = ({ y }: Inner) => y }: Outer";
+        assert_eq!(
+            pattern_close_offset(
+                synthesized_object_child,
+                '}',
+                false,
+                PatternCloseMode::LastCandidate,
+            ),
+            synthesized_object_child.rfind("}: Outer")
+        );
+    }
 }

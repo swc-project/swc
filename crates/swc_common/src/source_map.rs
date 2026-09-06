@@ -1343,8 +1343,15 @@ pub fn build_source_map(
             continue;
         }
 
-        if pos == BytePos(u32::MAX) {
-            builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None, false);
+        if pos == BytePos::SYNTHESIZED {
+            // A synthesized position terminates the preceding source mapping.
+            // It is intentionally emitted without a source ID: assigning the
+            // current source would turn generated code into source line 0.
+            builder.add_raw(lc.line, lc.col, u32::MAX, u32::MAX, None, None, false);
+            // Compact source maps normally keep one mapping per generated
+            // line, but a real mapping after this boundary must be allowed to
+            // resume on the same line.
+            prev_dst_line = u32::MAX;
             continue;
         }
 

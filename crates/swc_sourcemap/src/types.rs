@@ -9,7 +9,7 @@ use std::{
 
 use bytes_str::BytesStr;
 use debugid::DebugId;
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use crate::{
     builder::SourceMapBuilder,
@@ -983,6 +983,170 @@ impl SourceMap {
     }
 }
 
+#[derive(Debug, Clone, Copy)]
+struct PositionRange {
+    start: (u32, u32),
+    end: (u32, u32),
+}
+
+#[derive(Debug, Clone, Copy)]
+struct SourceRange {
+    src_id: u32,
+    generated_start: (u32, u32),
+    range: PositionRange,
+}
+
+struct SplitUnmappedTokens {
+    mapped_tokens: Vec<RawToken>,
+    unmapped_tokens: Vec<RawToken>,
+    unmapped_generated_ranges: Vec<PositionRange>,
+    unmapped_source_ranges: Vec<SourceRange>,
+}
+
+fn offset_position(position: (u32, u32), line_diff: i64, col_diff: i64) -> Option<(u32, u32)> {
+    let line = position.0 as i64 + line_diff;
+    let col = position.1 as i64 + col_diff;
+
+    if line < 0 || line > u32::MAX as i64 || col < 0 || col > u32::MAX as i64 {
+        return None;
+    }
+
+    Some((line as u32, col as u32))
+}
+
+fn normalize_source_ranges(mut ranges: Vec<SourceRange>) -> Vec<SourceRange> {
+    ranges.sort_unstable_by_key(|range| (range.src_id, range.generated_start, range.range.start));
+
+    let mut normalized: Vec<SourceRange> = Vec::with_capacity(ranges.len());
+    for range in ranges {
+        if let Some(previous) = normalized.last_mut() {
+            if range.src_id == previous.src_id
+                && range.generated_start == previous.generated_start
+                && range.range.start <= previous.range.end
+            {
+                previous.range.end = std::cmp::max(previous.range.end, range.range.end);
+                continue;
+            }
+        }
+
+        normalized.push(range);
+    }
+
+    normalized
+}
+
+/// Splits tokens owned by a [`SourceMap`], which stores them in generated
+/// position order.
+fn split_unmapped_tokens(tokens: Vec<RawToken>) -> SplitUnmappedTokens {
+    if tokens.iter().all(|token| token.src_id != !0) {
+        return SplitUnmappedTokens {
+            mapped_tokens: tokens,
+            unmapped_tokens: Vec::new(),
+            unmapped_generated_ranges: Vec::new(),
+            unmapped_source_ranges: Vec::new(),
+        };
+    }
+
+    let mut unmapped_generated_ranges = Vec::new();
+    for (index, token) in tokens.iter().enumerate() {
+        if token.src_id != !0 {
+            continue;
+        }
+
+        let start = (token.dst_line, token.dst_col);
+        let next_start = tokens.get(index + 1).map_or((u32::MAX, u32::MAX), |token| {
+            (token.dst_line, token.dst_col)
+        });
+        unmapped_generated_ranges.push(PositionRange {
+            start,
+            end: std::cmp::min(next_start, (start.0, u32::MAX)),
+        });
+    }
+
+    // A source-less boundary also stops the preceding mapping in the
+    // intermediate source when both are on the same generated line. Walk
+    // backwards so the end comes from the nearest later mapping for the same
+    // source, even when mappings from other sources are interleaved in generated
+    // order.
+    let mut next_mapped_by_source: FxHashMap<u32, &RawToken> = FxHashMap::default();
+    let mut first_unmapped = None;
+    let mut unmapped_source_ranges = Vec::new();
+    for token in tokens.iter().rev() {
+        if token.src_id == !0 {
+            first_unmapped = Some(token);
+            continue;
+        }
+
+        if let Some(unmapped) = first_unmapped
+            .take()
+            .filter(|unmapped| unmapped.dst_line == token.dst_line)
+        {
+            let start = offset_position(
+                (unmapped.dst_line, unmapped.dst_col),
+                token.src_line as i64 - token.dst_line as i64,
+                token.src_col as i64 - token.dst_col as i64,
+            );
+            if let Some(start) = start {
+                // Without another mapping for this source, the skipped region
+                // extends through the source's final segment on this line.
+                let end = next_mapped_by_source
+                    .get(&token.src_id)
+                    .map(|next| (next.src_line, next.src_col))
+                    .filter(|&next| next >= (token.src_line, token.src_col))
+                    .map_or((start.0, u32::MAX), |next| {
+                        std::cmp::min(next, (start.0, u32::MAX))
+                    });
+                if start < end {
+                    unmapped_source_ranges.push(SourceRange {
+                        src_id: token.src_id,
+                        generated_start: (token.dst_line, token.dst_col),
+                        range: PositionRange { start, end },
+                    });
+                }
+            }
+        }
+
+        next_mapped_by_source.insert(token.src_id, token);
+    }
+
+    let (unmapped_tokens, mapped_tokens) = tokens.into_iter().partition(|token| token.src_id == !0);
+
+    SplitUnmappedTokens {
+        mapped_tokens,
+        unmapped_tokens,
+        unmapped_generated_ranges,
+        unmapped_source_ranges: normalize_source_ranges(unmapped_source_ranges),
+    }
+}
+
+#[inline]
+fn is_in_ranges(position: (u32, u32), ranges: &[PositionRange]) -> bool {
+    let index = ranges.partition_point(|range| range.end <= position);
+    ranges
+        .get(index)
+        .is_some_and(|range| range.start <= position)
+}
+
+#[inline]
+fn is_in_source_ranges_for_generated(
+    src_id: u32,
+    generated_start: (u32, u32),
+    position: (u32, u32),
+    ranges: &[SourceRange],
+) -> bool {
+    let index = ranges.partition_point(|range| {
+        range.src_id < src_id
+            || (range.src_id == src_id
+                && (range.generated_start < generated_start
+                    || (range.generated_start == generated_start && range.range.end <= position)))
+    });
+    ranges.get(index).is_some_and(|range| {
+        range.src_id == src_id
+            && range.generated_start == generated_start
+            && range.range.start <= position
+    })
+}
+
 pub(crate) fn adjust_mappings(
     mut self_tokens: Vec<RawToken>,
     adjustments: Cow<[RawToken]>,
@@ -1026,7 +1190,7 @@ pub(crate) fn adjust_mappings(
     /// function to determine the order of the tokens.
     #[allow(clippy::ptr_arg)]
     fn create_ranges(tokens: &mut [RawToken], key: fn(&RawToken) -> (u32, u32)) -> Vec<Range<'_>> {
-        tokens.sort_unstable_by_key(key);
+        tokens.sort_unstable_by_key(|token| (key(token), token.dst_line, token.dst_col));
 
         let mut token_iter = tokens.iter().peekable();
         let mut ranges = Vec::new();
@@ -1047,7 +1211,17 @@ pub(crate) fn adjust_mappings(
         ranges
     }
 
-    let mut new_tokens = Vec::with_capacity(self_tokens.len());
+    // Unmapped adjustment tokens describe generated boundaries, not positions
+    // in the intermediate source. Preserve them verbatim, record the generated
+    // ranges they cover, and keep them out of the source-coordinate range
+    // calculations below.
+    let SplitUnmappedTokens {
+        mapped_tokens: mut adjustment_tokens,
+        unmapped_tokens: mut new_tokens,
+        unmapped_generated_ranges,
+        unmapped_source_ranges,
+    } = split_unmapped_tokens(adjustments.into_owned());
+    new_tokens.reserve(self_tokens.len());
 
     // Turn `self.tokens` and `adjustment.tokens` into vectors of ranges so we have
     // easy access to both start and end.
@@ -1056,14 +1230,16 @@ pub(crate) fn adjust_mappings(
     // `dst_line/col` for the `self` tokens and `src_line/col` for the
     // `adjustment` tokens.
     let original_ranges = create_ranges(&mut self_tokens, |t| (t.dst_line, t.dst_col));
-    let mut adjustment_tokens = adjustments.into_owned();
     let adjustment_ranges = create_ranges(&mut adjustment_tokens, |t| (t.src_line, t.src_col));
 
     let mut original_ranges_iter = original_ranges.iter();
 
     let mut original_range = match original_ranges_iter.next() {
         Some(r) => r,
-        None => return self_tokens,
+        None => {
+            new_tokens.sort_unstable_by_key(|t| (t.dst_line, t.dst_col));
+            return new_tokens;
+        }
     };
 
     // Iterate over `adjustment_ranges` (sorted by `src_line/col`). For each such
@@ -1091,7 +1267,8 @@ pub(crate) fn adjust_mappings(
         while original_range.start < adjustment_range.end {
             // If `original_range` started before `adjustment_range`, cut off the token's
             // start.
-            let (dst_line, dst_col) = std::cmp::max(original_range.start, adjustment_range.start);
+            let intermediate_position = std::cmp::max(original_range.start, adjustment_range.start);
+            let (dst_line, dst_col) = intermediate_position;
             let mut token = RawToken {
                 dst_line,
                 dst_col,
@@ -1101,7 +1278,18 @@ pub(crate) fn adjust_mappings(
             token.dst_line = (token.dst_line as i32 + line_diff) as u32;
             token.dst_col = (token.dst_col as i32 + col_diff) as u32;
 
-            new_tokens.push(token);
+            if !is_in_source_ranges_for_generated(
+                adjustment_range.value.src_id,
+                (
+                    adjustment_range.value.dst_line,
+                    adjustment_range.value.dst_col,
+                ),
+                intermediate_position,
+                &unmapped_source_ranges,
+            ) && !is_in_ranges((token.dst_line, token.dst_col), &unmapped_generated_ranges)
+            {
+                new_tokens.push(token);
+            }
 
             if original_range.end >= adjustment_range.end {
                 // There are surely no more `original_ranges` for this `adjustment_range`.
@@ -1183,11 +1371,6 @@ pub fn adjust_mappings_from_multiple(
         })
         .collect::<Vec<_>>();
     let input_ranges = create_ranges(&mut input_tokens[..], |t| (t.dst_line, t.dst_col));
-    let mut self_tokens = std::mem::take(&mut this.tokens)
-        .into_iter()
-        .map(|t| (0u32, t))
-        .collect::<Vec<_>>();
-    let self_ranges = create_ranges(&mut self_tokens[..], |t| (t.src_line, t.src_col));
 
     let mut input_ranges_iter = input_ranges.iter();
     let mut input_range = match input_ranges_iter.next() {
@@ -1195,14 +1378,46 @@ pub fn adjust_mappings_from_multiple(
         None => return this,
     };
 
+    // Source-less `self` tokens delimit generated output and have no useful
+    // intermediate source coordinates. Preserve their generated ranges while
+    // excluding them from source-coordinate range construction.
+    let SplitUnmappedTokens {
+        mapped_tokens,
+        unmapped_tokens,
+        unmapped_generated_ranges,
+        unmapped_source_ranges,
+    } = split_unmapped_tokens(std::mem::take(&mut this.tokens));
+    let mut self_tokens = mapped_tokens
+        .into_iter()
+        .map(|token| (0u32, token))
+        .collect::<Vec<_>>();
+    let self_ranges = create_ranges(&mut self_tokens[..], |token| {
+        (token.src_line, token.src_col)
+    });
+
     let covered_input_files = input_maps
         .iter_mut()
         .flat_map(|m| m.file().cloned())
         .collect::<FxHashSet<_>>();
 
     let mut new_map = SourceMapBuilder::new(None);
+    for token in unmapped_tokens {
+        new_map.add_raw(
+            token.dst_line,
+            token.dst_col,
+            0,
+            0,
+            None,
+            None,
+            token.is_range,
+        );
+    }
     let mut add_mapping = |input_maps: &mut Vec<crate::lazy::SourceMap<'_>>,
                            map_idx: u32,
+                           intermediate_src_id: u32,
+                           generated_start: (u32, u32),
+                           intermediate_line: u32,
+                           intermediate_col: u32,
                            dst_line: u32,
                            dst_col: u32,
                            src_line: u32,
@@ -1210,6 +1425,16 @@ pub fn adjust_mappings_from_multiple(
                            src_id: u32,
                            name_id: u32,
                            is_range: bool| {
+        if is_in_source_ranges_for_generated(
+            intermediate_src_id,
+            generated_start,
+            (intermediate_line, intermediate_col),
+            &unmapped_source_ranges,
+        ) || is_in_ranges((dst_line, dst_col), &unmapped_generated_ranges)
+        {
+            return;
+        }
+
         let (src_id, name) = if map_idx == 0 {
             let src = this.get_source(src_id).cloned();
             (
@@ -1273,6 +1498,10 @@ pub fn adjust_mappings_from_multiple(
                 add_mapping(
                     &mut input_maps,
                     0,
+                    self_range.value.src_id,
+                    (self_range.value.dst_line, self_range.value.dst_col),
+                    self_range.value.src_line,
+                    self_range.value.src_col,
                     self_range.value.dst_line,
                     self_range.value.dst_col,
                     self_range.value.src_line,
@@ -1292,6 +1521,10 @@ pub fn adjust_mappings_from_multiple(
                 add_mapping(
                     &mut input_maps,
                     input_range_value.map_idx,
+                    self_range.value.src_id,
+                    (self_range.value.dst_line, self_range.value.dst_col),
+                    dst_line,
+                    dst_col,
                     (dst_line as i32 + line_diff) as u32,
                     (dst_col as i32 + col_diff) as u32,
                     input_range_value.value.src_line,
@@ -1677,8 +1910,11 @@ mod tests {
 
     use debugid::DebugId;
 
-    use super::{DecodedMap, RewriteOptions, SourceMap, SourceMapIndex, SourceMapSection};
-    use crate::lazy::MaybeRawValue;
+    use super::{
+        split_unmapped_tokens, DecodedMap, RewriteOptions, SourceMap, SourceMapIndex,
+        SourceMapSection,
+    };
+    use crate::{lazy::MaybeRawValue, RawToken, SourceMapBuilder};
 
     fn map_with_scopes() -> SourceMap {
         SourceMap::from_slice(
@@ -1780,6 +2016,560 @@ mod tests {
                 "bundler = {bundler}"
             );
         }
+    }
+
+    #[test]
+    fn split_unmapped_tokens_preserves_all_mapped_tokens() {
+        let tokens = vec![
+            RawToken {
+                dst_line: 1,
+                dst_col: 0,
+                src_line: 1,
+                src_col: 0,
+                src_id: 0,
+                name_id: !0,
+                is_range: false,
+            },
+            RawToken {
+                dst_line: 0,
+                dst_col: 0,
+                src_line: 0,
+                src_col: 0,
+                src_id: 0,
+                name_id: !0,
+                is_range: false,
+            },
+        ];
+
+        let split = split_unmapped_tokens(tokens.clone());
+
+        assert_eq!(split.mapped_tokens, tokens);
+        assert!(split.unmapped_tokens.is_empty());
+        assert!(split.unmapped_generated_ranges.is_empty());
+        assert!(split.unmapped_source_ranges.is_empty());
+    }
+
+    #[test]
+    fn adjust_mappings_preserves_unmapped_adjustment_segments() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 0, 10, 0, Some(original_source), None, false);
+        original_builder.add_raw(1, 0, 11, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
+        adjustment_builder.add_raw(0, 16, 1, 0, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let tokens = original.tokens().collect::<Vec<_>>();
+        assert_eq!(tokens.len(), 3);
+        assert_eq!(tokens[0].get_dst(), (0, 0));
+        assert_eq!(tokens[0].get_src(), (10, 0));
+        assert!(tokens[0].has_source());
+        assert_eq!(tokens[1].get_dst(), (0, 8));
+        assert!(!tokens[1].has_source());
+        assert_eq!(tokens[2].get_dst(), (0, 16));
+        assert_eq!(tokens[2].get_src(), (11, 0));
+        assert!(tokens[2].has_source());
+    }
+
+    #[test]
+    fn adjust_mappings_clips_tokens_inside_unmapped_adjustment_segments() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 0, 10, 0, Some(original_source), None, false);
+        original_builder.add_raw(0, 10, 10, 10, Some(original_source), None, false);
+        original_builder.add_raw(0, 18, 10, 18, Some(original_source), None, false);
+        original_builder.add_raw(0, 20, 10, 20, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
+        adjustment_builder.add_raw(0, 16, 0, 20, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let tokens = original.tokens().collect::<Vec<_>>();
+        assert_eq!(tokens.len(), 3);
+        assert_eq!(tokens[0].get_dst(), (0, 0));
+        assert_eq!(tokens[0].get_src(), (10, 0));
+        assert!(tokens[0].has_source());
+        assert_eq!(tokens[1].get_dst(), (0, 8));
+        assert!(!tokens[1].has_source());
+        assert_eq!(tokens[2].get_dst(), (0, 16));
+        assert_eq!(tokens[2].get_src(), (10, 20));
+        assert!(tokens[2].has_source());
+    }
+
+    #[test]
+    fn adjust_mappings_does_not_project_unmapped_boundaries_across_generated_lines() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(6, 20, 10, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 10, 5, 20, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(1, 3, 0, 0, None, None, false);
+        adjustment_builder.add_raw(1, 5, 6, 5, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let token = original
+            .tokens()
+            .find(|token| token.get_dst() == (1, 20))
+            .expect("the resumed mapping should compose on the new generated line");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            original.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_preserves_forward_resumed_source_range() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 30, 10, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 0, 0, 20, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
+        adjustment_builder.add_raw(1, 0, 0, 25, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let token = original
+            .tokens()
+            .find(|token| token.get_dst() == (1, 5))
+            .expect("the forward resumed mapping should own the later source range");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            original.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_preserves_equal_position_resumed_source_range() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 10, 10, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
+        adjustment_builder.add_raw(0, 16, 0, 0, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let token = original
+            .tokens()
+            .find(|token| token.get_dst() == (0, 26))
+            .expect("the equal-position resumed mapping should own the later source range");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            original.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_preserves_generated_order_for_equal_source_positions() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 10, 10, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        for dst_col in (0..64).step_by(2) {
+            if dst_col == 32 {
+                adjustment_builder.add_raw(0, 31, 0, 0, None, None, false);
+            }
+            adjustment_builder.add_raw(0, dst_col, 0, 0, Some(intermediate_source), None, false);
+        }
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let token = original
+            .tokens()
+            .find(|token| token.get_dst() == (0, 72))
+            .expect("the final generated occurrence should own the equal source range");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            original.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_scopes_unmapped_ranges_to_generated_occurrence() {
+        let mut original_builder = SourceMapBuilder::new(None);
+        let original_source = original_builder.add_source("original.js".into());
+        original_builder.add_raw(0, 10, 10, 0, Some(original_source), None, false);
+        let mut original = original_builder.into_sourcemap();
+
+        let mut adjustment_builder = SourceMapBuilder::new(None);
+        let intermediate_source = adjustment_builder.add_source("intermediate.js".into());
+        adjustment_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(0, 8, 0, 0, None, None, false);
+        adjustment_builder.add_raw(0, 16, 0, 20, Some(intermediate_source), None, false);
+        adjustment_builder.add_raw(1, 0, 0, 10, Some(intermediate_source), None, false);
+        let adjustment = adjustment_builder.into_sourcemap();
+
+        original.adjust_mappings(&adjustment);
+
+        let token = original
+            .tokens()
+            .find(|token| token.get_dst() == (1, 0))
+            .expect("the reused source interval should map through its later occurrence");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            original.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_preserves_unmapped_self_segments() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 20, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,UAAU,QAAQ,EAAE"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let tokens = composed.tokens().collect::<Vec<_>>();
+        assert_eq!(tokens.len(), 3);
+        assert_eq!(tokens[0].get_dst(), (0, 0));
+        assert_eq!(tokens[0].get_src(), (0, 0));
+        assert!(tokens[0].has_source());
+        assert_eq!(tokens[1].get_dst(), (0, 8));
+        assert!(!tokens[1].has_source());
+        assert_eq!(tokens[2].get_dst(), (0, 16));
+        assert_eq!(tokens[2].get_src(), (0, 20));
+        assert!(tokens[2].has_source());
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_does_not_project_unmapped_boundaries_across_generated_lines() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 10, 5, 20, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(1, 3, 0, 0, None, None, false);
+        bundled_builder.add_raw(1, 5, 6, 5, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": ";;;;;;oBAUA"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (1, 20))
+            .expect("the resumed mapping should compose on the new generated line");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_scopes_unmapped_ranges_to_their_source() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let source_a = bundled_builder.add_source("a.js".into());
+        let source_b = bundled_builder.add_source("b.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(source_a), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 20, 0, 20, Some(source_a), None, false);
+        bundled_builder.add_raw(0, 30, 0, 10, Some(source_b), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "a.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,oBAAoB"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (0, 30))
+            .expect("b.js mapping should be preserved");
+        assert_eq!(token.get_src(), (0, 10));
+        assert_eq!(composed.get_source(token.get_src_id()).unwrap(), "b.js");
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_ends_unmapped_ranges_at_same_source() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let source_a = bundled_builder.add_source("a.js".into());
+        let source_b = bundled_builder.add_source("b.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(source_a), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 20, Some(source_b), None, false);
+        bundled_builder.add_raw(0, 24, 0, 10, Some(source_a), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "a.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,UAAU"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (0, 24))
+            .expect("later a.js mapping should be preserved");
+        assert_eq!(token.get_src(), (0, 10));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_extends_final_unmapped_source_range() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let source_a = bundled_builder.add_source("a.js".into());
+        let source_b = bundled_builder.add_source("b.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(source_a), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 30, Some(source_b), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "a.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,kBAAkB"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        assert!(
+            composed.tokens().all(|token| token.get_dst() != (0, 18)),
+            "a.js mapping after the source-less boundary should be skipped"
+        );
+        let token = composed
+            .lookup_token(0, 18)
+            .expect("b.js mapping should remain active");
+        assert_eq!(token.get_dst(), (0, 16));
+        assert_eq!(token.get_src(), (0, 30));
+        assert_eq!(composed.get_source(token.get_src_id()).unwrap(), "b.js");
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_extends_backward_unmapped_source_range() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 0, 0, 20, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 0, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "AAAA,wCAAwC"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        assert!(
+            composed.tokens().all(|token| token.get_dst() != (0, 20)),
+            "a mapping after the source-less boundary must not override the resumed segment"
+        );
+        let token = composed
+            .lookup_token(0, 20)
+            .expect("the resumed mapping should remain active");
+        assert_eq!(token.get_dst(), (0, 16));
+        assert_eq!(token.get_src(), (0, 0));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_preserves_forward_resumed_source_range() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 0, 0, 20, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(1, 0, 0, 25, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "8BAUA"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (1, 5))
+            .expect("the forward resumed mapping should own the later source range");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_preserves_equal_position_resumed_source_range() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 0, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "UAUA"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (0, 26))
+            .expect("the equal-position resumed mapping should own the later source range");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
+    }
+
+    #[test]
+    fn adjust_mappings_from_multiple_scopes_unmapped_ranges_to_generated_occurrence() {
+        let mut bundled_builder = SourceMapBuilder::new(None);
+        let intermediate_source = bundled_builder.add_source("intermediate.js".into());
+        bundled_builder.add_raw(0, 0, 0, 0, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(0, 8, 0, 0, None, None, false);
+        bundled_builder.add_raw(0, 16, 0, 20, Some(intermediate_source), None, false);
+        bundled_builder.add_raw(1, 0, 0, 10, Some(intermediate_source), None, false);
+        let bundled = bundled_builder.into_sourcemap();
+
+        let input = crate::lazy::decode(
+            br#"{
+                "version": 3,
+                "file": "intermediate.js",
+                "sources": ["original.js"],
+                "names": [],
+                "mappings": "UAUA"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let composed = bundled.adjust_mappings_from_multiple(vec![input]);
+
+        let token = composed
+            .tokens()
+            .find(|token| token.get_dst() == (1, 0))
+            .expect("the reused source interval should map through its later occurrence");
+        assert_eq!(token.get_src(), (10, 0));
+        assert_eq!(
+            composed.get_source(token.get_src_id()).unwrap(),
+            "original.js"
+        );
     }
 
     #[test]

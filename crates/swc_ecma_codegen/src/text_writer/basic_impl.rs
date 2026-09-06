@@ -1,8 +1,6 @@
 use std::io::Write;
 
 use memchr::memchr2;
-use rustc_hash::FxBuildHasher;
-use swc_allocator::api::global::HashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
 use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
@@ -21,12 +19,19 @@ pub struct JsWriter<'a, W: Write> {
     line_pos: usize,
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-    srcmap_done: HashSet<(BytePos, u32, u32), FxBuildHasher>,
+    srcmap_state: SourceMapState,
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
     scopes: Option<&'a mut Vec<ScopeRecord>>,
     scope_stack: Vec<u32>,
+}
+
+#[derive(Clone, Copy, Default, PartialEq, Eq)]
+enum SourceMapState {
+    Mapped,
+    #[default]
+    Unmapped,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
@@ -56,7 +61,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             pending_srcmap: Default::default(),
-            srcmap_done: Default::default(),
+            srcmap_state: Default::default(),
             scopes,
             scope_stack: Default::default(),
         }
@@ -165,21 +170,47 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
     #[inline]
     fn srcmap(&mut self, byte_pos: BytePos) {
-        if byte_pos.is_dummy() && byte_pos != BytePos(u32::MAX) {
+        let Some(srcmap) = self.srcmap.as_deref_mut() else {
+            return;
+        };
+
+        // Low-level token writers use DUMMY when an enclosing node already
+        // supplied the source mapping. Generated nodes use SYNTHESIZED
+        // explicitly so these two cases remain distinguishable.
+        if byte_pos.is_dummy() {
             return;
         }
 
-        if let Some(ref mut srcmap) = self.srcmap {
-            let key = (byte_pos, self.line_count as _, self.line_pos as _);
-            if self.srcmap_done.insert(key) {
-                let loc = LineCol {
-                    line: key.1,
-                    col: key.2,
-                };
+        if byte_pos == BytePos::SYNTHESIZED {
+            if self.srcmap_state == SourceMapState::Unmapped {
+                return;
+            }
 
-                srcmap.push((byte_pos, loc));
+            // A synthesized position is an unmapped source-map segment. One
+            // segment is enough to clear the preceding mapping for a whole
+            // contiguous region of generated output.
+            self.srcmap_state = SourceMapState::Unmapped;
+        } else {
+            self.srcmap_state = SourceMapState::Mapped;
+        }
+
+        let loc = LineCol {
+            line: self.line_count as u32,
+            col: self.line_pos as u32,
+        };
+
+        // Generated positions never move backwards, so every mapping recorded
+        // for one position is adjacent to the previous one. Coalescing with the
+        // last entry therefore both deduplicates and makes the last emitted
+        // transition win, without tracking the emitted positions separately.
+        if let Some(last) = srcmap.last_mut() {
+            if last.1 == loc {
+                last.0 = byte_pos;
+                return;
             }
         }
+
+        srcmap.push((byte_pos, loc));
     }
 
     #[inline]
@@ -248,6 +279,8 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
             if self.srcmap.is_some() {
                 self.line_count += 1;
                 self.line_pos = 0;
+                // A consumer may carry the previous mapping across generated
+                // lines, so only an explicit source-less segment clears it.
             }
             self.line_start = true;
 
@@ -316,6 +349,13 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
     }
 
     #[inline]
+    fn will_add_srcmap(&self, pos: BytePos) -> bool {
+        self.srcmap.is_some()
+            && !pos.is_dummy()
+            && (pos != BytePos::SYNTHESIZED || self.srcmap_state != SourceMapState::Unmapped)
+    }
+
+    #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
         if self.srcmap.is_some() {
             if self.line_start {
@@ -325,6 +365,21 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
             }
         }
         Ok(())
+    }
+
+    #[inline]
+    fn add_srcmap_for_owner(&mut self, owner_span: Span, child_is_dummy: bool) -> Result {
+        if self.srcmap.is_none() {
+            return Ok(());
+        }
+
+        if owner_span.is_dummy() {
+            self.add_srcmap(BytePos::SYNTHESIZED)
+        } else if child_is_dummy || !self.will_add_srcmap(BytePos::SYNTHESIZED) {
+            self.add_srcmap(owner_span.lo())
+        } else {
+            Ok(())
+        }
     }
 
     #[inline]
@@ -482,7 +537,7 @@ fn compute_line_starts_from_bytes(bytes: &[u8]) -> LineStart {
 mod test {
     use std::sync::Arc;
 
-    use swc_common::SourceMap;
+    use swc_common::{BytePos, LineCol, SourceMap};
 
     use super::{compute_line_starts_from_bytes, JsWriter};
     use crate::text_writer::{BindingStorage, ScopeKind, WriteJs};
@@ -626,6 +681,60 @@ mod test {
 
         assert_eq!(writer.line_count, 1);
         assert_eq!(writer.line_pos, 1);
+    }
+
+    #[test]
+    fn last_source_map_transition_wins_at_same_generated_position() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut srcmap = vec![];
+        {
+            let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
+
+            writer.write_str("x").unwrap();
+            writer.add_srcmap(BytePos(1)).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+
+            writer.write_str("y").unwrap();
+            writer.add_srcmap(BytePos(2)).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer.add_srcmap(BytePos(3)).unwrap();
+        }
+
+        assert_eq!(
+            srcmap,
+            vec![
+                (BytePos::SYNTHESIZED, LineCol { line: 0, col: 1 }),
+                (BytePos(3), LineCol { line: 0, col: 2 }),
+            ]
+        );
+    }
+
+    #[test]
+    fn generated_line_emits_source_less_boundary() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut srcmap = vec![];
+        {
+            let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
+
+            writer.write_str("mapped").unwrap();
+            writer.add_srcmap(BytePos(1)).unwrap();
+            writer.write_line().unwrap();
+
+            assert!(writer.will_add_srcmap(BytePos::SYNTHESIZED));
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer.write_str("generated").unwrap();
+        }
+
+        assert_eq!(output, b"mapped\ngenerated");
+        assert_eq!(
+            srcmap,
+            vec![
+                (BytePos(1), LineCol { line: 0, col: 6 }),
+                (BytePos::SYNTHESIZED, LineCol { line: 1, col: 0 }),
+            ]
+        );
     }
 
     #[test]

@@ -50,8 +50,11 @@ impl MacroNode for RestPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap!(emitter, self.dot3_token, true);
+
         punct!(emitter, self.dot3_token, "...");
         emit!(self.arg);
+        srcmap_for_separator!(emitter, self, self.arg);
 
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
@@ -84,7 +87,7 @@ impl MacroNode for SpreadElement {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
-        srcmap!(emitter, self, true);
+        srcmap!(emitter, self.dot3_token, true);
 
         punct!(emitter, "...");
         emit!(self.expr);
@@ -163,6 +166,11 @@ impl MacroNode for ArrayPat {
         }
 
         emitter.emit_list(self.span(), Some(&self.elems), format)?;
+        let last_child_hi = self.elems.iter().flatten().rev().find_map(|element| {
+            let span = element.span();
+            (!span.is_dummy()).then_some(span.hi())
+        });
+        srcmap_for_pattern_close!(emitter, self, last_child_hi, ']');
         punct!(emitter, "]");
         if self.optional {
             punct!(emitter, "?");
@@ -188,6 +196,7 @@ impl MacroNode for AssignPat {
         srcmap!(emitter, self, true);
 
         emit!(self.left);
+        srcmap_for_separator!(emitter, self, self.left);
         formatting_space!(emitter);
         punct!(emitter, "=");
         formatting_space!(emitter);
@@ -213,6 +222,11 @@ impl MacroNode for ObjectPat {
             ListFormat::ObjectBindingPatternElements | ListFormat::CanSkipTrailingComma,
         )?;
 
+        let last_child_hi = self.props.iter().rev().find_map(|property| {
+            let span = property.span();
+            (!span.is_dummy()).then_some(span.hi())
+        });
+        srcmap_for_pattern_close!(emitter, self, last_child_hi, '}');
         punct!(emitter, "}");
 
         if self.optional {
@@ -254,6 +268,12 @@ impl MacroNode for KeyValuePatProp {
         srcmap!(emitter, self, true);
 
         emit!(self.key);
+        let key_span = self.key.span();
+        if !key_span.is_dummy() && self.value.span().is_dummy() {
+            emitter.wr.add_srcmap(key_span.hi)?;
+        } else {
+            srcmap_for_separator!(emitter, self.value, self.key);
+        }
         punct!(emitter, ":");
         formatting_space!(emitter);
         emit!(self.value);
@@ -273,6 +293,7 @@ impl MacroNode for AssignPatProp {
 
         emit!(self.key);
         if let Some(value) = &self.value {
+            srcmap_for_separator!(emitter, self, self.key);
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
