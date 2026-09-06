@@ -482,7 +482,7 @@ impl Optimizer<'_> {
         {
             let mut child_ctx = self.ctx.clone();
             let mut directive_count = 0;
-            let mut directive_contexts = Vec::new();
+            let mut directive_contexts = None;
 
             if has_directive_prologue {
                 for stmt in stmts.iter() {
@@ -493,10 +493,16 @@ impl Optimizer<'_> {
                         break;
                     };
 
-                    // Each directive observes the context established by the preceding
-                    // directives, but the first directive remains in the parent context.
-                    directive_contexts.push(child_ctx.clone());
                     directive_count += 1;
+
+                    // Each directive after the first observes the context established
+                    // by its predecessors. The first uses the parent context directly,
+                    // so avoid allocating or cloning a context for a lone directive.
+                    if directive_count > 1 {
+                        directive_contexts
+                            .get_or_insert_with(Vec::new)
+                            .push(child_ctx.clone());
+                    }
 
                     match &v.raw {
                         Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
@@ -524,7 +530,8 @@ impl Optimizer<'_> {
                     // Don't set in_strict for the first directive itself.
                     stmt.visit_mut_with(self);
                 } else if i < directive_count {
-                    let directive_optimizer = &mut *self.with_ctx(directive_contexts[i].clone());
+                    let directive_optimizer =
+                        &mut *self.with_ctx(directive_contexts.as_ref().unwrap()[i - 1].clone());
                     stmt.visit_mut_with(directive_optimizer);
                 } else {
                     let child_optimizer = &mut *self.with_ctx(child_ctx.clone());
@@ -2388,8 +2395,17 @@ impl VisitMut for Optimizer<'_> {
         n.decorators.visit_mut_with(self);
 
         let old_in_asm = self.ctx.bit_ctx.contains(BitCtx::InAsm);
-        let function_is_strict =
-            self.ctx.expr_ctx.in_strict || rest_params::has_use_strict_directive(n);
+        // Rest-parameter removal is the only consumer of a function's own strict
+        // directive. Avoid scanning the directive prologue for functions that cannot
+        // have their parameter list changed.
+        let function_is_strict = self.ctx.expr_ctx.in_strict
+            || (matches!(
+                n.params.last(),
+                Some(Param {
+                    pat: Pat::Rest(..),
+                    ..
+                })
+            ) && rest_params::has_use_strict_directive(n));
 
         {
             let ctx = self.function_like_ctx(n.ctxt);

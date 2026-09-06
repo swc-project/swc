@@ -77,6 +77,23 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
         })
     }
 
+    /// Returns true if a nested callable's function scope binds `name`.
+    ///
+    /// Unlike a block scope, a callable's body owns its `var` and function
+    /// declarations. They are therefore visible to a direct eval in that body,
+    /// while `var` declarations in the function currently being optimized still
+    /// alias its parameter binding and must not be treated as shadows.
+    fn function_body_shadows_name(stmts: &[Stmt], name: &str) -> bool {
+        stmts.iter().any(|stmt| match stmt {
+            Stmt::Decl(Decl::Var(var)) => var
+                .decls
+                .iter()
+                .any(|decl| pat_binds_name(&decl.name, name)),
+            Stmt::Decl(Decl::Fn(fn_decl)) => fn_decl.ident.sym == name,
+            _ => false,
+        })
+    }
+
     struct Finder<'a> {
         rest_name: &'a str,
         shadowed: usize,
@@ -208,7 +225,11 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
             let shadowed = function
                 .params
                 .iter()
-                .any(|param| pat_binds_name(&param.pat, self.rest_name));
+                .any(|param| pat_binds_name(&param.pat, self.rest_name))
+                || function
+                    .body
+                    .as_ref()
+                    .is_some_and(|body| function_body_shadows_name(&body.stmts, self.rest_name));
             self.shadowed += usize::from(shadowed);
             function.params.visit_with(self);
             function.body.visit_with(self);
@@ -223,7 +244,12 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
             let shadowed = arrow
                 .params
                 .iter()
-                .any(|param| pat_binds_name(param, self.rest_name));
+                .any(|param| pat_binds_name(param, self.rest_name))
+                || matches!(
+                    &*arrow.body,
+                    ArrowFunctionBody::FunctionBody(body)
+                        if function_body_shadows_name(&body.stmts, self.rest_name)
+                );
             self.shadowed += usize::from(shadowed);
             arrow.params.visit_with(self);
             arrow.body.visit_with(self);
@@ -354,6 +380,16 @@ fn uses_implicit_arguments(f: &Function) -> bool {
                 }
             }
         }
+
+        fn collect_stmt_binding(&mut self, stmt: &Stmt) {
+            match stmt {
+                Stmt::Decl(Decl::Var(var)) => self.collect_lexical_var_decl(var),
+                Stmt::Decl(Decl::Fn(fn_decl)) if fn_decl.ident.sym == "arguments" => {
+                    self.ids.push(fn_decl.ident.to_id());
+                }
+                _ => {}
+            }
+        }
     }
 
     impl Visit for ArrowVarFinder {
@@ -387,9 +423,7 @@ fn uses_implicit_arguments(f: &Function) -> bool {
             // by a BlockStmt node.
             let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
             for stmt in &body.stmts {
-                if let Stmt::Decl(Decl::Var(var)) = stmt {
-                    binding_finder.collect_lexical_var_decl(var);
-                }
+                binding_finder.collect_stmt_binding(stmt);
             }
 
             let shadowed_len = self.shadowed_arguments.len();
@@ -407,9 +441,7 @@ fn uses_implicit_arguments(f: &Function) -> bool {
             // containing block, including before their declaration is evaluated.
             let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
             for stmt in &block.stmts {
-                if let Stmt::Decl(Decl::Var(var)) = stmt {
-                    binding_finder.collect_lexical_var_decl(var);
-                }
+                binding_finder.collect_stmt_binding(stmt);
             }
 
             let shadowed_len = self.shadowed_arguments.len();
@@ -434,9 +466,7 @@ fn uses_implicit_arguments(f: &Function) -> bool {
             let mut binding_finder = ArrowVarFinder { ids: Vec::new() };
             for case in &switch_stmt.cases {
                 for stmt in &case.cons {
-                    if let Stmt::Decl(Decl::Var(var)) = stmt {
-                        binding_finder.collect_lexical_var_decl(var);
-                    }
+                    binding_finder.collect_stmt_binding(stmt);
                 }
             }
 
