@@ -103,6 +103,24 @@ impl Pure<'_> {
         )
     }
 
+    /// Visits the receiver of an optional-chain continuation.
+    ///
+    /// Only a nested optional chain at this exact edge shares short-circuit
+    /// state with its parent. Expressions inside another receiver expression,
+    /// such as call arguments, are evaluated independently and must be free
+    /// to fold.
+    fn visit_opt_chain_continuation(&mut self, e: &mut Expr) {
+        if matches!(e, Expr::OptChain(..)) {
+            self.do_inside_of_context(Ctx::IN_OPT_CHAIN, |this| {
+                e.visit_mut_with(this);
+            });
+        } else {
+            self.do_outside_of_context(Ctx::IN_OPT_CHAIN, |this| {
+                e.visit_mut_with(this);
+            });
+        }
+    }
+
     #[inline(always)]
     fn can_simplify_member_expr(e: &MemberExpr) -> bool {
         matches!(
@@ -1049,7 +1067,11 @@ impl VisitMut for Pure<'_> {
             self.do_outside_of_context(
                 Ctx::IS_CALLEE
                     .union(Ctx::IS_UPDATE_ARG)
-                    .union(Ctx::IS_LHS_OF_ASSIGN),
+                    .union(Ctx::IS_LHS_OF_ASSIGN)
+                    // A computed key is not part of the optional-chain
+                    // continuation, so nested optional chains can be folded
+                    // independently.
+                    .union(Ctx::IN_OPT_CHAIN),
                 |this| {
                     c.visit_mut_with(this);
                 },
@@ -1098,15 +1120,59 @@ impl VisitMut for Pure<'_> {
             opt_call.callee.visit_mut_with(this);
         });
 
-        opt_call.args.visit_mut_with(self);
+        // Arguments are evaluated independently of the optional-chain
+        // continuation, unlike the callee.
+        self.do_outside_of_context(Ctx::IN_OPT_CHAIN, |this| {
+            opt_call.args.visit_mut_with(this);
+        });
 
         self.eval_spread_array_in_args(&mut opt_call.args);
     }
 
     fn visit_mut_opt_chain_expr(&mut self, e: &mut OptChainExpr) {
-        self.do_inside_of_context(Ctx::IN_OPT_CHAIN, |this| {
-            e.visit_mut_children_with(this);
-        });
+        match &mut *e.base {
+            OptChainBase::Member(member) => {
+                self.do_outside_of_context(Ctx::IS_CALLEE.union(Ctx::IS_UPDATE_ARG), |this| {
+                    this.visit_opt_chain_continuation(&mut member.obj);
+                });
+
+                if let MemberProp::Computed(c) = &mut member.prop {
+                    self.do_outside_of_context(
+                        Ctx::IS_CALLEE
+                            .union(Ctx::IS_UPDATE_ARG)
+                            .union(Ctx::IS_LHS_OF_ASSIGN)
+                            .union(Ctx::IN_OPT_CHAIN),
+                        |this| {
+                            c.visit_mut_with(this);
+                        },
+                    );
+
+                    // TODO: unify these two
+                    if let Some(ident) = self.optimize_property_of_member_expr(Some(&member.obj), c)
+                    {
+                        member.prop = MemberProp::Ident(ident);
+                        return;
+                    };
+
+                    if let Some(ident) = self.handle_known_computed_member_expr(c) {
+                        member.prop = MemberProp::Ident(ident)
+                    };
+                }
+            }
+
+            OptChainBase::Call(call) => {
+                self.do_inside_of_context(Ctx::IS_CALLEE, |this| {
+                    this.visit_opt_chain_continuation(&mut call.callee);
+                });
+
+                self.do_outside_of_context(Ctx::IN_OPT_CHAIN, |this| {
+                    call.args.visit_mut_with(this);
+                });
+                self.eval_spread_array_in_args(&mut call.args);
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        }
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {

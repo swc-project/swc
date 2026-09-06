@@ -758,6 +758,13 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_opt_chain(&mut self, e: &mut Expr) {
+        // Folding a nested continuation independently loses whether an earlier
+        // optional continuation short-circuited. Evaluate the full chain from
+        // its root so a required continuation can still preserve its throw.
+        if self.ctx.contains(Ctx::IN_OPT_CHAIN) {
+            return;
+        }
+
         let opt = match e {
             Expr::OptChain(e) => e,
             _ => return,
@@ -765,8 +772,9 @@ impl Pure<'_> {
 
         match &mut *opt.base {
             OptChainBase::Member(MemberExpr { span, obj, .. }) => {
-                //
-                if is_pure_undefined_or_null(self.expr_ctx, obj) {
+                if (opt.optional && is_pure_undefined_or_null(self.expr_ctx, obj))
+                    || self.is_opt_chain_short_circuited(obj)
+                {
                     self.changed = true;
                     report_change!(
                         "evaluate: Reduced an optional chaining operation because object is \
@@ -778,7 +786,9 @@ impl Pure<'_> {
             }
 
             OptChainBase::Call(OptCall { span, callee, .. }) => {
-                if is_pure_undefined_or_null(self.expr_ctx, callee) {
+                if (opt.optional && is_pure_undefined_or_null(self.expr_ctx, callee))
+                    || self.is_opt_chain_short_circuited(callee)
+                {
                     self.changed = true;
                     report_change!(
                         "evaluate: Reduced a call expression with optional chaining operation \
@@ -791,6 +801,24 @@ impl Pure<'_> {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
+    }
+
+    /// Returns whether an earlier continuation of an optional chain has
+    /// definitely short-circuited to `undefined`.
+    fn is_opt_chain_short_circuited(&self, expr: &Expr) -> bool {
+        let Expr::OptChain(opt) = expr else {
+            return false;
+        };
+
+        let base = match &*opt.base {
+            OptChainBase::Member(member) => &*member.obj,
+            OptChainBase::Call(call) => &*call.callee,
+            #[cfg(swc_ast_unknown)]
+            _ => return false,
+        };
+
+        (opt.optional && is_pure_undefined_or_null(self.expr_ctx, base))
+            || self.is_opt_chain_short_circuited(base)
     }
 
     pub(super) fn eval_trivial_values_in_expr(&mut self, seq: &mut SeqExpr) {
