@@ -1,7 +1,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
-use super::{Optimizer, ProgramData, VarUsageInfoFlags};
+use super::Optimizer;
 
 /// Returns true if a function body has a strict-mode directive.
 pub(super) fn has_use_strict_directive(f: &Function) -> bool {
@@ -116,6 +116,10 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
                     },
                     _ => true,
                 };
+
+                if !self.found {
+                    call.args[1..].visit_with(self);
+                }
                 return;
             }
 
@@ -139,7 +143,7 @@ fn uses_rest_in_direct_eval(f: &Function, rest_id: &Id) -> bool {
 /// read. This deliberately does not model the legacy `Function#arguments`
 /// property; minification assumes code does not use that property to observe
 /// the active arguments object.
-fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
+fn uses_implicit_arguments(f: &Function) -> bool {
     struct ArrowVarFinder {
         ids: Vec<Id>,
     }
@@ -203,13 +207,12 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
         }
     }
 
-    struct Finder<'a> {
-        data: &'a ProgramData,
+    struct Finder {
         shadowed_arguments: Vec<Id>,
         found: bool,
     }
 
-    impl Visit for Finder<'_> {
+    impl Visit for Finder {
         fn visit_function_body(&mut self, body: &FunctionBody) {
             if self.found {
                 return;
@@ -490,20 +493,13 @@ fn uses_implicit_arguments(f: &Function, data: &ProgramData) -> bool {
                 return;
             }
 
-            if ident.sym == "arguments"
-                && !self.shadowed_arguments.contains(&ident.to_id())
-                && self.data.vars.get(&ident.to_id()).map_or(true, |usage| {
-                    usage.var_kind == Some(VarDeclKind::Var)
-                        || !usage.flags.contains(VarUsageInfoFlags::DECLARED)
-                })
-            {
+            if ident.sym == "arguments" && !self.shadowed_arguments.contains(&ident.to_id()) {
                 self.found = true;
             }
         }
     }
 
     let mut finder = Finder {
-        data,
         shadowed_arguments: Vec::new(),
         found: false,
     };
@@ -569,7 +565,7 @@ impl Optimizer<'_> {
             });
         let can_expose_implicit_arguments = !in_strict && rest_id.0 == "arguments";
         let can_change_arguments = can_make_arguments_mapped || can_expose_implicit_arguments;
-        let uses_arguments = can_change_arguments && uses_implicit_arguments(f, self.data);
+        let uses_arguments = can_change_arguments && uses_implicit_arguments(f);
 
         if let Some(usage) = self.data.vars.get(&rest_id) {
             // Preserve the rest parameter only if removing it can change an
