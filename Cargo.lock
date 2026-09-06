@@ -395,7 +395,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.16.1"
+version = "1.16.2"
 dependencies = [
  "anyhow",
  "getrandom 0.3.4",
@@ -408,7 +408,7 @@ dependencies = [
 
 [[package]]
 name = "binding_es_ast_viewer"
-version = "1.16.1"
+version = "1.16.2"
 dependencies = [
  "anyhow",
  "swc_core",
@@ -444,7 +444,7 @@ dependencies = [
 
 [[package]]
 name = "binding_html_wasm"
-version = "1.16.1"
+version = "1.16.2"
 dependencies = [
  "anyhow",
  "getrandom 0.3.4",
@@ -470,7 +470,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "75.0.0"
+version = "76.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -509,7 +509,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.16.1"
+version = "1.16.2"
 dependencies = [
  "getrandom 0.3.4",
  "serde",
@@ -520,7 +520,7 @@ dependencies = [
 
 [[package]]
 name = "binding_nodejs_support_wasm"
-version = "1.16.1"
+version = "1.16.2"
 dependencies = [
  "anyhow",
  "js-sys",
@@ -559,7 +559,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.16.1"
+version = "1.16.2"
 dependencies = [
  "anyhow",
  "js-sys",
@@ -5854,7 +5854,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "75.0.1"
+version = "76.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6020,7 +6020,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.122.4"
+version = "0.123.2"
 dependencies = [
  "anyhow",
  "par-core",
@@ -6029,7 +6029,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "77.0.0"
+version = "78.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -6134,7 +6134,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "77.1.2"
+version = "78.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6687,7 +6687,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "61.0.4"
+version = "61.0.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6811,7 +6811,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "24.0.0"
+version = "25.0.0"
 dependencies = [
  "indexmap 2.12.0",
  "react_compiler",
@@ -7061,7 +7061,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "49.0.0"
+version = "49.0.1"
 dependencies = [
  "either",
  "rustc-hash 2.1.1",
@@ -7134,7 +7134,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "55.0.1"
+version = "55.0.2"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
@@ -7158,7 +7158,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "35.0.0"
+version = "35.0.1"
 dependencies = [
  "dragonbox_ecma",
  "indexmap 2.12.0",
@@ -7407,7 +7407,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "76.0.0"
+version = "77.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",

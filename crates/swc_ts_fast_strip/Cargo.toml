@@ -32,7 +32,7 @@ swc_ecma_parser = { version = "45.1.1", path = "../swc_ecma_parser", default-fea
 ] }
 swc_ecma_transforms_base = { version = "49.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_react = { version = "55.0.1", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "55.0.1", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript = { version = "55.0.2", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "29.0.0", path = "../swc_ecma_visit" }
 wasm-bindgen = { workspace = true, optional = true }
 

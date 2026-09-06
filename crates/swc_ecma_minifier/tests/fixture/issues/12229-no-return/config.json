@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "conditionals": true,
+    "if_return": false,
+    "module": false
+}

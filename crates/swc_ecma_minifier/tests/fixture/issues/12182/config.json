@@ -1,0 +1,9 @@
+{
+    "defaults": true,
+    "hoist_props": true,
+    "passes": 0,
+    "properties": true,
+    "reduce_funcs": false,
+    "reduce_vars": false,
+    "toplevel": true
+}

@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_minifier"
 repository    = { workspace = true }
-version       = "61.0.4"
+version       = "61.0.5"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -68,7 +68,7 @@ swc_ecma_parser = { version = "45.1.1", path = "../swc_ecma_parser", default-fea
 ] }
 swc_ecma_transforms_base = { version = "49.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_optimization = { version = "52.0.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils = { version = "35.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "35.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "29.0.0", path = "../swc_ecma_visit" }
 tracing = { workspace = true }
 
