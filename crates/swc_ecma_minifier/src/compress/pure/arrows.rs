@@ -1,9 +1,9 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
-use swc_ecma_utils::{contains_arguments, contains_this_expr};
+use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids};
 
-use super::{Pure, UnsafeArrowStage};
+use super::{ctx::Ctx, Pure, UnsafeArrowStage};
 use crate::compress::util::{contains_eval_in_fn_scope, contains_new_target, contains_super};
 
 /// Methods related to the option `arrows`.
@@ -22,6 +22,16 @@ impl Pure<'_> {
             function,
         }) = e
         {
+            let params: Vec<Ident> = find_pat_ids(&function.params);
+            if (self.ctx.contains(Ctx::IN_GENERATOR)
+                && params.iter().any(|ident| ident.sym == "yield"))
+                || (self.ctx.contains(Ctx::IN_ASYNC)
+                    && params.iter().any(|ident| ident.sym == "await"))
+            {
+                // Ordinary functions reset these grammar contexts, while arrows inherit them.
+                return;
+            }
+
             if function.params.iter().any(contains_this_expr)
                 || contains_this_expr(&function.body)
                 || function.params.iter().any(contains_arguments)

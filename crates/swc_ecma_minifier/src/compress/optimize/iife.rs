@@ -126,6 +126,10 @@ impl Optimizer<'_> {
     /// inner IIFE can move its mutable parameters into this temporary scope,
     /// preventing removal of the wrapper at top level on the next pass.
     pub(super) fn invoke_iife_wrapper(&mut self, expr: &mut Expr) {
+        if self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
+            return;
+        }
+
         let Expr::Call(call) = expr else {
             return;
         };

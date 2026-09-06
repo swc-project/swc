@@ -13,6 +13,10 @@ bitflags::bitflags! {
         const IS_LABEL_BODY     = 1 << 6;
         const IN_OPT_CHAIN      = 1 << 7;
         const IN_COMPARISON     = 1 << 8;
+        /// A nested arrow inherits this grammar context, unlike an ordinary function.
+        const IN_ASYNC          = 1 << 9;
+        /// A nested arrow inherits this grammar context, unlike an ordinary function.
+        const IN_GENERATOR      = 1 << 10;
     }
 }
 

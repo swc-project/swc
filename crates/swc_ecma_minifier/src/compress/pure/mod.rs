@@ -1101,13 +1101,27 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
-        self.do_outside_of_context(Ctx::IN_TRY_BLOCK | Ctx::IN_COMPARISON, |this| {
-            f.visit_mut_children_with(this)
-        });
-
-        if let Some(body) = &mut f.body {
-            self.optimize_fn_stmts(&mut body.stmts)
+        let mut function_ctx = Ctx::empty();
+        if f.is_async {
+            function_ctx.insert(Ctx::IN_ASYNC);
         }
+        if f.is_generator {
+            function_ctx.insert(Ctx::IN_GENERATOR);
+        }
+
+        // Ordinary functions reset async and generator grammar context; arrows do not.
+        self.do_outside_of_context(
+            Ctx::IN_TRY_BLOCK | Ctx::IN_COMPARISON | Ctx::IN_ASYNC | Ctx::IN_GENERATOR,
+            |this| {
+                this.do_inside_of_context(function_ctx, |this| {
+                    f.visit_mut_children_with(this);
+
+                    if let Some(body) = &mut f.body {
+                        this.optimize_fn_stmts(&mut body.stmts);
+                    }
+                });
+            },
+        );
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
