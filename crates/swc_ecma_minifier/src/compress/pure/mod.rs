@@ -120,7 +120,10 @@ impl Pure<'_> {
     where
         N: VisitWith<UsageAnalyzer<ProgramData>>,
     {
-        if !self.options.unsafe_arrows || self.options.ecma < EsVersion::Es2015 {
+        if !self.options.unsafe_arrows
+            || self.options.ecma < EsVersion::Es2015
+            || self.config.unsafe_arrow_stage == UnsafeArrowStage::Finalize
+        {
             return;
         }
 

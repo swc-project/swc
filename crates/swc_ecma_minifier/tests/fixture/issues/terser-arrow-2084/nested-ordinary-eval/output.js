@@ -4,3 +4,11 @@ var fn = (value)=>{
     }
     return value + helper();
 };
+(()=>{
+    (()=>{
+        function nested() {
+            return eval("arguments.length");
+        }
+        console.log(nested());
+    })();
+})();

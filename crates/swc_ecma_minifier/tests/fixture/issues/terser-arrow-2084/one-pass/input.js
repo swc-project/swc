@@ -11,3 +11,8 @@ var c = 0;
     })(-1);
 })();
 console.log(c);
+
+const increment = function (c) {
+    return ++c;
+};
+console.log(increment(1));

@@ -3,7 +3,6 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
@@ -11,7 +10,7 @@ use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::util::contains_new_target,
+    compress::util::{contains_eval_in_fn_scope, contains_new_target},
     program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
     util::{idents_captured_by, make_number},
 };
@@ -167,7 +166,7 @@ impl Optimizer<'_> {
         };
         if !matches!(inner, Expr::Call(CallExpr { callee: Callee::Expr(callee), .. })
             if matches!(&**callee, Expr::Fn(_) | Expr::Arrow(_)))
-            || contains_eval(body, true)
+            || contains_eval_in_fn_scope(body)
             || callee.is_fn_expr() && contains_new_target(body)
         {
             return;

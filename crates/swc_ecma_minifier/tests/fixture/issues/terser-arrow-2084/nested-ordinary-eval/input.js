@@ -5,3 +5,13 @@ var fn = function (value) {
 
     return value + helper();
 };
+
+!(function () {
+    !(function () {
+        function nested() {
+            return eval("arguments.length");
+        }
+
+        console.log(nested());
+    })();
+})();

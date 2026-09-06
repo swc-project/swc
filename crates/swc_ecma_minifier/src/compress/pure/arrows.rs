@@ -2,10 +2,9 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_arguments, contains_this_expr};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::{Pure, UnsafeArrowStage};
-use crate::compress::util::{contains_new_target, contains_super};
+use crate::compress::util::{contains_eval_in_fn_scope, contains_new_target, contains_super};
 
 /// Methods related to the option `arrows`.
 impl Pure<'_> {
@@ -31,8 +30,8 @@ impl Pure<'_> {
                 || contains_super(&function.body)
                 || contains_new_target(&function.params)
                 || contains_new_target(&function.body)
-                || contains_eval_in_arrow_scope(&function.params)
-                || contains_eval_in_arrow_scope(&function.body)
+                || contains_eval_in_fn_scope(&function.params)
+                || contains_eval_in_fn_scope(&function.body)
                 || function.is_generator
             {
                 return;
@@ -72,13 +71,14 @@ impl Pure<'_> {
             self.changed = true;
             report_change!("unsafe_arrows: Fn expr => arrow");
 
+            let mut body = ArrowFunctionBody::FunctionBody(function.body.take().unwrap());
+            self.optimize_arrow_body(&mut body);
+
             *e = ArrowExpr {
                 span: function.span,
                 ctxt: function.ctxt,
                 params: function.params.take().into_iter().map(|p| p.pat).collect(),
-                body: Box::new(ArrowFunctionBody::FunctionBody(
-                    function.body.take().unwrap(),
-                )),
+                body: Box::new(body),
                 is_async: function.is_async,
                 is_generator: function.is_generator,
                 ..Default::default()
@@ -212,56 +212,5 @@ impl Pure<'_> {
                 _ => (),
             }
         }
-    }
-}
-
-/// Finds eval and with in the lexical scope that would change if an ordinary
-/// function became an arrow. Nested ordinary functions create their own scope,
-/// while nested arrows inherit this one.
-fn contains_eval_in_arrow_scope<N>(node: &N) -> bool
-where
-    N: VisitWith<EvalInArrowScopeFinder>,
-{
-    let mut finder = EvalInArrowScopeFinder { found: false };
-    node.visit_with(&mut finder);
-    finder.found
-}
-
-struct EvalInArrowScopeFinder {
-    found: bool,
-}
-
-impl Visit for EvalInArrowScopeFinder {
-    noop_visit_type!();
-
-    fn visit_expr(&mut self, expr: &Expr) {
-        if !self.found {
-            expr.visit_children_with(self);
-        }
-    }
-
-    fn visit_stmt(&mut self, stmt: &Stmt) {
-        if !self.found {
-            stmt.visit_children_with(self);
-        }
-    }
-
-    fn visit_callee(&mut self, callee: &Callee) {
-        if callee
-            .as_expr()
-            .is_some_and(|expr| expr.is_ident_ref_to("eval"))
-        {
-            self.found = true;
-        } else {
-            callee.visit_children_with(self);
-        }
-    }
-
-    fn visit_constructor(&mut self, _: &Constructor) {}
-
-    fn visit_function(&mut self, _: &Function) {}
-
-    fn visit_with_stmt(&mut self, _: &WithStmt) {
-        self.found = true;
     }
 }
