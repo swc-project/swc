@@ -2,7 +2,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_pat_ids;
+use swc_ecma_utils::{find_pat_ids, for_each_binding_ident};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 use crate::{option::MangleOptions, usage_analyzer::marks::Marks};
@@ -22,8 +22,10 @@ where
         preserved: Default::default(),
         should_preserve: false,
         in_top_level: false,
+        preserve_top_level_hoisted_decls: false,
 
         idents: Vec::new(),
+        top_level_ctxt: marks.top_level_ctxt,
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
     };
     n.visit_with(&mut v);
@@ -64,8 +66,10 @@ pub(crate) struct Preserver<'a> {
 
     should_preserve: bool,
     in_top_level: bool,
+    preserve_top_level_hoisted_decls: bool,
 
     idents: Vec<Id>,
+    top_level_ctxt: SyntaxContext,
     unresolved_ctx: SyntaxContext,
 }
 
@@ -92,6 +96,30 @@ impl Preserver<'_> {
         }
         self.in_top_level = old_top_level;
     }
+
+    fn visit_non_top_level<N>(&mut self, node: &N)
+    where
+        N: VisitWith<Self>,
+    {
+        let old_top_level = self.in_top_level;
+        self.in_top_level = false;
+        node.visit_with(self);
+        self.in_top_level = old_top_level;
+    }
+
+    /// Visits a loop body while preserving declarations hoisted to the
+    /// surrounding top-level scope.
+    fn visit_loop_body(&mut self, body: &Stmt) {
+        let old_top_level = self.in_top_level;
+        let old_preserve_top_level_hoisted_decls = self.preserve_top_level_hoisted_decls;
+
+        self.in_top_level = false;
+        self.preserve_top_level_hoisted_decls |= old_top_level;
+        body.visit_with(self);
+
+        self.preserve_top_level_hoisted_decls = old_preserve_top_level_hoisted_decls;
+        self.in_top_level = old_top_level;
+    }
 }
 
 impl Visit for Preserver<'_> {
@@ -104,7 +132,17 @@ impl Visit for Preserver<'_> {
     }
 
     fn visit_function_body(&mut self, n: &FunctionBody) {
+        let old_preserve_top_level_hoisted_decls = self.preserve_top_level_hoisted_decls;
+        self.preserve_top_level_hoisted_decls = false;
         self.visit_non_top_level_stmts(&n.stmts);
+        self.preserve_top_level_hoisted_decls = old_preserve_top_level_hoisted_decls;
+    }
+
+    fn visit_static_block(&mut self, n: &StaticBlock) {
+        let old_preserve_top_level_hoisted_decls = self.preserve_top_level_hoisted_decls;
+        self.preserve_top_level_hoisted_decls = false;
+        self.visit_non_top_level(&n.body);
+        self.preserve_top_level_hoisted_decls = old_preserve_top_level_hoisted_decls;
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause) {
@@ -171,7 +209,12 @@ impl Visit for Preserver<'_> {
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         n.visit_children_with(self);
 
-        if (self.in_top_level && !self.options.top_level.unwrap_or_default())
+        // The resolver assigns the program context to a block function only
+        // when it receives a sloppy-script Annex B binding.
+        let is_top_level = self.in_top_level
+            || (self.preserve_top_level_hoisted_decls && n.ident.ctxt == self.top_level_ctxt);
+
+        if (is_top_level && !self.options.top_level.unwrap_or_default())
             || self.is_reserved(&n.ident)
             || self.options.keep_fn_names
         {
@@ -187,6 +230,36 @@ impl Visit for Preserver<'_> {
                 self.preserved.insert(i.to_id());
             }
         }
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        match &n.left {
+            ForHead::VarDecl(var) if var.kind == VarDeclKind::Var => var.visit_with(self),
+            left => self.visit_non_top_level(left),
+        }
+        n.right.visit_with(self);
+        self.visit_loop_body(&n.body);
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        match &n.left {
+            ForHead::VarDecl(var) if var.kind == VarDeclKind::Var => var.visit_with(self),
+            left => self.visit_non_top_level(left),
+        }
+        n.right.visit_with(self);
+        self.visit_loop_body(&n.body);
+    }
+
+    fn visit_for_stmt(&mut self, n: &ForStmt) {
+        match &n.init {
+            Some(VarDeclOrExpr::VarDecl(var)) if var.kind == VarDeclKind::Var => {
+                var.visit_with(self)
+            }
+            init => self.visit_non_top_level(init),
+        }
+        n.test.visit_with(self);
+        n.update.visit_with(self);
+        self.visit_loop_body(&n.body);
     }
 
     fn visit_ident(&mut self, i: &Ident) {
@@ -241,5 +314,22 @@ impl Visit for Preserver<'_> {
                 _ => {}
             }
         }
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        if n.kind == VarDeclKind::Var && self.preserve_top_level_hoisted_decls {
+            n.visit_children_with(self);
+
+            if !self.options.top_level.unwrap_or_default() {
+                // Only the bindings are hoisted; initializers retain their
+                // actual scope while they are visited above.
+                for_each_binding_ident(&n.decls, |ident| {
+                    self.preserved.insert(ident.to_id());
+                });
+            }
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 }
