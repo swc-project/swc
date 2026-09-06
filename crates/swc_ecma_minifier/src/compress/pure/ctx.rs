@@ -17,6 +17,8 @@ bitflags::bitflags! {
         const IN_ASYNC          = 1 << 9;
         /// A nested arrow inherits this grammar context, unlike an ordinary function.
         const IN_GENERATOR      = 1 << 10;
+        /// A nested arrow inherits the `await` restriction of a class static block.
+        const IN_STATIC_BLOCK   = 1 << 11;
     }
 }
 

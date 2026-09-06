@@ -437,19 +437,33 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
-        // Arrow parameters inherit their enclosing async and generator grammar
-        // context, but the body introduces a new grammar context. An async arrow
-        // re-enables only its own async context for its body.
-        e.params.visit_mut_children_with(self);
-        self.do_outside_of_context(Ctx::IN_ASYNC | Ctx::IN_GENERATOR, |this| {
+        // Arrow parameters inherit their enclosing grammar context. The parameters
+        // of an async arrow additionally have async grammar, while the body starts
+        // a fresh grammar context with only its own async flag restored.
+        self.do_inside_of_context(
             if e.is_async {
-                this.do_inside_of_context(Ctx::IN_ASYNC, |this| {
-                    e.body.visit_mut_with(this);
-                });
+                Ctx::IN_ASYNC
             } else {
-                e.body.visit_mut_with(this);
-            }
-        });
+                Ctx::empty()
+            },
+            |this| {
+                this.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+                    e.params.visit_mut_children_with(this);
+                });
+            },
+        );
+        self.do_outside_of_context(
+            Ctx::IN_ASYNC | Ctx::IN_GENERATOR | Ctx::IN_STATIC_BLOCK,
+            |this| {
+                if e.is_async {
+                    this.do_inside_of_context(Ctx::IN_ASYNC, |this| {
+                        e.body.visit_mut_with(this);
+                    });
+                } else {
+                    e.body.visit_mut_with(this);
+                }
+            },
+        );
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
@@ -524,7 +538,13 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
-        m.visit_mut_children_with(self);
+        if let ClassMember::StaticBlock(sb) = m {
+            self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
+                sb.visit_mut_children_with(this);
+            });
+        } else {
+            m.visit_mut_children_with(self);
+        }
 
         if let ClassMember::StaticBlock(sb) = m {
             if sb.body.stmts.is_empty() {
@@ -596,6 +616,7 @@ impl VisitMut for Pure<'_> {
                 Expr::Seq(e) => self.visit_mut_seq_expr(e),
                 Expr::Unary(e) => self.visit_mut_unary_expr(e),
                 Expr::Assign(e) => self.visit_mut_assign_expr(e),
+                Expr::Member(e) => self.visit_mut_member_expr(e),
                 _ => self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
                     e.visit_mut_children_with(this);
                 }),
@@ -1138,7 +1159,11 @@ impl VisitMut for Pure<'_> {
 
         // Ordinary functions reset async and generator grammar context; arrows do not.
         self.do_outside_of_context(
-            Ctx::IN_TRY_BLOCK | Ctx::IN_COMPARISON | Ctx::IN_ASYNC | Ctx::IN_GENERATOR,
+            Ctx::IN_TRY_BLOCK
+                | Ctx::IN_COMPARISON
+                | Ctx::IN_ASYNC
+                | Ctx::IN_GENERATOR
+                | Ctx::IN_STATIC_BLOCK,
             |this| {
                 this.do_inside_of_context(function_ctx, |this| {
                     f.visit_mut_children_with(this);
@@ -1202,6 +1227,7 @@ impl VisitMut for Pure<'_> {
                 Ctx::IS_CALLEE
                     .union(Ctx::IS_UPDATE_ARG)
                     .union(Ctx::IS_LHS_OF_ASSIGN)
+                    .union(Ctx::IN_COMPARISON)
                     // A computed key is not part of the optional-chain
                     // continuation, so nested optional chains can be folded
                     // independently.
@@ -1244,7 +1270,7 @@ impl VisitMut for Pure<'_> {
             e.callee.visit_mut_with(this);
         });
 
-        self.do_outside_of_context(Ctx::IS_CALLEE, |this| {
+        self.do_outside_of_context(Ctx::IS_CALLEE | Ctx::IN_COMPARISON, |this| {
             e.args.visit_mut_with(this);
         });
     }

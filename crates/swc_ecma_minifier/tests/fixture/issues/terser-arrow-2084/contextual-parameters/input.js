@@ -38,6 +38,19 @@ async function asyncArrowBody() {
     };
 }
 
+class StaticContext {
+    static {
+        let fn = function (await) {
+            return await;
+        };
+        console.log(fn(0));
+    }
+}
+
+const asyncArrowParameter = async (fn = function (await) {
+    return await;
+}) => fn;
+
 console.log(generator().next().value(0));
 asynchronous().then(function (fn) {
     console.log(fn(0));
@@ -48,4 +61,7 @@ asyncArrow().then(function (fn) {
 console.log(generatorArrowBody().next().value()(0));
 asyncArrowBody().then(function (fn) {
     console.log(fn()(0));
+});
+asyncArrowParameter().then(function (fn) {
+    console.log(fn(0));
 });

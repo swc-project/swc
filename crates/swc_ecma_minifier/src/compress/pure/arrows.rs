@@ -63,7 +63,7 @@ impl Pure<'_> {
             if (self.ctx.contains(Ctx::IN_GENERATOR)
                 && (params.iter().any(|ident| ident.sym == "yield")
                     || contains_contextual_keyword_ref(&function.params, "yield")))
-                || (self.ctx.contains(Ctx::IN_ASYNC)
+                || (self.ctx.intersects(Ctx::IN_ASYNC | Ctx::IN_STATIC_BLOCK)
                     && (params.iter().any(|ident| ident.sym == "await")
                         || contains_contextual_keyword_ref(&function.params, "await")))
             {
