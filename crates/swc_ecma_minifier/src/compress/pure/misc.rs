@@ -13,7 +13,7 @@ use swc_ecma_utils::{
     number::ToJsString, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value,
 };
 
-use super::Pure;
+use super::{array_join::join_to_concat, Pure};
 use crate::{
     compress::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
@@ -95,6 +95,12 @@ fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         Expr::Cond(CondExpr { cons, alt, .. }) => {
             eval_to_nullish(expr_ctx, cons) && eval_to_nullish(expr_ctx, alt)
         }
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => eval_to_nullish(expr_ctx, right),
+        Expr::Await(AwaitExpr { arg, .. }) => eval_to_nullish(expr_ctx, arg),
         Expr::Lit(Lit::Null(..)) => true,
         _ => eval_to_undefined(expr_ctx, expr),
     }
@@ -797,10 +803,15 @@ impl Pure<'_> {
             return None; // Pure literal case will be handled elsewhere
         }
 
+        // A singleton never uses the separator. Its argument has already been
+        // checked to be a supported, effect-free constant by the caller.
+        let is_string_concat =
+            separator.is_empty() || (self.options.unsafe_passes && elems.len() == 1);
+
         // For non-empty separators, only optimize if we have at least 2 consecutive
         // literals This prevents infinite loop and ensures meaningful
         // optimization
-        if !separator.is_empty() {
+        if !is_string_concat {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
 
@@ -836,10 +847,6 @@ impl Pure<'_> {
             if separator == "," && max_consecutive < 6 {
                 return None;
             }
-        } else {
-            // For empty string joins, optimize more aggressively since we're
-            // doing string concatenation We can always optimize
-            // these as long as there are mixed expressions and literals
         }
 
         // Group consecutive literals and create a string concatenation expression
@@ -873,69 +880,51 @@ impl Pure<'_> {
             groups.push(GroupType::Literals(current_group));
         }
 
-        // If we don't have any grouped literals, no optimization possible
-        if groups.iter().all(|g| matches!(g, GroupType::Expression(_))) {
+        if !(is_string_concat && self.options.unsafe_passes)
+            && groups.iter().all(|g| matches!(g, GroupType::Expression(_)))
+        {
             return None;
         }
 
-        // Handle different separators
-        let is_string_concat = separator.is_empty();
-
         if is_string_concat {
-            if !self.options.unsafe_passes
-                && groups.iter().any(|group| match group {
-                    GroupType::Literals(_) => false,
-                    GroupType::Expression(expr) => {
+            // Unsafe join folding assumes unknown dynamic values are non-nullish
+            // and suitable for ordinary string concatenation. Explicit nullish
+            // expressions with effects must still keep join's empty-string
+            // behavior; only pure nullish values belong in literal groups.
+            if groups.iter().any(|group| match group {
+                GroupType::Literals(_) => false,
+                GroupType::Expression(expr) => {
+                    if self.options.unsafe_passes {
+                        eval_to_nullish(self.expr_ctx, &expr.expr)
+                    } else {
                         may_evaluate_to_nullish(self.expr_ctx, &expr.expr)
                     }
-                })
-            {
+                }
+            }) {
+                return None;
+            }
+
+            // A sequence can evaluate a later join element after an earlier
+            // value has been captured. Concatenation can coerce that earlier
+            // value before the sequence runs, so preserve join's evaluation
+            // order for this shape.
+            if self.options.unsafe_passes && groups.iter().any(|group| {
+                matches!(group, GroupType::Expression(expr) if matches!(&*expr.expr, Expr::Seq(..)))
+            }) {
+                return None;
+            }
+
+            // Addition uses the default primitive hint for objects, while join
+            // uses the string hint. Do not replace a statically known object
+            // with concatenation, even for unsafe passes.
+            if self.options.unsafe_passes && groups.iter().any(|group| {
+                matches!(group, GroupType::Expression(expr) if expr.expr.get_type(self.expr_ctx) == Value::Known(Type::Obj))
+            }) {
                 return None;
             }
 
             // Convert to string concatenation
-            let mut result_parts = Vec::new();
-
-            // Only add empty string prefix when the first element is a non-string
-            // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion
-            let needs_empty_string_prefix = match groups.first() {
-                Some(GroupType::Expression(first_expr)) => {
-                    // Check if the first expression is already a string concatenation
-                    let first_needs_coercion = match &*first_expr.expr {
-                        Expr::Bin(BinExpr {
-                            op: op!(bin, "+"), ..
-                        }) => false, // Already string concat
-                        Expr::Lit(Lit::Str(..)) => false, // Already a string literal
-                        Expr::Call(_call) => {
-                            // Function calls may return any type and need string coercion
-                            true
-                        }
-                        _ => true, // Other expressions need string coercion
-                    };
-
-                    // If the first element needs coercion, check if the second element is a string
-                    // literal that can provide the coercion
-                    if first_needs_coercion {
-                        match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, /* String literals will */
-                            // provide coercion
-                            _ => true, // No string literal to provide coercion
-                        }
-                    } else {
-                        false
-                    }
-                }
-                _ => false,
-            };
-
-            if needs_empty_string_prefix {
-                result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
-                    span: DUMMY_SP,
-                    raw: None,
-                    value: atom!("").into(),
-                }))));
-            }
+            let mut result_parts = Vec::with_capacity(groups.len());
 
             for group in groups {
                 match group {
@@ -973,22 +962,7 @@ impl Pure<'_> {
                 }
             }
 
-            // Create string concatenation expression
-            if result_parts.len() == 1 {
-                return Some(*result_parts.into_iter().next().unwrap());
-            }
-
-            let mut result = *result_parts.remove(0);
-            for part in result_parts {
-                result = Expr::Bin(BinExpr {
-                    span: DUMMY_SP,
-                    left: Box::new(result),
-                    op: op!(bin, "+"),
-                    right: part,
-                });
-            }
-
-            Some(result)
+            join_to_concat(result_parts, self.expr_ctx, self.options.unsafe_passes)
         } else {
             // For non-empty separator, create a more compact array
             let mut new_elems = Vec::new();
@@ -2327,9 +2301,10 @@ impl Pure<'_> {
                     span, callee, args, ..
                 }) if (matches!(args.as_deref(), None | Some([]))
                     || args.as_deref().is_some_and(|args| {
-                        args.first().is_some_and(|arg| {
-                            arg.spread.is_none() && eval_to_nullish(self.expr_ctx, &arg.expr)
-                        })
+                        args.iter().all(|arg| arg.spread.is_none())
+                            && args
+                                .first()
+                                .is_some_and(|arg| eval_to_nullish(self.expr_ctx, &arg.expr))
                     }))
                     && callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"]) =>
                 {
