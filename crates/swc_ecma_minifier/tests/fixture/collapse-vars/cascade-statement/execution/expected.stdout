@@ -1,0 +1,14 @@
+assigned true
+true
+assigned true
+7
+call true true
+assigned true
+while 2 1
+while 4 2
+while 6 3
+throw 10 10
+body 1
+body 2
+for 12
+receiver true true
