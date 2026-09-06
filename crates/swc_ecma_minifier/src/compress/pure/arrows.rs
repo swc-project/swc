@@ -1,7 +1,7 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
-use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids};
+use swc_ecma_utils::{contains_arguments, contains_this_expr};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::{ctx::Ctx, Pure, UnsafeArrowStage};
@@ -81,13 +81,10 @@ impl Pure<'_> {
             function,
         }) = e
         {
-            let params: Vec<Ident> = find_pat_ids(&function.params);
             if (self.ctx.contains(Ctx::IN_GENERATOR)
-                && (params.iter().any(|ident| ident.sym == "yield")
-                    || contains_contextual_keyword_ref(&function.params, "yield")))
+                && contains_contextual_keyword_ref(&function.params, "yield"))
                 || (self.ctx.intersects(Ctx::IN_ASYNC | Ctx::IN_STATIC_BLOCK)
-                    && (params.iter().any(|ident| ident.sym == "await")
-                        || contains_contextual_keyword_ref(&function.params, "await")))
+                    && contains_contextual_keyword_ref(&function.params, "await"))
             {
                 // Ordinary functions reset these grammar contexts, while arrows inherit them.
                 return;
