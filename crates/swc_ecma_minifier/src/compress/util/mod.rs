@@ -14,57 +14,6 @@ use crate::util::ModuleItemExt;
 #[cfg(test)]
 mod tests;
 
-/// Returns true if the current function scope contains direct eval or with.
-/// Nested ordinary functions create a separate scope, while nested arrows
-/// inherit the current scope and must still be searched.
-pub(crate) fn contains_eval_in_fn_scope<N>(node: &N) -> bool
-where
-    N: VisitWith<EvalInFnScopeFinder>,
-{
-    let mut finder = EvalInFnScopeFinder { found: false };
-    node.visit_with(&mut finder);
-    finder.found
-}
-
-pub(crate) struct EvalInFnScopeFinder {
-    found: bool,
-}
-
-impl Visit for EvalInFnScopeFinder {
-    noop_visit_type!();
-
-    fn visit_expr(&mut self, expr: &Expr) {
-        if !self.found {
-            expr.visit_children_with(self);
-        }
-    }
-
-    fn visit_stmt(&mut self, stmt: &Stmt) {
-        if !self.found {
-            stmt.visit_children_with(self);
-        }
-    }
-
-    fn visit_callee(&mut self, callee: &Callee) {
-        if callee
-            .as_expr()
-            .is_some_and(|expr| expr.is_ident_ref_to("eval"))
-        {
-            self.found = true;
-        } else {
-            callee.visit_children_with(self);
-        }
-    }
-
-    fn visit_constructor(&mut self, _: &Constructor) {}
-
-    fn visit_function(&mut self, _: &Function) {}
-
-    fn visit_with_stmt(&mut self, _: &WithStmt) {
-        self.found = true;
-    }
-}
-
 /// Creates `!e` where e is the expression passed as an argument.
 ///
 /// Returns true if this modified ast.

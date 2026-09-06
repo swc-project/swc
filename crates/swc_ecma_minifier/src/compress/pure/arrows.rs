@@ -5,7 +5,7 @@ use swc_ecma_utils::{contains_arguments, contains_this_expr};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::{ctx::Ctx, Pure, UnsafeArrowStage};
-use crate::compress::util::{contains_eval_in_fn_scope, contains_new_target, contains_super};
+use crate::compress::util::contains_super;
 
 /// Finds references to a contextual keyword in a parameter pattern.
 ///
@@ -65,6 +65,94 @@ impl Visit for ContextualKeywordRefFinder<'_> {
     }
 }
 
+/// Collects lexical hazards that prevent converting an ordinary function to an
+/// arrow.
+///
+/// Nested arrows retain the surrounding function environment, while nested
+/// ordinary functions and constructors establish their own environments and are
+/// skipped.
+#[derive(Default)]
+struct ArrowConversionHazards {
+    has_this: bool,
+    has_arguments: bool,
+    has_super: bool,
+    has_new_target: bool,
+    has_direct_eval_or_with: bool,
+}
+
+impl ArrowConversionHazards {
+    fn find(params: &[Param], body: &Option<FunctionBody>) -> Self {
+        let mut hazards = Self::default();
+        params.visit_with(&mut hazards);
+        body.visit_with(&mut hazards);
+        hazards
+    }
+
+    fn any(&self) -> bool {
+        self.has_this
+            || self.has_arguments
+            || self.has_super
+            || self.has_new_target
+            || self.has_direct_eval_or_with
+    }
+}
+
+impl Visit for ArrowConversionHazards {
+    noop_visit_type!();
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
+        self.has_this = true;
+    }
+
+    fn visit_expr(&mut self, expr: &Expr) {
+        expr.visit_children_with(self);
+
+        if expr.is_ident_ref_to("arguments") {
+            self.has_arguments = true;
+        }
+    }
+
+    fn visit_prop(&mut self, prop: &Prop) {
+        prop.visit_children_with(self);
+
+        if let Prop::Shorthand(ident) = prop {
+            if ident.sym == "arguments" {
+                self.has_arguments = true;
+            }
+        }
+    }
+
+    fn visit_super(&mut self, _: &Super) {
+        self.has_super = true;
+    }
+
+    fn visit_meta_prop_expr(&mut self, expr: &MetaPropExpr) {
+        if expr.kind == MetaPropKind::NewTarget {
+            self.has_new_target = true;
+        }
+    }
+
+    fn visit_callee(&mut self, callee: &Callee) {
+        if callee
+            .as_expr()
+            .is_some_and(|expr| expr.is_ident_ref_to("eval"))
+        {
+            self.has_direct_eval_or_with = true;
+        } else {
+            callee.visit_children_with(self);
+        }
+    }
+
+    fn visit_with_stmt(&mut self, stmt: &WithStmt) {
+        self.has_direct_eval_or_with = true;
+        stmt.visit_children_with(self);
+    }
+}
+
 /// Methods related to the option `arrows`.
 impl Pure<'_> {
     pub(super) fn unsafe_optimize_fn_as_arrow(&mut self, e: &mut Expr) {
@@ -90,16 +178,7 @@ impl Pure<'_> {
                 return;
             }
 
-            if function.params.iter().any(contains_this_expr)
-                || contains_this_expr(&function.body)
-                || function.params.iter().any(contains_arguments)
-                || contains_arguments(&function.body)
-                || contains_super(&function.params)
-                || contains_super(&function.body)
-                || contains_new_target(&function.params)
-                || contains_new_target(&function.body)
-                || contains_eval_in_fn_scope(&function.params)
-                || contains_eval_in_fn_scope(&function.body)
+            if ArrowConversionHazards::find(&function.params, &function.body).any()
                 || function.is_generator
             {
                 return;
