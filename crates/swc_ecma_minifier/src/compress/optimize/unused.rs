@@ -969,6 +969,8 @@ impl Optimizer<'_> {
         // A simple parameter and its `var` redeclaration share one binding.
         // Retain the initializer at its original position: moving it to the
         // parameter list would overwrite assignments that precede this statement.
+        // Effectful initializers stay declarations so unused-IIFE processing
+        // retains their evaluation when it drops the binding.
         if self.ctx.bit_ctx.contains(BitCtx::HasSimpleParams)
             && !self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
             && var.kind == VarDeclKind::Var
@@ -976,7 +978,10 @@ impl Optimizer<'_> {
         {
             let decl = &mut var.decls[0];
             if let Pat::Ident(name) = &decl.name {
-                if decl.init.is_some()
+                if decl
+                    .init
+                    .as_ref()
+                    .is_some_and(|init| init.is_pure(self.ctx.expr_ctx))
                     && !self.data.get_scope(self.ctx.scope)?.intersects(
                         ScopeData::HAS_EVAL_CALL
                             | ScopeData::HAS_WITH_STMT
