@@ -539,18 +539,32 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
         match m {
-            ClassMember::StaticBlock(..)
-            | ClassMember::ClassProp(ClassProp {
-                is_static: true, ..
-            })
-            | ClassMember::PrivateProp(PrivateProp {
-                is_static: true, ..
-            })
-            | ClassMember::AutoAccessor(AutoAccessor {
-                is_static: true, ..
-            }) => {
+            ClassMember::StaticBlock(..) => {
                 self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
                     m.visit_mut_children_with(this);
+                });
+            }
+            ClassMember::ClassProp(prop) if prop.is_static => {
+                prop.key.visit_mut_with(self);
+                prop.type_ann.visit_mut_with(self);
+                prop.decorators.visit_mut_with(self);
+                self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
+                    prop.value.visit_mut_with(this);
+                });
+            }
+            ClassMember::PrivateProp(prop) if prop.is_static => {
+                prop.type_ann.visit_mut_with(self);
+                prop.decorators.visit_mut_with(self);
+                self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
+                    prop.value.visit_mut_with(this);
+                });
+            }
+            ClassMember::AutoAccessor(accessor) if accessor.is_static => {
+                accessor.key.visit_mut_with(self);
+                accessor.type_ann.visit_mut_with(self);
+                accessor.decorators.visit_mut_with(self);
+                self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
+                    accessor.value.visit_mut_with(this);
                 });
             }
             _ => m.visit_mut_children_with(self),

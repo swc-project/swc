@@ -27,10 +27,20 @@ function* generatorArrowBody() {
 async function asyncArrowBody() {
     return ()=>(await1)=>++await1;
 }
+class StaticContext {
+    static{
+        console.log(0);
+    }
+}
+const asyncArrowParameter = async (fn = function(await1) {
+    return await1;
+})=>fn;
 console.log(generator().next().value(0)), asynchronous().then((fn)=>{
     console.log(fn(0));
 }), asyncArrow().then((fn)=>{
     console.log(fn(0));
 }), console.log(generatorArrowBody().next().value()(0)), asyncArrowBody().then((fn)=>{
     console.log(fn()(0));
+}), asyncArrowParameter().then((fn)=>{
+    console.log(fn(0));
 });

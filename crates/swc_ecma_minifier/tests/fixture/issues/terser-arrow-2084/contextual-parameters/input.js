@@ -40,8 +40,8 @@ async function asyncArrowBody() {
 
 class StaticContext {
     static {
-        let fn = function (await) {
-            return await;
+        let fn = function (value) {
+            return value;
         };
         console.log(fn(0));
     }

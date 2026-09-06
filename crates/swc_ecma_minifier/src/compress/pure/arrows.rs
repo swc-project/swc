@@ -47,6 +47,12 @@ impl Visit for ContextualKeywordRefFinder<'_> {
     }
 
     fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
+        // Arrow parameters inherit the enclosing grammar context, but the body
+        // establishes a fresh one.
+        arrow.params.visit_with(self);
+    }
 }
 
 /// Methods related to the option `arrows`.
