@@ -1,5 +1,8 @@
 #![allow(clippy::needless_update)]
 
+use std::sync::Arc;
+
+use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
@@ -34,10 +37,19 @@ mod strings;
 mod switches;
 mod vars;
 
-#[derive(Debug, Clone, Copy)]
+/// Mutable parameters must finish data-flow compression before becoming arrows.
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum UnsafeArrowStage {
+    #[default]
+    Compress,
+    Finalize,
+}
+
+#[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct PureOptimizerConfig {
     /// pass > 1
     pub enable_join_vars: bool,
+    pub unsafe_arrow_stage: UnsafeArrowStage,
 }
 
 #[allow(clippy::needless_lifetimes)]
@@ -58,6 +70,7 @@ pub(crate) fn pure_optimizer<'a>(
         },
         ctx: Default::default(),
         changed: Default::default(),
+        mutated_ids: Default::default(),
     }
 }
 
@@ -69,11 +82,15 @@ struct Pure<'a> {
 
     ctx: Ctx,
     changed: bool,
+    mutated_ids: Arc<FxHashSet<Id>>,
 }
 
 impl Parallel for Pure<'_> {
     fn create(&self) -> Self {
-        Self { ..*self }
+        Self {
+            mutated_ids: self.mutated_ids.clone(),
+            ..*self
+        }
     }
 
     fn merge(&mut self, other: Self) {
@@ -95,6 +112,22 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    /// Collect mutation information once per pure-optimizer pass so arrow
+    /// conversion does not rescan every nested function body.
+    fn collect_mutated_ids<N>(&mut self, node: &N)
+    where
+        N: VisitWith<arrows::MutationCollector>,
+    {
+        if !self.options.unsafe_arrows
+            || self.options.ecma < EsVersion::Es2015
+            || self.config.unsafe_arrow_stage == UnsafeArrowStage::Finalize
+        {
+            return;
+        }
+
+        self.mutated_ids = Arc::new(arrows::MutationCollector::collect(node));
+    }
+
     #[inline(always)]
     fn is_expr_leaf(e: &Expr) -> bool {
         matches!(
@@ -358,11 +391,15 @@ impl VisitMut for Pure<'_> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
-        self.do_inside_of_context(Ctx::IS_LHS_OF_ASSIGN, |this| {
-            e.left.visit_mut_children_with(this);
+        // Only the right-hand side supplies the assignment's value. A computed
+        // assignment target cannot make an enclosing comparison fold.
+        self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+            this.do_inside_of_context(Ctx::IS_LHS_OF_ASSIGN, |this| {
+                e.left.visit_mut_children_with(this);
+            });
         });
 
-        e.right.visit_mut_with(self);
+        self.visit_mut_expr(&mut e.right);
 
         self.compress_bin_assignment_to_left(e);
         self.compress_bin_assignment_to_right(e);
@@ -385,13 +422,58 @@ impl VisitMut for Pure<'_> {
         }
     }
 
+    fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
+        // Arrow parameters inherit their enclosing grammar context. The parameters
+        // of an async arrow additionally have async grammar, while the body starts
+        // a fresh grammar context with only its own async flag restored.
+        self.do_inside_of_context(
+            if e.is_async {
+                Ctx::IN_ASYNC
+            } else {
+                Ctx::empty()
+            },
+            |this| {
+                this.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+                    e.params.visit_mut_children_with(this);
+                });
+            },
+        );
+        self.do_outside_of_context(
+            Ctx::IN_ASYNC | Ctx::IN_GENERATOR | Ctx::IN_STATIC_BLOCK,
+            |this| {
+                if e.is_async {
+                    this.do_inside_of_context(Ctx::IN_ASYNC, |this| {
+                        e.body.visit_mut_with(this);
+                    });
+                } else {
+                    e.body.visit_mut_with(this);
+                }
+            },
+        );
+    }
+
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
+        let old_ctx = self.ctx;
+        if matches!(
+            e.op,
+            op!("==")
+                | op!("!=")
+                | op!("===")
+                | op!("!==")
+                | op!("<")
+                | op!(">")
+                | op!("<=")
+                | op!(">=")
+        ) {
+            self.ctx.insert(Ctx::IN_COMPARISON);
+        }
         if !Self::is_expr_leaf(&e.left) {
             self.visit_mut_expr(&mut e.left);
         }
         if !Self::is_expr_leaf(&e.right) {
             self.visit_mut_expr(&mut e.right);
         }
+        self.ctx = old_ctx;
 
         self.compress_cmp_with_long_op(e);
 
@@ -419,7 +501,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
-        body.visit_mut_children_with(self);
+        self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+            body.visit_mut_children_with(this)
+        });
 
         match body {
             ArrowFunctionBody::FunctionBody(b) => self.optimize_fn_stmts(&mut b.stmts),
@@ -450,7 +534,60 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
-        m.visit_mut_children_with(self);
+        match m {
+            ClassMember::StaticBlock(..) => {
+                self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
+                    m.visit_mut_children_with(this);
+                });
+            }
+            ClassMember::ClassProp(prop) if prop.is_static => {
+                prop.key.visit_mut_with(self);
+                prop.type_ann.visit_mut_with(self);
+                prop.decorators.visit_mut_with(self);
+                self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
+                    prop.value.visit_mut_with(this);
+                });
+            }
+            ClassMember::PrivateProp(prop) if prop.is_static => {
+                prop.type_ann.visit_mut_with(self);
+                prop.decorators.visit_mut_with(self);
+                self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
+                    prop.value.visit_mut_with(this);
+                });
+            }
+            ClassMember::AutoAccessor(accessor) if accessor.is_static => {
+                accessor.key.visit_mut_with(self);
+                accessor.type_ann.visit_mut_with(self);
+                accessor.decorators.visit_mut_with(self);
+                self.do_inside_of_context(Ctx::IN_STATIC_BLOCK, |this| {
+                    accessor.value.visit_mut_with(this);
+                });
+            }
+            ClassMember::ClassProp(prop) => {
+                prop.key.visit_mut_with(self);
+                prop.type_ann.visit_mut_with(self);
+                prop.decorators.visit_mut_with(self);
+                self.do_outside_of_context(Ctx::IN_ASYNC | Ctx::IN_STATIC_BLOCK, |this| {
+                    prop.value.visit_mut_with(this);
+                });
+            }
+            ClassMember::PrivateProp(prop) => {
+                prop.type_ann.visit_mut_with(self);
+                prop.decorators.visit_mut_with(self);
+                self.do_outside_of_context(Ctx::IN_ASYNC | Ctx::IN_STATIC_BLOCK, |this| {
+                    prop.value.visit_mut_with(this);
+                });
+            }
+            ClassMember::AutoAccessor(accessor) => {
+                accessor.key.visit_mut_with(self);
+                accessor.type_ann.visit_mut_with(self);
+                accessor.decorators.visit_mut_with(self);
+                self.do_outside_of_context(Ctx::IN_ASYNC | Ctx::IN_STATIC_BLOCK, |this| {
+                    accessor.value.visit_mut_with(this);
+                });
+            }
+            _ => m.visit_mut_children_with(self),
+        }
 
         if let ClassMember::StaticBlock(sb) = m {
             if sb.body.stmts.is_empty() {
@@ -472,7 +609,15 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
-        e.visit_mut_children_with(self);
+        if self.ctx.contains(Ctx::IN_COMPARISON) {
+            self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+                e.test.visit_mut_with(this);
+            });
+            self.visit_mut_expr(&mut e.cons);
+            self.visit_mut_expr(&mut e.alt);
+        } else {
+            e.visit_mut_children_with(self);
+        }
 
         self.optimize_expr_in_bool_ctx(&mut e.test, false);
     }
@@ -494,9 +639,35 @@ impl VisitMut for Pure<'_> {
             return;
         }
 
+        let old_ctx = self.ctx;
+
         self.handle_known_delete(e);
 
-        e.visit_mut_children_with(self);
+        // A comparison constrains expressions that determine either operand's
+        // value. Other descendants cannot make the comparison fold, so visit
+        // them with the normal evaluation rules.
+        if self.ctx.contains(Ctx::IN_COMPARISON) {
+            match e {
+                Expr::Cond(e) => self.visit_mut_cond_expr(e),
+                Expr::Bin(e) => self.visit_mut_bin_expr(e),
+                Expr::Seq(e) => self.visit_mut_seq_expr(e),
+                Expr::Unary(e) => self.visit_mut_unary_expr(e),
+                Expr::Assign(e) => self.visit_mut_assign_expr(e),
+                Expr::Member(e) => self.visit_mut_member_expr(e),
+                Expr::OptChain(e) => self.visit_mut_opt_chain_expr(e),
+                Expr::Tpl(e) => self.visit_mut_tpl(e),
+                _ => self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+                    e.visit_mut_children_with(this);
+                }),
+            }
+        } else {
+            e.visit_mut_children_with(self);
+        }
+
+        // The comparison context only applies while traversing value paths.
+        // Do not keep it active while simplifying the comparison itself, as
+        // that changes the evaluation rules for unrelated nested expressions.
+        self.ctx = old_ctx;
 
         // Expression simplifier
         match e {
@@ -551,7 +722,10 @@ impl VisitMut for Pure<'_> {
                 *e = *seq.exprs.pop().unwrap();
             }
             Expr::Seq(..) => {}
-            Expr::Invalid(..) | Expr::Lit(..) => return,
+            Expr::Invalid(..) | Expr::Lit(..) => {
+                self.ctx = old_ctx;
+                return;
+            }
 
             _ => {}
         }
@@ -580,6 +754,7 @@ impl VisitMut for Pure<'_> {
                     );
                     if arg.is_invalid() {
                         *e = *Expr::undefined(*span);
+                        self.ctx = old_ctx;
                         return;
                     }
                 }
@@ -628,6 +803,7 @@ impl VisitMut for Pure<'_> {
                 if let Expr::Seq(seq) = e {
                     if seq.exprs.is_empty() {
                         *e = Invalid { span: DUMMY_SP }.into();
+                        self.ctx = old_ctx;
                         return;
                     }
                     if seq.exprs.len() == 1 {
@@ -905,6 +1081,8 @@ impl VisitMut for Pure<'_> {
         ) {
             self.optimize_to_int(e);
         }
+
+        self.ctx = old_ctx;
     }
 
     fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
@@ -1010,11 +1188,31 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
-        self.do_outside_of_context(Ctx::IN_TRY_BLOCK, |this| f.visit_mut_children_with(this));
-
-        if let Some(body) = &mut f.body {
-            self.optimize_fn_stmts(&mut body.stmts)
+        let mut function_ctx = Ctx::empty();
+        if f.is_async {
+            function_ctx.insert(Ctx::IN_ASYNC);
         }
+        if f.is_generator {
+            function_ctx.insert(Ctx::IN_GENERATOR);
+        }
+
+        // Ordinary functions reset async and generator grammar context; arrows do not.
+        self.do_outside_of_context(
+            Ctx::IN_TRY_BLOCK
+                | Ctx::IN_COMPARISON
+                | Ctx::IN_ASYNC
+                | Ctx::IN_GENERATOR
+                | Ctx::IN_STATIC_BLOCK,
+            |this| {
+                this.do_inside_of_context(function_ctx, |this| {
+                    f.visit_mut_children_with(this);
+
+                    if let Some(body) = &mut f.body {
+                        this.optimize_fn_stmts(&mut body.stmts);
+                    }
+                });
+            },
+        );
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
@@ -1068,6 +1266,7 @@ impl VisitMut for Pure<'_> {
                 Ctx::IS_CALLEE
                     .union(Ctx::IS_UPDATE_ARG)
                     .union(Ctx::IS_LHS_OF_ASSIGN)
+                    .union(Ctx::IN_COMPARISON)
                     // A computed key is not part of the optional-chain
                     // continuation, so nested optional chains can be folded
                     // independently.
@@ -1095,12 +1294,22 @@ impl VisitMut for Pure<'_> {
         self.handle_stmt_likes(items);
     }
 
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        self.collect_mutated_ids(&*module);
+        module.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        self.collect_mutated_ids(&*script);
+        script.visit_mut_children_with(self);
+    }
+
     fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
         self.do_inside_of_context(Ctx::IS_CALLEE, |this| {
             e.callee.visit_mut_with(this);
         });
 
-        self.do_outside_of_context(Ctx::IS_CALLEE, |this| {
+        self.do_outside_of_context(Ctx::IS_CALLEE | Ctx::IN_COMPARISON, |this| {
             e.args.visit_mut_with(this);
         });
     }
@@ -1141,6 +1350,10 @@ impl VisitMut for Pure<'_> {
                         Ctx::IS_CALLEE
                             .union(Ctx::IS_UPDATE_ARG)
                             .union(Ctx::IS_LHS_OF_ASSIGN)
+                            // Computed keys are not part of the optional-chain
+                            // value path, so they cannot constrain an enclosing
+                            // comparison.
+                            .union(Ctx::IN_COMPARISON)
                             .union(Ctx::IN_OPT_CHAIN),
                         |this| {
                             c.visit_mut_with(this);
@@ -1165,7 +1378,7 @@ impl VisitMut for Pure<'_> {
                     this.visit_opt_chain_continuation(&mut call.callee);
                 });
 
-                self.do_outside_of_context(Ctx::IN_OPT_CHAIN, |this| {
+                self.do_outside_of_context(Ctx::IN_COMPARISON | Ctx::IN_OPT_CHAIN, |this| {
                     call.args.visit_mut_with(this);
                 });
                 self.eval_spread_array_in_args(&mut call.args);
@@ -1247,7 +1460,18 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
-        e.exprs.visit_mut_with(self);
+        if self.ctx.contains(Ctx::IN_COMPARISON) {
+            if let Some((last, prefix)) = e.exprs.split_last_mut() {
+                self.do_outside_of_context(Ctx::IN_COMPARISON, |this| {
+                    for expr in prefix {
+                        expr.visit_mut_with(this);
+                    }
+                });
+                self.visit_mut_expr(last);
+            }
+        } else {
+            e.exprs.visit_mut_with(self);
+        }
 
         self.shift_void(e);
 
@@ -1532,6 +1756,10 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_unary_expr(&mut self, e: &mut UnaryExpr) {
         if e.op == op!("delete") {
             self.do_inside_of_context(Ctx::IN_DELETE, |this| {
+                e.visit_mut_children_with(this);
+            })
+        } else if e.op == op!("void") {
+            self.do_outside_of_context(Ctx::IN_DELETE | Ctx::IN_COMPARISON, |this| {
                 e.visit_mut_children_with(this);
             })
         } else {

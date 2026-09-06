@@ -736,6 +736,15 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toString" {
+            // Without comparison or unsafe optimizations, retain comparisons
+            // against method results. Folding this call would enable the pure
+            // expression simplifier to remove the comparison on the next pass.
+            if self.ctx.contains(Ctx::IN_COMPARISON)
+                && !self.options.comparisons
+                && !self.options.unsafe_passes
+            {
+                return;
+            }
             let base = first_arg.unwrap_or(10f64);
             if base.trunc() == 10. {
                 let value = num.value.to_js_string().into();
