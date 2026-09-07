@@ -372,6 +372,7 @@ to!(
     ts_enum_with_pure_type_assertion,
     "export enum E {
   value = 1 as number,
+  sibling = value,
 }"
 );
 

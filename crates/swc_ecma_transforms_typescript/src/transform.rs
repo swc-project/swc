@@ -1127,6 +1127,7 @@ impl Transform {
             ambient_const_enum_only: self.ts_enum_is_mutable.then_some(&self.semantic.const_enum),
         };
 
+        let mut runtime_pure_members = FxHashSet::default();
         let member_list: Vec<_> = members
             .into_iter()
             .map(|m| {
@@ -1167,6 +1168,11 @@ impl Transform {
                             | TsEnumRecordValue::OpaqueString(expr) = &mut recomputed
                             {
                                 rewrite_refs(expr);
+                                runtime_pure = is_pure_enum_member_expr(
+                                    expr,
+                                    &id.to_id(),
+                                    &runtime_pure_members,
+                                );
                                 value = recomputed;
                             } else {
                                 // The semantic pass may classify an initializer
@@ -1196,12 +1202,18 @@ impl Transform {
                     }
                 }
 
-                EnumMemberItem {
+                let item = EnumMemberItem {
                     span,
                     name,
                     value,
                     runtime_pure,
+                };
+
+                if item.runtime_pure {
+                    runtime_pure_members.insert(item.name.clone());
                 }
+
+                item
             })
             .filter(|m| !ts_enum_safe_remove || !m.is_const())
             .collect();
@@ -2158,5 +2170,45 @@ fn get_enum_id(e: &Expr) -> Option<Id> {
         Some(ident.to_id())
     } else {
         None
+    }
+}
+
+fn is_pure_enum_member_expr(expr: &Expr, enum_id: &Id, pure_members: &FxHashSet<Wtf8Atom>) -> bool {
+    match expr {
+        Expr::Lit(..) => true,
+        Expr::Paren(expr) => is_pure_enum_member_expr(&expr.expr, enum_id, pure_members),
+        Expr::Unary(expr) if matches!(expr.op, op!(unary, "+") | op!(unary, "-") | op!("~")) => {
+            is_pure_enum_member_expr(&expr.arg, enum_id, pure_members)
+        }
+        Expr::Bin(expr)
+            if matches!(
+                expr.op,
+                op!(bin, "+")
+                    | op!(bin, "-")
+                    | op!("*")
+                    | op!("/")
+                    | op!("%")
+                    | op!("**")
+                    | op!("<<")
+                    | op!(">>")
+                    | op!(">>>")
+                    | op!("|")
+                    | op!("&")
+                    | op!("^")
+            ) =>
+        {
+            is_pure_enum_member_expr(&expr.left, enum_id, pure_members)
+                && is_pure_enum_member_expr(&expr.right, enum_id, pure_members)
+        }
+        Expr::Member(expr) => {
+            get_enum_id(&expr.obj).as_ref() == Some(enum_id)
+                && static_enum_member_name(&expr.prop)
+                    .is_some_and(|name| pure_members.contains(&name))
+        }
+        Expr::Tpl(expr) => expr
+            .exprs
+            .iter()
+            .all(|expr| is_pure_enum_member_expr(expr, enum_id, pure_members)),
+        _ => false,
     }
 }

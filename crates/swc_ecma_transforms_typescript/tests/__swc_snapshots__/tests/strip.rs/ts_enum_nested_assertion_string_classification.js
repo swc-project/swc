@@ -1,4 +1,4 @@
-var E = function(E) {
+var E = /*#__PURE__*/ function(E) {
     E["template"] = `x${1}`;
     E["concatenation"] = 'x' + 1;
     E["selfRef"] = E.template;
