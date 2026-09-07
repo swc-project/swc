@@ -287,6 +287,34 @@ function assigned_symbol_order() {
     console.log(events.join(","));
 }
 
+function logical_assigned_symbol_order() {
+    let assigned;
+    const events = [];
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        [assigned ||= Symbol(), mark()].join("");
+    } catch {}
+    console.log(events.join(","));
+}
+
+function optional_member_symbol_order() {
+    const events = [];
+    const factory = {
+        make() {
+            return Symbol();
+        },
+    };
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        [factory?.make(), mark()].join("");
+    } catch {}
+    console.log(events.join(","));
+}
+
 function spread(values) {
     return [1, ...values, 2].join("");
 }
@@ -312,3 +340,5 @@ value_selecting_object_coercion(true, null);
 value_selecting_symbol_order(true, null);
 assigned_class_coercion();
 assigned_symbol_order();
+logical_assigned_symbol_order();
+optional_member_symbol_order();

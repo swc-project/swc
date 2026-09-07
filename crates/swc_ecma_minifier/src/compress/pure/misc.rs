@@ -156,6 +156,10 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             right,
             ..
         }) => may_evaluate_to_symbol(expr_ctx, right),
+        // Logical assignments can evaluate to either the existing target value
+        // or the right-hand side. The target may be a Symbol even when the
+        // right-hand side is not, so retain join's deferred coercion.
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
         Expr::Await(AwaitExpr { arg, .. }) => may_evaluate_to_symbol(expr_ctx, arg),
         Expr::Cond(CondExpr { cons, alt, .. }) => {
             may_evaluate_to_symbol(expr_ctx, cons) || may_evaluate_to_symbol(expr_ctx, alt)
@@ -169,16 +173,26 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         Expr::Call(CallExpr {
             callee: Callee::Expr(callee),
             ..
-        }) => {
-            callee.is_global_ref_to(expr_ctx, "Symbol")
-                || matches!(
-                    &**callee,
-                    Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
-                )
-                || matches!(&**callee, Expr::Member(..))
-        }
+        }) => may_call_evaluate_to_symbol(expr_ctx, callee),
+        Expr::OptChain(OptChainExpr { base, .. }) => matches!(
+            &**base,
+            OptChainBase::Call(OptCall { callee, .. })
+                if may_call_evaluate_to_symbol(expr_ctx, callee)
+        ),
         _ => matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol)),
     }
+}
+
+/// Whether a call's callee can produce a Symbol result. Locally bound and
+/// member callees are unknown at compile time, while unresolved calls retain
+/// the existing unsafe-pass behavior.
+fn may_call_evaluate_to_symbol(expr_ctx: ExprCtx, callee: &Expr) -> bool {
+    callee.is_global_ref_to(expr_ctx, "Symbol")
+        || matches!(
+            callee,
+            Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
+        )
+        || matches!(callee, Expr::Member(..) | Expr::OptChain(..))
 }
 
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
