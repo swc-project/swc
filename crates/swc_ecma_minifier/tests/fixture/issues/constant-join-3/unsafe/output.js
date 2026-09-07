@@ -516,6 +516,43 @@ function member_object_coercion() {
         }.value
     ].join("");
 }
+function super_property_object_coercion() {
+    class Base {
+    }
+    Base.value = {
+        toString () {
+            return "s";
+        },
+        valueOf () {
+            return 1;
+        }
+    };
+    class Derived extends Base {
+        static read() {
+            return [
+                super.value
+            ].join("");
+        }
+    }
+    return Derived.read();
+}
+function new_target_nullish() {
+    return [
+        new.target
+    ].join("");
+}
+function iife_object_coercion() {
+    return [
+        (()=>({
+                toString () {
+                    return "s";
+                },
+                valueOf () {
+                    return 1;
+                }
+            }))()
+    ].join("");
+}
 function spread(values) {
     return [
         1,
@@ -561,3 +598,6 @@ console.log(identifier_symbol_order(Symbol()));
 console.log(optional_member_nullish(null));
 console.log(member_value_symbol_order());
 console.log(member_object_coercion());
+console.log(super_property_object_coercion());
+console.log(new_target_nullish());
+console.log(iife_object_coercion());

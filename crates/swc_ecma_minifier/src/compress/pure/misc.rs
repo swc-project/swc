@@ -139,6 +139,12 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         // An optional chain can short-circuit to undefined, which join renders
         // as an empty string instead of the "undefined" from concatenation.
         Expr::OptChain(..) => true,
+        // `new.target` is undefined when a function is not called as a
+        // constructor, which join renders as an empty string.
+        Expr::MetaProp(MetaPropExpr {
+            kind: MetaPropKind::NewTarget,
+            ..
+        }) => true,
         Expr::Lit(Lit::Null(..)) => true,
         _ => eval_to_undefined(expr_ctx, expr),
     }
@@ -192,18 +198,22 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         Expr::Class(..) => true,
         // A member read can expose an object whose string-hint coercion differs
         // from addition's default-hint coercion.
-        Expr::Member(..) => true,
+        Expr::Member(..) | Expr::SuperProp(..) => true,
         _ => expr.get_type(expr_ctx) == Value::Known(Type::Obj),
     }
 }
 
 /// Whether a call's callee can produce an object result whose coercion hint is
-/// observable. Locally bound and member callees are unknown at compile time.
+/// observable. Locally bound, member, and function-expression callees are
+/// unknown at compile time.
 fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
     matches!(
         callee,
         Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
-    ) || matches!(callee, Expr::Member(..) | Expr::OptChain(..))
+    ) || matches!(
+        callee,
+        Expr::Member(..) | Expr::OptChain(..) | Expr::Arrow(..) | Expr::Fn(..)
+    )
 }
 
 /// Whether coercing this expression to a string can throw because it is a
