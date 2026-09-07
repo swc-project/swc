@@ -95,27 +95,9 @@ impl Pure<'_> {
                 right,
                 ..
             }) if match &*left {
-                AssignTargetPat::Array(arr) => {
-                    arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none())
-                }
-                _ => false,
-            } =>
-            {
-                report_change!("Dropping assignment to an empty array pattern");
-                self.changed = true;
-                *e = *right.take();
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Pat(left),
-                right,
-                ..
-            }) if match &*left {
                 AssignTargetPat::Object(obj) => {
                     obj.props.is_empty() && is_definitely_non_nullish(right)
                 }
-                AssignTargetPat::Object(obj) => obj.props.is_empty(),
                 _ => false,
             } =>
             {
