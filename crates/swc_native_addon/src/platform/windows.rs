@@ -18,8 +18,8 @@ use windows_sys::Win32::{
             ConvertSidToStringSidW, ConvertStringSecurityDescriptorToSecurityDescriptorW,
             GetNamedSecurityInfoW, GetSecurityInfo, SDDL_REVISION_1, SE_FILE_OBJECT,
         },
-        GetTokenInformation, TokenUser, OWNER_SECURITY_INFORMATION, SECURITY_ATTRIBUTES,
-        TOKEN_QUERY, TOKEN_USER,
+        GetAce, GetTokenInformation, TokenUser, ACL, OWNER_SECURITY_INFORMATION,
+        SECURITY_ATTRIBUTES, TOKEN_QUERY, TOKEN_USER,
     },
     Storage::FileSystem::{
         CreateDirectoryW, GetFileInformationByHandle, LockFileEx, MoveFileExW,
@@ -40,6 +40,13 @@ use windows_sys::Win32::{
 };
 
 use crate::{Error, ErrorKind, Result};
+
+const SYSTEM_SID: &str = "S-1-5-18";
+const ADMINISTRATORS_SID: &str = "S-1-5-32-544";
+const ACCESS_ALLOWED_ACE_TYPE: u8 = 0;
+const ACCESS_DENIED_ACE_TYPE: u8 = 1;
+const DANGEROUS_DIRECTORY_ACCESS: u32 =
+    0x0000_0040 | 0x0001_0000 | 0x0004_0000 | 0x0008_0000 | 0x1000_0000 | 0x4000_0000;
 
 fn wide(path: &Path) -> Vec<u16> {
     path.as_os_str().encode_wide().chain(Some(0)).collect()
@@ -134,22 +141,99 @@ pub fn secure_cache_root(root: &Path) -> io::Result<()> {
             "cache root must be absolute",
         ));
     }
-    // A reparse point in any component can redirect a later pathname lookup.
-    // Check the full chain before protecting the user-owned root below.
+    let sid = current_sid()?;
+    // A reparse point or an untrusted owner/DACL in any component can redirect
+    // or replace the validated cache namespace before LoadLibrary reopens it.
     for directory in root.ancestors() {
-        let metadata = fs::symlink_metadata(directory)?;
-        if !metadata.is_dir() || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
-            return Err(io::Error::new(
-                io::ErrorKind::PermissionDenied,
-                "cache root contains a non-directory or reparse point",
-            ));
+        validate_cache_ancestor(directory, &sid)?;
+    }
+    Ok(())
+}
+
+fn validate_cache_ancestor(path: &Path, current_sid: &str) -> io::Result<()> {
+    let metadata = fs::symlink_metadata(path)?;
+    if !metadata.is_dir() || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
+        return Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "cache root contains a non-directory or reparse point",
+        ));
+    }
+
+    use windows_sys::Win32::Security::DACL_SECURITY_INFORMATION;
+
+    let mut owner = ptr::null_mut();
+    let mut dacl = ptr::null_mut();
+    let mut security = ptr::null_mut();
+    let status = unsafe {
+        GetNamedSecurityInfoW(
+            wide(path).as_ptr(),
+            SE_FILE_OBJECT,
+            OWNER_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION,
+            &mut owner,
+            ptr::null_mut(),
+            &mut dacl,
+            ptr::null_mut(),
+            &mut security,
+        )
+    };
+    if status != 0 {
+        return Err(io::Error::from_raw_os_error(status as i32));
+    }
+    let _security = LocalAllocation(security);
+    let owner = sid_string(owner)?;
+    if !trusted_principal(&owner, current_sid) {
+        return Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "cache root has an ancestor owned by another user",
+        ));
+    }
+    if !dacl_rejects_untrusted_replacement(dacl, current_sid)? {
+        return Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "cache root has an ancestor with an untrusted replacement DACL",
+        ));
+    }
+    Ok(())
+}
+
+fn trusted_principal(sid: &str, current_sid: &str) -> bool {
+    sid == current_sid || sid == SYSTEM_SID || sid == ADMINISTRATORS_SID
+}
+
+/// Conservatively reject ACLs that grant an untrusted principal the rights to
+/// remove, retake ownership of, or rewrite a cache-root ancestor. This avoids
+/// mutating caller-owned roots while preventing pathname substitution.
+fn dacl_rejects_untrusted_replacement(dacl: *mut ACL, current_sid: &str) -> io::Result<bool> {
+    if dacl.is_null() {
+        // A null DACL grants full access to every account.
+        return Ok(false);
+    }
+    for index in 0..u32::from(unsafe { (*dacl).AceCount }) {
+        let mut ace = ptr::null_mut();
+        if unsafe { GetAce(dacl, index, &mut ace) } == 0 {
+            return Err(io::Error::last_os_error());
+        }
+        let ace_type = unsafe { *ace.cast::<u8>() };
+        if ace_type == ACCESS_DENIED_ACE_TYPE {
+            continue;
+        }
+        if ace_type != ACCESS_ALLOWED_ACE_TYPE {
+            // Object and callback allow ACEs use a different SID offset. Do
+            // not risk misclassifying an untrusted grant as harmless.
+            return Ok(false);
+        }
+        let mask = unsafe { std::ptr::read_unaligned(ace.cast::<u8>().add(4).cast::<u32>()) };
+        if mask & DANGEROUS_DIRECTORY_ACCESS == 0 {
+            continue;
+        }
+        // ACCESS_ALLOWED_ACE stores the SID immediately after its header and
+        // access mask (eight bytes in total).
+        let trustee = sid_string(unsafe { ace.cast::<u8>().add(8).cast() })?;
+        if !trusted_principal(&trustee, current_sid) {
+            return Ok(false);
         }
     }
-    // The root itself must have the same owner-only DACL as the namespaces it
-    // contains. This prevents a permissive inherited ACL from granting another
-    // account FILE_DELETE_CHILD between validation and LoadLibrary.
-    private_directory(root)?;
-    Ok(())
+    Ok(true)
 }
 
 pub fn private_directory(path: &Path) -> io::Result<()> {

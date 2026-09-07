@@ -312,7 +312,7 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
         // All cooperating readers hold the digest lock, including during repair.
         // No writer ever truncates the canonical filename in place.
         let staged = staged.into_temp_path();
-        fs::rename(&staged, &path)
+        platform::replace_file(&staged, &path)
             .map_err(|e| io_error("atomically publish cache entry", &path, e))?;
         platform::sync_directory(&directory)
             .map_err(|e| io_error("flush cache directory", &directory, e))?;

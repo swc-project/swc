@@ -91,6 +91,15 @@ mod supported {
             .suffix(".node")
             .tempfile_in(parent)
             .map_err(|e| fail("stage carrier replacement", e))?;
+        #[cfg(target_os = "macos")]
+        if platform::has_extended_acl(stage.as_file())
+            .map_err(|e| fail("inspect replacement staging ACL", e))?
+        {
+            // The parent may contribute an inheritable ACL even when the
+            // carrier has none. Publishing it would silently alter the
+            // carrier's access controls, so retain the carrier and use cache.
+            return Ok(None);
+        }
         payload.decode_into(stage.as_file_mut())?;
         platform::copy_metadata(&original, stage.as_file())
             .map_err(|e| fail("preserve carrier metadata", e))?;

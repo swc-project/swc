@@ -79,9 +79,7 @@ pub fn secure_cache_root(root: &Path) -> io::Result<()> {
                 "cache root contains a non-directory or symlink",
             ));
         }
-        if !writable_directory_is_secure(metadata.mode(), metadata.uid(), unsafe {
-            libc::geteuid()
-        }) {
+        if !cache_ancestor_is_secure(metadata.mode(), metadata.uid(), unsafe { libc::geteuid() }) {
             return Err(io::Error::new(
                 io::ErrorKind::PermissionDenied,
                 "cache root has a parent writable by another user without trusted sticky \
@@ -92,11 +90,11 @@ pub fn secure_cache_root(root: &Path) -> io::Result<()> {
     Ok(())
 }
 
-fn writable_directory_is_secure(mode: u32, owner: u32, current: u32) -> bool {
+fn cache_ancestor_is_secure(mode: u32, owner: u32, current: u32) -> bool {
     if owner != current && owner != 0 {
-        // The owner can always rename children when owner-write is set, even
-        // when group and other write bits are clear.
-        return mode & 0o222 == 0;
+        // Even a mode-0555 directory owner can chmod it, rename our validated
+        // namespace, and replace the addon before dlopen reopens its path.
+        return false;
     }
     mode & 0o022 == 0 || mode & STICKY_BIT != 0
 }
@@ -352,7 +350,7 @@ pub fn compress_cache(_path: &Path) -> io::Result<()> {
 mod tests {
     use std::path::Path;
 
-    use super::{noexec_mount_in, writable_directory_is_secure};
+    use super::{cache_ancestor_is_secure, noexec_mount_in};
 
     #[test]
     fn selects_the_most_specific_mount_option() {
@@ -364,12 +362,12 @@ mod tests {
 
     #[test]
     fn rejects_sticky_writable_directory_owned_by_another_user() {
-        assert!(writable_directory_is_secure(0o1777, 0, 1000));
-        assert!(writable_directory_is_secure(0o1777, 1000, 1000));
-        assert!(!writable_directory_is_secure(0o1777, 1001, 1000));
-        assert!(!writable_directory_is_secure(0o0755, 1001, 1000));
-        assert!(writable_directory_is_secure(0o0555, 1001, 1000));
-        assert!(!writable_directory_is_secure(0o0777, 1000, 1000));
+        assert!(cache_ancestor_is_secure(0o1777, 0, 1000));
+        assert!(cache_ancestor_is_secure(0o1777, 1000, 1000));
+        assert!(!cache_ancestor_is_secure(0o1777, 1001, 1000));
+        assert!(!cache_ancestor_is_secure(0o0755, 1001, 1000));
+        assert!(!cache_ancestor_is_secure(0o0555, 1001, 1000));
+        assert!(!cache_ancestor_is_secure(0o0777, 1000, 1000));
     }
 }
 

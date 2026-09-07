@@ -66,6 +66,24 @@ fn replacement_skips_explicit_macos_acls() {
     assert!(swc_native_addon::platform::has_extended_acl(file.as_file()).unwrap());
 }
 
+#[cfg(target_os = "macos")]
+#[test]
+fn replacement_staging_detects_inherited_macos_acls() {
+    let parent = tempfile::tempdir().unwrap();
+    let result = std::process::Command::new("/bin/chmod")
+        .args(["+a", "everyone allow read,file_inherit"])
+        .arg(parent.path())
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "chmod failed: {}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    let stage = tempfile::NamedTempFile::new_in(parent.path()).unwrap();
+    assert!(swc_native_addon::platform::has_extended_acl(stage.as_file()).unwrap());
+}
+
 fn replacement_on_explicit_volume() {
     let root = PathBuf::from(
         std::env::var_os("SWC_TEST_VOLUME")
