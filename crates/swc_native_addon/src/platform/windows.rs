@@ -120,6 +120,12 @@ pub fn user_cache_root() -> Result<PathBuf> {
         .ok_or_else(|| Error::new(ErrorKind::Cache, "cannot determine native addon user cache"))
 }
 
+/// Windows does not expose a mount-level `noexec` equivalent for ordinary
+/// addon cache paths. Filesystem access is validated during cache creation.
+pub fn executable_cache_root(_root: &Path) -> Result<()> {
+    Ok(())
+}
+
 pub fn secure_cache_root(root: &Path) -> io::Result<()> {
     let metadata = fs::symlink_metadata(root)?;
     if !metadata.is_dir() || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {

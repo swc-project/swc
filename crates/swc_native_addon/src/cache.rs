@@ -96,6 +96,7 @@ fn io_error(operation: &str, path: &Path, error: io::Error) -> Error {
 /// directories cannot accidentally turn the cache into a cross-user code
 /// source.
 pub fn cache_directory(root: &Path) -> Result<PathBuf> {
+    platform::executable_cache_root(root)?;
     fs::create_dir_all(root).map_err(|e| io_error("create cache root", root, e))?;
     platform::secure_cache_root(root).map_err(|e| io_error("validate cache root", root, e))?;
     let user = root.join(platform::user_namespace()?);
@@ -107,14 +108,14 @@ pub fn cache_directory(root: &Path) -> Result<PathBuf> {
 }
 
 pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materialized> {
-    let default_root = platform::user_cache_root()?;
     match mode {
         CacheMode::Temporary => temporary(payload),
-        CacheMode::Default => cached_at(payload, &default_root),
+        CacheMode::Default => cached_at(payload, &platform::user_cache_root()?),
         CacheMode::Custom(root) => match cached_at(payload, root) {
             Ok(file) => Ok(file),
             Err(custom) => {
                 tracing::debug!(path = %root.display(), error = %custom, "custom native cache unavailable; using user cache");
+                let default_root = platform::user_cache_root()?;
                 cached_at(payload, &default_root).map_err(|default| {
                     Error::new(
                         ErrorKind::Cache,

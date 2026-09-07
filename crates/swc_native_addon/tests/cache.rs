@@ -70,6 +70,40 @@ fn custom_root_failure_falls_back_to_default() {
 }
 
 #[test]
+fn custom_root_does_not_require_default_cache() {
+    let root = tempfile::tempdir().unwrap();
+    let output = Command::new(std::env::current_exe().unwrap())
+        .args([
+            "--exact",
+            "custom_root_without_default_cache_worker",
+            "--nocapture",
+        ])
+        .env("SWC_TEST_CUSTOM_CACHE", root.path())
+        .env_remove("XDG_CACHE_HOME")
+        .env_remove("HOME")
+        .env_remove("LOCALAPPDATA")
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "custom cache worker failed: {}{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+#[test]
+fn custom_root_without_default_cache_worker() {
+    let Some(root) = std::env::var_os("SWC_TEST_CUSTOM_CACHE") else {
+        return;
+    };
+    let bytes = support::packed();
+    let payload = Payload::parse(&bytes).unwrap();
+    let mut entry = cache::materialize(&payload, &CacheMode::Custom(root.into())).unwrap();
+    entry.loaded().unwrap();
+}
+
+#[test]
 fn temporary_files_are_unique_and_removed_after_loading() {
     let bytes = support::packed();
     let payload = Payload::parse(&bytes).unwrap();

@@ -28,6 +28,22 @@ struct Loaded {
 static LOADED: Mutex<Option<Loaded>> = Mutex::new(None);
 static IMAGE_ANCHOR: u8 = 0;
 
+fn replacement_carrier(
+    mode: &CacheMode,
+    resolve: impl FnOnce() -> Result<std::path::PathBuf>,
+) -> Option<std::path::PathBuf> {
+    if *mode == CacheMode::Temporary {
+        return None;
+    }
+    match resolve() {
+        Ok(path) => Some(path),
+        Err(error) => {
+            tracing::debug!(%error, "native carrier path unavailable; using cache");
+            None
+        }
+    }
+}
+
 fn initialize() -> Result<napi::Register> {
     let mut loaded = LOADED.lock().map_err(|_| {
         Error::new(
@@ -40,10 +56,9 @@ fn initialize() -> Result<napi::Register> {
     }
     let payload = Payload::parse(PAYLOAD)?;
     let mode = CacheMode::from_env()?;
-    let carrier = unsafe { platform::carrier_path((&IMAGE_ANCHOR as *const u8).cast()) }?;
-    let replacement = if mode == CacheMode::Temporary {
-        None
-    } else {
+    let replacement = if let Some(carrier) = replacement_carrier(&mode, || unsafe {
+        platform::carrier_path((&IMAGE_ANCHOR as *const u8).cast())
+    }) {
         // Compression and replacement are optional. Integrity is rechecked in
         // the cache path; no fallback ever loads an unverified original buffer.
         match replacement::try_replace(&payload, &carrier) {
@@ -53,6 +68,8 @@ fn initialize() -> Result<napi::Register> {
                 None
             }
         }
+    } else {
+        None
     };
     let mut materialized = match replacement {
         Some(file) => file,
@@ -130,5 +147,26 @@ pub unsafe extern "C" fn napi_register_module_v1(
             env,
             &Error::new(ErrorKind::Load, "native loader initialization panicked"),
         ),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn temporary_mode_skips_carrier_resolution() {
+        assert!(replacement_carrier(&CacheMode::Temporary, || -> Result<_> {
+            panic!("temporary mode must not resolve the carrier")
+        })
+        .is_none());
+    }
+
+    #[test]
+    fn unavailable_carrier_disables_replacement() {
+        assert!(replacement_carrier(&CacheMode::Default, || {
+            Err(Error::new(ErrorKind::Load, "carrier is unavailable"))
+        })
+        .is_none());
     }
 }

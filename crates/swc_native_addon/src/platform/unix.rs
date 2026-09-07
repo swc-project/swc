@@ -36,16 +36,23 @@ pub fn user_cache_root() -> Result<PathBuf> {
         })
         .map(PathBuf::from)
         .ok_or_else(|| Error::new(ErrorKind::Cache, "cannot determine native addon user cache"))?;
-    if cfg!(target_os = "linux") && noexec_mount(&root)? {
+    executable_cache_root(&root)?;
+    Ok(root)
+}
+
+/// Reject roots from which the dynamic loader cannot map a materialized addon.
+/// This applies to explicit custom roots as well as the user default.
+pub fn executable_cache_root(root: &Path) -> Result<()> {
+    if cfg!(target_os = "linux") && noexec_mount(root)? {
         return Err(Error::new(
             ErrorKind::Cache,
             format!(
                 "native addon user cache {} is mounted noexec",
-                root.display()
+                root.display(),
             ),
         ));
     }
-    Ok(root)
+    Ok(())
 }
 
 /// A cache root and every ancestor must be stable after validation.  A
@@ -89,6 +96,10 @@ fn noexec_mount(path: &Path) -> Result<bool> {
         .map_err(|e| Error::io(ErrorKind::Cache, "resolve native addon cache", e))?;
     let mounts = fs::read_to_string("/proc/self/mountinfo")
         .map_err(|e| Error::io(ErrorKind::Cache, "read Linux mount table", e))?;
+    Ok(noexec_mount_in(&path, &mounts))
+}
+
+fn noexec_mount_in(path: &Path, mounts: &str) -> bool {
     let mut selected: Option<(PathBuf, bool)> = None;
     for line in mounts.lines() {
         let Some((before, _)) = line.split_once(" - ") else {
@@ -107,7 +118,7 @@ fn noexec_mount(path: &Path) -> Result<bool> {
             selected = Some((mount, fields[5].split(',').any(|option| option == "noexec")));
         }
     }
-    Ok(selected.is_some_and(|(_, noexec)| noexec))
+    selected.is_some_and(|(_, noexec)| noexec)
 }
 
 #[cfg(not(target_os = "linux"))]
@@ -228,4 +239,19 @@ pub unsafe fn carrier_path(address: *const std::ffi::c_void) -> Result<PathBuf> 
 
 pub fn compress_cache(_path: &Path) -> io::Result<()> {
     Ok(())
+}
+
+#[cfg(all(test, target_os = "linux"))]
+mod tests {
+    use std::path::Path;
+
+    use super::noexec_mount_in;
+
+    #[test]
+    fn selects_the_most_specific_mount_option() {
+        let mounts = "24 1 0:20 / / rw,relatime - ext4 /dev/root rw\n36 24 0:31 / /custom \
+                      rw,noexec - tmpfs tmpfs rw\n";
+        assert!(noexec_mount_in(Path::new("/custom/cache"), mounts));
+        assert!(!noexec_mount_in(Path::new("/other/cache"), mounts));
+    }
 }
