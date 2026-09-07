@@ -355,11 +355,15 @@ to!(
 
 to!(
     ts_enum_with_type_assertion,
-    "enum RefType {
+    "const enum Base {
+  value = 1,
+}
+enum RefType {
   property = '11' as string,
   event = '22' as any,
   constant = '33' as const,
   legacy = <string>'44',
+  enumRef = Base.value as number,
 }"
 );
 

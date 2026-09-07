@@ -3,5 +3,6 @@ var RefType = function(RefType) {
     RefType[RefType["event"] = '22'] = "event";
     RefType[RefType["constant"] = '33'] = "constant";
     RefType[RefType["legacy"] = '44'] = "legacy";
+    RefType[RefType["enumRef"] = 1] = "enumRef";
     return RefType;
 }(RefType || {});

@@ -1142,11 +1142,12 @@ impl Transform {
 
                 if matches!(value, TsEnumRecordValue::Opaque(..)) {
                     if let Some(init) = m.init {
-                        // Recompute from the original initializer so enum member
-                        // references can be rewritten to runtime property
-                        // accesses. Implicit Flow enum members do not have an
-                        // initializer, so keep the semantic value as-is.
-                        let mut recomputed = enum_computer.compute(init, EvalCtx::RECOMPUTE);
+                        // Recompute from the transformed initializer so enum
+                        // member references can be rewritten to runtime
+                        // property accesses. Implicit Flow enum members do not
+                        // have an initializer, so keep the semantic value as-is.
+                        let mut recomputed =
+                            enum_computer.compute(init.clone(), EvalCtx::RECOMPUTE);
                         if let TsEnumRecordValue::Opaque(expr) = &mut recomputed {
                             expr.visit_mut_with(&mut RefRewriter {
                                 query: EnumMemberRefQuery {
@@ -1156,18 +1157,12 @@ impl Transform {
                                 },
                             });
                             value = recomputed;
-                        } else if let TsEnumRecordValue::Opaque(expr) = &mut value {
+                        } else {
                             // The semantic pass may classify an initializer as
                             // non-constant from syntax that has since been
-                            // stripped. Do not replace that verdict with a
-                            // recomputed constant value.
-                            expr.visit_mut_with(&mut RefRewriter {
-                                query: EnumMemberRefQuery {
-                                    enum_id: &id.to_id(),
-                                    member_names: &member_names,
-                                    unresolved_ctxt: self.unresolved_ctxt,
-                                },
-                            });
+                            // stripped. Preserve that verdict while emitting
+                            // the transformed initializer.
+                            value = TsEnumRecordValue::Opaque(init);
                         }
                     }
                 }
