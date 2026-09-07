@@ -377,6 +377,20 @@ to!(
 );
 
 to!(
+    ts_enum_with_throwing_bigint_assertion,
+    "export enum Direct {
+  value = (1n / 0n) as any,
+}
+export enum Sibling {
+  zero = 0n as any,
+  value = (zero / zero) as any,
+}
+export enum Unary {
+  value = (+1n) as any,
+}"
+);
+
+to!(
     ts_enum_cross_enum_opaque_member,
     "enum E {
   value = 1 as number,

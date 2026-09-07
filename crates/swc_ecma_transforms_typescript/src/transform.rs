@@ -1127,7 +1127,7 @@ impl Transform {
             ambient_const_enum_only: self.ts_enum_is_mutable.then_some(&self.semantic.const_enum),
         };
 
-        let mut runtime_pure_members = FxHashSet::default();
+        let mut runtime_pure_members = FxHashMap::default();
         let member_list: Vec<_> = members
             .into_iter()
             .map(|m| {
@@ -1140,7 +1140,8 @@ impl Transform {
                 };
 
                 let mut value = self.semantic.enum_record.get(&key).unwrap().clone();
-                let mut runtime_pure = value.is_const();
+                let mut runtime_pure_kind =
+                    value.is_const().then_some(PureEnumMemberKind::NonBigInt);
 
                 if matches!(
                     value,
@@ -1168,11 +1169,8 @@ impl Transform {
                             | TsEnumRecordValue::OpaqueString(expr) = &mut recomputed
                             {
                                 rewrite_refs(expr);
-                                runtime_pure = is_pure_enum_member_expr(
-                                    expr,
-                                    &id.to_id(),
-                                    &runtime_pure_members,
-                                );
+                                runtime_pure_kind =
+                                    pure_enum_member_kind(expr, &id.to_id(), &runtime_pure_members);
                                 value = recomputed;
                             } else {
                                 // The semantic pass may classify an initializer
@@ -1193,7 +1191,7 @@ impl Transform {
                                     rewrite_refs(&mut init);
                                     opaque(init)
                                 };
-                                runtime_pure = true;
+                                runtime_pure_kind = Some(PureEnumMemberKind::NonBigInt);
                             }
                         } else {
                             rewrite_refs(&mut init);
@@ -1206,11 +1204,11 @@ impl Transform {
                     span,
                     name,
                     value,
-                    runtime_pure,
+                    runtime_pure: runtime_pure_kind.is_some(),
                 };
 
-                if item.runtime_pure {
-                    runtime_pure_members.insert(item.name.clone());
+                if let Some(kind) = runtime_pure_kind {
+                    runtime_pure_members.insert(item.name.clone(), kind);
                 }
 
                 item
@@ -2173,12 +2171,28 @@ fn get_enum_id(e: &Expr) -> Option<Id> {
     }
 }
 
-fn is_pure_enum_member_expr(expr: &Expr, enum_id: &Id, pure_members: &FxHashSet<Wtf8Atom>) -> bool {
+#[derive(Clone, Copy)]
+enum PureEnumMemberKind {
+    NonBigInt,
+    BigInt,
+}
+
+fn pure_enum_member_kind(
+    expr: &Expr,
+    enum_id: &Id,
+    pure_members: &FxHashMap<Wtf8Atom, PureEnumMemberKind>,
+) -> Option<PureEnumMemberKind> {
     match expr {
-        Expr::Lit(..) => true,
-        Expr::Paren(expr) => is_pure_enum_member_expr(&expr.expr, enum_id, pure_members),
+        Expr::Lit(Lit::BigInt(..)) => Some(PureEnumMemberKind::BigInt),
+        Expr::Lit(..) => Some(PureEnumMemberKind::NonBigInt),
+        Expr::Paren(expr) => pure_enum_member_kind(&expr.expr, enum_id, pure_members),
         Expr::Unary(expr) if matches!(expr.op, op!(unary, "+") | op!(unary, "-") | op!("~")) => {
-            is_pure_enum_member_expr(&expr.arg, enum_id, pure_members)
+            let kind = pure_enum_member_kind(&expr.arg, enum_id, pure_members)?;
+            if matches!(kind, PureEnumMemberKind::BigInt) && expr.op == op!(unary, "+") {
+                None
+            } else {
+                Some(kind)
+            }
         }
         Expr::Bin(expr)
             if matches!(
@@ -2197,18 +2211,33 @@ fn is_pure_enum_member_expr(expr: &Expr, enum_id: &Id, pure_members: &FxHashSet<
                     | op!("^")
             ) =>
         {
-            is_pure_enum_member_expr(&expr.left, enum_id, pure_members)
-                && is_pure_enum_member_expr(&expr.right, enum_id, pure_members)
+            let left = pure_enum_member_kind(&expr.left, enum_id, pure_members)?;
+            let right = pure_enum_member_kind(&expr.right, enum_id, pure_members)?;
+
+            // BigInt operators can throw for mixed operands, division or
+            // remainder by zero, negative exponents, and unsigned shifts.
+            // Keep those enum IIFEs observable rather than suppressing an
+            // exception through a PURE annotation.
+            if matches!(left, PureEnumMemberKind::BigInt)
+                || matches!(right, PureEnumMemberKind::BigInt)
+            {
+                None
+            } else {
+                Some(PureEnumMemberKind::NonBigInt)
+            }
         }
         Expr::Member(expr) => {
-            get_enum_id(&expr.obj).as_ref() == Some(enum_id)
-                && static_enum_member_name(&expr.prop)
-                    .is_some_and(|name| pure_members.contains(&name))
+            if get_enum_id(&expr.obj).as_ref() != Some(enum_id) {
+                return None;
+            }
+
+            static_enum_member_name(&expr.prop).and_then(|name| pure_members.get(&name).copied())
         }
         Expr::Tpl(expr) => expr
             .exprs
             .iter()
-            .all(|expr| is_pure_enum_member_expr(expr, enum_id, pure_members)),
-        _ => false,
+            .all(|expr| pure_enum_member_kind(expr, enum_id, pure_members).is_some())
+            .then_some(PureEnumMemberKind::NonBigInt),
+        _ => None,
     }
 }
