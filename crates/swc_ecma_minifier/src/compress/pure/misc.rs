@@ -924,46 +924,7 @@ impl Pure<'_> {
             }
 
             // Convert to string concatenation
-            let mut result_parts = Vec::with_capacity(groups.len());
-            let mut result_parts = Vec::new();
-
-            // Only add empty string prefix when the first element is a non-string
-            // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion.
-            let needs_empty_string_prefix = match groups.first() {
-                Some(GroupType::Expression(first_expr)) => {
-                    let first_needs_coercion = match &*first_expr.expr {
-                        Expr::Bin(BinExpr {
-                            op: op!(bin, "+"), ..
-                        }) => {
-                            // `+` is only already a string concatenation when its
-                            // result is proven to be a string. Otherwise adjacent
-                            // join elements could be added numerically first.
-                            first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
-                        }
-                        Expr::Lit(Lit::Str(..)) => false,
-                        Expr::Call(..) => true,
-                        _ => true,
-                    };
-
-                    // A following literal provides the string coercion for the
-                    // first element before the next dynamic element is evaluated.
-                    if first_needs_coercion {
-                        !matches!(groups.get(1), Some(GroupType::Literals(_)))
-                    } else {
-                        false
-                    }
-                }
-                _ => false,
-            };
-
-            if needs_empty_string_prefix {
-                result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
-                    span: DUMMY_SP,
-                    raw: None,
-                    value: atom!("").into(),
-                }))));
-            }
+            let mut result_parts = Vec::with_capacity(groups.len() + 1);
 
             for group in groups {
                 match group {
