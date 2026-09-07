@@ -123,6 +123,9 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             right,
             ..
         }) => may_explicitly_evaluate_to_nullish(expr_ctx, right),
+        // Logical assignments can return either the previous target value or
+        // the right-hand side. Keep join when either path could be nullish.
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
         Expr::Await(AwaitExpr { arg, .. }) => may_explicitly_evaluate_to_nullish(expr_ctx, arg),
         Expr::Bin(BinExpr {
             op: op!("&&") | op!("||") | op!("??"),
@@ -163,6 +166,9 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             right,
             ..
         }) => may_evaluate_to_object(expr_ctx, right),
+        // Logical assignments can return either the previous target value or
+        // the right-hand side, either of which can retain object coercion.
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
         Expr::Await(AwaitExpr { arg, .. }) => may_evaluate_to_object(expr_ctx, arg),
         Expr::Cond(CondExpr { cons, alt, .. }) => {
             may_evaluate_to_object(expr_ctx, cons) || may_evaluate_to_object(expr_ctx, alt)
@@ -235,6 +241,7 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             OptChainBase::Call(OptCall { callee, .. })
                 if may_call_evaluate_to_symbol(expr_ctx, callee)
         ),
+        Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_symbol(expr_ctx, tag),
         Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt => true,
         // A member read can produce a Symbol, whose concatenation throw must
         // remain deferred until after join has evaluated later elements.
