@@ -1141,7 +1141,10 @@ impl Transform {
                 let mut value = self.semantic.enum_record.get(&key).unwrap().clone();
                 let mut runtime_pure = value.is_const();
 
-                if matches!(value, TsEnumRecordValue::Opaque(..)) {
+                if matches!(
+                    value,
+                    TsEnumRecordValue::Opaque(..) | TsEnumRecordValue::OpaqueString(..)
+                ) {
                     if let Some(mut init) = m.init {
                         // Recompute from the transformed initializer so enum
                         // member references can be rewritten to runtime
@@ -1160,7 +1163,9 @@ impl Transform {
                         if EnumValueComputer::can_fold_shape(&init) {
                             let mut recomputed =
                                 enum_computer.compute(init.clone(), EvalCtx::RECOMPUTE);
-                            if let TsEnumRecordValue::Opaque(expr) = &mut recomputed {
+                            if let TsEnumRecordValue::Opaque(expr)
+                            | TsEnumRecordValue::OpaqueString(expr) = &mut recomputed
+                            {
                                 rewrite_refs(expr);
                                 value = recomputed;
                             } else {
@@ -1168,14 +1173,19 @@ impl Transform {
                                 // as non-constant from syntax that has since
                                 // been stripped. Preserve that verdict while
                                 // emitting the transformed initializer.
+                                let opaque = if value.is_string() {
+                                    TsEnumRecordValue::OpaqueString
+                                } else {
+                                    TsEnumRecordValue::Opaque
+                                };
                                 value = if ts_enum_safe_remove {
                                     // Constant siblings are omitted from a
                                     // removable const enum, so retain their
                                     // computed value instead of a property read.
-                                    TsEnumRecordValue::Opaque(Box::new(recomputed.into()))
+                                    opaque(Box::new(recomputed.into()))
                                 } else {
                                     rewrite_refs(&mut init);
-                                    TsEnumRecordValue::Opaque(init)
+                                    opaque(init)
                                 };
                                 runtime_pure = true;
                             }

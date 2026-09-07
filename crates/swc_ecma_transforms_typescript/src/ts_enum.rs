@@ -20,6 +20,8 @@ pub(crate) enum TsEnumRecordValue {
     String(Wtf8Atom),
     Number(Number),
     Opaque(Box<Expr>),
+    /// A non-constant runtime expression whose result is known to be a string.
+    OpaqueString(Box<Expr>),
     Void,
 }
 
@@ -58,7 +60,10 @@ impl TsEnumRecordValue {
     }
 
     pub fn is_string(&self) -> bool {
-        matches!(self, TsEnumRecordValue::String(..))
+        matches!(
+            self,
+            TsEnumRecordValue::String(..) | TsEnumRecordValue::OpaqueString(..)
+        )
     }
 
     pub fn has_value(&self) -> bool {
@@ -69,7 +74,7 @@ impl TsEnumRecordValue {
         match self {
             Self::String(value) => output.push_wtf8(value),
             Self::Number(value) => output.push_str(&value.value.to_js_string()),
-            Self::Opaque(_) | Self::Void => return false,
+            Self::Opaque(_) | Self::OpaqueString(_) | Self::Void => return false,
         }
 
         true
@@ -82,7 +87,7 @@ impl From<TsEnumRecordValue> for Expr {
             TsEnumRecordValue::String(string) => Lit::Str(string.into()).into(),
             TsEnumRecordValue::Number(num) => Lit::Num(num).into(),
             TsEnumRecordValue::Void => *Expr::undefined(DUMMY_SP),
-            TsEnumRecordValue::Opaque(expr) => *expr,
+            TsEnumRecordValue::Opaque(expr) | TsEnumRecordValue::OpaqueString(expr) => *expr,
         }
     }
 }
@@ -233,12 +238,16 @@ impl EnumValueComputer<'_> {
                     if value.is_const() {
                         value.clone()
                     } else {
-                        TsEnumRecordValue::Opaque(
-                            self.enum_id
-                                .clone()
-                                .make_member(ident.clone().into())
-                                .into(),
-                        )
+                        let expr = self
+                            .enum_id
+                            .clone()
+                            .make_member(ident.clone().into())
+                            .into();
+                        if value.is_string() {
+                            TsEnumRecordValue::OpaqueString(expr)
+                        } else {
+                            TsEnumRecordValue::Opaque(expr)
+                        }
                     }
                 } else {
                     match ident.sym.as_ref() {
@@ -341,7 +350,9 @@ impl EnumValueComputer<'_> {
         let left = self.compute_rec(expr.left, ctx);
         let right = self.compute_rec(expr.right, ctx);
 
-        if expr.op == BinaryOp::Add && (left.is_string() || right.is_string()) {
+        let is_string = expr.op == BinaryOp::Add && (left.is_string() || right.is_string());
+
+        if is_string {
             let mut value = Wtf8Buf::new();
 
             if left.push_to_string(&mut value) && right.push_to_string(&mut value) {
@@ -382,7 +393,11 @@ impl EnumValueComputer<'_> {
                     origin_expr.right = Box::new(right.into());
                 }
 
-                TsEnumRecordValue::Opaque(origin_expr.into())
+                if is_string {
+                    TsEnumRecordValue::OpaqueString(origin_expr.into())
+                } else {
+                    TsEnumRecordValue::Opaque(origin_expr.into())
+                }
             }
         }
     }
@@ -393,14 +408,14 @@ impl EnumValueComputer<'_> {
     }
 
     fn compute_member(&self, expr: MemberExpr, ctx: EvalCtx) -> TsEnumRecordValue {
-        let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
+        let opaque_expr: Box<Expr> = expr.clone().into();
 
         let Some(member_name) = static_enum_member_name(&expr.prop) else {
-            return opaque_expr;
+            return TsEnumRecordValue::Opaque(opaque_expr);
         };
 
         let Expr::Ident(ident) = *expr.obj else {
-            return opaque_expr;
+            return TsEnumRecordValue::Opaque(opaque_expr);
         };
 
         let enum_id = ident.to_id();
@@ -409,7 +424,7 @@ impl EnumValueComputer<'_> {
             .const_enum_only
             .is_some_and(|set| !set.contains(&enum_id))
         {
-            return opaque_expr;
+            return TsEnumRecordValue::Opaque(opaque_expr);
         }
 
         let key = TsEnumRecordKey {
@@ -422,23 +437,24 @@ impl EnumValueComputer<'_> {
         // enum expression. Only the ambient lookup is guarded: the concrete
         // path folds these today (swc-project/swc#12150) and changing it here
         // would revert #11769.
-        self.record
-            .get(&key)
-            .or_else(|| {
-                (ctx.allow_const_var && self.ambient_is_resolvable(&key.enum_id))
-                    .then(|| self.ambient_record.get(&key))
-                    .flatten()
-            })
-            .cloned()
+        let value = self.record.get(&key).or_else(|| {
+            (ctx.allow_const_var && self.ambient_is_resolvable(&key.enum_id))
+                .then(|| self.ambient_record.get(&key))
+                .flatten()
+        });
+
+        match value {
+            Some(value) if value.is_const() => value.clone(),
             // Opaque members are runtime values. Preserve the member access
             // instead of substituting the expression captured when the enum
             // was declared, which may no longer be the member's value.
-            .filter(TsEnumRecordValue::is_const)
-            .unwrap_or(opaque_expr)
+            Some(value) if value.is_string() => TsEnumRecordValue::OpaqueString(opaque_expr),
+            _ => TsEnumRecordValue::Opaque(opaque_expr),
+        }
     }
 
     fn compute_tpl(&self, expr: Tpl, ctx: EvalCtx) -> TsEnumRecordValue {
-        let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
+        let opaque_expr = TsEnumRecordValue::OpaqueString(expr.clone().into());
 
         let Tpl { exprs, quasis, .. } = expr;
 

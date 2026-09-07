@@ -396,6 +396,18 @@ console.log(E.B);"
 );
 
 to!(
+    ts_enum_nested_assertion_string_classification,
+    "enum E {
+  template = `x${1 as number}`,
+  concatenation = 'x' + (1 as number),
+  selfRef = template,
+}
+enum F {
+  crossRef = E.template,
+}"
+);
+
+to!(
     ts_enum_with_opaque_expr,
     "enum Foo {
     a = foo('x' as any),
