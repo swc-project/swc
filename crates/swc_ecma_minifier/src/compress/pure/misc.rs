@@ -116,14 +116,26 @@ fn unwrap_parens(mut expr: &Expr) -> &Expr {
 }
 
 /// Whether addition could coerce this expression with a different primitive
-/// hint than `join`. Awaiting a definite object can still produce that object,
-/// so retain the join when a later element can observe the coercion order.
+/// hint than `join`. Value-selecting expressions can retain an object-valued
+/// branch, so retain the join when a later element can observe the coercion
+/// order.
 fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     let expr = unwrap_parens(expr);
 
-    matches!(expr, Expr::Await(AwaitExpr { arg, .. }) if may_evaluate_to_object(expr_ctx, arg))
-        || matches!(expr, Expr::Class(..))
-        || expr.get_type(expr_ctx) == Value::Known(Type::Obj)
+    match expr {
+        Expr::Await(AwaitExpr { arg, .. }) => may_evaluate_to_object(expr_ctx, arg),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_evaluate_to_object(expr_ctx, cons) || may_evaluate_to_object(expr_ctx, alt)
+        }
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => may_evaluate_to_object(expr_ctx, left) || may_evaluate_to_object(expr_ctx, right),
+        Expr::Class(..) => true,
+        _ => expr.get_type(expr_ctx) == Value::Known(Type::Obj),
+    }
 }
 
 /// Whether coercing this expression to a string can throw because it is a
@@ -133,23 +145,30 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     let expr = unwrap_parens(expr);
 
-    matches!(expr, Expr::Await(AwaitExpr { arg, .. }) if may_evaluate_to_symbol(expr_ctx, arg))
-        || matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol))
-        || matches!(
-            expr,
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                ..
-            }) if callee.is_global_ref_to(expr_ctx, "Symbol")
+    match expr {
+        Expr::Await(AwaitExpr { arg, .. }) => may_evaluate_to_symbol(expr_ctx, arg),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_evaluate_to_symbol(expr_ctx, cons) || may_evaluate_to_symbol(expr_ctx, alt)
+        }
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => may_evaluate_to_symbol(expr_ctx, left) || may_evaluate_to_symbol(expr_ctx, right),
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) => {
+            callee.is_global_ref_to(expr_ctx, "Symbol")
                 || matches!(
                     &**callee,
                     Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
                 )
-                || matches!(
-                    &**callee,
-                    Expr::Member(..)
-                )
-        )
+                || matches!(&**callee, Expr::Member(..))
+        }
+        _ => matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol)),
+    }
 }
 
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {

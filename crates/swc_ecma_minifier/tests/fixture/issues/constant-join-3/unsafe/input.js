@@ -208,6 +208,61 @@ async function awaited_object_order() {
     ].join(""));
 }
 
+function value_selecting_object_coercion(flag, value) {
+    console.log([flag ? {
+        toString() {
+            return "s";
+        },
+        valueOf() {
+            return 1;
+        },
+    } : 0].join(""));
+    console.log([flag && class {
+        static toString() {
+            return "s";
+        }
+        static valueOf() {
+            return 1;
+        }
+    }].join(""));
+    console.log([!flag || class {
+        static toString() {
+            return "s";
+        }
+        static valueOf() {
+            return 1;
+        }
+    }].join(""));
+    console.log([value ?? class {
+        static toString() {
+            return "s";
+        }
+        static valueOf() {
+            return 1;
+        }
+    }].join(""));
+}
+
+function value_selecting_symbol_order(flag, value) {
+    const events = [];
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        console.log([flag ? Symbol() : 0, mark()].join(""));
+    } catch {}
+    try {
+        console.log([flag && Symbol(), mark()].join(""));
+    } catch {}
+    try {
+        console.log([!flag || Symbol(), mark()].join(""));
+    } catch {}
+    try {
+        console.log([value ?? Symbol(), mark()].join(""));
+    } catch {}
+    console.log(events.join(","));
+}
+
 function spread(values) {
     return [1, ...values, 2].join("");
 }
@@ -229,3 +284,5 @@ class_coercion();
 awaited().then(console.log);
 awaited_symbol_order();
 awaited_object_order();
+value_selecting_object_coercion(true, null);
+value_selecting_symbol_order(true, null);
