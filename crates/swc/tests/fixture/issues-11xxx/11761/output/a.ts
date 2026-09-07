@@ -1,4 +1,4 @@
-export var RefType = function(RefType) {
+export var RefType = /*#__PURE__*/ function(RefType) {
     RefType[RefType["property"] = "11"] = "property";
     RefType[RefType["event"] = "22"] = "event";
     return RefType;
