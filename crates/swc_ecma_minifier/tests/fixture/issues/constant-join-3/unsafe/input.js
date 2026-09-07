@@ -330,6 +330,31 @@ function tagged_template_symbol_order() {
     console.log(events.join(","));
 }
 
+function tagged_template_object_coercion() {
+    function tag() {
+        return {
+            toString() {
+                return "s";
+            },
+            valueOf() {
+                return 1;
+            },
+        };
+    }
+    console.log([tag`x`].join(""));
+}
+
+function iife_symbol_order() {
+    const events = [];
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        [(() => Symbol())(), mark()].join("");
+    } catch {}
+    console.log(events.join(","));
+}
+
 function optional_member_symbol_order() {
     const events = [];
     const factory = {
@@ -429,6 +454,8 @@ logical_assigned_symbol_order();
 console.log(logical_assigned_nullish());
 logical_assigned_class_coercion();
 tagged_template_symbol_order();
+tagged_template_object_coercion();
+iife_symbol_order();
 optional_member_symbol_order();
 console.log(conditional_nullish_join(true));
 console.log(call_object_coercion());

@@ -188,6 +188,7 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             OptChainBase::Call(OptCall { callee, .. })
                 if may_call_evaluate_to_object(expr_ctx, callee)
         ),
+        Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_object(expr_ctx, tag),
         Expr::Class(..) => true,
         // A member read can expose an object whose string-hint coercion differs
         // from addition's default-hint coercion.
@@ -250,16 +251,19 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     }
 }
 
-/// Whether a call's callee can produce a Symbol result. Locally bound and
-/// member callees are unknown at compile time, while unresolved calls retain
-/// the existing unsafe-pass behavior.
+/// Whether a call's callee can produce a Symbol result. Locally bound, member,
+/// and function-expression callees are unknown at compile time, while
+/// unresolved calls retain the existing unsafe-pass behavior.
 fn may_call_evaluate_to_symbol(expr_ctx: ExprCtx, callee: &Expr) -> bool {
     callee.is_global_ref_to(expr_ctx, "Symbol")
         || matches!(
             callee,
             Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
         )
-        || matches!(callee, Expr::Member(..) | Expr::OptChain(..))
+        || matches!(
+            callee,
+            Expr::Member(..) | Expr::OptChain(..) | Expr::Arrow(..) | Expr::Fn(..)
+        )
 }
 
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
