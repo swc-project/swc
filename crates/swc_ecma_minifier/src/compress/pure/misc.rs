@@ -106,6 +106,38 @@ fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     }
 }
 
+/// Returns true if an expression has an explicit path that produces a nullish
+/// value. Unknown values remain eligible for unsafe join folding.
+fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(ParenExpr { expr, .. }) => may_explicitly_evaluate_to_nullish(expr_ctx, expr),
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_explicitly_evaluate_to_nullish(expr_ctx, last)),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_explicitly_evaluate_to_nullish(expr_ctx, cons)
+                || may_explicitly_evaluate_to_nullish(expr_ctx, alt)
+        }
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_explicitly_evaluate_to_nullish(expr_ctx, right),
+        Expr::Await(AwaitExpr { arg, .. }) => may_explicitly_evaluate_to_nullish(expr_ctx, arg),
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => {
+            may_explicitly_evaluate_to_nullish(expr_ctx, left)
+                || may_explicitly_evaluate_to_nullish(expr_ctx, right)
+        }
+        Expr::Lit(Lit::Null(..)) => true,
+        _ => eval_to_undefined(expr_ctx, expr),
+    }
+}
+
 /// Removes parentheses that do not affect an expression's runtime value.
 fn unwrap_parens(mut expr: &Expr) -> &Expr {
     while let Expr::Paren(ParenExpr { expr: inner, .. }) = expr {
@@ -138,9 +170,27 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             right,
             ..
         }) => may_evaluate_to_object(expr_ctx, left) || may_evaluate_to_object(expr_ctx, right),
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) => may_call_evaluate_to_object(expr_ctx, callee),
+        Expr::OptChain(OptChainExpr { base, .. }) => matches!(
+            &**base,
+            OptChainBase::Call(OptCall { callee, .. })
+                if may_call_evaluate_to_object(expr_ctx, callee)
+        ),
         Expr::Class(..) => true,
         _ => expr.get_type(expr_ctx) == Value::Known(Type::Obj),
     }
+}
+
+/// Whether a call's callee can produce an object result whose coercion hint is
+/// observable. Locally bound and member callees are unknown at compile time.
+fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
+    matches!(
+        callee,
+        Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
+    ) || matches!(callee, Expr::Member(..) | Expr::OptChain(..))
 }
 
 /// Whether coercing this expression to a string can throw because it is a
@@ -179,6 +229,7 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             OptChainBase::Call(OptCall { callee, .. })
                 if may_call_evaluate_to_symbol(expr_ctx, callee)
         ),
+        Expr::Ident(..) => true,
         _ => matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol)),
     }
 }
@@ -984,7 +1035,7 @@ impl Pure<'_> {
                 GroupType::Literals(_) => false,
                 GroupType::Expression(expr) => {
                     if self.options.unsafe_passes {
-                        eval_to_nullish(self.expr_ctx, &expr.expr)
+                        may_explicitly_evaluate_to_nullish(self.expr_ctx, &expr.expr)
                     } else {
                         may_evaluate_to_nullish(self.expr_ctx, &expr.expr)
                     }

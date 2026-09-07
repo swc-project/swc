@@ -17,13 +17,29 @@ function single(value) {
 }
 function concatenate(a, b, c) {
     return [
-        "" + a + b,
+        [
+            a,
+            b
+        ].join(""),
         "" + (a + b) + c,
-        "" + a + b + c + "tail",
-        a + (b + c + "tail"),
+        [
+            a,
+            b,
+            c + "tail"
+        ].join(""),
+        [
+            a,
+            b + c + "tail"
+        ].join(""),
         a + "bar" + c,
-        a + "bar" + c,
-        a + (b + "baz"),
+        [
+            a,
+            "bar" + c
+        ].join(""),
+        [
+            a,
+            b + "baz"
+        ].join(""),
         "foo" + a + b + "moo",
         "" + (a + b) + c + "tail",
         a + b + "" + c,
@@ -373,6 +389,36 @@ function optional_member_symbol_order() {
     } catch  {}
     console.log(events.join(","));
 }
+function conditional_nullish_join(flag) {
+    return [
+        flag ? null : 1
+    ].join("");
+}
+function call_object_coercion() {
+    function make() {
+        return {
+            toString () {
+                return "s";
+            },
+            valueOf () {
+                return 1;
+            }
+        };
+    }
+    return [
+        make()
+    ].join("");
+}
+function identifier_symbol_order(value) {
+    let hit = false;
+    try {
+        [
+            value,
+            hit = true
+        ].join("");
+    } catch  {}
+    return hit;
+}
 function spread(values) {
     return [
         1,
@@ -407,3 +453,6 @@ assigned_class_coercion();
 assigned_symbol_order();
 logical_assigned_symbol_order();
 optional_member_symbol_order();
+console.log(conditional_nullish_join(true));
+console.log(call_object_coercion());
+console.log(identifier_symbol_order(Symbol()));
