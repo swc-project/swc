@@ -683,6 +683,18 @@ function call_valued_callee_object_coercion() {
         makeFactory()()
     ].join("");
 }
+function arrow_object_coercion_order() {
+    let value;
+    try {
+        [
+            value = ()=>0,
+            value.toString = 0
+        ].join("");
+    } catch  {
+        return true;
+    }
+    return false;
+}
 function spread(values) {
     return [
         1,
@@ -746,3 +758,4 @@ console.log(assigned_sequence_object_coercion());
 wrapped_symbol_order();
 direct_super_object_coercion();
 console.log(call_valued_callee_object_coercion());
+console.log(arrow_object_coercion_order());

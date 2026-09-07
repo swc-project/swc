@@ -203,6 +203,10 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             callee: Callee::Super(..),
             ..
         }) => true,
+        Expr::Call(CallExpr {
+            callee: Callee::Import(..),
+            ..
+        }) => true,
         Expr::MetaProp(MetaPropExpr {
             kind: MetaPropKind::ImportMeta,
             ..
@@ -220,7 +224,7 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         // A yielded value can be an object whose string-hint coercion differs
         // from addition's default-hint coercion.
         Expr::Yield(..) => true,
-        Expr::Class(..) | Expr::This(..) => true,
+        Expr::Arrow(..) | Expr::Class(..) | Expr::This(..) => true,
         // A member read can expose an object whose string-hint coercion differs
         // from addition's default-hint coercion.
         Expr::Member(..) | Expr::SuperProp(..) => true,
