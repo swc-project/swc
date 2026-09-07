@@ -496,6 +496,37 @@ function yielded_symbol_order() {
     return hit;
 }
 
+function yielded_object_coercion() {
+    function* generator() {
+        return [yield 0].join("");
+    }
+    const iterator = generator();
+    iterator.next();
+    return iterator.next({
+        toString() {
+            return "s";
+        },
+        valueOf() {
+            return 1;
+        },
+    }).value;
+}
+
+function assigned_sequence_object_coercion() {
+    let assigned;
+    function make() {
+        return {
+            toString() {
+                return "s";
+            },
+            valueOf() {
+                return 1;
+            },
+        };
+    }
+    return [assigned = (0, make())].join("");
+}
+
 function spread(values) {
     return [1, ...values, 2].join("");
 }
@@ -547,3 +578,5 @@ console.log(this_object_coercion.call({
 }));
 console.log(super_method_object_coercion());
 console.log(yielded_symbol_order());
+console.log(yielded_object_coercion());
+console.log(assigned_sequence_object_coercion());

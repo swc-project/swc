@@ -167,6 +167,9 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     let expr = unwrap_parens(expr);
 
     match expr {
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_evaluate_to_object(expr_ctx, last)),
         Expr::Assign(AssignExpr {
             op: op!("="),
             right,
@@ -195,6 +198,9 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
                 if may_call_evaluate_to_object(expr_ctx, callee)
         ),
         Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_object(expr_ctx, tag),
+        // A yielded value can be an object whose string-hint coercion differs
+        // from addition's default-hint coercion.
+        Expr::Yield(..) => true,
         Expr::Class(..) | Expr::This(..) => true,
         // A member read can expose an object whose string-hint coercion differs
         // from addition's default-hint coercion.
