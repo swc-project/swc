@@ -53,6 +53,12 @@ fn packs_final_fixture_without_changing_raw_or_cli() {
     let mut decoded = Cursor::new(Vec::new());
     payload.decode_into(&mut decoded).unwrap();
     assert_eq!(decoded.into_inner(), raw);
+    let result = command(&output);
+    assert!(
+        result.status.success(),
+        "repacking an existing payload failed: {}",
+        String::from_utf8_lossy(&result.stderr)
+    );
     assert!(!command(&input).status.success());
     assert!(!command(&cli).status.success());
     fs::write(&input, b"invalid native data").unwrap();

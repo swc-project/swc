@@ -118,7 +118,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     staged.write_all(&bytes)?;
     staged.as_file().sync_all()?;
     let staged = staged.into_temp_path();
-    fs::rename(&staged, &output)?;
+    platform::replace_file(&staged, &output)?;
     platform::sync_directory(&parent)?;
     println!(
         "raw={} payload={} sha512={}",

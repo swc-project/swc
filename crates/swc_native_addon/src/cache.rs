@@ -123,7 +123,7 @@ fn io_error(operation: &str, path: &Path, error: io::Error) -> Error {
 /// source.
 pub fn cache_directory(root: &Path) -> Result<PathBuf> {
     platform::executable_cache_root(root)?;
-    fs::create_dir_all(root).map_err(|e| io_error("create cache root", root, e))?;
+    platform::create_cache_root(root).map_err(|e| io_error("create cache root", root, e))?;
     platform::secure_cache_root(root).map_err(|e| io_error("validate cache root", root, e))?;
     let user = root.join(platform::user_namespace()?);
     platform::private_directory(&user).map_err(|e| io_error("secure cache directory", &user, e))?;

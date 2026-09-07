@@ -191,6 +191,15 @@ pub fn private_directory(path: &Path) -> io::Result<()> {
     Ok(())
 }
 
+/// Create cache-root components with owner-only permissions even when the
+/// caller has selected a permissive umask.
+pub fn create_cache_root(path: &Path) -> io::Result<()> {
+    fs::DirBuilder::new()
+        .recursive(true)
+        .mode(0o700)
+        .create(path)
+}
+
 pub fn open_regular(path: &Path, write: bool, create: bool) -> io::Result<File> {
     let file = OpenOptions::new()
         .read(true)
@@ -250,10 +259,10 @@ pub fn try_lock_exclusive(file: &File) -> io::Result<bool> {
 pub fn has_extended_acl(file: &File) -> io::Result<bool> {
     use std::os::fd::AsRawFd;
 
-    unsafe extern "C" {
+    extern "C" {
         fn acl_get_fd(fd: libc::c_int) -> *mut libc::c_void;
         fn acl_free(object: *mut libc::c_void) -> libc::c_int;
-        fn acl_equiv_mode(acl: *mut libc::c_void, mode: *mut libc::mode_t) -> libc::c_int;
+        fn acl_equiv_mode_np(acl: *mut libc::c_void, mode: *mut libc::mode_t) -> libc::c_int;
     }
 
     let acl = unsafe { acl_get_fd(file.as_raw_fd()) };
@@ -261,7 +270,7 @@ pub fn has_extended_acl(file: &File) -> io::Result<bool> {
         return Err(io::Error::last_os_error());
     }
     let mut mode = 0;
-    let result = unsafe { acl_equiv_mode(acl, &mut mode) };
+    let result = unsafe { acl_equiv_mode_np(acl, &mut mode) };
     let free_result = unsafe { acl_free(acl) };
     if free_result != 0 {
         return Err(io::Error::last_os_error());
@@ -275,6 +284,11 @@ pub fn has_extended_acl(file: &File) -> io::Result<bool> {
 
 pub fn sync_directory(path: &Path) -> io::Result<()> {
     File::open(path)?.sync_all()
+}
+
+/// Publish a same-filesystem staged file over its final pathname.
+pub fn replace_file(source: &Path, destination: &Path) -> io::Result<()> {
+    fs::rename(source, destination)
 }
 
 /// Preserve installation permissions, group ownership, and security metadata

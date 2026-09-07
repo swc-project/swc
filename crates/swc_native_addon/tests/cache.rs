@@ -148,6 +148,41 @@ fn custom_root_without_default_cache_worker() {
     entry.loaded().unwrap();
 }
 
+#[cfg(unix)]
+#[test]
+fn cache_root_ignores_permissive_umask() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let temporary = tempfile::tempdir().unwrap();
+    let root = temporary.path().join("new/cache/root");
+    let output = Command::new(std::env::current_exe().unwrap())
+        .args(["--exact", "cache_root_ignores_permissive_umask_worker"])
+        .env("SWC_TEST_PERMISSIVE_CACHE", &root)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "cache root worker failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert_eq!(
+        fs::metadata(root).unwrap().permissions().mode() & 0o777,
+        0o700
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn cache_root_ignores_permissive_umask_worker() {
+    let Some(root) = std::env::var_os("SWC_TEST_PERMISSIVE_CACHE") else {
+        return;
+    };
+    unsafe {
+        libc::umask(0);
+    }
+    cache::cache_directory(std::path::Path::new(&root)).unwrap();
+}
+
 #[test]
 fn temporary_files_are_unique_and_removed_after_loading() {
     let bytes = support::packed();

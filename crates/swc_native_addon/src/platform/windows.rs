@@ -22,10 +22,11 @@ use windows_sys::Win32::{
         TOKEN_QUERY, TOKEN_USER,
     },
     Storage::FileSystem::{
-        CreateDirectoryW, GetFileInformationByHandle, LockFileEx, BY_HANDLE_FILE_INFORMATION,
-        COMPRESSION_FORMAT_DEFAULT, FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_DELETE_ON_CLOSE,
-        FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE, FILE_SHARE_READ, FILE_SHARE_WRITE,
-        LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY,
+        CreateDirectoryW, GetFileInformationByHandle, LockFileEx, MoveFileExW,
+        BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_DEFAULT, FILE_ATTRIBUTE_REPARSE_POINT,
+        FILE_FLAG_DELETE_ON_CLOSE, FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE,
+        FILE_SHARE_READ, FILE_SHARE_WRITE, LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY,
+        MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH,
     },
     System::{
         Ioctl::FSCTL_SET_COMPRESSION,
@@ -274,13 +275,56 @@ pub fn open_regular(path: &Path, write: bool, create: bool) -> io::Result<File> 
         return Err(io::Error::from_raw_os_error(status as i32));
     }
     let _security = LocalAllocation(security);
-    if sid_string(owner)? != current_sid()? {
+    let sid = current_sid()?;
+    if sid_string(owner)? != sid {
         return Err(io::Error::new(
             io::ErrorKind::PermissionDenied,
             "cache entry belongs to another user",
         ));
     }
+    protect_entry_dacl(path, &sid)?;
     Ok(file)
+}
+
+/// Remove inherited grants before verifying cache bytes or allowing the image
+/// loader to reopen the entry by pathname.
+fn protect_entry_dacl(path: &Path, sid: &str) -> io::Result<()> {
+    use windows_sys::Win32::Security::{
+        SetFileSecurityW, DACL_SECURITY_INFORMATION, PROTECTED_DACL_SECURITY_INFORMATION,
+    };
+
+    let sddl: Vec<u16> = format!("O:{sid}D:P(A;;FA;;;{sid})(A;;FA;;;SY)")
+        .encode_utf16()
+        .chain(Some(0))
+        .collect();
+    let mut descriptor = ptr::null_mut();
+    if unsafe {
+        ConvertStringSecurityDescriptorToSecurityDescriptorW(
+            sddl.as_ptr(),
+            SDDL_REVISION_1,
+            &mut descriptor,
+            ptr::null_mut(),
+        )
+    } == 0
+    {
+        return Err(io::Error::last_os_error());
+    }
+    let _descriptor = LocalAllocation(descriptor);
+    if unsafe {
+        SetFileSecurityW(
+            wide(path).as_ptr(),
+            DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
+            descriptor,
+        )
+    } == 0
+    {
+        return Err(io::Error::last_os_error());
+    }
+    Ok(())
+}
+
+pub fn create_cache_root(path: &Path) -> io::Result<()> {
+    fs::create_dir_all(path)
 }
 
 pub fn lock_exclusive(file: &File) -> io::Result<()> {
@@ -331,6 +375,22 @@ pub fn try_lock_exclusive(file: &File) -> io::Result<bool> {
 pub fn sync_directory(_path: &Path) -> io::Result<()> {
     // Windows does not expose POSIX directory fsync. All file contents are
     // flushed before the same-volume atomic rename; no partial file is visible.
+    Ok(())
+}
+
+/// Replace an existing payload on the same volume. Unlike `std::fs::rename`,
+/// MoveFileEx supports replacement on Windows.
+pub fn replace_file(source: &Path, destination: &Path) -> io::Result<()> {
+    if unsafe {
+        MoveFileExW(
+            wide(source).as_ptr(),
+            wide(destination).as_ptr(),
+            MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH,
+        )
+    } == 0
+    {
+        return Err(io::Error::last_os_error());
+    }
     Ok(())
 }
 
