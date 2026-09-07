@@ -12,6 +12,14 @@ fn produces_string(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 /// Whether reassociating an addition can coerce its left value before an
 /// effectful right operand. `join` evaluates all elements before coercion, so
 /// this shape cannot be represented by a flattened concatenation.
+fn may_have_observable_join_coercion(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    matches!(expr, Expr::Class(..))
+        || matches!(
+            expr.get_type(expr_ctx),
+            Value::Known(Type::Obj | Type::Symbol)
+        )
+}
+
 fn has_unsafe_join_reassociation(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     match expr {
         Expr::Paren(paren) => has_unsafe_join_reassociation(expr_ctx, &paren.expr),
@@ -21,7 +29,8 @@ fn has_unsafe_join_reassociation(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             right,
             ..
         }) => {
-            (!produces_string(expr_ctx, left) && right.may_have_side_effects(expr_ctx))
+            (may_have_observable_join_coercion(expr_ctx, left)
+                && right.may_have_side_effects(expr_ctx))
                 || has_unsafe_join_reassociation(expr_ctx, left)
                 || has_unsafe_join_reassociation(expr_ctx, right)
         }

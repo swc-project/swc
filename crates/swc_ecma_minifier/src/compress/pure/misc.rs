@@ -116,12 +116,24 @@ fn unwrap_parens(mut expr: &Expr) -> &Expr {
 }
 
 /// Whether coercing this expression to a string can throw because it is a
-/// Symbol. Calls have an unknown result type, but a returned Symbol must still
-/// defer its throw until every join element has been evaluated.
+/// Symbol. Locally bound calls have an unknown result type, but a returned
+/// Symbol must still defer its throw until every join element has been
+/// evaluated. Unresolved calls retain the existing unsafe-pass behavior.
 fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     let expr = unwrap_parens(expr);
 
-    matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol)) || matches!(expr, Expr::Call(..))
+    matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol))
+        || matches!(
+            expr,
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                ..
+            }) if callee.is_global_ref_to(expr_ctx, "Symbol")
+                || matches!(
+                    &**callee,
+                    Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
+                )
+        )
 }
 
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
