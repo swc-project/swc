@@ -123,6 +123,11 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     let expr = unwrap_parens(expr);
 
     match expr {
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_evaluate_to_object(expr_ctx, right),
         Expr::Await(AwaitExpr { arg, .. }) => may_evaluate_to_object(expr_ctx, arg),
         Expr::Cond(CondExpr { cons, alt, .. }) => {
             may_evaluate_to_object(expr_ctx, cons) || may_evaluate_to_object(expr_ctx, alt)
@@ -146,6 +151,11 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     let expr = unwrap_parens(expr);
 
     match expr {
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_evaluate_to_symbol(expr_ctx, right),
         Expr::Await(AwaitExpr { arg, .. }) => may_evaluate_to_symbol(expr_ctx, arg),
         Expr::Cond(CondExpr { cons, alt, .. }) => {
             may_evaluate_to_symbol(expr_ctx, cons) || may_evaluate_to_symbol(expr_ctx, alt)
