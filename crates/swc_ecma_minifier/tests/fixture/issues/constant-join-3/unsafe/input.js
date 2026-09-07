@@ -99,6 +99,20 @@ function coercion() {
     ].join(""));
 }
 
+function local_object_coercion(value) {
+    console.log([value].join(""));
+    console.log([value = value].join(""));
+}
+
+local_object_coercion({
+    toString() {
+        return "s";
+    },
+    valueOf() {
+        return 1;
+    },
+});
+
 function symbol_order() {
     const events = [];
     function mark() {

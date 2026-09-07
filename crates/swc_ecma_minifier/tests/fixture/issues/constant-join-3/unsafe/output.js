@@ -1,10 +1,20 @@
 function single(value) {
     return [
-        "" + value,
-        "" + value,
-        "" + value,
-        "" + value,
-        "" + value,
+        [
+            value
+        ].join(),
+        [
+            value
+        ].join(""),
+        [
+            value
+        ].join("-"),
+        [
+            value
+        ].join(null),
+        [
+            value
+        ].join(void 0),
         [
             value = null
         ].join(),
@@ -21,7 +31,10 @@ function concatenate(a, b, c) {
             a,
             b
         ].join(""),
-        "" + (a + b) + c,
+        [
+            a + b,
+            c
+        ].join(""),
         [
             a,
             b,
@@ -31,7 +44,10 @@ function concatenate(a, b, c) {
             a,
             b + c + "tail"
         ].join(""),
-        a + "bar" + c,
+        [
+            a + "bar",
+            c
+        ].join(""),
         [
             a,
             "bar" + c
@@ -41,8 +57,16 @@ function concatenate(a, b, c) {
             b + "baz"
         ].join(""),
         "foo" + a + b + "moo",
-        "" + (a + b) + c + "tail",
-        a + b + "" + c,
+        [
+            a + b,
+            c,
+            "tail"
+        ].join(""),
+        [
+            a + b,
+            null,
+            c
+        ].join(""),
         "head" + (a + b),
         "head" + (a + b) + "tail"
     ].join("|");
@@ -131,6 +155,22 @@ function coercion() {
         "x"
     ].join(""));
 }
+function local_object_coercion(value) {
+    console.log([
+        value
+    ].join(""));
+    console.log([
+        value
+    ].join(""));
+}
+local_object_coercion({
+    toString () {
+        return "s";
+    },
+    valueOf () {
+        return 1;
+    }
+});
 function symbol_order() {
     const events = [];
     function mark() {

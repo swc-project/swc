@@ -228,6 +228,10 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         // A member read can expose an object whose string-hint coercion differs
         // from addition's default-hint coercion.
         Expr::Member(..) | Expr::SuperProp(..) => true,
+        // A locally bound value can be an object whose string-hint coercion
+        // differs from addition's default-hint coercion. Unresolved globals
+        // retain the existing unsafe folding behavior.
+        Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt => true,
         _ => expr.get_type(expr_ctx) == Value::Known(Type::Obj),
     }
 }
