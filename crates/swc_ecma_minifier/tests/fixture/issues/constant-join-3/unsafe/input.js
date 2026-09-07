@@ -561,6 +561,22 @@ function direct_super_object_coercion() {
     new Derived();
 }
 
+function call_valued_callee_object_coercion() {
+    function makeFactory() {
+        return function () {
+            return {
+                toString() {
+                    return "s";
+                },
+                valueOf() {
+                    return 1;
+                },
+            };
+        };
+    }
+    return [makeFactory()()].join("");
+}
+
 function spread(values) {
     return [1, ...values, 2].join("");
 }
@@ -616,3 +632,4 @@ console.log(yielded_object_coercion());
 console.log(assigned_sequence_object_coercion());
 wrapped_symbol_order();
 direct_super_object_coercion();
+console.log(call_valued_callee_object_coercion());

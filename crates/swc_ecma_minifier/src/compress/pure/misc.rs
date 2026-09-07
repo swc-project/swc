@@ -229,8 +229,9 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 }
 
 /// Whether a call's callee can produce an object result whose coercion hint is
-/// observable. Locally bound, member, and function-expression callees are
-/// unknown at compile time.
+/// observable. Only unresolved global identifiers retain the existing unsafe
+/// folding behavior; every dynamically computed callee is unknown at compile
+/// time and may produce an object.
 fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
     let callee = unwrap_parens(callee);
 
@@ -264,7 +265,7 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
         | Expr::OptChain(..)
         | Expr::Arrow(..)
         | Expr::Fn(..) => true,
-        _ => false,
+        _ => true,
     }
 }
 
