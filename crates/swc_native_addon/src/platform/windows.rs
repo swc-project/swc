@@ -127,13 +127,27 @@ pub fn executable_cache_root(_root: &Path) -> Result<()> {
 }
 
 pub fn secure_cache_root(root: &Path) -> io::Result<()> {
-    let metadata = fs::symlink_metadata(root)?;
-    if !metadata.is_dir() || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
+    if !root.is_absolute() {
         return Err(io::Error::new(
-            io::ErrorKind::PermissionDenied,
-            "cache root must be a directory without a reparse point",
+            io::ErrorKind::InvalidInput,
+            "cache root must be absolute",
         ));
     }
+    // A reparse point in any component can redirect a later pathname lookup.
+    // Check the full chain before protecting the user-owned root below.
+    for directory in root.ancestors() {
+        let metadata = fs::symlink_metadata(directory)?;
+        if !metadata.is_dir() || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
+            return Err(io::Error::new(
+                io::ErrorKind::PermissionDenied,
+                "cache root contains a non-directory or reparse point",
+            ));
+        }
+    }
+    // The root itself must have the same owner-only DACL as the namespaces it
+    // contains. This prevents a permissive inherited ACL from granting another
+    // account FILE_DELETE_CHILD between validation and LoadLibrary.
+    private_directory(root)?;
     Ok(())
 }
 

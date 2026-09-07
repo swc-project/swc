@@ -26,10 +26,14 @@ fn main() {
         payload.header.target, target,
         "embedded native addon payload target does not match Cargo TARGET"
     );
-    let mut raw = std::io::Cursor::new(Vec::new());
+    let output_parent = output.parent().expect("OUT_DIR has a parent");
+    let mut raw = tempfile::Builder::new()
+        .prefix(".swc-native-addon-validate-")
+        .tempfile_in(output_parent)
+        .expect("stage decoded native addon validation");
     payload
         .decode_into(&mut raw)
-        .expect("validate embedded native addon bytes");
+        .expect("decode embedded native addon bytes");
     payload
         .verify_target(&mut raw)
         .expect("validate embedded native addon target");

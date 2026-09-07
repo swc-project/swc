@@ -48,7 +48,7 @@ pub fn user_cache_root() -> Result<PathBuf> {
 /// Reject roots from which the dynamic loader cannot map a materialized addon.
 /// This applies to explicit custom roots as well as the user default.
 pub fn executable_cache_root(root: &Path) -> Result<()> {
-    if cfg!(target_os = "linux") && noexec_mount(root)? {
+    if noexec_mount(root)? {
         return Err(Error::new(
             ErrorKind::Cache,
             format!(
@@ -61,8 +61,9 @@ pub fn executable_cache_root(root: &Path) -> Result<()> {
 }
 
 /// A cache root and every ancestor must be stable after validation.  A
-/// world-writable sticky directory such as /tmp is safe: another user cannot
-/// rename our private namespace after it has been created there.
+/// world-writable sticky directory such as /tmp is safe only when it belongs
+/// to the effective user or root. A sticky directory owned by another user
+/// still lets that owner rename our private namespace after validation.
 pub fn secure_cache_root(root: &Path) -> io::Result<()> {
     if !root.is_absolute() {
         return Err(io::Error::new(
@@ -78,15 +79,21 @@ pub fn secure_cache_root(root: &Path) -> io::Result<()> {
                 "cache root contains a non-directory or symlink",
             ));
         }
-        let mode = metadata.mode();
-        if mode & 0o022 != 0 && mode & STICKY_BIT == 0 {
+        if !writable_directory_is_secure(metadata.mode(), metadata.uid(), unsafe {
+            libc::geteuid()
+        }) {
             return Err(io::Error::new(
                 io::ErrorKind::PermissionDenied,
-                "cache root has a parent writable by another user without sticky protection",
+                "cache root has a parent writable by another user without trusted sticky \
+                 protection",
             ));
         }
     }
     Ok(())
+}
+
+fn writable_directory_is_secure(mode: u32, owner: u32, current: u32) -> bool {
+    mode & 0o022 == 0 || (mode & STICKY_BIT != 0 && (owner == current || owner == 0))
 }
 
 #[cfg(target_os = "linux")]
@@ -127,8 +134,37 @@ fn noexec_mount_in(path: &Path, mounts: &str) -> bool {
 }
 
 #[cfg(not(target_os = "linux"))]
+#[cfg(not(target_os = "macos"))]
 fn noexec_mount(_path: &Path) -> Result<bool> {
     Ok(false)
+}
+
+#[cfg(target_os = "macos")]
+fn noexec_mount(path: &Path) -> Result<bool> {
+    use std::os::fd::AsRawFd;
+
+    let mut existing = path;
+    while !existing.exists() {
+        existing = existing
+            .parent()
+            .ok_or_else(|| Error::new(ErrorKind::Cache, "cache root has no existing ancestor"))?;
+    }
+    let file = File::open(existing)
+        .map_err(|e| Error::io(ErrorKind::Cache, "open native addon cache mount", e))?;
+    let mut stat: libc::statfs = unsafe { std::mem::zeroed() };
+    if unsafe { libc::fstatfs(file.as_raw_fd(), &mut stat) } != 0 {
+        return Err(Error::io(
+            ErrorKind::Cache,
+            "inspect native addon cache mount",
+            io::Error::last_os_error(),
+        ));
+    }
+    Ok(mount_is_noexec(stat.f_flags))
+}
+
+#[cfg(target_os = "macos")]
+fn mount_is_noexec(flags: u32) -> bool {
+    flags & libc::MNT_NOEXEC as u32 != 0
 }
 
 pub fn private_directory(path: &Path) -> io::Result<()> {
@@ -250,7 +286,7 @@ pub fn compress_cache(_path: &Path) -> io::Result<()> {
 mod tests {
     use std::path::Path;
 
-    use super::noexec_mount_in;
+    use super::{noexec_mount_in, writable_directory_is_secure};
 
     #[test]
     fn selects_the_most_specific_mount_option() {
@@ -258,5 +294,22 @@ mod tests {
                       rw,noexec - tmpfs tmpfs rw\n";
         assert!(noexec_mount_in(Path::new("/custom/cache"), mounts));
         assert!(!noexec_mount_in(Path::new("/other/cache"), mounts));
+    }
+
+    #[test]
+    fn rejects_sticky_writable_directory_owned_by_another_user() {
+        assert!(writable_directory_is_secure(0o1777, 0, 1000));
+        assert!(writable_directory_is_secure(0o1777, 1000, 1000));
+        assert!(!writable_directory_is_secure(0o1777, 1001, 1000));
+        assert!(!writable_directory_is_secure(0o0777, 1000, 1000));
+    }
+}
+
+#[cfg(all(test, target_os = "macos"))]
+mod macos_tests {
+    #[test]
+    fn recognizes_noexec_mount_flags() {
+        assert!(super::mount_is_noexec(libc::MNT_NOEXEC as u32));
+        assert!(!super::mount_is_noexec(0));
     }
 }

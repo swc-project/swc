@@ -47,7 +47,8 @@ impl CacheMode {
 }
 
 /// Owns staging cleanup and cache coordination until loading has succeeded.
-/// On Windows the cleanup handle must outlive every use of the loaded DLL.
+/// On Windows the cleanup handle is armed only after the image loader has
+/// opened the DLL, then outlives every use of that DLL.
 pub struct Materialized {
     path: PathBuf,
     temporary: bool,
@@ -68,6 +69,13 @@ impl Materialized {
             fs::remove_file(&self.path)
                 .map_err(|e| Error::io(ErrorKind::Cache, "unlink loaded temporary addon", e))?;
             self.temporary = false;
+        }
+        #[cfg(windows)]
+        if self.temporary {
+            self._delete_on_close = Some(
+                platform::delete_on_close(&self.path)
+                    .map_err(|e| io_error("arm temporary addon cleanup", &self.path, e))?,
+            );
         }
         self.lock = None;
         Ok(())
@@ -149,20 +157,12 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
         .into_temp_path()
         .keep()
         .map_err(|e| io_error("retain temporary addon", &dir, e.error))?;
-    #[cfg(windows)]
-    let delete_on_close = match platform::delete_on_close(&path) {
-        Ok(file) => file,
-        Err(e) => {
-            let _ = fs::remove_file(&path);
-            return Err(io_error("arm temporary addon cleanup", &path, e));
-        }
-    };
     Ok(Materialized {
         path,
         temporary: true,
         lock: None,
         #[cfg(windows)]
-        _delete_on_close: Some(delete_on_close),
+        _delete_on_close: None,
     })
 }
 

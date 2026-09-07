@@ -20,6 +20,7 @@ tracing = { version = "=0.1.41", default-features = false, features = ["std"] }
 
 [build-dependencies]
 swc_native_addon = { path = "../../crates/swc_native_addon" }
+tempfile = "=3.12.0"
 
 [dev-dependencies]
 tempfile = "=3.12.0"
