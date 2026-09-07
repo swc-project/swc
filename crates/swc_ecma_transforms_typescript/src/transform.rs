@@ -1122,6 +1122,7 @@ impl Transform {
             unresolved_ctxt: self.unresolved_ctxt,
             record: &self.semantic.enum_record,
             const_vars: &self.semantic.const_vars,
+            namespace_members: &self.semantic.namespace_members,
             const_enum_only: None,
             ambient_record: &self.semantic.ambient_enum_record,
             ambient_const_enum_only: None,

@@ -98,6 +98,11 @@ pub(crate) struct EnumValueComputer<'a> {
     pub unresolved_ctxt: SyntaxContext,
     pub record: &'a TsEnumRecord,
     pub const_vars: &'a FxHashMap<Id, TsEnumRecordValue>,
+    /// Maps `(namespace, member name)` to the binding it names, so a
+    /// qualified read like `N.foo` can reach the value collected for `foo`.
+    /// Built while walking, so a namespace declared after the enum is not
+    /// visible here — which is what `tsc` does.
+    pub namespace_members: &'a FxHashMap<(Id, Wtf8Atom), Id>,
     /// When `Some`, only enums in this set may be resolved through a member
     /// expression.
     ///
@@ -406,6 +411,22 @@ impl EnumValueComputer<'_> {
             .map_or(true, |set| set.contains(enum_id))
     }
 
+    /// Resolves the object of a member access to the binding it names,
+    /// following nested namespaces: in `M.Inner.bar`, `M.Inner` names the
+    /// binding of `Inner`. Returns `None` for anything that is not a
+    /// namespace-qualified name.
+    fn resolve_namespace_object(&self, expr: &Expr) -> Option<Id> {
+        match expr {
+            Expr::Ident(ident) => Some(ident.to_id()),
+            Expr::Member(member) => {
+                let name = static_enum_member_name(&member.prop)?;
+                let object = self.resolve_namespace_object(&member.obj)?;
+                self.namespace_members.get(&(object, name)).cloned()
+            }
+            _ => None,
+        }
+    }
+
     fn compute_member(&self, expr: MemberExpr, ctx: EvalCtx) -> TsEnumRecordValue {
         let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
 
@@ -413,11 +434,25 @@ impl EnumValueComputer<'_> {
             return opaque_expr;
         };
 
-        let Expr::Ident(ident) = *expr.obj else {
+        // `M.Inner` names the binding of `Inner`, so a nested namespace path
+        // resolves to the same `Id` a bare `Inner` would.
+        let Some(enum_id) = self.resolve_namespace_object(&expr.obj) else {
             return opaque_expr;
         };
 
-        let enum_id = ident.to_id();
+        // `N.foo` where `foo` is a `const` exported from namespace `N`. The
+        // value was collected like a bare `const` reference and is gated the
+        // same way, so type syntax and the recompute pass keep it opaque. It
+        // is not an enum member, so `const_enum_only` does not apply.
+        if ctx.allow_const_var && !self.namespace_members.is_empty() {
+            if let Some(value) = self
+                .namespace_members
+                .get(&(enum_id.clone(), member_name.clone()))
+                .and_then(|binding| self.const_vars.get(binding))
+            {
+                return value.clone();
+            }
+        }
 
         if self
             .const_enum_only

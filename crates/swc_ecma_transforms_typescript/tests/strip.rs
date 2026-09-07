@@ -2899,3 +2899,79 @@ test!(
     ts_jsx_bad_pragma,
     r#"/** @jsx bad-pragma */"#
 );
+
+test!(
+    Syntax::Typescript(TsSyntax::default()),
+    tr,
+    ts_enum_namespace_member,
+    r#"
+    namespace N { export const foo = "s"; }
+    enum E { A = N.foo, B = "b" }
+
+    namespace M { export namespace Inner { export const bar = "t"; } }
+    enum F { A = M.Inner.bar, B = "b" }
+
+    namespace C1 { export namespace C2 { export namespace C3 { export const deep = "d"; } } }
+    enum G { A = C1.C2.C3.deep, B = "b" }
+
+    namespace Dot.Sub { export const x = "dotted"; }
+    enum H { A = Dot.Sub.x, B = "b" }
+
+    enum Merged { foo = 1 }
+    namespace Merged { export const bar = "merged"; }
+    enum I { A = Merged.foo, B = Merged.bar, C = "c" }
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsSyntax::default()),
+    tr,
+    ts_enum_ambient_namespace_member,
+    r#"
+    declare namespace D { enum A { X = 1 } }
+    enum E { P = D.A.X, Q }
+
+    declare namespace B1 { const enum K { Z = 3 } }
+    enum F { P = B1.K.Z, Q }
+
+    declare namespace AC { export const c = 7; }
+    enum G { P = AC.c, Q }
+
+    declare namespace AD { namespace Inner { enum E { X = 1 } } }
+    enum H { P = AD.Inner.E.X, Q }
+
+    declare namespace AE { export namespace Inner { export const c = 5; } }
+    enum I { P = AE.Inner.c, Q }
+
+    declare namespace AF.Dotted { const k = 9; }
+    enum J { P = AF.Dotted.k, Q }
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsSyntax::default()),
+    tr,
+    ts_enum_namespace_member_stays_opaque,
+    r#"
+    enum Fwd { A = Later.baz, B = "b" }
+    namespace Later { export const baz = "u"; }
+
+    namespace NotExported { const hidden = "h"; }
+    enum Hid { A = NotExported.hidden, B = "b" }
+
+    namespace Mut { export let m = "v"; }
+    enum MutE { A = Mut.m, B = "b" }
+
+    const objLit = { k: "w" } as const;
+    enum Obj { A = objLit.k, B = "b" }
+
+    declare namespace D2 { const c: string; }
+    enum H { A = D2.c, B = "b" }
+
+    namespace T { export const typed: string = "annotated"; }
+    enum Typed { A = T.typed, B = "b" }
+
+    namespace Outer { namespace Hidden { export const v = "h"; } }
+    enum Nested { A = Outer.Hidden.v, B = "b" }
+    "#
+);

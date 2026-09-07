@@ -1,4 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Wtf8Atom;
 use swc_common::{Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
@@ -21,6 +22,12 @@ pub(crate) struct SemanticInfo {
     pub const_enum: FxHashSet<Id>,
     pub namespace_import_equals_usage: FxHashSet<Span>,
     pub const_vars: FxHashMap<Id, TsEnumRecordValue>,
+    /// Maps a namespace member access to the binding it names, so
+    /// `N.foo` can be resolved to the `Id` of `foo`. `exported_binding`
+    /// holds the inverse and is consumed by the reference rewriter, so
+    /// this is kept separate: entries here must never rewrite emitted
+    /// code. Only populated inside a namespace.
+    pub namespace_members: FxHashMap<(Id, Wtf8Atom), Id>,
 }
 
 impl SemanticInfo {
@@ -124,6 +131,17 @@ impl SemanticAnalyzer {
     fn finish(mut self) -> SemanticInfo {
         self.analyze_import_chain();
         self.info
+    }
+
+    /// Records `<current namespace>.<name>` as naming `id`, if we are inside
+    /// a namespace. Outside one there is no qualified access to resolve, so
+    /// nothing is stored and programs without namespaces pay nothing.
+    fn record_namespace_member(&mut self, name: Wtf8Atom, id: Id) {
+        if let Some(namespace_id) = &self.namespace_id {
+            self.info
+                .namespace_members
+                .insert((namespace_id.clone(), name), id);
+        }
     }
 
     fn analyze_import_chain(&mut self) {
@@ -266,6 +284,7 @@ impl SemanticAnalyzer {
         ambient_record: &TsEnumRecord,
         ambient_const_enum_only: Option<&FxHashSet<Id>>,
         const_vars: &FxHashMap<Id, TsEnumRecordValue>,
+        namespace_members: &FxHashMap<(Id, Wtf8Atom), Id>,
         unresolved_ctxt: SyntaxContext,
         flow_syntax: bool,
     ) -> TsEnumRecordValue {
@@ -277,6 +296,7 @@ impl SemanticAnalyzer {
                     unresolved_ctxt,
                     record,
                     const_vars,
+                    namespace_members,
                     const_enum_only: None,
                     ambient_record,
                     ambient_const_enum_only,
@@ -310,6 +330,8 @@ impl SemanticAnalyzer {
             self.info.const_enum.insert(node.id.to_id());
         }
 
+        self.record_namespace_member(node.id.sym.clone().into(), node.id.to_id());
+
         let mut default_init: TsEnumRecordValue = 0.0.into();
 
         for member in &node.members {
@@ -319,6 +341,7 @@ impl SemanticAnalyzer {
                     unresolved_ctxt: self.unresolved_ctxt,
                     record: &self.info.enum_record,
                     const_vars: &self.info.const_vars,
+                    namespace_members: &self.info.namespace_members,
                     const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
                     ambient_record: &self.info.ambient_enum_record,
                     ambient_const_enum_only: self
@@ -470,21 +493,27 @@ impl Visit for SemanticAnalyzer {
         match &node.decl {
             Decl::Var(var_decl) => {
                 let ids: Vec<Id> = find_pat_ids(&var_decl.decls);
-                self.info.exported_binding.extend(
-                    ids.into_iter()
-                        .zip(std::iter::repeat(self.namespace_id.clone())),
-                );
+                for id in ids {
+                    self.record_namespace_member(id.0.clone().into(), id.clone());
+                    self.info
+                        .exported_binding
+                        .insert(id, self.namespace_id.clone());
+                }
             }
             Decl::TsEnum(ts_enum_decl) => {
+                let id = ts_enum_decl.id.to_id();
+                self.record_namespace_member(ts_enum_decl.id.sym.clone().into(), id.clone());
                 self.info
                     .exported_binding
-                    .insert(ts_enum_decl.id.to_id(), self.namespace_id.clone());
+                    .insert(id, self.namespace_id.clone());
             }
             Decl::TsModule(ts_module_decl) => {
                 if let TsModuleName::Ident(ident) = &ts_module_decl.id {
+                    let id = ident.to_id();
+                    self.record_namespace_member(ident.sym.clone().into(), id.clone());
                     self.info
                         .exported_binding
-                        .insert(ident.to_id(), self.namespace_id.clone());
+                        .insert(id, self.namespace_id.clone());
                 }
             }
             _ => {}
@@ -533,8 +562,14 @@ impl Visit for SemanticAnalyzer {
     }
 
     fn visit_ts_namespace_decl(&mut self, node: &TsNamespaceDecl) {
+        // `namespace A.B {}` makes `B` a member of `A` without an `export`
+        // keyword, in both concrete and ambient declarations.
+        self.record_namespace_member(node.id.sym.clone().into(), node.id.to_id());
+
         if self.skip_transform_info {
+            let prev = self.namespace_id.replace(node.id.to_id());
             node.body.visit_with(self);
+            self.namespace_id = prev;
             return;
         }
 
@@ -547,9 +582,24 @@ impl Visit for SemanticAnalyzer {
 
     fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
         if self.skip_transform_info {
+            // An ambient namespace is erased, but `tsc` still folds constant
+            // reads of its members, so the enclosing name has to be tracked
+            // here too. Nothing inside is marked `export`, so this cannot
+            // rely on `visit_export_decl`.
+            let prev = self.namespace_id.clone();
+            if let Some(id) = node.id.as_ident().map(Ident::to_id) {
+                // A nested ambient namespace is a member of its parent
+                // whether or not it is marked `export`.
+                self.record_namespace_member(id.0.clone().into(), id.clone());
+                self.namespace_id = Some(id);
+            }
+
             if let Some(body) = &node.body {
                 body.visit_with(self);
             }
+
+            self.namespace_id = prev;
+
             return;
         }
 
@@ -626,6 +676,7 @@ impl Visit for SemanticAnalyzer {
                 unresolved_ctxt: self.unresolved_ctxt,
                 record: &self.info.enum_record,
                 const_vars: &self.info.const_vars,
+                namespace_members: &self.info.namespace_members,
                 const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
                 ambient_record: &self.info.ambient_enum_record,
                 ambient_const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
@@ -633,6 +684,11 @@ impl Visit for SemanticAnalyzer {
             .compute(init.clone(), EvalCtx::CONST_INIT);
 
             if value.is_const() {
+                // Inside an ambient namespace every declaration is a member,
+                // `export` or not, and `visit_export_decl` does not run there.
+                if self.skip_transform_info {
+                    self.record_namespace_member(id.sym.clone().into(), id.to_id());
+                }
                 self.info.const_vars.insert(id.to_id(), value);
             }
         }
@@ -672,6 +728,7 @@ impl Visit for SemanticAnalyzer {
                 &self.info.ambient_enum_record,
                 self.ts_enum_is_mutable.then_some(&self.info.const_enum),
                 &self.info.const_vars,
+                &self.info.namespace_members,
                 self.unresolved_ctxt,
                 self.flow_syntax,
             );
@@ -764,6 +821,7 @@ mod tests {
             &Default::default(),
             None,
             &Default::default(),
+            &Default::default(),
             SyntaxContext::empty(),
             true,
         );
@@ -783,6 +841,7 @@ mod tests {
             &Default::default(),
             &Default::default(),
             None,
+            &Default::default(),
             &Default::default(),
             SyntaxContext::empty(),
             false,
