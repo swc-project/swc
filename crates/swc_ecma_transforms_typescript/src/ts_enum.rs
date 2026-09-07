@@ -430,7 +430,10 @@ impl EnumValueComputer<'_> {
                     .flatten()
             })
             .cloned()
-            .filter(TsEnumRecordValue::has_value)
+            // Opaque members are runtime values. Preserve the member access
+            // instead of substituting the expression captured when the enum
+            // was declared, which may no longer be the member's value.
+            .filter(TsEnumRecordValue::is_const)
             .unwrap_or(opaque_expr)
     }
 

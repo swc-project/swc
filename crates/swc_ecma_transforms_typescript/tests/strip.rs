@@ -376,6 +376,17 @@ to!(
 );
 
 to!(
+    ts_enum_cross_enum_opaque_member,
+    "enum E {
+  value = 1 as number,
+}
+(E as any).value = 2;
+enum F {
+  value = E.value,
+}"
+);
+
+to!(
     ts_enum_with_opaque_expr,
     "enum Foo {
     a = foo('x' as any),
