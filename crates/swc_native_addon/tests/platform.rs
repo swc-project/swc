@@ -49,6 +49,23 @@ fn replacement_metadata_preserves_permissions_and_user_attributes() {
     );
 }
 
+#[cfg(target_os = "macos")]
+#[test]
+fn replacement_skips_explicit_macos_acls() {
+    let file = tempfile::NamedTempFile::new().unwrap();
+    let result = std::process::Command::new("/bin/chmod")
+        .args(["+a", "everyone deny write"])
+        .arg(file.path())
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "chmod failed: {}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    assert!(swc_native_addon::platform::has_extended_acl(file.as_file()).unwrap());
+}
+
 fn replacement_on_explicit_volume() {
     let root = PathBuf::from(
         std::env::var_os("SWC_TEST_VOLUME")

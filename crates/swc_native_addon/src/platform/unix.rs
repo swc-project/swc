@@ -226,6 +226,53 @@ pub fn lock_exclusive(file: &File) -> io::Result<()> {
     }
 }
 
+/// Try to acquire an exclusive lock without waiting for an active loader.
+pub fn try_lock_exclusive(file: &File) -> io::Result<bool> {
+    use std::os::fd::AsRawFd;
+
+    loop {
+        if unsafe { libc::flock(file.as_raw_fd(), libc::LOCK_EX | libc::LOCK_NB) } == 0 {
+            return Ok(true);
+        }
+        let error = io::Error::last_os_error();
+        if error.kind() == io::ErrorKind::WouldBlock {
+            return Ok(false);
+        }
+        if error.kind() != io::ErrorKind::Interrupted {
+            return Err(error);
+        }
+    }
+}
+
+/// An ACL that is not equivalent to ordinary mode bits would be lost by the
+/// staging-file replacement path. Callers must skip replacement in that case.
+#[cfg(target_os = "macos")]
+pub fn has_extended_acl(file: &File) -> io::Result<bool> {
+    use std::os::fd::AsRawFd;
+
+    unsafe extern "C" {
+        fn acl_get_fd(fd: libc::c_int) -> *mut libc::c_void;
+        fn acl_free(object: *mut libc::c_void) -> libc::c_int;
+        fn acl_equiv_mode(acl: *mut libc::c_void, mode: *mut libc::mode_t) -> libc::c_int;
+    }
+
+    let acl = unsafe { acl_get_fd(file.as_raw_fd()) };
+    if acl.is_null() {
+        return Err(io::Error::last_os_error());
+    }
+    let mut mode = 0;
+    let result = unsafe { acl_equiv_mode(acl, &mut mode) };
+    let free_result = unsafe { acl_free(acl) };
+    if free_result != 0 {
+        return Err(io::Error::last_os_error());
+    }
+    match result {
+        0 => Ok(false),
+        1 => Ok(true),
+        _ => Err(io::Error::last_os_error()),
+    }
+}
+
 pub fn sync_directory(path: &Path) -> io::Result<()> {
     File::open(path)?.sync_all()
 }

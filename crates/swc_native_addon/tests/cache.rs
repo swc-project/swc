@@ -55,6 +55,51 @@ fn verifies_hits_and_recovers_corruption() {
 }
 
 #[test]
+fn persistent_cache_keeps_at_most_three_inactive_images() {
+    let root = tempfile::tempdir().unwrap();
+    let raw = fs::read(support::fixture()).unwrap();
+    let target = swc_native_addon::format::NativeTarget::host().unwrap();
+    let mut paths = Vec::new();
+    for marker in 0..4_u8 {
+        // The raw image is never loaded in this test; appending a marker gives
+        // each valid native payload a distinct digest and cache filename.
+        let mut image = raw.clone();
+        image.push(marker);
+        let bytes = swc_native_addon::format::pack(&image, target).unwrap();
+        let payload = Payload::parse(&bytes).unwrap();
+        let mut entry = cache::cached_at(&payload, root.path()).unwrap();
+        paths.push(entry.path().to_owned());
+        entry.loaded().unwrap();
+        drop(entry);
+    }
+    let directory = cache::cache_directory(root.path()).unwrap();
+    let node_count = fs::read_dir(&directory)
+        .unwrap()
+        .map(|entry| entry.unwrap().path())
+        .filter(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "node")
+        })
+        .count();
+    let lock_count = fs::read_dir(&directory)
+        .unwrap()
+        .map(|entry| entry.unwrap().path())
+        .filter(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "lock")
+                && path
+                    .file_stem()
+                    .and_then(|stem| stem.to_str())
+                    .is_some_and(|stem| stem.len() == 128)
+        })
+        .count();
+    assert_eq!(node_count, 3);
+    assert_eq!(lock_count, 3);
+    assert!(paths.last().unwrap().exists());
+    assert!(paths[..3].iter().any(|path| !path.exists()));
+}
+
+#[test]
 fn custom_root_failure_falls_back_to_default() {
     let root = tempfile::tempdir().unwrap();
     let blocked = root.path().join("a-file-not-a-directory");

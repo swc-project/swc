@@ -65,6 +65,12 @@ mod supported {
         if !same_file(carrier, &metadata)? {
             return Ok(None);
         }
+        #[cfg(target_os = "macos")]
+        if platform::has_extended_acl(&original).map_err(|e| fail("inspect carrier ACL", e))? {
+            // The decoded staging file would not inherit an explicit Darwin
+            // ACL. Preserve installation access controls by using the cache.
+            return Ok(None);
+        }
         // A process may reach registration after another process has already
         // replaced the path. Require this payload's header in the source image
         // before attempting replacement, never overwrite a different raw addon.

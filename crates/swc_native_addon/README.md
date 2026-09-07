@@ -110,6 +110,9 @@ then rename atomically. Canonical entries are never truncated in place. Closing
 the lock handle releases coordination after failures or process death, without
 stale PID locks. Staging files abandoned by abrupt termination are never cache
 hits; they may be removed when the owning user cleans the temporary directory.
+Each persistent namespace retains at most three inactive-or-current raw addon
+images. A short namespace lock coordinates eviction with per-digest locks, so
+an image being loaded is deferred until a later materialization.
 
 In mode `0`, each materialization has a unique process-prefixed filename. Unix
 unlinks it after successful `dlopen` while retaining the mapped library. Windows
@@ -138,6 +141,8 @@ Replacement preserves ownership, permissions, and extended security attributes.
 An already matching inherited security label is left alone; failure to preserve
 a differing label disables replacement. Compression-specific resource metadata
 is regenerated for the raw image instead of copied from the carrier.
+On macOS, a carrier with an ACL not equivalent to its mode bits uses the verified
+cache instead, because staging replacement cannot safely preserve that ACL.
 
 Windows never replaces a loaded carrier DLL. It requests NTFS compression on the
 decoded staging file before cache publication. Unsupported filesystem compression

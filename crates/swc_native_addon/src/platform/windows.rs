@@ -12,7 +12,7 @@ use std::{
 };
 
 use windows_sys::Win32::{
-    Foundation::{CloseHandle, LocalFree, ERROR_ALREADY_EXISTS, HANDLE},
+    Foundation::{CloseHandle, LocalFree, ERROR_ALREADY_EXISTS, ERROR_LOCK_VIOLATION, HANDLE},
     Security::{
         Authorization::{
             ConvertSidToStringSidW, ConvertStringSecurityDescriptorToSecurityDescriptorW,
@@ -25,7 +25,7 @@ use windows_sys::Win32::{
         CreateDirectoryW, GetFileInformationByHandle, LockFileEx, BY_HANDLE_FILE_INFORMATION,
         COMPRESSION_FORMAT_DEFAULT, FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_DELETE_ON_CLOSE,
         FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE, FILE_SHARE_READ, FILE_SHARE_WRITE,
-        LOCKFILE_EXCLUSIVE_LOCK,
+        LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY,
     },
     System::{
         Ioctl::FSCTL_SET_COMPRESSION,
@@ -300,6 +300,32 @@ pub fn lock_exclusive(file: &File) -> io::Result<()> {
         return Err(io::Error::last_os_error());
     }
     Ok(())
+}
+
+/// Try to acquire an exclusive lock without waiting for an active loader.
+pub fn try_lock_exclusive(file: &File) -> io::Result<bool> {
+    use std::os::windows::io::AsRawHandle;
+
+    let mut overlapped: OVERLAPPED = unsafe { std::mem::zeroed() };
+    if unsafe {
+        LockFileEx(
+            file.as_raw_handle() as HANDLE,
+            LOCKFILE_EXCLUSIVE_LOCK | LOCKFILE_FAIL_IMMEDIATELY,
+            0,
+            1,
+            0,
+            &mut overlapped,
+        )
+    } != 0
+    {
+        return Ok(true);
+    }
+    let error = io::Error::last_os_error();
+    if error.raw_os_error() == Some(ERROR_LOCK_VIOLATION as i32) {
+        Ok(false)
+    } else {
+        Err(error)
+    }
 }
 
 pub fn sync_directory(_path: &Path) -> io::Result<()> {
