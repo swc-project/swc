@@ -364,6 +364,14 @@ enum RefType {
   constant = '33' as const,
   legacy = <string>'44',
   enumRef = Base.value as number,
+  selfRef = property as string,
+}"
+);
+
+to!(
+    ts_enum_with_pure_type_assertion,
+    "export enum E {
+  value = 1 as number,
 }"
 );
 

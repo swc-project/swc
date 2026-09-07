@@ -4,5 +4,6 @@ var RefType = function(RefType) {
     RefType[RefType["constant"] = '33'] = "constant";
     RefType[RefType["legacy"] = '44'] = "legacy";
     RefType[RefType["enumRef"] = 1] = "enumRef";
+    RefType[RefType["selfRef"] = RefType.property] = "selfRef";
     return RefType;
 }(RefType || {});

@@ -1139,16 +1139,15 @@ impl Transform {
                 };
 
                 let mut value = self.semantic.enum_record.get(&key).unwrap().clone();
+                let mut runtime_pure = value.is_const();
 
                 if matches!(value, TsEnumRecordValue::Opaque(..)) {
-                    if let Some(init) = m.init {
+                    if let Some(mut init) = m.init {
                         // Recompute from the transformed initializer so enum
                         // member references can be rewritten to runtime
                         // property accesses. Implicit Flow enum members do not
                         // have an initializer, so keep the semantic value as-is.
-                        let mut recomputed =
-                            enum_computer.compute(init.clone(), EvalCtx::RECOMPUTE);
-                        if let TsEnumRecordValue::Opaque(expr) = &mut recomputed {
+                        let rewrite_refs = |expr: &mut Box<Expr>| {
                             expr.visit_mut_with(&mut RefRewriter {
                                 query: EnumMemberRefQuery {
                                     enum_id: &id.to_id(),
@@ -1156,18 +1155,36 @@ impl Transform {
                                     unresolved_ctxt: self.unresolved_ctxt,
                                 },
                             });
-                            value = recomputed;
+                        };
+
+                        if EnumValueComputer::can_fold_shape(&init) {
+                            let mut recomputed =
+                                enum_computer.compute(init.clone(), EvalCtx::RECOMPUTE);
+                            if let TsEnumRecordValue::Opaque(expr) = &mut recomputed {
+                                rewrite_refs(expr);
+                                value = recomputed;
+                            } else {
+                                // The semantic pass may classify an initializer
+                                // as non-constant from syntax that has since
+                                // been stripped. Preserve that verdict while
+                                // emitting the transformed initializer.
+                                rewrite_refs(&mut init);
+                                value = TsEnumRecordValue::Opaque(init);
+                                runtime_pure = true;
+                            }
                         } else {
-                            // The semantic pass may classify an initializer as
-                            // non-constant from syntax that has since been
-                            // stripped. Preserve that verdict while emitting
-                            // the transformed initializer.
+                            rewrite_refs(&mut init);
                             value = TsEnumRecordValue::Opaque(init);
                         }
                     }
                 }
 
-                EnumMemberItem { span, name, value }
+                EnumMemberItem {
+                    span,
+                    name,
+                    value,
+                    runtime_pure,
+                }
             })
             .filter(|m| !ts_enum_safe_remove || !m.is_const())
             .collect();
@@ -1176,9 +1193,7 @@ impl Transform {
             return FoldedDecl::Empty;
         }
 
-        let opaque = member_list
-            .iter()
-            .any(|item| matches!(item.value, TsEnumRecordValue::Opaque(..)));
+        let runtime_impure = member_list.iter().any(|item| !item.runtime_pure);
 
         let stmts = member_list
             .into_iter()
@@ -1235,7 +1250,11 @@ impl Transform {
         };
 
         let expr = Factory::function(vec![id.clone().into()], body).as_call(
-            if iife || opaque { DUMMY_SP } else { PURE_SP },
+            if iife || runtime_impure {
+                DUMMY_SP
+            } else {
+                PURE_SP
+            },
             vec![init_arg],
         );
 
@@ -1963,6 +1982,7 @@ struct EnumMemberItem {
     span: Span,
     name: Wtf8Atom,
     value: TsEnumRecordValue,
+    runtime_pure: bool,
 }
 
 impl EnumMemberItem {
