@@ -12,6 +12,11 @@ use std::{
 
 use crate::{Error, ErrorKind, Result};
 
+#[cfg(target_os = "macos")]
+const STICKY_BIT: u32 = libc::S_ISVTX as u32;
+#[cfg(not(target_os = "macos"))]
+const STICKY_BIT: u32 = libc::S_ISVTX;
+
 pub fn user_namespace() -> Result<String> {
     // The effective identity, not a user-controlled environment variable, owns
     // both the cache and the bytes subsequently passed to dlopen.
@@ -74,7 +79,7 @@ pub fn secure_cache_root(root: &Path) -> io::Result<()> {
             ));
         }
         let mode = metadata.mode();
-        if mode & 0o022 != 0 && mode & libc::S_ISVTX == 0 {
+        if mode & 0o022 != 0 && mode & STICKY_BIT == 0 {
             return Err(io::Error::new(
                 io::ErrorKind::PermissionDenied,
                 "cache root has a parent writable by another user without sticky protection",
