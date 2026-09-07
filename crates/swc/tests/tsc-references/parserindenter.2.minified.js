@@ -34,7 +34,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         var commentLastLineNumber = this.snapshot.GetLineNumberFromPosition(token.Span.endPosition());
         if (token.lineNumber() == commentLastLineNumber) return result;
         var commentFirstLineIndentationDelta = this.GetIndentationDelta(token.Span.startPosition(), null);
-        if (void 0 != commentFirstLineIndentationDelta) for(var line = token.lineNumber() + 1; line <= commentLastLineNumber; line++){
+        if (null != commentFirstLineIndentationDelta) for(var line = token.lineNumber() + 1; line <= commentLastLineNumber; line++){
             var lineStartPosition = this.snapshot.GetLineFromLineNumber(line).startPosition(), lineIndent = this.GetLineIndentationForOffset(lineStartPosition), commentIndentationInfo = this.ApplyIndentationDelta2(lineIndent, commentFirstLineIndentationDelta);
             if (null != commentIndentationInfo) {
                 var tokenStartPosition = lineStartPosition + lineIndent.length, commentIndentationEdit = this.GetIndentEdit(commentIndentationInfo, tokenStartPosition, !1);
