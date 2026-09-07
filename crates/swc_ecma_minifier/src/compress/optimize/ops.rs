@@ -74,7 +74,8 @@ impl Optimizer<'_> {
             }
         }
 
-        if matches!(e.op, op!("==") | op!("!=")) {
+        // Inside `with`, even unresolved identifiers can refer to object properties.
+        if matches!(e.op, op!("==") | op!("!=")) && !self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
             // Loose equality treats null and undefined identically. Only replace
             // pure undefined expressions so effects in `void expr` are preserved.
             for operand in [&mut e.left, &mut e.right] {
