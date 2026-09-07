@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import type {
     Plugin,
     ParseOptions,
@@ -14,33 +13,18 @@ export type * from "@swc/types";
 // @ts-ignore
 export { newMangleNameCache as experimental_newMangleNameCache } from "./binding";
 import { BundleInput, compileBundleOptions } from "./spack";
-import * as assert from "assert";
 // @ts-ignore
 import type { NapiMinifyExtra } from "./binding";
+import { loadBindings } from "./load-bindings";
 
 // Allow overrides to the location of the .node binding file
 const bindingsOverride = process.env["SWC_BINARY_PATH"];
 // `@swc/core` includes d.ts for the `@swc/wasm` to provide typed fallback bindings
 // todo: fix package.json scripts
 let fallbackBindings: any;
-const bindings: typeof import("../binding") = (() => {
-    let binding;
-    try {
-        binding = !!bindingsOverride
-            ? require(resolve(bindingsOverride))
-            : require("./binding.js");
-
-        // If native binding loaded successfully, it should return proper target triple constant.
-        const triple = binding.getTargetTriple();
-        assert.ok(triple, "Failed to read target triple from native binary.");
-        return binding;
-    } catch (_) {
-        // postinstall supposed to install `@swc/wasm` already
-        fallbackBindings = require("@swc/wasm");
-    } finally {
-        return binding;
-    }
-})();
+const loadedBindings = loadBindings(bindingsOverride);
+const bindings: typeof import("../binding") = loadedBindings.binding;
+fallbackBindings = loadedBindings.fallbackBindings;
 
 type ProgramSourceContext = {
     realFilename?: string | null;
