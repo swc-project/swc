@@ -458,6 +458,44 @@ function iife_object_coercion() {
     }))()].join("");
 }
 
+function this_object_coercion() {
+    return [this].join("");
+}
+
+function super_method_object_coercion() {
+    class Base {
+        static make() {
+            return {
+                toString() {
+                    return "s";
+                },
+                valueOf() {
+                    return 1;
+                },
+            };
+        }
+    }
+    class Derived extends Base {
+        static read() {
+            return [super.make()].join("");
+        }
+    }
+    return Derived.read();
+}
+
+function yielded_symbol_order() {
+    let hit = false;
+    function* generator() {
+        try {
+            [yield 0, hit = true].join("");
+        } catch {}
+    }
+    const iterator = generator();
+    iterator.next();
+    iterator.next(Symbol());
+    return hit;
+}
+
 function spread(values) {
     return [1, ...values, 2].join("");
 }
@@ -499,3 +537,13 @@ console.log(member_object_coercion());
 console.log(super_property_object_coercion());
 console.log(new_target_nullish());
 console.log(iife_object_coercion());
+console.log(this_object_coercion.call({
+    toString() {
+        return "s";
+    },
+    valueOf() {
+        return 1;
+    },
+}));
+console.log(super_method_object_coercion());
+console.log(yielded_symbol_order());

@@ -195,7 +195,7 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
                 if may_call_evaluate_to_object(expr_ctx, callee)
         ),
         Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_object(expr_ctx, tag),
-        Expr::Class(..) => true,
+        Expr::Class(..) | Expr::This(..) => true,
         // A member read can expose an object whose string-hint coercion differs
         // from addition's default-hint coercion.
         Expr::Member(..) | Expr::SuperProp(..) => true,
@@ -212,7 +212,11 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
         Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
     ) || matches!(
         callee,
-        Expr::Member(..) | Expr::OptChain(..) | Expr::Arrow(..) | Expr::Fn(..)
+        Expr::Member(..)
+            | Expr::SuperProp(..)
+            | Expr::OptChain(..)
+            | Expr::Arrow(..)
+            | Expr::Fn(..)
     )
 }
 
@@ -253,6 +257,9 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
                 if may_call_evaluate_to_symbol(expr_ctx, callee)
         ),
         Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_symbol(expr_ctx, tag),
+        // A yielded value can be a Symbol, whose concatenation throw must
+        // remain deferred until every join element has been evaluated.
+        Expr::Yield(..) => true,
         Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt => true,
         // A member read can produce a Symbol, whose concatenation throw must
         // remain deferred until after join has evaluated later elements.
