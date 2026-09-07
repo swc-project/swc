@@ -93,7 +93,12 @@ pub fn secure_cache_root(root: &Path) -> io::Result<()> {
 }
 
 fn writable_directory_is_secure(mode: u32, owner: u32, current: u32) -> bool {
-    mode & 0o022 == 0 || (mode & STICKY_BIT != 0 && (owner == current || owner == 0))
+    if owner != current && owner != 0 {
+        // The owner can always rename children when owner-write is set, even
+        // when group and other write bits are clear.
+        return mode & 0o222 == 0;
+    }
+    mode & 0o022 == 0 || mode & STICKY_BIT != 0
 }
 
 #[cfg(target_os = "linux")]
@@ -301,6 +306,8 @@ mod tests {
         assert!(writable_directory_is_secure(0o1777, 0, 1000));
         assert!(writable_directory_is_secure(0o1777, 1000, 1000));
         assert!(!writable_directory_is_secure(0o1777, 1001, 1000));
+        assert!(!writable_directory_is_secure(0o0755, 1001, 1000));
+        assert!(writable_directory_is_secure(0o0555, 1001, 1000));
         assert!(!writable_directory_is_secure(0o0777, 1000, 1000));
     }
 }

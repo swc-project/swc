@@ -38,6 +38,8 @@ mod supported {
         platform, Error, ErrorKind, Result,
     };
 
+    const HEADER_SEARCH_CHUNK_SIZE: usize = 64 * 1024;
+
     fn fail(operation: &str, error: io::Error) -> Error {
         Error::io(ErrorKind::Cache, operation, error)
     }
@@ -69,15 +71,12 @@ mod supported {
         if metadata.len() > MAX_SIZE {
             return Ok(None);
         }
-        let mut bytes = Vec::new();
-        original
-            .read_to_end(&mut bytes)
-            .map_err(|e| fail("inspect carrier payload", e))?;
         let header = payload.header.encode();
-        if !bytes.windows(header.len()).any(|window| window == header) {
+        if !contains_header(&mut original, &header, HEADER_SEARCH_CHUNK_SIZE)
+            .map_err(|e| fail("inspect carrier payload", e))?
+        {
             return Ok(None);
         }
-        drop(bytes);
         let parent = carrier
             .parent()
             .ok_or_else(|| Error::new(ErrorKind::Cache, "carrier has no parent directory"))?;
@@ -121,6 +120,36 @@ mod supported {
             && current.len() == original.len()
             && current.mtime() == original.mtime()
             && current.mtime_nsec() == original.mtime_nsec())
+    }
+
+    /// Search a carrier without retaining its potentially multi-gigabyte image.
+    /// The overlap retains headers split between successive reads.
+    fn contains_header(
+        input: &mut impl Read,
+        header: &[u8],
+        chunk_size: usize,
+    ) -> io::Result<bool> {
+        debug_assert!(!header.is_empty());
+        debug_assert_ne!(chunk_size, 0);
+
+        let overlap = header.len() - 1;
+        let mut bytes = vec![0; overlap + chunk_size];
+        loop {
+            let read = input.read(&mut bytes[overlap..])?;
+            if read == 0 {
+                return Ok(false);
+            }
+            let len = overlap + read;
+            if bytes[..len]
+                .windows(header.len())
+                .any(|window| window == header)
+            {
+                return Ok(true);
+            }
+            if overlap != 0 {
+                bytes.copy_within(len - overlap..len, 0);
+            }
+        }
     }
 
     fn supported_filesystem(file: &File) -> Result<bool> {
@@ -221,5 +250,24 @@ mod supported {
             ));
         }
         Ok(candidate)
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use std::io::Cursor;
+
+        use super::contains_header;
+
+        #[test]
+        fn finds_embedded_header_across_read_boundaries() {
+            let mut input = Cursor::new(b"prefix-embedded-header-suffix");
+            assert!(contains_header(&mut input, b"embedded-header", 8).unwrap());
+        }
+
+        #[test]
+        fn rejects_carrier_without_embedded_header() {
+            let mut input = Cursor::new(b"unrelated carrier bytes");
+            assert!(!contains_header(&mut input, b"embedded-header", 8).unwrap());
+        }
     }
 }
