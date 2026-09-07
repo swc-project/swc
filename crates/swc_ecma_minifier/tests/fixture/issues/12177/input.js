@@ -8,10 +8,12 @@ function identity(value) {
     return value;
 }
 
+// prettier-ignore
 (/* @__PURE__ */ function () {
     sideEffect("function-expression");
 })();
 
+// prettier-ignore
 (/* @__PURE__ */ identity(function () {
     sideEffect("helper-call");
 }))();
