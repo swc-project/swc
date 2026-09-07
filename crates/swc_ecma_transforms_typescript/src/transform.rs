@@ -2184,7 +2184,9 @@ fn pure_enum_member_kind(
 ) -> Option<PureEnumMemberKind> {
     match expr {
         Expr::Lit(Lit::BigInt(..)) => Some(PureEnumMemberKind::BigInt),
-        Expr::Lit(..) => Some(PureEnumMemberKind::NonBigInt),
+        Expr::Lit(Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::Num(..)) => {
+            Some(PureEnumMemberKind::NonBigInt)
+        }
         Expr::Paren(expr) => pure_enum_member_kind(&expr.expr, enum_id, pure_members),
         Expr::Unary(expr) if matches!(expr.op, op!(unary, "+") | op!(unary, "-") | op!("~")) => {
             let kind = pure_enum_member_kind(&expr.arg, enum_id, pure_members)?;

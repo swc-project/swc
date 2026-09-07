@@ -391,6 +391,13 @@ export enum Unary {
 );
 
 to!(
+    ts_enum_with_regex_assertion,
+    "export enum E {
+  value = /x/ as any,
+}"
+);
+
+to!(
     ts_enum_cross_enum_opaque_member,
     "enum E {
   value = 1 as number,
