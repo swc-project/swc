@@ -1,0 +1,25 @@
+[package]
+name = "binding_native_addon"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.73"
+license = "Apache-2.0"
+publish = false
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+embedded-payload = []
+
+[dependencies]
+swc_native_addon = { path = "../../crates/swc_native_addon" }
+libloading = "=0.8.1"
+tracing = { version = "=0.1.41", default-features = false, features = ["std"] }
+
+[build-dependencies]
+swc_native_addon = { path = "../../crates/swc_native_addon" }
+
+[dev-dependencies]
+tempfile = "=3.12.0"
