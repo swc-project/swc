@@ -1569,7 +1569,7 @@
                                     "",
                                     ""
                                 ], 0 == e[0].length && 0 == f[0].length) break;
-                                a1 = 0 == e[1].length ? 0 : parseInt(e[1], 10), b1 = 0 == f[1].length ? 0 : parseInt(f[1], 10), a = (a1 < b1 ? -1 : +(a1 > b1)) || (a2 = 0 == e[2].length, b2 = 0 == f[2].length, a2 < b2 ? -1 : +(a2 > b2)) || (a3 = e[2], b3 = f[2], a3 < b3 ? -1 : +(a3 > b3)), e = e[3], f = f[3];
+                                a = ((a1 = 0 == e[1].length ? 0 : parseInt(e[1], 10)) < (b1 = 0 == f[1].length ? 0 : parseInt(f[1], 10)) ? -1 : +(a1 > b1)) || ((a2 = 0 == e[2].length) < (b2 = 0 == f[2].length) ? -1 : +(a2 > b2)) || ((a3 = e[2]) < (b3 = f[2]) ? -1 : +(a3 > b3)), e = e[3], f = f[3];
                             }while (0 == a)
                         }
                         return 0 <= a;

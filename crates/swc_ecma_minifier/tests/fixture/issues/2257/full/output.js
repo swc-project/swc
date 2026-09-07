@@ -12591,7 +12591,7 @@
                 if (k && d && "string" == typeof k.stack) {
                     for(var e = k.stack.split("\n"), f = d.stack.split("\n"), g = e.length - 1, h = f.length - 1; 1 <= g && 0 <= h && e[g] !== f[h];)h--;
                     for(; 1 <= g && 0 <= h; g--, h--)if (e[g] !== f[h]) {
-                        if (1 !== g || 1 !== h) do if (g--, 0 > --h || e[g] !== f[h]) return "\n" + e[g].replace(" at new ", " at ");
+                        if (1 !== g || 1 !== h) do if (g--, h--, 0 > h || e[g] !== f[h]) return "\n" + e[g].replace(" at new ", " at ");
                         while (1 <= g && 0 <= h)
                         break;
                     }
@@ -15907,7 +15907,7 @@
                                     ib(c, d);
                                     break;
                                 case "select":
-                                    a = c._wrapperState.wasMultiple, c._wrapperState.wasMultiple = !!d.multiple, null != (f = d.value) ? fb(c, !!d.multiple, f, !1) : !!d.multiple !== a && (null != d.defaultValue ? fb(c, !!d.multiple, d.defaultValue, !0) : fb(c, !!d.multiple, d.multiple ? [] : "", !1));
+                                    a = c._wrapperState.wasMultiple, c._wrapperState.wasMultiple = !!d.multiple, null != (f = d.value) ? fb(c, !!d.multiple, f, !1) : a !== !!d.multiple && (null != d.defaultValue ? fb(c, !!d.multiple, d.defaultValue, !0) : fb(c, !!d.multiple, d.multiple ? [] : "", !1));
                             }
                         }
                     }

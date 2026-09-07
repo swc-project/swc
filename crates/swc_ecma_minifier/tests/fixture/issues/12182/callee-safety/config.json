@@ -1,0 +1,7 @@
+{
+    "defaults": false,
+    "hoist_props": true,
+    "passes": 0,
+    "properties": true,
+    "toplevel": true
+}

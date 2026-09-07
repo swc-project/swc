@@ -1,6 +1,4 @@
-console.log("A", "global"), console.log(({
-    fromCharCode: ()=>"local String"
-}).fromCharCode(65), ({
+console.log("A", "global"), console.log("local String", ({
     keys: ()=>[
             "local Object"
         ]

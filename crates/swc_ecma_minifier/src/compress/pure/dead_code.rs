@@ -115,6 +115,7 @@ impl Pure<'_> {
                 AssignTargetPat::Object(obj) => {
                     obj.props.is_empty() && is_definitely_non_nullish(right)
                 }
+                AssignTargetPat::Object(obj) => obj.props.is_empty(),
                 _ => false,
             } =>
             {
@@ -725,7 +726,12 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Unary(..) | Expr::Bin(..) | Expr::Cond(..) => {
+            Expr::Unary(..) | Expr::Bin(..) | Expr::Cond(..)
+                if !arg.may_have_side_effects(ExprCtx {
+                    is_unresolved_ref_safe: true,
+                    ..self.expr_ctx
+                }) =>
+            {
                 *e = make_bool(e.span(), true);
             }
 
