@@ -7720,7 +7720,7 @@
                 }
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 function wireClearBtnEvents(element, button, container) {
-                    (void 0 == isBindClearAction || isBindClearAction) && button.addEventListener('click', function(event) {
+                    (null == isBindClearAction || isBindClearAction) && button.addEventListener('click', function(event) {
                         element.classList.contains(CLASSNAMES_DISABLE) || element.readOnly || (event.preventDefault(), element !== document.activeElement && element.focus(), element.value = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             button
                         ], CLASSNAMES_CLEARICONHIDE));

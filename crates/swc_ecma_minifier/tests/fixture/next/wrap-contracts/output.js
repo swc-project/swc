@@ -2617,8 +2617,8 @@
                 async createTransaction(attributes, jwk) {
                     let transaction = {};
                     if (Object.assign(transaction, attributes), !attributes.data && !(attributes.target && attributes.quantity)) throw Error("A new Arweave transaction must have a 'data' value, or 'target' and 'quantity' values.");
-                    if (void 0 == attributes.owner && jwk && "use_wallet" !== jwk && (transaction.owner = jwk.n), void 0 == attributes.last_tx && (transaction.last_tx = await this.transactions.getTransactionAnchor()), "string" == typeof attributes.data && (attributes.data = ArweaveUtils.stringToBuffer(attributes.data)), attributes.data instanceof ArrayBuffer && (attributes.data = new Uint8Array(attributes.data)), attributes.data && !(attributes.data instanceof Uint8Array)) throw Error("Expected data to be a string, Uint8Array or ArrayBuffer");
-                    if (void 0 == attributes.reward) {
+                    if (null == attributes.owner && jwk && "use_wallet" !== jwk && (transaction.owner = jwk.n), null == attributes.last_tx && (transaction.last_tx = await this.transactions.getTransactionAnchor()), "string" == typeof attributes.data && (attributes.data = ArweaveUtils.stringToBuffer(attributes.data)), attributes.data instanceof ArrayBuffer && (attributes.data = new Uint8Array(attributes.data)), attributes.data && !(attributes.data instanceof Uint8Array)) throw Error("Expected data to be a string, Uint8Array or ArrayBuffer");
+                    if (null == attributes.reward) {
                         let length = attributes.data ? attributes.data.byteLength : 0;
                         transaction.reward = await this.transactions.getPrice(length, transaction.target);
                     }
@@ -2632,11 +2632,11 @@
                     if (Object.assign(transaction, attributes), !attributes.data) throw Error("Silo transactions must have a 'data' value");
                     if (!siloUri) throw Error("No Silo URI specified.");
                     if (attributes.target || attributes.quantity) throw Error("Silo transactions can only be used for storing data, sending AR to other wallets isn't supported.");
-                    if (void 0 == attributes.owner) {
+                    if (null == attributes.owner) {
                         if (!jwk || !jwk.n) throw Error("A new Arweave transaction must either have an 'owner' attribute, or you must provide the jwk parameter.");
                         transaction.owner = jwk.n;
                     }
-                    void 0 == attributes.last_tx && (transaction.last_tx = await this.transactions.getTransactionAnchor());
+                    null == attributes.last_tx && (transaction.last_tx = await this.transactions.getTransactionAnchor());
                     let siloResource = await this.silo.parseUri(siloUri);
                     if ("string" == typeof attributes.data) {
                         let encrypted = await this.crypto.encrypt(ArweaveUtils.stringToBuffer(attributes.data), siloResource.getEncryptionKey());
@@ -4278,8 +4278,8 @@
                 async createTransaction(attributes, jwk) {
                     let transaction = {};
                     if (Object.assign(transaction, attributes), !attributes.data && !(attributes.target && attributes.quantity)) throw Error("A new Arweave transaction must have a 'data' value, or 'target' and 'quantity' values.");
-                    if (void 0 == attributes.owner && jwk && "use_wallet" !== jwk && (transaction.owner = jwk.n), void 0 == attributes.last_tx && (transaction.last_tx = await this.transactions.getTransactionAnchor()), "string" == typeof attributes.data && (attributes.data = ArweaveUtils.stringToBuffer(attributes.data)), attributes.data instanceof ArrayBuffer && (attributes.data = new Uint8Array(attributes.data)), attributes.data && !(attributes.data instanceof Uint8Array)) throw Error("Expected data to be a string, Uint8Array or ArrayBuffer");
-                    if (void 0 == attributes.reward) {
+                    if (null == attributes.owner && jwk && "use_wallet" !== jwk && (transaction.owner = jwk.n), null == attributes.last_tx && (transaction.last_tx = await this.transactions.getTransactionAnchor()), "string" == typeof attributes.data && (attributes.data = ArweaveUtils.stringToBuffer(attributes.data)), attributes.data instanceof ArrayBuffer && (attributes.data = new Uint8Array(attributes.data)), attributes.data && !(attributes.data instanceof Uint8Array)) throw Error("Expected data to be a string, Uint8Array or ArrayBuffer");
+                    if (null == attributes.reward) {
                         let length = attributes.data ? attributes.data.byteLength : 0;
                         transaction.reward = await this.transactions.getPrice(length, transaction.target);
                     }
@@ -4293,11 +4293,11 @@
                     if (Object.assign(transaction, attributes), !attributes.data) throw Error("Silo transactions must have a 'data' value");
                     if (!siloUri) throw Error("No Silo URI specified.");
                     if (attributes.target || attributes.quantity) throw Error("Silo transactions can only be used for storing data, sending AR to other wallets isn't supported.");
-                    if (void 0 == attributes.owner) {
+                    if (null == attributes.owner) {
                         if (!jwk || !jwk.n) throw Error("A new Arweave transaction must either have an 'owner' attribute, or you must provide the jwk parameter.");
                         transaction.owner = jwk.n;
                     }
-                    void 0 == attributes.last_tx && (transaction.last_tx = await this.transactions.getTransactionAnchor());
+                    null == attributes.last_tx && (transaction.last_tx = await this.transactions.getTransactionAnchor());
                     let siloResource = await this.silo.parseUri(siloUri);
                     if ("string" == typeof attributes.data) {
                         let encrypted = await this.crypto.encrypt(ArweaveUtils.stringToBuffer(attributes.data), siloResource.getEncryptionKey());
@@ -24288,7 +24288,7 @@ function _get9(dt, pos) {
                     this.arweave = arweave, this.warp = warp, this.logger = LoggerFactory_1.LoggerFactory.INST.create('DefaultCreateContract'), this.deployFromSourceTx = this.deployFromSourceTx.bind(this);
                 }
                 async deploy(contractData, disableBundling) {
-                    let { wallet, initState, tags, transfer, data } = contractData, effectiveUseBundler = void 0 == disableBundling ? 'warp' == this.warp.definitionLoader.type() : !disableBundling, source = new SourceImpl_1.SourceImpl(this.arweave), srcTx = await source.save(contractData, wallet, effectiveUseBundler);
+                    let { wallet, initState, tags, transfer, data } = contractData, effectiveUseBundler = null == disableBundling ? 'warp' == this.warp.definitionLoader.type() : !disableBundling, source = new SourceImpl_1.SourceImpl(this.arweave), srcTx = await source.save(contractData, wallet, effectiveUseBundler);
                     return this.logger.debug('Creating new contract'), await this.deployFromSourceTx({
                         srcTxId: srcTx.id,
                         wallet,
@@ -24301,7 +24301,7 @@ function _get9(dt, pos) {
                 async deployFromSourceTx(contractData, disableBundling, srcTx = null) {
                     let responseOk, response;
                     this.logger.debug('Creating new contract from src tx');
-                    let { wallet, srcTxId, initState, tags, transfer, data } = contractData, effectiveUseBundler = void 0 == disableBundling ? 'warp' == this.warp.definitionLoader.type() : !disableBundling, contractTX = await this.arweave.createTransaction({
+                    let { wallet, srcTxId, initState, tags, transfer, data } = contractData, effectiveUseBundler = null == disableBundling ? 'warp' == this.warp.definitionLoader.type() : !disableBundling, contractTX = await this.arweave.createTransaction({
                         data: (null == data ? void 0 : data.body) || initState
                     }, wallet);
                     if (+(null == transfer ? void 0 : transfer.winstonQty) > 0 && transfer.target.length && (this.logger.debug('Creating additional transaction with AR transfer', transfer), contractTX = await this.arweave.createTransaction({

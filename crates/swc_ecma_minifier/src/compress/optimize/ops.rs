@@ -4,11 +4,15 @@ use swc_ecma_utils::{ExprExt, Type, Value};
 use Value::Known;
 
 use super::{BitCtx, Optimizer};
-use crate::{compress::util::negate, util::make_bool};
+use crate::{
+    compress::util::{is_pure_undefined, negate},
+    util::make_bool,
+};
 
 impl Optimizer<'_> {
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
+    /// - `x == undefined` => `x == null` (also for `!=`)
     pub(super) fn optimize_bin_equal(&mut self, e: &mut BinExpr) {
         if !self.options.comparisons {
             return;
@@ -66,6 +70,21 @@ impl Optimizer<'_> {
                             "Reduced `===` to `==` because types of operands are identical"
                         )
                     }
+                }
+            }
+        }
+
+        if matches!(e.op, op!("==") | op!("!=")) {
+            // Loose equality treats null and undefined identically. Only replace
+            // pure undefined expressions so effects in `void expr` are preserved.
+            for operand in [&mut e.left, &mut e.right] {
+                if is_pure_undefined(self.ctx.expr_ctx, operand) {
+                    self.changed = true;
+                    report_change!("comparisons: Replacing undefined with null in loose equality");
+                    **operand = Lit::Null(Null {
+                        span: operand.span(),
+                    })
+                    .into();
                 }
             }
         }

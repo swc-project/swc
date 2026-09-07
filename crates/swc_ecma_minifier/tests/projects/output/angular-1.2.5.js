@@ -10579,7 +10579,7 @@
             // We are purposefully using == here rather than === because we want to
             // catch when value is "null or undefined"
             // jshint -W041
-            element.text(void 0 == value ? "" : value);
+            element.text(null == value ? "" : value);
         });
     }), ngBindTemplateDirective = [
         "$interpolate",

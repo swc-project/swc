@@ -12,18 +12,18 @@
             }).modules = {}, define.payloads = {}, _require = function(parentId, module, callback) {
                 if ("string" == typeof module) {
                     var payload = lookup(parentId, module);
-                    if (void 0 != payload) return callback && callback(), payload;
+                    if (null != payload) return callback && callback(), payload;
                 } else if ("[object Array]" === Object.prototype.toString.call(module)) {
                     for(var params = [], i = 0, l = module.length; i < l; ++i){
                         var dep = lookup(parentId, module[i]);
-                        if (void 0 == dep && require.original) return;
+                        if (null == dep && require.original) return;
                         params.push(dep);
                     }
                     return callback && callback.apply(null, params) || !0;
                 }
             }, require = function(module, callback) {
                 var packagedModule = _require("", module, callback);
-                return void 0 == packagedModule && require.original ? require.original.apply(this, arguments) : packagedModule;
+                return null == packagedModule && require.original ? require.original.apply(this, arguments) : packagedModule;
             }, normalizeModule = function(parentId, moduleName) {
                 // normalize plugin requires
                 if (-1 !== moduleName.indexOf("!")) {
@@ -389,7 +389,7 @@
                 "use strict";
                 var activeListenerOptions, keys = require("./keys"), useragent = require("./useragent"), pressedKeys = null, ts = 0;
                 function getListenerOptions() {
-                    return void 0 == activeListenerOptions && function() {
+                    return null == activeListenerOptions && function() {
                         activeListenerOptions = !1;
                         try {
                             document.createComment("").addEventListener("test", function() {}, {
@@ -1986,7 +1986,7 @@
                         if (kb) {
                             "function" != typeof kb || kb.handleKeyboard || (kb.handleKeyboard = kb);
                             var i = this.$handlers.indexOf(kb);
-                            -1 != i && this.$handlers.splice(i, 1), void 0 == pos ? this.$handlers.push(kb) : this.$handlers.splice(pos, 0, kb), -1 == i && kb.attach && kb.attach(this.$editor);
+                            -1 != i && this.$handlers.splice(i, 1), null == pos ? this.$handlers.push(kb) : this.$handlers.splice(pos, 0, kb), -1 == i && kb.attach && kb.attach(this.$editor);
                         }
                     }, this.removeKeyboardHandler = function(kb) {
                         var i = this.$handlers.indexOf(kb);
@@ -2571,7 +2571,7 @@
                     }, this.setContentWidth = function(width) {
                         this.contentWidth = width;
                     }, this.isRtlLine = function(row) {
-                        return !!this.$isRtl || (void 0 != row ? this.session.getLine(row).charAt(0) == this.RLE : this.isRtlDir);
+                        return !!this.$isRtl || (null != row ? this.session.getLine(row).charAt(0) == this.RLE : this.isRtlDir);
                     }, this.setRtlDirection = function(editor, isRtlDir) {
                         for(var cursor = editor.getCursorPosition(), row = editor.selection.getSelectionAnchor().row; row <= cursor.row; row++)isRtlDir || editor.session.getLine(row).charAt(0) !== editor.session.$bidiHandler.RLE ? isRtlDir && editor.session.getLine(row).charAt(0) !== editor.session.$bidiHandler.RLE && editor.session.doc.insert({
                             column: 0,
@@ -2860,7 +2860,7 @@
                         }
                         return data;
                     }, this.fromJSON = function(data) {
-                        if (void 0 == data.start) if (this.rangeList && data.length > 1) {
+                        if (null == data.start) if (this.rangeList && data.length > 1) {
                             this.toSingleRange(data[0]);
                             for(var i = data.length; i--;){
                                 var r = Range.fromPoints(data[i].start, data[i].end);
@@ -4643,7 +4643,7 @@
                         var length = this.getLength();
                         void 0 === row ? row = length : row < 0 ? row = 0 : row >= length && (row = length - 1, column = void 0);
                         var line = this.getLine(row);
-                        return void 0 == column && (column = line.length), {
+                        return null == column && (column = line.length), {
                             row: row,
                             column: column = Math.min(Math.max(column, 0), line.length)
                         };
@@ -5347,7 +5347,7 @@
                             return range.end.row = iterator.getCurrentTokenRow(), range.end.column = iterator.getCurrentTokenColumn() + token.value.length - 2, range;
                         }
                     }, this.foldAll = function(startRow, endRow, depth, test) {
-                        void 0 == depth && (depth = 100000); // JSON.stringify doesn't hanle Infinity
+                        null == depth && (depth = 100000); // JSON.stringify doesn't hanle Infinity
                         var foldWidgets = this.foldWidgets;
                         if (foldWidgets) {
                             endRow = endRow || this.getLength(), startRow = startRow || 0;
@@ -6494,7 +6494,7 @@
                             }
                         }
                     }, this.bindKey = function(key, command, position) {
-                        if ("object" == typeof key && key && (void 0 == position && (position = key.position), key = key[this.platform]), key) {
+                        if ("object" == typeof key && key && (null == position && (position = key.position), key = key[this.platform]), key) {
                             if ("function" == typeof command) return this.addCommand({
                                 exec: command,
                                 bindKey: key,
@@ -7904,7 +7904,7 @@
                                         return;
                                     }
                                     var row = iterator.getCurrentTokenRow(), column = iterator.getCurrentTokenColumn(), range = new Range(row, column, row, column + token.value.length), sbm = session.$backMarkers[session.$tagHighlight];
-                                    session.$tagHighlight && void 0 != sbm && 0 !== range.compareRange(sbm.range) && (session.removeMarker(session.$tagHighlight), session.$tagHighlight = null), session.$tagHighlight || (session.$tagHighlight = session.addMarker(range, "ace_bracket", "text"));
+                                    session.$tagHighlight && null != sbm && 0 !== range.compareRange(sbm.range) && (session.removeMarker(session.$tagHighlight), session.$tagHighlight = null), session.$tagHighlight || (session.$tagHighlight = session.addMarker(range, "ace_bracket", "text"));
                                 }
                             }, 50);
                         }
@@ -8978,7 +8978,7 @@
                     }, this.canRedo = function() {
                         return this.$redoStack.length > 0;
                     }, this.bookmark = function(rev) {
-                        void 0 == rev && (rev = this.$rev), this.mark = rev;
+                        null == rev && (rev = this.$rev), this.mark = rev;
                     }, this.isAtBookmark = function() {
                         return this.$rev === this.mark;
                     }, this.toJSON = function() {}, this.fromJSON = function() {}, this.hasUndo = this.canUndo, this.hasRedo = this.canRedo, this.isClean = this.isAtBookmark, this.markClean = this.bookmark, this.$prettyPrint = function(delta) {
@@ -10772,7 +10772,7 @@ margin: 0 10px;\
                     }, this.visualizeBlur = function() {
                         dom.removeCssClass(this.container, "ace_focus");
                     }, this.showComposition = function(composition) {
-                        this.$composition = composition, composition.cssText || (composition.cssText = this.textarea.style.cssText), void 0 == composition.useTextareaForIME && (composition.useTextareaForIME = this.$useTextareaForIME), this.$useTextareaForIME ? (dom.addCssClass(this.textarea, "ace_composition"), this.textarea.style.cssText = "", this.$moveTextAreaToCursor(), this.$cursorLayer.element.style.display = "none") : composition.markerId = this.session.addMarker(composition.markerRange, "ace_composition_marker", "text");
+                        this.$composition = composition, composition.cssText || (composition.cssText = this.textarea.style.cssText), null == composition.useTextareaForIME && (composition.useTextareaForIME = this.$useTextareaForIME), this.$useTextareaForIME ? (dom.addCssClass(this.textarea, "ace_composition"), this.textarea.style.cssText = "", this.$moveTextAreaToCursor(), this.$cursorLayer.element.style.display = "none") : composition.markerId = this.session.addMarker(composition.markerRange, "ace_composition_marker", "text");
                     }, this.setCompositionText = function(text) {
                         var cursor = this.session.selection.cursor;
                         this.addToken(text, "composition_placeholder", cursor.row, cursor.column), this.$moveTextAreaToCursor();
@@ -11656,7 +11656,7 @@ margin: 0 10px;\
                             }
                         }
                     }, this.findAll = function(needle, options, additive) {
-                        if ((options = options || {}).needle = needle || options.needle, void 0 == options.needle) {
+                        if ((options = options || {}).needle = needle || options.needle, null == options.needle) {
                             var range = this.selection.isEmpty() ? this.selection.getWordRange() : this.selection.getRange();
                             options.needle = this.session.getTextRange(range);
                         }

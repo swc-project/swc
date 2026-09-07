@@ -8787,7 +8787,7 @@
                              *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607]);
                              *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607], 6);
                              */ init: function(t, e) {
-                        t = this.words = t || [], void 0 != e ? this.sigBytes = e : this.sigBytes = 4 * t.length;
+                        t = this.words = t || [], null != e ? this.sigBytes = e : this.sigBytes = 4 * t.length;
                     },
                     /**
                              * Converts this word array to a string.
@@ -9800,7 +9800,7 @@
         /***/ 7507: /***/ function(t) {
             t.exports = function(t, e, r) {
                 // based on algorithm from http://en.wikipedia.org/wiki/HSL_and_HSV#Converting_to_RGB
-                if (void 0 == t) return [
+                if (null == t) return [
                     0,
                     0,
                     0
