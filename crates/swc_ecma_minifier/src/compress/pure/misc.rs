@@ -122,7 +122,8 @@ fn unwrap_parens(mut expr: &Expr) -> &Expr {
 fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     let expr = unwrap_parens(expr);
 
-    matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol))
+    matches!(expr, Expr::Await(AwaitExpr { arg, .. }) if may_evaluate_to_symbol(expr_ctx, arg))
+        || matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol))
         || matches!(
             expr,
             Expr::Call(CallExpr {

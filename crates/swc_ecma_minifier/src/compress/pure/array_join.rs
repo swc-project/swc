@@ -21,21 +21,31 @@ fn may_have_observable_join_coercion(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 }
 
 fn has_unsafe_join_reassociation(expr_ctx: ExprCtx, expr: &Expr) -> bool {
-    match expr {
-        Expr::Paren(paren) => has_unsafe_join_reassociation(expr_ctx, &paren.expr),
-        Expr::Bin(BinExpr {
-            op: BinaryOp::Add,
-            left,
-            right,
-            ..
-        }) => {
-            (may_have_observable_join_coercion(expr_ctx, left)
-                && right.may_have_side_effects(expr_ctx))
-                || has_unsafe_join_reassociation(expr_ctx, left)
-                || has_unsafe_join_reassociation(expr_ctx, right)
+    let mut exprs = vec![expr];
+
+    while let Some(expr) = exprs.pop() {
+        match expr {
+            Expr::Paren(paren) => exprs.push(&paren.expr),
+            Expr::Bin(BinExpr {
+                op: BinaryOp::Add,
+                left,
+                right,
+                ..
+            }) => {
+                if may_have_observable_join_coercion(expr_ctx, left)
+                    && right.may_have_side_effects(expr_ctx)
+                {
+                    return true;
+                }
+
+                exprs.push(left);
+                exprs.push(right);
+            }
+            _ => {}
         }
-        _ => false,
     }
+
+    false
 }
 
 /// Concatenates nonempty join groups after the caller has handled nullish

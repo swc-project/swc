@@ -196,6 +196,19 @@ async function awaited() {
         ].join("")
     ].join("|");
 }
+async function awaited_symbol_order() {
+    const events = [];
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        [
+            await Symbol(),
+            mark()
+        ].join("");
+    } catch  {}
+    console.log(events.join(","));
+}
 function spread(values) {
     return [
         1,
@@ -221,3 +234,4 @@ parenthesized_object_coercion();
 nested_addition_order();
 class_coercion();
 awaited().then(console.log);
+awaited_symbol_order();
