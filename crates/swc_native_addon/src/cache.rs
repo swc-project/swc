@@ -37,7 +37,7 @@ impl CacheMode {
                     return Err(Error::new(
                         ErrorKind::Configuration,
                         "SWC_NATIVE_BINDING_CACHE must be 0 or an absolute directory; unset it to \
-                         use the default temporary cache",
+                         use the default user cache",
                     ));
                 }
                 Ok(Self::Custom(path))
@@ -97,6 +97,7 @@ fn io_error(operation: &str, path: &Path, error: io::Error) -> Error {
 /// source.
 pub fn cache_directory(root: &Path) -> Result<PathBuf> {
     fs::create_dir_all(root).map_err(|e| io_error("create cache root", root, e))?;
+    platform::secure_cache_root(root).map_err(|e| io_error("validate cache root", root, e))?;
     let user = root.join(platform::user_namespace()?);
     platform::private_directory(&user).map_err(|e| io_error("secure cache directory", &user, e))?;
     let version = user.join("v1");
@@ -106,14 +107,15 @@ pub fn cache_directory(root: &Path) -> Result<PathBuf> {
 }
 
 pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materialized> {
+    let default_root = platform::user_cache_root()?;
     match mode {
         CacheMode::Temporary => temporary(payload),
-        CacheMode::Default => cached_at(payload, &env::temp_dir()),
+        CacheMode::Default => cached_at(payload, &default_root),
         CacheMode::Custom(root) => match cached_at(payload, root) {
             Ok(file) => Ok(file),
             Err(custom) => {
-                tracing::debug!(path = %root.display(), error = %custom, "custom native cache unavailable; using OS temp");
-                cached_at(payload, &env::temp_dir()).map_err(|default| {
+                tracing::debug!(path = %root.display(), error = %custom, "custom native cache unavailable; using user cache");
+                cached_at(payload, &default_root).map_err(|default| {
                     Error::new(
                         ErrorKind::Cache,
                         format!(
@@ -129,7 +131,8 @@ pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materializ
 
 /// Materialize without consulting or creating any persistent digest entry.
 pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
-    let dir = cache_directory(&env::temp_dir())?;
+    let root = platform::user_cache_root()?;
+    let dir = cache_directory(&root)?;
     let mut file = Builder::new()
         .prefix(&format!("process-{}-", std::process::id()))
         .suffix(".node")

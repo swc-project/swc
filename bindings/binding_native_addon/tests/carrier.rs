@@ -49,9 +49,59 @@ fn real_carrier_forwards_registration_and_throws_loader_errors() {
     );
     sign(&raw);
     let raw_bytes = fs::read(&raw).unwrap();
-    let packed = swc_native_addon::format::pack(&raw_bytes).unwrap();
+    let packed = swc_native_addon::format::pack(
+        &raw_bytes,
+        swc_native_addon::format::NativeTarget::host().unwrap(),
+    )
+    .unwrap();
     let payload = directory.path().join("payload.swcn");
     fs::write(&payload, &packed).unwrap();
+    let mismatched_payload = directory.path().join("mismatched-payload.swcn");
+    let mut mismatched = packed.clone();
+    mismatched[12] = match swc_native_addon::format::NativeTarget::host().unwrap() {
+        swc_native_addon::format::NativeTarget::X86_64UnknownLinuxGnu => {
+            swc_native_addon::format::NativeTarget::Aarch64UnknownLinuxGnu as u8
+        }
+        swc_native_addon::format::NativeTarget::Aarch64UnknownLinuxGnu => {
+            swc_native_addon::format::NativeTarget::X86_64UnknownLinuxGnu as u8
+        }
+        swc_native_addon::format::NativeTarget::X86_64UnknownLinuxMusl => {
+            swc_native_addon::format::NativeTarget::Aarch64UnknownLinuxMusl as u8
+        }
+        swc_native_addon::format::NativeTarget::Aarch64UnknownLinuxMusl => {
+            swc_native_addon::format::NativeTarget::X86_64UnknownLinuxMusl as u8
+        }
+        swc_native_addon::format::NativeTarget::X86_64AppleDarwin => {
+            swc_native_addon::format::NativeTarget::Aarch64AppleDarwin as u8
+        }
+        swc_native_addon::format::NativeTarget::Aarch64AppleDarwin => {
+            swc_native_addon::format::NativeTarget::X86_64AppleDarwin as u8
+        }
+        swc_native_addon::format::NativeTarget::X86_64PcWindowsMsvc => {
+            swc_native_addon::format::NativeTarget::Aarch64PcWindowsMsvc as u8
+        }
+        swc_native_addon::format::NativeTarget::Aarch64PcWindowsMsvc => {
+            swc_native_addon::format::NativeTarget::X86_64PcWindowsMsvc as u8
+        }
+    };
+    fs::write(&mismatched_payload, mismatched).unwrap();
+    let mismatch = Command::new("cargo")
+        .args([
+            "build",
+            "-p",
+            "binding_native_addon",
+            "--features",
+            "embedded-payload",
+            "--target-dir",
+        ])
+        .arg(directory.path().join("mismatch-build"))
+        .env("SWC_NATIVE_BINDING_PAYLOAD", &mismatched_payload)
+        .output()
+        .unwrap();
+    assert!(
+        !mismatch.status.success(),
+        "build accepted a payload stamped for a different target"
+    );
     let build = directory.path().join("build");
     checked(
         Command::new("cargo")

@@ -4,17 +4,23 @@ use std::{fs, io::Cursor};
 
 use sha2::{Digest, Sha512};
 use swc_native_addon::{
-    format::{pack, Header, Payload, HEADER_LEN, MAGIC, MAX_SIZE},
+    format::{pack, Header, NativeTarget, Payload, HEADER_LEN, MAGIC, MAX_SIZE},
     ErrorKind,
 };
+
+fn target() -> NativeTarget {
+    NativeTarget::host().unwrap()
+}
 
 #[test]
 fn real_stripped_fixture_roundtrip() {
     let raw = fs::read(support::fixture()).unwrap();
-    let bytes = pack(&raw).unwrap();
-    assert_eq!(bytes, pack(&raw).unwrap());
+    let bytes = pack(&raw, target()).unwrap();
+    assert_eq!(bytes, pack(&raw, target()).unwrap());
     assert_eq!(&bytes[..8], MAGIC);
-    assert_eq!(&bytes[8..16], &[1, 0, 96, 0, 0, 0, 0, 0]);
+    assert_eq!(&bytes[8..12], &[1, 0, 96, 0]);
+    assert_eq!(bytes[12], target() as u8);
+    assert_eq!(&bytes[13..16], &[0, 0, 0]);
     let payload = Payload::parse(&bytes).unwrap();
     assert_eq!(payload.header.raw_len, raw.len() as u64);
     assert_eq!(
@@ -112,9 +118,10 @@ fn rejects_hashed_non_native_payloads_and_checks_pe_signature() {
         vec![0; 128],
         b"MZ".iter().copied().chain([0; 126]).collect(),
     ] {
-        assert!(pack(&raw).is_err());
+        assert!(pack(&raw, target()).is_err());
         let compressed = zstd::bulk::compress(&raw, 16).unwrap();
         let header = Header {
+            target: target(),
             compressed_len: compressed.len() as u64,
             raw_len: raw.len() as u64,
             digest: Sha512::digest(&raw).into(),
@@ -132,11 +139,28 @@ fn rejects_hashed_non_native_payloads_and_checks_pe_signature() {
     let mut pe = vec![0; 128];
     pe[..2].copy_from_slice(b"MZ");
     pe[60..64].copy_from_slice(&80_u32.to_le_bytes());
-    assert!(pack(&pe).is_err());
+    assert!(pack(&pe, target()).is_err());
     pe[80..84].copy_from_slice(b"PE\0\0");
-    assert!(pack(&pe).is_ok());
+    pe[84..86].copy_from_slice(&0x8664_u16.to_le_bytes());
+    assert!(pack(&pe, NativeTarget::X86_64PcWindowsMsvc).is_ok());
     pe[60..64].copy_from_slice(&u32::MAX.to_le_bytes());
-    assert!(pack(&pe).is_err());
+    assert!(pack(&pe, target()).is_err());
+}
+
+#[test]
+fn rejects_payload_target_mismatch() {
+    let raw = fs::read(support::fixture()).unwrap();
+    let wrong = match target() {
+        NativeTarget::X86_64UnknownLinuxGnu => NativeTarget::Aarch64UnknownLinuxGnu,
+        NativeTarget::Aarch64UnknownLinuxGnu => NativeTarget::X86_64UnknownLinuxGnu,
+        NativeTarget::X86_64UnknownLinuxMusl => NativeTarget::Aarch64UnknownLinuxMusl,
+        NativeTarget::Aarch64UnknownLinuxMusl => NativeTarget::X86_64UnknownLinuxMusl,
+        NativeTarget::X86_64AppleDarwin => NativeTarget::Aarch64AppleDarwin,
+        NativeTarget::Aarch64AppleDarwin => NativeTarget::X86_64AppleDarwin,
+        NativeTarget::X86_64PcWindowsMsvc => NativeTarget::Aarch64PcWindowsMsvc,
+        NativeTarget::Aarch64PcWindowsMsvc => NativeTarget::X86_64PcWindowsMsvc,
+    };
+    assert!(pack(&raw, wrong).is_err());
 }
 
 #[test]
@@ -149,6 +173,7 @@ fn rejects_decoder_size_and_window_abuse() {
     ]
     .concat();
     let header = Header {
+        target: target(),
         compressed_len: compressed.len() as u64,
         raw_len: 64,
         digest: [0; 64],
@@ -171,6 +196,7 @@ fn rejects_decoder_size_and_window_abuse() {
     ]
     .concat();
     let header = Header {
+        target: target(),
         compressed_len: compressed.len() as u64,
         raw_len: 64,
         digest: [0; 64],

@@ -1,4 +1,5 @@
 use std::{
+    env,
     ffi::{c_void, OsString},
     fs::{self, File, OpenOptions},
     io,
@@ -110,6 +111,24 @@ pub fn user_namespace() -> Result<String> {
     current_sid()
         .map(|sid| format!("swc-native-{sid}"))
         .map_err(|e| Error::io(ErrorKind::Cache, "identify cache owner", e))
+}
+
+pub fn user_cache_root() -> Result<PathBuf> {
+    env::var_os("LOCALAPPDATA")
+        .filter(|value| Path::new(value).is_absolute())
+        .map(|value| PathBuf::from(value).join("swc"))
+        .ok_or_else(|| Error::new(ErrorKind::Cache, "cannot determine native addon user cache"))
+}
+
+pub fn secure_cache_root(root: &Path) -> io::Result<()> {
+    let metadata = fs::symlink_metadata(root)?;
+    if !metadata.is_dir() || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
+        return Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "cache root must be a directory without a reparse point",
+        ));
+    }
+    Ok(())
 }
 
 pub fn private_directory(path: &Path) -> io::Result<()> {

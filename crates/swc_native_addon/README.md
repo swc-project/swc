@@ -11,14 +11,16 @@ Run the host packer **after the final raw-addon strip/signing steps**:
 
 ```sh
 cargo run -p swc_native_addon_pack -- \
-  --input /absolute/final-stripped.node --output /absolute/payload.swcn
+  --input /absolute/final-stripped.node --output /absolute/payload.swcn \
+  --target x86_64-unknown-linux-gnu
 SWC_NATIVE_BINDING_PAYLOAD=/absolute/payload.swcn \
   cargo build -p binding_native_addon --release --features embedded-payload \
   --target x86_64-unknown-linux-gnu
 ```
 
 `SWC_NATIVE_BINDING_PAYLOAD` is a build input, not a runtime cache setting.
-The build script validates and snapshots it into `OUT_DIR`. Without the explicit
+The packer records the carrier target, and the build script requires it to match
+Cargo's `TARGET` before validating and snapshotting it into `OUT_DIR`. Without the explicit
 feature, the crate can participate in workspace checks but has no usable payload;
 loading that development carrier throws an error. An enabled build without a
 valid payload fails. No unpublished napi-rs dependency is needed.
@@ -39,7 +41,8 @@ All integers are little-endian, independent of Rust layout and target byte order
 | 0 | 8 | ASCII `SWCNZSTD` |
 | 8 | 2 | Version, `1` |
 | 10 | 2 | Header size, `96` |
-| 12 | 4 | Reserved flags, all zero |
+| 12 | 1 | Supported carrier target identifier |
+| 13 | 3 | Reserved, all zero |
 | 16 | 8 | Exact compressed frame length |
 | 24 | 8 | Exact raw addon length |
 | 32 | 64 | SHA-512 of the raw addon |
@@ -85,15 +88,18 @@ before invoking addon registration.
 
 | Value | Behavior |
 | --- | --- |
-| Unset or empty | User-isolated, content-addressed OS-temp cache |
-| `0` | Temporary materialization only; never self-replace the carrier |
-| Absolute directory | Custom root; fall back to OS temp if unusable |
+| Unset or empty | User-isolated, content-addressed user cache |
+| `0` | Temporary materialization only in the user cache; never self-replace the carrier |
+| Absolute directory | Custom root; fall back to the user cache if unusable |
 | Any other relative value | Throw a configuration error |
 
+The default user cache avoids hardened system temporary mounts that are `noexec`;
+Linux rejects a user cache mounted `noexec` before attempting to load from it.
 Under either persistent root, entries live in `swc-native-<effective UID or user
 SID>/v1/<128 hexadecimal SHA-512 digits>.node`. Unix directories are owner-only;
-Windows directories have protected owner/SYSTEM DACLs. Unsafe cache files and
-symlinks/reparse points are rejected. A normal corrupt regular entry is replaced
+Windows directories have protected owner/SYSTEM DACLs. Unsafe cache files,
+symlinks/reparse points, and Unix roots with a non-sticky cross-user-writable
+ancestor are rejected. A normal corrupt regular entry is replaced
 with newly decoded, verified bytes. If both custom and default roots fail, the
 loader throws rather than silently loading unverified data.
 

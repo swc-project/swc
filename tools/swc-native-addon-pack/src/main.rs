@@ -8,7 +8,7 @@ use std::{
 };
 
 use swc_native_addon::{
-    format::{pack, Payload, MAX_SIZE},
+    format::{pack, NativeTarget, Payload, MAX_SIZE},
     platform,
 };
 
@@ -16,21 +16,25 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     let mut args = env::args_os().skip(1);
     let mut input = None;
     let mut output = None;
+    let mut target = None;
     while let Some(arg) = args.next() {
         if arg == "--input" && input.is_none() {
             input = args.next().map(PathBuf::from);
         } else if arg == "--output" && output.is_none() {
             output = args.next().map(PathBuf::from);
+        } else if arg == "--target" && target.is_none() {
+            target = args.next().and_then(|value| value.into_string().ok());
         } else {
             return Err(
                 "usage: swc-native-addon-pack --input <final-stripped.node> --output \
-                 <payload.swcn>"
+                 <payload.swcn> --target <supported-target>"
                     .into(),
             );
         }
     }
     let input = input.ok_or("--input is required")?;
     let output = output.ok_or("--output is required")?;
+    let target = NativeTarget::parse(&target.ok_or("--target is required")?)?;
     let input = fs::canonicalize(input)?;
     let parent = output
         .parent()
@@ -50,7 +54,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
         return Err("raw addon exceeds 2 GiB".into());
     }
     let raw = fs::read(&input)?;
-    let bytes = pack(&raw)?;
+    let bytes = pack(&raw, target)?;
     let payload = Payload::parse(&bytes)?;
     let mut decoded = Cursor::new(Vec::new());
     payload.decode_into(&mut decoded)?;

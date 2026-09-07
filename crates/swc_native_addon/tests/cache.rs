@@ -62,9 +62,9 @@ fn custom_root_failure_falls_back_to_default() {
     let bytes = support::packed();
     let payload = Payload::parse(&bytes).unwrap();
     let mut file = cache::materialize(&payload, &CacheMode::Custom(blocked.clone())).unwrap();
-    assert!(file
-        .path()
-        .starts_with(cache::cache_directory(&std::env::temp_dir()).unwrap()));
+    assert!(file.path().starts_with(
+        cache::cache_directory(&swc_native_addon::platform::user_cache_root().unwrap()).unwrap()
+    ));
     assert_eq!(fs::read(blocked).unwrap(), b"preserve me");
     file.loaded().unwrap();
 }
@@ -120,6 +120,11 @@ fn rejects_symlinks_hardlinks_and_unsafe_directories() {
     fs::remove_file(path).unwrap();
     fs::set_permissions(&directory, fs::Permissions::from_mode(0o777)).unwrap();
     assert!(cache::cached_at(&payload, root.path()).is_err());
+
+    let unsafe_parent = root.path().join("unsafe-parent");
+    fs::create_dir(&unsafe_parent).unwrap();
+    fs::set_permissions(&unsafe_parent, fs::Permissions::from_mode(0o777)).unwrap();
+    assert!(cache::cached_at(&payload, &unsafe_parent).is_err());
 }
 
 #[test]

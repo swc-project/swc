@@ -33,6 +33,12 @@ fn packs_final_fixture_without_changing_raw_or_cli() {
             .arg(&input)
             .arg("--output")
             .arg(output)
+            .arg("--target")
+            .arg(
+                swc_native_addon::format::NativeTarget::host()
+                    .unwrap()
+                    .as_triple(),
+            )
             .output()
             .unwrap()
     };

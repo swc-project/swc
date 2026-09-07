@@ -1,4 +1,5 @@
 use std::{
+    env,
     ffi::CStr,
     fs::{self, File, OpenOptions},
     io,
@@ -15,6 +16,103 @@ pub fn user_namespace() -> Result<String> {
     // The effective identity, not a user-controlled environment variable, owns
     // both the cache and the bytes subsequently passed to dlopen.
     Ok(format!("swc-native-{}", unsafe { libc::geteuid() }))
+}
+
+/// Use a per-user location rather than the system temporary directory: hardened
+/// Linux installations commonly mount the latter `noexec`, which prevents the
+/// dynamic loader from mapping a materialized addon.
+pub fn user_cache_root() -> Result<PathBuf> {
+    let root = env::var_os("XDG_CACHE_HOME")
+        .filter(|value| Path::new(value).is_absolute())
+        .or_else(|| {
+            env::var_os("HOME").map(|home| {
+                if cfg!(target_os = "macos") {
+                    PathBuf::from(home).join("Library/Caches")
+                } else {
+                    PathBuf::from(home).join(".cache")
+                }
+                .into_os_string()
+            })
+        })
+        .map(PathBuf::from)
+        .ok_or_else(|| Error::new(ErrorKind::Cache, "cannot determine native addon user cache"))?;
+    if cfg!(target_os = "linux") && noexec_mount(&root)? {
+        return Err(Error::new(
+            ErrorKind::Cache,
+            format!(
+                "native addon user cache {} is mounted noexec",
+                root.display()
+            ),
+        ));
+    }
+    Ok(root)
+}
+
+/// A cache root and every ancestor must be stable after validation.  A
+/// world-writable sticky directory such as /tmp is safe: another user cannot
+/// rename our private namespace after it has been created there.
+pub fn secure_cache_root(root: &Path) -> io::Result<()> {
+    if !root.is_absolute() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "cache root must be absolute",
+        ));
+    }
+    for directory in root.ancestors() {
+        let metadata = fs::symlink_metadata(directory)?;
+        if !metadata.is_dir() || metadata.file_type().is_symlink() {
+            return Err(io::Error::new(
+                io::ErrorKind::PermissionDenied,
+                "cache root contains a non-directory or symlink",
+            ));
+        }
+        let mode = metadata.mode();
+        if mode & 0o022 != 0 && mode & libc::S_ISVTX == 0 {
+            return Err(io::Error::new(
+                io::ErrorKind::PermissionDenied,
+                "cache root has a parent writable by another user without sticky protection",
+            ));
+        }
+    }
+    Ok(())
+}
+
+#[cfg(target_os = "linux")]
+fn noexec_mount(path: &Path) -> Result<bool> {
+    let mut existing = path;
+    while !existing.exists() {
+        existing = existing
+            .parent()
+            .ok_or_else(|| Error::new(ErrorKind::Cache, "cache root has no existing ancestor"))?;
+    }
+    let path = fs::canonicalize(existing)
+        .map_err(|e| Error::io(ErrorKind::Cache, "resolve native addon cache", e))?;
+    let mounts = fs::read_to_string("/proc/self/mountinfo")
+        .map_err(|e| Error::io(ErrorKind::Cache, "read Linux mount table", e))?;
+    let mut selected: Option<(PathBuf, bool)> = None;
+    for line in mounts.lines() {
+        let Some((before, _)) = line.split_once(" - ") else {
+            continue;
+        };
+        let fields: Vec<_> = before.split_whitespace().collect();
+        if fields.len() < 6 {
+            continue;
+        }
+        let mount = PathBuf::from(fields[4].replace("\\040", " ").replace("\\011", "\t"));
+        if path.starts_with(&mount)
+            && selected.as_ref().map_or(true, |(current, _)| {
+                mount.as_os_str().len() > current.as_os_str().len()
+            })
+        {
+            selected = Some((mount, fields[5].split(',').any(|option| option == "noexec")));
+        }
+    }
+    Ok(selected.is_some_and(|(_, noexec)| noexec))
+}
+
+#[cfg(not(target_os = "linux"))]
+fn noexec_mount(_path: &Path) -> Result<bool> {
+    Ok(false)
 }
 
 pub fn private_directory(path: &Path) -> io::Result<()> {

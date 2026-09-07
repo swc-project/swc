@@ -56,5 +56,9 @@ pub fn compile(source: &Path, output: &Path) {
 }
 
 pub fn packed() -> Vec<u8> {
-    swc_native_addon::format::pack(&fs::read(fixture()).unwrap()).unwrap()
+    swc_native_addon::format::pack(
+        &fs::read(fixture()).unwrap(),
+        swc_native_addon::format::NativeTarget::host().unwrap(),
+    )
+    .unwrap()
 }
