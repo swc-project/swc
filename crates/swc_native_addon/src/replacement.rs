@@ -87,10 +87,8 @@ mod supported {
             .tempfile_in(parent)
             .map_err(|e| fail("stage carrier replacement", e))?;
         payload.decode_into(stage.as_file_mut())?;
-        stage
-            .as_file()
-            .set_permissions(metadata.permissions())
-            .map_err(|e| fail("preserve carrier permissions", e))?;
+        platform::copy_metadata(&original, stage.as_file())
+            .map_err(|e| fail("preserve carrier metadata", e))?;
         stage
             .as_file()
             .sync_all()

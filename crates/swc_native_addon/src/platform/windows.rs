@@ -90,11 +90,7 @@ fn current_sid() -> io::Result<String> {
     }
     // TOKEN_USER contains pointers and needs pointer alignment, not Vec<u8>'s
     // nominal alignment. The trailing SID remains inside this allocation.
-    let mut storage = vec![
-        0_usize;
-        (size as usize + std::mem::size_of::<usize>() - 1)
-            / std::mem::size_of::<usize>()
-    ];
+    let mut storage = vec![0_usize; (size as usize).div_ceil(std::mem::size_of::<usize>())];
     if unsafe {
         GetTokenInformation(
             token.0,
@@ -326,7 +322,7 @@ pub unsafe fn carrier_path(address: *const c_void) -> Result<PathBuf> {
 pub fn compress_cache(path: &Path) -> io::Result<()> {
     use std::os::windows::io::AsRawHandle;
     let file = open_regular(path, true, false)?;
-    let mut format = COMPRESSION_FORMAT_DEFAULT as u16;
+    let mut format = COMPRESSION_FORMAT_DEFAULT;
     let mut returned = 0;
     if unsafe {
         DeviceIoControl(

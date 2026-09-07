@@ -75,6 +75,35 @@ pub fn sync_directory(path: &Path) -> io::Result<()> {
     File::open(path)?.sync_all()
 }
 
+/// Preserve installation permissions, group ownership, and security metadata
+/// before replacing an image. Compression forks describe the carrier's bytes,
+/// so the new raw image must regenerate those rather than inherit them.
+pub fn copy_metadata(source: &File, destination: &File) -> io::Result<()> {
+    use std::os::fd::AsRawFd;
+
+    use xattr::FileExt;
+    let metadata = source.metadata()?;
+    if unsafe { libc::fchown(destination.as_raw_fd(), metadata.uid(), metadata.gid()) } != 0 {
+        return Err(io::Error::last_os_error());
+    }
+    destination.set_permissions(metadata.permissions())?;
+    for name in source.list_xattr()? {
+        if name == "com.apple.decmpfs" || name == "com.apple.ResourceFork" {
+            continue;
+        }
+        if let Some(value) = source.get_xattr(&name)? {
+            // Security labels can be inherited correctly while setting even
+            // that same value is forbidden by the host policy. Avoid needless
+            // changes, but fail the optimization if a differing label cannot
+            // be preserved.
+            if destination.get_xattr(&name)?.as_deref() != Some(value.as_slice()) {
+                destination.set_xattr(&name, &value)?;
+            }
+        }
+    }
+    Ok(())
+}
+
 /// Resolve an address within the mapped carrier, even after its directory
 /// entry has been atomically replaced. No N-API path API is needed.
 ///

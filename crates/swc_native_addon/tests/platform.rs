@@ -20,6 +20,35 @@ fn unsupported_filesystem_keeps_carrier() {
     assert_eq!(fs::read(carrier).unwrap(), original);
 }
 
+#[cfg(unix)]
+#[test]
+fn replacement_metadata_preserves_permissions_and_user_attributes() {
+    use std::os::unix::fs::{MetadataExt, PermissionsExt};
+
+    use xattr::FileExt;
+    let source = tempfile::tempfile().unwrap();
+    let destination = tempfile::tempfile().unwrap();
+    source
+        .set_permissions(fs::Permissions::from_mode(0o750))
+        .unwrap();
+    source
+        .set_xattr("user.swc-native-test", b"preserved")
+        .unwrap();
+    swc_native_addon::platform::copy_metadata(&source, &destination).unwrap();
+    assert_eq!(destination.metadata().unwrap().mode() & 0o777, 0o750);
+    assert_eq!(
+        destination.metadata().unwrap().gid(),
+        source.metadata().unwrap().gid()
+    );
+    assert_eq!(
+        destination
+            .get_xattr("user.swc-native-test")
+            .unwrap()
+            .unwrap(),
+        b"preserved"
+    );
+}
+
 fn replacement_on_explicit_volume() {
     let root = PathBuf::from(
         std::env::var_os("SWC_TEST_VOLUME")
@@ -113,7 +142,11 @@ fn temporary_cleanup_after_process_exit() {
         let deadline = Instant::now() + Duration::from_secs(30);
         while !marker.exists() && Instant::now() < deadline {
             if let Some(status) = child.try_wait().unwrap() {
-                panic!("cleanup worker exited before loading: {status}");
+                assert!(
+                    marker.exists(),
+                    "cleanup worker exited before loading: {status}"
+                );
+                break;
             }
             std::thread::sleep(Duration::from_millis(10));
         }
@@ -147,11 +180,10 @@ fn temporary_exit_worker() {
     let mut file = cache::temporary(&payload).unwrap();
     let library = unsafe { libloading::Library::new(file.path()) }.unwrap();
     file.loaded().unwrap();
-    fs::write(
-        std::env::var_os("SWC_TEST_EXIT_MARKER").unwrap(),
-        file.path().to_str().unwrap(),
-    )
-    .unwrap();
+    let marker = PathBuf::from(std::env::var_os("SWC_TEST_EXIT_MARKER").unwrap());
+    let pending = marker.with_extension("pending");
+    fs::write(&pending, file.path().to_str().unwrap()).unwrap();
+    fs::rename(pending, marker).unwrap();
     std::mem::forget(library);
     std::mem::forget(file);
     if std::env::var_os("SWC_TEST_ABRUPT_EXIT").is_some() {

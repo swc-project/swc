@@ -128,6 +128,10 @@ then verifies transparent readback and `UF_COMPRESSED`. btrfs sets compression
 policy and explicitly recompresses written extents; setting an inode flag alone
 would not compress existing bytes. Unsupported/read-only filesystems and failed
 compression fall back to the verified cache. The sibling CLI is never touched.
+Replacement preserves ownership, permissions, and extended security attributes.
+An already matching inherited security label is left alone; failure to preserve
+a differing label disables replacement. Compression-specific resource metadata
+is regenerated for the raw image instead of copied from the carrier.
 
 Windows never replaces a loaded carrier DLL. It requests NTFS compression on the
 decoded staging file before cache publication. Unsupported filesystem compression
@@ -174,3 +178,6 @@ they cannot run. This implementation was written afresh; no PR #12000 or
 MIT-licensed PoC implementation was copied.
 The original Node.js registration-interface attribution is retained in
 `bindings/binding_native_addon/NOTICE` and must accompany distributed carriers.
+
+See [VERIFICATION.md](VERIFICATION.md) for the implementation run's results and
+the native platform checks that still require matching hosts.
