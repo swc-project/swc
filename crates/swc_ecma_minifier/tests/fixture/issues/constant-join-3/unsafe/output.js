@@ -111,6 +111,31 @@ function coercion() {
         "x"
     ].join(""));
 }
+function symbol_order() {
+    const events = [];
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        [
+            Symbol(),
+            mark()
+        ].join("");
+    } catch  {}
+    console.log(events.join(","));
+}
+function class_coercion() {
+    console.log([
+        class {
+            static valueOf() {
+                return 1;
+            }
+            static toString() {
+                return "s";
+            }
+        }
+    ].join(""));
+}
 async function awaited() {
     return [
         [
@@ -140,4 +165,6 @@ console.log(spread([
 ]));
 effects();
 coercion();
+symbol_order();
+class_coercion();
 awaited().then(console.log);

@@ -99,6 +99,28 @@ function coercion() {
     ].join(""));
 }
 
+function symbol_order() {
+    const events = [];
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        [Symbol(), mark()].join("");
+    } catch {}
+    console.log(events.join(","));
+}
+
+function class_coercion() {
+    console.log([class {
+        static valueOf() {
+            return 1;
+        }
+        static toString() {
+            return "s";
+        }
+    }].join(""));
+}
+
 async function awaited() {
     return [[await null].join(""), [await void 0].join("")].join("|");
 }
@@ -115,4 +137,6 @@ console.log(nullish("x"));
 console.log(spread([null, , 3]));
 effects();
 coercion();
+symbol_order();
+class_coercion();
 awaited().then(console.log);

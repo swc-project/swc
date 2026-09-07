@@ -914,12 +914,45 @@ impl Pure<'_> {
                 return None;
             }
 
+            // Join evaluates every element before coercing any of them. A
+            // global Symbol() result throws during concatenation, which would
+            // otherwise skip evaluation of later dynamic elements.
+            if self.options.unsafe_passes
+                && groups.iter().enumerate().any(|(index, group)| {
+                    matches!(
+                        group,
+                        GroupType::Expression(expr)
+                            if matches!(
+                                expr.expr.get_type(self.expr_ctx),
+                                Value::Known(Type::Symbol)
+                            ) || matches!(
+                                &*expr.expr,
+                                Expr::Call(CallExpr {
+                                    callee: Callee::Expr(callee),
+                                    ..
+                                }) if callee.is_global_ref_to(self.expr_ctx, "Symbol")
+                            )
+                    ) && groups[index + 1..]
+                        .iter()
+                        .any(|group| matches!(group, GroupType::Expression(..)))
+                })
+            {
+                return None;
+            }
+
             // Addition uses the default primitive hint for objects, while join
-            // uses the string hint. Do not replace a statically known object
-            // with concatenation, even for unsafe passes.
-            if self.options.unsafe_passes && groups.iter().any(|group| {
-                matches!(group, GroupType::Expression(expr) if expr.expr.get_type(self.expr_ctx) == Value::Known(Type::Obj))
-            }) {
+            // uses the string hint. Classes are object-valued too, but are not
+            // currently modeled as Type::Obj by ExprExt::get_type.
+            if self.options.unsafe_passes
+                && groups.iter().any(|group| {
+                    matches!(
+                        group,
+                        GroupType::Expression(expr)
+                            if matches!(&*expr.expr, Expr::Class(..))
+                                || expr.expr.get_type(self.expr_ctx) == Value::Known(Type::Obj)
+                    )
+                })
+            {
                 return None;
             }
 
