@@ -124,6 +124,22 @@ function indirect_symbol_order() {
     console.log(events.join(","));
 }
 
+function member_symbol_order() {
+    const events = [];
+    const factory = {
+        make() {
+            return Symbol();
+        },
+    };
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        [factory.make(), mark()].join("");
+    } catch {}
+    console.log(events.join(","));
+}
+
 function parenthesized_object_coercion() {
     console.log([({
         toString() {
@@ -177,6 +193,21 @@ async function awaited_symbol_order() {
     console.log(events.join(","));
 }
 
+async function awaited_object_order() {
+    let state = 1;
+    console.log([
+        await {
+            toString() {
+                return state;
+            },
+            valueOf() {
+                return state;
+            },
+        },
+        state = 2,
+    ].join(""));
+}
+
 function spread(values) {
     return [1, ...values, 2].join("");
 }
@@ -191,8 +222,10 @@ effects();
 coercion();
 symbol_order();
 indirect_symbol_order();
+member_symbol_order();
 parenthesized_object_coercion();
 nested_addition_order();
 class_coercion();
 awaited().then(console.log);
 awaited_symbol_order();
+awaited_object_order();

@@ -115,10 +115,21 @@ fn unwrap_parens(mut expr: &Expr) -> &Expr {
     expr
 }
 
+/// Whether addition could coerce this expression with a different primitive
+/// hint than `join`. Awaiting a definite object can still produce that object,
+/// so retain the join when a later element can observe the coercion order.
+fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    let expr = unwrap_parens(expr);
+
+    matches!(expr, Expr::Await(AwaitExpr { arg, .. }) if may_evaluate_to_object(expr_ctx, arg))
+        || matches!(expr, Expr::Class(..))
+        || expr.get_type(expr_ctx) == Value::Known(Type::Obj)
+}
+
 /// Whether coercing this expression to a string can throw because it is a
-/// Symbol. Locally bound calls have an unknown result type, but a returned
-/// Symbol must still defer its throw until every join element has been
-/// evaluated. Unresolved calls retain the existing unsafe-pass behavior.
+/// Symbol. Locally bound and member calls have an unknown result type, but a
+/// returned Symbol must still defer its throw until every join element has
+/// been evaluated. Unresolved calls retain the existing unsafe-pass behavior.
 fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     let expr = unwrap_parens(expr);
 
@@ -133,6 +144,10 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
                 || matches!(
                     &**callee,
                     Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
+                )
+                || matches!(
+                    &**callee,
+                    Expr::Member(..)
                 )
         )
 }
@@ -963,16 +978,13 @@ impl Pure<'_> {
             }
 
             // Addition uses the default primitive hint for objects, while join
-            // uses the string hint. Classes are object-valued too, but are not
-            // currently modeled as Type::Obj by ExprExt::get_type.
+            // uses the string hint.
             if self.options.unsafe_passes
                 && groups.iter().any(|group| {
                     matches!(
                         group,
                         GroupType::Expression(expr)
-                            if matches!(unwrap_parens(&expr.expr), Expr::Class(..))
-                                || unwrap_parens(&expr.expr).get_type(self.expr_ctx)
-                                    == Value::Known(Type::Obj)
+                            if may_evaluate_to_object(self.expr_ctx, &expr.expr)
                     )
                 })
             {
