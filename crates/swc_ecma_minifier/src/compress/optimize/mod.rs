@@ -952,13 +952,6 @@ impl Optimizer<'_> {
             }) if self.can_drop_property_assignment(member) => {
                 self.changed = true;
                 report_change!("side_effects: Dropping a property write to a fresh object");
-                if matches!(
-                    member.obj.unwrap_parens(),
-                    Expr::Member(prototype)
-                        if matches!(prototype.obj.unwrap_parens(), Expr::Class(..))
-                ) {
-                    return None;
-                }
                 return self.ignore_return_value(right);
             }
 
