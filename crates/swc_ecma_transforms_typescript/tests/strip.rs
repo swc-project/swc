@@ -387,6 +387,15 @@ enum F {
 );
 
 to!(
+    ts_const_enum_asserted_self_ref,
+    "const enum E {
+  A = 1,
+  B = A as number,
+}
+console.log(E.B);"
+);
+
+to!(
     ts_enum_with_opaque_expr,
     "enum Foo {
     a = foo('x' as any),

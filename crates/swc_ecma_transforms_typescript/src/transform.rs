@@ -1168,8 +1168,15 @@ impl Transform {
                                 // as non-constant from syntax that has since
                                 // been stripped. Preserve that verdict while
                                 // emitting the transformed initializer.
-                                rewrite_refs(&mut init);
-                                value = TsEnumRecordValue::Opaque(init);
+                                value = if ts_enum_safe_remove {
+                                    // Constant siblings are omitted from a
+                                    // removable const enum, so retain their
+                                    // computed value instead of a property read.
+                                    TsEnumRecordValue::Opaque(Box::new(recomputed.into()))
+                                } else {
+                                    rewrite_refs(&mut init);
+                                    TsEnumRecordValue::Opaque(init)
+                                };
                                 runtime_pure = true;
                             }
                         } else {
