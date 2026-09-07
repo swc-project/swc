@@ -419,6 +419,40 @@ function identifier_symbol_order(value) {
     } catch  {}
     return hit;
 }
+function optional_member_nullish(value) {
+    return [
+        value?.field
+    ].join("");
+}
+function member_value_symbol_order() {
+    const events = [];
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        [
+            {
+                value: Symbol()
+            }.value,
+            mark()
+        ].join("");
+    } catch  {}
+    return events.join(",");
+}
+function member_object_coercion() {
+    return [
+        {
+            value: {
+                toString () {
+                    return "s";
+                },
+                valueOf () {
+                    return 1;
+                }
+            }
+        }.value
+    ].join("");
+}
 function spread(values) {
     return [
         1,
@@ -456,3 +490,6 @@ optional_member_symbol_order();
 console.log(conditional_nullish_join(true));
 console.log(call_object_coercion());
 console.log(identifier_symbol_order(Symbol()));
+console.log(optional_member_nullish(null));
+console.log(member_value_symbol_order());
+console.log(member_object_coercion());

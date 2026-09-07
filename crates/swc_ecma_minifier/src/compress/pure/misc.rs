@@ -133,6 +133,9 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             may_explicitly_evaluate_to_nullish(expr_ctx, left)
                 || may_explicitly_evaluate_to_nullish(expr_ctx, right)
         }
+        // An optional chain can short-circuit to undefined, which join renders
+        // as an empty string instead of the "undefined" from concatenation.
+        Expr::OptChain(..) => true,
         Expr::Lit(Lit::Null(..)) => true,
         _ => eval_to_undefined(expr_ctx, expr),
     }
@@ -180,6 +183,9 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
                 if may_call_evaluate_to_object(expr_ctx, callee)
         ),
         Expr::Class(..) => true,
+        // A member read can expose an object whose string-hint coercion differs
+        // from addition's default-hint coercion.
+        Expr::Member(..) => true,
         _ => expr.get_type(expr_ctx) == Value::Known(Type::Obj),
     }
 }
@@ -229,7 +235,10 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             OptChainBase::Call(OptCall { callee, .. })
                 if may_call_evaluate_to_symbol(expr_ctx, callee)
         ),
-        Expr::Ident(..) => true,
+        Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt => true,
+        // A member read can produce a Symbol, whose concatenation throw must
+        // remain deferred until after join has evaluated later elements.
+        Expr::Member(..) => true,
         _ => matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol)),
     }
 }
