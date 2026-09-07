@@ -2766,6 +2766,28 @@ test!(
     |t| tr_config(
         t,
         Some(typescript::Config {
+            ts_enum_is_mutable: true,
+            ..Default::default()
+        }),
+        None,
+        true,
+    ),
+    ts_enum_is_mutable_assertion_is_impure,
+    r#"
+    enum Base {
+      X = 1,
+    }
+    export enum E {
+      A = Base.X as number,
+    }
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsSyntax::default()),
+    |t| tr_config(
+        t,
+        Some(typescript::Config {
             import_export_assign_config: TsImportExportAssignConfig::NodeNext,
             ..Default::default()
         }),

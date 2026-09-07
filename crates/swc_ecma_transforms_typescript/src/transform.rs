@@ -1122,9 +1122,9 @@ impl Transform {
             unresolved_ctxt: self.unresolved_ctxt,
             record: &self.semantic.enum_record,
             const_vars: &self.semantic.const_vars,
-            const_enum_only: None,
+            const_enum_only: self.ts_enum_is_mutable.then_some(&self.semantic.const_enum),
             ambient_record: &self.semantic.ambient_enum_record,
-            ambient_const_enum_only: None,
+            ambient_const_enum_only: self.ts_enum_is_mutable.then_some(&self.semantic.const_enum),
         };
 
         let member_list: Vec<_> = members
