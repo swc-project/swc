@@ -178,6 +178,17 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         // Logical assignments can return either the previous target value or
         // the right-hand side, either of which can retain object coercion.
         Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
+        Expr::Await(AwaitExpr { arg, .. })
+            if matches!(
+                &**arg,
+                Expr::Call(CallExpr {
+                    callee: Callee::Import(..),
+                    ..
+                })
+            ) =>
+        {
+            true
+        }
         Expr::Await(AwaitExpr { arg, .. }) => may_evaluate_to_object(expr_ctx, arg),
         Expr::Cond(CondExpr { cons, alt, .. }) => {
             may_evaluate_to_object(expr_ctx, cons) || may_evaluate_to_object(expr_ctx, alt)
@@ -188,6 +199,14 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             right,
             ..
         }) => may_evaluate_to_object(expr_ctx, left) || may_evaluate_to_object(expr_ctx, right),
+        Expr::Call(CallExpr {
+            callee: Callee::Super(..),
+            ..
+        }) => true,
+        Expr::MetaProp(MetaPropExpr {
+            kind: MetaPropKind::ImportMeta,
+            ..
+        }) => true,
         Expr::Call(CallExpr {
             callee: Callee::Expr(callee),
             ..
@@ -213,17 +232,40 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 /// observable. Locally bound, member, and function-expression callees are
 /// unknown at compile time.
 fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
-    matches!(
-        callee,
-        Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
-    ) || matches!(
-        callee,
+    let callee = unwrap_parens(callee);
+
+    match callee {
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_call_evaluate_to_object(expr_ctx, last)),
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_call_evaluate_to_object(expr_ctx, right),
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
+        Expr::Await(AwaitExpr { arg, .. }) => may_call_evaluate_to_object(expr_ctx, arg),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_call_evaluate_to_object(expr_ctx, cons)
+                || may_call_evaluate_to_object(expr_ctx, alt)
+        }
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => {
+            may_call_evaluate_to_object(expr_ctx, left)
+                || may_call_evaluate_to_object(expr_ctx, right)
+        }
+        Expr::Ident(ident) => ident.ctxt != expr_ctx.unresolved_ctxt,
         Expr::Member(..)
-            | Expr::SuperProp(..)
-            | Expr::OptChain(..)
-            | Expr::Arrow(..)
-            | Expr::Fn(..)
-    )
+        | Expr::SuperProp(..)
+        | Expr::OptChain(..)
+        | Expr::Arrow(..)
+        | Expr::Fn(..) => true,
+        _ => false,
+    }
 }
 
 /// Whether coercing this expression to a string can throw because it is a
@@ -234,6 +276,9 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     let expr = unwrap_parens(expr);
 
     match expr {
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_evaluate_to_symbol(expr_ctx, last)),
         Expr::Assign(AssignExpr {
             op: op!("="),
             right,
@@ -278,15 +323,44 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 /// and function-expression callees are unknown at compile time, while
 /// unresolved calls retain the existing unsafe-pass behavior.
 fn may_call_evaluate_to_symbol(expr_ctx: ExprCtx, callee: &Expr) -> bool {
-    callee.is_global_ref_to(expr_ctx, "Symbol")
-        || matches!(
-            callee,
-            Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
-        )
-        || matches!(
-            callee,
-            Expr::Member(..) | Expr::OptChain(..) | Expr::Arrow(..) | Expr::Fn(..)
-        )
+    let callee = unwrap_parens(callee);
+
+    match callee {
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_call_evaluate_to_symbol(expr_ctx, last)),
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_call_evaluate_to_symbol(expr_ctx, right),
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
+        Expr::Await(AwaitExpr { arg, .. }) => may_call_evaluate_to_symbol(expr_ctx, arg),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_call_evaluate_to_symbol(expr_ctx, cons)
+                || may_call_evaluate_to_symbol(expr_ctx, alt)
+        }
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => {
+            may_call_evaluate_to_symbol(expr_ctx, left)
+                || may_call_evaluate_to_symbol(expr_ctx, right)
+        }
+        _ => {
+            callee.is_global_ref_to(expr_ctx, "Symbol")
+                || matches!(
+                    callee,
+                    Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
+                )
+                || matches!(
+                    callee,
+                    Expr::Member(..) | Expr::OptChain(..) | Expr::Arrow(..) | Expr::Fn(..)
+                )
+        }
+    }
 }
 
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {

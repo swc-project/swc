@@ -527,6 +527,40 @@ function assigned_sequence_object_coercion() {
     return [assigned = (0, make())].join("");
 }
 
+function wrapped_symbol_order() {
+    let saved;
+    let hit = false;
+    try {
+        [saved = (0, Symbol()), hit = true].join("");
+    } catch {}
+    console.log(hit);
+
+    function make() {
+        return Symbol();
+    }
+
+    hit = false;
+    try {
+        [(0, make)(), hit = true].join("");
+    } catch {}
+    console.log(hit);
+}
+
+function direct_super_object_coercion() {
+    class Base {
+        constructor() {
+            this.toString = () => "s";
+            this.valueOf = () => 1;
+        }
+    }
+    class Derived extends Base {
+        constructor() {
+            console.log([super()].join(""));
+        }
+    }
+    new Derived();
+}
+
 function spread(values) {
     return [1, ...values, 2].join("");
 }
@@ -580,3 +614,5 @@ console.log(super_method_object_coercion());
 console.log(yielded_symbol_order());
 console.log(yielded_object_coercion());
 console.log(assigned_sequence_object_coercion());
+wrapped_symbol_order();
+direct_super_object_coercion();
