@@ -110,6 +110,47 @@ function symbol_order() {
     console.log(events.join(","));
 }
 
+function indirect_symbol_order() {
+    const events = [];
+    function make_symbol() {
+        return Symbol();
+    }
+    function mark() {
+        events.push("mark");
+    }
+    try {
+        [make_symbol(), mark()].join("");
+    } catch {}
+    console.log(events.join(","));
+}
+
+function parenthesized_object_coercion() {
+    console.log([({
+        toString() {
+            return "s";
+        },
+        valueOf() {
+            return 1;
+        },
+    })].join(""));
+}
+
+function nested_addition_order() {
+    let state = 1;
+    function later() {
+        state = 2;
+        return "";
+    }
+    console.log(["head", {
+        toString() {
+            return state;
+        },
+        valueOf() {
+            return state;
+        },
+    } + (later() + "y")].join(""));
+}
+
 function class_coercion() {
     console.log([class {
         static valueOf() {
@@ -138,5 +179,8 @@ console.log(spread([null, , 3]));
 effects();
 coercion();
 symbol_order();
+indirect_symbol_order();
+parenthesized_object_coercion();
+nested_addition_order();
 class_coercion();
 awaited().then(console.log);

@@ -106,6 +106,24 @@ fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     }
 }
 
+/// Removes parentheses that do not affect an expression's runtime value.
+fn unwrap_parens(mut expr: &Expr) -> &Expr {
+    while let Expr::Paren(ParenExpr { expr: inner, .. }) = expr {
+        expr = inner;
+    }
+
+    expr
+}
+
+/// Whether coercing this expression to a string can throw because it is a
+/// Symbol. Calls have an unknown result type, but a returned Symbol must still
+/// defer its throw until every join element has been evaluated.
+fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    let expr = unwrap_parens(expr);
+
+    matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol)) || matches!(expr, Expr::Call(..))
+}
+
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
     let mut exprs = Vec::new();
 
@@ -915,23 +933,14 @@ impl Pure<'_> {
             }
 
             // Join evaluates every element before coercing any of them. A
-            // global Symbol() result throws during concatenation, which would
-            // otherwise skip evaluation of later dynamic elements.
+            // Symbol result throws during concatenation, which would otherwise
+            // skip evaluation of later dynamic elements.
             if self.options.unsafe_passes
                 && groups.iter().enumerate().any(|(index, group)| {
                     matches!(
                         group,
                         GroupType::Expression(expr)
-                            if matches!(
-                                expr.expr.get_type(self.expr_ctx),
-                                Value::Known(Type::Symbol)
-                            ) || matches!(
-                                &*expr.expr,
-                                Expr::Call(CallExpr {
-                                    callee: Callee::Expr(callee),
-                                    ..
-                                }) if callee.is_global_ref_to(self.expr_ctx, "Symbol")
-                            )
+                            if may_evaluate_to_symbol(self.expr_ctx, &expr.expr)
                     ) && groups[index + 1..]
                         .iter()
                         .any(|group| matches!(group, GroupType::Expression(..)))
@@ -948,8 +957,9 @@ impl Pure<'_> {
                     matches!(
                         group,
                         GroupType::Expression(expr)
-                            if matches!(&*expr.expr, Expr::Class(..))
-                                || expr.expr.get_type(self.expr_ctx) == Value::Known(Type::Obj)
+                            if matches!(unwrap_parens(&expr.expr), Expr::Class(..))
+                                || unwrap_parens(&expr.expr).get_type(self.expr_ctx)
+                                    == Value::Known(Type::Obj)
                     )
                 })
             {

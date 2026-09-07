@@ -9,6 +9,26 @@ fn produces_string(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         || matches!(expr, Expr::Bin(BinExpr { op: BinaryOp::Add, .. }) if expr.get_type(expr_ctx) == Value::Known(Type::Str))
 }
 
+/// Whether reassociating an addition can coerce its left value before an
+/// effectful right operand. `join` evaluates all elements before coercion, so
+/// this shape cannot be represented by a flattened concatenation.
+fn has_unsafe_join_reassociation(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(paren) => has_unsafe_join_reassociation(expr_ctx, &paren.expr),
+        Expr::Bin(BinExpr {
+            op: BinaryOp::Add,
+            left,
+            right,
+            ..
+        }) => {
+            (!produces_string(expr_ctx, left) && right.may_have_side_effects(expr_ctx))
+                || has_unsafe_join_reassociation(expr_ctx, left)
+                || has_unsafe_join_reassociation(expr_ctx, right)
+        }
+        _ => false,
+    }
+}
+
 /// Concatenates nonempty join groups after the caller has handled nullish
 /// values and checked whether replacing join's coercions is permitted.
 pub(super) fn join_to_concat(
@@ -16,6 +36,14 @@ pub(super) fn join_to_concat(
     expr_ctx: ExprCtx,
     unsafe_passes: bool,
 ) -> Option<Expr> {
+    if unsafe_passes
+        && parts
+            .iter()
+            .any(|part| has_unsafe_join_reassociation(expr_ctx, part))
+    {
+        return None;
+    }
+
     // Reuse the groups' allocation as a worklist, with the next operand last.
     parts.reverse();
     let mut result = parts.pop().expect("join must have at least one group");
@@ -71,13 +99,18 @@ pub(super) fn join_to_concat(
                 Expr::Bin(BinExpr {
                     op: BinaryOp::Add,
                     left,
+                    right,
                     ..
-                }) if result_is_string && part_is_string
+                }) if result_is_string
+                    && part_is_string
+                    && (produces_string(expr_ctx, left)
+                        || !right.may_have_side_effects(expr_ctx))
             );
 
-        // Flatten only after the accumulated result is already a string. Keeping
-        // a right-hand addition grouped delays coercion of an earlier object
-        // until every element expression has been evaluated, as join requires.
+        // Flatten only after the accumulated result is already a string, and
+        // only when it cannot move an observable coercion before a later
+        // operand. Keeping the addition grouped preserves join's evaluation
+        // order for object-valued element operands.
         if can_flatten {
             let Expr::Bin(bin) = *part else {
                 unreachable!()
