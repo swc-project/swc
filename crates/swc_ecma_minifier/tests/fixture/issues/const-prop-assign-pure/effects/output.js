@@ -8,9 +8,7 @@ function Simulator() {
 effect("regex");
 effect("regex string key");
 effect("function");
-effect("class");
 effect("function string key");
-effect("class string key");
 effect("nonempty function");
 try {
     missing();

@@ -48,12 +48,12 @@ impl Optimizer<'_> {
             _ => return false,
         };
 
-        // With pristine built-ins, an ordinary function's fresh prototype and
-        // an empty base class's fresh prototype have no accessors. RegExp's
-        // inherited getter-only properties still reject writes in strict mode.
+        // Fresh function and class prototypes have no accessors. RegExp's
+        // inherited getter-only properties still reject writes in strict mode,
+        // and require pristine globals before their writes can be dropped.
         // Pure getters do not make those writes, or the assignment's RHS, pure.
         match receiver {
-            FreshReceiver::RegExp => !matches!(
+            FreshReceiver::RegExp if self.options.pristine_globals => !matches!(
                 key,
                 "dotAll"
                     | "flags"
@@ -66,6 +66,7 @@ impl Optimizer<'_> {
                     | "unicode"
                     | "unicodeSets"
             ),
+            FreshReceiver::RegExp => false,
             FreshReceiver::Prototype => true,
         }
     }
