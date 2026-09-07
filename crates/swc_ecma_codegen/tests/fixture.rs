@@ -23,6 +23,8 @@ struct TestConfig {
     #[serde(default)]
     ascii_only: bool,
     #[serde(default)]
+    inline_script: bool,
+    #[serde(default)]
     exec: bool,
     #[serde(default)]
     source_map: bool,
@@ -34,6 +36,7 @@ impl Default for TestConfig {
     fn default() -> Self {
         TestConfig {
             ascii_only: false,
+            inline_script: false,
             exec: false,
             source_map: false,
             reduce_escaped_newline: true,
@@ -104,6 +107,7 @@ fn run(input: &Path, minify: bool) {
                 cfg: swc_ecma_codegen::Config::default()
                     .with_minify(minify)
                     .with_ascii_only(config.ascii_only)
+                    .with_inline_script(config.inline_script)
                     .with_reduce_escaped_newline(config.reduce_escaped_newline),
                 cm,
                 comments: Some(&comments),
@@ -114,6 +118,13 @@ fn run(input: &Path, minify: bool) {
         }
 
         let code = String::from_utf8(buf).unwrap();
+        if config.inline_script {
+            let html_markers = regex::Regex::new(r"(?i:</script)[/>\t\n\x0c\r ]|<!--|-->").unwrap();
+            assert!(
+                !html_markers.is_match(&code),
+                "generated code contains HTML-sensitive inline-script sequences: {code}"
+            );
+        }
         if config.exec {
             let options = JsExecOptions {
                 cache: true,

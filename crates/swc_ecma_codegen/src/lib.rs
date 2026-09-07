@@ -2236,6 +2236,13 @@ impl MacroNode for TplElement {
                 emitter.cfg.ascii_only,
                 emitter.cfg.reduce_escaped_newline,
             );
+            // Decoding escapes can introduce HTML script terminators or comment
+            // markers, so protect the emitted text after the transformation.
+            let v = if emitter.cfg.inline_script {
+                lit::escape_inline_script(&v)
+            } else {
+                CowStr::Borrowed(&v)
+            };
             let span = self.span();
 
             let mut last_offset_gen = 0;
