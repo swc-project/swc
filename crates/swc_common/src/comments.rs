@@ -630,12 +630,6 @@ impl SingleThreadedComments {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub struct Comment {
     pub kind: CommentKind,
@@ -651,12 +645,6 @@ impl Spanned for Comment {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub enum CommentKind {
     Line = 0,

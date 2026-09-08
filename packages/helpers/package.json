@@ -34,9 +34,6 @@
         "dprint": "^0.35.3",
         "zx": "^7.2.1"
     },
-    "dependencies": {
-        "tslib": "^2.8.0"
-    },
     "exports": {
         "./package.json": "./package.json",
         "./esm/*": "./esm/*",
@@ -443,12 +440,6 @@
             "webpack": "./esm/_iterable_to_array_limit_loose.js",
             "import": "./esm/_iterable_to_array_limit_loose.js",
             "default": "./cjs/_iterable_to_array_limit_loose.cjs"
-        },
-        "./_/_jsx": {
-            "module-sync": "./esm/_jsx.js",
-            "webpack": "./esm/_jsx.js",
-            "import": "./esm/_jsx.js",
-            "default": "./cjs/_jsx.cjs"
         },
         "./_/_new_arrow_check": {
             "module-sync": "./esm/_new_arrow_check.js",

@@ -1,7 +1,7 @@
 define([
-    "require"
-], function(require) {
+    "require",
+    "assert"
+], function(require, assert) {
     "use strict";
-    const assert = require("assert");
     assert(true);
 });

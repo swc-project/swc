@@ -5,9 +5,6 @@
 module.exports = I;
 //// [/b.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 const I = require("./a");
 //// [/c.ts]
 "use strict";

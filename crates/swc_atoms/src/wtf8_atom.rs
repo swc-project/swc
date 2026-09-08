@@ -14,7 +14,6 @@ use crate::Atom;
 ///
 /// See [tendril] for more details.
 #[derive(Clone, Default, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[repr(transparent)]
 pub struct Wtf8Atom(pub(super) hstr::Wtf8Atom);
 
@@ -189,46 +188,6 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
         D: serde::Deserializer<'de>,
     {
         hstr::Wtf8Atom::deserialize(deserializer).map(Wtf8Atom)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::Archive for Wtf8Atom {
-    type Archived = rkyv::vec::ArchivedVec<u8>;
-    type Resolver = rkyv::vec::VecResolver;
-
-    #[allow(clippy::unit_arg)]
-    fn resolve(&self, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        rkyv::vec::ArchivedVec::<u8>::resolve_from_slice(self.as_bytes(), resolver, out)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<S: rancor::Fallible + rkyv::ser::Writer + rkyv::ser::Allocator + ?Sized> rkyv::Serialize<S>
-    for Wtf8Atom
-where
-    <S as rancor::Fallible>::Error: rancor::Source,
-{
-    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        rkyv::vec::ArchivedVec::<u8>::serialize_from_slice(self.as_bytes(), serializer)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::Deserialize<Wtf8Atom, D> for rkyv::vec::ArchivedVec<u8>
-where
-    D: ?Sized + rancor::Fallible,
-    <D as rancor::Fallible>::Error: rancor::Source,
-{
-    fn deserialize(&self, _: &mut D) -> Result<Wtf8Atom, <D as rancor::Fallible>::Error> {
-        Ok(Wtf8Atom::new(
-            // SAFETY: `ArchivedVec<u8>` is guaranteed to be serialized with `Wtf8Atom` byte
-            // sequence.  `Wtf8Atom` byte sequence is identical to `Wtf8` byte sequence.
-            unsafe { Wtf8::from_bytes_unchecked(self.as_slice()) },
-        ))
     }
 }
 

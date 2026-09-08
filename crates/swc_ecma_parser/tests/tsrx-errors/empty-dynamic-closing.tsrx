@@ -1,0 +1,1 @@
+const invalid = <{Tag}></{}>;

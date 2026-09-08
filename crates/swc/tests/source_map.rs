@@ -12,11 +12,12 @@ use std::{
 use anyhow::{Context, Error};
 use swc::{
     config::{
-        Config, InputSourceMap, IsModule, JscConfig, JscExperimental, ModuleConfig, Options,
-        SourceMapsConfig,
+        Config, GlobalPassOption, InputSourceMap, IsModule, JscConfig, JscExperimental,
+        ModuleConfig, OptimizerConfig, Options, SourceMapsConfig, TransformConfig,
     },
-    Compiler,
+    try_with_handler, Compiler,
 };
+use swc_common::{sync::Lrc, FileName, SourceMap, GLOBALS};
 use swc_ecma_parser::Syntax;
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
@@ -612,4 +613,63 @@ export const fixupRiskConfigData = (data: any): types.RiskConfigType => {
 
         Ok(())
     });
+}
+
+/// Compiles `src` with `defines` in a fresh `SourceMap`, as a bundler does.
+fn source_map_with_defines(defines: &str, src: &str) -> String {
+    let globals: GlobalPassOption = serde_json::from_str(defines).expect("invalid defines");
+
+    let cm: Lrc<SourceMap> = Default::default();
+    let c = Compiler::new(cm.clone());
+
+    GLOBALS
+        .set(&Default::default(), || {
+            try_with_handler(cm.clone(), Default::default(), |handler| {
+                let fm =
+                    cm.new_source_file(FileName::Real("input.js".into()).into(), src.to_string());
+
+                let output = c.process_js_file(
+                    fm,
+                    handler,
+                    &Options {
+                        swcrc: false,
+                        source_maps: Some(SourceMapsConfig::Bool(true)),
+                        config: Config {
+                            jsc: JscConfig {
+                                transform: Some(TransformConfig {
+                                    optimizer: Some(OptimizerConfig {
+                                        globals: Some(globals.clone()),
+                                        ..Default::default()
+                                    }),
+                                    ..Default::default()
+                                })
+                                .into(),
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                )?;
+
+                Ok(output.map.expect("source map should be emitted"))
+            })
+        })
+        .expect("failed to process js file")
+}
+
+/// `globals` values are memoized in a process-wide cache, so they must not
+/// carry positions of the `SourceMap` that parsed them first.
+#[test]
+fn define_source_map_is_stable_across_compilations() {
+    const DEFINES: &str = r#"{ "vars": { "__STABLE_DEFINE__": "true" } }"#;
+    const SRC: &str = "if (__STABLE_DEFINE__) {\n    console.log('kept');\n}\n";
+
+    let first = source_map_with_defines(DEFINES, SRC);
+    let second = source_map_with_defines(DEFINES, SRC);
+
+    assert_eq!(
+        first, second,
+        "the same input produced two different source maps"
+    );
 }

@@ -3,7 +3,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, 
 
 use crate::{
     expr::Expr,
-    function::{Function, ParamOrTsParamProp},
+    function::{Function, FunctionBody, ParamOrTsParamProp},
     ident::PrivateName,
     prop::PropName,
     stmt::BlockStmt,
@@ -289,7 +289,7 @@ pub struct Constructor {
         feature = "encoding-impl",
         encoding(with = "cbor4ii::core::types::Maybe")
     )]
-    pub body: Option<BlockStmt>,
+    pub body: Option<FunctionBody>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
@@ -315,12 +315,6 @@ pub struct Decorator {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(

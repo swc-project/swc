@@ -1,6 +1,6 @@
-import { _ as _type_of } from "@swc/helpers/_/_type_of";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
+import { _ as _type_of } from "@swc/helpers/_/_type_of";
 function traverse(obj) {
     var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, key, err;
     return _ts_generator(this, function(_state) {

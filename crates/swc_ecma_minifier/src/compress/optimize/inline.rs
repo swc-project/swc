@@ -17,7 +17,10 @@ use crate::{
         util::contains_super,
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
-    usage_analyzer::alias::{collect_infects_from, AliasConfig},
+    usage_analyzer::{
+        alias::{collect_infects_from, AliasConfig},
+        analyzer::storage::Storage,
+    },
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
     },
@@ -41,8 +44,10 @@ impl Optimizer<'_> {
             self.may_remove_ident(ident)
         );
 
-        if self.data.top.contains(ScopeData::HAS_EVAL_CALL) {
-            return;
+        if let Some(scope) = self.data.get_scope(ident.ctxt) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
         }
 
         // We will inline if possible.
@@ -65,13 +70,16 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if self.data.top.contains(ScopeData::USED_ARGUMENTS)
-                && usage
-                    .flags
-                    .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-            {
-                return;
+            if let Some(scope) = self.data.get_scope(ident.ctxt) {
+                if scope.contains(ScopeData::USED_ARGUMENTS)
+                    && usage
+                        .flags
+                        .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                {
+                    return;
+                }
             }
+
             if usage
                 .flags
                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
@@ -562,7 +570,7 @@ impl Optimizer<'_> {
     /// Check if the body of a function is simple enough to inline.
     fn is_fn_body_simple_enough_to_inline(
         &self,
-        body: &BlockStmt,
+        body: &FunctionBody,
         param_count: usize,
         usage: &VarUsageInfo,
     ) -> bool {
@@ -664,15 +672,13 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self
-            .data
-            .top
-            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
-        {
-            return;
-        }
-
         let id = i.to_id();
+
+        if let Some(scope) = self.data.get_scope(id.1) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
+        }
 
         if let Some(usage) = self.data.vars.get(&id) {
             if usage
@@ -715,6 +721,14 @@ impl Optimizer<'_> {
                                 usage,
                             )
                         {
+                            if let Some(scope) = self.data.get_scope(f.function.ctxt) {
+                                if scope
+                                    .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::IS_ARROW))
+                                {
+                                    return;
+                                }
+                            }
+
                             for (idx, param) in f.function.params.iter().enumerate() {
                                 match &param.pat {
                                     Pat::Rest(..) => return,
@@ -950,6 +964,12 @@ impl Optimizer<'_> {
                 remap.insert(id, new_ctxt);
             }
 
+            for (from, to) in cache.into_iter() {
+                if let Some(scope) = self.data.get_scope(from) {
+                    *self.data.scope(to) = *scope
+                }
+            }
+
             let mut value = value.clone();
             if !remap.is_empty() {
                 let mut remapper = Remapper::new(&remap);
@@ -995,8 +1015,8 @@ fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> Option<u8> {
     }
 
     match &*e.body {
-        BlockStmtOrExpr::BlockStmt(s) => is_block_stmt_of_fn_simple_enough_for_copy(s),
-        BlockStmtOrExpr::Expr(e) => is_arrow_body_simple_enough_for_copy(e),
+        ArrowFunctionBody::FunctionBody(s) => is_block_stmt_of_fn_simple_enough_for_copy(s),
+        ArrowFunctionBody::Expr(e) => is_arrow_body_simple_enough_for_copy(e),
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
@@ -1033,7 +1053,7 @@ fn is_arrow_body_simple_enough_for_copy(e: &Expr) -> Option<u8> {
     None
 }
 
-fn is_block_stmt_of_fn_simple_enough_for_copy(b: &BlockStmt) -> Option<u8> {
+fn is_block_stmt_of_fn_simple_enough_for_copy(b: &FunctionBody) -> Option<u8> {
     if b.stmts.len() == 1 {
         if let Stmt::Return(ret) = &b.stmts[0] {
             return ret

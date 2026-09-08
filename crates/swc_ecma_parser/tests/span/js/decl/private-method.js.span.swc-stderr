@@ -82,7 +82,7 @@
  4 | `->     }
  5 |     }
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/decl/private-method.js:2:1]
  1 |     class Foo {
  2 | ,->     #foo() {

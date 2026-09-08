@@ -80,6 +80,15 @@ impl MacroNode for BlockStmt {
 }
 
 #[node_impl]
+impl MacroNode for FunctionBody {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_function_body_inner(self, false)?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
 impl MacroNode for ExprStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;

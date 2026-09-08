@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 
@@ -180,8 +181,16 @@ impl Analyzer {
     }
 
     pub(super) fn handle_expr(&mut self, e: &Expr) {
-        if let Expr::Ident(i) = e {
-            self.add_usage(i.to_id());
+        match e {
+            Expr::Ident(i) => self.add_usage(i.to_id()),
+            Expr::Lit(Lit::Num(num)) if !num.value.is_finite() => match num.raw.as_deref() {
+                Some("NaN") => self.scope.reserve_output_symbol(atom!("NaN")),
+                Some("Infinity") => {
+                    self.scope.reserve_output_symbol(atom!("Infinity"));
+                }
+                _ => {}
+            },
+            _ => {}
         }
     }
 

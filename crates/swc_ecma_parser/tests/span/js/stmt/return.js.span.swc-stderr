@@ -40,7 +40,7 @@
  2 | |       return 'foo';
  3 | `-> }
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/stmt/return.js:1:1]
  1 | ,-> function foo() {
  2 | |       return 'foo';

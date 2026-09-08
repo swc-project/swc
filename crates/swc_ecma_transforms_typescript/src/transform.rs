@@ -1,7 +1,7 @@
-use std::{iter, mem};
+use std::{borrow::Borrow, iter, mem};
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{
     errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
     DUMMY_SP,
@@ -21,8 +21,10 @@ use crate::{
     config::TsImportExportAssignConfig,
     retain::{should_retain_module_item, should_retain_stmt},
     semantic::SemanticInfo,
-    shared::enum_member_id_atom,
-    ts_enum::{EnumValueComputer, TsEnumRecordKey, TsEnumRecordValue},
+    shared::enum_member_name,
+    ts_enum::{
+        static_enum_member_name, EnumValueComputer, EvalCtx, TsEnumRecordKey, TsEnumRecordValue,
+    },
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
 
@@ -298,7 +300,7 @@ impl VisitMut for Transform {
             });
 
         node.params.visit_mut_children_with(self);
-        node.body.visit_mut_children_with(self);
+        node.body.visit_mut_with(self);
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
@@ -404,6 +406,9 @@ impl VisitMut for Transform {
             if let Decl::Var(var_decl) = &mut node.decl {
                 // visit inner directly to bypass visit_mut_var_declarator
                 for decl in var_decl.decls.iter_mut() {
+                    if self.flow_syntax {
+                        convert_flow_component_arrow(decl);
+                    }
                     decl.name.visit_mut_with(self);
                     decl.init.visit_mut_with(self);
                 }
@@ -422,6 +427,10 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        if self.flow_syntax {
+            convert_flow_component_arrow(n);
+        }
+
         let ref_rewriter = self.ref_rewriter.take();
         n.name.visit_mut_with(self);
         self.ref_rewriter = ref_rewriter;
@@ -641,6 +650,11 @@ impl VisitMut for Transform {
         node.visit_mut_children_with(self);
     }
 
+    fn visit_mut_function(&mut self, node: &mut Function) {
+        node.this_param = None;
+        node.visit_mut_children_with(self);
+    }
+
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
         node.accessibility = None;
         node.is_abstract = false;
@@ -655,11 +669,6 @@ impl VisitMut for Transform {
         node.is_optional = false;
         node.definite = false;
         node.accessibility = None;
-        node.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        node.this_param = None;
         node.visit_mut_children_with(self);
     }
 
@@ -1112,13 +1121,17 @@ impl Transform {
             enum_id: &id.to_id(),
             unresolved_ctxt: self.unresolved_ctxt,
             record: &self.semantic.enum_record,
+            const_vars: &self.semantic.const_vars,
+            const_enum_only: None,
+            ambient_record: &self.semantic.ambient_enum_record,
+            ambient_const_enum_only: None,
         };
 
         let member_list: Vec<_> = members
             .into_iter()
             .map(|m| {
                 let span = m.span;
-                let name = enum_member_id_atom(&m.id);
+                let name = enum_member_name(&m.id);
 
                 let key = TsEnumRecordKey {
                     enum_id: id.to_id(),
@@ -1133,7 +1146,7 @@ impl Transform {
                         // references can be rewritten to runtime property
                         // accesses. Implicit Flow enum members do not have an
                         // initializer, so keep the semantic value as-is.
-                        let mut recomputed = enum_computer.compute(init);
+                        let mut recomputed = enum_computer.compute(init, EvalCtx::RECOMPUTE);
                         if let TsEnumRecordValue::Opaque(expr) = &mut recomputed {
                             expr.visit_mut_with(&mut RefRewriter {
                                 query: EnumMemberRefQuery {
@@ -1643,7 +1656,7 @@ impl Transform {
                 return;
             }
 
-            let Some(member_name) = get_member_key(prop) else {
+            let Some(member_name) = static_enum_member_name(prop) else {
                 return;
             };
 
@@ -1901,13 +1914,13 @@ impl QueryRef for ExportQuery {
 
 struct EnumMemberRefQuery<'a> {
     enum_id: &'a Id,
-    member_names: &'a FxHashSet<Atom>,
+    member_names: &'a FxHashSet<Wtf8Atom>,
     unresolved_ctxt: SyntaxContext,
 }
 
 impl QueryRef for EnumMemberRefQuery<'_> {
     fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
-        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(&ident.sym) {
+        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(ident.sym.borrow()) {
             Some(
                 self.enum_id
                     .clone()
@@ -1924,7 +1937,7 @@ impl QueryRef for EnumMemberRefQuery<'_> {
     }
 
     fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
-        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(&ident.sym) {
+        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(ident.sym.borrow()) {
             Some(
                 JSXMemberExpr {
                     span: DUMMY_SP,
@@ -1941,7 +1954,7 @@ impl QueryRef for EnumMemberRefQuery<'_> {
 
 struct EnumMemberItem {
     span: Span,
-    name: Atom,
+    name: Wtf8Atom,
     value: TsEnumRecordValue,
 }
 
@@ -1953,20 +1966,19 @@ impl EnumMemberItem {
     fn build_assign(self, enum_id: &Id) -> Stmt {
         let is_string = self.value.is_string();
         let value: Expr = self.value.into();
+        let name: Expr = Str::from(self.name).into();
 
         let inner_assign = value.make_assign_to(
             op!("="),
             Ident::from(enum_id.clone())
-                .computed_member(self.name.clone())
+                .computed_member(name.clone())
                 .into(),
         );
 
         let outer_assign = if is_string {
             inner_assign
         } else {
-            let value: Expr = self.name.clone().into();
-
-            value.make_assign_to(
+            name.make_assign_to(
                 op!("="),
                 Ident::from(enum_id.clone())
                     .computed_member(inner_assign)
@@ -1994,6 +2006,100 @@ impl ModuleId for TsModuleName {
     }
 }
 
+/// Gives a Flow component-typed arrow binding the function semantics required
+/// by Flow's component runtime contract.
+fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
+    let Pat::Ident(BindingIdent {
+        id,
+        type_ann: Some(type_ann),
+    }) = &declarator.name
+    else {
+        return;
+    };
+
+    if !is_flow_component_type(&type_ann.type_ann) {
+        return;
+    }
+
+    let Some(init) = &mut declarator.init else {
+        return;
+    };
+    let Expr::Arrow(arrow) = init.as_mut() else {
+        return;
+    };
+
+    let arrow = arrow.take();
+    let body = match *arrow.body {
+        ArrowFunctionBody::FunctionBody(body) => body,
+        ArrowFunctionBody::Expr(expr) => {
+            let span = expr.span();
+            FunctionBody {
+                span,
+                stmts: vec![Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(expr),
+                })],
+            }
+        }
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    };
+
+    **init = Expr::Fn(FnExpr {
+        ident: Some(id.clone()),
+        function: Box::new(Function {
+            this_param: None,
+            params: arrow
+                .params
+                .into_iter()
+                .map(|pat| Param {
+                    span: pat.span(),
+                    decorators: Vec::new(),
+                    pat,
+                })
+                .collect(),
+            decorators: Vec::new(),
+            span: arrow.span,
+            ctxt: arrow.ctxt,
+            body: Some(body),
+            is_generator: arrow.is_generator,
+            is_async: arrow.is_async,
+            type_params: arrow.type_params,
+            return_type: arrow.return_type,
+        }),
+    });
+}
+
+/// Returns whether a syntactic type annotation identifies a Flow component.
+fn is_flow_component_type(ty: &TsType) -> bool {
+    match ty {
+        TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(fn_type)) => {
+            is_flow_component_fn_type(fn_type)
+        }
+        TsType::TsParenthesizedType(parenthesized) => {
+            is_flow_component_type(&parenthesized.type_ann)
+        }
+        _ => false,
+    }
+}
+
+/// Returns whether this function type is the parser's representation of a
+/// Flow `component(...)` type.
+///
+/// Flow component parameters describe a single props object. The parser
+/// preserves that syntax without extending the public AST by giving the
+/// synthetic object pattern the same non-dummy span as the function type.
+#[inline]
+fn is_flow_component_fn_type(fn_type: &TsFnType) -> bool {
+    matches!(
+        fn_type.params.as_slice(),
+        [TsFnParam::Object(props)]
+            if !fn_type.span.is_dummy()
+                && props.span == fn_type.span
+                && props.type_ann.is_none()
+    )
+}
+
 fn id_to_var_declarator(id: Id) -> VarDeclarator {
     VarDeclarator {
         span: DUMMY_SP,
@@ -2008,26 +2114,5 @@ fn get_enum_id(e: &Expr) -> Option<Id> {
         Some(ident.to_id())
     } else {
         None
-    }
-}
-
-fn get_member_key(prop: &MemberProp) -> Option<Atom> {
-    match prop {
-        MemberProp::Ident(ident) => Some(ident.sym.clone()),
-        MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-            Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.to_atom_lossy().into_owned()),
-            Expr::Tpl(Tpl { exprs, quasis, .. }) => match (exprs.len(), quasis.len()) {
-                (0, 1) => quasis[0]
-                    .cooked
-                    .as_ref()
-                    .map(|cooked| cooked.to_atom_lossy().into_owned())
-                    .or_else(|| Some(quasis[0].raw.clone())),
-                _ => None,
-            },
-            _ => None,
-        },
-        MemberProp::PrivateName(_) => None,
-        #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes"),
     }
 }

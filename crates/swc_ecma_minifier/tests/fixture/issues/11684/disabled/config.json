@@ -1,0 +1,7 @@
+{
+    "defaults": true,
+    "unused": false,
+    "reduce_vars": false,
+    "toplevel": true,
+    "passes": 0
+}

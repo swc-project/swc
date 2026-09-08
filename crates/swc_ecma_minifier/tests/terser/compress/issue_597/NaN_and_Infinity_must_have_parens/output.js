@@ -1,2 +1,2 @@
-(1 / 0).toString();
-NaN.toString();
+2e308.toString();
+(0 / 0).toString();

@@ -100,13 +100,13 @@
  2 | |       return 'foo'
  3 | `-> };
    `----
-  x BlockStmtOrExpr
+  x ArrowFunctionBody
    ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
  1 | ,-> const a: () => any = () => {
  2 | |       return 'foo'
  3 | `-> };
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
  1 | ,-> const a: () => any = () => {
  2 | |       return 'foo'

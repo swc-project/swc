@@ -1,6 +1,8 @@
 //// [usingDeclarations.1.ts]
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 const env = {
     stack: [],
     error: void 0,
@@ -117,24 +119,26 @@ try {
                 _ts_dispose_resources(env);
             }
         }
-        async *ag() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d15 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-                yield;
-                await null;
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
+        ag() {
+            return _wrap_async_generator(function*() {
+                const env = {
+                    stack: [],
+                    error: void 0,
+                    hasError: false
+                };
+                try {
+                    const d15 = _ts_add_disposable_resource(env, {
+                        [Symbol.dispose] () {}
+                    }, false);
+                    yield;
+                    yield _await_async_generator(null);
+                } catch (e) {
+                    env.error = e;
+                    env.hasError = true;
+                } finally{
+                    _ts_dispose_resources(env);
+                }
+            })();
         }
         constructor(){
             this.a = ()=>{
@@ -546,23 +550,25 @@ function* g() {
         _ts_dispose_resources(env);
     }
 }
-async function* ag() {
-    const env = {
-        stack: [],
-        error: void 0,
-        hasError: false
-    };
-    try {
-        const d5 = _ts_add_disposable_resource(env, {
-            [Symbol.dispose] () {}
-        }, false);
-        yield;
-        await null;
-    } catch (e) {
-        env.error = e;
-        env.hasError = true;
-    } finally{
-        _ts_dispose_resources(env);
-    }
+function ag() {
+    return _wrap_async_generator(function*() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d5 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+            yield;
+            yield _await_async_generator(null);
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    })();
 }
 export { };

@@ -7,7 +7,7 @@ use swc_ecma_utils::{
 };
 
 use super::{
-    ir::{DependencySlot, ExecuteStmt, ExportName, SetterOp, SystemModule},
+    ir::{DependencySlot, ExecuteStmt, ExportInit, ExportName, SetterOp, SystemModule},
     lower::{export_call, export_names_call},
     util::{export_object_init, member_expr_for, member_for_export, object_lit_prop_name},
 };
@@ -37,7 +37,8 @@ pub(super) fn emit(
     let deps = emit_dependency_array(&module.dependencies, resolver);
     let setters = emit_setters(&module.dependencies, &module, &export_ident);
     let metadata = emit_metadata_array(&module.dependencies);
-    let export_inits = emit_export_inits(&module, &export_ident);
+    let initialized_exports = module.export_inits.take();
+    let export_inits = emit_export_inits(&module, initialized_exports, &export_ident);
 
     emit_var_decl(&mut stmts, module.wrapper_vars.take());
     emit_export_setters(&mut stmts, &module, &export_ident);
@@ -52,13 +53,13 @@ pub(super) fn emit(
     stmts.extend(export_inits);
 
     let execute: Expr = Function {
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts: module
                 .execute_stmts
                 .into_iter()
                 .map(|execute_stmt| emit_execute_stmt(execute_stmt, &export_ident))
                 .collect(),
-            ..Default::default()
         }),
         is_async: module.async_execute,
         ..Default::default()
@@ -92,9 +93,9 @@ pub(super) fn emit(
 
     let register = Function {
         params: vec![export_ident.into(), context_ident.into()],
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts,
-            ..Default::default()
         }),
         ..Default::default()
     }
@@ -132,6 +133,13 @@ fn emit_execute_stmt(stmt: ExecuteStmt, export_ident: &Ident) -> Stmt {
             .into();
             export_call(export_ident, &exports, assign).into_stmt()
         }
+        ExecuteStmt::ExportValue { export, value } => {
+            export_call(export_ident, &[export], *value).into_stmt()
+        }
+        ExecuteStmt::ExportBatch { value } => export_ident
+            .clone()
+            .as_call(value.span(), vec![value.as_arg()])
+            .into_stmt(),
         ExecuteStmt::ExportNames { exports, value } => {
             export_names_call(export_ident, &exports, value).into_stmt()
         }
@@ -294,9 +302,9 @@ fn emit_setter(dep: &DependencySlot, module: &SystemModule, export_ident: &Ident
         } else {
             Default::default()
         },
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts,
-            ..Default::default()
         }),
         ..Default::default()
     }
@@ -384,19 +392,20 @@ fn emit_export_setters(stmts: &mut Vec<Stmt>, module: &SystemModule, export_iden
             let value = private_ident!("_value");
             Prop::Setter(SetterProp {
                 key: prop_name(sym, Default::default()).into(),
-                this_param: None,
-                param: Pat::Ident(BindingIdent {
-                    id: value.clone(),
-                    type_ann: None,
-                })
-                .into(),
-                body: Some(BlockStmt {
-                    stmts: vec![
-                        value
-                            .make_assign_to(op!("="), local.clone().into())
-                            .into_stmt(),
-                        export_names_call(export_ident, exports, local).into_stmt(),
-                    ],
+                function: Box::new(Function {
+                    params: vec![Param::from(Pat::Ident(BindingIdent {
+                        id: value.clone(),
+                        type_ann: None,
+                    }))],
+                    body: Some(FunctionBody {
+                        span: DUMMY_SP,
+                        stmts: vec![
+                            value
+                                .make_assign_to(op!("="), local.clone().into())
+                                .into_stmt(),
+                            export_names_call(export_ident, exports, local).into_stmt(),
+                        ],
+                    }),
                     ..Default::default()
                 }),
                 span: DUMMY_SP,
@@ -419,7 +428,11 @@ fn emit_export_setters(stmts: &mut Vec<Stmt>, module: &SystemModule, export_iden
     );
 }
 
-fn emit_export_inits(module: &SystemModule, export_ident: &Ident) -> Vec<Stmt> {
+fn emit_export_inits(
+    module: &SystemModule,
+    initialized_exports: Vec<ExportInit>,
+    export_ident: &Ident,
+) -> Vec<Stmt> {
     let mut announced = Vec::new();
     let mut seen: IndexSet<Atom> = IndexSet::default();
     for export in &module.exports.announced {
@@ -432,7 +445,7 @@ fn emit_export_inits(module: &SystemModule, export_ident: &Ident) -> Vec<Stmt> {
         return Default::default();
     }
 
-    let function_exports = module
+    let mut initial_values = module
         .wrapper_fns
         .iter()
         .filter_map(|fn_decl| {
@@ -446,15 +459,18 @@ fn emit_export_inits(module: &SystemModule, export_ident: &Ident) -> Vec<Stmt> {
                 .iter()
                 .map(move |export| (export.name.clone(), ident.clone()))
         })
+        .map(|(export, ident)| (export, Expr::from(ident)))
         .collect::<IndexMap<_, _>>();
+    for ExportInit { export, value } in initialized_exports {
+        initial_values.insert(export.name, *value);
+    }
 
     let props = announced
         .into_iter()
         .map(|export| {
-            let value = function_exports
-                .get(&export.name)
-                .cloned()
-                .map_or_else(|| *Expr::undefined(DUMMY_SP), Expr::from);
+            let value = initial_values
+                .shift_remove(&export.name)
+                .unwrap_or_else(|| *Expr::undefined(DUMMY_SP));
             (export, value)
         })
         .collect::<Vec<_>>();

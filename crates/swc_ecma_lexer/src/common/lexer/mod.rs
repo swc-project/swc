@@ -1,9 +1,9 @@
 use std::borrow::Cow;
 
 use char::CharExt;
+use compact_str::CompactString;
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
-use smartstring::{LazyCompact, SmartString};
 use state::State;
 use swc_atoms::{
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
@@ -1008,7 +1008,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             s.chars().all(|c| c.is_ascii_digit())
         }
 
-        let mut s = SmartString::<LazyCompact>::default();
+        let mut s = CompactString::default();
 
         debug_assert!(self.input().cur().is_some_and(|c| c == b'&'));
         self.bump();

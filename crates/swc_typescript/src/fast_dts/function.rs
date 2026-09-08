@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     AssignPat, Decl, ExportDecl, Function, ModuleDecl, ModuleItem, ObjectPatProp, Param, Pat,
-    Script, Stmt, TsKeywordTypeKind, TsParenthesizedType, TsType, TsTypeAnn,
+    Script, Stmt, TsKeywordTypeKind, TsParenthesizedType, TsThisParam, TsType, TsTypeAnn,
     TsUnionOrIntersectionType, TsUnionType,
 };
 
@@ -22,7 +22,7 @@ impl FastDts {
                 ident_span.unwrap_or_else(|| Span::new(func.span_lo(), func.body.span_lo())),
             );
         }
-        self.transform_fn_params(&mut func.params);
+        self.transform_function_params(func);
         func.is_async = false;
         func.is_generator = false;
         func.body = None
@@ -47,6 +47,20 @@ impl FastDts {
                 _ => panic!("unable to access unknown nodes"),
             };
             self.transform_fn_param(param, is_required);
+        }
+    }
+
+    pub(crate) fn transform_function_params(&mut self, function: &mut Function) {
+        self.check_this_param(function.this_param.as_deref());
+        self.transform_fn_params(&mut function.params);
+    }
+
+    pub(crate) fn check_this_param(&mut self, this_param: Option<&TsThisParam>) {
+        let Some(this_param) = this_param else {
+            return;
+        };
+        if this_param.type_ann.is_none() {
+            self.parameter_must_have_explicit_type(this_param.span);
         }
     }
 

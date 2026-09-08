@@ -38,6 +38,7 @@
 -   Run `git commit` only after `git add`.
 -   Once changes are staged, commit without unnecessary delay so staged history is preserved.
 -   When creating or updating a pull request, follow the repository pull request template.
+-   When creating a pull request, use the `add-changeset` skill to create the required changeset.
 -   After addressing pull request review comments and pushing updates, resolve the corresponding review threads.
 
 ## Testing

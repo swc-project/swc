@@ -49,8 +49,7 @@ C._ = [
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
-        var Reflect = function Reflect() {} // collision (es2015-es2021 only)
-        ;
+        function Reflect() {} // collision (es2015-es2021 only)
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
@@ -105,8 +104,7 @@ C._ = [
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 (function() {
-    var Reflect = function Reflect() {} // collision (es2015-es2021 only)
-    ;
+    function Reflect() {} // collision (es2015-es2021 only)
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 (function() {

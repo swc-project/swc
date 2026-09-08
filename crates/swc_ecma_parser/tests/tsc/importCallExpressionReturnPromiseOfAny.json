@@ -979,12 +979,11 @@
                 }
               ],
               "body": {
-                "type": "BlockStatement",
+                "type": "FunctionBody",
                 "span": {
                   "start": 721,
                   "end": 767
                 },
-                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "ReturnStatement",
@@ -1290,12 +1289,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 898,
           "end": 1027
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ForOfStatement",

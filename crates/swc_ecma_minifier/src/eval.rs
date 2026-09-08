@@ -12,6 +12,7 @@ use crate::{
     mode::Mode,
     option::{CompressOptions, TopLevelOptions},
     usage_analyzer::marks::Marks,
+    util::is_falsy_number,
 };
 
 pub struct Evaluator {
@@ -313,7 +314,7 @@ fn is_truthy(lit: &EvalResult) -> Option<bool> {
             Lit::Str(v) => Some(!v.value.is_empty()),
             Lit::Bool(v) => Some(v.value),
             Lit::Null(_) => Some(false),
-            Lit::Num(v) => Some(v.value != 0.0 && v.value != -0.0),
+            Lit::Num(v) => Some(!is_falsy_number(v.value)),
             _ => None,
         },
         EvalResult::Undefined => Some(false),

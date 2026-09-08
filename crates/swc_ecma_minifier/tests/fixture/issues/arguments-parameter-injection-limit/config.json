@@ -1,0 +1,5 @@
+{
+    "arguments": true,
+    "keep_fargs": false,
+    "passes": 2
+}

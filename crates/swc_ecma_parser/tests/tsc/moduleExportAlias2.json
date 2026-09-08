@@ -389,12 +389,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 311,
           "end": 329
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",

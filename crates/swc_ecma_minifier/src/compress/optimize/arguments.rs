@@ -2,11 +2,18 @@ use std::iter::repeat_with;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, is_valid_prop_ident, private_ident};
+use swc_ecma_utils::{
+    find_pat_ids, is_valid_prop_ident,
+    number::{parse_canonical_index, ToJsString},
+    private_ident,
+};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Optimizer;
 use crate::compress::optimize::is_left_access_to_arguments;
+
+/// Matches Terser's `index < argnames.length + 5` condition.
+const MAX_INJECTED_PARAMS: usize = 5;
 
 /// Methods related to the option `arguments`.
 impl Optimizer<'_> {
@@ -118,7 +125,7 @@ impl Optimizer<'_> {
             prevent: false,
         };
 
-        // We visit body two time, to use simpler logic in `inject_params_if_required`
+        // Visit the body twice to keep parameter injection local to each access.
         f.body.visit_mut_children_with(&mut v);
         f.body.visit_mut_children_with(&mut v);
 
@@ -134,11 +141,19 @@ struct ArgReplacer<'a> {
 }
 
 impl ArgReplacer<'_> {
-    fn inject_params_if_required(&mut self, idx: usize) {
+    /// Materializes only a bounded number of missing parameters.
+    fn inject_params_if_within_limit(&mut self, idx: usize) {
         if idx < self.params.len() || self.keep_fargs {
             return;
         }
-        let new_args = idx + 1 - self.params.len();
+        let Some(required_len) = idx.checked_add(1) else {
+            return;
+        };
+        let new_args = required_len - self.params.len();
+
+        if new_args > MAX_INJECTED_PARAMS {
+            return;
+        }
 
         self.changed = true;
         report_change!("arguments: Injecting {} parameters", new_args);
@@ -179,64 +194,17 @@ impl VisitMut for ArgReplacer<'_> {
 
         n.visit_mut_children_with(self);
 
-        if let Expr::Member(MemberExpr {
-            obj,
-            prop: MemberProp::Computed(c),
-            ..
-        }) = n
-        {
-            match &**obj {
-                Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
-                    match &*c.expr {
-                        Expr::Lit(Lit::Str(Str { value, .. })) => {
-                            let Some(value) = value.as_str() else {
-                                return;
-                            };
-                            let idx = value.parse::<usize>();
-                            let idx = match idx {
-                                Ok(v) => v,
-                                _ => return,
-                            };
+        let Some(idx) = argument_access_index(n) else {
+            return;
+        };
 
-                            self.inject_params_if_required(idx);
+        self.inject_params_if_within_limit(idx);
 
-                            if let Some(param) = self.params.get(idx) {
-                                if let Pat::Ident(i) = &param.pat {
-                                    self.changed = true;
-                                    report_change!(
-                                        "arguments: Replacing access to arguments to normal \
-                                         reference"
-                                    );
-                                    *n = i.id.clone().into();
-                                }
-                            }
-                        }
-                        Expr::Lit(Lit::Num(Number { value, .. })) => {
-                            if value.fract() != 0.0 {
-                                // We ignores non-integer values.
-                                return;
-                            }
-
-                            let idx = value.round() as i64 as usize;
-
-                            self.inject_params_if_required(idx);
-
-                            //
-                            if let Some(param) = self.params.get(idx) {
-                                if let Pat::Ident(i) = &param.pat {
-                                    report_change!(
-                                        "arguments: Replacing access to arguments to normal \
-                                         reference"
-                                    );
-                                    self.changed = true;
-                                    *n = i.id.clone().into();
-                                }
-                            }
-                        }
-                        _ => {}
-                    }
-                }
-                _ => (),
+        if let Some(param) = self.params.get(idx) {
+            if let Pat::Ident(i) = &param.pat {
+                self.changed = true;
+                report_change!("arguments: Replacing access to arguments to normal reference");
+                *n = i.id.clone().into();
             }
         }
     }
@@ -264,5 +232,31 @@ impl VisitMut for ArgReplacer<'_> {
         if let SuperProp::Computed(c) = &mut n.prop {
             c.visit_mut_with(self);
         }
+    }
+}
+
+/// Returns an `arguments` index only when the property key is already in its
+/// canonical non-negative integer spelling.
+fn argument_access_index(expr: &Expr) -> Option<usize> {
+    let Expr::Member(MemberExpr {
+        obj,
+        prop: MemberProp::Computed(computed),
+        ..
+    }) = expr
+    else {
+        return None;
+    };
+    let Expr::Ident(Ident { sym, .. }) = &**obj else {
+        return None;
+    };
+
+    if &**sym != "arguments" {
+        return None;
+    }
+
+    match &*computed.expr {
+        Expr::Lit(Lit::Str(Str { value, .. })) => parse_canonical_index(value.as_str()?),
+        Expr::Lit(Lit::Num(Number { value, .. })) => parse_canonical_index(&value.to_js_string()),
+        _ => None,
     }
 }

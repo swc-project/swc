@@ -35,12 +35,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 13,
                 "end": 132
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "VariableDeclaration",
@@ -80,12 +79,11 @@
                         },
                         "ctxt": 0,
                         "body": {
-                          "type": "BlockStatement",
+                          "type": "FunctionBody",
                           "span": {
                             "start": 47,
                             "end": 58
                           },
-                          "ctxt": 0,
                           "stmts": []
                         },
                         "generator": false,
@@ -135,12 +133,11 @@
                         },
                         "ctxt": 0,
                         "body": {
-                          "type": "BlockStatement",
+                          "type": "FunctionBody",
                           "span": {
                             "start": 95,
                             "end": 106
                           },
-                          "ctxt": 0,
                           "stmts": []
                         },
                         "generator": false,

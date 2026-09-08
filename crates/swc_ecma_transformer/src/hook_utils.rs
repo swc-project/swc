@@ -43,9 +43,9 @@ where
     chained_method!(enter_block_stmt, exit_block_stmt, BlockStmt);
 
     chained_method!(
-        enter_block_stmt_or_expr,
-        exit_block_stmt_or_expr,
-        BlockStmtOrExpr
+        enter_arrow_function_body,
+        exit_arrow_function_body,
+        ArrowFunctionBody
     );
 
     chained_method!(enter_module_item, exit_module_item, ModuleItem);

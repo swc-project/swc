@@ -472,10 +472,9 @@ impl Classes {
             }
         }
 
-        let body = BlockStmt {
+        let body = FunctionBody {
             span: DUMMY_SP,
             stmts,
-            ..Default::default()
         };
 
         let call = CallExpr {

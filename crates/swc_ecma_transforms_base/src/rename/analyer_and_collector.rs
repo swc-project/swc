@@ -98,8 +98,8 @@ impl Visit for AnalyzerAndCollector {
         self.analyzer.is_pat_decl = false;
 
         match node.body.as_ref() {
-            BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
-            BlockStmtOrExpr::Expr(n) => n.visit_with(self),
+            ArrowFunctionBody::FunctionBody(n) => n.visit_with(self),
+            ArrowFunctionBody::Expr(n) => n.visit_with(self),
             #[cfg(swc_ast_unknown)]
             _ => (),
         }
@@ -197,9 +197,7 @@ impl Visit for AnalyzerAndCollector {
 
         node.function.decorators.visit_with(self);
         node.function.params.visit_with(self);
-        if let Some(body) = &node.function.body {
-            body.visit_children_with(self);
-        }
+        node.function.body.visit_with(self);
 
         self.analyzer.exit_scope(old_analyzer);
     }
@@ -208,9 +206,7 @@ impl Visit for AnalyzerAndCollector {
         let old_analyzer = self.analyzer.enter_fn_scope();
         node.key.visit_with(self);
         node.params.visit_with(self);
-        if let Some(body) = &node.body {
-            body.visit_children_with(self);
-        }
+        node.body.visit_with(self);
 
         self.analyzer.exit_scope(old_analyzer);
     }
@@ -302,9 +298,7 @@ impl Visit for AnalyzerAndCollector {
 
         node.function.decorators.visit_with(self);
         node.function.params.visit_with(self);
-        if let Some(body) = &node.function.body {
-            body.visit_children_with(self);
-        }
+        node.function.body.visit_with(self);
 
         self.analyzer.exit_scope(old_analyzer);
         self.decl_collector.add(&node.ident);
@@ -335,9 +329,7 @@ impl Visit for AnalyzerAndCollector {
             }
             node.function.decorators.visit_with(self);
             node.function.params.visit_with(self);
-            if let Some(body) = &node.function.body {
-                body.visit_children_with(self);
-            }
+            node.function.body.visit_with(self);
             self.analyzer.exit_scope(old_analyzer1);
             self.analyzer.exit_scope(old_analyzer0);
         } else {
@@ -392,9 +384,7 @@ impl Visit for AnalyzerAndCollector {
 
         node.decorators.visit_with(self);
         node.params.visit_with(self);
-        if let Some(body) = &node.body {
-            body.visit_children_with(self);
-        }
+        node.body.visit_with(self);
 
         self.analyzer.exit_scope(old_analyzer);
     }

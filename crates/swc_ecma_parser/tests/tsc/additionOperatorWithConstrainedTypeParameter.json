@@ -146,12 +146,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 103,
           "end": 170
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
@@ -556,12 +555,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 261,
           "end": 337
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ForOfStatement",

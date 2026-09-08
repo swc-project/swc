@@ -44,8 +44,13 @@ where
         top_scope.merge(scope.clone(), true);
     }
 
-    v.data.top_scope().merge(top_scope.clone(), false);
-    v.data.scope(SyntaxContext::empty()).merge(top_scope, false);
+    v.data
+        .scope(
+            marks
+                .map(|m| m.top_level_ctxt)
+                .unwrap_or(SyntaxContext::empty()),
+        )
+        .merge(top_scope, false);
 
     v.data
 }
@@ -225,6 +230,78 @@ where
             });
         }
     }
+
+    fn store_function_arity(&mut self, id: Id, function: &Function) {
+        let scope = self.data.scope(function.ctxt);
+
+        let known = !scope.used_arguments()
+            && !scope.used_eval()
+            && !function.params.iter().any(|p| p.pat.is_rest());
+
+        let arity = if known {
+            Self::param_count_to_value(function.params.len())
+        } else {
+            Value::Unknown
+        };
+
+        self.data.var_or_default(id).store_param_count(arity);
+    }
+
+    /// Returns true when omitting an argument can evaluate or throw while
+    /// initializing this parameter.
+    fn has_observable_param_initialization(pat: &Pat) -> bool {
+        match pat {
+            Pat::Ident(..) => false,
+            Pat::Rest(rest) => Self::has_observable_param_initialization(&rest.arg),
+            _ => true,
+        }
+    }
+
+    fn store_arrow_arity(&mut self, id: Id, arrow: &ArrowExpr) {
+        let scope = self.data.scope(arrow.ctxt);
+        let known = !scope.used_eval() && !arrow.params.iter().any(|p| p.is_rest());
+
+        let arity = if known {
+            Self::param_count_to_value(arrow.params.len())
+        } else {
+            Value::Unknown
+        };
+
+        self.data.var_or_default(id).store_param_count(arity);
+    }
+
+    fn store_class_arity(&mut self, id: Id, class: &Class) {
+        let constructor = class
+            .body
+            .iter()
+            .filter_map(|s| s.as_constructor())
+            .find(|c| c.body.is_some());
+
+        let arity = if let Some(c) = constructor {
+            let scope = self.data.scope(c.ctxt);
+            let known = !scope.used_arguments()
+                && !scope.used_eval()
+                && !c
+                    .params
+                    .iter()
+                    .filter_map(|p| p.as_param())
+                    .any(|p| p.pat.is_rest());
+
+            if known {
+                Self::param_count_to_value(c.params.len())
+            } else {
+                Value::Unknown
+            }
+        } else {
+            if class.super_class.is_some() {
+                Value::Unknown
+            } else {
+                Value::Known(0)
+            }
+        };
+
+        self.data.var_or_default(id).store_param_count(arity);
+    }
 }
 
 impl<S> Visit for UsageAnalyzer<S>
@@ -252,16 +329,7 @@ where
                 n.params.visit_with(&mut *child.with_ctx(ctx));
             }
 
-            match &*n.body {
-                BlockStmtOrExpr::BlockStmt(body) => {
-                    body.visit_with(child);
-                }
-                BlockStmtOrExpr::Expr(body) => {
-                    body.visit_with(child);
-                }
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
-            }
+            n.body.visit_with(child);
         })
     }
 
@@ -337,28 +405,13 @@ where
         if let (Some(id), op!("=")) = (&n.left.as_ident(), n.op) {
             match &*n.right {
                 Expr::Fn(n) => {
-                    let scope = self.data.scope(n.function.ctxt);
-                    let known = !scope.used_arguments()
-                        && !scope.used_eval()
-                        && !n.function.params.iter().any(|p| p.pat.is_rest());
-                    let data = self.data.var_or_default(id.id.to_id());
-
-                    if known {
-                        data.store_param_count(Self::param_count_to_value(n.function.params.len()));
-                    } else {
-                        data.store_param_count(Value::Unknown);
-                    }
+                    self.store_function_arity(id.id.to_id(), &n.function);
                 }
                 Expr::Arrow(n) => {
-                    let scope = self.data.scope(n.ctxt);
-                    let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
-                    let data = self.data.var_or_default(id.id.to_id());
-
-                    if known {
-                        data.store_param_count(Self::param_count_to_value(n.params.len()));
-                    } else {
-                        data.store_param_count(Value::Unknown)
-                    }
+                    self.store_arrow_arity(id.id.to_id(), n);
+                }
+                Expr::Class(c) => {
+                    self.store_class_arity(id.id.to_id(), &c.class);
                 }
                 _ => self
                     .data
@@ -609,6 +662,8 @@ where
             .insert(id.clone(), RecursiveUsage::FnOrClass);
         n.visit_children_with(self);
 
+        self.store_class_arity(n.ident.to_id(), &n.class);
+
         self.used_recursively.remove(&id);
     }
 
@@ -700,10 +755,7 @@ where
                 n.params.visit_with(&mut *child.with_ctx(ctx));
             }
 
-            // Bypass visit_block_stmt
-            if let Some(body) = &n.body {
-                body.visit_with(child);
-            }
+            n.body.visit_with(child);
         })
     }
 
@@ -847,7 +899,13 @@ where
         self.with_ctx(ctx)
             .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
-        if n.function.body.is_empty() {
+        if n.function.body.is_empty()
+            && !n
+                .function
+                .params
+                .iter()
+                .any(|param| Self::has_observable_param_initialization(&param.pat))
+        {
             self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
         }
 
@@ -875,18 +933,7 @@ where
             }
         }
 
-        let scope = self.data.scope(n.function.ctxt);
-        let known = !scope.used_arguments()
-            && !scope.used_eval()
-            && !n.function.params.iter().any(|p| p.pat.is_rest());
-
-        let data = self.data.var_or_default(n.ident.to_id());
-
-        if known {
-            data.store_param_count(Self::param_count_to_value(n.function.params.len()));
-        } else {
-            data.store_param_count(Value::Unknown);
-        }
+        self.store_function_arity(id, &n.function);
     }
 
     #[cfg_attr(
@@ -1016,28 +1063,8 @@ where
             .with_child(n.ctxt, ScopeKind::Fn { is_arrow: false }, |child| {
                 n.params.visit_with(child);
 
-                if let Some(body) = &n.body {
-                    // We use visit_children_with instead of visit_with to bypass block scope
-                    // handler.
-                    body.visit_children_with(child);
-                }
+                n.body.visit_with(child);
             })
-    }
-
-    #[cfg_attr(
-        all(debug_assertions, feature = "tracing-spans"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        self.with_child(
-            SyntaxContext::empty(),
-            ScopeKind::Fn { is_arrow: false },
-            |a| {
-                n.key.visit_with(a);
-
-                n.body.visit_with(a);
-            },
-        );
     }
 
     #[cfg_attr(
@@ -1306,26 +1333,6 @@ where
         all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        self.with_child(
-            SyntaxContext::empty(),
-            ScopeKind::Fn { is_arrow: false },
-            |a| {
-                n.key.visit_with(a);
-                {
-                    let ctx = a.ctx.with(BitContext::InPatOfParam, true);
-                    n.param.visit_with(&mut *a.with_ctx(ctx));
-                }
-
-                n.body.visit_with(a);
-            },
-        );
-    }
-
-    #[cfg_attr(
-        all(debug_assertions, feature = "tracing-spans"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
     fn visit_spread_element(&mut self, e: &SpreadElement) {
         e.visit_children_with(self);
 
@@ -1389,18 +1396,20 @@ where
     fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
         n.discriminant.visit_with(self);
 
-        let mut fallthrough = false;
+        self.with_child(n.body_ctxt, ScopeKind::Block, |child| {
+            let mut fallthrough = false;
 
-        for case in n.cases.iter() {
-            let ctx = self.ctx.with(BitContext::InCond, true);
-            if fallthrough {
-                self.with_ctx(ctx).visit_in_cond(&case.test);
-                self.with_ctx(ctx).visit_in_cond(&case.cons);
-            } else {
-                self.with_ctx(ctx).visit_in_cond(case);
+            for case in n.cases.iter() {
+                let ctx = child.ctx.with(BitContext::InCond, true);
+                if fallthrough {
+                    child.with_ctx(ctx).visit_in_cond(&case.test);
+                    child.with_ctx(ctx).visit_in_cond(&case.cons);
+                } else {
+                    child.with_ctx(ctx).visit_in_cond(case);
+                }
+                fallthrough = !case.cons.iter().rev().any(|s| s.terminates())
             }
-            fallthrough = !case.cons.iter().rev().any(|s| s.terminates())
-        }
+        })
     }
 
     #[cfg_attr(
@@ -1498,30 +1507,13 @@ where
 
                 match init {
                     Expr::Fn(n) => {
-                        let scope = self.data.scope(n.function.ctxt);
-                        let known = !scope.used_arguments()
-                            && !scope.used_eval()
-                            && !n.function.params.iter().any(|p| p.pat.is_rest());
-                        let data = self.data.var_or_default(var.id.to_id());
-
-                        if known {
-                            data.store_param_count(Self::param_count_to_value(
-                                n.function.params.len(),
-                            ));
-                        } else {
-                            data.store_param_count(Value::Unknown);
-                        }
+                        self.store_function_arity(var.id.to_id(), &n.function);
                     }
                     Expr::Arrow(n) => {
-                        let scope = self.data.scope(n.ctxt);
-                        let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
-                        let data = self.data.var_or_default(var.id.to_id());
-
-                        if known {
-                            data.store_param_count(Self::param_count_to_value(n.params.len()));
-                        } else {
-                            data.store_param_count(Value::Unknown)
-                        }
+                        self.store_arrow_arity(var.id.to_id(), n);
+                    }
+                    Expr::Class(c) => {
+                        self.store_class_arity(var.id.to_id(), &c.class);
                     }
                     _ => self
                         .data
@@ -1696,15 +1688,13 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
                         for_each_id_ref_in_expr(&p.value, op);
                     }
                     Prop::Getter(p) => {
-                        for_each_id_ref_in_prop_name(&p.key, op);
+                        for_each_id_ref_in_prop_function(&p.key, &p.function, op);
                     }
                     Prop::Setter(p) => {
-                        for_each_id_ref_in_prop_name(&p.key, op);
-
-                        for_each_id_ref_in_pat(&p.param, op);
+                        for_each_id_ref_in_prop_function(&p.key, &p.function, op);
                     }
                     Prop::Method(p) => {
-                        for_each_id_ref_in_fn(&p.function, op);
+                        for_each_id_ref_in_prop_function(&p.key, &p.function, op);
                     }
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
@@ -1776,6 +1766,15 @@ fn for_each_id_ref_in_prop_name(p: &PropName, op: &mut impl FnMut(&Ident)) {
     if let PropName::Computed(p) = p {
         for_each_id_ref_in_expr(&p.expr, op);
     }
+}
+
+fn for_each_id_ref_in_prop_function(
+    key: &PropName,
+    function: &Function,
+    op: &mut impl FnMut(&Ident),
+) {
+    for_each_id_ref_in_prop_name(key, op);
+    for_each_id_ref_in_fn(function, op);
 }
 
 fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {

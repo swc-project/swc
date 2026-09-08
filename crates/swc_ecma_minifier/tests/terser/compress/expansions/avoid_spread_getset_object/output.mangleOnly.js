@@ -7,8 +7,8 @@ let e = {
 };
 let l = {
     ...{
-        set y (_){
-            console.log(_);
+        set y (e){
+            console.log(e);
         }
     }
 };

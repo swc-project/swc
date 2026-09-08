@@ -1,7 +1,7 @@
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
-    BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
+    op, ArrayLit, ArrowExpr, ArrowFunctionBody, AssignExpr, AwaitExpr, BinExpr, BinaryOp,
+    BindingIdent, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
     FnExpr, Function, Ident, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
     JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr, MemberProp,
     MetaPropExpr, MetaPropKind, MethodProp, NewExpr, ObjectLit, OptCall, OptChainBase,
@@ -27,7 +27,14 @@ use swc_estree_ast::{
 };
 
 use super::Context;
-use crate::{swcify::Swcify, Never};
+use crate::{
+    swcify::{
+        function::{swcify_function_params, SwcifiedFunctionParams},
+        stmt::swcify_function_body,
+        Swcify,
+    },
+    Never,
+};
 
 impl Swcify for Expression {
     type Output = Box<Expr>;
@@ -294,13 +301,17 @@ impl Swcify for FunctionExpression {
     type Output = FnExpr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
+        let SwcifiedFunctionParams { this_param, params } =
+            swcify_function_params(self.params, ctx);
+
         FnExpr {
             ident: self.id.swcify(ctx).map(|v| v.into()),
             function: Box::new(Function {
-                params: self.params.swcify(ctx),
+                this_param,
+                params,
                 decorators: Default::default(),
                 span: ctx.span(&self.base),
-                body: Some(self.body.swcify(ctx)),
+                body: Some(swcify_function_body(self.body, ctx)),
                 is_generator: self.generator.unwrap_or(false),
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
@@ -458,13 +469,17 @@ impl Swcify for ObjectMethod {
     type Output = MethodProp;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
+        let SwcifiedFunctionParams { this_param, params } =
+            swcify_function_params(self.params, ctx);
+
         MethodProp {
             key: self.key.swcify(ctx),
             function: Box::new(Function {
-                params: self.params.swcify(ctx),
+                this_param,
+                params,
                 decorators: self.decorator.swcify(ctx).unwrap_or_default(),
                 span: ctx.span(&self.base),
-                body: Some(self.body.swcify(ctx)),
+                body: Some(swcify_function_body(self.body, ctx)),
                 is_generator: self.generator.unwrap_or(false),
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
@@ -639,12 +654,14 @@ impl Swcify for ArrowFunctionExpression {
 }
 
 impl Swcify for ArrowFuncExprBody {
-    type Output = BlockStmtOrExpr;
+    type Output = ArrowFunctionBody;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ArrowFuncExprBody::Block(v) => BlockStmtOrExpr::BlockStmt(v.swcify(ctx)),
-            ArrowFuncExprBody::Expr(v) => BlockStmtOrExpr::Expr(v.swcify(ctx)),
+            ArrowFuncExprBody::Block(v) => {
+                ArrowFunctionBody::FunctionBody(swcify_function_body(v, ctx))
+            }
+            ArrowFuncExprBody::Expr(v) => ArrowFunctionBody::Expr(v.swcify(ctx)),
         }
     }
 }

@@ -6,8 +6,5 @@ var Foo, Foo1, Foo2;
     return a;
 }, (Foo2.Test || (Foo2.Test = {})).answer = 42, module.exports = Foo;
 //// [foo_1.ts]
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-});
 var foo = require("./foo_0");
 foo.a(), foo.b && (foo.Test.answer = foo.c(42));

@@ -39,7 +39,7 @@
  2 | |   
  3 | `-> }
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/decl/async-fn.js:1:1]
  1 | ,-> async function foo() {
  2 | |   

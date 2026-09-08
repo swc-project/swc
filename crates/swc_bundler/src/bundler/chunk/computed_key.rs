@@ -142,10 +142,9 @@ where
         let module_fn: Expr = FnExpr {
             function: Box::new(Function {
                 params: Default::default(),
-                body: Some(BlockStmt {
+                body: Some(FunctionBody {
                     span: DUMMY_SP,
                     stmts: vec![return_stmt],
-                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async,

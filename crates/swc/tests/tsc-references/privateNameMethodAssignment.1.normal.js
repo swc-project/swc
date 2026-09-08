@@ -1,9 +1,9 @@
 //// [privateNameMethodAssignment.ts]
+import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_private_field_destructure";
 import { _ as _class_private_field_update } from "@swc/helpers/_/_class_private_field_update";
 import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
 import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
 import { _ as _read_only_error } from "@swc/helpers/_/_read_only_error";
-import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_private_field_destructure";
 var _method = /*#__PURE__*/ new WeakSet();
 class A3 {
     constructor(a, b){

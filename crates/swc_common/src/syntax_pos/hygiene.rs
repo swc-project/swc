@@ -31,14 +31,8 @@ use crate::EqIgnoreSpan;
 /// marks).
 #[derive(Clone, Copy, PartialEq, Eq, Default, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-pub struct SyntaxContext(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))] u32);
+pub struct SyntaxContext(u32);
 
 #[cfg(feature = "encoding-impl")]
 impl cbor4ii::core::enc::Encode for SyntaxContext {
@@ -104,12 +98,6 @@ pub(crate) struct MarkData {
     pub(crate) parent: Mark,
 }
 
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -207,11 +195,17 @@ impl Mark {
         }
 
         // Deserialize result, assign / return values as needed.
-        let context: MutableMarkContext =
+        // SAFETY: `ptr` and `len` come from `serialized`'s initialized byte
+        // allocation, which remains alive through this copy. The host proxy ABI
+        // writes its result into that allocation before returning and may not
+        // access memory outside it.
+        let serialized_context = unsafe {
             crate::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
+        };
+        let context: MutableMarkContext = serialized_context
             .deserialize()
             .expect("Should able to deserialize")
             .into_inner();
@@ -249,11 +243,17 @@ impl Mark {
             __mark_least_ancestor(a.0, b.0, ptr as _);
         }
 
-        let context: MutableMarkContext =
+        // SAFETY: `ptr` and `len` come from `serialized`'s initialized byte
+        // allocation, which remains alive through this copy. The host proxy ABI
+        // writes its result into that allocation before returning and may not
+        // access memory outside it.
+        let serialized_context = unsafe {
             crate::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
+        };
+        let context: MutableMarkContext = serialized_context
             .deserialize()
             .expect("Should able to deserialize")
             .into_inner();
@@ -417,11 +417,17 @@ impl SyntaxContext {
             __syntax_context_remove_mark_proxy(self.0, ptr as _);
         }
 
-        let context: MutableMarkContext =
+        // SAFETY: `ptr` and `len` come from `serialized`'s initialized byte
+        // allocation, which remains alive through this copy. The host proxy ABI
+        // writes its result into that allocation before returning and may not
+        // access memory outside it.
+        let serialized_context = unsafe {
             crate::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
+        };
+        let context: MutableMarkContext = serialized_context
             .deserialize()
             .expect("Should able to deserialize")
             .into_inner();

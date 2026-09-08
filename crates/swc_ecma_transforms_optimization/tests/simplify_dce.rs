@@ -937,3 +937,43 @@ noop!(
     class_extends_cycle_member_decorated_preserved,
     "class A { m(){ return B; } } class B extends A { @dec m(){ return A; } }"
 );
+
+// A direct `eval` at the top level can reference any top-level binding by name.
+// A `var` referenced only through such an `eval` must be preserved, or the
+// `eval` observes a missing binding at runtime. `found_direct_eval` reaches the
+// root scope but, unlike function scopes, was never consumed there.
+noop!(eval_preserves_toplevel_var, "var x = 1; eval('x');");
+
+// Mirror of `class_extends_cycle_unused`, but a top-level direct `eval` can
+// reach the cycle by name, so neither class may be dropped even though nothing
+// else references them.
+noop!(
+    eval_preserves_toplevel_class_cycle,
+    "
+    class A {
+        method() {
+            new B().method();
+        }
+    }
+    class B extends A {
+        method() {
+            new A().method();
+        }
+    }
+    eval('A');
+    "
+);
+
+// A direct `eval` inside a function can also reach top-level bindings through
+// the scope chain: `found_direct_eval` propagates from the function scope up to
+// the root, so a top-level binding referenced only by a nested `eval` must be
+// preserved too.
+noop!(
+    eval_preserves_toplevel_binding_from_nested_eval,
+    "var x = 1; function f(s) { return eval(s); } f('x');"
+);
+
+to!(
+    eval_preserves_toplevel_var_hoisted_from_block,
+    "if (true) { var x = 1; } eval('x');"
+);

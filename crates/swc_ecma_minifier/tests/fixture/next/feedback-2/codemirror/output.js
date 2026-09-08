@@ -3068,7 +3068,7 @@ function(global, factory) {
     // Set a new selection.
     function setSelection(doc, sel, options) {
         var sel1, opId, prev, ch, hist, origin;
-        setSelectionNoUndo(doc, sel, options), sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : NaN, hist = doc.history, origin = options && options.origin, opId == hist.lastSelOp || origin && hist.lastSelOrigin == origin && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin || (prev = lst(hist.done), "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel1.ranges.length && prev.somethingSelected() == sel1.somethingSelected() && new Date() - doc.history.lastSelTime <= (doc.cm ? doc.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date(), hist.lastSelOrigin = origin, hist.lastSelOp = opId, options && !1 !== options.clearRedo && clearSelectionEvents(hist.undone);
+        setSelectionNoUndo(doc, sel, options), sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : 0 / 0, hist = doc.history, origin = options && options.origin, opId == hist.lastSelOp || origin && hist.lastSelOrigin == origin && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin || (prev = lst(hist.done), "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel1.ranges.length && prev.somethingSelected() == sel1.somethingSelected() && new Date() - doc.history.lastSelTime <= (doc.cm ? doc.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date(), hist.lastSelOrigin = origin, hist.lastSelOp = opId, options && !1 !== options.clearRedo && clearSelectionEvents(hist.undone);
     }
     function setSelectionNoUndo(doc, sel, options) {
         (hasHandler(doc, "beforeSelectionChange") || doc.cm && hasHandler(doc.cm, "beforeSelectionChange")) && (obj = {
@@ -3210,7 +3210,7 @@ function(global, factory) {
     function makeChangeInner(doc, change) {
         if (1 != change.text.length || "" != change.text[0] || 0 != cmp(change.from, change.to)) {
             var selAfter = computeSelAfterChange(doc, change);
-            addChangeToHistory(doc, change, selAfter, doc.cm ? doc.cm.curOp.id : NaN), makeChangeSingleDoc(doc, change, selAfter, stretchSpansOverChange(doc, change));
+            addChangeToHistory(doc, change, selAfter, doc.cm ? doc.cm.curOp.id : 0 / 0), makeChangeSingleDoc(doc, change, selAfter, stretchSpansOverChange(doc, change));
             var rebased = [];
             linkedDocs(doc, function(doc, sharedHist) {
                 sharedHist || -1 != indexOf(rebased, doc.history) || (rebaseHist(doc.history, change), rebased.push(doc.history)), makeChangeSingleDoc(doc, change, null, stretchSpansOverChange(doc, change));
@@ -3596,7 +3596,7 @@ function(global, factory) {
             from: from,
             to: to,
             origin: "markText"
-        }, doc.sel, NaN);
+        }, doc.sel, 0 / 0);
         var updateMaxLine, curLine = from.line, cm = doc.cm;
         if (doc.iter(curLine, to.line + 1, function(line) {
             var span, op, inThisOp;

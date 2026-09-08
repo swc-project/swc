@@ -6,8 +6,8 @@ var t = {
     get [3 + 0] () {
         return this[1];
     },
-    set [4 + 0] (value){
-        this[1] = value;
+    set [4 + 0] (t){
+        this[1] = t;
     }
 };
 t[2]();

@@ -1,6 +1,6 @@
 try {
     console.log((({
-        set length (v){
+        set length (o){
             throw "PASS";
         }
     }.length = "FAIL"), "FAIL"));

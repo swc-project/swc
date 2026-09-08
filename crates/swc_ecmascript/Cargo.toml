@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecmascript"
 repository    = { workspace = true }
-version       = "66.0.0"
+version       = "70.1.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -26,12 +26,12 @@ minifier   = ["swc_ecma_minifier"]
 parser     = ["swc_ecma_parser"]
 preset_env = ["swc_ecma_preset_env"]
 quote      = ["swc_ecma_quote"]
-rkyv-impl  = ["swc_ecma_ast/rkyv-impl"]
 transforms = ["swc_ecma_transforms"]
 utils      = ["swc_ecma_utils"]
 visit      = ["swc_ecma_visit"]
 
 typescript-parser = ["swc_ecma_parser/typescript"]
+tsrx-parser       = ["typescript-parser", "swc_ecma_parser/tsrx"]
 
 compat       = ["swc_ecma_transforms/compat"]
 module       = ["swc_ecma_transforms/module"]
@@ -41,15 +41,15 @@ react        = ["swc_ecma_transforms/react"]
 typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 
 [dependencies]
-swc_ecma_ast        = { version = "25.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen    = { version = "28.0.2", path = "../swc_ecma_codegen", optional = true }
-swc_ecma_minifier   = { version = "57.0.1", path = "../swc_ecma_minifier", optional = true }
-swc_ecma_parser     = { version = "41.1.2", path = "../swc_ecma_parser", optional = true, default-features = false }
-swc_ecma_preset_env = { version = "59.0.0", path = "../swc_ecma_preset_env", optional = true }
-swc_ecma_quote      = { version = "41.0.0", path = "../swc_ecma_quote", optional = true }
-swc_ecma_transforms = { version = "58.0.0", path = "../swc_ecma_transforms", optional = true }
-swc_ecma_utils      = { version = "31.0.2", path = "../swc_ecma_utils", optional = true }
-swc_ecma_visit      = { version = "25.0.0", path = "../swc_ecma_visit", optional = true }
+swc_ecma_ast        = { version = "29.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen    = { version = "32.0.0", path = "../swc_ecma_codegen", optional = true }
+swc_ecma_minifier   = { version = "61.0.5", path = "../swc_ecma_minifier", optional = true }
+swc_ecma_parser     = { version = "45.1.1", path = "../swc_ecma_parser", optional = true, default-features = false }
+swc_ecma_preset_env = { version = "63.0.0", path = "../swc_ecma_preset_env", optional = true }
+swc_ecma_quote      = { version = "45.0.0", path = "../swc_ecma_quote", optional = true }
+swc_ecma_transforms = { version = "62.0.0", path = "../swc_ecma_transforms", optional = true }
+swc_ecma_utils      = { version = "35.0.1", path = "../swc_ecma_utils", optional = true }
+swc_ecma_visit      = { version = "29.0.0", path = "../swc_ecma_visit", optional = true }
 
 [dev-dependencies]
 par-core = { workspace = true, features = ["chili"] }

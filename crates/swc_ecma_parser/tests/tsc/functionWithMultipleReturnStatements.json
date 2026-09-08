@@ -26,12 +26,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 202,
           "end": 277
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "IfStatement",
@@ -128,12 +127,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 293,
           "end": 410
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "IfStatement",
@@ -271,12 +269,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 426,
           "end": 504
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "TryStatement",
@@ -384,12 +381,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 520,
           "end": 619
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "TryStatement",
@@ -505,12 +501,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 635,
           "end": 667
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -659,12 +654,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 698,
           "end": 772
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "IfStatement",
@@ -902,12 +896,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 827,
           "end": 901
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "IfStatement",

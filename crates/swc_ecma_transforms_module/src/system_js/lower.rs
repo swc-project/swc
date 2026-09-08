@@ -5,36 +5,74 @@ use swc_ecma_utils::{find_pat_ids, private_ident, ExprFactory};
 
 use super::{
     ir::{
-        export_name as make_export_name, DependencySlot, ExecuteStmt, ExportName, ExportTable,
-        SetterOp, SystemModule,
+        export_name as make_export_name, DependencySlot, ExecuteStmt, ExportInit, ExportName,
+        ExportTable, SetterOp, SystemModule,
     },
     pattern::replace_exported_pat,
     util::object_lit_prop_name,
 };
 use crate::{
-    module_record::{LocalExportEntries, ModuleRecordEntry, RequestedModule, RequestedModules},
+    module_record::{
+        external_ts_import_equals_source, LocalExportEntries, ModuleRecordEntry, RequestedModule,
+        RequestedModules, SourceModule, SourceModuleItem,
+    },
     util::local_name_for_src,
 };
 
-pub(super) fn lower(
-    body: Vec<ModuleItem>,
-    requested_modules: RequestedModules,
-    local_export_entries: LocalExportEntries,
-) -> SystemModule {
+pub(super) fn lower(source: SourceModule) -> SystemModule {
+    let SourceModule {
+        directives: _directives,
+        has_use_strict: _has_use_strict,
+        requested_modules,
+        local_export_entries,
+        ts_export_assignment,
+        body,
+        has_module_syntax: _has_module_syntax,
+    } = source;
+    let default_value_exports = collect_default_value_exports(&body);
     let mut exports = collect_local_exports(local_export_entries);
+    exports.announced.extend(default_value_exports);
+    exports
+        .announced
+        .sort_unstable_by(|a, b| a.name.cmp(&b.name));
     let mut module = SystemModule::new(exports.clone());
 
     lower_dependencies(&mut module, &mut exports, requested_modules);
     module.exports = exports;
 
     for item in body {
-        let ModuleItem::Stmt(stmt) = item else {
-            continue;
-        };
-        lower_stmt(&mut module, stmt);
+        lower_source_item(&mut module, item);
+    }
+    if let Some(export_assignment) = ts_export_assignment {
+        module
+            .execute_stmts
+            .push(ExecuteStmt::export_batch(export_assignment));
     }
 
     module
+}
+
+fn collect_default_value_exports(body: &[SourceModuleItem]) -> Vec<ExportName> {
+    let mut exports = Vec::new();
+    for item in body {
+        match item {
+            SourceModuleItem::ExportDefaultExpr(export) => {
+                exports.push(default_export_name(export.span));
+            }
+            SourceModuleItem::ExportDefaultDecl(export) => match &export.decl {
+                DefaultDecl::Class(class_expr) if class_expr.ident.is_none() => {
+                    exports.push(default_export_name(export.span));
+                }
+                DefaultDecl::Fn(fn_expr) if fn_expr.ident.is_none() => {
+                    exports.push(default_export_name(export.span));
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
+    exports
 }
 
 fn collect_local_exports(local_export_entries: LocalExportEntries) -> ExportTable {
@@ -56,9 +94,9 @@ fn lower_dependencies(
     exports: &mut ExportTable,
     requested_modules: RequestedModules,
 ) {
-    for (request_key, RequestedModule { span, entries, .. }) in requested_modules {
-        let request = request_key.src().clone();
-        let attributes = request_key.attributes().to_vec();
+    for (module_request, RequestedModule { span, entries, .. }) in requested_modules {
+        let request = module_request.src().clone();
+        let attributes = module_request.attributes().to_vec();
         let namespace = namespace_ident_for(&request);
         let mut setter_ops = Vec::with_capacity(entries.len());
         let mut entries: Vec<_> = entries.into_iter().collect();
@@ -129,14 +167,6 @@ fn lower_dependencies(
                 ModuleRecordEntry::StarExport => {
                     setter_ops.push(SetterOp::StarExport);
                 }
-                ModuleRecordEntry::TsImportEquals { local_name } => {
-                    let local = ident_from_id(local_name, span.0);
-                    module.wrapper_vars.push(local.clone());
-                    setter_ops.push(SetterOp::Import {
-                        local,
-                        imported: None,
-                    });
-                }
             }
         }
 
@@ -150,12 +180,64 @@ fn lower_dependencies(
     }
 }
 
+fn lower_source_item(module: &mut SystemModule, item: SourceModuleItem) {
+    match item {
+        SourceModuleItem::Stmt(stmt) => lower_stmt(module, stmt),
+        SourceModuleItem::ExportDecl(export) => lower_decl(module, export.decl),
+        SourceModuleItem::ExportDefaultDecl(export) => lower_default_decl(module, export),
+        SourceModuleItem::ExportDefaultExpr(export) => {
+            module.execute_stmts.push(ExecuteStmt::export_value(
+                default_export_name(export.span),
+                export.expr,
+            ));
+        }
+        SourceModuleItem::TsImportEquals(import) => lower_ts_import_equals(module, *import),
+    }
+}
+
+fn default_export_name(span: swc_common::Span) -> ExportName {
+    make_export_name(atom!("default"), (span, Default::default()))
+}
+
+fn lower_ts_import_equals(module: &mut SystemModule, import: TsImportEqualsDecl) {
+    let Some(src) = external_ts_import_equals_source(&import) else {
+        return;
+    };
+
+    let request = src.value.to_atom_lossy().into_owned();
+    let span = (src.span, Default::default());
+    let namespace = namespace_ident_for(&request);
+    let local = import.id;
+
+    module.wrapper_vars.push(local.clone());
+    module.dependencies.push(DependencySlot {
+        request,
+        span,
+        attributes: Vec::new(),
+        namespace,
+        setter_ops: vec![SetterOp::Import {
+            local,
+            imported: None,
+        }],
+    });
+}
+
 fn lower_stmt(module: &mut SystemModule, stmt: Stmt) {
-    match stmt {
-        Stmt::Decl(Decl::Fn(fn_decl)) => {
+    if let Stmt::Decl(decl) = stmt {
+        lower_decl(module, decl);
+    } else {
+        let mut stmt = stmt;
+        lower_var_scoped_decls(module, &mut stmt);
+        module.execute_stmts.push(ExecuteStmt::source(stmt));
+    }
+}
+
+fn lower_decl(module: &mut SystemModule, decl: Decl) {
+    match decl {
+        Decl::Fn(fn_decl) => {
             module.wrapper_fns.push(fn_decl);
         }
-        Stmt::Decl(Decl::Class(class_decl)) => {
+        Decl::Class(class_decl) => {
             let ClassDecl {
                 ident,
                 declare: _,
@@ -173,14 +255,61 @@ fn lower_stmt(module: &mut SystemModule, stmt: Stmt) {
                 .into(),
             ));
         }
-        Stmt::Decl(Decl::Var(var_decl)) => {
+        Decl::Var(var_decl) => {
             lower_var_decl(module, *var_decl);
         }
-        _ => {
-            let mut stmt = stmt;
-            lower_var_scoped_decls(module, &mut stmt);
-            module.execute_stmts.push(ExecuteStmt::source(stmt));
+        _ => module
+            .execute_stmts
+            .push(ExecuteStmt::source(Stmt::Decl(decl))),
+    }
+}
+
+fn lower_default_decl(module: &mut SystemModule, export: ExportDefaultDecl) {
+    let export_span = export.span;
+
+    match export.decl {
+        DefaultDecl::Class(class_expr) => {
+            let Some(ident) = class_expr.ident else {
+                module.execute_stmts.push(ExecuteStmt::export_value(
+                    default_export_name(export_span),
+                    ClassExpr {
+                        ident: None,
+                        class: class_expr.class,
+                    }
+                    .into(),
+                ));
+                return;
+            };
+
+            module.wrapper_vars.push(ident.clone());
+            module.execute_stmts.push(assign_or_export(
+                module,
+                ident.clone(),
+                ClassExpr {
+                    ident: Some(ident),
+                    class: class_expr.class,
+                }
+                .into(),
+            ));
         }
+        DefaultDecl::Fn(fn_expr) => {
+            let Some(ident) = fn_expr.ident.clone() else {
+                module.export_inits.push(ExportInit::new(
+                    default_export_name(export_span),
+                    fn_expr.into(),
+                ));
+                return;
+            };
+
+            module.wrapper_fns.push(FnDecl {
+                ident,
+                declare: false,
+                function: fn_expr.function,
+            });
+        }
+        DefaultDecl::TsInterfaceDecl(_) => {}
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
@@ -429,32 +558,39 @@ fn ident_from_id((sym, ctxt): Id, span: swc_common::Span) -> Ident {
 }
 
 fn compare_module_entries(a: &ModuleRecordEntry, b: &ModuleRecordEntry) -> std::cmp::Ordering {
-    module_entry_key(a).cmp(&module_entry_key(b))
+    module_entry_rank(a)
+        .cmp(&module_entry_rank(b))
+        .then_with(|| module_entry_sort_name(a).cmp(&module_entry_sort_name(b)))
 }
 
-fn module_entry_key(entry: &ModuleRecordEntry) -> (u8, String) {
+fn module_entry_rank(entry: &ModuleRecordEntry) -> u8 {
     match entry {
-        ModuleRecordEntry::Empty => (0, String::new()),
-        ModuleRecordEntry::ImportDefault { local_name } => (1, local_name.0.to_string()),
-        ModuleRecordEntry::ImportNamespace { local_name } => (2, local_name.0.to_string()),
-        ModuleRecordEntry::ImportNamed { local_name, .. } => (3, local_name.0.to_string()),
-        ModuleRecordEntry::IndirectExportDefault { export_name, .. } => {
-            (4, export_name.to_string())
-        }
+        ModuleRecordEntry::Empty => 0,
+        ModuleRecordEntry::ImportDefault { .. } => 1,
+        ModuleRecordEntry::ImportNamespace { .. } => 2,
+        ModuleRecordEntry::ImportNamed { .. } => 3,
+        ModuleRecordEntry::IndirectExportDefault { .. } => 4,
+        ModuleRecordEntry::IndirectExportNamed { .. } => 5,
+        ModuleRecordEntry::IndirectExportNamespace { .. } => 6,
+        ModuleRecordEntry::StarExport => 7,
+    }
+}
+
+fn module_entry_sort_name(entry: &ModuleRecordEntry) -> Option<&Atom> {
+    match entry {
+        ModuleRecordEntry::ImportDefault { local_name }
+        | ModuleRecordEntry::ImportNamespace { local_name }
+        | ModuleRecordEntry::ImportNamed { local_name, .. } => Some(&local_name.0),
+        ModuleRecordEntry::IndirectExportDefault { export_name, .. }
+        | ModuleRecordEntry::IndirectExportNamespace { export_name, .. } => Some(export_name),
         ModuleRecordEntry::IndirectExportNamed {
             export_name,
             import_name,
-        } => (
-            5,
-            export_name.as_ref().map_or_else(
-                || import_name.0.to_string(),
-                |export_name| export_name.0.to_string(),
-            ),
+        } => Some(
+            export_name
+                .as_ref()
+                .map_or(&import_name.0, |export_name| &export_name.0),
         ),
-        ModuleRecordEntry::IndirectExportNamespace { export_name, .. } => {
-            (6, export_name.to_string())
-        }
-        ModuleRecordEntry::StarExport => (7, String::new()),
-        ModuleRecordEntry::TsImportEquals { local_name } => (8, local_name.0.to_string()),
+        ModuleRecordEntry::Empty | ModuleRecordEntry::StarExport => None,
     }
 }

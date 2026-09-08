@@ -78,12 +78,11 @@
         },
         "ctxt": 0,
         "body": {
-          "type": "BlockStatement",
+          "type": "FunctionBody",
           "span": {
             "start": 103,
             "end": 128
           },
-          "ctxt": 0,
           "stmts": [
             {
               "type": "ExpressionStatement",
@@ -175,12 +174,11 @@
         },
         "ctxt": 0,
         "body": {
-          "type": "BlockStatement",
+          "type": "FunctionBody",
           "span": {
             "start": 150,
             "end": 176
           },
-          "ctxt": 0,
           "stmts": [
             {
               "type": "ExpressionStatement",
@@ -272,12 +270,11 @@
         },
         "ctxt": 0,
         "body": {
-          "type": "BlockStatement",
+          "type": "FunctionBody",
           "span": {
             "start": 199,
             "end": 226
           },
-          "ctxt": 0,
           "stmts": [
             {
               "type": "ExpressionStatement",
@@ -369,12 +366,11 @@
         },
         "ctxt": 0,
         "body": {
-          "type": "BlockStatement",
+          "type": "FunctionBody",
           "span": {
             "start": 249,
             "end": 276
           },
-          "ctxt": 0,
           "stmts": [
             {
               "type": "ExpressionStatement",
@@ -466,12 +462,11 @@
         },
         "ctxt": 0,
         "body": {
-          "type": "BlockStatement",
+          "type": "FunctionBody",
           "span": {
             "start": 303,
             "end": 334
           },
-          "ctxt": 0,
           "stmts": [
             {
               "type": "ExpressionStatement",
@@ -563,12 +558,11 @@
         },
         "ctxt": 0,
         "body": {
-          "type": "BlockStatement",
+          "type": "FunctionBody",
           "span": {
             "start": 364,
             "end": 398
           },
-          "ctxt": 0,
           "stmts": [
             {
               "type": "ExpressionStatement",
@@ -660,12 +654,11 @@
         },
         "ctxt": 0,
         "body": {
-          "type": "BlockStatement",
+          "type": "FunctionBody",
           "span": {
             "start": 425,
             "end": 457
           },
-          "ctxt": 0,
           "stmts": [
             {
               "type": "ExpressionStatement",

@@ -4,7 +4,7 @@ System.register([
     "./directory/foo-bar"
 ], function(_export, _context) {
     "use strict";
-    var _default, bar, bar2, foo, foo2, test2;
+    var bar, bar2, foo, foo2, test2;
     _export({
         default: void 0,
         foo: void 0,
@@ -24,7 +24,7 @@ System.register([
         ],
         execute: function() {
             _export("test2", test2 = 5);
-            _export("default", _default = foo);
+            _export("default", foo);
         }
     };
 });

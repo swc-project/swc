@@ -156,7 +156,7 @@ where
         // Properties of returned object
         let mut props = Vec::new();
 
-        let mut body = BlockStmt {
+        let mut body = FunctionBody {
             span: module.span,
             stmts: module
                 .body
@@ -347,7 +347,6 @@ where
                     }
                 })
                 .collect(),
-            ..Default::default()
         };
         body.stmts.push(
             ReturnStmt {

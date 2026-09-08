@@ -136,12 +136,11 @@
                   "ctxt": 0,
                   "params": [],
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 148,
                       "end": 1412
                     },
-                    "ctxt": 0,
                     "stmts": [
                       {
                         "type": "VariableDeclaration",
@@ -441,12 +440,11 @@
                                 }
                               ],
                               "body": {
-                                "type": "BlockStatement",
+                                "type": "FunctionBody",
                                 "span": {
                                   "start": 346,
                                   "end": 1255
                                 },
-                                "ctxt": 0,
                                 "stmts": [
                                   {
                                     "type": "IfStatement",

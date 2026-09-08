@@ -290,6 +290,12 @@ importers:
         specifier: ^0.7.8
         version: 0.7.8
 
+  bindings/binding_nodejs_support_wasm:
+    devDependencies:
+      '@rstest/core':
+        specifier: ^0.7.8
+        version: 0.7.8
+
   bindings/binding_typescript_wasm:
     devDependencies:
       '@rstest/core':
@@ -346,10 +352,6 @@ importers:
   packages/core/scripts/npm/win32-x64-msvc: {}
 
   packages/helpers:
-    dependencies:
-      tslib:
-        specifier: ^2.8.0
-        version: 2.8.0
     devDependencies:
       '@ast-grep/napi':
         specifier: ^0.40.3

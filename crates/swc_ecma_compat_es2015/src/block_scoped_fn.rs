@@ -13,15 +13,6 @@ struct BlockScopedFns;
 impl VisitMut for BlockScopedFns {
     noop_visit_mut_type!(fail);
 
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        let Some(body) = &mut n.body else { return };
-
-        n.params.visit_mut_with(self);
-
-        // skip function scope
-        body.visit_mut_children_with(self);
-    }
-
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         n.visit_mut_children_with(self);
 
@@ -71,7 +62,7 @@ impl VisitMut for BlockScopedFns {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_transforms_testing::test;
+    use swc_ecma_transforms_testing::{test, test_inline};
 
     use super::*;
 
@@ -189,6 +180,28 @@ function foo(scope) {
               return obj && obj.__esModule ? obj : {
                 default: obj
               };
+            }
+        }"
+    );
+
+    test_inline!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| block_scoped_functions(),
+        function_bodies_are_not_blocks,
+        "const arrow = () => {
+            function inArrow() {}
+        };
+        class Foo {
+            constructor() {
+                function inConstructor() {}
+            }
+        }",
+        "const arrow = () => {
+            function inArrow() {}
+        };
+        class Foo {
+            constructor() {
+                function inConstructor() {}
             }
         }"
     );

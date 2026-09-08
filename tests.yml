@@ -35,9 +35,9 @@ check:
     swc_bundler:
         - "cargo hack check --feature-powerset"
     swc_common:
-        - "cargo hack check --feature-powerset --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features rkyv-impl"
+        - "cargo hack check --feature-powerset --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt"
     swc_ecma_ast:
-        - "cargo hack check --feature-powerset --exclude-features __rkyv"
+        - "cargo hack check --feature-powerset"
     swc_ecma_loader:
         - "cargo hack check --feature-powerset"
     swc_ecma_parser:

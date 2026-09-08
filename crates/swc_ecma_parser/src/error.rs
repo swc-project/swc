@@ -213,6 +213,8 @@ pub enum SyntaxError {
 
     DuplicatedRegExpFlags(char),
     UnknownRegExpFlags,
+    /// IdentifierPart in RegExp flags must not contain a UnicodeEscapeSequence.
+    UnicodeEscapeInRegExpFlags,
 
     TS1003,
     TS1005,
@@ -276,6 +278,7 @@ pub enum SyntaxError {
     TS2483,
     TS2491,
     TS2499,
+    TS2680,
     TS2703,
     TS4112,
     TS8038,
@@ -591,6 +594,9 @@ impl SyntaxError {
                 format!("Duplicated regular expression flag '{flag}'.").into()
             }
             SyntaxError::UnknownRegExpFlags => "Unknown regular expression flags.".into(),
+            SyntaxError::UnicodeEscapeInRegExpFlags => {
+                "Regular expression flags cannot contain unicode escapes.".into()
+            }
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),
@@ -713,6 +719,7 @@ impl SyntaxError {
             SyntaxError::TS2499 => "An interface can only extend an identifier/qualified-name \
                                     with optional type arguments."
                 .into(),
+            SyntaxError::TS2680 => "A 'this' parameter must be the first parameter.".into(),
             SyntaxError::TS4112 => "This member cannot have an 'override' modifier because its \
                                     containing class does not extend another class."
                 .into(),

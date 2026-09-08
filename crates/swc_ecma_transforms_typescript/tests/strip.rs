@@ -2843,6 +2843,35 @@ test!(
       A = H.A
     }
     console.log(I.A);
+    const j = H.A;
+    enum J {
+      A = j
+    }
+    console.log(J.A);
+    const enum K {
+      A = 3,
+    }
+    const l = K.A;
+    enum L {
+      A = l
+    }
+    console.log(L.A);
+    declare const enum M {
+      A = 7,
+    }
+    const m = M.A;
+    enum N {
+      A = m,
+      B
+    }
+    declare enum O {
+      A = 1,
+    }
+    (O as any).A = 5;
+    enum P {
+      A = O.A
+    }
+    console.log(P.A);
     "#
 );
 

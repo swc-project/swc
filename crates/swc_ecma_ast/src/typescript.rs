@@ -33,6 +33,26 @@ pub struct TsTypeAnn {
     pub type_ann: Box<TsType>,
 }
 
+/// TypeScript or Flow `this` parameter of a function.
+///
+/// This parameter describes the type of `this` inside the function and is not
+/// emitted as a JavaScript runtime parameter.
+#[ast_node("TsThisParameter")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+pub struct TsThisParam {
+    pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(rename = "thisSpan"))]
+    pub this_span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub type_ann: Option<Box<TsTypeAnn>>,
+}
+
 #[ast_node("TsTypeParameterDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -452,12 +472,6 @@ pub struct TsKeywordType {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
     feature = "encoding-impl",
@@ -814,12 +828,6 @@ pub struct TsTypeOperator {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
 )]
@@ -848,12 +856,6 @@ pub struct TsIndexedAccessType {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
@@ -1281,12 +1283,6 @@ pub struct TsSatisfiesExpr {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(

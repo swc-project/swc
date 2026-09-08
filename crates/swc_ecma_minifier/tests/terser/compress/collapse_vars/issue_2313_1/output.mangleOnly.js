@@ -1,15 +1,15 @@
-var t = 0, e = 0;
-var i = {
+var c = 0, t = 0;
+var e = {
     get c () {
-        t++;
+        c++;
         return 42;
     },
     set c (c){
-        e++;
+        t++;
     },
     d: function() {
         this.c++;
-        if (this.c) console.log(t, e);
+        if (this.c) console.log(c, t);
     }
 };
-i.d();
+e.d();

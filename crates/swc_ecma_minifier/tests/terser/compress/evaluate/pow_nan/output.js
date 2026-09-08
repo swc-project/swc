@@ -1,2 +1,2 @@
-console.log(NaN);
-console.log(NaN);
+console.log(0 / 0);
+console.log(0 / 0);

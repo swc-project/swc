@@ -68,7 +68,7 @@
  1 | use(a => a)
    :     ^
    `----
-  x BlockStmtOrExpr
+  x ArrowFunctionBody
    ,-[$DIR/tests/span/js/expr/arrow.js:1:1]
  1 | use(a => a)
    :          ^

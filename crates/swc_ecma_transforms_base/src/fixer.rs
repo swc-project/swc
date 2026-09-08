@@ -142,11 +142,11 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
         match &mut *node.body {
-            BlockStmtOrExpr::Expr(e) if e.is_seq() => {
+            ArrowFunctionBody::Expr(e) if e.is_seq() => {
                 self.wrap(e);
             }
 
-            BlockStmtOrExpr::Expr(e) if e.is_assign() => {
+            ArrowFunctionBody::Expr(e) if e.is_assign() => {
                 if let Expr::Assign(assign) = &**e {
                     if let AssignTarget::Pat(..) = &assign.left {
                         self.wrap(e);
@@ -393,11 +393,17 @@ impl VisitMut for Fixer<'_> {
         self.in_for_stmt_head = in_for_stmt_head;
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+    fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        n.visit_mut_children_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+    }
+
+    fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
         body.visit_mut_children_with(self);
 
         match body {
-            BlockStmtOrExpr::Expr(expr) if expr.is_object() => {
+            ArrowFunctionBody::Expr(expr) if expr.is_object() => {
                 self.wrap(expr);
             }
 
@@ -412,6 +418,25 @@ impl VisitMut for Fixer<'_> {
         if let Callee::Expr(e) = &mut node.callee {
             match &**e {
                 Expr::OptChain(_) if !self.in_opt_chain => self.wrap(e),
+                // Preserve parentheses around callees that carry a leading
+                // annotation like `/* @__PURE__ */` so downstream tools do not
+                // interpret the annotation as applying to the outer chained
+                // call expression. See issue #12019.
+                Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if !self.remove_only => {
+                    let span = e.span();
+                    let has_annotation = !span.is_dummy()
+                        && self.comments.is_some_and(|c| {
+                            c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
+                        });
+                    if has_annotation {
+                        let expr = e.take();
+                        *e = ParenExpr {
+                            expr,
+                            span: DUMMY_SP,
+                        }
+                        .into();
+                    }
+                }
                 _ => self.wrap_callee(e),
             }
         }
@@ -630,6 +655,25 @@ impl VisitMut for Fixer<'_> {
             }
             Expr::OptChain(..) if !self.in_opt_chain => {
                 self.wrap(&mut n.obj);
+            }
+            // Preserve parentheses around expressions that carry a leading
+            // annotation like `/* @__PURE__ */` so downstream tools do not
+            // interpret the annotation as applying to the full chained
+            // expression. See issue #12019.
+            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if !self.remove_only => {
+                let span = n.obj.span();
+                let has_annotation = !span.is_dummy()
+                    && self.comments.is_some_and(|c| {
+                        c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
+                    });
+                if has_annotation {
+                    let expr = n.obj.take();
+                    n.obj = ParenExpr {
+                        expr,
+                        span: DUMMY_SP,
+                    }
+                    .into();
+                }
             }
             _ => {}
         }

@@ -187,6 +187,12 @@ impl PreferConst {
         }
     }
 
+    fn visit_nested_scope(&mut self, op: impl FnOnce(&mut Self)) {
+        self.block_depth += 1;
+        op(self);
+        self.block_depth -= 1;
+    }
+
     fn emit_ordered(&self) {
         let mut vars = self.vars_meta.iter().collect::<Vec<_>>();
 
@@ -267,11 +273,11 @@ impl Visit for PreferConst {
     }
 
     fn visit_block_stmt(&mut self, block_stmt: &BlockStmt) {
-        self.block_depth += 1;
+        self.visit_nested_scope(|visitor| block_stmt.visit_children_with(visitor));
+    }
 
-        block_stmt.visit_children_with(self);
-
-        self.block_depth -= 1;
+    fn visit_function_body(&mut self, body: &FunctionBody) {
+        self.visit_nested_scope(|visitor| body.visit_children_with(visitor));
     }
 
     fn visit_for_in_stmt(&mut self, for_in_stmt: &ForInStmt) {

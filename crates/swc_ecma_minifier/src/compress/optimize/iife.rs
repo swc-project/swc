@@ -348,6 +348,9 @@ impl Optimizer<'_> {
                                     }
 
                                     match &*arg.expr {
+                                        // RegExp literals allocate on each evaluation; moving one
+                                        // into a returned closure changes its identity.
+                                        Expr::Lit(Lit::Regex(..)) => true,
                                         Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => true,
                                         Expr::Lit(..) => false,
                                         _ => true,
@@ -474,12 +477,15 @@ impl Optimizer<'_> {
             return;
         };
 
-        for idx in removed {
-            if let Some(arg) = e.args.get_mut(idx) {
-                if arg.spread.is_some() {
-                    break;
-                }
+        let first_spread = e.args.iter().position(|arg| arg.spread.is_some());
 
+        for idx in removed {
+            // Arguments at and after a dynamic spread no longer map to parameters by index.
+            if matches!(first_spread, Some(first_spread) if idx >= first_spread) {
+                break;
+            }
+
+            if let Some(arg) = e.args.get_mut(idx) {
                 // Optimize
                 let new = self.ignore_return_value(&mut arg.expr);
 
@@ -673,7 +679,7 @@ impl Optimizer<'_> {
                 let param_ids = f.params.iter().map(|p| &p.as_ident().unwrap().id);
 
                 match &mut *f.body {
-                    BlockStmtOrExpr::BlockStmt(body) => {
+                    ArrowFunctionBody::FunctionBody(body) => {
                         let new = self.inline_fn_like(param_ids, body, &mut call.args);
                         if let Some(new) = new {
                             self.changed = true;
@@ -682,7 +688,7 @@ impl Optimizer<'_> {
                             *e = new;
                         }
                     }
-                    BlockStmtOrExpr::Expr(body) => {
+                    ArrowFunctionBody::Expr(body) => {
                         if !self.can_extract_param(param_ids.clone(), &call.args) {
                             return;
                         }
@@ -800,8 +806,8 @@ impl Optimizer<'_> {
             Expr::Arrow(f) => {
                 match &mut *f.body {
                     // it's very likely to be processed in invoke_iife
-                    BlockStmtOrExpr::Expr(_) => None,
-                    BlockStmtOrExpr::BlockStmt(block_stmt) => {
+                    ArrowFunctionBody::Expr(_) => None,
+                    ArrowFunctionBody::FunctionBody(block_stmt) => {
                         let param_ids = f.params.iter().map(|p| &p.as_ident().unwrap().id);
                         self.inline_fn_like_stmt(
                             param_ids,
@@ -997,7 +1003,7 @@ impl Optimizer<'_> {
         &self,
         param_ids: impl ExactSizeIterator<Item = &'a Ident> + Clone,
         args: &[ExprOrSpread],
-        body: &BlockStmt,
+        body: &FunctionBody,
         for_stmt: bool,
     ) -> bool {
         trace_op!("can_inline_fn_like");
@@ -1224,7 +1230,7 @@ impl Optimizer<'_> {
     fn inline_fn_like<'a>(
         &mut self,
         params: impl ExactSizeIterator<Item = &'a Ident> + Clone,
-        body: &mut BlockStmt,
+        body: &mut FunctionBody,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
         if !self.can_inline_fn_like(params.clone(), args, &*body, false) {
@@ -1289,7 +1295,7 @@ impl Optimizer<'_> {
     fn inline_fn_like_stmt<'a>(
         &mut self,
         params: impl ExactSizeIterator<Item = &'a Ident> + Clone + std::fmt::Debug,
-        body: &mut BlockStmt,
+        body: &mut FunctionBody,
         args: &mut [ExprOrSpread],
         is_return: bool,
         span: Span,
@@ -1493,23 +1499,6 @@ impl Visit for ReturnVisitor {
     /// Don't recurse into fn
     fn visit_function(&mut self, _: &Function) {}
 
-    /// Don't recurse into fn
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        n.key.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_method_prop(&mut self, n: &MethodProp) {
-        n.key.visit_with(self);
-        n.function.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        n.key.visit_with(self);
-        n.param.visit_with(self);
-    }
-
     fn visit_expr(&mut self, _: &Expr) {}
 
     fn visit_return_stmt(&mut self, _: &ReturnStmt) {
@@ -1535,23 +1524,6 @@ impl Visit for DeclVisitor {
 
     /// Don't recurse into fn
     fn visit_function(&mut self, _: &Function) {}
-
-    /// Don't recurse into fn
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        n.key.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_method_prop(&mut self, n: &MethodProp) {
-        n.key.visit_with(self);
-        n.function.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        n.key.visit_with(self);
-        n.param.visit_with(self);
-    }
 
     fn visit_expr(&mut self, _: &Expr) {}
 
@@ -1608,7 +1580,7 @@ impl Optimizer<'_> {
                     if let Expr::Arrow(arrow) = &**callee {
                         // For expression-style arrow functions in sequences,
                         // we can be more aggressive with optimization
-                        if let BlockStmtOrExpr::Expr(_body) = &*arrow.body {
+                        if let ArrowFunctionBody::Expr(_body) = &*arrow.body {
                             self.can_optimize_arrow_iife_in_seq(arrow, call)
                         } else {
                             false
@@ -1631,7 +1603,7 @@ impl Optimizer<'_> {
                 if let Expr::Call(call) = &mut **expr {
                     if let Callee::Expr(callee) = &call.callee {
                         if let Expr::Arrow(arrow) = &**callee {
-                            if let BlockStmtOrExpr::Expr(_body) = &*arrow.body {
+                            if let ArrowFunctionBody::Expr(_body) = &*arrow.body {
                                 let new_expr = self.optimize_single_arrow_iife_in_seq(arrow, call);
 
                                 if let Some(new_expr) = new_expr {
@@ -1671,7 +1643,7 @@ impl Optimizer<'_> {
         }
 
         // Check if the arrow function body is simple enough for sequence optimization
-        if let BlockStmtOrExpr::Expr(body) = &*arrow.body {
+        if let ArrowFunctionBody::Expr(body) = &*arrow.body {
             self.is_simple_expr_for_seq_optimization(body)
         } else {
             false
@@ -1694,13 +1666,24 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Returns true if replacing a parameter with this expression cannot remove
+    /// observable argument evaluation when the parameter is unused.
+    fn is_primitive_literal_for_seq_iife_substitution(expr: &Expr) -> bool {
+        matches!(
+            expr,
+            Expr::Lit(
+                Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::BigInt(..)
+            )
+        )
+    }
+
     /// Optimizes a single arrow IIFE in a sequence expression
     fn optimize_single_arrow_iife_in_seq(
         &mut self,
         arrow: &ArrowExpr,
         call: &CallExpr,
     ) -> Option<Expr> {
-        if let BlockStmtOrExpr::Expr(body) = &*arrow.body {
+        if let ArrowFunctionBody::Expr(body) = &*arrow.body {
             // For simple arrow functions with no parameters in sequences,
             // we can directly replace the IIFE with its body
             if arrow.params.is_empty() && call.args.is_empty() {
@@ -1710,7 +1693,8 @@ impl Optimizer<'_> {
             // For arrow functions with simple parameters, inline them
             if arrow.params.len() == call.args.len() {
                 let can_inline = arrow.params.iter().zip(&call.args).all(|(param, arg)| {
-                    param.is_ident() && self.is_simple_expr_for_seq_optimization(&arg.expr)
+                    param.is_ident()
+                        && Self::is_primitive_literal_for_seq_iife_substitution(&arg.expr)
                 });
 
                 if can_inline {

@@ -43,7 +43,7 @@ use swc_ecma_transforms_base::{
     resolver,
 };
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::{assert_eq, unignore_fixture, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -148,14 +148,14 @@ fn run(
     HANDLER.set(handler, || {
         let disable_hygiene = mangle.is_some() || skip_hygiene;
 
-        let (_module, mut config) = parse_compressor_config(cm.clone(), config);
+        let (module, mut config) = parse_compressor_config(cm.clone(), config);
 
         let fm = cm.load_file(input).expect("failed to load input.js");
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
         if env::var("SWC_RUN").unwrap_or_default() == "1" {
-            let stdout = stdout_of(&fm.src);
+            let stdout = stdout_of(&fm.src, module);
             match stdout {
                 Ok(stdout) => {
                     eprintln!(
@@ -182,6 +182,8 @@ fn run(
         let lexer = Lexer::new(
             Syntax::Es(EsSyntax {
                 jsx: true,
+                decorators: true,
+                auto_accessors: true,
                 ..Default::default()
             }),
             Default::default(),
@@ -271,7 +273,7 @@ fn run(
     })
 }
 
-fn stdout_of(code: &str) -> Result<String, Error> {
+fn stdout_of(code: &str, module: bool) -> Result<String, Error> {
     exec_node_js(
         &format!(
             "
@@ -282,7 +284,7 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         ),
         JsExecOptions {
             cache: true,
-            module: false,
+            module,
             ..Default::default()
         },
     )
@@ -341,11 +343,21 @@ fn custom_fixture(input: PathBuf) {
             None => return Ok(()),
         };
 
+        let is_module = output_module.is_module();
         let output = print(cm, &[output_module], Some(&comments), false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         println!("{}", input.display());
+
+        if let Ok(expected_stdout) = read_to_string(dir.join("expected.stdout")) {
+            let actual =
+                stdout_of(&output, is_module).expect("failed to execute the optimized code");
+            assert_eq!(
+                DebugUsingDisplay(&actual),
+                DebugUsingDisplay(&expected_stdout)
+            );
+        }
 
         NormalizedOutput::from(output)
             .compare_to_file(dir.join("output.js"))
@@ -354,6 +366,59 @@ fn custom_fixture(input: PathBuf) {
         Ok(())
     })
     .unwrap()
+}
+
+#[derive(Default)]
+struct NonFiniteLiteralValidator {
+    nan_count: usize,
+    positive_infinity_count: usize,
+    negative_infinity_count: usize,
+    non_finite_ident_count: usize,
+    non_finite_raw_count: usize,
+}
+
+impl Visit for NonFiniteLiteralValidator {
+    fn visit_ident(&mut self, ident: &Ident) {
+        if matches!(&*ident.sym, "NaN" | "Infinity") {
+            self.non_finite_ident_count += 1;
+        }
+    }
+
+    fn visit_number(&mut self, number: &Number) {
+        if number.value.is_nan() {
+            self.nan_count += 1;
+        } else if number.value == f64::INFINITY {
+            self.positive_infinity_count += 1;
+        } else if number.value == f64::NEG_INFINITY {
+            self.negative_infinity_count += 1;
+        }
+
+        if !number.value.is_finite() && number.raw.is_some() {
+            self.non_finite_raw_count += 1;
+        }
+    }
+}
+
+#[testing::fixture("tests/fixture/non-finite-number-literals/input.js")]
+fn non_finite_number_literals_are_canonical(input: PathBuf) {
+    let config = find_config(input.parent().unwrap());
+
+    testing::run_test2(false, |cm, handler| {
+        let comments = SingleThreadedComments::default();
+        let output = run(cm, &handler, &input, &config, Some(&comments), None, false)
+            .expect("failed to optimize fixture");
+        let mut validator = NonFiniteLiteralValidator::default();
+        output.visit_with(&mut validator);
+
+        assert_eq!(validator.non_finite_ident_count, 0);
+        assert_eq!(validator.nan_count, 5);
+        assert_eq!(validator.positive_infinity_count, 3);
+        assert_eq!(validator.negative_infinity_count, 3);
+        assert_eq!(validator.non_finite_raw_count, 0);
+
+        Ok(())
+    })
+    .unwrap();
 }
 
 #[testing::fixture("tests/projects/files/*.js")]
@@ -663,7 +728,8 @@ fn fixture(input: PathBuf) {
                 expected_stdout
             );
 
-            let actual = stdout_of(&output).expect("failed to execute the optimized code");
+            let actual = stdout_of(&output, output_program.is_module())
+                .expect("failed to execute the optimized code");
             assert_eq!(
                 DebugUsingDisplay(&actual),
                 DebugUsingDisplay(&expected_stdout)

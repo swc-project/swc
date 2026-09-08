@@ -9,8 +9,8 @@ Object.defineProperty(exports, "C", {
         return C;
     }
 });
-const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
+const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
 const env = {
     stack: [],

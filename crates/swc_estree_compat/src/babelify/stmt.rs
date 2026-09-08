@@ -1,8 +1,9 @@
 use copyless::BoxHelper;
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
-    ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt,
-    SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, WhileStmt, WithStmt,
+    ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, FunctionBody, IfStmt, LabeledStmt,
+    ReturnStmt, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, WhileStmt,
+    WithStmt,
 };
 use swc_estree_ast::{
     BlockStatement, BreakStatement, CatchClause as BabelCatchClause, ContinueStatement,
@@ -15,6 +16,18 @@ use swc_estree_ast::{
 use crate::babelify::{Babelify, Context};
 
 impl Babelify for BlockStmt {
+    type Output = BlockStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BlockStatement {
+            base: ctx.base(self.span),
+            body: self.stmts.babelify(ctx),
+            directives: Default::default(),
+        }
+    }
+}
+
+impl Babelify for FunctionBody {
     type Output = BlockStatement;
 
     fn babelify(self, ctx: &Context) -> Self::Output {

@@ -1,7 +1,7 @@
 function e(e) {
     var o;
     let a;
-    ({ a: o , b: a  } = e);
+    ({ a: o, b: a } = e);
     console.log(a);
 }
 e({
@@ -10,9 +10,9 @@ e({
 });
 e({
     get a () {
-        var o = "side effect";
-        console.log(o);
-        return o;
+        var e = "side effect";
+        console.log(e);
+        return e;
     },
     b: 4
 });

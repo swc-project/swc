@@ -23,7 +23,7 @@ function prepend(node, text) {
 }
 
 export function ast_grep() {
-    const task_queue = [];
+    const write_tasks = [];
 
     const task = parseFiles([root("esm")], (err, tree) => {
         const filename = path.basename(tree.filename(), ".js");
@@ -35,25 +35,6 @@ export function ast_grep() {
         const edits = [];
 
         edits.push(prepend(root_node, `"use strict";\n\n`));
-
-        // We have forked _ts_generator from tslib
-        if (filename.startsWith("_ts") && filename !== "_ts_generator") {
-            const match = root_node.find(`export { $NAME as _ } from "tslib"`);
-            if (match) {
-                const name = match.getMatch("NAME").text();
-                edits.push(
-                    match.replace(`exports._ = require("tslib").${name};`),
-                );
-                task_queue.push(
-                    fs.writeFile(root("cjs", `${filename}.cjs`), root_node.commitEdits(edits), {
-                        encoding: "utf-8",
-                    }),
-                );
-            } else {
-                report_noexport(tree.filename());
-            }
-            return;
-        }
 
         // rewrite export named function
         const match = root_node.find({
@@ -129,16 +110,15 @@ export function ast_grep() {
                     });
             });
 
-        task_queue.push(
+        write_tasks.push(
             fs.writeFile(root("cjs", `${filename}.cjs`), root_node.commitEdits(edits), {
                 encoding: "utf-8",
             }),
         );
-    });
+    })
+        .then(() => Promise.all(write_tasks));
 
-    task_queue.push(task);
-
-    return task_queue;
+    return [task];
 }
 
 /**

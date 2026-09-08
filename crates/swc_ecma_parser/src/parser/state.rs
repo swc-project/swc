@@ -15,6 +15,11 @@ pub struct State {
     /// works as the no-potential-arrow sentinel without the extra `Option`
     /// branch on expression parser hot paths.
     pub potential_arrow_start: BytePos,
+    /// First `await` binding parsed by the cover grammar while an enclosing
+    /// `async (...)` construct may still become an async arrow.
+    pub pending_async_arrow_param_await: Option<Span>,
+    /// Whether arrow bindings should be checked for the pending async arrow.
+    pub collect_async_arrow_param_await: bool,
     /// Start position of an AST node and the span of its trailing comma.
     pub trailing_commas: FxHashMap<BytePos, Span>,
 }
@@ -24,6 +29,8 @@ impl Default for State {
         State {
             labels: Default::default(),
             potential_arrow_start: BytePos::SYNTHESIZED,
+            pending_async_arrow_param_await: None,
+            collect_async_arrow_param_await: false,
             trailing_commas: Default::default(),
         }
     }

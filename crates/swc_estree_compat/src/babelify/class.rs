@@ -10,7 +10,9 @@ use swc_estree_ast::{
     StaticBlock as BabelStaticBlock,
 };
 
-use crate::babelify::{extract_class_body_span, Babelify, Context};
+use crate::babelify::{
+    extract_class_body_span, function::babelify_function_params, Babelify, Context,
+};
 
 impl Babelify for Class {
     type Output = ClassExpression;
@@ -118,6 +120,8 @@ impl Babelify for ClassMethod {
     type Output = BabelClassMethod;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let params = babelify_function_params(self.function.this_param, self.function.params, ctx);
+
         BabelClassMethod {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx),
@@ -127,7 +131,7 @@ impl Babelify for ClassMethod {
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
-            params: self.function.params.babelify(ctx),
+            params,
             body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),
@@ -146,6 +150,8 @@ impl Babelify for PrivateMethod {
     type Output = ClassPrivateMethod;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let params = babelify_function_params(self.function.this_param, self.function.params, ctx);
+
         ClassPrivateMethod {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx),
@@ -155,7 +161,7 @@ impl Babelify for PrivateMethod {
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
-            params: self.function.params.babelify(ctx),
+            params,
             body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),

@@ -1,6 +1,8 @@
 //// [awaitUsingDeclarations.1.ts]
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 const env = {
     stack: [],
     error: void 0,
@@ -48,25 +50,27 @@ try {
                 if (result) await result;
             }
         }
-        async *ag() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d15 = _ts_add_disposable_resource(env, {
-                    async [Symbol.asyncDispose] () {}
-                }, true);
-                yield;
-                await null;
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                const result = _ts_dispose_resources(env);
-                if (result) await result;
-            }
+        ag() {
+            return _wrap_async_generator(function*() {
+                const env = {
+                    stack: [],
+                    error: void 0,
+                    hasError: false
+                };
+                try {
+                    const d15 = _ts_add_disposable_resource(env, {
+                        async [Symbol.asyncDispose] () {}
+                    }, true);
+                    yield;
+                    yield _await_async_generator(null);
+                } catch (e) {
+                    env.error = e;
+                    env.hasError = true;
+                } finally{
+                    const result = _ts_dispose_resources(env);
+                    if (result) yield _await_async_generator(result);
+                }
+            })();
         }
         constructor(){
             this.a = async ()=>{
@@ -371,24 +375,26 @@ async function af() {
         if (result) await result;
     }
 }
-async function* ag() {
-    const env = {
-        stack: [],
-        error: void 0,
-        hasError: false
-    };
-    try {
-        const d5 = _ts_add_disposable_resource(env, {
-            async [Symbol.asyncDispose] () {}
-        }, true);
-        yield;
-        await null;
-    } catch (e) {
-        env.error = e;
-        env.hasError = true;
-    } finally{
-        const result = _ts_dispose_resources(env);
-        if (result) await result;
-    }
+function ag() {
+    return _wrap_async_generator(function*() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d5 = _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, true);
+            yield;
+            yield _await_async_generator(null);
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            const result = _ts_dispose_resources(env);
+            if (result) yield _await_async_generator(result);
+        }
+    })();
 }
 export { };

@@ -23,7 +23,7 @@ impl VisitMut for EdgeDefaultParam {
         n.params.visit_mut_children_with(self);
         self.in_arrow = false;
 
-        n.body.visit_mut_children_with(self);
+        n.body.visit_mut_with(self);
     }
 
     fn visit_mut_object_pat(&mut self, n: &mut ObjectPat) {

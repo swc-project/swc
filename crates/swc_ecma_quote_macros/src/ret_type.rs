@@ -3,7 +3,7 @@ use std::any::type_name;
 use anyhow::{anyhow, bail, Context, Error};
 use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::{AssignTarget, EsVersion};
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, Context as ParserContext, PResult, Parser, StringInput};
 use syn::{GenericArgument, PathArguments, Type};
 
 use crate::{ast::ToCode, ctxt::Ctx};
@@ -71,6 +71,10 @@ where
         None,
     );
     let mut parser = Parser::new_from(lexer);
+    // Quoted nodes use direct parser entry points rather than parsing a Program.
+    // Preserve their module-capable grammar so top-level `await` is quoted as an
+    // `AwaitExpr`, while explicit Script parsing remains unchanged.
+    parser.set_ctx(parser.ctx().union(ParserContext::CanBeModule));
     op(&mut parser)
         .map_err(|err| anyhow!("{err:?}"))
         .with_context(|| format!("failed to parse input as `{}`", type_name::<T>()))

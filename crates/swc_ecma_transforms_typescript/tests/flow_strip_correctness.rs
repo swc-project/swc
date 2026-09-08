@@ -62,6 +62,54 @@ fn issue_11808_does_not_restore_empty_export_for_flow_type_only_module() {
     .expect("failed to run flow strip issue-11808 test");
 }
 
+#[test]
+fn issue_12045_only_component_typed_arrows_become_named_functions() {
+    ::testing::run_test(false, |cm, handler| -> Result<(), ()> {
+        let flow_syntax = FlowSyntax {
+            components: true,
+            ..Default::default()
+        };
+        let fm = cm.new_source_file(
+            FileName::Custom("issue-12045.js".into()).into(),
+            r#"
+const MyComponent: component(ref?: mixed, ...props: mixed) = ({ ref, ...rest }) => null;
+export const ExportedComponent: component(value: mixed) = value => value;
+const OrdinaryArrow: (value: mixed) => mixed = value => value;
+const DestructuredFunctionArrow: ({ value }: mixed) => mixed = ({ value }) => value;
+const HookArrow: hook (mixed) => mixed = value => value;
+const UntypedArrow = value => value;
+const ExistingFunction: component() = function() { return null; };
+"#,
+        );
+
+        let output = strip_flow_program(cm.clone(), handler, fm, flow_syntax)?;
+
+        assert!(
+            output.contains("const MyComponent = function MyComponent("),
+            "expected the component arrow to become a named function, got: {output}"
+        );
+        assert!(
+            output.contains("export const ExportedComponent = function ExportedComponent("),
+            "expected the exported component arrow to become a named function, got: {output}"
+        );
+        assert_eq!(
+            output.matches("=>").count(),
+            4,
+            "ordinary, destructured, hook-typed, and untyped arrows must stay arrows, got: \
+             {output}"
+        );
+        assert!(
+            output.contains("const ExistingFunction = function()"),
+            "a non-arrow component initializer must keep its existing form, got: {output}"
+        );
+
+        assert_reparses_as_javascript(cm.clone(), handler, output, flow_syntax)?;
+
+        Ok(())
+    })
+    .expect("failed to run Flow component arrow strip test");
+}
+
 fn strip_flow_program(
     cm: Lrc<SourceMap>,
     handler: &Handler,

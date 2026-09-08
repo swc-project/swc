@@ -163,6 +163,10 @@ where
         options.env.es2017.async_to_generator = true;
     }
 
+    if !caniuse(Feature::AsyncGeneratorFunctions) {
+        options.env.es2017.async_generator_functions = true;
+    }
+
     // ES2016
     if !caniuse(Feature::ExponentiationOperator) {
         options.env.es2016.exponentiation_operator = true;
@@ -285,7 +289,6 @@ where
     //    ObjectSuper,
     //    DotAllRegex,
     //    UnicodeRegex,
-    //    AsyncGeneratorFunctions,
     //    UnicodePropertyRegex,
     //    JsonStrings,
     //    NamedCapturingGroupsRegex,
@@ -818,7 +821,8 @@ impl Caniuse for EsVersion {
             Feature::ObjectRestSpread
             | Feature::DotAllRegex
             | Feature::NamedCapturingGroupsRegex
-            | Feature::UnicodePropertyRegex => *self >= EsVersion::Es2018,
+            | Feature::UnicodePropertyRegex
+            | Feature::AsyncGeneratorFunctions => *self >= EsVersion::Es2018,
 
             // ES2017
             Feature::AsyncToGenerator => *self >= EsVersion::Es2017,

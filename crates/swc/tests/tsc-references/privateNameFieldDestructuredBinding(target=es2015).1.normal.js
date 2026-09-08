@@ -1,7 +1,7 @@
 //// [privateNameFieldDestructuredBinding.ts]
+import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_private_field_destructure";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_private_field_destructure";
 var _field = /*#__PURE__*/ new WeakMap();
 class A {
     testObject() {

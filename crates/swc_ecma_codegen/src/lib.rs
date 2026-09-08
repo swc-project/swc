@@ -119,6 +119,41 @@ where
     pub wr: W,
 }
 
+/// The minimum precedence required by an expression's parent.
+///
+/// Most expressions are already parenthesized by the fixer, but non-finite
+/// numeric literals can expand into division expressions while being emitted.
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub(crate) struct ExprPrecedence(u8);
+
+impl ExprPrecedence {
+    const EXPONENTIATION: Self = Self(11);
+    const LOWEST: Self = Self(0);
+    const MULTIPLICATIVE: Self = Self(10);
+    const POSTFIX: Self = Self(13);
+    const PREFIX: Self = Self(12);
+
+    #[inline]
+    fn for_binary_left(op: BinaryOp) -> Self {
+        if op == op!("**") {
+            // Exponentiation cannot have an unparenthesized unary expression on
+            // the left-hand side.
+            Self::PREFIX
+        } else {
+            Self(op.precedence() - 1)
+        }
+    }
+
+    #[inline]
+    fn for_binary_right(op: BinaryOp) -> Self {
+        if op == op!("**") {
+            Self::MULTIPLICATIVE
+        } else {
+            Self(op.precedence())
+        }
+    }
+}
+
 enum CowStr<'a> {
     Borrowed(&'a str),
     Owned(CompactString),
@@ -152,6 +187,43 @@ where
 
     pub fn emit_script(&mut self, node: &Script) -> Result {
         node.emit_with(self)
+    }
+
+    /// Emits an expression with the precedence required by its parent.
+    ///
+    /// This only changes non-finite numeric literals. All other expressions
+    /// continue through their existing emitters.
+    #[inline]
+    fn emit_expr_with_precedence(&mut self, expr: &Expr, precedence: ExprPrecedence) -> Result {
+        if let Expr::Lit(Lit::Num(num)) = expr {
+            if !num.value.is_finite() {
+                self.emit_num_lit_expr(num, precedence, false)?;
+
+                if self.comments.is_some() {
+                    self.emit_trailing_comments_of_pos(expr.span().hi, true, true)?;
+                }
+
+                return Ok(());
+            }
+        }
+
+        expr.emit_with(self)
+    }
+
+    /// Returns whether an expression starts with an alphanumeric token after
+    /// applying code-generation-only rewrites.
+    #[inline]
+    fn expr_starts_with_alpha_num_after_codegen(
+        &self,
+        expr: &Expr,
+        precedence: ExprPrecedence,
+    ) -> bool {
+        match expr {
+            Expr::Lit(Lit::Num(num)) if !num.value.is_finite() => {
+                self.non_finite_expr_starts_with_alpha_num(num, precedence)
+            }
+            _ => expr.starts_with_alpha_num(),
+        }
     }
 
     #[inline(always)]
@@ -208,14 +280,15 @@ where
 
         keyword!(self, "new");
 
-        let starts_with_alpha_num = node.callee.starts_with_alpha_num();
+        let starts_with_alpha_num =
+            self.expr_starts_with_alpha_num_after_codegen(&node.callee, ExprPrecedence::POSTFIX);
 
         if starts_with_alpha_num {
             space!(self);
         } else {
             formatting_space!(self);
         }
-        emit!(self, node.callee);
+        self.emit_expr_with_precedence(&node.callee, ExprPrecedence::POSTFIX)?;
 
         if let Some(type_args) = &node.type_args {
             emit!(self, type_args);
@@ -320,7 +393,7 @@ where
                 span.is_pure()
                     || self
                         .comments
-                        .is_some_and(|comments| comments.has_leading(node.right.span().lo))
+                        .is_some_and(|comments| comments.has_leading(span.lo))
             } else {
                 require_space_before_rhs(&node.right, &node.op)
             }
@@ -336,7 +409,22 @@ where
         } else {
             formatting_space!(self);
         }
-        emit!(self, node.right);
+        self.emit_expr_with_precedence(&node.right, ExprPrecedence::for_binary_right(node.op))?;
+
+        Ok(())
+    }
+
+    fn emit_fn_params(&mut self, node: &Function) -> Result {
+        punct!(self, "(");
+        if let Some(this_param) = &node.this_param {
+            emit!(self, this_param);
+            if !node.params.is_empty() {
+                punct!(self, ",");
+                formatting_space!(self);
+            }
+        }
+        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
+        punct!(self, ")");
 
         Ok(())
     }
@@ -347,9 +435,7 @@ where
             emit!(self, type_params);
         }
 
-        punct!(self, "(");
-        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        punct!(self, ")");
+        self.emit_fn_params(node)?;
 
         if let Some(ty) = &node.return_type {
             punct!(self, ":");
@@ -359,7 +445,7 @@ where
 
         if let Some(body) = &node.body {
             formatting_space!(self);
-            self.emit_block_stmt_inner(body, true)?;
+            self.emit_function_body_inner(body, true)?;
         } else {
             semi!(self);
         }
@@ -774,14 +860,34 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         self.start_scope(None, ScopeKind::Block, false, false, Some(node.span))?;
+        self.emit_braced_stmts(node.span, &node.stmts, skip_first_src_map)?;
+        self.end_scope()?;
 
+        Ok(())
+    }
+
+    fn emit_function_body_inner(
+        &mut self,
+        node: &FunctionBody,
+        skip_first_src_map: bool,
+    ) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_braced_stmts(node.span, &node.stmts, skip_first_src_map)
+    }
+
+    fn emit_braced_stmts(
+        &mut self,
+        span: Span,
+        stmts: &[Stmt],
+        skip_first_src_map: bool,
+    ) -> Result {
         if !skip_first_src_map {
-            srcmap!(self, node, true);
+            srcmap!(self, span, true);
         }
         punct!(self, "{");
 
-        let emit_new_line = !self.cfg.minify
-            && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
+        let emit_new_line =
+            !self.cfg.minify && !(stmts.is_empty() && is_empty_comments(&span, &self.comments));
 
         let mut list_format = ListFormat::MultiLineBlockStatements;
 
@@ -789,13 +895,12 @@ where
             list_format -= ListFormat::MultiLine | ListFormat::Indented;
         }
 
-        self.emit_list(node.span(), Some(&node.stmts), list_format)?;
+        self.emit_list(span, Some(stmts), list_format)?;
 
-        self.emit_leading_comments_of_span(node.span(), true)?;
+        self.emit_leading_comments_of_span(span, true)?;
 
-        srcmap!(self, node, false, true);
+        srcmap!(self, span, false, true);
         punct!(self, "}");
-        self.end_scope()?;
 
         Ok(())
     }
@@ -1574,7 +1679,7 @@ impl MacroNode for Callee {
                 if let Expr::New(new) = &**e {
                     emitter.emit_new(new, false)?;
                 } else {
-                    emit!(e);
+                    emitter.emit_expr_with_precedence(e, ExprPrecedence::POSTFIX)?;
                 }
             }
             Callee::Super(n) => emit!(n),
@@ -1684,7 +1789,7 @@ impl MacroNode for OptChainExpr {
                 if let Expr::New(new) = &*e.obj {
                     emitter.emit_new(new, false)?;
                 } else {
-                    emit!(e.obj);
+                    emitter.emit_expr_with_precedence(&e.obj, ExprPrecedence::POSTFIX)?;
                 }
                 if self.optional {
                     punct!(emitter, "?.");
@@ -1702,7 +1807,7 @@ impl MacroNode for OptChainExpr {
             }
             OptChainBase::Call(e) => {
                 debug_assert!(!e.callee.is_new());
-                emit!(e.callee);
+                emitter.emit_expr_with_precedence(&e.callee, ExprPrecedence::POSTFIX)?;
 
                 if self.optional {
                     punct!(emitter, "?.");
@@ -1787,7 +1892,8 @@ impl MacroNode for MemberExpr {
                 emitter.emit_new(new, false)?;
             }
             Expr::Lit(Lit::Num(num)) => {
-                needs_2dots_for_property_access = emitter.emit_num_lit_internal(num, true)?;
+                needs_2dots_for_property_access =
+                    emitter.emit_num_lit_expr(num, ExprPrecedence::POSTFIX, true)?;
             }
             _ => {
                 emit!(self.obj);
@@ -2012,7 +2118,10 @@ impl MacroNode for BinExpr {
 
             for (i, left) in lefts.into_iter().rev().enumerate() {
                 if i == 0 {
-                    emit!(left.left);
+                    emitter.emit_expr_with_precedence(
+                        &left.left,
+                        ExprPrecedence::for_binary_left(left.op),
+                    )?;
                 }
                 // Check if it's last
                 if i + 1 != len {
@@ -2114,13 +2223,13 @@ impl MacroNode for FnExpr {
 }
 
 #[node_impl]
-impl MacroNode for BlockStmtOrExpr {
+impl MacroNode for ArrowFunctionBody {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            BlockStmtOrExpr::BlockStmt(block) => {
-                emitter.emit_block_stmt_inner(block, true)?;
+            ArrowFunctionBody::FunctionBody(body) => {
+                emitter.emit_function_body_inner(body, true)?;
             }
-            BlockStmtOrExpr::Expr(expr) => {
+            ArrowFunctionBody::Expr(expr) => {
                 emitter.wr.increase_indent()?;
                 emit!(expr);
                 emitter.wr.decrease_indent()?;
@@ -2228,7 +2337,7 @@ impl MacroNode for TaggedTpl {
         if let Expr::New(new) = &*self.tag {
             emitter.emit_new(new, false)?;
         } else {
-            emit!(self.tag);
+            emitter.emit_expr_with_precedence(&self.tag, ExprPrecedence::POSTFIX)?;
         }
 
         emit!(self.type_params);
@@ -2267,7 +2376,7 @@ impl MacroNode for UnaryExpr {
             formatting_space!(emitter);
         }
 
-        emit!(self.arg);
+        emitter.emit_expr_with_precedence(&self.arg, ExprPrecedence::EXPONENTIATION)?;
 
         Ok(())
     }
@@ -2354,7 +2463,7 @@ impl MacroNode for AwaitExpr {
         keyword!(emitter, "await");
         space!(emitter);
 
-        emit!(self.arg);
+        emitter.emit_expr_with_precedence(&self.arg, ExprPrecedence::EXPONENTIATION)?;
 
         Ok(())
     }

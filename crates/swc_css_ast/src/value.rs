@@ -133,17 +133,6 @@ impl EqIgnoreSpan for Str {
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
 )]
@@ -430,17 +419,6 @@ pub struct Ratio {
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
 )]
@@ -560,17 +538,6 @@ pub struct CalcOperator {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)

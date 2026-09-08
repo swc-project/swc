@@ -1,20 +1,21 @@
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports);
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("jquery"));
     else if (typeof define === "function" && define.amd) define([
-        "exports"
+        "exports",
+        "jquery"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {});
-})(this, function(exports1) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.jquery);
+})(this, function(exports, $) {
     "use strict";
-    Object.defineProperty(exports1, "__esModule", {
+    Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    Object.defineProperty(exports1, "jquery", {
+    Object.defineProperty(exports, "jquery", {
         enumerable: true,
         get: function() {
-            return $;
+            return exports.$;
         }
     });
-    const $ = exports.$ = require("jquery");
-    $(".hello");
+    exports.$ = $;
+    (0, exports.$)(".hello");
 });

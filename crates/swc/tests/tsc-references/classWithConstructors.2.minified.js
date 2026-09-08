@@ -16,7 +16,7 @@ NonGeneric || (NonGeneric = {}), new (C = function C(x) {
     _class_call_check(this, C);
 })(), new C1(''), new (C21 = function C2(x) {
     _class_call_check(this, C2);
-})(), new C21(''), new C21(1, 2), new (D1 = /*#__PURE__*/ function(C2) {
+})(), new C21(''), new C21(1), new (D1 = /*#__PURE__*/ function(C2) {
     function D() {
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }

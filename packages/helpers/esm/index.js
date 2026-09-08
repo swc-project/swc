@@ -66,7 +66,6 @@ export { _ as _is_native_reflect_construct } from "./_is_native_reflect_construc
 export { _ as _iterable_to_array } from "./_iterable_to_array.js";
 export { _ as _iterable_to_array_limit } from "./_iterable_to_array_limit.js";
 export { _ as _iterable_to_array_limit_loose } from "./_iterable_to_array_limit_loose.js";
-export { _ as _jsx } from "./_jsx.js";
 export { _ as _new_arrow_check } from "./_new_arrow_check.js";
 export { _ as _non_iterable_rest } from "./_non_iterable_rest.js";
 export { _ as _non_iterable_spread } from "./_non_iterable_spread.js";

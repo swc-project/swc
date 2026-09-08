@@ -83,12 +83,12 @@
  1 | const a = <T,>(value: T): any => {};
    :                       ^
    `----
-  x BlockStmtOrExpr
+  x ArrowFunctionBody
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T,>(value: T): any => {};
    :                                  ^^
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T,>(value: T): any => {};
    :                                  ^^

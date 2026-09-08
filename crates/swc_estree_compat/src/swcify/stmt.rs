@@ -2,12 +2,12 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, DefaultDecl,
     DoWhileStmt, EmptyStmt, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    ExportNamedSpecifier, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt, IfStmt,
-    ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, KeyValueProp,
-    LabeledStmt, Lit, ModuleDecl, ModuleItem, NamedExport, ObjectLit, Pat, Prop, PropName,
-    PropOrSpread, ReturnStmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment, TsInterfaceDecl,
-    TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr, VarDeclarator, WhileStmt,
-    WithStmt,
+    ExportNamedSpecifier, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt,
+    FunctionBody, IfStmt, ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier,
+    KeyValueProp, LabeledStmt, Lit, ModuleDecl, ModuleItem, NamedExport, ObjectLit, Pat, Prop,
+    PropName, PropOrSpread, ReturnStmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment,
+    TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr,
+    VarDeclarator, WhileStmt, WithStmt,
 };
 use swc_estree_ast::{
     BlockStatement, BreakStatement, ClassDeclaration, ContinueStatement, DebuggerStatement,
@@ -23,7 +23,10 @@ use swc_estree_ast::{
 };
 
 use super::Context;
-use crate::swcify::Swcify;
+use crate::swcify::{
+    function::{swcify_function_params, SwcifiedFunctionParams},
+    Swcify,
+};
 
 impl Swcify for BlockStatement {
     type Output = BlockStmt;
@@ -40,6 +43,12 @@ impl Swcify for BlockStatement {
             ..Default::default()
         }
     }
+}
+
+pub(super) fn swcify_function_body(block: BlockStatement, ctx: &Context) -> FunctionBody {
+    let BlockStmt { span, stmts, .. } = block.swcify(ctx);
+
+    FunctionBody { span, stmts }
 }
 
 impl Swcify for Statement {
@@ -206,14 +215,18 @@ impl Swcify for FunctionDeclaration {
     type Output = FnDecl;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
+        let SwcifiedFunctionParams { this_param, params } =
+            swcify_function_params(self.params, ctx);
+
         FnDecl {
             ident: self.id.swcify(ctx).map(|v| v.into()).unwrap(),
             declare: false,
             function: swc_ecma_ast::Function {
-                params: self.params.swcify(ctx),
+                this_param,
+                params,
                 decorators: Default::default(),
                 span: ctx.span(&self.base),
-                body: Some(self.body.swcify(ctx)),
+                body: Some(swcify_function_body(self.body, ctx)),
                 is_generator: false,
                 is_async: self.is_async.unwrap_or_default(),
                 ..Default::default()
@@ -269,6 +282,7 @@ impl Swcify for SwitchStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         SwitchStmt {
             span: ctx.span(&self.base),
+            body_ctxt: Default::default(),
             discriminant: self.discriminant.swcify(ctx),
             cases: self.cases.swcify(ctx),
         }

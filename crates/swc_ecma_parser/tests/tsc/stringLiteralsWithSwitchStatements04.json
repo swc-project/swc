@@ -184,6 +184,7 @@
         "start": 78,
         "end": 370
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "Identifier",
         "span": {

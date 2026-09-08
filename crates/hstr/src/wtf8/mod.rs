@@ -1082,6 +1082,33 @@ mod tests {
     }
 
     #[test]
+    fn wtf8buf_push_code_points_of_each_encoded_width() {
+        fn code_point(value: u32) -> CodePoint {
+            CodePoint::from_u32(value).unwrap()
+        }
+
+        let mut string = Wtf8Buf::new();
+
+        string.push(code_point(0x7f));
+        assert_eq!(string.bytes, b"\x7f");
+
+        string.push(code_point(0x80));
+        assert_eq!(string.bytes, b"\x7f\xc2\x80");
+
+        string.push(code_point(0x800));
+        assert_eq!(string.bytes, b"\x7f\xc2\x80\xe0\xa0\x80");
+
+        string.push(code_point(0xd800));
+        assert_eq!(string.bytes, b"\x7f\xc2\x80\xe0\xa0\x80\xed\xa0\x80");
+
+        string.push(code_point(0x10000));
+        assert_eq!(
+            string.bytes,
+            b"\x7f\xc2\x80\xe0\xa0\x80\xed\xa0\x80\xf0\x90\x80\x80"
+        );
+    }
+
+    #[test]
     fn wtf8buf_push() {
         let mut string = Wtf8Buf::from_str("aé ");
         assert_eq!(string.bytes, b"a\xC3\xA9 ");

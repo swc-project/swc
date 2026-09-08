@@ -33,6 +33,13 @@ pub trait Visit {
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
         <ArrowExpr as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `ArrowFunctionBody`.\n\nBy default, this method calls \
+             [`ArrowFunctionBody::visit_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn visit_arrow_function_body(&mut self, node: &ArrowFunctionBody) {
+        <ArrowFunctionBody as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `AssignExpr`.\n\nBy default, this method calls \
              [`AssignExpr::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -143,13 +150,6 @@ pub trait Visit {
     #[inline]
     fn visit_block_stmt(&mut self, node: &BlockStmt) {
         <BlockStmt as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `BlockStmtOrExpr`.\n\nBy default, this method calls \
-             [`BlockStmtOrExpr::visit_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    #[inline]
-    fn visit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) {
-        <BlockStmtOrExpr as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Bool`.\n\nBy default, this method calls \
              [`Bool::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -451,6 +451,13 @@ pub trait Visit {
     #[inline]
     fn visit_function(&mut self, node: &Function) {
         <Function as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `FunctionBody`.\n\nBy default, this method calls \
+             [`FunctionBody::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_function_body(&mut self, node: &FunctionBody) {
+        <FunctionBody as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `GetterProp`.\n\nBy default, this method calls \
              [`GetterProp::visit_children_with`]. If you want to recurse, you need to call it \
@@ -948,6 +955,13 @@ pub trait Visit {
     fn visit_opt_expr_or_spreads(&mut self, node: &Option<Vec<ExprOrSpread>>) {
         <Option<Vec<ExprOrSpread>> as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < FunctionBody >`.\n\nBy default, this method calls \
+             [`Option < FunctionBody >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_opt_function_body(&mut self, node: &Option<FunctionBody>) {
+        <Option<FunctionBody> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
              Ident >::visit_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
@@ -1036,6 +1050,13 @@ pub trait Visit {
     #[inline]
     fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
         <Option<TsNamespaceBody> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::visit_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        <Option<Box<TsThisParam>> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
              [`Option < Box < TsType > >::visit_children_with`]. If you want to recurse, you need \
@@ -1762,6 +1783,13 @@ pub trait Visit {
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
         <TsSetterSignature as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        <TsThisParam as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -2067,6 +2095,11 @@ where
     }
 
     #[inline]
+    fn visit_arrow_function_body(&mut self, node: &ArrowFunctionBody) {
+        <V as Visit>::visit_arrow_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         <V as Visit>::visit_assign_expr(&mut **self, node)
     }
@@ -2144,11 +2177,6 @@ where
     #[inline]
     fn visit_block_stmt(&mut self, node: &BlockStmt) {
         <V as Visit>::visit_block_stmt(&mut **self, node)
-    }
-
-    #[inline]
-    fn visit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) {
-        <V as Visit>::visit_block_stmt_or_expr(&mut **self, node)
     }
 
     #[inline]
@@ -2369,6 +2397,11 @@ where
     #[inline]
     fn visit_function(&mut self, node: &Function) {
         <V as Visit>::visit_function(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_function_body(&mut self, node: &FunctionBody) {
+        <V as Visit>::visit_function_body(&mut **self, node)
     }
 
     #[inline]
@@ -2732,6 +2765,11 @@ where
     }
 
     #[inline]
+    fn visit_opt_function_body(&mut self, node: &Option<FunctionBody>) {
+        <V as Visit>::visit_opt_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_opt_ident(&mut self, node: &Option<Ident>) {
         <V as Visit>::visit_opt_ident(&mut **self, node)
     }
@@ -2794,6 +2832,11 @@ where
     #[inline]
     fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
         <V as Visit>::visit_opt_ts_namespace_body(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        <V as Visit>::visit_opt_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -3322,6 +3365,11 @@ where
     #[inline]
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
         <V as Visit>::visit_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        <V as Visit>::visit_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -3549,6 +3597,11 @@ where
     }
 
     #[inline]
+    fn visit_arrow_function_body(&mut self, node: &ArrowFunctionBody) {
+        <V as Visit>::visit_arrow_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         <V as Visit>::visit_assign_expr(&mut **self, node)
     }
@@ -3626,11 +3679,6 @@ where
     #[inline]
     fn visit_block_stmt(&mut self, node: &BlockStmt) {
         <V as Visit>::visit_block_stmt(&mut **self, node)
-    }
-
-    #[inline]
-    fn visit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) {
-        <V as Visit>::visit_block_stmt_or_expr(&mut **self, node)
     }
 
     #[inline]
@@ -3851,6 +3899,11 @@ where
     #[inline]
     fn visit_function(&mut self, node: &Function) {
         <V as Visit>::visit_function(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_function_body(&mut self, node: &FunctionBody) {
+        <V as Visit>::visit_function_body(&mut **self, node)
     }
 
     #[inline]
@@ -4214,6 +4267,11 @@ where
     }
 
     #[inline]
+    fn visit_opt_function_body(&mut self, node: &Option<FunctionBody>) {
+        <V as Visit>::visit_opt_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_opt_ident(&mut self, node: &Option<Ident>) {
         <V as Visit>::visit_opt_ident(&mut **self, node)
     }
@@ -4276,6 +4334,11 @@ where
     #[inline]
     fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
         <V as Visit>::visit_opt_ts_namespace_body(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        <V as Visit>::visit_opt_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -4804,6 +4867,11 @@ where
     #[inline]
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
         <V as Visit>::visit_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        <V as Visit>::visit_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -5044,6 +5112,14 @@ where
     }
 
     #[inline]
+    fn visit_arrow_function_body(&mut self, node: &ArrowFunctionBody) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_arrow_function_body(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_arrow_function_body(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_assign_expr(visitor, node),
@@ -5168,14 +5244,6 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_block_stmt(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_block_stmt(visitor, node),
-        }
-    }
-
-    #[inline]
-    fn visit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) {
-        match self {
-            swc_visit::Either::Left(visitor) => Visit::visit_block_stmt_or_expr(visitor, node),
-            swc_visit::Either::Right(visitor) => Visit::visit_block_stmt_or_expr(visitor, node),
         }
     }
 
@@ -5536,6 +5604,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_function(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_function(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_function_body(&mut self, node: &FunctionBody) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_function_body(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_function_body(visitor, node),
         }
     }
 
@@ -6124,6 +6200,14 @@ where
     }
 
     #[inline]
+    fn visit_opt_function_body(&mut self, node: &Option<FunctionBody>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_opt_function_body(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_opt_function_body(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_opt_ident(&mut self, node: &Option<Ident>) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_ident(visitor, node),
@@ -6230,6 +6314,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_ts_namespace_body(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_ts_namespace_body(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_opt_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_opt_ts_this_param(visitor, node),
         }
     }
 
@@ -7099,6 +7191,14 @@ where
     }
 
     #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_ts_this_param(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_ts_this_type(&mut self, node: &TsThisType) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_this_type(visitor, node),
@@ -7463,6 +7563,14 @@ where
     }
 
     #[inline]
+    fn visit_arrow_function_body(&mut self, node: &ArrowFunctionBody) {
+        if self.enabled {
+            <V as Visit>::visit_arrow_function_body(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         if self.enabled {
             <V as Visit>::visit_assign_expr(&mut self.visitor, node)
@@ -7586,14 +7694,6 @@ where
     fn visit_block_stmt(&mut self, node: &BlockStmt) {
         if self.enabled {
             <V as Visit>::visit_block_stmt(&mut self.visitor, node)
-        } else {
-        }
-    }
-
-    #[inline]
-    fn visit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) {
-        if self.enabled {
-            <V as Visit>::visit_block_stmt_or_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7946,6 +8046,14 @@ where
     fn visit_function(&mut self, node: &Function) {
         if self.enabled {
             <V as Visit>::visit_function(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_function_body(&mut self, node: &FunctionBody) {
+        if self.enabled {
+            <V as Visit>::visit_function_body(&mut self.visitor, node)
         } else {
         }
     }
@@ -8527,6 +8635,14 @@ where
     }
 
     #[inline]
+    fn visit_opt_function_body(&mut self, node: &Option<FunctionBody>) {
+        if self.enabled {
+            <V as Visit>::visit_opt_function_body(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_opt_ident(&mut self, node: &Option<Ident>) {
         if self.enabled {
             <V as Visit>::visit_opt_ident(&mut self.visitor, node)
@@ -8626,6 +8742,14 @@ where
     fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
         if self.enabled {
             <V as Visit>::visit_opt_ts_namespace_body(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_opt_ts_this_param(&mut self, node: &Option<Box<TsThisParam>>) {
+        if self.enabled {
+            <V as Visit>::visit_opt_ts_this_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -9474,6 +9598,14 @@ where
     }
 
     #[inline]
+    fn visit_ts_this_param(&mut self, node: &TsThisParam) {
+        if self.enabled {
+            <V as Visit>::visit_ts_this_param(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_ts_this_type(&mut self, node: &TsThisType) {
         if self.enabled {
             <V as Visit>::visit_ts_this_type(&mut self.visitor, node)
@@ -9890,7 +10022,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ArrowExpr {
                     <Vec<Pat> as VisitWith<V>>::visit_with(params, visitor)
                 };
                 {
-                    <Box<BlockStmtOrExpr> as VisitWith<V>>::visit_with(body, visitor)
+                    <Box<ArrowFunctionBody> as VisitWith<V>>::visit_with(body, visitor)
                 };
                 {
                     <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_with(type_params, visitor)
@@ -9899,6 +10031,25 @@ impl<V: ?Sized + Visit> VisitWith<V> for ArrowExpr {
                     <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(return_type, visitor)
                 };
             }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for ArrowFunctionBody {
+    #[doc = "Calls [Visit`::visit_arrow_function_body`] with `self`."]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_arrow_function_body(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            ArrowFunctionBody::FunctionBody { 0: _field_0 } => {
+                <FunctionBody as VisitWith<V>>::visit_with(_field_0, visitor);
+            }
+            ArrowFunctionBody::Expr { 0: _field_0 } => {
+                <Box<Expr> as VisitWith<V>>::visit_with(_field_0, visitor);
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
     }
 }
@@ -10257,25 +10408,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for BlockStmt {
                     <Vec<Stmt> as VisitWith<V>>::visit_with(stmts, visitor)
                 };
             }
-        }
-    }
-}
-impl<V: ?Sized + Visit> VisitWith<V> for BlockStmtOrExpr {
-    #[doc = "Calls [Visit`::visit_block_stmt_or_expr`] with `self`."]
-    fn visit_with(&self, visitor: &mut V) {
-        <V as Visit>::visit_block_stmt_or_expr(visitor, self)
-    }
-
-    fn visit_children_with(&self, visitor: &mut V) {
-        match self {
-            BlockStmtOrExpr::BlockStmt { 0: _field_0 } => {
-                <BlockStmt as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            BlockStmtOrExpr::Expr { 0: _field_0 } => {
-                <Box<Expr> as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => (),
         }
     }
 }
@@ -10688,7 +10820,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Constructor {
                     <Vec<ParamOrTsParamProp> as VisitWith<V>>::visit_with(params, visitor)
                 };
                 {
-                    <Option<BlockStmt> as VisitWith<V>>::visit_with(body, visitor)
+                    <Option<FunctionBody> as VisitWith<V>>::visit_with(body, visitor)
                 };
                 {
                     <Option<Accessibility> as VisitWith<V>>::visit_with(accessibility, visitor)
@@ -11349,6 +11481,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Function {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -11359,6 +11492,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for Function {
                 type_params,
                 return_type,
             } => {
+                {
+                    <Option<Box<TsThisParam>> as VisitWith<V>>::visit_with(this_param, visitor)
+                };
                 {
                     <Vec<Param> as VisitWith<V>>::visit_with(params, visitor)
                 };
@@ -11372,13 +11508,32 @@ impl<V: ?Sized + Visit> VisitWith<V> for Function {
                     <swc_common::SyntaxContext as VisitWith<V>>::visit_with(ctxt, visitor)
                 };
                 {
-                    <Option<BlockStmt> as VisitWith<V>>::visit_with(body, visitor)
+                    <Option<FunctionBody> as VisitWith<V>>::visit_with(body, visitor)
                 };
                 {
                     <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_with(type_params, visitor)
                 };
                 {
                     <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(return_type, visitor)
+                };
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for FunctionBody {
+    #[doc = "Calls [Visit`::visit_function_body`] with `self`."]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_function_body(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            FunctionBody { span, stmts } => {
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <Vec<Stmt> as VisitWith<V>>::visit_with(stmts, visitor)
                 };
             }
         }
@@ -11395,8 +11550,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
@@ -11405,10 +11559,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for GetterProp {
                     <PropName as VisitWith<V>>::visit_with(key, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
-                };
-                {
-                    <Option<BlockStmt> as VisitWith<V>>::visit_with(body, visitor)
+                    <Box<Function> as VisitWith<V>>::visit_with(function, visitor)
                 };
             }
         }
@@ -12129,7 +12280,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXText {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
                 };
                 {
-                    <swc_atoms::Atom as VisitWith<V>>::visit_with(value, visitor)
+                    <swc_atoms::Wtf8Atom as VisitWith<V>>::visit_with(value, visitor)
                 };
                 {
                     <swc_atoms::Atom as VisitWith<V>>::visit_with(raw, visitor)
@@ -13142,9 +13293,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
@@ -13153,13 +13302,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for SetterProp {
                     <PropName as VisitWith<V>>::visit_with(key, visitor)
                 };
                 {
-                    <Option<Pat> as VisitWith<V>>::visit_with(this_param, visitor)
-                };
-                {
-                    <Box<Pat> as VisitWith<V>>::visit_with(param, visitor)
-                };
-                {
-                    <Option<BlockStmt> as VisitWith<V>>::visit_with(body, visitor)
+                    <Box<Function> as VisitWith<V>>::visit_with(function, visitor)
                 };
             }
         }
@@ -13430,11 +13573,15 @@ impl<V: ?Sized + Visit> VisitWith<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <swc_common::SyntaxContext as VisitWith<V>>::visit_with(body_ctxt, visitor)
                 };
                 {
                     <Box<Expr> as VisitWith<V>>::visit_with(discriminant, visitor)
@@ -14866,6 +15013,32 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsSetterSignature {
         }
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for TsThisParam {
+    #[doc = "Calls [Visit`::visit_ts_this_param`] with `self`."]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_this_param(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(this_span, visitor)
+                };
+                {
+                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for TsThisType {
     #[doc = "Calls [Visit`::visit_ts_this_type`] with `self`."]
     fn visit_with(&self, visitor: &mut V) {
@@ -15959,6 +16132,21 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Vec<ExprOrSpread>> {
         }
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for Option<FunctionBody> {
+    #[doc = "Calls [Visit`::visit_opt_function_body`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_function_body(visitor, self)
+    }
+
+    #[inline]
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            Some(inner) => <FunctionBody as VisitWith<V>>::visit_with(inner, visitor),
+            None => {}
+        }
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for Option<Ident> {
     #[doc = "Calls [Visit`::visit_opt_ident`] with `self`. (Extra impl)"]
     #[inline]
@@ -16150,6 +16338,21 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<TsNamespaceBody> {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Some(inner) => <TsNamespaceBody as VisitWith<V>>::visit_with(inner, visitor),
+            None => {}
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [Visit`::visit_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_ts_this_param(visitor, self)
+    }
+
+    #[inline]
+    fn visit_children_with(&self, visitor: &mut V) {
+        match self {
+            Some(inner) => <Box<TsThisParam> as VisitWith<V>>::visit_with(inner, visitor),
             None => {}
         }
     }
@@ -16587,6 +16790,19 @@ pub trait VisitAstPath {
     ) {
         <ArrowExpr as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Visit a node of type `ArrowFunctionBody`.\n\nBy default, this method calls \
+             [`ArrowFunctionBody::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    #[inline]
+    fn visit_arrow_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast ArrowFunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <ArrowFunctionBody as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `AssignExpr`.\n\nBy default, this method calls \
              [`AssignExpr::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -16776,19 +16992,6 @@ pub trait VisitAstPath {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <BlockStmt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
-    }
-    #[doc = "Visit a node of type `BlockStmtOrExpr`.\n\nBy default, this method calls \
-             [`BlockStmtOrExpr::visit_children_with_ast_path`]. If you want to recurse, you need \
-             to call it manually."]
-    #[inline]
-    fn visit_block_stmt_or_expr<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast BlockStmtOrExpr,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        <BlockStmtOrExpr as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, __ast_path,
-        )
     }
     #[doc = "Visit a node of type `Bool`.\n\nBy default, this method calls \
              [`Bool::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -17295,6 +17498,19 @@ pub trait VisitAstPath {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <Function as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Visit a node of type `FunctionBody`.\n\nBy default, this method calls \
+             [`FunctionBody::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast FunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <FunctionBody as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
     }
     #[doc = "Visit a node of type `GetterProp`.\n\nBy default, this method calls \
              [`GetterProp::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -18148,6 +18364,19 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < FunctionBody >`.\n\nBy default, this method calls \
+             [`Option < FunctionBody >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    #[inline]
+    fn visit_opt_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<FunctionBody>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<FunctionBody> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
              Ident >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -18314,6 +18543,19 @@ pub trait VisitAstPath {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <Option<TsNamespaceBody> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::visit_children_with_ast_path`]. If you want \
+             to recurse, you need to call it manually."]
+    #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Box<TsThisParam>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -19565,6 +19807,19 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <TsThisParam as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -20101,6 +20356,15 @@ where
     }
 
     #[inline]
+    fn visit_arrow_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast ArrowFunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_arrow_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_assign_expr<'ast: 'r, 'r>(
         &mut self,
         node: &'ast AssignExpr,
@@ -20242,15 +20506,6 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_block_stmt(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
-    fn visit_block_stmt_or_expr<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast BlockStmtOrExpr,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_block_stmt_or_expr(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -20627,6 +20882,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_function(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast FunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_function_body(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -21250,6 +21514,15 @@ where
     }
 
     #[inline]
+    fn visit_opt_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<FunctionBody>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_opt_ident<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Ident>,
@@ -21364,6 +21637,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_opt_ts_namespace_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -22261,6 +22543,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -22666,6 +22957,15 @@ where
     }
 
     #[inline]
+    fn visit_arrow_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast ArrowFunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_arrow_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_assign_expr<'ast: 'r, 'r>(
         &mut self,
         node: &'ast AssignExpr,
@@ -22807,15 +23107,6 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_block_stmt(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
-    fn visit_block_stmt_or_expr<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast BlockStmtOrExpr,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_block_stmt_or_expr(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -23192,6 +23483,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_function(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast FunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_function_body(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -23815,6 +24115,15 @@ where
     }
 
     #[inline]
+    fn visit_opt_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<FunctionBody>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_opt_ident<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Ident>,
@@ -23929,6 +24238,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_opt_ts_namespace_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -24826,6 +25144,15 @@ where
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -25260,6 +25587,22 @@ where
     }
 
     #[inline]
+    fn visit_arrow_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast ArrowFunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_arrow_function_body(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_arrow_function_body(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_assign_expr<'ast: 'r, 'r>(
         &mut self,
         node: &'ast AssignExpr,
@@ -25509,22 +25852,6 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_block_stmt(visitor, node, __ast_path)
-            }
-        }
-    }
-
-    #[inline]
-    fn visit_block_stmt_or_expr<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast BlockStmtOrExpr,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        match self {
-            swc_visit::Either::Left(visitor) => {
-                VisitAstPath::visit_block_stmt_or_expr(visitor, node, __ast_path)
-            }
-            swc_visit::Either::Right(visitor) => {
-                VisitAstPath::visit_block_stmt_or_expr(visitor, node, __ast_path)
             }
         }
     }
@@ -26203,6 +26530,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_function(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast FunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_function_body(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_function_body(visitor, node, __ast_path)
             }
         }
     }
@@ -27322,6 +27665,22 @@ where
     }
 
     #[inline]
+    fn visit_opt_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<FunctionBody>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_opt_function_body(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_opt_function_body(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_opt_ident<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Ident>,
@@ -27525,6 +27884,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_opt_ts_namespace_body(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_opt_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_opt_ts_this_param(visitor, node, __ast_path)
             }
         }
     }
@@ -29142,6 +29517,22 @@ where
     }
 
     #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::visit_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::visit_ts_this_param(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_ts_this_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast TsThisType,
@@ -29836,6 +30227,18 @@ where
     }
 
     #[inline]
+    fn visit_arrow_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast ArrowFunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_arrow_function_body(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_assign_expr<'ast: 'r, 'r>(
         &mut self,
         node: &'ast AssignExpr,
@@ -30023,18 +30426,6 @@ where
     ) {
         if self.enabled {
             <V as VisitAstPath>::visit_block_stmt(&mut self.visitor, node, __ast_path)
-        } else {
-        }
-    }
-
-    #[inline]
-    fn visit_block_stmt_or_expr<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast BlockStmtOrExpr,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        if self.enabled {
-            <V as VisitAstPath>::visit_block_stmt_or_expr(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -30547,6 +30938,18 @@ where
     ) {
         if self.enabled {
             <V as VisitAstPath>::visit_function(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast FunctionBody,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_function_body(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -31388,6 +31791,18 @@ where
     }
 
     #[inline]
+    fn visit_opt_function_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<FunctionBody>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_opt_function_body(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_opt_ident<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Ident>,
@@ -31543,6 +31958,18 @@ where
     ) {
         if self.enabled {
             <V as VisitAstPath>::visit_opt_ts_namespace_body(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_opt_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsThisParam>>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_opt_ts_this_param(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -32772,6 +33199,18 @@ where
     }
 
     #[inline]
+    fn visit_ts_this_param<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsThisParam,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_ts_this_param(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_ts_this_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast TsThisType,
@@ -33474,7 +33913,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrowExpr {
                         self,
                         self::fields::ArrowExprField::Body,
                     ));
-                    <Box<BlockStmtOrExpr> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <Box<ArrowFunctionBody> as VisitWithAstPath<V>>::visit_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -33503,6 +33942,51 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrowExpr {
                     )
                 };
             }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrowFunctionBody {
+    #[doc = "Calls [VisitAstPath`::visit_arrow_function_body`] with `self`."]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_arrow_function_body(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            ArrowFunctionBody::FunctionBody { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ArrowFunctionBody(
+                    self,
+                    self::fields::ArrowFunctionBodyField::FunctionBody,
+                ));
+                <FunctionBody as VisitWithAstPath<V>>::visit_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
+            ArrowFunctionBody::Expr { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ArrowFunctionBody(
+                    self,
+                    self::fields::ArrowFunctionBodyField::Expr,
+                ));
+                <Box<Expr> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
     }
 }
@@ -34305,51 +34789,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BlockStmt {
                     )
                 };
             }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BlockStmtOrExpr {
-    #[doc = "Calls [VisitAstPath`::visit_block_stmt_or_expr`] with `self`."]
-    fn visit_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_block_stmt_or_expr(visitor, self, __ast_path)
-    }
-
-    fn visit_children_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        match self {
-            BlockStmtOrExpr::BlockStmt { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::BlockStmtOrExpr(
-                    self,
-                    self::fields::BlockStmtOrExprField::BlockStmt,
-                ));
-                <BlockStmt as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
-            }
-            BlockStmtOrExpr::Expr { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::BlockStmtOrExpr(
-                    self,
-                    self::fields::BlockStmtOrExprField::Expr,
-                ));
-                <Box<Expr> as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => (),
         }
     }
 }
@@ -35339,7 +35778,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Constructor {
                         self,
                         self::fields::ConstructorField::Body,
                     ));
-                    <Option<BlockStmt> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <Option<FunctionBody> as VisitWithAstPath<V>>::visit_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -37028,6 +37467,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
     ) {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -37038,6 +37478,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
                 type_params,
                 return_type,
             } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Function(
+                        self,
+                        self::fields::FunctionField::ThisParam,
+                    ));
+                    <Option<Box<TsThisParam>> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        this_param,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Function(
                         self,
@@ -37087,7 +37538,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
                         self,
                         self::fields::FunctionField::Body,
                     ));
-                    <Option<BlockStmt> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <Option<FunctionBody> as VisitWithAstPath<V>>::visit_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -37121,6 +37572,51 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FunctionBody {
+    #[doc = "Calls [VisitAstPath`::visit_function_body`] with `self`."]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_function_body(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            FunctionBody { span, stmts } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FunctionBody(
+                        self,
+                        self::fields::FunctionBodyField::Span,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FunctionBody(
+                        self,
+                        self::fields::FunctionBodyField::Stmts(usize::MAX),
+                    ));
+                    <Vec<Stmt> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        stmts,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for GetterProp {
     #[doc = "Calls [VisitAstPath`::visit_getter_prop`] with `self`."]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -37140,8 +37636,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::GetterProp(
@@ -37168,21 +37663,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for GetterProp {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::GetterProp(
                         self,
-                        self::fields::GetterPropField::TypeAnn,
+                        self::fields::GetterPropField::Function,
                     ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::GetterProp(
-                        self,
-                        self::fields::GetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        body,
+                    <Box<Function> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -38906,7 +39390,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXText {
                         self,
                         self::fields::JSXTextField::Value,
                     ));
-                    <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <swc_atoms::Wtf8Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
                         &mut *__ast_path,
@@ -41325,9 +41809,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SetterProp(
@@ -41354,32 +41836,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SetterProp {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SetterProp(
                         self,
-                        self::fields::SetterPropField::ThisParam,
+                        self::fields::SetterPropField::Function,
                     ));
-                    <Option<Pat> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        this_param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SetterProp(
-                        self,
-                        self::fields::SetterPropField::Param,
-                    ));
-                    <Box<Pat> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SetterProp(
-                        self,
-                        self::fields::SetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        body,
+                    <Box<Function> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -42089,6 +42549,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
@@ -42099,6 +42560,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SwitchStmt {
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SwitchStmt(
+                        self,
+                        self::fields::SwitchStmtField::BodyCtxt,
+                    ));
+                    <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_with_ast_path(
+                        body_ctxt,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -45472,6 +45944,66 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsSetterSignature {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsThisParam {
+    #[doc = "Calls [VisitAstPath`::visit_ts_this_param`] with `self`."]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_this_param(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsThisParam(
+                        self,
+                        self::fields::TsThisParamField::Span,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsThisParam(
+                        self,
+                        self::fields::TsThisParamField::ThisSpan,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        this_span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsThisParam(
+                        self,
+                        self::fields::TsThisParamField::TypeAnn,
+                    ));
+                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsThisType {
     #[doc = "Calls [VisitAstPath`::visit_ts_this_type`] with `self`."]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -47968,6 +48500,33 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Vec<ExprOrSpread>>
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<FunctionBody> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_function_body`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_function_body(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            Some(inner) => <FunctionBody as VisitWithAstPath<V>>::visit_with_ast_path(
+                inner, visitor, __ast_path,
+            ),
+            None => {}
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Ident> {
     #[doc = "Calls [VisitAstPath`::visit_opt_ident`] with `self`. (Extra impl)"]
     #[inline]
@@ -48311,6 +48870,33 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<TsNamespaceBody> {
     ) {
         match self {
             Some(inner) => <TsNamespaceBody as VisitWithAstPath<V>>::visit_with_ast_path(
+                inner, visitor, __ast_path,
+            ),
+            None => {}
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_this_param(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            Some(inner) => <Box<TsThisParam> as VisitWithAstPath<V>>::visit_with_ast_path(
                 inner, visitor, __ast_path,
             ),
             None => {}
@@ -49111,6 +49697,13 @@ pub trait VisitMut {
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         <ArrowExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `ArrowFunctionBody`.\n\nBy default, this method calls \
+             [`ArrowFunctionBody::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn visit_mut_arrow_function_body(&mut self, node: &mut ArrowFunctionBody) {
+        <ArrowFunctionBody as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `AssignExpr`.\n\nBy default, this method calls \
              [`AssignExpr::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -49222,13 +49815,6 @@ pub trait VisitMut {
     #[inline]
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         <BlockStmt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `BlockStmtOrExpr`.\n\nBy default, this method calls \
-             [`BlockStmtOrExpr::visit_mut_children_with`]. If you want to recurse, you need to \
-             call it manually."]
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        <BlockStmtOrExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Bool`.\n\nBy default, this method calls \
              [`Bool::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -49537,6 +50123,13 @@ pub trait VisitMut {
     #[inline]
     fn visit_mut_function(&mut self, node: &mut Function) {
         <Function as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `FunctionBody`.\n\nBy default, this method calls \
+             [`FunctionBody::visit_mut_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody) {
+        <FunctionBody as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `GetterProp`.\n\nBy default, this method calls \
              [`GetterProp::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -50042,6 +50635,13 @@ pub trait VisitMut {
     fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
         <Option<Vec<ExprOrSpread>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < FunctionBody >`.\n\nBy default, this method calls \
+             [`Option < FunctionBody >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    #[inline]
+    fn visit_mut_opt_function_body(&mut self, node: &mut Option<FunctionBody>) {
+        <Option<FunctionBody> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
              Ident >::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -50132,6 +50732,13 @@ pub trait VisitMut {
     #[inline]
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
         <Option<TsNamespaceBody> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::visit_mut_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        <Option<Box<TsThisParam>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
              [`Option < Box < TsType > >::visit_mut_children_with`]. If you want to recurse, you \
@@ -50870,6 +51477,13 @@ pub trait VisitMut {
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
         <TsSetterSignature as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        <TsThisParam as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -51176,6 +51790,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_arrow_function_body(&mut self, node: &mut ArrowFunctionBody) {
+        <V as VisitMut>::visit_mut_arrow_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
         <V as VisitMut>::visit_mut_assign_expr(&mut **self, node)
     }
@@ -51253,11 +51872,6 @@ where
     #[inline]
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         <V as VisitMut>::visit_mut_block_stmt(&mut **self, node)
-    }
-
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        <V as VisitMut>::visit_mut_block_stmt_or_expr(&mut **self, node)
     }
 
     #[inline]
@@ -51478,6 +52092,11 @@ where
     #[inline]
     fn visit_mut_function(&mut self, node: &mut Function) {
         <V as VisitMut>::visit_mut_function(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody) {
+        <V as VisitMut>::visit_mut_function_body(&mut **self, node)
     }
 
     #[inline]
@@ -51841,6 +52460,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_function_body(&mut self, node: &mut Option<FunctionBody>) {
+        <V as VisitMut>::visit_mut_opt_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
         <V as VisitMut>::visit_mut_opt_ident(&mut **self, node)
     }
@@ -51903,6 +52527,11 @@ where
     #[inline]
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
         <V as VisitMut>::visit_mut_opt_ts_namespace_body(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        <V as VisitMut>::visit_mut_opt_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -52431,6 +53060,11 @@ where
     #[inline]
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
         <V as VisitMut>::visit_mut_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        <V as VisitMut>::visit_mut_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -52658,6 +53292,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_arrow_function_body(&mut self, node: &mut ArrowFunctionBody) {
+        <V as VisitMut>::visit_mut_arrow_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
         <V as VisitMut>::visit_mut_assign_expr(&mut **self, node)
     }
@@ -52735,11 +53374,6 @@ where
     #[inline]
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         <V as VisitMut>::visit_mut_block_stmt(&mut **self, node)
-    }
-
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        <V as VisitMut>::visit_mut_block_stmt_or_expr(&mut **self, node)
     }
 
     #[inline]
@@ -52960,6 +53594,11 @@ where
     #[inline]
     fn visit_mut_function(&mut self, node: &mut Function) {
         <V as VisitMut>::visit_mut_function(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody) {
+        <V as VisitMut>::visit_mut_function_body(&mut **self, node)
     }
 
     #[inline]
@@ -53323,6 +53962,11 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_function_body(&mut self, node: &mut Option<FunctionBody>) {
+        <V as VisitMut>::visit_mut_opt_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
         <V as VisitMut>::visit_mut_opt_ident(&mut **self, node)
     }
@@ -53385,6 +54029,11 @@ where
     #[inline]
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
         <V as VisitMut>::visit_mut_opt_ts_namespace_body(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        <V as VisitMut>::visit_mut_opt_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -53913,6 +54562,11 @@ where
     #[inline]
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
         <V as VisitMut>::visit_mut_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        <V as VisitMut>::visit_mut_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -54153,6 +54807,18 @@ where
     }
 
     #[inline]
+    fn visit_mut_arrow_function_body(&mut self, node: &mut ArrowFunctionBody) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMut::visit_mut_arrow_function_body(visitor, node)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::visit_mut_arrow_function_body(visitor, node)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_assign_expr(visitor, node),
@@ -54281,18 +54947,6 @@ where
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_block_stmt(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_block_stmt(visitor, node),
-        }
-    }
-
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        match self {
-            swc_visit::Either::Left(visitor) => {
-                VisitMut::visit_mut_block_stmt_or_expr(visitor, node)
-            }
-            swc_visit::Either::Right(visitor) => {
-                VisitMut::visit_mut_block_stmt_or_expr(visitor, node)
-            }
         }
     }
 
@@ -54675,6 +55329,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_function(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_function(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_function_body(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_function_body(visitor, node),
         }
     }
 
@@ -55347,6 +56009,18 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_function_body(&mut self, node: &mut Option<FunctionBody>) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMut::visit_mut_opt_function_body(visitor, node)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::visit_mut_opt_function_body(visitor, node)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_ident(visitor, node),
@@ -55474,6 +56148,18 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_opt_ts_namespace_body(visitor, node)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMut::visit_mut_opt_ts_this_param(visitor, node)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::visit_mut_opt_ts_this_param(visitor, node)
             }
         }
     }
@@ -56476,6 +57162,14 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_this_param(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_this_type(visitor, node),
@@ -56880,6 +57574,14 @@ where
     }
 
     #[inline]
+    fn visit_mut_arrow_function_body(&mut self, node: &mut ArrowFunctionBody) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_arrow_function_body(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
         if self.enabled {
             <V as VisitMut>::visit_mut_assign_expr(&mut self.visitor, node)
@@ -57003,14 +57705,6 @@ where
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         if self.enabled {
             <V as VisitMut>::visit_mut_block_stmt(&mut self.visitor, node)
-        } else {
-        }
-    }
-
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        if self.enabled {
-            <V as VisitMut>::visit_mut_block_stmt_or_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -57363,6 +58057,14 @@ where
     fn visit_mut_function(&mut self, node: &mut Function) {
         if self.enabled {
             <V as VisitMut>::visit_mut_function(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_function_body(&mut self.visitor, node)
         } else {
         }
     }
@@ -57944,6 +58646,14 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_function_body(&mut self, node: &mut Option<FunctionBody>) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_opt_function_body(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
         if self.enabled {
             <V as VisitMut>::visit_mut_opt_ident(&mut self.visitor, node)
@@ -58043,6 +58753,14 @@ where
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
         if self.enabled {
             <V as VisitMut>::visit_mut_opt_ts_namespace_body(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_opt_ts_this_param(&mut self, node: &mut Option<Box<TsThisParam>>) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_opt_ts_this_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -58891,6 +59609,14 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_ts_this_param(&mut self.visitor, node)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType) {
         if self.enabled {
             <V as VisitMut>::visit_mut_ts_this_type(&mut self.visitor, node)
@@ -59307,7 +60033,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrowExpr {
                     <Vec<Pat> as VisitMutWith<V>>::visit_mut_with(params, visitor)
                 };
                 {
-                    <Box<BlockStmtOrExpr> as VisitMutWith<V>>::visit_mut_with(body, visitor)
+                    <Box<ArrowFunctionBody> as VisitMutWith<V>>::visit_mut_with(body, visitor)
                 };
                 {
                     <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_with(
@@ -59322,6 +60048,25 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrowExpr {
                     )
                 };
             }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrowFunctionBody {
+    #[doc = "Calls [VisitMut`::visit_mut_arrow_function_body`] with `self`."]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_arrow_function_body(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            ArrowFunctionBody::FunctionBody { 0: _field_0 } => {
+                <FunctionBody as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+            }
+            ArrowFunctionBody::Expr { 0: _field_0 } => {
+                <Box<Expr> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
     }
 }
@@ -59683,25 +60428,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for BlockStmt {
                     <Vec<Stmt> as VisitMutWith<V>>::visit_mut_with(stmts, visitor)
                 };
             }
-        }
-    }
-}
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for BlockStmtOrExpr {
-    #[doc = "Calls [VisitMut`::visit_mut_block_stmt_or_expr`] with `self`."]
-    fn visit_mut_with(&mut self, visitor: &mut V) {
-        <V as VisitMut>::visit_mut_block_stmt_or_expr(visitor, self)
-    }
-
-    fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        match self {
-            BlockStmtOrExpr::BlockStmt { 0: _field_0 } => {
-                <BlockStmt as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            BlockStmtOrExpr::Expr { 0: _field_0 } => {
-                <Box<Expr> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => (),
         }
     }
 }
@@ -60125,7 +60851,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Constructor {
                     <Vec<ParamOrTsParamProp> as VisitMutWith<V>>::visit_mut_with(params, visitor)
                 };
                 {
-                    <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
+                    <Option<FunctionBody> as VisitMutWith<V>>::visit_mut_with(body, visitor)
                 };
                 {
                     <Option<Accessibility> as VisitMutWith<V>>::visit_mut_with(
@@ -60789,6 +61515,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -60799,6 +61526,11 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
                 type_params,
                 return_type,
             } => {
+                {
+                    <Option<Box<TsThisParam>> as VisitMutWith<V>>::visit_mut_with(
+                        this_param, visitor,
+                    )
+                };
                 {
                     <Vec<Param> as VisitMutWith<V>>::visit_mut_with(params, visitor)
                 };
@@ -60812,7 +61544,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
                     <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_with(ctxt, visitor)
                 };
                 {
-                    <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
+                    <Option<FunctionBody> as VisitMutWith<V>>::visit_mut_with(body, visitor)
                 };
                 {
                     <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_with(
@@ -60830,6 +61562,25 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for FunctionBody {
+    #[doc = "Calls [VisitMut`::visit_mut_function_body`] with `self`."]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_function_body(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            FunctionBody { span, stmts } => {
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <Vec<Stmt> as VisitMutWith<V>>::visit_mut_with(stmts, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for GetterProp {
     #[doc = "Calls [VisitMut`::visit_mut_getter_prop`] with `self`."]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -60841,8 +61592,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
@@ -60851,10 +61601,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for GetterProp {
                     <PropName as VisitMutWith<V>>::visit_mut_with(key, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
-                };
-                {
-                    <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
+                    <Box<Function> as VisitMutWith<V>>::visit_mut_with(function, visitor)
                 };
             }
         }
@@ -61575,7 +62322,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXText {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
                 };
                 {
-                    <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(value, visitor)
+                    <swc_atoms::Wtf8Atom as VisitMutWith<V>>::visit_mut_with(value, visitor)
                 };
                 {
                     <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(raw, visitor)
@@ -62594,9 +63341,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
@@ -62605,13 +63350,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SetterProp {
                     <PropName as VisitMutWith<V>>::visit_mut_with(key, visitor)
                 };
                 {
-                    <Option<Pat> as VisitMutWith<V>>::visit_mut_with(this_param, visitor)
-                };
-                {
-                    <Box<Pat> as VisitMutWith<V>>::visit_mut_with(param, visitor)
-                };
-                {
-                    <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
+                    <Box<Function> as VisitMutWith<V>>::visit_mut_with(function, visitor)
                 };
             }
         }
@@ -62882,11 +63621,17 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_with(
+                        body_ctxt, visitor,
+                    )
                 };
                 {
                     <Box<Expr> as VisitMutWith<V>>::visit_mut_with(discriminant, visitor)
@@ -64345,6 +65090,32 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsSetterSignature {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsThisParam {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_this_param`] with `self`."]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_this_param(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(this_span, visitor)
+                };
+                {
+                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
+                };
+            }
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsThisType {
     #[doc = "Calls [VisitMut`::visit_mut_ts_this_type`] with `self`."]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -65441,6 +66212,21 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Vec<ExprOrSpread>> {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<FunctionBody> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_function_body`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_function_body(visitor, self)
+    }
+
+    #[inline]
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            Some(inner) => <FunctionBody as VisitMutWith<V>>::visit_mut_with(inner, visitor),
+            None => {}
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Ident> {
     #[doc = "Calls [VisitMut`::visit_mut_opt_ident`] with `self`. (Extra impl)"]
     #[inline]
@@ -65632,6 +66418,21 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<TsNamespaceBody> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Some(inner) => <TsNamespaceBody as VisitMutWith<V>>::visit_mut_with(inner, visitor),
+            None => {}
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_ts_this_param(visitor, self)
+    }
+
+    #[inline]
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        match self {
+            Some(inner) => <Box<TsThisParam> as VisitMutWith<V>>::visit_mut_with(inner, visitor),
             None => {}
         }
     }
@@ -66046,6 +66847,19 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `ArrowFunctionBody`.\n\nBy default, this method calls \
+             [`ArrowFunctionBody::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    #[inline]
+    fn visit_mut_arrow_function_body(
+        &mut self,
+        node: &mut ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <ArrowFunctionBody as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `AssignExpr`.\n\nBy default, this method calls \
              [`AssignExpr::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -66195,19 +67009,6 @@ pub trait VisitMutAstPath {
     #[inline]
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt, __ast_path: &mut AstKindPath) {
         <BlockStmt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, __ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `BlockStmtOrExpr`.\n\nBy default, this method calls \
-             [`BlockStmtOrExpr::visit_mut_children_with_ast_path`]. If you want to recurse, you \
-             need to call it manually."]
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(
-        &mut self,
-        node: &mut BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) {
-        <BlockStmtOrExpr as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -66644,6 +67445,15 @@ pub trait VisitMutAstPath {
     #[inline]
     fn visit_mut_function(&mut self, node: &mut Function, __ast_path: &mut AstKindPath) {
         <Function as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `FunctionBody`.\n\nBy default, this method calls \
+             [`FunctionBody::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody, __ast_path: &mut AstKindPath) {
+        <FunctionBody as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -67411,6 +68221,19 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < FunctionBody >`.\n\nBy default, this method calls \
+             [`Option < FunctionBody >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    #[inline]
+    fn visit_mut_opt_function_body(
+        &mut self,
+        node: &mut Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <Option<FunctionBody> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
              Ident >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -67561,6 +68384,19 @@ pub trait VisitMutAstPath {
         __ast_path: &mut AstKindPath,
     ) {
         <Option<TsNamespaceBody> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::visit_mut_children_with_ast_path`]. If you \
+             want to recurse, you need to call it manually."]
+    #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <Option<Box<TsThisParam>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -68704,6 +69540,15 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        <TsThisParam as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -69164,6 +70009,15 @@ where
     }
 
     #[inline]
+    fn visit_mut_arrow_function_body(
+        &mut self,
+        node: &mut ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_arrow_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_assign_expr(&mut **self, node, __ast_path)
     }
@@ -69249,15 +70103,6 @@ where
     #[inline]
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_block_stmt(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(
-        &mut self,
-        node: &mut BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) {
-        <V as VisitMutAstPath>::visit_mut_block_stmt_or_expr(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -69518,6 +70363,11 @@ where
     #[inline]
     fn visit_mut_function(&mut self, node: &mut Function, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_function(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_function_body(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -70001,6 +70851,15 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_function_body(
+        &mut self,
+        node: &mut Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_opt_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_opt_ident(&mut **self, node, __ast_path)
     }
@@ -70099,6 +70958,15 @@ where
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_opt_ts_namespace_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -70832,6 +71700,11 @@ where
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -71137,6 +72010,15 @@ where
     }
 
     #[inline]
+    fn visit_mut_arrow_function_body(
+        &mut self,
+        node: &mut ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_arrow_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_assign_expr(&mut **self, node, __ast_path)
     }
@@ -71222,15 +72104,6 @@ where
     #[inline]
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_block_stmt(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(
-        &mut self,
-        node: &mut BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) {
-        <V as VisitMutAstPath>::visit_mut_block_stmt_or_expr(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -71491,6 +72364,11 @@ where
     #[inline]
     fn visit_mut_function(&mut self, node: &mut Function, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_function(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_function_body(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -71974,6 +72852,15 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_function_body(
+        &mut self,
+        node: &mut Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_opt_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_opt_ident(&mut **self, node, __ast_path)
     }
@@ -72072,6 +72959,15 @@ where
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_opt_ts_namespace_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -72805,6 +73701,11 @@ where
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -73139,6 +74040,22 @@ where
     }
 
     #[inline]
+    fn visit_mut_arrow_function_body(
+        &mut self,
+        node: &mut ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_arrow_function_body(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_arrow_function_body(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -73334,22 +74251,6 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_block_stmt(visitor, node, __ast_path)
-            }
-        }
-    }
-
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(
-        &mut self,
-        node: &mut BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) {
-        match self {
-            swc_visit::Either::Left(visitor) => {
-                VisitMutAstPath::visit_mut_block_stmt_or_expr(visitor, node, __ast_path)
-            }
-            swc_visit::Either::Right(visitor) => {
-                VisitMutAstPath::visit_mut_block_stmt_or_expr(visitor, node, __ast_path)
             }
         }
     }
@@ -73918,6 +74819,18 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_function(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_function_body(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_function_body(visitor, node, __ast_path)
             }
         }
     }
@@ -74907,6 +75820,22 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_function_body(
+        &mut self,
+        node: &mut Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_opt_function_body(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_opt_function_body(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -75094,6 +76023,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_opt_ts_namespace_body(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_opt_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_opt_ts_this_param(visitor, node, __ast_path)
             }
         }
     }
@@ -76562,6 +77507,18 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_ts_setter_signature(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_ts_this_param(visitor, node, __ast_path)
             }
         }
     }
@@ -77157,6 +78114,22 @@ where
     }
 
     #[inline]
+    fn visit_mut_arrow_function_body(
+        &mut self,
+        node: &mut ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_arrow_function_body(
+                &mut self.visitor,
+                node,
+                __ast_path,
+            )
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_assign_expr(&mut self.visitor, node, __ast_path)
@@ -77288,22 +78261,6 @@ where
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_block_stmt(&mut self.visitor, node, __ast_path)
-        } else {
-        }
-    }
-
-    #[inline]
-    fn visit_mut_block_stmt_or_expr(
-        &mut self,
-        node: &mut BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) {
-        if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_block_stmt_or_expr(
-                &mut self.visitor,
-                node,
-                __ast_path,
-            )
         } else {
         }
     }
@@ -77720,6 +78677,14 @@ where
     fn visit_mut_function(&mut self, node: &mut Function, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_function(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_function_body(&mut self, node: &mut FunctionBody, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_function_body(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -78485,6 +79450,18 @@ where
     }
 
     #[inline]
+    fn visit_mut_opt_function_body(
+        &mut self,
+        node: &mut Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_opt_function_body(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_opt_ident(&mut self.visitor, node, __ast_path)
@@ -78648,6 +79625,18 @@ where
                 node,
                 __ast_path,
             )
+        } else {
+        }
+    }
+
+    #[inline]
+    fn visit_mut_opt_ts_this_param(
+        &mut self,
+        node: &mut Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_opt_ts_this_param(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -79817,6 +80806,14 @@ where
     }
 
     #[inline]
+    fn visit_mut_ts_this_param(&mut self, node: &mut TsThisParam, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_ts_this_param(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
+    #[inline]
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_ts_this_type(&mut self.visitor, node, __ast_path)
@@ -80397,7 +81394,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrowExpr {
                 {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::ArrowExpr(self::fields::ArrowExprField::Body));
-                    <Box<BlockStmtOrExpr> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    <Box<ArrowFunctionBody> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -80420,6 +81417,41 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrowExpr {
                     )
                 };
             }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrowFunctionBody {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_arrow_function_body`] with `self`."]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_arrow_function_body(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            ArrowFunctionBody::FunctionBody { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrowFunctionBody(
+                    self::fields::ArrowFunctionBodyField::FunctionBody,
+                ));
+                <FunctionBody as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
+            ArrowFunctionBody::Expr { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrowFunctionBody(
+                    self::fields::ArrowFunctionBodyField::Expr,
+                ));
+                <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
     }
 }
@@ -81058,41 +82090,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BlockStmt {
                     )
                 };
             }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BlockStmtOrExpr {
-    #[doc = "Calls [VisitMutAstPath`::visit_mut_block_stmt_or_expr`] with `self`."]
-    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_block_stmt_or_expr(visitor, self, __ast_path)
-    }
-
-    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        match self {
-            BlockStmtOrExpr::BlockStmt { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(AstParentKind::BlockStmtOrExpr(
-                    self::fields::BlockStmtOrExprField::BlockStmt,
-                ));
-                <BlockStmt as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
-            }
-            BlockStmtOrExpr::Expr { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(AstParentKind::BlockStmtOrExpr(
-                    self::fields::BlockStmtOrExprField::Expr,
-                ));
-                <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => (),
         }
     }
 }
@@ -81893,7 +82890,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Constructor {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::Constructor(
                         self::fields::ConstructorField::Body,
                     ));
-                    <Option<BlockStmt> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    <Option<FunctionBody> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -83254,6 +84251,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -83264,6 +84262,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
                 type_params,
                 return_type,
             } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
+                        self::fields::FunctionField::ThisParam,
+                    ));
+                    <Option<Box<TsThisParam>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        this_param,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
                         self::fields::FunctionField::Params(usize::MAX),
@@ -83305,7 +84313,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
                 {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::Function(self::fields::FunctionField::Body));
-                    <Option<BlockStmt> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    <Option<FunctionBody> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -83333,6 +84341,41 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for FunctionBody {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_function_body`] with `self`."]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_function_body(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            FunctionBody { span, stmts } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::FunctionBody(
+                        self::fields::FunctionBodyField::Span,
+                    ));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::FunctionBody(
+                        self::fields::FunctionBodyField::Stmts(usize::MAX),
+                    ));
+                    <Vec<Stmt> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        stmts,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for GetterProp {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_getter_prop`] with `self`."]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
@@ -83344,8 +84387,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
@@ -83369,20 +84411,10 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for GetterProp {
                 };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::TypeAnn,
+                        self::fields::GetterPropField::Function,
                     ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        body,
+                    <Box<Function> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -84732,7 +85764,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXText {
                 {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::JSXText(self::fields::JSXTextField::Value));
-                    <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                    <swc_atoms::Wtf8Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         value,
                         visitor,
                         &mut *__ast_path,
@@ -86667,9 +87699,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
@@ -86693,30 +87723,10 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SetterProp {
                 };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::ThisParam,
+                        self::fields::SetterPropField::Function,
                     ));
-                    <Option<Pat> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        this_param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::Param,
-                    ));
-                    <Box<Pat> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        body,
+                    <Box<Function> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -87309,6 +88319,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
@@ -87318,6 +88329,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SwitchStmt {
                     ));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SwitchStmt(
+                        self::fields::SwitchStmtField::BodyCtxt,
+                    ));
+                    <swc_common::SyntaxContext as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        body_ctxt,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -89968,6 +90989,55 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsSetterSignature {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsThisParam {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_this_param`] with `self`."]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_this_param(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::Span,
+                    ));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::ThisSpan,
+                    ));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        this_span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::TypeAnn,
+                    ));
+                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsThisType {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_this_type`] with `self`."]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
@@ -91912,6 +92982,25 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Vec<ExprOrSp
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<FunctionBody> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_function_body`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_function_body(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            Some(inner) => <FunctionBody as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                inner, visitor, __ast_path,
+            ),
+            None => {}
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Ident> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ident`] with `self`. (Extra impl)"]
     #[inline]
@@ -92154,6 +93243,25 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<TsNamespaceB
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
             Some(inner) => <TsNamespaceBody as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                inner, visitor, __ast_path,
+            ),
+            None => {}
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_this_param(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        match self {
+            Some(inner) => <Box<TsThisParam> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                 inner, visitor, __ast_path,
             ),
             None => {}
@@ -92737,6 +93845,13 @@ pub trait Fold {
     fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
         <ArrowExpr as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `ArrowFunctionBody`.\n\nBy default, this method calls \
+             [`ArrowFunctionBody::fold_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    #[inline]
+    fn fold_arrow_function_body(&mut self, node: ArrowFunctionBody) -> ArrowFunctionBody {
+        <ArrowFunctionBody as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `AssignExpr`.\n\nBy default, this method calls \
              [`AssignExpr::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -92846,13 +93961,6 @@ pub trait Fold {
     #[inline]
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
         <BlockStmt as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `BlockStmtOrExpr`.\n\nBy default, this method calls \
-             [`BlockStmtOrExpr::fold_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    #[inline]
-    fn fold_block_stmt_or_expr(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        <BlockStmtOrExpr as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Bool`.\n\nBy default, this method calls \
              [`Bool::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -93158,6 +94266,13 @@ pub trait Fold {
     #[inline]
     fn fold_function(&mut self, node: Function) -> Function {
         <Function as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `FunctionBody`.\n\nBy default, this method calls \
+             [`FunctionBody::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn fold_function_body(&mut self, node: FunctionBody) -> FunctionBody {
+        <FunctionBody as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `GetterProp`.\n\nBy default, this method calls \
              [`GetterProp::fold_children_with`]. If you want to recurse, you need to call it \
@@ -93658,6 +94773,13 @@ pub trait Fold {
     ) -> Option<Vec<ExprOrSpread>> {
         <Option<Vec<ExprOrSpread>> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < FunctionBody >`.\n\nBy default, this method calls \
+             [`Option < FunctionBody >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn fold_opt_function_body(&mut self, node: Option<FunctionBody>) -> Option<FunctionBody> {
+        <Option<FunctionBody> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
              Ident >::fold_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
@@ -93758,6 +94880,16 @@ pub trait Fold {
         node: Option<TsNamespaceBody>,
     ) -> Option<TsNamespaceBody> {
         <Option<TsNamespaceBody> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::fold_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        <Option<Box<TsThisParam>> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
              [`Option < Box < TsType > >::fold_children_with`]. If you want to recurse, you need \
@@ -94507,6 +95639,13 @@ pub trait Fold {
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
         <TsSetterSignature as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        <TsThisParam as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -94816,6 +95955,11 @@ where
     }
 
     #[inline]
+    fn fold_arrow_function_body(&mut self, node: ArrowFunctionBody) -> ArrowFunctionBody {
+        <V as Fold>::fold_arrow_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr) -> AssignExpr {
         <V as Fold>::fold_assign_expr(&mut **self, node)
     }
@@ -94893,11 +96037,6 @@ where
     #[inline]
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
         <V as Fold>::fold_block_stmt(&mut **self, node)
-    }
-
-    #[inline]
-    fn fold_block_stmt_or_expr(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        <V as Fold>::fold_block_stmt_or_expr(&mut **self, node)
     }
 
     #[inline]
@@ -95124,6 +96263,11 @@ where
     #[inline]
     fn fold_function(&mut self, node: Function) -> Function {
         <V as Fold>::fold_function(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_function_body(&mut self, node: FunctionBody) -> FunctionBody {
+        <V as Fold>::fold_function_body(&mut **self, node)
     }
 
     #[inline]
@@ -95496,6 +96640,11 @@ where
     }
 
     #[inline]
+    fn fold_opt_function_body(&mut self, node: Option<FunctionBody>) -> Option<FunctionBody> {
+        <V as Fold>::fold_opt_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_opt_ident(&mut self, node: Option<Ident>) -> Option<Ident> {
         <V as Fold>::fold_opt_ident(&mut **self, node)
     }
@@ -95570,6 +96719,14 @@ where
         node: Option<TsNamespaceBody>,
     ) -> Option<TsNamespaceBody> {
         <V as Fold>::fold_opt_ts_namespace_body(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        <V as Fold>::fold_opt_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -96125,6 +97282,11 @@ where
     #[inline]
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
         <V as Fold>::fold_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        <V as Fold>::fold_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -96358,6 +97520,11 @@ where
     }
 
     #[inline]
+    fn fold_arrow_function_body(&mut self, node: ArrowFunctionBody) -> ArrowFunctionBody {
+        <V as Fold>::fold_arrow_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr) -> AssignExpr {
         <V as Fold>::fold_assign_expr(&mut **self, node)
     }
@@ -96435,11 +97602,6 @@ where
     #[inline]
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
         <V as Fold>::fold_block_stmt(&mut **self, node)
-    }
-
-    #[inline]
-    fn fold_block_stmt_or_expr(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        <V as Fold>::fold_block_stmt_or_expr(&mut **self, node)
     }
 
     #[inline]
@@ -96666,6 +97828,11 @@ where
     #[inline]
     fn fold_function(&mut self, node: Function) -> Function {
         <V as Fold>::fold_function(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_function_body(&mut self, node: FunctionBody) -> FunctionBody {
+        <V as Fold>::fold_function_body(&mut **self, node)
     }
 
     #[inline]
@@ -97038,6 +98205,11 @@ where
     }
 
     #[inline]
+    fn fold_opt_function_body(&mut self, node: Option<FunctionBody>) -> Option<FunctionBody> {
+        <V as Fold>::fold_opt_function_body(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_opt_ident(&mut self, node: Option<Ident>) -> Option<Ident> {
         <V as Fold>::fold_opt_ident(&mut **self, node)
     }
@@ -97112,6 +98284,14 @@ where
         node: Option<TsNamespaceBody>,
     ) -> Option<TsNamespaceBody> {
         <V as Fold>::fold_opt_ts_namespace_body(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        <V as Fold>::fold_opt_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -97667,6 +98847,11 @@ where
     #[inline]
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
         <V as Fold>::fold_ts_setter_signature(&mut **self, node)
+    }
+
+    #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        <V as Fold>::fold_ts_this_param(&mut **self, node)
     }
 
     #[inline]
@@ -97913,6 +99098,14 @@ where
     }
 
     #[inline]
+    fn fold_arrow_function_body(&mut self, node: ArrowFunctionBody) -> ArrowFunctionBody {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_arrow_function_body(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_arrow_function_body(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr) -> AssignExpr {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_assign_expr(visitor, node),
@@ -98037,14 +99230,6 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_block_stmt(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_block_stmt(visitor, node),
-        }
-    }
-
-    #[inline]
-    fn fold_block_stmt_or_expr(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        match self {
-            swc_visit::Either::Left(visitor) => Fold::fold_block_stmt_or_expr(visitor, node),
-            swc_visit::Either::Right(visitor) => Fold::fold_block_stmt_or_expr(visitor, node),
         }
     }
 
@@ -98407,6 +99592,14 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_function(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_function(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn fold_function_body(&mut self, node: FunctionBody) -> FunctionBody {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_function_body(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_function_body(visitor, node),
         }
     }
 
@@ -98996,6 +100189,14 @@ where
     }
 
     #[inline]
+    fn fold_opt_function_body(&mut self, node: Option<FunctionBody>) -> Option<FunctionBody> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_opt_function_body(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_opt_function_body(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_opt_ident(&mut self, node: Option<Ident>) -> Option<Ident> {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_ident(visitor, node),
@@ -99112,6 +100313,17 @@ where
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_ts_namespace_body(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_ts_namespace_body(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_opt_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_opt_ts_this_param(visitor, node),
         }
     }
 
@@ -99996,6 +101208,14 @@ where
     }
 
     #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_ts_this_param(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_ts_this_param(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_ts_this_type(&mut self, node: TsThisType) -> TsThisType {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_this_type(visitor, node),
@@ -100370,6 +101590,15 @@ where
     }
 
     #[inline]
+    fn fold_arrow_function_body(&mut self, node: ArrowFunctionBody) -> ArrowFunctionBody {
+        if self.enabled {
+            <V as Fold>::fold_arrow_function_body(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr) -> AssignExpr {
         if self.enabled {
             <V as Fold>::fold_assign_expr(&mut self.visitor, node)
@@ -100508,15 +101737,6 @@ where
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
         if self.enabled {
             <V as Fold>::fold_block_stmt(&mut self.visitor, node)
-        } else {
-            node
-        }
-    }
-
-    #[inline]
-    fn fold_block_stmt_or_expr(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        if self.enabled {
-            <V as Fold>::fold_block_stmt_or_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -100919,6 +102139,15 @@ where
     fn fold_function(&mut self, node: Function) -> Function {
         if self.enabled {
             <V as Fold>::fold_function(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_function_body(&mut self, node: FunctionBody) -> FunctionBody {
+        if self.enabled {
+            <V as Fold>::fold_function_body(&mut self.visitor, node)
         } else {
             node
         }
@@ -101582,6 +102811,15 @@ where
     }
 
     #[inline]
+    fn fold_opt_function_body(&mut self, node: Option<FunctionBody>) -> Option<FunctionBody> {
+        if self.enabled {
+            <V as Fold>::fold_opt_function_body(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_opt_ident(&mut self, node: Option<Ident>) -> Option<Ident> {
         if self.enabled {
             <V as Fold>::fold_opt_ident(&mut self.visitor, node)
@@ -101705,6 +102943,18 @@ where
     ) -> Option<TsNamespaceBody> {
         if self.enabled {
             <V as Fold>::fold_opt_ts_namespace_body(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+    ) -> Option<Box<TsThisParam>> {
+        if self.enabled {
+            <V as Fold>::fold_opt_ts_this_param(&mut self.visitor, node)
         } else {
             node
         }
@@ -102686,6 +103936,15 @@ where
     }
 
     #[inline]
+    fn fold_ts_this_param(&mut self, node: TsThisParam) -> TsThisParam {
+        if self.enabled {
+            <V as Fold>::fold_ts_this_param(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_ts_this_type(&mut self, node: TsThisType) -> TsThisType {
         if self.enabled {
             <V as Fold>::fold_ts_this_type(&mut self.visitor, node)
@@ -103140,7 +104399,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for ArrowExpr {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
                 let params = { <Vec<Pat> as FoldWith<V>>::fold_with(params, visitor) };
-                let body = { <Box<BlockStmtOrExpr> as FoldWith<V>>::fold_with(body, visitor) };
+                let body = { <Box<ArrowFunctionBody> as FoldWith<V>>::fold_with(body, visitor) };
                 let type_params = {
                     <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_with(type_params, visitor)
                 };
@@ -103157,6 +104416,27 @@ impl<V: ?Sized + Fold> FoldWith<V> for ArrowExpr {
                     return_type,
                 }
             }
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for ArrowFunctionBody {
+    #[doc = "Calls [Fold`::fold_arrow_function_body`] with `self`."]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_arrow_function_body(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        match self {
+            ArrowFunctionBody::FunctionBody { 0: _field_0 } => {
+                let _field_0 = <FunctionBody as FoldWith<V>>::fold_with(_field_0, visitor);
+                ArrowFunctionBody::FunctionBody { 0: _field_0 }
+            }
+            ArrowFunctionBody::Expr { 0: _field_0 } => {
+                let _field_0 = <Box<Expr> as FoldWith<V>>::fold_with(_field_0, visitor);
+                ArrowFunctionBody::Expr { 0: _field_0 }
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => self,
         }
     }
 }
@@ -103489,27 +104769,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for BlockStmt {
                 let stmts = { <Vec<Stmt> as FoldWith<V>>::fold_with(stmts, visitor) };
                 BlockStmt { span, ctxt, stmts }
             }
-        }
-    }
-}
-impl<V: ?Sized + Fold> FoldWith<V> for BlockStmtOrExpr {
-    #[doc = "Calls [Fold`::fold_block_stmt_or_expr`] with `self`."]
-    fn fold_with(self, visitor: &mut V) -> Self {
-        <V as Fold>::fold_block_stmt_or_expr(visitor, self)
-    }
-
-    fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
-            BlockStmtOrExpr::BlockStmt { 0: _field_0 } => {
-                let _field_0 = <BlockStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                BlockStmtOrExpr::BlockStmt { 0: _field_0 }
-            }
-            BlockStmtOrExpr::Expr { 0: _field_0 } => {
-                let _field_0 = <Box<Expr> as FoldWith<V>>::fold_with(_field_0, visitor);
-                BlockStmtOrExpr::Expr { 0: _field_0 }
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => self,
         }
     }
 }
@@ -103919,7 +105178,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Constructor {
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
                 let params =
                     { <Vec<ParamOrTsParamProp> as FoldWith<V>>::fold_with(params, visitor) };
-                let body = { <Option<BlockStmt> as FoldWith<V>>::fold_with(body, visitor) };
+                let body = { <Option<FunctionBody> as FoldWith<V>>::fold_with(body, visitor) };
                 let accessibility =
                     { <Option<Accessibility> as FoldWith<V>>::fold_with(accessibility, visitor) };
                 Constructor {
@@ -104606,6 +105865,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -104616,18 +105876,21 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
                 type_params,
                 return_type,
             } => {
+                let this_param =
+                    { <Option<Box<TsThisParam>> as FoldWith<V>>::fold_with(this_param, visitor) };
                 let params = { <Vec<Param> as FoldWith<V>>::fold_with(params, visitor) };
                 let decorators =
                     { <Vec<Decorator> as FoldWith<V>>::fold_with(decorators, visitor) };
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
-                let body = { <Option<BlockStmt> as FoldWith<V>>::fold_with(body, visitor) };
+                let body = { <Option<FunctionBody> as FoldWith<V>>::fold_with(body, visitor) };
                 let type_params = {
                     <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_with(type_params, visitor)
                 };
                 let return_type =
                     { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(return_type, visitor) };
                 Function {
+                    this_param,
                     params,
                     decorators,
                     span,
@@ -104638,6 +105901,22 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
                     type_params,
                     return_type,
                 }
+            }
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for FunctionBody {
+    #[doc = "Calls [Fold`::fold_function_body`] with `self`."]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_function_body(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        match self {
+            FunctionBody { span, stmts } => {
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let stmts = { <Vec<Stmt> as FoldWith<V>>::fold_with(stmts, visitor) };
+                FunctionBody { span, stmts }
             }
         }
     }
@@ -104653,19 +105932,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
-                let body = { <Option<BlockStmt> as FoldWith<V>>::fold_with(body, visitor) };
+                let function = { <Box<Function> as FoldWith<V>>::fold_with(function, visitor) };
                 GetterProp {
                     span,
                     key,
-                    type_ann,
-                    body,
+                    function,
                 }
             }
         }
@@ -105359,7 +106634,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXText {
         match self {
             JSXText { span, value, raw } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
-                let value = { <swc_atoms::Atom as FoldWith<V>>::fold_with(value, visitor) };
+                let value = { <swc_atoms::Wtf8Atom as FoldWith<V>>::fold_with(value, visitor) };
                 let raw = { <swc_atoms::Atom as FoldWith<V>>::fold_with(raw, visitor) };
                 JSXText { span, value, raw }
             }
@@ -106384,21 +107659,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
-                let this_param = { <Option<Pat> as FoldWith<V>>::fold_with(this_param, visitor) };
-                let param = { <Box<Pat> as FoldWith<V>>::fold_with(param, visitor) };
-                let body = { <Option<BlockStmt> as FoldWith<V>>::fold_with(body, visitor) };
+                let function = { <Box<Function> as FoldWith<V>>::fold_with(function, visitor) };
                 SetterProp {
                     span,
                     key,
-                    this_param,
-                    param,
-                    body,
+                    function,
                 }
             }
         }
@@ -106680,14 +107949,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let body_ctxt =
+                    { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(body_ctxt, visitor) };
                 let discriminant = { <Box<Expr> as FoldWith<V>>::fold_with(discriminant, visitor) };
                 let cases = { <Vec<SwitchCase> as FoldWith<V>>::fold_with(cases, visitor) };
                 SwitchStmt {
                     span,
+                    body_ctxt,
                     discriminant,
                     cases,
                 }
@@ -108093,6 +109366,33 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsSetterSignature {
         }
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for TsThisParam {
+    #[doc = "Calls [Fold`::fold_ts_this_param`] with `self`."]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_this_param(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
+                let this_span =
+                    { <swc_common::Span as FoldWith<V>>::fold_with(this_span, visitor) };
+                let type_ann =
+                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
+                TsThisParam {
+                    span,
+                    this_span,
+                    type_ann,
+                }
+            }
+        }
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for TsThisType {
     #[doc = "Calls [Fold`::fold_ts_this_type`] with `self`."]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -109176,6 +110476,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Vec<ExprOrSpread>> {
         self.map(|inner| <Vec<ExprOrSpread> as FoldWith<V>>::fold_with(inner, visitor))
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for Option<FunctionBody> {
+    #[doc = "Calls [Fold`::fold_opt_function_body`] with `self`. (Extra impl)"]
+    #[inline]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_function_body(visitor, self)
+    }
+
+    #[inline]
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.map(|inner| <FunctionBody as FoldWith<V>>::fold_with(inner, visitor))
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Ident> {
     #[doc = "Calls [Fold`::fold_opt_ident`] with `self`. (Extra impl)"]
     #[inline]
@@ -109330,6 +110642,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<TsNamespaceBody> {
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.map(|inner| <TsNamespaceBody as FoldWith<V>>::fold_with(inner, visitor))
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [Fold`::fold_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_ts_this_param(visitor, self)
+    }
+
+    #[inline]
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.map(|inner| <Box<TsThisParam> as FoldWith<V>>::fold_with(inner, visitor))
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsType>> {
@@ -109733,6 +111057,19 @@ pub trait FoldAstPath {
     fn fold_arrow_expr(&mut self, node: ArrowExpr, __ast_path: &mut AstKindPath) -> ArrowExpr {
         <ArrowExpr as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Visit a node of type `ArrowFunctionBody`.\n\nBy default, this method calls \
+             [`ArrowFunctionBody::fold_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    #[inline]
+    fn fold_arrow_function_body(
+        &mut self,
+        node: ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> ArrowFunctionBody {
+        <ArrowFunctionBody as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `AssignExpr`.\n\nBy default, this method calls \
              [`AssignExpr::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -109878,19 +111215,6 @@ pub trait FoldAstPath {
     #[inline]
     fn fold_block_stmt(&mut self, node: BlockStmt, __ast_path: &mut AstKindPath) -> BlockStmt {
         <BlockStmt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
-    }
-    #[doc = "Visit a node of type `BlockStmtOrExpr`.\n\nBy default, this method calls \
-             [`BlockStmtOrExpr::fold_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    #[inline]
-    fn fold_block_stmt_or_expr(
-        &mut self,
-        node: BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) -> BlockStmtOrExpr {
-        <BlockStmtOrExpr as FoldWithAstPath<Self>>::fold_children_with_ast_path(
-            node, self, __ast_path,
-        )
     }
     #[doc = "Visit a node of type `Bool`.\n\nBy default, this method calls \
              [`Bool::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -110299,6 +111623,17 @@ pub trait FoldAstPath {
     #[inline]
     fn fold_function(&mut self, node: Function, __ast_path: &mut AstKindPath) -> Function {
         <Function as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Visit a node of type `FunctionBody`.\n\nBy default, this method calls \
+             [`FunctionBody::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn fold_function_body(
+        &mut self,
+        node: FunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> FunctionBody {
+        <FunctionBody as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `GetterProp`.\n\nBy default, this method calls \
              [`GetterProp::fold_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -111044,6 +112379,19 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < FunctionBody >`.\n\nBy default, this method calls \
+             [`Option < FunctionBody >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    #[inline]
+    fn fold_opt_function_body(
+        &mut self,
+        node: Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<FunctionBody> {
+        <Option<FunctionBody> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
              Ident >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -111204,6 +112552,19 @@ pub trait FoldAstPath {
         __ast_path: &mut AstKindPath,
     ) -> Option<TsNamespaceBody> {
         <Option<TsNamespaceBody> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsThisParam > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsThisParam > >::fold_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        <Option<Box<TsThisParam>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -112339,6 +113700,17 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Visit a node of type `TsThisParam`.\n\nBy default, this method calls \
+             [`TsThisParam::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        <TsThisParam as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
     #[doc = "Visit a node of type `TsThisType`.\n\nBy default, this method calls \
              [`TsThisType::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -112795,6 +114167,15 @@ where
     }
 
     #[inline]
+    fn fold_arrow_function_body(
+        &mut self,
+        node: ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> ArrowFunctionBody {
+        <V as FoldAstPath>::fold_arrow_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr, __ast_path: &mut AstKindPath) -> AssignExpr {
         <V as FoldAstPath>::fold_assign_expr(&mut **self, node, __ast_path)
     }
@@ -112900,15 +114281,6 @@ where
     #[inline]
     fn fold_block_stmt(&mut self, node: BlockStmt, __ast_path: &mut AstKindPath) -> BlockStmt {
         <V as FoldAstPath>::fold_block_stmt(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
-    fn fold_block_stmt_or_expr(
-        &mut self,
-        node: BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) -> BlockStmtOrExpr {
-        <V as FoldAstPath>::fold_block_stmt_or_expr(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -113205,6 +114577,15 @@ where
     #[inline]
     fn fold_function(&mut self, node: Function, __ast_path: &mut AstKindPath) -> Function {
         <V as FoldAstPath>::fold_function(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_function_body(
+        &mut self,
+        node: FunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> FunctionBody {
+        <V as FoldAstPath>::fold_function_body(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -113744,6 +115125,15 @@ where
     }
 
     #[inline]
+    fn fold_opt_function_body(
+        &mut self,
+        node: Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<FunctionBody> {
+        <V as FoldAstPath>::fold_opt_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_opt_ident(
         &mut self,
         node: Option<Ident>,
@@ -113854,6 +115244,15 @@ where
         __ast_path: &mut AstKindPath,
     ) -> Option<TsNamespaceBody> {
         <V as FoldAstPath>::fold_opt_ts_namespace_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        <V as FoldAstPath>::fold_opt_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -114663,6 +116062,15 @@ where
         __ast_path: &mut AstKindPath,
     ) -> TsSetterSignature {
         <V as FoldAstPath>::fold_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        <V as FoldAstPath>::fold_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -115000,6 +116408,15 @@ where
     }
 
     #[inline]
+    fn fold_arrow_function_body(
+        &mut self,
+        node: ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> ArrowFunctionBody {
+        <V as FoldAstPath>::fold_arrow_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr, __ast_path: &mut AstKindPath) -> AssignExpr {
         <V as FoldAstPath>::fold_assign_expr(&mut **self, node, __ast_path)
     }
@@ -115105,15 +116522,6 @@ where
     #[inline]
     fn fold_block_stmt(&mut self, node: BlockStmt, __ast_path: &mut AstKindPath) -> BlockStmt {
         <V as FoldAstPath>::fold_block_stmt(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
-    fn fold_block_stmt_or_expr(
-        &mut self,
-        node: BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) -> BlockStmtOrExpr {
-        <V as FoldAstPath>::fold_block_stmt_or_expr(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -115410,6 +116818,15 @@ where
     #[inline]
     fn fold_function(&mut self, node: Function, __ast_path: &mut AstKindPath) -> Function {
         <V as FoldAstPath>::fold_function(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_function_body(
+        &mut self,
+        node: FunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> FunctionBody {
+        <V as FoldAstPath>::fold_function_body(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -115949,6 +117366,15 @@ where
     }
 
     #[inline]
+    fn fold_opt_function_body(
+        &mut self,
+        node: Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<FunctionBody> {
+        <V as FoldAstPath>::fold_opt_function_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_opt_ident(
         &mut self,
         node: Option<Ident>,
@@ -116059,6 +117485,15 @@ where
         __ast_path: &mut AstKindPath,
     ) -> Option<TsNamespaceBody> {
         <V as FoldAstPath>::fold_opt_ts_namespace_body(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        <V as FoldAstPath>::fold_opt_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -116868,6 +118303,15 @@ where
         __ast_path: &mut AstKindPath,
     ) -> TsSetterSignature {
         <V as FoldAstPath>::fold_ts_setter_signature(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        <V as FoldAstPath>::fold_ts_this_param(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -117234,6 +118678,22 @@ where
     }
 
     #[inline]
+    fn fold_arrow_function_body(
+        &mut self,
+        node: ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> ArrowFunctionBody {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_arrow_function_body(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_arrow_function_body(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr, __ast_path: &mut AstKindPath) -> AssignExpr {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -117445,22 +118905,6 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_block_stmt(visitor, node, __ast_path)
-            }
-        }
-    }
-
-    #[inline]
-    fn fold_block_stmt_or_expr(
-        &mut self,
-        node: BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) -> BlockStmtOrExpr {
-        match self {
-            swc_visit::Either::Left(visitor) => {
-                FoldAstPath::fold_block_stmt_or_expr(visitor, node, __ast_path)
-            }
-            swc_visit::Either::Right(visitor) => {
-                FoldAstPath::fold_block_stmt_or_expr(visitor, node, __ast_path)
             }
         }
     }
@@ -118043,6 +119487,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_function(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn fold_function_body(
+        &mut self,
+        node: FunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> FunctionBody {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_function_body(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_function_body(visitor, node, __ast_path)
             }
         }
     }
@@ -119066,6 +120526,22 @@ where
     }
 
     #[inline]
+    fn fold_opt_function_body(
+        &mut self,
+        node: Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<FunctionBody> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_opt_function_body(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_opt_function_body(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_opt_ident(
         &mut self,
         node: Option<Ident>,
@@ -119265,6 +120741,22 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_opt_ts_namespace_body(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_opt_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_opt_ts_this_param(visitor, node, __ast_path)
             }
         }
     }
@@ -120764,6 +122256,22 @@ where
     }
 
     #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::fold_ts_this_param(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::fold_ts_this_param(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_ts_this_type(&mut self, node: TsThisType, __ast_path: &mut AstKindPath) -> TsThisType {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -121394,6 +122902,19 @@ where
     }
 
     #[inline]
+    fn fold_arrow_function_body(
+        &mut self,
+        node: ArrowFunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> ArrowFunctionBody {
+        if self.enabled {
+            <V as FoldAstPath>::fold_arrow_function_body(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr, __ast_path: &mut AstKindPath) -> AssignExpr {
         if self.enabled {
             <V as FoldAstPath>::fold_assign_expr(&mut self.visitor, node, __ast_path)
@@ -121560,19 +123081,6 @@ where
     fn fold_block_stmt(&mut self, node: BlockStmt, __ast_path: &mut AstKindPath) -> BlockStmt {
         if self.enabled {
             <V as FoldAstPath>::fold_block_stmt(&mut self.visitor, node, __ast_path)
-        } else {
-            node
-        }
-    }
-
-    #[inline]
-    fn fold_block_stmt_or_expr(
-        &mut self,
-        node: BlockStmtOrExpr,
-        __ast_path: &mut AstKindPath,
-    ) -> BlockStmtOrExpr {
-        if self.enabled {
-            <V as FoldAstPath>::fold_block_stmt_or_expr(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -122045,6 +123553,19 @@ where
     fn fold_function(&mut self, node: Function, __ast_path: &mut AstKindPath) -> Function {
         if self.enabled {
             <V as FoldAstPath>::fold_function(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_function_body(
+        &mut self,
+        node: FunctionBody,
+        __ast_path: &mut AstKindPath,
+    ) -> FunctionBody {
+        if self.enabled {
+            <V as FoldAstPath>::fold_function_body(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -122875,6 +124396,19 @@ where
     }
 
     #[inline]
+    fn fold_opt_function_body(
+        &mut self,
+        node: Option<FunctionBody>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<FunctionBody> {
+        if self.enabled {
+            <V as FoldAstPath>::fold_opt_function_body(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_opt_ident(
         &mut self,
         node: Option<Ident>,
@@ -123034,6 +124568,19 @@ where
     ) -> Option<TsNamespaceBody> {
         if self.enabled {
             <V as FoldAstPath>::fold_opt_ts_namespace_body(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn fold_opt_ts_this_param(
+        &mut self,
+        node: Option<Box<TsThisParam>>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsThisParam>> {
+        if self.enabled {
+            <V as FoldAstPath>::fold_opt_ts_this_param(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -124277,6 +125824,19 @@ where
     }
 
     #[inline]
+    fn fold_ts_this_param(
+        &mut self,
+        node: TsThisParam,
+        __ast_path: &mut AstKindPath,
+    ) -> TsThisParam {
+        if self.enabled {
+            <V as FoldAstPath>::fold_ts_this_param(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_ts_this_type(&mut self, node: TsThisType, __ast_path: &mut AstKindPath) -> TsThisType {
         if self.enabled {
             <V as FoldAstPath>::fold_ts_this_type(&mut self.visitor, node, __ast_path)
@@ -124916,7 +126476,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrowExpr {
                 let body = {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::ArrowExpr(self::fields::ArrowExprField::Body));
-                    <Box<BlockStmtOrExpr> as FoldWithAstPath<V>>::fold_with_ast_path(
+                    <Box<ArrowFunctionBody> as FoldWithAstPath<V>>::fold_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -124953,6 +126513,43 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrowExpr {
                     return_type,
                 }
             }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrowFunctionBody {
+    #[doc = "Calls [FoldAstPath`::fold_arrow_function_body`] with `self`."]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_arrow_function_body(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        match self {
+            ArrowFunctionBody::FunctionBody { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrowFunctionBody(
+                    self::fields::ArrowFunctionBodyField::FunctionBody,
+                ));
+                let _field_0 = <FunctionBody as FoldWithAstPath<V>>::fold_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+                ArrowFunctionBody::FunctionBody { 0: _field_0 }
+            }
+            ArrowFunctionBody::Expr { 0: _field_0 } => {
+                let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrowFunctionBody(
+                    self::fields::ArrowFunctionBodyField::Expr,
+                ));
+                let _field_0 = <Box<Expr> as FoldWithAstPath<V>>::fold_with_ast_path(
+                    _field_0,
+                    visitor,
+                    &mut *__ast_path,
+                );
+                ArrowFunctionBody::Expr { 0: _field_0 }
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => self,
         }
     }
 }
@@ -125619,43 +127216,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BlockStmt {
                 };
                 BlockStmt { span, ctxt, stmts }
             }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BlockStmtOrExpr {
-    #[doc = "Calls [FoldAstPath`::fold_block_stmt_or_expr`] with `self`."]
-    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        <V as FoldAstPath>::fold_block_stmt_or_expr(visitor, self, __ast_path)
-    }
-
-    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
-            BlockStmtOrExpr::BlockStmt { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(AstParentKind::BlockStmtOrExpr(
-                    self::fields::BlockStmtOrExprField::BlockStmt,
-                ));
-                let _field_0 = <BlockStmt as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
-                BlockStmtOrExpr::BlockStmt { 0: _field_0 }
-            }
-            BlockStmtOrExpr::Expr { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(AstParentKind::BlockStmtOrExpr(
-                    self::fields::BlockStmtOrExprField::Expr,
-                ));
-                let _field_0 = <Box<Expr> as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
-                BlockStmtOrExpr::Expr { 0: _field_0 }
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => self,
         }
     }
 }
@@ -126532,7 +128092,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Constructor {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::Constructor(
                         self::fields::ConstructorField::Body,
                     ));
-                    <Option<BlockStmt> as FoldWithAstPath<V>>::fold_with_ast_path(
+                    <Option<FunctionBody> as FoldWithAstPath<V>>::fold_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -128007,6 +129567,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         match self {
             Function {
+                this_param,
                 params,
                 decorators,
                 span,
@@ -128017,6 +129578,16 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                 type_params,
                 return_type,
             } => {
+                let this_param = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
+                        self::fields::FunctionField::ThisParam,
+                    ));
+                    <Option<Box<TsThisParam>> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        this_param,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 let params = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
                         self::fields::FunctionField::Params(usize::MAX),
@@ -128058,7 +129629,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                 let body = {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::Function(self::fields::FunctionField::Body));
-                    <Option<BlockStmt> as FoldWithAstPath<V>>::fold_with_ast_path(
+                    <Option<FunctionBody> as FoldWithAstPath<V>>::fold_with_ast_path(
                         body,
                         visitor,
                         &mut *__ast_path,
@@ -128085,6 +129656,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                     )
                 };
                 Function {
+                    this_param,
                     params,
                     decorators,
                     span,
@@ -128095,6 +129667,42 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                     type_params,
                     return_type,
                 }
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for FunctionBody {
+    #[doc = "Calls [FoldAstPath`::fold_function_body`] with `self`."]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_function_body(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        match self {
+            FunctionBody { span, stmts } => {
+                let span = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::FunctionBody(
+                        self::fields::FunctionBodyField::Span,
+                    ));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let stmts = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::FunctionBody(
+                        self::fields::FunctionBodyField::Stmts(usize::MAX),
+                    ));
+                    <Vec<Stmt> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        stmts,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                FunctionBody { span, stmts }
             }
         }
     }
@@ -128112,8 +129720,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for GetterProp {
             GetterProp {
                 span,
                 key,
-                type_ann,
-                body,
+                function,
             } => {
                 let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
@@ -128135,22 +129742,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for GetterProp {
                         &mut *__ast_path,
                     )
                 };
-                let type_ann = {
+                let function = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::TypeAnn,
+                        self::fields::GetterPropField::Function,
                     ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let body = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        body,
+                    <Box<Function> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -128158,8 +129755,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for GetterProp {
                 GetterProp {
                     span,
                     key,
-                    type_ann,
-                    body,
+                    function,
                 }
             }
         }
@@ -129590,7 +131186,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXText {
                 let value = {
                     let mut __ast_path = __ast_path
                         .with_guard(AstParentKind::JSXText(self::fields::JSXTextField::Value));
-                    <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
+                    <swc_atoms::Wtf8Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         value,
                         visitor,
                         &mut *__ast_path,
@@ -131668,9 +133264,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SetterProp {
             SetterProp {
                 span,
                 key,
-                this_param,
-                param,
-                body,
+                function,
             } => {
                 let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
@@ -131692,32 +133286,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SetterProp {
                         &mut *__ast_path,
                     )
                 };
-                let this_param = {
+                let function = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::ThisParam,
+                        self::fields::SetterPropField::Function,
                     ));
-                    <Option<Pat> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        this_param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let param = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::Param,
-                    ));
-                    <Box<Pat> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        param,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let body = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SetterProp(
-                        self::fields::SetterPropField::Body,
-                    ));
-                    <Option<BlockStmt> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        body,
+                    <Box<Function> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        function,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -131725,9 +133299,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SetterProp {
                 SetterProp {
                     span,
                     key,
-                    this_param,
-                    param,
-                    body,
+                    function,
                 }
             }
         }
@@ -132355,6 +133927,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchStmt {
         match self {
             SwitchStmt {
                 span,
+                body_ctxt,
                 discriminant,
                 cases,
             } => {
@@ -132364,6 +133937,16 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchStmt {
                     ));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let body_ctxt = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::SwitchStmt(
+                        self::fields::SwitchStmtField::BodyCtxt,
+                    ));
+                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_with_ast_path(
+                        body_ctxt,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -132390,6 +133973,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchStmt {
                 };
                 SwitchStmt {
                     span,
+                    body_ctxt,
                     discriminant,
                     cases,
                 }
@@ -135240,6 +136824,60 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsSetterSignature {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsThisParam {
+    #[doc = "Calls [FoldAstPath`::fold_ts_this_param`] with `self`."]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_this_param(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        match self {
+            TsThisParam {
+                span,
+                this_span,
+                type_ann,
+            } => {
+                let span = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::Span,
+                    ));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let this_span = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::ThisSpan,
+                    ));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        this_span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                let type_ann = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsThisParam(
+                        self::fields::TsThisParamField::TypeAnn,
+                    ));
+                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        type_ann,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                TsThisParam {
+                    span,
+                    this_span,
+                    type_ann,
+                }
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsThisType {
     #[doc = "Calls [FoldAstPath`::fold_ts_this_type`] with `self`."]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
@@ -137313,6 +138951,22 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Vec<ExprOrSpread>> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<FunctionBody> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_function_body`] with `self`. (Extra impl)"]
+    #[inline]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_function_body(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        self.map(|inner| {
+            <FunctionBody as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Ident> {
     #[doc = "Calls [FoldAstPath`::fold_opt_ident`] with `self`. (Extra impl)"]
     #[inline]
@@ -137520,6 +139174,22 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<TsNamespaceBody> {
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         self.map(|inner| {
             <TsNamespaceBody as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsThisParam>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_ts_this_param`] with `self`. (Extra impl)"]
+    #[inline]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_ts_this_param(visitor, self, __ast_path)
+    }
+
+    #[inline]
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        self.map(|inner| {
+            <Box<TsThisParam> as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
         })
     }
 }
@@ -138189,6 +139859,20 @@ pub mod fields {
         #[doc = "Represents [`ArrowExpr::return_type`]"]
         ReturnType,
     }
+    impl ArrowFunctionBodyField {
+        #[inline(always)]
+        pub(crate) fn set_index(&mut self, _: usize) {
+            swc_visit::wrong_ast_path();
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+    pub enum ArrowFunctionBodyField {
+        #[doc = "Represents [`ArrowFunctionBody::FunctionBody`]"]
+        FunctionBody,
+        #[doc = "Represents [`ArrowFunctionBody::Expr`]"]
+        Expr,
+    }
     impl AssignExprField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
@@ -138512,20 +140196,6 @@ pub mod fields {
         Ctxt,
         #[doc = "Represents [`BlockStmt::stmts`]"]
         Stmts(usize),
-    }
-    impl BlockStmtOrExprField {
-        #[inline(always)]
-        pub(crate) fn set_index(&mut self, _: usize) {
-            swc_visit::wrong_ast_path();
-        }
-    }
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
-    pub enum BlockStmtOrExprField {
-        #[doc = "Represents [`BlockStmtOrExpr::BlockStmt`]"]
-        BlockStmt,
-        #[doc = "Represents [`BlockStmtOrExpr::Expr`]"]
-        Expr,
     }
     impl BoolField {
         pub(crate) fn set_index(&mut self, index: usize) {
@@ -139334,6 +141004,8 @@ pub mod fields {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum FunctionField {
+        #[doc = "Represents [`Function::this_param`]"]
+        ThisParam,
         #[doc = "Represents [`Function::params`]"]
         Params(usize),
         #[doc = "Represents [`Function::decorators`]"]
@@ -139353,6 +141025,25 @@ pub mod fields {
         #[doc = "Represents [`Function::return_type`]"]
         ReturnType,
     }
+    impl FunctionBodyField {
+        pub(crate) fn set_index(&mut self, index: usize) {
+            match self {
+                Self::Stmts(idx) => {
+                    assert_initial_index(*idx, index);
+                    *idx = index;
+                }
+                _ => swc_visit::wrong_ast_path(),
+            }
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+    pub enum FunctionBodyField {
+        #[doc = "Represents [`FunctionBody::span`]"]
+        Span,
+        #[doc = "Represents [`FunctionBody::stmts`]"]
+        Stmts(usize),
+    }
     impl GetterPropField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
@@ -139367,10 +141058,8 @@ pub mod fields {
         Span,
         #[doc = "Represents [`GetterProp::key`]"]
         Key,
-        #[doc = "Represents [`GetterProp::type_ann`]"]
-        TypeAnn,
-        #[doc = "Represents [`GetterProp::body`]"]
-        Body,
+        #[doc = "Represents [`GetterProp::function`]"]
+        Function,
     }
     impl IdentField {
         pub(crate) fn set_index(&mut self, index: usize) {
@@ -140709,12 +142398,8 @@ pub mod fields {
         Span,
         #[doc = "Represents [`SetterProp::key`]"]
         Key,
-        #[doc = "Represents [`SetterProp::this_param`]"]
-        ThisParam,
-        #[doc = "Represents [`SetterProp::param`]"]
-        Param,
-        #[doc = "Represents [`SetterProp::body`]"]
-        Body,
+        #[doc = "Represents [`SetterProp::function`]"]
+        Function,
     }
     impl SimpleAssignTargetField {
         #[inline(always)]
@@ -140924,6 +142609,8 @@ pub mod fields {
     pub enum SwitchStmtField {
         #[doc = "Represents [`SwitchStmt::span`]"]
         Span,
+        #[doc = "Represents [`SwitchStmt::body_ctxt`]"]
+        BodyCtxt,
         #[doc = "Represents [`SwitchStmt::discriminant`]"]
         Discriminant,
         #[doc = "Represents [`SwitchStmt::cases`]"]
@@ -142020,6 +143707,23 @@ pub mod fields {
         #[doc = "Represents [`TsSetterSignature::param`]"]
         Param,
     }
+    impl TsThisParamField {
+        pub(crate) fn set_index(&mut self, index: usize) {
+            match self {
+                _ => swc_visit::wrong_ast_path(),
+            }
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+    pub enum TsThisParamField {
+        #[doc = "Represents [`TsThisParam::span`]"]
+        Span,
+        #[doc = "Represents [`TsThisParam::this_span`]"]
+        ThisSpan,
+        #[doc = "Represents [`TsThisParam::type_ann`]"]
+        TypeAnn,
+    }
     impl TsThisTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
@@ -142677,6 +144381,7 @@ pub mod fields {
         ArrayLit(ArrayLitField),
         ArrayPat(ArrayPatField),
         ArrowExpr(ArrowExprField),
+        ArrowFunctionBody(ArrowFunctionBodyField),
         AssignExpr(AssignExprField),
         AssignOp(AssignOpField),
         AssignPat(AssignPatField),
@@ -142691,7 +144396,6 @@ pub mod fields {
         BinaryOp(BinaryOpField),
         BindingIdent(BindingIdentField),
         BlockStmt(BlockStmtField),
-        BlockStmtOrExpr(BlockStmtOrExprField),
         Bool(BoolField),
         BreakStmt(BreakStmtField),
         CallExpr(CallExprField),
@@ -142731,6 +144435,7 @@ pub mod fields {
         ForOfStmt(ForOfStmtField),
         ForStmt(ForStmtField),
         Function(FunctionField),
+        FunctionBody(FunctionBodyField),
         GetterProp(GetterPropField),
         Ident(IdentField),
         IdentName(IdentNameField),
@@ -142875,6 +144580,7 @@ pub mod fields {
         TsRestType(TsRestTypeField),
         TsSatisfiesExpr(TsSatisfiesExprField),
         TsSetterSignature(TsSetterSignatureField),
+        TsThisParam(TsThisParamField),
         TsThisType(TsThisTypeField),
         TsThisTypeOrIdent(TsThisTypeOrIdentField),
         TsTplLitType(TsTplLitTypeField),
@@ -142918,6 +144624,7 @@ pub mod fields {
                 Self::ArrayLit(v) => v.set_index(index),
                 Self::ArrayPat(v) => v.set_index(index),
                 Self::ArrowExpr(v) => v.set_index(index),
+                Self::ArrowFunctionBody(v) => v.set_index(index),
                 Self::AssignExpr(v) => v.set_index(index),
                 Self::AssignOp(v) => v.set_index(index),
                 Self::AssignPat(v) => v.set_index(index),
@@ -142932,7 +144639,6 @@ pub mod fields {
                 Self::BinaryOp(v) => v.set_index(index),
                 Self::BindingIdent(v) => v.set_index(index),
                 Self::BlockStmt(v) => v.set_index(index),
-                Self::BlockStmtOrExpr(v) => v.set_index(index),
                 Self::Bool(v) => v.set_index(index),
                 Self::BreakStmt(v) => v.set_index(index),
                 Self::CallExpr(v) => v.set_index(index),
@@ -142972,6 +144678,7 @@ pub mod fields {
                 Self::ForOfStmt(v) => v.set_index(index),
                 Self::ForStmt(v) => v.set_index(index),
                 Self::Function(v) => v.set_index(index),
+                Self::FunctionBody(v) => v.set_index(index),
                 Self::GetterProp(v) => v.set_index(index),
                 Self::Ident(v) => v.set_index(index),
                 Self::IdentName(v) => v.set_index(index),
@@ -143116,6 +144823,7 @@ pub mod fields {
                 Self::TsRestType(v) => v.set_index(index),
                 Self::TsSatisfiesExpr(v) => v.set_index(index),
                 Self::TsSetterSignature(v) => v.set_index(index),
+                Self::TsThisParam(v) => v.set_index(index),
                 Self::TsThisType(v) => v.set_index(index),
                 Self::TsThisTypeOrIdent(v) => v.set_index(index),
                 Self::TsTplLitType(v) => v.set_index(index),
@@ -143159,6 +144867,7 @@ pub mod fields {
         ArrayLit(&'ast ArrayLit, ArrayLitField),
         ArrayPat(&'ast ArrayPat, ArrayPatField),
         ArrowExpr(&'ast ArrowExpr, ArrowExprField),
+        ArrowFunctionBody(&'ast ArrowFunctionBody, ArrowFunctionBodyField),
         AssignExpr(&'ast AssignExpr, AssignExprField),
         AssignOp(&'ast AssignOp, AssignOpField),
         AssignPat(&'ast AssignPat, AssignPatField),
@@ -143173,7 +144882,6 @@ pub mod fields {
         BinaryOp(&'ast BinaryOp, BinaryOpField),
         BindingIdent(&'ast BindingIdent, BindingIdentField),
         BlockStmt(&'ast BlockStmt, BlockStmtField),
-        BlockStmtOrExpr(&'ast BlockStmtOrExpr, BlockStmtOrExprField),
         Bool(&'ast Bool, BoolField),
         BreakStmt(&'ast BreakStmt, BreakStmtField),
         CallExpr(&'ast CallExpr, CallExprField),
@@ -143216,6 +144924,7 @@ pub mod fields {
         ForOfStmt(&'ast ForOfStmt, ForOfStmtField),
         ForStmt(&'ast ForStmt, ForStmtField),
         Function(&'ast Function, FunctionField),
+        FunctionBody(&'ast FunctionBody, FunctionBodyField),
         GetterProp(&'ast GetterProp, GetterPropField),
         Ident(&'ast Ident, IdentField),
         IdentName(&'ast IdentName, IdentNameField),
@@ -143363,6 +145072,7 @@ pub mod fields {
         TsRestType(&'ast TsRestType, TsRestTypeField),
         TsSatisfiesExpr(&'ast TsSatisfiesExpr, TsSatisfiesExprField),
         TsSetterSignature(&'ast TsSetterSignature, TsSetterSignatureField),
+        TsThisParam(&'ast TsThisParam, TsThisParamField),
         TsThisType(&'ast TsThisType, TsThisTypeField),
         TsThisTypeOrIdent(&'ast TsThisTypeOrIdent, TsThisTypeOrIdentField),
         TsTplLitType(&'ast TsTplLitType, TsTplLitTypeField),
@@ -143418,6 +145128,7 @@ pub mod fields {
                 Self::ArrayLit(_, __field_kind) => __field_kind.set_index(index),
                 Self::ArrayPat(_, __field_kind) => __field_kind.set_index(index),
                 Self::ArrowExpr(_, __field_kind) => __field_kind.set_index(index),
+                Self::ArrowFunctionBody(_, __field_kind) => __field_kind.set_index(index),
                 Self::AssignExpr(_, __field_kind) => __field_kind.set_index(index),
                 Self::AssignOp(_, __field_kind) => __field_kind.set_index(index),
                 Self::AssignPat(_, __field_kind) => __field_kind.set_index(index),
@@ -143432,7 +145143,6 @@ pub mod fields {
                 Self::BinaryOp(_, __field_kind) => __field_kind.set_index(index),
                 Self::BindingIdent(_, __field_kind) => __field_kind.set_index(index),
                 Self::BlockStmt(_, __field_kind) => __field_kind.set_index(index),
-                Self::BlockStmtOrExpr(_, __field_kind) => __field_kind.set_index(index),
                 Self::Bool(_, __field_kind) => __field_kind.set_index(index),
                 Self::BreakStmt(_, __field_kind) => __field_kind.set_index(index),
                 Self::CallExpr(_, __field_kind) => __field_kind.set_index(index),
@@ -143472,6 +145182,7 @@ pub mod fields {
                 Self::ForOfStmt(_, __field_kind) => __field_kind.set_index(index),
                 Self::ForStmt(_, __field_kind) => __field_kind.set_index(index),
                 Self::Function(_, __field_kind) => __field_kind.set_index(index),
+                Self::FunctionBody(_, __field_kind) => __field_kind.set_index(index),
                 Self::GetterProp(_, __field_kind) => __field_kind.set_index(index),
                 Self::Ident(_, __field_kind) => __field_kind.set_index(index),
                 Self::IdentName(_, __field_kind) => __field_kind.set_index(index),
@@ -143616,6 +145327,7 @@ pub mod fields {
                 Self::TsRestType(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsSatisfiesExpr(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsSetterSignature(_, __field_kind) => __field_kind.set_index(index),
+                Self::TsThisParam(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsThisType(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsThisTypeOrIdent(_, __field_kind) => __field_kind.set_index(index),
                 Self::TsTplLitType(_, __field_kind) => __field_kind.set_index(index),
@@ -143662,6 +145374,9 @@ pub mod fields {
                 Self::ArrayLit(_, __field_kind) => AstParentKind::ArrayLit(*__field_kind),
                 Self::ArrayPat(_, __field_kind) => AstParentKind::ArrayPat(*__field_kind),
                 Self::ArrowExpr(_, __field_kind) => AstParentKind::ArrowExpr(*__field_kind),
+                Self::ArrowFunctionBody(_, __field_kind) => {
+                    AstParentKind::ArrowFunctionBody(*__field_kind)
+                }
                 Self::AssignExpr(_, __field_kind) => AstParentKind::AssignExpr(*__field_kind),
                 Self::AssignOp(_, __field_kind) => AstParentKind::AssignOp(*__field_kind),
                 Self::AssignPat(_, __field_kind) => AstParentKind::AssignPat(*__field_kind),
@@ -143678,9 +145393,6 @@ pub mod fields {
                 Self::BinaryOp(_, __field_kind) => AstParentKind::BinaryOp(*__field_kind),
                 Self::BindingIdent(_, __field_kind) => AstParentKind::BindingIdent(*__field_kind),
                 Self::BlockStmt(_, __field_kind) => AstParentKind::BlockStmt(*__field_kind),
-                Self::BlockStmtOrExpr(_, __field_kind) => {
-                    AstParentKind::BlockStmtOrExpr(*__field_kind)
-                }
                 Self::Bool(_, __field_kind) => AstParentKind::Bool(*__field_kind),
                 Self::BreakStmt(_, __field_kind) => AstParentKind::BreakStmt(*__field_kind),
                 Self::CallExpr(_, __field_kind) => AstParentKind::CallExpr(*__field_kind),
@@ -143734,6 +145446,7 @@ pub mod fields {
                 Self::ForOfStmt(_, __field_kind) => AstParentKind::ForOfStmt(*__field_kind),
                 Self::ForStmt(_, __field_kind) => AstParentKind::ForStmt(*__field_kind),
                 Self::Function(_, __field_kind) => AstParentKind::Function(*__field_kind),
+                Self::FunctionBody(_, __field_kind) => AstParentKind::FunctionBody(*__field_kind),
                 Self::GetterProp(_, __field_kind) => AstParentKind::GetterProp(*__field_kind),
                 Self::Ident(_, __field_kind) => AstParentKind::Ident(*__field_kind),
                 Self::IdentName(_, __field_kind) => AstParentKind::IdentName(*__field_kind),
@@ -143978,6 +145691,7 @@ pub mod fields {
                 Self::TsSetterSignature(_, __field_kind) => {
                     AstParentKind::TsSetterSignature(*__field_kind)
                 }
+                Self::TsThisParam(_, __field_kind) => AstParentKind::TsThisParam(*__field_kind),
                 Self::TsThisType(_, __field_kind) => AstParentKind::TsThisType(*__field_kind),
                 Self::TsThisTypeOrIdent(_, __field_kind) => {
                     AstParentKind::TsThisTypeOrIdent(*__field_kind)
@@ -144058,6 +145772,11 @@ impl<'ast> From<&'ast ArrowExpr> for NodeRef<'ast> {
         NodeRef::ArrowExpr(node)
     }
 }
+impl<'ast> From<&'ast ArrowFunctionBody> for NodeRef<'ast> {
+    fn from(node: &'ast ArrowFunctionBody) -> Self {
+        NodeRef::ArrowFunctionBody(node)
+    }
+}
 impl<'ast> From<&'ast AssignExpr> for NodeRef<'ast> {
     fn from(node: &'ast AssignExpr) -> Self {
         NodeRef::AssignExpr(node)
@@ -144126,11 +145845,6 @@ impl<'ast> From<&'ast BindingIdent> for NodeRef<'ast> {
 impl<'ast> From<&'ast BlockStmt> for NodeRef<'ast> {
     fn from(node: &'ast BlockStmt) -> Self {
         NodeRef::BlockStmt(node)
-    }
-}
-impl<'ast> From<&'ast BlockStmtOrExpr> for NodeRef<'ast> {
-    fn from(node: &'ast BlockStmtOrExpr) -> Self {
-        NodeRef::BlockStmtOrExpr(node)
     }
 }
 impl<'ast> From<&'ast Bool> for NodeRef<'ast> {
@@ -144326,6 +146040,11 @@ impl<'ast> From<&'ast ForStmt> for NodeRef<'ast> {
 impl<'ast> From<&'ast Function> for NodeRef<'ast> {
     fn from(node: &'ast Function) -> Self {
         NodeRef::Function(node)
+    }
+}
+impl<'ast> From<&'ast FunctionBody> for NodeRef<'ast> {
+    fn from(node: &'ast FunctionBody) -> Self {
+        NodeRef::FunctionBody(node)
     }
 }
 impl<'ast> From<&'ast GetterProp> for NodeRef<'ast> {
@@ -145048,6 +146767,11 @@ impl<'ast> From<&'ast TsSetterSignature> for NodeRef<'ast> {
         NodeRef::TsSetterSignature(node)
     }
 }
+impl<'ast> From<&'ast TsThisParam> for NodeRef<'ast> {
+    fn from(node: &'ast TsThisParam) -> Self {
+        NodeRef::TsThisParam(node)
+    }
+}
 impl<'ast> From<&'ast TsThisType> for NodeRef<'ast> {
     fn from(node: &'ast TsThisType) -> Self {
         NodeRef::TsThisType(node)
@@ -145224,6 +146948,7 @@ pub enum NodeRef<'ast> {
     ArrayLit(&'ast ArrayLit),
     ArrayPat(&'ast ArrayPat),
     ArrowExpr(&'ast ArrowExpr),
+    ArrowFunctionBody(&'ast ArrowFunctionBody),
     AssignExpr(&'ast AssignExpr),
     AssignOp(&'ast AssignOp),
     AssignPat(&'ast AssignPat),
@@ -145238,7 +146963,6 @@ pub enum NodeRef<'ast> {
     BinaryOp(&'ast BinaryOp),
     BindingIdent(&'ast BindingIdent),
     BlockStmt(&'ast BlockStmt),
-    BlockStmtOrExpr(&'ast BlockStmtOrExpr),
     Bool(&'ast Bool),
     BreakStmt(&'ast BreakStmt),
     CallExpr(&'ast CallExpr),
@@ -145278,6 +147002,7 @@ pub enum NodeRef<'ast> {
     ForOfStmt(&'ast ForOfStmt),
     ForStmt(&'ast ForStmt),
     Function(&'ast Function),
+    FunctionBody(&'ast FunctionBody),
     GetterProp(&'ast GetterProp),
     Ident(&'ast Ident),
     IdentName(&'ast IdentName),
@@ -145422,6 +147147,7 @@ pub enum NodeRef<'ast> {
     TsRestType(&'ast TsRestType),
     TsSatisfiesExpr(&'ast TsSatisfiesExpr),
     TsSetterSignature(&'ast TsSetterSignature),
+    TsThisParam(&'ast TsThisParam),
     TsThisType(&'ast TsThisType),
     TsThisTypeOrIdent(&'ast TsThisTypeOrIdent),
     TsTplLitType(&'ast TsTplLitType),
@@ -145495,7 +147221,7 @@ impl<'ast> NodeRef<'ast> {
                     )
                     .chain({
                         let item = &*node.body;
-                        ::std::iter::once(NodeRef::BlockStmtOrExpr(&item))
+                        ::std::iter::once(NodeRef::ArrowFunctionBody(&item))
                     })
                     .chain(node.type_params.iter().flat_map(|item| {
                         let item = &*item;
@@ -145507,6 +147233,13 @@ impl<'ast> NodeRef<'ast> {
                     }));
                 Box::new(iterator)
             }
+            NodeRef::ArrowFunctionBody(node) => match node {
+                ArrowFunctionBody::FunctionBody(v0) => {
+                    Box::new(::std::iter::once(NodeRef::FunctionBody(v0)))
+                }
+                ArrowFunctionBody::Expr(v0) => Box::new(::std::iter::once(NodeRef::Expr(v0))),
+                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
+            },
             NodeRef::AssignExpr(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain(::std::iter::once(NodeRef::AssignOp(&node.op)))
@@ -145630,13 +147363,6 @@ impl<'ast> NodeRef<'ast> {
                 );
                 Box::new(iterator)
             }
-            NodeRef::BlockStmtOrExpr(node) => match node {
-                BlockStmtOrExpr::BlockStmt(v0) => {
-                    Box::new(::std::iter::once(NodeRef::BlockStmt(v0)))
-                }
-                BlockStmtOrExpr::Expr(v0) => Box::new(::std::iter::once(NodeRef::Expr(v0))),
-                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
-            },
             NodeRef::Bool(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>();
                 Box::new(iterator)
@@ -145827,7 +147553,7 @@ impl<'ast> NodeRef<'ast> {
                     .chain(
                         node.body
                             .iter()
-                            .flat_map(|item| ::std::iter::once(NodeRef::BlockStmt(&item))),
+                            .flat_map(|item| ::std::iter::once(NodeRef::FunctionBody(&item))),
                     )
                     .chain(
                         node.accessibility
@@ -146091,6 +147817,10 @@ impl<'ast> NodeRef<'ast> {
             }
             NodeRef::Function(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(node.this_param.iter().flat_map(|item| {
+                        let item = &*item;
+                        ::std::iter::once(NodeRef::TsThisParam(&item))
+                    }))
                     .chain(
                         node.params
                             .iter()
@@ -146104,7 +147834,7 @@ impl<'ast> NodeRef<'ast> {
                     .chain(
                         node.body
                             .iter()
-                            .flat_map(|item| ::std::iter::once(NodeRef::BlockStmt(&item))),
+                            .flat_map(|item| ::std::iter::once(NodeRef::FunctionBody(&item))),
                     )
                     .chain(node.type_params.iter().flat_map(|item| {
                         let item = &*item;
@@ -146116,18 +147846,21 @@ impl<'ast> NodeRef<'ast> {
                     }));
                 Box::new(iterator)
             }
+            NodeRef::FunctionBody(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
+                    node.stmts
+                        .iter()
+                        .flat_map(|item| ::std::iter::once(NodeRef::Stmt(&item))),
+                );
+                Box::new(iterator)
+            }
             NodeRef::GetterProp(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain(::std::iter::once(NodeRef::PropName(&node.key)))
-                    .chain(node.type_ann.iter().flat_map(|item| {
-                        let item = &*item;
-                        ::std::iter::once(NodeRef::TsTypeAnn(&item))
-                    }))
-                    .chain(
-                        node.body
-                            .iter()
-                            .flat_map(|item| ::std::iter::once(NodeRef::BlockStmt(&item))),
-                    );
+                    .chain({
+                        let item = &*node.function;
+                        ::std::iter::once(NodeRef::Function(&item))
+                    });
                 Box::new(iterator)
             }
             NodeRef::Ident(node) => {
@@ -146767,20 +148500,10 @@ impl<'ast> NodeRef<'ast> {
             NodeRef::SetterProp(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain(::std::iter::once(NodeRef::PropName(&node.key)))
-                    .chain(
-                        node.this_param
-                            .iter()
-                            .flat_map(|item| ::std::iter::once(NodeRef::Pat(&item))),
-                    )
                     .chain({
-                        let item = &*node.param;
-                        ::std::iter::once(NodeRef::Pat(&item))
-                    })
-                    .chain(
-                        node.body
-                            .iter()
-                            .flat_map(|item| ::std::iter::once(NodeRef::BlockStmt(&item))),
-                    );
+                        let item = &*node.function;
+                        ::std::iter::once(NodeRef::Function(&item))
+                    });
                 Box::new(iterator)
             }
             NodeRef::SimpleAssignTarget(node) => match node {
@@ -147469,6 +149192,15 @@ impl<'ast> NodeRef<'ast> {
                         ::std::iter::once(NodeRef::Expr(&item))
                     })
                     .chain(::std::iter::once(NodeRef::TsFnParam(&node.param)));
+                Box::new(iterator)
+            }
+            NodeRef::TsThisParam(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
+                    node.type_ann.iter().flat_map(|item| {
+                        let item = &*item;
+                        ::std::iter::once(NodeRef::TsTypeAnn(&item))
+                    }),
+                );
                 Box::new(iterator)
             }
             NodeRef::TsThisType(node) => {

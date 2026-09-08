@@ -1,5 +1,5 @@
 function o(o) {
-    const { a: e , b: n  } = o;
+    const { a: e, b: n } = o;
     console.log(n);
 }
 o({
@@ -8,9 +8,9 @@ o({
 });
 o({
     get a () {
-        var e = "side effect";
-        console.log(e);
-        return e;
+        var o = "side effect";
+        console.log(o);
+        return o;
     },
     b: 4
 });

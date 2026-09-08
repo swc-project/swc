@@ -427,6 +427,43 @@ pub(crate) fn eval_to_undefined(expr_ctx: ExprCtx, e: &Expr) -> bool {
     }
 }
 
+/// `Math.round` as specified by ECMA-262.
+///
+/// This is **not** `f64::round`. When the fractional part is exactly `0.5`,
+/// ECMAScript rounds towards `+Infinity` while Rust rounds away from zero, so
+/// they disagree on every negative half (`Math.round(-1.5)` is `-1`, whereas
+/// `(-1.5f64).round()` is `-2`).
+///
+/// The `(x + 0.5).floor()` shorthand is also wrong: `0.5` is not representable
+/// relative to values just below it, so `0.49999999999999994 + 0.5` rounds up
+/// to `1.0` and yields `1` instead of `0`.
+fn js_round(x: f64) -> f64 {
+    // `NaN`, `±Infinity` and `±0` are returned unchanged, which also preserves
+    // the sign of negative zero.
+    if !x.is_finite() || x == 0.0 {
+        return x;
+    }
+
+    // `Math.round` of a value in `[-0.5, 0)` is `-0`, not `0`. The distinction
+    // is observable: `1 / -0` is `-Infinity`.
+    if (-0.5..0.0).contains(&x) {
+        return -0.0;
+    }
+
+    if x > 0.0 && x < 0.5 {
+        return 0.0;
+    }
+
+    let floored = x.floor();
+
+    // `x - floored` is exact here (Sterbenz), so the tie is detected reliably.
+    if x - floored >= 0.5 {
+        floored + 1.0
+    } else {
+        floored
+    }
+}
+
 /// This method does **not** modifies `e`.
 ///
 /// This method is used to test if a whole call can be replaced, while
@@ -463,6 +500,20 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
             }) = &**callee
             {
                 match &**obj {
+                    // `Math` is matched by name only, so every arm below assumes
+                    // the identifier resolves to the global object rather than to
+                    // a local binding. `function f(Math) { return Math.sqrt(4) }`
+                    // is therefore folded as if the built-in were in scope.
+                    //
+                    // This assumption is narrower than the ones listed in this
+                    // crate's `AGENTS.md`, hence this comment. Checking
+                    // `obj.ctxt == expr_ctx.unresolved_ctxt` would make it exact,
+                    // as `eval_global_vars` does for `Number`.
+                    //
+                    // Every arm also relies on `Math`'s methods not having been
+                    // reassigned (e.g. `Math.ceil = () => 7`), but that one *is*
+                    // already covered by this crate's `AGENTS.md`: "built-in
+                    // object implementations have not been overridden".
                     Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
                         "cos" => {
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
@@ -473,6 +524,30 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
 
                             return Some(v.sin());
+                        }
+
+                        "ceil" => {
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
+
+                            return Some(v.ceil());
+                        }
+
+                        "floor" => {
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
+
+                            return Some(v.floor());
+                        }
+
+                        "round" => {
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
+
+                            return Some(js_round(v));
+                        }
+
+                        "sqrt" => {
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
+
+                            return Some(v.sqrt());
                         }
 
                         "max" => {

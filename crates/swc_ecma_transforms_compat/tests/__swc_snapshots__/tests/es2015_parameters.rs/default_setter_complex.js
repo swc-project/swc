@@ -7,7 +7,7 @@ var obj = {
         };
     },
     set arr (param){
-        var _ref1 = _sliced_to_array(param === void 0 ? [] : param, 2), x = _ref1[0], y = _ref1[1];
+        var _ref = _sliced_to_array(param === void 0 ? [] : param, 2), x = _ref[0], y = _ref[1];
         this.num = {
             x,
             y

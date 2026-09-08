@@ -855,12 +855,11 @@
                     },
                     "ctxt": 0,
                     "body": {
-                      "type": "BlockStatement",
+                      "type": "FunctionBody",
                       "span": {
                         "start": 432,
                         "end": 435
                       },
-                      "ctxt": 0,
                       "stmts": []
                     },
                     "generator": false,

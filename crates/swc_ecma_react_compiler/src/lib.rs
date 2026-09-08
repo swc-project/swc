@@ -20,7 +20,7 @@ use apply_renames::{apply_renames, build_rename_plan};
 use convert_ast::convert_program;
 use convert_ast_reverse::convert_program_to_swc;
 use diagnostics::{compile_result_to_diagnostics, DiagnosticMessage};
-use prefilter::{has_react_like_functions, has_resource_management_declarations};
+use prefilter::has_resource_management_declarations;
 use react_compiler::entrypoint::compile_result::LoggerEvent;
 // Re-exported so integrations needn't depend on the upstream `react_compiler` crate.
 pub use react_compiler::entrypoint::plugin_options::{
@@ -84,16 +84,6 @@ pub fn transform(
     comments: Option<&SingleThreadedComments>,
     options: PluginOptions,
 ) -> TransformResult {
-    if !matches!(options.compilation_mode.as_str(), "all" | "annotation")
-        && !has_react_like_functions(program)
-    {
-        return TransformResult {
-            program: None,
-            diagnostics: vec![],
-            events: vec![],
-        };
-    }
-
     if has_resource_management_declarations(program) {
         return TransformResult {
             program: None,

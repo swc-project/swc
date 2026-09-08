@@ -7288,7 +7288,7 @@
                         return s.fromJS(e.apply(void 0, arguments));
                     }) : this.unsetMeasureFunc());
                 }), r(e.Node.prototype, "calculateLayout", function(t) {
-                    var e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : NaN, r = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : NaN, n = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : u.DIRECTION_LTR;
+                    var e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 0 / 0, r = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 0 / 0, n = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : u.DIRECTION_LTR;
                     // Just a small patch to add support for the function default parameters
                     return t.call(this, e, r, n);
                 }), n({
@@ -17647,7 +17647,7 @@
                     "use strict";
                     var n = r(720);
                     t.exports = function() {
-                        return Number.isNaN && Number.isNaN(NaN) && !Number.isNaN("a") ? Number.isNaN : n;
+                        return Number.isNaN && Number.isNaN(0 / 0) && !Number.isNaN("a") ? Number.isNaN : n;
                     };
                 },
                 81: function(t, e, r) {
@@ -20956,13 +20956,13 @@
                         for(a = o & (1 << -c) - 1, o >>= -c, c += n; c > 0; a = 256 * a + t[e + f], f += p, c -= 8);
                         if (0 === o) o = 1 - s;
                         else {
-                            if (o === l) return a ? NaN : 1 / 0 * (d ? -1 : 1);
+                            if (o === l) return a ? 0 / 0 : (d ? -1 : 1) * 2e308;
                             a += Math.pow(2, n), o -= s;
                         }
                         return (d ? -1 : 1) * a * Math.pow(2, o - n);
                     }, e.write = function(t, e, r, n, i, o) {
                         var a, u, l, s = 8 * o - i - 1, c = (1 << s) - 1, f = c >> 1, p = 5.960464477539062e-8 * (23 === i), d = n ? 0 : o - 1, h = n ? 1 : -1, y = +(e < 0 || 0 === e && 1 / e < 0);
-                        for(isNaN(e = Math.abs(e)) || e === 1 / 0 ? (u = +!!isNaN(e), a = c) : (a = Math.floor(Math.log(e) / Math.LN2), e * (l = Math.pow(2, -a)) < 1 && (a--, l *= 2), a + f >= 1 ? e += p / l : e += p * Math.pow(2, 1 - f), e * l >= 2 && (a++, l /= 2), a + f >= c ? (u = 0, a = c) : a + f >= 1 ? (u = (e * l - 1) * Math.pow(2, i), a += f) : (u = e * Math.pow(2, f - 1) * Math.pow(2, i), a = 0)); i >= 8; t[r + d] = 255 & u, d += h, u /= 256, i -= 8);
+                        for(isNaN(e = Math.abs(e)) || 1 / 0 === e ? (u = +!!isNaN(e), a = c) : (a = Math.floor(Math.log(e) / Math.LN2), e * (l = Math.pow(2, -a)) < 1 && (a--, l *= 2), a + f >= 1 ? e += p / l : e += p * Math.pow(2, 1 - f), e * l >= 2 && (a++, l /= 2), a + f >= c ? (u = 0, a = c) : a + f >= 1 ? (u = (e * l - 1) * Math.pow(2, i), a += f) : (u = e * Math.pow(2, f - 1) * Math.pow(2, i), a = 0)); i >= 8; t[r + d] = 255 & u, d += h, u /= 256, i -= 8);
                         for(a = a << i | u, s += i; s > 0; t[r + d] = 255 & a, d += h, a /= 256, s -= 8);
                         t[r + d - h] |= 128 * y;
                     };

@@ -335,7 +335,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         return null;
     }, impl.getVersion = function(propertyName, userAgent) {
         var version = impl.getVersionStr(propertyName, userAgent);
-        return version ? impl.prepareVersionNo(version) : NaN;
+        return version ? impl.prepareVersionNo(version) : 0 / 0;
     }, impl.prepareVersionNo = function(version) {
         var numbers;
         return 1 === (numbers = version.split(/[a-z._ \/\-]/i)).length && (version = numbers[0]), numbers.length > 1 && (version = numbers[0] + '.', numbers.shift(), version += numbers.join('')), Number(version);

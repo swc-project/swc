@@ -42,10 +42,16 @@ pub struct ArrowShell {
 /// AST.
 #[derive(Clone)]
 pub struct FunctionShell {
+    this_param: Option<Box<TsThisParam>>,
     params: Vec<Param>,
     decorators: Vec<Decorator>,
     type_params: Option<Box<TsTypeParamDecl>>,
     return_type: Option<Box<TsTypeAnn>>,
+    /// Whether the source function had an implementation body.
+    ///
+    /// React Compiler's `FunctionDeclaration` always has a block body, so this
+    /// is required to restore TypeScript overload signatures after compilation.
+    had_body: bool,
 }
 
 /// Lightweight variable declaration metadata not represented losslessly in
@@ -262,10 +268,12 @@ impl PreservedAst {
         self.nodes.insert(
             function.span.lo.to_u32(),
             PreservedNode::Function(Box::new(FunctionShell {
+                this_param: function.this_param.clone(),
                 params: function.params.clone(),
                 decorators: function.decorators.clone(),
                 type_params: function.type_params.clone(),
                 return_type: function.return_type.clone(),
+                had_body: function.body.is_some(),
             })),
         );
     }
@@ -280,6 +288,10 @@ impl PreservedAst {
             unreachable!()
         };
 
+        if !snapshot.had_body {
+            function.body = None;
+        }
+        function.this_param = snapshot.this_param;
         function.decorators = snapshot.decorators;
         function.type_params = snapshot.type_params;
         function.return_type = snapshot.return_type;
@@ -303,6 +315,7 @@ impl PreservedAst {
             unreachable!()
         };
 
+        function.this_param = snapshot.this_param;
         function.decorators = snapshot.decorators;
         function.type_params = snapshot.type_params;
         function.return_type = snapshot.return_type;

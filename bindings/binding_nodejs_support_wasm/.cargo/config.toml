@@ -1,0 +1,3 @@
+[target.wasm32-unknown-unknown]
+# support more stack size due to issue: https://github.com/swc-project/swc/issues/10207
+rustflags = ["-C", "link-args=-z stack-size=2097152"]

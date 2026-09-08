@@ -1,7 +1,7 @@
 use std::collections::VecDeque;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{Atom, Wtf8Atom};
+use swc_atoms::Wtf8Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -19,11 +19,13 @@ struct ImportRecord {
     /// e.g., `import * as X from 'm.js'` stores X's Id
     namespaces: VecDeque<Ident>,
 
-    /// Named imports: stores (import_name, local_id) in order
-    /// e.g., `import { foo } from 'm.js'` stores ("foo", foo's Id)
-    /// e.g., `import { foo as bar } from 'm.js'` stores ("foo", bar's Id)
+    /// Named imports: stores (typed import name, local_id) in order
+    /// e.g., `import { foo } from 'm.js'` stores (foo, foo's Id)
+    /// e.g., `import { "foo-bar" as bar } from 'm.js'` stores ("foo-bar", bar's
+    /// Id)
+    ///
     /// Note: import_name "default" cases are classified into defaults
-    named: VecDeque<(Atom, Ident)>,
+    named: VecDeque<(ModuleExportName, Ident)>,
 }
 
 impl ImportRecord {
@@ -82,22 +84,14 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
                             if n.is_type_only {
                                 continue;
                             }
-                            let remote: Atom = n
+                            let remote = n
                                 .imported
-                                .as_ref()
-                                .map(|i| match i {
-                                    ModuleExportName::Ident(id) => id.sym.clone(),
-                                    ModuleExportName::Str(s) => {
-                                        Atom::new(s.value.to_string_lossy())
-                                    }
-                                    #[cfg(swc_ast_unknown)]
-                                    _ => panic!("unable to access unknown nodes"),
-                                })
-                                .unwrap_or_else(|| n.local.sym.clone());
+                                .clone()
+                                .unwrap_or_else(|| ModuleExportName::Ident(n.local.clone()));
                             let local_id = n.local.clone();
 
                             // If remote is "default", classify as default import
-                            if &*remote == "default" {
+                            if &*remote.atom() == "default" {
                                 record.defaults.push_back(local_id);
                             } else {
                                 record.named.push_back((remote, local_id));
@@ -233,12 +227,11 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
 
                     // All named imports
                     for (remote, local) in record.named.drain(..) {
-                        let imported = if remote == local.sym {
-                            None
-                        } else {
-                            Some(ModuleExportName::Ident(Ident::new_no_ctxt(
-                                remote, DUMMY_SP,
-                            )))
+                        // A string module export name must remain quoted, even when its value
+                        // equals the local binding name.
+                        let imported = match &remote {
+                            ModuleExportName::Ident(imported) if imported.sym == local.sym => None,
+                            _ => Some(remote),
                         };
                         new_specs.push(ImportSpecifier::Named(ImportNamedSpecifier {
                             span: DUMMY_SP,

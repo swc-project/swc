@@ -1,0 +1,8 @@
+variable receiver
+direct receiver
+shorthand receiver
+explicit receiver
+direct identifier receiver
+parameter receiver
+direct parameter receiver
+captured receiver

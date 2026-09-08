@@ -14,7 +14,13 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
-    if: github.repository_owner == 'swc-project'
+    # Only completed issues and merged pull requests represent completed work.
+    if: >-
+      github.repository_owner == 'swc-project' &&
+      ((github.event_name == 'issues' &&
+      github.event.issue.state_reason == 'completed') ||
+      (github.event_name == 'pull_request_target' &&
+      github.event.pull_request.merged == true))
     steps:
       - name: Set milestone to Planned
         env:

@@ -5,7 +5,7 @@ use super::*;
 use crate::parser::{pat::PatType, Parser};
 
 #[allow(clippy::enum_variant_names)]
-enum TempForHead {
+pub(super) enum TempForHead {
     For {
         init: Option<VarDeclOrExpr>,
         test: Option<Box<Expr>>,
@@ -386,7 +386,7 @@ impl<I: Tokens> Parser<I> {
         })))
     }
 
-    fn parse_for_head(&mut self) -> PResult<TempForHead> {
+    pub(super) fn parse_for_head(&mut self) -> PResult<TempForHead> {
         // let strict = self.ctx().contains(Context::Strict);
 
         let cur = self.input().cur();
@@ -543,6 +543,9 @@ impl<I: Tokens> Parser<I> {
         } else {
             None
         };
+        if await_token.is_some() && self.can_classify_module() {
+            self.mark_found_module_item();
+        }
         expect!(self, Token::LParen);
 
         let head = self.do_inside_of_context(Context::ForLoopInit, |p| {
@@ -1037,6 +1040,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(SwitchStmt {
             span: self.span(switch_start),
+            body_ctxt: Default::default(),
             discriminant,
             cases,
         }
@@ -1687,13 +1691,10 @@ impl<I: Tokens> Parser<I> {
             ident: None,
             function: Box::new(Function {
                 span,
+                this_param: None,
                 params: Vec::new(),
                 decorators: Vec::new(),
-                body: Some(BlockStmt {
-                    span,
-                    stmts,
-                    ctxt: Default::default(),
-                }),
+                body: Some(FunctionBody { span, stmts }),
                 is_async: false,
                 is_generator: false,
                 type_params: None,
@@ -1914,15 +1915,34 @@ impl<I: Tokens> Parser<I> {
         }
 
         if cur == Token::Await && (include_decl || top_level) {
-            if top_level {
+            let handled_by_explicit_program =
+                top_level && self.program_parse_mode == ProgramParseMode::None;
+            if handled_by_explicit_program {
                 self.mark_found_module_item();
                 if !self.ctx().contains(Context::CanBeModule) {
                     self.emit_err(self.input().cur_span(), SyntaxError::TopLevelAwaitInScript);
                 }
             }
 
-            if peek!(self).is_some_and(|peek| peek == Token::Using) {
+            let is_await_using = peek!(self).is_some_and(|peek| peek == Token::Using)
+                && !self.input_mut().has_linebreak_between_cur_and_peeked();
+
+            if is_await_using {
                 let eaten_await = Some(self.input().cur_pos());
+                if self.can_classify_module() {
+                    self.mark_found_module_item();
+                } else if !self
+                    .ctx()
+                    .intersects(Context::InAsync.union(Context::Module))
+                    && !handled_by_explicit_program
+                {
+                    let error = if self.ctx().contains(Context::InFunction) {
+                        SyntaxError::AwaitInFunction
+                    } else {
+                        SyntaxError::TopLevelAwaitInScript
+                    };
+                    self.emit_err(self.input().cur_span(), error);
+                }
                 self.assert_and_bump(Token::Await);
                 let v = self.parse_using_decl(start, true)?;
                 if let Some(v) = v {
@@ -2920,7 +2940,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "top level await is only allowed in module")]
+    #[should_panic(expected = "Expected ';', '}' or <eof>")]
     fn top_level_await_in_script() {
         let src = "await promise";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
@@ -2952,7 +2972,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "await isn't allowed in non-async function")]
+    #[should_panic(expected = "Expected ';', '}' or <eof>")]
     fn await_in_function_in_script() {
         let src = "function foo (p) { await p; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());

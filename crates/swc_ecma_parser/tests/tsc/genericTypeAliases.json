@@ -2459,12 +2459,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 877,
           "end": 952
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "TsTypeAliasDeclaration",
@@ -2786,12 +2785,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 970,
           "end": 1045
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "TsTypeAliasDeclaration",

@@ -28,7 +28,14 @@ fn tr_with_resolver(
 
     (
         resolver(unresolved_mark, top_level_mark, is_ts),
-        typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
+        typescript::typescript(
+            typescript::Config {
+                import_export_assign_config: typescript::TsImportExportAssignConfig::Preserve,
+                ..Default::default()
+            },
+            unresolved_mark,
+            top_level_mark,
+        ),
         amd(
             resolver_impl,
             unresolved_mark,

@@ -2484,7 +2484,7 @@ You should only use "next/router" on the client side of your app.
                         }), forcedScroll);
                     };
                     // represents the current component key
-                    const route = _removeTrailingSlash.removeTrailingSlash(pathname1);
+                    let route = _removeTrailingSlash.removeTrailingSlash(pathname1);
                     // set up the component cache (by route keys)
                     this.components = {}, "/_error" !== pathname1 && (this.components[route] = {
                         Component,
@@ -2501,7 +2501,7 @@ You should only use "next/router" on the client side of your app.
                     this.events = Router.events, this.pageLoader = pageLoader;
                     // if auto prerendered and dynamic route wait to update asPath
                     // until after mount to prevent hydration mismatch
-                    const autoExportDynamic = _isDynamic.isDynamicRoute(pathname1) && self.__NEXT_DATA__.autoExport;
+                    let autoExportDynamic = _isDynamic.isDynamicRoute(pathname1) && self.__NEXT_DATA__.autoExport;
                     // make sure "as" doesn't start with double slashes or else it can
                     // throw an error as it's considered invalid
                     if (this.basePath = "", this.sub = subscription, this.clc = null, this._wrapApp = wrapApp, // make sure to ignore extra popState in safari on navigating
@@ -2517,7 +2517,7 @@ You should only use "next/router" on the client side of your app.
                     }, this._initialMatchesMiddlewarePromise = Promise.resolve(!1), !as1.startsWith("//")) {
                         // in order for `e.state` to work on the `onpopstate` event
                         // we have to register the initial route upon initialization
-                        const options = {
+                        let options = {
                             locale
                         }, asPath = _utils.getURL();
                         this._initialMatchesMiddlewarePromise = matchesMiddleware({

@@ -34,7 +34,6 @@ mod wtf8_atom;
 ///
 /// See [tendril] for more details.
 #[derive(Clone, Default)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[repr(transparent)]
 pub struct Atom(hstr::Atom);
 
@@ -281,40 +280,6 @@ impl PartialEq<Atom> for str {
     #[inline]
     fn eq(&self, other: &Atom) -> bool {
         *self == other.0
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::Archive for Atom {
-    type Archived = rkyv::string::ArchivedString;
-    type Resolver = rkyv::string::StringResolver;
-
-    #[allow(clippy::unit_arg)]
-    fn resolve(&self, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        rkyv::string::ArchivedString::resolve_from_str(self, resolver, out)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<S: rancor::Fallible + rkyv::ser::Writer + ?Sized> rkyv::Serialize<S> for Atom
-where
-    <S as rancor::Fallible>::Error: rancor::Source,
-{
-    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        rkyv::string::ArchivedString::serialize_from_str(self.as_str(), serializer)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
-where
-    D: ?Sized + rancor::Fallible,
-{
-    fn deserialize(&self, _: &mut D) -> Result<Atom, <D as rancor::Fallible>::Error> {
-        Ok(Atom::new(self.as_str()))
     }
 }
 

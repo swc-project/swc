@@ -1,9 +1,9 @@
 define([
     "require",
     "assert"
-], function(require, _assert) {
+], function(require, assert) {
     "use strict";
-    _assert(true);
+    assert(true);
     let foo = 1;
     foo = 2;
     return foo;

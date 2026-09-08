@@ -5,12 +5,12 @@ $DIR/tests/stacktrace/issue-622/input/index.js:3
 
 ReferenceError: call is not defined
     at foo ($DIR/tests/stacktrace/issue-622/input/index.js:3:9)
-    at step ($DIR/tests/stacktrace/issue-622/input/_exec.js:113:23)
-    at Object.<anonymous> ($DIR/tests/stacktrace/issue-622/input/_exec.js:54:20)
+    at step ($DIR/tests/stacktrace/issue-622/input/_exec.js:110:23)
+    at Object.<anonymous> ($DIR/tests/stacktrace/issue-622/input/_exec.js:51:20)
     at asyncGeneratorStep ($DIR/tests/stacktrace/issue-622/input/_exec.js:4:28)
-    at _next ($DIR/tests/stacktrace/issue-622/input/_exec.js:22:17)
-    at $DIR/tests/stacktrace/issue-622/input/_exec.js:27:13
+    at _next ($DIR/tests/stacktrace/issue-622/input/_exec.js:19:17)
+    at $DIR/tests/stacktrace/issue-622/input/_exec.js:24:13
     at new Promise (<anonymous>)
-    at $DIR/tests/stacktrace/issue-622/input/_exec.js:19:16
+    at $DIR/tests/stacktrace/issue-622/input/_exec.js:16:16
     at foo ($DIR/tests/stacktrace/issue-622/input/index.js:6:1)
     at Object.<anonymous> ($DIR/tests/stacktrace/issue-622/input/index.js:9:1)

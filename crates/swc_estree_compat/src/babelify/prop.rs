@@ -1,7 +1,8 @@
 use copyless::BoxHelper;
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    AssignProp, ComputedPropName, GetterProp, KeyValueProp, MethodProp, Prop, PropName, SetterProp,
+    AssignProp, ComputedPropName, Function, GetterProp, KeyValueProp, MethodProp, Prop, PropName,
+    SetterProp,
 };
 use swc_estree_ast::{
     AssignmentPattern, AssignmentPatternLeft, Expression, FunctionExpression, ObjectKey,
@@ -9,6 +10,29 @@ use swc_estree_ast::{
 };
 
 use crate::babelify::{Babelify, Context};
+
+fn babelify_object_method(
+    key: PropName,
+    function: Box<Function>,
+    kind: ObjectMethodKind,
+    ctx: &Context,
+) -> ObjectMethod {
+    let func: FunctionExpression = function.babelify(ctx);
+
+    ObjectMethod {
+        base: func.base,
+        kind,
+        key: key.babelify(ctx),
+        params: func.params,
+        body: func.body,
+        return_type: func.return_type,
+        computed: Default::default(),
+        generator: func.generator,
+        is_async: func.is_async,
+        decorator: Default::default(),
+        type_parameters: func.type_parameters,
+    }
+}
 
 impl Babelify for Prop {
     type Output = ObjectMember;
@@ -73,21 +97,7 @@ impl Babelify for GetterProp {
     type Output = ObjectMethod;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        ObjectMethod {
-            base: ctx.base(self.span),
-            kind: ObjectMethodKind::Get,
-            key: self.key.babelify(ctx),
-            return_type: self
-                .type_ann
-                .map(|ann| Box::alloc().init(ann.babelify(ctx).into())),
-            body: self.body.unwrap().babelify(ctx),
-            params: Default::default(),
-            computed: Default::default(),
-            generator: Default::default(),
-            is_async: Default::default(),
-            decorator: Default::default(),
-            type_parameters: Default::default(),
-        }
+        babelify_object_method(self.key, self.function, ObjectMethodKind::Get, ctx)
     }
 }
 
@@ -95,19 +105,7 @@ impl Babelify for SetterProp {
     type Output = ObjectMethod;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        ObjectMethod {
-            base: ctx.base(self.span),
-            kind: ObjectMethodKind::Set,
-            key: self.key.babelify(ctx),
-            params: vec![self.param.babelify(ctx).into()],
-            body: self.body.unwrap().babelify(ctx),
-            return_type: Default::default(),
-            computed: Default::default(),
-            generator: Default::default(),
-            is_async: Default::default(),
-            decorator: Default::default(),
-            type_parameters: Default::default(),
-        }
+        babelify_object_method(self.key, self.function, ObjectMethodKind::Set, ctx)
     }
 }
 
@@ -115,20 +113,7 @@ impl Babelify for MethodProp {
     type Output = ObjectMethod;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        let func: FunctionExpression = self.function.babelify(ctx);
-        ObjectMethod {
-            base: func.base,
-            kind: ObjectMethodKind::Method,
-            key: self.key.babelify(ctx),
-            params: func.params,
-            body: func.body,
-            computed: Default::default(),
-            generator: func.generator,
-            is_async: func.is_async,
-            decorator: Default::default(),
-            return_type: func.return_type,
-            type_parameters: func.type_parameters,
-        }
+        babelify_object_method(self.key, self.function, ObjectMethodKind::Method, ctx)
     }
 }
 

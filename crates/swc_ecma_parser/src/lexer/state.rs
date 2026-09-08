@@ -1,6 +1,11 @@
 use std::mem::take;
 
-use swc_atoms::{wtf8::CodePoint, Atom};
+use swc_atoms::{
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
+    Wtf8Atom,
+};
+#[cfg(feature = "tsrx")]
+use swc_common::Spanned;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
@@ -27,8 +32,13 @@ bitflags::bitflags! {
     }
 }
 
+#[cfg(not(feature = "tsrx"))]
 static JSX_CHILD_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'{' | b'}' | b'<' | b'>' | b'&'));
+
+#[cfg(feature = "tsrx")]
+static JSX_CHILD_TABLE: SafeByteMatchTable =
+    safe_byte_match_table!(|b| matches!(b, b'{' | b'}' | b'<' | b'>' | b'&' | b'@'));
 
 /// State of lexer.
 ///
@@ -142,8 +152,34 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     #[inline]
+    fn has_errors(&self) -> bool {
+        !self.errors.is_empty()
+    }
+
+    #[inline]
+    fn diagnostic_checkpoint_save(&self) -> (usize, usize) {
+        (self.errors.len(), self.module_errors.len())
+    }
+
+    #[inline]
+    fn diagnostic_checkpoint_load(&mut self, checkpoint: (usize, usize)) {
+        self.errors.truncate(checkpoint.0);
+        self.module_errors.truncate(checkpoint.1);
+    }
+
+    #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors)
+    }
+
+    #[inline]
+    fn set_defer_comments(&mut self, defer: bool) {
+        self.defer_comments = defer;
+    }
+
+    #[inline]
+    fn finalize_comments(&mut self) {
+        Lexer::finalize_comments(self);
     }
 
     #[inline]
@@ -219,6 +255,14 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn rescan_jsx_token(&mut self, reset: BytePos) -> TokenAndSpan {
+        #[cfg(feature = "tsrx")]
+        {
+            self.errors.retain(|error| error.span().lo < reset);
+            self.module_errors.retain(|error| error.span().lo < reset);
+            if let Some(comments_buffer) = self.comments_buffer.as_mut() {
+                comments_buffer.retain_before(reset);
+            }
+        }
         unsafe {
             self.input.reset_to(reset);
         }
@@ -458,6 +502,14 @@ impl Lexer<'_> {
                 self.bump(1);
                 Ok(Token::LBrace)
             }
+            #[cfg(feature = "tsrx")]
+            Some(b'@')
+                if self.syntax.tsrx()
+                    && crate::parser::tsrx::is_directive_start(self.input().as_str()) =>
+            {
+                self.bump(1);
+                Ok(Token::At)
+            }
             Some(_) => {
                 // Fast path: we assume there's no `&` in the jsx child
                 byte_search! {
@@ -489,6 +541,12 @@ impl Lexer<'_> {
                             },
                             // Encountered `&`, go to the slow path
                             b'&' => return self.scan_jsx_token_with_jsx_entity(),
+                            #[cfg(feature = "tsrx")]
+                            b'@' => {
+                                let rest = &self.input().as_str()[pos_offset..];
+                                !self.syntax.tsrx()
+                                    || !crate::parser::tsrx::is_directive_start(rest)
+                            },
                             _ => false,
                         }
                     },
@@ -499,7 +557,7 @@ impl Lexer<'_> {
                             self.input_slice_str(start, self.cur_pos())
                         };
 
-                        let value = self.atom(s);
+                        let value = self.wtf8_atom(Wtf8::from_str(s));
                         self.state.set_token_value(TokenValue::JsxText(value));
                         return Ok(Token::JSXText);
                     },
@@ -511,7 +569,7 @@ impl Lexer<'_> {
                     self.input_slice_str(start, self.cur_pos())
                 };
 
-                let value = self.atom(s);
+                let value = self.wtf8_atom(Wtf8::from_str(s));
                 self.state.set_token_value(TokenValue::JsxText(value));
                 Ok(Token::JSXText)
             }
@@ -523,7 +581,7 @@ impl Lexer<'_> {
     /// Slow path: we encountered `&` in the jsx child, so we need to scan and
     /// resolve the jsx entity, which requires a dedicated string allocation.
     fn scan_jsx_token_with_jsx_entity(&mut self) -> LexResult<Token> {
-        let mut value = String::new();
+        let mut buf = Wtf8Buf::new();
         let mut chunk_start = self.input.cur_pos();
 
         while let Some(ch) = self.input.cur_as_char() {
@@ -556,15 +614,20 @@ impl Lexer<'_> {
                         // Safety: We already checked for the range
                         self.input_slice_str(chunk_start, self.cur_pos())
                     };
-                    value.push_str(s);
+                    buf.push_str(s);
 
                     // Read the jsx entity and update the start of chunk
-                    if let Ok(jsx_entity) = self.read_jsx_entity() {
-                        value.push(jsx_entity.0);
-                        chunk_start = self.input.cur_pos();
-                    }
+                    let jsx_entity = self.read_jsx_entity()?;
+                    buf.push_wtf8(&jsx_entity.0);
+                    chunk_start = self.input.cur_pos();
                 }
                 '<' | '{' => break,
+                #[cfg(feature = "tsrx")]
+                '@' if self.syntax.tsrx()
+                    && crate::parser::tsrx::is_directive_start(self.input().as_str()) =>
+                {
+                    break
+                }
                 c => {
                     self.bump(c.len_utf8());
                 }
@@ -577,8 +640,8 @@ impl Lexer<'_> {
             self.input_slice_str(chunk_start, self.cur_pos())
         };
 
-        value.push_str(s);
-        let value = Atom::new(value);
+        buf.push_str(s);
+        let value = Wtf8Atom::new(buf);
         self.state.set_token_value(TokenValue::JsxText(value));
         Ok(Token::JSXText)
     }

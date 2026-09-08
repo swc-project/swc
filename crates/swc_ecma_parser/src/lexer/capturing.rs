@@ -133,8 +133,28 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.take_errors()
     }
 
+    fn has_errors(&self) -> bool {
+        self.inner.has_errors()
+    }
+
+    fn diagnostic_checkpoint_save(&self) -> (usize, usize) {
+        self.inner.diagnostic_checkpoint_save()
+    }
+
+    fn diagnostic_checkpoint_load(&mut self, checkpoint: (usize, usize)) {
+        self.inner.diagnostic_checkpoint_load(checkpoint);
+    }
+
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         self.inner.take_script_module_errors()
+    }
+
+    fn set_defer_comments(&mut self, defer: bool) {
+        self.inner.set_defer_comments(defer);
+    }
+
+    fn finalize_comments(&mut self) {
+        self.inner.finalize_comments();
     }
 
     fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {

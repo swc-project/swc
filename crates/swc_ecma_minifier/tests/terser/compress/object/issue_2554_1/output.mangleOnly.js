@@ -6,8 +6,8 @@ var t = {
     get ["g" + ""] () {
         return this.x;
     },
-    set ["s" + ""] (value){
-        this.x = value;
+    set ["s" + ""] (t){
+        this.x = t;
     }
 };
 t.method();

@@ -16,3 +16,27 @@ var H = /*#__PURE__*/ function(H) {
     return H;
 }(H || {});
 console.log(2);
+const j = H.A;
+var J = function(J) {
+    J[J["A"] = j] = "A";
+    return J;
+}(J || {});
+console.log(J.A);
+const l = 3;
+var L = /*#__PURE__*/ function(L) {
+    L[L["A"] = 3] = "A";
+    return L;
+}(L || {});
+console.log(L.A);
+const m = M.A;
+var N = /*#__PURE__*/ function(N) {
+    N[N["A"] = 7] = "A";
+    N[N["B"] = 8] = "B";
+    return N;
+}(N || {});
+O.A = 5;
+var P = function(P) {
+    P[P["A"] = O.A] = "A";
+    return P;
+}(P || {});
+console.log(P.A);

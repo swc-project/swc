@@ -250,12 +250,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 221,
               "end": 224
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,
@@ -695,12 +694,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 392,
               "end": 395
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,

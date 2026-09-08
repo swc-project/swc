@@ -197,9 +197,9 @@ pub(super) fn fold_constructor(
 
     let function = Function {
         params,
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts,
-            ..Default::default()
         }),
         ..Default::default()
     };
@@ -240,14 +240,6 @@ impl VisitMut for ConstructorFolder {
     }
 
     fn visit_mut_function(&mut self, _: &mut Function) {
-        // skip
-    }
-
-    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {
-        // skip
-    }
-
-    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {
         // skip
     }
 

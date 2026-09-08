@@ -107,12 +107,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 66,
               "end": 69
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,
@@ -173,12 +172,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 95,
                 "end": 98
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -281,12 +279,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 134,
                 "end": 137
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -377,12 +374,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 176,
               "end": 179
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,
@@ -443,12 +439,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 205,
                 "end": 208
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -551,12 +546,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 244,
                 "end": 247
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,

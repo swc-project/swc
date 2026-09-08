@@ -112,13 +112,33 @@ fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
         // There are some cases error won't be wrapped up however - for example, we expect
         // serialization of PluginError itself should succeed.
         #[no_mangle]
-        #[allow(clippy::not_unsafe_ptr_arg_deref)]
-        pub fn #transform_process_impl_ident(
+        /// Runs the plugin transform for a program serialized by the SWC host.
+        ///
+        /// # Safety
+        ///
+        /// `ast_ptr` must be non-null and properly aligned, including when
+        /// `ast_ptr_len` is zero. It must point to `ast_ptr_len` initialized,
+        /// readable bytes in one guest allocation which remains valid for the
+        /// duration of this call. The byte range must not exceed `isize::MAX`
+        /// or wrap around the address space.
+        pub unsafe fn #transform_process_impl_ident(
             ast_ptr: *const u8, ast_ptr_len: u32,
             unresolved_mark: u32, should_enable_comments_proxy: i32) -> u32 {
             // Reconstruct `Program` & config string from serialized program
-            // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
-            let program = swc_core::common::plugin::serialized::PluginSerializedBytes::from_raw_ptr(ast_ptr, ast_ptr_len.try_into().expect("Should able to convert ptr length")).deserialize();
+            // Host (SWC) allocates guest memory, copies bytes and passes the
+            // allocation's pointer to the plugin.
+            // SAFETY: The exported function's contract requires a valid pointer
+            // and length. The SWC host ABI upholds it by allocating exactly
+            // `ast_ptr_len` bytes in guest memory and initializing them with the
+            // serialized program before invoking this function. The host retains
+            // the allocation until this function returns.
+            let serialized_program = unsafe {
+                swc_core::common::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
+                    ast_ptr,
+                    ast_ptr_len.try_into().expect("Should able to convert ptr length"),
+                )
+            };
+            let program = serialized_program.deserialize();
             if program.is_err() {
                 let err = swc_core::common::plugin::serialized::PluginError::Deserialize("Failed to deserialize program received from host".to_string());
                 return construct_error_ptr(err);

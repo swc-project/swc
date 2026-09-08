@@ -88,7 +88,7 @@
  1 | function b(a: number = 1) { }
    :                        ^
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/ts/issue-8856/param.ts:1:1]
  1 | function b(a: number = 1) { }
    :                           ^^^

@@ -125,7 +125,8 @@ if (errors.length > 0) {
 } else {
     $.cwd = root(".");
     await $`dprint fmt`;
-    await $`dprint fmt "scripts/*.js" -c scripts/.dprint.json`;
+    $.cwd = root("scripts");
+    await $`dprint fmt -c .dprint.json`;
 }
 
 function re_export_esm(importBinding) {

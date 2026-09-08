@@ -243,12 +243,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 126,
               "end": 133
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,
@@ -347,12 +346,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 169,
                 "end": 176
               },
-              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -441,12 +439,11 @@
           },
           "params": [],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 230,
               "end": 564
             },
-            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -516,12 +513,11 @@
                             },
                             "ctxt": 0,
                             "body": {
-                              "type": "BlockStatement",
+                              "type": "FunctionBody",
                               "span": {
                                 "start": 339,
                                 "end": 380
                               },
-                              "ctxt": 0,
                               "stmts": [
                                 {
                                   "type": "ExpressionStatement",
@@ -652,12 +648,11 @@
                             },
                             "ctxt": 0,
                             "body": {
-                              "type": "BlockStatement",
+                              "type": "FunctionBody",
                               "span": {
                                 "start": 505,
                                 "end": 546
                               },
-                              "ctxt": 0,
                               "stmts": [
                                 {
                                   "type": "ExpressionStatement",

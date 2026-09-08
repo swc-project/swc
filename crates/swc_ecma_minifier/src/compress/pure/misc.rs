@@ -1,4 +1,4 @@
-use std::{borrow::Cow, fmt::Write, num::FpCategory};
+use std::{borrow::Cow, num::FpCategory};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{
@@ -9,13 +9,15 @@ use swc_atoms::{
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value};
+use swc_ecma_utils::{
+    number::ToJsString, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value,
+};
 
 use super::Pure;
 use crate::{
     compress::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-        util::is_pure_undefined,
+        util::{eval_to_undefined, is_pure_undefined},
     },
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
@@ -80,6 +82,24 @@ fn may_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     }
 }
 
+/// Returns true if evaluating `expr` always produces a nullish value.
+///
+/// Unlike [`is_pure_undefined`], this accepts expressions with effects because
+/// callers can preserve those effects separately.
+fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(ParenExpr { expr, .. }) => eval_to_nullish(expr_ctx, expr),
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| eval_to_nullish(expr_ctx, last)),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            eval_to_nullish(expr_ctx, cons) && eval_to_nullish(expr_ctx, alt)
+        }
+        Expr::Lit(Lit::Null(..)) => true,
+        _ => eval_to_undefined(expr_ctx, expr),
+    }
+}
+
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
     let mut exprs = Vec::new();
 
@@ -121,7 +141,7 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
 
 #[derive(Debug)]
 enum GroupType<'a> {
-    Literals(Vec<&'a ExprOrSpread>),
+    Literals(Vec<Option<&'a ExprOrSpread>>),
     Expression(&'a ExprOrSpread),
 }
 
@@ -292,13 +312,32 @@ impl Pure<'_> {
             }
         }
 
+        // Spreading a primitive of these types copies zero own enumerable
+        // properties (`ToObject` on them yields a wrapper whose properties are
+        // all non-enumerable), so `{ ...x }` where `x` is one of them
+        // contributes nothing.
+        //
+        // Strings are intentionally EXCLUDED: they expose indexed own
+        // enumerable properties (`{ ..."ab" }` === `{ 0: "a", 1: "b" }`).
+        // Objects, arrays, functions, etc. are also excluded as they carry
+        // real properties.
+        fn spreads_no_props(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+            matches!(
+                expr.get_type(expr_ctx),
+                Value::Known(Type::Undefined | Type::Null | Type::Bool | Type::Num | Type::Symbol)
+            )
+        }
+
         fn can_flatten_spread_expr(expr: &Expr, expr_ctx: ExprCtx) -> bool {
             match expr {
                 Expr::Object(ObjectLit { props, .. }) => {
                     props.iter().all(|p| can_flatten_spread_prop(p, expr_ctx))
                 }
-                Expr::Lit(Lit::Null(_)) => true,
-                _ => false,
+                // Spreading a side-effect-free expression that has no own
+                // enumerable properties contributes nothing. We require purity
+                // so that we never discard observable side effects
+                // (e.g. `{ ...void foo() }`).
+                _ => spreads_no_props(expr, expr_ctx) && !expr.may_have_side_effects(expr_ctx),
             }
         }
 
@@ -374,16 +413,12 @@ impl Pure<'_> {
                 PropOrSpread::Spread(SpreadElement { expr, .. })
                     if can_flatten_spread_expr(&expr, self.expr_ctx) =>
                 {
-                    match *expr {
-                        Expr::Object(ObjectLit { props, .. }) => {
-                            for p in props {
-                                new_props.push(p);
-                            }
-                        }
-
-                        Expr::Lit(Lit::Null(_)) => {}
-
-                        _ => {}
+                    // A plain object literal is flattened into the target; any
+                    // other flattenable spread is a no-property primitive
+                    // (including `null`) that contributes nothing, so it is
+                    // simply dropped.
+                    if let Expr::Object(ObjectLit { props, .. }) = *expr {
+                        new_props.extend(props);
                     }
                 }
 
@@ -709,7 +744,7 @@ impl Pure<'_> {
                         res.push_wtf8(&s.value);
                     }
                     Expr::Lit(Lit::Num(n)) => {
-                        write!(res, "{}", n.value).unwrap();
+                        res.push_str(&n.value.to_js_string());
                     }
                     e if is_pure_undefined(self.expr_ctx, e) => {}
                     Expr::Lit(Lit::Null(..)) => {}
@@ -769,11 +804,14 @@ impl Pure<'_> {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
 
-            for elem in elems.iter().flatten() {
-                let is_literal = match &*elem.expr {
-                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                    e if is_pure_undefined(self.expr_ctx, e) => true,
-                    _ => false,
+            for elem in elems.iter() {
+                let is_literal = match elem {
+                    None => true,
+                    Some(elem) => match &*elem.expr {
+                        Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                        e if is_pure_undefined(self.expr_ctx, e) => true,
+                        _ => false,
+                    },
                 };
 
                 if is_literal {
@@ -808,21 +846,26 @@ impl Pure<'_> {
         let mut groups = Vec::new();
         let mut current_group = Vec::new();
 
-        for elem in elems.iter().flatten() {
-            let is_literal = match &*elem.expr {
-                Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                e if is_pure_undefined(self.expr_ctx, e) => true,
-                _ => false,
+        for elem in elems.iter() {
+            let is_literal = match elem {
+                None => true,
+                Some(elem) => match &*elem.expr {
+                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                    e if is_pure_undefined(self.expr_ctx, e) => true,
+                    _ => false,
+                },
             };
 
             if is_literal {
-                current_group.push(elem);
+                // An elision is an empty join element, so it must stay in the
+                // group to preserve its surrounding separator positions.
+                current_group.push(elem.as_ref());
             } else {
                 if !current_group.is_empty() {
                     groups.push(GroupType::Literals(current_group));
                     current_group = Vec::new();
                 }
-                groups.push(GroupType::Expression(elem));
+                groups.push(GroupType::Expression(elem.as_ref().unwrap()));
             }
         }
 
@@ -855,30 +898,27 @@ impl Pure<'_> {
 
             // Only add empty string prefix when the first element is a non-string
             // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion
+            // literal early enough to provide coercion.
             let needs_empty_string_prefix = match groups.first() {
                 Some(GroupType::Expression(first_expr)) => {
-                    // Check if the first expression is already a string concatenation
                     let first_needs_coercion = match &*first_expr.expr {
                         Expr::Bin(BinExpr {
                             op: op!(bin, "+"), ..
-                        }) => false, // Already string concat
-                        Expr::Lit(Lit::Str(..)) => false, // Already a string literal
-                        Expr::Call(_call) => {
-                            // Function calls may return any type and need string coercion
-                            true
+                        }) => {
+                            // `+` is only already a string concatenation when its
+                            // result is proven to be a string. Otherwise adjacent
+                            // join elements could be added numerically first.
+                            first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
                         }
-                        _ => true, // Other expressions need string coercion
+                        Expr::Lit(Lit::Str(..)) => false,
+                        Expr::Call(..) => true,
+                        _ => true,
                     };
 
-                    // If the first element needs coercion, check if the second element is a string
-                    // literal that can provide the coercion
+                    // A following literal provides the string coercion for the
+                    // first element before the next dynamic element is evaluated.
                     if first_needs_coercion {
-                        match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, /* String literals will */
-                            // provide coercion
-                            _ => true, // No string literal to provide coercion
-                        }
+                        !matches!(groups.get(1), Some(GroupType::Literals(_)))
                     } else {
                         false
                     }
@@ -899,9 +939,13 @@ impl Pure<'_> {
                     GroupType::Literals(literals) => {
                         let mut joined = Wtf8Buf::new();
                         for literal in literals.iter() {
+                            let Some(literal) = literal else {
+                                continue;
+                            };
+
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
-                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // For string concatenation, null becomes
                                     // empty string
@@ -955,9 +999,13 @@ impl Pure<'_> {
                                 joined.push_wtf8(separator);
                             }
 
+                            let Some(literal) = literal else {
+                                continue;
+                            };
+
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
-                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // null becomes empty string
                                 }
@@ -1133,21 +1181,30 @@ impl Pure<'_> {
 
     /// Array() -> []
     fn optimize_array(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+        // Literal array spreads are expanded before this optimization. Any
+        // remaining spread has unknown runtime arity, so it may expand to one
+        // numeric argument and invoke Array's length-constructor behavior.
+        if args.iter().any(|arg| arg.spread.is_some()) {
+            return None;
+        }
+
         if args.len() == 1 {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
                     Expr::Lit(Lit::Num(num)) => {
-                        if num.value <= 5_f64 && num.value >= 0_f64 {
-                            Some(
-                                ArrayLit {
-                                    span: *span,
-                                    elems: vec![None; num.value as usize],
-                                }
-                                .into(),
-                            )
-                        } else {
-                            None
+                        let length = num.value;
+
+                        if !(0_f64..=5_f64).contains(&length) || length.fract() != 0_f64 {
+                            return None;
                         }
+
+                        Some(
+                            ArrayLit {
+                                span: *span,
+                                elems: vec![None; length as usize],
+                            }
+                            .into(),
+                        )
                     }
                     Expr::Lit(_) => Some(
                         ArrayLit {
@@ -1476,13 +1533,17 @@ impl Pure<'_> {
         let mut cur_cooked = Wtf8Buf::default();
         let mut first = true;
 
-        for elem in elems.take().into_iter().flatten() {
+        for elem in elems.take() {
             if first {
                 first = false;
             } else {
                 cur_raw.push_str(&convert_str_value_to_tpl_raw(sep));
                 cur_cooked.push_wtf8(sep);
             }
+
+            let Some(elem) = elem else {
+                continue;
+            };
 
             match *elem.expr {
                 Expr::Tpl(mut tpl) => {
@@ -2191,7 +2252,7 @@ impl Pure<'_> {
                 callee: Callee::Expr(callee),
                 ..
             }) if callee.is_fn_expr() => match &mut **callee {
-                Expr::Fn(callee) => {
+                Expr::Fn(callee) if !callee.function.is_async => {
                     if callee.ident.is_none() {
                         if let Some(body) = &mut callee.function.body {
                             if self.options.side_effects {
@@ -2200,6 +2261,8 @@ impl Pure<'_> {
                         }
                     }
                 }
+
+                Expr::Fn(..) => {}
 
                 _ => {
                     unreachable!()
@@ -2216,7 +2279,7 @@ impl Pure<'_> {
             }) = e
             {
                 match &mut **callee {
-                    Expr::Fn(callee) => {
+                    Expr::Fn(callee) if !callee.function.is_async => {
                         if let Some(body) = &mut callee.function.body {
                             if let Some(ident) = &callee.ident {
                                 if IdentUsageFinder::find(ident, body) {
@@ -2229,13 +2292,13 @@ impl Pure<'_> {
                             }
                         }
                     }
-                    Expr::Arrow(callee) => match &mut *callee.body {
-                        BlockStmtOrExpr::BlockStmt(body) => {
+                    Expr::Arrow(callee) if !callee.is_async => match &mut *callee.body {
+                        ArrowFunctionBody::FunctionBody(body) => {
                             for stmt in &mut body.stmts {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);
                             }
                         }
-                        BlockStmtOrExpr::Expr(body) => {
+                        ArrowFunctionBody::Expr(body) => {
                             self.ignore_return_value(body, opts);
 
                             if body.is_invalid() {
@@ -2253,13 +2316,37 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
+                // Map and Set synchronously consume their iterable argument. Keeping only the
+                // argument expression would skip observable iterator acquisition and iteration.
+                // Construction without arguments or with a nullish first argument does not
+                // consume an iterable and is still pure.
+                Expr::New(NewExpr {
+                    span, callee, args, ..
+                }) if (matches!(args.as_deref(), None | Some([]))
+                    || args.as_deref().is_some_and(|args| {
+                        args.first().is_some_and(|arg| {
+                            arg.spread.is_none() && eval_to_nullish(self.expr_ctx, &arg.expr)
+                        })
+                    }))
+                    && callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"]) =>
+                {
+                    report_change!("Dropping a pure new expression");
+
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(
+                            *span,
+                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                        )
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                    return;
+                }
+
                 Expr::New(NewExpr {
                     span, callee, args, ..
                 }) if callee.is_one_of_global_ref_to(
                     self.expr_ctx,
-                    &[
-                        "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
-                    ],
+                    &["Array", "Object", "Boolean", "Number", "String"],
                 ) =>
                 {
                     report_change!("Dropping a pure new expression");

@@ -836,12 +836,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 453,
               "end": 455
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,
@@ -1615,12 +1614,11 @@
               }
             ],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 766,
                 "end": 768
               },
-              "ctxt": 0,
               "stmts": []
             },
             "accessibility": null,

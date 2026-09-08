@@ -781,12 +781,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 564,
           "end": 666
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",

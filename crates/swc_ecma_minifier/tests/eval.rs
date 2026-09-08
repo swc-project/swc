@@ -339,6 +339,67 @@ fn partial_3() {
     );
 }
 
+fn assert_evaluator_rejects_non_literal_template(src: &str) {
+    PartialInliner::run_test(src, |cm, module, inliner| {
+        let fm = cm.new_source_file(FileName::Anon.into(), "`${props.color}`");
+        let template = parse_file_as_expr(
+            &fm,
+            Default::default(),
+            EsVersion::latest(),
+            None,
+            &mut Vec::new(),
+        )
+        .unwrap();
+
+        let mut evaluator = Evaluator::new(module, inliner.marks);
+        assert_eq!(evaluator.eval(&template), None);
+    });
+}
+
+#[test]
+fn evaluator_does_not_inline_jsx_element_name_in_parentheses() {
+    assert_evaluator_rejects_non_literal_template(
+        "
+            export const Probe = props => {
+                const Icon = props.icon;
+                return (<Icon />);
+            };
+        ",
+    );
+}
+
+#[test]
+fn evaluator_does_not_inline_jsx_element_name() {
+    assert_evaluator_rejects_non_literal_template(
+        "
+            export const Probe = props => {
+                const Icon = props.icon;
+                return <Icon />;
+            };
+        ",
+    );
+}
+
+#[test]
+fn evaluator_keeps_inlining_normal_expression_uses() {
+    PartialInliner::expect(
+        "
+            const color = 'blue';
+            export const Probe = () => {
+                const Icon = color;
+                return css`${Icon}`;
+            };
+        ",
+        "
+            const color = 'blue';
+            export const Probe = () => {
+                const Icon = color;
+                return css`blue`;
+            };
+        ",
+    );
+}
+
 #[test]
 #[ignore]
 fn partial_4() {

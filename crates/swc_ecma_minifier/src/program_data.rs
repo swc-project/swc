@@ -42,8 +42,6 @@ pub(crate) struct ProgramData {
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 
-    pub(crate) top: ScopeData,
-
     scopes: Vec<ScopeData>,
 
     pub(crate) property_atoms: Option<Vec<Wtf8Atom>>,
@@ -214,10 +212,6 @@ impl Storage for ProgramData {
         &self.scopes
     }
 
-    fn top_scope(&mut self) -> &mut Self::ScopeData {
-        &mut self.top
-    }
-
     fn var_or_default(&mut self, id: Id) -> &mut Self::VarData {
         self.vars.entry(id).or_default()
     }
@@ -306,6 +300,7 @@ impl Storage for ProgramData {
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_EXPR;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FOR_INIT;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_COND;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_ARG;
@@ -475,8 +470,12 @@ impl Storage for ProgramData {
             v.flags |= VarUsageInfoFlags::IS_TOP_LEVEL;
         }
 
-        // assigned or declared before this declaration
-        if init_type.is_some() {
+        if init_type.is_some() ||
+        // it may actually not be assigned if loop is empty
+        // but that's only possible to be known at runtime
+        ctx.in_left_of_for_loop()
+        {
+            // assigned or declared before this declaration
             if v.flags
                 .intersects(VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::VAR_INITIALIZED))
                 || v.assign_count > 0

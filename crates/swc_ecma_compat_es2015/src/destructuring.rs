@@ -495,8 +495,8 @@ impl Destructuring {
     fn visit_mut_fn_like(
         &mut self,
         ps: &mut Vec<Param>,
-        body: &mut BlockStmt,
-    ) -> (Vec<Param>, BlockStmt) {
+        body: &mut Vec<Stmt>,
+    ) -> (Vec<Param>, Vec<Stmt>) {
         let mut params = Vec::new();
         let mut decls = Vec::new();
 
@@ -527,7 +527,7 @@ impl Destructuring {
         }
 
         let stmts = if decls.is_empty() {
-            body.stmts.take()
+            body.take()
         } else {
             let mut stmt: Stmt = VarDecl {
                 span: DUMMY_SP,
@@ -540,16 +540,10 @@ impl Destructuring {
 
             stmt.visit_mut_children_with(self);
 
-            iter::once(stmt).chain(body.stmts.take()).collect()
+            iter::once(stmt).chain(body.take()).collect()
         };
 
-        (
-            params,
-            BlockStmt {
-                stmts,
-                ..body.take()
-            },
-        )
+        (params, stmts)
     }
 }
 

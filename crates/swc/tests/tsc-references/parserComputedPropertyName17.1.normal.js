@@ -1,4 +1,4 @@
 //// [parserComputedPropertyName17.ts]
-var v1 = {
+var v = {
     set [e] (v){}
 };

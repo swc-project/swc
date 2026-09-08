@@ -137,12 +137,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 150,
           "end": 247
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "IfStatement",
@@ -454,12 +453,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 270,
           "end": 381
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "IfStatement",
@@ -851,12 +849,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 453,
           "end": 643
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",

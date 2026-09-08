@@ -391,6 +391,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
 
     fn visit_function(&mut self, node: &Function) {
         // Skip body
+        node.this_param.visit_with(self);
         node.params.visit_with(self);
         node.decorators.visit_with(self);
         node.type_params.visit_with(self);

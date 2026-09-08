@@ -14,20 +14,16 @@ define([
 // Should emit 'react-router' in the AMD dependency list
 define([
     "require",
-    "exports",
     "react",
     "react-router"
-], function(require, exports, _react, _reactrouter) {
+], function(require, React, ReactRouter) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    var Route = _reactrouter.Route;
-    var routes1 = /*#__PURE__*/ _react.createElement(Route, null);
+    var Route = ReactRouter.Route;
+    var routes1 = /*#__PURE__*/ React.createElement(Route, null);
     (function(M) {})(M || (M = {}));
     (function(M) {
         // Should emit 'M.X' in both opening and closing tags
-        var y = /*#__PURE__*/ _react.createElement(X, null);
+        var y = /*#__PURE__*/ React.createElement(X, null);
     })(M || (M = {}));
     var M;
 });

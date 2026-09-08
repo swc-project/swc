@@ -2,9 +2,7 @@
 //// [/a.ts]
 module.exports = I;
 //// [/b.ts]
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), require("./a");
+require("./a");
 //// [/c.ts]
 var I;
 (I || (I = {})).x = 1, module.exports = I;

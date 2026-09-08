@@ -87,23 +87,6 @@ impl Visit for ThisVisitor {
     /// Don't recurse into fn
     fn visit_function(&mut self, _: &Function) {}
 
-    /// Don't recurse into fn
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        n.key.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_method_prop(&mut self, n: &MethodProp) {
-        n.key.visit_with(self);
-        n.function.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        n.key.visit_with(self);
-        n.param.visit_with(self);
-    }
-
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
     }
@@ -403,6 +386,11 @@ impl IsEmpty for BlockStmt {
         self.stmts.is_empty()
     }
 }
+impl IsEmpty for FunctionBody {
+    fn is_empty(&self) -> bool {
+        self.stmts.is_empty()
+    }
+}
 impl IsEmpty for CatchClause {
     fn is_empty(&self) -> bool {
         self.body.stmts.is_empty()
@@ -686,8 +674,6 @@ impl Visit for Hoister {
 
     fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_getter_prop(&mut self, _: &GetterProp) {}
-
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
@@ -695,8 +681,6 @@ impl Visit for Hoister {
             self.vars.push(i.clone().into())
         }
     }
-
-    fn visit_setter_prop(&mut self, _: &SetterProp) {}
 
     fn visit_var_decl(&mut self, v: &VarDecl) {
         if v.kind != VarDeclKind::Var {
@@ -917,6 +901,91 @@ fn may_be_str(ty: Value<Type>) -> bool {
     }
 }
 
+/// Converts the digits of a radix-prefixed numeric string (the part after
+/// `0x`/`0o`/`0b`) to a [`f64`], the way ECMAScript's `ToNumber` would.
+///
+/// `u64::from_str_radix` is used when the value fits, since `u64 as f64` is
+/// already a correctly-rounded conversion. When it doesn't (e.g.
+/// `"10000000000000000"` in hex, which is 2^64), the value is rounded to the
+/// nearest `f64` directly, in one step: `radix` is always a power of two here
+/// (2, 8, or 16, the only radixes ECMAScript's grammar uses for prefixed
+/// integer literals), so each digit maps to a fixed number of bits. That
+/// makes it possible to extract the top ~53 significant bits exactly and
+/// round them to nearest-even against a sticky bit for everything below,
+/// which is what a correctly-rounded conversion requires. Accumulating
+/// digit-by-digit into an `f64` (rounding after every multiply-add) is
+/// tempting but wrong: intermediate roundings can compound into a result a
+/// few ULPs off from rounding the exact integer once.
+fn radix_str_to_number(s: &str, radix: u32) -> f64 {
+    // Tried first, before validating anything: `u64::from_str_radix` already
+    // rejects invalid digits and empty input on its own, and this covers the
+    // overwhelming majority of real-world radix literals (short hex color
+    // codes, bit flags, hashes), so the explicit validity scan below only
+    // needs to run on the rare failure path, not on every call.
+    if let Ok(n) = u64::from_str_radix(s, radix) {
+        return n as f64;
+    }
+
+    if s.is_empty() || !s.bytes().all(|b| (b as char).is_digit(radix)) {
+        return f64::NAN;
+    }
+
+    let bits_per_digit = radix.trailing_zeros() as usize;
+    let bytes = s.as_bytes();
+
+    // `'0'` is the zero digit in every radix used here, so finding the first
+    // significant byte doesn't need to decode anything, and neither does the
+    // sticky-bit scan below — this whole function stays allocation-free even
+    // for a multi-megabyte numeric literal.
+    let Some(first) = bytes.iter().position(|&b| b != b'0') else {
+        return 0.0;
+    };
+    let significant = &bytes[first..];
+
+    // Even in the worst case (the leading digit contributes only 1 bit, e.g.
+    // a leading `1`), this many digits guarantee at least 7 bits beyond the
+    // 53-bit mantissa: a round bit plus headroom for the sticky check below.
+    let prefix_len = ((59usize).div_ceil(bits_per_digit) + 1).min(significant.len());
+    let prefix_value = significant[..prefix_len].iter().fold(0u64, |acc, &b| {
+        (acc << bits_per_digit) | (b as char).to_digit(radix).unwrap() as u64
+    });
+
+    let first_digit_bits = (32
+        - (significant[0] as char)
+            .to_digit(radix)
+            .unwrap()
+            .leading_zeros()) as usize;
+    let high_bits_count = (prefix_len - 1) * bits_per_digit + first_digit_bits;
+    let remaining_bits = (significant.len() - prefix_len) * bits_per_digit;
+    let remaining_sticky = significant[prefix_len..].iter().any(|&b| b != b'0');
+
+    let extra_bits = high_bits_count - 53;
+    let dropped = prefix_value & ((1u64 << extra_bits) - 1);
+    let mantissa = prefix_value >> extra_bits;
+    let round_bit = (dropped >> (extra_bits - 1)) & 1;
+    let lower_sticky = (dropped & ((1u64 << (extra_bits - 1)) - 1)) != 0;
+    let round_up = round_bit == 1 && (lower_sticky || remaining_sticky || mantissa & 1 == 1);
+    let mantissa = mantissa + round_up as u64;
+
+    let exponent = saturating_exponent(remaining_bits, extra_bits);
+
+    // Exact: multiplying by a power of two never loses precision in IEEE 754.
+    mantissa as f64 * 2f64.powi(exponent)
+}
+
+/// `(remaining_bits + extra_bits) as i32`, but saturating instead of
+/// wrapping when the sum exceeds `i32::MAX`.
+///
+/// An unchecked cast would wrap a large enough sum into a *negative* `i32`,
+/// turning what should be an astronomically large (legitimately `Infinity`
+/// once passed through `f64::powi`) exponent into a tiny or negative one
+/// instead — reachable only via a radix literal of hundreds of millions of
+/// digits, but `powi(i32::MAX)` already saturates to `Infinity` on its own,
+/// so clamping here is all that's needed to make that fall out correctly.
+fn saturating_exponent(remaining_bits: usize, extra_bits: usize) -> i32 {
+    (remaining_bits + extra_bits).min(i32::MAX as usize) as i32
+}
+
 pub fn num_from_str(s: &str) -> Value<f64> {
     if s.contains('\u{000b}') {
         return Unknown;
@@ -930,24 +999,9 @@ pub fn num_from_str(s: &str) -> Value<f64> {
 
     if s.len() >= 2 {
         match &s.as_bytes()[..2] {
-            b"0x" | b"0X" => {
-                return match u64::from_str_radix(&s[2..], 16) {
-                    Ok(n) => Known(n as f64),
-                    Err(_) => Known(f64::NAN),
-                }
-            }
-            b"0o" | b"0O" => {
-                return match u64::from_str_radix(&s[2..], 8) {
-                    Ok(n) => Known(n as f64),
-                    Err(_) => Known(f64::NAN),
-                };
-            }
-            b"0b" | b"0B" => {
-                return match u64::from_str_radix(&s[2..], 2) {
-                    Ok(n) => Known(n as f64),
-                    Err(_) => Known(f64::NAN),
-                };
-            }
+            b"0x" | b"0X" => return Known(radix_str_to_number(&s[2..], 16)),
+            b"0o" | b"0O" => return Known(radix_str_to_number(&s[2..], 8)),
+            b"0b" | b"0B" => return Known(radix_str_to_number(&s[2..], 2)),
             _ => {}
         }
     }
@@ -1182,7 +1236,9 @@ impl Visit for LiteralVisitor {
     }
 
     fn visit_number(&mut self, node: &Number) {
-        if !self.allow_non_json_value && node.value.is_infinite() {
+        // JSON number syntax can express infinities as overflowed values such
+        // as `2e308`, but it has no representation that parses to `NaN`.
+        if !self.allow_non_json_value && node.value.is_nan() {
             self.is_lit = false;
         }
     }
@@ -1524,7 +1580,8 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
         } else {
             Vec::new()
         },
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts: if has_super {
                 vec![CallExpr {
                     span: super_call_span,
@@ -1539,7 +1596,6 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
             } else {
                 Vec::new()
             },
-            ..Default::default()
         }),
         ..Default::default()
     }
@@ -2061,7 +2117,7 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
     match p {
         PropName::Ident(i) => i.sym == *key,
         PropName::Str(s) => s.value == *key,
-        PropName::Num(n) => n.value.to_string() == *key,
+        PropName::Num(n) => n.value.to_js_string() == *key,
         PropName::BigInt(_) => false,
         PropName::Computed(e) => match &*e.expr {
             Expr::Lit(Lit::Str(Str { value, .. })) => *value == *key,
@@ -2761,8 +2817,10 @@ fn is_array_lit(expr: &Expr) -> bool {
 }
 
 fn is_nan(expr: &Expr) -> bool {
-    // NaN is special
-    expr.is_ident_ref_to("NaN")
+    match expr {
+        Expr::Lit(Lit::Num(number)) => number.value.is_nan(),
+        _ => expr.is_ident_ref_to("NaN"),
+    }
 }
 
 fn is_undefined(expr: &Expr, ctx: ExprCtx) -> bool {
@@ -2800,18 +2858,24 @@ fn as_pure_bool(expr: &Expr, ctx: ExprCtx) -> BoolValue {
     }
 }
 
+/// Returns whether a number is truthy according to ECMAScript semantics.
+#[inline]
+fn is_truthy_number(value: f64) -> bool {
+    !matches!(value.classify(), FpCategory::Nan | FpCategory::Zero)
+}
+
 fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
     let Some(ctx) = ctx.consume_depth() else {
         return (MayBeImpure, Unknown);
     };
 
     if let Expr::Ident(i) = expr {
-        if &*i.sym == "NaN" {
-            return (Pure, Known(false));
-        }
-
         if i.ctxt != ctx.unresolved_ctxt {
             return (Pure, Unknown);
+        }
+
+        if &*i.sym == "NaN" {
+            return (Pure, Known(false));
         }
 
         if &*i.sym == "undefined" {
@@ -2869,7 +2933,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         }) => {
             let v = arg.as_pure_number(ctx);
             match v {
-                Known(n) => Known(!matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)),
+                Known(n) => Known(is_truthy_number(-n)),
                 Unknown => return (MayBeImpure, Unknown),
             }
         }
@@ -2896,13 +2960,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             return (
                 lp + rp,
                 match (ln, rn) {
-                    (Known(ln), Known(rn)) => {
-                        if ln == rn {
-                            Known(false)
-                        } else {
-                            Known(true)
-                        }
-                    }
+                    (Known(ln), Known(rn)) => Known(is_truthy_number(ln - rn)),
                     _ => Unknown,
                 },
             );
@@ -2919,17 +2977,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
 
             match (lv, rv) {
                 (Known(lv), Known(rv)) => {
-                    // NaN is false
-                    if lv == 0.0 && rv == 0.0 {
-                        return (Pure, Known(false));
-                    }
-                    // Infinity is true.
-                    if rv == 0.0 {
-                        return (Pure, Known(true));
-                    }
-                    let v = lv / rv;
-
-                    return (Pure, Known(v != 0.0));
+                    return (Pure, Known(is_truthy_number(lv / rv)));
                 }
                 _ => Unknown,
             }
@@ -3038,9 +3086,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             return (
                 Pure,
                 Known(match *lit {
-                    Lit::Num(Number { value: n, .. }) => {
-                        !matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)
-                    }
+                    Lit::Num(Number { value: n, .. }) => is_truthy_number(n),
                     Lit::BigInt(ref v) => v
                         .value
                         .to_string()
@@ -3537,9 +3583,12 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
 /// - But `new (class {})()` can be pure if the class has no side effects
 fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     match expr {
-        // An empty function expression is also pure for `new`
+        // Only an empty non-async, non-generator function expression is pure for `new`.
+        // Async and generator functions are not constructible, so `new` throws.
         Expr::Fn(FnExpr { function: f, .. })
-            if f.params.iter().all(|p| p.pat.is_ident())
+            if !f.is_async
+                && !f.is_generator
+                && f.params.iter().all(|p| p.pat.is_ident())
                 && f.body.is_some()
                 && f.body.as_ref().unwrap().stmts.is_empty() =>
         {
@@ -3570,6 +3619,9 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                 match member {
                     ClassMember::ClassProp(p) if !p.is_static => return false,
                     ClassMember::PrivateProp(p) if !p.is_static => return false,
+                    // Auto-accessor initializers run when the instance is constructed,
+                    // just like instance field initializers.
+                    ClassMember::AutoAccessor(p) if !p.is_static => return false,
                     _ => {}
                 }
             }
@@ -3577,6 +3629,14 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
             // Check constructor - must be empty or not present
             for member in &class.body {
                 if let ClassMember::Constructor(ctor) = member {
+                    if !ctor
+                        .params
+                        .iter()
+                        .all(|param| param.as_param().is_some_and(|param| param.pat.is_ident()))
+                    {
+                        return false;
+                    }
+
                     if let Some(body) = &ctor.body {
                         if !body.stmts.is_empty() {
                             return false;
@@ -3861,10 +3921,98 @@ pub fn prop_name_from_str(span: Span, s: &str) -> PropName {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{input::StringInput, BytePos};
+    use swc_common::{input::StringInput, BytePos, DUMMY_SP};
     use swc_ecma_parser::{Parser, Syntax};
 
     use super::*;
+
+    #[test]
+    fn number_literal_nan_is_recognized() {
+        let expr = Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: f64::NAN,
+            raw: None,
+        }));
+
+        assert!(expr.is_nan());
+    }
+
+    #[test]
+    fn num_from_str_small_radix_values_are_exact() {
+        assert_eq!(num_from_str("0xff"), Known(255.0));
+        assert_eq!(num_from_str("0o17"), Known(15.0));
+        assert_eq!(num_from_str("0b101"), Known(5.0));
+    }
+
+    #[test]
+    fn num_from_str_overflowing_radix_values_do_not_become_nan() {
+        // 2^64, one hex digit past what `u64` can hold.
+        assert_eq!(
+            num_from_str("0x10000000000000000"),
+            Known(18446744073709552000.0)
+        );
+        assert_eq!(
+            num_from_str("0o2000000000000000000000"),
+            Known(18446744073709552000.0)
+        );
+        assert_eq!(
+            num_from_str("0b10000000000000000000000000000000000000000000000000000000000000000"),
+            Known(18446744073709552000.0)
+        );
+    }
+
+    #[test]
+    fn num_from_str_overflowing_radix_values_round_correctly() {
+        // A leading digit worth only 1 bit (`1`) shrinks the margin between the
+        // 53-bit mantissa and the digits sampled for rounding; this case only
+        // rounds correctly if that margin is computed from the leading digit's
+        // actual bit length rather than assumed to always be a full digit wide.
+        // Reference: `u128::from_str_radix("123456789abcdef0123", 16) as f64`.
+        assert_eq!(
+            num_from_str("0x123456789abcdef0123"),
+            Known(5.373003642731685e21)
+        );
+
+        // Rounding after every digit (instead of once, on the exact value)
+        // produces a result one ULP away from this.
+        // Reference: `u128::from_str_radix("32a884c83f6f91624", 16) as f64`.
+        assert_eq!(
+            num_from_str("0x32a884c83f6f91624"),
+            Known(5.840501589722223e19)
+        );
+    }
+
+    #[test]
+    fn num_from_str_invalid_radix_digit_is_nan() {
+        match num_from_str("0xg1") {
+            Known(v) => assert!(v.is_nan()),
+            Unknown => panic!("expected a known (NaN) value"),
+        }
+    }
+
+    #[test]
+    fn num_from_str_overflow_with_later_invalid_digit_is_nan() {
+        // The leading `f`s alone already overflow a `u64`, so
+        // `u64::from_str_radix` can report the failure before ever examining
+        // the trailing `g` — this must still come out as `NaN`, not as if
+        // the invalid digit weren't there.
+        match num_from_str("0xfffffffffffffffffg") {
+            Known(v) => assert!(v.is_nan()),
+            Unknown => panic!("expected a known (NaN) value"),
+        }
+    }
+
+    #[test]
+    fn saturating_exponent_clamps_instead_of_wrapping() {
+        // A plain, comfortably in-range sum is passed through unchanged.
+        assert_eq!(saturating_exponent(100, 4), 104);
+
+        // Reachable only via a radix literal of hundreds of millions of
+        // digits, but must not wrap into a negative exponent: an unchecked
+        // `as i32` cast turns `i32::MAX as usize + 1` into `i32::MIN`.
+        assert_eq!(saturating_exponent(i32::MAX as usize + 1, 0), i32::MAX);
+        assert_eq!(saturating_exponent(i32::MAX as usize, 1), i32::MAX);
+    }
 
     #[test]
     fn test_collect_decls() {

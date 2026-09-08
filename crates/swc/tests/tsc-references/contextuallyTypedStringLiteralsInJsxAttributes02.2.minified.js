@@ -3,7 +3,7 @@ define([
     "require",
     "exports",
     "react"
-], function(require, exports, _react) {
+], function(require, exports, React) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });

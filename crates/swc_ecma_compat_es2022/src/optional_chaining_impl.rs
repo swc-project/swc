@@ -37,29 +37,28 @@ pub struct Config {
 impl VisitMut for OptionalChaining {
     noop_visit_mut_type!(fail);
 
-    fn visit_mut_block_stmt_or_expr(&mut self, expr: &mut BlockStmtOrExpr) {
-        if let BlockStmtOrExpr::Expr(e) = expr {
-            let mut stmt = BlockStmt {
+    fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
+        if let ArrowFunctionBody::Expr(expr) = body {
+            let mut function_body = FunctionBody {
                 span: DUMMY_SP,
                 stmts: vec![Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
-                    arg: Some(e.take()),
+                    arg: Some(expr.take()),
                 })],
-                ..Default::default()
             };
-            stmt.visit_mut_with(self);
+            function_body.visit_mut_with(self);
 
             // If there are optional chains in this expression, then the visitor will have
             // injected an VarDecl statement and we need to transform into a
             // block. If not, then we can keep the expression.
-            match &mut stmt.stmts[..] {
-                [Stmt::Return(ReturnStmt { arg: Some(e), .. })] => {
-                    *expr = BlockStmtOrExpr::Expr(e.take())
-                }
-                _ => *expr = BlockStmtOrExpr::BlockStmt(stmt),
+            match &mut function_body.stmts[..] {
+                [Stmt::Return(ReturnStmt {
+                    arg: Some(expr), ..
+                })] => *body = ArrowFunctionBody::Expr(expr.take()),
+                _ => *body = ArrowFunctionBody::FunctionBody(function_body),
             }
         } else {
-            expr.visit_mut_children_with(self);
+            body.visit_mut_children_with(self);
         }
     }
 
@@ -121,10 +120,9 @@ impl VisitMut for OptionalChaining {
                 callee: ArrowExpr {
                     span: DUMMY_SP,
                     params: Vec::new(),
-                    body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                         span: DUMMY_SP,
                         stmts,
-                        ..Default::default()
                     })),
                     is_async: false,
                     is_generator: false,

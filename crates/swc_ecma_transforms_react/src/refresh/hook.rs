@@ -168,7 +168,7 @@ impl HookRegister<'_> {
                     params: Vec::new(),
                     decorators: Vec::new(),
                     span: DUMMY_SP,
-                    body: Some(BlockStmt {
+                    body: Some(FunctionBody {
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
@@ -177,7 +177,6 @@ impl HookRegister<'_> {
                                 elems,
                             }))),
                         })],
-                        ..Default::default()
                     }),
                     ..Default::default()
                 }
@@ -204,34 +203,79 @@ impl HookRegister<'_> {
             .into(),
         )
     }
+
+    fn visit_mut_stmt_list_with_scope(&mut self, ctxt: SyntaxContext, stmts: &mut Vec<Stmt>) {
+        let old_ident = self.ident.take();
+        let old_stmts = self.extra_stmt.take();
+
+        self.current_scope.push(ctxt);
+
+        let stmt_count = stmts.len();
+        let original_stmts = mem::replace(stmts, Vec::with_capacity(stmt_count));
+
+        for mut stmt in original_stmts {
+            stmt.visit_mut_children_with(self);
+
+            stmts.push(stmt);
+            stmts.append(&mut self.extra_stmt);
+        }
+
+        if !self.ident.is_empty() {
+            stmts.insert(0, self.gen_hook_handle())
+        }
+
+        self.current_scope.pop();
+        self.ident = old_ident;
+        self.extra_stmt = old_stmts;
+    }
+
+    fn visit_mut_arrow_body_with_scope(
+        &mut self,
+        ctxt: SyntaxContext,
+        body: &mut ArrowFunctionBody,
+    ) {
+        match body {
+            ArrowFunctionBody::FunctionBody(body) => {
+                self.visit_mut_stmt_list_with_scope(ctxt, &mut body.stmts);
+            }
+            ArrowFunctionBody::Expr(expr) => expr.visit_mut_with(self),
+            #[cfg(swc_ast_unknown)]
+            _ => body.visit_mut_children_with(self),
+        }
+    }
 }
 
 impl VisitMut for HookRegister<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_block_stmt(&mut self, b: &mut BlockStmt) {
-        let old_ident = self.ident.take();
-        let old_stmts = self.extra_stmt.take();
+        self.visit_mut_stmt_list_with_scope(b.ctxt, &mut b.stmts);
+    }
 
-        self.current_scope.push(b.ctxt);
+    fn visit_mut_function_body(&mut self, _: &mut FunctionBody) {}
 
-        let stmt_count = b.stmts.len();
-        let stmts = mem::replace(&mut b.stmts, Vec::with_capacity(stmt_count));
+    fn visit_mut_function(&mut self, function: &mut Function) {
+        function.visit_mut_children_with(self);
 
-        for mut stmt in stmts {
-            stmt.visit_mut_children_with(self);
-
-            b.stmts.push(stmt);
-            b.stmts.append(&mut self.extra_stmt);
+        if let Some(body) = &mut function.body {
+            self.visit_mut_stmt_list_with_scope(function.ctxt, &mut body.stmts);
         }
+    }
 
-        if !self.ident.is_empty() {
-            b.stmts.insert(0, self.gen_hook_handle())
+    fn visit_mut_constructor(&mut self, constructor: &mut Constructor) {
+        constructor.visit_mut_children_with(self);
+
+        if let Some(body) = &mut constructor.body {
+            self.visit_mut_stmt_list_with_scope(constructor.ctxt, &mut body.stmts);
         }
+    }
 
-        self.current_scope.pop();
-        self.ident = old_ident;
-        self.extra_stmt = old_stmts;
+    fn visit_mut_arrow_expr(&mut self, arrow: &mut ArrowExpr) {
+        arrow.visit_mut_children_with(self);
+
+        if let ArrowFunctionBody::FunctionBody(body) = arrow.body.as_mut() {
+            self.visit_mut_stmt_list_with_scope(arrow.ctxt, &mut body.stmts);
+        }
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -279,7 +323,10 @@ impl VisitMut for HookRegister<'_> {
                         ident: fn_ident,
                         function: f,
                     }) if f.body.is_some() => {
-                        f.body.visit_mut_with(self);
+                        self.visit_mut_stmt_list_with_scope(
+                            f.ctxt,
+                            &mut f.body.as_mut().unwrap().stmts,
+                        );
                         let mut self_ids = vec![id.to_id()];
                         if let Some(fn_ident) = fn_ident {
                             self_ids.push(fn_ident.to_id());
@@ -290,8 +337,8 @@ impl VisitMut for HookRegister<'_> {
                             self.gen_hook_register_stmt(Ident::from(&*id), sig);
                         }
                     }
-                    Expr::Arrow(ArrowExpr { body, .. }) => {
-                        body.visit_mut_with(self);
+                    Expr::Arrow(ArrowExpr { ctxt, body, .. }) => {
+                        self.visit_mut_arrow_body_with_scope(*ctxt, body);
                         let self_ids = [id.to_id()];
                         if let Some(sig) = collect_hooks_arrow(body, self.cm, &self_ids) {
                             self.gen_hook_register_stmt(Ident::from(&*id), sig);
@@ -357,13 +404,13 @@ fn collect_hooks(stmts: &mut Vec<Stmt>, cm: &SourceMap, self_ids: &[Id]) -> Opti
 }
 
 fn collect_hooks_arrow(
-    body: &mut BlockStmtOrExpr,
+    body: &mut ArrowFunctionBody,
     cm: &SourceMap,
     self_ids: &[Id],
 ) -> Option<HookSig> {
     match body {
-        BlockStmtOrExpr::BlockStmt(block) => collect_hooks(&mut block.stmts, cm, self_ids),
-        BlockStmtOrExpr::Expr(expr) => {
+        ArrowFunctionBody::FunctionBody(body) => collect_hooks(&mut body.stmts, cm, self_ids),
+        ArrowFunctionBody::Expr(expr) => {
             let mut hook = HookCollector {
                 state: Vec::new(),
                 cm,
@@ -374,7 +421,7 @@ fn collect_hooks_arrow(
 
             if !hook.state.is_empty() {
                 let sig = HookSig::new(hook.state);
-                *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                *body = ArrowFunctionBody::FunctionBody(FunctionBody {
                     span: expr.span(),
                     stmts: vec![
                         make_call_stmt(sig.handle.clone()),
@@ -383,7 +430,6 @@ fn collect_hooks_arrow(
                             arg: Some(Box::new(expr.as_mut().take())),
                         }),
                     ],
-                    ..Default::default()
                 });
                 Some(sig)
             } else {
@@ -495,9 +541,11 @@ impl HookCollector<'_> {
 impl Visit for HookCollector<'_> {
     noop_visit_type!();
 
-    fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr) {}
+    fn visit_arrow_function_body(&mut self, _: &ArrowFunctionBody) {}
 
     fn visit_block_stmt(&mut self, _: &BlockStmt) {}
+
+    fn visit_function_body(&mut self, _: &FunctionBody) {}
 
     fn visit_expr(&mut self, expr: &Expr) {
         expr.visit_children_with(self);

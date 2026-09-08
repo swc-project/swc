@@ -1,16 +1,11 @@
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    contains_top_level_await, private_ident, quote_ident, ExprFactory, IsDirective,
-};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_utils::{contains_top_level_await, private_ident, quote_ident, ExprFactory};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
 
 pub use super::util::Config;
 use crate::{
-    module_record::ModuleSyntaxExtractor,
-    path::Resolver,
-    top_level_this::top_level_this,
-    util::{use_strict, VecStmtLike},
+    module_record::SourceModule, path::Resolver, top_level_this::top_level_this, util::use_strict,
 };
 
 mod emit;
@@ -20,6 +15,7 @@ mod pattern;
 mod rewrite;
 mod util;
 
+#[must_use]
 pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> impl Pass {
     visit_mut_pass(SystemJs {
         resolver,
@@ -38,42 +34,27 @@ impl VisitMut for SystemJs {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        let mut wrapper_stmts: Vec<Stmt> = Vec::with_capacity(n.body.len() + 8);
-
-        let directive_count = n
-            .body
-            .iter()
-            .take_while(|item| item.directive_continue())
-            .count();
-        wrapper_stmts.extend(n.body.drain(..directive_count).map(ModuleItem::expect_stmt));
-
-        if self.config.strict_mode && !wrapper_stmts.has_use_strict() {
-            wrapper_stmts.push(use_strict());
-        }
-
         if !self.config.allow_top_level_this {
             top_level_this(&mut n.body, *Expr::undefined(DUMMY_SP));
         }
 
-        let mut extractor =
-            ModuleSyntaxExtractor::new(VarDeclKind::Var).preserve_import_attributes();
-        n.body.visit_mut_with(&mut extractor);
+        let mut source = SourceModule::collect(n.body.take());
+        let has_use_strict = source.has_use_strict;
+        let mut wrapper_stmts = std::mem::take(&mut source.directives);
+        wrapper_stmts.reserve(8);
 
-        let ModuleSyntaxExtractor {
-            requested_modules,
-            local_export_entries,
-            ..
-        } = extractor;
+        if self.config.strict_mode && !has_use_strict {
+            wrapper_stmts.push(use_strict());
+        }
 
         let export_ident = private_ident!("_export");
         let context_ident = private_ident!("_context");
         let unresolved_ctxt = SyntaxContext::empty().apply_mark(self.unresolved_mark);
 
-        let mut module = lower::lower(n.body.take(), requested_modules, local_export_entries);
+        let mut module = lower::lower(source);
 
         rewrite::rewrite_special_refs(
-            &mut module.wrapper_fns,
-            &mut module.execute_stmts,
+            &mut module,
             context_ident.clone(),
             unresolved_ctxt,
             &self.resolver,
@@ -86,11 +67,7 @@ impl VisitMut for SystemJs {
             export_ident.clone(),
             module.export_setters.clone(),
         );
-        rewrite::rewrite_export_bindings(
-            &mut module.wrapper_fns,
-            &mut module.execute_stmts,
-            &mut export_rewriter,
-        );
+        rewrite::rewrite_export_bindings(&mut module, &mut export_rewriter);
         if export_rewriter.needs_old_temp() {
             module.wrapper_vars.push(export_rewriter.old_temp());
         }

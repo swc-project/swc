@@ -18,6 +18,7 @@ pub(crate) mod module_record;
 pub(crate) mod module_ref_rewriter;
 pub mod path;
 pub mod rewriter;
+pub(crate) mod syntax_strip;
 pub mod system_js;
 mod top_level_this;
 pub mod umd;

@@ -3,8 +3,8 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, AssignExpr, AssignTarget, AssignTargetPat, AwaitExpr, BinExpr, BinaryOp,
-    BlockStmtOrExpr, CallExpr, Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Ident,
+    ArrayLit, ArrowExpr, ArrowFunctionBody, AssignExpr, AssignTarget, AssignTargetPat, AwaitExpr,
+    BinExpr, BinaryOp, CallExpr, Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Ident,
     Import, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, ParenExpr,
     PropOrSpread, SeqExpr, SimpleAssignTarget, SpreadElement, Super, SuperProp, SuperPropExpr,
     TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
@@ -723,13 +723,13 @@ impl Babelify for ExprOrSpread {
     }
 }
 
-impl Babelify for BlockStmtOrExpr {
+impl Babelify for ArrowFunctionBody {
     type Output = ArrowFuncExprBody;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            BlockStmtOrExpr::BlockStmt(b) => ArrowFuncExprBody::Block(b.babelify(ctx)),
-            BlockStmtOrExpr::Expr(e) => {
+            ArrowFunctionBody::FunctionBody(b) => ArrowFuncExprBody::Block(b.babelify(ctx)),
+            ArrowFunctionBody::Expr(e) => {
                 ArrowFuncExprBody::Expr(Box::alloc().init(e.babelify(ctx).into()))
             }
             #[cfg(swc_ast_unknown)]

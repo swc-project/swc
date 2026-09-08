@@ -76,7 +76,7 @@
  2 | /*#__PURE__*/((() => import('./any'))())
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-  x BlockStmtOrExpr
+  x ArrowFunctionBody
    ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())

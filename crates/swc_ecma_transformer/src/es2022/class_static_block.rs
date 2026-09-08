@@ -149,10 +149,9 @@ impl ClassStaticBlock {
         let arrow = ArrowExpr {
             span: DUMMY_SP,
             params: vec![],
-            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+            body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
                 span: DUMMY_SP,
                 stmts,
-                ctxt: Default::default(),
             })),
             is_async: false,
             is_generator: false,

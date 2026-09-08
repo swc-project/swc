@@ -1305,7 +1305,7 @@ export interface Constructor extends Node, HasSpan {
 
   params: (TsParameterProperty | Param)[];
 
-  body?: BlockStatement;
+  body?: FunctionBody;
 
   accessibility?: Accessibility;
 
@@ -1618,7 +1618,7 @@ export interface ArrowFunctionExpression extends ExpressionBase {
 
   params: Pattern[];
 
-  body: BlockStatement | Expression;
+  body: FunctionBody | Expression;
 
   async: boolean;
 
@@ -1682,9 +1682,11 @@ export interface ParenthesisExpression extends ExpressionBase {
 }
 
 export interface Fn extends HasSpan, HasDecorator {
+  thisParam?: TsThisParameter;
+
   params: Param[];
 
-  body?: BlockStatement;
+  body?: FunctionBody;
 
   generator: boolean;
 
@@ -2193,16 +2195,13 @@ export interface AssignmentProperty extends Node {
 export interface GetterProperty extends PropBase, HasSpan {
   type: "GetterProperty";
 
-  typeAnnotation?: TsTypeAnnotation;
-
-  body?: BlockStatement;
+  function: Fn;
 }
 
 export interface SetterProperty extends PropBase, HasSpan {
   type: "SetterProperty";
 
-  param: Pattern;
-  body?: BlockStatement;
+  function: Fn;
 }
 
 export interface MethodProperty extends PropBase, Fn {
@@ -2223,6 +2222,12 @@ export interface ComputedPropName extends Node, HasSpan {
 
 export interface BlockStatement extends Node, HasSpan {
   type: "BlockStatement";
+
+  stmts: Statement[];
+}
+
+export interface FunctionBody extends Node, HasSpan {
+  type: "FunctionBody";
 
   stmts: Statement[];
 }
@@ -2568,6 +2573,14 @@ export type TsKeywordTypeKind =
 
 export interface TsThisType extends Node, HasSpan {
   type: "TsThisType";
+}
+
+export interface TsThisParameter extends Node, HasSpan {
+  type: "TsThisParameter";
+
+  thisSpan: Span;
+
+  typeAnnotation?: TsTypeAnnotation;
 }
 
 export type TsFnParameter =

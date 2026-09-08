@@ -40,7 +40,7 @@ impl VisitMut for NewTarget {
     fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
         c.key.visit_mut_with(self);
 
-        self.visit_mut_method(&mut c.function)
+        self.visit_mut_method(&mut c.function);
     }
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
@@ -119,19 +119,21 @@ impl VisitMut for NewTarget {
         self.ctx = old;
     }
 
-    fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
+    fn visit_mut_private_method(&mut self, m: &mut PrivateMethod) {
         m.key.visit_mut_with(self);
-        self.visit_mut_method(&mut m.function)
+        self.visit_mut_method(&mut m.function);
     }
 
-    fn visit_mut_getter_prop(&mut self, m: &mut GetterProp) {
-        m.key.visit_mut_with(self);
-        self.visit_mut_method(&mut m.body)
-    }
-
-    fn visit_mut_setter_prop(&mut self, m: &mut SetterProp) {
-        m.key.visit_mut_with(self);
-        self.visit_mut_method(&mut m.body)
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        match prop {
+            Prop::Getter(GetterProp { key, function, .. })
+            | Prop::Setter(SetterProp { key, function, .. })
+            | Prop::Method(MethodProp { key, function }) => {
+                key.visit_mut_with(self);
+                self.visit_mut_method(function);
+            }
+            _ => prop.visit_mut_children_with(self),
+        }
     }
 }
 

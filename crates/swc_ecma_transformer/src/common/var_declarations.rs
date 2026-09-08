@@ -37,10 +37,10 @@ pub struct VarDeclarations {
 
 #[derive(Debug)]
 struct ArrowExprScope {
-    /// The `BlockStmtOrExpr` for an expression-bodied arrow. Starting the scope
-    /// here keeps generated temps out of params while still catching body
-    /// transforms that queue declarations in `enter_expr`.
-    body: *const BlockStmtOrExpr,
+    /// The `ArrowFunctionBody` for an expression-bodied arrow. Starting the
+    /// scope here keeps generated temps out of params while still catching
+    /// body transforms that queue declarations in `enter_expr`.
+    body: *const ArrowFunctionBody,
     started: bool,
     declarations: Option<(Option<Stmt>, Option<Stmt>)>,
 }
@@ -48,12 +48,12 @@ struct ArrowExprScope {
 impl VisitMutHook<TraverseCtx> for VarDeclarations {
     fn enter_arrow_expr(&mut self, node: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
         self.arrow_exprs.push(match &mut *node.body {
-            BlockStmtOrExpr::Expr(_) => Some(ArrowExprScope {
+            ArrowFunctionBody::Expr(_) => Some(ArrowExprScope {
                 body: &*node.body,
                 started: false,
                 declarations: None,
             }),
-            BlockStmtOrExpr::BlockStmt(_) => None,
+            ArrowFunctionBody::FunctionBody(_) => None,
             #[cfg(swc_ast_unknown)]
             _ => None,
         });
@@ -73,25 +73,24 @@ impl VisitMutHook<TraverseCtx> for VarDeclarations {
         };
 
         match &mut *node.body {
-            BlockStmtOrExpr::Expr(expr) => {
+            ArrowFunctionBody::Expr(expr) => {
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(expr.take()),
                 }));
 
-                *node.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                *node.body = ArrowFunctionBody::FunctionBody(FunctionBody {
                     span: DUMMY_SP,
                     stmts,
-                    ..Default::default()
                 });
             }
-            BlockStmtOrExpr::BlockStmt(block) => Self::insert_arrow_declarations(block, stmts),
+            ArrowFunctionBody::FunctionBody(body) => Self::insert_arrow_declarations(body, stmts),
             #[cfg(swc_ast_unknown)]
             _ => {}
         }
     }
 
-    fn enter_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut TraverseCtx) {
+    fn enter_arrow_function_body(&mut self, node: &mut ArrowFunctionBody, ctx: &mut TraverseCtx) {
         let Some(Some(scope)) = self.arrow_exprs.last_mut() else {
             return;
         };
@@ -102,7 +101,7 @@ impl VisitMutHook<TraverseCtx> for VarDeclarations {
         }
     }
 
-    fn exit_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut TraverseCtx) {
+    fn exit_arrow_function_body(&mut self, node: &mut ArrowFunctionBody, ctx: &mut TraverseCtx) {
         let Some(Some(scope)) = self.arrow_exprs.last_mut() else {
             return;
         };
@@ -149,7 +148,7 @@ impl VarDeclarations {
         Some(stmts)
     }
 
-    fn insert_arrow_declarations(block: &mut BlockStmt, declarations: Vec<Stmt>) {
+    fn insert_arrow_declarations(block: &mut FunctionBody, declarations: Vec<Stmt>) {
         if declarations.is_empty() {
             return;
         }

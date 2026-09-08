@@ -869,7 +869,15 @@
     }
     var didWarnAboutDeprecatedCreateFactory = !1;
     try {
-        Object.freeze({});
+        var frozenObject = Object.freeze({});
+        /* eslint-disable no-new */ new Map([
+            [
+                frozenObject,
+                null
+            ]
+        ]), new Set([
+            frozenObject
+        ]);
     /* eslint-enable no-new */ } catch (e) {}
     exports.Children = {
         map: mapChildren,

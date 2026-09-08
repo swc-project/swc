@@ -61,7 +61,7 @@ pub trait Buffer<'a> {
     fn expect_template_token_and_bump(&mut self) -> (LexResult<Wtf8Atom>, Atom);
     fn expect_error_token_and_bump(&mut self) -> crate::error::Error;
     fn expect_jsx_name_token_and_bump(&mut self) -> Atom;
-    fn expect_jsx_text_token_and_bump(&mut self) -> (Atom, Atom);
+    fn expect_jsx_text_token_and_bump(&mut self) -> (Wtf8Atom, Atom);
     fn expect_shebang_token_and_bump(&mut self) -> Atom;
 
     fn had_line_break_before_cur(&self) -> bool {

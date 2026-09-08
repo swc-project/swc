@@ -21,6 +21,8 @@ fn test(input: PathBuf) {
         if let Ok(code) = operate(&cm, handler, input_code.clone(), opts(Mode::StripOnly)) {
             let code = code.code;
 
+            assert_utf16_layout_preserved(&input_code, &code);
+
             NormalizedOutput::new_raw(code)
                 .compare_to_file(output_file)
                 .unwrap();
@@ -133,6 +135,33 @@ fn transform_without_deprecated_ts_module_as_error(input: PathBuf) {
         Ok(())
     })
     .expect("should not fail");
+}
+
+fn assert_utf16_layout_preserved(input: &str, output: &str) {
+    assert_eq!(
+        input.encode_utf16().count(),
+        output.encode_utf16().count(),
+        "strip-only output must preserve the source UTF-16 length"
+    );
+    assert_eq!(
+        line_terminators(input),
+        line_terminators(output),
+        "strip-only output must preserve line terminators at their UTF-16 positions"
+    );
+}
+
+fn line_terminators(input: &str) -> Vec<(usize, char)> {
+    let mut utf16_pos = 0;
+    let mut line_terminators = Vec::new();
+
+    for c in input.chars() {
+        if matches!(c, '\n' | '\r' | '\u{2028}' | '\u{2029}') {
+            line_terminators.push((utf16_pos, c));
+        }
+        utf16_pos += c.len_utf16();
+    }
+
+    line_terminators
 }
 
 fn opts(mode: Mode) -> Options {

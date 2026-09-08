@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "testing_macros"
 repository    = { workspace = true }
-version       = "1.0.1"
+version       = "1.0.2"
 
 [features]
 # Skip generating fixtures so the editor becomes faster again
@@ -28,3 +28,6 @@ relative-path = { workspace = true }
 [dependencies.syn]
 features  = ["fold", "parsing", "full", "extra-traits"]
 workspace = true
+
+[dev-dependencies]
+tempfile = { workspace = true }

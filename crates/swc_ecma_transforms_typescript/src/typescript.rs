@@ -52,6 +52,7 @@ impl Pass for TypeScript {
             self.unresolved_mark,
             mem::take(&mut self.id_usage),
             self.config.flow_syntax,
+            self.config.ts_enum_is_mutable,
         );
 
         n.mutate(transform(

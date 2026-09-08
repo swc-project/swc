@@ -1173,7 +1173,7 @@ fn jsx_attr_str_preserves_line_terminators() {
 #[test]
 fn jsx_text_with_raw_entity_whitespace_matrix() {
     fn convert(value: &str, raw: &str) -> String {
-        let value: Atom = value.into();
+        let value: Wtf8Atom = value.into();
         let raw: Atom = raw.into();
 
         jsx_text_to_str_with_raw(&value, &raw)
@@ -1216,22 +1216,41 @@ fn jsx_text_with_raw_entity_whitespace_matrix() {
 #[test]
 fn build_entity_mask_valid_invalid_and_numeric_entities() {
     assert_eq!(
-        build_entity_mask("a • b", "a &#8226; b"),
+        build_entity_mask(&atom!("a • b").into(), "a &#8226; b"),
         vec![false, false, true, false, false]
     );
     assert_eq!(
-        build_entity_mask("A A A", "A&#32;A&#x20;A"),
+        build_entity_mask(&atom!("A A A").into(), "A&#32;A&#x20;A"),
         vec![false, true, false, true, false]
     );
     assert_eq!(
-        build_entity_mask("\u{00a0}", "&nbsp;"),
+        build_entity_mask(&atom!("\u{00a0}").into(), "&nbsp;"),
         vec![true],
         "named entities should be marked"
     );
     assert_eq!(
-        build_entity_mask("&bogus;", "&bogus;"),
+        build_entity_mask(&atom!("&bogus;").into(), "&bogus;"),
         vec![false; "&bogus;".chars().count()],
         "invalid entities must not be marked"
+    );
+
+    assert_eq!(
+        build_entity_mask(
+            &atom!("🦀🦀🦀\u{1f4a9}").into(),
+            "&#xD83E;&#xDD80;&#55358;&#56704;&#xD83E;&#56704;&#x1f4a9;"
+        ),
+        vec![true, true, true, true]
+    );
+}
+
+#[test]
+fn jsx_text_with_entity_mask_preserves_wtf8_surrogates() {
+    let value = Wtf8Buf::from_ill_formed_utf16(&[0xd800, '\n' as u16, 0xd801]);
+    let expected = Wtf8Buf::from_ill_formed_utf16(&[0xd800, ' ' as u16, 0xd801]);
+
+    assert_eq!(
+        jsx_text_to_str_with_entity_mask(&value, &[false, false, false]).as_wtf8(),
+        &*expected
     );
 }
 

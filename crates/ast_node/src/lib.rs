@@ -5,7 +5,7 @@ extern crate proc_macro;
 
 use quote::quote;
 use swc_macros_common::prelude::*;
-use syn::{visit_mut::VisitMut, *};
+use syn::*;
 
 mod ast_node_macro;
 mod encoding;
@@ -151,27 +151,17 @@ pub fn ast_serde(
     print("ast_serde", item)
 }
 
-struct AddAttr;
-
-impl VisitMut for AddAttr {
-    fn visit_field_mut(&mut self, f: &mut Field) {
-        f.attrs
-            .push(parse_quote!(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]));
-    }
-}
-
-/// Alias for
-/// `#[derive(Spanned, Fold, Clone, Debug, PartialEq)]` for a struct and
-/// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an
-/// enum.
+/// Adds the standard AST node derives and serialization metadata.
+///
+/// Structs derive `PartialEq` by default. Pass `no_partial_eq` after the node
+/// tag when the type provides a manual implementation:
+/// `#[ast_node("CustomNode", no_partial_eq)]`.
 #[proc_macro_attribute]
 pub fn ast_node(
     args: proc_macro::TokenStream,
     input: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
     let mut input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
-
-    AddAttr.visit_data_mut(&mut input.data);
 
     // we should use call_site
     let mut item = TokenStream::new();
@@ -253,27 +243,6 @@ pub fn ast_node(
                 #clone
                 #non_exhaustive
                 #[cfg_attr(
-                    feature = "rkyv-impl",
-                    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-                )]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
-                )]
-                #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-                        __S::Error: rkyv::rancor::Source))
-                )]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    rkyv(bytecheck(bounds(
-                        __C: rkyv::validation::ArchiveContext,
-                        __C::Error: rkyv::rancor::Source
-                    )))
-                )]
-                #[cfg_attr(
                     feature = "serde-impl",
                     serde(untagged)
                 )]
@@ -321,33 +290,17 @@ pub fn ast_node(
                 .as_ref()
                 .map(|args| ast_node_macro::expand_struct(args.clone(), input.clone()));
 
+            let partial_eq = match &args {
+                Some(args) if args.no_partial_eq => None,
+                _ => Some(quote!(PartialEq,)),
+            };
+
             item.extend(quote!(
                 #[allow(clippy::derive_partial_eq_without_eq)]
-                #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
+                #[derive(::swc_common::Spanned, Clone, Debug, #partial_eq)]
                 #[cfg_attr(
                     feature = "serde-impl",
                     derive(::serde::Serialize, ::serde::Deserialize)
-                )]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-                )]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
-                )]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    rkyv(bytecheck(bounds(
-                        __C: rkyv::validation::ArchiveContext,
-                        __C::Error: rkyv::rancor::Source
-                    )))
-                )]
-                #[cfg_attr(feature = "rkyv-impl", repr(C))]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-                        __S::Error: rkyv::rancor::Source))
                 )]
                 #serde_tag
                 #[cfg_attr(

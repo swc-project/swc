@@ -81,8 +81,7 @@ impl QueryRef for ImportQuery {
 
         self.import_map
             .get(&ident.to_id())
-            .map(|(_, prop)| prop.is_some())
-            .unwrap_or_default()
+            .is_some_and(|(_, prop)| prop.is_some())
     }
 }
 
@@ -100,7 +99,7 @@ pub(crate) fn rewrite_import_bindings<V>(
             helper_ctxt: {
                 HELPERS
                     .is_set()
-                    .then(|| HELPERS.with(|helper| helper.mark()))
+                    .then(|| HELPERS.with(swc_ecma_transforms_base::helpers::Helpers::mark))
                     .map(|mark| SyntaxContext::empty().apply_mark(mark))
             },
         },

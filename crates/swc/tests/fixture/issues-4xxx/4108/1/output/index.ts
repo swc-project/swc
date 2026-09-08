@@ -1,9 +1,9 @@
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
-import { _ as _type_of } from "@swc/helpers/_/_type_of";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
+import { _ as _type_of } from "@swc/helpers/_/_type_of";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 export var getErrorForTransaction = function getErrorForTransaction(connection, txid) {

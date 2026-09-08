@@ -1,13 +1,16 @@
-use std::num::FpCategory;
-
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Value::Known};
+use swc_ecma_utils::{
+    number::{minify_number, JsNumber},
+    ExprExt,
+    Value::Known,
+};
 
 use super::{BitCtx, Optimizer};
 use crate::{
-    compress::util::eval_as_number, program_data::VarUsageInfoFlags, DISABLE_BUGGY_PASSES,
+    compress::util::eval_as_number, program_data::VarUsageInfoFlags, util::make_number,
+    DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `evaluate`.
@@ -111,7 +114,7 @@ impl Optimizer<'_> {
 
         enum IdentGlobal {
             Undefined,
-            Infinity,
+            Number(f64),
         }
 
         let ident_global = match e {
@@ -119,8 +122,11 @@ impl Optimizer<'_> {
             Expr::Ident(i) if &*i.sym == "undefined" && !self.is_declared_ident(i) => {
                 Some((i.span, IdentGlobal::Undefined))
             }
+            Expr::Ident(i) if &*i.sym == "NaN" && !self.is_declared_ident(i) => {
+                Some((i.span, IdentGlobal::Number(f64::NAN)))
+            }
             Expr::Ident(i) if &*i.sym == "Infinity" && !self.is_declared_ident(i) => {
-                Some((i.span, IdentGlobal::Infinity))
+                Some((i.span, IdentGlobal::Number(f64::INFINITY)))
             }
             _ => None,
         };
@@ -132,26 +138,10 @@ impl Optimizer<'_> {
                     self.changed = true;
                     *e = *Expr::undefined(span);
                 }
-                IdentGlobal::Infinity => {
-                    report_change!("evaluate: `Infinity` -> `1 / 0`");
+                IdentGlobal::Number(value) => {
+                    report_change!("evaluate: Global numeric constant -> numeric literal");
                     self.changed = true;
-                    *e = BinExpr {
-                        span,
-                        op: op!("/"),
-                        left: Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 1.0,
-                            raw: None,
-                        })
-                        .into(),
-                        right: Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 0.0,
-                            raw: None,
-                        })
-                        .into(),
-                    }
-                    .into();
+                    *e = make_number(span, value);
                 }
             }
             return;
@@ -182,39 +172,19 @@ impl Optimizer<'_> {
                         .into();
                     }
                     "NaN" => {
-                        report_change!("evaluate: `Number.NaN` -> `NaN`");
+                        report_change!("evaluate: `Number.NaN` -> numeric literal");
                         self.changed = true;
-                        *e = Ident::new(
-                            atom!("NaN"),
-                            *span,
-                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                        )
-                        .into();
+                        *e = make_number(*span, f64::NAN);
                     }
                     "POSITIVE_INFINITY" => {
-                        report_change!("evaluate: `Number.POSITIVE_INFINITY` -> `Infinity`");
+                        report_change!("evaluate: `Number.POSITIVE_INFINITY` -> numeric literal");
                         self.changed = true;
-                        *e = Ident::new(
-                            atom!("Infinity"),
-                            *span,
-                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                        )
-                        .into();
+                        *e = make_number(*span, f64::INFINITY);
                     }
                     "NEGATIVE_INFINITY" => {
-                        report_change!("evaluate: `Number.NEGATIVE_INFINITY` -> `-Infinity`");
+                        report_change!("evaluate: `Number.NEGATIVE_INFINITY` -> numeric literal");
                         self.changed = true;
-                        *e = UnaryExpr {
-                            span: *span,
-                            op: op!(unary, "-"),
-                            arg: Ident::new(
-                                atom!("Infinity"),
-                                *span,
-                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into(),
-                        }
-                        .into();
+                        *e = make_number(*span, f64::NEG_INFINITY);
                     }
                     _ => {}
                 }
@@ -327,14 +297,18 @@ impl Optimizer<'_> {
                 prop: MemberProp::Ident(prop),
                 ..
             }) => match &**obj {
-                Expr::Ident(Ident { sym, .. }) if &**sym == "String" => {
+                Expr::Ident(Ident { sym, ctxt, .. }) if &**sym == "String" => {
+                    if *ctxt != self.ctx.expr_ctx.unresolved_ctxt {
+                        return;
+                    }
+
                     if &*prop.sym == "fromCharCode" {
                         if args.len() != 1 {
                             return;
                         }
 
                         if let Known(char_code) = args[0].expr.as_pure_number(self.ctx.expr_ctx) {
-                            let v = char_code.floor() as u32;
+                            let v = u32::from(JsNumber::from(char_code).to_uint16());
 
                             if let Some(v) = char::from_u32(v) {
                                 if !v.is_ascii() {
@@ -342,7 +316,7 @@ impl Optimizer<'_> {
                                 }
                                 self.changed = true;
                                 report_change!(
-                                    "evaluate: Evaluated `String.charCodeAt({})` as `{}`",
+                                    "evaluate: Evaluated `String.fromCharCode({})` as `{}`",
                                     char_code,
                                     v
                                 );
@@ -360,7 +334,11 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
+                Expr::Ident(Ident { sym, ctxt, .. }) if &**sym == "Object" => {
+                    if *ctxt != self.ctx.expr_ctx.unresolved_ctxt {
+                        return;
+                    }
+
                     if &*prop.sym == "keys" {
                         if args.len() != 1 {
                             return;
@@ -390,6 +368,13 @@ impl Optimizer<'_> {
                                     }
                                     Prop::KeyValue(p) => match &p.key {
                                         PropName::Ident(key) => {
+                                            // A non-computed `__proto__` key-value property sets
+                                            // the object's prototype instead of defining an own
+                                            // property, so it is not returned by `Object.keys`.
+                                            if key.sym == "__proto__" {
+                                                continue;
+                                            }
+
                                             keys.push(Some(ExprOrSpread {
                                                 spread: None,
                                                 expr: Lit::Str(Str {
@@ -401,6 +386,13 @@ impl Optimizer<'_> {
                                             }));
                                         }
                                         PropName::Str(key) => {
+                                            // String-literal `__proto__` key-value properties have
+                                            // the same prototype-setter semantics as identifier
+                                            // keys. Computed keys remain ineligible for folding.
+                                            if key.value.as_str() == Some("__proto__") {
+                                                continue;
+                                            }
+
                                             keys.push(Some(ExprOrSpread {
                                                 spread: None,
                                                 expr: Lit::Str(key.clone()).into(),
@@ -448,26 +440,12 @@ impl Optimizer<'_> {
 
         if let Expr::Call(..) = e {
             if let Some(value) = eval_as_number(self.ctx.expr_ctx, e) {
-                self.changed = true;
-                report_change!("evaluate: Evaluated an expression as `{}`", value);
-
-                if value.is_nan() {
-                    *e = Ident::new(
-                        atom!("NaN"),
-                        e.span(),
-                        SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                    )
-                    .into();
+                if !math_fold_grows(e, value) {
+                    self.changed = true;
+                    report_change!("evaluate: Evaluated an expression as `{}`", value);
+                    *e = make_number(e.span(), value);
                     return;
                 }
-
-                *e = Lit::Num(Number {
-                    span: e.span(),
-                    value,
-                    raw: None,
-                })
-                .into();
-                return;
             }
         }
 
@@ -482,19 +460,9 @@ impl Optimizer<'_> {
                         report_change!("evaluate: Evaluated `{:?} ** {:?}`", l, r);
 
                         if l.is_nan() || r.is_nan() {
-                            *e = Ident::new(
-                                atom!("NaN"),
-                                bin.span,
-                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into();
+                            *e = make_number(bin.span, f64::NAN);
                         } else {
-                            *e = Lit::Num(Number {
-                                span: bin.span,
-                                value: l.powf(r),
-                                raw: None,
-                            })
-                            .into();
+                            *e = make_number(bin.span, l.powf(r));
                         };
                     }
                 }
@@ -505,31 +473,11 @@ impl Optimizer<'_> {
 
                 let rn = bin.right.as_pure_number(self.ctx.expr_ctx);
                 if let (Known(ln), Known(rn)) = (ln, rn) {
-                    // Prefer `0/0` over NaN.
-                    if ln == 0.0 && rn == 0.0 {
-                        return;
-                    }
-                    // Prefer `1/0` over Infinity.
-                    if ln == 1.0 && rn == 0.0 {
-                        return;
-                    }
-
-                    // It's NaN
-                    if let (FpCategory::Normal, FpCategory::Zero) = (ln.classify(), rn.classify()) {
+                    let value = ln / rn;
+                    if !value.is_finite() {
                         self.changed = true;
-                        report_change!("evaluate: `{} / 0` => `Infinity`", ln);
-
-                        // Sign does not matter for NaN
-                        *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                            Ident::new_no_ctxt(atom!("Infinity"), bin.span).into()
-                        } else {
-                            UnaryExpr {
-                                span: bin.span,
-                                op: op!(unary, "-"),
-                                arg: Ident::new_no_ctxt(atom!("Infinity"), bin.span).into(),
-                            }
-                            .into()
-                        };
+                        report_change!("evaluate: Evaluated `{} / {}`", ln, rn);
+                        *e = make_number(bin.span, value);
                     }
                 }
             }
@@ -579,4 +527,148 @@ impl Optimizer<'_> {
             }
         }
     }
+}
+
+/// `Math` methods whose folded value can be longer than the call it replaces.
+///
+/// `Math.cos` and friends are deliberately excluded so their existing output is
+/// left untouched.
+const SIZE_SENSITIVE_MATH_METHODS: &[&str] = &["ceil", "floor", "round", "sqrt"];
+
+/// Number of characters `e` occupies once printed, when that can be determined
+/// exactly.
+///
+/// `None` means the printed form is not cheaply known, which makes
+/// [`math_fold_grows`] decline the fold rather than guess at it.
+fn measured_len(e: &Expr) -> Option<usize> {
+    match e {
+        Expr::Lit(Lit::Num(n)) => {
+            let mut detect_dot = false;
+
+            Some(minify_number(n.value, &mut detect_dot).len())
+        }
+
+        // `eval_as_number` reaches these through `cast_to_number`, so
+        // `Math.sqrt("2")` is foldable and has to be measured. Quotes are
+        // counted but escapes are not, which can only underestimate the
+        // original and therefore only makes the guard stricter.
+        Expr::Lit(Lit::Str(s)) => Some(s.value.len() + "\"\"".len()),
+        Expr::Lit(Lit::Bool(b)) => Some(if b.value { "true".len() } else { "false".len() }),
+        Expr::Lit(Lit::Null(..)) => Some("null".len()),
+
+        // `Math.PI` and friends survive until this pass, so they have to be
+        // measured too: `Math.sqrt(Math.E)` grows from 17 to 18 characters.
+        Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Ident(prop),
+            ..
+        }) if matches!(&**obj, Expr::Ident(obj) if &*obj.sym == "Math") => {
+            Some("Math.".len() + prop.sym.len())
+        }
+
+        // Single character prefixes. `true` and `false` reach this pass as `!0`
+        // and `!1`, so skipping `!` would decline folds that do shrink.
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "-") | op!(unary, "+") | op!("!") | op!("~"),
+            arg,
+            ..
+        }) => Some("!".len() + measured_len(arg)?),
+
+        // A nested call that this guard declined to fold, such as the inner
+        // `Math.sqrt(2)` of `Math.ceil(Math.sqrt(2))`. Measuring it recursively
+        // is what keeps the outer fold available.
+        Expr::Call(..) => math_call_len(e),
+
+        _ => None,
+    }
+}
+
+/// Number of characters a `Math.<method>(..)` call occupies once printed.
+fn math_call_len(call: &Expr) -> Option<usize> {
+    let Expr::Call(CallExpr {
+        callee: Callee::Expr(callee),
+        args,
+        ..
+    }) = call
+    else {
+        return None;
+    };
+
+    let Expr::Member(MemberExpr {
+        obj,
+        prop: MemberProp::Ident(prop),
+        ..
+    }) = &**callee
+    else {
+        return None;
+    };
+
+    if !matches!(&**obj, Expr::Ident(obj) if &*obj.sym == "Math") {
+        return None;
+    }
+
+    // `Math.` + method + `(` + arguments + `)`
+    let mut len = "Math.".len() + prop.sym.len() + "()".len();
+
+    for (i, arg) in args.iter().enumerate() {
+        if i > 0 {
+            len += ",".len();
+        }
+
+        if arg.spread.is_some() {
+            return None;
+        }
+
+        len += measured_len(&arg.expr)?;
+    }
+
+    Some(len)
+}
+
+/// Returns `true` when replacing `call` with `value` would emit at least as
+/// many characters as the original call expression, e.g. `Math.sqrt(2)` (12
+/// characters) folding to `1.4142135623730951` (18 characters).
+///
+/// Only the methods in [`SIZE_SENSITIVE_MATH_METHODS`] are considered, so
+/// `Math.cos` and friends keep emitting what they emit today. A call whose
+/// length cannot be measured is declined, because the fold cannot then be shown
+/// to save anything.
+fn math_fold_grows(call: &Expr, value: f64) -> bool {
+    let Expr::Call(CallExpr {
+        callee: Callee::Expr(callee),
+        ..
+    }) = call
+    else {
+        return false;
+    };
+
+    let Expr::Member(MemberExpr {
+        obj,
+        prop: MemberProp::Ident(prop),
+        ..
+    }) = &**callee
+    else {
+        return false;
+    };
+
+    if !matches!(&**obj, Expr::Ident(obj) if &*obj.sym == "Math") {
+        return false;
+    }
+
+    if !SIZE_SENSITIVE_MATH_METHODS.contains(&&*prop.sym) {
+        return false;
+    }
+
+    let Some(original) = math_call_len(call) else {
+        return true;
+    };
+
+    let mut detect_dot = false;
+
+    // Rejected on ties as well: an equally long literal saves nothing by itself,
+    // and later passes may inline it into several places. `Math.sqrt(Math.PI)`
+    // and `1.7724538509055159` are both 18 characters, but folding the former
+    // lets the inliner replace a 2 character binding with 18 characters twice,
+    // which grew three.js by 8 bytes.
+    minify_number(value, &mut detect_dot).len() >= original
 }

@@ -17,7 +17,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   publish:
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: publish
     permissions:
-      contents: read
+      contents: write
       id-token: write
     strategy:
       fail-fast: false
@@ -76,3 +76,12 @@ jobs:
         run: |
           cd "$PACKAGE_DIR"
           pnpm publish --access public --tag "$NPM_TAG" --force --no-git-checks
+
+      - name: Tag published package
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PACKAGE_DIR: ${{ matrix.package.dir }}
+        run: |
+          target_commit="$(git rev-parse HEAD)"
+          node ./scripts/github/tag-npm-package.mjs "$PACKAGE_DIR" "$target_commit"

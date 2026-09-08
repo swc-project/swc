@@ -7,8 +7,16 @@ use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 use super::Pure;
 use crate::{
     compress::util::{can_absorb_negate, is_eq, is_pure_undefined, negate, negate_cost},
-    util::make_bool,
+    util::{is_falsy_number, make_bool},
 };
+
+#[inline]
+fn is_unresolved_ident_ctxt(
+    ctxt: swc_common::SyntaxContext,
+    unresolved_ctxt: swc_common::SyntaxContext,
+) -> bool {
+    ctxt.has_mark(unresolved_ctxt.outer())
+}
 
 #[inline(always)]
 pub(super) fn may_make_bool_short(e: &Expr) -> bool {
@@ -415,7 +423,15 @@ impl Pure<'_> {
 
             e if is_pure_undefined(self.expr_ctx, e) => true,
 
-            Expr::Ident(i) => i.ctxt != self.expr_ctx.unresolved_ctxt,
+            // Deleting a declared binding is false in sloppy mode. Keep unresolved
+            // identifiers untouched because they may refer to a deletable global property.
+            Expr::Ident(i) if !is_unresolved_ident_ctxt(i.ctxt, self.expr_ctx.unresolved_ctxt) => {
+                self.changed = true;
+                let span = delete.arg.span();
+                report_change!("booleans: Compressing `delete` => false");
+                *e = make_bool(span, false);
+                return;
+            }
 
             // NaN
             Expr::Bin(BinExpr {
@@ -529,7 +545,7 @@ impl Pure<'_> {
                     self.changed = true;
                     *n = Lit::Num(Number {
                         span: *span,
-                        value: if *value == 0.0 { 1.0 } else { 0.0 },
+                        value: if is_falsy_number(*value) { 1.0 } else { 0.0 },
                         raw: None,
                     })
                     .into()
@@ -601,7 +617,7 @@ impl Pure<'_> {
                     self.changed = true;
                     *n = Lit::Num(Number {
                         span: num.span,
-                        value: if num.value == 0.0 { 0.0 } else { 1.0 },
+                        value: if is_falsy_number(num.value) { 0.0 } else { 1.0 },
                         raw: None,
                     })
                     .into();
@@ -691,20 +707,24 @@ impl Pure<'_> {
 
             (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
 
-            (Expr::Ident(..), Expr::Lit(..))
-            | (
+            (
                 Expr::Ident(..) | Expr::Member(..),
                 Expr::Unary(UnaryExpr {
                     op: op!("void") | op!("!"),
+                    arg,
                     ..
                 }),
             )
             | (
                 Expr::This(..),
                 Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
+                    op: op!("void"),
+                    arg,
+                    ..
                 }),
-            )
+            ) if !arg.may_have_side_effects(self.expr_ctx) => true,
+
+            (Expr::Ident(..), Expr::Lit(..))
             | (Expr::Unary(..), Expr::Lit(..))
             | (Expr::Tpl(..), Expr::Lit(..)) => true,
             _ => false,
@@ -773,5 +793,27 @@ impl Pure<'_> {
             }
             _ => {}
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_common::{Mark, SyntaxContext};
+
+    use super::is_unresolved_ident_ctxt;
+
+    #[test]
+    fn recognizes_an_unresolved_context_with_a_child_mark() {
+        testing::run_test2(false, |_cm, _handler| {
+            let unresolved_mark = Mark::new();
+            let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+            let child_mark = Mark::fresh(unresolved_mark);
+            let ctxt = unresolved_ctxt.apply_mark(child_mark);
+
+            assert!(is_unresolved_ident_ctxt(ctxt, unresolved_ctxt));
+
+            Ok(())
+        })
+        .unwrap();
     }
 }

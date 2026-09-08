@@ -128,6 +128,11 @@
 //!
 //! Enables flow parser. This feature requires `typescript`.
 //!
+//! ### `tsrx`
+//!
+//! Enables parser-only TSRX syntax and React TSX lowering. This feature
+//! requires `typescript` and is disabled by default.
+//!
 //! ### `verify`
 //!
 //! Verify more errors, using `swc_ecma_visit`.

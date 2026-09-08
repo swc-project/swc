@@ -291,6 +291,7 @@ impl Optimizer<'_> {
                                 Some(cur_if) => {
                                     if SyntaxContext::within_ignored_ctxt(|| {
                                         cur_if.cons.eq_ignore_span(&stmt.cons)
+                                            && cur_if.cons.terminates()
                                     }) {
                                         cur_if.test = BinExpr {
                                             span: DUMMY_SP,
@@ -1028,6 +1029,12 @@ impl Optimizer<'_> {
     where
         T: StmtLike,
     {
+        // Collapsing assignments alone must preserve branch structure. Sequence
+        // merging can also use the statements exposed by removing `else`.
+        if !self.options.conditionals && !self.options.if_return && !self.options.sequences() {
+            return;
+        }
+
         // Find an if statement with else token.
         let need_work = stmts.iter().any(|stmt| match stmt.as_stmt() {
             Some(Stmt::If(IfStmt {

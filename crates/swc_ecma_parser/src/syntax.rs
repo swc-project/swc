@@ -47,8 +47,10 @@ impl Syntax {
     pub fn jsx(self) -> bool {
         match self {
             Syntax::Es(EsSyntax { jsx: true, .. }) => true,
-            #[cfg(feature = "typescript")]
+            #[cfg(all(feature = "typescript", not(feature = "tsrx")))]
             Syntax::Typescript(TsSyntax { tsx: true, .. }) => true,
+            #[cfg(feature = "tsrx")]
+            Syntax::Typescript(TsSyntax { tsx: true, .. } | TsSyntax { tsrx: true, .. }) => true,
             #[cfg(feature = "flow")]
             Syntax::Flow(FlowSyntax { jsx: true, .. }) => true,
             _ => false,
@@ -220,6 +222,12 @@ pub struct TsSyntax {
     #[serde(default)]
     pub tsx: bool,
 
+    /// Parse TSRX and immediately lower it to the standard TSX AST.
+    #[cfg(feature = "tsrx")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "tsrx")))]
+    #[serde(default)]
+    pub tsrx: bool,
+
     #[serde(default)]
     pub decorators: bool,
 
@@ -251,6 +259,10 @@ impl TsSyntax {
 
         if self.tsx {
             flags |= SyntaxFlags::JSX;
+        }
+        #[cfg(feature = "tsrx")]
+        if self.tsrx {
+            flags |= SyntaxFlags::JSX | SyntaxFlags::TSRX;
         }
         if self.decorators {
             flags |= SyntaxFlags::DECORATORS;
@@ -430,6 +442,13 @@ impl SyntaxFlags {
     #[inline(always)]
     pub const fn jsx(&self) -> bool {
         self.contains(SyntaxFlags::JSX)
+    }
+
+    /// Should TSRX syntax be parsed and lowered to standard TSX?
+    #[cfg(feature = "tsrx")]
+    #[inline(always)]
+    pub const fn tsrx(&self) -> bool {
+        self.contains(SyntaxFlags::TSRX)
     }
 
     #[inline(always)]
@@ -655,5 +674,7 @@ bitflags::bitflags! {
         const FLOW_COMPONENTS = 1 << 20;
         #[cfg(feature = "flow")]
         const FLOW_PATTERN_MATCHING = 1 << 21;
+        #[cfg(feature = "tsrx")]
+        const TSRX = 1 << 22;
     }
 }
