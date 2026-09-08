@@ -1,0 +1,15 @@
+[package]
+name = "swc_native_addon_pack"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.73"
+license = "Apache-2.0"
+publish = false
+
+[[bin]]
+name = "swc-native-addon-pack"
+path = "src/main.rs"
+
+[dependencies]
+swc_native_addon = { path = "../../crates/swc_native_addon" }
+tempfile = "=3.12.0"
