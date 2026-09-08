@@ -374,6 +374,7 @@ impl Pure<'_> {
                             // A quasi boundary must not create a template interpolation.
                             cur_raw.push('\\');
                         }
+                        escape_trailing_null_before_digit(&mut cur_raw, &raw);
                         cur_raw.push_str(&raw);
                     }
                     _ => {
@@ -645,6 +646,29 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<'_, str> {
     }
 
     result.into()
+}
+
+/// Prevent joining a null escape with a digit into an invalid legacy octal
+/// escape.
+fn escape_trailing_null_before_digit(raw: &mut String, appended_raw: &str) {
+    if !appended_raw
+        .as_bytes()
+        .first()
+        .is_some_and(u8::is_ascii_digit)
+        || !raw.ends_with('0')
+    {
+        return;
+    }
+
+    let slash_count = raw.as_bytes()[..raw.len() - 1]
+        .iter()
+        .rev()
+        .take_while(|&&byte| byte == b'\\')
+        .count();
+    if slash_count % 2 == 1 {
+        raw.pop();
+        raw.push_str("x00");
+    }
 }
 
 #[cfg(test)]

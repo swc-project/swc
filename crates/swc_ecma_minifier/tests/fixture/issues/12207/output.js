@@ -16,6 +16,9 @@ function concatenate(left, right) {
 function nullBeforeDigit(value) {
     return `${value}\x001`;
 }
+function nullBeforeFoldedDigit(value) {
+    return `${value}\x001`;
+}
 function rawInterpolation(value) {
     return `${value}$\{`;
 }
@@ -29,6 +32,7 @@ console.log([
     interpolation("a").split("").map((ch)=>ch.charCodeAt(0).toString(16)).join(","),
     concatenate("a", "b"),
     nullBeforeDigit("a").charCodeAt(1),
+    nullBeforeFoldedDigit("a").split("").map((ch)=>ch.charCodeAt(0).toString(16)).join(","),
     rawInterpolation("a"),
     concatBoundary("a")
 ].join("|"));
