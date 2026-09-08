@@ -10,6 +10,14 @@ publish = false
 name = "swc-native-addon-pack"
 path = "src/main.rs"
 
+[[bin]]
+name = "swc-native-addon-verify"
+path = "src/verify.rs"
+
 [dependencies]
 swc_native_addon = { path = "../../crates/swc_native_addon" }
 tempfile = "=3.12.0"
+memchr = "=2.7.6"
+object = { version = "=0.36.7", default-features = false, features = ["read", "std"] }
+serde_json = "=1.0.140"
+sha2 = "=0.10.8"
