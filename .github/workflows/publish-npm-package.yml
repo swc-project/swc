@@ -1,10 +1,12 @@
-name: "Build npm package"
+name: "Build and verify native npm release"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.package }}
+  group: native-release-${{ github.ref }}-${{ inputs.buildType }}-${{ inputs.version }}
   cancel-in-progress: true
 
 env:
+  BUILD_TYPE: ${{ inputs.buildType }}
+  RELEASE_VERSION: ${{ inputs.version }}
   DEBUG: napi:*
   APP_NAME: swc
   MACOSX_DEPLOYMENT_TARGET: "10.13"
@@ -24,9 +26,6 @@ on:
   workflow_call:
     inputs:
       buildType:
-        type: string
-        required: true
-      package:
         type: string
         required: true
       version:
@@ -63,18 +62,9 @@ jobs:
       - id: check
         if: ${{ !inputs.skipBuild }}
         env:
-          PACKAGE: ${{ inputs.package }}
           RELEASE_VERSION: ${{ inputs.version }}
         run: |
           set -euo pipefail
-          case "$PACKAGE" in
-            core | html | minifier | react-compiler) ;;
-            *)
-              echo "Unsupported package: $PACKAGE" >&2
-              exit 1
-              ;;
-          esac
-
           case "$RELEASE_VERSION" in
             *[!A-Za-z0-9._-]* | "")
               echo "Unsupported version: $RELEASE_VERSION" >&2
@@ -93,11 +83,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        package: [core, html, minifier, react-compiler]
         settings:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
                 cp ../../target/x86_64-apple-darwin/release/swc .
                 chmod +x ./swc
@@ -108,7 +99,7 @@ jobs:
             build: |
               export CARGO_PROFILE_RELEASE_LTO=false
               pnpm build --target x86_64-pc-windows-msvc
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
                 cp ../../target/x86_64-pc-windows-msvc/release/swc .
               fi
@@ -118,7 +109,7 @@ jobs:
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_LTO=false
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
                 cp ../../target/i686-pc-windows-msvc/release/swc .
                 pnpm build --target i686-pc-windows-msvc --no-default-features --features swc_v1
@@ -134,7 +125,7 @@ jobs:
               unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-gnu &&
               rm -rf ../../target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
               cp ../../target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 pnpm build --target x86_64-unknown-linux-gnu --no-default-features --features swc_v1,plugin
               else
                 pnpm build --target x86_64-unknown-linux-gnu
@@ -151,7 +142,7 @@ jobs:
               apk update &&
               apk add --upgrade clang-static llvm-dev &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
                 rm -rf target/release/.cargo-lock &&
                 cp ../../target/x86_64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
@@ -167,7 +158,7 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-apple-darwin
                 cp ../../target/aarch64-apple-darwin/release/swc .
                 chmod +x ./swc
@@ -180,7 +171,7 @@ jobs:
               set -e &&
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup target add aarch64-unknown-linux-gnu &&
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 RUSTFLAGS='' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
                 cp ../../target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
                 export CC_aarch64_unknown_linux_gnu=clang &&
@@ -193,7 +184,7 @@ jobs:
             target: armv7-unknown-linux-gnueabihf
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 pnpm exec napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
                 chmod +x ./swc
                 pnpm build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
@@ -204,7 +195,7 @@ jobs:
             target: powerpc64le-unknown-linux-gnu
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 pnpm exec napi build --bin swc --release --target powerpc64le-unknown-linux-gnu --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
                 chmod +x ./swc
                 pnpm build --target powerpc64le-unknown-linux-gnu --no-default-features --features swc_v1 --use-napi-cross
@@ -215,7 +206,7 @@ jobs:
             target: s390x-unknown-linux-gnu
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 pnpm exec napi build --bin swc --release --target s390x-unknown-linux-gnu --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
                 chmod +x ./swc
                 pnpm build --target s390x-unknown-linux-gnu --no-default-features --features swc_v1 --use-napi-cross
@@ -282,7 +273,7 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16
               rustup toolchain install "$(cat ../../rust-toolchain)"
               rustup target add aarch64-unknown-linux-musl
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl
                 rm -rf target/release/.cargo-lock
                 cp ../../target/aarch64-unknown-linux-musl/release/swc .
@@ -298,20 +289,21 @@ jobs:
               export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
-              if [[ ${{ inputs.package }} == "core" ]]; then
+              if [[ $PACKAGE == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
                 cp ../../target/aarch64-pc-windows-msvc/release/swc.exe .
                 pnpm build --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
               else
                 pnpm build --target aarch64-pc-windows-msvc
               fi
-    name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }} - node@20"
+    name: "Build ${{ matrix.package }} - ${{ matrix.settings.target }} - node@20"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
+          submodules: recursive
 
       - name: Corepack
         shell: bash
@@ -359,9 +351,10 @@ jobs:
         if: ${{ matrix.settings.docker }}
         shell: bash
         env:
+          TARGET: ${{ matrix.settings.target }}
           BUILD_SCRIPT: ${{ matrix.settings.build }}
           DOCKER_IMAGE: ${{ matrix.settings.docker }}
-          PACKAGE: ${{ inputs.package }}
+          PACKAGE: ${{ matrix.package }}
           WORKSPACE: ${{ github.workspace }}
         run: |
           set -euo pipefail
@@ -382,9 +375,15 @@ jobs:
               ;;
           esac
 
+          BUILD_SCRIPT+=$'\nnode ../../scripts/native/finalize.mjs "$PACKAGE" "$TARGET" "../../target/native-reports/$PACKAGE-$TARGET.json"\n'
+          export SOURCE_COMMIT="$(git rev-parse HEAD)"
           mkdir -p "$HOME/.cargo/git" "$HOME/.cargo/registry"
           docker run --rm \
+            -e SOURCE_COMMIT \
             -e BUILD_SCRIPT \
+            -e TARGET \
+            -e BUILD_TYPE \
+            -e RELEASE_VERSION \
             -e COREPACK_VERSION="$COREPACK_VERSION" \
             -e PACKAGE \
             -e PACKAGE_MANAGER="$PACKAGE_MANAGER" \
@@ -393,13 +392,14 @@ jobs:
             -v "$WORKSPACE:/build" \
             -w /build \
             "$DOCKER_IMAGE" \
-            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; npm install -g "corepack@${COREPACK_VERSION}"; corepack enable; corepack prepare "${PACKAGE_MANAGER}" --activate; npm i -g wasm-pack; bash -lc "$BUILD_SCRIPT"'
+            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; npm install -g "corepack@${COREPACK_VERSION}"; corepack enable; corepack prepare "${PACKAGE_MANAGER}" --activate; npm i -g wasm-pack; bash -e -o pipefail -lc "$BUILD_SCRIPT"'
       - name: Build
         if: ${{ !matrix.settings.docker }}
         shell: bash
         env:
+          TARGET: ${{ matrix.settings.target }}
           BUILD_SCRIPT: ${{ matrix.settings.build }}
-          PACKAGE: ${{ inputs.package }}
+          PACKAGE: ${{ matrix.package }}
         run: |
           set -euo pipefail
           case "$PACKAGE" in
@@ -411,29 +411,132 @@ jobs:
           esac
 
           cd "packages/$PACKAGE"
-          bash -lc "$BUILD_SCRIPT"
+          BUILD_SCRIPT+=$'\nnode ../../scripts/native/finalize.mjs "$PACKAGE" "$TARGET" "../../target/native-reports/$PACKAGE-$TARGET.json"\n'
+          bash -e -o pipefail -lc "$BUILD_SCRIPT"
+      - name: Verify final upload bytes
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+          TARGET: ${{ matrix.settings.target }}
+        run: node scripts/native/check-artifact.mjs "$PACKAGE" "$TARGET" "target/native-reports/$PACKAGE-$TARGET.json"
+      - name: Upload native report
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: native-report-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}-${{ matrix.settings.target }}
+          path: target/native-reports/${{ matrix.package }}-${{ matrix.settings.target }}.json
+          if-no-files-found: error
       - name: Upload artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
+          name: bindings-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: |
-            packages/${{ inputs.package }}/swc*
-            packages/${{ inputs.package }}/*.node
+            packages/${{ matrix.package }}/swc*
+            packages/${{ matrix.package }}/*.node
           if-no-files-found: error
+  assemble:
+    name: Assemble ${{ matrix.package }}@${{ inputs.version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [core, html, minifier, react-compiler]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: [build]
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+          ref: "v${{ inputs.version }}"
+          submodules: recursive
+
+      - uses: ./.github/actions/setup-node
+        with:
+          cache: "false"
+
+      - name: Install dependencies
+        run: corepack enable && pnpm install --frozen-lockfile
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          pattern: "bindings-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version}}-*"
+          path: ./packages/${{ matrix.package }}/artifacts
+
+      - name: List binaries
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+        run: ls -R "packages/$PACKAGE/artifacts"
+
+      - name: Move binaries
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+        run: |
+          cd "packages/$PACKAGE"
+          ./scripts/cli_artifacts.sh
+          ls -R ./artifacts
+          ls -R ./artifacts_cli
+          npm run artifacts
+
+      - name: List npm
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+        run: ls -R "packages/$PACKAGE/scripts/npm"
+
+      - name: Set fallback dependencies
+        shell: bash
+        run: |
+          node ./scripts/update_fallback_dependencies.js
+
+      - uses: ./.github/actions/native-tools
+      - name: Download verification reports
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          pattern: native-report-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}-*
+          merge-multiple: true
+          path: target/native-reports
+      - name: Prepare and verify npm tarballs
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+        run: |
+          # napi prepublish also creates/uploads GitHub releases when this is set.
+          # Perform those writes only after the shared gate, using verified bytes.
+          env -u GITHUB_REPOSITORY pnpm --filter "./packages/$PACKAGE" prepack
+          node scripts/native/assemble.mjs "$PACKAGE" target/native-reports "target/npm/$PACKAGE"
+      - name: Upload prepared packages
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: native-npm-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}
+          path: target/npm/${{ matrix.package }}
+          if-no-files-found: error
+
   test-macOS-windows-binding:
-    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
+    name: Test ${{ matrix.package }} bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
     needs:
-      - build
+      - assemble
     permissions:
       contents: read
     strategy:
       fail-fast: false
       matrix:
+        package: [core, html, minifier, react-compiler]
         settings:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
+            architecture: x64
+          - host: windows-11-arm
+            target: aarch64-pc-windows-msvc
+            architecture: arm64
           - host: macos-latest
             target: x86_64-apple-darwin
+            architecture: x64
+          - host: macos-latest
+            target: aarch64-apple-darwin
+            architecture: arm64
         node:
           - "20"
           - "22"
@@ -443,6 +546,7 @@ jobs:
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
+          submodules: recursive
 
       - run: corepack enable
         shell: bash
@@ -450,41 +554,79 @@ jobs:
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node }}
-          architecture: x64
+          architecture: ${{ matrix.settings.architecture }}
       - name: Install dependencies
         run: corepack enable && pnpm install --frozen-lockfile
       - name: Download artifacts
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
-          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
-          path: ./packages/${{ inputs.package }}
+          name: bindings-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
+          path: ./packages/${{ matrix.package }}
+      - name: Download verification report
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-report-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}-${{ matrix.settings.target }}
+          path: target/native-reports
+      - name: Download prepared npm packages
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-npm-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}
+          path: target/npm/${{ matrix.package }}
+      - uses: ./.github/actions/native-tools
+      - name: Verify and extract raw comparison image
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+          TARGET: ${{ matrix.settings.target }}
+        run: node scripts/native/extract.mjs "$PACKAGE" "$TARGET"
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        working-directory: packages/${{ inputs.package }}
+        working-directory: packages/${{ matrix.package }}
         run: pnpm build:ts
       - name: Test bindings
-        working-directory: packages/${{ inputs.package }}
+        working-directory: packages/${{ matrix.package }}
+        env:
+          SWC_NATIVE_BINDING_CACHE: "0"
         run: pnpm test
+      - name: Test npm layout and load timings
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+          TARGET: ${{ matrix.settings.target }}
+        run: node scripts/native/runtime.mjs "$PACKAGE" "$TARGET" "target/native-runtime-reports/$PACKAGE-$TARGET-${{ matrix.node }}.json"
+      - name: Upload runtime verification
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: native-runtime-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}-${{ matrix.settings.target }}-${{ matrix.node }}
+          path: target/native-runtime-reports/*.json
+          if-no-files-found: error
   test-linux-x64-gnu-binding:
-    name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
+    name: Test ${{ matrix.package }} bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
-      - build
+      - assemble
     permissions:
       contents: read
     strategy:
       fail-fast: false
       matrix:
+        package: [core, html, minifier, react-compiler]
+        settings:
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - host: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
         node:
           - "20"
           - "22"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
+          submodules: recursive
 
       - name: Corepack
         run: corepack enable
@@ -497,21 +639,39 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
-          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
-          path: ./packages/${{ inputs.package }}
+          name: bindings-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
+          path: ./packages/${{ matrix.package }}
+      - name: Download verification report
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-report-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}-${{ matrix.settings.target }}
+          path: target/native-reports
+      - name: Download prepared npm packages
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-npm-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}
+          path: target/npm/${{ matrix.package }}
+      - uses: ./.github/actions/native-tools
+      - name: Verify and extract raw comparison image
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+          TARGET: ${{ matrix.settings.target }}
+        run: node scripts/native/extract.mjs "$PACKAGE" "$TARGET"
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Build TypeScript
         env:
-          PACKAGE: ${{ inputs.package }}
+          PACKAGE: ${{ matrix.package }}
         run: |
           cd "packages/$PACKAGE"
           pnpm build:ts
       - name: Test bindings
         env:
           NODE_VERSION: ${{ matrix.node }}
-          PACKAGE: ${{ inputs.package }}
+          TARGET: ${{ matrix.settings.target }}
+          PACKAGE: ${{ matrix.package }}
         run: |
           set -euo pipefail
           case "$PACKAGE" in
@@ -540,32 +700,50 @@ jobs:
               ;;
           esac
 
+          export SOURCE_COMMIT="$(git rev-parse HEAD)"
           docker run --rm \
+            -e SOURCE_COMMIT \
+            -e BUILD_TYPE \
+            -e RELEASE_VERSION \
+            -e TARGET \
             -e COREPACK_VERSION="$COREPACK_VERSION" \
             -e PACKAGE \
             -e PACKAGE_MANAGER="$PACKAGE_MANAGER" \
             -v "$PWD:/swc" \
             -w /swc \
             "$NODE_IMAGE" \
-            sh -c 'npm install -g "corepack@${COREPACK_VERSION}" && corepack enable && corepack prepare "${PACKAGE_MANAGER}" --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
+            sh -c 'npm install -g "corepack@${COREPACK_VERSION}" && corepack enable && corepack prepare "${PACKAGE_MANAGER}" --activate && env DISABLE_PLUGIN_E2E_TESTS=true SWC_NATIVE_BINDING_CACHE=0 pnpm "test:${PACKAGE}" && node scripts/native/runtime.mjs "$PACKAGE" "$TARGET" "target/native-runtime-reports/$PACKAGE-$TARGET-${{ matrix.node }}.json"'
+      - name: Upload runtime verification
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: native-runtime-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}-${{ matrix.settings.target }}-${{ matrix.node }}
+          path: target/native-runtime-reports/*.json
+          if-no-files-found: error
   test-linux-x64-musl-binding:
-    name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
+    name: Test ${{ matrix.package }} bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
-      - build
+      - assemble
     permissions:
       contents: read
     strategy:
       fail-fast: false
       matrix:
+        package: [core, html, minifier, react-compiler]
+        settings:
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+          - host: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-musl
         node:
           - "20"
           - "22"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
+          submodules: recursive
 
       - run: corepack enable
         shell: bash
@@ -580,21 +758,39 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
-          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
-          path: ./packages/${{ inputs.package }}
+          name: bindings-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
+          path: ./packages/${{ matrix.package }}
+      - name: Download verification report
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-report-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}-${{ matrix.settings.target }}
+          path: target/native-reports
+      - name: Download prepared npm packages
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-npm-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}
+          path: target/npm/${{ matrix.package }}
+      - uses: ./.github/actions/native-tools
+      - name: Verify and extract raw comparison image
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+          TARGET: ${{ matrix.settings.target }}
+        run: node scripts/native/extract.mjs "$PACKAGE" "$TARGET"
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Build TypeScript
         env:
-          PACKAGE: ${{ inputs.package }}
+          PACKAGE: ${{ matrix.package }}
         run: |
           cd "packages/$PACKAGE"
           pnpm build:ts
       - name: Test bindings
         env:
           NODE_VERSION: ${{ matrix.node }}
-          PACKAGE: ${{ inputs.package }}
+          TARGET: ${{ matrix.settings.target }}
+          PACKAGE: ${{ matrix.package }}
         run: |
           set -euo pipefail
           case "$PACKAGE" in
@@ -623,112 +819,229 @@ jobs:
               ;;
           esac
 
+          export SOURCE_COMMIT="$(git rev-parse HEAD)"
           docker run --rm \
+            -e SOURCE_COMMIT \
+            -e BUILD_TYPE \
+            -e RELEASE_VERSION \
+            -e TARGET \
             -e COREPACK_VERSION="$COREPACK_VERSION" \
             -e PACKAGE \
             -e PACKAGE_MANAGER="$PACKAGE_MANAGER" \
             -v "$PWD:/swc" \
             -w /swc \
             "$NODE_IMAGE" \
-            sh -c 'npm install -g "corepack@${COREPACK_VERSION}" && corepack enable && corepack prepare "${PACKAGE_MANAGER}" --activate && env DISABLE_PLUGIN_E2E_TESTS=true pnpm "test:${PACKAGE}"'
-  publish:
-    environment: publish
-    name: Publish ${{ inputs.version }}
+            sh -c 'npm install -g "corepack@${COREPACK_VERSION}" && corepack enable && corepack prepare "${PACKAGE_MANAGER}" --activate && env DISABLE_PLUGIN_E2E_TESTS=true SWC_NATIVE_BINDING_CACHE=0 pnpm "test:${PACKAGE}" && node scripts/native/runtime.mjs "$PACKAGE" "$TARGET" "target/native-runtime-reports/$PACKAGE-$TARGET-${{ matrix.node }}.json"'
+      - name: Upload runtime verification
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: native-runtime-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}-${{ matrix.settings.target }}-${{ matrix.node }}
+          path: target/native-runtime-reports/*.json
+          if-no-files-found: error
+
+  test-minimum-binding:
+    name: Minimum Node ${{ matrix.settings.node }} - ${{ matrix.settings.package }}
+    needs: [assemble]
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      id-token: write
-    needs:
-      - test-linux-x64-gnu-binding
-      - test-linux-x64-musl-binding
-      # - test-linux-arm-gnueabihf-binding
-      - test-macOS-windows-binding
-      # - test-linux-aarch64-musl-binding
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - { package: core, node: "10.0.0" }
+          - { package: html, node: "14.0.0" }
+          - { package: minifier, node: "12.0.0" }
+          - { package: minifier, node: "14.0.0" }
+          - { package: react-compiler, node: "20.0.0" }
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
-
+          submodules: recursive
       - uses: ./.github/actions/setup-node
         with:
-          cache: "false"
-
-      # Update npm to latest, for trusted publish
-      - name: Update npm to latest
-        shell: bash
-        run: |
-          npm install -g npm@latest
-
-      - name: Tag npm release
-        env:
-          RELEASE_VERSION: ${{ inputs.version }}
-        run: |
-          if [[ "$RELEASE_VERSION" != *"nightly"* ]]; then
-            echo "NPM_TAG=latest" >> "$GITHUB_ENV"
-          else
-            echo "NPM_TAG=nightly" >> "$GITHUB_ENV"
-          fi
-
-      - name: Install dependencies
-        run: corepack enable && pnpm install --frozen-lockfile
-
-      - name: Download all artifacts
+          node-version: "20"
+      - name: Record tooling Node
+        id: tooling-node
+        run: echo "path=$(node -p process.execPath)" >> "$GITHUB_OUTPUT"
+      - name: Download addon
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
-          pattern: "bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-*"
-          path: ./packages/${{ inputs.package }}/artifacts
-
-      - name: List binaries
-        shell: bash
+          name: bindings-${{ inputs.buildType }}-${{ matrix.settings.package }}-${{ inputs.version }}-x86_64-unknown-linux-gnu
+          path: packages/${{ matrix.settings.package }}
+      - name: Download report
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-report-${{ inputs.buildType }}-${{ matrix.settings.package }}-${{ inputs.version }}-x86_64-unknown-linux-gnu
+          path: target/native-reports
+      - name: Download npm tarballs
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-npm-${{ inputs.buildType }}-${{ matrix.settings.package }}-${{ inputs.version }}
+          path: target/npm/${{ matrix.settings.package }}
+      - name: Build TypeScript with tooling Node
+        working-directory: packages/${{ matrix.settings.package }}
+        run: pnpm build:ts
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: ${{ matrix.settings.node }}
+          architecture: x64
+      - name: Test minimum runtime through both package layouts
         env:
-          PACKAGE: ${{ inputs.package }}
-        run: ls -R "packages/$PACKAGE/artifacts"
-
-      - name: Move binaries
-        shell: bash
-        env:
-          PACKAGE: ${{ inputs.package }}
+          PACKAGE: ${{ matrix.settings.package }}
+          TOOLING_NODE: ${{ steps.tooling-node.outputs.path }}
+          MINIMUM_NODE: ${{ matrix.settings.node }}
         run: |
-          cd "packages/$PACKAGE"
-          ./scripts/cli_artifacts.sh
-          ls -R ./artifacts
-          ls -R ./artifacts_cli
-          npm run artifacts
+          export SWC_RUNTIME_NODE="$(node -p process.execPath)"
+          "$TOOLING_NODE" scripts/native/runtime.mjs "$PACKAGE" x86_64-unknown-linux-gnu "target/native-runtime-reports/$PACKAGE-minimum-$MINIMUM_NODE.json" minimum
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: native-runtime-${{ inputs.buildType }}-${{ matrix.settings.package }}-${{ inputs.version }}-minimum-${{ matrix.settings.node }}
+          path: target/native-runtime-reports/*.json
+          if-no-files-found: error
 
-      - name: List npm
+  test-carrier-platform:
+    name: Native carrier lifecycle - ${{ matrix.host }}
+    needs: [build]
+    runs-on: ${{ matrix.host }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        host: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+          ref: "v${{ inputs.version }}"
+          submodules: recursive
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: "20"
+      - uses: ./.github/actions/native-tools
+      - name: Verify private crates and native registration
         shell: bash
-        env:
-          PACKAGE: ${{ inputs.package }}
-        run: ls -R "packages/$PACKAGE/scripts/npm"
-
-      - name: Set fallback dependencies
+        run: cargo test -p swc_native_addon -p swc_native_addon_pack -p binding_native_addon
+      - name: Verify APFS replacement
+        if: runner.os == 'macOS'
+        shell: bash
+        run: SWC_TEST_VOLUME="$RUNNER_TEMP" cargo test -p swc_native_addon --test platform apfs_self_replacement -- --ignored --exact
+      - name: Verify NTFS compression and process-exit cleanup
+        if: runner.os == 'Windows'
         shell: bash
         run: |
-          node ./scripts/update_fallback_dependencies.js
+          cargo test -p swc_native_addon --test platform ntfs_compression -- --ignored --exact
+          cargo test -p swc_native_addon --test platform temporary_cleanup_after_process_exit -- --exact
+      - name: Verify btrfs replacement
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y btrfs-progs
+          image="$RUNNER_TEMP/native-btrfs.img"
+          volume="$RUNNER_TEMP/native-btrfs"
+          truncate -s 1G "$image"
+          mkfs.btrfs "$image"
+          mkdir "$volume"
+          sudo mount -o loop "$image" "$volume"
+          trap 'sudo umount "$volume"' EXIT
+          sudo chown "$(id -u):$(id -g)" "$volume"
+          SWC_TEST_VOLUME="$volume" cargo test -p swc_native_addon --test platform btrfs_self_replacement -- --ignored --exact
 
-      - name: Publish
-        if: ${{ !inputs.skipPublishing }}
+  verify-native-release:
+    name: Verify all 48 native artifacts
+    needs:
+      - assemble
+      - test-macOS-windows-binding
+      - test-linux-x64-gnu-binding
+      - test-linux-x64-musl-binding
+      - test-minimum-binding
+      - test-carrier-platform
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+          ref: "v${{ inputs.version }}"
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: "20"
+      - uses: ./.github/actions/native-tools
+      - name: Download all prepared packages
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          pattern: native-npm-${{ inputs.buildType }}-*-${{ inputs.version }}
+          path: target/native-prepared
+      - name: Download all runtime reports
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          pattern: native-runtime-${{ inputs.buildType }}-*-${{ inputs.version }}-*
+          merge-multiple: true
+          path: target/native-runtime-reports
+      - name: Gate the complete release
+        run: node scripts/native/gate.mjs target/native-prepared target/native-runtime-reports target/native-gate.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: native-gate-${{ inputs.buildType }}-${{ inputs.version }}
+          path: target/native-gate.json
+          if-no-files-found: error
+
+  publish:
+    name: Publish verified ${{ matrix.package }}@${{ inputs.version }}
+    environment: publish
+    if: ${{ !inputs.skipPublishing }}
+    needs: [verify-native-release]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [core, html, minifier, react-compiler]
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+          ref: "v${{ inputs.version }}"
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: "24"
+      - name: Update npm for trusted publishing
+        run: npm install -g npm@latest
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-npm-${{ inputs.buildType }}-${{ matrix.package }}-${{ inputs.version }}
+          path: target/npm/${{ matrix.package }}
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: native-gate-${{ inputs.buildType }}-${{ inputs.version }}
+          path: target
+      - name: Publish exact verified tarballs
         env:
+          PACKAGE: ${{ matrix.package }}
           GITHUB_TOKEN: ${{ github.token }}
-          PACKAGE: ${{ inputs.package }}
-        run: |
-          pnpm --filter "./packages/$PACKAGE" prepack
-          pnpm publish -r --filter "./packages/$PACKAGE" --filter "./packages/$PACKAGE/scripts/npm/*" --access public --tag "$NPM_TAG" --force --no-git-checks
-
-      - name: Upload CLI binaries to gh release
-        if: ${{ !inputs.skipPublishing && inputs.package == 'core' }}
-        shell: bash
+        run: node scripts/native/publish.mjs "$PACKAGE" "target/npm/$PACKAGE" target/native-gate.json
+      - name: Upload existing CLI binaries to GitHub release
+        if: matrix.package == 'core'
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_VERSION: "v${{ inputs.version }}"
+          RELEASE_VERSION: v${{ inputs.version }}
         run: |
+          mkdir -p packages/core/artifacts_cli
+          cp -p target/npm/core/cli/* packages/core/artifacts_cli/
           ./scripts/cli_upload_gh_release.sh
 
   publish-wasm:
     environment: publish
     name: Build - wasm (${{ matrix.settings.npm }})
-    if: ${{ inputs.publishWasm }}
+    if: ${{ inputs.publishWasm && !inputs.skipPublishing }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -779,6 +1092,7 @@ jobs:
         with:
           persist-credentials: false
           ref: "v${{ inputs.version }}"
+          submodules: recursive
 
       - name: Corepack
         run: corepack enable
@@ -818,6 +1132,7 @@ jobs:
       - name: Build
         if: ${{ matrix.settings.build }}
         env:
+          TARGET: ${{ matrix.settings.target }}
           BUILD_SCRIPT: ${{ matrix.settings.build }}
           CRATE: ${{ matrix.settings.crate }}
         run: |
