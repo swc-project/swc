@@ -75,9 +75,38 @@ var LateEnum = function(LateEnum) {
     LateEnum["B"] = "b";
     return LateEnum;
 }(LateEnum || {});
+(function(Elem) {
+    (function(Seg) {
+        Seg.x = 1;
+    })(Elem.Seg || (Elem.Seg = {}));
+    Elem.y = 2;
+})(Elem || (Elem = {}));
+var ComputedSeg = function(ComputedSeg) {
+    ComputedSeg[ComputedSeg["A"] = Elem["Seg"].x] = "A";
+    ComputedSeg["B"] = "b";
+    return ComputedSeg;
+}(ComputedSeg || {});
+var ComputedProp = function(ComputedProp) {
+    ComputedProp[ComputedProp["A"] = Elem["y"]] = "A";
+    ComputedProp["B"] = "b";
+    return ComputedProp;
+}(ComputedProp || {});
+var TplSeg = function(TplSeg) {
+    TplSeg[TplSeg["A"] = Elem[`Seg`].x] = "A";
+    TplSeg["B"] = "b";
+    return TplSeg;
+}(TplSeg || {});
+(function(Paren) {
+    Paren.p = "p";
+})(Paren || (Paren = {}));
+var ParenObj = function(ParenObj) {
+    ParenObj[ParenObj["A"] = Paren.p] = "A";
+    ParenObj["B"] = "b";
+    return ParenObj;
+}(ParenObj || {});
 (function(LaterEnumNs) {
     (function(Inner) {
         Inner[Inner["X"] = 1] = "X";
     })(LaterEnumNs.Inner || (LaterEnumNs.Inner = {}));
 })(LaterEnumNs || (LaterEnumNs = {}));
-var Later, NotExported, Mut, T, Outer, WithHidden, LaterNs, LaterEnumNs;
+var Later, NotExported, Mut, T, Outer, WithHidden, LaterNs, Elem, Paren, LaterEnumNs;

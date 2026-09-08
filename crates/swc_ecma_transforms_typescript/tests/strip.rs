@@ -2990,6 +2990,14 @@ test!(
     namespace LaterNs { export const b = "post"; }
 
     enum LateEnum { A = LaterEnumNs.Inner.X, B = "b" }
+
+    namespace Elem { export namespace Seg { export const x = 1; } export const y = 2; }
+    enum ComputedSeg { A = Elem["Seg"].x, B = "b" }
+    enum ComputedProp { A = Elem["y"], B = "b" }
+    enum TplSeg { A = Elem[`Seg`].x, B = "b" }
+
+    namespace Paren { export const p = "p"; }
+    enum ParenObj { A = (Paren).p, B = "b" }
     namespace LaterEnumNs { export enum Inner { X = 1 } }
     "#
 );

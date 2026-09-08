@@ -142,6 +142,17 @@ pub(crate) fn static_enum_member_name(property: &MemberProp) -> Option<Wtf8Atom>
     }
 }
 
+/// Returns the name of a namespace path segment. Unlike an enum member,
+/// which `tsc` also reads through element access, a namespace-qualified
+/// constant expression is spelled with identifiers only: `N["I"].x` is left
+/// for runtime evaluation.
+pub(crate) fn namespace_segment_name(property: &MemberProp) -> Option<Wtf8Atom> {
+    match property {
+        MemberProp::Ident(ident) => Some(ident.sym.clone().into()),
+        _ => None,
+    }
+}
+
 /// Evaluation context for [`EnumValueComputer::compute_rec`].
 ///
 /// TypeScript decides enum member constness from the *syntactic* form of the
@@ -416,10 +427,12 @@ impl EnumValueComputer<'_> {
     /// binding of `Inner`. Returns `None` for anything that is not a
     /// namespace-qualified name.
     fn resolve_namespace_object(&self, expr: &Expr) -> Option<Id> {
+        // Parentheses are deliberately not unwrapped: `tsc` does not treat
+        // `(N).foo` as a namespace-qualified constant expression either.
         match expr {
             Expr::Ident(ident) => Some(ident.to_id()),
             Expr::Member(member) => {
-                let name = static_enum_member_name(&member.prop)?;
+                let name = namespace_segment_name(&member.prop)?;
                 let object = self.resolve_namespace_object(&member.obj)?;
                 self.namespace_members.get(&(object, name)).cloned()
             }
@@ -456,9 +469,8 @@ impl EnumValueComputer<'_> {
         // same way, so type syntax and the recompute pass keep it opaque. It
         // is not an enum member, so `const_enum_only` does not apply.
         if ctx.allow_const_var && !self.namespace_members.is_empty() {
-            if let Some(value) = self
-                .namespace_members
-                .get(&(enum_id.clone(), member_name.clone()))
+            if let Some(value) = namespace_segment_name(&expr.prop)
+                .and_then(|name| self.namespace_members.get(&(enum_id.clone(), name)))
                 .and_then(|binding| self.const_vars.get(binding))
             {
                 return value.clone();
