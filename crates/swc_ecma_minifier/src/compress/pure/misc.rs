@@ -17,7 +17,7 @@ use super::Pure;
 use crate::{
     compress::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-        util::is_pure_undefined,
+        util::{eval_to_undefined, is_pure_undefined},
     },
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
@@ -82,6 +82,24 @@ fn may_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     }
 }
 
+/// Returns true if evaluating `expr` always produces a nullish value.
+///
+/// Unlike [`is_pure_undefined`], this accepts expressions with effects because
+/// callers can preserve those effects separately.
+fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(ParenExpr { expr, .. }) => eval_to_nullish(expr_ctx, expr),
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| eval_to_nullish(expr_ctx, last)),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            eval_to_nullish(expr_ctx, cons) && eval_to_nullish(expr_ctx, alt)
+        }
+        Expr::Lit(Lit::Null(..)) => true,
+        _ => eval_to_undefined(expr_ctx, expr),
+    }
+}
+
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
     let mut exprs = Vec::new();
 
@@ -123,7 +141,7 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
 
 #[derive(Debug)]
 enum GroupType<'a> {
-    Literals(Vec<&'a ExprOrSpread>),
+    Literals(Vec<Option<&'a ExprOrSpread>>),
     Expression(&'a ExprOrSpread),
 }
 
@@ -786,11 +804,14 @@ impl Pure<'_> {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
 
-            for elem in elems.iter().flatten() {
-                let is_literal = match &*elem.expr {
-                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                    e if is_pure_undefined(self.expr_ctx, e) => true,
-                    _ => false,
+            for elem in elems.iter() {
+                let is_literal = match elem {
+                    None => true,
+                    Some(elem) => match &*elem.expr {
+                        Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                        e if is_pure_undefined(self.expr_ctx, e) => true,
+                        _ => false,
+                    },
                 };
 
                 if is_literal {
@@ -825,21 +846,26 @@ impl Pure<'_> {
         let mut groups = Vec::new();
         let mut current_group = Vec::new();
 
-        for elem in elems.iter().flatten() {
-            let is_literal = match &*elem.expr {
-                Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                e if is_pure_undefined(self.expr_ctx, e) => true,
-                _ => false,
+        for elem in elems.iter() {
+            let is_literal = match elem {
+                None => true,
+                Some(elem) => match &*elem.expr {
+                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                    e if is_pure_undefined(self.expr_ctx, e) => true,
+                    _ => false,
+                },
             };
 
             if is_literal {
-                current_group.push(elem);
+                // An elision is an empty join element, so it must stay in the
+                // group to preserve its surrounding separator positions.
+                current_group.push(elem.as_ref());
             } else {
                 if !current_group.is_empty() {
                     groups.push(GroupType::Literals(current_group));
                     current_group = Vec::new();
                 }
-                groups.push(GroupType::Expression(elem));
+                groups.push(GroupType::Expression(elem.as_ref().unwrap()));
             }
         }
 
@@ -872,30 +898,27 @@ impl Pure<'_> {
 
             // Only add empty string prefix when the first element is a non-string
             // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion
+            // literal early enough to provide coercion.
             let needs_empty_string_prefix = match groups.first() {
                 Some(GroupType::Expression(first_expr)) => {
-                    // Check if the first expression is already a string concatenation
                     let first_needs_coercion = match &*first_expr.expr {
                         Expr::Bin(BinExpr {
                             op: op!(bin, "+"), ..
-                        }) => false, // Already string concat
-                        Expr::Lit(Lit::Str(..)) => false, // Already a string literal
-                        Expr::Call(_call) => {
-                            // Function calls may return any type and need string coercion
-                            true
+                        }) => {
+                            // `+` is only already a string concatenation when its
+                            // result is proven to be a string. Otherwise adjacent
+                            // join elements could be added numerically first.
+                            first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
                         }
-                        _ => true, // Other expressions need string coercion
+                        Expr::Lit(Lit::Str(..)) => false,
+                        Expr::Call(..) => true,
+                        _ => true,
                     };
 
-                    // If the first element needs coercion, check if the second element is a string
-                    // literal that can provide the coercion
+                    // A following literal provides the string coercion for the
+                    // first element before the next dynamic element is evaluated.
                     if first_needs_coercion {
-                        match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, /* String literals will */
-                            // provide coercion
-                            _ => true, // No string literal to provide coercion
-                        }
+                        !matches!(groups.get(1), Some(GroupType::Literals(_)))
                     } else {
                         false
                     }
@@ -916,6 +939,10 @@ impl Pure<'_> {
                     GroupType::Literals(literals) => {
                         let mut joined = Wtf8Buf::new();
                         for literal in literals.iter() {
+                            let Some(literal) = literal else {
+                                continue;
+                            };
+
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
                                 Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
@@ -971,6 +998,10 @@ impl Pure<'_> {
                             if idx > 0 {
                                 joined.push_wtf8(separator);
                             }
+
+                            let Some(literal) = literal else {
+                                continue;
+                            };
 
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
@@ -1150,6 +1181,13 @@ impl Pure<'_> {
 
     /// Array() -> []
     fn optimize_array(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+        // Literal array spreads are expanded before this optimization. Any
+        // remaining spread has unknown runtime arity, so it may expand to one
+        // numeric argument and invoke Array's length-constructor behavior.
+        if args.iter().any(|arg| arg.spread.is_some()) {
+            return None;
+        }
+
         if args.len() == 1 {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
@@ -1495,13 +1533,17 @@ impl Pure<'_> {
         let mut cur_cooked = Wtf8Buf::default();
         let mut first = true;
 
-        for elem in elems.take().into_iter().flatten() {
+        for elem in elems.take() {
             if first {
                 first = false;
             } else {
                 cur_raw.push_str(&convert_str_value_to_tpl_raw(sep));
                 cur_cooked.push_wtf8(sep);
             }
+
+            let Some(elem) = elem else {
+                continue;
+            };
 
             match *elem.expr {
                 Expr::Tpl(mut tpl) => {
@@ -2210,7 +2252,7 @@ impl Pure<'_> {
                 callee: Callee::Expr(callee),
                 ..
             }) if callee.is_fn_expr() => match &mut **callee {
-                Expr::Fn(callee) => {
+                Expr::Fn(callee) if !callee.function.is_async => {
                     if callee.ident.is_none() {
                         if let Some(body) = &mut callee.function.body {
                             if self.options.side_effects {
@@ -2219,6 +2261,8 @@ impl Pure<'_> {
                         }
                     }
                 }
+
+                Expr::Fn(..) => {}
 
                 _ => {
                     unreachable!()
@@ -2235,7 +2279,7 @@ impl Pure<'_> {
             }) = e
             {
                 match &mut **callee {
-                    Expr::Fn(callee) => {
+                    Expr::Fn(callee) if !callee.function.is_async => {
                         if let Some(body) = &mut callee.function.body {
                             if let Some(ident) = &callee.ident {
                                 if IdentUsageFinder::find(ident, body) {
@@ -2248,7 +2292,7 @@ impl Pure<'_> {
                             }
                         }
                     }
-                    Expr::Arrow(callee) => match &mut *callee.body {
+                    Expr::Arrow(callee) if !callee.is_async => match &mut *callee.body {
                         ArrowFunctionBody::FunctionBody(body) => {
                             for stmt in &mut body.stmts {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);
@@ -2272,13 +2316,40 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
+                // Map and Set synchronously consume their iterable argument. Keeping only the
+                // argument expression would skip observable iterator acquisition and iteration.
+                // Construction without arguments or with a nullish first argument does not
+                // consume an iterable and is still pure.
+                Expr::New(NewExpr {
+                    span, callee, args, ..
+                }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"])
+                    && args
+                        .as_deref()
+                        .and_then(|arg| arg.first())
+                        .map(|arg| {
+                            arg.spread.is_none()
+                                && (eval_to_nullish(self.expr_ctx, &arg.expr)
+                                    || is_valid_map_set_init(&arg.expr, self.expr_ctx, callee))
+                        })
+                        .unwrap_or(true) =>
+                {
+                    report_change!("Dropping a pure new expression");
+
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(
+                            *span,
+                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                        )
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                    return;
+                }
+
                 Expr::New(NewExpr {
                     span, callee, args, ..
                 }) if callee.is_one_of_global_ref_to(
                     self.expr_ctx,
-                    &[
-                        "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
-                    ],
+                    &["Array", "Object", "Boolean", "Number", "String"],
                 ) =>
                 {
                     report_change!("Dropping a pure new expression");
@@ -2689,5 +2760,68 @@ fn is_block_scoped_stmt(s: &Stmt) -> bool {
         }
         Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
         _ => false,
+    }
+}
+
+fn is_valid_map_set_init(expr: &Expr, ctx: ExprCtx, callee: &Expr) -> bool {
+    let is_map = callee.is_global_ref_to(ctx, "Map");
+
+    fn is_array_like(expr: &Expr, ctx: ExprCtx) -> bool {
+        match expr {
+            Expr::Array(..) => true,
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                ..
+            })
+            | Expr::New(NewExpr { callee: e, .. })
+                if e.is_one_of_global_ref_to(
+                    ctx,
+                    &[
+                        "Array",
+                        "Int16Array",
+                        "Int32Array",
+                        "Int8Array",
+                        "Float32Array",
+                        "Float64Array",
+                        "Uint16Array",
+                        "Uint32Array",
+                        "Uint8Array",
+                    ],
+                ) =>
+            {
+                true
+            }
+            _ => false,
+        }
+    }
+
+    if is_map {
+        match expr {
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().all(|e| {
+                e.as_ref()
+                    .map(|e| e.spread.is_none() && is_array_like(&e.expr, ctx))
+                    .unwrap_or(false)
+            }),
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                args,
+                ..
+            })
+            | Expr::New(NewExpr {
+                callee: e,
+                args: Some(args),
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => args
+                .iter()
+                .all(|a| a.spread.is_none() && is_array_like(&a.expr, ctx)),
+            Expr::New(NewExpr {
+                callee: e,
+                args: None,
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => true,
+            _ => false,
+        }
+    } else {
+        is_array_like(expr, ctx)
     }
 }

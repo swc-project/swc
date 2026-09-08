@@ -737,8 +737,9 @@ pub trait ExprExt {
     }
 
     #[inline(always)]
+    #[deprecated(note = "please use `is_array` in `Expr` directly")]
     fn is_array_lit(&self) -> bool {
-        is_array_lit(self.as_expr())
+        self.as_expr().is_array()
     }
 
     /// Checks if `self` is `NaN`.
@@ -2812,10 +2813,6 @@ fn is_str(expr: &Expr) -> bool {
     }
 }
 
-fn is_array_lit(expr: &Expr) -> bool {
-    matches!(*expr, Expr::Array(..))
-}
-
 fn is_nan(expr: &Expr) -> bool {
     match expr {
         Expr::Lit(Lit::Num(number)) => number.value.is_nan(),
@@ -3583,9 +3580,12 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
 /// - But `new (class {})()` can be pure if the class has no side effects
 fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     match expr {
-        // An empty function expression is also pure for `new`
+        // Only an empty non-async, non-generator function expression is pure for `new`.
+        // Async and generator functions are not constructible, so `new` throws.
         Expr::Fn(FnExpr { function: f, .. })
-            if f.params.iter().all(|p| p.pat.is_ident())
+            if !f.is_async
+                && !f.is_generator
+                && f.params.iter().all(|p| p.pat.is_ident())
                 && f.body.is_some()
                 && f.body.as_ref().unwrap().stmts.is_empty() =>
         {
@@ -3616,6 +3616,9 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                 match member {
                     ClassMember::ClassProp(p) if !p.is_static => return false,
                     ClassMember::PrivateProp(p) if !p.is_static => return false,
+                    // Auto-accessor initializers run when the instance is constructed,
+                    // just like instance field initializers.
+                    ClassMember::AutoAccessor(p) if !p.is_static => return false,
                     _ => {}
                 }
             }
@@ -3623,6 +3626,14 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
             // Check constructor - must be empty or not present
             for member in &class.body {
                 if let ClassMember::Constructor(ctor) = member {
+                    if !ctor
+                        .params
+                        .iter()
+                        .all(|param| param.as_param().is_some_and(|param| param.pat.is_ident()))
+                    {
+                        return false;
+                    }
+
                     if let Some(body) = &ctor.body {
                         if !body.stmts.is_empty() {
                             return false;

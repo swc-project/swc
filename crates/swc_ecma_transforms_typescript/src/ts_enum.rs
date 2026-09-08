@@ -198,6 +198,7 @@ impl EnumValueComputer<'_> {
                 | Expr::Unary(..)
                 | Expr::Bin(..)
                 | Expr::Member(..)
+                | Expr::OptChain(..)
                 | Expr::Tpl(..)
                 | Expr::TsAs(..)
                 | Expr::TsNonNull(..)
@@ -266,6 +267,19 @@ impl EnumValueComputer<'_> {
             Expr::Unary(e) => self.compute_unary(e, ctx),
             Expr::Bin(e) => self.compute_bin(e, ctx),
             Expr::Member(e) => self.compute_member(e, ctx),
+            Expr::OptChain(e) => {
+                let opaque_expr = TsEnumRecordValue::Opaque(e.clone().into());
+                let OptChainBase::Member(member) = *e.base else {
+                    return opaque_expr;
+                };
+                // `compute_member` builds its own fallback from the
+                // `MemberExpr` alone, which would drop the `?.` and turn a
+                // guarded read into an unguarded one.
+                match self.compute_member(member, ctx) {
+                    TsEnumRecordValue::Opaque(..) => opaque_expr,
+                    value => value,
+                }
+            }
             Expr::Tpl(e) => self.compute_tpl(e, ctx),
             // Handle TypeScript type expressions by stripping them
             // and computing the inner expression

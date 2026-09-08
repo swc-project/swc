@@ -148,14 +148,14 @@ fn run(
     HANDLER.set(handler, || {
         let disable_hygiene = mangle.is_some() || skip_hygiene;
 
-        let (_module, mut config) = parse_compressor_config(cm.clone(), config);
+        let (module, mut config) = parse_compressor_config(cm.clone(), config);
 
         let fm = cm.load_file(input).expect("failed to load input.js");
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
         if env::var("SWC_RUN").unwrap_or_default() == "1" {
-            let stdout = stdout_of(&fm.src);
+            let stdout = stdout_of(&fm.src, module);
             match stdout {
                 Ok(stdout) => {
                     eprintln!(
@@ -183,6 +183,7 @@ fn run(
             Syntax::Es(EsSyntax {
                 jsx: true,
                 decorators: true,
+                auto_accessors: true,
                 ..Default::default()
             }),
             Default::default(),
@@ -272,7 +273,7 @@ fn run(
     })
 }
 
-fn stdout_of(code: &str) -> Result<String, Error> {
+fn stdout_of(code: &str, module: bool) -> Result<String, Error> {
     exec_node_js(
         &format!(
             "
@@ -283,7 +284,7 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         ),
         JsExecOptions {
             cache: true,
-            module: false,
+            module,
             ..Default::default()
         },
     )
@@ -342,6 +343,7 @@ fn custom_fixture(input: PathBuf) {
             None => return Ok(()),
         };
 
+        let is_module = output_module.is_module();
         let output = print(cm, &[output_module], Some(&comments), false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
@@ -349,7 +351,8 @@ fn custom_fixture(input: PathBuf) {
         println!("{}", input.display());
 
         if let Ok(expected_stdout) = read_to_string(dir.join("expected.stdout")) {
-            let actual = stdout_of(&output).expect("failed to execute the optimized code");
+            let actual =
+                stdout_of(&output, is_module).expect("failed to execute the optimized code");
             assert_eq!(
                 DebugUsingDisplay(&actual),
                 DebugUsingDisplay(&expected_stdout)
@@ -725,7 +728,8 @@ fn fixture(input: PathBuf) {
                 expected_stdout
             );
 
-            let actual = stdout_of(&output).expect("failed to execute the optimized code");
+            let actual = stdout_of(&output, output_program.is_module())
+                .expect("failed to execute the optimized code");
             assert_eq!(
                 DebugUsingDisplay(&actual),
                 DebugUsingDisplay(&expected_stdout)

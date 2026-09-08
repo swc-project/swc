@@ -186,11 +186,16 @@ pub(crate) fn extract_class_side_effect<'a>(
     let mut visitor = ClassEffectVisitor {
         found: false,
         private_ident: FxHashSet::default(),
+        nested_class_depth: 0,
     };
 
     for m in &mut c.body {
         if let ClassMember::PrivateProp(PrivateProp { key, .. })
-        | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = m
+        | ClassMember::PrivateMethod(PrivateMethod { key, .. })
+        | ClassMember::AutoAccessor(AutoAccessor {
+            key: Key::Private(key),
+            ..
+        }) = m
         {
             visitor.private_ident.insert(key.name.clone());
         }
@@ -290,6 +295,7 @@ pub(crate) fn extract_class_side_effect<'a>(
 struct ClassEffectVisitor {
     found: bool,
     private_ident: FxHashSet<Atom>,
+    nested_class_depth: usize,
 }
 
 impl Visit for ClassEffectVisitor {
@@ -298,14 +304,33 @@ impl Visit for ClassEffectVisitor {
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}
 
-    /// Don't recurse into fn
-    fn visit_fn_decl(&mut self, _: &FnDecl) {}
+    fn visit_function(&mut self, n: &Function) {
+        if self.found {
+            return;
+        }
 
-    /// Don't recurse into fn
-    fn visit_fn_expr(&mut self, _: &FnExpr) {}
+        // Ordinary functions inherit strict mode from the containing class.
+        // Extracting an outer class's static initializer would relocate those
+        // functions into the surrounding scope and can change their semantics.
+        // Functions inside a nested class stay within that class when the
+        // initializer is relocated, so their strictness is preserved.
+        if self.nested_class_depth == 0 {
+            self.found = true;
+            return;
+        }
 
-    /// Don't recurse into fn
-    fn visit_function(&mut self, _: &Function) {}
+        // Function bodies are normally evaluated after the class, but private
+        // names resolve in the surrounding class environment. Moving a static
+        // initializer containing such a function outside the class would make
+        // the emitted private-name reference invalid.
+        let mut visitor = PrivateNameUsageVisitor {
+            found: false,
+            private_ident: self.private_ident.clone(),
+        };
+        n.visit_children_with(&mut visitor);
+
+        self.found |= visitor.found;
+    }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
@@ -332,19 +357,69 @@ impl Visit for ClassEffectVisitor {
     }
 
     fn visit_class(&mut self, n: &Class) {
-        let mut new_set = FxHashSet::default();
+        // Private declarations belong to the class body, not its heritage or
+        // decorators. Those expressions can still reference an enclosing
+        // class's private names even if this class redeclares the same name.
+        self.nested_class_depth += 1;
+        n.decorators.visit_with(self);
+        n.super_class.visit_with(self);
+
+        let mut private_ident = self.private_ident.clone();
 
         for m in &n.body {
             if let ClassMember::PrivateProp(PrivateProp { key, .. })
-            | ClassMember::PrivateMethod(PrivateMethod { key, .. }) = m
+            | ClassMember::PrivateMethod(PrivateMethod { key, .. })
+            | ClassMember::AutoAccessor(AutoAccessor {
+                key: Key::Private(key),
+                ..
+            }) = m
             {
-                new_set.insert(key.name.clone());
+                private_ident.remove(&key.name);
             }
         }
 
-        let old_set = mem::replace(&mut self.private_ident, new_set);
-        n.visit_children_with(self);
+        let old_set = mem::replace(&mut self.private_ident, private_ident);
+        n.body.visit_with(self);
+        self.nested_class_depth -= 1;
         self.private_ident = old_set;
+    }
+}
+
+/// Finds uses of the current class's private names, respecting nested class
+/// private-name scopes.
+struct PrivateNameUsageVisitor {
+    found: bool,
+    private_ident: FxHashSet<Atom>,
+}
+
+impl Visit for PrivateNameUsageVisitor {
+    noop_visit_type!();
+
+    fn visit_private_name(&mut self, n: &PrivateName) {
+        self.found |= self.private_ident.contains(&n.name);
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        n.decorators.visit_with(self);
+        n.super_class.visit_with(self);
+
+        let mut private_ident = self.private_ident.clone();
+
+        for member in &n.body {
+            if let ClassMember::PrivateProp(PrivateProp { key, .. })
+            | ClassMember::PrivateMethod(PrivateMethod { key, .. })
+            | ClassMember::AutoAccessor(AutoAccessor {
+                key: Key::Private(key),
+                ..
+            }) = member
+            {
+                private_ident.remove(&key.name);
+            }
+        }
+
+        let old_private_ident = mem::replace(&mut self.private_ident, private_ident);
+        n.body.visit_with(self);
+        self.private_ident = old_private_ident;
     }
 }
 

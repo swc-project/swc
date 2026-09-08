@@ -348,6 +348,9 @@ impl Optimizer<'_> {
                                     }
 
                                     match &*arg.expr {
+                                        // RegExp literals allocate on each evaluation; moving one
+                                        // into a returned closure changes its identity.
+                                        Expr::Lit(Lit::Regex(..)) => true,
                                         Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => true,
                                         Expr::Lit(..) => false,
                                         _ => true,
@@ -474,12 +477,15 @@ impl Optimizer<'_> {
             return;
         };
 
-        for idx in removed {
-            if let Some(arg) = e.args.get_mut(idx) {
-                if arg.spread.is_some() {
-                    break;
-                }
+        let first_spread = e.args.iter().position(|arg| arg.spread.is_some());
 
+        for idx in removed {
+            // Arguments at and after a dynamic spread no longer map to parameters by index.
+            if matches!(first_spread, Some(first_spread) if idx >= first_spread) {
+                break;
+            }
+
+            if let Some(arg) = e.args.get_mut(idx) {
                 // Optimize
                 let new = self.ignore_return_value(&mut arg.expr);
 
@@ -1660,6 +1666,17 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Returns true if replacing a parameter with this expression cannot remove
+    /// observable argument evaluation when the parameter is unused.
+    fn is_primitive_literal_for_seq_iife_substitution(expr: &Expr) -> bool {
+        matches!(
+            expr,
+            Expr::Lit(
+                Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::BigInt(..)
+            )
+        )
+    }
+
     /// Optimizes a single arrow IIFE in a sequence expression
     fn optimize_single_arrow_iife_in_seq(
         &mut self,
@@ -1676,7 +1693,8 @@ impl Optimizer<'_> {
             // For arrow functions with simple parameters, inline them
             if arrow.params.len() == call.args.len() {
                 let can_inline = arrow.params.iter().zip(&call.args).all(|(param, arg)| {
-                    param.is_ident() && self.is_simple_expr_for_seq_optimization(&arg.expr)
+                    param.is_ident()
+                        && Self::is_primitive_literal_for_seq_iife_substitution(&arg.expr)
                 });
 
                 if can_inline {

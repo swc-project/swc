@@ -1,0 +1,6 @@
+{
+    "defaults": true,
+    "module": true,
+    "unused": true,
+    "pure_getters": true
+}

@@ -39,23 +39,6 @@ impl Pure<'_> {
                 right,
                 ..
             }) if match &*left {
-                AssignTargetPat::Array(arr) => {
-                    arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none())
-                }
-                _ => false,
-            } =>
-            {
-                report_change!("Dropping assignment to an empty array pattern");
-                self.changed = true;
-                *e = *right.take();
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Pat(left),
-                right,
-                ..
-            }) if match &*left {
                 AssignTargetPat::Object(obj) => obj.props.is_empty(),
                 _ => false,
             } =>
@@ -382,24 +365,31 @@ impl Pure<'_> {
                 }
                 Some(Stmt::Try(t)) => {
                     let mut changed = false;
+                    let side_effect = match last {
+                        Stmt::Break(_) | Stmt::Continue(_) => false,
+                        Stmt::Return(ReturnStmt { arg: None, .. }) => false,
+                        Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                            arg.may_have_side_effects(ctx)
+                        }
+                        Stmt::Throw(_) => true,
+                        _ => unreachable!(),
+                    };
+
+                    // A return in either the try block or the catch handler is evaluated before
+                    // the finalizer, unlike the duplicate return following this try statement.
+                    let can_drop = t.finalizer.is_none() && !side_effect;
+
                     // TODO: let chain
                     if let Some(stmt) = t.block.stmts.last_mut() {
-                        let side_effect = match last {
-                            Stmt::Break(_) | Stmt::Continue(_) => false,
-                            Stmt::Return(ReturnStmt { arg: None, .. }) => false,
-                            Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                                arg.may_have_side_effects(ctx)
-                            }
-                            Stmt::Throw(_) => true,
-                            _ => unreachable!(),
-                        };
-                        if t.finalizer.is_none() && !side_effect {
+                        if can_drop {
                             changed |= drop(stmt, last, need_break, ctx)
                         }
                     }
                     if let Some(h) = t.handler.as_mut() {
                         if let Some(stmt) = h.body.stmts.last_mut() {
-                            changed |= drop(stmt, last, need_break, ctx);
+                            if can_drop {
+                                changed |= drop(stmt, last, need_break, ctx);
+                            }
                         }
                     }
                     if let Some(f) = t.finalizer.as_mut() {
@@ -660,7 +650,12 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Unary(..) | Expr::Bin(..) | Expr::Cond(..) => {
+            Expr::Unary(..) | Expr::Bin(..) | Expr::Cond(..)
+                if !arg.may_have_side_effects(ExprCtx {
+                    is_unresolved_ref_safe: true,
+                    ..self.expr_ctx
+                }) =>
+            {
                 *e = make_bool(e.span(), true);
             }
 

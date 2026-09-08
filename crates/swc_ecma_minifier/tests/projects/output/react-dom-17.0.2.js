@@ -9466,7 +9466,7 @@
                             case "select":
                                 // <select> value update needs to occur after <option> children
                                 // reconciliation
-                                wasMultiple = domElement._wrapperState.wasMultiple, domElement._wrapperState.wasMultiple = !!nextRawProps.multiple, null != (value = nextRawProps.value) ? updateOptions(domElement, !!nextRawProps.multiple, value, !1) : !!nextRawProps.multiple !== wasMultiple && (null != nextRawProps.defaultValue ? updateOptions(domElement, !!nextRawProps.multiple, nextRawProps.defaultValue, !0) : // Revert the select back to its default unselected state.
+                                wasMultiple = domElement._wrapperState.wasMultiple, domElement._wrapperState.wasMultiple = !!nextRawProps.multiple, null != (value = nextRawProps.value) ? updateOptions(domElement, !!nextRawProps.multiple, value, !1) : wasMultiple !== !!nextRawProps.multiple && (null != nextRawProps.defaultValue ? updateOptions(domElement, !!nextRawProps.multiple, nextRawProps.defaultValue, !0) : // Revert the select back to its default unselected state.
                                 updateOptions(domElement, !!nextRawProps.multiple, nextRawProps.multiple ? [] : "", !1));
                         }
                     }(instance, updatePayload, type, oldProps, newProps));

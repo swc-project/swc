@@ -1,0 +1,5 @@
+{
+    "exec": true,
+    "source_map": true,
+    "reduce_escaped_newline": false
+}

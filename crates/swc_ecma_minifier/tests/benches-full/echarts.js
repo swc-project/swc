@@ -46670,7 +46670,7 @@
                     this._updateInterval(handleIndex, vertex[1]), this._hideIndicator(), // before dispatch action.
                     this._updateView();
                 } // dragEnd do not dispatch action when realtime.
-                !this.visualMapModel.get('realtime') === isEnd && // jshint ignore:line
+                isEnd === !this.visualMapModel.get('realtime') && // jshint ignore:line
                 this.api.dispatchAction({
                     type: 'selectDataRange',
                     from: this.uid,

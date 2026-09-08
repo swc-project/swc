@@ -17,7 +17,10 @@ use crate::{
         util::contains_super,
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
-    usage_analyzer::alias::{collect_infects_from, AliasConfig},
+    usage_analyzer::{
+        alias::{collect_infects_from, AliasConfig},
+        analyzer::storage::Storage,
+    },
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
     },
@@ -41,7 +44,7 @@ impl Optimizer<'_> {
             self.may_remove_ident(ident)
         );
 
-        if let Some(scope) = self.data.get_scope(self.ctx.var_scope) {
+        if let Some(scope) = self.data.get_scope(ident.ctxt) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -67,18 +70,14 @@ impl Optimizer<'_> {
                 return;
             }
 
-            let used_arguments = self
-                .data
-                .get_scope(self.ctx.var_scope)
-                .unwrap()
-                .contains(ScopeData::USED_ARGUMENTS);
-
-            if used_arguments
-                && usage
-                    .flags
-                    .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-            {
-                return;
+            if let Some(scope) = self.data.get_scope(ident.ctxt) {
+                if scope.contains(ScopeData::USED_ARGUMENTS)
+                    && usage
+                        .flags
+                        .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                {
+                    return;
+                }
             }
 
             if usage
@@ -675,7 +674,7 @@ impl Optimizer<'_> {
 
         let id = i.to_id();
 
-        if let Some(scope) = self.data.get_scope(self.ctx.var_scope) {
+        if let Some(scope) = self.data.get_scope(id.1) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -722,6 +721,14 @@ impl Optimizer<'_> {
                                 usage,
                             )
                         {
+                            if let Some(scope) = self.data.get_scope(f.function.ctxt) {
+                                if scope
+                                    .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::IS_ARROW))
+                                {
+                                    return;
+                                }
+                            }
+
                             for (idx, param) in f.function.params.iter().enumerate() {
                                 match &param.pat {
                                     Pat::Rest(..) => return,
@@ -955,6 +962,12 @@ impl Optimizer<'_> {
                 }
 
                 remap.insert(id, new_ctxt);
+            }
+
+            for (from, to) in cache.into_iter() {
+                if let Some(scope) = self.data.get_scope(from) {
+                    *self.data.scope(to) = *scope
+                }
             }
 
             let mut value = value.clone();
