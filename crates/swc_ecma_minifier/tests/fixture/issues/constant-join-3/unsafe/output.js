@@ -175,6 +175,18 @@ function array_coercion_order(value) {
     }
 }
 array_coercion_order(1);
+function regexp_coercion_order() {
+    let value;
+    try {
+        [
+            value = RegExp(),
+            value.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+}
+regexp_coercion_order();
 local_object_coercion({
     toString () {
         return "s";
@@ -260,6 +272,19 @@ function nested_addition_order() {
         } + (later() + "y")
     ].join(""));
 }
+function dynamic_nested_addition_order() {
+    let state = 1;
+    const value = {
+        toString () {
+            return state;
+        },
+        valueOf () {
+            return state;
+        }
+    };
+    console.log("head" + (value + ("x" + (state = 2, ""))));
+}
+dynamic_nested_addition_order();
 function class_coercion() {
     console.log([
         class {

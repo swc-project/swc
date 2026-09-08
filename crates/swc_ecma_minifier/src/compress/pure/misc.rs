@@ -284,10 +284,26 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
             may_call_evaluate_to_object(expr_ctx, left)
                 || may_call_evaluate_to_object(expr_ctx, right)
         }
-        // The pristine global Object and Array constructors produce objects,
-        // so their results can retain observable string coercion.
+        // Pristine direct-call globals that always produce objects can retain
+        // observable string coercion. Other unresolved globals preserve the
+        // existing unsafe-folding behavior.
         Expr::Ident(ident) => {
-            ident.ctxt != expr_ctx.unresolved_ctxt || matches!(&*ident.sym, "Object" | "Array")
+            ident.ctxt != expr_ctx.unresolved_ctxt
+                || matches!(
+                    &*ident.sym,
+                    "Object"
+                        | "Array"
+                        | "RegExp"
+                        | "Function"
+                        | "Error"
+                        | "AggregateError"
+                        | "EvalError"
+                        | "RangeError"
+                        | "ReferenceError"
+                        | "SyntaxError"
+                        | "TypeError"
+                        | "URIError"
+                )
         }
         Expr::Member(..)
         | Expr::SuperProp(..)

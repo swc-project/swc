@@ -1,10 +1,21 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Type, Value};
+use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 use Value::Known;
 
 use super::{BitCtx, Optimizer};
 use crate::{compress::util::negate, util::make_bool};
+
+/// Whether addition can observe this expression's object or Symbol coercion.
+/// Reassociating `value + ("x" + right)` would otherwise move that coercion
+/// before `right` is evaluated.
+fn may_have_observable_addition_coercion(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    matches!(expr, Expr::Ident(..) | Expr::Class(..))
+        || matches!(
+            expr.get_type(expr_ctx),
+            Value::Known(Type::Obj | Type::Symbol)
+        )
+}
 
 impl Optimizer<'_> {
     ///
@@ -79,8 +90,12 @@ impl Optimizer<'_> {
         if let Expr::Bin(right) = &mut *n.right {
             if right.op == n.op {
                 if n.op.may_short_circuit()
-                    || (right.left.is_str() && right.op == op!(bin, "+"))
-                    || (n.left.is_str() && right.right.is_str())
+                    || (right.left.is_str()
+                        && right.op == op!(bin, "+")
+                        && !may_have_observable_addition_coercion(self.ctx.expr_ctx, &n.left))
+                    || (n.left.is_str()
+                        && right.right.is_str()
+                        && !may_have_observable_addition_coercion(self.ctx.expr_ctx, &right.left))
                 {
                     self.changed = true;
                     report_change!("Remove extra paren in binary expression");
