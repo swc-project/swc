@@ -162,6 +162,7 @@ fn unwrap_value_preserving_expr(mut expr: &Expr) -> &Expr {
             | Expr::TsTypeAssertion(TsTypeAssertion { expr: inner, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr: inner, .. })
             | Expr::TsNonNull(TsNonNullExpr { expr: inner, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr: inner, .. })
             | Expr::TsSatisfies(TsSatisfiesExpr { expr: inner, .. }) => inner,
             _ => return expr,
         };

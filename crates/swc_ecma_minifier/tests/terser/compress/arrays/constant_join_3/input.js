@@ -10,4 +10,3 @@ var i = ["foo" + bar, null, baz + "moo"].join("");
 var j = [foo + "bar", baz].join("");
 var k = [foo, "bar" + baz].join("");
 var l = [foo, bar + "baz"].join("");
-var m = [array = Array(value), array.toString = 0].join("");

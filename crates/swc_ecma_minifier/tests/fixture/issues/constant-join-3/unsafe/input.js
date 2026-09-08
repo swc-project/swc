@@ -104,6 +104,17 @@ function local_object_coercion(value) {
     console.log([value = value].join(""));
 }
 
+function array_coercion_order(value) {
+    let array;
+    try {
+        [array = Array(value), array.toString = 0].join("");
+    } catch {
+        console.log(true);
+    }
+}
+
+array_coercion_order(1);
+
 local_object_coercion({
     toString() {
         return "s";

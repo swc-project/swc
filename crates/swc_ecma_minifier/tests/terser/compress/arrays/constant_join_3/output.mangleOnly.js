@@ -4,16 +4,16 @@ var o = [
 var a = [
     , 
 ].join();
-var r = [
+var n = [
     ,
     1,
     ,
     3
 ].join();
-var n = [
+var r = [
     foo
 ].join();
-var i = [
+var b = [
     foo,
     null,
     undefined,
@@ -23,19 +23,19 @@ var l = [
     foo,
     bar
 ].join("");
-var b = [
+var i = [
     null,
     "foo",
     null,
     bar + "baz"
 ].join("");
-var v = [
+var j = [
     null,
     "foo",
     null,
     bar + "baz"
 ].join("-");
-var j = [
+var v = [
     "foo" + bar,
     null,
     baz + "moo"
@@ -51,8 +51,4 @@ var u = [
 var z = [
     foo,
     bar + "baz"
-].join("");
-var e = [
-    array = Array(value),
-    array.toString = 0
 ].join("");
