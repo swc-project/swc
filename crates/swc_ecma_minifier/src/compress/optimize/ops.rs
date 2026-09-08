@@ -4,17 +4,16 @@ use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 use Value::Known;
 
 use super::{BitCtx, Optimizer};
-use crate::{compress::util::negate, util::make_bool};
+use crate::{
+    compress::util::{may_evaluate_to_object, may_evaluate_to_symbol, negate},
+    util::make_bool,
+};
 
 /// Whether addition can observe this expression's object or Symbol coercion.
 /// Reassociating `value + ("x" + right)` would otherwise move that coercion
 /// before `right` is evaluated.
 fn may_have_observable_addition_coercion(expr_ctx: ExprCtx, expr: &Expr) -> bool {
-    matches!(expr, Expr::Ident(..) | Expr::Class(..))
-        || matches!(
-            expr.get_type(expr_ctx),
-            Value::Known(Type::Obj | Type::Symbol)
-        )
+    may_evaluate_to_object(expr_ctx, expr) || may_evaluate_to_symbol(expr_ctx, expr)
 }
 
 impl Optimizer<'_> {

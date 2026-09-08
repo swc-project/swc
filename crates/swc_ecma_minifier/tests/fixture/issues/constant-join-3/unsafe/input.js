@@ -218,6 +218,27 @@ function dynamic_nested_addition_order() {
 
 dynamic_nested_addition_order();
 
+function dynamic_call_nested_addition_order() {
+    let state = 1;
+    function make() {
+        return {
+            toString() {
+                return state;
+            },
+            valueOf() {
+                return state;
+            },
+        };
+    }
+    function later() {
+        state = 2;
+        return "";
+    }
+    console.log(["head", make() + ("x" + later())].join(""));
+}
+
+dynamic_call_nested_addition_order();
+
 function class_coercion() {
     console.log([class {
         static valueOf() {
