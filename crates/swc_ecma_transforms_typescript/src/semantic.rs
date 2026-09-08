@@ -336,7 +336,12 @@ impl SemanticAnalyzer {
             self.info.const_enum.insert(node.id.to_id());
         }
 
-        self.record_namespace_member(node.id.sym.clone().into(), node.id.to_id());
+        // An ambient enum is a member of its namespace only when that
+        // namespace is itself ambient; inside a concrete one it needs an
+        // explicit `export`, which `visit_export_decl` records.
+        if self.in_ambient_namespace {
+            self.record_namespace_member(node.id.sym.clone().into(), node.id.to_id());
+        }
 
         let mut default_init: TsEnumRecordValue = 0.0.into();
 
@@ -603,9 +608,13 @@ impl Visit for SemanticAnalyzer {
                 .filter(|_| !node.global)
                 .map(Ident::to_id)
             {
-                // A nested ambient namespace is a member of its parent
-                // whether or not it is marked `export`.
-                self.record_namespace_member(id.0.clone().into(), id.clone());
+                // A nested ambient namespace is a member of its parent when
+                // the parent is ambient too. Inside a concrete namespace it
+                // needs an explicit `export`, which `visit_export_decl`
+                // records; a private one has no runtime property to read.
+                if self.in_ambient_namespace {
+                    self.record_namespace_member(id.0.clone().into(), id.clone());
+                }
                 self.namespace_id = Some(id);
                 self.in_ambient_namespace = true;
             }
