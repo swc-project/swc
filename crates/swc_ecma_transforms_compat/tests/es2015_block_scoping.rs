@@ -668,7 +668,10 @@ fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
     test_fixture(
-        Default::default(),
+        Syntax::Es(swc_ecma_parser::EsSyntax {
+            auto_accessors: true,
+            ..Default::default()
+        }),
         &|_| {
             let unresolved_mark = Mark::new();
             (
@@ -681,6 +684,13 @@ fn fixture(input: PathBuf) {
         &output,
         Default::default(),
     );
+}
+
+// Keep modern class elements intact when testing this pass in isolation.
+#[testing::fixture("tests/block-scoping/**/exec.block-scoping.js")]
+fn exec_block_scoping(input: PathBuf) {
+    let input = read_to_string(input).unwrap();
+    compare_stdout(Default::default(), |_| tr(), &input);
 }
 
 struct TsHygiene {

@@ -18,7 +18,7 @@ pub(super) fn separate_initializer_bindings(node: &mut ForStmt, lexical_vars: &m
     }
 
     let mut finder = InitializerCaptures {
-        lexical_vars,
+        lexical_vars: lexical_vars.iter().cloned().collect(),
         captured: Default::default(),
         in_closure: false,
     };
@@ -51,33 +51,37 @@ pub(super) fn separate_initializer_bindings(node: &mut ForStmt, lexical_vars: &m
     node.body.visit_mut_with(&mut renamer);
 }
 
-struct InitializerCaptures<'a> {
-    lexical_vars: &'a [Id],
+struct InitializerCaptures {
+    lexical_vars: FxHashSet<Id>,
     captured: FxHashSet<Id>,
     in_closure: bool,
 }
 
-impl InitializerCaptures<'_> {
+impl InitializerCaptures {
     fn visit_closure<N: VisitWith<Self>>(&mut self, node: &N) {
         let old = self.in_closure;
         self.in_closure = true;
         node.visit_children_with(self);
         self.in_closure = old;
     }
+
+    fn visit_field_initializer(&mut self, value: &Option<Box<Expr>>, is_static: bool) {
+        let old = self.in_closure;
+        // Instance fields run on construction, after the loop initializer has
+        // finished. Static fields run immediately, like computed property keys.
+        self.in_closure |= !is_static;
+        value.visit_with(self);
+        self.in_closure = old;
+    }
 }
 
-impl Visit for InitializerCaptures<'_> {
+impl Visit for InitializerCaptures {
     noop_visit_type!();
 
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, ident: &Ident) {
-        if self.in_closure
-            && self
-                .lexical_vars
-                .iter()
-                .any(|id| id.0 == ident.sym && id.1 == ident.ctxt)
-        {
+        if self.in_closure && self.lexical_vars.contains(&ident.to_id()) {
             self.captured.insert(ident.to_id());
         }
     }
@@ -100,5 +104,22 @@ impl Visit for InitializerCaptures<'_> {
 
     fn visit_setter_prop(&mut self, node: &SetterProp) {
         self.visit_closure(node);
+    }
+
+    fn visit_class_prop(&mut self, node: &ClassProp) {
+        node.key.visit_with(self);
+        node.decorators.visit_with(self);
+        self.visit_field_initializer(&node.value, node.is_static);
+    }
+
+    fn visit_private_prop(&mut self, node: &PrivateProp) {
+        node.decorators.visit_with(self);
+        self.visit_field_initializer(&node.value, node.is_static);
+    }
+
+    fn visit_auto_accessor(&mut self, node: &AutoAccessor) {
+        node.key.visit_with(self);
+        node.decorators.visit_with(self);
+        self.visit_field_initializer(&node.value, node.is_static);
     }
 }
