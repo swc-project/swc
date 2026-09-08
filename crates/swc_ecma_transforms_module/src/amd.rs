@@ -1,6 +1,5 @@
 use std::borrow::Cow;
 
-use anyhow::Context;
 use pathdiff::diff_paths;
 use regex::Regex;
 use rustc_hash::FxHashSet;
@@ -174,23 +173,6 @@ where
                     }
                 }
             }
-        }
-
-        let mut stmts: Vec<Stmt> = Vec::with_capacity(n.body.len() + 4);
-
-        // Collect directives
-        stmts.extend(
-            &mut n
-                .body
-                .iter_mut()
-                .take_while(|i| i.directive_continue())
-                .map(|i| i.take())
-                .map(ModuleItem::expect_stmt),
-        );
-
-        // "use strict";
-        if self.config.strict_mode && !stmts.has_use_strict() {
-            stmts.push(use_strict());
         }
 
         if !self.config.allow_top_level_this {
