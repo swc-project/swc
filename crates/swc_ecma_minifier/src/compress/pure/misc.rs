@@ -87,8 +87,9 @@ fn may_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 /// Unlike [`is_pure_undefined`], this accepts expressions with effects because
 /// callers can preserve those effects separately.
 fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    let expr = unwrap_value_preserving_expr(expr);
+
     match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => eval_to_nullish(expr_ctx, expr),
         Expr::Seq(SeqExpr { exprs, .. }) => exprs
             .last()
             .is_some_and(|last| eval_to_nullish(expr_ctx, last)),
@@ -109,8 +110,9 @@ fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 /// Returns true if an expression has an explicit path that produces a nullish
 /// value. Unknown values remain eligible for unsafe join folding.
 fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    let expr = unwrap_value_preserving_expr(expr);
+
     match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => may_explicitly_evaluate_to_nullish(expr_ctx, expr),
         Expr::Seq(SeqExpr { exprs, .. }) => exprs
             .last()
             .is_some_and(|last| may_explicitly_evaluate_to_nullish(expr_ctx, last)),
@@ -150,13 +152,20 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
     }
 }
 
-/// Removes parentheses that do not affect an expression's runtime value.
-fn unwrap_parens(mut expr: &Expr) -> &Expr {
-    while let Expr::Paren(ParenExpr { expr: inner, .. }) = expr {
-        expr = inner;
+/// Removes syntax-only wrappers that do not affect an expression's runtime
+/// value.
+fn unwrap_value_preserving_expr(mut expr: &Expr) -> &Expr {
+    loop {
+        expr = match expr {
+            Expr::Paren(ParenExpr { expr: inner, .. })
+            | Expr::TsAs(TsAsExpr { expr: inner, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr: inner, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr: inner, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr: inner, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr: inner, .. }) => inner,
+            _ => return expr,
+        };
     }
-
-    expr
 }
 
 /// Whether addition could coerce this expression with a different primitive
@@ -164,7 +173,7 @@ fn unwrap_parens(mut expr: &Expr) -> &Expr {
 /// branch, so retain the join when a later element can observe the coercion
 /// order.
 fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
-    let expr = unwrap_parens(expr);
+    let expr = unwrap_value_preserving_expr(expr);
 
     match expr {
         Expr::Seq(SeqExpr { exprs, .. }) => exprs
@@ -248,7 +257,7 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 /// folding behavior; every dynamically computed callee is unknown at compile
 /// time and may produce an object.
 fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
-    let callee = unwrap_parens(callee);
+    let callee = unwrap_value_preserving_expr(callee);
 
     match callee {
         Expr::Seq(SeqExpr { exprs, .. }) => exprs
@@ -274,9 +283,11 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
             may_call_evaluate_to_object(expr_ctx, left)
                 || may_call_evaluate_to_object(expr_ctx, right)
         }
-        // The pristine global Object constructor returns an object argument
-        // unchanged, so its result can retain observable string coercion.
-        Expr::Ident(ident) => ident.ctxt != expr_ctx.unresolved_ctxt || ident.sym == *"Object",
+        // The pristine global Object and Array constructors produce objects,
+        // so their results can retain observable string coercion.
+        Expr::Ident(ident) => {
+            ident.ctxt != expr_ctx.unresolved_ctxt || matches!(&*ident.sym, "Object" | "Array")
+        }
         Expr::Member(..)
         | Expr::SuperProp(..)
         | Expr::OptChain(..)
@@ -291,7 +302,7 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
 /// returned Symbol must still defer its throw until every join element has
 /// been evaluated. Unresolved calls retain the existing unsafe-pass behavior.
 fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
-    let expr = unwrap_parens(expr);
+    let expr = unwrap_value_preserving_expr(expr);
 
     match expr {
         Expr::Seq(SeqExpr { exprs, .. }) => exprs
@@ -341,7 +352,7 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 /// and function-expression callees are unknown at compile time, while
 /// unresolved calls retain the existing unsafe-pass behavior.
 fn may_call_evaluate_to_symbol(expr_ctx: ExprCtx, callee: &Expr) -> bool {
-    let callee = unwrap_parens(callee);
+    let callee = unwrap_value_preserving_expr(callee);
 
     match callee {
         Expr::Seq(SeqExpr { exprs, .. }) => exprs
