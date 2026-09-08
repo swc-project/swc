@@ -22,6 +22,10 @@ function nullBeforeDigit(value) {
     return `${value}${"\0"}1`;
 }
 
+function rawInterpolation(value) {
+    return `${value}$${"\x7b"}`;
+}
+
 console.log([
     suffixDollar("a"),
     suffixBacktick("a"),
@@ -29,4 +33,5 @@ console.log([
     interpolation("a").split("").map((ch) => ch.charCodeAt(0).toString(16)).join(","),
     concatenate("a", "b"),
     nullBeforeDigit("a").charCodeAt(1),
+    rawInterpolation("a"),
 ].join("|"));

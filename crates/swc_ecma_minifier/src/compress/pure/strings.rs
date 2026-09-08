@@ -369,7 +369,12 @@ impl Pure<'_> {
                             cur_cooked.push_wtf8(&Cow::Borrowed(&s.value));
                         }
 
-                        cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
+                        let raw = convert_str_value_to_tpl_raw(&s.value);
+                        if cur_raw.ends_with('$') && raw.starts_with('{') {
+                            // A quasi boundary must not create a template interpolation.
+                            cur_raw.push('\\');
+                        }
+                        cur_raw.push_str(&raw);
                     }
                     _ => {
                         quasis.push(TplElement {
