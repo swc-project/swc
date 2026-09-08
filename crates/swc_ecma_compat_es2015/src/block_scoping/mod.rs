@@ -15,6 +15,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
 };
 
+mod init;
 mod vars;
 
 ///
@@ -524,12 +525,13 @@ impl VisitMut for BlockScoping {
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
         let blockifyed = self.blockify_for_stmt_body(&mut node.body);
-        let lexical_var = if let Some(VarDeclOrExpr::VarDecl(decl)) = &node.init {
+        let mut lexical_var = if let Some(VarDeclOrExpr::VarDecl(decl)) = &node.init {
             find_lexical_vars(decl)
         } else {
             Vec::new()
         };
 
+        init::separate_initializer_bindings(node, &mut lexical_var);
         node.init.visit_mut_with(self);
         let args = lexical_var.clone();
 
