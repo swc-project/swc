@@ -1,0 +1,7 @@
+tail
+work|tail
+body|tail
+switch|inner0|inner1|outer body|switch continue|tail
+try|finally|condition|tail
+local
+local

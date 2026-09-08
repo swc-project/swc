@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "loops": true,
+    "unused": true,
+    "passes": 1
+}
