@@ -2949,6 +2949,14 @@ test!(
 
     namespace ConDE { export declare enum DE { X = 3 } }
     enum K { A = ConDE.DE.X, B = "b" }
+
+    namespace Opt { export namespace I { export const x = "s"; } }
+    enum L { A = Opt?.I.x, B = "b" }
+    enum M2 { A = Opt.I?.x, B = "b" }
+    enum N2 { A = Opt?.I?.x, B = "b" }
+
+    namespace Opt3 { export namespace H { export namespace K { export const y = "t"; } } }
+    enum O2 { A = Opt3?.H?.K.y, B = "b" }
     "#
 );
 
@@ -3028,6 +3036,15 @@ test!(
     declare global { const g = 1; }
     const global = { g: 99 };
     enum GlobalObj { A = global.g, B = "b" }
+
+    namespace PrivAmb { export const live = 0; declare enum HiddenE { X = 1 } }
+    enum HiddenEnum { A = PrivAmb.HiddenE.X, B = "b" }
+
+    namespace PrivNs { export const live = 0; declare namespace HiddenN { const x = "s"; } }
+    enum HiddenNs { A = PrivNs.HiddenN.x, B = "b" }
+
+    namespace PrivC { export const live = 0; declare const enum HiddenC { Z = 3 } }
+    enum HiddenConst { A = PrivC.HiddenC.Z, B = "b" }
     namespace LaterEnumNs { export enum Inner { X = 1 } }
     "#
 );

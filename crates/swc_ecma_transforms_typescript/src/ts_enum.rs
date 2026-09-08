@@ -436,6 +436,17 @@ impl EnumValueComputer<'_> {
                 let object = self.resolve_namespace_object(&member.obj)?;
                 self.namespace_members.get(&(object, name)).cloned()
             }
+            // `N?.I.x` reads the same binding as `N.I.x`: a namespace object
+            // is never nullish, and `compute_rec` already folds an optional
+            // read at the end of the path.
+            Expr::OptChain(opt_chain) => match &*opt_chain.base {
+                OptChainBase::Member(member) => {
+                    let name = namespace_segment_name(&member.prop)?;
+                    let object = self.resolve_namespace_object(&member.obj)?;
+                    self.namespace_members.get(&(object, name)).cloned()
+                }
+                _ => None,
+            },
             _ => None,
         }
     }

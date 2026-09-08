@@ -112,9 +112,33 @@ var GlobalObj = function(GlobalObj) {
     GlobalObj["B"] = "b";
     return GlobalObj;
 }(GlobalObj || {});
+(function(PrivAmb) {
+    PrivAmb.live = 0;
+})(PrivAmb || (PrivAmb = {}));
+var HiddenEnum = function(HiddenEnum) {
+    HiddenEnum[HiddenEnum["A"] = PrivAmb.HiddenE.X] = "A";
+    HiddenEnum["B"] = "b";
+    return HiddenEnum;
+}(HiddenEnum || {});
+(function(PrivNs) {
+    PrivNs.live = 0;
+})(PrivNs || (PrivNs = {}));
+var HiddenNs = function(HiddenNs) {
+    HiddenNs[HiddenNs["A"] = PrivNs.HiddenN.x] = "A";
+    HiddenNs["B"] = "b";
+    return HiddenNs;
+}(HiddenNs || {});
+(function(PrivC) {
+    PrivC.live = 0;
+})(PrivC || (PrivC = {}));
+var HiddenConst = function(HiddenConst) {
+    HiddenConst[HiddenConst["A"] = PrivC.HiddenC.Z] = "A";
+    HiddenConst["B"] = "b";
+    return HiddenConst;
+}(HiddenConst || {});
 (function(LaterEnumNs) {
     (function(Inner) {
         Inner[Inner["X"] = 1] = "X";
     })(LaterEnumNs.Inner || (LaterEnumNs.Inner = {}));
 })(LaterEnumNs || (LaterEnumNs = {}));
-var Later, NotExported, Mut, T, Outer, WithHidden, LaterNs, Elem, Paren, LaterEnumNs;
+var Later, NotExported, Mut, T, Outer, WithHidden, LaterNs, Elem, Paren, PrivAmb, PrivNs, PrivC, LaterEnumNs;
