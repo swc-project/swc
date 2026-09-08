@@ -224,7 +224,14 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         // A yielded value can be an object whose string-hint coercion differs
         // from addition's default-hint coercion.
         Expr::Yield(..) => true,
-        Expr::Arrow(..) | Expr::Class(..) | Expr::This(..) => true,
+        // JSX is lowered after minification. A custom JSX factory can return
+        // an object whose string-hint coercion differs from addition's
+        // default-hint coercion.
+        Expr::Arrow(..)
+        | Expr::Class(..)
+        | Expr::This(..)
+        | Expr::JSXElement(..)
+        | Expr::JSXFragment(..) => true,
         // A member read can expose an object whose string-hint coercion differs
         // from addition's default-hint coercion.
         Expr::Member(..) | Expr::SuperProp(..) => true,
@@ -267,7 +274,9 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
             may_call_evaluate_to_object(expr_ctx, left)
                 || may_call_evaluate_to_object(expr_ctx, right)
         }
-        Expr::Ident(ident) => ident.ctxt != expr_ctx.unresolved_ctxt,
+        // The pristine global Object constructor returns an object argument
+        // unchanged, so its result can retain observable string coercion.
+        Expr::Ident(ident) => ident.ctxt != expr_ctx.unresolved_ctxt || ident.sym == *"Object",
         Expr::Member(..)
         | Expr::SuperProp(..)
         | Expr::OptChain(..)

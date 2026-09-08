@@ -735,6 +735,11 @@ function arrow_object_coercion_order() {
     }
     return false;
 }
+function object_call_coercion(value) {
+    return [
+        Object(value)
+    ].join("");
+}
 function spread(values) {
     return [
         1,
@@ -799,3 +804,11 @@ wrapped_symbol_order();
 direct_super_object_coercion();
 console.log(call_valued_callee_object_coercion());
 console.log(arrow_object_coercion_order());
+console.log(object_call_coercion({
+    toString () {
+        return "s";
+    },
+    valueOf () {
+        return 1;
+    }
+}));
