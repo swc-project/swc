@@ -431,8 +431,15 @@ impl Pure<'_> {
                         *cooked = c.into();
                     }
 
-                    l_last.raw =
-                        format!("{}{}", l_last.raw, convert_str_value_to_tpl_raw(&rs.value)).into();
+                    let raw = convert_str_value_to_tpl_raw(&rs.value);
+                    let mut new_raw = String::with_capacity(l_last.raw.len() + raw.len() + 1);
+                    new_raw.push_str(&l_last.raw);
+                    if l_last.raw.ends_with('$') && raw.starts_with('{') {
+                        // A quasi boundary must not create a template interpolation.
+                        new_raw.push('\\');
+                    }
+                    new_raw.push_str(&raw);
+                    l_last.raw = new_raw.into();
 
                     r.take();
                 }

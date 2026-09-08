@@ -26,6 +26,10 @@ function rawInterpolation(value) {
     return `${value}$${"\x7b"}`;
 }
 
+function concatBoundary(value) {
+    return `${value}$` + "\x7b";
+}
+
 console.log([
     suffixDollar("a"),
     suffixBacktick("a"),
@@ -34,4 +38,5 @@ console.log([
     concatenate("a", "b"),
     nullBeforeDigit("a").charCodeAt(1),
     rawInterpolation("a"),
+    concatBoundary("a"),
 ].join("|"));

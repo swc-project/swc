@@ -19,6 +19,9 @@ function nullBeforeDigit(value) {
 function rawInterpolation(value) {
     return `${value}$\{`;
 }
+function concatBoundary(value) {
+    return `${value}$\{`;
+}
 console.log([
     suffixDollar("a"),
     suffixBacktick("a"),
@@ -26,5 +29,6 @@ console.log([
     interpolation("a").split("").map((ch)=>ch.charCodeAt(0).toString(16)).join(","),
     concatenate("a", "b"),
     nullBeforeDigit("a").charCodeAt(1),
-    rawInterpolation("a")
+    rawInterpolation("a"),
+    concatBoundary("a")
 ].join("|"));
