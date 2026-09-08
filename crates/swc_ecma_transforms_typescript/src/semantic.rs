@@ -594,7 +594,15 @@ impl Visit for SemanticAnalyzer {
             // rely on `visit_export_decl`.
             let prev = self.namespace_id.clone();
             let prev_ambient = self.in_ambient_namespace;
-            if let Some(id) = node.id.as_ident().map(Ident::to_id) {
+            // `declare global {}` augments the global scope: its members are
+            // bare bindings, not properties of an object named `global`, and
+            // a user binding by that name must not resolve into it.
+            if let Some(id) = node
+                .id
+                .as_ident()
+                .filter(|_| !node.global)
+                .map(Ident::to_id)
+            {
                 // A nested ambient namespace is a member of its parent
                 // whether or not it is marked `export`.
                 self.record_namespace_member(id.0.clone().into(), id.clone());

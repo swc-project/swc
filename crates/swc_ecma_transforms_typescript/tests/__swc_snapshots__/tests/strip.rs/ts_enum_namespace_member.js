@@ -61,4 +61,26 @@ var J = /*#__PURE__*/ function(J) {
     J["B"] = "b";
     return J;
 }(J || {});
-var N, M, C1, Dot, WithEnum;
+(function(SelfQ) {
+    SelfQ.a = "x";
+    (function(E) {
+        E["A"] = "x";
+        E["B"] = "b";
+    })(SelfQ.E || (SelfQ.E = {}));
+})(SelfQ || (SelfQ = {}));
+(function(OuterQ) {
+    OuterQ.a = "y";
+    (function(Inner) {
+        (function(E) {
+            E["A"] = "y";
+            E["B"] = "b";
+        })(Inner.E || (Inner.E = {}));
+    })(OuterQ.Inner || (OuterQ.Inner = {}));
+})(OuterQ || (OuterQ = {}));
+(function(ConDE) {})(ConDE || (ConDE = {}));
+var K = /*#__PURE__*/ function(K) {
+    K[K["A"] = 3] = "A";
+    K["B"] = "b";
+    return K;
+}(K || {});
+var N, M, C1, Dot, WithEnum, SelfQ, OuterQ, ConDE;

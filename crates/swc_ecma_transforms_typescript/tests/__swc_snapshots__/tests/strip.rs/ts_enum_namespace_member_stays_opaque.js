@@ -104,6 +104,14 @@ var ParenObj = function(ParenObj) {
     ParenObj["B"] = "b";
     return ParenObj;
 }(ParenObj || {});
+const global = {
+    g: 99
+};
+var GlobalObj = function(GlobalObj) {
+    GlobalObj[GlobalObj["A"] = global.g] = "A";
+    GlobalObj["B"] = "b";
+    return GlobalObj;
+}(GlobalObj || {});
 (function(LaterEnumNs) {
     (function(Inner) {
         Inner[Inner["X"] = 1] = "X";

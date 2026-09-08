@@ -2877,6 +2877,26 @@ test!(
 
 test!(
     Syntax::Typescript(TsSyntax::default()),
+    |t| tr_config(
+        t,
+        Some(typescript::Config {
+            ts_enum_is_mutable: true,
+            ..Default::default()
+        }),
+        None,
+        true,
+    ),
+    ts_enum_is_mutable_namespace_member,
+    r#"
+    namespace N { export const foo = "s"; export enum E { X = 1 } export const enum CE { Y = 2 } }
+    enum F { A = N.foo, B = N.E.X, C = N.CE.Y, D = "d" }
+    const viaNs = N.E.X;
+    enum G { A = viaNs, B = "b" }
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsSyntax::default()),
     |t| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -2923,6 +2943,12 @@ test!(
 
     namespace WithEnum { export enum Inner { X = 1 } }
     enum J { A = WithEnum.Inner.X, B = "b" }
+
+    namespace SelfQ { export const a = "x"; export enum E { A = SelfQ.a, B = "b" } }
+    namespace OuterQ { export const a = "y"; export namespace Inner { export enum E { A = OuterQ.a, B = "b" } } }
+
+    namespace ConDE { export declare enum DE { X = 3 } }
+    enum K { A = ConDE.DE.X, B = "b" }
     "#
 );
 
@@ -2998,6 +3024,10 @@ test!(
 
     namespace Paren { export const p = "p"; }
     enum ParenObj { A = (Paren).p, B = "b" }
+
+    declare global { const g = 1; }
+    const global = { g: 99 };
+    enum GlobalObj { A = global.g, B = "b" }
     namespace LaterEnumNs { export enum Inner { X = 1 } }
     "#
 );
