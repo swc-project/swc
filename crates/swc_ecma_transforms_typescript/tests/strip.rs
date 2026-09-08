@@ -2920,6 +2920,9 @@ test!(
     enum Merged { foo = 1 }
     namespace Merged { export const bar = "merged"; }
     enum I { A = Merged.foo, B = Merged.bar, C = "c" }
+
+    namespace WithEnum { export enum Inner { X = 1 } }
+    enum J { A = WithEnum.Inner.X, B = "b" }
     "#
 );
 
@@ -2945,6 +2948,12 @@ test!(
 
     declare namespace AF.Dotted { const k = 9; }
     enum J { P = AF.Dotted.k, Q }
+
+    namespace Con { export declare namespace Amb { const v = 1; } }
+    enum K { P = Con.Amb.v, Q }
+
+    declare namespace Amb2 { namespace Inner { const w = 2; } }
+    enum L { P = Amb2.Inner.w, Q }
     "#
 );
 
@@ -2973,5 +2982,14 @@ test!(
 
     namespace Outer { namespace Hidden { export const v = "h"; } }
     enum Nested { A = Outer.Hidden.v, B = "b" }
+
+    namespace WithHidden { export const live = 0; declare const hidden = 1; }
+    enum FalseAmbient { A = WithHidden.hidden, B = "b" }
+
+    enum LateConst { A = LaterNs.b, B = "b" }
+    namespace LaterNs { export const b = "post"; }
+
+    enum LateEnum { A = LaterEnumNs.Inner.X, B = "b" }
+    namespace LaterEnumNs { export enum Inner { X = 1 } }
     "#
 );

@@ -51,4 +51,14 @@ var I = /*#__PURE__*/ function(I) {
     I["C"] = "c";
     return I;
 }(I || {});
-var N, M, C1, Dot;
+(function(WithEnum) {
+    (function(Inner) {
+        Inner[Inner["X"] = 1] = "X";
+    })(WithEnum.Inner || (WithEnum.Inner = {}));
+})(WithEnum || (WithEnum = {}));
+var J = /*#__PURE__*/ function(J) {
+    J[J["A"] = 1] = "A";
+    J["B"] = "b";
+    return J;
+}(J || {});
+var N, M, C1, Dot, WithEnum;

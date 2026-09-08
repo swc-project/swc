@@ -28,3 +28,15 @@ var J = /*#__PURE__*/ function(J) {
     J[J["Q"] = 10] = "Q";
     return J;
 }(J || {});
+(function(Con) {})(Con || (Con = {}));
+var K = /*#__PURE__*/ function(K) {
+    K[K["P"] = 1] = "P";
+    K[K["Q"] = 2] = "Q";
+    return K;
+}(K || {});
+var L = /*#__PURE__*/ function(L) {
+    L[L["P"] = 2] = "P";
+    L[L["Q"] = 3] = "Q";
+    return L;
+}(L || {});
+var Con;

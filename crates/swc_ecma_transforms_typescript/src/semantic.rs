@@ -69,6 +69,7 @@ pub(crate) fn analyze_program(
         namespace_block_stack: Default::default(),
         namespace_id: None,
         skip_transform_info: false,
+        in_ambient_namespace: false,
         flow_syntax,
         ts_enum_is_mutable,
     };
@@ -85,6 +86,11 @@ struct SemanticAnalyzer {
     namespace_block_stack: Vec<NamespaceBlock>,
     namespace_id: Option<Id>,
     skip_transform_info: bool,
+    /// Whether the current declaration sits inside an ambient namespace body.
+    /// Distinct from `skip_transform_info`, which is also set for a single
+    /// erased declaration inside an otherwise concrete namespace: such a
+    /// binding is not a member of it and has no runtime property.
+    in_ambient_namespace: bool,
     flow_syntax: bool,
     ts_enum_is_mutable: bool,
 }
@@ -587,11 +593,13 @@ impl Visit for SemanticAnalyzer {
             // here too. Nothing inside is marked `export`, so this cannot
             // rely on `visit_export_decl`.
             let prev = self.namespace_id.clone();
+            let prev_ambient = self.in_ambient_namespace;
             if let Some(id) = node.id.as_ident().map(Ident::to_id) {
                 // A nested ambient namespace is a member of its parent
                 // whether or not it is marked `export`.
                 self.record_namespace_member(id.0.clone().into(), id.clone());
                 self.namespace_id = Some(id);
+                self.in_ambient_namespace = true;
             }
 
             if let Some(body) = &node.body {
@@ -599,6 +607,7 @@ impl Visit for SemanticAnalyzer {
             }
 
             self.namespace_id = prev;
+            self.in_ambient_namespace = prev_ambient;
 
             return;
         }
@@ -686,7 +695,7 @@ impl Visit for SemanticAnalyzer {
             if value.is_const() {
                 // Inside an ambient namespace every declaration is a member,
                 // `export` or not, and `visit_export_decl` does not run there.
-                if self.skip_transform_info {
+                if self.in_ambient_namespace {
                     self.record_namespace_member(id.sym.clone().into(), id.to_id());
                 }
                 self.info.const_vars.insert(id.to_id(), value);

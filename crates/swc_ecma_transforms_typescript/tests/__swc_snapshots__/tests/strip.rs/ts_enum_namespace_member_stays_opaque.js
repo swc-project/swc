@@ -54,4 +54,30 @@ var Nested = function(Nested) {
     Nested["B"] = "b";
     return Nested;
 }(Nested || {});
-var Later, NotExported, Mut, T, Outer;
+(function(WithHidden) {
+    WithHidden.live = 0;
+})(WithHidden || (WithHidden = {}));
+var FalseAmbient = function(FalseAmbient) {
+    FalseAmbient[FalseAmbient["A"] = WithHidden.hidden] = "A";
+    FalseAmbient["B"] = "b";
+    return FalseAmbient;
+}(FalseAmbient || {});
+var LateConst = function(LateConst) {
+    LateConst[LateConst["A"] = LaterNs.b] = "A";
+    LateConst["B"] = "b";
+    return LateConst;
+}(LateConst || {});
+(function(LaterNs) {
+    LaterNs.b = "post";
+})(LaterNs || (LaterNs = {}));
+var LateEnum = function(LateEnum) {
+    LateEnum[LateEnum["A"] = LaterEnumNs.Inner.X] = "A";
+    LateEnum["B"] = "b";
+    return LateEnum;
+}(LateEnum || {});
+(function(LaterEnumNs) {
+    (function(Inner) {
+        Inner[Inner["X"] = 1] = "X";
+    })(LaterEnumNs.Inner || (LaterEnumNs.Inner = {}));
+})(LaterEnumNs || (LaterEnumNs = {}));
+var Later, NotExported, Mut, T, Outer, WithHidden, LaterNs, LaterEnumNs;

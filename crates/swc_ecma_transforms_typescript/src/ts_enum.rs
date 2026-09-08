@@ -435,9 +435,20 @@ impl EnumValueComputer<'_> {
         };
 
         // `M.Inner` names the binding of `Inner`, so a nested namespace path
-        // resolves to the same `Id` a bare `Inner` would.
-        let Some(enum_id) = self.resolve_namespace_object(&expr.obj) else {
-            return opaque_expr;
+        // resolves to the same `Id` a bare `Inner` would. Gated like a `const`
+        // reference: the map is complete by the time `transform.rs` recomputes,
+        // so resolving there would fold reads of namespaces declared after the
+        // enum, which `tsc` leaves non-constant.
+        let enum_id = if ctx.allow_const_var {
+            match self.resolve_namespace_object(&expr.obj) {
+                Some(id) => id,
+                None => return opaque_expr,
+            }
+        } else {
+            let Expr::Ident(ident) = &*expr.obj else {
+                return opaque_expr;
+            };
+            ident.to_id()
         };
 
         // `N.foo` where `foo` is a `const` exported from namespace `N`. The
