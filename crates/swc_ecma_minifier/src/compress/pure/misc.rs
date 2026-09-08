@@ -2322,13 +2322,16 @@ impl Pure<'_> {
                 // consume an iterable and is still pure.
                 Expr::New(NewExpr {
                     span, callee, args, ..
-                }) if (matches!(args.as_deref(), None | Some([]))
-                    || args.as_deref().is_some_and(|args| {
-                        args.first().is_some_and(|arg| {
-                            arg.spread.is_none() && eval_to_nullish(self.expr_ctx, &arg.expr)
+                }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"])
+                    && args
+                        .as_deref()
+                        .and_then(|arg| arg.first())
+                        .map(|arg| {
+                            arg.spread.is_none()
+                                && (eval_to_nullish(self.expr_ctx, &arg.expr)
+                                    || is_valid_map_set_init(&arg.expr, self.expr_ctx, callee))
                         })
-                    }))
-                    && callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"]) =>
+                        .unwrap_or(true) =>
                 {
                     report_change!("Dropping a pure new expression");
 
@@ -2757,5 +2760,68 @@ fn is_block_scoped_stmt(s: &Stmt) -> bool {
         }
         Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
         _ => false,
+    }
+}
+
+fn is_valid_map_set_init(expr: &Expr, ctx: ExprCtx, callee: &Expr) -> bool {
+    let is_map = callee.is_global_ref_to(ctx, "Map");
+
+    fn is_array_like(expr: &Expr, ctx: ExprCtx) -> bool {
+        match expr {
+            Expr::Array(..) => true,
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                ..
+            })
+            | Expr::New(NewExpr { callee: e, .. })
+                if e.is_one_of_global_ref_to(
+                    ctx,
+                    &[
+                        "Array",
+                        "Int16Array",
+                        "Int32Array",
+                        "Int8Array",
+                        "Float32Array",
+                        "Float64Array",
+                        "Uint16Array",
+                        "Uint32Array",
+                        "Uint8Array",
+                    ],
+                ) =>
+            {
+                true
+            }
+            _ => false,
+        }
+    }
+
+    if is_map {
+        match expr {
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().all(|e| {
+                e.as_ref()
+                    .map(|e| e.spread.is_none() && is_array_like(&e.expr, ctx))
+                    .unwrap_or(false)
+            }),
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                args,
+                ..
+            })
+            | Expr::New(NewExpr {
+                callee: e,
+                args: Some(args),
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => args
+                .iter()
+                .all(|a| a.spread.is_none() && is_array_like(&a.expr, ctx)),
+            Expr::New(NewExpr {
+                callee: e,
+                args: None,
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => true,
+            _ => false,
+        }
+    } else {
+        is_array_like(expr, ctx)
     }
 }
