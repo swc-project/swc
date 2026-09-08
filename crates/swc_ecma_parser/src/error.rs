@@ -213,6 +213,8 @@ pub enum SyntaxError {
 
     DuplicatedRegExpFlags(char),
     UnknownRegExpFlags,
+    /// IdentifierPart in RegExp flags must not contain a UnicodeEscapeSequence.
+    UnicodeEscapeInRegExpFlags,
 
     TS1003,
     TS1005,
@@ -592,6 +594,9 @@ impl SyntaxError {
                 format!("Duplicated regular expression flag '{flag}'.").into()
             }
             SyntaxError::UnknownRegExpFlags => "Unknown regular expression flags.".into(),
+            SyntaxError::UnicodeEscapeInRegExpFlags => {
+                "Regular expression flags cannot contain unicode escapes.".into()
+            }
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),
