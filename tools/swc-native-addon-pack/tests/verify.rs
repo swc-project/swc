@@ -68,9 +68,9 @@ fn final_carrier_verification_and_atomic_replacement() {
                 "embedded-payload",
                 "--target-dir",
             ])
-        .arg(&build)
-        .env("CARGO_PROFILE_RELEASE_STRIP", "symbols")
-        .env("SWC_NATIVE_BINDING_PAYLOAD", &payload),
+            .arg(&build)
+            .env("CARGO_PROFILE_RELEASE_STRIP", "symbols")
+            .env("SWC_NATIVE_BINDING_PAYLOAD", &payload),
     );
     let library = if cfg!(windows) {
         "binding_native_addon.dll"
