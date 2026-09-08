@@ -439,6 +439,7 @@ impl Pure<'_> {
                         // A quasi boundary must not create a template interpolation.
                         new_raw.push('\\');
                     }
+                    escape_trailing_null_before_digit(&mut new_raw, &raw);
                     new_raw.push_str(&raw);
                     l_last.raw = new_raw.into();
 
