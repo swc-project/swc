@@ -30,6 +30,8 @@ struct TestConfig {
     source_map: bool,
     #[serde(default = "true_by_default")]
     reduce_escaped_newline: bool,
+    #[serde(default = "true_by_default")]
+    tsx: bool,
 }
 
 impl Default for TestConfig {
@@ -40,6 +42,7 @@ impl Default for TestConfig {
             exec: false,
             source_map: false,
             reduce_escaped_newline: true,
+            tsx: true,
         }
     }
 }
@@ -78,7 +81,7 @@ fn run(input: &Path, minify: bool) {
             &fm,
             Syntax::Typescript(TsSyntax {
                 decorators: true,
-                tsx: true,
+                tsx: config.tsx,
                 dts,
                 ..Default::default()
             }),
