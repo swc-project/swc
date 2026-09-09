@@ -287,6 +287,7 @@ impl UndeclaredPropertyCollector<'_> {
                 Callee::Super(..) | Callee::Import(..) => false,
             },
             Expr::New(new_expr) => self.is_root_undeclared(&new_expr.callee),
+            Expr::Await(await_expr) => self.is_root_undeclared(&await_expr.arg),
             Expr::OptChain(opt_chain) => match &*opt_chain.base {
                 OptChainBase::Member(member) => self.is_root_undeclared(&member.obj),
                 OptChainBase::Call(call) => self.is_root_undeclared(&call.callee),

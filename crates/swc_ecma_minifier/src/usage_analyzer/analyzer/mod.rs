@@ -116,6 +116,7 @@ fn is_root_of_expr_undeclared(expr: &Expr, data: &impl Storage) -> bool {
             Callee::Super(..) | Callee::Import(..) => false,
         },
         Expr::New(new_expr) => is_root_of_expr_undeclared(&new_expr.callee, data),
+        Expr::Await(await_expr) => is_root_of_expr_undeclared(&await_expr.arg, data),
         Expr::OptChain(opt_chain) => match &*opt_chain.base {
             OptChainBase::Member(member_expr) => is_root_of_expr_undeclared(&member_expr.obj, data),
             OptChainBase::Call(call) => is_root_of_expr_undeclared(&call.callee, data),
