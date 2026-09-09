@@ -8,4 +8,7 @@ class B {
         return A;
     }
 }
-sideEffectWith(A), sideEffectWith(A);
+class ExtendsA1 extends sideEffectWith(A) {
+}
+class ExtendsA2 extends sideEffectWith(A) {
+}

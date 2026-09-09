@@ -175,16 +175,23 @@ pub(crate) fn extract_class_side_effect<'a>(
     ident: Option<&'a Ident>,
     c: &'a mut Class,
 ) -> Option<Vec<&'a mut Box<Expr>>> {
+    // A class evaluates its heritage exactly once and throws unless it evaluates to
+    // a constructor or `null`. Extracting only the explicit effects of a non-null
+    // heritage would lose that validation, so retain the class unless the safe
+    // `extends null` case is statically known.
+    if c.super_class
+        .as_deref()
+        .is_some_and(|super_class| !matches!(super_class, Expr::Lit(Lit::Null(..))))
+    {
+        return None;
+    }
+
     let mut res = Vec::new();
     let mut value = Vec::new();
-    if let Some(e) = &mut c.super_class {
-        if e.may_have_side_effects(expr_ctx) {
-            res.push(e);
-        }
-    }
 
     let mut visitor = ClassEffectVisitor {
         found: false,
+        extraction_is_strict: expr_ctx.in_strict,
         private_ident: FxHashSet::default(),
         nested_class_depth: 0,
     };
@@ -294,6 +301,7 @@ pub(crate) fn extract_class_side_effect<'a>(
 
 struct ClassEffectVisitor {
     found: bool,
+    extraction_is_strict: bool,
     private_ident: FxHashSet<Atom>,
     nested_class_depth: usize,
 }
@@ -334,6 +342,28 @@ impl Visit for ClassEffectVisitor {
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
+    }
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if !self.extraction_is_strict {
+            // Static initializers run in strict mode. Moving an assignment into a
+            // sloppy script can turn a ReferenceError or TypeError into a write.
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_unary_expr(&mut self, n: &UnaryExpr) {
+        if !self.extraction_is_strict && n.op == op!("delete") {
+            // Strict deletion can throw where its sloppy-script equivalent returns
+            // false, so preserve class evaluation at this extraction boundary.
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_prop(&mut self, n: &Prop) {
