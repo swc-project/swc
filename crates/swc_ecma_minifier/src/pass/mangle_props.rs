@@ -190,15 +190,6 @@ impl Visit for QuotedPropertyCollector {
         super_prop.visit_children_with(self);
     }
 
-    fn visit_bin_expr(&mut self, bin_expr: &BinExpr) {
-        if bin_expr.op == BinaryOp::In {
-            if let Some(name) = static_property_name(&bin_expr.left) {
-                self.names.insert(name.clone());
-            }
-        }
-        bin_expr.visit_children_with(self);
-    }
-
     fn visit_prop_name(&mut self, name: &PropName) {
         match name {
             PropName::Str(string) => {

@@ -463,32 +463,17 @@ where
             self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
             if e.op == op!("in") {
-                if let Expr::Lit(Lit::Str(prop)) = &*e.left {
-                    if prop
-                        .value
-                        .as_str()
-                        .map_or(true, |value| value.parse::<f64>().is_err())
-                    {
-                        self.data.add_property_atom(prop.value.clone());
-                    }
+                if let Some(prop) = static_property_name(&e.left) {
+                    self.data.add_property_atom(prop.clone());
                 }
 
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
                     let var = self.data.var_or_default(obj.to_id());
                     var.mark_used_as_ref();
 
-                    match &*e.left {
-                        Expr::Lit(Lit::Str(prop)) => {
-                            if prop
-                                .value
-                                .as_str()
-                                .map_or(true, |value| value.parse::<f64>().is_err())
-                            {
-                                var.add_accessed_property(prop.value.clone());
-                            }
-                        }
-
-                        Expr::Lit(Lit::Num(_)) => {}
+                    match static_property_name(&e.left) {
+                        Some(prop) => var.add_accessed_property(prop.clone()),
+                        None if matches!(&*e.left, Expr::Lit(Lit::Num(_))) => {}
                         _ => {
                             var.mark_indexed_with_dynamic_key();
                         }
