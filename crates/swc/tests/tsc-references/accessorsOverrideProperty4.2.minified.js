@@ -1,2 +1,10 @@
 //// [accessorsOverrideProperty4.ts]
-Animal;
+class Lion extends Animal {
+    _sound = 'roar';
+    get sound() {
+        return this._sound;
+    }
+    set sound(val) {
+        this._sound = val;
+    }
+}
