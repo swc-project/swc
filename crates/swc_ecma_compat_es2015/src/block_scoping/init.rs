@@ -1,158 +1,237 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_atoms::Atom;
+use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::rename::rename;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
-mod name;
+mod captures;
+pub(super) mod mutation;
+mod scope;
 
-/// The first iteration copies `let` bindings after evaluating every
-/// initializer. Closures created in the initializer must keep the original
-/// bindings, including when they mutate them after the loop has started.
-pub(super) fn separate_initializer_bindings(
-    node: &mut ForStmt,
-    lexical_vars: &mut [Id],
-    unresolved_mark: Mark,
-) {
-    let Some(VarDeclOrExpr::VarDecl(decl)) = &mut node.init else {
-        return;
-    };
-    // Unlike `let`, `const` does not create per-iteration bindings in a for loop.
-    if decl.kind != VarDeclKind::Let {
-        return;
-    }
+const SCRATCH: &str = "_loop_init_";
 
-    let mut finder = InitializerCaptures {
-        lexical_vars: lexical_vars.iter().cloned().collect(),
-        captured: Default::default(),
-        in_closure: false,
-        has_eval: false,
-    };
-    decl.visit_with(&mut finder);
-    // Direct eval can reference any initializer binding without an identifier
-    // appearing in the parsed closure body.
-    let captured = if finder.has_eval {
-        finder.lexical_vars
-    } else {
-        finder.captured
-    };
-    if captured.is_empty() {
-        return;
-    }
+pub(super) fn initializer_scopes(program: &mut Program) -> Initializers {
+    let mut pass = InitializerScopes::default();
+    program.visit_mut_with(&mut pass);
+    pass.initializers
+}
 
-    let mut replacements = FxHashMap::default();
-    for id in lexical_vars {
-        if !captured.contains(id) {
-            continue;
+#[derive(Default)]
+pub(super) struct Initializers {
+    pub bindings: FxHashSet<Id>,
+    pub loops: FxHashMap<SyntaxContext, Ident>,
+}
+
+#[derive(Default)]
+struct InitializerScopes {
+    symbols: Symbols,
+    initializers: Initializers,
+    next_scratch: usize,
+}
+
+#[derive(Default)]
+struct Symbols {
+    identifiers: FxHashSet<Atom>,
+}
+
+impl Symbols {
+    fn reserve_text(&mut self, text: &[u8]) {
+        let decoded;
+        let text = if text.windows(2).any(|part| part == b"\\u") {
+            decoded = decode_ascii_unicode_escapes(text);
+            decoded.as_slice()
+        } else {
+            text
+        };
+        for (index, part) in text.windows(SCRATCH.len()).enumerate() {
+            if part == SCRATCH.as_bytes() {
+                let suffix = index + SCRATCH.len();
+                let digits = text[suffix..]
+                    .iter()
+                    .take_while(|byte| byte.is_ascii_digit())
+                    .count();
+                if digits != 0 && text.get(suffix + digits) == Some(&b'_') {
+                    let name = std::str::from_utf8(&text[index..suffix + digits + 1])
+                        .expect("scratch identifiers are ASCII");
+                    self.identifiers.insert(name.into());
+                }
+            }
         }
-
-        let iteration = private_ident!(format!("_{}", id.0));
-        decl.decls.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: iteration.clone().into(),
-            init: Some(Ident::new(id.0.clone(), DUMMY_SP, id.1).into()),
-            definite: false,
-        });
-        replacements.insert(id.clone(), iteration.to_id());
-        *id = iteration.to_id();
     }
+}
 
-    let mut names = name::Preserver {
-        renamed: &replacements,
-        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+// Only ASCII characters can contribute to the generated scratch spellings.
+// Decode their Unicode identifier escapes, leaving unrelated JavaScript escapes
+// intact. This reserves literal eval names without interpreting eval programs.
+fn decode_ascii_unicode_escapes(text: &[u8]) -> Vec<u8> {
+    let mut decoded = Vec::with_capacity(text.len());
+    let mut index = 0;
+    while index < text.len() {
+        if let Some((byte, length)) = ascii_unicode_escape(&text[index..]) {
+            decoded.push(byte);
+            index += length;
+        } else {
+            decoded.push(text[index]);
+            index += 1;
+        }
+    }
+    decoded
+}
+
+fn ascii_unicode_escape(text: &[u8]) -> Option<(u8, usize)> {
+    let text = text.strip_prefix(b"\\u")?;
+    let (digits, length) = if let Some(text) = text.strip_prefix(b"{") {
+        let end = text.iter().position(|byte| !byte.is_ascii_hexdigit())?;
+        if text[end] != b'}' {
+            return None;
+        }
+        (&text[..end], end + 4)
+    } else {
+        (text.get(..4)?, 6)
     };
-    node.test.visit_mut_with(&mut names);
-    node.update.visit_mut_with(&mut names);
-    node.body.visit_mut_with(&mut names);
-
-    let mut renamer = rename(&replacements);
-    node.test.visit_mut_with(&mut renamer);
-    node.update.visit_mut_with(&mut renamer);
-    node.body.visit_mut_with(&mut renamer);
-}
-
-struct InitializerCaptures {
-    lexical_vars: FxHashSet<Id>,
-    captured: FxHashSet<Id>,
-    in_closure: bool,
-    has_eval: bool,
-}
-
-impl InitializerCaptures {
-    fn visit_closure<N: VisitWith<Self>>(&mut self, node: &N) {
-        let old = self.in_closure;
-        self.in_closure = true;
-        node.visit_children_with(self);
-        self.in_closure = old;
+    if digits.is_empty() {
+        return None;
     }
-
-    fn visit_field_initializer(&mut self, value: &Option<Box<Expr>>, is_static: bool) {
-        let old = self.in_closure;
-        // Instance fields run on construction, after the loop initializer has
-        // finished. Static fields run immediately, like computed property keys.
-        self.in_closure |= !is_static;
-        value.visit_with(self);
-        self.in_closure = old;
+    let mut value = 0u8;
+    for &byte in digits {
+        let digit = match byte {
+            b'0'..=b'9' => byte - b'0',
+            b'a'..=b'f' => byte - b'a' + 10,
+            b'A'..=b'F' => byte - b'A' + 10,
+            _ => return None,
+        };
+        value = value.checked_mul(16)?.checked_add(digit)?;
     }
+    value.is_ascii().then_some((value, length))
 }
 
-impl Visit for InitializerCaptures {
+impl Visit for Symbols {
     noop_visit_type!();
 
-    visit_obj_and_computed!();
-
     fn visit_ident(&mut self, ident: &Ident) {
-        if self.in_closure && self.lexical_vars.contains(&ident.to_id()) {
-            self.captured.insert(ident.to_id());
+        self.identifiers.insert(ident.sym.clone());
+    }
+
+    fn visit_ident_name(&mut self, ident: &IdentName) {
+        // Generator lowering hoists yielding catch bindings into variables.
+        // Reserve property names too, so an enclosing `with` object cannot
+        // intercept those variables through a statically named property.
+        // Dynamically constructed properties can still intercept generated
+        // variables after that lowering; static reservation cannot prevent it.
+        self.identifiers.insert(ident.sym.clone());
+    }
+
+    fn visit_str(&mut self, value: &Str) {
+        // Eval source can mention identifiers that have no parsed Ident node.
+        // Reserve those spellings without reparsing strings or retaining them.
+        // Dynamically constructed eval names can still observe generated bindings,
+        // as with other compiler helpers; literal reservation cannot prevent that.
+        self.reserve_text(value.value.as_bytes());
+    }
+
+    fn visit_tpl_element(&mut self, value: &TplElement) {
+        self.reserve_text(value.raw.as_bytes());
+        if let Some(cooked) = &value.cooked {
+            self.reserve_text(cooked.as_bytes());
         }
     }
+}
 
-    fn visit_callee(&mut self, callee: &Callee) {
-        if self.in_closure
-            && callee
-                .as_expr()
-                .is_some_and(|expr| expr.unwrap_parens().is_ident_ref_to("eval"))
-        {
-            self.has_eval = true;
+impl InitializerScopes {
+    fn scratch(&mut self) -> Ident {
+        loop {
+            let name = Atom::from(format!("{SCRATCH}{}_", self.next_scratch).as_str());
+            self.next_scratch += 1;
+            // Hygiene appends numbers when renaming. An unused spelling ending in
+            // an underscore cannot collide with one of those generated names.
+            if self.symbols.identifiers.insert(name.clone()) {
+                return private_ident!(name);
+            }
         }
-        callee.visit_children_with(self);
+    }
+}
+
+impl VisitMut for InitializerScopes {
+    noop_visit_mut_type!();
+
+    fn visit_mut_program(&mut self, program: &mut Program) {
+        program.visit_with(&mut self.symbols);
+        program.visit_mut_children_with(self);
     }
 
-    fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
-        self.visit_closure(node);
-    }
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        let Some(node) = labeled_for(stmt) else {
+            stmt.visit_mut_children_with(self);
+            return;
+        };
 
-    fn visit_function(&mut self, node: &Function) {
-        self.visit_closure(node);
-    }
+        // Rewrite nested loops first, but keep this loop's complete label
+        // chain together so `continue label` still targets the actual loop.
+        node.visit_mut_children_with(self);
+        let Some(VarDeclOrExpr::VarDecl(decl)) = &mut node.init else {
+            return;
+        };
+        // Unlike `let`, `const` does not create per-iteration bindings.
+        if decl.kind != VarDeclKind::Let {
+            return;
+        }
+        let bindings = super::find_lexical_vars(decl);
+        if bindings.is_empty() {
+            return;
+        }
+        let usage = captures::analyze(decl, &bindings);
+        if !usage.captured {
+            return;
+        }
 
-    fn visit_constructor(&mut self, node: &Constructor) {
-        self.visit_closure(node);
+        let scratch = self.scratch();
+        let mut stmts = Vec::new();
+        if usage.has_yield {
+            // Generator lowering hoists catch bindings when their handlers yield.
+            // Declare iteration IDs first so hygiene keeps their source names for
+            // direct eval and inferred names in the loop body after that hoisting.
+            stmts.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: bindings
+                        .iter()
+                        .map(|id| VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                    ..Default::default()
+                }
+                .into(),
+            );
+        }
+        let (copies, initialization) = scope::separate(
+            decl.take(),
+            bindings,
+            &scratch,
+            &mut self.initializers.bindings,
+        );
+        *decl = copies;
+        decl.ctxt = scratch.ctxt;
+        self.initializers
+            .loops
+            .insert(scratch.ctxt, scratch.clone());
+        stmts.push(initialization);
+        stmts.push(stmt.take());
+        *stmt = scope::catch(scratch, stmts);
     }
+}
 
-    fn visit_getter_prop(&mut self, node: &GetterProp) {
-        self.visit_closure(node);
-    }
-
-    fn visit_setter_prop(&mut self, node: &SetterProp) {
-        self.visit_closure(node);
-    }
-
-    fn visit_class_prop(&mut self, node: &ClassProp) {
-        node.key.visit_with(self);
-        node.decorators.visit_with(self);
-        self.visit_field_initializer(&node.value, node.is_static);
-    }
-
-    fn visit_private_prop(&mut self, node: &PrivateProp) {
-        node.decorators.visit_with(self);
-        self.visit_field_initializer(&node.value, node.is_static);
-    }
-
-    fn visit_auto_accessor(&mut self, node: &AutoAccessor) {
-        node.key.visit_with(self);
-        node.decorators.visit_with(self);
-        self.visit_field_initializer(&node.value, node.is_static);
+fn labeled_for(stmt: &mut Stmt) -> Option<&mut ForStmt> {
+    match stmt {
+        Stmt::For(node) => Some(node),
+        Stmt::Labeled(node) => labeled_for(&mut node.body),
+        _ => None,
     }
 }

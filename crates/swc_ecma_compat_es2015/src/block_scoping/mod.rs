@@ -11,9 +11,7 @@ use swc_ecma_utils::{
     find_pat_ids, function::FnEnvHoister, prepend_stmt, private_ident, quote_ident, quote_str,
     ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{
-    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
-};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_obj_and_computed, VisitMut, VisitMutWith};
 
 mod init;
 mod vars;
@@ -32,15 +30,17 @@ mod vars;
 /// }
 /// ```
 pub fn block_scoping(unresolved_mark: Mark) -> impl Pass {
-    (
-        visit_mut_pass(self::vars::block_scoped_vars()),
-        visit_mut_pass(BlockScoping {
+    fn_pass(move |program| {
+        program.visit_mut_with(&mut self::vars::block_scoped_vars());
+        let initializers = init::initializer_scopes(program);
+        program.visit_mut_with(&mut BlockScoping {
             unresolved_mark,
+            initializers,
             scope: Default::default(),
             vars: Vec::new(),
             var_decl_kind: VarDeclKind::Var,
-        }),
-    )
+        });
+    })
 }
 
 type ScopeStack = SmallVec<[ScopeKind; 8]>;
@@ -54,6 +54,7 @@ enum ScopeKind {
         has_used: bool,
         /// Map of original identifier to modified syntax context
         mutated: FxHashMap<Id, SyntaxContext>,
+        initializer_scratch: Option<Ident>,
     },
     Fn,
     Block,
@@ -66,12 +67,14 @@ impl ScopeKind {
             args: Vec::new(),
             has_used: false,
             mutated: Default::default(),
+            initializer_scratch: None,
         }
     }
 }
 
 struct BlockScoping {
     unresolved_mark: Mark,
+    initializers: init::Initializers,
     scope: ScopeStack,
     vars: Vec<VarDeclarator>,
     var_decl_kind: VarDeclKind,
@@ -144,6 +147,7 @@ impl BlockScoping {
             args,
             has_used,
             mutated,
+            initializer_scratch,
             ..
         }) = self.scope.pop()
         {
@@ -198,17 +202,18 @@ impl BlockScoping {
                 },
             };
 
+            let mut copies = Vec::new();
             if !flow_helper.mutated.is_empty() {
-                let no_modification = flow_helper.mutated.is_empty();
                 let mut v = MutationHandler {
                     map: &mut flow_helper.mutated,
                     in_function: false,
+                    copy_back: initializer_scratch.is_none(),
                 };
 
                 // Modifies identifiers, and add reassignments to break / continue / return
                 body_stmt.visit_mut_with(&mut v);
 
-                if !no_modification
+                if v.copy_back
                     && body_stmt
                         .stmts
                         .last()
@@ -216,6 +221,10 @@ impl BlockScoping {
                         .unwrap_or(true)
                 {
                     body_stmt.stmts.push(v.make_reassignment(None).into_stmt());
+                }
+                if let Some(scratch) = &initializer_scratch {
+                    copies =
+                        init::mutation::finish_body(&mut body_stmt, scratch, &flow_helper.mutated);
                 }
             }
 
@@ -305,6 +314,7 @@ impl BlockScoping {
                     }
                     .into(),
                 ];
+                stmts.extend(copies);
 
                 if flow_helper.has_return {
                     // if (_type_of(_ret) === "object") return _ret.v;
@@ -398,7 +408,16 @@ impl BlockScoping {
                 return;
             }
 
-            **body = call.take().into_stmt();
+            if copies.is_empty() {
+                **body = call.take().into_stmt();
+            } else {
+                **body = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: once(call.take().into_stmt()).chain(copies).collect(),
+                    ..Default::default()
+                }
+                .into();
+            }
         }
     }
 
@@ -465,6 +484,20 @@ impl VisitMut for BlockScoping {
         self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
+    fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
+        if let Some(Pat::Ident(binding)) = &node.param {
+            if self.initializers.bindings.contains(&binding.to_id()) {
+                // These bindings replaced a nested loop's lexical declaration.
+                // Preserve its enclosing-loop capture bookkeeping, including the
+                // wrapper needed when generator lowering hoists yielding catches.
+                if let Some(ScopeKind::Loop { lexical_var, .. }) = self.scope.last_mut() {
+                    lexical_var.push(binding.to_id());
+                }
+            }
+        }
+        node.visit_mut_children_with(self);
+    }
+
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
         self.visit_mut_with_scope(ScopeKind::new_loop(), &mut node.body);
 
@@ -490,6 +523,7 @@ impl VisitMut for BlockScoping {
             args,
             has_used: false,
             mutated: Default::default(),
+            initializer_scratch: None,
         };
 
         self.visit_mut_with_scope(kind, &mut node.body);
@@ -516,6 +550,7 @@ impl VisitMut for BlockScoping {
             args,
             has_used: false,
             mutated: Default::default(),
+            initializer_scratch: None,
         };
 
         self.visit_mut_with_scope(kind, &mut node.body);
@@ -525,13 +560,16 @@ impl VisitMut for BlockScoping {
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
         let blockifyed = self.blockify_for_stmt_body(&mut node.body);
-        let mut lexical_var = if let Some(VarDeclOrExpr::VarDecl(decl)) = &node.init {
+        let lexical_var = if let Some(VarDeclOrExpr::VarDecl(decl)) = &node.init {
             find_lexical_vars(decl)
         } else {
             Vec::new()
         };
+        let initializer_scratch = match &node.init {
+            Some(VarDeclOrExpr::VarDecl(decl)) => self.initializers.loops.get(&decl.ctxt).cloned(),
+            _ => None,
+        };
 
-        init::separate_initializer_bindings(node, &mut lexical_var, self.unresolved_mark);
         node.init.visit_mut_with(self);
         let args = lexical_var.clone();
 
@@ -543,6 +581,7 @@ impl VisitMut for BlockScoping {
             args,
             has_used: false,
             mutated: Default::default(),
+            initializer_scratch,
         };
         self.visit_mut_with_scope(kind, &mut node.body);
         self.handle_capture_of_vars(&mut node.body);
@@ -877,6 +916,7 @@ impl VisitMut for FlowHelper<'_> {
 struct MutationHandler<'a> {
     map: &'a mut FxHashMap<Id, SyntaxContext>,
     in_function: bool,
+    copy_back: bool,
 }
 
 impl MutationHandler<'_> {
@@ -939,7 +979,7 @@ impl VisitMut for MutationHandler<'_> {
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
-        if self.in_function || self.map.is_empty() {
+        if self.in_function || !self.copy_back || self.map.is_empty() {
             return;
         }
 
