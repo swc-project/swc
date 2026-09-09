@@ -135,6 +135,18 @@ function effects() {
     ].join(""));
     console.log(events.join(","));
 }
+function singleton_join_lookup_order() {
+    const join = Array.prototype.join;
+    try {
+        [
+            delete Array.prototype.join
+        ].join();
+    } catch  {
+        console.log(true);
+    }
+    Array.prototype.join = join;
+}
+singleton_join_lookup_order();
 function coercion() {
     console.log([
         {
@@ -223,6 +235,20 @@ function intrinsic_global_coercion_order() {
     Object.toString = objectToString;
 }
 intrinsic_global_coercion_order();
+function self_global_coercion_order() {
+    globalThis.self = globalThis;
+    const selfToString = self.toString;
+    try {
+        [
+            self,
+            self.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    self.toString = selfToString;
+}
+self_global_coercion_order();
 function intrinsic_constructor_coercion_order() {
     const arrayToString = Array.toString;
     try {

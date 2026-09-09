@@ -1159,10 +1159,17 @@ impl Pure<'_> {
             return None; // Pure literal case will be handled elsewhere
         }
 
-        // A singleton never uses the separator. Its argument has already been
-        // checked to be a supported, effect-free constant by the caller.
-        let is_string_concat =
-            separator.is_empty() || (self.options.unsafe_passes && elems.len() == 1);
+        // A singleton never uses the separator, but its element is evaluated
+        // before the `join` method lookup. Do not replace an effectful element
+        // with concatenation because it can change or remove that method.
+        // Identifier reads retain the minifier's documented side-effect-free
+        // top-level identifier assumption.
+        let is_string_concat = separator.is_empty()
+            || (self.options.unsafe_passes
+                && elems.len() == 1
+                && elems[0].as_ref().is_some_and(|elem| {
+                    elem.expr.is_ident() || !elem.expr.may_have_side_effects(self.expr_ctx)
+                }));
 
         // For non-empty separators, only optimize if we have at least 2 consecutive
         // literals This prevents infinite loop and ensures meaningful
