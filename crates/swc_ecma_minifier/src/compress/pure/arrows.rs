@@ -71,11 +71,17 @@ impl Pure<'_> {
         }
 
         if let Prop::Method(m) = p {
-            if m.function.is_generator
-                || contains_arguments(&m.function.body)
-                || contains_super(&m.function.body)
+            let Some(body) = &mut m.function.body else {
+                return;
+            };
+
+            if body.stmts.len() != 1
+                || !matches!(body.stmts[0], Stmt::Return(ReturnStmt { arg: Some(..), .. }))
+                || m.function.is_generator
+                || contains_arguments(body)
+                || contains_super(body)
                 // Direct eval can observe the method's `this` and `arguments` bindings.
-                || contains_eval_in_method_environment(&m.function.body)
+                || contains_eval_in_method_environment(body)
                 || m.function.params.iter().any(|param| {
                     contains_this_expr(param)
                         || contains_arguments(param)
@@ -88,49 +94,40 @@ impl Pure<'_> {
 
             let m_span = m.function.span;
 
-            if let Some(body) = &mut m.function.body {
-                if body.stmts.len() == 1
-                    && matches!(
-                        body.stmts[0],
-                        Stmt::Return(ReturnStmt { arg: Some(..), .. })
-                    )
-                {
-                    if contains_this_expr(body) {
-                        return;
-                    }
-                    self.changed = true;
-                    report_change!("Method property => arrow");
-
-                    let arg = body
-                        .take()
-                        .stmts
-                        .remove(0)
-                        .expect_return_stmt()
-                        .arg
-                        .take()
-                        .unwrap();
-
-                    *p = Prop::KeyValue(KeyValueProp {
-                        key: m.key.take(),
-                        value: ArrowExpr {
-                            span: m_span,
-                            params: m
-                                .function
-                                .params
-                                .take()
-                                .into_iter()
-                                .map(|v| v.pat)
-                                .collect(),
-                            body: Box::new(ArrowFunctionBody::Expr(arg)),
-                            is_async: m.function.is_async,
-                            is_generator: m.function.is_generator,
-                            ..Default::default()
-                        }
-                        .into(),
-                    });
-                    return;
-                }
+            if contains_this_expr(body) {
+                return;
             }
+            self.changed = true;
+            report_change!("Method property => arrow");
+
+            let arg = body
+                .take()
+                .stmts
+                .remove(0)
+                .expect_return_stmt()
+                .arg
+                .take()
+                .unwrap();
+
+            *p = Prop::KeyValue(KeyValueProp {
+                key: m.key.take(),
+                value: ArrowExpr {
+                    span: m_span,
+                    params: m
+                        .function
+                        .params
+                        .take()
+                        .into_iter()
+                        .map(|v| v.pat)
+                        .collect(),
+                    body: Box::new(ArrowFunctionBody::Expr(arg)),
+                    is_async: m.function.is_async,
+                    is_generator: m.function.is_generator,
+                    ..Default::default()
+                }
+                .into(),
+            });
+            return;
         }
 
         if let Prop::KeyValue(kv) = p {
@@ -202,7 +199,7 @@ impl Visit for MethodEvalFinder {
     fn visit_callee(&mut self, callee: &Callee) {
         if callee
             .as_expr()
-            .is_some_and(|expr| expr.is_ident_ref_to("eval"))
+            .is_some_and(|expr| expr.unwrap_parens().is_ident_ref_to("eval"))
         {
             self.found = true;
         } else {
@@ -211,6 +208,36 @@ impl Visit for MethodEvalFinder {
     }
 
     fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_class(&mut self, class: &Class) {
+        class.decorators.visit_with(self);
+        class.super_class.visit_with(self);
+
+        for member in &class.body {
+            match member {
+                ClassMember::Constructor(constructor) => constructor.key.visit_with(self),
+                ClassMember::Method(method) => {
+                    method.key.visit_with(self);
+                    method.function.decorators.visit_with(self);
+                }
+                ClassMember::PrivateMethod(method) => method.function.decorators.visit_with(self),
+                ClassMember::ClassProp(property) => {
+                    property.key.visit_with(self);
+                    property.decorators.visit_with(self);
+                }
+                ClassMember::PrivateProp(property) => property.decorators.visit_with(self),
+                ClassMember::AutoAccessor(accessor) => {
+                    accessor.key.visit_with(self);
+                    accessor.decorators.visit_with(self);
+                }
+                ClassMember::TsIndexSignature(..)
+                | ClassMember::Empty(..)
+                | ClassMember::StaticBlock(..) => {}
+                #[cfg(swc_ast_unknown)]
+                _ => {}
+            }
+        }
+    }
 
     fn visit_expr(&mut self, expr: &Expr) {
         if !self.found {
