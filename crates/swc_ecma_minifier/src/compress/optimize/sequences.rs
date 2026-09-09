@@ -4,8 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_common::{pass::Either, util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    class_has_side_effect, contains_arguments, contains_this_expr, prepend_stmts, ExprExt,
-    StmtLike, Type, Value,
+    contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 #[cfg(all(debug_assertions, feature = "debug"))]
@@ -1420,23 +1419,20 @@ impl Optimizer<'_> {
     /// Returns true if moving `a` after a class expression cannot change any
     /// eagerly evaluated part of the class.
     fn is_class_skippable_for_seq(&self, a: Option<&Mergable>, class: &Class) -> bool {
-        if class_has_side_effect(self.ctx.expr_ctx, class) || !class.decorators.is_empty() {
+        // Evaluating a superclass performs operations beyond evaluating its expression,
+        // including constructor validation and reading `prototype`. Do not reorder
+        // across heritage until those operations have dependency-aware
+        // handling.
+        if class.super_class.is_some() || !class.decorators.is_empty() {
             return false;
-        }
-
-        if let Some(super_class) = &class.super_class {
-            if !self.is_skippable_for_seq(a, super_class) {
-                return false;
-            }
         }
 
         for member in &class.body {
             match member {
                 ClassMember::Constructor(constructor) => {
-                    if constructor.params.iter().any(|param| {
-                        param
-                            .as_param()
-                            .is_some_and(|param| !param.decorators.is_empty())
+                    if constructor.params.iter().any(|param| match param {
+                        ParamOrTsParamProp::Param(param) => !param.decorators.is_empty(),
+                        ParamOrTsParamProp::TsParamProp(param) => !param.decorators.is_empty(),
                     }) {
                         return false;
                     }
@@ -1453,7 +1449,9 @@ impl Optimizer<'_> {
                     }
 
                     if let PropName::Computed(key) = &method.key {
-                        if !self.is_skippable_for_seq(a, &key.expr) {
+                        if key.expr.may_have_side_effects(self.ctx.expr_ctx)
+                            || !self.is_skippable_for_seq(a, &key.expr)
+                        {
                             return false;
                         }
                     }
@@ -1475,16 +1473,18 @@ impl Optimizer<'_> {
                     }
 
                     if let PropName::Computed(key) = &prop.key {
-                        if !self.is_skippable_for_seq(a, &key.expr) {
+                        if key.expr.may_have_side_effects(self.ctx.expr_ctx)
+                            || !self.is_skippable_for_seq(a, &key.expr)
+                        {
                             return false;
                         }
                     }
 
                     if prop.is_static
-                        && prop
-                            .value
-                            .as_ref()
-                            .is_some_and(|value| !self.is_skippable_for_seq(a, value))
+                        && prop.value.as_ref().is_some_and(|value| {
+                            value.may_have_side_effects(self.ctx.expr_ctx)
+                                || !self.is_skippable_for_seq(a, value)
+                        })
                     {
                         return false;
                     }
@@ -1492,10 +1492,10 @@ impl Optimizer<'_> {
                 ClassMember::PrivateProp(prop) => {
                     if !prop.decorators.is_empty()
                         || (prop.is_static
-                            && prop
-                                .value
-                                .as_ref()
-                                .is_some_and(|value| !self.is_skippable_for_seq(a, value)))
+                            && prop.value.as_ref().is_some_and(|value| {
+                                value.may_have_side_effects(self.ctx.expr_ctx)
+                                    || !self.is_skippable_for_seq(a, value)
+                            }))
                     {
                         return false;
                     }
@@ -1506,16 +1506,18 @@ impl Optimizer<'_> {
                     }
 
                     if let Key::Public(PropName::Computed(key)) = &accessor.key {
-                        if !self.is_skippable_for_seq(a, &key.expr) {
+                        if key.expr.may_have_side_effects(self.ctx.expr_ctx)
+                            || !self.is_skippable_for_seq(a, &key.expr)
+                        {
                             return false;
                         }
                     }
 
                     if accessor.is_static
-                        && accessor
-                            .value
-                            .as_ref()
-                            .is_some_and(|value| !self.is_skippable_for_seq(a, value))
+                        && accessor.value.as_ref().is_some_and(|value| {
+                            value.may_have_side_effects(self.ctx.expr_ctx)
+                                || !self.is_skippable_for_seq(a, value)
+                        })
                     {
                         return false;
                     }

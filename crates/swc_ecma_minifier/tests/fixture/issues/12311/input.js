@@ -37,6 +37,27 @@ function instanceMethod() {
     }, value];
 }
 
+function heritage() {
+    let superClass = new Proxy(function () {}, {
+        get(target, key) {
+            if (key === "prototype") {
+                console.log("heritage");
+            }
+            return target[key];
+        },
+    });
+    let value = foo("heritage");
+    return [class extends superClass {}, value];
+}
+
+function instanceFields() {
+    let value = foo("instance fields");
+    return [class {
+        field = bar("instance field");
+        #privateField = bar("private instance field");
+    }, value];
+}
+
 function computedKeyDependency() {
     let key = "before";
     let value = key = "after";
@@ -50,4 +71,6 @@ staticField();
 computedKey();
 staticBlock();
 instanceMethod();
+heritage();
+instanceFields();
 computedKeyDependency();

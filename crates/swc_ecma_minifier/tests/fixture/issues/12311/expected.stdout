@@ -5,4 +5,7 @@ bar computed key
 foo static block
 bar static block
 foo instance method
+foo heritage
+heritage
+foo instance fields
 after after
