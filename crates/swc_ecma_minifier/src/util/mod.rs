@@ -93,6 +93,50 @@ pub(crate) fn for_each_static_property_name(expr: &Expr, mut visit: impl FnMut(&
     visit_static_property_name(expr, &mut visit);
 }
 
+/// Visits falsy static property names that can control `&&` or `||` branch
+/// selection within an expression.
+///
+/// Property-name mangling replaces names with nonempty generated identifiers.
+/// A falsy name must therefore remain unchanged when it may be evaluated as a
+/// logical operation's left operand, or the operation can select a different
+/// property-name alternative.
+pub(crate) fn for_each_short_circuit_falsy_property_name(
+    expr: &Expr,
+    mut visit: impl FnMut(&Wtf8Atom),
+) {
+    fn visit_short_circuit_falsy_property_name(expr: &Expr, visit: &mut impl FnMut(&Wtf8Atom)) {
+        match expr {
+            Expr::Paren(paren) => visit_short_circuit_falsy_property_name(&paren.expr, visit),
+            Expr::Cond(cond) => {
+                visit_short_circuit_falsy_property_name(&cond.cons, visit);
+                visit_short_circuit_falsy_property_name(&cond.alt, visit);
+            }
+            Expr::Seq(seq) => {
+                if let Some(last) = seq.exprs.last() {
+                    visit_short_circuit_falsy_property_name(last, visit);
+                }
+            }
+            Expr::Bin(bin) if matches!(bin.op, BinaryOp::LogicalAnd | BinaryOp::LogicalOr) => {
+                for_each_static_property_name(&bin.left, |name| {
+                    if name.is_empty() {
+                        visit(name);
+                    }
+                });
+
+                visit_short_circuit_falsy_property_name(&bin.left, visit);
+                visit_short_circuit_falsy_property_name(&bin.right, visit);
+            }
+            Expr::Bin(bin) => {
+                visit_short_circuit_falsy_property_name(&bin.left, visit);
+                visit_short_circuit_falsy_property_name(&bin.right, visit);
+            }
+            _ => {}
+        }
+    }
+
+    visit_short_circuit_falsy_property_name(expr, &mut visit);
+}
+
 /// Visits the expressions that a logical operation can return as its value.
 ///
 /// A known left-hand result selects exactly one branch. Otherwise both branches
