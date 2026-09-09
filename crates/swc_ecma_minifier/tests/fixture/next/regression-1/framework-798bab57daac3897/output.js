@@ -3730,7 +3730,7 @@
                                         var q = e._wrapperState.wasMultiple;
                                         e._wrapperState.wasMultiple = !!f.multiple;
                                         var y = f.value;
-                                        null != y ? eb(e, !!f.multiple, y, !1) : !!f.multiple !== q && (null != f.defaultValue ? eb(e, !!f.multiple, f.defaultValue, !0) : eb(e, !!f.multiple, f.multiple ? [] : "", !1));
+                                        null != y ? eb(e, !!f.multiple, y, !1) : q !== !!f.multiple && (null != f.defaultValue ? eb(e, !!f.multiple, f.defaultValue, !0) : eb(e, !!f.multiple, f.multiple ? [] : "", !1));
                                 }
                                 e[Of] = f;
                             } catch (m) {

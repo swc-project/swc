@@ -3,7 +3,7 @@ function f() {
     try {
         throw 0;
     } catch (e) {
-        return a = 2;
+        return (a = 2);
     }
 }
 

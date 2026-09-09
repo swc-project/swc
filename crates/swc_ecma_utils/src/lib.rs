@@ -737,8 +737,9 @@ pub trait ExprExt {
     }
 
     #[inline(always)]
+    #[deprecated(note = "please use `is_array` in `Expr` directly")]
     fn is_array_lit(&self) -> bool {
-        is_array_lit(self.as_expr())
+        self.as_expr().is_array()
     }
 
     /// Checks if `self` is `NaN`.
@@ -2810,10 +2811,6 @@ fn is_str(expr: &Expr) -> bool {
         Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
         _ => false,
     }
-}
-
-fn is_array_lit(expr: &Expr) -> bool {
-    matches!(*expr, Expr::Array(..))
 }
 
 fn is_nan(expr: &Expr) -> bool {

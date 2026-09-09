@@ -10,14 +10,6 @@ use crate::{
     util::{is_falsy_number, make_bool},
 };
 
-#[inline]
-fn is_unresolved_ident_ctxt(
-    ctxt: swc_common::SyntaxContext,
-    unresolved_ctxt: swc_common::SyntaxContext,
-) -> bool {
-    ctxt.has_mark(unresolved_ctxt.outer())
-}
-
 #[inline(always)]
 pub(super) fn may_make_bool_short(e: &Expr) -> bool {
     matches!(
@@ -425,7 +417,7 @@ impl Pure<'_> {
 
             // Deleting a declared binding is false in sloppy mode. Keep unresolved
             // identifiers untouched because they may refer to a deletable global property.
-            Expr::Ident(i) if !is_unresolved_ident_ctxt(i.ctxt, self.expr_ctx.unresolved_ctxt) => {
+            Expr::Ident(i) if i.ctxt != self.expr_ctx.unresolved_ctxt => {
                 self.changed = true;
                 let span = delete.arg.span();
                 report_change!("booleans: Compressing `delete` => false");
@@ -707,20 +699,24 @@ impl Pure<'_> {
 
             (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
 
-            (Expr::Ident(..), Expr::Lit(..))
-            | (
+            (
                 Expr::Ident(..) | Expr::Member(..),
                 Expr::Unary(UnaryExpr {
                     op: op!("void") | op!("!"),
+                    arg,
                     ..
                 }),
             )
             | (
                 Expr::This(..),
                 Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
+                    op: op!("void"),
+                    arg,
+                    ..
                 }),
-            )
+            ) if !arg.may_have_side_effects(self.expr_ctx) => true,
+
+            (Expr::Ident(..), Expr::Lit(..))
             | (Expr::Unary(..), Expr::Lit(..))
             | (Expr::Tpl(..), Expr::Lit(..)) => true,
             _ => false,
@@ -789,27 +785,5 @@ impl Pure<'_> {
             }
             _ => {}
         }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use swc_common::{Mark, SyntaxContext};
-
-    use super::is_unresolved_ident_ctxt;
-
-    #[test]
-    fn recognizes_an_unresolved_context_with_a_child_mark() {
-        testing::run_test2(false, |_cm, _handler| {
-            let unresolved_mark = Mark::new();
-            let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
-            let child_mark = Mark::fresh(unresolved_mark);
-            let ctxt = unresolved_ctxt.apply_mark(child_mark);
-
-            assert!(is_unresolved_ident_ctxt(ctxt, unresolved_ctxt));
-
-            Ok(())
-        })
-        .unwrap();
     }
 }

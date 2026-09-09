@@ -3,7 +3,4 @@ function effect(name) {
     return name;
 }
 
-console.log(
-    "A".toLowerCase(effect("lower")),
-    "b".toUpperCase(effect("upper")),
-);
+console.log("A".toLowerCase(effect("lower")), "b".toUpperCase(effect("upper")));

@@ -898,30 +898,27 @@ impl Pure<'_> {
 
             // Only add empty string prefix when the first element is a non-string
             // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion
+            // literal early enough to provide coercion.
             let needs_empty_string_prefix = match groups.first() {
                 Some(GroupType::Expression(first_expr)) => {
-                    // Check if the first expression is already a string concatenation
                     let first_needs_coercion = match &*first_expr.expr {
                         Expr::Bin(BinExpr {
                             op: op!(bin, "+"), ..
-                        }) => false, // Already string concat
-                        Expr::Lit(Lit::Str(..)) => false, // Already a string literal
-                        Expr::Call(_call) => {
-                            // Function calls may return any type and need string coercion
-                            true
+                        }) => {
+                            // `+` is only already a string concatenation when its
+                            // result is proven to be a string. Otherwise adjacent
+                            // join elements could be added numerically first.
+                            first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
                         }
-                        _ => true, // Other expressions need string coercion
+                        Expr::Lit(Lit::Str(..)) => false,
+                        Expr::Call(..) => true,
+                        _ => true,
                     };
 
-                    // If the first element needs coercion, check if the second element is a string
-                    // literal that can provide the coercion
+                    // A following literal provides the string coercion for the
+                    // first element before the next dynamic element is evaluated.
                     if first_needs_coercion {
-                        match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, /* String literals will */
-                            // provide coercion
-                            _ => true, // No string literal to provide coercion
-                        }
+                        !matches!(groups.get(1), Some(GroupType::Literals(_)))
                     } else {
                         false
                     }
@@ -1635,13 +1632,20 @@ impl Pure<'_> {
                     false
                 };
 
-                let b = s
-                    .finalizer
-                    .as_mut()
-                    .map(|s| self.drop_return_value(&mut s.stmts))
-                    .unwrap_or_default();
+                if let Some(s) = &mut s.finalizer {
+                    // A finalizer return overrides the pending completion, so only its value can
+                    // be removed when the IIFE result is ignored.
+                    for stmt in &mut s.stmts {
+                        self.ignore_return_value_of_return_stmt(
+                            stmt,
+                            DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                                .union(DropOpts::DROP_NUMBER)
+                                .union(DropOpts::DROP_STR_LIT),
+                        );
+                    }
+                }
 
-                a || b
+                a
             }
 
             _ => false,
@@ -2325,13 +2329,16 @@ impl Pure<'_> {
                 // consume an iterable and is still pure.
                 Expr::New(NewExpr {
                     span, callee, args, ..
-                }) if (matches!(args.as_deref(), None | Some([]))
-                    || args.as_deref().is_some_and(|args| {
-                        args.first().is_some_and(|arg| {
-                            arg.spread.is_none() && eval_to_nullish(self.expr_ctx, &arg.expr)
+                }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"])
+                    && args
+                        .as_deref()
+                        .and_then(|arg| arg.first())
+                        .map(|arg| {
+                            arg.spread.is_none()
+                                && (eval_to_nullish(self.expr_ctx, &arg.expr)
+                                    || is_valid_map_set_init(&arg.expr, self.expr_ctx, callee))
                         })
-                    }))
-                    && callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"]) =>
+                        .unwrap_or(true) =>
                 {
                     report_change!("Dropping a pure new expression");
 
@@ -2760,5 +2767,68 @@ fn is_block_scoped_stmt(s: &Stmt) -> bool {
         }
         Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
         _ => false,
+    }
+}
+
+fn is_valid_map_set_init(expr: &Expr, ctx: ExprCtx, callee: &Expr) -> bool {
+    let is_map = callee.is_global_ref_to(ctx, "Map");
+
+    fn is_array_like(expr: &Expr, ctx: ExprCtx) -> bool {
+        match expr {
+            Expr::Array(..) => true,
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                ..
+            })
+            | Expr::New(NewExpr { callee: e, .. })
+                if e.is_one_of_global_ref_to(
+                    ctx,
+                    &[
+                        "Array",
+                        "Int16Array",
+                        "Int32Array",
+                        "Int8Array",
+                        "Float32Array",
+                        "Float64Array",
+                        "Uint16Array",
+                        "Uint32Array",
+                        "Uint8Array",
+                    ],
+                ) =>
+            {
+                true
+            }
+            _ => false,
+        }
+    }
+
+    if is_map {
+        match expr {
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().all(|e| {
+                e.as_ref()
+                    .map(|e| e.spread.is_none() && is_array_like(&e.expr, ctx))
+                    .unwrap_or(false)
+            }),
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                args,
+                ..
+            })
+            | Expr::New(NewExpr {
+                callee: e,
+                args: Some(args),
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => args
+                .iter()
+                .all(|a| a.spread.is_none() && is_array_like(&a.expr, ctx)),
+            Expr::New(NewExpr {
+                callee: e,
+                args: None,
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => true,
+            _ => false,
+        }
+    } else {
+        is_array_like(expr, ctx)
     }
 }

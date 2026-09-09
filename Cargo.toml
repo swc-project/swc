@@ -5,6 +5,7 @@ members = [
   "crates/*",
   "tools/generate-code",
   "tools/swc-releaser",
+  "tools/swc-native-addon-pack",
 ]
 resolver = "2"
 

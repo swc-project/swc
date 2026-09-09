@@ -11,7 +11,7 @@ function set_valueOne(v) {}
 function set_valueCompound(v) {}
 new class {
     m() {
-        var _ref2;
+        var _ref, _ref2;
         let foo = {
             bar: 1
         };
@@ -23,13 +23,13 @@ new class {
             o: {
                 foo
             }
-        }), _class_private_field_destructure(this, _value).value = _extends({}, {
+        }), _ref = {
             foo
-        }), ({ foo: _write_only_error("#value").foo } = {
+        }, ({} = _ref), _class_private_field_destructure(this, _value).value = _extends({}, _ref), ({ foo: _write_only_error("#value").foo } = {
             foo
         }), ({ foo: _ref2 } = {
             foo
-        }), _write_only_error("#value").foo = _extends({}, _ref2), _write_only_error("#value"), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
+        }), ({} = _ref2), _write_only_error("#value").foo = _extends({}, _ref2), _write_only_error("#value"), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
             1,
             2,
             3

@@ -51,7 +51,7 @@ impl VisitMut for GlobalDefs {
             return;
         }
 
-        let has_local_root = match root_ident(n) {
+        let has_local_root = match n.leftmost() {
             Some(i) => i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt,
             None => false,
         };
@@ -109,21 +109,6 @@ impl GlobalDefs {
             },
             Expr::Ident(..) => {}
             _ => unreachable!("root_ident only accepts identifiers and member chains"),
-        }
-    }
-}
-
-/// Returns the binding at the root of an ordinary or optional member chain.
-///
-/// Global-definition matching ignores syntax contexts, so callers must validate
-/// this binding before matching a configured definition.
-fn root_ident(mut expr: &Expr) -> Option<&Ident> {
-    loop {
-        match expr {
-            Expr::Ident(ident) => return Some(ident),
-            Expr::Member(MemberExpr { obj, .. }) => expr = obj,
-            Expr::OptChain(OptChainExpr { base, .. }) => expr = &base.as_member()?.obj,
-            _ => return None,
         }
     }
 }

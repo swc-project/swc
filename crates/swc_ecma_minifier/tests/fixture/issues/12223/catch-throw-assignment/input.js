@@ -3,7 +3,7 @@ function f() {
     try {
         throw 0;
     } catch (e) {
-        throw a = 2;
+        throw (a = 2);
     } finally {
         console.log(a);
     }

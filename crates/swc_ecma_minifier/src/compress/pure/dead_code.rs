@@ -11,6 +11,62 @@ use crate::{
     util::{make_bool, ModuleItemExt},
 };
 
+/// Returns true if completing `expr` always produces a value accepted by
+/// RequireObjectCoercible.
+///
+/// This deliberately recognizes only expression forms whose result is known
+/// from syntax. Calls and identifier references are excluded because their
+/// values can be nullish even when evaluating them has no observable effects.
+fn is_definitely_non_nullish(expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(ParenExpr { expr, .. }) => is_definitely_non_nullish(expr),
+
+        Expr::Lit(Lit::Null(..))
+        | Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) => false,
+
+        Expr::Lit(..)
+        | Expr::Array(..)
+        | Expr::Arrow(..)
+        | Expr::Class(..)
+        | Expr::Fn(..)
+        | Expr::New(..)
+        | Expr::Object(..)
+        | Expr::Tpl(..)
+        | Expr::Unary(..)
+        | Expr::Update(..) => true,
+
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => is_definitely_non_nullish(right),
+
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => is_definitely_non_nullish(left) && is_definitely_non_nullish(right),
+
+        // All other binary operators produce a primitive value if their
+        // operands complete evaluation. Replacing the outer assignment retains
+        // that operand evaluation and any exception it may produce.
+        Expr::Bin(..) => true,
+
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            is_definitely_non_nullish(cons) && is_definitely_non_nullish(alt)
+        }
+
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|expr| is_definitely_non_nullish(expr)),
+
+        _ => false,
+    }
+}
+
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
     pub(super) fn simplify_assign_expr(&mut self, e: &mut Expr) {
@@ -39,24 +95,9 @@ impl Pure<'_> {
                 right,
                 ..
             }) if match &*left {
-                AssignTargetPat::Array(arr) => {
-                    arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none())
+                AssignTargetPat::Object(obj) => {
+                    obj.props.is_empty() && is_definitely_non_nullish(right)
                 }
-                _ => false,
-            } =>
-            {
-                report_change!("Dropping assignment to an empty array pattern");
-                self.changed = true;
-                *e = *right.take();
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Pat(left),
-                right,
-                ..
-            }) if match &*left {
-                AssignTargetPat::Object(obj) => obj.props.is_empty(),
                 _ => false,
             } =>
             {
@@ -392,26 +433,23 @@ impl Pure<'_> {
                         _ => unreachable!(),
                     };
 
-                    // A return in either the try block or the catch handler is evaluated before
-                    // the finalizer, unlike the duplicate return following this try statement.
-                    let can_drop = t.finalizer.is_none() && !side_effect;
+                    // A completion in the try block or catch handler is evaluated before a
+                    // finalizer, unlike the duplicate terminal following this try statement.
+                    // A finalizer completion must be preserved because it overrides a pending
+                    // return or throw from the try/catch.
+                    let can_drop_from_try_or_catch = t.finalizer.is_none() && !side_effect;
 
                     // TODO: let chain
                     if let Some(stmt) = t.block.stmts.last_mut() {
-                        if can_drop {
+                        if can_drop_from_try_or_catch {
                             changed |= drop(stmt, last, need_break, ctx)
                         }
                     }
                     if let Some(h) = t.handler.as_mut() {
                         if let Some(stmt) = h.body.stmts.last_mut() {
-                            if can_drop {
+                            if can_drop_from_try_or_catch {
                                 changed |= drop(stmt, last, need_break, ctx);
                             }
-                        }
-                    }
-                    if let Some(f) = t.finalizer.as_mut() {
-                        if let Some(stmt) = f.stmts.last_mut() {
-                            changed |= drop(stmt, last, need_break, ctx);
                         }
                     }
                     changed

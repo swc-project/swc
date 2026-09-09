@@ -12681,3 +12681,18 @@ fn issue_11078_math_negative_results_in_member_position() {
         "#,
     );
 }
+
+#[test]
+fn issue_12213_object_keys_with_modified_globals() {
+    let src = r#"
+        Object.keys = () => ["patched"];
+        console.log(Object.keys({ 1: 0 }));
+    "#;
+    let config = r#"{
+        "defaults": false,
+        "evaluate": true,
+        "pristine_globals": false
+    }"#;
+
+    run_exec_test(src, config, false);
+}
