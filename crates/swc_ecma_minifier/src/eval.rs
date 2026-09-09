@@ -140,7 +140,7 @@ impl Evaluator {
                     }) if tag_obj.is_global_ref_to(self.expr_ctx, "String")
                         && prop.sym == *"raw" =>
                     {
-                        return self.eval_tpl(&t.tpl);
+                        return self.eval_tpl_raw(&t.tpl);
                     }
 
                     _ => {}
@@ -265,6 +265,24 @@ impl Evaluator {
     }
 
     pub fn eval_tpl(&mut self, q: &Tpl) -> Option<EvalResult> {
+        self.eval_tpl_with_quasis(q, q.quasis.clone())
+    }
+
+    fn eval_tpl_raw(&mut self, q: &Tpl) -> Option<EvalResult> {
+        let quasis = q
+            .quasis
+            .iter()
+            .cloned()
+            .map(|mut quasi| {
+                quasi.cooked = Some(quasi.raw.clone().into());
+                quasi
+            })
+            .collect();
+
+        self.eval_tpl_with_quasis(q, quasis)
+    }
+
+    fn eval_tpl_with_quasis(&mut self, q: &Tpl, quasis: Vec<TplElement>) -> Option<EvalResult> {
         self.run();
 
         let mut exprs = Vec::new();
@@ -280,7 +298,7 @@ impl Evaluator {
         let mut e: Box<Expr> = Tpl {
             span: q.span,
             exprs,
-            quasis: q.quasis.clone(),
+            quasis,
         }
         .into();
 
