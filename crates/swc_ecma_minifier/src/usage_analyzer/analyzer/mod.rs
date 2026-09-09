@@ -1173,6 +1173,12 @@ where
         ) -> bool {
             match &*member_expr.obj {
                 Expr::Member(member_expr) => is_root_of_member_expr_undeclared(member_expr, data),
+                Expr::OptChain(opt_chain) => match &*opt_chain.base {
+                    OptChainBase::Member(member_expr) => {
+                        is_root_of_member_expr_undeclared(member_expr, data)
+                    }
+                    _ => false,
+                },
                 Expr::Ident(ident) => data
                     .get_var_data(ident.to_id())
                     .map_or(true, |var| !var.is_declared()),

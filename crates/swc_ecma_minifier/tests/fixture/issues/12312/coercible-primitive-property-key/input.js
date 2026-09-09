@@ -18,5 +18,6 @@ console.log(
     object[null],
     object[void 0],
     object[+(void 0)],
+    object[+((void 0))],
     object.longprop
 );

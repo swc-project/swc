@@ -43,6 +43,7 @@ struct ManglePropertiesState<'a> {
 
     names_to_mangle: FxHashSet<Wtf8Atom>,
     unmangleable: FxHashSet<Wtf8Atom>,
+    unavailable_generated_names: FxHashSet<Wtf8Atom>,
 
     // Cache of already mangled names
     cache: FxHashMap<Wtf8Atom, Atom>,
@@ -113,11 +114,11 @@ impl<'a> ManglePropertiesState<'a> {
                 // a name like "e" while the program already defines a property
                 // "e" on some object/class, producing observable shadowing
                 // (see #11027).
-                let mangled_name = loop {
+                let mangled_name: Atom = loop {
                     let candidate = self.chars.encode(&mut self.n, true);
-                    if !self
-                        .unmangleable
-                        .contains(&Wtf8Atom::from(candidate.clone()))
+                    let wtf8_candidate = Wtf8Atom::from(candidate.clone());
+                    if !self.unmangleable.contains(&wtf8_candidate)
+                        && !self.unavailable_generated_names.contains(&wtf8_candidate)
                     {
                         break candidate;
                     }
@@ -137,18 +138,26 @@ pub(crate) fn mangle_properties(
     options: &ManglePropertiesOptions,
     chars: Base54Chars,
     quoted_property_names: Option<FxHashSet<Wtf8Atom>>,
+    strict_quoted_property_names: Option<FxHashSet<Wtf8Atom>>,
 ) {
     let mut state = ManglePropertiesState {
         options,
         chars,
         names_to_mangle: Default::default(),
         unmangleable: Default::default(),
+        unavailable_generated_names: Default::default(),
         cache: Default::default(),
         n: 0,
     };
 
     if let Some(quoted_property_names) = quoted_property_names {
         state.unmangleable.extend(quoted_property_names);
+    }
+
+    if let Some(strict_quoted_property_names) = strict_quoted_property_names {
+        state
+            .unavailable_generated_names
+            .extend(strict_quoted_property_names);
     }
 
     let mut primitive_property_names = PrimitivePropertyNameCollector::default();

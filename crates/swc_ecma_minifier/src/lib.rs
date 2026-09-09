@@ -106,18 +106,6 @@ pub fn optimize(
 
     debug_assert_valid(&n);
 
-    let quoted_property_names = options
-        .mangle
-        .as_ref()
-        .and_then(|mangle| mangle.props.as_ref())
-        .filter(|props| {
-            props
-                .keep_quoted
-                .as_ref()
-                .is_some_and(|option| option.is_enabled() && !option.is_strict())
-        })
-        .map(|_| collect_quoted_property_names(&n));
-
     let preserve_quoted_props = options
         .mangle
         .as_ref()
@@ -141,6 +129,22 @@ pub fn optimize(
             ));
         }
     }
+
+    let (quoted_property_names, strict_quoted_property_names) = options
+        .mangle
+        .as_ref()
+        .and_then(|mangle| mangle.props.as_ref())
+        .and_then(|props| props.keep_quoted.as_ref())
+        .filter(|option| option.is_enabled())
+        .map(|option| {
+            let names = collect_quoted_property_names(&n);
+            if option.is_strict() {
+                (None, Some(names))
+            } else {
+                (Some(names), None)
+            }
+        })
+        .unwrap_or_default();
 
     if options.compress.is_some() {
         n.visit_mut_with(&mut info_marker(
@@ -240,6 +244,7 @@ pub fn optimize(
                 property_mangle_options,
                 chars,
                 quoted_property_names,
+                strict_quoted_property_names,
             );
         }
     }

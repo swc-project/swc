@@ -101,7 +101,7 @@ pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMu
                 UnaryOp::Void => visit("undefined"),
                 // Unary plus converts `undefined` to `NaN`; preserving the
                 // operand spelling here would reserve the wrong property key.
-                UnaryOp::Plus if matches!(&*unary.arg, Expr::Unary(arg) if arg.op == UnaryOp::Void) =>
+                UnaryOp::Plus if matches!(unparenthesized_expr(&unary.arg), Expr::Unary(arg) if arg.op == UnaryOp::Void) =>
                 {
                     visit("NaN");
                 }
@@ -149,18 +149,36 @@ pub(crate) fn is_non_numeric_property_name(value: &Wtf8Atom) -> bool {
     !is_numeric_property_name(value)
 }
 
-/// Returns whether a string is the canonical property key for a finite
-/// ECMAScript numeric literal.
+fn unparenthesized_expr(mut expr: &Expr) -> &Expr {
+    while let Expr::Paren(paren) = expr {
+        expr = &paren.expr;
+    }
+    expr
+}
+
+/// Returns whether a string is the canonical property key for an ECMAScript
+/// numeric or BigInt literal.
 ///
 /// Comparing the parsed number's ECMAScript spelling avoids treating Rust-only
 /// spellings such as `infinity` and `nan` as numeric keys, and keeps distinct
-/// property names like `"01"` and `"1.0"` eligible for mangling.
+/// property names like `"01"` and `"1.0"` eligible for mangling. Canonical
+/// decimal BigInt spellings are checked separately because values beyond `f64`
+/// precision still address their decimal string property keys.
 fn is_numeric_property_name(value: &Wtf8Atom) -> bool {
     value.as_str().is_some_and(|value| {
         value
             .parse::<f64>()
             .is_ok_and(|number| number.is_finite() && number.to_js_string() == value)
+            || is_canonical_bigint_property_name(value)
     })
+}
+
+fn is_canonical_bigint_property_name(value: &str) -> bool {
+    let digits = value.strip_prefix('-').unwrap_or(value);
+
+    digits == "0"
+        || matches!(digits.as_bytes().first(), Some(b'1'..=b'9'))
+            && digits.as_bytes()[1..].iter().all(u8::is_ascii_digit)
 }
 
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
