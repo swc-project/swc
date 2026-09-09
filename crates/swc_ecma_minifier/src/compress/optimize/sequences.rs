@@ -1351,7 +1351,7 @@ impl Optimizer<'_> {
 
             Expr::Update(..) => false,
             Expr::SuperProp(..) => false,
-            Expr::Class(_) => e.may_have_side_effects(self.ctx.expr_ctx),
+            Expr::Class(_) => !e.may_have_side_effects(self.ctx.expr_ctx),
 
             Expr::Paren(e) => self.is_skippable_for_seq(a, &e.expr),
             Expr::Unary(e) => self.is_skippable_for_seq(a, &e.arg),

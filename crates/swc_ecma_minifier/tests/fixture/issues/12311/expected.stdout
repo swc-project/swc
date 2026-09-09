@@ -1,0 +1,7 @@
+foo static field
+bar static field
+foo computed key
+bar computed key
+foo static block
+bar static block
+foo instance method
