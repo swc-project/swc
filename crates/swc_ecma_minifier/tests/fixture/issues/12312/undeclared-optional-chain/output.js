@@ -1,1 +1,1 @@
-external?.foo["longprop"];
+external?.foo["o"];

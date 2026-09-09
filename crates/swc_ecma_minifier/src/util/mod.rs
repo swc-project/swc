@@ -47,8 +47,9 @@ fn static_property_value(expr: &Expr) -> Option<&Wtf8Atom> {
 /// Visits every nonnumeric string that can be selected as a static property
 /// name by an expression.
 ///
-/// Conditional expressions can select either branch, while only the final
-/// expression in a sequence is its value. Parentheses do not affect the value.
+/// Conditional and logical expressions can select a branch, while only the
+/// final expression in a sequence is its value. Parentheses do not affect the
+/// value.
 pub(crate) fn for_each_static_property_name(expr: &Expr, mut visit: impl FnMut(&Wtf8Atom)) {
     fn visit_static_property_name(expr: &Expr, visit: &mut impl FnMut(&Wtf8Atom)) {
         match expr {
@@ -62,6 +63,25 @@ pub(crate) fn for_each_static_property_name(expr: &Expr, mut visit: impl FnMut(&
                     visit_static_property_name(last, visit);
                 }
             }
+            Expr::Bin(bin)
+                if matches!(
+                    bin.op,
+                    BinaryOp::LogicalAnd | BinaryOp::LogicalOr | BinaryOp::NullishCoalescing
+                ) =>
+            {
+                match logical_property_name_alternatives(bin) {
+                    LogicalPropertyNameAlternatives::Left => {
+                        visit_static_property_name(&bin.left, visit);
+                    }
+                    LogicalPropertyNameAlternatives::Right => {
+                        visit_static_property_name(&bin.right, visit);
+                    }
+                    LogicalPropertyNameAlternatives::Both => {
+                        visit_static_property_name(&bin.left, visit);
+                        visit_static_property_name(&bin.right, visit);
+                    }
+                }
+            }
             _ => {
                 if let Some(name) = static_property_name(expr) {
                     visit(name);
@@ -71,6 +91,76 @@ pub(crate) fn for_each_static_property_name(expr: &Expr, mut visit: impl FnMut(&
     }
 
     visit_static_property_name(expr, &mut visit);
+}
+
+/// Visits the expressions that a logical operation can return as its value.
+///
+/// A known left-hand result selects exactly one branch. Otherwise both branches
+/// can become the computed key, so each must be considered. This avoids
+/// rewriting an unreachable string literal such as the empty left operand of
+/// `"" || "property"`, which would change that expression's truthiness.
+pub(crate) enum LogicalPropertyNameAlternatives {
+    Left,
+    Right,
+    Both,
+}
+
+pub(crate) fn logical_property_name_alternatives(bin: &BinExpr) -> LogicalPropertyNameAlternatives {
+    match bin.op {
+        BinaryOp::LogicalAnd => match static_truthiness(&bin.left) {
+            Some(true) => LogicalPropertyNameAlternatives::Right,
+            Some(false) => LogicalPropertyNameAlternatives::Left,
+            None => LogicalPropertyNameAlternatives::Both,
+        },
+        BinaryOp::LogicalOr => match static_truthiness(&bin.left) {
+            Some(true) => LogicalPropertyNameAlternatives::Left,
+            Some(false) => LogicalPropertyNameAlternatives::Right,
+            None => LogicalPropertyNameAlternatives::Both,
+        },
+        BinaryOp::NullishCoalescing => match static_nullishness(&bin.left) {
+            Some(true) => LogicalPropertyNameAlternatives::Right,
+            Some(false) => LogicalPropertyNameAlternatives::Left,
+            None => LogicalPropertyNameAlternatives::Both,
+        },
+        _ => unreachable!("logical property-name alternatives require a logical operator"),
+    }
+}
+
+fn static_truthiness(expr: &Expr) -> Option<bool> {
+    match expr {
+        Expr::Paren(paren) => static_truthiness(&paren.expr),
+        Expr::Lit(Lit::Bool(boolean)) => Some(boolean.value),
+        Expr::Lit(Lit::Null(..)) => Some(false),
+        Expr::Lit(Lit::Num(number)) => Some(!is_falsy_number(number.value)),
+        Expr::Lit(Lit::Str(string)) => Some(!string.value.is_empty()),
+        Expr::Tpl(template) if template.exprs.is_empty() && template.quasis.len() == 1 => template
+            .quasis[0]
+            .cooked
+            .as_ref()
+            .map(|value| !value.is_empty()),
+        Expr::Unary(unary) if unary.op == UnaryOp::Void => Some(false),
+        Expr::Unary(unary) if unary.op == UnaryOp::TypeOf => Some(true),
+        _ => None,
+    }
+}
+
+fn static_nullishness(expr: &Expr) -> Option<bool> {
+    match expr {
+        Expr::Paren(paren) => static_nullishness(&paren.expr),
+        Expr::Lit(Lit::Null(..))
+        | Expr::Unary(UnaryExpr {
+            op: UnaryOp::Void, ..
+        }) => Some(true),
+        Expr::Lit(..)
+        | Expr::Array(..)
+        | Expr::Arrow(..)
+        | Expr::Class(..)
+        | Expr::Fn(..)
+        | Expr::Object(..)
+        | Expr::Tpl(..)
+        | Expr::Unary(..) => Some(false),
+        _ => None,
+    }
 }
 
 /// Visits primitive property keys whose string spellings must remain stable.
@@ -91,6 +181,25 @@ pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMu
                     visit_primitive_property_name(last, visit);
                 }
             }
+            Expr::Bin(bin)
+                if matches!(
+                    bin.op,
+                    BinaryOp::LogicalAnd | BinaryOp::LogicalOr | BinaryOp::NullishCoalescing
+                ) =>
+            {
+                match logical_property_name_alternatives(bin) {
+                    LogicalPropertyNameAlternatives::Left => {
+                        visit_primitive_property_name(&bin.left, visit);
+                    }
+                    LogicalPropertyNameAlternatives::Right => {
+                        visit_primitive_property_name(&bin.right, visit);
+                    }
+                    LogicalPropertyNameAlternatives::Both => {
+                        visit_primitive_property_name(&bin.left, visit);
+                        visit_primitive_property_name(&bin.right, visit);
+                    }
+                }
+            }
             Expr::Lit(Lit::Bool(boolean)) => visit(if boolean.value { "true" } else { "false" }),
             Expr::Lit(Lit::Null(..)) => visit("null"),
             Expr::Ident(ident) => match &*ident.sym {
@@ -99,6 +208,11 @@ pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMu
             },
             Expr::Unary(unary) => match unary.op {
                 UnaryOp::Void => visit("undefined"),
+                UnaryOp::TypeOf => {
+                    if let Some(name) = static_typeof_property_name(&unary.arg) {
+                        visit(name);
+                    }
+                }
                 // Unary plus converts `undefined` to `NaN`; preserving the
                 // operand spelling here would reserve the wrong property key.
                 UnaryOp::Plus if matches!(unparenthesized_expr(&unary.arg), Expr::Unary(arg) if arg.op == UnaryOp::Void) =>
@@ -118,6 +232,32 @@ pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMu
     }
 
     visit_primitive_property_name(expr, &mut visit);
+}
+
+/// Returns the property key produced by `typeof` when the operand's type is
+/// determined entirely by syntax. Dynamic identifiers and expressions remain
+/// unknown so their property keys are not spuriously reserved.
+fn static_typeof_property_name(expr: &Expr) -> Option<&'static str> {
+    match expr {
+        Expr::Paren(paren) => static_typeof_property_name(&paren.expr),
+        Expr::Lit(Lit::Str(..)) | Expr::Tpl(..) => Some("string"),
+        Expr::Lit(Lit::Bool(..)) => Some("boolean"),
+        Expr::Lit(Lit::Num(..)) => Some("number"),
+        Expr::Lit(Lit::BigInt(..)) => Some("bigint"),
+        Expr::Lit(Lit::Null(..))
+        | Expr::Lit(Lit::Regex(..))
+        | Expr::Array(..)
+        | Expr::Object(..) => Some("object"),
+        Expr::Arrow(..) | Expr::Class(..) | Expr::Fn(..) => Some("function"),
+        Expr::Unary(unary) => match unary.op {
+            UnaryOp::Void => Some("undefined"),
+            UnaryOp::Bang => Some("boolean"),
+            UnaryOp::Minus | UnaryOp::Plus | UnaryOp::Tilde => Some("number"),
+            UnaryOp::TypeOf => Some("string"),
+            UnaryOp::Delete => None,
+        },
+        _ => None,
+    }
 }
 
 /// Returns whether all possible values of an expression are either static

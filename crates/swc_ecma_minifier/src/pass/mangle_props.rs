@@ -17,7 +17,8 @@ use crate::{
     },
     util::{
         base54::Base54Chars, for_each_primitive_property_name, for_each_static_property_name,
-        is_non_numeric_property_name, static_property_name,
+        is_non_numeric_property_name, logical_property_name_alternatives, static_property_name,
+        LogicalPropertyNameAlternatives,
     },
 };
 
@@ -250,6 +251,10 @@ impl UndeclaredPropertyCollector<'_> {
     fn is_root_undeclared(&self, expr: &Expr) -> bool {
         match expr {
             Expr::Member(member) => self.is_root_undeclared(&member.obj),
+            Expr::OptChain(opt_chain) => match &*opt_chain.base {
+                OptChainBase::Member(member) => self.is_root_undeclared(&member.obj),
+                OptChainBase::Call(..) => false,
+            },
             Expr::Ident(ident) => self
                 .data
                 .get_var_data(ident.to_id())
@@ -366,6 +371,26 @@ impl Mangler<'_, '_> {
             Expr::Seq(seq) => {
                 if let Some(last) = seq.exprs.last_mut() {
                     self.mangle_property_name_expr(last);
+                }
+                return;
+            }
+            Expr::Bin(bin)
+                if matches!(
+                    bin.op,
+                    BinaryOp::LogicalAnd | BinaryOp::LogicalOr | BinaryOp::NullishCoalescing
+                ) =>
+            {
+                match logical_property_name_alternatives(bin) {
+                    LogicalPropertyNameAlternatives::Left => {
+                        self.mangle_property_name_expr(&mut bin.left);
+                    }
+                    LogicalPropertyNameAlternatives::Right => {
+                        self.mangle_property_name_expr(&mut bin.right);
+                    }
+                    LogicalPropertyNameAlternatives::Both => {
+                        self.mangle_property_name_expr(&mut bin.left);
+                        self.mangle_property_name_expr(&mut bin.right);
+                    }
                 }
                 return;
             }

@@ -1,5 +1,6 @@
 {
     "props": {
+        "undeclared": true,
         "regex": "^longprop$"
     }
 }
