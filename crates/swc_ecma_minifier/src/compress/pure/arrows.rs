@@ -73,6 +73,8 @@ impl Pure<'_> {
             if m.function.is_generator
                 || contains_arguments(&m.function.body)
                 || contains_super(&m.function.body)
+                // Direct eval can observe the method's `this` and `arguments` bindings.
+                || contains_eval(&m.function.body, false)
                 || m.function.params.iter().any(|param| {
                     contains_this_expr(param)
                         || contains_arguments(param)
