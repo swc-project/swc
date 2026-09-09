@@ -1172,11 +1172,16 @@ where
             match expr {
                 Expr::Member(member_expr) => is_root_of_expr_undeclared(&member_expr.obj, data),
                 Expr::Paren(paren) => is_root_of_expr_undeclared(&paren.expr, data),
+                Expr::Call(call) => match &call.callee {
+                    Callee::Expr(callee) => is_root_of_expr_undeclared(callee, data),
+                    Callee::Super(..) | Callee::Import(..) => false,
+                },
+                Expr::New(new_expr) => is_root_of_expr_undeclared(&new_expr.callee, data),
                 Expr::OptChain(opt_chain) => match &*opt_chain.base {
                     OptChainBase::Member(member_expr) => {
                         is_root_of_expr_undeclared(&member_expr.obj, data)
                     }
-                    _ => false,
+                    OptChainBase::Call(call) => is_root_of_expr_undeclared(&call.callee, data),
                 },
                 Expr::Ident(ident) => data
                     .get_var_data(ident.to_id())

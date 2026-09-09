@@ -268,6 +268,10 @@ pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMu
                 UnaryOp::TypeOf => {
                     if let Some(name) = static_typeof_property_name(&unary.arg) {
                         visit(name);
+                    } else {
+                        for name in TYPEOF_PROPERTY_NAMES {
+                            visit(name);
+                        }
                     }
                 }
                 UnaryOp::Bang => match static_truthiness(&unary.arg) {
@@ -299,9 +303,20 @@ pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMu
     visit_primitive_property_name(expr, &mut visit);
 }
 
+const TYPEOF_PROPERTY_NAMES: [&str; 8] = [
+    "undefined",
+    "object",
+    "boolean",
+    "number",
+    "bigint",
+    "string",
+    "symbol",
+    "function",
+];
+
 /// Returns the property key produced by `typeof` when the operand's type is
-/// determined entirely by syntax. Dynamic identifiers and expressions remain
-/// unknown so their property keys are not spuriously reserved.
+/// determined entirely by syntax. Unknown operands are handled by reserving
+/// every possible `typeof` result.
 fn static_typeof_property_name(expr: &Expr) -> Option<&'static str> {
     match expr {
         Expr::Paren(paren) => static_typeof_property_name(&paren.expr),
