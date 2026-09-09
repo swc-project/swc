@@ -28,3 +28,21 @@ const domExceptionToString = DOMException.toString;
     DOMException.toString = 0
 ].join("");
 DOMException.toString = domExceptionToString;
+const alertToString = alert.toString;
+[
+    alert,
+    alert.toString = 0
+].join("");
+alert.toString = alertToString;
+const promptToString = prompt.toString;
+[
+    prompt,
+    prompt.toString = 0
+].join("");
+prompt.toString = promptToString;
+const confirmToString = confirm.toString;
+[
+    confirm,
+    confirm.toString = 0
+].join("");
+confirm.toString = confirmToString;
