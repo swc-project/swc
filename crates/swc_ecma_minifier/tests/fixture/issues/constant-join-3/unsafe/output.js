@@ -980,6 +980,36 @@ function console_coercion_order() {
     }
     console.toString = toString;
 }
+function disposable_stack_coercion_order() {
+    const disposableStackToString = DisposableStack.toString;
+    try {
+        [
+            DisposableStack,
+            DisposableStack.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    DisposableStack.toString = disposableStackToString;
+    const asyncDisposableStackToString = AsyncDisposableStack.toString;
+    try {
+        [
+            AsyncDisposableStack,
+            AsyncDisposableStack.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    AsyncDisposableStack.toString = asyncDisposableStackToString;
+}
+function prompt_nullish() {
+    globalThis.prompt = ()=>null;
+    const result = [
+        prompt()
+    ].join("");
+    delete globalThis.prompt;
+    return result;
+}
 function queue_microtask_nullish() {
     return [
         queueMicrotask(()=>{})
@@ -1225,6 +1255,8 @@ console.log(object_call_coercion({
 }));
 webassembly_coercion_order();
 console_coercion_order();
+disposable_stack_coercion_order();
+console.log("prompt:" + prompt_nullish());
 console.log("queue:" + queue_microtask_nullish());
 console.log("timers:" + timer_cancellation_nullish());
 timer_handle_coercion_order();
