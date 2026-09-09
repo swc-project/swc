@@ -221,8 +221,6 @@ function optional_member_property_symbol_order() {
 
 optional_member_property_symbol_order();
 
-function suppressed_error_coercion_order() {
-    if (typeof SuppressedError != "function") return;
 function aggregate_error_coercion_order() {
     let value;
     try {
