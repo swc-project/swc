@@ -217,6 +217,22 @@ function global_alias_coercion_order() {
 
 global_alias_coercion_order();
 
+function document_coercion() {
+    if (typeof document === "undefined") {
+        return;
+    }
+
+    const documentToString = document.toString;
+    const documentValueOf = document.valueOf;
+    document.toString = () => "string-hint";
+    document.valueOf = () => 7;
+    console.log([document].join(""));
+    document.toString = documentToString;
+    document.valueOf = documentValueOf;
+}
+
+document_coercion();
+
 function process_coercion() {
     const processToString = process.toString;
     const processValueOf = process.valueOf;
