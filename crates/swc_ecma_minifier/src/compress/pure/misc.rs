@@ -1632,13 +1632,20 @@ impl Pure<'_> {
                     false
                 };
 
-                let b = s
-                    .finalizer
-                    .as_mut()
-                    .map(|s| self.drop_return_value(&mut s.stmts))
-                    .unwrap_or_default();
+                if let Some(s) = &mut s.finalizer {
+                    // A finalizer return overrides the pending completion, so only its value can
+                    // be removed when the IIFE result is ignored.
+                    for stmt in &mut s.stmts {
+                        self.ignore_return_value_of_return_stmt(
+                            stmt,
+                            DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                                .union(DropOpts::DROP_NUMBER)
+                                .union(DropOpts::DROP_STR_LIT),
+                        );
+                    }
+                }
 
-                a || b
+                a
             }
 
             _ => false,
