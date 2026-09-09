@@ -76,7 +76,7 @@ impl Hoister<'_> {
             PartialOrd::partial_cmp,
         ) || (self.config.hoist_vars
             && if len >= *crate::LIGHT_TASK_PARALLELS {
-                stmts.par_chunks(2).any(|stmts| {
+                stmts.par_windows(2).any(|stmts| {
                     is_hoisted_var_decl_without_init(&stmts[0])
                         && is_hoisted_var_decl_without_init(&stmts[1])
                 })
