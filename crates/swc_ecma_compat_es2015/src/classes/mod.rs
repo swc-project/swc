@@ -23,6 +23,7 @@ use self::{
 };
 
 mod constructor;
+mod name;
 mod prop_name;
 
 pub fn classes(config: Config) -> impl Pass {
@@ -224,7 +225,7 @@ impl VisitMut for Classes {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Class(e) => {
-                let mut class = self.fold_class(e.ident.take(), e.class.take());
+                let mut class = self.fold_class(e.ident.take(), e.class.take(), None);
                 if let Expr::Call(call) = &mut class {
                     self.add_pure_comments(&mut call.span.lo)
                 }
@@ -319,7 +320,16 @@ impl VisitMut for Classes {
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
                 if let AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) = left {
-                    c.ident = Some(Ident::from(&*ident).into_private())
+                    let binding = Ident::from(&*ident);
+                    let mut class = self.fold_class(
+                        Some(binding.clone().into_private()),
+                        c.class.take(),
+                        Some(binding),
+                    );
+                    if let Expr::Call(call) = &mut class {
+                        self.add_pure_comments(&mut call.span.lo);
+                    }
+                    **right = class;
                 }
             }
         }
@@ -335,7 +345,7 @@ impl Classes {
 
     fn fold_class_as_var_decl(&mut self, ident: Ident, class: Box<Class>) -> VarDecl {
         let span = class.span;
-        let mut rhs = self.fold_class(Some(ident.clone()), class);
+        let mut rhs = self.fold_class(Some(ident.clone()), class, None);
 
         let mut new_name = ident.clone();
         new_name.ctxt = new_name.ctxt.apply_mark(Mark::new());
@@ -379,7 +389,12 @@ impl Classes {
     ///   };
     /// }()
     /// ```
-    fn fold_class(&mut self, class_name: Option<Ident>, class: Box<Class>) -> Expr {
+    fn fold_class(
+        &mut self,
+        class_name: Option<Ident>,
+        class: Box<Class>,
+        inferred_binding: Option<Ident>,
+    ) -> Expr {
         let span = class.span;
 
         // Ident of the super class *inside* function.
@@ -469,6 +484,12 @@ impl Classes {
                     .into();
                 }
                 _ => unreachable!(),
+            }
+        }
+
+        if !has_super {
+            if let Some(binding) = inferred_binding {
+                name::preserve_assignment_name(&mut stmts, &binding);
             }
         }
 
