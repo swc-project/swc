@@ -4233,7 +4233,7 @@
         !storedLogs[str] && hasConsole && (storedLogs[str] = !0, console.warn(ECHARTS_PREFIX + 'DEPRECATED: ' + str));
     }
     function deprecateReplaceLog(oldOpt, newOpt, scope) {
-        deprecateLog((scope ? "[" + scope + "]" : '') + (oldOpt + " is deprecated, use ") + newOpt + " instead.");
+        deprecateLog((scope ? "[" + scope + "]" : '') + oldOpt + " is deprecated, use " + newOpt + " instead.");
     }
     /**
      * If in __DEV__ environment, get console printable message for users hint.

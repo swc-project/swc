@@ -94,7 +94,11 @@ impl Optimizer<'_> {
                         && !may_have_observable_addition_coercion(self.ctx.expr_ctx, &n.left))
                     || (n.left.is_str()
                         && right.right.is_str()
-                        && !may_have_observable_addition_coercion(self.ctx.expr_ctx, &right.left))
+                        && (!right.right.may_have_side_effects(self.ctx.expr_ctx)
+                            || !may_have_observable_addition_coercion(
+                                self.ctx.expr_ctx,
+                                &right.left,
+                            )))
                 {
                     self.changed = true;
                     report_change!("Remove extra paren in binary expression");

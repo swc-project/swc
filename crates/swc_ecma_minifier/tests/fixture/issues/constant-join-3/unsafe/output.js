@@ -71,6 +71,9 @@ function concatenate(a, b, c) {
         "head" + (a + b) + "tail"
     ].join("|");
 }
+function effect_free_trailing_string_reassociation(value) {
+    return "prefix" + value + "suffix";
+}
 function nullish(value) {
     return [
         "||,1,,3",
@@ -1076,6 +1079,16 @@ function timer_and_encoding_coercion_order() {
         console.log(true);
     }
     clearTimeout.toString = clearTimeoutToString;
+    const clearImmediateToString = clearImmediate.toString;
+    try {
+        [
+            clearImmediate,
+            clearImmediate.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    clearImmediate.toString = clearImmediateToString;
     const setImmediateToString = setImmediate.toString;
     try {
         [
