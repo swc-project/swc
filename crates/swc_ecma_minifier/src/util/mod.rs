@@ -7,7 +7,7 @@ use swc_atoms::{wtf8::Wtf8Buf, Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
-use swc_ecma_utils::{number::ToJsString, DropSpan, ModuleItemLike, StmtLike, Value};
+use swc_ecma_utils::{num_from_str, number::ToJsString, DropSpan, ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_mut_pass, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
@@ -278,13 +278,13 @@ pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMu
                         visit("false");
                     }
                 },
-                // Unary plus converts `undefined` to `NaN`; preserving the
-                // operand spelling here would reserve the wrong property key.
-                UnaryOp::Plus if matches!(unparenthesized_expr(&unary.arg), Expr::Unary(arg) if arg.op == UnaryOp::Void) =>
-                {
-                    visit("NaN");
+                UnaryOp::Plus => {
+                    if let Some(name) = static_unary_plus_property_name(&unary.arg) {
+                        visit(name);
+                    } else {
+                        visit_primitive_property_name(&unary.arg, visit);
+                    }
                 }
-                UnaryOp::Plus => visit_primitive_property_name(&unary.arg, visit),
                 UnaryOp::Minus => match &*unary.arg {
                     Expr::Ident(ident) if &*ident.sym == "Infinity" => visit("-Infinity"),
                     Expr::Ident(ident) if &*ident.sym == "NaN" => visit("NaN"),
@@ -317,7 +317,12 @@ fn static_typeof_property_name(expr: &Expr) -> Option<&'static str> {
         Expr::Unary(unary) => match unary.op {
             UnaryOp::Void => Some("undefined"),
             UnaryOp::Bang => Some("boolean"),
-            UnaryOp::Minus | UnaryOp::Plus | UnaryOp::Tilde => Some("number"),
+            UnaryOp::Minus | UnaryOp::Tilde => match static_typeof_property_name(&unary.arg) {
+                Some("bigint") => Some("bigint"),
+                Some("number") => Some("number"),
+                _ => None,
+            },
+            UnaryOp::Plus => Some("number"),
             UnaryOp::TypeOf => Some("string"),
             UnaryOp::Delete => None,
         },
@@ -393,22 +398,67 @@ fn is_canonical_bigint_property_name(value: &str) -> bool {
 /// mangle-only path intentionally does not treat additions as rewritable
 /// property keys.
 pub(crate) fn folded_static_property_name(expr: &Expr) -> Option<Wtf8Atom> {
-    fn value(expr: &Expr) -> Option<Wtf8Atom> {
+    fn append(expr: &Expr, result: &mut Wtf8Buf) -> Option<()> {
         match expr {
-            Expr::Paren(paren) => value(&paren.expr),
+            Expr::Paren(paren) => append(&paren.expr, result),
             Expr::Bin(bin) if bin.op == BinaryOp::Add => {
-                let left = value(&bin.left)?;
-                let right = value(&bin.right)?;
-                let mut result = Wtf8Buf::from(&left);
-                result.push_wtf8(&right);
-                Some(result.into())
+                append(&bin.left, result)?;
+                append(&bin.right, result)
             }
-            _ => static_property_value(expr).cloned(),
+            Expr::Tpl(template) => {
+                let mut quasis = template.quasis.iter();
+                result.push_wtf8(quasis.next()?.cooked.as_ref()?);
+
+                for (expr, quasi) in template.exprs.iter().zip(quasis) {
+                    result.push_wtf8(static_property_value(expr)?);
+                    result.push_wtf8(quasi.cooked.as_ref()?);
+                }
+
+                Some(())
+            }
+            _ => {
+                result.push_wtf8(static_property_value(expr)?);
+                Some(())
+            }
         }
     }
 
-    let value = value(expr)?;
+    let mut value = Wtf8Buf::new();
+    append(expr, &mut value)?;
+    let value: Wtf8Atom = value.into();
     is_non_numeric_property_name(&value).then_some(value)
+}
+
+/// Returns the primitive property key produced by a statically coercible unary
+/// plus expression. BigInt operands are excluded because unary plus throws.
+fn static_unary_plus_property_name(expr: &Expr) -> Option<&'static str> {
+    let value = match unparenthesized_expr(expr) {
+        Expr::Lit(Lit::Bool(boolean)) => {
+            if boolean.value {
+                1.0
+            } else {
+                0.0
+            }
+        }
+        Expr::Lit(Lit::Null(..)) => 0.0,
+        Expr::Lit(Lit::Num(number)) => number.value,
+        Expr::Lit(Lit::Str(string)) => {
+            let value = string.value.as_str()?;
+            match num_from_str(value) {
+                Value::Known(value) => value,
+                Value::Unknown => return None,
+            }
+        }
+        Expr::Unary(unary) if unary.op == UnaryOp::Void => f64::NAN,
+        _ => return None,
+    };
+
+    match value {
+        value if value.is_nan() => Some("NaN"),
+        value if value == f64::INFINITY => Some("Infinity"),
+        value if value == f64::NEG_INFINITY => Some("-Infinity"),
+        _ => None,
+    }
 }
 
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
