@@ -1078,6 +1078,41 @@ function fetch_coercion_order() {
         console.log(true);
     }
 }
+function fetch_function_coercion_order() {
+    const fetchToString = fetch.toString;
+    try {
+        [
+            fetch,
+            fetch.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    fetch.toString = fetchToString;
+}
+function iterator_coercion_order() {
+    if ("u" > typeof Iterator) {
+        const iteratorToString = Iterator.toString;
+        try {
+            [
+                Iterator,
+                Iterator.toString = 0
+            ].join("");
+        } catch  {
+            console.log(true);
+        }
+        Iterator.toString = iteratorToString;
+    }
+}
+function alert_nullish() {
+    const originalAlert = globalThis.alert;
+    globalThis.alert = ()=>void 0;
+    const result = [
+        alert("message")
+    ].join("");
+    globalThis.alert = originalAlert;
+    return result;
+}
 function structured_clone_nullish() {
     return [
         structuredClone(void 0)
@@ -1265,6 +1300,9 @@ console.log("queue:" + queue_microtask_nullish());
 console.log("timers:" + timer_cancellation_nullish());
 timer_handle_coercion_order();
 fetch_coercion_order();
+fetch_function_coercion_order();
+iterator_coercion_order();
+console.log("alert:" + alert_nullish());
 console.log("clone:" + structured_clone_nullish());
 timer_and_encoding_coercion_order();
 console.log(direct_eval_object_coercion());
