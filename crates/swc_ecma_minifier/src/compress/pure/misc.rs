@@ -138,6 +138,12 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             may_explicitly_evaluate_to_nullish(expr_ctx, left)
                 || may_explicitly_evaluate_to_nullish(expr_ctx, right)
         }
+        // A direct eval can produce nullish, which join renders as an empty
+        // string instead of the "null" or "undefined" from concatenation.
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) if callee.is_global_ref_to(expr_ctx, "eval") => true,
         // An optional chain can short-circuit to undefined, which join renders
         // as an empty string instead of the "undefined" from concatenation.
         Expr::OptChain(..) => true,
@@ -292,13 +298,15 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
                 || may_call_evaluate_to_object(expr_ctx, right)
         }
         // Pristine direct-call globals that always produce objects can retain
-        // observable string coercion. Other unresolved globals preserve the
-        // existing unsafe-folding behavior.
+        // observable string coercion. Direct eval can dynamically produce an
+        // object. Other unresolved globals preserve the existing unsafe-folding
+        // behavior.
         Expr::Ident(ident) => {
             ident.ctxt != expr_ctx.unresolved_ctxt
                 || matches!(
                     &*ident.sym,
-                    "Object"
+                    "eval"
+                        | "Object"
                         | "Array"
                         | "RegExp"
                         | "Function"
@@ -405,7 +413,8 @@ fn may_call_evaluate_to_symbol(expr_ctx: ExprCtx, callee: &Expr) -> bool {
                 || may_call_evaluate_to_symbol(expr_ctx, right)
         }
         _ => {
-            callee.is_global_ref_to(expr_ctx, "Symbol")
+            callee.is_global_ref_to(expr_ctx, "eval")
+                || callee.is_global_ref_to(expr_ctx, "Symbol")
                 || matches!(
                     callee,
                     Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt

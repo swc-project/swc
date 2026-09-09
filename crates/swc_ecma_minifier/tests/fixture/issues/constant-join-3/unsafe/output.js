@@ -953,6 +953,38 @@ function object_call_coercion(value) {
         Object(value)
     ].join("");
 }
+function webassembly_coercion_order() {
+    const toString = WebAssembly.toString;
+    try {
+        [
+            WebAssembly,
+            WebAssembly.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    WebAssembly.toString = toString;
+}
+function direct_eval_object_coercion() {
+    return [
+        eval("({toString(){return 's'},valueOf(){return 1}})")
+    ].join("");
+}
+function direct_eval_symbol_order() {
+    let hit = false;
+    try {
+        [
+            eval("Symbol()"),
+            hit = true
+        ].join("");
+    } catch  {}
+    return hit;
+}
+function direct_eval_nullish() {
+    return [
+        eval("null")
+    ].join("");
+}
 function spread(values) {
     return [
         1,
@@ -1025,3 +1057,7 @@ console.log(object_call_coercion({
         return 1;
     }
 }));
+webassembly_coercion_order();
+console.log(direct_eval_object_coercion());
+console.log(direct_eval_symbol_order());
+console.log(direct_eval_nullish());
