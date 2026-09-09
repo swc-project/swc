@@ -874,6 +874,15 @@ function timer_handle_coercion_order() {
     }
 }
 
+function fetch_coercion_order() {
+    let promise;
+    try {
+        [promise = fetch("data:,"), promise.toString = 0].join("");
+    } catch {
+        console.log(true);
+    }
+}
+
 function structured_clone_nullish() {
     return [structuredClone(undefined)].join("");
 }
@@ -1030,6 +1039,7 @@ console_coercion_order();
 console.log("queue:" + queue_microtask_nullish());
 console.log("timers:" + timer_cancellation_nullish());
 timer_handle_coercion_order();
+fetch_coercion_order();
 console.log("clone:" + structured_clone_nullish());
 timer_and_encoding_coercion_order();
 console.log(direct_eval_object_coercion());

@@ -336,6 +336,9 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
                         | "SyntaxError"
                         | "TypeError"
                         | "URIError"
+                        // `fetch` returns a Promise object whose string coercion
+                        // can be observed after later join elements run.
+                        | "fetch"
                         // Node timer creation APIs return handles whose string
                         // coercion can be observed after later join elements run.
                         | "setImmediate"
