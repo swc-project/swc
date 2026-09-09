@@ -260,17 +260,18 @@ function optional_member_property_symbol_order() {
 optional_member_property_symbol_order();
 function suppressed_error_coercion_order() {
     if ("function" != typeof SuppressedError) return;
+function aggregate_error_coercion_order() {
     let value;
     try {
         [
-            value = SuppressedError(),
+            value = AggregateError(),
             value.toString = 0
         ].join("");
     } catch  {
         console.log(true);
     }
 }
-suppressed_error_coercion_order();
+aggregate_error_coercion_order();
 local_object_coercion({
     toString () {
         return "s";
