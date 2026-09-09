@@ -11,5 +11,5 @@ console.log(
     restAfterPlain.length,
     plain.length,
     objectPattern.length,
-    arrayPattern.length,
+    arrayPattern.length
 );

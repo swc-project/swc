@@ -1,7 +1,7 @@
 console.log(
     (2.5).toExponential(0),
     (3.5).toExponential(0),
-    (-2.5).toExponential(0),
+    (-2.5).toExponential(0)
 );
 
 console.log((-0).toExponential(), (-0).toExponential(2));
