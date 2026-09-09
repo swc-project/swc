@@ -11093,9 +11093,6 @@
         function addLeadingSlash(path) {
             return "/" === path.charAt(0) ? path : "/" + path;
         }
-        function stripLeadingSlash(path) {
-            return "/" === path.charAt(0) ? path.substr(1) : path;
-        }
         function stripBasename(path, prefix) {
             return 0 === path.toLowerCase().indexOf(prefix.toLowerCase()) && -1 !== "/?#".indexOf(path.charAt(prefix.length)) ? path.substr(prefix.length) : path;
         }
@@ -11298,24 +11295,7 @@
             };
             return history;
         }
-        var HashChangeEvent$1 = "hashchange", HashPathCoders = {
-            hashbang: {
-                encodePath: function(path) {
-                    return "!" === path.charAt(0) ? path : "!/" + stripLeadingSlash(path);
-                },
-                decodePath: function(path) {
-                    return "!" === path.charAt(0) ? path.substr(1) : path;
-                }
-            },
-            noslash: {
-                encodePath: stripLeadingSlash,
-                decodePath: addLeadingSlash
-            },
-            slash: {
-                encodePath: addLeadingSlash,
-                decodePath: addLeadingSlash
-            }
-        };
+        var HashChangeEvent$1 = "hashchange";
         function stripHash(url) {
             var hashIndex = url.indexOf("#");
             return -1 === hashIndex ? url : url.slice(0, hashIndex);
