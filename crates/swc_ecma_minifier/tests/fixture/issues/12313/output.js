@@ -20,3 +20,14 @@ console.log(updateLocal({
 console.log(1);
 obj["flag"]++;
 console.log(obj[key]);
+this.flag = 1;
+this["flag"]++;
+console.log(this.flag);
+function getObject() {
+    return obj;
+}
+getObject()["flag"]++;
+console.log(obj[key]);
+({
+    flag: 1
+})["flag"]++;

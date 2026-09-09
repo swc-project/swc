@@ -21,3 +21,16 @@ console.log(obj["flag"]);
 
 obj[KEY]++;
 console.log(obj[key]);
+
+this.flag = 1;
+this[KEY]++;
+console.log(this.flag);
+
+function getObject() {
+    return obj;
+}
+
+getObject()[KEY]++;
+console.log(obj[key]);
+
+({ flag: 1 })[KEY]++;

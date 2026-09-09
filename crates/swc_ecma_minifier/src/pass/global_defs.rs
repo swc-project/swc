@@ -92,8 +92,8 @@ impl VisitMut for GlobalDefs {
 }
 
 impl GlobalDefs {
-    /// Visits computed property expressions without visiting a protected member
-    /// chain's locally bound root or its static property accesses.
+    /// Visits computed property expressions without replacing a protected
+    /// member chain or its static property accesses.
     fn visit_mut_computed_props(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Member(MemberExpr { obj, prop, .. }) => {
@@ -112,7 +112,11 @@ impl GlobalDefs {
                 _ => unreachable!("root_ident only accepts member optional chains"),
             },
             Expr::Ident(..) => {}
-            _ => unreachable!("root_ident only accepts identifiers and member chains"),
+            // The root of an update target can be an arbitrary expression, such
+            // as `this`, a call, or an object literal. Walk its children so
+            // nested expressions can still use global definitions, but do not
+            // visit the root itself and replace the protected update target.
+            _ => expr.visit_mut_children_with(self),
         }
     }
 }
