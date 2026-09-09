@@ -3,7 +3,7 @@
 use std::{num::FpCategory, time::Instant};
 
 use rustc_hash::FxHashSet;
-use swc_atoms::{Atom, Wtf8Atom};
+use swc_atoms::{wtf8::Wtf8Buf, Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
@@ -104,37 +104,50 @@ pub(crate) fn for_each_short_circuit_falsy_property_name(
     expr: &Expr,
     mut visit: impl FnMut(&Wtf8Atom),
 ) {
-    fn visit_short_circuit_falsy_property_name(expr: &Expr, visit: &mut impl FnMut(&Wtf8Atom)) {
+    fn visit_short_circuit_falsy_property_name(
+        expr: &Expr,
+        collect_static_names: bool,
+        visit: &mut impl FnMut(&Wtf8Atom),
+    ) {
+        if collect_static_names {
+            if let Some(name) = static_property_name(expr) {
+                if name.is_empty() {
+                    visit(name);
+                }
+                return;
+            }
+        }
+
         match expr {
-            Expr::Paren(paren) => visit_short_circuit_falsy_property_name(&paren.expr, visit),
+            Expr::Paren(paren) => {
+                visit_short_circuit_falsy_property_name(&paren.expr, collect_static_names, visit)
+            }
             Expr::Cond(cond) => {
-                visit_short_circuit_falsy_property_name(&cond.cons, visit);
-                visit_short_circuit_falsy_property_name(&cond.alt, visit);
+                visit_short_circuit_falsy_property_name(&cond.cons, collect_static_names, visit);
+                visit_short_circuit_falsy_property_name(&cond.alt, collect_static_names, visit);
             }
             Expr::Seq(seq) => {
                 if let Some(last) = seq.exprs.last() {
-                    visit_short_circuit_falsy_property_name(last, visit);
+                    visit_short_circuit_falsy_property_name(last, collect_static_names, visit);
                 }
             }
             Expr::Bin(bin) if matches!(bin.op, BinaryOp::LogicalAnd | BinaryOp::LogicalOr) => {
-                for_each_static_property_name(&bin.left, |name| {
-                    if name.is_empty() {
-                        visit(name);
-                    }
-                });
-
-                visit_short_circuit_falsy_property_name(&bin.left, visit);
-                visit_short_circuit_falsy_property_name(&bin.right, visit);
+                // The left operand controls this operation's branch selection, so
+                // inspect all of its static alternatives. If this whole operation
+                // is itself a controlling operand, its right result is also a
+                // possible controlling value.
+                visit_short_circuit_falsy_property_name(&bin.left, true, visit);
+                visit_short_circuit_falsy_property_name(&bin.right, collect_static_names, visit);
             }
             Expr::Bin(bin) => {
-                visit_short_circuit_falsy_property_name(&bin.left, visit);
-                visit_short_circuit_falsy_property_name(&bin.right, visit);
+                visit_short_circuit_falsy_property_name(&bin.left, collect_static_names, visit);
+                visit_short_circuit_falsy_property_name(&bin.right, collect_static_names, visit);
             }
             _ => {}
         }
     }
 
-    visit_short_circuit_falsy_property_name(expr, &mut visit);
+    visit_short_circuit_falsy_property_name(expr, false, &mut visit);
 }
 
 /// Visits the expressions that a logical operation can return as its value.
@@ -257,6 +270,14 @@ pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMu
                         visit(name);
                     }
                 }
+                UnaryOp::Bang => match static_truthiness(&unary.arg) {
+                    Some(true) => visit("false"),
+                    Some(false) => visit("true"),
+                    None => {
+                        visit("true");
+                        visit("false");
+                    }
+                },
                 // Unary plus converts `undefined` to `NaN`; preserving the
                 // operand spelling here would reserve the wrong property key.
                 UnaryOp::Plus if matches!(unparenthesized_expr(&unary.arg), Expr::Unary(arg) if arg.op == UnaryOp::Void) =>
@@ -363,6 +384,31 @@ fn is_canonical_bigint_property_name(value: &str) -> bool {
     digits == "0"
         || matches!(digits.as_bytes().first(), Some(b'1'..=b'9'))
             && digits.as_bytes()[1..].iter().all(u8::is_ascii_digit)
+}
+
+/// Returns a nonnumeric static string property name produced by the safe
+/// string-concatenation folding performed before property mangling.
+///
+/// This is used only while collecting quoted names before compression. The
+/// mangle-only path intentionally does not treat additions as rewritable
+/// property keys.
+pub(crate) fn folded_static_property_name(expr: &Expr) -> Option<Wtf8Atom> {
+    fn value(expr: &Expr) -> Option<Wtf8Atom> {
+        match expr {
+            Expr::Paren(paren) => value(&paren.expr),
+            Expr::Bin(bin) if bin.op == BinaryOp::Add => {
+                let left = value(&bin.left)?;
+                let right = value(&bin.right)?;
+                let mut result = Wtf8Buf::from(&left);
+                result.push_wtf8(&right);
+                Some(result.into())
+            }
+            _ => static_property_value(expr).cloned(),
+        }
+    }
+
+    let value = value(expr)?;
+    is_non_numeric_property_name(&value).then_some(value)
 }
 
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {

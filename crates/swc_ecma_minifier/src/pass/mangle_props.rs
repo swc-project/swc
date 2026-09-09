@@ -16,7 +16,7 @@ use crate::{
         util::{get_mut_object_define_property_name_arg, get_object_define_property_name_arg},
     },
     util::{
-        base54::Base54Chars, for_each_primitive_property_name,
+        base54::Base54Chars, folded_static_property_name, for_each_primitive_property_name,
         for_each_short_circuit_falsy_property_name, for_each_static_property_name,
         is_non_numeric_property_name, logical_property_name_alternatives, static_property_name,
         LogicalPropertyNameAlternatives,
@@ -356,23 +356,30 @@ struct QuotedPropertyCollector {
     names: FxHashSet<Wtf8Atom>,
 }
 
+impl QuotedPropertyCollector {
+    fn collect(&mut self, expr: &Expr) {
+        for_each_static_property_name(expr, |name| {
+            self.names.insert(name.clone());
+        });
+        if let Some(name) = folded_static_property_name(expr) {
+            self.names.insert(name);
+        }
+    }
+}
+
 impl Visit for QuotedPropertyCollector {
     noop_visit_type!(fail);
 
     fn visit_member_expr(&mut self, member: &MemberExpr) {
         if let MemberProp::Computed(computed) = &member.prop {
-            for_each_static_property_name(&computed.expr, |name| {
-                self.names.insert(name.clone());
-            });
+            self.collect(&computed.expr);
         }
         member.visit_children_with(self);
     }
 
     fn visit_super_prop_expr(&mut self, super_prop: &SuperPropExpr) {
         if let SuperProp::Computed(computed) = &super_prop.prop {
-            for_each_static_property_name(&computed.expr, |name| {
-                self.names.insert(name.clone());
-            });
+            self.collect(&computed.expr);
         }
         super_prop.visit_children_with(self);
     }
@@ -383,9 +390,7 @@ impl Visit for QuotedPropertyCollector {
                 self.names.insert(string.value.clone());
             }
             PropName::Computed(computed) => {
-                for_each_static_property_name(&computed.expr, |name| {
-                    self.names.insert(name.clone());
-                });
+                self.collect(&computed.expr);
             }
             _ => {}
         }

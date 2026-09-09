@@ -1141,11 +1141,12 @@ where
                 for_each_static_property_name(&prop.expr, |name| {
                     v.add_accessed_property(name.clone());
                 });
-                if !is_static_or_numeric_property_key(&prop.expr)
+                if !matches!(&*e.obj, Expr::Ident(..))
+                    || !is_static_or_numeric_property_key(&prop.expr)
                     || !is_direct_property_key(&prop.expr)
                 {
-                    // `replace_props` only handles direct string literals. Keep other
-                    // static forms non-hoistable even when every branch is known.
+                    // `replace_props` only handles direct string literals on an
+                    // identifier receiver. Keep other static forms non-hoistable.
                     v.mark_indexed_with_dynamic_key();
                 }
             }
