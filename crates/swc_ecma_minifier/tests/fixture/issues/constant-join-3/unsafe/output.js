@@ -355,6 +355,24 @@ function navigator_coercion() {
     navigator.valueOf = navigatorValueOf;
 }
 navigator_coercion();
+function crypto_coercion() {
+    if ("u" < typeof crypto) return;
+    const cryptoToString = crypto.toString;
+    const cryptoValueOf = crypto.valueOf;
+    crypto.toString = ()=>"string-hint";
+    crypto.valueOf = ()=>7;
+    console.log([
+        crypto
+    ].join(""));
+    crypto.toString = cryptoToString;
+    crypto.valueOf = cryptoValueOf;
+}
+crypto_coercion();
+function opener_nullish() {
+    return [
+        opener
+    ].join("-");
+}
 function process_coercion() {
     const processToString = process.toString;
     const processValueOf = process.valueOf;

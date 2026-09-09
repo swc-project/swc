@@ -177,6 +177,10 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             kind: MetaPropKind::NewTarget,
             ..
         }) => true,
+        // The browser `opener` global is null when the window has no opener.
+        Expr::Ident(ident) if ident.ctxt == expr_ctx.unresolved_ctxt && ident.sym == "opener" => {
+            true
+        }
         Expr::Lit(Lit::Null(..)) => true,
         _ => eval_to_undefined(expr_ctx, expr),
     }

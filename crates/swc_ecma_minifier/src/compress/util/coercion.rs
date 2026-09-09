@@ -28,6 +28,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "clearTimeout"
             | "confirm"
             | "console"
+            | "crypto"
             | "DataView"
             | "Date"
             | "DOMException"
