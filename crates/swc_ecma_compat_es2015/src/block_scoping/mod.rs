@@ -57,6 +57,11 @@ enum ScopeKind {
         args: Vec<Id>,
         /// Set by identifier references and consumed by for-of/in loop.
         has_used: bool,
+        /// Preserve yielding catches and possible enclosing-binding captures by
+        /// eval.
+        has_initializer: bool,
+        yielding_initializer: bool,
+        has_eval: bool,
         /// Map of original identifier to modified syntax context
         mutated: FxHashMap<Id, SyntaxContext>,
         initializer_scratch: Option<Ident>,
@@ -71,6 +76,9 @@ impl ScopeKind {
             lexical_var: Vec::new(),
             args: Vec::new(),
             has_used: false,
+            has_initializer: false,
+            yielding_initializer: false,
+            has_eval: false,
             mutated: Default::default(),
             initializer_scratch: None,
         }
@@ -151,13 +159,27 @@ impl BlockScoping {
         if let Some(ScopeKind::Loop {
             args,
             has_used,
+            has_initializer,
+            yielding_initializer,
+            has_eval,
             mutated,
-            initializer_scratch,
+            mut initializer_scratch,
             ..
         }) = self.scope.pop()
         {
-            if !has_used {
+            let preserve_initializer = has_initializer && (yielding_initializer || has_eval);
+            if !has_used && !preserve_initializer {
                 return;
+            }
+            if preserve_initializer && initializer_scratch.is_none() && !args.is_empty() {
+                let scratch = self.initializers.scratch();
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: scratch.clone().into(),
+                    init: None,
+                    definite: false,
+                });
+                initializer_scratch = Some(scratch);
             }
 
             let mut env_hoister =
@@ -195,6 +217,14 @@ impl BlockScoping {
             };
 
             body_stmt.visit_mut_with(&mut flow_helper);
+            if preserve_initializer {
+                // Eval may both capture and write an outer header binding. Keep
+                // fresh parameters, and export all of them without renaming their
+                // source spellings, including writes absent from the parsed AST.
+                for id in &args {
+                    flow_helper.mutated.entry(id.clone()).or_insert(id.1);
+                }
+            }
 
             let mut body_stmt = match &mut body_stmt.take() {
                 Stmt::Block(bs) => {
@@ -491,12 +521,27 @@ impl VisitMut for BlockScoping {
 
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
         if let Some(Pat::Ident(binding)) = &node.param {
-            if self.initializers.bindings.contains(&binding.to_id()) {
-                // These bindings replaced a nested loop's lexical declaration.
-                // Preserve its enclosing-loop capture bookkeeping, including the
-                // wrapper needed when generator lowering hoists yielding catches.
-                if let Some(ScopeKind::Loop { lexical_var, .. }) = self.scope.last_mut() {
-                    lexical_var.push(binding.to_id());
+            if let Some(yielding) = self.initializers.enclosing_scopes.get(&binding.to_id()) {
+                // Ordinary catches preserve initializer bindings themselves.
+                // Yielding catches need fresh storage after generator lowering;
+                // direct eval can additionally capture enclosing header bindings.
+                let mut preserve_yield = *yielding;
+                for scope in self.scope.iter_mut().rev() {
+                    match scope {
+                        ScopeKind::Loop {
+                            has_initializer,
+                            yielding_initializer,
+                            ..
+                        } => {
+                            *has_initializer = true;
+                            *yielding_initializer |= preserve_yield;
+                            // One enclosing helper is enough to keep these catch
+                            // bindings fresh across repeated generator execution.
+                            preserve_yield = false;
+                        }
+                        ScopeKind::Fn => break,
+                        ScopeKind::Block => {}
+                    }
                 }
             }
         }
@@ -508,6 +553,25 @@ impl VisitMut for BlockScoping {
 
         node.test.visit_mut_with(self);
         self.handle_capture_of_vars(&mut node.body);
+    }
+
+    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
+        if !self.initializers.enclosing_scopes.is_empty()
+            && call
+                .callee
+                .as_expr()
+                .is_some_and(|expr| expr.unwrap_parens().is_ident_ref_to("eval"))
+        {
+            // Eval may capture any enclosing header, including from a nested
+            // function. Record it during this traversal; only loops containing a
+            // separated initializer use the additional preservation path.
+            for scope in &mut self.scope {
+                if let ScopeKind::Loop { has_eval, .. } = scope {
+                    *has_eval = true;
+                }
+            }
+        }
+        call.visit_mut_children_with(self);
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
@@ -527,6 +591,9 @@ impl VisitMut for BlockScoping {
             lexical_var,
             args,
             has_used: false,
+            has_initializer: false,
+            yielding_initializer: false,
+            has_eval: false,
             mutated: Default::default(),
             initializer_scratch: None,
         };
@@ -554,6 +621,9 @@ impl VisitMut for BlockScoping {
             lexical_var: vars,
             args,
             has_used: false,
+            has_initializer: false,
+            yielding_initializer: false,
+            has_eval: false,
             mutated: Default::default(),
             initializer_scratch: None,
         };
@@ -585,6 +655,9 @@ impl VisitMut for BlockScoping {
             lexical_var,
             args,
             has_used: false,
+            has_initializer: false,
+            yielding_initializer: false,
+            has_eval: false,
             mutated: Default::default(),
             initializer_scratch,
         };

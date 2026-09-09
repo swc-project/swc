@@ -1,4 +1,4 @@
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashMap;
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
@@ -11,7 +11,6 @@ pub(super) fn separate(
     mut decl: Box<VarDecl>,
     bindings: Vec<Id>,
     scratch: &Ident,
-    initializer_bindings: &mut FxHashSet<Id>,
 ) -> (Box<VarDecl>, Stmt) {
     let initial: Vec<_> = bindings
         .iter()
@@ -23,7 +22,6 @@ pub(super) fn separate(
             )
         })
         .collect();
-    initializer_bindings.extend(initial.iter().map(Ident::to_id));
     let contexts = bindings
         .iter()
         .cloned()

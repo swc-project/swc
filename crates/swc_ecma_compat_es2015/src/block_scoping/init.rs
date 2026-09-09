@@ -24,13 +24,23 @@ pub(super) fn captures_initializer(decl: &VarDecl) -> bool {
 pub(super) fn initializer_scopes(program: &mut Program) -> Initializers {
     let mut pass = InitializerScopes::default();
     program.visit_mut_with(&mut pass);
+    pass.initializers.symbols = pass.symbols;
+    pass.initializers.next_scratch = pass.next_scratch;
     pass.initializers
 }
 
 #[derive(Default)]
 pub(super) struct Initializers {
-    pub bindings: FxHashSet<Id>,
+    pub enclosing_scopes: FxHashMap<Id, bool>,
     pub loops: FxHashMap<SyntaxContext, Ident>,
+    symbols: Symbols,
+    next_scratch: usize,
+}
+
+impl Initializers {
+    pub(super) fn scratch(&mut self) -> Ident {
+        reserve_scratch(&mut self.symbols, &mut self.next_scratch)
+    }
 }
 
 #[derive(Default)]
@@ -150,14 +160,18 @@ impl Visit for Symbols {
 
 impl InitializerScopes {
     fn scratch(&mut self) -> Ident {
-        loop {
-            let name = Atom::from(format!("{SCRATCH}{}_", self.next_scratch).as_str());
-            self.next_scratch += 1;
-            // Hygiene appends numbers when renaming. An unused spelling ending in
-            // an underscore cannot collide with one of those generated names.
-            if self.symbols.identifiers.insert(name.clone()) {
-                return private_ident!(name);
-            }
+        reserve_scratch(&mut self.symbols, &mut self.next_scratch)
+    }
+}
+
+fn reserve_scratch(symbols: &mut Symbols, next_scratch: &mut usize) -> Ident {
+    loop {
+        let name = Atom::from(format!("{SCRATCH}{}_", *next_scratch).as_str());
+        *next_scratch += 1;
+        // Hygiene appends numbers when renaming. An unused spelling ending in
+        // an underscore cannot collide with one of those generated names.
+        if symbols.identifiers.insert(name.clone()) {
+            return private_ident!(name);
         }
     }
 }
@@ -196,6 +210,9 @@ impl VisitMut for InitializerScopes {
         }
 
         let scratch = self.scratch();
+        self.initializers
+            .enclosing_scopes
+            .insert(scratch.to_id(), usage.has_yield);
         let mut stmts = Vec::new();
         if usage.has_yield {
             // Generator lowering hoists catch bindings when their handlers yield.
@@ -219,12 +236,7 @@ impl VisitMut for InitializerScopes {
                 .into(),
             );
         }
-        let (copies, initialization) = scope::separate(
-            decl.take(),
-            bindings,
-            &scratch,
-            &mut self.initializers.bindings,
-        );
+        let (copies, initialization) = scope::separate(decl.take(), bindings, &scratch);
         *decl = copies;
         decl.ctxt = scratch.ctxt;
         self.initializers
