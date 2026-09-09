@@ -394,6 +394,19 @@ function blob_coercion() {
     Blob.valueOf = blobValueOf;
 }
 blob_coercion();
+function web_socket_coercion() {
+    if ("u" < typeof WebSocket) return;
+    const webSocketToString = WebSocket.toString;
+    const webSocketValueOf = WebSocket.valueOf;
+    WebSocket.toString = ()=>"string-hint";
+    WebSocket.valueOf = ()=>7;
+    console.log([
+        WebSocket
+    ].join(""));
+    WebSocket.toString = webSocketToString;
+    WebSocket.valueOf = webSocketValueOf;
+}
+web_socket_coercion();
 function form_data_coercion() {
     if ("u" < typeof FormData) return;
     const formDataToString = FormData.toString;

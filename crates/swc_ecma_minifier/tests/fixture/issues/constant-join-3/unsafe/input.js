@@ -339,6 +339,22 @@ function blob_coercion() {
 
 blob_coercion();
 
+function web_socket_coercion() {
+    if (typeof WebSocket === "undefined") {
+        return;
+    }
+
+    const webSocketToString = WebSocket.toString;
+    const webSocketValueOf = WebSocket.valueOf;
+    WebSocket.toString = () => "string-hint";
+    WebSocket.valueOf = () => 7;
+    console.log([WebSocket].join(""));
+    WebSocket.toString = webSocketToString;
+    WebSocket.valueOf = webSocketValueOf;
+}
+
+web_socket_coercion();
+
 function form_data_coercion() {
     if (typeof FormData === "undefined") {
         return;

@@ -1,10 +1,11 @@
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::native::is_native;
 use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 
-/// Returns whether `sym` names a standard intrinsic or recognized host global
-/// whose value is an object or function. These values can have observable
-/// `toString` mutations between array-element evaluation and coercion by
-/// `join` or addition.
+/// Returns whether `sym` must be conservatively treated as an object or
+/// function-valued standard intrinsic or recognized host global. These values
+/// can have observable `toString` mutations between array-element evaluation
+/// and coercion by `join` or addition.
 pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
     matches!(
         sym,
@@ -107,7 +108,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "WeakSet"
             | "WebAssembly"
             | "window"
-    )
+    ) || is_native(sym)
 }
 
 /// Returns the runtime-value expression after removing syntax-only wrappers.
