@@ -166,6 +166,38 @@ function multi_element_join_lookup_order() {
     Array.prototype.join = join;
 }
 multi_element_join_lookup_order();
+function binary_operator_join_lookup_order() {
+    const join = Array.prototype.join;
+    try {
+        [
+            ({}) instanceof {
+                [Symbol.hasInstance] () {
+                    delete Array.prototype.join;
+                    return true;
+                }
+            },
+            true
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    Array.prototype.join = join;
+    try {
+        [
+            "x" in new Proxy({}, {
+                has () {
+                    delete Array.prototype.join;
+                    return true;
+                }
+            }),
+            true
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    Array.prototype.join = join;
+}
+binary_operator_join_lookup_order();
 function unresolved_global_join_lookup_order() {
     const join = Array.prototype.join;
     const xDescriptor = Object.getOwnPropertyDescriptor(globalThis, "x");

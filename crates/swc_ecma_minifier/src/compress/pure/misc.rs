@@ -1469,6 +1469,12 @@ impl Pure<'_> {
                 op: op!("delete"), ..
             }) => true,
             Expr::Unary(UnaryExpr { arg, .. }) => self.may_affect_array_join_lookup(arg),
+            // These operators can invoke user-defined hooks before the join
+            // method lookup (`Symbol.hasInstance` and Proxy's `has` trap).
+            Expr::Bin(BinExpr {
+                op: op!("in") | op!("instanceof"),
+                ..
+            }) => true,
             Expr::Bin(BinExpr { left, right, .. }) => {
                 self.may_affect_array_join_lookup(left) || self.may_affect_array_join_lookup(right)
             }

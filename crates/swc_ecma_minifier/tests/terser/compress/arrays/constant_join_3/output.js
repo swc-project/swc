@@ -1,33 +1,12 @@
 var a = "";
 var b = "";
 var c = ",1,,3";
-var d = [
-    foo
-].join();
-var e = [
-    foo,
-    "-",
-    bar
-].join("-");
-var f = [
-    foo,
-    bar
-].join("");
+var d = "" + foo;
+var e = [foo, "-", bar].join("-");
+var f = "" + foo + bar;
 var g = "foo" + bar + "baz";
-var h = [
-    "-foo-",
-    bar + "baz"
-].join("-");
+var h = ["-foo-", bar + "baz"].join("-");
 var i = "foo" + bar + baz + "moo";
-var j = [
-    foo + "bar",
-    baz
-].join("");
-var k = [
-    foo,
-    "bar" + baz
-].join("");
-var l = [
-    foo,
-    bar + "baz"
-].join("");
+var j = foo + "bar" + baz;
+var k = foo + "bar" + baz;
+var l = foo + (bar + "baz");
