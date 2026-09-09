@@ -144,9 +144,12 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             callee: Callee::Expr(callee),
             ..
         }) if callee.is_global_ref_to(expr_ctx, "eval")
-            // `queueMicrotask` always returns undefined, which join renders
-            // as an empty string instead of the "undefined" from concatenation.
-            || callee.is_global_ref_to(expr_ctx, "queueMicrotask") =>
+        // `queueMicrotask` and timer cancellation calls always return
+        // undefined, which join renders as an empty string instead of the
+        // "undefined" from concatenation.
+            || callee.is_global_ref_to(expr_ctx, "queueMicrotask")
+            || callee.is_global_ref_to(expr_ctx, "clearInterval")
+            || callee.is_global_ref_to(expr_ctx, "clearTimeout") =>
         {
             true
         }

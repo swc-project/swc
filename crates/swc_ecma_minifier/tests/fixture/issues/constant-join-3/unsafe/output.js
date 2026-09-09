@@ -982,6 +982,16 @@ function queue_microtask_nullish() {
         queueMicrotask(()=>{})
     ].join("");
 }
+function timer_cancellation_nullish() {
+    return [
+        [
+            clearTimeout(0)
+        ].join(""),
+        [
+            clearInterval(0)
+        ].join("")
+    ].join("|");
+}
 function structured_clone_nullish() {
     return [
         structuredClone(void 0)
@@ -1154,6 +1164,7 @@ console.log(object_call_coercion({
 webassembly_coercion_order();
 console_coercion_order();
 console.log("queue:" + queue_microtask_nullish());
+console.log("timers:" + timer_cancellation_nullish());
 console.log("clone:" + structured_clone_nullish());
 timer_and_encoding_coercion_order();
 console.log(direct_eval_object_coercion());
