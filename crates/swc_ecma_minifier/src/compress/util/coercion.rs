@@ -44,6 +44,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "Float64Array"
             | "Function"
             | "globalThis"
+            | "global"
             | "Intl"
             | "Int8Array"
             | "Int16Array"
@@ -92,6 +93,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "WeakRef"
             | "WeakSet"
             | "WebAssembly"
+            | "window"
     )
 }
 

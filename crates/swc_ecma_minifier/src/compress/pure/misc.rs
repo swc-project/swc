@@ -1249,6 +1249,20 @@ impl Pure<'_> {
             return None;
         }
 
+        // The unsafe all-expression folding path can replace the `join` call
+        // entirely. Array elements are evaluated before that method lookup,
+        // so keep the call if an element can change or remove the method.
+        if self.options.unsafe_passes
+            && is_string_concat
+            && groups.iter().all(|g| matches!(g, GroupType::Expression(_)))
+            && elems
+                .iter()
+                .flatten()
+                .any(|elem| self.may_affect_array_join_lookup(&elem.expr))
+        {
+            return None;
+        }
+
         if is_string_concat {
             // Unsafe join folding assumes unknown dynamic values are non-nullish
             // and suitable for ordinary string concatenation. Explicit nullish
@@ -1427,6 +1441,40 @@ impl Pure<'_> {
                 args,
                 ..Default::default()
             }))
+        }
+    }
+
+    /// Whether evaluating an array element can affect the later `join` lookup.
+    fn may_affect_array_join_lookup(&self, expr: &Expr) -> bool {
+        match expr {
+            Expr::Ident(..) | Expr::Lit(..) => false,
+            Expr::Paren(ParenExpr { expr, .. })
+            | Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
+                self.may_affect_array_join_lookup(expr)
+            }
+            Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            }) => true,
+            Expr::Unary(UnaryExpr { arg, .. }) => self.may_affect_array_join_lookup(arg),
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.may_affect_array_join_lookup(left) || self.may_affect_array_join_lookup(right)
+            }
+            Expr::Cond(CondExpr {
+                test, cons, alt, ..
+            }) => {
+                self.may_affect_array_join_lookup(test)
+                    || self.may_affect_array_join_lookup(cons)
+                    || self.may_affect_array_join_lookup(alt)
+            }
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs
+                .iter()
+                .any(|expr| self.may_affect_array_join_lookup(expr)),
+            _ => expr.may_have_side_effects(self.expr_ctx),
         }
     }
 

@@ -93,6 +93,18 @@ function singleton_join_lookup_order() {
 
 singleton_join_lookup_order();
 
+function multi_element_join_lookup_order() {
+    const join = Array.prototype.join;
+    try {
+        [delete Array.prototype.join, true].join("");
+    } catch {
+        console.log(true);
+    }
+    Array.prototype.join = join;
+}
+
+multi_element_join_lookup_order();
+
 function coercion() {
     console.log([{
         toString() {
@@ -182,6 +194,28 @@ function self_global_coercion_order() {
 }
 
 self_global_coercion_order();
+
+function global_alias_coercion_order() {
+    const globalToString = global.toString;
+    try {
+        [global, global.toString = 0].join("");
+    } catch {
+        console.log(true);
+    }
+    global.toString = globalToString;
+
+    globalThis.window = globalThis;
+    const windowToString = window.toString;
+    try {
+        [window, window.toString = 0].join("");
+    } catch {
+        console.log(true);
+    }
+    window.toString = windowToString;
+    delete globalThis.window;
+}
+
+global_alias_coercion_order();
 
 function intrinsic_constructor_coercion_order() {
     const arrayToString = Array.toString;
