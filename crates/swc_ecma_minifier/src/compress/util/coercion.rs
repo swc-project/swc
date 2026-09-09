@@ -231,6 +231,15 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
                         | "SyntaxError"
                         | "TypeError"
                         | "URIError"
+                        // Direct eval can dynamically produce an object.
+                        | "eval"
+                        // These globals can return objects whose string
+                        // coercion is observable after later expressions run.
+                        | "fetch"
+                        | "setImmediate"
+                        | "setInterval"
+                        | "setTimeout"
+                        | "structuredClone"
                 )
         }
         _ => true,

@@ -1219,6 +1219,10 @@ function structured_clone_object_coercion_order() {
         console.log(true);
     }
 }
+function structured_clone_addition_coercion_order() {
+    let value;
+    return (value = structuredClone({})) + ("x" + (value.toString = 0, ""));
+}
 function timer_and_encoding_coercion_order() {
     const atobToString = atob.toString;
     try {
