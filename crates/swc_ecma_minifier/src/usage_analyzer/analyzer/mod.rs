@@ -17,7 +17,6 @@ use crate::{
     },
     util::{
         for_each_static_property_name, is_direct_property_key, is_static_or_numeric_property_key,
-        static_property_name,
     },
 };
 
@@ -1168,17 +1167,30 @@ where
             }
         }
 
+        fn is_root_of_member_expr_undeclared(
+            member_expr: &MemberExpr,
+            data: &impl Storage,
+        ) -> bool {
+            match &*member_expr.obj {
+                Expr::Member(member_expr) => is_root_of_member_expr_undeclared(member_expr, data),
+                Expr::Ident(ident) => data
+                    .get_var_data(ident.to_id())
+                    .map_or(true, |var| !var.is_declared()),
+                _ => false,
+            }
+        }
+
+        if let MemberProp::Computed(computed) = &e.prop {
+            if !is_root_of_member_expr_undeclared(e, &self.data) {
+                for_each_static_property_name(&computed.expr, |name| {
+                    self.data.add_property_atom(name.clone());
+                });
+            }
+        }
+
         if is_root_of_member_expr_declared(e, &self.data) {
-            match &e.prop {
-                MemberProp::Ident(ident) => {
-                    self.data.add_property_atom(ident.sym.clone().into());
-                }
-                MemberProp::Computed(computed) => {
-                    for_each_static_property_name(&computed.expr, |name| {
-                        self.data.add_property_atom(name.clone());
-                    });
-                }
-                _ => {}
+            if let MemberProp::Ident(ident) = &e.prop {
+                self.data.add_property_atom(ident.sym.clone().into());
             }
         }
     }
@@ -1326,9 +1338,9 @@ where
                 self.data.add_property_atom(s.value.clone());
             }
             PropName::Computed(computed) => {
-                if let Some(name) = static_property_name(&computed.expr) {
+                for_each_static_property_name(&computed.expr, |name| {
                     self.data.add_property_atom(name.clone());
-                }
+                });
             }
             _ => {}
         };
