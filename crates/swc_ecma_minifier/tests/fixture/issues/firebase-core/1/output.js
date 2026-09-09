@@ -717,7 +717,7 @@
                             var r = m[0];
                             m = m[1];
                             var G = r.split("_");
-                            h = 2 <= G.length && "type" == G[1] ? h + (r + "=" + m + "&") : h + (r + "=redacted&");
+                            h = 2 <= G.length && "type" == G[1] ? h + (r + "=") + m + "&" : h + (r + "=redacted&");
                         }
                     }
                     else h = null;
