@@ -313,7 +313,11 @@ impl Optimizer<'_> {
 /// every expression that may change between evaluations.
 fn is_stable_for_repeated_evaluation(expr: &Expr) -> bool {
     match expr {
-        Expr::Ident(..) | Expr::This(..) => true,
+        Expr::Ident(..)
+        | Expr::This(..)
+        | Expr::Lit(
+            Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::Num(..) | Lit::BigInt(..),
+        ) => true,
 
         Expr::Member(MemberExpr { obj, prop, .. }) => {
             is_stable_for_repeated_evaluation(obj)

@@ -12,6 +12,12 @@ console.log(receiverIndex);
 const o = { a: 1 };
 console.log(o.a === o.a);
 
+const indexed = [1];
+console.log(indexed[0] === indexed[0]);
+
+const nonIdentifierKey = { "not-an-ident": 1 };
+console.log(nonIdentifierKey["not-an-ident"] === nonIdentifierKey["not-an-ident"]);
+
 let keyIndex = 0;
 function key() {
     return keyIndex++ ? "string" : "number";
