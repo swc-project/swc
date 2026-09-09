@@ -215,6 +215,11 @@ pub(crate) fn extract_class_side_effect<'a>(
                 ..
             }) => {
                 if key.expr.may_have_side_effects(expr_ctx) {
+                    key.expr.visit_with(&mut visitor);
+                    if visitor.found {
+                        return None;
+                    }
+
                     res.push(&mut key.expr);
                 }
             }
@@ -222,6 +227,11 @@ pub(crate) fn extract_class_side_effect<'a>(
             ClassMember::ClassProp(p) => {
                 if let PropName::Computed(key) = &mut p.key {
                     if key.expr.may_have_side_effects(expr_ctx) {
+                        key.expr.visit_with(&mut visitor);
+                        if visitor.found {
+                            return None;
+                        }
+
                         res.push(&mut key.expr);
                     }
                 }
@@ -344,10 +354,43 @@ impl Visit for ClassEffectVisitor {
         self.found = true;
     }
 
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
+        if n.kind == MetaPropKind::NewTarget {
+            // `new.target` is valid while evaluating a class initializer but can
+            // be syntactically invalid after extraction into the surrounding scope.
+            self.found = true;
+        }
+    }
+
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
         if !self.extraction_is_strict {
             // Static initializers run in strict mode. Moving an assignment into a
             // sloppy script can turn a ReferenceError or TypeError into a write.
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
+        if !self.extraction_is_strict {
+            // Like assignments, updates can throw in a class static initializer
+            // but silently fail after extraction into a sloppy script.
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_call_expr(&mut self, n: &CallExpr) {
+        if matches!(
+            &n.callee,
+            Callee::Expr(callee) if matches!(callee.unwrap_parens(), Expr::Ident(Ident { sym, .. }) if &**sym == "eval")
+        ) {
+            // Direct eval observes the class evaluation environment, which cannot
+            // be preserved when class side effects are extracted.
             self.found = true;
             return;
         }
