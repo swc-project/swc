@@ -7,7 +7,7 @@ use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
-use swc_ecma_utils::{DropSpan, ModuleItemLike, StmtLike, Value};
+use swc_ecma_utils::{number::ToJsString, DropSpan, ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_mut_pass, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
@@ -28,16 +28,20 @@ pub(crate) fn is_falsy_number(value: f64) -> bool {
 /// intentionally excluded because they are equivalent to numeric property
 /// keys, which property mangling does not rewrite.
 pub(crate) fn static_property_name(expr: &Expr) -> Option<&Wtf8Atom> {
-    let value = match expr {
-        Expr::Lit(Lit::Str(string)) => &string.value,
-        Expr::Tpl(template) if template.exprs.is_empty() && template.quasis.len() == 1 => {
-            template.quasis[0].cooked.as_ref()?
-        }
-        Expr::Paren(paren) => return static_property_name(&paren.expr),
-        _ => return None,
-    };
+    let value = static_property_value(expr)?;
 
     is_non_numeric_property_name(value).then_some(value)
+}
+
+fn static_property_value(expr: &Expr) -> Option<&Wtf8Atom> {
+    match expr {
+        Expr::Lit(Lit::Str(string)) => Some(&string.value),
+        Expr::Tpl(template) if template.exprs.is_empty() && template.quasis.len() == 1 => {
+            template.quasis[0].cooked.as_ref()
+        }
+        Expr::Paren(paren) => return static_property_value(&paren.expr),
+        _ => return None,
+    }
 }
 
 /// Visits every nonnumeric string that can be selected as a static property
@@ -69,11 +73,47 @@ pub(crate) fn for_each_static_property_name(expr: &Expr, mut visit: impl FnMut(&
     visit_static_property_name(expr, &mut visit);
 }
 
+/// Returns whether all possible values of an expression are either static
+/// property names or numeric keys that property mangling intentionally ignores.
+pub(crate) fn is_static_or_numeric_property_key(expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(paren) => is_static_or_numeric_property_key(&paren.expr),
+        Expr::Cond(cond) => {
+            is_static_or_numeric_property_key(&cond.cons)
+                && is_static_or_numeric_property_key(&cond.alt)
+        }
+        Expr::Seq(seq) => seq
+            .exprs
+            .last()
+            .is_some_and(|last| is_static_or_numeric_property_key(last)),
+        Expr::Lit(Lit::Num(_)) => true,
+        _ => static_property_value(expr).is_some(),
+    }
+}
+
+/// Returns whether a computed property key can be replaced directly after
+/// property hoisting.
+pub(crate) fn is_direct_property_key(expr: &Expr) -> bool {
+    matches!(expr, Expr::Lit(Lit::Str(_) | Lit::Num(_)))
+}
+
 /// Returns whether a string property name is not equivalent to a numeric key.
 pub(crate) fn is_non_numeric_property_name(value: &Wtf8Atom) -> bool {
-    value
-        .as_str()
-        .map_or(true, |value| value.parse::<f64>().is_err())
+    !is_numeric_property_name(value)
+}
+
+/// Returns whether a string is the canonical property key for a finite
+/// ECMAScript numeric literal.
+///
+/// Comparing the parsed number's ECMAScript spelling avoids treating Rust-only
+/// spellings such as `infinity` and `nan` as numeric keys, and keeps distinct
+/// property names like `"01"` and `"1.0"` eligible for mangling.
+fn is_numeric_property_name(value: &Wtf8Atom) -> bool {
+    value.as_str().is_some_and(|value| {
+        value
+            .parse::<f64>()
+            .is_ok_and(|number| number.is_finite() && number.to_js_string() == value)
+    })
 }
 
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {

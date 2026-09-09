@@ -15,7 +15,10 @@ use crate::{
         marks::Marks,
         util::{can_end_conditionally, get_object_define_property_name_arg},
     },
-    util::{for_each_static_property_name, static_property_name},
+    util::{
+        for_each_static_property_name, is_direct_property_key, is_static_or_numeric_property_key,
+        static_property_name,
+    },
 };
 
 mod ctx;
@@ -471,12 +474,10 @@ where
                     let var = self.data.var_or_default(obj.to_id());
                     var.mark_used_as_ref();
 
-                    let mut found_static_name = false;
                     for_each_static_property_name(&e.left, |prop| {
-                        found_static_name = true;
                         var.add_accessed_property(prop.clone());
                     });
-                    if !found_static_name && !matches!(&*e.left, Expr::Lit(Lit::Num(_))) {
+                    if !is_static_or_numeric_property_key(&e.left) {
                         var.mark_indexed_with_dynamic_key();
                     }
                 })
@@ -1138,24 +1139,15 @@ where
             v.mark_has_property_access();
 
             if let MemberProp::Computed(prop) = &e.prop {
-                let mut found_static_name = false;
                 for_each_static_property_name(&prop.expr, |name| {
-                    found_static_name = true;
                     v.add_accessed_property(name.clone());
                 });
-                if !found_static_name {
-                    match &*prop.expr {
-                        // Numeric keys were historically ignored by this analysis. They
-                        // are not dynamic indexes and retaining that distinction permits
-                        // partial inlining of arrays accessed with a numeric literal.
-                        Expr::Lit(Lit::Num(_)) => {}
-                        Expr::Lit(Lit::Str(string))
-                            if string
-                                .value
-                                .as_str()
-                                .is_some_and(|value| value.parse::<f64>().is_ok()) => {}
-                        _ => v.mark_indexed_with_dynamic_key(),
-                    }
+                if !is_static_or_numeric_property_key(&prop.expr)
+                    || !is_direct_property_key(&prop.expr)
+                {
+                    // `replace_props` only handles direct string literals. Keep other
+                    // static forms non-hoistable even when every branch is known.
+                    v.mark_indexed_with_dynamic_key();
                 }
             }
 
