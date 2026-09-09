@@ -25,4 +25,15 @@ function suppressReturn(escape) {
 function removeOrdinaryBreak() {
     console.log("ordinary");
 }
-suppressThrow(!1), removeOrdinaryBreak(), console.log(suppressReturn(!1));
+function retainFinalizerBreak() {
+    switch(0){
+        case 0:
+            try {
+                console.log("finalizer");
+            } finally{
+                break;
+            }
+    }
+    console.log("after");
+}
+suppressThrow(!1), removeOrdinaryBreak(), console.log(suppressReturn(!1)), retainFinalizerBreak();

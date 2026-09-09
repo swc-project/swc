@@ -784,6 +784,16 @@ impl Visit for BreakFinder {
         }
     }
 
+    fn visit_try_stmt(&mut self, t: &TryStmt) {
+        if self.top_level {
+            self.top_level = false;
+            t.visit_children_with(self);
+            self.top_level = true;
+        } else {
+            t.visit_children_with(self);
+        }
+    }
+
     /// We don't care about breaks in a loop
     fn visit_for_stmt(&mut self, _: &ForStmt) {}
 

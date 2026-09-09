@@ -34,6 +34,20 @@ function removeOrdinaryBreak() {
     }
 }
 
+function retainFinalizerBreak() {
+    switch (0) {
+        case 0:
+            try {
+                console.log("finalizer");
+            } finally {
+                break;
+            }
+    }
+
+    console.log("after");
+}
+
 suppressThrow(false);
 removeOrdinaryBreak();
 console.log(suppressReturn(false));
+retainFinalizerBreak();
