@@ -734,9 +734,9 @@ fn remove_last_break(stmt: &mut Vec<Stmt>) -> bool {
             if let Some(h) = t.handler.as_mut() {
                 changed |= remove_last_break(&mut h.body.stmts);
             }
-            if let Some(f) = t.finalizer.as_mut() {
-                changed |= remove_last_break(&mut f.stmts);
-            }
+            // A break in a finalizer replaces a pending throw or return from the try or
+            // catch block, so removing it changes the completion of the
+            // enclosing switch.
             changed
         }
         Some(Stmt::Block(BlockStmt { stmts, .. })) => remove_last_break(stmts),
@@ -781,6 +781,16 @@ impl Visit for BreakFinder {
             self.top_level = true;
         } else {
             i.visit_children_with(self);
+        }
+    }
+
+    fn visit_try_stmt(&mut self, t: &TryStmt) {
+        if self.top_level {
+            self.top_level = false;
+            t.visit_children_with(self);
+            self.top_level = true;
+        } else {
+            t.visit_children_with(self);
         }
     }
 
