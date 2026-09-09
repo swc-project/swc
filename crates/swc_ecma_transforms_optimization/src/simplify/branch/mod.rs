@@ -62,6 +62,58 @@ struct Remover {
     expr_ctx: ExprCtx,
 }
 
+/// Returns true if completing `expr` always produces a value accepted by
+/// RequireObjectCoercible.
+///
+/// Empty object destructuring still throws for nullish values, so this must
+/// remain conservative when removing the destructuring assignment.
+fn is_definitely_non_nullish(expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(ParenExpr { expr, .. }) => is_definitely_non_nullish(expr),
+
+        Expr::Lit(Lit::Null(..))
+        | Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) => false,
+
+        Expr::Lit(..)
+        | Expr::Array(..)
+        | Expr::Arrow(..)
+        | Expr::Class(..)
+        | Expr::Fn(..)
+        | Expr::New(..)
+        | Expr::Object(..)
+        | Expr::Tpl(..)
+        | Expr::Unary(..)
+        | Expr::Update(..) => true,
+
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => is_definitely_non_nullish(right),
+
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => is_definitely_non_nullish(left) && is_definitely_non_nullish(right),
+
+        Expr::Bin(..) => true,
+
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            is_definitely_non_nullish(cons) && is_definitely_non_nullish(alt)
+        }
+
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|expr| is_definitely_non_nullish(expr)),
+
+        _ => false,
+    }
+}
+
 impl Parallel for Remover {
     fn create(&self) -> Self {
         Self { ..*self }
@@ -136,7 +188,9 @@ impl VisitMut for Remover {
                 right,
                 ..
             }) if match &*left {
-                AssignTargetPat::Object(obj) => obj.props.is_empty(),
+                AssignTargetPat::Object(obj) => {
+                    obj.props.is_empty() && is_definitely_non_nullish(right)
+                }
                 _ => false,
             } =>
             {

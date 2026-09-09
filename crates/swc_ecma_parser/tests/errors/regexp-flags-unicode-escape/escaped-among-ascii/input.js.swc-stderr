@@ -1,0 +1,19 @@
+  x Regular expression flags cannot contain unicode escapes.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/escaped-among-ascii/input.js:1:1]
+ 1 | /pattern/g\u0069m;
+   : ^^^^^^^^^^^^^^^^^
+ 2 | /pattern/\u0067im;
+   `----
+  x Regular expression flags cannot contain unicode escapes.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/escaped-among-ascii/input.js:2:1]
+ 1 | /pattern/g\u0069m;
+ 2 | /pattern/\u0067im;
+   : ^^^^^^^^^^^^^^^^^
+ 3 | /pattern/gi\u006d;
+   `----
+  x Regular expression flags cannot contain unicode escapes.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/escaped-among-ascii/input.js:3:1]
+ 2 | /pattern/\u0067im;
+ 3 | /pattern/gi\u006d;
+   : ^^^^^^^^^^^^^^^^^
+   `----

@@ -265,8 +265,10 @@ impl Pure<'_> {
                 let val = stmt.test.as_pure_bool(self.expr_ctx);
                 if let Value::Known(false) = val {
                     // A direct break or continue targets this loop and cannot survive
-                    // unwrapping.
-                    if should_not_inline_loop_body(&stmt.body, false) {
+                    // unwrapping. Even removing a terminal jump along with the loop
+                    // can expose its ancestors to unsafe purity or directive
+                    // simplifications, including during a later minification.
+                    if should_not_inline_loop_body(&stmt.body) {
                         return;
                     }
 
@@ -308,33 +310,23 @@ fn optimize_loop_body(loop_body: &mut Stmt) {
     }
 }
 
-fn should_not_inline_loop_body(s: &Stmt, allow_break_continue: bool) -> bool {
+fn should_not_inline_loop_body(s: &Stmt) -> bool {
     match s {
-        Stmt::Block(s) => s
-            .stmts
-            .iter()
-            .any(|s| should_not_inline_loop_body(s, allow_break_continue)),
+        Stmt::Block(s) => s.stmts.iter().any(should_not_inline_loop_body),
 
         Stmt::If(s) => {
-            should_not_inline_loop_body(&s.cons, false)
+            should_not_inline_loop_body(&s.cons)
                 || s.alt
                     .as_deref()
-                    .map(|s| should_not_inline_loop_body(s, false))
+                    .map(should_not_inline_loop_body)
                     .unwrap_or_default()
         }
         Stmt::Switch(s) => s
             .cases
             .iter()
-            .any(|c| c.cons.iter().any(|s| should_not_inline_loop_body(s, false))),
+            .any(|c| c.cons.iter().any(should_not_inline_loop_body)),
 
-        Stmt::Continue(ContinueStmt {
-            label: Some(..), ..
-        })
-        | Stmt::Break(BreakStmt {
-            label: Some(..), ..
-        }) => true,
-
-        Stmt::Break(..) | Stmt::Continue(..) => !allow_break_continue,
+        Stmt::Break(..) | Stmt::Continue(..) => true,
 
         Stmt::Return(..)
         | Stmt::Throw(..)
