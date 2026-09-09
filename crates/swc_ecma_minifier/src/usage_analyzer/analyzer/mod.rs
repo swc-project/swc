@@ -1320,6 +1320,11 @@ where
             PropName::Str(s) => {
                 self.data.add_property_atom(s.value.clone());
             }
+            PropName::Computed(computed) => {
+                if let Some(prop) = property_name_str(&computed.expr) {
+                    self.data.add_property_atom(prop.value.clone());
+                }
+            }
             _ => {}
         };
     }
@@ -1704,6 +1709,18 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
             });
         }
         _ => {}
+    }
+}
+
+/// Returns a string literal that has no evaluation beyond grouping parentheses.
+///
+/// Computed property names use arbitrary expressions, so only this narrow form
+/// can be collected as a property atom for property mangling.
+fn property_name_str(expr: &Expr) -> Option<&Str> {
+    match expr {
+        Expr::Lit(Lit::Str(prop)) => Some(prop),
+        Expr::Paren(paren) => property_name_str(&paren.expr),
+        _ => None,
     }
 }
 

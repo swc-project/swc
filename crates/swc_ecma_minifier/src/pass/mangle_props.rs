@@ -170,14 +170,17 @@ impl Mangler<'_, '_> {
     /// are equivalent to numeric property keys, which the mangler leaves
     /// unchanged.
     fn mangle_property_name_expr(&mut self, expr: &mut Expr) {
-        if let Expr::Lit(Lit::Str(string)) = expr {
-            if string
-                .value
-                .as_str()
-                .map_or(true, |value| value.parse::<f64>().is_err())
+        match expr {
+            Expr::Lit(Lit::Str(string))
+                if string
+                    .value
+                    .as_str()
+                    .map_or(true, |value| value.parse::<f64>().is_err()) =>
             {
                 self.mangle_str(string);
             }
+            Expr::Paren(paren) => self.mangle_property_name_expr(&mut paren.expr),
+            _ => {}
         }
     }
 }

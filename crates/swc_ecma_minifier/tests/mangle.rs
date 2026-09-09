@@ -624,3 +624,30 @@ console.log(e.F, e.G, e.I, e.K, e.L);";
         },
     )
 }
+
+#[test]
+fn issue_12312_parenthesized_computed_property_name() {
+    let src = "const seed = { longprop: 0 };
+const obj = { [(\"longprop\")]: 1 };
+console.log(obj[\"longprop\"], seed.longprop);";
+    let expected = "const a = {
+    a: 0
+};
+const b = {
+    [(\"a\")]: 1
+};
+console.log(b[\"a\"], a.a);";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            disable_char_freq: true,
+            props: Some(ManglePropertiesOptions {
+                regex: Some("^longprop$".into()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    );
+}
