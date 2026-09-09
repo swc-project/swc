@@ -233,6 +233,37 @@ function intrinsic_constructor_coercion_order() {
     Array.toString = arrayToString;
 }
 intrinsic_constructor_coercion_order();
+function legacy_global_coercion_order() {
+    const escapeToString = escape.toString;
+    try {
+        [
+            escape,
+            escape.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    escape.toString = escapeToString;
+    const unescapeToString = unescape.toString;
+    try {
+        [
+            unescape,
+            unescape.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    unescape.toString = unescapeToString;
+}
+legacy_global_coercion_order();
+function arguments_coercion() {
+    arguments.toString = ()=>"s";
+    arguments.valueOf = ()=>1;
+    return [
+        arguments
+    ].join("");
+}
+console.log(arguments_coercion());
 function signed_typed_array_constructor_coercion_order() {
     const int8ArrayToString = Int8Array.toString;
     try {

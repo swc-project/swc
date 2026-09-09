@@ -22,6 +22,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "encodeURI"
             | "encodeURIComponent"
             | "Error"
+            | "escape"
             | "eval"
             | "EvalError"
             | "FinalizationRegistry"
@@ -62,6 +63,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "Uint16Array"
             | "Uint32Array"
             | "URIError"
+            | "unescape"
             | "WeakMap"
             | "WeakRef"
             | "WeakSet"
@@ -149,7 +151,7 @@ pub(crate) fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         | Expr::SuperProp(..) => true,
         Expr::Ident(ident)
             if ident.ctxt == expr_ctx.unresolved_ctxt
-                && is_intrinsic_object_or_function(&ident.sym) =>
+                && (is_intrinsic_object_or_function(&ident.sym) || ident.sym == "arguments") =>
         {
             true
         }

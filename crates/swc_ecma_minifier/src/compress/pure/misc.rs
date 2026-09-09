@@ -248,7 +248,7 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         Expr::Member(..) | Expr::SuperProp(..) => true,
         Expr::Ident(ident)
             if ident.ctxt == expr_ctx.unresolved_ctxt
-                && is_intrinsic_object_or_function(&ident.sym) =>
+                && (is_intrinsic_object_or_function(&ident.sym) || ident.sym == "arguments") =>
         {
             true
         }
