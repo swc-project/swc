@@ -323,6 +323,22 @@ function performance_coercion() {
 
 performance_coercion();
 
+function blob_coercion() {
+    if (typeof Blob === "undefined") {
+        return;
+    }
+
+    const blobToString = Blob.toString;
+    const blobValueOf = Blob.valueOf;
+    Blob.toString = () => "string-hint";
+    Blob.valueOf = () => 7;
+    console.log([Blob].join(""));
+    Blob.toString = blobToString;
+    Blob.valueOf = blobValueOf;
+}
+
+blob_coercion();
+
 function opener_nullish() {
     return [opener].join("-");
 }

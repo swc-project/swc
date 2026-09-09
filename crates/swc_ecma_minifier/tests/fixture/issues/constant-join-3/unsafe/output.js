@@ -381,6 +381,19 @@ function performance_coercion() {
     performance.valueOf = performanceValueOf;
 }
 performance_coercion();
+function blob_coercion() {
+    if ("u" < typeof Blob) return;
+    const blobToString = Blob.toString;
+    const blobValueOf = Blob.valueOf;
+    Blob.toString = ()=>"string-hint";
+    Blob.valueOf = ()=>7;
+    console.log([
+        Blob
+    ].join(""));
+    Blob.toString = blobToString;
+    Blob.valueOf = blobValueOf;
+}
+blob_coercion();
 function opener_nullish() {
     return [
         opener

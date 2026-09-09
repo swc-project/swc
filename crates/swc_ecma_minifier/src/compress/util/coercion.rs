@@ -21,6 +21,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "BigInt"
             | "BigInt64Array"
             | "BigUint64Array"
+            | "Blob"
             | "Boolean"
             | "btoa"
             | "clearImmediate"
