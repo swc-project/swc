@@ -15,3 +15,30 @@ report("var", ()=>{});
 report("unresolved", ()=>{
     unresolved;
 });
+report("parameter", function(value) {
+    console.log(value);
+});
+report("arrow parameter", (value)=>{
+    console.log(value);
+});
+report("catch", ()=>{
+    try {
+        throw "caught";
+    } catch (error) {
+        console.log(error);
+    }
+});
+report("function", ()=>{
+    function value() {
+        return "function";
+    }
+    console.log(value());
+});
+report("class", ()=>{
+    class Value {
+        static get() {
+            return "class";
+        }
+    }
+    console.log(Value.get());
+});

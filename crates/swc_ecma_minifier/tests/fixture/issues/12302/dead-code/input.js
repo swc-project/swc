@@ -25,3 +25,40 @@ report("var", () => {
 report("unresolved", () => {
     unresolved = unresolved;
 });
+
+report("parameter", function (value) {
+    value = value;
+    console.log(value);
+});
+
+report("arrow parameter", (value) => {
+    value = value;
+    console.log(value);
+});
+
+report("catch", () => {
+    try {
+        throw "caught";
+    } catch (error) {
+        error = error;
+        console.log(error);
+    }
+});
+
+report("function", () => {
+    function value() {
+        return "function";
+    }
+    value = value;
+    console.log(value());
+});
+
+report("class", () => {
+    class Value {
+        static get() {
+            return "class";
+        }
+    }
+    Value = Value;
+    console.log(Value.get());
+});

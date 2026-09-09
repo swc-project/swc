@@ -71,6 +71,40 @@ impl Visit for WritableBindingCollector {
 
         n.visit_children_with(self);
     }
+
+    fn visit_function(&mut self, n: &Function) {
+        for param in &n.params {
+            self.bindings.extend(find_pat_ids::<_, Id>(&param.pat));
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        for param in &n.params {
+            self.bindings.extend(find_pat_ids::<_, Id>(param));
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_catch_clause(&mut self, n: &CatchClause) {
+        if let Some(param) = &n.param {
+            self.bindings.extend(find_pat_ids::<_, Id>(param));
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_fn_decl(&mut self, n: &FnDecl) {
+        self.bindings.insert(n.ident.to_id());
+        n.visit_children_with(self);
+    }
+
+    fn visit_class_decl(&mut self, n: &ClassDecl) {
+        self.bindings.insert(n.ident.to_id());
+        n.visit_children_with(self);
+    }
 }
 
 #[allow(clippy::needless_lifetimes)]

@@ -4,6 +4,7 @@ use std::thread;
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
+use rustc_hash::FxHashSet;
 use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
@@ -52,6 +53,7 @@ where
         pass: 1,
         mode,
         static_alias_state: Default::default(),
+        writable_bindings: Default::default(),
     }
 }
 
@@ -66,6 +68,12 @@ struct Compressor<'a> {
 
     /// State for static alias optimization, shared across passes.
     static_alias_state: StaticAliasState,
+
+    /// Bindings whose self-assignments can be safely removed.
+    ///
+    /// Resolver IDs are stable for the lifetime of a compression unit, so this
+    /// analysis can be reused by every repeated pure-optimizer pass.
+    writable_bindings: FxHashSet<Id>,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -101,6 +109,8 @@ impl Compressor<'_> {
             n.visit_mut_with(&mut v);
             self.changed |= v.changed();
         }
+
+        self.writable_bindings = pure::collect_writable_bindings(&*n);
 
         loop {
             self.changed = false;
@@ -151,14 +161,13 @@ impl Compressor<'_> {
         };
 
         {
-            let writable_bindings = collect_writable_bindings(&*n);
             let mut visitor = pure_optimizer(
                 self.options,
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
                 },
-                &writable_bindings,
+                &self.writable_bindings,
             );
             n.visit_mut_with(&mut visitor);
 
