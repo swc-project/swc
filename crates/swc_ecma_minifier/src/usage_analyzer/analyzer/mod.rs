@@ -1140,11 +1140,21 @@ where
             v.mark_has_property_access();
 
             if let MemberProp::Computed(prop) = &e.prop {
-                match &*prop.expr {
-                    expr if let Some(name) = static_property_name(expr) => {
-                        v.add_accessed_property(name.clone());
+                if let Some(name) = static_property_name(&prop.expr) {
+                    v.add_accessed_property(name.clone());
+                } else {
+                    match &*prop.expr {
+                        // Numeric keys were historically ignored by this analysis. They
+                        // are not dynamic indexes and retaining that distinction permits
+                        // partial inlining of arrays accessed with a numeric literal.
+                        Expr::Lit(Lit::Num(_)) => {}
+                        Expr::Lit(Lit::Str(string))
+                            if string
+                                .value
+                                .as_str()
+                                .is_some_and(|value| value.parse::<f64>().is_ok()) => {}
+                        _ => v.mark_indexed_with_dynamic_key(),
                     }
-                    _ => v.mark_indexed_with_dynamic_key(),
                 }
             }
 
