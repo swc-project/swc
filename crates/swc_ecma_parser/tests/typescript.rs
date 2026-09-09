@@ -2,11 +2,12 @@
 
 use std::{
     fs::File,
-    io::Read,
+    io::{self, Read},
     path::{Path, PathBuf},
 };
 
 use pretty_assertions::assert_eq;
+use serde::Deserialize;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax, TsSyntax};
@@ -17,6 +18,12 @@ use crate::common::Normalizer;
 
 #[path = "common/mod.rs"]
 mod common;
+
+#[derive(Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct TestConfig {
+    no_early_errors: Option<bool>,
+}
 
 #[testing::fixture("tests/shifted/**/*.ts")]
 fn shifted(file: PathBuf) {
@@ -182,7 +189,16 @@ fn run_spec(file: &Path, output_json: &Path) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
-    with_parser(false, file, true, false, |p, _| {
+    // AST fixtures normally suppress early errors; regression fixtures can opt in.
+    let config_path = file.with_file_name("config.json");
+    let config: TestConfig = match File::open(&config_path) {
+        Ok(file) => serde_json::from_reader(file).expect("failed to parse fixture config"),
+        Err(err) if err.kind() == io::ErrorKind::NotFound => TestConfig::default(),
+        Err(err) => panic!("failed to read {}: {err}", config_path.display()),
+    };
+    let no_early_errors = config.no_early_errors.unwrap_or(true);
+
+    with_parser(false, file, no_early_errors, false, |p, _| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
