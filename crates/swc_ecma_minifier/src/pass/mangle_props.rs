@@ -163,6 +163,15 @@ impl Mangler<'_, '_> {
             string.raw = None;
         }
     }
+
+    /// Mangle a string literal only when it occupies a statically known
+    /// property-name position. Strings in arbitrary expressions are values,
+    /// not property names, and must remain unchanged.
+    fn mangle_property_name_expr(&mut self, expr: &mut Expr) {
+        if let Expr::Lit(Lit::Str(string)) = expr {
+            self.mangle_str(string);
+        }
+    }
 }
 
 impl VisitMut for Mangler<'_, '_> {
@@ -179,8 +188,18 @@ impl VisitMut for Mangler<'_, '_> {
     fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
         member_expr.visit_mut_children_with(self);
 
-        if let MemberProp::Ident(ident) = &mut member_expr.prop {
-            self.mangle_ident(ident);
+        match &mut member_expr.prop {
+            MemberProp::Ident(ident) => self.mangle_ident(ident),
+            MemberProp::Computed(computed) => self.mangle_property_name_expr(&mut computed.expr),
+            _ => {}
+        }
+    }
+
+    fn visit_mut_bin_expr(&mut self, bin_expr: &mut BinExpr) {
+        bin_expr.visit_mut_children_with(self);
+
+        if bin_expr.op == BinaryOp::In {
+            self.mangle_property_name_expr(&mut bin_expr.left);
         }
     }
 
@@ -209,6 +228,7 @@ impl VisitMut for Mangler<'_, '_> {
             PropName::Str(string) => {
                 self.mangle_str(string);
             }
+            PropName::Computed(computed) => self.mangle_property_name_expr(&mut computed.expr),
             _ => {}
         }
     }
@@ -216,8 +236,9 @@ impl VisitMut for Mangler<'_, '_> {
     fn visit_mut_super_prop_expr(&mut self, super_expr: &mut SuperPropExpr) {
         super_expr.visit_mut_children_with(self);
 
-        if let SuperProp::Ident(ident) = &mut super_expr.prop {
-            self.mangle_ident(ident);
+        match &mut super_expr.prop {
+            SuperProp::Ident(ident) => self.mangle_ident(ident),
+            SuperProp::Computed(computed) => self.mangle_property_name_expr(&mut computed.expr),
         }
     }
 }
