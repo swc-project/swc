@@ -87,9 +87,13 @@ impl BlockScopedVars<'_> {
 
         // dbg!(&rename_map);
 
-        n.visit_mut_with(
-            &mut rename_with_config(&rename_map, Default::default()) as &mut dyn VisitMut
-        );
+        // With no conflicts and default name-preservation settings, the
+        // renamer cannot change the program. Avoid its traversal and buffers.
+        if !rename_map.is_empty() {
+            n.visit_mut_with(
+                &mut rename_with_config(&rename_map, Default::default()) as &mut dyn VisitMut
+            );
+        }
     }
 
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {

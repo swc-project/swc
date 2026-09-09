@@ -759,6 +759,32 @@ where
     });
 }
 
+// A public pass may process multiple programs. Reusing its allocation buffers
+// must produce the same output as a fresh pass, including after an empty input.
+#[testing::fixture("tests/block-scoping/reused-pass/**/first.js")]
+fn reused_pass(input: PathBuf) {
+    Tester::run(|tester| {
+        let mut reused = tr();
+        for name in ["first.js", "second.js", "third.js", "empty.js", "first.js"] {
+            let source = read_to_string(input.with_file_name(name)).unwrap();
+            let expected = tester
+                .apply_transform(tr(), name, Default::default(), Some(false), &source)?
+                .apply(hygiene())
+                .apply(fixer(Some(&tester.comments)));
+            let actual = tester
+                .apply_transform(&mut reused, name, Default::default(), Some(false), &source)?
+                .apply(hygiene())
+                .apply(fixer(Some(&tester.comments)));
+            assert_eq!(
+                tester.print(&expected, &tester.comments.clone()),
+                tester.print(&actual, &tester.comments.clone()),
+                "reused pass changed {name}"
+            );
+        }
+        Ok(())
+    });
+}
+
 struct TsHygiene {
     unresolved_mark: Mark,
 }
