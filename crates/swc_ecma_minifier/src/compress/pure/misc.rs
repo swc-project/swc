@@ -1451,7 +1451,11 @@ impl Pure<'_> {
     /// Whether evaluating an array element can affect the later `join` lookup.
     fn may_affect_array_join_lookup(&self, expr: &Expr) -> bool {
         match expr {
-            Expr::Ident(..) | Expr::Lit(..) => false,
+            // Reading an unresolved global can run an accessor before `join`
+            // looks up Array.prototype.join. Declared identifiers are covered
+            // by the minifier's side-effect-free binding assumption.
+            Expr::Ident(ident) => ident.ctxt == self.expr_ctx.unresolved_ctxt,
+            Expr::Lit(..) => false,
             Expr::Paren(ParenExpr { expr, .. })
             | Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })

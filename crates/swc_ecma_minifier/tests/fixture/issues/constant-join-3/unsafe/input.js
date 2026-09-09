@@ -113,6 +113,54 @@ function multi_element_join_lookup_order() {
 
 multi_element_join_lookup_order();
 
+function unresolved_global_join_lookup_order() {
+    const join = Array.prototype.join;
+    const xDescriptor = Object.getOwnPropertyDescriptor(globalThis, "x");
+    const yDescriptor = Object.getOwnPropertyDescriptor(globalThis, "y");
+    Object.defineProperty(globalThis, "x", {
+        configurable: true,
+        get() {
+            delete Array.prototype.join;
+            return 1;
+        },
+    });
+    Object.defineProperty(globalThis, "y", {
+        configurable: true,
+        get() {
+            return 2;
+        },
+    });
+    try {
+        [x, y].join("");
+    } catch {
+        console.log(true);
+    } finally {
+        Array.prototype.join = join;
+        if (xDescriptor) {
+            Object.defineProperty(globalThis, "x", xDescriptor);
+        } else {
+            delete globalThis.x;
+        }
+        if (yDescriptor) {
+            Object.defineProperty(globalThis, "y", yDescriptor);
+        } else {
+            delete globalThis.y;
+        }
+    }
+}
+
+unresolved_global_join_lookup_order();
+
+function browser_object_globals() {
+    return [
+        [caches].join(""),
+        [localStorage].join(""),
+        [location].join(""),
+        [screen].join(""),
+        [sessionStorage].join(""),
+    ].join("|");
+}
+
 function coercion() {
     console.log([{
         toString() {
