@@ -66,6 +66,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "navigator"
             | "parseFloat"
             | "parseInt"
+            | "performance"
             | "process"
             | "Promise"
             | "prompt"

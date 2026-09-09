@@ -368,6 +368,19 @@ function crypto_coercion() {
     crypto.valueOf = cryptoValueOf;
 }
 crypto_coercion();
+function performance_coercion() {
+    if ("u" < typeof performance) return;
+    const performanceToString = performance.toString;
+    const performanceValueOf = performance.valueOf;
+    performance.toString = ()=>"string-hint";
+    performance.valueOf = ()=>7;
+    console.log([
+        performance
+    ].join(""));
+    performance.toString = performanceToString;
+    performance.valueOf = performanceValueOf;
+}
+performance_coercion();
 function opener_nullish() {
     return [
         opener
