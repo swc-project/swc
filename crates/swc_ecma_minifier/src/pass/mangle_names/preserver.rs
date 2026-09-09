@@ -22,7 +22,7 @@ where
         preserved: Default::default(),
         should_preserve: false,
         in_top_level: false,
-        in_script_global_function_scope: false,
+        in_script_global_var_decl: false,
 
         idents: Vec::new(),
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
@@ -65,7 +65,7 @@ pub(crate) struct Preserver<'a> {
 
     should_preserve: bool,
     in_top_level: bool,
-    in_script_global_function_scope: bool,
+    in_script_global_var_decl: bool,
 
     idents: Vec<Id>,
     unresolved_ctx: SyntaxContext,
@@ -102,10 +102,10 @@ impl Visit for Preserver<'_> {
     visit_obj_and_computed!();
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        let old = self.in_script_global_function_scope;
-        self.in_script_global_function_scope = false;
+        let old = self.in_script_global_var_decl;
+        self.in_script_global_var_decl = false;
         n.visit_children_with(self);
-        self.in_script_global_function_scope = old;
+        self.in_script_global_var_decl = old;
     }
 
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
@@ -150,10 +150,10 @@ impl Visit for Preserver<'_> {
     }
 
     fn visit_constructor(&mut self, n: &Constructor) {
-        let old = self.in_script_global_function_scope;
-        self.in_script_global_function_scope = false;
+        let old = self.in_script_global_var_decl;
+        self.in_script_global_var_decl = false;
         n.visit_children_with(self);
-        self.in_script_global_function_scope = old;
+        self.in_script_global_var_decl = old;
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
@@ -206,10 +206,10 @@ impl Visit for Preserver<'_> {
     }
 
     fn visit_function(&mut self, n: &Function) {
-        let old = self.in_script_global_function_scope;
-        self.in_script_global_function_scope = false;
+        let old = self.in_script_global_var_decl;
+        self.in_script_global_var_decl = false;
         n.visit_children_with(self);
-        self.in_script_global_function_scope = old;
+        self.in_script_global_var_decl = old;
     }
 
     fn visit_ident(&mut self, i: &Ident) {
@@ -237,8 +237,8 @@ impl Visit for Preserver<'_> {
 
     fn visit_script(&mut self, n: &Script) {
         let old_top_level = self.in_top_level;
-        let old_script_global_function_scope = self.in_script_global_function_scope;
-        self.in_script_global_function_scope = true;
+        let old_script_global_var_decl = self.in_script_global_var_decl;
+        self.in_script_global_var_decl = true;
 
         for n in n.body.iter() {
             self.in_top_level = true;
@@ -246,20 +246,27 @@ impl Visit for Preserver<'_> {
         }
 
         self.in_top_level = old_top_level;
-        self.in_script_global_function_scope = old_script_global_function_scope;
+        self.in_script_global_var_decl = old_script_global_var_decl;
     }
 
     fn visit_static_block(&mut self, n: &StaticBlock) {
-        let old = self.in_script_global_function_scope;
-        self.in_script_global_function_scope = false;
+        let old = self.in_script_global_var_decl;
+        self.in_script_global_var_decl = false;
         n.visit_children_with(self);
-        self.in_script_global_function_scope = old;
+        self.in_script_global_var_decl = old;
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        let old = self.in_script_global_var_decl;
+        self.in_script_global_var_decl &= n.kind == VarDeclKind::Var;
+        n.visit_children_with(self);
+        self.in_script_global_var_decl = old;
     }
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
         n.visit_children_with(self);
 
-        if (self.in_top_level || self.in_script_global_function_scope)
+        if (self.in_top_level || self.in_script_global_var_decl)
             && !self.options.top_level.unwrap_or_default()
         {
             let old = self.should_preserve;

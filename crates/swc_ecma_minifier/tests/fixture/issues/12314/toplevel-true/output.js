@@ -1,10 +1,11 @@
 if (true) {
     var o = 1;
-    console.log("inside");
+    let e = 3;
+    console.log("inside", e);
 }
-var n = 2;
-function r() {
-    var n = o;
-    return n;
+var e = 2;
+function n() {
+    var e = o;
+    return e;
 }
-console.log(o, n, r());
+console.log(o, e, n());

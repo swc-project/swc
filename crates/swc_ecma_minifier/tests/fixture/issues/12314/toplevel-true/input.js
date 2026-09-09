@@ -1,6 +1,7 @@
 if (true) {
     var globallyVisible = 1;
-    console.log("inside");
+    let blockScoped = 3;
+    console.log("inside", blockScoped);
 }
 
 var directlyVisible = 2;

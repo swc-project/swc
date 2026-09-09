@@ -1,6 +1,7 @@
 if (true) {
     var globallyVisible = 1;
-    console.log("inside");
+    let l = 3;
+    console.log("inside", l);
 }
 var directlyVisible = 2;
 function local() {
