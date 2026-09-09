@@ -334,9 +334,7 @@ function float16_array_constructor_coercion_order() {
             Float16Array,
             Float16Array.toString = 0
         ].join("");
-    } catch  {
-        console.log(true);
-    }
+    } catch  {}
     Float16Array.toString = float16ArrayToString;
 }
 float16_array_constructor_coercion_order();

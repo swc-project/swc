@@ -260,7 +260,6 @@ function float16_array_constructor_coercion_order() {
     try {
         [Float16Array, Float16Array.toString = 0].join("");
     } catch {
-        console.log(true);
     }
     Float16Array.toString = float16ArrayToString;
 }
