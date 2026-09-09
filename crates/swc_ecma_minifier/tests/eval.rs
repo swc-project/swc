@@ -169,6 +169,10 @@ fn eval_string_raw() {
     assert_eq!(raw_newline.encode_utf16().count(), 4);
     assert_eq!(eval_resolved("", "String.raw`a\r\nb`").unwrap(), "a\nb");
     assert_eq!(eval_resolved("", "String.raw`a\rb`").unwrap(), "a\nb");
+    assert_eq!(
+        eval_resolved("", "String.raw`a\r\nb\rc\r\nd`").unwrap(),
+        "a\nb\nc\nd"
+    );
     assert_eq!(eval_resolved("", r"String.raw`\u0061`").unwrap(), r"\u0061");
     assert_eq!(eval_resolved("", r"`a\nb`").unwrap(), "a\nb");
     assert_eq!(eval_resolved("", "String.raw`abc`").unwrap(), "abc");
