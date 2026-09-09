@@ -981,26 +981,30 @@ function console_coercion_order() {
     console.toString = toString;
 }
 function disposable_stack_coercion_order() {
-    const disposableStackToString = DisposableStack.toString;
-    try {
-        [
-            DisposableStack,
-            DisposableStack.toString = 0
-        ].join("");
-    } catch  {
-        console.log(true);
+    if ("u" > typeof DisposableStack) {
+        const disposableStackToString = DisposableStack.toString;
+        try {
+            [
+                DisposableStack,
+                DisposableStack.toString = 0
+            ].join("");
+        } catch  {
+            console.log(true);
+        }
+        DisposableStack.toString = disposableStackToString;
     }
-    DisposableStack.toString = disposableStackToString;
-    const asyncDisposableStackToString = AsyncDisposableStack.toString;
-    try {
-        [
-            AsyncDisposableStack,
-            AsyncDisposableStack.toString = 0
-        ].join("");
-    } catch  {
-        console.log(true);
+    if ("u" > typeof AsyncDisposableStack) {
+        const asyncDisposableStackToString = AsyncDisposableStack.toString;
+        try {
+            [
+                AsyncDisposableStack,
+                AsyncDisposableStack.toString = 0
+            ].join("");
+        } catch  {
+            console.log(true);
+        }
+        AsyncDisposableStack.toString = asyncDisposableStackToString;
     }
-    AsyncDisposableStack.toString = asyncDisposableStackToString;
 }
 function prompt_nullish() {
     globalThis.prompt = ()=>null;
