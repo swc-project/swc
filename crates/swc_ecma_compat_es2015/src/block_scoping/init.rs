@@ -13,6 +13,14 @@ mod scope;
 
 const SCRATCH: &str = "_loop_init_";
 
+pub(super) fn captures_initializer(decl: &VarDecl) -> bool {
+    if decl.kind != VarDeclKind::Let {
+        return false;
+    }
+    let bindings = super::find_lexical_vars(decl);
+    !bindings.is_empty() && captures::analyze(decl, &bindings).captured
+}
+
 pub(super) fn initializer_scopes(program: &mut Program) -> Initializers {
     let mut pass = InitializerScopes::default();
     program.visit_mut_with(&mut pass);

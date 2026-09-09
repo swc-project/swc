@@ -1,3 +1,5 @@
+use std::cell::Cell;
+
 use indexmap::IndexMap;
 use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::Atom;
@@ -6,16 +8,21 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{rename::rename_with_config, scope::ScopeKind};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-pub(super) fn block_scoped_vars() -> impl VisitMut {
-    BlockScopedVars::default()
+pub(super) fn block_scoped_vars(captured_initializers: &Cell<bool>) -> impl VisitMut + '_ {
+    BlockScopedVars {
+        scope: Default::default(),
+        var_decl_kind: None,
+        is_param: false,
+        captured_initializers,
+    }
 }
 
-#[derive(Default)]
-struct BlockScopedVars {
+struct BlockScopedVars<'a> {
     scope: Scope,
 
     var_decl_kind: Option<VarDeclKind>,
     is_param: bool,
+    captured_initializers: &'a Cell<bool>,
 }
 
 #[derive(Debug, Default)]
@@ -35,7 +42,7 @@ struct ParentScope<'a> {
     vars: &'a IndexMap<Id, VarDeclKind, FxBuildHasher>,
 }
 
-impl BlockScopedVars {
+impl BlockScopedVars<'_> {
     fn add_usage(&mut self, ident: &Ident) {
         if !self
             .scope
@@ -236,7 +243,7 @@ impl ParentScope<'_> {
     }
 }
 
-impl VisitMut for BlockScopedVars {
+impl VisitMut for BlockScopedVars<'_> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
@@ -358,6 +365,15 @@ impl VisitMut for BlockScopedVars {
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        // This traversal already visits every header. Detect captures here so
+        // unaffected programs need neither a symbol inventory nor a scope rewrite.
+        if !self.captured_initializers.get() {
+            if let Some(VarDeclOrExpr::VarDecl(decl)) = &n.init {
+                if super::init::captures_initializer(decl) {
+                    self.captured_initializers.set(true);
+                }
+            }
+        }
         match &n.init {
             Some(VarDeclOrExpr::VarDecl(v))
                 if matches!(

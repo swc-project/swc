@@ -1,4 +1,4 @@
-use std::{iter::once, mem::take};
+use std::{cell::Cell, iter::once, mem::take};
 
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
@@ -31,8 +31,13 @@ mod vars;
 /// ```
 pub fn block_scoping(unresolved_mark: Mark) -> impl Pass {
     fn_pass(move |program| {
-        program.visit_mut_with(&mut self::vars::block_scoped_vars());
-        let initializers = init::initializer_scopes(program);
+        let captured_initializers = Cell::new(false);
+        program.visit_mut_with(&mut self::vars::block_scoped_vars(&captured_initializers));
+        let initializers = if captured_initializers.get() {
+            init::initializer_scopes(program)
+        } else {
+            Default::default()
+        };
         program.visit_mut_with(&mut BlockScoping {
             unresolved_mark,
             initializers,
