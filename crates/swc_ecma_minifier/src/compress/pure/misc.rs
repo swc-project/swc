@@ -17,7 +17,7 @@ use super::{array_join::join_to_concat, Pure};
 use crate::{
     compress::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-        util::{eval_to_undefined, is_pure_undefined},
+        util::{eval_to_undefined, is_intrinsic_object_or_function, is_pure_undefined},
     },
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
@@ -225,11 +225,12 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             callee: Callee::Expr(callee),
             ..
         }) => may_call_evaluate_to_object(expr_ctx, callee),
-        Expr::OptChain(OptChainExpr { base, .. }) => matches!(
-            &**base,
-            OptChainBase::Call(OptCall { callee, .. })
-                if may_call_evaluate_to_object(expr_ctx, callee)
-        ),
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Member(..) => true,
+            OptChainBase::Call(OptCall { callee, .. }) => {
+                may_call_evaluate_to_object(expr_ctx, callee)
+            }
+        },
         Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_object(expr_ctx, tag),
         // A yielded value can be an object whose string-hint coercion differs
         // from addition's default-hint coercion.
@@ -245,12 +246,9 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         // A member read can expose an object whose string-hint coercion differs
         // from addition's default-hint coercion.
         Expr::Member(..) | Expr::SuperProp(..) => true,
-        // These unresolved intrinsic globals are objects or functions. Unlike
-        // arbitrary unresolved references, their coercion can be observed
-        // after a later expression mutates their own `toString` property.
         Expr::Ident(ident)
             if ident.ctxt == expr_ctx.unresolved_ctxt
-                && matches!(&*ident.sym, "Math" | "JSON" | "Object") =>
+                && is_intrinsic_object_or_function(&ident.sym) =>
         {
             true
         }
@@ -358,11 +356,12 @@ fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             callee: Callee::Expr(callee),
             ..
         }) => may_call_evaluate_to_symbol(expr_ctx, callee),
-        Expr::OptChain(OptChainExpr { base, .. }) => matches!(
-            &**base,
-            OptChainBase::Call(OptCall { callee, .. })
-                if may_call_evaluate_to_symbol(expr_ctx, callee)
-        ),
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Member(..) => true,
+            OptChainBase::Call(OptCall { callee, .. }) => {
+                may_call_evaluate_to_symbol(expr_ctx, callee)
+            }
+        },
         Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_symbol(expr_ctx, tag),
         // A yielded value can be a Symbol, whose concatenation throw must
         // remain deferred until every join element has been evaluated.

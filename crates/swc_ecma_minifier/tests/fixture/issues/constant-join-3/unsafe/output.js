@@ -220,6 +220,44 @@ function intrinsic_global_coercion_order() {
     Object.toString = objectToString;
 }
 intrinsic_global_coercion_order();
+function intrinsic_constructor_coercion_order() {
+    const arrayToString = Array.toString;
+    try {
+        [
+            Array,
+            Array.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    Array.toString = arrayToString;
+}
+intrinsic_constructor_coercion_order();
+function optional_member_coercion_order() {
+    let state = 1;
+    const object = {
+        value: {
+            toString () {
+                return state;
+            },
+            valueOf () {
+                return state;
+            }
+        }
+    };
+    console.log(object?.value + ("x" + (state = 2, "")));
+}
+optional_member_coercion_order();
+function optional_member_property_symbol_order() {
+    let hit = false;
+    try {
+        ({
+            value: Symbol()
+        }).value + (hit = true);
+    } catch  {}
+    console.log(hit);
+}
+optional_member_property_symbol_order();
 function suppressed_error_coercion_order() {
     if ("function" != typeof SuppressedError) return;
     let value;

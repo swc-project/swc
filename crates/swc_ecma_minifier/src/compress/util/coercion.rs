@@ -1,6 +1,70 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 
+/// Returns whether `sym` names a standard intrinsic whose value is an object
+/// or function. These values can have observable `toString` mutations between
+/// array-element evaluation and coercion by `join` or addition.
+pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
+    matches!(
+        sym,
+        "AggregateError"
+            | "Array"
+            | "ArrayBuffer"
+            | "Atomics"
+            | "BigInt"
+            | "BigInt64Array"
+            | "BigUint64Array"
+            | "Boolean"
+            | "DataView"
+            | "Date"
+            | "decodeURI"
+            | "decodeURIComponent"
+            | "encodeURI"
+            | "encodeURIComponent"
+            | "Error"
+            | "eval"
+            | "EvalError"
+            | "FinalizationRegistry"
+            | "Float32Array"
+            | "Float64Array"
+            | "Function"
+            | "globalThis"
+            | "Intl"
+            | "isFinite"
+            | "isNaN"
+            | "JSON"
+            | "Map"
+            | "Math"
+            | "Number"
+            | "Object"
+            | "parseFloat"
+            | "parseInt"
+            | "Promise"
+            | "Proxy"
+            | "queueMicrotask"
+            | "RangeError"
+            | "ReferenceError"
+            | "Reflect"
+            | "RegExp"
+            | "Set"
+            | "SharedArrayBuffer"
+            | "String"
+            | "structuredClone"
+            | "SuppressedError"
+            | "Symbol"
+            | "SyntaxError"
+            | "TypeError"
+            | "Uint8Array"
+            | "Uint8ClampedArray"
+            | "Uint16Array"
+            | "Uint32Array"
+            | "URIError"
+            | "WeakMap"
+            | "WeakRef"
+            | "WeakSet"
+    )
+}
+
 /// Returns the runtime-value expression after removing syntax-only wrappers.
 fn unwrap_value_preserving_expr(mut expr: &Expr) -> &Expr {
     loop {
@@ -65,11 +129,12 @@ pub(crate) fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             callee: Callee::Expr(callee),
             ..
         }) => may_call_evaluate_to_object(expr_ctx, callee),
-        Expr::OptChain(OptChainExpr { base, .. }) => matches!(
-            &**base,
-            OptChainBase::Call(OptCall { callee, .. })
-                if may_call_evaluate_to_object(expr_ctx, callee)
-        ),
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Member(..) => true,
+            OptChainBase::Call(OptCall { callee, .. }) => {
+                may_call_evaluate_to_object(expr_ctx, callee)
+            }
+        },
         Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_object(expr_ctx, tag),
         Expr::Yield(..)
         | Expr::Arrow(..)
@@ -79,12 +144,9 @@ pub(crate) fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         | Expr::JSXFragment(..)
         | Expr::Member(..)
         | Expr::SuperProp(..) => true,
-        // These unresolved intrinsic globals are objects or functions. Unlike
-        // arbitrary unresolved references, their coercion can be observed
-        // after a later expression mutates their own `toString` property.
         Expr::Ident(ident)
             if ident.ctxt == expr_ctx.unresolved_ctxt
-                && matches!(&*ident.sym, "Math" | "JSON" | "Object") =>
+                && is_intrinsic_object_or_function(&ident.sym) =>
         {
             true
         }
@@ -172,11 +234,12 @@ pub(crate) fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             callee: Callee::Expr(callee),
             ..
         }) => may_call_evaluate_to_symbol(expr_ctx, callee),
-        Expr::OptChain(OptChainExpr { base, .. }) => matches!(
-            &**base,
-            OptChainBase::Call(OptCall { callee, .. })
-                if may_call_evaluate_to_symbol(expr_ctx, callee)
-        ),
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Member(..) => true,
+            OptChainBase::Call(OptCall { callee, .. }) => {
+                may_call_evaluate_to_symbol(expr_ctx, callee)
+            }
+        },
         Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_symbol(expr_ctx, tag),
         Expr::Yield(..) | Expr::Member(..) => true,
         Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt => true,
