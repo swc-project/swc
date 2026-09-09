@@ -433,26 +433,23 @@ impl Pure<'_> {
                         _ => unreachable!(),
                     };
 
-                    // A return in either the try block or the catch handler is evaluated before
-                    // the finalizer, unlike the duplicate return following this try statement.
-                    let can_drop = t.finalizer.is_none() && !side_effect;
+                    // A completion in the try block or catch handler is evaluated before a
+                    // finalizer, unlike the duplicate terminal following this try statement.
+                    // A finalizer completion must be preserved because it overrides a pending
+                    // return or throw from the try/catch.
+                    let can_drop_from_try_or_catch = t.finalizer.is_none() && !side_effect;
 
                     // TODO: let chain
                     if let Some(stmt) = t.block.stmts.last_mut() {
-                        if can_drop {
+                        if can_drop_from_try_or_catch {
                             changed |= drop(stmt, last, need_break, ctx)
                         }
                     }
                     if let Some(h) = t.handler.as_mut() {
                         if let Some(stmt) = h.body.stmts.last_mut() {
-                            if can_drop {
+                            if can_drop_from_try_or_catch {
                                 changed |= drop(stmt, last, need_break, ctx);
                             }
-                        }
-                    }
-                    if let Some(f) = t.finalizer.as_mut() {
-                        if let Some(stmt) = f.stmts.last_mut() {
-                            changed |= drop(stmt, last, need_break, ctx);
                         }
                     }
                     changed
