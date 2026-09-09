@@ -274,7 +274,7 @@ impl Evaluator {
             .iter()
             .cloned()
             .map(|mut quasi| {
-                quasi.cooked = Some(quasi.raw.clone().into());
+                quasi.cooked = Some(quasi.raw.replace("\r\n", "\n").replace('\r', "\n").into());
                 quasi
             })
             .collect();
