@@ -49,7 +49,6 @@ impl Hoister<'_> {
         Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>> + VisitWith<UsageAnalyzer<ProgramData>>,
     {
         stmts.visit_mut_children_with(self);
-        let len = stmts.len();
         let should_hoist = !is_sorted_by(
             stmts.iter().map(|stmt| match stmt.as_stmt() {
                 Some(stmt) => match stmt {
@@ -75,17 +74,7 @@ impl Hoister<'_> {
             }),
             PartialOrd::partial_cmp,
         ) || (self.config.hoist_vars
-            && if len >= *crate::LIGHT_TASK_PARALLELS {
-                stmts.par_windows(2).any(|stmts| {
-                    is_hoisted_var_decl_without_init(&stmts[0])
-                        && is_hoisted_var_decl_without_init(&stmts[1])
-                })
-            } else {
-                stmts.windows(2).any(|stmts| {
-                    is_hoisted_var_decl_without_init(&stmts[0])
-                        && is_hoisted_var_decl_without_init(&stmts[1])
-                })
-            });
+            && has_adjacent_hoisted_var_decls(stmts, *crate::LIGHT_TASK_PARALLELS));
 
         if !should_hoist {
             return;
@@ -276,6 +265,21 @@ impl Hoister<'_> {
     }
 }
 
+fn has_adjacent_hoisted_var_decls<T>(stmts: &[T], parallel_threshold: usize) -> bool
+where
+    T: StmtLike + Sync,
+{
+    let has_adjacent_hoisted_var_decls = |stmts: &[T]| {
+        is_hoisted_var_decl_without_init(&stmts[0]) && is_hoisted_var_decl_without_init(&stmts[1])
+    };
+
+    if stmts.len() >= parallel_threshold {
+        stmts.par_windows(2).any(has_adjacent_hoisted_var_decls)
+    } else {
+        stmts.windows(2).any(has_adjacent_hoisted_var_decls)
+    }
+}
+
 impl VisitMut for Hoister<'_> {
     noop_visit_mut_type!(fail);
 
@@ -285,5 +289,45 @@ impl VisitMut for Hoister<'_> {
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         self.handle_stmt_likes(stmts);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_common::DUMMY_SP;
+    use swc_ecma_ast::{
+        BindingIdent, EmptyStmt, Ident, Pat, Stmt, VarDecl, VarDeclKind, VarDeclarator,
+    };
+
+    use super::has_adjacent_hoisted_var_decls;
+
+    fn uninitialized_var(name: &str) -> Stmt {
+        VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(BindingIdent::from(Ident::new_no_ctxt(
+                    name.into(),
+                    DUMMY_SP,
+                ))),
+                init: None,
+                definite: false,
+            }],
+            ..Default::default()
+        }
+        .into()
+    }
+
+    #[test]
+    fn detects_pairs_across_parallel_window_boundaries() {
+        let stmts = vec![
+            EmptyStmt { span: DUMMY_SP }.into(),
+            uninitialized_var("a"),
+            uninitialized_var("b"),
+        ];
+
+        assert!(has_adjacent_hoisted_var_decls(&stmts, 0));
     }
 }
