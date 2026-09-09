@@ -147,7 +147,7 @@ pub(super) fn catch(ident: Ident, stmts: Vec<Stmt>) -> Stmt {
     .into()
 }
 
-struct InitializerContexts(FxHashMap<Id, SyntaxContext>);
+pub(super) struct InitializerContexts(pub(super) FxHashMap<Id, SyntaxContext>);
 
 impl VisitMut for InitializerContexts {
     noop_visit_mut_type!();

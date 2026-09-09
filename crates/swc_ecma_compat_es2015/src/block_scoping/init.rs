@@ -7,6 +7,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
+pub(super) mod body;
 mod captures;
 pub(super) mod mutation;
 mod scope;
