@@ -39,6 +39,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "EvalError"
             | "FinalizationRegistry"
             | "fetch"
+            | "Float16Array"
             | "Float32Array"
             | "Float64Array"
             | "Function"

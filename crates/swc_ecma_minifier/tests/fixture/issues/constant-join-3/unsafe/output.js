@@ -300,6 +300,20 @@ function signed_typed_array_constructor_coercion_order() {
     Int32Array.toString = int32ArrayToString;
 }
 signed_typed_array_constructor_coercion_order();
+function float16_array_constructor_coercion_order() {
+    if ("u" < typeof Float16Array) return;
+    const float16ArrayToString = Float16Array.toString;
+    try {
+        [
+            Float16Array,
+            Float16Array.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    Float16Array.toString = float16ArrayToString;
+}
+float16_array_constructor_coercion_order();
 function optional_member_coercion_order() {
     let state = 1;
     const object = {
