@@ -982,6 +982,83 @@ function queue_microtask_nullish() {
         queueMicrotask(()=>{})
     ].join("");
 }
+function structured_clone_nullish() {
+    return [
+        structuredClone(void 0)
+    ].join("");
+}
+function timer_and_encoding_coercion_order() {
+    const atobToString = atob.toString;
+    try {
+        [
+            atob,
+            atob.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    atob.toString = atobToString;
+    const btoaToString = btoa.toString;
+    try {
+        [
+            btoa,
+            btoa.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    btoa.toString = btoaToString;
+    const clearIntervalToString = clearInterval.toString;
+    try {
+        [
+            clearInterval,
+            clearInterval.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    clearInterval.toString = clearIntervalToString;
+    const clearTimeoutToString = clearTimeout.toString;
+    try {
+        [
+            clearTimeout,
+            clearTimeout.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    clearTimeout.toString = clearTimeoutToString;
+    const setImmediateToString = setImmediate.toString;
+    try {
+        [
+            setImmediate,
+            setImmediate.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    setImmediate.toString = setImmediateToString;
+    const setIntervalToString = setInterval.toString;
+    try {
+        [
+            setInterval,
+            setInterval.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    setInterval.toString = setIntervalToString;
+    const setTimeoutToString = setTimeout.toString;
+    try {
+        [
+            setTimeout,
+            setTimeout.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    setTimeout.toString = setTimeoutToString;
+}
 function direct_eval_object_coercion() {
     return [
         eval("({toString(){return 's'},valueOf(){return 1}})")
@@ -1077,6 +1154,8 @@ console.log(object_call_coercion({
 webassembly_coercion_order();
 console_coercion_order();
 console.log("queue:" + queue_microtask_nullish());
+console.log("clone:" + structured_clone_nullish());
+timer_and_encoding_coercion_order();
 console.log(direct_eval_object_coercion());
 console.log(direct_eval_symbol_order());
 console.log(direct_eval_nullish());

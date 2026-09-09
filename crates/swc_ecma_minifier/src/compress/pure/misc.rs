@@ -150,6 +150,13 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         {
             true
         }
+        // `structuredClone` preserves null and undefined, which join renders
+        // as an empty string instead of the "null" or "undefined" from
+        // concatenation.
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) if callee.is_global_ref_to(expr_ctx, "structuredClone") => true,
         // An optional chain can short-circuit to undefined, which join renders
         // as an empty string instead of the "undefined" from concatenation.
         Expr::OptChain(..) => true,
