@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use parking_lot::Mutex;
 use rustc_hash::FxHashMap;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt};
@@ -140,7 +141,7 @@ impl Evaluator {
                     }) if tag_obj.is_global_ref_to(self.expr_ctx, "String")
                         && prop.sym == *"raw" =>
                     {
-                        return self.eval_tpl(&t.tpl);
+                        return self.eval_tpl_raw(&t.tpl);
                     }
 
                     _ => {}
@@ -265,6 +266,24 @@ impl Evaluator {
     }
 
     pub fn eval_tpl(&mut self, q: &Tpl) -> Option<EvalResult> {
+        self.eval_tpl_with_quasis(q, q.quasis.clone())
+    }
+
+    fn eval_tpl_raw(&mut self, q: &Tpl) -> Option<EvalResult> {
+        let quasis = q
+            .quasis
+            .iter()
+            .cloned()
+            .map(|mut quasi| {
+                quasi.cooked = Some(cooked_raw_template_value(&quasi.raw));
+                quasi
+            })
+            .collect();
+
+        self.eval_tpl_with_quasis(q, quasis)
+    }
+
+    fn eval_tpl_with_quasis(&mut self, q: &Tpl, quasis: Vec<TplElement>) -> Option<EvalResult> {
         self.run();
 
         let mut exprs = Vec::new();
@@ -280,7 +299,7 @@ impl Evaluator {
         let mut e: Box<Expr> = Tpl {
             span: q.span,
             exprs,
-            quasis: q.quasis.clone(),
+            quasis,
         }
         .into();
 
@@ -306,6 +325,32 @@ impl Evaluator {
             _ => None,
         }
     }
+}
+
+/// Returns the cooked value for a raw template quasi with normalized line
+/// endings.
+fn cooked_raw_template_value(raw: &Atom) -> Wtf8Atom {
+    let mut carriage_returns = raw.match_indices('\r');
+    let Some((first, _)) = carriage_returns.next() else {
+        return raw.clone().into();
+    };
+
+    let mut normalized = String::with_capacity(raw.len());
+    let mut start = 0;
+    let bytes = raw.as_bytes();
+
+    for index in std::iter::once(first).chain(carriage_returns.map(|(index, _)| index)) {
+        normalized.push_str(&raw[start..index]);
+        normalized.push('\n');
+        start = index + 1;
+
+        if bytes.get(start) == Some(&b'\n') {
+            start += 1;
+        }
+    }
+
+    normalized.push_str(&raw[start..]);
+    normalized.into()
 }
 
 fn is_truthy(lit: &EvalResult) -> Option<bool> {
