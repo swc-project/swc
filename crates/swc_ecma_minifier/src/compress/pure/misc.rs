@@ -2624,15 +2624,11 @@ impl Pure<'_> {
                 // consume an iterable and is still pure.
                 Expr::New(NewExpr {
                     span, callee, args, ..
-                }) if (matches!(args.as_deref(), None | Some([]))
-                    || args.as_deref().is_some_and(|args| {
-                        args.iter().all(|arg| arg.spread.is_none())
-                            && args
-                                .first()
-                                .is_some_and(|arg| eval_to_nullish(self.expr_ctx, &arg.expr))
-                    }))
-                    && callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"]) =>
                 }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"])
+                    && args
+                        .as_deref()
+                        .map(|args| args.iter().all(|arg| arg.spread.is_none()))
+                        .unwrap_or(true)
                     && args
                         .as_deref()
                         .and_then(|arg| arg.first())
