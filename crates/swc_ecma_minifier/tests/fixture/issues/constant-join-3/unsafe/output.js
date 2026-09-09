@@ -1118,6 +1118,17 @@ function structured_clone_nullish() {
         structuredClone(void 0)
     ].join("");
 }
+function structured_clone_object_coercion_order() {
+    let value;
+    try {
+        [
+            value = structuredClone({}),
+            value.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+}
 function timer_and_encoding_coercion_order() {
     const atobToString = atob.toString;
     try {
@@ -1304,6 +1315,7 @@ fetch_function_coercion_order();
 iterator_coercion_order();
 console.log("alert:" + alert_nullish());
 console.log("clone:" + structured_clone_nullish());
+structured_clone_object_coercion_order();
 timer_and_encoding_coercion_order();
 console.log(direct_eval_object_coercion());
 console.log(direct_eval_symbol_order());

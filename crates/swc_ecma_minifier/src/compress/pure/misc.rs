@@ -351,6 +351,9 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
                         | "setImmediate"
                         | "setInterval"
                         | "setTimeout"
+                        // `structuredClone` can return an object whose string
+                        // coercion can be observed after later join elements run.
+                        | "structuredClone"
                 )
         }
         Expr::Member(..)
