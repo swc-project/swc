@@ -187,6 +187,52 @@ function regexp_coercion_order() {
     }
 }
 regexp_coercion_order();
+function intrinsic_global_coercion_order() {
+    const mathToString = Math.toString;
+    try {
+        [
+            Math,
+            Math.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    Math.toString = mathToString;
+    const jsonToString = JSON.toString;
+    try {
+        [
+            JSON,
+            JSON.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    JSON.toString = jsonToString;
+    const objectToString = Object.toString;
+    try {
+        [
+            Object,
+            Object.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    Object.toString = objectToString;
+}
+intrinsic_global_coercion_order();
+function suppressed_error_coercion_order() {
+    if ("function" != typeof SuppressedError) return;
+    let value;
+    try {
+        [
+            value = SuppressedError(),
+            value.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+}
+suppressed_error_coercion_order();
 local_object_coercion({
     toString () {
         return "s";
@@ -304,6 +350,16 @@ function dynamic_call_nested_addition_order() {
     console.log("head" + (make() + ("x" + later())));
 }
 dynamic_call_nested_addition_order();
+function new_target_coercion_order() {
+    let state = 1;
+    new.target.toString = ()=>state;
+    const later = ()=>{
+        state = 2;
+        return "";
+    };
+    console.log(new.target + ("x" + later()));
+}
+new new_target_coercion_order();
 function class_coercion() {
     console.log([
         class {

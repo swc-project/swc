@@ -245,6 +245,15 @@ fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         // A member read can expose an object whose string-hint coercion differs
         // from addition's default-hint coercion.
         Expr::Member(..) | Expr::SuperProp(..) => true,
+        // These unresolved intrinsic globals are objects or functions. Unlike
+        // arbitrary unresolved references, their coercion can be observed
+        // after a later expression mutates their own `toString` property.
+        Expr::Ident(ident)
+            if ident.ctxt == expr_ctx.unresolved_ctxt
+                && matches!(&*ident.sym, "Math" | "JSON" | "Object") =>
+        {
+            true
+        }
         // A locally bound value can be an object whose string-hint coercion
         // differs from addition's default-hint coercion. Unresolved globals
         // retain the existing unsafe folding behavior.
@@ -297,6 +306,7 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
                         | "Function"
                         | "Error"
                         | "AggregateError"
+                        | "SuppressedError"
                         | "EvalError"
                         | "RangeError"
                         | "ReferenceError"

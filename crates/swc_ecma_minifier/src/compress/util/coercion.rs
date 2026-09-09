@@ -58,7 +58,7 @@ pub(crate) fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             ..
         }) => true,
         Expr::MetaProp(MetaPropExpr {
-            kind: MetaPropKind::ImportMeta,
+            kind: MetaPropKind::ImportMeta | MetaPropKind::NewTarget,
             ..
         }) => true,
         Expr::Call(CallExpr {
@@ -79,6 +79,15 @@ pub(crate) fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         | Expr::JSXFragment(..)
         | Expr::Member(..)
         | Expr::SuperProp(..) => true,
+        // These unresolved intrinsic globals are objects or functions. Unlike
+        // arbitrary unresolved references, their coercion can be observed
+        // after a later expression mutates their own `toString` property.
+        Expr::Ident(ident)
+            if ident.ctxt == expr_ctx.unresolved_ctxt
+                && matches!(&*ident.sym, "Math" | "JSON" | "Object") =>
+        {
+            true
+        }
         Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt => true,
         _ => expr.get_type(expr_ctx) == Value::Known(Type::Obj),
     }
@@ -121,6 +130,7 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
                         | "Function"
                         | "Error"
                         | "AggregateError"
+                        | "SuppressedError"
                         | "EvalError"
                         | "RangeError"
                         | "ReferenceError"
