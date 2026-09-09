@@ -376,6 +376,33 @@ function float16_array_constructor_coercion_order() {
     Float16Array.toString = float16ArrayToString;
 }
 float16_array_constructor_coercion_order();
+function abort_constructor_coercion_order() {
+    if ("u" > typeof AbortController) {
+        const abortControllerToString = AbortController.toString;
+        try {
+            [
+                AbortController,
+                AbortController.toString = 0
+            ].join("");
+        } catch  {
+            console.log(true);
+        }
+        AbortController.toString = abortControllerToString;
+    }
+    if ("u" > typeof AbortSignal) {
+        const abortSignalToString = AbortSignal.toString;
+        try {
+            [
+                AbortSignal,
+                AbortSignal.toString = 0
+            ].join("");
+        } catch  {
+            console.log(true);
+        }
+        AbortSignal.toString = abortSignalToString;
+    }
+}
+abort_constructor_coercion_order();
 function optional_member_coercion_order() {
     let state = 1;
     const object = {

@@ -8,6 +8,8 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
     matches!(
         sym,
         "AggregateError"
+            | "AbortController"
+            | "AbortSignal"
             | "Array"
             | "ArrayBuffer"
             | "AsyncDisposableStack"
