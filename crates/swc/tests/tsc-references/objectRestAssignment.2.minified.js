@@ -14,7 +14,7 @@ _object_without_properties(_ref6, [
 ]), _object_without_properties(overEmit, [
     "a",
     "b"
-]), ({ a: _ref1 } = overEmit), [_ref2, ..._rest] = _ref1, _extends({}, _ref2), [...y] = _rest, ({ b: _ref3 } = overEmit), ({ z } = _ref3), _object_without_properties(_ref3, [
+]), ({ a: _ref1 } = overEmit), [_ref2, ..._rest] = _ref1, ({} = _ref2), _extends({}, _ref2), [...y] = _rest, ({ b: _ref3 } = overEmit), ({ z } = _ref3), _object_without_properties(_ref3, [
     "z"
 ]), _object_without_properties(overEmit, [
     "a",
