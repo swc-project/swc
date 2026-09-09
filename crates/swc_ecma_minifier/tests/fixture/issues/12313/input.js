@@ -3,6 +3,8 @@ var obj = { flag: 1 };
 
 obj["flag"]++;
 console.log(obj[key]);
+(obj["flag"])++;
+console.log(obj[key]);
 console.log(++obj["flag"]);
 console.log(obj["flag"]--);
 console.log(--obj["flag"]);
@@ -34,3 +36,7 @@ getObject()[KEY]++;
 console.log(obj[key]);
 
 ({ flag: 1 })[KEY]++;
+
+var nested = { flag: { value: 1 } };
+nested[KEY].value++;
+console.log(nested.flag.value);

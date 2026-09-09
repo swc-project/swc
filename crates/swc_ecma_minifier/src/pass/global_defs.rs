@@ -73,21 +73,7 @@ impl VisitMut for GlobalDefs {
     }
 
     fn visit_mut_update_expr(&mut self, e: &mut UpdateExpr) {
-        match &mut *e.arg {
-            Expr::Ident(..) => {}
-
-            Expr::Member(MemberExpr { prop, .. }) if !prop.is_computed() => {
-                // TODO: Check for `obj`
-            }
-
-            Expr::Member(..) => {
-                self.visit_mut_computed_props(&mut e.arg);
-            }
-
-            _ => {
-                e.arg.visit_mut_with(self);
-            }
-        }
+        self.visit_mut_computed_props(&mut e.arg);
     }
 }
 
@@ -112,6 +98,7 @@ impl GlobalDefs {
                 _ => unreachable!("root_ident only accepts member optional chains"),
             },
             Expr::Ident(..) => {}
+            Expr::Paren(ParenExpr { expr, .. }) => self.visit_mut_computed_props(expr),
             // The root of an update target can be an arbitrary expression, such
             // as `this`, a call, or an object literal. Walk its children so
             // nested expressions can still use global definitions, but do not
