@@ -5,6 +5,12 @@
 - Always run execution tests after making changes.
 - You can run fixture tests by doing ./scripts/test.sh, and you can do UPDATE=1 ./scripts/test.sh to update fixtures.
 
+### Decorators
+
+- Decorators are lowered before minification and are never present in minifier input.
+- Do not add decorator-specific handling or defensive code to the minifier.
+- Do not add tests for decorator syntax or decorator transform behavior to minifier test suites. Place these tests in the parser or decorator transform suites instead.
+
 ### Minifier Semantic Assumptions
 
 The ECMAScript minifier may rely on the documented assumptions from the SWC
