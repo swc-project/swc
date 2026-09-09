@@ -233,6 +233,39 @@ function intrinsic_constructor_coercion_order() {
     Array.toString = arrayToString;
 }
 intrinsic_constructor_coercion_order();
+function signed_typed_array_constructor_coercion_order() {
+    const int8ArrayToString = Int8Array.toString;
+    try {
+        [
+            Int8Array,
+            Int8Array.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    Int8Array.toString = int8ArrayToString;
+    const int16ArrayToString = Int16Array.toString;
+    try {
+        [
+            Int16Array,
+            Int16Array.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    Int16Array.toString = int16ArrayToString;
+    const int32ArrayToString = Int32Array.toString;
+    try {
+        [
+            Int32Array,
+            Int32Array.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    Int32Array.toString = int32ArrayToString;
+}
+signed_typed_array_constructor_coercion_order();
 function optional_member_coercion_order() {
     let state = 1;
     const object = {
