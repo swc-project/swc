@@ -531,7 +531,7 @@ impl VisitMut for BlockScoping {
             Vec::new()
         };
 
-        init::separate_initializer_bindings(node, &mut lexical_var);
+        init::separate_initializer_bindings(node, &mut lexical_var, self.unresolved_mark);
         node.init.visit_mut_with(self);
         let args = lexical_var.clone();
 

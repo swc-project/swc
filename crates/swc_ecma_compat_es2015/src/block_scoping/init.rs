@@ -1,14 +1,20 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_common::DUMMY_SP;
+use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::rename;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitMutWith, VisitWith};
 
+mod name;
+
 /// The first iteration copies `let` bindings after evaluating every
 /// initializer. Closures created in the initializer must keep the original
 /// bindings, including when they mutate them after the loop has started.
-pub(super) fn separate_initializer_bindings(node: &mut ForStmt, lexical_vars: &mut [Id]) {
+pub(super) fn separate_initializer_bindings(
+    node: &mut ForStmt,
+    lexical_vars: &mut [Id],
+    unresolved_mark: Mark,
+) {
     let Some(VarDeclOrExpr::VarDecl(decl)) = &mut node.init else {
         return;
     };
@@ -51,6 +57,14 @@ pub(super) fn separate_initializer_bindings(node: &mut ForStmt, lexical_vars: &m
         replacements.insert(id.clone(), iteration.to_id());
         *id = iteration.to_id();
     }
+
+    let mut names = name::Preserver {
+        renamed: &replacements,
+        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+    };
+    node.test.visit_mut_with(&mut names);
+    node.update.visit_mut_with(&mut names);
+    node.body.visit_mut_with(&mut names);
 
     let mut renamer = rename(&replacements);
     node.test.visit_mut_with(&mut renamer);
