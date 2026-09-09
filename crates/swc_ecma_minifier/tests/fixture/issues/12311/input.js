@@ -37,7 +37,17 @@ function instanceMethod() {
     }, value];
 }
 
+function computedKeyDependency() {
+    let key = "before";
+    let value = key = "after";
+    let cls = class {
+        [key]() {}
+    };
+    console.log(Object.getOwnPropertyNames(cls.prototype)[1], value);
+}
+
 staticField();
 computedKey();
 staticBlock();
 instanceMethod();
+computedKeyDependency();

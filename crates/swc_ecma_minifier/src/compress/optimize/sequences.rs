@@ -4,7 +4,8 @@ use rustc_hash::FxHashSet;
 use swc_common::{pass::Either, util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
+    class_has_side_effect, contains_arguments, contains_this_expr, prepend_stmts, ExprExt,
+    StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 #[cfg(all(debug_assertions, feature = "debug"))]
@@ -1351,7 +1352,7 @@ impl Optimizer<'_> {
 
             Expr::Update(..) => false,
             Expr::SuperProp(..) => false,
-            Expr::Class(_) => !e.may_have_side_effects(self.ctx.expr_ctx),
+            Expr::Class(e) => self.is_class_skippable_for_seq(a, &e.class),
 
             Expr::Paren(e) => self.is_skippable_for_seq(a, &e.expr),
             Expr::Unary(e) => self.is_skippable_for_seq(a, &e.arg),
@@ -1414,6 +1415,122 @@ impl Optimizer<'_> {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
+    }
+
+    /// Returns true if moving `a` after a class expression cannot change any
+    /// eagerly evaluated part of the class.
+    fn is_class_skippable_for_seq(&self, a: Option<&Mergable>, class: &Class) -> bool {
+        if class_has_side_effect(self.ctx.expr_ctx, class) || !class.decorators.is_empty() {
+            return false;
+        }
+
+        if let Some(super_class) = &class.super_class {
+            if !self.is_skippable_for_seq(a, super_class) {
+                return false;
+            }
+        }
+
+        for member in &class.body {
+            match member {
+                ClassMember::Constructor(constructor) => {
+                    if constructor.params.iter().any(|param| {
+                        param
+                            .as_param()
+                            .is_some_and(|param| !param.decorators.is_empty())
+                    }) {
+                        return false;
+                    }
+                }
+                ClassMember::Method(method) => {
+                    if !method.function.decorators.is_empty()
+                        || method
+                            .function
+                            .params
+                            .iter()
+                            .any(|param| !param.decorators.is_empty())
+                    {
+                        return false;
+                    }
+
+                    if let PropName::Computed(key) = &method.key {
+                        if !self.is_skippable_for_seq(a, &key.expr) {
+                            return false;
+                        }
+                    }
+                }
+                ClassMember::PrivateMethod(method) => {
+                    if !method.function.decorators.is_empty()
+                        || method
+                            .function
+                            .params
+                            .iter()
+                            .any(|param| !param.decorators.is_empty())
+                    {
+                        return false;
+                    }
+                }
+                ClassMember::ClassProp(prop) => {
+                    if !prop.decorators.is_empty() {
+                        return false;
+                    }
+
+                    if let PropName::Computed(key) = &prop.key {
+                        if !self.is_skippable_for_seq(a, &key.expr) {
+                            return false;
+                        }
+                    }
+
+                    if prop.is_static
+                        && prop
+                            .value
+                            .as_ref()
+                            .is_some_and(|value| !self.is_skippable_for_seq(a, value))
+                    {
+                        return false;
+                    }
+                }
+                ClassMember::PrivateProp(prop) => {
+                    if !prop.decorators.is_empty()
+                        || (prop.is_static
+                            && prop
+                                .value
+                                .as_ref()
+                                .is_some_and(|value| !self.is_skippable_for_seq(a, value)))
+                    {
+                        return false;
+                    }
+                }
+                ClassMember::AutoAccessor(accessor) => {
+                    if !accessor.decorators.is_empty() {
+                        return false;
+                    }
+
+                    if let Key::Public(PropName::Computed(key)) = &accessor.key {
+                        if !self.is_skippable_for_seq(a, &key.expr) {
+                            return false;
+                        }
+                    }
+
+                    if accessor.is_static
+                        && accessor
+                            .value
+                            .as_ref()
+                            .is_some_and(|value| !self.is_skippable_for_seq(a, value))
+                    {
+                        return false;
+                    }
+                }
+                // A static block runs during class evaluation. Its statements are
+                // not expression-level sequence operands, so reject it until it has
+                // a complete dependency-aware analysis.
+                ClassMember::StaticBlock(_) => return false,
+                ClassMember::TsIndexSignature(_) | ClassMember::Empty(_) => {}
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            }
+        }
+
+        true
     }
 
     fn assignee_skippable_for_seq(&self, a: &Mergable, assignee: &Id) -> bool {
