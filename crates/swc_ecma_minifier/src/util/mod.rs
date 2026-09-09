@@ -39,8 +39,8 @@ fn static_property_value(expr: &Expr) -> Option<&Wtf8Atom> {
         Expr::Tpl(template) if template.exprs.is_empty() && template.quasis.len() == 1 => {
             template.quasis[0].cooked.as_ref()
         }
-        Expr::Paren(paren) => return static_property_value(&paren.expr),
-        _ => return None,
+        Expr::Paren(paren) => static_property_value(&paren.expr),
+        _ => None,
     }
 }
 
