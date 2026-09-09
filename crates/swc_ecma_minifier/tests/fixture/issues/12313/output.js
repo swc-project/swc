@@ -30,6 +30,8 @@ function getObject() {
 }
 getObject()["flag"]++;
 console.log(obj[key]);
+(getObject?.())["flag"]++;
+console.log(obj[key]);
 ({
     flag: 1
 })["flag"]++;

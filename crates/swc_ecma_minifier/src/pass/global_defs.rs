@@ -95,7 +95,9 @@ impl GlobalDefs {
                         prop.expr.visit_mut_with(self);
                     }
                 }
-                _ => unreachable!("root_ident only accepts member optional chains"),
+                // Optional calls can be the root of a protected update target,
+                // e.g. `(getObject?.())[KEY]++`.
+                OptChainBase::Call(..) => expr.visit_mut_children_with(self),
             },
             Expr::Ident(..) => {}
             Expr::Paren(ParenExpr { expr, .. }) => self.visit_mut_computed_props(expr),

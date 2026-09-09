@@ -35,6 +35,9 @@ function getObject() {
 getObject()[KEY]++;
 console.log(obj[key]);
 
+(getObject?.())[KEY]++;
+console.log(obj[key]);
+
 ({ flag: 1 })[KEY]++;
 
 var nested = { flag: { value: 1 } };
