@@ -7,8 +7,10 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
-    option::ManglePropertiesOptions, program_data::analyze,
-    usage_analyzer::util::get_mut_object_define_property_name_arg, util::base54::Base54Chars,
+    option::ManglePropertiesOptions,
+    program_data::analyze,
+    usage_analyzer::util::get_mut_object_define_property_name_arg,
+    util::{base54::Base54Chars, static_property_name},
 };
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<FxHashSet<Atom>> = Lazy::new(|| {
@@ -164,23 +166,34 @@ impl Mangler<'_, '_> {
         }
     }
 
-    /// Mangle a non-numeric string literal only when it occupies a statically
-    /// known property-name position. Strings in arbitrary expressions are
-    /// values, not property names, and must remain unchanged. Numeric strings
-    /// are equivalent to numeric property keys, which the mangler leaves
-    /// unchanged.
+    /// Mangle a static property-name expression while preserving ordinary
+    /// string and template expression values.
     fn mangle_property_name_expr(&mut self, expr: &mut Expr) {
+        if let Expr::Paren(paren) = expr {
+            self.mangle_property_name_expr(&mut paren.expr);
+            return;
+        }
+
+        let Some(name) = static_property_name(expr) else {
+            return;
+        };
+        let Some(mangled) = self.state.gen_name(name) else {
+            return;
+        };
+
         match expr {
-            Expr::Lit(Lit::Str(string))
-                if string
-                    .value
-                    .as_str()
-                    .map_or(true, |value| value.parse::<f64>().is_err()) =>
-            {
-                self.mangle_str(string);
+            Expr::Lit(Lit::Str(string)) => {
+                string.value = mangled.into();
+                string.raw = None;
             }
-            Expr::Paren(paren) => self.mangle_property_name_expr(&mut paren.expr),
-            _ => {}
+            Expr::Tpl(template) => {
+                *expr = Expr::Lit(Lit::Str(Str {
+                    span: template.span,
+                    value: mangled.into(),
+                    raw: None,
+                }));
+            }
+            _ => unreachable!("static property names have literal or template expressions"),
         }
     }
 }

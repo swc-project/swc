@@ -3,7 +3,7 @@
 use std::{num::FpCategory, time::Instant};
 
 use rustc_hash::FxHashSet;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
@@ -18,6 +18,29 @@ pub(crate) mod sort;
 #[inline]
 pub(crate) fn is_falsy_number(value: f64) -> bool {
     matches!(value.classify(), FpCategory::Zero | FpCategory::Nan)
+}
+
+/// Returns a nonnumeric string from an expression that is statically known to
+/// be a property name.
+///
+/// Only string literals, expression-free template literals, and parentheses
+/// around either form are safe to treat as property names. Numeric strings are
+/// intentionally excluded because they are equivalent to numeric property
+/// keys, which property mangling does not rewrite.
+pub(crate) fn static_property_name(expr: &Expr) -> Option<&Wtf8Atom> {
+    let value = match expr {
+        Expr::Lit(Lit::Str(string)) => &string.value,
+        Expr::Tpl(template) if template.exprs.is_empty() && template.quasis.len() == 1 => {
+            template.quasis[0].cooked.as_ref()?
+        }
+        Expr::Paren(paren) => return static_property_name(&paren.expr),
+        _ => return None,
+    };
+
+    value
+        .as_str()
+        .map_or(true, |value| value.parse::<f64>().is_err())
+        .then_some(value)
 }
 
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {

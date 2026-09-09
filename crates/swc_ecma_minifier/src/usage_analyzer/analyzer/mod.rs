@@ -9,10 +9,13 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub use self::ctx::Ctx;
 use self::storage::*;
-use crate::usage_analyzer::{
-    alias::{collect_infects_from, AliasConfig},
-    marks::Marks,
-    util::{can_end_conditionally, get_object_define_property_name_arg},
+use crate::{
+    usage_analyzer::{
+        alias::{collect_infects_from, AliasConfig},
+        marks::Marks,
+        util::{can_end_conditionally, get_object_define_property_name_arg},
+    },
+    util::static_property_name,
 };
 
 mod ctx;
@@ -1138,19 +1141,10 @@ where
 
             if let MemberProp::Computed(prop) = &e.prop {
                 match &*prop.expr {
-                    Expr::Lit(Lit::Str(s)) => {
-                        if s.value
-                            .as_str()
-                            .map_or(true, |value| value.parse::<f64>().is_err())
-                        {
-                            v.add_accessed_property(s.value.clone());
-                        }
+                    expr if let Some(name) = static_property_name(expr) => {
+                        v.add_accessed_property(name.clone());
                     }
-
-                    Expr::Lit(Lit::Num(_)) => {}
-                    _ => {
-                        v.mark_indexed_with_dynamic_key();
-                    }
+                    _ => v.mark_indexed_with_dynamic_key(),
                 }
             }
 
@@ -1172,8 +1166,16 @@ where
         }
 
         if is_root_of_member_expr_declared(e, &self.data) {
-            if let MemberProp::Ident(ident) = &e.prop {
-                self.data.add_property_atom(ident.sym.clone().into());
+            match &e.prop {
+                MemberProp::Ident(ident) => {
+                    self.data.add_property_atom(ident.sym.clone().into());
+                }
+                MemberProp::Computed(computed) => {
+                    if let Some(name) = static_property_name(&computed.expr) {
+                        self.data.add_property_atom(name.clone());
+                    }
+                }
+                _ => {}
             }
         }
     }
@@ -1321,8 +1323,8 @@ where
                 self.data.add_property_atom(s.value.clone());
             }
             PropName::Computed(computed) => {
-                if let Some(prop) = property_name_str(&computed.expr) {
-                    self.data.add_property_atom(prop.value.clone());
+                if let Some(name) = static_property_name(&computed.expr) {
+                    self.data.add_property_atom(name.clone());
                 }
             }
             _ => {}
@@ -1709,18 +1711,6 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
             });
         }
         _ => {}
-    }
-}
-
-/// Returns a string literal that has no evaluation beyond grouping parentheses.
-///
-/// Computed property names use arbitrary expressions, so only this narrow form
-/// can be collected as a property atom for property mangling.
-fn property_name_str(expr: &Expr) -> Option<&Str> {
-    match expr {
-        Expr::Lit(Lit::Str(prop)) => Some(prop),
-        Expr::Paren(paren) => property_name_str(&paren.expr),
-        _ => None,
     }
 }
 
