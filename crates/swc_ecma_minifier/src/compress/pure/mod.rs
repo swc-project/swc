@@ -88,6 +88,26 @@ impl Visit for WritableBindingCollector {
         n.visit_children_with(self);
     }
 
+    fn visit_constructor(&mut self, n: &Constructor) {
+        for param in &n.params {
+            match param {
+                ParamOrTsParamProp::Param(param) => {
+                    self.bindings.extend(find_pat_ids::<_, Id>(&param.pat));
+                }
+                ParamOrTsParamProp::TsParamProp(param) => match &param.param {
+                    TsParamPropParam::Ident(ident) => {
+                        self.bindings.insert(ident.id.to_id());
+                    }
+                    TsParamPropParam::Assign(assign) => {
+                        self.bindings.extend(find_pat_ids::<_, Id>(&assign.left));
+                    }
+                },
+            }
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_catch_clause(&mut self, n: &CatchClause) {
         if let Some(param) = &n.param {
             self.bindings.extend(find_pat_ids::<_, Id>(param));
@@ -1673,4 +1693,34 @@ impl VisitMut for Pure<'_> {
 
     /// Noop.
     fn visit_mut_with_stmt(&mut self, _: &mut WithStmt) {}
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_common::{sync::Lrc, FileName, SourceMap, SyntaxContext};
+    use swc_ecma_ast::EsVersion;
+    use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+
+    use super::collect_writable_bindings;
+
+    #[test]
+    fn collects_typescript_constructor_parameter_properties() {
+        let cm: Lrc<SourceMap> = Default::default();
+        let fm = cm.new_source_file(
+            FileName::Anon.into(),
+            "class C { constructor(public value = 1, readonly other: string) {} }",
+        );
+        let module = parse_file_as_module(
+            &fm,
+            Syntax::Typescript(TsSyntax::default()),
+            EsVersion::latest(),
+            None,
+            &mut Vec::new(),
+        )
+        .expect("failed to parse TypeScript constructor parameter properties");
+        let bindings = collect_writable_bindings(&module);
+
+        assert!(bindings.contains(&("value".into(), SyntaxContext::empty())));
+        assert!(bindings.contains(&("other".into(), SyntaxContext::empty())));
+    }
 }

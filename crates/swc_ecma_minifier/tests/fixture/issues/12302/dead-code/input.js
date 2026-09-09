@@ -36,6 +36,16 @@ report("arrow parameter", (value) => {
     console.log(value);
 });
 
+report("constructor parameter", () => {
+    class Value {
+        constructor(value) {
+            value = value;
+            console.log(value);
+        }
+    }
+    new Value("constructor");
+});
+
 report("catch", () => {
     try {
         throw "caught";
