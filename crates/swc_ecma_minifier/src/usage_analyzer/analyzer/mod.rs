@@ -98,6 +98,19 @@ fn is_root_of_expr_undeclared(expr: &Expr, data: &impl Storage) -> bool {
                 false
             }
         }
+        Expr::Cond(cond) => {
+            is_root_of_expr_undeclared(&cond.cons, data)
+                || is_root_of_expr_undeclared(&cond.alt, data)
+        }
+        Expr::Bin(bin)
+            if matches!(
+                bin.op,
+                BinaryOp::LogicalAnd | BinaryOp::LogicalOr | BinaryOp::NullishCoalescing
+            ) =>
+        {
+            is_root_of_expr_undeclared(&bin.left, data)
+                || is_root_of_expr_undeclared(&bin.right, data)
+        }
         Expr::Call(call) => match &call.callee {
             Callee::Expr(callee) => is_root_of_expr_undeclared(callee, data),
             Callee::Super(..) | Callee::Import(..) => false,

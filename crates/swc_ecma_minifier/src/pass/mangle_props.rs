@@ -271,6 +271,17 @@ impl UndeclaredPropertyCollector<'_> {
                     false
                 }
             }
+            Expr::Cond(cond) => {
+                self.is_root_undeclared(&cond.cons) || self.is_root_undeclared(&cond.alt)
+            }
+            Expr::Bin(bin)
+                if matches!(
+                    bin.op,
+                    BinaryOp::LogicalAnd | BinaryOp::LogicalOr | BinaryOp::NullishCoalescing
+                ) =>
+            {
+                self.is_root_undeclared(&bin.left) || self.is_root_undeclared(&bin.right)
+            }
             Expr::Call(call) => match &call.callee {
                 Callee::Expr(callee) => self.is_root_undeclared(callee),
                 Callee::Super(..) | Callee::Import(..) => false,

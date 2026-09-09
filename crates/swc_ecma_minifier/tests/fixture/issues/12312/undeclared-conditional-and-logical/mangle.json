@@ -1,0 +1,6 @@
+{
+    "disableCharFreq": true,
+    "props": {
+        "regex": "^(conditionalConsequent|conditionalAlternate|andLeft|andRight|orLeft|orRight|nullishLeft|nullishRight)$"
+    }
+}

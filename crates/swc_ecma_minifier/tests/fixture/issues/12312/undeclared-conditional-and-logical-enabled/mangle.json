@@ -1,0 +1,7 @@
+{
+    "disableCharFreq": true,
+    "props": {
+        "undeclared": true,
+        "regex": "^(conditionalConsequent|conditionalAlternate|andLeft|andRight|orLeft|orRight|nullishLeft|nullishRight)$"
+    }
+}
