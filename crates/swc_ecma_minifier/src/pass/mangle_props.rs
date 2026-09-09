@@ -4,7 +4,9 @@ use once_cell::sync::Lazy;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use crate::{
     option::ManglePropertiesOptions,
@@ -138,6 +140,12 @@ pub(crate) fn mangle_properties(
         n: 0,
     };
 
+    if options.keep_quoted.is_enabled() {
+        let mut quoted = QuotedPropertyCollector::default();
+        m.visit_with(&mut quoted);
+        state.unmangleable.extend(quoted.names);
+    }
+
     let mut data = analyze(&*m, None, true);
 
     for prop in std::mem::take(data.property_atoms.as_mut().unwrap()) {
@@ -145,6 +153,31 @@ pub(crate) fn mangle_properties(
     }
 
     m.visit_mut_with(&mut Mangler { state: &mut state });
+}
+
+#[derive(Default)]
+struct QuotedPropertyCollector {
+    names: FxHashSet<Wtf8Atom>,
+}
+
+impl Visit for QuotedPropertyCollector {
+    noop_visit_type!(fail);
+
+    fn visit_member_expr(&mut self, member: &MemberExpr) {
+        if let MemberProp::Computed(computed) = &member.prop {
+            if let Some(name) = static_property_name(&computed.expr) {
+                self.names.insert(name.clone());
+            }
+        }
+        member.visit_children_with(self);
+    }
+
+    fn visit_prop_name(&mut self, name: &PropName) {
+        if let PropName::Str(string) = name {
+            self.names.insert(string.value.clone());
+        }
+        name.visit_children_with(self);
+    }
 }
 
 struct Mangler<'a, 'b> {
