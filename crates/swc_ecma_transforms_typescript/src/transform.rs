@@ -1162,26 +1162,32 @@ impl Transform {
                             });
                         };
 
+                        // Type syntax also determines whether the member has
+                        // a reverse mapping. Keep that verdict after stripping.
+                        let opaque = if value.is_string() {
+                            TsEnumRecordValue::OpaqueString
+                        } else {
+                            TsEnumRecordValue::Opaque
+                        };
+
                         if EnumValueComputer::can_fold_shape(&init) {
-                            let mut recomputed =
+                            let recomputed =
                                 enum_computer.compute(init.clone(), EvalCtx::RECOMPUTE);
-                            if let TsEnumRecordValue::Opaque(expr)
-                            | TsEnumRecordValue::OpaqueString(expr) = &mut recomputed
+                            if let TsEnumRecordValue::Opaque(mut expr)
+                            | TsEnumRecordValue::OpaqueString(mut expr) = recomputed
                             {
-                                rewrite_refs(expr);
-                                runtime_pure_kind =
-                                    pure_enum_member_kind(expr, &id.to_id(), &runtime_pure_members);
-                                value = recomputed;
+                                rewrite_refs(&mut expr);
+                                runtime_pure_kind = pure_enum_member_kind(
+                                    &expr,
+                                    &id.to_id(),
+                                    &runtime_pure_members,
+                                );
+                                value = opaque(expr);
                             } else {
                                 // The semantic pass may classify an initializer
                                 // as non-constant from syntax that has since
                                 // been stripped. Preserve that verdict while
                                 // emitting the transformed initializer.
-                                let opaque = if value.is_string() {
-                                    TsEnumRecordValue::OpaqueString
-                                } else {
-                                    TsEnumRecordValue::Opaque
-                                };
                                 value = if ts_enum_safe_remove {
                                     // Constant siblings are omitted from a
                                     // removable const enum, so retain their
@@ -1195,7 +1201,7 @@ impl Transform {
                             }
                         } else {
                             rewrite_refs(&mut init);
-                            value = TsEnumRecordValue::Opaque(init);
+                            value = opaque(init);
                         }
                     }
                 }
@@ -1217,6 +1223,10 @@ impl Transform {
             .collect();
 
         if member_list.is_empty() && is_const {
+            if is_first {
+                // A later retained declaration must create the runtime binding.
+                self.decl_id_record.remove(&id.to_id());
+            }
             return FoldedDecl::Empty;
         }
 
