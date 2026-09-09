@@ -2,6 +2,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_arguments, contains_this_expr};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 use super::Pure;
 use crate::compress::util::contains_super;
@@ -74,7 +75,7 @@ impl Pure<'_> {
                 || contains_arguments(&m.function.body)
                 || contains_super(&m.function.body)
                 // Direct eval can observe the method's `this` and `arguments` bindings.
-                || contains_eval(&m.function.body, false)
+                || contains_eval_in_method_environment(&m.function.body)
                 || m.function.params.iter().any(|param| {
                     contains_this_expr(param)
                         || contains_arguments(param)
@@ -172,6 +173,56 @@ impl Pure<'_> {
                 }
                 _ => (),
             }
+        }
+    }
+}
+
+/// Detect direct eval calls that can observe a method's lexical environment.
+///
+/// Arrow functions inherit the method's `this` and `arguments`, whereas
+/// ordinary functions and constructors establish their own bindings.
+fn contains_eval_in_method_environment<N>(node: &N) -> bool
+where
+    N: VisitWith<MethodEvalFinder>,
+{
+    let mut visitor = MethodEvalFinder { found: false };
+    node.visit_with(&mut visitor);
+    visitor.found
+}
+
+struct MethodEvalFinder {
+    found: bool,
+}
+
+impl Visit for MethodEvalFinder {
+    noop_visit_type!();
+
+    visit_obj_and_computed!();
+
+    fn visit_callee(&mut self, callee: &Callee) {
+        if callee
+            .as_expr()
+            .is_some_and(|expr| expr.is_ident_ref_to("eval"))
+        {
+            self.found = true;
+        } else {
+            callee.visit_children_with(self);
+        }
+    }
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_expr(&mut self, expr: &Expr) {
+        if !self.found {
+            expr.visit_children_with(self);
+        }
+    }
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_stmt(&mut self, stmt: &Stmt) {
+        if !self.found {
+            stmt.visit_children_with(self);
         }
     }
 }

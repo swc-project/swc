@@ -8,6 +8,10 @@ console.log(({
         return eval("arguments[0]");
     }
 }).m(42)), console.log(({
+    m: ()=>function() {
+            return eval("arguments[0]");
+        }
+}).m()(42)), console.log(({
     x: 42,
     m () {
         return this.x;
