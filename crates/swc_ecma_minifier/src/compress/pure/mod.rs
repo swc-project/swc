@@ -135,12 +135,30 @@ impl Visit for WritableBindingCollector {
     }
 
     fn visit_default_decl(&mut self, n: &DefaultDecl) {
-        if let DefaultDecl::Fn(f) = n {
-            if let Some(ident) = &f.ident {
-                // The resolver treats named default-export functions as declarations,
-                // even though the AST stores them as function expressions.
-                self.bindings.insert(ident.to_id());
+        match n {
+            DefaultDecl::Fn(f) => {
+                if let Some(ident) = &f.ident {
+                    // The resolver treats named default-export functions as declarations,
+                    // even though the AST stores them as function expressions.
+                    self.bindings.insert(ident.to_id());
+                }
             }
+            DefaultDecl::Class(c) => {
+                if let Some(ident) = &c.ident {
+                    // Like a class declaration, a named default-export class has a
+                    // writable outer binding but an immutable binding in its body.
+                    c.class.decorators.visit_with(self);
+                    c.class.super_class.visit_with(self);
+
+                    self.class_bindings.push(ident.to_id());
+                    c.class.body.visit_with(self);
+                    self.class_bindings.pop();
+
+                    self.bindings.insert(ident.to_id());
+                    return;
+                }
+            }
+            _ => {}
         }
 
         n.visit_children_with(self);
@@ -1746,38 +1764,4 @@ impl VisitMut for Pure<'_> {
 
     /// Noop.
     fn visit_mut_with_stmt(&mut self, _: &mut WithStmt) {}
-}
-
-#[cfg(test)]
-mod tests {
-    use swc_common::{sync::Lrc, FileName, SourceMap, SyntaxContext};
-    use swc_ecma_ast::EsVersion;
-    use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
-
-    use super::collect_writable_bindings;
-
-    #[test]
-    fn collects_typescript_constructor_parameter_properties() {
-        let cm: Lrc<SourceMap> = Default::default();
-        let fm = cm.new_source_file(
-            FileName::Anon.into(),
-            "class C { constructor(public value = 1, readonly other: string) {} }",
-        );
-        let module = parse_file_as_module(
-            &fm,
-            Syntax::Typescript(TsSyntax::default()),
-            EsVersion::latest(),
-            None,
-            &mut Vec::new(),
-        )
-        .expect("failed to parse TypeScript constructor parameter properties");
-        let bindings = collect_writable_bindings(&module);
-
-        assert!(bindings
-            .bindings
-            .contains(&("value".into(), SyntaxContext::empty())));
-        assert!(bindings
-            .bindings
-            .contains(&("other".into(), SyntaxContext::empty())));
-    }
 }

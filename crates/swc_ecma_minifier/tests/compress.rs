@@ -35,13 +35,14 @@ use swc_ecma_minifier::{
         MinifyOptions, TopLevelOptions,
     },
 };
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsSyntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     hygiene::hygiene,
     resolver,
 };
+use swc_ecma_transforms_typescript::strip;
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::{assert_eq, unignore_fixture, DebugUsingDisplay, NormalizedOutput};
@@ -191,13 +192,20 @@ fn run_with_source(
 
         let minification_start = Instant::now();
 
-        let lexer = Lexer::new(
+        let is_typescript =
+            matches!(&*fm.name, FileName::Real(path) if path.extension().is_some_and(|ext| ext == "ts"));
+        let syntax = if is_typescript {
+            Syntax::Typescript(TsSyntax::default())
+        } else {
             Syntax::Es(EsSyntax {
                 jsx: true,
                 decorators: true,
                 auto_accessors: true,
                 ..Default::default()
-            }),
+            })
+        };
+        let lexer = Lexer::new(
+            syntax,
             Default::default(),
             SourceFileInput::from(&*fm),
             Some(&comments),
@@ -210,8 +218,11 @@ fn run_with_source(
                 err.into_diagnostic(handler).emit();
             })
             .map(|mut program| {
-                program.visit_mut_with(&mut paren_remover(Some(&comments)));
                 program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+                if is_typescript {
+                    strip(unresolved_mark, top_level_mark).process(&mut program);
+                }
+                program.visit_mut_with(&mut paren_remover(Some(&comments)));
 
                 program
             });
@@ -324,6 +335,7 @@ fn read_mangle_config(dir: &Path) -> Option<TestMangleOptions> {
 }
 
 #[testing::fixture("tests/fixture/**/input.js")]
+#[testing::fixture("tests/fixture/**/input.ts")]
 #[testing::fixture("tests/pass-1/**/input.js")]
 #[testing::fixture("tests/pass-default/**/input.js")]
 fn custom_fixture(input: PathBuf) {
