@@ -81,16 +81,13 @@ impl VisitMut for Analysis<'_> {
         }
     }
 
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        if let Expr::Ident(ident) = expr {
-            if let Some(count) = self.references.get_mut(&ident.to_id()) {
-                *count += 1;
-            }
-        }
-        expr.visit_mut_children_with(self);
-    }
-
     fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        // Count resolved binding IDs, including shorthand values and assignment
+        // targets that have no Expr::Ident node. Declarations in nested scopes
+        // have distinct IDs, so they cannot count as references to an outer one.
+        if let Some(count) = self.references.get_mut(&ident.to_id()) {
+            *count += 1;
+        }
         if let Some(count) = self.names.get_mut(&ident.sym) {
             *count += 1;
         }
