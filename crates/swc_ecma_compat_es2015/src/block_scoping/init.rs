@@ -21,9 +21,16 @@ pub(super) fn separate_initializer_bindings(node: &mut ForStmt, lexical_vars: &m
         lexical_vars: lexical_vars.iter().cloned().collect(),
         captured: Default::default(),
         in_closure: false,
+        has_eval: false,
     };
     decl.visit_with(&mut finder);
-    let captured = finder.captured;
+    // Direct eval can reference any initializer binding without an identifier
+    // appearing in the parsed closure body.
+    let captured = if finder.has_eval {
+        finder.lexical_vars
+    } else {
+        finder.captured
+    };
     if captured.is_empty() {
         return;
     }
@@ -55,6 +62,7 @@ struct InitializerCaptures {
     lexical_vars: FxHashSet<Id>,
     captured: FxHashSet<Id>,
     in_closure: bool,
+    has_eval: bool,
 }
 
 impl InitializerCaptures {
@@ -84,6 +92,17 @@ impl Visit for InitializerCaptures {
         if self.in_closure && self.lexical_vars.contains(&ident.to_id()) {
             self.captured.insert(ident.to_id());
         }
+    }
+
+    fn visit_callee(&mut self, callee: &Callee) {
+        if self.in_closure
+            && callee
+                .as_expr()
+                .is_some_and(|expr| expr.unwrap_parens().is_ident_ref_to("eval"))
+        {
+            self.has_eval = true;
+        }
+        callee.visit_children_with(self);
     }
 
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
