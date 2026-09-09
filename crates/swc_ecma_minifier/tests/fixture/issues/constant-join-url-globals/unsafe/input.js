@@ -13,3 +13,7 @@ TextDecoder.toString = textDecoderToString;
 const textEncoderToString = TextEncoder.toString;
 [TextEncoder, TextEncoder.toString = 0].join("");
 TextEncoder.toString = textEncoderToString;
+
+const domExceptionToString = DOMException.toString;
+[DOMException, DOMException.toString = 0].join("");
+DOMException.toString = domExceptionToString;
