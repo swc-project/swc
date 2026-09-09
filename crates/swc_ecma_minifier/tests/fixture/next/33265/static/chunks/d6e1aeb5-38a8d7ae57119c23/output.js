@@ -25605,7 +25605,7 @@
                         return;
                     }
                     var logFn = error.internal ? this.logger_ : videojs.log.warn, errorMessage = error.message ? " " + error.message : "";
-                    logFn((error.internal ? "Internal problem" : "Problem") + " encountered with playlist " + currentPlaylist.id + "." + errorMessage + " Switching to playlist " + nextPlaylist.id + "."), nextPlaylist.attributes.AUDIO !== currentPlaylist.attributes.AUDIO && this.delegateLoaders_("audio", [
+                    logFn((error.internal ? "Internal problem" : "Problem") + " encountered with playlist " + currentPlaylist.id + "." + (errorMessage + " Switching to playlist ") + nextPlaylist.id + "."), nextPlaylist.attributes.AUDIO !== currentPlaylist.attributes.AUDIO && this.delegateLoaders_("audio", [
                         "abort",
                         "pause"
                     ]), nextPlaylist.attributes.SUBTITLES !== currentPlaylist.attributes.SUBTITLES && this.delegateLoaders_("subtitle", [
@@ -26102,7 +26102,7 @@
                         // happen in live with a 3 segment playlist), then don't use a time delta
                         (seekableStart === seekable.end(0) ? 0 : SAFE_TIME_DELTA);
                     }
-                    if (void 0 !== seekTo) return this.logger_("Trying to seek outside of seekable at time " + currentTime + " with seekable range " + printableRange(seekable) + ". Seeking to " + seekTo + "."), this.tech_.setCurrentTime(seekTo), !0;
+                    if (void 0 !== seekTo) return this.logger_("Trying to seek outside of seekable at time " + currentTime + " with seekable range " + printableRange(seekable) + ". Seeking to " + (seekTo + ".")), this.tech_.setCurrentTime(seekTo), !0;
                     for(var sourceUpdater = this.masterPlaylistController_.sourceUpdater_, buffered = this.tech_.buffered(), audioBuffered = sourceUpdater.audioBuffer ? sourceUpdater.audioBuffered() : null, videoBuffered = sourceUpdater.videoBuffer ? sourceUpdater.videoBuffered() : null, media = this.media(), minAppendedDuration = media.partTargetDuration ? media.partTargetDuration : (media.targetDuration - TIME_FUDGE_FACTOR) * 2, bufferedToCheck = [
                         audioBuffered,
                         videoBuffered
