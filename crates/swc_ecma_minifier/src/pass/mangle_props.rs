@@ -13,11 +13,11 @@ use crate::{
     program_data::{analyze, ProgramData},
     usage_analyzer::{
         analyzer::storage::{Storage, VarDataLike},
-        util::get_mut_object_define_property_name_arg,
+        util::{get_mut_object_define_property_name_arg, get_object_define_property_name_arg},
     },
     util::{
-        base54::Base54Chars, for_each_static_property_name, is_non_numeric_property_name,
-        static_property_name,
+        base54::Base54Chars, for_each_primitive_property_name, for_each_static_property_name,
+        is_non_numeric_property_name, static_property_name,
     },
 };
 
@@ -151,6 +151,10 @@ pub(crate) fn mangle_properties(
         state.unmangleable.extend(quoted_property_names);
     }
 
+    let mut primitive_property_names = PrimitivePropertyNameCollector::default();
+    m.visit_with(&mut primitive_property_names);
+    state.unmangleable.extend(primitive_property_names.names);
+
     let mut data = analyze(&*m, None, true);
 
     for prop in std::mem::take(data.property_atoms.as_mut().unwrap()) {
@@ -170,6 +174,60 @@ pub(crate) fn mangle_properties(
     }
 
     m.visit_mut_with(&mut Mangler { state: &mut state });
+}
+
+/// Collects string property names that can also be addressed by primitive
+/// computed property keys, which the mangler intentionally leaves unchanged.
+#[derive(Default)]
+struct PrimitivePropertyNameCollector {
+    names: FxHashSet<Wtf8Atom>,
+}
+
+impl PrimitivePropertyNameCollector {
+    fn collect(&mut self, expr: &Expr) {
+        for_each_primitive_property_name(expr, |name| {
+            self.names.insert(Wtf8Atom::from(name));
+        });
+    }
+}
+
+impl Visit for PrimitivePropertyNameCollector {
+    noop_visit_type!(fail);
+
+    fn visit_bin_expr(&mut self, bin_expr: &BinExpr) {
+        if bin_expr.op == BinaryOp::In {
+            self.collect(&bin_expr.left);
+        }
+        bin_expr.visit_children_with(self);
+    }
+
+    fn visit_call_expr(&mut self, call: &CallExpr) {
+        if let Some(prop_name) = get_object_define_property_name_arg(call) {
+            self.collect(prop_name);
+        }
+        call.visit_children_with(self);
+    }
+
+    fn visit_member_expr(&mut self, member: &MemberExpr) {
+        if let MemberProp::Computed(computed) = &member.prop {
+            self.collect(&computed.expr);
+        }
+        member.visit_children_with(self);
+    }
+
+    fn visit_prop_name(&mut self, name: &PropName) {
+        if let PropName::Computed(computed) = name {
+            self.collect(&computed.expr);
+        }
+        name.visit_children_with(self);
+    }
+
+    fn visit_super_prop_expr(&mut self, super_prop: &SuperPropExpr) {
+        if let SuperProp::Computed(computed) = &super_prop.prop {
+            self.collect(&computed.expr);
+        }
+        super_prop.visit_children_with(self);
+    }
 }
 
 /// Collects computed property names accessed through undeclared roots when

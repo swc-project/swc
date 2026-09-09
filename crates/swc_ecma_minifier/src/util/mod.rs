@@ -73,6 +73,47 @@ pub(crate) fn for_each_static_property_name(expr: &Expr, mut visit: impl FnMut(&
     visit_static_property_name(expr, &mut visit);
 }
 
+/// Visits primitive property keys whose string spellings must remain stable.
+///
+/// Property mangling does not rewrite primitive expressions. Reserving their
+/// equivalent string keys prevents a string definition from being renamed away
+/// from a computed access such as `object[NaN]`.
+pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMut(&str)) {
+    fn visit_primitive_property_name(expr: &Expr, visit: &mut impl FnMut(&str)) {
+        match expr {
+            Expr::Paren(paren) => visit_primitive_property_name(&paren.expr, visit),
+            Expr::Cond(cond) => {
+                visit_primitive_property_name(&cond.cons, visit);
+                visit_primitive_property_name(&cond.alt, visit);
+            }
+            Expr::Seq(seq) => {
+                if let Some(last) = seq.exprs.last() {
+                    visit_primitive_property_name(last, visit);
+                }
+            }
+            Expr::Lit(Lit::Bool(boolean)) => visit(if boolean.value { "true" } else { "false" }),
+            Expr::Lit(Lit::Null(..)) => visit("null"),
+            Expr::Ident(ident) => match &*ident.sym {
+                "undefined" | "NaN" | "Infinity" => visit(&ident.sym),
+                _ => {}
+            },
+            Expr::Unary(unary) => match unary.op {
+                UnaryOp::Void => visit("undefined"),
+                UnaryOp::Plus => visit_primitive_property_name(&unary.arg, visit),
+                UnaryOp::Minus => match &*unary.arg {
+                    Expr::Ident(ident) if &*ident.sym == "Infinity" => visit("-Infinity"),
+                    Expr::Ident(ident) if &*ident.sym == "NaN" => visit("NaN"),
+                    _ => {}
+                },
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
+    visit_primitive_property_name(expr, &mut visit);
+}
+
 /// Returns whether all possible values of an expression are either static
 /// property names or numeric keys that property mangling intentionally ignores.
 pub(crate) fn is_static_or_numeric_property_key(expr: &Expr) -> bool {
